@@ -42,8 +42,16 @@ $ phpoole --serve
 $ phpoole --deploy
 ```
 
-_mywebsite_ folder structure
-----------------------------
+----
+
+Setup
+-----
+
+Once PHPoole is installed, run the following command to build all files you need (in the curent or target folder).
+
+```
+$ phpoole --init [folder]
+```
 
 After ```--init```, here's how the folder looks like:
 ```
@@ -64,6 +72,33 @@ After ```--init```, here's how the folder looks like:
     └── robots.txt
 ```
 
+### config.ini
+
+Website configuration file.
+
+### layouts
+
+Layouts folder: PHPoole generate static file based on layout.
+
+### assets
+
+Assets folder: CSS and Javascript files, images, etc.
+
+### content
+
+Content folder: Where you can put your content (posts and pages as markdown files).
+
+
+Generate
+--------
+
+Run the following command to generate your static website.
+
+```
+$ phpoole --generate
+$ phpoole -g
+```
+
 After ```--generate```, here's how the folder looks like:
 ```
 <mywebsite>
@@ -76,4 +111,37 @@ After ```--generate```, here's how the folder looks like:
 |   └── js
 ├── index.html
 └── robots.txt
+```
+
+Deploys after generating:
+```
+$ phpoole --generate --deploy
+$ phpoole -gd
+```
+
+
+Serve
+-----
+
+Run the following command to start [local PHP server](http://php.net/manual/en/features.commandline.webserver.php) and check your website before deploy.
+
+```
+$ phpoole --serve
+$ phpoole -s
+```
+
+Your website will running at http://localhost:8000. You can edit the server port in config.ini or use ```-p``` flag to override the default port.
+```
+$ phpoole --serve -p 6969
+```
+
+
+Deploy
+------
+
+Run the following command to deploy your website.
+
+```
+$ phpoole --deploy
+$ phpoole -d
 ```
