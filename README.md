@@ -8,7 +8,7 @@ Requirements
 -------------------
 
 * PHP 5.3+
-* PHP 5.4+ for the ```--serve``` command (PHP internal server)
+* PHP 5.4+ for the ```--serve``` option (PHP internal server)
 
 Quick Start
 -----------
@@ -18,7 +18,7 @@ Quick Start
 $ git clone https://github.com/Narno/PHPoole.git && cd PHPoole
 $ curl -s https://getcomposer.org/installer | php
 $ php composer.phar install
-$ sudo ln -s `pwd`/bin/phpoole /usr/local/bin/phpoole
+$ sudo ln -s phpoole /usr/bin/phpoole
 ```
 
 ###2. Setup
@@ -43,7 +43,7 @@ $ phpoole --deploy
 ```
 
 _mywebsite_ folder structure
-----------------
+----------------------------
 
 After ```--init```, here's how the folder looks like:
 ```
