@@ -1,0 +1,23 @@
+{
+    "name": "Narno/PHPoole",
+    "description": "PHPoole is a simple static website/weblog generator written in PHP.",
+    "type": "project",
+    "keywords": [
+      "website", "blog", "static", "generator"
+    ],
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Arnaud Ligny",
+        "email": "arnaud@ligny.org",
+        "homepage": "http://narno.org",
+        "role": "Developer"
+      }
+    ],
+    "bin": [
+        "phpoole"
+    ],
+    "require": {
+      "zendframework/zend-console": "2.*"
+    }
+ }
