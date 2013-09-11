@@ -2,13 +2,13 @@ PHPoole
 =======
 
 PHPoole is (will be!) a simple static website/weblog generator written in PHP.
-It parses your content written with Markdown, merge it with layouts and generates static files.
+It parses your content written with Markdown, merge it with layouts and generates static HTML files.
 
 Requirements
 -------------------
 
 * PHP 5.3+
-* PHP 5.4+ for the ```serve``` command (PHP internal server)
+* PHP 5.4+ for the ```--serve``` command (PHP internal server)
 
 Quick Start
 -----------
@@ -24,50 +24,56 @@ $ sudo ln -s `pwd`/bin/phpoole /usr/local/bin/phpoole
 ###2. Setup
 ```
 $ mkdir mywebsite && cd mywebsite
-$ phpoole init
+$ phpoole --init
 ```
 
 ###3. Generate
 ```
-$ phpoole generate
+$ phpoole --generate
 ```
 
 ###4. Serve
 ```
-$ phpoole serve
+$ phpoole --serve
 ```
 
 ###5. Deploy
 ```
-$ phpoole deploy
+$ phpoole --deploy
 ```
 
-Folder structure
+_mywebsite_ folder structure
 ----------------
 
-After ```init```, here's how the folder looks like:
+After ```--init```, here's how the folder looks like:
 ```
-<folder>
+<mywebsite>
 └── .phpoole
     ├── config.ini
     ├── layouts
     |   └── base.php
     ├── assets
-    |   ├── js
     |   └── css
-    └── content
-        ├── posts
-        └── page
-            └── index.md
+    |   |   └── style.css
+    |   ├── img
+    |   └── js
+    ├── content
+    |   ├── posts
+    |   └── page
+    |       └── index.md
+    └── robots.txt
 ```
 
-After ```generate```, here's how the folder looks like:
+After ```--generate```, here's how the folder looks like:
 ```
-<folder>
+<mywebsite>
 └── .phpoole
 |   └── ...
 ├── assets
-|   ├── js
-|   └── css
-└── index.html
+|   ├── css
+|   |   └── style.css
+|   ├── img
+|   └── js
+├── index.html
+└── robots.txt
 ```
