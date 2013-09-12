@@ -3,33 +3,31 @@
 use Zend\Console;
 use Zend\Loader\StandardAutoloader;
 
-// Includes ZF2 lib
-$zfLibraryPath = __DIR__ . '/vendor';
-if (is_dir($zfLibraryPath)) {
-    // Try to load StandardAutoloader from library
-    if (false === include($zfLibraryPath . '/Zend/Loader/StandardAutoloader.php')) {
-        echo 'Unable to locate autoloader via library; aborting' . PHP_EOL;
-        exit(2);
-    }
-} else {
-    // Try to load StandardAutoloader from include_path
-    if (false === include('Zend/Loader/StandardAutoloader.php')) {
-        echo 'Unable to locate autoloader via include_path; aborting' . PHP_EOL;
-        exit(2);
+// Composer autoloading
+if (file_exists('vendor/autoload.php')) {
+    $loader = include 'vendor/autoload.php';
+}
+// Includes ZF2 components
+if (is_dir('vendor/zendframework')) {
+    $zf2Path = 'vendor/zendframework';
+    if (isset($loader)) {
+        $loader->add('Zend', $zf2Path);
     }
 }
-
-// Setup autoloading
-$loader = new StandardAutoloader(array('autoregister_zf' => true));
-$loader->register();
+if (!class_exists('Zend\Loader\AutoloaderFactory')) {
+    echo 'Unable to load ZF2 components. Run `php composer.phar install`.';
+    exit(2);
+}
 
 $pwd = getcwd();
+$websiteDir = null;
 
 // Defines rules
 $rules = array(
     'help|h'     => 'Get usage message',
-    'init'       => 'Build all files for a new website',
-    'generate|g' => 'Generate static website',
+    'init|i-s'       => 'Build all files for a new website',
+    'generate|g-s' => 'Generate static website',
+    'deploy|d-s' => 'Deploy static website',
 );
 
 // Get and parse console options
@@ -42,22 +40,71 @@ try {
 }
 
 // help option
-if ($opts->getOption('h')) {
+if ($opts->getOption('help')) {
     echo $opts->getUsageMessage();
     exit(0);
 }
 
 // init option
 if ($opts->getOption('init')) {
-    echo 'init...' . PHP_EOL;
-    Init($pwd);
-    echo 'directory ".phpoole/" created...' . PHP_EOL;
-    MakeConfigFile($pwd . '/.phpoole/config.ini');
-    echo 'file ".phpoole/config.ini" created...' . PHP_EOL;
-    mkdir($pwd . '/.phpoole/layouts');
-    MakeConfigFile($pwd . '/.phpoole/layouts/base.php');
-    echo 'file ".phpoole/layouts/base.php" created...' . PHP_EOL;
-    echo 'done.' . PHP_EOL;
+    if (isset($opts->i)) {
+        if (!is_dir($opts->i)) {
+            echo 'Invalid directory provided' . PHP_EOL
+                . PHP_EOL;
+            echo $opts->getUsageMessage();
+            exit(2);
+        }
+        $websiteDir = $opts->i;
+        $websiteDir = str_replace('\\', '/', realpath($websiteDir));
+    }
+    echo 'Initializing new website' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL
+        . PHP_EOL;
+    Init((!is_null($websiteDir) ? $websiteDir : $pwd));
+    echo "[OK] create .phpoole" . PHP_EOL;
+    MakeConfigFile((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/config.ini');
+    echo '[OK] create .phpoole/config.ini' . PHP_EOL;
+    mkdir((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts');
+    echo '[OK] create .phpoole/layouts' . PHP_EOL;
+    MakeLayoutBaseFile((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts/base.html');
+    echo '[OK] create .phpoole/layouts/base.html' . PHP_EOL;
+    MakeAssetsDir((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole');
+    echo '[OK] create .phpoole/assets/...' . PHP_EOL;
+    MakeContentDir((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole');
+    echo '[OK] create .phpoole/content/...' . PHP_EOL;
+    MakeIndexFile((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/content/page/index.md');
+    echo '[OK] create .phpoole/content/page/index.md' . PHP_EOL;
+    exit(0);
+}
+
+// generate option
+if ($opts->getOption('generate')) {
+    if (isset($opts->g)) {
+        if (!is_dir($opts->g)) {
+            echo 'Invalid directory provided' . PHP_EOL
+                . PHP_EOL;
+            echo $opts->getUsageMessage();
+            exit(2);
+        }
+        $websiteDir = $opts->g;
+        $websiteDir = str_replace('\\', '/', realpath($websiteDir));
+    }
+    echo 'Generating website' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL
+        . PHP_EOL;
+    $twigLoader = new Twig_Loader_Filesystem((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts');
+    $twig = new Twig_Environment($twigLoader);
+    $rendered = $twig->render('base.html', array('content' => 'PHPoole'));
+    if (is_file((!is_null($websiteDir) ? $websiteDir : $pwd) . '/index.html')) {
+        unlink((!is_null($websiteDir) ? $websiteDir : $pwd) . '/index.html');
+        echo '[OK] delete index.html' . PHP_EOL;
+    }
+    file_put_contents((!is_null($websiteDir) ? $websiteDir : $pwd) . '/index.html', $rendered);
+    echo '[OK] write index.html' . PHP_EOL;
+    exit(0);
+}
+
+// Deploy option
+if ($opts->getOption('deploy')) {
+    echo 'Deploy to GitHub pages?' . PHP_EOL;
     exit(0);
 }
 
@@ -85,7 +132,6 @@ baseline     = "PHPoole is a simple static website/weblog generator written in P
 description  = "PHPoole is (will be!) a simple static website/weblog generator written in PHP. It parses your content written with Markdown, merge it with layouts and generates static HTML files."
 base_url     = "http://localhost/PHPoole"
 language     = "en_US"
-
 [author]
 name  = "Arnaud Ligny"
 email = "arnaud+phpoole@ligny.org"
@@ -100,17 +146,40 @@ EOL;
 function MakeLayoutBaseFile($filePath) {
     $content = <<<EOL
 <!DOCTYPE html>
-<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
-	<meta charset="utf-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>{{ site.title }}</title>
 </head>
 <body>
-  <?php print $content ?>
+  {{ content }}
 </body>
 </html>
+EOL;
+    if (is_file($filePath)) {
+        unlink($filePath);
+    }
+    file_put_contents($filePath, $content);
+}
+
+function MakeAssetsDir($path) {
+    mkdir($path . '/assets');
+    mkdir($path . '/assets/css');
+    mkdir($path . '/assets/img');
+    mkdir($path . '/assets/js');
+}
+
+function MakeContentDir($path) {
+    mkdir($path . '/content');
+    mkdir($path . '/content/posts');
+    mkdir($path . '/content/page');
+}
+
+function MakeIndexFile($filePath) {
+    $content = <<<EOL
+PHPoole
 EOL;
     if (is_file($filePath)) {
         unlink($filePath);

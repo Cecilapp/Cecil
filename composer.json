@@ -18,6 +18,9 @@
         "phpoole"
     ],
     "require": {
-      "zendframework/zend-console": "2.*"
+      "php":">=5.3",
+      "zendframework/zend-loader": "2.*",
+      "zendframework/zend-console": "2.*",
+      "twig/twig": "1.*"
     }
  }
