@@ -102,7 +102,7 @@ $ phpoole -g
 After ```--generate```, here's how the folder looks like:
 ```
 <mywebsite>
-└── .phpoole
+├── .phpoole
 |   └── ...
 ├── assets
 |   ├── css
