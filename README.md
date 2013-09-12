@@ -4,10 +4,14 @@ PHPoole
 PHPoole is (will be! _work in progress_) a simple static website/weblog generator written in PHP.
 It parses your content written with Markdown, merge it with layouts and generates static HTML files.
 
+PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
+
 Requirements
--------------------
+------------
 
 * PHP 5.3+
+* ZF2 Components: Loader, Console
+* Twig
 
 Quick Start
 -----------
@@ -51,7 +55,7 @@ $ phpoole --init [folder]
 
 After ```--init```, here's how the folder looks like:
 ```
-<mywebsite>
+[folder]
 └── .phpoole
     ├── config.ini
     ├── layouts
@@ -95,7 +99,7 @@ $ phpoole -g [folder]
 
 After ```--generate```, here's how the folder looks like:
 ```
-<mywebsite>
+[folder]
 ├── .phpoole
 |   └── <...>
 ├── assets
