@@ -55,7 +55,7 @@ After ```--init```, here's how the folder looks like:
 └── .phpoole
     ├── config.ini
     ├── layouts
-    |   └── base.php
+    |   └── base.html
     ├── assets
     |   └── css
     |   ├── img
