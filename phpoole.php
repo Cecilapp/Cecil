@@ -24,10 +24,11 @@ $websiteDir = null;
 
 // Defines rules
 $rules = array(
-    'help|h'     => 'Get usage message',
-    'init|i-s'       => 'Build all files for a new website',
+    'help|h'       => 'Get usage message',
+    'init|i-s'     => 'Build all files for a new website',
     'generate|g-s' => 'Generate static website',
-    'deploy|d-s' => 'Deploy static website',
+    'deploy|d-s'   => 'Deploy static website',
+    'list|l=s'     => 'List <pages> or <posts>'
 );
 
 // Get and parse console options
@@ -71,8 +72,8 @@ if ($opts->getOption('init')) {
     echo '[OK] create .phpoole/assets/...' . PHP_EOL;
     MakeContentDir((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole');
     echo '[OK] create .phpoole/content/...' . PHP_EOL;
-    MakeIndexFile((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/content/page/index.md');
-    echo '[OK] create .phpoole/content/page/index.md' . PHP_EOL;
+    MakeIndexFile((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/content/pages/index.md');
+    echo '[OK] create .phpoole/content/pages/index.md' . PHP_EOL;
     exit(0);
 }
 
@@ -106,6 +107,47 @@ if ($opts->getOption('generate')) {
 if ($opts->getOption('deploy')) {
     echo 'Deploy to GitHub pages?' . PHP_EOL;
     exit(0);
+}
+
+// List option
+if ($opts->getOption('list')) {
+    //print_r($opts->l) . PHP_EOL;
+    //print_r($opts->getRemainingArgs([0])) . PHP_EOL;
+    $arg2 = $opts->getRemainingArgs();
+    if (isset($arg2[0])) {
+        if (!is_dir($arg2[0])) {
+            echo 'Invalid directory provided' . PHP_EOL
+                . PHP_EOL;
+            echo $opts->getUsageMessage();
+            exit(2);
+        }
+        $websiteDir = $arg2[0];
+        $websiteDir = str_replace('\\', '/', realpath($websiteDir));
+    }
+    $type = $opts->l;
+    if ($type == 'pages') {
+        echo 'List pages' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL
+            . PHP_EOL;
+        if (!is_dir($websiteDir . '/.phpoole/content/pages')) {
+            echo 'Invalid pages directory' . PHP_EOL
+                . PHP_EOL;
+            echo $opts->getUsageMessage();
+            exit(2);
+        }
+        $fs = new FilesystemIterator($websiteDir . '/.phpoole/content/pages');
+        foreach($fs as $file) {
+            if ($file->isFile()) {
+                echo '- ' . $file->getFilename() . PHP_EOL;
+            }
+        }
+        exit(0);
+    }
+    else if ($type == 'posts') {
+        echo 'List posts' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL;
+    }
+    else {
+        exit(2);
+    }
 }
 
 // Displays usage message by default
@@ -174,7 +216,7 @@ function MakeAssetsDir($path) {
 function MakeContentDir($path) {
     mkdir($path . '/content');
     mkdir($path . '/content/posts');
-    mkdir($path . '/content/page');
+    mkdir($path . '/content/pages');
 }
 
 function MakeIndexFile($filePath) {
