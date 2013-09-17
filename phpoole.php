@@ -24,10 +24,11 @@ $websiteDir = null;
 
 // Defines rules
 $rules = array(
-    'help|h'       => 'Get usage message',
-    'init|i-s'     => 'Build all files for a new website',
-    'generate|g-s' => 'Generate static website',
-    'deploy|d-s'   => 'Deploy static website',
+    'help|h'       => 'Get PHPoole usage message',
+    'init|i-s'     => 'Build a new website in <website>',
+    'generate|g-s' => 'Generate static files of <website>',
+    'serve|s-s'    => 'Start Built-in web server with <website> document root',
+    'deploy|d-s'   => 'Deploy static <website>',
     'list|l=s'     => 'List <pages> or <posts>'
 );
 
@@ -103,9 +104,40 @@ if ($opts->getOption('generate')) {
     exit(0);
 }
 
+// Serve option
+if ($opts->getOption('serve')) {
+    if (isset($opts->s)) {
+        if (!is_dir($opts->s)) {
+            echo 'Invalid directory provided' . PHP_EOL
+                . PHP_EOL;
+            echo $opts->getUsageMessage();
+            exit(2);
+        }
+        $websiteDir = $opts->s;
+        $websiteDir = str_replace('\\', '/', realpath($websiteDir));
+    }
+    printf(
+        'Start server http://%s:%d' . PHP_EOL,
+        'localhost',
+        '8000'
+    );
+    $command = sprintf(
+        //'php -S %s:%d -t %s >/dev/null 2>&1 & echo $!',
+        'START /B php -S %s:%d -t %s > nul',
+        'localhost',
+        '8000',
+        $websiteDir
+    );
+    $output = array(); 
+    exec($command);
+    echo 'Server stopped' . PHP_EOL;
+    exit(0);
+}
+
 // Deploy option
 if ($opts->getOption('deploy')) {
-    echo 'Deploy to GitHub pages?' . PHP_EOL;
+    echo 'Deploy to GitHub pages?' . PHP_EOL
+        . PHP_EOL;
     exit(0);
 }
 
