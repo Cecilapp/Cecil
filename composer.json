@@ -21,6 +21,7 @@
       "php":">=5.3",
       "zendframework/zend-loader": "2.*",
       "zendframework/zend-console": "2.*",
-      "twig/twig": "1.*"
+      "twig/twig": "1.*",
+      "michelf/php-markdown": "1.*"
     }
  }

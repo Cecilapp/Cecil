@@ -2,6 +2,7 @@
 
 use Zend\Console;
 use Zend\Loader\StandardAutoloader;
+use Michelf\Markdown;
 
 // Composer autoloading
 if (file_exists('vendor/autoload.php')) {
@@ -93,14 +94,37 @@ if ($opts->getOption('generate')) {
     echo 'Generating website' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL
         . PHP_EOL;
     $twigLoader = new Twig_Loader_Filesystem((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts');
-    $twig = new Twig_Environment($twigLoader);
-    $rendered = $twig->render('base.html', array('content' => 'PHPoole'));
-    if (is_file((!is_null($websiteDir) ? $websiteDir : $pwd) . '/index.html')) {
-        unlink((!is_null($websiteDir) ? $websiteDir : $pwd) . '/index.html');
-        echo '[OK] delete index.html' . PHP_EOL;
+    $twig = new Twig_Environment($twigLoader, array('autoescape' => false));
+    $iterator = new MardownFileFilter((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/content/pages');
+    foreach ($iterator as $filePage) {
+        $page = parseContent(
+            file_get_contents($filePage->getPathname()),
+            $filePage->getFilename()
+        );
+        $info = $page['info'];
+        if (
+            isset($info['layout'])
+            && is_file(
+                (!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts' . '/' . $info['layout'] . '.html'
+            )
+        ) {
+            $layout = $info['layout'] . '.html';
+        }
+        else {
+            $layout = 'base.html';
+        }
+        $rendered = $twig->render($layout, array(
+            'content' => $page['content']
+        ));
+        if (is_file((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $filePage->getBasename('.md') . '.html')) {
+            unlink((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $filePage->getBasename('.md') . '.html');
+            echo '[OK] delete ' . $filePage->getBasename('.md') . '.html' . PHP_EOL;
+        }
+        file_put_contents(
+            (!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $filePage->getBasename('.md') . '.html', $rendered
+        );
+        echo '[OK] write ' . $filePage->getBasename('.md') . '.html' . PHP_EOL;
     }
-    file_put_contents((!is_null($websiteDir) ? $websiteDir : $pwd) . '/index.html', $rendered);
-    echo '[OK] write index.html' . PHP_EOL;
     exit(0);
 }
 
@@ -261,6 +285,21 @@ EOL;
     file_put_contents($filePath, $content);
 }
 
+function parseContent($content, $filename) {
+    preg_match('/^<!--(.+)-->(.+)/s', $content, $matches);
+    if (!$matches) {
+        printf('Could not parse front matter in %s', $filename) . PHP_EOL;
+        exit(2);
+    }
+    list($matchesAll, $rawInfo, $rawBody) = $matches;
+    $info = parse_ini_string(preg_replace('/[[:cntrl:]]/', '', $rawInfo));
+    $html = Markdown::defaultTransform($content);
+    return [
+        'info'    => $info,
+        'content' => $html
+    ];
+}
+
 
 /**
  * Utils
@@ -309,5 +348,40 @@ function RecursiveRmdir($dirname, $followSymlinks=false)
     }
     else {
         throw new Exception(sprintf('%s does not exist!', $dirname));
+    }
+}
+
+class MardownFileFilter extends FilterIterator
+{
+    public function __construct($dirOrIterator = '.')
+    {
+        if (is_string($dirOrIterator)) {
+            if (!is_dir($dirOrIterator)) {
+                throw new Exception\InvalidArgumentException('Expected a valid directory name');
+            }
+            $dirOrIterator = new RecursiveDirectoryIterator($dirOrIterator, RecursiveDirectoryIterator::FOLLOW_SYMLINKS);
+        }
+        elseif (!$dirOrIterator instanceof DirectoryIterator) {
+            throw new Exception\InvalidArgumentException('Expected a DirectoryIterator');
+        }
+        if ($dirOrIterator instanceof RecursiveIterator) {
+            $dirOrIterator = new RecursiveIteratorIterator($dirOrIterator);
+        }
+        parent::__construct($dirOrIterator);
+    }
+
+    public function accept()
+    {
+        $file = $this->getInnerIterator()->current();
+
+        if (!$file instanceof SplFileInfo) {
+            return false;
+        }
+        if (!$file->isFile()) {
+            return false;
+        }
+        if ($file->getExtension() == 'md') {
+            return true;
+        }
     }
 }
