@@ -26,11 +26,11 @@ $websiteDir = null;
 // Defines rules
 $rules = array(
     'help|h'       => 'Get PHPoole usage message',
-    'init|i-s'     => 'Build a new website in <website>',
-    'generate|g-s' => 'Generate static files of <website>',
-    'serve|s-s'    => 'Start Built-in web server with <website> document root',
-    'deploy|d-s'   => 'Deploy static <website>',
-    'list|l=s'     => 'List <pages> or <posts>'
+    'init|i=s'     => 'Build a new website in <website>',
+    'generate|g=s' => 'Generate static files of <website>',
+    'serve|s=s'    => 'Start Built-in web server with <website> document root',
+    'deploy|d=s'   => 'Deploy static <website>',
+    'list|l=s'     => 'Lists pages of a <website>'
 );
 
 // Get and parse console options
@@ -151,7 +151,7 @@ if ($opts->getOption('serve')) {
     );
     $command = sprintf(
         //'php -S %s:%d -t %s >/dev/null 2>&1 & echo $!',
-        'START /B php -S %s:%d -t %s > nul',
+        "START /B php -S %s:%d -t %s $websiteDir/router.php > nul",
         'localhost',
         '8000',
         $websiteDir
@@ -171,43 +171,31 @@ if ($opts->getOption('deploy')) {
 
 // List option
 if ($opts->getOption('list')) {
-    //print_r($opts->l) . PHP_EOL;
-    //print_r($opts->getRemainingArgs([0])) . PHP_EOL;
-    $arg2 = $opts->getRemainingArgs();
-    if (isset($arg2[0])) {
-        if (!is_dir($arg2[0])) {
+    if (isset($opts->l)) {
+        if (!is_dir($opts->l)) {
             echo 'Invalid directory provided' . PHP_EOL
                 . PHP_EOL;
             echo $opts->getUsageMessage();
             exit(2);
         }
-        $websiteDir = $arg2[0];
+        $websiteDir = $opts->l;
         $websiteDir = str_replace('\\', '/', realpath($websiteDir));
     }
-    $type = $opts->l;
-    if ($type == 'pages') {
-        echo 'List pages' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL
+    echo 'List pages' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL
+        . PHP_EOL;
+    if (!is_dir($websiteDir . '/.phpoole/content/pages')) {
+        echo 'Invalid pages directory' . PHP_EOL
             . PHP_EOL;
-        if (!is_dir($websiteDir . '/.phpoole/content/pages')) {
-            echo 'Invalid pages directory' . PHP_EOL
-                . PHP_EOL;
-            echo $opts->getUsageMessage();
-            exit(2);
-        }
-        $fs = new FilesystemIterator($websiteDir . '/.phpoole/content/pages');
-        foreach($fs as $file) {
-            if ($file->isFile()) {
-                echo '- ' . $file->getFilename() . PHP_EOL;
-            }
-        }
-        exit(0);
-    }
-    else if ($type == 'posts') {
-        echo 'List posts' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL;
-    }
-    else {
+        echo $opts->getUsageMessage();
         exit(2);
     }
+    $fs = new FilesystemIterator($websiteDir . '/.phpoole/content/pages');
+    foreach($fs as $file) {
+        if ($file->isFile()) {
+            echo '- ' . $file->getFilename() . PHP_EOL;
+        }
+    }
+    exit(0);
 }
 
 // Displays usage message by default
