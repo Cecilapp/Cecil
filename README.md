@@ -27,25 +27,40 @@ $ php composer.phar install
 ###2. Setup
 ```
 $ mkdir mywebsite
-$ phpoole --init mywebsite
+$ phpoole.php --init mywebsite
 ```
 
 ###3. Generate
 ```
-$ phpoole --generate mywebsite
+$ phpoole.php --generate mywebsite
 ```
 
-###4. serve
+###4. Serve
 ```
-$ phpoole --serve mywebsite
+$ phpoole.php --serve mywebsite
 ```
 
 ###5. Deploy
 ```
-$ phpoole --deploy mywebsite
+$ phpoole.php --deploy mywebsite
 ```
 
 ----
+
+
+Installation
+------------
+
+Use [Git](http://git-scm.com) and [Composer](http://getcomposer.org) to easily install PHPoole.
+
+```
+$ git clone https://github.com/Narno/PHPoole.git && cd PHPoole
+```
+```
+$ curl -s https://getcomposer.org/installer | php
+$ php composer.phar install
+```
+
 
 Setup
 -----
@@ -53,8 +68,9 @@ Setup
 Once PHPoole is installed, run the following command to build all files you need (in the curent or target folder).
 
 ```
-$ phpoole --init <folder>
+$ phpoole.php --init <folder>
 ```
+Alias: ```$ phpoole.php -i <folder>```
 
 After ```--init```, here's how the folder looks like:
 ```
@@ -97,9 +113,9 @@ Generate
 Run the following command to generate your static website.
 
 ```
-$ phpoole --generate <folder>
-$ phpoole -g <folder>
+$ phpoole.php --generate <folder>
 ```
+Alias: ```$ phpoole.php -g <folder>```
 
 After ```--generate```, here's how the folder looks like:
 ```
@@ -115,17 +131,32 @@ After ```--generate```, here's how the folder looks like:
 ```
 
 
+Serve
+-----
+
+Run the following command to launch the built-in server and to test your website before deployment.
+
+```
+$ phpoole.php --server <folder>
+```
+Alias: ```$ phpoole.php -s <folder>```
+
+Then browse [http://localhost:8000](http://localhost:8000).
+
+
 Deploy
 ------
 
 Run the following command to deploy your website.
 
 ```
-$ phpoole --deploy <folder>
-$ phpoole -d <folder>
+$ phpoole.php --deploy <folder>
 ```
+Alias: ```$ phpoole.php -d <folder>```
 
 Deploys after generating:
 ```
-$ phpoole -gd <folder>
+$ phpoole.php -gd <folder>
 ```
+
+Note: Not yet implemented.
