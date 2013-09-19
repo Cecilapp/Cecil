@@ -95,7 +95,8 @@ if ($opts->getOption('generate')) {
         . PHP_EOL;
     $twigLoader = new Twig_Loader_Filesystem((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts');
     $twig = new Twig_Environment($twigLoader, array('autoescape' => false));
-    $iterator = new MardownFileFilter((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/content/pages');
+    $pagesPath = (!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/content/pages';
+    $iterator = new MardownFileFilter($pagesPath);
     foreach ($iterator as $filePage) {
         $page = parseContent(
             file_get_contents($filePage->getPathname()),
@@ -116,14 +117,17 @@ if ($opts->getOption('generate')) {
         $rendered = $twig->render($layout, array(
             'content' => $page['body']
         ));
-        if (is_file((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $filePage->getBasename('.md') . '.html')) {
-            unlink((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $filePage->getBasename('.md') . '.html');
-            echo '[OK] delete ' . $filePage->getBasename('.md') . '.html' . PHP_EOL;
+        if (!is_dir((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $iterator->getSubPath())) {
+            mkdir((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $iterator->getSubPath(), 0777, true);
+        }
+        if (is_file((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . ($iterator->getSubPath() != '' ? $iterator->getSubPath() . '/' : '') . $filePage->getBasename('.md') . '.html')) {
+            unlink((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . ($iterator->getSubPath() != '' ? $iterator->getSubPath() . '/' : '') . $filePage->getBasename('.md') . '.html');
+            echo '[OK] delete ' . ($iterator->getSubPath() != '' ? $iterator->getSubPath() . '/' : '') . $filePage->getBasename('.md') . '.html' . PHP_EOL;
         }
         file_put_contents(
-            (!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $filePage->getBasename('.md') . '.html', $rendered
+            (!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . ($iterator->getSubPath() != '' ? $iterator->getSubPath() . '/' : '') . $filePage->getBasename('.md') . '.html', $rendered
         );
-        echo '[OK] write ' . $filePage->getBasename('.md') . '.html' . PHP_EOL;
+        echo '[OK] write ' . ($iterator->getSubPath() != '' ? $iterator->getSubPath() . '/' : '') . $filePage->getBasename('.md') . '.html' . PHP_EOL;
     }
     exit(0);
 }
@@ -368,6 +372,7 @@ class MardownFileFilter extends FilterIterator
             $dirOrIterator = new RecursiveIteratorIterator($dirOrIterator);
         }
         parent::__construct($dirOrIterator);
+        $this->setInfoClass('PhpooleClassFile');
     }
 
     public function accept()
@@ -380,8 +385,27 @@ class MardownFileFilter extends FilterIterator
         if (!$file->isFile()) {
             return false;
         }
+        
+        $file->setSubDir('TEST');
+
         if ($file->getExtension() == 'md') {
             return true;
         }
+    }
+}
+
+class PhpooleClassFile extends SplFileInfo
+{
+    protected $subDir;
+
+    public function getSubDir()
+    {
+        return $this->subDir;
+    }
+
+    public function setSubDir($subDir)
+    {
+        $this->subDir = $subDir;
+        return $this;
     }
 }
