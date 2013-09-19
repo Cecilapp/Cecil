@@ -114,7 +114,7 @@ if ($opts->getOption('generate')) {
             $layout = 'base.html';
         }
         $rendered = $twig->render($layout, array(
-            'content' => $page['content']
+            'content' => $page['body']
         ));
         if (is_file((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $filePage->getBasename('.md') . '.html')) {
             unlink((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $filePage->getBasename('.md') . '.html');
@@ -288,16 +288,16 @@ EOL;
 function parseContent($content, $filename) {
     preg_match('/^<!--(.+)-->(.+)/s', $content, $matches);
     if (!$matches) {
-        printf('Could not parse front matter in %s', $filename) . PHP_EOL;
+        printf('Could not parse front matter in %s' . PHP_EOL, $filename);
         exit(2);
     }
     list($matchesAll, $rawInfo, $rawBody) = $matches;
     $info = parse_ini_string(preg_replace('/[[:cntrl:]]/', '', $rawInfo));
-    $html = Markdown::defaultTransform($content);
-    return [
+    $body = Markdown::defaultTransform($rawBody);
+    return array(
         'info'    => $info,
-        'content' => $html
-    ];
+        'body' => $body,
+    );
 }
 
 
