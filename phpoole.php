@@ -1,7 +1,17 @@
+#!/usr/bin/env php
 <?php
+/**
+ * PHPoole is a simple static website generator.
+ * @see http://narno.org/PHPoole/
+ *
+ * @author Arnaud Ligny <arnaud@ligny.org>
+ * @license The MIT License (MIT)
+ *
+ * Copyright (c) 2013 Arnaud Ligny
+ */
 
-use Zend\Console;
 use Zend\Loader\StandardAutoloader;
+use Zend\Console;
 use Michelf\Markdown;
 
 // Composer autoloading
@@ -65,6 +75,8 @@ if ($opts->getOption('init')) {
     Init((!is_null($websiteDir) ? $websiteDir : $pwd));
     echo "[OK] create .phpoole" . PHP_EOL;
     MakeConfigFile((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/config.ini');
+    echo "[OK] create .phpoole/router.php" . PHP_EOL;
+    MakeRouterFile((!is_null($websiteDir) ? $websiteDir : $pwd) . '/router.php');
     echo '[OK] create .phpoole/config.ini' . PHP_EOL;
     mkdir((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts');
     echo '[OK] create .phpoole/layouts' . PHP_EOL;
@@ -93,28 +105,34 @@ if ($opts->getOption('generate')) {
     }
     echo 'Generating website' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL
         . PHP_EOL;
+    if (!is_dir((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts')) {
+        echo 'Initiate website before try to generate' . PHP_EOL
+            . PHP_EOL;
+        echo $opts->getUsageMessage();
+        exit(2);
+    }
     $twigLoader = new Twig_Loader_Filesystem((!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts');
     $twig = new Twig_Environment($twigLoader, array('autoescape' => false));
     $pagesPath = (!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/content/pages';
-    $iterator = new MardownFileFilter($pagesPath);
+    $iterator = new MarkdownFileFilter($pagesPath);
     foreach ($iterator as $filePage) {
         $page = parseContent(
             file_get_contents($filePage->getPathname()),
             $filePage->getFilename()
         );
-        $info = $page['info'];
         if (
-            isset($info['layout'])
+            isset($page['layout'])
             && is_file(
-                (!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts' . '/' . $info['layout'] . '.html'
+                (!is_null($websiteDir) ? $websiteDir : $pwd) . '/.phpoole/layouts' . '/' . $page['layout'] . '.html'
             )
         ) {
-            $layout = $info['layout'] . '.html';
+            $layout = $page['layout'] . '.html';
         }
         else {
             $layout = 'base.html';
         }
         $rendered = $twig->render($layout, array(
+            'title'   => $page['title'],
             'content' => $page['body']
         ));
         if (!is_dir((!is_null($websiteDir) ? $websiteDir : $pwd) . '/' . $iterator->getSubPath())) {
@@ -149,22 +167,33 @@ if ($opts->getOption('serve')) {
         'localhost',
         '8000'
     );
-    $command = sprintf(
-        //'php -S %s:%d -t %s >/dev/null 2>&1 & echo $!',
-        "START /B php -S %s:%d -t %s $websiteDir/router.php > nul",
-        'localhost',
-        '8000',
-        $websiteDir
-    );
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $command = sprintf(
+            'START /B php -S %s:%d -t %s %s > nul',
+            'localhost',
+            '8000',
+            $websiteDir,
+            "$websiteDir/router.php"
+        );
+    }
+    else {
+        $command = sprintf(
+            //'php -S %s:%d -t %s %s >/dev/null 2>&1 & echo $!',
+            'php -S %s:%d -t %s %s >/dev/null',
+            'localhost',
+            '8000',
+            $websiteDir,
+            "$websiteDir/router.php"
+        );
+    }
     $output = array(); 
     exec($command);
-    echo 'Server stopped' . PHP_EOL;
     exit(0);
 }
 
 // Deploy option
 if ($opts->getOption('deploy')) {
-    echo 'Deploy to GitHub pages?' . PHP_EOL
+    echo 'Not yet implemented' . PHP_EOL
         . PHP_EOL;
     exit(0);
 }
@@ -184,7 +213,7 @@ if ($opts->getOption('list')) {
     echo 'List pages' . (!is_null($websiteDir) ? " in $websiteDir" : '') . PHP_EOL
         . PHP_EOL;
     if (!is_dir($websiteDir . '/.phpoole/content/pages')) {
-        echo 'Invalid pages directory' . PHP_EOL
+        echo 'Invalid content/pages directory' . PHP_EOL
             . PHP_EOL;
         echo $opts->getUsageMessage();
         exit(2);
@@ -215,7 +244,7 @@ function Init($path) {
 }
 
 function MakeConfigFile($filePath) {
-    $content = <<<EOL
+    $content = <<<'EOT'
 [site]
 title        = "PHPoole"
 baseline     = "PHPoole is a simple static website/weblog generator written in PHP."
@@ -226,7 +255,7 @@ language     = "en_US"
 name  = "Arnaud Ligny"
 email = "arnaud+phpoole@ligny.org"
 home  = "http://narno.org"
-EOL;
+EOT;
     if (is_file($filePath)) {
         unlink($filePath);
     }
@@ -234,20 +263,20 @@ EOL;
 }
 
 function MakeLayoutBaseFile($filePath) {
-    $content = <<<EOL
+    $content = <<<'EOT'
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>{{ site.title }}</title>
+  <title>{{ title }}</title>
 </head>
 <body>
   {{ content }}
 </body>
 </html>
-EOL;
+EOT;
     if (is_file($filePath)) {
         unlink($filePath);
     }
@@ -268,9 +297,19 @@ function MakeContentDir($path) {
 }
 
 function MakeIndexFile($filePath) {
-    $content = <<<EOL
-PHPoole
-EOL;
+    $content = <<<'EOT'
+<!--
+title = PHPoole static website
+layout = base
+-->
+Welcome to PHPoole
+==================
+
+PHPoole is a simple static website/weblog generator written in PHP.
+It parses your content written with Markdown, merge it with layouts and generates static HTML files.
+
+PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
+EOT;
     if (is_file($filePath)) {
         unlink($filePath);
     }
@@ -284,12 +323,35 @@ function parseContent($content, $filename) {
         exit(2);
     }
     list($matchesAll, $rawInfo, $rawBody) = $matches;
-    $info = parse_ini_string(preg_replace('/[[:cntrl:]]/', '', $rawInfo));
+    //$info = parse_ini_string(preg_replace('/[[:cntrl:]]/', '', $rawInfo));
+    $info = parse_ini_string($rawInfo);
     $body = Markdown::defaultTransform($rawBody);
-    return array(
-        'info'    => $info,
-        'body' => $body,
+    return array_merge(
+        $info,
+        array('body' => $body)
     );
+}
+
+function MakeRouterFile($filePath) {
+    $content = <<<'EOT'
+<?php
+date_default_timezone_set("UTC");
+define("DIRECTORY_INDEX", "index.html");
+$path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+$ext = pathinfo($path, PATHINFO_EXTENSION);
+if (empty($ext)) {
+    $path = rtrim($path, "/") . "/" . DIRECTORY_INDEX;
+}
+if (file_exists($_SERVER["DOCUMENT_ROOT"] . $path)) {
+    return false;
+}
+http_response_code(404);
+echo "404, page not found";
+EOT;
+    if (is_file($filePath)) {
+        unlink($filePath);
+    }
+    file_put_contents($filePath, $content);
 }
 
 
@@ -343,7 +405,10 @@ function RecursiveRmdir($dirname, $followSymlinks=false)
     }
 }
 
-class MardownFileFilter extends FilterIterator
+/**
+ * Markdown file iterator
+ */
+class MarkdownFileFilter extends FilterIterator
 {
     public function __construct($dirOrIterator = '.')
     {
@@ -360,40 +425,19 @@ class MardownFileFilter extends FilterIterator
             $dirOrIterator = new RecursiveIteratorIterator($dirOrIterator);
         }
         parent::__construct($dirOrIterator);
-        $this->setInfoClass('PhpooleClassFile');
     }
 
     public function accept()
     {
         $file = $this->getInnerIterator()->current();
-
         if (!$file instanceof SplFileInfo) {
             return false;
         }
         if (!$file->isFile()) {
             return false;
         }
-        
-        $file->setSubDir('TEST');
-
         if ($file->getExtension() == 'md') {
             return true;
         }
-    }
-}
-
-class PhpooleClassFile extends SplFileInfo
-{
-    protected $subDir;
-
-    public function getSubDir()
-    {
-        return $this->subDir;
-    }
-
-    public function setSubDir($subDir)
-    {
-        $this->subDir = $subDir;
-        return $this;
     }
 }
