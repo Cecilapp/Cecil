@@ -12,7 +12,6 @@
 
 error_reporting(0); 
 
-use Zend\Loader\StandardAutoloader;
 use Zend\Console;
 use Michelf\Markdown;
 
@@ -129,7 +128,8 @@ if ($opts->getOption('serve')) {
         exit(2);
     }    
     printf('Start server http://%s:%d' . PHP_EOL, 'localhost', '8000');
-    echo 'Ctrl+C to stop it.' . PHP_EOL;
+    echo 'Ctrl+C to stop it.' . PHP_EOL
+        . PHP_EOL;
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         $command = sprintf(
             'START /B php -S %s:%d -t %s %s > nul',
