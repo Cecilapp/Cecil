@@ -10,7 +10,7 @@ Requirements
 ------------
 
 * PHP 5.3+ (5.4+ to use ```--serve``` option)
-* ZF2 Components: Loader, Console
+* ZF2 Components: Console (+ Stdlib)
 * PHP Markdown
 * Twig
 
