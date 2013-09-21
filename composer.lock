@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "429a1443f8d32456bba1e607d31af909",
+    "hash": "05013541fca3ee0e51a738a37ac4528c",
     "packages": [
         {
             "name": "michelf/php-markdown",

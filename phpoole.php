@@ -67,20 +67,27 @@ if ($opts->getOption('init')) {
 if ($opts->getOption('generate')) {
     $websitePath = getOptionWebsitePath($opts, 'g');
     printf('Generating website in %s' . PHP_EOL . PHP_EOL, $websitePath);
+    $config = parse_ini_file($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini', true);
     $twigLoader = new Twig_Loader_Filesystem($websitePath . '/' . PHPOOLE_DIRNAME . '/layouts');
     $twig = new Twig_Environment($twigLoader, array('autoescape' => false));
     $pagesPath = $websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages';
     $markdownIterator = new MarkdownFileFilter($pagesPath);
     foreach ($markdownIterator as $filePage) {
-        $page = parseContent(
-            file_get_contents($filePage->getPathname()),
-            $filePage->getFilename()
-        );
+        try {
+            if (false === ($content = file_get_contents($filePage->getPathname()))) {
+                throw new Exception(sprintf('%s not readable', $filePage->getBasename()));
+            }
+            $page = parseContent($content, $filePage->getFilename());
+        }
+        catch (Exception $e) {
+            printf('[KO] %s' . PHP_EOL, $e->getMessage());
+            exit(2);
+        }
         if (isset($page['title'])) {
             $title = $page['title'];
         }
         else {
-            $title = 'PHPoole static website';
+            $title = 'PHPoole';
         }
         if (
             isset($page['layout'])
@@ -92,6 +99,8 @@ if ($opts->getOption('generate')) {
             $layout = 'base.html';
         }
         $rendered = $twig->render($layout, array(
+            'site'    => $config['site'],
+            'author'  => $config['author'],
             'title'   => $title,
             'content' => $page['body']
         ));
@@ -117,6 +126,9 @@ if ($opts->getOption('generate')) {
             exit(2);
         }
     }
+    RecursiveRmdir($websitePath . '/assets');
+    RecursiveCopy($websitePath . '/' . PHPOOLE_DIRNAME . '/assets', $websitePath . '/assets');
+    printf('[OK] copy assets directory' . PHP_EOL);
     exit(0);
 }
 
@@ -158,6 +170,45 @@ if ($opts->getOption('deploy')) {
     $websitePath = getOptionWebsitePath($opts, 'd');
     echo 'Not yet implemented' . PHP_EOL
         . PHP_EOL;
+    
+    // @todo filter on _phpoole dir and router.php + config
+    $deployDir = $websitePath . '/' . PHPOOLE_DIRNAME . '/.deploy';
+    $repoUrl = 'https://github.com/Narno/PHPoole-demo.git';
+
+    // update repo
+    if (is_dir($deployDir)) {
+        echo 'Deploying files to GitHub...' . PHP_EOL;
+        RecursiveCopy($websitePath, $deployDir);
+        $updateRepoCmd = array(
+            'add -A',
+            'commit -m "Site updated: ' . date('Y-m-d H:i:s') . '"',
+            'push github gh-pages --force'
+        );
+        chdir($deployDir);
+        foreach ($updateRepoCmd as $cmd) {
+            printf('git %s' . PHP_EOL, $cmd);
+            exec(sprintf('git %s', $cmd));
+        }
+    }
+    // creating repo
+    else {
+        echo 'Setting up GitHub deployment...' . PHP_EOL;
+        mkdir($deployDir);
+        RecursiveCopy($websitePath, $deployDir);
+        $initRepoCmd = array(
+            'init',
+            'add -A',
+            'commit -m "First commit"',
+            'branch -M gh-pages',
+            'remote add github ' . $repoUrl,
+            'push github gh-pages --force'
+        );
+        chdir($deployDir);
+        foreach ($initRepoCmd as $cmd) {
+            printf('git %s' . PHP_EOL, $cmd);
+            exec(sprintf('git %s', $cmd));
+        }
+    }
     exit(0);
 }
 
@@ -230,11 +281,11 @@ function mkInitDir($path, $force = false) {
 function mkConfigFile($filePath) {
     $content = <<<'EOT'
 [site]
-title       = "PHPoole"
-baseline    = "PHPoole is a simple static website generator."
+name        = "PHPoole"
+baseline    = "Light and easy website generator!"
 description = "PHPoole is a simple static website/weblog generator written in PHP. It parses your content written with Markdown, merge it with layouts and generates static HTML files."
 base_url    = "http://localhost:8000"
-language    = "en_US"
+language    = "en"
 [author]
 name  = "Arnaud Ligny"
 email = "arnaud+phpoole@ligny.org"
@@ -269,15 +320,27 @@ function mkLayoutBaseFile($path, $filename) {
     $subdir = 'layouts';
     $content = <<<'EOT'
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="{{ site.language }}"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="{{ site.language }}"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>{{ title }}</title>
+  <title>{{ site.name}} - {{ title }}</title>
+  <style type="text/css">
+    body { font: bold 24px Helvetica, Arial; padding: 15px 20px; color: #ddd; background: #333;}
+    a:link {text-decoration: none; color: #fff;}
+    a:visited {text-decoration: none; color: #fff;}
+    a:active {text-decoration: none; color: #fff;}
+    a:hover {text-decoration: underline; color: #fff;}
+  </style>
 </head>
 <body>
-  {{ content }}
+  <strong>{{ site.name }}</strong><br />
+  <em>{{ site.baseline }}</em>
+  <hr />
+  <p>{{ content }}</p>
+  <hr />
+  <p>Powered by <a href="http://narno.org/PHPoole">PHPoole</a>, coded by <a href="{{ author.home }}">{{ author.name }}</a></p>
 </body>
 </html>
 EOT;
@@ -338,16 +401,18 @@ function mkContentIndexFile($path, $filename) {
     $subdir = 'content/pages';
     $content = <<<'EOT'
 <!--
-title = PHPoole static website
+title = PHPoole
 layout = base
 -->
-Welcome to PHPoole
-==================
+Welcome!
+========
 
 PHPoole is a simple static website/weblog generator written in PHP.
 It parses your content written with Markdown, merge it with layouts and generates static HTML files.
 
 PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
+
+Go to the [dedicated website](http://narno.org/PHPoole) for more details.
 EOT;
     try {
         if (false === file_put_contents("$path/$subdir/$filename", $content)) {
@@ -399,7 +464,6 @@ function parseContent($content, $filename) {
         exit(2);
     }
     list($matchesAll, $rawInfo, $rawBody) = $matches;
-    //$info = parse_ini_string(preg_replace('/[[:cntrl:]]/', '', $rawInfo));
     $info = parse_ini_string($rawInfo);
     $body = Markdown::defaultTransform($rawBody);
     return array_merge(
@@ -456,6 +520,28 @@ function RecursiveRmdir($dirname, $followSymlinks=false)
     }
     else {
         throw new Exception(sprintf('%s does not exist!', $dirname));
+    }
+}
+
+/**
+ * Copy a dir, and all its content from source to dest
+ */
+function RecursiveCopy($source, $dest)
+{
+    if (!is_dir($dest)) {
+        mkdir($dest);
+    }
+    $iterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::SELF_FIRST
+    );
+    foreach ($iterator as $item) {
+        if ($item->isDir()) {
+            mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+        }
+        else {
+            copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+        }
     }
 }
 
