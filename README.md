@@ -1,19 +1,20 @@
 PHPoole
 =======
 
-PHPoole is (will be, _work in progress_) a simple static website/weblog generator written in PHP.
-It parses your content written with Markdown, merge it with layouts and generates static HTML files.
+PHPoole is a light and easy static website / blog generator written in PHP.
+It takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
 
-* Why "PHPoole"? It is [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
-* A demo? Yes: [PHPoole-demo](https://github.com/Narno/PHPoole-demo)
+* Why _PHPoole_ name ? It is [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
+* There is a demo? Yes, see [PHPoole-demo](https://github.com/Narno/PHPoole-demo)
+* What's the progress status? Still in beta!
 
 Requirements
 ------------
 
-* PHP 5.3+ (5.4+ to use ```--serve``` option)
-* ZF2 Components: Console (+ Stdlib)
-* PHP Markdown
-* Twig
+* [PHP](https://github.com/php) 5.3+ (5.4+ to use ```--serve``` option)
+* [Zend Console](https://github.com/zendframework/Component_ZendConsole) (+ Zend Stdlib)
+* [PHP Markdown](https://github.com/michelf/php-markdown)
+* [Twig](https://github.com/fabpot/Twig)
 
 Quick Start
 -----------
@@ -41,7 +42,7 @@ $ phpoole.php -g mywebsite
 $ phpoole.php -s mywebsite
 ```
 
-###5. Deploy on Github Pages
+###5. Deploy on GitHub Pages
 ```
 $ phpoole.php -d mywebsite
 ```
@@ -76,34 +77,55 @@ Alias: ```$ phpoole.php -i <folder>```
 After ```--init```, here's how the folder looks like:
 ```
 <folder>
-├── _phpoole
-|   ├── assets
-|   |   ├── css
-|   |   ├── img
-|   |   └── js
-|   ├── config.ini
-|   ├── content
-|   |   ├── pages
-|   |   |   └── index.md
-|   |   └── posts
-|   └── layouts
-|       └── base.html
-└── router.php
+└── _phpoole
+    ├── assets
+    |   ├── css
+    |   ├── img
+    |   └── js
+    ├── config.ini
+    ├── content
+    |   ├── pages
+    |   |   └── index.md
+    |   └── posts
+    ├── layouts
+    |   └── base.html
+    └── router.php
 ```
 
-### config.ini
+### _config.ini_
 
-Website configuration file.
+Website configuration file:
 
-### layouts
+#### Site
+| Setting           | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| ```name```        | The name of your website                       |
+| ```baseline```    | The baseline of your website                   |
+| ```description``` | The description of your website                |
+| ```base_url```    | The URL of your website                        |
+| ```language```    | The Language of your website (Use IETF format) |
+
+#### Author
+| Setting           | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| ```name```        | Your name                                      |
+| ```email```       | Your e-mail address                            |
+| ```home```        | The URL of your own website                    |
+
+#### Deploy
+| Setting           | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| ```repository```  | The URL of the GitHub repository               |
+
+### _layouts_
 
 Layouts folder: PHPoole generate static file based on layouts (```base.html``` by default).
 
-### assets
+### _assets_
 
-Assets folder: CSS and Javascript files, images, etc.
+Assets folder: CSS, Javascript, images, etc.
 
-### content
+### _content_
 
 Content folder: Where you can put your content (posts and pages as markdown files).
 
@@ -127,15 +149,14 @@ After ```--generate```, here's how the folder looks like:
 |   ├── css
 |   ├── img
 |   └── js
-├── index.html
-└── router.php
+└── index.html
 ```
 
 
 Serve
 -----
 
-Run the following command to launch the built-in server and to test your website before deployment.
+Run the following command to launch the built-in server to test your website before deployment.
 
 ```
 $ phpoole.php --server <folder>
@@ -154,3 +175,12 @@ Run the following command to deploy your website.
 $ phpoole.php --deploy <folder>
 ```
 Alias: ```$ phpoole.php -d <folder>```
+
+After ```--deploy```, here's how the folder looks like:
+```
+<folder>
+└── [...]
+<.folder>
+├── .git
+└── [...]
+```
