@@ -25,25 +25,25 @@ $ curl -s https://getcomposer.org/installer | php
 $ php composer.phar install
 ```
 
-###2. Setup
+###2. Setup a new website
 ```
 $ mkdir mywebsite
-$ phpoole.php --init mywebsite
+$ phpoole.php -i mywebsite
 ```
 
-###3. Generate
+###3. Generate static files
 ```
-$ phpoole.php --generate mywebsite
-```
-
-###4. Serve
-```
-$ phpoole.php --serve mywebsite
+$ phpoole.php -g mywebsite
 ```
 
-###5. Deploy
+###4. Serve to test on local
 ```
-$ phpoole.php --deploy mywebsite
+$ phpoole.php -s mywebsite
+```
+
+###5. Deploy on Github Pages
+```
+$ phpoole.php -d mywebsite
 ```
 
 ----
@@ -76,7 +76,7 @@ Alias: ```$ phpoole.php -i <folder>```
 After ```--init```, here's how the folder looks like:
 ```
 <folder>
-├── .phpoole
+├── _phpoole
 |   ├── assets
 |   |   ├── css
 |   |   ├── img
@@ -121,7 +121,7 @@ Alias: ```$ phpoole.php -g <folder>```
 After ```--generate```, here's how the folder looks like:
 ```
 <folder>
-├── .phpoole
+├── _phpoole
 |   └── [...]
 ├── assets
 |   ├── css
