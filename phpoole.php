@@ -19,6 +19,17 @@ use Michelf\Markdown;
 if (file_exists('vendor/autoload.php')) {
     $loader = include 'vendor/autoload.php';
 }
+else {
+    echo 'Run the following commands:' . PHP_EOL;
+    if (!file_exists('composer.json')) {
+        echo 'curl https://raw.github.com/Narno/PHPoole/master/composer.json > composer.json' . PHP_EOL;
+    }
+    if (!file_exists('composer.phar')) {
+        echo 'curl -s http://getcomposer.org/installer | php' . PHP_EOL;
+    }  
+    echo 'php composer.phar install' . PHP_EOL;
+    exit(2);
+}
 
 define('PHPOOLE_DIRNAME', '_phpoole');
 $websitePath = getcwd();
@@ -59,7 +70,7 @@ if ($opts->getOption('init')) {
     mkAssetsDir($websitePath . '/' . PHPOOLE_DIRNAME);
     mkContentDir($websitePath . '/'. PHPOOLE_DIRNAME);
     mkContentIndexFile($websitePath . '/' . PHPOOLE_DIRNAME, 'index.md');
-    mkRouterFile($websitePath . '/router.php');
+    mkRouterFile($websitePath . '/' . PHPOOLE_DIRNAME . '/router.php');
     exit(0);
 }
 
@@ -67,7 +78,7 @@ if ($opts->getOption('init')) {
 if ($opts->getOption('generate')) {
     $websitePath = getOptionWebsitePath($opts, 'g');
     printf('Generating website in %s' . PHP_EOL . PHP_EOL, $websitePath);
-    $config = parse_ini_file($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini', true);
+    $config = getConfig($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
     $twigLoader = new Twig_Loader_Filesystem($websitePath . '/' . PHPOOLE_DIRNAME . '/layouts');
     $twig = new Twig_Environment($twigLoader, array('autoescape' => false));
     $pagesPath = $websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages';
@@ -126,7 +137,9 @@ if ($opts->getOption('generate')) {
             exit(2);
         }
     }
-    RecursiveRmdir($websitePath . '/assets');
+    if (is_dir($websitePath . '/assets')) {
+        RecursiveRmdir($websitePath . '/assets');
+    }
     RecursiveCopy($websitePath . '/' . PHPOOLE_DIRNAME . '/assets', $websitePath . '/assets');
     printf('[OK] copy assets directory' . PHP_EOL);
     exit(0);
@@ -139,26 +152,26 @@ if ($opts->getOption('serve')) {
         echo 'PHP 5.4+ required to run built-in server (your version: ' . PHP_VERSION . ')' . PHP_EOL;
         exit(2);
     }    
-    printf('Start server http://%s:%d' . PHP_EOL, 'localhost', '8000');
-    echo 'Ctrl+C to stop it.' . PHP_EOL
-        . PHP_EOL;
+    printf('Start server http://%s:%d' . PHP_EOL . PHP_EOL, 'localhost', '8000');
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         $command = sprintf(
-            'START /B php -S %s:%d -t %s %s > nul',
+            //'START /B php -S %s:%d -t %s %s > nul',
+            'START php -S %s:%d -t %s %s > nul',
             'localhost',
             '8000',
             $websitePath,
-            "$websitePath/router.php"
+            sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME)
         );
     }
     else {
+        echo 'Ctrl-C to stop it.' . PHP_EOL;
         $command = sprintf(
             //'php -S %s:%d -t %s %s >/dev/null 2>&1 & echo $!',
             'php -S %s:%d -t %s %s >/dev/null',
             'localhost',
             '8000',
             $websitePath,
-            "$websitePath/router.php"
+            sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME)
         );
     }
     exec($command);
@@ -168,31 +181,38 @@ if ($opts->getOption('serve')) {
 // deploy option
 if ($opts->getOption('deploy')) {
     $websitePath = getOptionWebsitePath($opts, 'd');
-    echo 'Not yet implemented' . PHP_EOL
-        . PHP_EOL;
-    
-    // @todo filter on _phpoole dir and router.php + config
-    $deployDir = $websitePath . '/' . PHPOOLE_DIRNAME . '/.deploy';
-    $repoUrl = 'https://github.com/Narno/PHPoole-demo.git';
-
-    // update repo
+    $config = getConfig($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
+    if (!isset($config['deploy']['repository'])) {
+        echo '[KO] no repository in config.ini' . PHP_EOL;
+        exit(2);
+    }
+    else {
+        $repoUrl = $config['deploy']['repository'];
+    }
+    $deployDir = $websitePath . '/../.' . basename($websitePath);
     if (is_dir($deployDir)) {
-        echo 'Deploying files to GitHub...' . PHP_EOL;
+        echo 'Deploying files to GitHub...' . PHP_EOL
+            . PHP_EOL;
+        $deployIterator = new FilesystemIterator($deployDir);
+        foreach ($deployIterator as $deployFile) {
+            if ($deployFile->isFile()) {
+                unlink($deployFile->getPathname());
+            }
+            if ($deployFile->isDir() && $deployFile->getFilename() != '.git') {
+                RecursiveRmDir($deployFile->getPathname());
+            }
+        }
         RecursiveCopy($websitePath, $deployDir);
         $updateRepoCmd = array(
             'add -A',
             'commit -m "Site updated: ' . date('Y-m-d H:i:s') . '"',
             'push github gh-pages --force'
         );
-        chdir($deployDir);
-        foreach ($updateRepoCmd as $cmd) {
-            printf('git %s' . PHP_EOL, $cmd);
-            exec(sprintf('git %s', $cmd));
-        }
+        runGitCmd($deployDir, $updateRepoCmd);
     }
-    // creating repo
     else {
-        echo 'Setting up GitHub deployment...' . PHP_EOL;
+        echo 'Setting up GitHub deployment...' . PHP_EOL
+            . PHP_EOL;
         mkdir($deployDir);
         RecursiveCopy($websitePath, $deployDir);
         $initRepoCmd = array(
@@ -203,11 +223,7 @@ if ($opts->getOption('deploy')) {
             'remote add github ' . $repoUrl,
             'push github gh-pages --force'
         );
-        chdir($deployDir);
-        foreach ($initRepoCmd as $cmd) {
-            printf('git %s' . PHP_EOL, $cmd);
-            exec(sprintf('git %s', $cmd));
-        }
+        runGitCmd($deployDir, $initRepoCmd);
     }
     exit(0);
 }
@@ -290,6 +306,8 @@ language    = "en"
 name  = "Arnaud Ligny"
 email = "arnaud+phpoole@ligny.org"
 home  = "http://narno.org"
+[deploy]
+repository = "https://github.com/Narno/PHPoole-demo.git"
 EOT;
     try {
         if (false === file_put_contents($filePath, $content)) {
@@ -472,6 +490,19 @@ function parseContent($content, $filename) {
     );
 }
 
+function getConfig($filename) {
+    return parse_ini_file($filename, true);
+}
+
+function runGitCmd($wd, $commands) {
+    chdir($wd);
+    exec('git config core.autocrlf false');
+    foreach ($commands as $cmd) {
+        printf('git %s' . PHP_EOL, $cmd);
+        exec(sprintf('git %s', $cmd));
+    }
+}
+
 
 /**
  * Utils
@@ -484,8 +515,7 @@ function parseContent($content, $filename) {
  * @param boolean $followSymlinks
  * @return boolean
  */
-function RecursiveRmdir($dirname, $followSymlinks=false)
-{
+function RecursiveRmdir($dirname, $followSymlinks=false) {
     if (is_dir($dirname) && !is_link($dirname)) {
         if (!is_writable($dirname)) {
             throw new Exception(sprintf('%s is not writable!', $dirname));
@@ -526,8 +556,7 @@ function RecursiveRmdir($dirname, $followSymlinks=false)
 /**
  * Copy a dir, and all its content from source to dest
  */
-function RecursiveCopy($source, $dest)
-{
+function RecursiveCopy($source, $dest) {
     if (!is_dir($dest)) {
         mkdir($dest);
     }
