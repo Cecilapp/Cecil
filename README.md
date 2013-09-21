@@ -4,7 +4,8 @@ PHPoole
 PHPoole is (will be, _work in progress_) a simple static website/weblog generator written in PHP.
 It parses your content written with Markdown, merge it with layouts and generates static HTML files.
 
-PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
+* Why "PHPoole"? It is [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
+* A demo? Yes: [PHPoole-demo](https://github.com/Narno/PHPoole-demo)
 
 Requirements
 ------------
@@ -153,10 +154,3 @@ Run the following command to deploy your website.
 $ phpoole.php --deploy <folder>
 ```
 Alias: ```$ phpoole.php -d <folder>```
-
-Deploys after generating:
-```
-$ phpoole.php -gd <folder>
-```
-
-Note: Not yet implemented.
