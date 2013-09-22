@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * PHPoole is a simple static website generator.
+ * PHPoole is a light and easy static website generator written in PHP.
  * @see http://narno.org/PHPoole/
  *
  * @author Arnaud Ligny <arnaud@ligny.org>
@@ -10,7 +10,7 @@
  * Copyright (c) 2013 Arnaud Ligny
  */
 
-error_reporting(0); 
+//error_reporting(0); 
 
 use Zend\Console;
 use Michelf\Markdown;
@@ -36,12 +36,12 @@ $websitePath = getcwd();
 
 // Defines rules
 $rules = array(
-    'help|h'       => 'Get PHPoole usage message',
-    'init|i=s'     => 'Build a new website in <website>',
-    'generate|g=s' => 'Generate static files of <website>',
-    'serve|s=s'    => 'Start Built-in web server with <website> document root',
-    'deploy|d=s'   => 'Deploy static <website>',
-    'list|l=s'     => 'Lists pages of a <website>'
+    'help|h'     => 'Get PHPoole usage message',
+    'init|i'     => 'Build a new PHPoole website',
+    'generate|g' => 'Generate static files',
+    'serve|s'    => 'Start built-in web server',
+    'deploy|d'   => 'Deploy static files',
+    'list|l=s'   => 'Lists <pages> or <posts>',
 );
 
 // Get and parse console options
@@ -54,15 +54,25 @@ try {
 }
 
 // help option
-if ($opts->getOption('help')) {
+if ($opts->getOption('help') || count($opts->getOptions()) == 0) {
     echo $opts->getUsageMessage();
     exit(0);
 }
 
+// Get provided directory if exist
+$remainingArgs = $opts->getRemainingArgs();
+if (isset($remainingArgs[0])) {
+    if (!is_dir($remainingArgs[0])) {
+        echo 'Invalid directory provided' . PHP_EOL;
+        //echo $opts->getUsageMessage();
+        exit(2);
+    }
+    $websitePath = str_replace(DIRECTORY_SEPARATOR, '/', realpath($remainingArgs[0]));
+}
+
 // init option
 if ($opts->getOption('init')) {
-    $websitePath = getOptionWebsitePath($opts, 'i');
-    printf('Initializing new website in %s' . PHP_EOL . PHP_EOL, $websitePath);
+    printf("Initializing new website in %s\n", $websitePath);
     mkInitDir($websitePath);
     mkConfigFile($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
     mkLayoutsDir($websitePath . '/' . PHPOOLE_DIRNAME);
@@ -71,13 +81,11 @@ if ($opts->getOption('init')) {
     mkContentDir($websitePath . '/'. PHPOOLE_DIRNAME);
     mkContentIndexFile($websitePath . '/' . PHPOOLE_DIRNAME, 'index.md');
     mkRouterFile($websitePath . '/' . PHPOOLE_DIRNAME . '/router.php');
-    exit(0);
 }
 
 // generate option
 if ($opts->getOption('generate')) {
-    $websitePath = getOptionWebsitePath($opts, 'g');
-    printf('Generating website in %s' . PHP_EOL . PHP_EOL, $websitePath);
+    printf("Generating website in %s\n", $websitePath);
     $config = getConfig($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
     $twigLoader = new Twig_Loader_Filesystem($websitePath . '/' . PHPOOLE_DIRNAME . '/layouts');
     $twig = new Twig_Environment($twigLoader, array('autoescape' => false));
@@ -91,7 +99,7 @@ if ($opts->getOption('generate')) {
             $page = parseContent($content, $filePage->getFilename());
         }
         catch (Exception $e) {
-            printf('[KO] %s' . PHP_EOL, $e->getMessage());
+            printf("[KO] %s\n", $e->getMessage());
             exit(2);
         }
         if (isset($page['title'])) {
@@ -130,10 +138,10 @@ if ($opts->getOption('generate')) {
             if (false === file_put_contents(sprintf('%s%s.html', $websitePath . '/' . ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : ''), $filePage->getBasename('.md')), $rendered)) {
                 throw new Exception(sprintf('%s%s.html not written', ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : ''), $filePage->getBasename('.md')));
             }
-            printf('[OK] write %s%s.html' . PHP_EOL, ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : ''), $filePage->getBasename('.md'));
+            printf("[OK] write %s%s.html\n", ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : ''), $filePage->getBasename('.md'));
         }
         catch (Exception $e) {
-            printf('[KO] %s' . PHP_EOL, $e->getMessage());
+            printf("[KO] %s\n", $e->getMessage());
             exit(2);
         }
     }
@@ -141,18 +149,16 @@ if ($opts->getOption('generate')) {
         RecursiveRmdir($websitePath . '/assets');
     }
     RecursiveCopy($websitePath . '/' . PHPOOLE_DIRNAME . '/assets', $websitePath . '/assets');
-    printf('[OK] copy assets directory' . PHP_EOL);
-    exit(0);
+    printf("[OK] copy assets directory\n");
 }
 
 // serve option
 if ($opts->getOption('serve')) {
-    $websitePath = getOptionWebsitePath($opts, 's');
     if (version_compare(PHP_VERSION, '5.4.0', '<')) {
         echo 'PHP 5.4+ required to run built-in server (your version: ' . PHP_VERSION . ')' . PHP_EOL;
         exit(2);
     }    
-    printf('Start server http://%s:%d' . PHP_EOL . PHP_EOL, 'localhost', '8000');
+    printf("Start server http://%s:%d\n", 'localhost', '8000');
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         $command = sprintf(
             //'START /B php -S %s:%d -t %s %s > nul',
@@ -175,12 +181,10 @@ if ($opts->getOption('serve')) {
         );
     }
     exec($command);
-    exit(0);
 }
 
 // deploy option
 if ($opts->getOption('deploy')) {
-    $websitePath = getOptionWebsitePath($opts, 'd');
     $config = getConfig($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
     if (!isset($config['deploy']['repository'])) {
         echo '[KO] no repository in config.ini' . PHP_EOL;
@@ -191,8 +195,7 @@ if ($opts->getOption('deploy')) {
     }
     $deployDir = $websitePath . '/../.' . basename($websitePath);
     if (is_dir($deployDir)) {
-        echo 'Deploying files to GitHub...' . PHP_EOL
-            . PHP_EOL;
+        echo 'Deploying files to GitHub...' . PHP_EOL;
         $deployIterator = new FilesystemIterator($deployDir);
         foreach ($deployIterator as $deployFile) {
             if ($deployFile->isFile()) {
@@ -205,74 +208,63 @@ if ($opts->getOption('deploy')) {
         RecursiveCopy($websitePath, $deployDir);
         $updateRepoCmd = array(
             'add -A',
-            'commit -m "Site updated: ' . date('Y-m-d H:i:s') . '"',
+            //'commit -m "Site updated: ' . date('Y-m-d H:i:s') . '"',
+            'commit -m "Update gh-pages via PHPoole"',
             'push github gh-pages --force'
         );
         runGitCmd($deployDir, $updateRepoCmd);
     }
     else {
-        echo 'Setting up GitHub deployment...' . PHP_EOL
-            . PHP_EOL;
+        echo 'Setting up GitHub deployment...' . PHP_EOL;
         mkdir($deployDir);
         RecursiveCopy($websitePath, $deployDir);
         $initRepoCmd = array(
             'init',
             'add -A',
-            'commit -m "First commit"',
+            //'commit -m "First commit"',
+            'commit -m "Create gh-pages via PHPoole"',
             'branch -M gh-pages',
             'remote add github ' . $repoUrl,
             'push github gh-pages --force'
         );
         runGitCmd($deployDir, $initRepoCmd);
     }
-    exit(0);
 }
 
 // list option
 if ($opts->getOption('list')) {
-    $websitePath = getOptionWebsitePath($opts, 'l');
-    printf('List content in %s' . PHP_EOL . PHP_EOL, $websitePath);
-    if (!is_dir($websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages')) {
-        echo 'Invalid content/pages directory' . PHP_EOL
-            . PHP_EOL;
+    if (isset($opts->list) && $opts->list == 'pages') {
+        printf("List pages in %s\n", $websitePath);
+        if (!is_dir($websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages')) {
+            echo 'Invalid content/pages directory' . PHP_EOL;
+            echo $opts->getUsageMessage();
+            exit(2);
+        }
+        $contentIterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages'),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );    
+        foreach($contentIterator as $file) {
+            if ($file->isFile()) {
+                printf("- %s%s\n", ($contentIterator->getSubPath() != '' ? $contentIterator->getSubPath() . '/' : ''), $file->getFilename());
+            }
+        }
+    }
+    else if (isset($opts->list) && $opts->list == 'posts') {
+        printf("List posts in %s\n", $websitePath);
+        // @todo todo! :-)
+    }
+    else {
         echo $opts->getUsageMessage();
         exit(2);
     }
-    $contentIterator = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages'),
-        RecursiveIteratorIterator::CHILD_FIRST
-    );    
-    foreach($contentIterator as $file) {
-        if ($file->isFile()) {
-            printf('- %s%s' . PHP_EOL, ($contentIterator->getSubPath() != '' ? $contentIterator->getSubPath() . '/' : ''), $file->getFilename());
-        }
-    }
-    exit(0);
 }
-
-// Displays usage message by default
-echo $opts->getUsageMessage();
-exit(2);
 
 
 /**
  * PHPoole helpers
  */
 
-function getOptionWebsitePath($opts, $option) {
-    if (isset($opts->$option)) {
-        if (!is_dir($opts->$option)) {
-            echo 'Invalid directory provided' . PHP_EOL
-                . PHP_EOL;
-            echo $opts->getUsageMessage();
-            exit(2);
-        }
-        $websiteDir = $opts->$option;
-        $websitePath = str_replace(DIRECTORY_SEPARATOR, '/', realpath($websiteDir));
-        return $websitePath;
-    }
-}
- 
 function mkInitDir($path, $force = false) {
     try {
         if (is_dir($path . '/' . PHPOOLE_DIRNAME)) {
@@ -280,16 +272,16 @@ function mkInitDir($path, $force = false) {
                 RecursiveRmdir($path . '/' . PHPOOLE_DIRNAME);
             }
             else {
-                throw new Exception(sprintf('%s directory already exist', PHPOOLE_DIRNAME));
+                throw new Exception(sprintf('%s already exist in %s', PHPOOLE_DIRNAME, basename($path)));
             }
         }
         if (false === mkdir($path . '/' . PHPOOLE_DIRNAME)) {
             throw new Exception(sprintf('%s not created', $path));
         }
-        printf('[OK] create %s' . PHP_EOL, PHPOOLE_DIRNAME);
+        printf("[OK] create %s\n", PHPOOLE_DIRNAME);
     }  
     catch (Exception $e) {
-        printf('[KO] %s' . PHP_EOL, $e->getMessage());
+        printf("[KO] %s\n", $e->getMessage());
         exit(2);
     }
 }
@@ -313,10 +305,10 @@ EOT;
         if (false === file_put_contents($filePath, $content)) {
             throw new Exception(sprintf('%s not created', basename($filePath)));
         }
-        printf('[OK] create %s/%s' . PHP_EOL, PHPOOLE_DIRNAME, basename($filePath));
+        printf("[OK] create %s/%s\n", PHPOOLE_DIRNAME, basename($filePath));
     }
     catch (Exception $e) {
-        printf('[KO] %s' . PHP_EOL, $e->getMessage());
+        printf("[KO] %s\n", $e->getMessage());
         exit(2);
     }
 }
@@ -326,10 +318,10 @@ function mkLayoutsDir($path) {
         if (false === mkdir(sprintf('%s/layouts', $path))) {
             throw new Exception(sprintf('%s/layouts not created', $path));
         }
-        printf('[OK] create %s/layouts' . PHP_EOL, PHPOOLE_DIRNAME);
+        printf("[OK] create %s/layouts\n", PHPOOLE_DIRNAME);
     }
     catch (Exception $e) {
-        printf('[KO] %s' . PHP_EOL, $e->getMessage());
+        printf("[KO] %s\n", $e->getMessage());
         exit(2);
     }
 }
@@ -343,6 +335,7 @@ function mkLayoutBaseFile($path, $filename) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
+  <meta name="description" content="{{ site.description }}">
   <title>{{ site.name}} - {{ title }}</title>
   <style type="text/css">
     body { font: bold 24px Helvetica, Arial; padding: 15px 20px; color: #ddd; background: #333;}
@@ -353,7 +346,7 @@ function mkLayoutBaseFile($path, $filename) {
   </style>
 </head>
 <body>
-  <strong>{{ site.name }}</strong><br />
+  <a href="{{ site.base_url}}"><strong>{{ site.name }}</strong></a><br />
   <em>{{ site.baseline }}</em>
   <hr />
   <p>{{ content }}</p>
@@ -366,10 +359,10 @@ EOT;
         if (false === file_put_contents("$path/$subdir/$filename", $content)) {
             throw new Exception(sprintf('%s/%s not created', $subdir, basename($filename)));
         }
-        printf('[OK] create %s/%s/%s' . PHP_EOL, PHPOOLE_DIRNAME, $subdir, $filename);
+        printf("[OK] create %s/%s/%s\n", PHPOOLE_DIRNAME, $subdir, $filename);
     }
     catch (Exception $e) {
-        printf('[KO] %s' . PHP_EOL, $e->getMessage());
+        printf("[KO] %s\n", $e->getMessage());
         exit(2);
     }
 }
@@ -386,11 +379,11 @@ function mkAssetsDir($path) {
             if (false === mkdir(sprintf('%s/%s', $path, $subDir))) {
                 throw new Exception(sprintf('%s/%s not created', $path, $subDir));
             }
-            printf('[OK] create %s/%s' . PHP_EOL, PHPOOLE_DIRNAME, $subDir);
+            printf("[OK] create %s/%s\n", PHPOOLE_DIRNAME, $subDir);
         }
     }
     catch (Exception $e) {
-        printf('[KO] %s' . PHP_EOL, $e->getMessage());
+        printf("[KO] %s\n", $e->getMessage());
         exit(2);
     }
 }
@@ -406,11 +399,11 @@ function mkContentDir($path) {
             if (false === mkdir(sprintf('%s/%s', $path, $subDir))) {
                 throw new Exception(sprintf('%s/%s not created', $path, $subDir));
             }
-            printf('[OK] create %s/%s' . PHP_EOL, PHPOOLE_DIRNAME, $subDir);
+            printf("[OK] create %s/%s\n", PHPOOLE_DIRNAME, $subDir);
         }
     }
     catch (Exception $e) {
-        printf('[KO] %s' . PHP_EOL, $e->getMessage());
+        printf("[KO] %s\n", $e->getMessage());
         exit(2);
     }
 }
@@ -436,10 +429,10 @@ EOT;
         if (false === file_put_contents("$path/$subdir/$filename", $content)) {
             throw new Exception(sprintf('%s/%s not created', $subdir, basename($filename)));
         }
-        printf('[OK] create %s/%s/%s' . PHP_EOL, PHPOOLE_DIRNAME, $subdir, $filename);
+        printf("[OK] create %s/%s/%s\n", PHPOOLE_DIRNAME, $subdir, $filename);
     }
     catch (Exception $e) {
-        printf('[KO] %s' . PHP_EOL, $e->getMessage());
+        printf("[KO] %s\n", $e->getMessage());
         exit(2);
     }
 }
@@ -467,10 +460,10 @@ EOT;
         if (false === file_put_contents($filePath, $content)) {
             throw new Exception(sprintf('%s not created', basename($filename)));
         }
-        printf('[OK] create %s/%s' . PHP_EOL, PHPOOLE_DIRNAME, basename($filePath));
+        printf("[OK] create %s/%s\n", PHPOOLE_DIRNAME, basename($filePath));
     }
     catch (Exception $e) {
-        printf('[KO] %s' . PHP_EOL, $e->getMessage());
+        printf("[KO] %s\n", $e->getMessage());
         exit(2);
     }
 }
@@ -478,7 +471,7 @@ EOT;
 function parseContent($content, $filename) {
     preg_match('/^<!--(.+)-->(.+)/s', $content, $matches);
     if (!$matches) {
-        printf('Could not parse front matter in %s' . PHP_EOL, $filename);
+        printf("Could not parse front matter in %s\n", $filename);
         exit(2);
     }
     list($matchesAll, $rawInfo, $rawBody) = $matches;
@@ -498,7 +491,7 @@ function runGitCmd($wd, $commands) {
     chdir($wd);
     exec('git config core.autocrlf false');
     foreach ($commands as $cmd) {
-        printf('git %s' . PHP_EOL, $cmd);
+        printf("> git %s\n", $cmd);
         exec(sprintf('git %s', $cmd));
     }
 }
