@@ -29,26 +29,25 @@ $ php composer.phar install
 ###2. Setup a new website
 ```
 $ mkdir mywebsite
-$ phpoole.php -i mywebsite
+$ php phpoole.php mywebsite -i
 ```
 
 ###3. Generate static files
 ```
-$ phpoole.php -g mywebsite
+$ php phpoole.php mywebsite -g
 ```
 
 ###4. Serve to test on local
 ```
-$ phpoole.php -s mywebsite
+$ php phpoole.php mywebsite -s
 ```
 
 ###5. Deploy on GitHub Pages
 ```
-$ phpoole.php -d mywebsite
+$ php phpoole.php mywebsite -d
 ```
 
 ----
-
 
 Installation
 ------------
@@ -70,13 +69,13 @@ Setup
 Once PHPoole is installed, run the following command to build all files you need (in the curent or target folder).
 
 ```
-$ phpoole.php --init <folder>
+$ php phpoole.php [folder] --init
 ```
-Alias: ```$ phpoole.php -i <folder>```
+Alias: ```$ php phpoole.php [folder] -i```
 
 After ```--init```, here's how the folder looks like:
 ```
-<folder>
+[folder]
 └── _phpoole
     ├── assets
     |   ├── css
@@ -127,7 +126,7 @@ Assets folder: CSS, Javascript, images, etc.
 
 ### _content_
 
-Content folder: Where you can put your content (posts and pages as markdown files).
+Content folder: Where you can put your content (pages and posts in markdown format).
 
 
 Generate
@@ -136,13 +135,13 @@ Generate
 Run the following command to generate your static website.
 
 ```
-$ phpoole.php --generate <folder>
+$ php phpoole.php [folder] --generate
 ```
-Alias: ```$ phpoole.php -g <folder>```
+Alias: ```$ php phpoole.php [folder] -g```
 
 After ```--generate```, here's how the folder looks like:
 ```
-<folder>
+[folder]
 ├── _phpoole
 |   └── [...]
 ├── assets
@@ -159,11 +158,16 @@ Serve
 Run the following command to launch the built-in server to test your website before deployment.
 
 ```
-$ phpoole.php --server <folder>
+$ php phpoole.php [folder] --serve
 ```
-Alias: ```$ phpoole.php -s <folder>```
+Alias: ```$ php phpoole.php [folder] -s```
 
 Then browse [http://localhost:8000](http://localhost:8000).
+
+You can chain options. For example, if you want to generate then serve:
+```
+$ phpoole.php [folder] -gs
+```
 
 
 Deploy
@@ -172,15 +176,13 @@ Deploy
 Run the following command to deploy your website.
 
 ```
-$ phpoole.php --deploy <folder>
+$ php phpoole.php [folder] --deploy
 ```
-Alias: ```$ phpoole.php -d <folder>```
+Alias: ```$ php phpoole.php [folder] -d```
 
-After ```--deploy```, here's how the folder looks like:
+After ```--deploy```, a cached copy of ```[folder]``` is created at the same level: ```[.folder]```.
+
+You can chain options. For example, if you want to generate then deploy:
 ```
-<folder>
-└── [...]
-<.folder>
-├── .git
-└── [...]
+$ php phpoole.php [folder] -gd
 ```
