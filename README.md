@@ -29,22 +29,22 @@ $ php composer.phar install
 ###2. Setup a new website
 ```
 $ mkdir mywebsite
-$ php phpoole.php mywebsite -i
+$ php phpoole.php mywebsite --init
 ```
 
 ###3. Generate static files
 ```
-$ php phpoole.php mywebsite -g
+$ php phpoole.php mywebsite --generate
 ```
 
 ###4. Serve to test on local
 ```
-$ php phpoole.php mywebsite -s
+$ php phpoole.php mywebsite --serve
 ```
 
 ###5. Deploy on GitHub Pages
 ```
-$ php phpoole.php mywebsite -d
+$ php phpoole.php mywebsite --deploy
 ```
 
 ----
@@ -165,9 +165,7 @@ Alias: ```$ php phpoole.php [folder] -s```
 Then browse [http://localhost:8000](http://localhost:8000).
 
 You can chain options. For example, if you want to generate then serve:
-```
-$ phpoole.php [folder] -gs
-```
+```$ php phpoole.php [folder] -gs```
 
 
 Deploy
@@ -183,6 +181,4 @@ Alias: ```$ php phpoole.php [folder] -d```
 After ```--deploy```, a cached copy of ```[folder]``` is created at the same level: ```[.folder]```.
 
 You can chain options. For example, if you want to generate then deploy:
-```
-$ php phpoole.php [folder] -gd
-```
+```$ php phpoole.php [folder] -gd```
