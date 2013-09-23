@@ -57,6 +57,10 @@ Once PHPoole is installed, run the following command to build all files you need
 
     $ php phpoole.php [folder] --init
 
+With [Twitter Bootstrap](http://getbootstrap.com) layout (and assets):
+
+    $ php phpoole.php [folder] --init=bootstrap
+
 Alias: ```$ php phpoole.php [folder] -i```
 
 After ```--init```, here's how the folder looks like:
