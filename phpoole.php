@@ -13,7 +13,7 @@
 //error_reporting(0); 
 
 use Zend\Console;
-use Michelf\Markdown;
+use Michelf\MarkdownExtra;
 
 // Composer autoloading
 if (file_exists('vendor/autoload.php')) {
@@ -37,7 +37,7 @@ $websitePath = getcwd();
 // Defines rules
 $rules = array(
     'help|h'     => 'Get PHPoole usage message',
-    'init|i'     => 'Build a new PHPoole website',
+    'init|i-s'   => 'Build a new PHPoole website (with <bootstrap>)',
     'generate|g' => 'Generate static files',
     'serve|s'    => 'Start built-in web server',
     'deploy|d'   => 'Deploy static files',
@@ -72,15 +72,21 @@ if (isset($remainingArgs[0])) {
 
 // init option
 if ($opts->getOption('init')) {
+    $layoutType ='';
     printf("Initializing new website in %s\n", $websitePath);
+    var_dump($opts->init);
+    if ((string)$opts->init == 'bootstrap') {
+        $layoutType = 'bootstrap';
+    }
     mkInitDir($websitePath);
     mkConfigFile($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
     mkLayoutsDir($websitePath . '/' . PHPOOLE_DIRNAME);
-    mkLayoutBaseFile($websitePath . '/' . PHPOOLE_DIRNAME, 'base.html');
-    mkAssetsDir($websitePath . '/' . PHPOOLE_DIRNAME);
+    mkLayoutDefaultFile($websitePath . '/' . PHPOOLE_DIRNAME, 'default.html', $layoutType);
+    mkAssetsDir($websitePath . '/' . PHPOOLE_DIRNAME, $layoutType);
     mkContentDir($websitePath . '/'. PHPOOLE_DIRNAME);
     mkContentIndexFile($websitePath . '/' . PHPOOLE_DIRNAME, 'index.md');
     mkRouterFile($websitePath . '/' . PHPOOLE_DIRNAME . '/router.php');
+    mkReadmeFile($websitePath . '/README.md');
 }
 
 // generate option
@@ -118,7 +124,7 @@ if ($opts->getOption('generate')) {
             $layout = $page['layout'] . '.html';
         }
         else {
-            $layout = 'base.html';
+            $layout = 'default.html';
         }
         $rendered = $twig->render($layout, array(
             'site'    => $config['site'],
@@ -160,7 +166,11 @@ if ($opts->getOption('serve')) {
     if (version_compare(PHP_VERSION, '5.4.0', '<')) {
         echo 'PHP 5.4+ required to run built-in server (your version: ' . PHP_VERSION . ')' . PHP_EOL;
         exit(2);
-    }    
+    }
+    if (!is_file(sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME))) {
+        echo 'Router not found' . PHP_EOL;
+        exit(2);
+    }
     printf("Start server http://%s:%d\n", 'localhost', '8000');
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         $command = sprintf(
@@ -329,9 +339,10 @@ function mkLayoutsDir($path) {
     }
 }
 
-function mkLayoutBaseFile($path, $filename) {
+function mkLayoutDefaultFile($path, $filename, $type='') {
     $subdir = 'layouts';
-    $content = <<<'EOT'
+    if ($type == 'bootstrap') {
+        $content = <<<'EOT'
 <!DOCTYPE html>
 <html lang="{{ site.language }}">
   <head>
@@ -339,11 +350,17 @@ function mkLayoutBaseFile($path, $filename) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ site.description }}">
     <meta name="author" content="{{ author.name }}">
-    <link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.png">
     <title>{{ site.name}} - {{ title }}</title>
-    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="http://getbootstrap.com/examples/sticky-footer-navbar/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      html, body {height: 100%;}
+      #wrap {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -60px;padding: 0 0 60px;}
+      #footer {height: 60px;background-color: #f5f5f5;}
+      #wrap > .container {padding: 60px 15px 0;}
+      .container .credit {margin: 20px 0;}
+      #footer > .container {padding-left: 15px;padding-right: 15px;}
+      code {font-size: 80%;}
+    </style>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="http://getbootstrap.com/assets/js/html5shiv.js"></script>
@@ -363,9 +380,7 @@ function mkLayoutBaseFile($path, $filename) {
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li class="active"><a href="{{ site.base_url }}">Home</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -380,11 +395,41 @@ function mkLayoutBaseFile($path, $filename) {
         <p class="text-muted credit">Powered by <a href="http://narno.org/PHPoole">PHPoole</a>, coded by <a href="{{ author.home }}">{{ author.name }}</a>.</p>
       </div>
     </div>
-    <script src="http://getbootstrap.com/assets/js/jquery.js"></script>
-    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
   </body>
 </html>
 EOT;
+    }
+    else {
+        $content = <<<'EOT'
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="{{ site.language }}"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="{{ site.language }}"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="{{ site.description }}">
+  <title>{{ site.name}} - {{ title }}</title>
+  <style type="text/css">
+    body { font: bold 24px Helvetica, Arial; padding: 15px 20px; color: #ddd; background: #333;}
+    a:link {text-decoration: none; color: #fff;}
+    a:visited {text-decoration: none; color: #fff;}
+    a:active {text-decoration: none; color: #fff;}
+    a:hover {text-decoration: underline; color: #fff;}
+  </style>
+</head>
+<body>
+  <a href="{{ site.base_url}}"><strong>{{ site.name }}</strong></a><br />
+  <em>{{ site.baseline }}</em>
+  <hr />
+  <p>{{ content }}</p>
+  <hr />
+  <p>Powered by <a href="http://narno.org/PHPoole">PHPoole</a>, coded by <a href="{{ author.home }}">{{ author.name }}</a></p>
+</body>
+</html>
+EOT;
+    }
     try {
         if (false === file_put_contents("$path/$subdir/$filename", $content)) {
             throw new Exception(sprintf('%s/%s not created', $subdir, basename($filename)));
@@ -397,7 +442,7 @@ EOT;
     }
 }
 
-function mkAssetsDir($path) {
+function mkAssetsDir($path, $type='') {
     $subDirList = array(
         'assets',
         'assets/css',
@@ -415,6 +460,12 @@ function mkAssetsDir($path) {
     catch (Exception $e) {
         printf("[KO] %s\n", $e->getMessage());
         exit(2);
+    }
+    if ($type == 'bootstrap') {
+        echo 'Downloading Twitter Bootstrap assets files and jQuery script...' . PHP_EOL;
+        exec(sprintf('curl %s > %s/assets/css/bootstrap.min.css', 'https://raw.github.com/twbs/bootstrap/v3.0.0/dist/css/bootstrap.min.css', $path));
+        exec(sprintf('curl %s > %s/assets/js/bootstrap.min.js', 'https://raw.github.com/twbs/bootstrap/v3.0.0/dist/js/bootstrap.min.js', $path));
+        exec(sprintf('curl %s > %s/assets/js/jquery.min.js', 'http://code.jquery.com/jquery-2.0.3.min.js', $path));
     }
 }
 
@@ -498,6 +549,25 @@ EOT;
     }
 }
 
+function mkReadmeFile($filePath) {
+    $content = <<<'EOT'
+Powered by [PHPoole](http://narno.org/PHPoole/).
+EOT;
+    try {
+        if (is_file($filePath)) {
+            unlink($filePath);
+        }
+        if (false === file_put_contents($filePath, $content)) {
+            throw new Exception(sprintf('%s not created', basename($filename)));
+        }
+        printf("[OK] create %s/%s\n", PHPOOLE_DIRNAME, basename($filePath));
+    }
+    catch (Exception $e) {
+        printf("[KO] %s\n", $e->getMessage());
+        exit(2);
+    }
+}
+
 function parseContent($content, $filename) {
     preg_match('/^<!--(.+)-->(.+)/s', $content, $matches);
     if (!$matches) {
@@ -505,7 +575,10 @@ function parseContent($content, $filename) {
     }
     list($matchesAll, $rawInfo, $rawContent) = $matches;
     $info = parse_ini_string($rawInfo);
-    $contentHtml = Markdown::defaultTransform($rawContent);
+    //$contentHtml = Markdown::defaultTransform($rawContent);
+    $parser = new MarkdownExtra;
+    $parser->code_attr_on_pre = true;
+    $contentHtml = $parser->transform($rawContent);
     return array_merge(
         $info,
         array('content' => $contentHtml)
