@@ -91,6 +91,9 @@ if ($opts->getOption('generate')) {
     $twig = new Twig_Environment($twigLoader, array('autoescape' => false));
     $pagesPath = $websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages';
     $markdownIterator = new MarkdownFileFilter($pagesPath);
+    // @todo work in 2 steps:
+    //   1. get data: number of pages, use in menu, etc.
+    //   2. use data to build pages
     foreach ($markdownIterator as $filePage) {
         try {
             if (false === ($content = file_get_contents($filePage->getPathname()))) {
@@ -121,7 +124,7 @@ if ($opts->getOption('generate')) {
             'site'    => $config['site'],
             'author'  => $config['author'],
             'title'   => $title,
-            'content' => $page['body']
+            'content' => $page['content']
         ));
         try {
             if (!is_dir($websitePath . '/' . $markdownIterator->getSubPath())) {
@@ -471,15 +474,14 @@ EOT;
 function parseContent($content, $filename) {
     preg_match('/^<!--(.+)-->(.+)/s', $content, $matches);
     if (!$matches) {
-        printf("Could not parse front matter in %s\n", $filename);
-        exit(2);
+        throw new Exception(sprintf("Could not parse front matter in %s\n", $filename));
     }
-    list($matchesAll, $rawInfo, $rawBody) = $matches;
+    list($matchesAll, $rawInfo, $rawContent) = $matches;
     $info = parse_ini_string($rawInfo);
-    $body = Markdown::defaultTransform($rawBody);
+    $contentHtml = Markdown::defaultTransform($rawContent);
     return array_merge(
         $info,
-        array('body' => $body)
+        array('content' => $contentHtml)
     );
 }
 
