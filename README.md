@@ -1,6 +1,7 @@
-PHPoole
-=======
-
+<!--
+title = PHPoole
+layout = base
+-->
 PHPoole is a light and easy static website / blog generator written in PHP.
 It takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
 
@@ -20,32 +21,22 @@ Quick Start
 -----------
 
 ###1. Install
-```
-$ git clone https://github.com/Narno/PHPoole.git && cd PHPoole
-$ curl -s https://getcomposer.org/installer | php
-$ php composer.phar install
-```
+    $ git clone https://github.com/Narno/PHPoole.git && cd PHPoole
+    $ curl -s https://getcomposer.org/installer | php
+    $ php composer.phar install
 
 ###2. Setup a new website
-```
-$ mkdir mywebsite
-$ php phpoole.php mywebsite --init
-```
+    $ mkdir mywebsite
+    $ php phpoole.php mywebsite --init
 
 ###3. Generate static files
-```
-$ php phpoole.php mywebsite --generate
-```
+    $ php phpoole.php mywebsite --generate
 
 ###4. Serve to test on local
-```
-$ php phpoole.php mywebsite --serve
-```
+    $ php phpoole.php mywebsite --serve
 
 ###5. Deploy on GitHub Pages
-```
-$ php phpoole.php mywebsite --deploy
-```
+    $ php phpoole.php mywebsite --deploy
 
 ----
 
@@ -54,13 +45,9 @@ Installation
 
 Use [Git](http://git-scm.com) and [Composer](http://getcomposer.org) to easily install PHPoole.
 
-```
-$ git clone https://github.com/Narno/PHPoole.git && cd PHPoole
-```
-```
-$ curl -s https://getcomposer.org/installer | php
-$ php composer.phar install
-```
+    $ git clone https://github.com/Narno/PHPoole.git && cd PHPoole
+    $ curl -s https://getcomposer.org/installer | php
+    $ php composer.phar install
 
 
 Setup
@@ -68,28 +55,26 @@ Setup
 
 Once PHPoole is installed, run the following command to build all files you need (in the curent or target folder).
 
-```
-$ php phpoole.php [folder] --init
-```
+    $ php phpoole.php [folder] --init
+
 Alias: ```$ php phpoole.php [folder] -i```
 
 After ```--init```, here's how the folder looks like:
-```
-[folder]
-└── _phpoole
-    ├── assets
-    |   ├── css
-    |   ├── img
-    |   └── js
-    ├── config.ini
-    ├── content
-    |   ├── pages
-    |   |   └── index.md
-    |   └── posts
-    ├── layouts
-    |   └── base.html
-    └── router.php
-```
+
+    [folder]
+    +-- _phpoole
+        +-- assets
+        |   +-- css
+        |   +-- img
+        |   +-- js
+        +-- config.ini
+        +-- content
+        |   +-- pages
+        |   |   +-- index.md
+        |   +-- posts
+        +-- layouts
+        |   +-- base.html
+        +-- router.php
 
 ### _config.ini_
 
@@ -134,22 +119,20 @@ Generate
 
 Run the following command to generate your static website.
 
-```
-$ php phpoole.php [folder] --generate
-```
+    $ php phpoole.php [folder] --generate
+
 Alias: ```$ php phpoole.php [folder] -g```
 
 After ```--generate```, here's how the folder looks like:
-```
-[folder]
-├── _phpoole
-|   └── [...]
-├── assets
-|   ├── css
-|   ├── img
-|   └── js
-└── index.html
-```
+
+    [folder]
+    +-- _phpoole
+    |   +-- [...]
+    +-- assets
+    |   +-- css
+    |   +-- img
+    |   +-- js
+    +-- index.html
 
 
 Serve
@@ -157,9 +140,8 @@ Serve
 
 Run the following command to launch the built-in server to test your website before deployment.
 
-```
-$ php phpoole.php [folder] --serve
-```
+    $ php phpoole.php [folder] --serve
+
 Alias: ```$ php phpoole.php [folder] -s```
 
 Then browse [http://localhost:8000](http://localhost:8000).
@@ -173,9 +155,8 @@ Deploy
 
 Run the following command to deploy your website.
 
-```
-$ php phpoole.php [folder] --deploy
-```
+    $ php phpoole.php [folder] --deploy
+
 Alias: ```$ php phpoole.php [folder] -d```
 
 After ```--deploy```, a cached copy of ```[folder]``` is created at the same level: ```[.folder]```.
