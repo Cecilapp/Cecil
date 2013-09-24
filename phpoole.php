@@ -94,12 +94,17 @@ if ($opts->getOption('generate')) {
     printf("Generating website in %s\n", $websitePath);
     $config = getConfig($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
     $twigLoader = new Twig_Loader_Filesystem($websitePath . '/' . PHPOOLE_DIRNAME . '/layouts');
-    $twig = new Twig_Environment($twigLoader, array('autoescape' => false));
+    $twig = new Twig_Environment($twigLoader, array(
+        'autoescape' => false,
+        'debug'      => true
+    ));
+    $twig->addExtension(new Twig_Extension_Debug());
     $pagesPath = $websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages';
     $markdownIterator = new MarkdownFileFilter($pagesPath);
     // @todo work in 2 steps:
     //   1. get data: number of pages, use in menu, etc.
     //   2. use data to build pages
+    $menu['nav'] = array();
     foreach ($markdownIterator as $filePage) {
         try {
             if (false === ($content = file_get_contents($filePage->getPathname()))) {
@@ -110,27 +115,37 @@ if ($opts->getOption('generate')) {
         catch (Exception $e) {
             printf("[KO] %s\n", $e->getMessage());
             exit(2);
-        }
-        if (isset($page['title'])) {
-            $title = $page['title'];
-        }
-        else {
-            $title = 'PHPoole';
-        }
-        if (
+        }        
+        $layout = (
             isset($page['layout'])
-            && is_file($websitePath . '/' . PHPOOLE_DIRNAME . '/layouts' . '/' . $page['layout'] . '.html')
-        ) {
-            $layout = $page['layout'] . '.html';
-        }
-        else {
-            $layout = 'default.html';
-        }
+                && is_file($websitePath . '/' . PHPOOLE_DIRNAME . '/layouts' . '/' . $page['layout'] . '.html')
+            ? $page['layout'] . '.html'
+            : 'default.html'
+        );
+        $title = (
+            isset($page['title'])
+                && !empty($page['title'])
+            ? $page['title']
+            : ucfirst($filePage->getBasename('.md'))
+        );
+        $path = sprintf('%s/', ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() : ''));
+        $menu[$page['menu']][] = (
+            isset($page['menu'])
+                && !empty($page['menu'])
+            ? array(
+                'title' => $title,
+                'path' => sprintf('%s/', ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() : ''))
+            )
+            : ''
+        );
+        print_r($menu['nav']);
         $rendered = $twig->render($layout, array(
             'site'    => $config['site'],
             'author'  => $config['author'],
             'title'   => $title,
-            'content' => $page['content']
+            'content' => $page['content'],
+            'nav'     => $menu['nav'],
+            'path'    => $path,
         ));
         try {
             if (!is_dir($websitePath . '/' . $markdownIterator->getSubPath())) {
@@ -303,16 +318,16 @@ function mkConfigFile($filePath) {
     $content = <<<'EOT'
 [site]
 name        = "PHPoole"
-baseline    = "Light and easy website generator!"
+baseline    = "Light and easy static website generator!"
 description = "PHPoole is a simple static website/weblog generator written in PHP. It parses your content written with Markdown, merge it with layouts and generates static HTML files."
-base_url    = "http://localhost:8000"
+base_url    = "http://narno.org/PHPoole"
 language    = "en"
 [author]
 name  = "Arnaud Ligny"
 email = "arnaud+phpoole@ligny.org"
 home  = "http://narno.org"
 [deploy]
-repository = "https://github.com/Narno/PHPoole-demo.git"
+repository = "https://github.com/Narno/PHPoole.git"
 EOT;
     try {
         if (false === file_put_contents($filePath, $content)) {
@@ -350,7 +365,7 @@ function mkLayoutDefaultFile($path, $filename, $type='') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ site.description }}">
     <meta name="author" content="{{ author.name }}">
-    <title>{{ site.name}} - {{ title }}</title>
+    <title>{{ site.name }} - {{ title|title }}</title>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
       html, body {height: 100%;}
@@ -373,20 +388,24 @@ function mkLayoutDefaultFile($path, $filename, $type='') {
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
               <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ site.base_url }}">{{ site.name}}</a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="{{ site.base_url }}">Home</a></li>
+              {% for key, item in nav %}
+              <li{% if item.path == path %} class="active"{% endif %}><a href="{{ site.base_url }}/{{ item.path }}">{{ item.title|e }}</a></li>
+              {% endfor %}
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
       <!-- Begin page content -->
       <div class="container">
+        <div class="page-header">
+          <h1>{{ site.name}}</h1>
+          <p class="lead"><em>{{ site.baseline }}</em></p>
+        </div>
         {{ content }}
       </div>
     </div>
