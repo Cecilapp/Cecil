@@ -1,7 +1,3 @@
-<!--
-title = PHPoole
-layout = base
--->
 PHPoole is a light and easy static website / blog generator written in PHP.
 It takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
 
