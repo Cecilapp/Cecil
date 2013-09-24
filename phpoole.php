@@ -74,7 +74,6 @@ if (isset($remainingArgs[0])) {
 if ($opts->getOption('init')) {
     $layoutType ='';
     printf("Initializing new website in %s\n", $websitePath);
-    var_dump($opts->init);
     if ((string)$opts->init == 'bootstrap') {
         $layoutType = 'bootstrap';
     }
@@ -91,8 +90,14 @@ if ($opts->getOption('init')) {
 
 // generate option
 if ($opts->getOption('generate')) {
+    $pages = array();
+    $menu['nav'] = array();
     printf("Generating website in %s\n", $websitePath);
     $config = getConfig($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
+    if (isset($opts->serve)) {
+        $config['site']['base_url'] = 'http://localhost:8000';
+        echo "(Youd should re-generate before deploy)" . PHP_EOL;
+    }
     $twigLoader = new Twig_Loader_Filesystem($websitePath . '/' . PHPOOLE_DIRNAME . '/layouts');
     $twig = new Twig_Environment($twigLoader, array(
         'autoescape' => false,
@@ -101,10 +106,6 @@ if ($opts->getOption('generate')) {
     $twig->addExtension(new Twig_Extension_Debug());
     $pagesPath = $websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages';
     $markdownIterator = new MarkdownFileFilter($pagesPath);
-    // @todo work in 2 steps:
-    //   1. get data: number of pages, use in menu, etc.
-    //   2. use data to build pages
-    $menu['nav'] = array();
     foreach ($markdownIterator as $filePage) {
         try {
             if (false === ($content = file_get_contents($filePage->getPathname()))) {
@@ -115,54 +116,61 @@ if ($opts->getOption('generate')) {
         catch (Exception $e) {
             printf("[KO] %s\n", $e->getMessage());
             exit(2);
-        }        
-        $layout = (
+        }
+        $pageIndex = ($markdownIterator->getSubPath() ? $markdownIterator->getSubPath() : 'home');
+        $pages[$pageIndex]['layout'] = (
             isset($page['layout'])
                 && is_file($websitePath . '/' . PHPOOLE_DIRNAME . '/layouts' . '/' . $page['layout'] . '.html')
             ? $page['layout'] . '.html'
             : 'default.html'
         );
-        $title = (
+        $pages[$pageIndex]['title'] = (
             isset($page['title'])
                 && !empty($page['title'])
             ? $page['title']
             : ucfirst($filePage->getBasename('.md'))
         );
-        $path = sprintf('%s/', ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() : ''));
-        $menu[$page['menu']][] = (
-            isset($page['menu'])
-                && !empty($page['menu'])
-            ? array(
-                'title' => $title,
-                'path' => sprintf('%s/', ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() : ''))
-            )
-            : ''
-        );
-        print_r($menu['nav']);
-        $rendered = $twig->render($layout, array(
+        $pages[$pageIndex]['path'] = $markdownIterator->getSubPath();
+        $pages[$pageIndex]['content'] = $page['content'];
+        $pages[$pageIndex]['basename'] = $filePage->getBasename('.md') . '.html';
+        if (isset($page['menu'])) {
+            $menu[$page['menu']][] = (
+                !empty($page['menu'])
+                ? array(
+                    'title' => $page['title'],
+                    'path'  => $markdownIterator->getSubPath()
+                )
+                : ''
+            );
+        }
+    }
+    //print_r($pages);
+    //print_r($menu);
+    foreach ($pages as $key => $page) {
+        $rendered = $twig->render($page['layout'], array(
             'site'    => $config['site'],
             'author'  => $config['author'],
-            'title'   => $title,
+            'title'   => $page['title'],
+            'path'    => $page['path'],
             'content' => $page['content'],
             'nav'     => $menu['nav'],
-            'path'    => $path,
         ));
         try {
-            if (!is_dir($websitePath . '/' . $markdownIterator->getSubPath())) {
-                if (false === mkdir($websitePath . '/' . $markdownIterator->getSubPath(), 0777, true)) {
-                    throw new Exception(sprintf('%s not created', $websitePath . '/' . $markdownIterator->getSubPath()));
+            if (!is_dir($websitePath . '/' . $page['path'])) {
+                if (false === mkdir($websitePath . '/' . $page['path'], 0777, true)) {
+                    throw new Exception(sprintf('%s not created', $websitePath . '/' . $page['path']));
                 }
             }
-            if (is_file($websitePath . '/' . ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : '') . $filePage->getBasename('.md') . '.html')) {
-                if (false === unlink($websitePath . '/' . ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : '') . $filePage->getBasename('.md') . '.html')) {
-                    throw new Exception(sprintf('%s%s.html not deleted', ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : ''), $filePage->getBasename('.md')));
+            if (is_file($websitePath . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
+                if (false === unlink($websitePath . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
+                    throw new Exception(sprintf('%s%s not deleted', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
                 }
-                echo '[OK] delete ' . ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : '') . $filePage->getBasename('.md') . '.html' . PHP_EOL;
+                echo '[OK] delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'] . PHP_EOL;
             }
-            if (false === file_put_contents(sprintf('%s%s.html', $websitePath . '/' . ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : ''), $filePage->getBasename('.md')), $rendered)) {
-                throw new Exception(sprintf('%s%s.html not written', ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : ''), $filePage->getBasename('.md')));
+            if (false === file_put_contents(sprintf('%s%s', $websitePath . '/' . ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), $rendered)) {
+                throw new Exception(sprintf('%s%s not written', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
             }
-            printf("[OK] write %s%s.html\n", ($markdownIterator->getSubPath() != '' ? $markdownIterator->getSubPath() . '/' : ''), $filePage->getBasename('.md'));
+            printf("[OK] write %s%s\n", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']);
         }
         catch (Exception $e) {
             printf("[KO] %s\n", $e->getMessage());
@@ -320,7 +328,7 @@ function mkConfigFile($filePath) {
 name        = "PHPoole"
 baseline    = "Light and easy static website generator!"
 description = "PHPoole is a simple static website/weblog generator written in PHP. It parses your content written with Markdown, merge it with layouts and generates static HTML files."
-base_url    = "http://narno.org/PHPoole"
+base_url    = "http://localhost:8000"
 language    = "en"
 [author]
 name  = "Arnaud Ligny"
@@ -366,7 +374,7 @@ function mkLayoutDefaultFile($path, $filename, $type='') {
     <meta name="description" content="{{ site.description }}">
     <meta name="author" content="{{ author.name }}">
     <title>{{ site.name }} - {{ title|title }}</title>
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ site.base_url }}/assets/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
       html, body {height: 100%;}
       #wrap {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -60px;padding: 0 0 60px;}
@@ -394,7 +402,7 @@ function mkLayoutDefaultFile($path, $filename, $type='') {
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
               {% for key, item in nav %}
-              <li{% if item.path == path %} class="active"{% endif %}><a href="{{ site.base_url }}/{{ item.path }}">{{ item.title|e }}</a></li>
+              <li{% if item.path == path %} class="active"{% endif %}><a href="{{ site.base_url }}{% if item.path != '' %}/{{ item.path }}{% endif %}">{{ item.title|e }}</a></li>
               {% endfor %}
             </ul>
           </div><!--/.nav-collapse -->
@@ -414,8 +422,8 @@ function mkLayoutDefaultFile($path, $filename, $type='') {
         <p class="text-muted credit">Powered by <a href="http://narno.org/PHPoole">PHPoole</a>, coded by <a href="{{ author.home }}">{{ author.name }}</a>.</p>
       </div>
     </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="{{ site.base_url }}/assets/js/jquery.min.js"></script>
+    <script src="{{ site.base_url }}/assets/js/bootstrap.min.js"></script>
   </body>
 </html>
 EOT;
@@ -512,8 +520,9 @@ function mkContentIndexFile($path, $filename) {
     $subdir = 'content/pages';
     $content = <<<'EOT'
 <!--
-title = PHPoole
+title = Home
 layout = base
+menu = nav
 -->
 Welcome!
 ========
@@ -588,15 +597,15 @@ EOT;
 }
 
 function parseContent($content, $filename) {
+    $parser = new MarkdownExtra;
+    $parser->code_attr_on_pre = true;
     preg_match('/^<!--(.+)-->(.+)/s', $content, $matches);
     if (!$matches) {
-        throw new Exception(sprintf("Could not parse front matter in %s\n", $filename));
+        //throw new Exception(sprintf("Could not parse front matter in %s\n", $filename));
+        return array('content' => $contentHtml = $parser->transform($content));
     }
     list($matchesAll, $rawInfo, $rawContent) = $matches;
     $info = parse_ini_string($rawInfo);
-    //$contentHtml = Markdown::defaultTransform($rawContent);
-    $parser = new MarkdownExtra;
-    $parser->code_attr_on_pre = true;
     $contentHtml = $parser->transform($rawContent);
     return array_merge(
         $info,
