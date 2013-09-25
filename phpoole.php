@@ -93,7 +93,10 @@ if ($opts->getOption('generate')) {
     $pages = array();
     $menu['nav'] = array();
     printf("Generating website in %s\n", $websitePath);
-    $config = getConfig($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
+    if (false === ($config = getConfig($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini'))) {
+        echo "[KO] Nothing to generate" . PHP_EOL;
+        exit(2);
+    }
     if (isset($opts->serve)) {
         $config['site']['base_url'] = 'http://localhost:8000';
         echo "(Youd should re-generate before deploy)" . PHP_EOL;
@@ -150,6 +153,7 @@ if ($opts->getOption('generate')) {
         $rendered = $twig->render($page['layout'], array(
             'site'    => $config['site'],
             'author'  => $config['author'],
+            'source'  => $config['deploy'],
             'title'   => $page['title'],
             'path'    => $page['path'],
             'content' => $page['content'],
@@ -222,12 +226,16 @@ if ($opts->getOption('serve')) {
 // deploy option
 if ($opts->getOption('deploy')) {
     $config = getConfig($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
-    if (!isset($config['deploy']['repository'])) {
+    if (
+        !isset($config['deploy']['repository'])
+            && !isset($config['deploy']['branch'])
+        ) {
         echo '[KO] no repository in config.ini' . PHP_EOL;
         exit(2);
     }
     else {
         $repoUrl = $config['deploy']['repository'];
+        $repoBranch = $config['deploy']['branch'];
     }
     $deployDir = $websitePath . '/../.' . basename($websitePath);
     if (is_dir($deployDir)) {
@@ -244,9 +252,8 @@ if ($opts->getOption('deploy')) {
         RecursiveCopy($websitePath, $deployDir);
         $updateRepoCmd = array(
             'add -A',
-            //'commit -m "Site updated: ' . date('Y-m-d H:i:s') . '"',
-            'commit -m "Update gh-pages via PHPoole"',
-            'push github gh-pages --force'
+            'commit -m "Update ' . $repoBranch . ' via PHPoole"',
+            'push github ' . $repoBranch . ' --force'
         );
         runGitCmd($deployDir, $updateRepoCmd);
     }
@@ -257,11 +264,10 @@ if ($opts->getOption('deploy')) {
         $initRepoCmd = array(
             'init',
             'add -A',
-            //'commit -m "First commit"',
-            'commit -m "Create gh-pages via PHPoole"',
-            'branch -M gh-pages',
+            'commit -m "Create ' . $repoBranch . ' via PHPoole"',
+            'branch -M ' . $repoBranch . '',
             'remote add github ' . $repoUrl,
-            'push github gh-pages --force'
+            'push github ' . $repoBranch . ' --force'
         );
         runGitCmd($deployDir, $initRepoCmd);
     }
@@ -336,6 +342,7 @@ email = "arnaud+phpoole@ligny.org"
 home  = "http://narno.org"
 [deploy]
 repository = "https://github.com/Narno/PHPoole.git"
+branch     = gh-pages
 EOT;
     try {
         if (false === file_put_contents($filePath, $content)) {
@@ -389,20 +396,27 @@ function mkLayoutDefaultFile($path, $filename, $type='') {
       <script src="http://getbootstrap.com/assets/js/html5shiv.js"></script>
       <script src="http://getbootstrap.com/assets/js/respond.min.js"></script>
     <![endif]-->
-   <body>
+  <body>
+    {% if source.repository %}
+    <a href="{{ source.repository }}"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    {% endif %}
     <div id="wrap">
       <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
           <div class="navbar-header">
+            {% if nav %}
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              {% for item in nav %}
               <span class="icon-bar"></span>
+              {% endfor %}
             </button>
+            {% endif %}
             <a class="navbar-brand" href="{{ site.base_url }}">{{ site.name}}</a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              {% for key, item in nav %}
-              <li{% if item.path == path %} class="active"{% endif %}><a href="{{ site.base_url }}{% if item.path != '' %}/{{ item.path }}{% endif %}">{{ item.title|e }}</a></li>
+              {% for item in nav %}
+              <li {% if item.path == path %}class="active"{% endif %}><a href="{{ site.base_url }}{% if item.path != '' %}/{{ item.path }}{% endif %}">{{ item.title|e }}</a></li>
               {% endfor %}
             </ul>
           </div><!--/.nav-collapse -->
@@ -419,7 +433,7 @@ function mkLayoutDefaultFile($path, $filename, $type='') {
     </div>
     <div id="footer">
       <div class="container">
-        <p class="text-muted credit">Powered by <a href="http://narno.org/PHPoole">PHPoole</a>, coded by <a href="{{ author.home }}">{{ author.name }}</a>.</p>
+        <p class="text-muted credit">&copy; <a href="{{ author.home }}">{{ author.name }}</a> {{ 'now'|date('Y') }} - Powered by <a href="http://narno.org/PHPoole">PHPoole</a></p>
       </div>
     </div>
     <script src="{{ site.base_url }}/assets/js/jquery.min.js"></script>
@@ -521,7 +535,7 @@ function mkContentIndexFile($path, $filename) {
     $content = <<<'EOT'
 <!--
 title = Home
-layout = base
+layout = default
 menu = nav
 -->
 Welcome!
@@ -614,7 +628,7 @@ function parseContent($content, $filename) {
 }
 
 function getConfig($filename) {
-    return parse_ini_file($filename, true);
+    return (file_exists($filename) ? parse_ini_file($filename, true) : false);
 }
 
 function runGitCmd($wd, $commands) {
