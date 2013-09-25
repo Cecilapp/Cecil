@@ -114,7 +114,7 @@ if ($opts->getOption('generate')) {
             if (false === ($content = file_get_contents($filePage->getPathname()))) {
                 throw new Exception(sprintf('%s not readable', $filePage->getBasename()));
             }
-            $page = parseContent($content, $filePage->getFilename());
+            $page = parseContent($content, $filePage->getFilename(), $config);
         }
         catch (Exception $e) {
             printf("[KO] %s\n", $e->getMessage());
@@ -342,7 +342,7 @@ email = "arnaud+phpoole@ligny.org"
 home  = "http://narno.org"
 [deploy]
 repository = "https://github.com/Narno/PHPoole.git"
-branch     = gh-pages
+branch     = "gh-pages"
 EOT;
     try {
         if (false === file_put_contents($filePath, $content)) {
@@ -610,9 +610,10 @@ EOT;
     }
 }
 
-function parseContent($content, $filename) {
+function parseContent($content, $filename, $config) {
     $parser = new MarkdownExtra;
     $parser->code_attr_on_pre = true;
+    $parser->predef_urls = array('base_url' => $config['site']['base_url']);
     preg_match('/^<!--(.+)-->(.+)/s', $content, $matches);
     if (!$matches) {
         //throw new Exception(sprintf("Could not parse front matter in %s\n", $filename));
