@@ -12,7 +12,10 @@
 
 //error_reporting(0); 
 
-use Zend\Console;
+use Zend\Console\Console;
+use Zend\Console\Getopt;
+use Zend\Console\ColorInterface as Color;
+use Zend\Console\Exception\RuntimeException as ConsoleException;
 use Michelf\MarkdownExtra;
 
 // Composer autoloading
@@ -31,6 +34,12 @@ else {
     exit(2);
 }
 
+try {
+    $console = Console::getInstance();
+} catch (ConsoleException $e) {
+    // Could not get console adapter - most likely we are not running inside a console window.
+}
+
 define('PHPOOLE_DIRNAME', '_phpoole');
 $websitePath = getcwd();
 
@@ -46,7 +55,7 @@ $rules = array(
 
 // Get and parse console options
 try {
-    $opts = new Console\Getopt($rules);
+    $opts = new Getopt($rules);
     $opts->parse();
 } catch (Console\Exception\RuntimeException $e) {
     echo $e->getUsageMessage();
@@ -63,7 +72,7 @@ if ($opts->getOption('help') || count($opts->getOptions()) == 0) {
 $remainingArgs = $opts->getRemainingArgs();
 if (isset($remainingArgs[0])) {
     if (!is_dir($remainingArgs[0])) {
-        echo 'Invalid directory provided' . PHP_EOL;
+        $console->writeLine('Invalid directory provided', Color::WHITE, Color::RED);
         //echo $opts->getUsageMessage();
         exit(2);
     }
@@ -73,19 +82,24 @@ if (isset($remainingArgs[0])) {
 // init option
 if ($opts->getOption('init')) {
     $layoutType ='';
-    printf("Initializing new website in %s\n", $websitePath);
+    $console->writeLine(sprintf("Initializing new website in %s", $websitePath), Color::BLACK, Color::WHITE);
     if ((string)$opts->init == 'bootstrap') {
         $layoutType = 'bootstrap';
     }
-    mkInitDir($websitePath);
-    mkConfigFile($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
-    mkLayoutsDir($websitePath . '/' . PHPOOLE_DIRNAME);
-    mkLayoutDefaultFile($websitePath . '/' . PHPOOLE_DIRNAME, 'default.html', $layoutType);
-    mkAssetsDir($websitePath . '/' . PHPOOLE_DIRNAME, $layoutType);
-    mkContentDir($websitePath . '/'. PHPOOLE_DIRNAME);
-    mkContentIndexFile($websitePath . '/' . PHPOOLE_DIRNAME, 'index.md');
-    mkRouterFile($websitePath . '/' . PHPOOLE_DIRNAME . '/router.php');
-    mkReadmeFile($websitePath . '/README.md');
+    try {
+        $console->writeLine(sprintf("[OK] %s", mkInitDir($websitePath)), Color::WHITE, Color::GREEN);
+        mkConfigFile($websitePath . '/' . PHPOOLE_DIRNAME . '/config.ini');
+        mkLayoutsDir($websitePath . '/' . PHPOOLE_DIRNAME);
+        mkLayoutDefaultFile($websitePath . '/' . PHPOOLE_DIRNAME, 'default.html', $layoutType);
+        mkAssetsDir($websitePath . '/' . PHPOOLE_DIRNAME, $layoutType);
+        mkContentDir($websitePath . '/'. PHPOOLE_DIRNAME);
+        mkContentIndexFile($websitePath . '/' . PHPOOLE_DIRNAME, 'index.md');
+        mkRouterFile($websitePath . '/' . PHPOOLE_DIRNAME . '/router.php');
+        mkReadmeFile($websitePath . '/README.md');
+    }  
+    catch (Exception $e) {
+        $console->writeLine(sprintf("[KO] %s", $e->getMessage()), Color::WHITE, Color::RED);
+    }
 }
 
 // generate option
@@ -308,24 +322,18 @@ if ($opts->getOption('list')) {
  */
 
 function mkInitDir($path, $force = false) {
-    try {
-        if (is_dir($path . '/' . PHPOOLE_DIRNAME)) {
-            if ($force) {
-                RecursiveRmdir($path . '/' . PHPOOLE_DIRNAME);
-            }
-            else {
-                throw new Exception(sprintf('%s already exist in %s', PHPOOLE_DIRNAME, basename($path)));
-            }
+    if (is_dir($path . '/' . PHPOOLE_DIRNAME)) {
+        if ($force) {
+            RecursiveRmdir($path . '/' . PHPOOLE_DIRNAME);
         }
-        if (false === mkdir($path . '/' . PHPOOLE_DIRNAME)) {
-            throw new Exception(sprintf('%s not created', $path));
+        else {
+            throw new Exception(sprintf('%s already exist in %s', PHPOOLE_DIRNAME, basename($path)));
         }
-        printf("[OK] create %s\n", PHPOOLE_DIRNAME);
-    }  
-    catch (Exception $e) {
-        printf("[KO] %s\n", $e->getMessage());
-        exit(2);
     }
+    if (false === mkdir($path . '/' . PHPOOLE_DIRNAME)) {
+        throw new Exception(sprintf('%s not created', $path));
+    }
+    return sprintf("create %s", PHPOOLE_DIRNAME);
 }
 
 function mkConfigFile($filePath) {
