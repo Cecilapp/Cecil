@@ -43,6 +43,31 @@ try {
 define('PHPOOLE_DIRNAME', '_phpoole');
 $websitePath = getcwd();
 
+
+/**
+ * PHPoole class
+ * 
+ * @todo some OOP! :-P
+ */
+class PHPoole
+{    
+    protected $websitePath;
+    public $websiteFileInfo;
+
+    public function __construct($websitePath)
+    {
+        $splFileInfo = new SplFileInfo($websitePath);
+        if (!$splFileInfo->isDir()) {
+            throw new Exception('Invalid directory provided');
+        }
+        else {
+            $this->websitePath = $splFileInfo->getRealPath();
+            $this->websiteFileInfo = $splFileInfo;
+        }
+    }
+}
+
+
 // Defines rules
 $rules = array(
     'help|h'     => 'Get PHPoole usage message',
