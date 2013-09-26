@@ -404,13 +404,11 @@ function mkLayoutDefaultFile($path, $filename, $type='') {
       <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
           <div class="navbar-header">
-            {% if nav %}
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              {% for item in nav %}
               <span class="icon-bar"></span>
-              {% endfor %}
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
             </button>
-            {% endif %}
             <a class="navbar-brand" href="{{ site.base_url }}">{{ site.name}}</a>
           </div>
           <div class="collapse navbar-collapse">
