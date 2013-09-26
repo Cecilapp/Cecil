@@ -10,7 +10,8 @@
  * Copyright (c) 2013 Arnaud Ligny
  */
 
-//error_reporting(0); 
+//error_reporting(0);
+define('DS', DIRECTORY_SEPARATOR);
 
 use Zend\Console\Console;
 use Zend\Console\Getopt;
@@ -50,9 +51,13 @@ $websitePath = getcwd();
  * @todo some OOP! :-P
  */
 class PHPoole
-{    
+{
+    const PHPOOLE_DIRNAME = '_phpoole';
+    const CONFIG_FILENAME = 'config.ini';
+    const LAYOUTS_DIRNAME = 'layouts';
+
     protected $websitePath;
-    public $websiteFileInfo;
+    protected $websiteFileInfo;
 
     public function __construct($websitePath)
     {
@@ -61,9 +66,78 @@ class PHPoole
             throw new Exception('Invalid directory provided');
         }
         else {
-            $this->websitePath = $splFileInfo->getRealPath();
             $this->websiteFileInfo = $splFileInfo;
+            $this->websitePath = $splFileInfo->getRealPath();
         }
+    }
+
+    public function getWebsiteFileInfo()
+    {
+        return $this->websiteFileInfo;
+    }
+
+    public function getWebsitePath()
+    {
+        return $this->websitePath;
+    }
+
+    public function init($force = false) {
+        if (file_exists($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME)) {
+            if ($force === true) {
+                RecursiveRmdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
+            }
+            else {
+                throw new Exception('Website already initialized');
+            }
+        }
+        if (!mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME)) {
+            throw new Exception('Not able to initialize a new website');
+        }
+        $messages = array(
+            $this->createConfigFile(),
+            $this->createLayoutsDir(),
+            $this->createLayoutDefaultFile(),
+            //...
+        );
+        return $messages;
+    }
+
+    private function createConfigFile()
+    {
+        $content = <<<'EOT'
+[site]
+name        = "PHPoole"
+baseline    = "Light and easy static website generator!"
+description = "PHPoole is a simple static website/weblog generator written in PHP. It parses your content written with Markdown, merge it with layouts and generates static HTML files."
+base_url    = "http://localhost:8000"
+language    = "en"
+[author]
+name  = "Arnaud Ligny"
+email = "arnaud+phpoole@ligny.org"
+home  = "http://narno.org"
+[deploy]
+repository = "https://github.com/Narno/PHPoole.git"
+branch     = "gh-pages"
+EOT;
+
+        if (!file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME, $content)) {
+            throw new Exception('config file not created');
+        }
+        return 'Config file created';
+    }
+
+    private function createLayoutsDir()
+    {
+        if (!mkdir($this->websitePath . '/' . self::LAYOUTS_DIRNAME)) {
+            throw new Exception('layouts directory not created');
+        }
+        return 'Layouts directory not created';
+    }
+
+    private function createLayoutDefaultFile()
+    {
+        //...
+        return 'Default layout file created';
     }
 }
 
@@ -82,7 +156,7 @@ $rules = array(
 try {
     $opts = new Getopt($rules);
     $opts->parse();
-} catch (Console\Exception\RuntimeException $e) {
+} catch (ConsoleException $e) {
     echo $e->getUsageMessage();
     exit(2);
 }
@@ -101,8 +175,24 @@ if (isset($remainingArgs[0])) {
         //echo $opts->getUsageMessage();
         exit(2);
     }
-    $websitePath = str_replace(DIRECTORY_SEPARATOR, '/', realpath($remainingArgs[0]));
+    $websitePath = str_replace(DS, '/', realpath($remainingArgs[0]));
 }
+
+// DEBUG
+/*
+$phpoole = new PHPoole($websitePath);
+try {
+    $messages = $phpoole->init();
+    foreach ($messages as $message) {
+        $console->writeLine(sprintf("[OK] %s", $message), Color::WHITE, Color::GREEN);
+    }
+}
+catch (Exception $e) {
+    $console->writeLine(sprintf("[KO] %s", $e->getMessage()), Color::WHITE, Color::RED);
+    exit(2);
+}
+exit();
+*/
 
 // init option
 if ($opts->getOption('init')) {
@@ -735,10 +825,10 @@ function RecursiveCopy($source, $dest) {
     );
     foreach ($iterator as $item) {
         if ($item->isDir()) {
-            mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+            mkdir($dest . DS . $iterator->getSubPathName());
         }
         else {
-            copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+            copy($item, $dest . DS . $iterator->getSubPathName());
         }
     }
 }
