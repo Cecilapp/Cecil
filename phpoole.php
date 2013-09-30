@@ -547,7 +547,7 @@ EOT;
         $menu['nav'] = array();
         $config = $this->getConfig();
         if (!empty($configToMerge)) {
-            $config = array_merge($config, $configToMerge);
+            $config = array_replace_recursive($config, $configToMerge);
         }
         $twigLoader = new Twig_Loader_Filesystem($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME);
         $twig = new Twig_Environment($twigLoader, array(
@@ -619,9 +619,9 @@ EOT;
         if (is_dir($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME)) {
             RecursiveRmdir($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME);
         }
-        RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME);
+        RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
         $messages[] = 'Copy assets directory (and sub)';
-        $messages[] =$this->createReadmeFile();
+        $messages[] = $this->createReadmeFile();
         return $messages;
     }
 
