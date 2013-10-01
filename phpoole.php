@@ -11,7 +11,6 @@
  */
 
 //error_reporting(0);
-define('DS', DIRECTORY_SEPARATOR);
 
 use Zend\Console\Console;
 use Zend\Console\Getopt;
@@ -37,10 +36,12 @@ else {
 
 try {
     $console = Console::getInstance();
+    $phpooleConsole = new PHPooleConsole($console);
 } catch (ConsoleException $e) {
     // Could not get console adapter - most likely we are not running inside a console window.
 }
 
+define('DS', DIRECTORY_SEPARATOR);
 define('PHPOOLE_DIRNAME', '_phpoole');
 $websitePath = getcwd();
 
@@ -73,8 +74,7 @@ if ($opts->getOption('help') || count($opts->getOptions()) == 0) {
 $remainingArgs = $opts->getRemainingArgs();
 if (isset($remainingArgs[0])) {
     if (!is_dir($remainingArgs[0])) {
-        $console->writeLine('Invalid directory provided', Color::WHITE, Color::RED);
-        //echo $opts->getUsageMessage();
+        $phpooleConsole->wlError('Invalid directory provided');
         exit(2);
     }
     $websitePath = str_replace(DS, '/', realpath($remainingArgs[0]));
@@ -85,58 +85,58 @@ try {
     $phpoole = new PHPoole($websitePath);
 }
 catch (Exception $e) {
-    $console->writeLine(sprintf("[KO] %s", $e->getMessage()), Color::WHITE, Color::RED);
+    $phpooleConsole->wlError($e->getMessage());
     exit(2);
 }
 
 // init option
 if ($opts->getOption('init')) {
     $layoutType = '';
-    $console->writeLine(sprintf("Initializing new website in %s", $websitePath), Color::BLACK, Color::WHITE);
+    $phpooleConsole->wlInfo('Initializing new website');
     if ((string)$opts->init == 'bootstrap') {
         $layoutType = 'bootstrap';
     }
     try {
         $messages = $phpoole->init($layoutType);
         foreach ($messages as $message) {
-            $console->writeLine(sprintf("[OK] %s", $message), Color::WHITE, Color::GREEN);
+            $phpooleConsole->wlDone($message);
         }
     }  
     catch (Exception $e) {
-        $console->writeLine(sprintf("[KO] %s", $e->getMessage()), Color::WHITE, Color::RED);
+        $phpooleConsole->wlError($e->getMessage());
     }
 }
 
 // generate option
 if ($opts->getOption('generate')) {
     $config = array();
-    $console->writeLine('Generate website', Color::BLACK, Color::WHITE);
+    $phpooleConsole->wlInfo('Generate website');
     if (isset($opts->serve)) {
         $config['site']['base_url'] = 'http://localhost:8000';
-        $console->writeLine('(Youd should re-generate before deploy)');
+        $phpooleConsole->wlInfo('Youd should re-generate before deploy');
     }
     try {
         $messages = $phpoole->generate($config);
         foreach ($messages as $message) {
-            $console->writeLine(sprintf("[OK] %s", $message), Color::WHITE, Color::GREEN);
+            $phpooleConsole->wlDone($message);
         }
     }  
     catch (Exception $e) {
-        $console->writeLine(sprintf("[KO] %s", $e->getMessage()), Color::WHITE, Color::RED);
+        $phpooleConsole->wlError($e->getMessage());
     }
 }
 
 // serve option
 if ($opts->getOption('serve')) {
     if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-        $console->writeLine('PHP 5.4+ required to run built-in server (your version: ' . PHP_VERSION . ')', Color::WHITE, Color::RED);
+        $phpooleConsole->wlError('PHP 5.4+ required to run built-in server (your version: ' . PHP_VERSION . ')');
         exit(2);
     }
     if (!is_file(sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME))) {
-        $console->writeLine('Router not found', Color::WHITE, Color::RED);
+        $phpooleConsole->wlError('Router not found');
         exit(2);
     }
-    $console->writeLine(sprintf("Start server http://%s:%d", 'localhost', '8000'), Color::BLACK, Color::WHITE);
+    $phpooleConsole->wlInfo(sprintf("Start server http://%s:%d", 'localhost', '8000'));
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         $command = sprintf(
             //'START /B php -S %s:%d -t %s %s > nul',
@@ -163,21 +163,22 @@ if ($opts->getOption('serve')) {
 
 // deploy option
 if ($opts->getOption('deploy')) {
-    $console->writeLine('Deploy website on GitHub', Color::BLACK, Color::WHITE);
+    $phpooleConsole->wlInfo('Deploy website on GitHub');
     try {
         $phpoole->deploy();
     }  
     catch (Exception $e) {
         $console->writeLine(sprintf("[KO] %s", $e->getMessage()), Color::WHITE, Color::RED);
+        $phpooleConsole->wlError($e->getMessage());
     }
 }
 
 // list option
 if ($opts->getOption('list')) {
     if (isset($opts->list) && $opts->list == 'pages') {
-        $console->writeLine(sprintf("List pages in %s", $websitePath), Color::BLACK, Color::WHITE);
+        $phpooleConsole->wlInfo('List pages');
         if (!is_dir($websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages')) {
-            $console->writeLine('Invalid content/pages directory', Color::WHITE, Color::RED);
+            $phpooleConsole->wlError('Invalid content/pages directory');
             echo $opts->getUsageMessage();
             exit(2);
         }
@@ -192,7 +193,7 @@ if ($opts->getOption('list')) {
         }
     }
     else if (isset($opts->list) && $opts->list == 'posts') {
-        printf("List posts in %s\n", $websitePath);
+        $phpooleConsole->wlInfo('List posts');
         // @todo todo! :-)
     }
     else {
@@ -253,6 +254,7 @@ class PHPoole
             throw new Exception('Cannot create root PHPoole directory');
         }
         $messages = array(
+            self::PHPOOLE_DIRNAME . ' directory created',
             $this->createConfigFile(),
             $this->createLayoutsDir(),
             $this->createLayoutDefaultFile($type),
@@ -423,9 +425,28 @@ EOT;
     {
         if ($type == 'bootstrap') {
             echo 'Downloading Twitter Bootstrap assets files and jQuery script...' . PHP_EOL;
-            exec(sprintf('curl %s > %s/css/bootstrap.min.css', 'https://raw.github.com/twbs/bootstrap/v3.0.0/dist/css/bootstrap.min.css', $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME));
-            exec(sprintf('curl %s > %s/js/bootstrap.min.js', 'https://raw.github.com/twbs/bootstrap/v3.0.0/dist/js/bootstrap.min.js', $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME));
-            exec(sprintf('curl %s > %s/js/jquery.min.js', 'http://code.jquery.com/jquery-2.0.3.min.js', $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME));
+            $curlCommandes = array(
+                sprintf('curl %s > %s/css/bootstrap.min.css 2>&1', 'https://raw.github.com/twbs/bootstrap/v3.0.0/dist/css/bootstrap.min.css', $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME),
+                sprintf('curl %s > %s/js/bootstrap.min.js 2>&1', 'https://raw.github.com/twbs/bootstrap/v3.0.0/dist/js/bootstrap.min.js', $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME),
+                sprintf('curl %s > %s/js/jquery.min.js 2>&1', 'http://code.jquery.com/jquery-2.0.3.min.js', $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME),
+            );
+            foreach ($curlCommandes as $cmd) {
+                exec($cmd, $output, $return_var);
+            }
+            if ($return_var != 0) {
+                switch ($return_var) {
+                    case 7:
+                        $exceptionMessage = 'Cannot connect to host';
+                        break;
+                    case 1:
+                        $exceptionMessage = 'Be sure libcurl is installed';
+                        break;
+                    default:
+                        $exceptionMessage = sprintf("Cannot download Bootstrap files, cURL error %s", $return_var);
+                        break;
+                }
+                throw new Exception($exceptionMessage);
+            }
             return 'Default assets files downloaded';
         }
         else {
@@ -684,6 +705,35 @@ EOT;
     }
 }
 
+class PHPooleConsole
+{
+    protected $console;
+
+    public function __construct($console)
+    {
+        if (!($console instanceof Zend\Console\Adapter\AdapterInterface)) {
+            throw new Exception("Error");
+        }
+        $this->console = $console;
+    }
+
+    public function wlInfo($text)
+    {
+        echo '[' , $this->console->write('INFO', Color::YELLOW) , ']' . "\t";
+        $this->console->writeLine($text);
+    }
+    public function wlDone($text)
+    {
+        echo '[' , $this->console->write('DONE', Color::GREEN) , ']' . "\t";
+        $this->console->writeLine($text);
+    }
+    public function wlError($text)
+    {
+        echo '[' , $this->console->write('ERROR', Color::RED) , ']' . "\t";
+        $this->console->writeLine($text);
+    }
+}
+
 /**
  * Utils
  */
@@ -763,12 +813,12 @@ class MarkdownFileFilter extends FilterIterator
     {
         if (is_string($dirOrIterator)) {
             if (!is_dir($dirOrIterator)) {
-                throw new Exception\InvalidArgumentException('Expected a valid directory name');
+                throw new InvalidArgumentException('Expected a valid directory name');
             }
             $dirOrIterator = new RecursiveDirectoryIterator($dirOrIterator, RecursiveDirectoryIterator::FOLLOW_SYMLINKS);
         }
         elseif (!$dirOrIterator instanceof DirectoryIterator) {
-            throw new Exception\InvalidArgumentException('Expected a DirectoryIterator');
+            throw new InvalidArgumentException('Expected a DirectoryIterator');
         }
         if ($dirOrIterator instanceof RecursiveIterator) {
             $dirOrIterator = new RecursiveIteratorIterator($dirOrIterator);
