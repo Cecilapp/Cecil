@@ -13,9 +13,10 @@
 //error_reporting(0);
 
 use Zend\Console\Console;
-use Zend\Console\Getopt;
 use Zend\Console\ColorInterface as Color;
 use Zend\Console\Exception\RuntimeException as ConsoleException;
+use Zend\Console\Getopt;
+use Zend\EventManager\EventManager;
 use Michelf\MarkdownExtra;
 
 // Composer autoloading
@@ -218,6 +219,7 @@ class PHPoole
 
     protected $websitePath;
     protected $websiteFileInfo;
+    protected $events;
 
     public function __construct($websitePath)
     {
@@ -229,6 +231,9 @@ class PHPoole
             $this->websiteFileInfo = $splFileInfo;
             $this->websitePath = $splFileInfo->getRealPath();
         }
+        // Load plugins
+        $this->events = new EventManager();
+        $this->loadPlugins();
     }
 
     public function getWebsiteFileInfo()
@@ -241,7 +246,35 @@ class PHPoole
         return $this->websitePath;
     }
 
-    public function init($type='default', $force=false) {
+    private function loadPlugins()
+    {
+        $pluginsDir = __DIR__ . '/Plugins';
+        if (is_dir($pluginsDir)) {
+            $pluginsIterator = new FilesystemIterator($pluginsDir);
+            foreach ($pluginsIterator as $plugin) {
+                if ($plugin->isFile()) {
+                    include_once($plugin);
+                    $pluginName = $plugin->getBasename('.php');
+                    if (class_exists($pluginName)) {
+                        $pluginclass = new $pluginName($this->events);
+                        if (method_exists($pluginclass, 'preInit')) {
+                            $this->events->attach('init.pre', array($pluginclass, 'preInit'));
+                        }
+                        if (method_exists($pluginclass, 'postInit')) {
+                            $this->events->attach('init.post', array($pluginclass, 'postInit'));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function init($type='default', $force=false)
+    {
+        $results = $this->events->trigger(__FUNCTION__ . '.pre', $this, compact('type', 'force'));
+        if ($results->last()) {
+            extract($results->last());
+        }
         if (file_exists($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME)) {
             if ($force === true) {
                 RecursiveRmdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
@@ -264,6 +297,7 @@ class PHPoole
             $this->createContentDefaultFile(),
             $this->createRouterFile(),
         );
+        $this->events->trigger(__FUNCTION__ . '.post', $this, compact('type', 'force'));
         return $messages;
     }
 
@@ -705,6 +739,9 @@ EOT;
     }
 }
 
+/**
+ * PHPoole console helper
+ */
 class PHPooleConsole
 {
     protected $console;
@@ -731,6 +768,34 @@ class PHPooleConsole
     {
         echo '[' , $this->console->write('ERROR', Color::RED) , ']' . "\t";
         $this->console->writeLine($text);
+    }
+}
+
+/**
+ * PHPoole plugin abstract
+ */
+abstract class PHPoole_Plugin
+{
+    const DEBUG = true;
+
+    public function __call($name, $args)
+    {
+        if (self::DEBUG) {
+            printf("[EVENT] %s is not implemented in %s plugin\n", $name, get_class($this));
+        }
+    }
+
+    public function debug($event, $params, $state='')
+    {
+        if (self::DEBUG) {
+            printf(
+                '[EVENT] %s/%s %s %s' . "\n",
+                get_class($this),
+                $event,
+                $state,
+                json_encode($params)
+            );
+        }
     }
 }
 
