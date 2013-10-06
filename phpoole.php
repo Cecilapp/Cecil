@@ -49,7 +49,7 @@ $websitePath = getcwd();
 // Defines rules
 $rules = array(
     'help|h'     => 'Get PHPoole usage message',
-    'init|i-s'   => 'Build a new PHPoole website (with <bootstrap>)',
+    'init|i-s'   => 'Build a new PHPoole website (<force>)',
     'generate|g' => 'Generate static files',
     'serve|s'    => 'Start built-in web server',
     'deploy|d'   => 'Deploy static files',
@@ -92,13 +92,13 @@ catch (Exception $e) {
 
 // init option
 if ($opts->getOption('init')) {
-    $layoutType = '';
+    $force = false;
     $phpooleConsole->wlInfo('Initializing new website');
-    if ((string)$opts->init == 'bootstrap') {
-        $layoutType = 'bootstrap';
+    if ((string)$opts->init == 'force') {
+        $force = true;
     }
     try {
-        $messages = $phpoole->init($layoutType);
+        $messages = $phpoole->init($force);
         foreach ($messages as $message) {
             $phpooleConsole->wlDone($message);
         }
@@ -281,9 +281,9 @@ class PHPoole
         return $this->websitePath;
     }
 
-    public function init($type='default', $force=false)
+    public function init($force=false)
     {
-        $results = $this->events->trigger(__FUNCTION__ . '.pre', $this, compact('type', 'force'));
+        $results = $this->events->trigger(__FUNCTION__ . '.pre', $this, compact('force'));
         if ($results->last()) {
             extract($results->last());
         }
@@ -302,14 +302,17 @@ class PHPoole
             self::PHPOOLE_DIRNAME . ' directory created',
             $this->createConfigFile(),
             $this->createLayoutsDir(),
-            $this->createLayoutDefaultFile($type),
+            $this->createLayoutDefaultFile(),
             $this->createAssetsDir(),
-            $this->createAssetDefaultFiles($type),
+            $this->createAssetDefaultFiles(),
             $this->createContentDir(),
             $this->createContentDefaultFile(),
             $this->createRouterFile(),
         );
-        $this->events->trigger(__FUNCTION__ . '.post', $this, compact('type', 'force', 'messages'));
+        $results = $this->events->trigger(__FUNCTION__ . '.post', $this, compact('force', 'messages'));
+        if ($results->last()) {
+            extract($results->last());
+        }
         return $messages;
     }
 
@@ -345,79 +348,9 @@ EOT;
         return 'Layouts directory created';
     }
 
-    private function createLayoutDefaultFile($type='')
+    private function createLayoutDefaultFile()
     {
-        if ($type == 'bootstrap') {
-            $content = <<<'EOT'
-<!DOCTYPE html>
-<html lang="{{ site.language }}">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{ site.description }}">
-    <meta name="author" content="{{ author.name }}">
-    <title>{{ site.name }} - {{ title|title }}</title>
-    <link href="{{ site.base_url }}/assets/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-      html, body {height: 100%;}
-      #wrap {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -60px;padding: 0 0 60px;}
-      #footer {height: 60px;background-color: #f5f5f5;}
-      #wrap > .container {padding: 60px 15px 0;}
-      .container .credit {margin: 20px 0;}
-      #footer > .container {padding-left: 15px;padding-right: 15px;}
-      code {font-size: 80%;}
-    </style>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="http://getbootstrap.com/assets/js/html5shiv.js"></script>
-      <script src="http://getbootstrap.com/assets/js/respond.min.js"></script>
-    <![endif]-->
-  <body>
-    {% if source.repository %}
-    <a href="{{ source.repository }}"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 9999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
-    {% endif %}
-    <div id="wrap">
-      <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ site.base_url }}">{{ site.name}}</a>
-          </div>
-          <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              {% for item in nav %}
-              <li {% if item.path == path %}class="active"{% endif %}><a href="{{ site.base_url }}{% if item.path != '' %}/{{ item.path }}{% endif %}">{{ item.title|e }}</a></li>
-              {% endfor %}
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-      <!-- Begin page content -->
-      <div class="container">
-        <div class="page-header">
-          <h1>{{ site.name}}</h1>
-          <p class="lead"><em>{{ site.baseline }}</em></p>
-        </div>
-        {{ content }}
-      </div>
-    </div>
-    <div id="footer">
-      <div class="container">
-        <p class="text-muted credit">&copy; <a href="{{ author.home }}">{{ author.name }}</a> {{ 'now'|date('Y') }} - Powered by <a href="http://narno.org/PHPoole">PHPoole</a></p>
-      </div>
-    </div>
-    <script src="{{ site.base_url }}/assets/js/jquery.min.js"></script>
-    <script src="{{ site.base_url }}/assets/js/bootstrap.min.js"></script>
-  </body>
-</html>
-EOT;
-        }
-        else {
-            $content = <<<'EOT'
+        $content = <<<'EOT'
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="{{ site.language }}"><![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js" lang="{{ site.language }}"><!--<![endif]-->
@@ -444,7 +377,6 @@ EOT;
 </body>
 </html>
 EOT;
-        }
         if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/default.html', $content)) {
             throw new Exception('Cannot create the default layout file');
         }
@@ -467,37 +399,9 @@ EOT;
         return 'Assets directory created';
     }
 
-    private function createAssetDefaultFiles($type='')
+    private function createAssetDefaultFiles()
     {
-        if ($type == 'bootstrap') {
-            echo 'Downloading Twitter Bootstrap assets files and jQuery script...' . PHP_EOL;
-            $curlCommandes = array(
-                sprintf('curl %s > %s/css/bootstrap.min.css 2>&1', 'https://raw.github.com/twbs/bootstrap/v3.0.0/dist/css/bootstrap.min.css', $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME),
-                sprintf('curl %s > %s/js/bootstrap.min.js 2>&1', 'https://raw.github.com/twbs/bootstrap/v3.0.0/dist/js/bootstrap.min.js', $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME),
-                sprintf('curl %s > %s/js/jquery.min.js 2>&1', 'http://code.jquery.com/jquery-2.0.3.min.js', $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME),
-            );
-            foreach ($curlCommandes as $cmd) {
-                exec($cmd, $output, $return_var);
-            }
-            if ($return_var != 0) {
-                switch ($return_var) {
-                    case 7:
-                        $exceptionMessage = 'Cannot connect to host';
-                        break;
-                    case 1:
-                        $exceptionMessage = 'Be sure libcurl is installed';
-                        break;
-                    default:
-                        $exceptionMessage = sprintf("Cannot download Bootstrap files, cURL error %s", $return_var);
-                        break;
-                }
-                throw new Exception($exceptionMessage);
-            }
-            return 'Default assets files downloaded';
-        }
-        else {
-            return 'Assets files not needed';
-        }
+        return 'Default assets files not needed';
     }
 
     private function createContentDir()
