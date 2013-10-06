@@ -14,8 +14,8 @@
 
 use Zend\Console\Console;
 use Zend\Console\ColorInterface as Color;
-use Zend\Console\Exception\RuntimeException as ConsoleException;
 use Zend\Console\Getopt;
+use Zend\Console\Exception\RuntimeException as ConsoleException;
 use Zend\EventManager\EventManager;
 use Michelf\MarkdownExtra;
 
@@ -110,14 +110,14 @@ if ($opts->getOption('init')) {
 
 // generate option
 if ($opts->getOption('generate')) {
-    $config = array();
+    $generateConfig = array();
     $phpooleConsole->wlInfo('Generate website');
     if (isset($opts->serve)) {
-        $config['site']['base_url'] = 'http://localhost:8000';
+        $generateConfig['site']['base_url'] = 'http://localhost:8000';
         $phpooleConsole->wlInfo('Youd should re-generate before deploy');
     }
     try {
-        $messages = $phpoole->generate($config);
+        $messages = $phpoole->generate($generateConfig);
         foreach ($messages as $message) {
             $phpooleConsole->wlDone($message);
         }
@@ -166,10 +166,50 @@ if ($opts->getOption('serve')) {
 if ($opts->getOption('deploy')) {
     $phpooleConsole->wlInfo('Deploy website on GitHub');
     try {
-        $phpoole->deploy();
+        $config = $phpoole->getConfig();
+        if (!isset($config['deploy']['repository']) && !isset($config['deploy']['branch'])) {
+            throw new Exception('Cannot found the repository name in the config file');
+        }
+        else {
+            $repoUrl = $config['deploy']['repository'];
+            $repoBranch = $config['deploy']['branch'];
+        }
+        $deployDir = $phpoole->getWebsitePath() . '/../.' . basename($phpoole->getWebsitePath());
+        if (is_dir($deployDir)) {
+            //echo 'Deploying files to GitHub...' . PHP_EOL;
+            $deployIterator = new FilesystemIterator($deployDir);
+            foreach ($deployIterator as $deployFile) {
+                if ($deployFile->isFile()) {
+                    @unlink($deployFile->getPathname());
+                }
+                if ($deployFile->isDir() && $deployFile->getFilename() != '.git') {
+                    RecursiveRmDir($deployFile->getPathname());
+                }
+            }
+            RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
+            $updateRepoCmd = array(
+                'add -A',
+                'commit -m "Update ' . $repoBranch . ' via PHPoole"',
+                'push github ' . $repoBranch . ' --force'
+            );
+            runGitCmd($deployDir, $updateRepoCmd);
+        }
+        else {
+            //echo 'Setting up GitHub deployment...' . PHP_EOL;
+            @mkdir($deployDir);
+            RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
+            $initRepoCmd = array(
+                'init',
+                'add -A',
+                'commit -m "Create ' . $repoBranch . ' via PHPoole"',
+                'branch -M ' . $repoBranch . '',
+                'remote add github ' . $repoUrl,
+                'push github ' . $repoBranch . ' --force'
+            );
+            runGitCmd($deployDir, $initRepoCmd);
+        }
     }  
     catch (Exception $e) {
-        $console->writeLine(sprintf("[KO] %s", $e->getMessage()), Color::WHITE, Color::RED);
         $phpooleConsole->wlError($e->getMessage());
     }
 }
@@ -177,20 +217,15 @@ if ($opts->getOption('deploy')) {
 // list option
 if ($opts->getOption('list')) {
     if (isset($opts->list) && $opts->list == 'pages') {
-        $phpooleConsole->wlInfo('List pages');
-        if (!is_dir($websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages')) {
-            $phpooleConsole->wlError('Invalid content/pages directory');
-            echo $opts->getUsageMessage();
-            exit(2);
-        }
-        $contentIterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($websitePath . '/' . PHPOOLE_DIRNAME . '/content/pages'),
-            RecursiveIteratorIterator::CHILD_FIRST
-        );    
-        foreach($contentIterator as $file) {
-            if ($file->isFile()) {
-                printf("- %s%s\n", ($contentIterator->getSubPath() != '' ? $contentIterator->getSubPath() . '/' : ''), $file->getFilename());
+        try {
+            $phpooleConsole->wlInfo('List pages');
+            $pages = $phpoole->getPages();
+            foreach($pages as $page => $pagePath) {
+                printf("- %s\n", $pagePath);
             }
+        }
+        catch (Exception $e) {
+            $phpooleConsole->wlError($e->getMessage());
         }
     }
     else if (isset($opts->list) && $opts->list == 'posts') {
@@ -202,7 +237,6 @@ if ($opts->getOption('list')) {
         exit(2);
     }
 }
-
 
 /**
  * PHPoole API
@@ -216,6 +250,7 @@ class PHPoole
     const CONTENT_DIRNAME = 'content';
     const CONTENT_PAGES_DIRNAME = 'pages';
     const CONTENT_POSTS_DIRNAME = 'posts';
+    const PLUGINS_DIRNAME  = 'plugins';
 
     protected $websitePath;
     protected $websiteFileInfo;
@@ -585,7 +620,7 @@ EOT;
         ));
         $twig->addExtension(new Twig_Extension_Debug());
         $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
-        $markdownIterator = new MarkdownFileFilter($pagesPath);
+        $markdownIterator = new FileFilterIterator($pagesPath, 'md');
         foreach ($markdownIterator as $filePage) {
             if (false === ($content = @file_get_contents($filePage->getPathname()))) {
                 throw new Exception(sprintf('Cannot get content of %s/%s', $markdownIterator->getSubPath(), $filePage->getBasename()));
@@ -654,67 +689,28 @@ EOT;
         return $messages;
     }
 
-    public function deploy()
+    public function getPages()
     {
-        $config = $this->getConfig();
-        if (!isset($config['deploy']['repository']) && !isset($config['deploy']['branch'])) {
-            throw new Exception('Cannot found the repository name in the config file');
+        $pages = array();
+        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
+        if (!is_dir($pagesPath)) {
+            throw new Exception('Invalid content/pages directory');
         }
-        else {
-            $repoUrl = $config['deploy']['repository'];
-            $repoBranch = $config['deploy']['branch'];
-        }
-        $deployDir = $this->getWebsitePath() . '/../.' . basename($this->getWebsitePath());
-        if (is_dir($deployDir)) {
-            //echo 'Deploying files to GitHub...' . PHP_EOL;
-            $deployIterator = new FilesystemIterator($deployDir);
-            foreach ($deployIterator as $deployFile) {
-                if ($deployFile->isFile()) {
-                    @unlink($deployFile->getPathname());
-                }
-                if ($deployFile->isDir() && $deployFile->getFilename() != '.git') {
-                    RecursiveRmDir($deployFile->getPathname());
-                }
+        $pagesIterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($pagesPath),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );    
+        foreach($pagesIterator as $page) {
+            if ($page->isFile()) {
+                $pages = array($page->getFilename() => ($pagesIterator->getSubPath() != '' ? $pagesIterator->getSubPath() . '/' : '') . $page->getFilename());
             }
-            RecursiveCopy($this->getWebsitePath(), $deployDir);
-            $updateRepoCmd = array(
-                'add -A',
-                'commit -m "Update ' . $repoBranch . ' via PHPoole"',
-                'push github ' . $repoBranch . ' --force'
-            );
-            $this->runGitCmd($deployDir, $updateRepoCmd);
         }
-        else {
-            //echo 'Setting up GitHub deployment...' . PHP_EOL;
-            @mkdir($deployDir);
-            RecursiveCopy($this->getWebsitePath(), $deployDir);
-            $initRepoCmd = array(
-                'init',
-                'add -A',
-                'commit -m "Create ' . $repoBranch . ' via PHPoole"',
-                'branch -M ' . $repoBranch . '',
-                'remote add github ' . $repoUrl,
-                'push github ' . $repoBranch . ' --force'
-            );
-            $this->runGitCmd($deployDir, $initRepoCmd);
-        }
-    }
-
-    public function runGitCmd($wd, $commands)
-    {
-        $cwd = getcwd();
-        chdir($wd);
-        exec('git config core.autocrlf false');
-        foreach ($commands as $cmd) {
-            //printf("> git %s\n", $cmd);
-            exec(sprintf('git %s', $cmd));
-        }
-        chdir($cwd);
+        return $pages;
     }
 
     private function loadPlugins()
     {
-        $pluginsDir = __DIR__ . '/plugins';
+        $pluginsDir = __DIR__ . '/' . self::PLUGINS_DIRNAME;
         if (is_dir($pluginsDir)) {
             $pluginsIterator = new FilesystemIterator($pluginsDir);
             foreach ($pluginsIterator as $plugin) {
@@ -867,11 +863,11 @@ function RecursiveCopy($source, $dest) {
 }
 
 /**
- * Markdown file iterator
+ * File filter/iterator
  */
-class MarkdownFileFilter extends FilterIterator
+class FileFilterIterator extends FilterIterator
 {
-    public function __construct($dirOrIterator = '.')
+    public function __construct($dirOrIterator = '.', $extension='')
     {
         if (is_string($dirOrIterator)) {
             if (!is_dir($dirOrIterator)) {
@@ -897,8 +893,32 @@ class MarkdownFileFilter extends FilterIterator
         if (!$file->isFile()) {
             return false;
         }
-        if ($file->getExtension() == 'md') {
+        if (isset($extension) && is_string($extension)) {
+            if ($file->getExtension() == $extension) {
+                return true;
+            }
+        }
+        else {
             return true;
         }
     }
+}
+
+/**
+ * Execute git commands
+ * 
+ * @param string working directory
+ * @param array git commands
+ * @return void
+ */
+function runGitCmd($wd, $commands)
+{
+    $cwd = getcwd();
+    chdir($wd);
+    exec('git config core.autocrlf false');
+    foreach ($commands as $cmd) {
+        //printf("> git %s\n", $cmd);
+        exec(sprintf('git %s', $cmd));
+    }
+    chdir($cwd);
 }
