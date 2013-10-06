@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "05013541fca3ee0e51a738a37ac4528c",
+    "hash": "e55c099c7c8ef3d3126651a5724b6481",
     "packages": [
         {
             "name": "michelf/php-markdown",
@@ -145,6 +145,47 @@
                 "zf2"
             ],
             "time": "2013-06-12 19:45:26"
+        },
+        {
+            "name": "zendframework/zend-eventmanager",
+            "version": "2.2.4",
+            "target-dir": "Zend/EventManager",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/Component_ZendEventManager.git",
+                "reference": "f325feef4e1a19b873936e5b116980fbe88dd176"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/Component_ZendEventManager/zipball/f325feef4e1a19b873936e5b116980fbe88dd176",
+                "reference": "f325feef4e1a19b873936e5b116980fbe88dd176",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "zendframework/zend-stdlib": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev",
+                    "dev-develop": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Zend\\EventManager\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "keywords": [
+                "eventmanager",
+                "zf2"
+            ],
+            "time": "2013-06-12 19:45:10"
         },
         {
             "name": "zendframework/zend-stdlib",

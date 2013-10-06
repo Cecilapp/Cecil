@@ -246,29 +246,6 @@ class PHPoole
         return $this->websitePath;
     }
 
-    private function loadPlugins()
-    {
-        $pluginsDir = __DIR__ . '/Plugins';
-        if (is_dir($pluginsDir)) {
-            $pluginsIterator = new FilesystemIterator($pluginsDir);
-            foreach ($pluginsIterator as $plugin) {
-                if ($plugin->isFile()) {
-                    include_once($plugin);
-                    $pluginName = $plugin->getBasename('.php');
-                    if (class_exists($pluginName)) {
-                        $pluginclass = new $pluginName($this->events);
-                        if (method_exists($pluginclass, 'preInit')) {
-                            $this->events->attach('init.pre', array($pluginclass, 'preInit'));
-                        }
-                        if (method_exists($pluginclass, 'postInit')) {
-                            $this->events->attach('init.post', array($pluginclass, 'postInit'));
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public function init($type='default', $force=false)
     {
         $results = $this->events->trigger(__FUNCTION__ . '.pre', $this, compact('type', 'force'));
@@ -297,7 +274,7 @@ class PHPoole
             $this->createContentDefaultFile(),
             $this->createRouterFile(),
         );
-        $this->events->trigger(__FUNCTION__ . '.post', $this, compact('type', 'force'));
+        $this->events->trigger(__FUNCTION__ . '.post', $this, compact('type', 'force', 'messages'));
         return $messages;
     }
 
@@ -307,7 +284,7 @@ class PHPoole
 [site]
 name        = "PHPoole"
 baseline    = "Light and easy static website generator!"
-description = "PHPoole is a simple static website/weblog generator written in PHP. It parses your content written with Markdown, merge it with layouts and generates static HTML files."
+description = "PHPoole is a light and easy static website / blog generator written in PHP. It parses your content written with Markdown, merge it with layouts and generates static HTML files."
 base_url    = "http://localhost:8000"
 language    = "en"
 [author]
@@ -511,10 +488,7 @@ title = Home
 layout = default
 menu = nav
 -->
-Welcome!
-========
-
-PHPoole is a simple static website/weblog generator written in PHP.
+PHPoole is a light and easy static website / blog generator written in PHP.
 It parses your content written with Markdown, merge it with layouts and generates static HTML files.
 
 PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
@@ -737,6 +711,29 @@ EOT;
         }
         chdir($cwd);
     }
+
+    private function loadPlugins()
+    {
+        $pluginsDir = __DIR__ . '/plugins';
+        if (is_dir($pluginsDir)) {
+            $pluginsIterator = new FilesystemIterator($pluginsDir);
+            foreach ($pluginsIterator as $plugin) {
+                if ($plugin->isDir()) {
+                    include_once("$plugin/Plugin.php");
+                    $pluginName = $plugin->getBasename();
+                    if (class_exists($pluginName)) {
+                        $pluginclass = new $pluginName($this->events);
+                        if (method_exists($pluginclass, 'preInit')) {
+                            $this->events->attach('init.pre', array($pluginclass, 'preInit'));
+                        }
+                        if (method_exists($pluginclass, 'postInit')) {
+                            $this->events->attach('init.post', array($pluginclass, 'postInit'));
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -776,7 +773,7 @@ class PHPooleConsole
  */
 abstract class PHPoole_Plugin
 {
-    const DEBUG = true;
+    const DEBUG = false;
 
     public function __call($name, $args)
     {
@@ -785,9 +782,9 @@ abstract class PHPoole_Plugin
         }
     }
 
-    public function debug($event, $params, $state='')
+    public function trace($enabled=self::DEBUG, $event, $params, $state='')
     {
-        if (self::DEBUG) {
+        if ($enabled === true) {
             printf(
                 '[EVENT] %s/%s %s %s' . "\n",
                 get_class($this),
