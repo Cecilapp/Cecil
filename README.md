@@ -60,11 +60,11 @@ Once PHPoole is installed, run the following command to build all files you need
 
     $ php phpoole.php [folder] --init
 
-With [Twitter Bootstrap](http://getbootstrap.com) layout (and assets):
-
-    $ php phpoole.php [folder] --init=bootstrap
-
 Alias: ```$ php phpoole.php [folder] -i```
+
+Note: You can force initialization of an already initialized folder.
+
+    $ php phpoole.php [folder] --init=force
 
 After ```--init```, here's how the folder looks like:
 
@@ -80,7 +80,7 @@ After ```--init```, here's how the folder looks like:
         |   |   +-- index.md
         |   +-- posts
         +-- layouts
-        |   +-- base.html
+        |   +-- default.html
         +-- router.php
 
 #### _config.ini_
@@ -110,15 +110,15 @@ Website configuration file:
 
 #### _layouts_
 
-Layouts folder: PHPoole generate static file based on layouts (```base.html``` by default).
+Layouts folder: PHPoole use [Twig](http://twig.sensiolabs.org) layouts (```default.html``` by default) to generate static HTML files.
 
 #### _assets_
 
-Assets folder: CSS, Javascript, images, etc.
+Assets folder: CSS, Javascript, images, fonts, etc.
 
 #### _content_
 
-Content folder: Where you can put your content (pages and posts in markdown format).
+Content folder: Where you can put your content (pages and posts in [Markdown](http://daringfireball.net/projects/markdown/) format).
 
 
 ### Generate
@@ -139,6 +139,7 @@ After ```--generate```, here's how the folder looks like:
     |   +-- img
     |   +-- js
     +-- index.html
+    +-- README.md
 
 
 ### Serve
@@ -154,6 +155,8 @@ Then browse [http://localhost:8000](http://localhost:8000).
 You can chain options. For example, if you want to generate then serve:
 ```$ php phpoole.php [folder] -gs```
 
+Note: This feature requires PHP 5.4+.
+
 
 ### Deploy
 
@@ -163,7 +166,9 @@ Run the following command to deploy your website.
 
 Alias: ```$ php phpoole.php [folder] -d```
 
-After ```--deploy```, a cached copy of ```[folder]``` is created at the same level: ```[.folder]```.
+After ```--deploy```, a "cached copy" of ```[folder]``` is created at the same level: ```[.folder]```.
 
 You can chain options. For example, if you want to generate then deploy:
 ```$ php phpoole.php [folder] -gd```
+
+Note: This feature requires [Git](http://git-scm.com) and a [GitHub](https://github.com) account.
