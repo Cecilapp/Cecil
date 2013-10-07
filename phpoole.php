@@ -502,6 +502,11 @@ EOT;
         }
         list($matchesAll, $rawInfo, $rawContent) = $matches;
         $info = parse_ini_string($rawInfo);
+        if (isset($info['source']) /* && is valid URL to md file */) {
+            if (false === ($rawContent = @file_get_contents($info['source'], false))) {
+                throw new Exception(sprintf("Cannot get content from %s\n", $filename));
+            }
+        }
         $contentHtml = $parser->transform($rawContent);
         return array_merge(
             $info,
