@@ -12,6 +12,7 @@ It takes your content (written in [Markdown](http://daringfireball.net/projects/
 Requirements
 ------------
 
+* [Composer](http://getcomposer.org) (to install / update)
 * [PHP](https://github.com/php) 5.3+ (5.4+ to use ```--serve``` option)
 * [ZF2 components](https://github.com/zendframework)
 * [PHP Markdown](https://github.com/michelf/php-markdown)
@@ -21,7 +22,7 @@ Requirements
 Quick Start
 -----------
 
-### 1. Install
+### 1. Install PHPoole
     $ git clone https://github.com/Narno/PHPoole.git && cd PHPoole
     $ curl -s https://getcomposer.org/installer | php
     $ php composer.phar install
@@ -30,13 +31,13 @@ Quick Start
     $ mkdir mywebsite
     $ php phpoole.php mywebsite --init
 
-### 3. Generate static files
+### 3. Generate the static website
     $ php phpoole.php mywebsite --generate
 
-### 4. Serve to test on local
+### 4. Serve the local website
     $ php phpoole.php mywebsite --serve
 
-### 5. Deploy on GitHub Pages
+### 5. Deploy the website on GitHub Pages
     $ php phpoole.php mywebsite --deploy
 
 ----
