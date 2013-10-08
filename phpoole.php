@@ -44,7 +44,7 @@ try {
 
 define('DS', DIRECTORY_SEPARATOR);
 define('PHPOOLE_DIRNAME', '_phpoole');
-$websitePath = getcwd();
+$websitePath = '';//getcwd();
 
 // Defines rules
 $rules = array(
@@ -498,7 +498,7 @@ EOT;
         return 'README file created';
     }
 
-    public function getConfig($key)
+    public function getConfig($key='')
     {
         $configFilePath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME;
         if (!file_exists($configFilePath)) {
@@ -507,7 +507,7 @@ EOT;
         if (!($config = parse_ini_file($configFilePath, true))) {
             throw new Exception('Cannot parse config file');
         }
-        if (isset($key)) {
+        if (!empty($key)) {
             if (!array_key_exists($key, $config)) {
                 throw new Exception(sprintf('Cannot find %s key in config file', $key));
             }

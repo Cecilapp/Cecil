@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b9686e5ac1621c4df47397c73883dd5e",
+    "hash": "c8c8391227e203c285e154e6665a8143",
     "packages": [
         {
             "name": "PHPoole/Plugin-TwBootstrap",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/Plugin-TwBootstrap.git",
-                "reference": "d77bf2f9d57b1b8d32696b8722fca82d1a186e41"
+                "reference": "67c220186b681ae5cdadbd9b05ebb3d2d120f6ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPoole/Plugin-TwBootstrap/zipball/d77bf2f9d57b1b8d32696b8722fca82d1a186e41",
-                "reference": "d77bf2f9d57b1b8d32696b8722fca82d1a186e41",
+                "url": "https://api.github.com/repos/PHPoole/Plugin-TwBootstrap/zipball/67c220186b681ae5cdadbd9b05ebb3d2d120f6ca",
+                "reference": "67c220186b681ae5cdadbd9b05ebb3d2d120f6ca",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "source": "https://github.com/PHPoole/Plugin-TwBootstrap/tree/master",
                 "issues": "https://github.com/PHPoole/Plugin-TwBootstrap/issues"
             },
-            "time": "2013-10-06 21:23:20"
+            "time": "2013-10-08 00:32:15"
         },
         {
             "name": "composer/installers",
