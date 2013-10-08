@@ -219,10 +219,12 @@ if ($opts->getOption('list')) {
     if (isset($opts->list) && $opts->list == 'pages') {
         try {
             $phpooleConsole->wlInfo('List pages');
-            $pages = $phpoole->getPages();
-            foreach($pages as $page => $pagePath) {
-                printf("- %s\n", $pagePath);
+            $pages = $phpoole->getPagesTree();
+            printf("[%s]\n", PHPoole::PHPOOLE_DIRNAME);
+            foreach($pages as $page) {
+                printf("%s\n", $page);
             }
+
         }
         catch (Exception $e) {
             $phpooleConsole->wlError($e->getMessage());
@@ -589,6 +591,12 @@ EOT;
                 );
             }
         }
+        // sort nav menu
+        foreach ($menu['nav'] as $key => $row) {
+            $path[$key] = $row['path'];
+        }
+        array_multisort($path, SORT_ASC, $menu['nav']);
+        //
         foreach ($pages as $key => $page) {
             $rendered = $twig->render($page['layout'], array(
                 'site'    => $config['site'],
@@ -625,22 +633,30 @@ EOT;
         return $messages;
     }
 
-    public function getPages()
+    public function getPagesTree()
     {
         $pages = array();
         $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
         if (!is_dir($pagesPath)) {
             throw new Exception('Invalid content/pages directory');
         }
-        $pagesIterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($pagesPath),
-            RecursiveIteratorIterator::CHILD_FIRST
-        );    
-        foreach($pagesIterator as $page) {
-            if ($page->isFile()) {
-                $pages = array($page->getFilename() => ($pagesIterator->getSubPath() != '' ? $pagesIterator->getSubPath() . '/' : '') . $page->getFilename());
+        $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
+            $prefixParts = [
+                RecursiveTreeIterator::PREFIX_LEFT         => ' ',
+                RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
+                RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
+                RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
+            ];
+            foreach ($prefixParts as $part => $string) {
+                $tree->setPrefixPart($part, $string);
             }
-        }
+        };
+        $pages = new FilenameRecursiveTreeIterator(
+            new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS),
+            FilenameRecursiveTreeIterator::SELF_FIRST
+        );
+        $unicodeTreePrefix($pages);
+
         return $pages;
     }
 
@@ -657,7 +673,7 @@ EOT;
             foreach ($pluginsIterator as $plugin) {
                 if (array_key_exists($plugin->getBasename(), $configPlugins)
                 && $configPlugins[$plugin->getBasename()] == 'disabled') {
-                    //continue;
+                    continue;
                 }
                 if ($plugin->isDir()) {
                     include_once("$plugin/Plugin.php");
@@ -793,7 +809,10 @@ function RecursiveCopy($source, $dest) {
         @mkdir($dest);
     }
     $iterator = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
+        new RecursiveDirectoryIterator(
+            $source,
+            RecursiveDirectoryIterator::SKIP_DOTS
+        ),
         RecursiveIteratorIterator::SELF_FIRST
     );
     foreach ($iterator as $item) {
@@ -817,7 +836,10 @@ class FileFilterIterator extends FilterIterator
             if (!is_dir($dirOrIterator)) {
                 throw new InvalidArgumentException('Expected a valid directory name');
             }
-            $dirOrIterator = new RecursiveDirectoryIterator($dirOrIterator, RecursiveDirectoryIterator::FOLLOW_SYMLINKS);
+            $dirOrIterator = new RecursiveDirectoryIterator(
+                $dirOrIterator,
+                RecursiveIteratorIterator::SELF_FIRST
+            );
         }
         elseif (!$dirOrIterator instanceof DirectoryIterator) {
             throw new InvalidArgumentException('Expected a DirectoryIterator');
@@ -865,4 +887,16 @@ function runGitCmd($wd, $commands)
         exec(sprintf('git %s', $cmd));
     }
     chdir($cwd);
+}
+
+class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
+{
+    public function current()
+    {
+        return str_replace(
+            $this->getInnerIterator()->current(),
+            substr(strrchr($this->getInnerIterator()->current(), '/'), 1),
+            parent::current()
+        );
+    }
 }
