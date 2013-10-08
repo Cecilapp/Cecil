@@ -252,9 +252,10 @@ class PHPoole
     const CONTENT_POSTS_DIRNAME = 'posts';
     const PLUGINS_DIRNAME  = 'plugins';
 
-    protected $websitePath;
-    protected $websiteFileInfo;
-    protected $events;
+    protected $_websitePath;
+    protected $_websiteFileInfo;
+    protected $_events;
+    protected $_messages;
 
     public function __construct($websitePath)
     {
@@ -263,30 +264,50 @@ class PHPoole
             throw new Exception('Invalid directory provided');
         }
         else {
-            $this->websiteFileInfo = $splFileInfo;
-            $this->websitePath = $splFileInfo->getRealPath();
+            $this->_websiteFileInfo = $splFileInfo;
+            $this->_websitePath = $splFileInfo->getRealPath();
         }
         // Load plugins
-        $this->events = new EventManager();
+        $this->_events = new EventManager();
         $this->loadPlugins();
     }
 
     public function getWebsiteFileInfo()
     {
-        return $this->websiteFileInfo;
+        return $this->_websiteFileInfo;
+    }
+
+    public function setWebsitePath($path)
+    {
+        $this->_websitePath = $path;
+        return $this->getWebsitePath();
     }
 
     public function getWebsitePath()
     {
-        return $this->websitePath;
+        return $this->_websitePath;
+    }
+
+    public function getEvents()
+    {
+        return $this->_events;
+    }
+
+    public function getMessages()
+    {
+        return $this->_messages;
+    }
+
+    public function setMessage($message)
+    {
+        $this->_messages[] = $message;
+        return $this->getMessages();
     }
 
     public function init($force=false)
     {
-        $results = $this->events->trigger(__FUNCTION__ . '.pre', $this, compact('force'));
-        if ($results->last()) {
-            extract($results->last());
-        }
+        $this->getEvents()->trigger(__FUNCTION__ . '.pre', $this, compact('force'));
+
         if (file_exists($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME)) {
             if ($force === true) {
                 RecursiveRmdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
@@ -298,22 +319,19 @@ class PHPoole
         if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME)) {
             throw new Exception('Cannot create root PHPoole directory');
         }
-        $messages = array(
-            self::PHPOOLE_DIRNAME . ' directory created',
-            $this->createConfigFile(),
-            $this->createLayoutsDir(),
-            $this->createLayoutDefaultFile(),
-            $this->createAssetsDir(),
-            $this->createAssetDefaultFiles(),
-            $this->createContentDir(),
-            $this->createContentDefaultFile(),
-            $this->createRouterFile(),
-        );
-        $results = $this->events->trigger(__FUNCTION__ . '.post', $this, compact('force', 'messages'));
-        if ($results->last()) {
-            extract($results->last());
-        }
-        return $messages;
+        $this->setMessage(self::PHPOOLE_DIRNAME . ' directory created');
+        $this->setMessage($this->createConfigFile());
+        $this->setMessage($this->createLayoutsDir());
+        $this->setMessage($this->createLayoutDefaultFile());
+        $this->setMessage($this->createAssetsDir());
+        $this->setMessage($this->createAssetDefaultFiles());
+        $this->setMessage($this->createContentDir());
+        $this->setMessage($this->createContentDefaultFile());
+        $this->setMessage($this->createRouterFile());
+
+        $this->getEvents()->trigger(__FUNCTION__ . '.post', $this, compact('force'));
+
+        return $this->getMessages();
     }
 
     private function createConfigFile()
@@ -480,13 +498,22 @@ EOT;
         return 'README file created';
     }
 
-    public function getConfig()
+    public function getConfig($key)
     {
         $configFilePath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME;
         if (!file_exists($configFilePath)) {
             throw new Exception('Cannot get config file');
         }
-        return parse_ini_file($configFilePath, true);
+        if (!($config = parse_ini_file($configFilePath, true))) {
+            throw new Exception('Cannot parse config file');
+        }
+        if (isset($key)) {
+            if (!array_key_exists($key, $config)) {
+                throw new Exception(sprintf('Cannot find %s key in config file', $key));
+            }
+            return $config[$key];
+        }
+        return $config;
     }
 
     public function parseContent($content, $filename, $config)
@@ -619,20 +646,29 @@ EOT;
 
     private function loadPlugins()
     {
+        try {
+            $configPlugins = $this->getConfig('plugins');
+        } catch (Exception $e) {
+            $configPlugins = array();
+        }
         $pluginsDir = __DIR__ . '/' . self::PLUGINS_DIRNAME;
         if (is_dir($pluginsDir)) {
             $pluginsIterator = new FilesystemIterator($pluginsDir);
             foreach ($pluginsIterator as $plugin) {
+                if (array_key_exists($plugin->getBasename(), $configPlugins)
+                && $configPlugins[$plugin->getBasename()] == 'disabled') {
+                    //continue;
+                }
                 if ($plugin->isDir()) {
                     include_once("$plugin/Plugin.php");
                     $pluginName = $plugin->getBasename();
                     if (class_exists($pluginName)) {
                         $pluginclass = new $pluginName($this->events);
                         if (method_exists($pluginclass, 'preInit')) {
-                            $this->events->attach('init.pre', array($pluginclass, 'preInit'));
+                            $this->getEvents()->attach('init.pre', array($pluginclass, 'preInit'));
                         }
                         if (method_exists($pluginclass, 'postInit')) {
-                            $this->events->attach('init.post', array($pluginclass, 'postInit'));
+                            $this->getEvents()->attach('init.post', array($pluginclass, 'postInit'));
                         }
                     }
                 }
@@ -687,15 +723,14 @@ abstract class PHPoole_Plugin
         }
     }
 
-    public function trace($enabled=self::DEBUG, $event, $params, $state='')
+    public function trace($enabled=self::DEBUG, $e)
     {
         if ($enabled === true) {
             printf(
-                '[EVENT] %s/%s %s %s' . "\n",
+                '[EVENT] %s/%s %s' . "\n",
                 get_class($this),
-                $event,
-                $state,
-                json_encode($params)
+                $e->getName(),
+                json_encode($e->getParams)
             );
         }
     }
