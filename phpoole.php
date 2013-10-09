@@ -138,7 +138,7 @@ if ($opts->getOption('serve')) {
         exit(2);
     }
     $phpooleConsole->wlInfo(sprintf("Start server http://%s:%d", 'localhost', '8000'));
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    if (isWindows()) {
         $command = sprintf(
             //'START /B php -S %s:%d -t %s %s > nul',
             'START php -S %s:%d -t %s %s > nul',
@@ -220,11 +220,24 @@ if ($opts->getOption('list')) {
         try {
             $phpooleConsole->wlInfo('List pages');
             $pages = $phpoole->getPagesTree();
-            printf("[%s]\n", PHPoole::PHPOOLE_DIRNAME);
-            foreach($pages as $page) {
-                printf("%s\n", $page);
+            if ($console->isUtf8()) {
+                $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
+                    $prefixParts = [
+                        RecursiveTreeIterator::PREFIX_LEFT         => ' ',
+                        RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
+                        RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
+                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
+                    ];
+                    foreach ($prefixParts as $part => $string) {
+                        $tree->setPrefixPart($part, $string);
+                    }
+                };
+                $unicodeTreePrefix($pages);
             }
-
+            $console->writeLine(PHPoole::PHPOOLE_DIRNAME);
+            foreach($pages as $page) {
+                $console->writeLine($page);
+            }
         }
         catch (Exception $e) {
             $phpooleConsole->wlError($e->getMessage());
@@ -545,47 +558,44 @@ EOT;
 
     public function generate($configToMerge=array())
     {
+        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
         $pages = array();
         $menu['nav'] = array();
+        $layoutsPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME;
         $config = $this->getConfig();
         if (!empty($configToMerge)) {
             $config = array_replace_recursive($config, $configToMerge);
         }
-        $twigLoader = new Twig_Loader_Filesystem($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME);
-        $twig = new Twig_Environment($twigLoader, array(
-            'autoescape' => false,
-            'debug'      => true
-        ));
-        $twig->addExtension(new Twig_Extension_Debug());
-        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
-        $markdownIterator = new FileFilterIterator($pagesPath, 'md');
-        foreach ($markdownIterator as $filePage) {
-            if (false === ($content = @file_get_contents($filePage->getPathname()))) {
-                throw new Exception(sprintf('Cannot get content of %s/%s', $markdownIterator->getSubPath(), $filePage->getBasename()));
-            }
-            $page = $this->parseContent($content, $filePage->getFilename(), $config);
-            $pageIndex = ($markdownIterator->getSubPath() ? $markdownIterator->getSubPath() : 'home');
-            $pages[$pageIndex]['layout'] = (
-                isset($page['layout'])
-                    && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/layouts' . '/' . $page['layout'] . '.html')
-                ? $page['layout'] . '.html'
-                : 'default.html'
-            );
+        // iterate pages
+        $pagesIterator = new PhpooleFileIterator($pagesPath, 'md');
+        foreach ($pagesIterator as $filePage) {
+            $info = $filePage->parse($config)->getData('info');
+            $pageIndex = ($pagesIterator->getSubPath() ? $pagesIterator->getSubPath() : 'home');
             $pages[$pageIndex]['title'] = (
-                isset($page['title'])
-                    && !empty($page['title'])
-                ? $page['title']
+                isset($info['title'])
+                    && !empty($info['title'])
+                ? $info['title']
                 : ucfirst($filePage->getBasename('.md'))
             );
-            $pages[$pageIndex]['path'] = $markdownIterator->getSubPath();
-            $pages[$pageIndex]['content'] = $page['content'];
+            $pages[$pageIndex]['path'] = $pagesIterator->getSubPath();
             $pages[$pageIndex]['basename'] = $filePage->getBasename('.md') . '.html';
-            if (isset($page['menu'])) {
-                $menu[$page['menu']][] = (
-                    !empty($page['menu'])
+            $pages[$pageIndex]['layout'] = (
+                isset($info['layout'])
+                    && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/layouts' . '/' . $info['layout'] . '.html')
+                ? $info['layout'] . '.html'
+                : 'default.html'
+            );
+            if (isset($info['pagination'])) {
+                $pages[$pageIndex]['pagination'] = $info['pagination'];
+            }
+            $pages[$pageIndex]['content'] = $filePage->getData('content');
+            // menu
+            if (isset($info['menu'])) {
+                $menu[$info['menu']][] = (
+                    !empty($info['menu'])
                     ? array(
-                        'title' => $page['title'],
-                        'path'  => $markdownIterator->getSubPath()
+                        'title' => $info['title'],
+                        'path'  => $pagesIterator->getSubPath()
                     )
                     : ''
                 );
@@ -596,16 +606,44 @@ EOT;
             $path[$key] = $row['path'];
         }
         array_multisort($path, SORT_ASC, $menu['nav']);
-        //
-        foreach ($pages as $key => $page) {
-            $rendered = $twig->render($page['layout'], array(
-                'site'    => $config['site'],
-                'author'  => $config['author'],
-                'source'  => $config['deploy'],
-                'title'   => $page['title'],
-                'path'    => $page['path'],
-                'content' => $page['content'],
-                'nav'     => $menu['nav'],
+        // rendering
+        $tplEngine = $this->tplEngine($layoutsPath);
+        $pages = new ArrayObject($pages);
+        $pagesIterator = $pages->getIterator();
+        $pagesIterator->ksort();
+        $pagesIterator->rewind();
+        $currentPos = 0;
+        $prevPos = '';
+        while ($pagesIterator->valid()) {
+            $previous = $next = '';
+            $prevTitle = $nextTitle = '';
+            $page = $pagesIterator->current();
+            if (isset($page['pagination']) && $page['pagination'] == 'enabled') {
+                if ($pagesIterator->offsetExists($prevPos)) {
+                    $previous = $pagesIterator->offsetGet($prevPos)['path'];
+                    $prevTitle = $pagesIterator->offsetGet($prevPos)['title'];
+                }
+                $pagesIterator->next();
+                if ($pagesIterator->valid()) {
+                    if (isset($pagesIterator->current()['pagination']) && $pagesIterator->current()['pagination'] == 'enabled') {
+                        $next = $pagesIterator->current()['path'];
+                        $nextTitle = $pagesIterator->current()['title'];
+                    }
+                }
+                $pagesIterator->seek($currentPos);
+            }
+            $rendered = $tplEngine->render($page['layout'], array(
+                'site'      => (isset($config['site']) ? $config['site'] : ''),
+                'author'    => (isset($config['author']) ? $config['author'] : ''),
+                'source'    => (isset($config['deploy']) ? $config['deploy'] : ''),
+                'title'     => (isset($page['title']) ? $page['title'] : ''),
+                'path'      => (isset($page['path']) ? $page['path'] : ''),
+                'content'   => (isset($page['content']) ? $page['content'] : ''),
+                'nav'       => (isset($menu['nav']) ? $menu['nav'] : ''),
+                'previous'  => (isset($previous) ? $previous : ''),
+                'next'      => (isset($next) ? $next : ''),
+                'prevTitle' => (isset($prevTitle) ? $prevTitle : ''),
+                'nextTitle' => (isset($nextTitle) ? $nextTitle : ''),
             ));
             if (!is_dir($this->getWebsitePath() . '/' . $page['path'])) {
                 if (!@mkdir($this->getWebsitePath() . '/' . $page['path'], 0777, true)) {
@@ -616,21 +654,41 @@ EOT;
                 if (!@unlink($this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
                     throw new Exception(sprintf('Cannot delete %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
                 }
-                $messages[] = 'Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'];
+                $this->setMessage('Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename']);
             }
             if (!@file_put_contents(sprintf('%s%s', $this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), $rendered)) {
                 throw new Exception(sprintf('Cannot write %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
             }
-            $messages[] = sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']);
+            $this->setMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
+
+            $prevPos = $pagesIterator->key();
+            $currentPos++;
+            $pagesIterator->next();
+        }
+
+        foreach ($pages as $page) {
             
         }
-        if (is_dir($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME)) {
-            RecursiveRmdir($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME);
+        // copy assets
+        if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
+            RecursiveRmdir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
         }
         RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
-        $messages[] = 'Copy assets directory (and sub)';
-        $messages[] = $this->createReadmeFile();
-        return $messages;
+        // done
+        $this->setMessage('Copy assets directory (and sub)');
+        $this->setMessage($this->createReadmeFile());
+        return $this->getMessages();
+    }
+
+    public function tplEngine($templatesPath)
+    {
+        $twigLoader = new Twig_Loader_Filesystem($templatesPath);
+        $twig = new Twig_Environment($twigLoader, array(
+            'autoescape' => false,
+            'debug'      => true
+        ));
+        $twig->addExtension(new Twig_Extension_Debug());
+        return $twig;
     }
 
     public function getPagesTree()
@@ -640,23 +698,10 @@ EOT;
         if (!is_dir($pagesPath)) {
             throw new Exception('Invalid content/pages directory');
         }
-        $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
-            $prefixParts = [
-                RecursiveTreeIterator::PREFIX_LEFT         => ' ',
-                RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
-                RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
-            ];
-            foreach ($prefixParts as $part => $string) {
-                $tree->setPrefixPart($part, $string);
-            }
-        };
         $pages = new FilenameRecursiveTreeIterator(
             new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS),
             FilenameRecursiveTreeIterator::SELF_FIRST
         );
-        $unicodeTreePrefix($pages);
-
         return $pages;
     }
 
@@ -689,6 +734,127 @@ EOT;
                     }
                 }
             }
+        }
+    }
+}
+
+/**
+ * PHPoole File iterator
+ */
+class PhpooleFileIterator extends FilterIterator
+{
+    public function __construct($dirOrIterator = '.', $extension='')
+    {
+        if (is_string($dirOrIterator)) {
+            if (!is_dir($dirOrIterator)) {
+                throw new InvalidArgumentException('Expected a valid directory name');
+            }
+            $dirOrIterator = new RecursiveDirectoryIterator(
+                $dirOrIterator,
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+        }
+        elseif (!$dirOrIterator instanceof DirectoryIterator) {
+            throw new InvalidArgumentException('Expected a DirectoryIterator');
+        }
+        if ($dirOrIterator instanceof RecursiveIterator) {
+            $dirOrIterator = new RecursiveIteratorIterator($dirOrIterator);
+        }
+        parent::__construct($dirOrIterator);
+        $this->setInfoClass('PhpooleFile');
+    }
+
+    public function accept()
+    {
+        $file = $this->getInnerIterator()->current();
+        if (!$file instanceof SplFileInfo) {
+            return false;
+        }
+        if (!$file->isFile()) {
+            return false;
+        }
+        if (isset($extension) && is_string($extension)) {
+            if ($file->getExtension() == $extension) {
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+}
+
+class PhpooleFile extends SplFileInfo
+{
+    protected $_data = array();
+    protected $_converter = null;
+
+    public function getContents()
+    {
+        $level = error_reporting(0);
+        $content = file_get_contents($this->getRealpath());
+        error_reporting($level);
+        if (false === $content) {
+            $error = error_get_last();
+            throw new \RuntimeException($error['message']);
+        }
+        return $content;
+    }
+
+    public function setConverter($config)
+    {
+        // Markdown only
+        $this->_converter = new MarkdownExtra;
+        $this->_converter->code_attr_on_pre = true;
+        $this->_converter->predef_urls = array('base_url' => $config['site']['base_url']);
+        return $this;
+    }
+
+    public function getConverter()
+    {
+        return $this->_converter;
+    }
+
+    public function parse($config)
+    {
+        $this->setConverter($config);
+        if (!$this->isReadable()) {
+            throw new Exception('Cannot read file');
+        }
+        if ($this->getConverter() == null) {
+            throw new Exception('Converter is no defined');   
+        }
+        preg_match('/^<!--(.+)-->(.+)/s', $this->getContents(), $matches);
+        if (!$matches) {
+            $this->setData('content', $this->getConverter->transform($this->getContents()));
+            return $this;
+        }
+        list($matchesAll, $rawInfo, $rawContent) = $matches;
+        $info = parse_ini_string($rawInfo);
+        if (isset($info['source']) /* && is valid URL to md file */) {
+            if (false === ($rawContent = @file_get_contents($info['source'], false))) {
+                throw new Exception(sprintf("Cannot get contents from %s\n", $this->getFilename()));
+            }
+        }
+        $this->setData('info', $info);
+        $this->setData('content_raw', $rawContent);
+        $this->setData('content', $this->getConverter()->transform($rawContent));
+        return $this;
+    }
+
+    public function setData($key, $value)
+    {
+        $this->_data[$key] = $value;
+        return $this;
+    }
+
+    public function getData($key='')
+    {
+        if ($key == '') {
+            return $this->_data;
+        }
+        if (isset($this->_data[$key])) {
+            return $this->_data[$key];
         }
     }
 }
@@ -826,51 +992,6 @@ function RecursiveCopy($source, $dest) {
 }
 
 /**
- * File filter/iterator
- */
-class FileFilterIterator extends FilterIterator
-{
-    public function __construct($dirOrIterator = '.', $extension='')
-    {
-        if (is_string($dirOrIterator)) {
-            if (!is_dir($dirOrIterator)) {
-                throw new InvalidArgumentException('Expected a valid directory name');
-            }
-            $dirOrIterator = new RecursiveDirectoryIterator(
-                $dirOrIterator,
-                RecursiveIteratorIterator::SELF_FIRST
-            );
-        }
-        elseif (!$dirOrIterator instanceof DirectoryIterator) {
-            throw new InvalidArgumentException('Expected a DirectoryIterator');
-        }
-        if ($dirOrIterator instanceof RecursiveIterator) {
-            $dirOrIterator = new RecursiveIteratorIterator($dirOrIterator);
-        }
-        parent::__construct($dirOrIterator);
-    }
-
-    public function accept()
-    {
-        $file = $this->getInnerIterator()->current();
-        if (!$file instanceof SplFileInfo) {
-            return false;
-        }
-        if (!$file->isFile()) {
-            return false;
-        }
-        if (isset($extension) && is_string($extension)) {
-            if ($file->getExtension() == $extension) {
-                return true;
-            }
-        }
-        else {
-            return true;
-        }
-    }
-}
-
-/**
  * Execute git commands
  * 
  * @param string working directory
@@ -895,8 +1016,13 @@ class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
     {
         return str_replace(
             $this->getInnerIterator()->current(),
-            substr(strrchr($this->getInnerIterator()->current(), '/'), 1),
+            substr(strrchr($this->getInnerIterator()->current(), DIRECTORY_SEPARATOR), 1),
             parent::current()
         );
     }
+}
+
+function isWindows()
+{
+    return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 }
