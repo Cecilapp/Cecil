@@ -42,6 +42,11 @@ try {
     // Could not get console adapter - most likely we are not running inside a console window.
 }
 
+if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+    $phpooleConsole->wlError('PHP 5.4+ required (your version: ' . PHP_VERSION . ')');
+    exit(2);
+}
+
 define('DS', DIRECTORY_SEPARATOR);
 define('PHPOOLE_DIRNAME', '_phpoole');
 $websitePath = '';//getcwd();
@@ -72,20 +77,18 @@ if ($opts->getOption('help') || count($opts->getOptions()) == 0) {
 }
 
 // Get provided directory if exist
-$remainingArgs = $opts->getRemainingArgs();
-if (isset($remainingArgs[0])) {
-    if (!is_dir($remainingArgs[0])) {
+if (isset($opts->getRemainingArgs()[0])) {
+    if (!is_dir($opts->getRemainingArgs()[0])) {
         $phpooleConsole->wlError('Invalid directory provided');
         exit(2);
     }
-    $websitePath = str_replace(DS, '/', realpath($remainingArgs[0]));
+    $websitePath = str_replace(DS, '/', realpath($opts->getRemainingArgs()[0]));
 }
 
 // Instanciate PHPoole API
 try {
     $phpoole = new PHPoole($websitePath);
-}
-catch (Exception $e) {
+} catch (Exception $e) {
     $phpooleConsole->wlError($e->getMessage());
     exit(2);
 }
@@ -102,8 +105,7 @@ if ($opts->getOption('init')) {
         foreach ($messages as $message) {
             $phpooleConsole->wlDone($message);
         }
-    }  
-    catch (Exception $e) {
+    } catch (Exception $e) {
         $phpooleConsole->wlError($e->getMessage());
     }
 }
@@ -121,18 +123,13 @@ if ($opts->getOption('generate')) {
         foreach ($messages as $message) {
             $phpooleConsole->wlDone($message);
         }
-    }  
-    catch (Exception $e) {
+    } catch (Exception $e) {
         $phpooleConsole->wlError($e->getMessage());
     }
 }
 
 // serve option
 if ($opts->getOption('serve')) {
-    if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-        $phpooleConsole->wlError('PHP 5.4+ required to run built-in server (your version: ' . PHP_VERSION . ')');
-        exit(2);
-    }
     if (!is_file(sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME))) {
         $phpooleConsole->wlError('Router not found');
         exit(2);
@@ -208,8 +205,7 @@ if ($opts->getOption('deploy')) {
             );
             runGitCmd($deployDir, $initRepoCmd);
         }
-    }  
-    catch (Exception $e) {
+    } catch (Exception $e) {
         $phpooleConsole->wlError($e->getMessage());
     }
 }
@@ -234,12 +230,11 @@ if ($opts->getOption('list')) {
                 };
                 $unicodeTreePrefix($pages);
             }
-            $console->writeLine(PHPoole::PHPOOLE_DIRNAME);
+            $console->writeLine('[' . PHPoole::PHPOOLE_DIRNAME . ']');
             foreach($pages as $page) {
                 $console->writeLine($page);
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $phpooleConsole->wlError($e->getMessage());
         }
     }
@@ -266,11 +261,15 @@ class PHPoole
     const CONTENT_PAGES_DIRNAME = 'pages';
     const CONTENT_POSTS_DIRNAME = 'posts';
     const PLUGINS_DIRNAME  = 'plugins';
+    //
+    const VERSION = '0.0.1';
+    const URL = 'http://narno.org/PHPoole';
 
     protected $_websitePath;
     protected $_websiteFileInfo;
     protected $_events;
-    protected $_messages;
+    protected $_config = null;
+    protected $_messages = array();
 
     public function __construct($websitePath)
     {
@@ -319,9 +318,19 @@ class PHPoole
         return $this->getMessages();
     }
 
+    public function triggerEvent($method, $args, $when=array('pre','post'))
+    {   
+        $reflector = new ReflectionClass(__CLASS__);
+        $parameters = $reflector->getMethod($method)->getParameters();
+        foreach ($parameters as $parameter) {
+            $params[$parameter->getName()] = $parameter->getName();
+        }
+        $this->getEvents()->trigger($method . '.' . $when, $this, array_combine($params, $args));
+    }
+
     public function init($force=false)
     {
-        $this->getEvents()->trigger(__FUNCTION__ . '.pre', $this, compact('force'));
+        $this->triggerEvent(__FUNCTION__, func_get_args(), 'pre');
 
         if (file_exists($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME)) {
             if ($force === true) {
@@ -344,7 +353,7 @@ class PHPoole
         $this->setMessage($this->createContentDefaultFile());
         $this->setMessage($this->createRouterFile());
 
-        $this->getEvents()->trigger(__FUNCTION__ . '.post', $this, compact('force'));
+        $this->triggerEvent(__FUNCTION__, func_get_args(), 'post');
 
         return $this->getMessages();
     }
@@ -366,7 +375,6 @@ home  = "http://narno.org"
 repository = "https://github.com/Narno/PHPoole.git"
 branch     = "gh-pages"
 EOT;
-
         if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME, $content)) {
             throw new Exception('Cannot create the config file');
         }
@@ -515,45 +523,23 @@ EOT;
 
     public function getConfig($key='')
     {
-        $configFilePath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME;
-        if (!file_exists($configFilePath)) {
-            throw new Exception('Cannot get config file');
-        }
-        if (!($config = parse_ini_file($configFilePath, true))) {
-            throw new Exception('Cannot parse config file');
-        }
-        if (!empty($key)) {
-            if (!array_key_exists($key, $config)) {
-                throw new Exception(sprintf('Cannot find %s key in config file', $key));
+        if ($this->_config == null) {
+            $configFilePath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME;
+            if (!file_exists($configFilePath)) {
+                throw new Exception('Cannot get config file');
             }
-            return $config[$key];
-        }
-        return $config;
-    }
-
-    public function parseContent($content, $filename, $config)
-    {
-        $config = $this->getConfig();
-        $parser = new MarkdownExtra;
-        $parser->code_attr_on_pre = true;
-        $parser->predef_urls = array('base_url' => $config['site']['base_url']);
-        preg_match('/^<!--(.+)-->(.+)/s', $content, $matches);
-        if (!$matches) {
-            //throw new Exception(sprintf("Could not parse front matter in %s\n", $filename));
-            return array('content' => $contentHtml = $parser->transform($content));
-        }
-        list($matchesAll, $rawInfo, $rawContent) = $matches;
-        $info = parse_ini_string($rawInfo);
-        if (isset($info['source']) /* && is valid URL to md file */) {
-            if (false === ($rawContent = @file_get_contents($info['source'], false))) {
-                throw new Exception(sprintf("Cannot get content from %s\n", $filename));
+            if (!($this->_config = parse_ini_file($configFilePath, true))) {
+                throw new Exception('Cannot parse config file');
             }
+            if (!empty($key)) {
+                if (!array_key_exists($key, $this->_config)) {
+                    throw new Exception(sprintf('Cannot find %s key in config file', $key));
+                }
+                return $this->_config[$key];
+            }
+            $this->_config;
         }
-        $contentHtml = $parser->transform($rawContent);
-        return array_merge(
-            $info,
-            array('content' => $contentHtml)
-        );
+        return $this->_config;
     }
 
     public function generate($configToMerge=array())
@@ -562,18 +548,18 @@ EOT;
         $pages = array();
         $menu['nav'] = array();
         $layoutsPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME;
-        $config = $this->getConfig();
-        if (!empty($configToMerge)) {
-            $config = array_replace_recursive($config, $configToMerge);
-        }
+        $config = (
+            !empty($configToMerge)
+            ? array_replace_recursive($this->getConfig(), $configToMerge)
+            : $this->getConfig()
+        );
         // iterate pages
         $pagesIterator = new PhpooleFileIterator($pagesPath, 'md');
         foreach ($pagesIterator as $filePage) {
             $info = $filePage->parse($config)->getData('info');
             $pageIndex = ($pagesIterator->getSubPath() ? $pagesIterator->getSubPath() : 'home');
             $pages[$pageIndex]['title'] = (
-                isset($info['title'])
-                    && !empty($info['title'])
+                isset($info['title']) && !empty($info['title'])
                 ? $info['title']
                 : ucfirst($filePage->getBasename('.md'))
             );
@@ -581,7 +567,7 @@ EOT;
             $pages[$pageIndex]['basename'] = $filePage->getBasename('.md') . '.html';
             $pages[$pageIndex]['layout'] = (
                 isset($info['layout'])
-                    && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/layouts' . '/' . $info['layout'] . '.html')
+                    && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . $info['layout'] . '.html')
                 ? $info['layout'] . '.html'
                 : 'default.html'
             );
@@ -608,10 +594,8 @@ EOT;
         array_multisort($path, SORT_ASC, $menu['nav']);
         // rendering
         $tplEngine = $this->tplEngine($layoutsPath);
-        $pages = new ArrayObject($pages);
-        $pagesIterator = $pages->getIterator();
+        $pagesIterator = (new ArrayObject($pages))->getIterator();
         $pagesIterator->ksort();
-        $pagesIterator->rewind();
         $currentPos = 0;
         $prevPos = '';
         while ($pagesIterator->valid()) {
@@ -633,6 +617,10 @@ EOT;
                 $pagesIterator->seek($currentPos);
             }
             $rendered = $tplEngine->render($page['layout'], array(
+                'phpoole'   => array(
+                    'version' => PHPoole::VERSION,
+                    'url'     => PHPoole::URL
+                ),
                 'site'      => (isset($config['site']) ? $config['site'] : ''),
                 'author'    => (isset($config['author']) ? $config['author'] : ''),
                 'source'    => (isset($config['deploy']) ? $config['deploy'] : ''),
@@ -660,14 +648,9 @@ EOT;
                 throw new Exception(sprintf('Cannot write %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
             }
             $this->setMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
-
-            $prevPos = $pagesIterator->key();
+            $prevPos = $pagesIterator->key(); // use by the next iteration
             $currentPos++;
             $pagesIterator->next();
-        }
-
-        foreach ($pages as $page) {
-            
         }
         // copy assets
         if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
@@ -724,7 +707,7 @@ EOT;
                     include_once("$plugin/Plugin.php");
                     $pluginName = $plugin->getBasename();
                     if (class_exists($pluginName)) {
-                        $pluginclass = new $pluginName($this->events);
+                        $pluginclass = new $pluginName($this->getEvents());
                         if (method_exists($pluginclass, 'preInit')) {
                             $this->getEvents()->attach('init.pre', array($pluginclass, 'preInit'));
                         }
@@ -864,30 +847,30 @@ class PhpooleFile extends SplFileInfo
  */
 class PHPooleConsole
 {
-    protected $console;
+    protected $_console;
 
     public function __construct($console)
     {
         if (!($console instanceof Zend\Console\Adapter\AdapterInterface)) {
             throw new Exception("Error");
         }
-        $this->console = $console;
+        $this->_console = $console;
     }
 
     public function wlInfo($text)
     {
-        echo '[' , $this->console->write('INFO', Color::YELLOW) , ']' . "\t";
-        $this->console->writeLine($text);
+        echo '[' , $this->_console->write('INFO', Color::YELLOW) , ']' . "\t";
+        $this->_console->writeLine($text);
     }
     public function wlDone($text)
     {
-        echo '[' , $this->console->write('DONE', Color::GREEN) , ']' . "\t";
-        $this->console->writeLine($text);
+        echo '[' , $this->_console->write('DONE', Color::GREEN) , ']' . "\t";
+        $this->_console->writeLine($text);
     }
     public function wlError($text)
     {
-        echo '[' , $this->console->write('ERROR', Color::RED) , ']' . "\t";
-        $this->console->writeLine($text);
+        echo '[' , $this->_console->write('ERROR', Color::RED) , ']' . "\t";
+        $this->_console->writeLine($text);
     }
 }
 
@@ -901,7 +884,7 @@ abstract class PHPoole_Plugin
     public function __call($name, $args)
     {
         if (self::DEBUG) {
-            printf("[EVENT] %s is not implemented in %s plugin\n", $name, get_class($this));
+            printf("[EVENT] %s is not implemented in %s plugin\n", $name, get_class(__FUNCTION__));
         }
     }
 
@@ -910,9 +893,9 @@ abstract class PHPoole_Plugin
         if ($enabled === true) {
             printf(
                 '[EVENT] %s/%s %s' . "\n",
-                get_class($this),
+                get_class(__FUNCTION__),
                 $e->getName(),
-                json_encode($e->getParams)
+                json_encode($e->getParams())
             );
         }
     }
@@ -1010,6 +993,9 @@ function runGitCmd($wd, $commands)
     chdir($cwd);
 }
 
+/**
+ * Replace Filepath by Filename
+ */
 class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
 {
     public function current()
