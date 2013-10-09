@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/Plugin-TwBootstrap.git",
-                "reference": "4fc2c9755b49e7e3c05730149ddd65e5e09db028"
+                "reference": "376bfc4abc1f1c2a5482ba503fa7e38b58c7c170"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPoole/Plugin-TwBootstrap/zipball/4fc2c9755b49e7e3c05730149ddd65e5e09db028",
-                "reference": "4fc2c9755b49e7e3c05730149ddd65e5e09db028",
+                "url": "https://api.github.com/repos/PHPoole/Plugin-TwBootstrap/zipball/376bfc4abc1f1c2a5482ba503fa7e38b58c7c170",
+                "reference": "376bfc4abc1f1c2a5482ba503fa7e38b58c7c170",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "source": "https://github.com/PHPoole/Plugin-TwBootstrap/tree/master",
                 "issues": "https://github.com/PHPoole/Plugin-TwBootstrap/issues"
             },
-            "time": "2013-10-09 22:13:37"
+            "time": "2013-10-09 23:19:04"
         },
         {
             "name": "composer/installers",
