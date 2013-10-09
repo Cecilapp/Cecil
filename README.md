@@ -3,7 +3,7 @@ It takes your content (written in [Markdown](http://daringfireball.net/projects/
 
 **Q/A:**
 
-* Why the name _PHPoole_? It is [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole) (en référence à [Jekyll Ruby](http://jekyllrb.com))
+* Why the name _PHPoole_? It is [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole) (in reference to [Jekyll Ruby](http://jekyllrb.com))
 * Is PHPoole is stable? It is still in beta, be careful!
 * Is there a demo? Yes there is, see [PHPoole-demo](https://github.com/Narno/PHPoole-demo)
 * How to get support? Through [GitHub issues](https://github.com/Narno/PHPoole/issues) system
@@ -12,7 +12,7 @@ It takes your content (written in [Markdown](http://daringfireball.net/projects/
 Requirements
 ------------
 
-* [PHP](https://github.com/php) 5.3+ (5.4+ to use ```--serve``` option)
+* [PHP](https://github.com/php) 5.4+
 * [Composer](http://getcomposer.org) (to install / update)
  * [ZF2 components](https://github.com/zendframework)
  * [PHP Markdown](https://github.com/michelf/php-markdown)
