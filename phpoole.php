@@ -58,7 +58,7 @@ $rules = array(
     'generate|g' => 'Generate static files',
     'serve|s'    => 'Start built-in web server',
     'deploy|d'   => 'Deploy static files',
-    'list|l=s'   => 'Lists <pages> or <posts>',
+    'list|l'     => 'Lists content',
 );
 
 // Get and parse console options
@@ -212,39 +212,32 @@ if ($opts->getOption('deploy')) {
 
 // list option
 if ($opts->getOption('list')) {
-    if (isset($opts->list) && $opts->list == 'pages') {
-        try {
-            $phpooleConsole->wlInfo('List pages');
-            $pages = $phpoole->getPagesTree();
-            if ($console->isUtf8()) {
-                $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
-                    $prefixParts = [
-                        RecursiveTreeIterator::PREFIX_LEFT         => ' ',
-                        RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
-                        RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
-                    ];
-                    foreach ($prefixParts as $part => $string) {
-                        $tree->setPrefixPart($part, $string);
-                    }
-                };
-                $unicodeTreePrefix($pages);
-            }
-            $console->writeLine('[' . PHPoole::PHPOOLE_DIRNAME . ']');
-            foreach($pages as $page) {
-                $console->writeLine($page);
-            }
-        } catch (Exception $e) {
-            $phpooleConsole->wlError($e->getMessage());
+    if (isset($opts->list)) {
+        // @todo list by path?
+    }
+    try {
+        $phpooleConsole->wlInfo('List content');
+        $pages = $phpoole->getPagesTree();
+        if ($console->isUtf8()) {
+            $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
+                $prefixParts = [
+                    RecursiveTreeIterator::PREFIX_LEFT         => ' ',
+                    RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
+                    RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
+                    RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
+                ];
+                foreach ($prefixParts as $part => $string) {
+                    $tree->setPrefixPart($part, $string);
+                }
+            };
+            $unicodeTreePrefix($pages);
         }
-    }
-    else if (isset($opts->list) && $opts->list == 'posts') {
-        $phpooleConsole->wlInfo('List posts');
-        // @todo todo! :-)
-    }
-    else {
-        echo $opts->getUsageMessage();
-        exit(2);
+        $console->writeLine('[pages]');
+        foreach($pages as $page) {
+            $console->writeLine($page);
+        }
+    } catch (Exception $e) {
+        $phpooleConsole->wlError($e->getMessage());
     }
 }
 
@@ -259,7 +252,7 @@ class PHPoole
     const ASSETS_DIRNAME  = 'assets';
     const CONTENT_DIRNAME = 'content';
     const CONTENT_PAGES_DIRNAME = 'pages';
-    const CONTENT_POSTS_DIRNAME = 'posts';
+    //const CONTENT_POSTS_DIRNAME = 'posts';
     const PLUGINS_DIRNAME  = 'plugins';
     //
     const VERSION = '0.0.1';
@@ -450,7 +443,7 @@ EOT;
         $subDirList = array(
             self::CONTENT_DIRNAME,
             self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME,
-            self::CONTENT_DIRNAME . '/' . self::CONTENT_POSTS_DIRNAME,
+            //self::CONTENT_DIRNAME . '/' . self::CONTENT_POSTS_DIRNAME,
         );
         foreach ($subDirList as $subDir) {
             if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . $subDir)) {
@@ -621,17 +614,18 @@ EOT;
                     'version' => PHPoole::VERSION,
                     'url'     => PHPoole::URL
                 ),
-                'site'      => (isset($config['site']) ? $config['site'] : ''),
-                'author'    => (isset($config['author']) ? $config['author'] : ''),
-                'source'    => (isset($config['deploy']) ? $config['deploy'] : ''),
-                'title'     => (isset($page['title']) ? $page['title'] : ''),
-                'path'      => (isset($page['path']) ? $page['path'] : ''),
-                'content'   => (isset($page['content']) ? $page['content'] : ''),
-                'nav'       => (isset($menu['nav']) ? $menu['nav'] : ''),
-                'previous'  => (isset($previous) ? $previous : ''),
-                'next'      => (isset($next) ? $next : ''),
-                'prevTitle' => (isset($prevTitle) ? $prevTitle : ''),
-                'nextTitle' => (isset($nextTitle) ? $nextTitle : ''),
+                'site'       => (isset($config['site']) ? $config['site'] : ''),
+                'author'     => (isset($config['author']) ? $config['author'] : ''),
+                'source'     => (isset($config['deploy']) ? $config['deploy'] : ''),
+                'collection' => new PHPoole_Proxy($this),
+                'title'      => (isset($page['title']) ? $page['title'] : ''),
+                'path'       => (isset($page['path']) ? $page['path'] : ''),
+                'content'    => (isset($page['content']) ? $page['content'] : ''),
+                'nav'        => (isset($menu['nav']) ? $menu['nav'] : ''),
+                'previous'   => (isset($previous) ? $previous : ''),
+                'next'       => (isset($next) ? $next : ''),
+                'prevTitle'  => (isset($prevTitle) ? $prevTitle : ''),
+                'nextTitle'  => (isset($nextTitle) ? $nextTitle : ''),
             ));
             if (!is_dir($this->getWebsitePath() . '/' . $page['path'])) {
                 if (!@mkdir($this->getWebsitePath() . '/' . $page['path'], 0777, true)) {
@@ -676,7 +670,6 @@ EOT;
 
     public function getPages($subDir='')
     {
-        $pages = array();
         $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
         $pagesPath = (
             !empty($subDir)
@@ -686,20 +679,30 @@ EOT;
         if (!is_dir($pagesPath)) {
             throw new Exception(sprintf("Invalid %s/%s%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME, (!empty($subDir) ? '/' . $subDir : '')));
         }
-        $pages = new RecursiveIteratorIterator(
+        $pagesIterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(
                 $pagesPath,
                 RecursiveDirectoryIterator::SKIP_DOTS
             ),
             RecursiveIteratorIterator::SELF_FIRST
         );
-        // @todo should return the path relative to the _phpoole/content/pages directory
+        foreach ($pagesIterator as $page) {
+            if ($page->isDir()) {
+                if (file_exists($page->getPathname() . '/index.md')) {
+                    $pages[] = array(
+                        'path'  => $pagesIterator->getSubPathName() . "\n",
+                        'url'   => $this->getConfig()['site']['base_url'] . '/' . (!empty($subDir) ? $subDir . '/' : '')  . $pagesIterator->getSubPathName(),
+                        'title' => (new PhpooleFile($page->getPathname() . '/index.md'))
+                            ->parse($this->getConfig())->getData('info')['title'],
+                    );
+                }
+            }
+        }
         return $pages;
     }
 
     public function getPagesTree()
     {
-        $pages = array();
         $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
         if (!is_dir($pagesPath)) {
             throw new Exception(sprintf("Invalid %s/%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME));
@@ -744,6 +747,24 @@ EOT;
                 }
             }
         }
+    }
+}
+
+class PHPoole_Proxy
+{
+    protected $_phpoole;
+
+    public function __construct($phpoole)
+    {
+        if (!$phpoole instanceof PHPoole) {
+            throw new Exception('PHPoole_Proxy should be loaded with a PHPoole instance');
+        }
+        $this->_phpoole = $phpoole;
+    }
+
+    public function getPages($subDir='')
+    {
+        return $this->_phpoole->getPages($subDir);
     }
 }
 
@@ -810,12 +831,14 @@ class PhpooleFile extends SplFileInfo
         return $content;
     }
 
-    public function setConverter($config)
+    public function setConverter($config='')
     {
         // Markdown only
         $this->_converter = new MarkdownExtra;
         $this->_converter->code_attr_on_pre = true;
-        $this->_converter->predef_urls = array('base_url' => $config['site']['base_url']);
+        if (!empty($config)) {
+            $this->_converter->predef_urls = array('base_url' => $config['site']['base_url']);
+        }
         return $this;
     }
 
@@ -824,7 +847,7 @@ class PhpooleFile extends SplFileInfo
         return $this->_converter;
     }
 
-    public function parse($config)
+    public function parse($config='')
     {
         $this->setConverter($config);
         if (!$this->isReadable()) {
@@ -835,7 +858,7 @@ class PhpooleFile extends SplFileInfo
         }
         preg_match('/^<!--(.+)-->(.+)/s', $this->getContents(), $matches);
         if (!$matches) {
-            $this->setData('content', $this->getConverter->transform($this->getContents()));
+            $this->setData('content', $this->getConverter()->transform($this->getContents()));
             return $this;
         }
         list($matchesAll, $rawInfo, $rawContent) = $matches;
