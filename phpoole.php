@@ -674,15 +674,41 @@ EOT;
         return $twig;
     }
 
+    public function getPages($subDir='')
+    {
+        $pages = array();
+        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
+        $pagesPath = (
+            !empty($subDir)
+            ? $pagesPath . '/' . $subDir
+            : $pagesPath
+        );
+        if (!is_dir($pagesPath)) {
+            throw new Exception(sprintf("Invalid %s/%s%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME, (!empty($subDir) ? '/' . $subDir : '')));
+        }
+        $pages = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(
+                $pagesPath,
+                RecursiveDirectoryIterator::SKIP_DOTS
+            ),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+        // @todo should return the path relative to the _phpoole/content/pages directory
+        return $pages;
+    }
+
     public function getPagesTree()
     {
         $pages = array();
         $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
         if (!is_dir($pagesPath)) {
-            throw new Exception('Invalid content/pages directory');
+            throw new Exception(sprintf("Invalid %s/%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME));
         }
         $pages = new FilenameRecursiveTreeIterator(
-            new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS),
+            new RecursiveDirectoryIterator(
+                $pagesPath,
+                RecursiveDirectoryIterator::SKIP_DOTS
+            ),
             FilenameRecursiveTreeIterator::SELF_FIRST
         );
         return $pages;
