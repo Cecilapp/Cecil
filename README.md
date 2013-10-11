@@ -1,4 +1,4 @@
-PHPoole is a light and easy static website / blog generator written in PHP.
+PHPoole is a light and easy static website generator written in PHP.
 It takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
 
 **Q/A:**
@@ -78,7 +78,6 @@ After ```--init```, here's how the folder looks like:
         +-- content
         |   +-- pages
         |   |   +-- index.md
-        |   +-- posts
         +-- layouts
         |   +-- default.html
         +-- router.php
@@ -118,7 +117,7 @@ Assets folder: CSS, Javascript, images, fonts, etc.
 
 #### _content_
 
-Content folder: Where you can put your content (pages and posts in [Markdown](http://daringfireball.net/projects/markdown/) format).
+Content folder: Where you can put your content (pages in [Markdown](http://daringfireball.net/projects/markdown/) format).
 
 
 ### Generate
