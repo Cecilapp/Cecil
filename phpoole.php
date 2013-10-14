@@ -12,348 +12,355 @@
 
 //error_reporting(0);
 
-use Zend\Console\Console;
-use Zend\Console\ColorInterface as Color;
-use Zend\Console\Getopt;
-use Zend\Console\Exception\RuntimeException as ConsoleException;
-use Zend\EventManager\EventManager;
-use Michelf\MarkdownExtra;
+namespace
+{
+    use Zend\Console\Console as Console;
+    use Zend\Console\Getopt;
+    use Zend\Console\Exception\RuntimeException as ConsoleException;
 
-// Composer autoloading
-if (file_exists('vendor/autoload.php')) {
-    $loader = include 'vendor/autoload.php';
-}
-else {
-    echo 'Run the following commands:' . PHP_EOL;
-    if (!file_exists('composer.json')) {
-        echo 'curl https://raw.github.com/Narno/PHPoole/master/composer.json > composer.json' . PHP_EOL;
-    }
-    if (!file_exists('composer.phar')) {
-        echo 'curl -s http://getcomposer.org/installer | php' . PHP_EOL;
-    }  
-    echo 'php composer.phar install' . PHP_EOL;
-    exit(2);
-}
-
-try {
-    $console = Console::getInstance();
-    $phpooleConsole = new PHPooleConsole($console);
-} catch (ConsoleException $e) {
-    // Could not get console adapter - most likely we are not running inside a console window.
-}
-
-if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-    $phpooleConsole->wlError('PHP 5.4+ required (your version: ' . PHP_VERSION . ')');
-    exit(2);
-}
-
-define('DS', DIRECTORY_SEPARATOR);
-define('PHPOOLE_DIRNAME', '_phpoole');
-$websitePath = '';//getcwd();
-
-// Defines rules
-$rules = array(
-    'help|h'     => 'Get PHPoole usage message',
-    'init|i-s'   => 'Build a new PHPoole website (<force>)',
-    'generate|g' => 'Generate static files',
-    'serve|s'    => 'Start built-in web server',
-    'deploy|d'   => 'Deploy static files',
-    'list|l'     => 'Lists content',
-);
-
-// Get and parse console options
-try {
-    $opts = new Getopt($rules);
-    $opts->parse();
-} catch (ConsoleException $e) {
-    echo $e->getUsageMessage();
-    exit(2);
-}
-
-// help option
-if ($opts->getOption('help') || count($opts->getOptions()) == 0) {
-    echo $opts->getUsageMessage();
-    exit(0);
-}
-
-// Get provided directory if exist
-if (isset($opts->getRemainingArgs()[0])) {
-    if (!is_dir($opts->getRemainingArgs()[0])) {
-        $phpooleConsole->wlError('Invalid directory provided');
-        exit(2);
-    }
-    $websitePath = str_replace(DS, '/', realpath($opts->getRemainingArgs()[0]));
-}
-
-// Instanciate PHPoole API
-try {
-    $phpoole = new PHPoole($websitePath);
-} catch (Exception $e) {
-    $phpooleConsole->wlError($e->getMessage());
-    exit(2);
-}
-
-// init option
-if ($opts->getOption('init')) {
-    $force = false;
-    $phpooleConsole->wlInfo('Initializing new website');
-    if ((string)$opts->init == 'force') {
-        $force = true;
-    }
-    try {
-        $messages = $phpoole->init($force);
-        foreach ($messages as $message) {
-            $phpooleConsole->wlDone($message);
-        }
-    } catch (Exception $e) {
-        $phpooleConsole->wlError($e->getMessage());
-    }
-}
-
-// generate option
-if ($opts->getOption('generate')) {
-    $generateConfig = array();
-    $phpooleConsole->wlInfo('Generate website');
-    if (isset($opts->serve)) {
-        $generateConfig['site']['base_url'] = 'http://localhost:8000';
-        $phpooleConsole->wlInfo('Youd should re-generate before deploy');
-    }
-    try {
-        $messages = $phpoole->generate($generateConfig);
-        foreach ($messages as $message) {
-            $phpooleConsole->wlDone($message);
-        }
-    } catch (Exception $e) {
-        $phpooleConsole->wlError($e->getMessage());
-    }
-}
-
-// serve option
-if ($opts->getOption('serve')) {
-    if (!is_file(sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME))) {
-        $phpooleConsole->wlError('Router not found');
-        exit(2);
-    }
-    $phpooleConsole->wlInfo(sprintf("Start server http://%s:%d", 'localhost', '8000'));
-    if (isWindows()) {
-        $command = sprintf(
-            //'START /B php -S %s:%d -t %s %s > nul',
-            'START php -S %s:%d -t %s %s > nul',
-            'localhost',
-            '8000',
-            $websitePath,
-            sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME)
-        );
+    // Composer autoloading
+    if (file_exists('vendor/autoload.php')) {
+        $loader = include 'vendor/autoload.php';
     }
     else {
-        echo 'Ctrl-C to stop it.' . PHP_EOL;
-        $command = sprintf(
-            //'php -S %s:%d -t %s %s >/dev/null 2>&1 & echo $!',
-            'php -S %s:%d -t %s %s >/dev/null',
-            'localhost',
-            '8000',
-            $websitePath,
-            sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME)
-        );
+        echo 'Run the following commands:' . PHP_EOL;
+        if (!file_exists('composer.json')) {
+            echo 'curl https://raw.github.com/Narno/PHPoole/master/composer.json > composer.json' . PHP_EOL;
+        }
+        if (!file_exists('composer.phar')) {
+            echo 'curl -s http://getcomposer.org/installer | php' . PHP_EOL;
+        }  
+        echo 'php composer.phar install' . PHP_EOL;
+        exit(2);
     }
-    exec($command);
-}
 
-// deploy option
-if ($opts->getOption('deploy')) {
-    $phpooleConsole->wlInfo('Deploy website on GitHub');
     try {
-        $config = $phpoole->getConfig();
-        if (!isset($config['deploy']['repository']) && !isset($config['deploy']['branch'])) {
-            throw new Exception('Cannot found the repository name in the config file');
+        $console = Console::getInstance();
+        $phpooleConsole = new PHPoole\Console($console);
+    } catch (ConsoleException $e) {
+        // Could not get console adapter - most likely we are not running inside a console window.
+    }
+
+    if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+        $phpooleConsole->wlError('PHP 5.4+ required (your version: ' . PHP_VERSION . ')');
+        exit(2);
+    }
+
+    define('DS', DIRECTORY_SEPARATOR);
+    define('PHPOOLE_DIRNAME', '_phpoole');
+    $websitePath = '';//getcwd();
+
+    // Defines rules
+    $rules = array(
+        'help|h'     => 'Get PHPoole usage message',
+        'init|i-s'   => 'Build a new PHPoole website (<force>)',
+        'generate|g' => 'Generate static files',
+        'serve|s'    => 'Start built-in web server',
+        'deploy|d'   => 'Deploy static files',
+        'list|l'     => 'Lists content',
+    );
+
+    // Get and parse console options
+    try {
+        $opts = new Getopt($rules);
+        $opts->parse();
+    } catch (ConsoleException $e) {
+        echo $e->getUsageMessage();
+        exit(2);
+    }
+
+    // help option
+    if ($opts->getOption('help') || count($opts->getOptions()) == 0) {
+        echo $opts->getUsageMessage();
+        exit(0);
+    }
+
+    // Get provided directory if exist
+    if (isset($opts->getRemainingArgs()[0])) {
+        if (!is_dir($opts->getRemainingArgs()[0])) {
+            $phpooleConsole->wlError('Invalid directory provided');
+            exit(2);
         }
-        else {
-            $repoUrl = $config['deploy']['repository'];
-            $repoBranch = $config['deploy']['branch'];
+        $websitePath = str_replace(DS, '/', realpath($opts->getRemainingArgs()[0]));
+    }
+
+    // Instanciate PHPoole API
+    try {
+        $phpoole = new PHPoole\PHPoole($websitePath);
+    } catch (\Exception $e) {
+        $phpooleConsole->wlError($e->getMessage());
+        exit(2);
+    }
+
+    // init option
+    if ($opts->getOption('init')) {
+        $force = false;
+        $phpooleConsole->wlInfo('Initializing new website');
+        if ((string)$opts->init == 'force') {
+            $force = true;
         }
-        $deployDir = $phpoole->getWebsitePath() . '/../.' . basename($phpoole->getWebsitePath());
-        if (is_dir($deployDir)) {
-            //echo 'Deploying files to GitHub...' . PHP_EOL;
-            $deployIterator = new FilesystemIterator($deployDir);
-            foreach ($deployIterator as $deployFile) {
-                if ($deployFile->isFile()) {
-                    @unlink($deployFile->getPathname());
-                }
-                if ($deployFile->isDir() && $deployFile->getFilename() != '.git') {
-                    RecursiveRmDir($deployFile->getPathname());
-                }
+        try {
+            $messages = $phpoole->init($force);
+            foreach ($messages as $message) {
+                $phpooleConsole->wlDone($message);
             }
-            RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
-            $updateRepoCmd = array(
-                'add -A',
-                'commit -m "Update ' . $repoBranch . ' via PHPoole"',
-                'push github ' . $repoBranch . ' --force'
+        } catch (\Exception $e) {
+            $phpooleConsole->wlError($e->getMessage());
+        }
+    }
+
+    // generate option
+    if ($opts->getOption('generate')) {
+        $generateConfig = array();
+        $phpooleConsole->wlInfo('Generate website');
+        if (isset($opts->serve)) {
+            $generateConfig['site']['base_url'] = 'http://localhost:8000';
+            $phpooleConsole->wlInfo('Youd should re-generate before deploy');
+        }
+        try {
+            $messages = $phpoole->generate($generateConfig);
+            foreach ($messages as $message) {
+                $phpooleConsole->wlDone($message);
+            }
+        } catch (\Exception $e) {
+            $phpooleConsole->wlError($e->getMessage());
+        }
+    }
+
+    // serve option
+    if ($opts->getOption('serve')) {
+        if (!is_file(sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME))) {
+            $phpooleConsole->wlError('Router not found');
+            exit(2);
+        }
+        $phpooleConsole->wlInfo(sprintf("Start server http://%s:%d", 'localhost', '8000'));
+        if (Utils\isWindows()) {
+            $command = sprintf(
+                //'START /B php -S %s:%d -t %s %s > nul',
+                'START php -S %s:%d -t %s %s > nul',
+                'localhost',
+                '8000',
+                $websitePath,
+                sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME)
             );
-            runGitCmd($deployDir, $updateRepoCmd);
         }
         else {
-            //echo 'Setting up GitHub deployment...' . PHP_EOL;
-            @mkdir($deployDir);
-            RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
-            $initRepoCmd = array(
-                'init',
-                'add -A',
-                'commit -m "Create ' . $repoBranch . ' via PHPoole"',
-                'branch -M ' . $repoBranch . '',
-                'remote add github ' . $repoUrl,
-                'push github ' . $repoBranch . ' --force'
+            echo 'Ctrl-C to stop it.' . PHP_EOL;
+            $command = sprintf(
+                //'php -S %s:%d -t %s %s >/dev/null 2>&1 & echo $!',
+                'php -S %s:%d -t %s %s >/dev/null',
+                'localhost',
+                '8000',
+                $websitePath,
+                sprintf('%s/%s/router.php', $websitePath, PHPOOLE_DIRNAME)
             );
-            runGitCmd($deployDir, $initRepoCmd);
         }
-    } catch (Exception $e) {
-        $phpooleConsole->wlError($e->getMessage());
-    }
-}
-
-// list option
-if ($opts->getOption('list')) {
-    if (isset($opts->list)) {
-        // @todo list by path?
-    }
-    try {
-        $phpooleConsole->wlInfo('List content');
-        $pages = $phpoole->getPagesTree();
-        if ($console->isUtf8()) {
-            $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
-                $prefixParts = [
-                    RecursiveTreeIterator::PREFIX_LEFT         => ' ',
-                    RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
-                    RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                    RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
-                ];
-                foreach ($prefixParts as $part => $string) {
-                    $tree->setPrefixPart($part, $string);
-                }
-            };
-            $unicodeTreePrefix($pages);
-        }
-        $console->writeLine('[pages]');
-        foreach($pages as $page) {
-            $console->writeLine($page);
-        }
-    } catch (Exception $e) {
-        $phpooleConsole->wlError($e->getMessage());
-    }
-}
-
-/**
- * PHPoole API
- */
-class PHPoole
-{
-    const PHPOOLE_DIRNAME = '_phpoole';
-    const CONFIG_FILENAME = 'config.ini';
-    const LAYOUTS_DIRNAME = 'layouts';
-    const ASSETS_DIRNAME  = 'assets';
-    const CONTENT_DIRNAME = 'content';
-    const CONTENT_PAGES_DIRNAME = 'pages';
-    //const CONTENT_POSTS_DIRNAME = 'posts';
-    const PLUGINS_DIRNAME  = 'plugins';
-    //
-    const VERSION = '0.0.1';
-    const URL = 'http://narno.org/PHPoole';
-
-    protected $_websitePath;
-    protected $_websiteFileInfo;
-    protected $_events;
-    protected $_config = null;
-    protected $_messages = array();
-
-    public function __construct($websitePath)
-    {
-        $splFileInfo = new SplFileInfo($websitePath);
-        if (!$splFileInfo->isDir()) {
-            throw new Exception('Invalid directory provided');
-        }
-        else {
-            $this->_websiteFileInfo = $splFileInfo;
-            $this->_websitePath = $splFileInfo->getRealPath();
-        }
-        // Load plugins
-        $this->_events = new EventManager();
-        $this->loadPlugins();
+        exec($command);
     }
 
-    public function getWebsiteFileInfo()
-    {
-        return $this->_websiteFileInfo;
-    }
-
-    public function setWebsitePath($path)
-    {
-        $this->_websitePath = $path;
-        return $this->getWebsitePath();
-    }
-
-    public function getWebsitePath()
-    {
-        return $this->_websitePath;
-    }
-
-    public function getEvents()
-    {
-        return $this->_events;
-    }
-
-    public function getMessages()
-    {
-        return $this->_messages;
-    }
-
-    public function setMessage($message)
-    {
-        $this->_messages[] = $message;
-        return $this->getMessages();
-    }
-
-    public function triggerEvent($method, $args, $when=array('pre','post'))
-    {   
-        $reflector = new ReflectionClass(__CLASS__);
-        $parameters = $reflector->getMethod($method)->getParameters();
-        foreach ($parameters as $parameter) {
-            $params[$parameter->getName()] = $parameter->getName();
-        }
-        $this->getEvents()->trigger($method . '.' . $when, $this, array_combine($params, $args));
-    }
-
-    public function init($force=false)
-    {
-        $this->triggerEvent(__FUNCTION__, func_get_args(), 'pre');
-
-        if (file_exists($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME)) {
-            if ($force === true) {
-                RecursiveRmdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
+    // deploy option
+    if ($opts->getOption('deploy')) {
+        $phpooleConsole->wlInfo('Deploy website on GitHub');
+        try {
+            $config = $phpoole->getConfig();
+            if (!isset($config['deploy']['repository']) && !isset($config['deploy']['branch'])) {
+                throw new \Exception('Cannot found the repository name in the config file');
             }
             else {
-                throw new Exception('The website is already initialized');
+                $repoUrl = $config['deploy']['repository'];
+                $repoBranch = $config['deploy']['branch'];
             }
+            $deployDir = $phpoole->getWebsitePath() . '/../.' . basename($phpoole->getWebsitePath());
+            if (is_dir($deployDir)) {
+                //echo 'Deploying files to GitHub...' . PHP_EOL;
+                $deployIterator = new FilesystemIterator($deployDir);
+                foreach ($deployIterator as $deployFile) {
+                    if ($deployFile->isFile()) {
+                        @unlink($deployFile->getPathname());
+                    }
+                    if ($deployFile->isDir() && $deployFile->getFilename() != '.git') {
+                        RecursiveRmDir($deployFile->getPathname());
+                    }
+                }
+                RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
+                $updateRepoCmd = array(
+                    'add -A',
+                    'commit -m "Update ' . $repoBranch . ' via PHPoole"',
+                    'push github ' . $repoBranch . ' --force'
+                );
+                runGitCmd($deployDir, $updateRepoCmd);
+            }
+            else {
+                //echo 'Setting up GitHub deployment...' . PHP_EOL;
+                @mkdir($deployDir);
+                RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
+                $initRepoCmd = array(
+                    'init',
+                    'add -A',
+                    'commit -m "Create ' . $repoBranch . ' via PHPoole"',
+                    'branch -M ' . $repoBranch . '',
+                    'remote add github ' . $repoUrl,
+                    'push github ' . $repoBranch . ' --force'
+                );
+                runGitCmd($deployDir, $initRepoCmd);
+            }
+        } catch (\Exception $e) {
+            $phpooleConsole->wlError($e->getMessage());
         }
-        if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME)) {
-            throw new Exception('Cannot create root PHPoole directory');
-        }
-        $this->setMessage(self::PHPOOLE_DIRNAME . ' directory created');
-        $this->setMessage($this->createConfigFile());
-        $this->setMessage($this->createLayoutsDir());
-        $this->setMessage($this->createLayoutDefaultFile());
-        $this->setMessage($this->createAssetsDir());
-        $this->setMessage($this->createAssetDefaultFiles());
-        $this->setMessage($this->createContentDir());
-        $this->setMessage($this->createContentDefaultFile());
-        $this->setMessage($this->createRouterFile());
-
-        $this->triggerEvent(__FUNCTION__, func_get_args(), 'post');
-
-        return $this->getMessages();
     }
 
-    private function createConfigFile()
+    // list option
+    if ($opts->getOption('list')) {
+        if (isset($opts->list)) {
+            // @todo list by path?
+        }
+        try {
+            $phpooleConsole->wlInfo('List content');
+            $pages = $phpoole->getPagesTree();
+            if ($console->isUtf8()) {
+                $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
+                    $prefixParts = [
+                        RecursiveTreeIterator::PREFIX_LEFT         => ' ',
+                        RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
+                        RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
+                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
+                    ];
+                    foreach ($prefixParts as $part => $string) {
+                        $tree->setPrefixPart($part, $string);
+                    }
+                };
+                $unicodeTreePrefix($pages);
+            }
+            $console->writeLine('[pages]');
+            foreach($pages as $page) {
+                $console->writeLine($page);
+            }
+        } catch (\Exception $e) {
+            $phpooleConsole->wlError($e->getMessage());
+        }
+    }
+}
+
+namespace PHPoole
+{
+    use Zend\Console\ColorInterface as Color;
+    use Zend\EventManager\EventManager;
+    use Michelf\MarkdownExtra;
+    use Utils;
+
+    /**
+     * PHPoole API
+     */
+    class PHPoole
     {
-        $content = <<<'EOT'
+        const PHPOOLE_DIRNAME = '_phpoole';
+        const CONFIG_FILENAME = 'config.ini';
+        const LAYOUTS_DIRNAME = 'layouts';
+        const ASSETS_DIRNAME  = 'assets';
+        const CONTENT_DIRNAME = 'content';
+        const CONTENT_PAGES_DIRNAME = 'pages';
+        //const CONTENT_POSTS_DIRNAME = 'posts';
+        const PLUGINS_DIRNAME  = 'plugins';
+        //
+        const VERSION = '0.0.1';
+        const URL = 'http://narno.org/PHPoole';
+
+        protected $_websitePath;
+        protected $_websiteFileInfo;
+        protected $_events;
+        protected $_config = null;
+        protected $_messages = array();
+
+        public function __construct($websitePath)
+        {
+            $splFileInfo = new \SplFileInfo($websitePath);
+            if (!$splFileInfo->isDir()) {
+                throw new \Exception('Invalid directory provided');
+            }
+            else {
+                $this->_websiteFileInfo = $splFileInfo;
+                $this->_websitePath = $splFileInfo->getRealPath();
+            }
+            // Load plugins
+            $this->_events = new EventManager();
+            $this->loadPlugins();
+        }
+
+        public function getWebsiteFileInfo()
+        {
+            return $this->_websiteFileInfo;
+        }
+
+        public function setWebsitePath($path)
+        {
+            $this->_websitePath = $path;
+            return $this->getWebsitePath();
+        }
+
+        public function getWebsitePath()
+        {
+            return $this->_websitePath;
+        }
+
+        public function getEvents()
+        {
+            return $this->_events;
+        }
+
+        public function getMessages()
+        {
+            return $this->_messages;
+        }
+
+        public function setMessage($message)
+        {
+            $this->_messages[] = $message;
+            return $this->getMessages();
+        }
+
+        public function triggerEvent($method, $args, $when=array('pre','post'))
+        {   
+            $reflector = new \ReflectionClass(__CLASS__);
+            $parameters = $reflector->getMethod($method)->getParameters();
+            foreach ($parameters as $parameter) {
+                $params[$parameter->getName()] = $parameter->getName();
+            }
+            $this->getEvents()->trigger($method . '.' . $when, $this, array_combine($params, $args));
+        }
+
+        public function init($force=false)
+        {
+            $this->triggerEvent(__FUNCTION__, func_get_args(), 'pre');
+
+            if (file_exists($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME)) {
+                if ($force === true) {
+                    RecursiveRmdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
+                }
+                else {
+                    throw new \Exception('The website is already initialized');
+                }
+            }
+            if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME)) {
+                throw new \Exception('Cannot create root PHPoole directory');
+            }
+            $this->setMessage(self::PHPOOLE_DIRNAME . ' directory created');
+            $this->setMessage($this->createConfigFile());
+            $this->setMessage($this->createLayoutsDir());
+            $this->setMessage($this->createLayoutDefaultFile());
+            $this->setMessage($this->createAssetsDir());
+            $this->setMessage($this->createAssetDefaultFiles());
+            $this->setMessage($this->createContentDir());
+            $this->setMessage($this->createContentDefaultFile());
+            $this->setMessage($this->createRouterFile());
+
+            $this->triggerEvent(__FUNCTION__, func_get_args(), 'post');
+
+            return $this->getMessages();
+        }
+
+        private function createConfigFile()
+        {
+            $content = <<<'EOT'
 [site]
 name        = "PHPoole"
 baseline    = "Light and easy static website generator!"
@@ -368,23 +375,23 @@ home  = "http://narno.org"
 repository = "https://github.com/Narno/PHPoole.git"
 branch     = "gh-pages"
 EOT;
-        if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME, $content)) {
-            throw new Exception('Cannot create the config file');
+            if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME, $content)) {
+                throw new \Exception('Cannot create the config file');
+            }
+            return 'Config file created';
         }
-        return 'Config file created';
-    }
 
-    private function createLayoutsDir()
-    {
-        if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME)) {
-            throw new Exception('Cannot create the layouts directory');
+        private function createLayoutsDir()
+        {
+            if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME)) {
+                throw new \Exception('Cannot create the layouts directory');
+            }
+            return 'Layouts directory created';
         }
-        return 'Layouts directory created';
-    }
 
-    private function createLayoutDefaultFile()
-    {
-        $content = <<<'EOT'
+        private function createLayoutDefaultFile()
+        {
+            $content = <<<'EOT'
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="{{ site.language }}"><![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js" lang="{{ site.language }}"><!--<![endif]-->
@@ -411,51 +418,51 @@ EOT;
 </body>
 </html>
 EOT;
-        if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/default.html', $content)) {
-            throw new Exception('Cannot create the default layout file');
-        }
-        return 'Default layout file created';
-    }
-
-    private function createAssetsDir()
-    {
-        $subDirList = array(
-            self::ASSETS_DIRNAME,
-            self::ASSETS_DIRNAME . '/css',
-            self::ASSETS_DIRNAME . '/img',
-            self::ASSETS_DIRNAME . '/js',
-        );
-        foreach ($subDirList as $subDir) {
-            if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . $subDir)) {
-                throw new Exception('Cannot create the assets directory');
+            if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/default.html', $content)) {
+                throw new \Exception('Cannot create the default layout file');
             }
+            return 'Default layout file created';
         }
-        return 'Assets directory created';
-    }
 
-    private function createAssetDefaultFiles()
-    {
-        return 'Default assets files not needed';
-    }
-
-    private function createContentDir()
-    {
-        $subDirList = array(
-            self::CONTENT_DIRNAME,
-            self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME,
-            //self::CONTENT_DIRNAME . '/' . self::CONTENT_POSTS_DIRNAME,
-        );
-        foreach ($subDirList as $subDir) {
-            if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . $subDir)) {
-                throw new Exception('Cannot create the content directory');
+        private function createAssetsDir()
+        {
+            $subDirList = array(
+                self::ASSETS_DIRNAME,
+                self::ASSETS_DIRNAME . '/css',
+                self::ASSETS_DIRNAME . '/img',
+                self::ASSETS_DIRNAME . '/js',
+            );
+            foreach ($subDirList as $subDir) {
+                if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . $subDir)) {
+                    throw new \Exception('Cannot create the assets directory');
+                }
             }
+            return 'Assets directory created';
         }
-        return 'Content directory created';
-    }
 
-    private function createContentDefaultFile()
-    {
-        $content = <<<'EOT'
+        private function createAssetDefaultFiles()
+        {
+            return 'Default assets files not needed';
+        }
+
+        private function createContentDir()
+        {
+            $subDirList = array(
+                self::CONTENT_DIRNAME,
+                self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME,
+                //self::CONTENT_DIRNAME . '/' . self::CONTENT_POSTS_DIRNAME,
+            );
+            foreach ($subDirList as $subDir) {
+                if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . $subDir)) {
+                    throw new \Exception('Cannot create the content directory');
+                }
+            }
+            return 'Content directory created';
+        }
+
+        private function createContentDefaultFile()
+        {
+            $content = <<<'EOT'
 <!--
 title = Home
 layout = default
@@ -468,15 +475,15 @@ PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Stran
 
 Go to the [dedicated website](http://narno.org/PHPoole) for more details.
 EOT;
-        if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME . '/index.md', $content)) {
-            throw new Exception('Cannot create the default content file');
+            if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME . '/index.md', $content)) {
+                throw new \Exception('Cannot create the default content file');
+            }
+            return 'Default content file created';
         }
-        return 'Default content file created';
-    }
 
-    private function createRouterFile()
-    {
-        $content = <<<'EOT'
+        private function createRouterFile()
+        {
+            $content = <<<'EOT'
 <?php
 date_default_timezone_set("UTC");
 define("DIRECTORY_INDEX", "index.html");
@@ -491,573 +498,586 @@ if (file_exists($_SERVER["DOCUMENT_ROOT"] . $path)) {
 http_response_code(404);
 echo "404, page not found";
 EOT;
-        if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/router.php', $content)) {
-            throw new Exception('Cannot create the router file');
+            if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/router.php', $content)) {
+                throw new \Exception('Cannot create the router file');
+            }
+            return 'Router file created';
         }
-        return 'Router file created';
-    }
 
-    private function createReadmeFile()
-    {
-        $content = <<<'EOT'
+        private function createReadmeFile()
+        {
+            $content = <<<'EOT'
 Powered by [PHPoole](http://narno.org/PHPoole/).
 EOT;
-        
-        if (is_file($this->getWebsitePath() . '/README.md')) {
-            if (!@unlink($this->getWebsitePath() . '/README.md')) {
-                throw new Exception('Cannot create the README file');
-            }
-        }
-        if (!@file_put_contents($this->getWebsitePath() . '/README.md', $content)) {
-            throw new Exception('Cannot create the README file');
-        }
-        return 'README file created';
-    }
-
-    public function getConfig($key='')
-    {
-        if ($this->_config == null) {
-            $configFilePath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME;
-            if (!file_exists($configFilePath)) {
-                throw new Exception('Cannot get config file');
-            }
-            if (!($this->_config = parse_ini_file($configFilePath, true))) {
-                throw new Exception('Cannot parse config file');
-            }
-            if (!empty($key)) {
-                if (!array_key_exists($key, $this->_config)) {
-                    throw new Exception(sprintf('Cannot find %s key in config file', $key));
+            
+            if (is_file($this->getWebsitePath() . '/README.md')) {
+                if (!@unlink($this->getWebsitePath() . '/README.md')) {
+                    throw new \Exception('Cannot create the README file');
                 }
-                return $this->_config[$key];
             }
-            $this->_config;
+            if (!@file_put_contents($this->getWebsitePath() . '/README.md', $content)) {
+                throw new \Exception('Cannot create the README file');
+            }
+            return 'README file created';
         }
-        return $this->_config;
-    }
 
-    public function generate($configToMerge=array())
-    {
-        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
-        $pages = array();
-        $menu['nav'] = array();
-        $layoutsPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME;
-        $config = (
-            !empty($configToMerge)
-            ? array_replace_recursive($this->getConfig(), $configToMerge)
-            : $this->getConfig()
-        );
-        // iterate pages
-        $pagesIterator = new PhpooleFileIterator($pagesPath, 'md');
-        foreach ($pagesIterator as $filePage) {
-            $info = $filePage->parse($config)->getData('info');
-            $pageIndex = ($pagesIterator->getSubPath() ? $pagesIterator->getSubPath() : 'home');
-            $pages[$pageIndex]['title'] = (
-                isset($info['title']) && !empty($info['title'])
-                ? $info['title']
-                : ucfirst($filePage->getBasename('.md'))
-            );
-            $pages[$pageIndex]['path'] = $pagesIterator->getSubPath();
-            $pages[$pageIndex]['basename'] = $filePage->getBasename('.md') . '.html';
-            $pages[$pageIndex]['layout'] = (
-                isset($info['layout'])
-                    && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . $info['layout'] . '.html')
-                ? $info['layout'] . '.html'
-                : 'default.html'
-            );
-            if (isset($info['pagination'])) {
-                $pages[$pageIndex]['pagination'] = $info['pagination'];
-            }
-            $pages[$pageIndex]['content'] = $filePage->getData('content');
-            // menu
-            if (isset($info['menu'])) {
-                $menu[$info['menu']][] = (
-                    !empty($info['menu'])
-                    ? array(
-                        'title' => $info['title'],
-                        'path'  => $pagesIterator->getSubPath()
-                    )
-                    : ''
-                );
-            }
-        }
-        // sort nav menu
-        foreach ($menu['nav'] as $key => $row) {
-            $path[$key] = $row['path'];
-        }
-        array_multisort($path, SORT_ASC, $menu['nav']);
-        // rendering
-        $tplEngine = $this->tplEngine($layoutsPath);
-        $pagesIterator = (new ArrayObject($pages))->getIterator();
-        $pagesIterator->ksort();
-        $currentPos = 0;
-        $prevPos = '';
-        while ($pagesIterator->valid()) {
-            $previous = $next = '';
-            $prevTitle = $nextTitle = '';
-            $page = $pagesIterator->current();
-            if (isset($page['pagination']) && $page['pagination'] == 'enabled') {
-                if ($pagesIterator->offsetExists($prevPos)) {
-                    $previous = $pagesIterator->offsetGet($prevPos)['path'];
-                    $prevTitle = $pagesIterator->offsetGet($prevPos)['title'];
+        public function getConfig($key='')
+        {
+            if ($this->_config == null) {
+                $configFilePath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME;
+                if (!file_exists($configFilePath)) {
+                    throw new \Exception('Cannot get config file');
                 }
-                $pagesIterator->next();
-                if ($pagesIterator->valid()) {
-                    if (isset($pagesIterator->current()['pagination']) && $pagesIterator->current()['pagination'] == 'enabled') {
-                        $next = $pagesIterator->current()['path'];
-                        $nextTitle = $pagesIterator->current()['title'];
+                if (!($this->_config = parse_ini_file($configFilePath, true))) {
+                    throw new \Exception('Cannot parse config file');
+                }
+                if (!empty($key)) {
+                    if (!array_key_exists($key, $this->_config)) {
+                        throw new \Exception(sprintf('Cannot find %s key in config file', $key));
                     }
+                    return $this->_config[$key];
                 }
-                $pagesIterator->seek($currentPos);
+                $this->_config;
             }
-            $rendered = $tplEngine->render($page['layout'], array(
-                'phpoole'   => array(
-                    'version' => PHPoole::VERSION,
-                    'url'     => PHPoole::URL
-                ),
-                'site'       => (isset($config['site']) ? $config['site'] : ''),
-                'author'     => (isset($config['author']) ? $config['author'] : ''),
-                'source'     => (isset($config['deploy']) ? $config['deploy'] : ''),
-                'collection' => new PHPoole_Proxy($this),
-                'title'      => (isset($page['title']) ? $page['title'] : ''),
-                'path'       => (isset($page['path']) ? $page['path'] : ''),
-                'content'    => (isset($page['content']) ? $page['content'] : ''),
-                'nav'        => (isset($menu['nav']) ? $menu['nav'] : ''),
-                'previous'   => (isset($previous) ? $previous : ''),
-                'next'       => (isset($next) ? $next : ''),
-                'prevTitle'  => (isset($prevTitle) ? $prevTitle : ''),
-                'nextTitle'  => (isset($nextTitle) ? $nextTitle : ''),
-            ));
-            if (!is_dir($this->getWebsitePath() . '/' . $page['path'])) {
-                if (!@mkdir($this->getWebsitePath() . '/' . $page['path'], 0777, true)) {
-                    throw new Exception(sprintf('Cannot create %s', $this->getWebsitePath() . '/' . $page['path']));
-                }
-            }
-            if (is_file($this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
-                if (!@unlink($this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
-                    throw new Exception(sprintf('Cannot delete %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
-                }
-                $this->setMessage('Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename']);
-            }
-            if (!@file_put_contents(sprintf('%s%s', $this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), $rendered)) {
-                throw new Exception(sprintf('Cannot write %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
-            }
-            $this->setMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
-            $prevPos = $pagesIterator->key(); // use by the next iteration
-            $currentPos++;
-            $pagesIterator->next();
+            return $this->_config;
         }
-        // copy assets
-        if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
-            RecursiveRmdir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
-        }
-        RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
-        // done
-        $this->setMessage('Copy assets directory (and sub)');
-        $this->setMessage($this->createReadmeFile());
-        return $this->getMessages();
-    }
 
-    public function tplEngine($templatesPath)
-    {
-        $twigLoader = new Twig_Loader_Filesystem($templatesPath);
-        $twig = new Twig_Environment($twigLoader, array(
-            'autoescape' => false,
-            'debug'      => true
-        ));
-        $twig->addExtension(new Twig_Extension_Debug());
-        return $twig;
-    }
-
-    public function getPages($subDir='')
-    {
-        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
-        $pagesPath = (
-            !empty($subDir)
-            ? $pagesPath . '/' . $subDir
-            : $pagesPath
-        );
-        if (!is_dir($pagesPath)) {
-            throw new Exception(sprintf("Invalid %s/%s%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME, (!empty($subDir) ? '/' . $subDir : '')));
-        }
-        $pagesIterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator(
-                $pagesPath,
-                RecursiveDirectoryIterator::SKIP_DOTS
-            ),
-            RecursiveIteratorIterator::SELF_FIRST
-        );
-        foreach ($pagesIterator as $page) {
-            if ($page->isDir()) {
-                if (file_exists($page->getPathname() . '/index.md')) {
-                    $pages[] = array(
-                        'path'  => $pagesIterator->getSubPathName() . "\n",
-                        'url'   => $this->getConfig()['site']['base_url'] . '/' . (!empty($subDir) ? $subDir . '/' : '')  . $pagesIterator->getSubPathName(),
-                        'title' => (new PhpooleFile($page->getPathname() . '/index.md'))
-                            ->parse($this->getConfig())->getData('info')['title'],
+        public function generate($configToMerge=array())
+        {
+            $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
+            $pages = array();
+            $menu['nav'] = array();
+            $layoutsPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME;
+            $config = (
+                !empty($configToMerge)
+                ? array_replace_recursive($this->getConfig(), $configToMerge)
+                : $this->getConfig()
+            );
+            // iterate pages
+            $pagesIterator = new FileIterator($pagesPath, 'md');
+            foreach ($pagesIterator as $filePage) {
+                $info = $filePage->parse($config)->getData('info');
+                $pageIndex = ($pagesIterator->getSubPath() ? $pagesIterator->getSubPath() : 'home');
+                $pages[$pageIndex]['title'] = (
+                    isset($info['title']) && !empty($info['title'])
+                    ? $info['title']
+                    : ucfirst($filePage->getBasename('.md'))
+                );
+                $pages[$pageIndex]['path'] = $pagesIterator->getSubPath();
+                $pages[$pageIndex]['basename'] = $filePage->getBasename('.md') . '.html';
+                $pages[$pageIndex]['layout'] = (
+                    isset($info['layout'])
+                        && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . $info['layout'] . '.html')
+                    ? $info['layout'] . '.html'
+                    : 'default.html'
+                );
+                if (isset($info['pagination'])) {
+                    $pages[$pageIndex]['pagination'] = $info['pagination'];
+                }
+                $pages[$pageIndex]['content'] = $filePage->getData('content');
+                // menu
+                if (isset($info['menu'])) {
+                    $menu[$info['menu']][] = (
+                        !empty($info['menu'])
+                        ? array(
+                            'title' => $info['title'],
+                            'path'  => $pagesIterator->getSubPath()
+                        )
+                        : ''
                     );
                 }
             }
-        }
-        return $pages;
-    }
-
-    public function getPagesTree()
-    {
-        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
-        if (!is_dir($pagesPath)) {
-            throw new Exception(sprintf("Invalid %s/%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME));
-        }
-        $pages = new FilenameRecursiveTreeIterator(
-            new RecursiveDirectoryIterator(
-                $pagesPath,
-                RecursiveDirectoryIterator::SKIP_DOTS
-            ),
-            FilenameRecursiveTreeIterator::SELF_FIRST
-        );
-        return $pages;
-    }
-
-    private function loadPlugins()
-    {
-        try {
-            $configPlugins = $this->getConfig('plugins');
-        } catch (Exception $e) {
-            $configPlugins = array();
-        }
-        $pluginsDir = __DIR__ . '/' . self::PLUGINS_DIRNAME;
-        if (is_dir($pluginsDir)) {
-            $pluginsIterator = new FilesystemIterator($pluginsDir);
-            foreach ($pluginsIterator as $plugin) {
-                if (array_key_exists($plugin->getBasename(), $configPlugins)
-                && $configPlugins[$plugin->getBasename()] == 'disabled') {
-                    continue;
-                }
-                if ($plugin->isDir()) {
-                    include_once("$plugin/Plugin.php");
-                    $pluginName = $plugin->getBasename();
-                    if (class_exists($pluginName)) {
-                        $pluginclass = new $pluginName($this->getEvents());
-                        if (method_exists($pluginclass, 'preInit')) {
-                            $this->getEvents()->attach('init.pre', array($pluginclass, 'preInit'));
+            // sort nav menu
+            foreach ($menu['nav'] as $key => $row) {
+                $path[$key] = $row['path'];
+            }
+            if (isset($path) && is_array($path)) {
+                array_multisort($path, SORT_ASC, $menu['nav']);
+            }
+            // rendering
+            $tplEngine = $this->tplEngine($layoutsPath);
+            $pagesIterator = (new \ArrayObject($pages))->getIterator();
+            $pagesIterator->ksort();
+            $currentPos = 0;
+            $prevPos = '';
+            while ($pagesIterator->valid()) {
+                $previous = $next = '';
+                $prevTitle = $nextTitle = '';
+                $page = $pagesIterator->current();
+                if (isset($page['pagination']) && $page['pagination'] == 'enabled') {
+                    if ($pagesIterator->offsetExists($prevPos)) {
+                        $previous = $pagesIterator->offsetGet($prevPos)['path'];
+                        $prevTitle = $pagesIterator->offsetGet($prevPos)['title'];
+                    }
+                    $pagesIterator->next();
+                    if ($pagesIterator->valid()) {
+                        if (isset($pagesIterator->current()['pagination']) && $pagesIterator->current()['pagination'] == 'enabled') {
+                            $next = $pagesIterator->current()['path'];
+                            $nextTitle = $pagesIterator->current()['title'];
                         }
-                        if (method_exists($pluginclass, 'postInit')) {
-                            $this->getEvents()->attach('init.post', array($pluginclass, 'postInit'));
+                    }
+                    $pagesIterator->seek($currentPos);
+                }
+                $rendered = $tplEngine->render($page['layout'], array(
+                    'phpoole'   => array(
+                        'version' => PHPoole::VERSION,
+                        'url'     => PHPoole::URL
+                    ),
+                    'site'       => (isset($config['site']) ? $config['site'] : ''),
+                    'author'     => (isset($config['author']) ? $config['author'] : ''),
+                    'source'     => (isset($config['deploy']) ? $config['deploy'] : ''),
+                    'collection' => new Proxy($this),
+                    'title'      => (isset($page['title']) ? $page['title'] : ''),
+                    'path'       => (isset($page['path']) ? $page['path'] : ''),
+                    'content'    => (isset($page['content']) ? $page['content'] : ''),
+                    'nav'        => (isset($menu['nav']) ? $menu['nav'] : ''),
+                    'previous'   => (isset($previous) ? $previous : ''),
+                    'next'       => (isset($next) ? $next : ''),
+                    'prevTitle'  => (isset($prevTitle) ? $prevTitle : ''),
+                    'nextTitle'  => (isset($nextTitle) ? $nextTitle : ''),
+                ));
+                if (!is_dir($this->getWebsitePath() . '/' . $page['path'])) {
+                    if (!@mkdir($this->getWebsitePath() . '/' . $page['path'], 0777, true)) {
+                        throw new \Exception(sprintf('Cannot create %s', $this->getWebsitePath() . '/' . $page['path']));
+                    }
+                }
+                if (is_file($this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
+                    if (!@unlink($this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
+                        throw new \Exception(sprintf('Cannot delete %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
+                    }
+                    $this->setMessage('Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename']);
+                }
+                if (!@file_put_contents(sprintf('%s%s', $this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), $rendered)) {
+                    throw new \Exception(sprintf('Cannot write %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
+                }
+                $this->setMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
+                $prevPos = $pagesIterator->key(); // use by the next iteration
+                $currentPos++;
+                $pagesIterator->next();
+            }
+            // copy assets
+            if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
+                Utils\RecursiveRmdir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
+            }
+            Utils\RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
+            // done
+            $this->setMessage('Copy assets directory (and sub)');
+            $this->setMessage($this->createReadmeFile());
+            return $this->getMessages();
+        }
+
+        public function tplEngine($templatesPath)
+        {
+            $twigLoader = new \Twig_Loader_Filesystem($templatesPath);
+            $twig = new \Twig_Environment($twigLoader, array(
+                'autoescape' => false,
+                'debug'      => true
+            ));
+            $twig->addExtension(new \Twig_Extension_Debug());
+            return $twig;
+        }
+
+        public function getPages($subDir='')
+        {
+            $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
+            $pagesPath = (
+                !empty($subDir)
+                ? $pagesPath . '/' . $subDir
+                : $pagesPath
+            );
+            if (!is_dir($pagesPath)) {
+                throw new \Exception(sprintf("Invalid %s/%s%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME, (!empty($subDir) ? '/' . $subDir : '')));
+            }
+            $pagesIterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator(
+                    $pagesPath,
+                    \RecursiveDirectoryIterator::SKIP_DOTS
+                ),
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
+            foreach ($pagesIterator as $page) {
+                if ($page->isDir()) {
+                    if (file_exists($page->getPathname() . '/index.md')) {
+                        $pages[] = array(
+                            'path'  => $pagesIterator->getSubPathName() . "\n",
+                            'url'   => $this->getConfig()['site']['base_url'] . '/' . (!empty($subDir) ? $subDir . '/' : '')  . $pagesIterator->getSubPathName(),
+                            'title' => (new File($page->getPathname() . '/index.md'))
+                                ->parse($this->getConfig())->getData('info')['title'],
+                        );
+                    }
+                }
+            }
+            return $pages;
+        }
+
+        public function getPagesTree()
+        {
+            $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
+            if (!is_dir($pagesPath)) {
+                throw new \Exception(sprintf("Invalid %s/%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME));
+            }
+            $dirIterator = new \RecursiveDirectoryIterator($pagesPath, \RecursiveDirectoryIterator::SKIP_DOTS);
+            $pages = new Utils\FilenameRecursiveTreeIterator(
+                $dirIterator,
+                Utils\FilenameRecursiveTreeIterator::SELF_FIRST
+            );
+            return $pages;
+        }
+
+        private function loadPlugins()
+        {
+            try {
+                $configPlugins = $this->getConfig('plugins');
+            } catch (\Exception $e) {
+                $configPlugins = array();
+            }
+            $pluginsDir = __DIR__ . '/' . self::PLUGINS_DIRNAME;
+            if (is_dir($pluginsDir)) {
+                $pluginsIterator = new \FilesystemIterator($pluginsDir);
+                foreach ($pluginsIterator as $plugin) {
+                    if (array_key_exists($plugin->getBasename(), $configPlugins)
+                    && $configPlugins[$plugin->getBasename()] == 'disabled') {
+                        continue;
+                    }
+                    if ($plugin->isDir()) {
+                        include_once("$plugin/Plugin.php");
+                        $pluginName = $plugin->getBasename();
+                        if (class_exists($pluginName)) {
+                            $pluginclass = new $pluginName($this->getEvents());
+                            if (method_exists($pluginclass, 'preInit')) {
+                                $this->getEvents()->attach('init.pre', array($pluginclass, 'preInit'));
+                            }
+                            if (method_exists($pluginclass, 'postInit')) {
+                                $this->getEvents()->attach('init.post', array($pluginclass, 'postInit'));
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
 
-class PHPoole_Proxy
-{
-    protected $_phpoole;
-
-    public function __construct($phpoole)
+    class Proxy
     {
-        if (!$phpoole instanceof PHPoole) {
-            throw new Exception('PHPoole_Proxy should be loaded with a PHPoole instance');
-        }
-        $this->_phpoole = $phpoole;
-    }
+        protected $_phpoole;
 
-    public function getPages($subDir='')
-    {
-        return $this->_phpoole->getPages($subDir);
-    }
-}
-
-/**
- * PHPoole File iterator
- */
-class PhpooleFileIterator extends FilterIterator
-{
-    public function __construct($dirOrIterator = '.', $extension='')
-    {
-        if (is_string($dirOrIterator)) {
-            if (!is_dir($dirOrIterator)) {
-                throw new InvalidArgumentException('Expected a valid directory name');
+        public function __construct($phpoole)
+        {
+            if (!$phpoole instanceof PHPoole) {
+                throw new \Exception('Proxy should be loaded with a PHPoole instance');
             }
-            $dirOrIterator = new RecursiveDirectoryIterator(
-                $dirOrIterator,
-                RecursiveIteratorIterator::SELF_FIRST
-            );
+            $this->_phpoole = $phpoole;
         }
-        elseif (!$dirOrIterator instanceof DirectoryIterator) {
-            throw new InvalidArgumentException('Expected a DirectoryIterator');
+
+        public function getPages($subDir='')
+        {
+            return $this->_phpoole->getPages($subDir);
         }
-        if ($dirOrIterator instanceof RecursiveIterator) {
-            $dirOrIterator = new RecursiveIteratorIterator($dirOrIterator);
-        }
-        parent::__construct($dirOrIterator);
-        $this->setInfoClass('PhpooleFile');
     }
 
-    public function accept()
+    /**
+     * PHPoole FileInfo, extended from SplFileInfo
+     */
+    class FileInfo extends \SplFileInfo
     {
-        $file = $this->getInnerIterator()->current();
-        if (!$file instanceof SplFileInfo) {
-            return false;
+        protected $_data = array();
+        protected $_converter = null;
+
+        public function setData($key, $value)
+        {
+            $this->_data[$key] = $value;
+            return $this;
         }
-        if (!$file->isFile()) {
-            return false;
+
+        public function getData($key='')
+        {
+            if ($key == '') {
+                return $this->_data;
+            }
+            if (isset($this->_data[$key])) {
+                return $this->_data[$key];
+            }
         }
-        if (isset($extension) && is_string($extension)) {
-            if ($file->getExtension() == $extension) {
+
+        public function getContents()
+        {
+            $level = error_reporting(0);
+            $content = file_get_contents($this->getRealpath());
+            error_reporting($level);
+            if (false === $content) {
+                $error = error_get_last();
+                throw new \RuntimeException($error['message']);
+            }
+            return $content;
+        }
+
+        public function setConverter($config='')
+        {
+            // Markdown only
+            $this->_converter = new MarkdownExtra;
+            $this->_converter->code_attr_on_pre = true;
+            if (!empty($config)) {
+                $this->_converter->predef_urls = array('base_url' => $config['site']['base_url']);
+            }
+            return $this;
+        }
+
+        public function getConverter()
+        {
+            return $this->_converter;
+        }
+
+        public function parse($config='')
+        {
+            $this->setConverter($config);
+            if (!$this->isReadable()) {
+                throw new \Exception('Cannot read file');
+            }
+            if ($this->getConverter() == null) {
+                throw new \Exception('Converter is no defined');   
+            }
+            preg_match('/^<!--(.+)-->(.+)/s', $this->getContents(), $matches);
+            if (!$matches) {
+                $this->setData('content', $this->getConverter()->transform($this->getContents()));
+                return $this;
+            }
+            list($matchesAll, $rawInfo, $rawContent) = $matches;
+            $info = parse_ini_string($rawInfo);
+            if (isset($info['source']) /* && is valid URL to md file */) {
+                if (false === ($rawContent = @file_get_contents($info['source'], false))) {
+                    throw new \Exception(sprintf("Cannot get contents from %s\n", $this->getFilename()));
+                }
+            }
+            $this->setData('info', $info);
+            $this->setData('content_raw', $rawContent);
+            $this->setData('content', $this->getConverter()->transform($rawContent));
+            return $this;
+        }
+    }
+
+    /**
+     * PHPoole File iterator
+     */
+    class FileIterator extends \FilterIterator
+    {
+        protected $_extFilter = null;
+
+        public function __construct($dirOrIterator = '.', $extFilter='')
+        {
+            if (is_string($dirOrIterator)) {
+                if (!is_dir($dirOrIterator)) {
+                    throw new \InvalidArgumentException('Expected a valid directory name');
+                }
+                $dirOrIterator = new \RecursiveDirectoryIterator(
+                    $dirOrIterator,
+                    \RecursiveIteratorIterator::SELF_FIRST
+                );
+            }
+            elseif (!$dirOrIterator instanceof \DirectoryIterator) {
+                throw new \InvalidArgumentException('Expected a DirectoryIterator');
+            }
+            if ($dirOrIterator instanceof \RecursiveIterator) {
+                $dirOrIterator = new \RecursiveIteratorIterator($dirOrIterator);
+            }
+            if (!empty($extFilter)) {
+                $this->_extFilter = $extFilter;
+            }
+            parent::__construct($dirOrIterator);
+            $this->setInfoClass('PHPoole\FileInfo');
+        }
+
+        public function accept()
+        {
+            $file = $this->getInnerIterator()->current();
+            if (!$file instanceof FileInfo) {
+                return false;
+            }
+            if (!$file->isFile()) {
+                return false;
+            }
+            if (!is_null($this->_extFilter)) {
+                if ($file->getExtension() != $this->_extFilter) {
+                    return false;
+                }
                 return true;
             }
-        }
-        else {
             return true;
         }
     }
-}
 
-class PhpooleFile extends SplFileInfo
-{
-    protected $_data = array();
-    protected $_converter = null;
-
-    public function getContents()
+    /**
+     * PHPoole console helper
+     */
+    class Console
     {
-        $level = error_reporting(0);
-        $content = file_get_contents($this->getRealpath());
-        error_reporting($level);
-        if (false === $content) {
-            $error = error_get_last();
-            throw new \RuntimeException($error['message']);
+        protected $_console;
+
+        public function __construct($console)
+        {
+            /*
+            if (!($console instanceof Zend\Console\Adapter\AdapterInterface)) {
+                throw new \Exception("Error");
+            }
+            */
+            $this->_console = $console;
         }
-        return $content;
+
+        public function wlInfo($text)
+        {
+            echo '[' , $this->_console->write('INFO', Color::YELLOW) , ']' . "\t";
+            $this->_console->writeLine($text);
+        }
+        public function wlDone($text)
+        {
+            echo '[' , $this->_console->write('DONE', Color::GREEN) , ']' . "\t";
+            $this->_console->writeLine($text);
+        }
+        public function wlError($text)
+        {
+            echo '[' , $this->_console->write('ERROR', Color::RED) , ']' . "\t";
+            $this->_console->writeLine($text);
+        }
     }
 
-    public function setConverter($config='')
+    /**
+     * PHPoole plugin abstract
+     */
+    abstract class Plugin
     {
-        // Markdown only
-        $this->_converter = new MarkdownExtra;
-        $this->_converter->code_attr_on_pre = true;
-        if (!empty($config)) {
-            $this->_converter->predef_urls = array('base_url' => $config['site']['base_url']);
-        }
-        return $this;
-    }
+        const DEBUG = false;
 
-    public function getConverter()
-    {
-        return $this->_converter;
-    }
-
-    public function parse($config='')
-    {
-        $this->setConverter($config);
-        if (!$this->isReadable()) {
-            throw new Exception('Cannot read file');
-        }
-        if ($this->getConverter() == null) {
-            throw new Exception('Converter is no defined');   
-        }
-        preg_match('/^<!--(.+)-->(.+)/s', $this->getContents(), $matches);
-        if (!$matches) {
-            $this->setData('content', $this->getConverter()->transform($this->getContents()));
-            return $this;
-        }
-        list($matchesAll, $rawInfo, $rawContent) = $matches;
-        $info = parse_ini_string($rawInfo);
-        if (isset($info['source']) /* && is valid URL to md file */) {
-            if (false === ($rawContent = @file_get_contents($info['source'], false))) {
-                throw new Exception(sprintf("Cannot get contents from %s\n", $this->getFilename()));
+        public function __call($name, $args)
+        {
+            if (self::DEBUG) {
+                printf("[EVENT] %s is not implemented in %s plugin\n", $name, get_class(__FUNCTION__));
             }
         }
-        $this->setData('info', $info);
-        $this->setData('content_raw', $rawContent);
-        $this->setData('content', $this->getConverter()->transform($rawContent));
-        return $this;
-    }
 
-    public function setData($key, $value)
-    {
-        $this->_data[$key] = $value;
-        return $this;
-    }
-
-    public function getData($key='')
-    {
-        if ($key == '') {
-            return $this->_data;
-        }
-        if (isset($this->_data[$key])) {
-            return $this->_data[$key];
-        }
-    }
-}
-
-/**
- * PHPoole console helper
- */
-class PHPooleConsole
-{
-    protected $_console;
-
-    public function __construct($console)
-    {
-        if (!($console instanceof Zend\Console\Adapter\AdapterInterface)) {
-            throw new Exception("Error");
-        }
-        $this->_console = $console;
-    }
-
-    public function wlInfo($text)
-    {
-        echo '[' , $this->_console->write('INFO', Color::YELLOW) , ']' . "\t";
-        $this->_console->writeLine($text);
-    }
-    public function wlDone($text)
-    {
-        echo '[' , $this->_console->write('DONE', Color::GREEN) , ']' . "\t";
-        $this->_console->writeLine($text);
-    }
-    public function wlError($text)
-    {
-        echo '[' , $this->_console->write('ERROR', Color::RED) , ']' . "\t";
-        $this->_console->writeLine($text);
-    }
-}
-
-/**
- * PHPoole plugin abstract
- */
-abstract class PHPoole_Plugin
-{
-    const DEBUG = false;
-
-    public function __call($name, $args)
-    {
-        if (self::DEBUG) {
-            printf("[EVENT] %s is not implemented in %s plugin\n", $name, get_class(__FUNCTION__));
+        public function trace($enabled=self::DEBUG, $e)
+        {
+            if ($enabled === true) {
+                printf(
+                    '[EVENT] %s/%s %s' . "\n",
+                    get_class(__FUNCTION__),
+                    $e->getName(),
+                    json_encode($e->getParams())
+                );
+            }
         }
     }
 
-    public function trace($enabled=self::DEBUG, $e)
-    {
-        if ($enabled === true) {
-            printf(
-                '[EVENT] %s/%s %s' . "\n",
-                get_class(__FUNCTION__),
-                $e->getName(),
-                json_encode($e->getParams())
-            );
-        }
-    }
 }
 
 /**
  * Utils
  */
-
-/**
- * Recursively remove a directory
- *
- * @param string $dirname
- * @param boolean $followSymlinks
- * @return boolean
- */
-function RecursiveRmdir($dirname, $followSymlinks=false) {
-    if (is_dir($dirname) && !is_link($dirname)) {
-        if (!is_writable($dirname)) {
-            throw new Exception(sprintf('%s is not writable!', $dirname));
-        }
-        $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($dirname),
-            RecursiveIteratorIterator::CHILD_FIRST
-        );
-        while ($iterator->valid()) {
-            if (!$iterator->isDot()) {
-                if (!$iterator->isWritable()) {
-                    throw new Exception(sprintf(
-                        '%s is not writable!',
-                        $iterator->getPathName()
-                    ));
-                }
-                if ($iterator->isLink() && $followLinks === false) {
-                    $iterator->next();
-                }
-                if ($iterator->isFile()) {
-                    @unlink($iterator->getPathName());
-                }
-                elseif ($iterator->isDir()) {
-                    @rmdir($iterator->getPathName());
-                }
+namespace Utils
+{
+    /**
+     * Recursively remove a directory
+     *
+     * @param string $dirname
+     * @param boolean $followSymlinks
+     * @return boolean
+     */
+    function RecursiveRmdir($dirname, $followSymlinks=false) {
+        if (is_dir($dirname) && !is_link($dirname)) {
+            if (!is_writable($dirname)) {
+                throw new \Exception(sprintf('%s is not writable!', $dirname));
             }
-            $iterator->next();
-        }
-        unset($iterator);
- 
-        return @rmdir($dirname);
-    }
-    else {
-        throw new Exception(sprintf('%s does not exist!', $dirname));
-    }
-}
-
-/**
- * Copy a dir, and all its content from source to dest
- */
-function RecursiveCopy($source, $dest) {
-    if (!is_dir($dest)) {
-        @mkdir($dest);
-    }
-    $iterator = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator(
-            $source,
-            RecursiveDirectoryIterator::SKIP_DOTS
-        ),
-        RecursiveIteratorIterator::SELF_FIRST
-    );
-    foreach ($iterator as $item) {
-        if ($item->isDir()) {
-            @mkdir($dest . DS . $iterator->getSubPathName());
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($dirname),
+                \RecursiveIteratorIterator::CHILD_FIRST
+            );
+            while ($iterator->valid()) {
+                if (!$iterator->isDot()) {
+                    if (!$iterator->isWritable()) {
+                        throw new \Exception(sprintf(
+                            '%s is not writable!',
+                            $iterator->getPathName()
+                        ));
+                    }
+                    if ($iterator->isLink() && $followLinks === false) {
+                        $iterator->next();
+                    }
+                    if ($iterator->isFile()) {
+                        @unlink($iterator->getPathName());
+                    }
+                    elseif ($iterator->isDir()) {
+                        @rmdir($iterator->getPathName());
+                    }
+                }
+                $iterator->next();
+            }
+            unset($iterator);
+     
+            return @rmdir($dirname);
         }
         else {
-            @copy($item, $dest . DS . $iterator->getSubPathName());
+            throw new \Exception(sprintf('%s does not exist!', $dirname));
         }
     }
-}
 
-/**
- * Execute git commands
- * 
- * @param string working directory
- * @param array git commands
- * @return void
- */
-function runGitCmd($wd, $commands)
-{
-    $cwd = getcwd();
-    chdir($wd);
-    exec('git config core.autocrlf false');
-    foreach ($commands as $cmd) {
-        //printf("> git %s\n", $cmd);
-        exec(sprintf('git %s', $cmd));
-    }
-    chdir($cwd);
-}
-
-/**
- * Replace Filepath by Filename
- */
-class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
-{
-    public function current()
-    {
-        return str_replace(
-            $this->getInnerIterator()->current(),
-            substr(strrchr($this->getInnerIterator()->current(), DIRECTORY_SEPARATOR), 1),
-            parent::current()
+    /**
+     * Copy a dir, and all its content from source to dest
+     */
+    function RecursiveCopy($source, $dest) {
+        if (!is_dir($dest)) {
+            @mkdir($dest);
+        }
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator(
+                $source,
+                \RecursiveDirectoryIterator::SKIP_DOTS
+            ),
+            \RecursiveIteratorIterator::SELF_FIRST
         );
+        foreach ($iterator as $item) {
+            if ($item->isDir()) {
+                @mkdir($dest . DS . $iterator->getSubPathName());
+            }
+            else {
+                @copy($item, $dest . DS . $iterator->getSubPathName());
+            }
+        }
     }
-}
 
-function isWindows()
-{
-    return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+    /**
+     * Execute git commands
+     * 
+     * @param string working directory
+     * @param array git commands
+     * @return void
+     */
+    function runGitCmd($wd, $commands)
+    {
+        $cwd = getcwd();
+        chdir($wd);
+        exec('git config core.autocrlf false');
+        foreach ($commands as $cmd) {
+            //printf("> git %s\n", $cmd);
+            exec(sprintf('git %s', $cmd));
+        }
+        chdir($cwd);
+    }
+
+    /**
+     * Replace Filepath by Filename
+     */
+    class FilenameRecursiveTreeIterator extends \RecursiveTreeIterator
+    {
+        public function current()
+        {
+            return str_replace(
+                $this->getInnerIterator()->current(),
+                substr(strrchr($this->getInnerIterator()->current(), DIRECTORY_SEPARATOR), 1),
+                parent::current()
+            );
+        }
+    }
+
+    function isWindows()
+    {
+        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+    }
 }
