@@ -84,7 +84,7 @@ namespace
         $websitePath = str_replace(DS, '/', realpath($opts->getRemainingArgs()[0]));
     }
 
-    // Instanciate PHPoole API
+    // Instanciate the PHPoole API
     try {
         $phpoole = new PHPoole\PHPoole($websitePath);
     } catch (\Exception $e) {
@@ -111,14 +111,15 @@ namespace
 
     // generate option
     if ($opts->getOption('generate')) {
-        $generateConfig = array();
+        $serveConfig = array();
         $phpooleConsole->wlInfo('Generate website');
         if (isset($opts->serve)) {
-            $generateConfig['site']['base_url'] = 'http://localhost:8000';
+            $serveConfig['site']['base_url'] = 'http://localhost:8000';
             $phpooleConsole->wlInfo('Youd should re-generate before deploy');
         }
         try {
-            $messages = $phpoole->generate($generateConfig);
+            $phpoole->loadPages()->generate($serveConfig);
+            $messages = $phpoole->getMessages();
             foreach ($messages as $message) {
                 $phpooleConsole->wlDone($message);
             }
@@ -136,7 +137,6 @@ namespace
         $phpooleConsole->wlInfo(sprintf("Start server http://%s:%d", 'localhost', '8000'));
         if (Utils\isWindows()) {
             $command = sprintf(
-                //'START /B php -S %s:%d -t %s %s > nul',
                 'START php -S %s:%d -t %s %s > nul',
                 'localhost',
                 '8000',
@@ -147,7 +147,6 @@ namespace
         else {
             echo 'Ctrl-C to stop it.' . PHP_EOL;
             $command = sprintf(
-                //'php -S %s:%d -t %s %s >/dev/null 2>&1 & echo $!',
                 'php -S %s:%d -t %s %s >/dev/null',
                 'localhost',
                 '8000',
@@ -253,23 +252,24 @@ namespace PHPoole
      */
     class PHPoole
     {
+        const VERSION = '0.0.1';
+        const URL = 'http://narno.org/PHPoole';
+        //
         const PHPOOLE_DIRNAME = '_phpoole';
         const CONFIG_FILENAME = 'config.ini';
         const LAYOUTS_DIRNAME = 'layouts';
         const ASSETS_DIRNAME  = 'assets';
         const CONTENT_DIRNAME = 'content';
         const CONTENT_PAGES_DIRNAME = 'pages';
-        //const CONTENT_POSTS_DIRNAME = 'posts';
         const PLUGINS_DIRNAME  = 'plugins';
-        //
-        const VERSION = '0.0.1';
-        const URL = 'http://narno.org/PHPoole';
 
         protected $_websitePath;
         protected $_websiteFileInfo;
         protected $_events;
         protected $_config = null;
         protected $_messages = array();
+        protected $_pages = array();
+        protected $_menu = array();
 
         public function __construct($websitePath)
         {
@@ -312,10 +312,35 @@ namespace PHPoole
             return $this->_messages;
         }
 
-        public function setMessage($message)
+        public function addMessage($message)
         {
             $this->_messages[] = $message;
             return $this->getMessages();
+        }
+
+        public function getPages()
+        {
+            return $this->_pages;
+        }
+
+        public function addPage($index, $data)
+        {
+            $this->_pages[$index] = $data;
+            return $this->getPages();
+        }
+
+        public function getMenu($menu='')
+        {
+            if (!empty($menu) && array_key_exists($menu, $this->_menu)) {
+                return $this->_menu[$menu];
+            }
+            return $this->_menu;
+        }
+
+        public function addMenuEntry($menu, $entry)
+        {
+            $this->_menu[$menu][] = $entry;
+            return $this->getMenu($menu);
         }
 
         public function triggerEvent($method, $args, $when=array('pre','post'))
@@ -328,6 +353,11 @@ namespace PHPoole
             $this->getEvents()->trigger($method . '.' . $when, $this, array_combine($params, $args));
         }
 
+        /**
+         * Initialization of a new PHPoole website
+         * @param  boolean $force Remove if already initialized
+         * @return array Messages
+         */
         public function init($force=false)
         {
             $this->triggerEvent(__FUNCTION__, func_get_args(), 'pre');
@@ -343,15 +373,15 @@ namespace PHPoole
             if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME)) {
                 throw new \Exception('Cannot create root PHPoole directory');
             }
-            $this->setMessage(self::PHPOOLE_DIRNAME . ' directory created');
-            $this->setMessage($this->createConfigFile());
-            $this->setMessage($this->createLayoutsDir());
-            $this->setMessage($this->createLayoutDefaultFile());
-            $this->setMessage($this->createAssetsDir());
-            $this->setMessage($this->createAssetDefaultFiles());
-            $this->setMessage($this->createContentDir());
-            $this->setMessage($this->createContentDefaultFile());
-            $this->setMessage($this->createRouterFile());
+            $this->addMessage(self::PHPOOLE_DIRNAME . ' directory created');
+            $this->addMessage($this->createConfigFile());
+            $this->addMessage($this->createLayoutsDir());
+            $this->addMessage($this->createLayoutDefaultFile());
+            $this->addMessage($this->createAssetsDir());
+            $this->addMessage($this->createAssetDefaultFiles());
+            $this->addMessage($this->createContentDir());
+            $this->addMessage($this->createContentDefaultFile());
+            $this->addMessage($this->createRouterFile());
 
             $this->triggerEvent(__FUNCTION__, func_get_args(), 'post');
 
@@ -450,7 +480,6 @@ EOT;
             $subDirList = array(
                 self::CONTENT_DIRNAME,
                 self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME,
-                //self::CONTENT_DIRNAME . '/' . self::CONTENT_POSTS_DIRNAME,
             );
             foreach ($subDirList as $subDir) {
                 if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . $subDir)) {
@@ -521,6 +550,11 @@ EOT;
             return 'README file created';
         }
 
+        /**
+         * Get config from config.ini file
+         * @param  string $key
+         * @return array
+         */
         public function getConfig($key='')
         {
             if ($this->_config == null) {
@@ -542,60 +576,90 @@ EOT;
             return $this->_config;
         }
 
-        public function generate($configToMerge=array())
+        /**
+         * Load pages files from content/pages
+         * @return object PHPoole\PHPoole
+         */
+        public function loadPages()
         {
+            $pageInfo  = array();
+            $pageIndex = array();
+            $pageData  = array();
             $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
-            $pages = array();
-            $menu['nav'] = array();
-            $layoutsPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME;
+            // Iterate pages files, filtered by markdown "md" extension
+            $pagesIterator = new FileIterator($pagesPath, 'md');
+            foreach ($pagesIterator as $filePage) {
+                $pageInfo = $filePage->parse($this->getConfig())->getData('info');
+                $pageIndex = ($pagesIterator->getSubPath() ? $pagesIterator->getSubPath() : 'home');
+                $pageData['title'] = (
+                    isset($pageInfo['title']) && !empty($pageInfo['title'])
+                    ? $pageInfo['title']
+                    : ucfirst($filePage->getBasename('.md'))
+                );
+                $pageData['path'] = $pagesIterator->getSubPath();
+                $pageData['basename'] = $filePage->getBasename('.md') . '.html';
+                $pageData['layout'] = (
+                    isset($pageInfo['layout'])
+                        && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . $pageInfo['layout'] . '.html')
+                    ? $pageInfo['layout'] . '.html'
+                    : 'default.html'
+                );
+                if (isset($pageInfo['pagination'])) {
+                    $pageData['pagination'] = $pageInfo['pagination'];
+                }
+                $pageData['content'] = $filePage->getData('content');
+                $this->addPage($pageIndex, $pageData);
+                // menu
+                if (isset($pageInfo['menu'])) { // "nav" for example
+                    $menuEntry = (
+                        !empty($pageInfo['menu'])
+                        ? array(
+                            'title' => $pageInfo['title'],
+                            'path'  => $pagesIterator->getSubPath()
+                        )
+                        : ''
+                    );
+                    $this->addMenuEntry($pageInfo['menu'], $menuEntry);
+                }
+                unset($pageInfo);
+                unset($pageIndex);
+                unset($pageData);
+            }
+            return $this;
+        }
+
+        /**
+         * Temporary method to prepare (sort) "nav" menu
+         * @return array
+         */
+        public function prepareMenuNav()
+        {
+            $menuNav = $this->getMenu('nav');
+            // sort nav menu
+            foreach ($menuNav as $key => $row) {
+                $path[$key] = $row['path'];
+            }
+            if (isset($path) && is_array($path)) {
+                array_multisort($path, SORT_ASC, $menuNav);
+            }
+            return $menuNav;
+        }
+
+        /**
+         * Generate static files
+         * @param  array $configToMerge Local config
+         * @return array Messages
+         */
+        public function generate($configToMerge)
+        {
             $config = (
                 !empty($configToMerge)
                 ? array_replace_recursive($this->getConfig(), $configToMerge)
                 : $this->getConfig()
             );
-            // iterate pages
-            $pagesIterator = new FileIterator($pagesPath, 'md');
-            foreach ($pagesIterator as $filePage) {
-                $info = $filePage->parse($config)->getData('info');
-                $pageIndex = ($pagesIterator->getSubPath() ? $pagesIterator->getSubPath() : 'home');
-                $pages[$pageIndex]['title'] = (
-                    isset($info['title']) && !empty($info['title'])
-                    ? $info['title']
-                    : ucfirst($filePage->getBasename('.md'))
-                );
-                $pages[$pageIndex]['path'] = $pagesIterator->getSubPath();
-                $pages[$pageIndex]['basename'] = $filePage->getBasename('.md') . '.html';
-                $pages[$pageIndex]['layout'] = (
-                    isset($info['layout'])
-                        && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . $info['layout'] . '.html')
-                    ? $info['layout'] . '.html'
-                    : 'default.html'
-                );
-                if (isset($info['pagination'])) {
-                    $pages[$pageIndex]['pagination'] = $info['pagination'];
-                }
-                $pages[$pageIndex]['content'] = $filePage->getData('content');
-                // menu
-                if (isset($info['menu'])) {
-                    $menu[$info['menu']][] = (
-                        !empty($info['menu'])
-                        ? array(
-                            'title' => $info['title'],
-                            'path'  => $pagesIterator->getSubPath()
-                        )
-                        : ''
-                    );
-                }
-            }
-            // sort nav menu
-            foreach ($menu['nav'] as $key => $row) {
-                $path[$key] = $row['path'];
-            }
-            if (isset($path) && is_array($path)) {
-                array_multisort($path, SORT_ASC, $menu['nav']);
-            }
-            // rendering
-            $tplEngine = $this->tplEngine($layoutsPath);
+            $pages = $this->getPages();
+            $menuNav = $this->prepareMenuNav();
+            $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME);
             $pagesIterator = (new \ArrayObject($pages))->getIterator();
             $pagesIterator->ksort();
             $currentPos = 0;
@@ -619,22 +683,19 @@ EOT;
                     $pagesIterator->seek($currentPos);
                 }
                 $rendered = $tplEngine->render($page['layout'], array(
-                    'phpoole'   => array(
+                    'phpoole'    => array(
                         'version' => PHPoole::VERSION,
                         'url'     => PHPoole::URL
                     ),
-                    'site'       => (isset($config['site']) ? $config['site'] : ''),
-                    'author'     => (isset($config['author']) ? $config['author'] : ''),
-                    'source'     => (isset($config['deploy']) ? $config['deploy'] : ''),
-                    'collection' => new Proxy($this),
-                    'title'      => (isset($page['title']) ? $page['title'] : ''),
-                    'path'       => (isset($page['path']) ? $page['path'] : ''),
-                    'content'    => (isset($page['content']) ? $page['content'] : ''),
-                    'nav'        => (isset($menu['nav']) ? $menu['nav'] : ''),
-                    'previous'   => (isset($previous) ? $previous : ''),
-                    'next'       => (isset($next) ? $next : ''),
-                    'prevTitle'  => (isset($prevTitle) ? $prevTitle : ''),
-                    'nextTitle'  => (isset($nextTitle) ? $nextTitle : ''),
+                    'site'       => new Proxy($this),
+                    'page'       => array(
+                        'title'      => (isset($page['title']) ? $page['title'] : ''),
+                        'path'       => (isset($page['path']) ? $page['path'] : ''),
+                        'content'    => (isset($page['content']) ? $page['content'] : ''),
+                        'nav'        => (isset($menuNav) ? $menuNav : ''),
+                        'previous'   => (isset($previous) ? array('path' => $previous, 'title' => $prevTitle) : ''),
+                        'next'       => (isset($next) ? array('path' => $next, 'title' => $nextTitle) : ''),
+                    ),
                 ));
                 if (!is_dir($this->getWebsitePath() . '/' . $page['path'])) {
                     if (!@mkdir($this->getWebsitePath() . '/' . $page['path'], 0777, true)) {
@@ -645,27 +706,32 @@ EOT;
                     if (!@unlink($this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
                         throw new \Exception(sprintf('Cannot delete %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
                     }
-                    $this->setMessage('Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename']);
+                    $this->addMessage('Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename']);
                 }
                 if (!@file_put_contents(sprintf('%s%s', $this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), $rendered)) {
                     throw new \Exception(sprintf('Cannot write %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
                 }
-                $this->setMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
+                $this->addMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
                 $prevPos = $pagesIterator->key(); // use by the next iteration
                 $currentPos++;
                 $pagesIterator->next();
             }
-            // copy assets
+            // Copy assets
             if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
                 Utils\RecursiveRmdir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
             }
             Utils\RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
-            // done
-            $this->setMessage('Copy assets directory (and sub)');
-            $this->setMessage($this->createReadmeFile());
+            // Done!
+            $this->addMessage('Copy assets directory (and sub)');
+            $this->addMessage($this->createReadmeFile());
             return $this->getMessages();
         }
 
+        /**
+         * Temporary method to wrap Twig (and more?) engine
+         * @param  string $templatesPath Absolute path to templates files
+         * @return object Twig
+         */
         public function tplEngine($templatesPath)
         {
             $twigLoader = new \Twig_Loader_Filesystem($templatesPath);
@@ -677,7 +743,12 @@ EOT;
             return $twig;
         }
 
-        public function getPages($subDir='')
+        /**
+         * Return pages list
+         * @param  string $subDir
+         * @return array (path, url and title)
+         */
+        public function getPagesPath($subDir='')
         {
             $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
             $pagesPath = (
@@ -710,6 +781,10 @@ EOT;
             return $pages;
         }
 
+        /**
+         * Return a console displayable tree of pages
+         * @return iterator
+         */
         public function getPagesTree()
         {
             $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
@@ -724,6 +799,10 @@ EOT;
             return $pages;
         }
 
+        /**
+         * Loads plugins in the plugins/ directory if exist
+         * @return void
+         */
         private function loadPlugins()
         {
             try {
@@ -757,6 +836,10 @@ EOT;
         }
     }
 
+    /**
+     * Proxy class used by the template engine
+     * "site.data" = "class.method"
+     */
     class Proxy
     {
         protected $_phpoole;
@@ -769,9 +852,37 @@ EOT;
             $this->_phpoole = $phpoole;
         }
 
+        /**
+         * Magic method can get call like $site->name(), etc.
+         * @todo do it better! :-)
+         * @param  string $function
+         * @param  array $arguments
+         * @return string
+         */
+        public function __call($function, $arguments)
+        {
+            /*
+            if (!method_exists($this->_phpoole, $function)) {
+                throw new Exception(sprintf('Proxy erreor: Cannot get %s', $function));
+            }
+            return call_user_func_array(array($this->_phpoole, $function), $arguments);
+            */
+            $config = $this->_phpoole->getConfig();
+            if (array_key_exists($function, $config['site'])) {
+                return $config['site'][$function];
+            }
+            if ($function == 'author') {
+                return $config['author'];
+            }
+            if ($function == 'source') {
+                return $config['deploy'];
+            }
+            return null;
+        }
+
         public function getPages($subDir='')
         {
-            return $this->_phpoole->getPages($subDir);
+            return $this->_phpoole->getPagesPath($subDir);
         }
     }
 
