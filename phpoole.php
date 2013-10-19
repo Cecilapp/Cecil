@@ -135,7 +135,7 @@ namespace
             exit(2);
         }
         $phpooleConsole->wlInfo(sprintf("Start server http://%s:%d", 'localhost', '8000'));
-        if (Utils\isWindows()) {
+        if (PHPoole\Utils\isWindows()) {
             $command = sprintf(
                 'START php -S %s:%d -t %s %s > nul',
                 'localhost',
@@ -178,21 +178,21 @@ namespace
                         @unlink($deployFile->getPathname());
                     }
                     if ($deployFile->isDir() && $deployFile->getFilename() != '.git') {
-                        RecursiveRmDir($deployFile->getPathname());
+                        Utils\RecursiveRmDir($deployFile->getPathname());
                     }
                 }
-                RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
+                Utils\RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
                 $updateRepoCmd = array(
                     'add -A',
                     'commit -m "Update ' . $repoBranch . ' via PHPoole"',
                     'push github ' . $repoBranch . ' --force'
                 );
-                runGitCmd($deployDir, $updateRepoCmd);
+                Utils\runGitCmd($deployDir, $updateRepoCmd);
             }
             else {
                 //echo 'Setting up GitHub deployment...' . PHP_EOL;
                 @mkdir($deployDir);
-                RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
+                Utils\RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
                 $initRepoCmd = array(
                     'init',
                     'add -A',
@@ -201,7 +201,7 @@ namespace
                     'remote add github ' . $repoUrl,
                     'push github ' . $repoBranch . ' --force'
                 );
-                runGitCmd($deployDir, $initRepoCmd);
+                Utils\runGitCmd($deployDir, $initRepoCmd);
             }
         } catch (\Exception $e) {
             $phpooleConsole->wlError($e->getMessage());
@@ -244,8 +244,9 @@ namespace PHPoole
 {
     use Zend\Console\ColorInterface as Color;
     use Zend\EventManager\EventManager;
+    use Zend\Loader\PluginClassLoader;
     use Michelf\MarkdownExtra;
-    use Utils;
+    use PHPoole\Utils;
 
     /**
      * PHPoole API
@@ -318,6 +319,11 @@ namespace PHPoole
             return $this->getMessages();
         }
 
+        public function clearMessages()
+        {
+            $this->_messages = array();
+        }
+
         public function getPages()
         {
             return $this->_pages;
@@ -364,7 +370,7 @@ namespace PHPoole
 
             if (file_exists($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME)) {
                 if ($force === true) {
-                    RecursiveRmdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
+                    Utils\RecursiveRmdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
                 }
                 else {
                     throw new \Exception('The website is already initialized');
@@ -664,6 +670,7 @@ EOT;
             $pagesIterator->ksort();
             $currentPos = 0;
             $prevPos = '';
+            $this->clearMessages();
             while ($pagesIterator->valid()) {
                 $previous = $next = '';
                 $prevTitle = $nextTitle = '';
@@ -819,17 +826,22 @@ EOT;
                         continue;
                     }
                     if ($plugin->isDir()) {
-                        include_once("$plugin/Plugin.php");
                         $pluginName = $plugin->getBasename();
-                        if (class_exists($pluginName)) {
-                            $pluginclass = new $pluginName($this->getEvents());
+                        include("plugins/$pluginName/Plugin.php");
+                        
+                        //print_r(get_declared_classes());
+
+                        //if (class_exists($pluginName)) {
+                            $tmp = "PHPoole\\$pluginName";
+
+                            $pluginclass = new $tmp($this->getEvents());
                             if (method_exists($pluginclass, 'preInit')) {
                                 $this->getEvents()->attach('init.pre', array($pluginclass, 'preInit'));
                             }
                             if (method_exists($pluginclass, 'postInit')) {
                                 $this->getEvents()->attach('init.post', array($pluginclass, 'postInit'));
                             }
-                        }
+                        //}
                     }
                 }
             }
@@ -1076,13 +1088,12 @@ EOT;
             }
         }
     }
-
 }
 
 /**
  * Utils
  */
-namespace Utils
+namespace PHPoole\Utils
 {
     /**
      * Recursively remove a directory

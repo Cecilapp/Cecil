@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/Plugin-TwBootstrap.git",
-                "reference": "376bfc4abc1f1c2a5482ba503fa7e38b58c7c170"
+                "reference": "d058a0044fe1ef3397a63c63d5a7f8dd07bcf0a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPoole/Plugin-TwBootstrap/zipball/376bfc4abc1f1c2a5482ba503fa7e38b58c7c170",
-                "reference": "376bfc4abc1f1c2a5482ba503fa7e38b58c7c170",
+                "url": "https://api.github.com/repos/PHPoole/Plugin-TwBootstrap/zipball/d058a0044fe1ef3397a63c63d5a7f8dd07bcf0a6",
+                "reference": "d058a0044fe1ef3397a63c63d5a7f8dd07bcf0a6",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "source": "https://github.com/PHPoole/Plugin-TwBootstrap/tree/master",
                 "issues": "https://github.com/PHPoole/Plugin-TwBootstrap/issues"
             },
-            "time": "2013-10-09 23:19:04"
+            "time": "2013-10-18 19:58:10"
         },
         {
             "name": "composer/installers",
@@ -169,16 +169,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.14.0",
+            "version": "v1.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "224fc55635d544a2ec8edb3592be18db5a093f59"
+                "reference": "8873d7593ad7c120004f177c0fd01459b383c9cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/224fc55635d544a2ec8edb3592be18db5a093f59",
-                "reference": "224fc55635d544a2ec8edb3592be18db5a093f59",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/8873d7593ad7c120004f177c0fd01459b383c9cb",
+                "reference": "8873d7593ad7c120004f177c0fd01459b383c9cb",
                 "shasum": ""
             },
             "require": {
@@ -214,7 +214,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-10-03 06:41:20"
+            "time": "2013-10-15 19:17:38"
         },
         {
             "name": "zendframework/zend-console",
