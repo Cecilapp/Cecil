@@ -114,11 +114,11 @@ namespace
         $serveConfig = array();
         $phpooleConsole->wlInfo('Generate website');
         if (isset($opts->serve)) {
-            $serveConfig['site']['base_url'] = 'http://localhost:8000';
+            $phpoole->setLocalServe(true);
             $phpooleConsole->wlInfo('Youd should re-generate before deploy');
         }
         try {
-            $phpoole->loadPages()->generate($serveConfig);
+            $phpoole->loadPages()->generate();
             $messages = $phpoole->getMessages();
             foreach ($messages as $message) {
                 $phpooleConsole->wlDone($message);
@@ -178,21 +178,21 @@ namespace
                         @unlink($deployFile->getPathname());
                     }
                     if ($deployFile->isDir() && $deployFile->getFilename() != '.git') {
-                        Utils\RecursiveRmDir($deployFile->getPathname());
+                        PHPoole\Utils\RecursiveRmDir($deployFile->getPathname());
                     }
                 }
-                Utils\RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
+                PHPoole\Utils\RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
                 $updateRepoCmd = array(
                     'add -A',
                     'commit -m "Update ' . $repoBranch . ' via PHPoole"',
                     'push github ' . $repoBranch . ' --force'
                 );
-                Utils\runGitCmd($deployDir, $updateRepoCmd);
+                PHPoole\Utils\runGitCmd($deployDir, $updateRepoCmd);
             }
             else {
                 //echo 'Setting up GitHub deployment...' . PHP_EOL;
                 @mkdir($deployDir);
-                Utils\RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
+                PHPoole\Utils\RecursiveCopy($phpoole->getWebsitePath(), $deployDir);
                 $initRepoCmd = array(
                     'init',
                     'add -A',
@@ -201,7 +201,7 @@ namespace
                     'remote add github ' . $repoUrl,
                     'push github ' . $repoBranch . ' --force'
                 );
-                Utils\runGitCmd($deployDir, $initRepoCmd);
+                PHPoole\Utils\runGitCmd($deployDir, $initRepoCmd);
             }
         } catch (\Exception $e) {
             $phpooleConsole->wlError($e->getMessage());
@@ -271,6 +271,7 @@ namespace PHPoole
         protected $_messages = array();
         protected $_pages = array();
         protected $_menu = array();
+        public $localServe = false;
 
         public function __construct($websitePath)
         {
@@ -357,6 +358,12 @@ namespace PHPoole
                 $params[$parameter->getName()] = $parameter->getName();
             }
             $this->getEvents()->trigger($method . '.' . $when, $this, array_combine($params, $args));
+        }
+
+        // temporay method
+        public function setLocalServe($status)
+        {
+            return $this->localServe = $status;
         }
 
         /**
@@ -653,16 +660,10 @@ EOT;
 
         /**
          * Generate static files
-         * @param  array $configToMerge Local config
          * @return array Messages
          */
-        public function generate($configToMerge)
+        public function generate()
         {
-            $config = (
-                !empty($configToMerge)
-                ? array_replace_recursive($this->getConfig(), $configToMerge)
-                : $this->getConfig()
-            );
             $pages = $this->getPages();
             $menuNav = $this->prepareMenuNav();
             $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME);
@@ -881,6 +882,10 @@ EOT;
             */
             $config = $this->_phpoole->getConfig();
             if (array_key_exists($function, $config['site'])) {
+                if ($this->_phpoole->localServe === true) {
+                    $configToMerge['site']['base_url'] = 'http://localhost:8000';
+                    $config = array_replace_recursive($config, $configToMerge);
+                }
                 return $config['site'][$function];
             }
             if ($function == 'author') {
