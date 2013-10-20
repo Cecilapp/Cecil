@@ -1,9 +1,9 @@
 {
   "name": "Narno/PHPoole",
-  "description": "PHPoole is a simple static website/weblog generator written in PHP.",
+  "description": "PHPoole is a light and easy static website generator written in PHP.",
   "type": "project",
   "keywords": [
-    "website", "blog", "static", "generator"
+    "website", "static", "generator"
   ],
   "license": "MIT",
   "authors": [
