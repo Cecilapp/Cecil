@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b9686e5ac1621c4df47397c73883dd5e",
+    "hash": "f440f1b9509c0c9e65ed793a3e414df6",
     "packages": [
         {
             "name": "PHPoole/Plugin-TwBootstrap",
