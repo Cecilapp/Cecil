@@ -2,7 +2,7 @@
 <?php
 /**
  * PHPoole is a light and easy static website generator written in PHP.
- * @see http://narno.org/PHPoole/
+ * @see http://phpoole.narno.org
  *
  * @author Arnaud Ligny <arnaud@ligny.org>
  * @license The MIT License (MIT)
@@ -272,6 +272,7 @@ namespace PHPoole
         protected $_pages = array();
         protected $_menu = array();
         public $localServe = false;
+        protected $_processor;
 
         public function __construct($websitePath)
         {
@@ -602,7 +603,7 @@ EOT;
             // Iterate pages files, filtered by markdown "md" extension
             $pagesIterator = new FileIterator($pagesPath, 'md');
             foreach ($pagesIterator as $filePage) {
-                $pageInfo = $filePage->parse($this->getConfig())->getData('info');
+                $pageInfo = $filePage->parse($this->getConfig())->getData('info');                
                 $pageIndex = ($pagesIterator->getSubPath() ? $pagesIterator->getSubPath() : 'home');
                 $pageData['title'] = (
                     isset($pageInfo['title']) && !empty($pageInfo['title'])
@@ -620,7 +621,29 @@ EOT;
                 if (isset($pageInfo['pagination'])) {
                     $pageData['pagination'] = $pageInfo['pagination'];
                 }
-                $pageData['content'] = $filePage->getData('content');
+                // in case of external content
+                if (isset($pageInfo['content']) /* && is valid URL to md file */) {
+                    if (false === ($pageContent = @file_get_contents($pageInfo['content'], false))) {
+                        throw new \Exception(sprintf("Cannot get contents from %s\n", $filePage->getFilename()));
+                    }
+                }
+                else {
+                    $pageContent = $filePage->getData('content_raw');
+                }
+                // content processing
+                $pageData['content'] = $this->process($pageContent);
+                // gallery
+                $gallery = array();
+                if (isset($pageInfo['gallery']) && !empty($pageInfo['gallery'])) {
+                    $galleryIterator = new \FilesystemIterator($pageInfo['gallery']);
+                    foreach ($galleryIterator as $galleryFile) {
+                        if ($galleryFile->isFile() && strtolower($galleryFile->getExtension()) == 'jpg') {
+                            $gallery[$galleryFile->getBasename('.jpg')] = $galleryFile->getPathname();
+                        }
+                    }
+                    $pageData['gallery'] = $gallery;
+                }
+                // add page details
                 $this->addPage($pageIndex, $pageData);
                 // menu
                 if (isset($pageInfo['menu'])) { // "nav" for example
@@ -639,6 +662,15 @@ EOT;
                 unset($pageData);
             }
             return $this;
+        }
+
+        public function process($rawContent)
+        {
+            // Markdown only
+            $this->_processor = new MarkdownExtra;
+            $this->_processor->code_attr_on_pre = true;
+            $this->_processor->predef_urls = array('base_url' => $this->getConfig()['site']['base_url']);
+            return $this->_processor->transform($rawContent);
         }
 
         /**
@@ -673,6 +705,7 @@ EOT;
             $prevPos = '';
             $this->clearMessages();
             while ($pagesIterator->valid()) {
+                // pagination
                 $previous = $next = '';
                 $prevTitle = $nextTitle = '';
                 $page = $pagesIterator->current();
@@ -690,7 +723,8 @@ EOT;
                     }
                     $pagesIterator->seek($currentPos);
                 }
-                $rendered = $tplEngine->render($page['layout'], array(
+                // template variables
+                $tplVariables = array(
                     'phpoole'    => array(
                         'version' => PHPoole::VERSION,
                         'url'     => PHPoole::URL
@@ -703,8 +737,12 @@ EOT;
                         'nav'        => (isset($menuNav) ? $menuNav : ''),
                         'previous'   => (isset($previous) ? array('path' => $previous, 'title' => $prevTitle) : ''),
                         'next'       => (isset($next) ? array('path' => $next, 'title' => $nextTitle) : ''),
+                        'gallery'    => (isset($page['gallery']) ? $page['gallery'] : ''),
                     ),
-                ));
+                );
+                // rendering
+                $rendered = $tplEngine->render($page['layout'], $tplVariables);
+                // dir/file writing
                 if (!is_dir($this->getWebsitePath() . '/' . $page['path'])) {
                     if (!@mkdir($this->getWebsitePath() . '/' . $page['path'], 0777, true)) {
                         throw new \Exception(sprintf('Cannot create %s', $this->getWebsitePath() . '/' . $page['path']));
@@ -720,7 +758,15 @@ EOT;
                     throw new \Exception(sprintf('Cannot write %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
                 }
                 $this->addMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
-                $prevPos = $pagesIterator->key(); // use by the next iteration
+                // gallery
+                if (isset($page['gallery']) && !empty($page['gallery'])) {
+                    foreach ($page['gallery'] as $name => $path) {
+                        copy($path, $this->getWebsitePath() . '/' . $page['path'] . '/' . $name);
+                        Utils\imageResize($this->getWebsitePath() . '/' . $page['path'] . '/' . $name, 800, 600);
+                    }
+                }
+                // use by the next iteration
+                $prevPos = $pagesIterator->key();
                 $currentPos++;
                 $pagesIterator->next();
             }
@@ -780,7 +826,7 @@ EOT;
                         $pages[] = array(
                             'path'  => $pagesIterator->getSubPathName() . "\n",
                             'url'   => $this->getConfig()['site']['base_url'] . '/' . (!empty($subDir) ? $subDir . '/' : '')  . $pagesIterator->getSubPathName(),
-                            'title' => (new File($page->getPathname() . '/index.md'))
+                            'title' => (new FileInfo($page->getPathname() . '/index.md'))
                                 ->parse($this->getConfig())->getData('info')['title'],
                         );
                     }
@@ -828,21 +874,17 @@ EOT;
                     }
                     if ($plugin->isDir()) {
                         $pluginName = $plugin->getBasename();
+                        $pluginClass = "PHPoole\\$pluginName";
                         include("plugins/$pluginName/Plugin.php");
-                        
-                        //print_r(get_declared_classes());
-
-                        //if (class_exists($pluginName)) {
-                            $tmp = "PHPoole\\$pluginName";
-
-                            $pluginclass = new $tmp($this->getEvents());
-                            if (method_exists($pluginclass, 'preInit')) {
-                                $this->getEvents()->attach('init.pre', array($pluginclass, 'preInit'));
+                        if (class_exists($pluginClass)) {
+                            $pluginObject = new $pluginClass($this->getEvents());
+                            if (method_exists($pluginObject, 'preInit')) {
+                                $this->getEvents()->attach('init.pre', array($pluginObject, 'preInit'));
                             }
-                            if (method_exists($pluginclass, 'postInit')) {
-                                $this->getEvents()->attach('init.post', array($pluginclass, 'postInit'));
+                            if (method_exists($pluginObject, 'postInit')) {
+                                $this->getEvents()->attach('init.post', array($pluginObject, 'postInit'));
                             }
-                        //}
+                        }
                     }
                 }
             }
@@ -909,7 +951,6 @@ EOT;
     class FileInfo extends \SplFileInfo
     {
         protected $_data = array();
-        protected $_converter = null;
 
         public function setData($key, $value)
         {
@@ -939,46 +980,25 @@ EOT;
             return $content;
         }
 
-        public function setConverter($config='')
-        {
-            // Markdown only
-            $this->_converter = new MarkdownExtra;
-            $this->_converter->code_attr_on_pre = true;
-            if (!empty($config)) {
-                $this->_converter->predef_urls = array('base_url' => $config['site']['base_url']);
-            }
-            return $this;
-        }
-
-        public function getConverter()
-        {
-            return $this->_converter;
-        }
-
         public function parse($config='')
         {
-            $this->setConverter($config);
             if (!$this->isReadable()) {
                 throw new \Exception('Cannot read file');
             }
-            if ($this->getConverter() == null) {
-                throw new \Exception('Converter is no defined');   
-            }
+            // parse front matter
             preg_match('/^<!--(.+)-->(.+)/s', $this->getContents(), $matches);
+            // if not front matter, return content only
             if (!$matches) {
-                $this->setData('content', $this->getConverter()->transform($this->getContents()));
+                $this->setData('content_raw', $this->getContents());
                 return $this;
             }
+            // $rawInfo    = front matter data
+            // $rawContent = content data
             list($matchesAll, $rawInfo, $rawContent) = $matches;
+            // parse front matter
             $info = parse_ini_string($rawInfo);
-            if (isset($info['source']) /* && is valid URL to md file */) {
-                if (false === ($rawContent = @file_get_contents($info['source'], false))) {
-                    throw new \Exception(sprintf("Cannot get contents from %s\n", $this->getFilename()));
-                }
-            }
             $this->setData('info', $info);
             $this->setData('content_raw', $rawContent);
-            $this->setData('content', $this->getConverter()->transform($rawContent));
             return $this;
         }
     }
@@ -1206,5 +1226,36 @@ namespace PHPoole\Utils
     function isWindows()
     {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+    }
+
+    function imageResize($file, $w, $h, $crop=FALSE)
+    {
+        list($width, $height) = getimagesize($file);
+        $r = $width / $height;
+        if ($crop) {
+            if ($width > $height) {
+                $width = ceil($width-($width*($r-$w/$h)));
+            }
+            else {
+                $height = ceil($height-($height*($r-$w/$h)));
+            }
+            $newwidth = $w;
+            $newheight = $h;
+        }
+        else {
+            if ($w/$h > $r) {
+                $newwidth = $h*$r;
+                $newheight = $h;
+            }
+            else {
+                $newheight = $w/$r;
+                $newwidth = $w;
+            }
+        }
+        $src = imagecreatefromjpeg($file);
+        $dst = imagecreatetruecolor($newwidth, $newheight);
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+        imagedestroy($src);
+        imagejpeg($dst, $file, 100);
     }
 }
