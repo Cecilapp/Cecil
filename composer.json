@@ -23,7 +23,7 @@
     "zendframework/zend-eventmanager": "2.*",
     "twig/twig": "1.*",
     "michelf/php-markdown": "1.*",
-    "PHPoole/Plugin-TwBootstrap": "master-dev"
+    "phpoole/plugin-twbootstrap": "master-dev"
   },
   "repositories": [
     {
