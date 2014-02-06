@@ -38,7 +38,7 @@ namespace
         $console = Console::getInstance();
         $phpooleConsole = new PHPoole\Console($console);
     } catch (ConsoleException $e) {
-        // Could not get console adapter - most likely we are not running inside a console window.
+        //echo "Could not get console adapter - most likely we are not running inside a console window.";
     }
 
     if (version_compare(PHP_VERSION, '5.4.0', '<')) {
@@ -326,8 +326,16 @@ namespace PHPoole
             $this->_messages = array();
         }
 
-        public function getPages()
+        public function getPages($subDir='')
         {
+            if (!empty($subDir)) {
+                foreach ($this->_pages as $key => $value) {
+                    if (strstr($key, $subDir . '/') !== false) {
+                        $tmpPages[] = $this->_pages[$key];
+                    }
+                }
+                return $tmpPages;
+            }
             return $this->_pages;
         }
 
@@ -810,7 +818,7 @@ EOT;
          * @param  string $subDir
          * @return array (path, url and title)
          */
-        public function getPagesPath($subDir='')
+        /*public function getPagesPath($subDir='')
         {
             $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
             $pagesPath = (
@@ -840,7 +848,7 @@ EOT;
                 }
             }
             return $pages;
-        }
+        }*/
 
         /**
          * Return a console displayable tree of pages
@@ -957,7 +965,7 @@ EOT;
 
         public function getPages($subDir='')
         {
-            return $this->_phpoole->getPagesPath($subDir);
+            return $this->_phpoole->getPages($subDir);
         }
     }
 
@@ -1034,7 +1042,8 @@ EOT;
                 }
                 $dirOrIterator = new \RecursiveDirectoryIterator(
                     $dirOrIterator,
-                    \RecursiveIteratorIterator::SELF_FIRST
+                    \FilesystemIterator::UNIX_PATHS
+                    |\RecursiveIteratorIterator::SELF_FIRST
                 );
             }
             elseif (!$dirOrIterator instanceof \DirectoryIterator) {
@@ -1245,6 +1254,9 @@ namespace PHPoole\Utils
     }
 
     function slugify($string) {
+        
+        return md5($string);
+
         $separator = '-';
         $string = preg_replace('/
             [\x09\x0A\x0D\x20-\x7E]              # ASCII
@@ -1268,7 +1280,7 @@ namespace PHPoole\Utils
         $string = (defined('MB_CASE_LOWER')) ? mb_strtolower($string) : strtolower($string);
         // remove unwanted characters
         $string = preg_replace('#[^-\w]+#', '', $string);
-     
+
         return $string;
     }
 }
