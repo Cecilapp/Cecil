@@ -171,3 +171,7 @@ You can chain options. For example, if you want to generate then deploy:
 ```$ php phpoole.php [folder] -gd```
 
 Note: This feature requires [Git](http://git-scm.com) and a [GitHub](https://github.com) account.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Narno/phpoole/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
