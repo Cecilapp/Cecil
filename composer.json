@@ -26,5 +26,5 @@
     "michelf/php-markdown": "1.*",
     "phpoole/plugin-twbootstrap": "dev-master"
   },
-   "minimum-stability": "dev",
+  "minimum-stability": "dev"
 }
