@@ -407,11 +407,11 @@ namespace PHPoole
             $this->addMessage(self::PHPOOLE_DIRNAME . ' directory created');
             $this->addMessage($this->createConfigFile());
             $this->addMessage($this->createLayoutsDir());
-            $this->addMessage($this->createLayoutDefaultFile());
+            //$this->addMessage($this->createLayoutDefaultFile());
             $this->addMessage($this->createAssetsDir());
-            $this->addMessage($this->createAssetDefaultFiles());
+            //$this->addMessage($this->createAssetDefaultFiles());
             $this->addMessage($this->createContentDir());
-            $this->addMessage($this->createContentDefaultFile());
+            //$this->addMessage($this->createContentDefaultFile());
             $this->addMessage($this->createRouterFile());
 
             $this->triggerEvent(__FUNCTION__, func_get_args(), 'post');
