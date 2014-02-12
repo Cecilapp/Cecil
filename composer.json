@@ -6,6 +6,7 @@
     "website", "static", "generator"
   ],
   "license": "MIT",
+  "homepage": "http://phpoole.narno.org",
   "authors": [
     {
       "name": "Arnaud Ligny",
@@ -18,17 +19,11 @@
       "phpoole.php"
   ],
   "require": {
-    "php":">=5.3",
+    "php":">=5.4",
     "zendframework/zend-console": "2.*",
     "zendframework/zend-eventmanager": "2.*",
     "twig/twig": "1.*",
     "michelf/php-markdown": "1.*",
     "phpoole/plugin-twbootstrap": "dev-master"
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/PHPoole/Plugin-TwBootstrap"
-    }
-  ]
+  }
 }
