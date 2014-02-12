@@ -18,6 +18,8 @@
   "bin": [
       "phpoole.php"
   ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "require": {
     "php":">=5.4",
     "zendframework/zend-console": "2.*",
@@ -25,6 +27,5 @@
     "twig/twig": "1.*",
     "michelf/php-markdown": "1.*",
     "phpoole/plugin-twbootstrap": "dev-master"
-  },
-  "minimum-stability": "dev"
+  }
 }
