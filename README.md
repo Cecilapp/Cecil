@@ -23,9 +23,8 @@ Quick Start
 -----------
 
 ### 1. Install PHPoole
-    $ git clone https://github.com/Narno/PHPoole.git && cd PHPoole
     $ curl -s https://getcomposer.org/installer | php
-    $ php composer.phar install
+    $ php composer.phar create-project narno/phpoole:@dev --prefer-dist && cd phpoole
 
 ### 2. Setup a new website
     $ mkdir mywebsite
@@ -47,11 +46,10 @@ Usage
 
 ### Installation
 
-Use [Git](http://git-scm.com) and [Composer](http://getcomposer.org) to easily install PHPoole.
-
-    $ git clone https://github.com/Narno/PHPoole.git && cd PHPoole
+Use [Composer](http://getcomposer.org) and [Packagist](https://packagist.org/packages/narno/phpoole) to easily install PHPoole.
+    
     $ curl -s https://getcomposer.org/installer | php
-    $ php composer.phar install
+    $ php composer.phar create-project narno/phpoole:@dev --prefer-dist && cd phpoole
 
 
 ### Setup
