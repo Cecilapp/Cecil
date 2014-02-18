@@ -633,7 +633,7 @@ EOT;
                 $pageData['basename'] = $filePage->getBasename('.md') . '.html';
                 $pageData['layout'] = (
                     isset($pageInfo['layout'])
-                        && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . $pageInfo['layout'] . '.html')
+                        && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . (isset($this->getConfig()['site']['layouts']) ? $this->getConfig()['site']['layouts'] . '/' : '') . $pageInfo['layout'] . '.html')
                     ? $pageInfo['layout'] . '.html'
                     : 'default.html'
                 );
@@ -717,8 +717,13 @@ EOT;
         public function generate()
         {
             $pages = $this->getPages();
-            $menuNav = $this->prepareMenuNav();
-            $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME);
+            $menuNav = $this->prepareMenuNav();            
+            if (isset($this->getConfig()['site']['layouts'])) {
+                $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . $this->getConfig()['site']['layouts']);
+            }
+            else {
+                $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME);
+            }
             $pagesIterator = (new \ArrayObject($pages))->getIterator();
             $pagesIterator->ksort();
             $currentPos = 0;
