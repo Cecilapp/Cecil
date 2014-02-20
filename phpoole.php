@@ -13,6 +13,7 @@
 namespace
 {
     error_reporting(E_ALL ^ E_NOTICE);
+    date_default_timezone_set("UTC");
 
     use Zend\Console\Console as Console;
     use Zend\Console\Getopt;
