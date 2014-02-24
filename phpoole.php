@@ -20,8 +20,8 @@ namespace
     use Zend\Console\Exception\RuntimeException as ConsoleException;
 
     // Composer autoloading
-    if (file_exists('vendor/autoload.php')) {
-        $loader = include 'vendor/autoload.php';
+    if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+        $loader = include __DIR__ . '/vendor/autoload.php';
     }
     else {
         echo 'Run the following commands:' . PHP_EOL;
