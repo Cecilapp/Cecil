@@ -2,3 +2,6 @@ composer.phar
 vendor/*
 websites/*
 plugins/*
+components/*
+box.phar
+phpoole.phar

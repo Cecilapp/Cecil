@@ -1,0 +1,35 @@
+{
+    "alias": "phpoole.phar",
+    "chmod": "0755",
+    "files": [
+        "LICENSE",
+        "phpoole.php"
+    ],
+    "finder": [
+        {
+            "name": [
+                "LICENSE*",
+                "License*",
+                "*.php",
+                "*.xml",
+                "*.xsd",
+                "*.yaml",
+                "*.yml",
+                "*.json"
+            ],
+            "notName": [
+                "composer.json"
+            ],
+            "exclude": [
+                "phpunit",
+                "Tests",
+                "tests"
+            ],
+            "in": ["vendor"]
+        }
+    ],
+    "git-version": "git_version",
+    "main": "phpoole.php",
+    "output": "phpoole.phar",
+    "stub": true
+}
