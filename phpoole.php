@@ -7,7 +7,7 @@
  * @author Arnaud Ligny <arnaud@ligny.org>
  * @license The MIT License (MIT)
  *
- * Copyright (c) 2013 Arnaud Ligny
+ * Copyright (c) 2013-2014 Arnaud Ligny
  */
 
 namespace
@@ -77,13 +77,17 @@ namespace
     }
 
     // Get provided directory if exist
-    if (isset($opts->getRemainingArgs()[0])) {
-        if (!is_dir($opts->getRemainingArgs()[0])) {
-            $phpooleConsole->wlError('Invalid directory provided');
-            exit(2);
-        }
-        $websitePath = str_replace(DS, '/', realpath($opts->getRemainingArgs()[0]));
+    if (!isset($opts->getRemainingArgs()[0])) {
+        $path = '.';
     }
+    else {
+        $path = $opts->getRemainingArgs()[0];
+    }
+    if (!is_dir($path)) {
+        $phpooleConsole->wlError('Invalid directory provided!');
+        exit(2);
+    }
+    $websitePath = str_replace(DS, '/', realpath($path));
 
     // Instanciate the PHPoole API
     try {
