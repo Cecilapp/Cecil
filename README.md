@@ -12,57 +12,62 @@ It takes your content (written in [Markdown](http://daringfireball.net/projects/
 Requirements
 ------------
 
+### Use
+
 * [PHP](https://github.com/php) 5.4+
-* [Composer](http://getcomposer.org) (to install / update)
+* [Git](http://git-scm.com) (to deploy on GitHub Pages)
+
+### Install plugins
+
+* [Composer](http://getcomposer.org) (to install and update)
+
+### Development
+
+* [Composer](http://getcomposer.org) (to install / update dependencies)
  * [ZF2 components](https://github.com/zendframework)
  * [PHP Markdown](https://github.com/michelf/php-markdown)
  * [Twig](https://github.com/fabpot/Twig)
-* [Git](http://git-scm.com) (to deploy on GitHub Pages)
+
 
 Quick Start
 -----------
 
-### 1. Install PHPoole
-    $ curl -s https://getcomposer.org/installer | php
-    $ php composer.phar create-project narno/phpoole:@dev --prefer-dist && cd phpoole
+### 1. Get PHPoole
+    $ curl -SO https://github.com/Narno/PHPoole/releases/download/v.0.0.2-alpha/phpoole.phar
 
-### 2. Setup a new website
-    $ mkdir mywebsite
-    $ php phpoole.php mywebsite --init
+### 2. Initialize a new website
+    $ php phpoole.phar --init
 
 ### 3. Generate the static website
-    $ php phpoole.php mywebsite --generate
+    $ php phpoole.phar --generate
 
 ### 4. Serve the local website
-    $ php phpoole.php mywebsite --serve
+    $ php phpoole.phar --serve
 
 ### 5. Deploy the website on GitHub Pages
-    $ php phpoole.php mywebsite --deploy
+    $ php phpoole.phar --deploy
 
 ----
 
 Usage
 -----
 
-### Installation
-
-Use [Composer](http://getcomposer.org) and [Packagist](https://packagist.org/packages/narno/phpoole) to easily install PHPoole.
+### Get PHPoole
     
-    $ curl -s https://getcomposer.org/installer | php
-    $ php composer.phar create-project narno/phpoole:@dev --prefer-dist && cd phpoole
+    $ curl -SO https://github.com/Narno/PHPoole/releases/download/v.0.0.2-alpha/phpoole.phar
 
 
-### Setup
+### Initialize
 
-Once PHPoole is installed, run the following command to build all files you need (in the curent or target folder).
+Once PHPoole is downloaded, run the following command to build all files you need (in the curent or target folder).
 
-    $ php phpoole.php [folder] --init
+    $ php phpoole.phar [folder] --init
 
-Alias: ```$ php phpoole.php [folder] -i```
+Alias: ```$ php phpoole.phar [folder] -i```
 
 Note: You can force initialization of an already initialized folder.
 
-    $ php phpoole.php [folder] --init=force
+    $ php phpoole.phar [folder] --init=force
 
 After ```--init```, here's how the folder looks like:
 
@@ -104,6 +109,7 @@ Website configuration file:
 | Setting           | Description                                    |
 | ----------------- | ---------------------------------------------- |
 | ```repository```  | The URL of the GitHub repository               |
+| ```branch```      | The target branch name                         |
 
 #### _layouts_
 
@@ -122,9 +128,9 @@ Content folder: Where you can put your content (pages in [Markdown](http://darin
 
 Run the following command to generate your static website.
 
-    $ php phpoole.php [folder] --generate
+    $ php phpoole.phar [folder] --generate
 
-Alias: ```$ php phpoole.php [folder] -g```
+Alias: ```$ php phpoole.phar [folder] -g```
 
 After ```--generate```, here's how the folder looks like:
 
@@ -143,30 +149,28 @@ After ```--generate```, here's how the folder looks like:
 
 Run the following command to launch the built-in server to test your website before deployment.
 
-    $ php phpoole.php [folder] --serve
+    $ php phpoole.phar [folder] --serve
 
-Alias: ```$ php phpoole.php [folder] -s```
+Alias: ```$ php phpoole.phar [folder] -s```
 
 Then browse [http://localhost:8000](http://localhost:8000).
 
 You can chain options. For example, if you want to generate then serve:
-```$ php phpoole.php [folder] -gs```
-
-Note: This feature requires PHP 5.4+.
+```$ php phpoole.phar [folder] -gs```
 
 
 ### Deploy
 
 Run the following command to deploy your website.
 
-    $ php phpoole.php [folder] --deploy
+    $ php phpoole.phar [folder] --deploy
 
-Alias: ```$ php phpoole.php [folder] -d```
+Alias: ```$ php phpoole.phar [folder] -d```
 
 After ```--deploy```, a "cached copy" of ```[folder]``` is created at the same level: ```[.folder]```.
 
 You can chain options. For example, if you want to generate then deploy:
-```$ php phpoole.php [folder] -gd```
+```$ php phpoole.phar [folder] -gd```
 
 Note: This feature requires [Git](http://git-scm.com) and a [GitHub](https://github.com) account.
 
