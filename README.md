@@ -33,7 +33,7 @@ Quick Start
 -----------
 
 ### 1. Get PHPoole
-    $ curl -SO https://github.com/Narno/PHPoole/releases/download/v.0.0.2-alpha/phpoole.phar
+    $ curl -SO http://phpoole.narno.org/downloads/phpoole.phar
 
 ### 2. Initialize a new website
     $ php phpoole.phar --init
@@ -54,7 +54,7 @@ Usage
 
 ### Get PHPoole
     
-    $ curl -SO https://github.com/Narno/PHPoole/releases/download/v.0.0.2-alpha/phpoole.phar
+    $ curl -SO http://phpoole.narno.org/downloads/phpoole.phar
 
 
 ### Initialize
