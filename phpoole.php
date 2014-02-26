@@ -889,9 +889,18 @@ EOT;
             } catch (\Exception $e) {
                 $configPlugins = array();
             }
-            $pluginsDir = __DIR__ . '/' . self::PLUGINS_DIRNAME;
+            $pluginsDirCore = __DIR__ . '/' . self::PLUGINS_DIRNAME;
+            $pluginsDir     = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::PLUGINS_DIRNAME;
+            $pluginsIterator = new \AppendIterator();
+            if (is_dir($pluginsDirCore)) {
+                $pluginsIterator1 = new \FilesystemIterator($pluginsDirCore);
+                $pluginsIterator->append($pluginsIterator1);
+            }
             if (is_dir($pluginsDir)) {
-                $pluginsIterator = new \FilesystemIterator($pluginsDir);
+                $pluginsIterator2 = new \FilesystemIterator($pluginsDir);
+                $pluginsIterator->append($pluginsIterator2);
+            }
+            if (iterator_count($pluginsIterator) > 0) {
                 foreach ($pluginsIterator as $plugin) {
                     if (array_key_exists($plugin->getBasename(), $configPlugins)
                     && $configPlugins[$plugin->getBasename()] == 'disabled') {
@@ -900,7 +909,7 @@ EOT;
                     if ($plugin->isDir()) {
                         $pluginName = $plugin->getBasename();
                         $pluginClass = "PHPoole\\$pluginName";
-                        include("plugins/$pluginName/Plugin.php");
+                        include($plugin->getPathname() . "/Plugin.php");
                         if (class_exists($pluginClass)) {
                             $pluginObject = new $pluginClass($this->getEvents());
                             // init
