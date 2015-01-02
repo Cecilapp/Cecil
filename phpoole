@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+use Zend\Console\Console;
+use ZF\Console\Application;
+use PHPoole\PHPoole;
+
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    include __DIR__ . '/vendor/autoload.php';
+}
+
+$config = include __DIR__ . '/config.php';
+$application = new Application(
+    $config['name'],
+    $config['version'],
+    $config['routes'],
+    Console::getInstance()
+);
+
+$application->setBanner(function ($console) {
+    $console->writeLine('PHPoole, Light and easy static website generator!');
+    $console->writeLine('');
+    $console->writeLine('Usage:', \Zend\Console\ColorInterface::GREEN);
+    $console->writeLine(' ' . basename(__FILE__) . ' command [options]');
+    $console->writeLine('');
+});
+$application->setFooter("\n" . 'Copyright 2014 Arnaud Ligny');
+
+$exit = $application->run();
+exit($exit);

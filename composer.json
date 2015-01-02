@@ -1,6 +1,7 @@
 {
   "name": "narno/phpoole",
   "description": "PHPoole is a light and easy static website generator written in PHP.",
+  "version" : "2.0.0-dev",
   "type": "project",
   "keywords": [
     "website", "static", "generator"
@@ -22,9 +23,18 @@
   "prefer-stable": true,
   "require": {
     "php":">=5.4",
+    "zfcampus/zf-console": "~1.0-dev",
     "zendframework/zend-console": "2.*",
     "zendframework/zend-eventmanager": "2.*",
     "twig/twig": "1.*",
     "michelf/php-markdown": "1.*"
+  },
+  "require-dev": {
+    "kherge/box": "~2.4"
+  },
+  "autoload" : {
+    "psr-4" : {
+      "PHPoole\\" : "src/"
+    }
   }
 }
