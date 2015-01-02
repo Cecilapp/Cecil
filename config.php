@@ -15,15 +15,22 @@ return array(
     'routes'  => array(
         array(
             'name' => 'test',
-            'handler' => new PHPoole\Test(),
             'description' => 'description',
             'short_description' => 'short_description',
+            'handler' => 'PHPoole\Test',
         ),
         array(
             'name' => 'init',
-            'handler' => new PHPoole\Init(),
+            'route' => '[<website>]',
             'description' => 'description',
             'short_description' => 'short_description',
+            'options_descriptions' => array(
+                '<website>' => 'Website path',
+            ),
+            'defaults' => array(
+                'website' => getcwd(), // default to current working directory
+            ),
+            'handler' => 'PHPoole\Init',
         ),
     ),
 );

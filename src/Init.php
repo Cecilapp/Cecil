@@ -8,6 +8,13 @@ class Init
 {
     public function __invoke(Route $route, Console $console)
     {
-        $console->write("INIT.\n");
+        $website = $route->getMatchedParam('website', getcwd());
+        
+        if (!is_dir($website)) {
+            $console->write("Invalid directory provided!\n");
+            exit(2);
+        }
+
+        $console->write('website=' . $website . "\n");
     }
 }
