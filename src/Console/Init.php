@@ -3,6 +3,7 @@ namespace PHPoole\Console;
 
 use Zend\Console\Adapter\AdapterInterface as Console;
 use ZF\Console\Route;
+use PHPoole;
 
 class Init
 {
@@ -21,7 +22,7 @@ class Init
 
         // Instanciate the PHPoole API
         try {
-            $phpoole = new \PHPoole\Api($path);
+            $phpoole = new PHPoole\Api($path);
         } catch (\Exception $e) {
             $console->write($e->getMessage());
             exit(2);
@@ -35,7 +36,7 @@ class Init
                 $console->write($message . "\n");
             }
         } catch (\Exception $e) {
-            $phpooleConsole->wlError($e->getMessage());
+            $console->write($e->getMessage());
         }
     }
 }
