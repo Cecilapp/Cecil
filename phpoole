@@ -24,7 +24,7 @@ $application->setBanner(function ($console) {
     $console->writeLine(' ' . basename(__FILE__) . ' command [options]');
     $console->writeLine('');
 });
-$application->setFooter("\n" . 'Copyright 2014 Arnaud Ligny');
+$application->setFooter("\n" . 'Created by Arnaud Ligny');
 
 $exit = $application->run();
 exit($exit);

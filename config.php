@@ -14,23 +14,29 @@ return array(
     'version' => VERSION,
     'routes'  => array(
         array(
-            'name' => 'test',
-            'description' => 'description',
-            'short_description' => 'short_description',
-            'handler' => 'PHPoole\Test',
-        ),
-        array(
             'name' => 'init',
-            'route' => '[<website>]',
-            'description' => 'description',
-            'short_description' => 'short_description',
+            'route' => '[<path>] [--force]',
+            'description' => 'Build a new PHPoole website in <path> if provided',
+            'short_description' => 'Build a new PHPoole website',
             'options_descriptions' => array(
-                '<website>' => 'Website path',
+                '<path>' => 'Website path',
             ),
             'defaults' => array(
-                'website' => getcwd(), // default to current working directory
+                'path' => getcwd(), // default to current working directory
             ),
-            'handler' => 'PHPoole\Init',
+            'handler' => 'PHPoole\Console\Init',
+        ),
+        array(
+            'name' => 'generate',
+            'short_description' => 'Generate static files',
+        ),
+        array(
+            'name' => 'serve',
+            'short_description' => 'Start built-in web server',
+        ),
+        array(
+            'name' => 'list',
+            'short_description' => 'Lists content',
         ),
     ),
 );
