@@ -30,7 +30,7 @@ Quick Start
 Requirements
 ------------
 
-Please see the [composer.json](composer.json) file.
+Please see the [composer.json](https://github.com/Narno/PHPoole/blob/2.0.0-dev/composer.json) file.
 
 
 Usage
