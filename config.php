@@ -16,23 +16,34 @@ return array(
         array(
             'name' => 'init',
             'route' => '[<path>] [--force]',
-            'description' => 'Build a new PHPoole website in <path> if provided',
             'short_description' => 'Build a new PHPoole website',
+            'description' => 'Build a new PHPoole website in <path> if provided',
             'options_descriptions' => array(
-                '<path>' => 'Website path',
+                '<path>'  => 'Website path',
+                '--force' => 'Override if already exist',
             ),
             'defaults' => array(
-                'path' => getcwd(), // default to current working directory
+                'path' => getcwd(),
             ),
-            'handler' => 'PHPoole\Console\Init',
+            'handler' => 'PHPoole\Command\Init',
         ),
         array(
             'name' => 'generate',
+            'route' => '[<path>]',
             'short_description' => 'Generate static files',
+            'defaults' => array(
+                'path' => getcwd(),
+            ),
+            'handler' => 'PHPoole\Command\Generate',
         ),
         array(
             'name' => 'serve',
+            'route' => '[<path>]',
             'short_description' => 'Start built-in web server',
+            'defaults' => array(
+                'path' => getcwd(),
+            ),
+            'handler' => 'PHPoole\Command\Serve',
         ),
         array(
             'name' => 'list',

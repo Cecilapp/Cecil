@@ -1,40 +1,29 @@
 <?php
-namespace PHPoole\Console;
+namespace PHPoole\Command;
 
-use Zend\Console\Adapter\AdapterInterface as Console;
-use ZF\Console\Route;
+use PHPoole\Command\AbstractCommand;
 use PHPoole;
 
-class Init
+class Init extends AbstractCommand
 {
-    public function __invoke(Route $route, Console $console)
+    /**
+     * @var bool
+     */
+    protected $_force;
+
+    public function processCommand()
     {
-        $path = $route->getMatchedParam('path', getcwd());
-        $force = $route->getMatchedParam('force', false);
+        $this->_force = $this->_route->getMatchedParam('force', false);
 
-        if (!is_dir($path)) {
-            $console->write("Invalid directory provided!\n");
-            exit(2);
-        }
-        $path = str_replace(DIRECTORY_SEPARATOR, '/', realpath($path));
-
-        // Instanciate the PHPoole API
-        try {
-            $phpoole = new PHPoole\Api($path);
-        } catch (\Exception $e) {
-            $console->write($e->getMessage());
-            exit(2);
-        }
-
-        $console->write('Initializing new website...' . "\n");
+        $this->_console->write('Initializing new website...' . "\n");
 
         try {
-            $messages = $phpoole->init($force);
+            $messages = $this->_api->init($this->_force);
             foreach ($messages as $message) {
-                $console->write($message . "\n");
+                $this->_console->write($message . "\n");
             }
         } catch (\Exception $e) {
-            $console->write($e->getMessage() . "\n");
+            $this->_console->write($e->getMessage() . "\n");
         }
     }
 }
