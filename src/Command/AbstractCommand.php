@@ -2,6 +2,7 @@
 namespace PHPoole\Command;
 
 use Zend\Console\Adapter\AdapterInterface as Console;
+use Zend\Console\ColorInterface as Color;
 use ZF\Console\Route;
 use PHPoole;
 
@@ -30,8 +31,8 @@ abstract class AbstractCommand
     /**
      * Start command processing
      *
-     * @param Route            $route
-     * @param AdapterInterface $console
+     * @param Route   $route
+     * @param Console $console
      *
      * @return mixed
      */
@@ -42,7 +43,7 @@ abstract class AbstractCommand
 
         $this->_path = realpath($this->_route->getMatchedParam('path', getcwd()));
         if (!is_dir($this->_path)) {
-            $this->_console->write("Invalid directory provided!\n");
+            $this->wlError('Invalid directory provided!');
             exit(2);
         }
         $this->_path = str_replace(DIRECTORY_SEPARATOR, '/', $this->_path);
@@ -51,7 +52,7 @@ abstract class AbstractCommand
         try {
             $this->_api = new PHPoole\Api($this->_path);
         } catch (\Exception $e) {
-            $this->_console->write($e->getMessage());
+            $this->wlError($e->getMessage());
             exit(2);
         }
 
@@ -64,4 +65,20 @@ abstract class AbstractCommand
      * @return integer
      */
     abstract public function processCommand();
+
+    public function wlInfo($text)
+    {
+        echo '[' , $this->_console->write('INFO', Color::YELLOW) , ']' . "\t";
+        $this->_console->writeLine($text);
+    }
+    public function wlDone($text)
+    {
+        echo '[' , $this->_console->write('DONE', Color::GREEN) , ']' . "\t";
+        $this->_console->writeLine($text);
+    }
+    public function wlError($text)
+    {
+        echo '[' , $this->_console->write('ERROR', Color::RED) , ']' . "\t";
+        $this->_console->writeLine($text);
+    }
 }

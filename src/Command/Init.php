@@ -15,15 +15,15 @@ class Init extends AbstractCommand
     {
         $this->_force = $this->_route->getMatchedParam('force', false);
 
-        $this->_console->write('Initializing new website...' . "\n");
+        $this->wlInfo('Initializing new website');
 
         try {
             $messages = $this->_api->init($this->_force);
             foreach ($messages as $message) {
-                $this->_console->write($message . "\n");
+                $this->wlDone($message);
             }
         } catch (\Exception $e) {
-            $this->_console->write($e->getMessage() . "\n");
+            $this->wlError($e->getMessage());
         }
     }
 }

@@ -8,16 +8,16 @@ class Generate extends AbstractCommand
 {
     public function processCommand()
     {
-        $this->_console->write('Generating website...' . "\n");
+        $this->wlInfo('Generating website');
 
         try {
             $this->_api->loadPages()->generate();
             $messages = $this->_api->getMessages();
             foreach ($messages as $message) {
-                $this->_console->write($message . "\n");
+                $this->wlDone($message);
             }
         } catch (\Exception $e) {
-            $this->_console->write($e->getMessage() . "\n");
+            $this->wlError($e->getMessage());
         }
     }
 }

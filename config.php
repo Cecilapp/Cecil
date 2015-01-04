@@ -31,6 +31,10 @@ return array(
             'name' => 'generate',
             'route' => '[<path>]',
             'short_description' => 'Generate static files',
+            'description' => 'Generate static files',
+            'options_descriptions' => array(
+                '<path>'  => 'Website path',
+            ),
             'defaults' => array(
                 'path' => getcwd(),
             ),
@@ -40,6 +44,10 @@ return array(
             'name' => 'serve',
             'route' => '[<path>]',
             'short_description' => 'Start built-in web server',
+            'description' => 'Start built-in web server',
+            'options_descriptions' => array(
+                '<path>'  => 'Website path',
+            ),
             'defaults' => array(
                 'path' => getcwd(),
             ),
@@ -47,7 +55,16 @@ return array(
         ),
         array(
             'name' => 'list',
-            'short_description' => 'Lists content',
+            'route' => '[<path>]',
+            'short_description' => 'Lists pages',
+            'description' => 'Lists pages',
+            'options_descriptions' => array(
+                '<path>'  => 'Website path',
+            ),
+            'defaults' => array(
+                'path' => getcwd(),
+            ),
+            'handler' => 'PHPoole\Command\ListPages',
         ),
     ),
 );
