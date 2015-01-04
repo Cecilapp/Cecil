@@ -18,8 +18,6 @@ class Init
         }
         $path = str_replace(DIRECTORY_SEPARATOR, '/', realpath($path));
 
-        $console->write('path=' . $path . "\n");
-
         // Instanciate the PHPoole API
         try {
             $phpoole = new PHPoole\Api($path);
@@ -28,7 +26,7 @@ class Init
             exit(2);
         }
 
-        $console->write('Initializing new website' . "\n");
+        $console->write('Initializing new website...' . "\n");
 
         try {
             $messages = $phpoole->init($force);
@@ -36,7 +34,7 @@ class Init
                 $console->write($message . "\n");
             }
         } catch (\Exception $e) {
-            $console->write($e->getMessage());
+            $console->write($e->getMessage() . "\n");
         }
     }
 }
