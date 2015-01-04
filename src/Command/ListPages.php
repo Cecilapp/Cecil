@@ -12,12 +12,12 @@ class ListPages extends AbstractCommand
             $this->wlInfo('Lists pages');
             $pages = $this->_api->getPagesTree();
             if ($this->_console->isUtf8()) {
-                $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
+                $unicodeTreePrefix = function(\RecursiveTreeIterator $tree) {
                     $prefixParts = [
-                        RecursiveTreeIterator::PREFIX_LEFT         => ' ',
-                        RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
-                        RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
+                        \RecursiveTreeIterator::PREFIX_LEFT         => ' ',
+                        \RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
+                        \RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
+                        \RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
                     ];
                     foreach ($prefixParts as $part => $string) {
                         $tree->setPrefixPart($part, $string);
