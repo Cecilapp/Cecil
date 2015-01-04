@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHPoole is a light and easy static website generator written in PHP.
+ * @see http://phpoole.narno.org
+ *
+ * @author Arnaud Ligny <arnaud@ligny.org>
+ * @license The MIT License (MIT)
+ *
+ * Copyright (c) 2013-2014 Arnaud Ligny
+ */
+
 namespace PHPoole;
 
 use Zend\Console\ColorInterface as Color;
