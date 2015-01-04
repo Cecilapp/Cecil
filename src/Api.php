@@ -225,7 +225,7 @@ EOT;
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="{{ site.description }}">
-  <title>{{ site.name}} - {{ title }}</title>
+  <title>{{ site.name}} - {{ page.title }}</title>
   <style type="text/css">
     body { font: bold 24px Helvetica, Arial; padding: 15px 20px; color: #ddd; background: #333;}
     a:link {text-decoration: none; color: #fff;}
@@ -238,9 +238,9 @@ EOT;
   <a href="{{ site.base_url}}"><strong>{{ site.name }}</strong></a><br />
   <em>{{ site.baseline }}</em>
   <hr />
-  <p>{{ content }}</p>
+  <p>{{ page.content }}</p>
   <hr />
-  <p>Powered by <a href="http://phpoole.narno.org">PHPoole</a>, coded by <a href="{{ author.home }}">{{ author.name }}</a></p>
+  <p>Powered by <a href="http://phpoole.narno.org">PHPoole</a>, coded by <a href="{{ site.author.home }}">{{ site.author.name }}</a></p>
 </body>
 </html>
 EOT;
@@ -298,7 +298,7 @@ It parses your content written with Markdown, merge it with layouts and generate
 
 PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
 
-Go to the [dedicated website](http://narno.org/PHPoole) for more details.
+Go to the [dedicated website](http://phpoole.narno.org) for more details.
 EOT;
         if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME . '/index.md', $content)) {
             throw new \Exception('Cannot create the default content file');
@@ -383,7 +383,7 @@ EOT;
         $pageData  = array();
         $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
         // Iterate pages files, filtered by markdown "md" extension
-        $pagesIterator = new FileIterator($pagesPath, 'md');
+        $pagesIterator = new Spl\FileIterator($pagesPath, 'md');
         foreach ($pagesIterator as $filePage) {
             $pageInfo = $filePage->parse()->getData('info');
             $pageIndex = ($pagesIterator->getSubPath() ? $pagesIterator->getSubPath() : 'home');
@@ -690,196 +690,6 @@ EOT;
                     }
                 }
             }
-        }
-    }
-}
-
-/**
- * Proxy class used by the template engine
- * "site.data" = "class.method"
- */
-class Proxy
-{
-    protected $_phpoole;
-
-    public function __construct($phpoole)
-    {
-        if (!$phpoole instanceof Api) {
-            throw new \Exception('Proxy should be loaded with a PHPoole instance');
-        }
-        $this->_phpoole = $phpoole;
-    }
-
-    /**
-     * Magic method can get call like $site->name(), etc.
-     * @todo do it better! :-)
-     * @param  string $function
-     * @param  array $arguments
-     * @return string
-     */
-    public function __call($function, $arguments)
-    {
-        /*
-        if (!method_exists($this->_phpoole, $function)) {
-            throw new Exception(sprintf('Proxy erreor: Cannot get %s', $function));
-        }
-        return call_user_func_array(array($this->_phpoole, $function), $arguments);
-        */
-        $config = $this->_phpoole->getConfig();
-        if (array_key_exists($function, $config['site'])) {
-            if ($this->_phpoole->localServe === true) {
-                $configToMerge['site']['base_url'] = 'http://localhost:8000';
-                $config = array_replace_recursive($config, $configToMerge);
-            }
-            return $config['site'][$function];
-        }
-        if ($function == 'author') {
-            return $config['author'];
-        }
-        if ($function == 'source') {
-            return $config['deploy'];
-        }
-        return null;
-    }
-
-    public function getPages($subDir='')
-    {
-        return $this->_phpoole->getPages($subDir);
-    }
-}
-
-/**
- * PHPoole FileInfo, extended from SplFileInfo
- */
-class FileInfo extends \SplFileInfo
-{
-    protected $_data = array();
-
-    public function setData($key, $value)
-    {
-        $this->_data[$key] = $value;
-        return $this;
-    }
-
-    public function getData($key='')
-    {
-        if ($key == '') {
-            return $this->_data;
-        }
-        if (isset($this->_data[$key])) {
-            return $this->_data[$key];
-        }
-    }
-
-    public function getContents()
-    {
-        $level = error_reporting(0);
-        $content = file_get_contents($this->getRealpath());
-        error_reporting($level);
-        if (false === $content) {
-            $error = error_get_last();
-            throw new \RuntimeException($error['message']);
-        }
-        return $content;
-    }
-
-    public function parse()
-    {
-        if (!$this->isReadable()) {
-            throw new \Exception('Cannot read file');
-        }
-        // parse front matter
-        preg_match('/^<!--(.+)-->(.+)/s', $this->getContents(), $matches);
-        // if not front matter, return content only
-        if (!$matches) {
-            $this->setData('content_raw', $this->getContents());
-            return $this;
-        }
-        // $rawInfo    = front matter data
-        // $rawContent = content data
-        list($matchesAll, $rawInfo, $rawContent) = $matches;
-        // parse front matter
-        $info = parse_ini_string($rawInfo);
-        $this->setData('info', $info);
-        $this->setData('content_raw', $rawContent);
-        return $this;
-    }
-}
-
-/**
- * PHPoole File iterator
- */
-class FileIterator extends \FilterIterator
-{
-    protected $_extFilter = null;
-
-    public function __construct($dirOrIterator = '.', $extFilter='')
-    {
-        if (is_string($dirOrIterator)) {
-            if (!is_dir($dirOrIterator)) {
-                throw new \InvalidArgumentException('Expected a valid directory name');
-            }
-            $dirOrIterator = new \RecursiveDirectoryIterator(
-                $dirOrIterator,
-                \FilesystemIterator::UNIX_PATHS
-                |\RecursiveIteratorIterator::SELF_FIRST
-            );
-        }
-        elseif (!$dirOrIterator instanceof \DirectoryIterator) {
-            throw new \InvalidArgumentException('Expected a DirectoryIterator');
-        }
-        if ($dirOrIterator instanceof \RecursiveIterator) {
-            $dirOrIterator = new \RecursiveIteratorIterator($dirOrIterator);
-        }
-        if (!empty($extFilter)) {
-            $this->_extFilter = $extFilter;
-        }
-        parent::__construct($dirOrIterator);
-        $this->setInfoClass('PHPoole\FileInfo');
-    }
-
-    public function accept()
-    {
-        $file = $this->getInnerIterator()->current();
-        if (!$file instanceof FileInfo) {
-            return false;
-        }
-        if (!$file->isFile()) {
-            return false;
-        }
-        if (!is_null($this->_extFilter)) {
-            if ($file->getExtension() != $this->_extFilter) {
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
-}
-
-/**
- * PHPoole plugin abstract
- */
-abstract class Plugin
-{
-    const DEBUG = false;
-
-    public function __call($name, $args)
-    {
-        if (self::DEBUG) {
-            printf("[EVENT] %s is not implemented in %s plugin\n", $name, get_class(__FUNCTION__));
-        }
-    }
-
-    public function trace($enabled=self::DEBUG, $e)
-    {
-        if ($enabled === true) {
-            printf(
-                '[EVENT] %s\%s %s' . "\n",
-                get_class($this),
-                $e->getName(),
-                json_encode($e->getParams())
-            );
         }
     }
 }

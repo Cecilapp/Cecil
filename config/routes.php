@@ -29,11 +29,12 @@ return array(
         ),
         array(
             'name' => 'generate',
-            'route' => '[<path>]',
+            'route' => '[<path>] [--serve]',
             'short_description' => 'Generate static files',
             'description' => 'Generate static files',
             'options_descriptions' => array(
                 '<path>'  => 'Website path',
+                '--serve' => 'Generate and serve',
             ),
             'defaults' => array(
                 'path' => getcwd(),

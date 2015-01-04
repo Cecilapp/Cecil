@@ -1,5 +1,5 @@
 <?php
-namespace PHPoole\Utils;
+namespace PHPoole;
 
 /**
  * PHPoole Utils
@@ -13,7 +13,8 @@ class Utils
      * @param boolean $followSymlinks
      * @return boolean
      */
-    public static function RecursiveRmdir($dirname, $followSymlinks=false) {
+    public static function RecursiveRmdir($dirname, $followSymlinks=false)
+    {
         if (is_dir($dirname) && !is_link($dirname)) {
             if (!is_writable($dirname)) {
                 throw new \Exception(sprintf('%s is not writable!', $dirname));
@@ -54,7 +55,8 @@ class Utils
     /**
      * Copy a dir, and all its content from source to dest
      */
-    public static function RecursiveCopy($source, $dest) {
+    public static function RecursiveCopy($source, $dest)
+    {
         if (!is_dir($dest)) {
             @mkdir($dest);
         }
@@ -99,8 +101,8 @@ class Utils
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
-    public static function slugify($string) {
-        
+    public static function slugify($string)
+    {    
         return md5($string);
 
         $separator = '-';

@@ -1,10 +1,11 @@
 <?php
 namespace PHPoole\Command;
 
+use PHPoole\PHPoole;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\Console\ColorInterface as Color;
 use ZF\Console\Route;
-use PHPoole;
+use PHPoole\Api;
 
 abstract class AbstractCommand
 {
@@ -24,7 +25,7 @@ abstract class AbstractCommand
     protected $_path;
 
     /**
-     * @var PHPoole\Api
+     * @var Api
      */
     protected $_api;
 
@@ -50,7 +51,7 @@ abstract class AbstractCommand
 
         // Instanciate the PHPoole API
         try {
-            $this->_api = new PHPoole\Api($this->_path);
+            $this->_api = new Api($this->_path);
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
             exit(2);
