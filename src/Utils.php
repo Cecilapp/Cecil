@@ -94,12 +94,12 @@ class Utils
         chdir($cwd);
     }
 
-    function isWindows()
+    public static function isWindows()
     {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
-    function slugify($string) {
+    public static function slugify($string) {
         
         return md5($string);
 

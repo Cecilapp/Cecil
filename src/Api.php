@@ -7,6 +7,8 @@ use Zend\Loader\PluginClassLoader;
 use Michelf\MarkdownExtra;
 use PHPoole\Utils;
 
+define('DS', DIRECTORY_SEPARATOR);
+
 /**
  * PHPoole API
  */
@@ -518,8 +520,8 @@ EOT;
             );
             $tplVariables = array(
                 'phpoole' => array(
-                    'version' => PHPoole::VERSION,
-                    'url'     => PHPoole::URL
+                    'version' => Api::VERSION,
+                    'url'     => Api::URL
                 ),
                 'site' => new Proxy($this),
                 'page' => array_merge($page, $pageExtra),
@@ -555,9 +557,9 @@ EOT;
         }
         // Copy assets
         if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
-            Utils\RecursiveRmdir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
+            Utils::RecursiveRmdir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
         }
-        Utils\RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
+        Utils::RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
         // Done!
         $this->addMessage('Copy assets directory (and sub)');
         $this->addMessage($this->createReadmeFile());
@@ -690,3 +692,227 @@ EOT;
         }
     }
 }
+
+/**
+     * Proxy class used by the template engine
+     * "site.data" = "class.method"
+     */
+    class Proxy
+    {
+        protected $_phpoole;
+
+        public function __construct($phpoole)
+        {
+            if (!$phpoole instanceof Api) {
+                throw new \Exception('Proxy should be loaded with a PHPoole instance');
+            }
+            $this->_phpoole = $phpoole;
+        }
+
+        /**
+         * Magic method can get call like $site->name(), etc.
+         * @todo do it better! :-)
+         * @param  string $function
+         * @param  array $arguments
+         * @return string
+         */
+        public function __call($function, $arguments)
+        {
+            /*
+            if (!method_exists($this->_phpoole, $function)) {
+                throw new Exception(sprintf('Proxy erreor: Cannot get %s', $function));
+            }
+            return call_user_func_array(array($this->_phpoole, $function), $arguments);
+            */
+            $config = $this->_phpoole->getConfig();
+            if (array_key_exists($function, $config['site'])) {
+                if ($this->_phpoole->localServe === true) {
+                    $configToMerge['site']['base_url'] = 'http://localhost:8000';
+                    $config = array_replace_recursive($config, $configToMerge);
+                }
+                return $config['site'][$function];
+            }
+            if ($function == 'author') {
+                return $config['author'];
+            }
+            if ($function == 'source') {
+                return $config['deploy'];
+            }
+            return null;
+        }
+
+        public function getPages($subDir='')
+        {
+            return $this->_phpoole->getPages($subDir);
+        }
+    }
+
+    /**
+     * PHPoole FileInfo, extended from SplFileInfo
+     */
+    class FileInfo extends \SplFileInfo
+    {
+        protected $_data = array();
+
+        public function setData($key, $value)
+        {
+            $this->_data[$key] = $value;
+            return $this;
+        }
+
+        public function getData($key='')
+        {
+            if ($key == '') {
+                return $this->_data;
+            }
+            if (isset($this->_data[$key])) {
+                return $this->_data[$key];
+            }
+        }
+
+        public function getContents()
+        {
+            $level = error_reporting(0);
+            $content = file_get_contents($this->getRealpath());
+            error_reporting($level);
+            if (false === $content) {
+                $error = error_get_last();
+                throw new \RuntimeException($error['message']);
+            }
+            return $content;
+        }
+
+        public function parse()
+        {
+            if (!$this->isReadable()) {
+                throw new \Exception('Cannot read file');
+            }
+            // parse front matter
+            preg_match('/^<!--(.+)-->(.+)/s', $this->getContents(), $matches);
+            // if not front matter, return content only
+            if (!$matches) {
+                $this->setData('content_raw', $this->getContents());
+                return $this;
+            }
+            // $rawInfo    = front matter data
+            // $rawContent = content data
+            list($matchesAll, $rawInfo, $rawContent) = $matches;
+            // parse front matter
+            $info = parse_ini_string($rawInfo);
+            $this->setData('info', $info);
+            $this->setData('content_raw', $rawContent);
+            return $this;
+        }
+    }
+
+    /**
+     * PHPoole File iterator
+     */
+    class FileIterator extends \FilterIterator
+    {
+        protected $_extFilter = null;
+
+        public function __construct($dirOrIterator = '.', $extFilter='')
+        {
+            if (is_string($dirOrIterator)) {
+                if (!is_dir($dirOrIterator)) {
+                    throw new \InvalidArgumentException('Expected a valid directory name');
+                }
+                $dirOrIterator = new \RecursiveDirectoryIterator(
+                    $dirOrIterator,
+                    \FilesystemIterator::UNIX_PATHS
+                    |\RecursiveIteratorIterator::SELF_FIRST
+                );
+            }
+            elseif (!$dirOrIterator instanceof \DirectoryIterator) {
+                throw new \InvalidArgumentException('Expected a DirectoryIterator');
+            }
+            if ($dirOrIterator instanceof \RecursiveIterator) {
+                $dirOrIterator = new \RecursiveIteratorIterator($dirOrIterator);
+            }
+            if (!empty($extFilter)) {
+                $this->_extFilter = $extFilter;
+            }
+            parent::__construct($dirOrIterator);
+            $this->setInfoClass('PHPoole\FileInfo');
+        }
+
+        public function accept()
+        {
+            $file = $this->getInnerIterator()->current();
+            if (!$file instanceof FileInfo) {
+                return false;
+            }
+            if (!$file->isFile()) {
+                return false;
+            }
+            if (!is_null($this->_extFilter)) {
+                if ($file->getExtension() != $this->_extFilter) {
+                    return false;
+                }
+                return true;
+            }
+            return true;
+        }
+    }
+
+    /**
+     * PHPoole console helper
+     */
+    class Console
+    {
+        protected $_console;
+
+        public function __construct($console)
+        {
+            /*
+            if (!($console instanceof Zend\Console\Adapter\AdapterInterface)) {
+                throw new \Exception("Error");
+            }
+            */
+            $this->_console = $console;
+        }
+
+        public function wlInfo($text)
+        {
+            echo '[' , $this->_console->write('INFO', Color::YELLOW) , ']' . "\t";
+            $this->_console->writeLine($text);
+        }
+        public function wlDone($text)
+        {
+            echo '[' , $this->_console->write('DONE', Color::GREEN) , ']' . "\t";
+            $this->_console->writeLine($text);
+        }
+        public function wlError($text)
+        {
+            echo '[' , $this->_console->write('ERROR', Color::RED) , ']' . "\t";
+            $this->_console->writeLine($text);
+        }
+    }
+
+    /**
+     * PHPoole plugin abstract
+     */
+    abstract class Plugin
+    {
+        const DEBUG = false;
+
+        public function __call($name, $args)
+        {
+            if (self::DEBUG) {
+                printf("[EVENT] %s is not implemented in %s plugin\n", $name, get_class(__FUNCTION__));
+            }
+        }
+
+        public function trace($enabled=self::DEBUG, $e)
+        {
+            if ($enabled === true) {
+                printf(
+                    '[EVENT] %s\%s %s' . "\n",
+                    get_class($this),
+                    $e->getName(),
+                    json_encode($e->getParams())
+                );
+            }
+        }
+    }
