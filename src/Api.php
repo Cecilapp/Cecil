@@ -679,7 +679,7 @@ EOT;
                 if ($plugin->isDir()) {
                     $pluginName = $plugin->getBasename();
                     $pluginClass = "PHPoole\\$pluginName";
-                    include($plugin->getPathname() . "/Plugin.php");
+                    include_once($plugin->getPathname() . "/Plugin.php");
                     if (class_exists($pluginClass)) {
                         $pluginObject = new $pluginClass($this->getEvents());
                         // init
