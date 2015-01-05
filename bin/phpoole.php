@@ -54,10 +54,11 @@ $application = new Application(
 );
 
 $application->setBanner(function ($console) {
+    $script = (Phar::running(false) == '') ? __FILE__ : Phar::running(false);
     $console->writeLine('PHPoole, Light and easy static website generator!');
     $console->writeLine('');
     $console->writeLine('Usage:', \Zend\Console\ColorInterface::GREEN);
-    $console->writeLine(' ' . basename(__FILE__) . ' command [options]');
+    $console->writeLine(' php ' . basename($script) . ' command [options]');
     $console->writeLine('');
 });
 $application->setFooter("\n" . 'Created by Arnaud Ligny');
