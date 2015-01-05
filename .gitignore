@@ -1,8 +1,5 @@
 composer.phar
 vendor/*
 build/*
-websites/*
 plugins/*
-components/*
 box.phar
-phpoole.phar
