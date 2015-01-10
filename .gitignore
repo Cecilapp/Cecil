@@ -1,5 +1,2 @@
 composer.phar
-vendor/*
-build/*
-plugins/*
 box.phar
