@@ -87,9 +87,11 @@ class Api
         return $this->_messages;
     }
 
-    public function addMessage($message)
+    public function addMessage($message, $verbose=false)
     {
-        $this->_messages[] = $message;
+        if (!$verbose) {
+            $this->_messages[] = $message;
+        }
         return $this->getMessages();
     }
 
@@ -176,17 +178,14 @@ class Api
         if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME)) {
             throw new \Exception('Cannot create root PHPoole directory');
         }
-        $this->addMessage(self::PHPOOLE_DIRNAME . ' directory created');
+        $this->addMessage(self::PHPOOLE_DIRNAME . ' directory');
         $this->addMessage($this->createConfigFile());
         $this->addMessage($this->createLayoutsDir());
-        // optional
-        $this->addMessage($this->createLayoutDefaultFile());
+        $this->addMessage($this->createLayoutDefaultFile()); // optional
         $this->addMessage($this->createAssetsDir());
-        // optional
-        $this->addMessage($this->createAssetDefaultFiles());
+        //$this->addMessage($this->createAssetDefaultFiles());
         $this->addMessage($this->createContentDir());
-        // optional
-        $this->addMessage($this->createContentDefaultFile());
+        $this->addMessage($this->createContentDefaultFile()); // optional
         $this->addMessage($this->createRouterFile());
 
         $this->triggerEvent(__FUNCTION__, func_get_args(), 'post');
@@ -214,7 +213,7 @@ EOT;
         if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME, $content)) {
             throw new \Exception('Cannot create the config file');
         }
-        return 'Config file created';
+        return 'Config file';
     }
 
     private function createLayoutsDir()
@@ -222,7 +221,7 @@ EOT;
         if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME)) {
             throw new \Exception('Cannot create the layouts directory');
         }
-        return 'Layouts directory created';
+        return 'Layouts directory';
     }
 
     private function createLayoutDefaultFile()
@@ -257,7 +256,7 @@ EOT;
         if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/default.html', $content)) {
             throw new \Exception('Cannot create the default layout file');
         }
-        return 'Default layout file created';
+        return 'Default layout file';
     }
 
     private function createAssetsDir()
@@ -273,7 +272,7 @@ EOT;
                 throw new \Exception('Cannot create the assets directory');
             }
         }
-        return 'Assets directory created';
+        return 'Assets directory';
     }
 
     private function createAssetDefaultFiles()
@@ -292,7 +291,7 @@ EOT;
                 throw new \Exception('Cannot create the content directory');
             }
         }
-        return 'Content directory created';
+        return 'Content directory';
     }
 
     private function createContentDefaultFile()
@@ -313,7 +312,7 @@ EOT;
         if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME . '/index.md', $content)) {
             throw new \Exception('Cannot create the default content file');
         }
-        return 'Default content file created';
+        return 'Default content file';
     }
 
     private function createRouterFile()
@@ -336,7 +335,7 @@ EOT;
         if (!@file_put_contents($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/router.php', $content)) {
             throw new \Exception('Cannot create the router file');
         }
-        return 'Router file created';
+        return 'Router file';
     }
 
     private function createReadmeFile()
@@ -353,7 +352,7 @@ EOT;
         if (!@file_put_contents($this->getWebsitePath() . '/README.md', $content)) {
             throw new \Exception('Cannot create the README file');
         }
-        return 'README file created';
+        return 'Create README file';
     }
 
     /**
@@ -549,12 +548,12 @@ EOT;
                 if (!@unlink($this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
                     throw new \Exception(sprintf('Cannot delete %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
                 }
-                $this->addMessage('Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename']);
+                $this->addMessage('Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'], true);
             }
             if (!@file_put_contents(sprintf('%s%s', $this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), $rendered)) {
                 throw new \Exception(sprintf('Cannot write %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
             }
-            $this->addMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
+            $this->addMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), true);
 
             // event postloop
             $this->triggerEvent(__FUNCTION__, array(
@@ -566,6 +565,7 @@ EOT;
             $currentPos++;
             $pagesIterator->next();
         }
+        $this->addMessage('Write pages');
         // Copy assets
         if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
             Utils::RecursiveRmdir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);

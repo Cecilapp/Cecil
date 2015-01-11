@@ -15,8 +15,7 @@ class Init extends AbstractCommand
     {
         $this->_force = $this->_route->getMatchedParam('force', false);
 
-        $this->wlInfo('Initializing new website');
-
+        $this->wlAnnonce('Initializing new website:');
         try {
             $messages = $this->_api->init($this->_force);
             foreach ($messages as $message) {

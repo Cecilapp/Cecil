@@ -9,7 +9,7 @@ class ListPages extends AbstractCommand
     public function processCommand()
     {
         try {
-            $this->wlInfo('Lists pages');
+            $this->wlAnnonce('Pages list:');
             $pages = $this->_api->getPagesTree();
             if ($this->_console->isUtf8()) {
                 $unicodeTreePrefix = function(\RecursiveTreeIterator $tree) {

@@ -13,7 +13,7 @@ class Serve extends AbstractCommand
             $this->wlError('Router not found');
             exit(2);
         }
-        $this->wlInfo(sprintf("Start server http://%s:%d", 'localhost', '8000'));
+        $this->wlAnnonce(sprintf("Start server http://%s:%d", 'localhost', '8000'));
         if (Utils::isWindows()) {
             $command = sprintf(
                 'START php -S %s:%d -t %s %s > nul',

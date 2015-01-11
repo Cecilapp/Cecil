@@ -15,7 +15,7 @@ class Generate extends AbstractCommand
     {
         $this->_serve = $this->_route->getMatchedParam('serve', false);
 
-        $this->wlInfo('Generating website');
+        $this->wlAnnonce('Generating website:');
         try {
             $this->_api->loadPages()->generate();
             $messages = $this->_api->getMessages();
@@ -28,7 +28,7 @@ class Generate extends AbstractCommand
 
         if ($this->_serve) {
             $this->_api->setLocalServe(true);
-            $this->wlInfo('You should re-generate before deploy');
+            $this->wlAlert('You should re-generate before deploy');
             $callable = new PHPoole\Command\Serve;
             call_user_func($callable, $this->_route, $this->_console);
         }

@@ -67,19 +67,26 @@ abstract class AbstractCommand
      */
     abstract public function processCommand();
 
-    public function wlInfo($text)
+    public function wlAnnonce($text)
     {
-        echo '[' , $this->_console->write('INFO', Color::YELLOW) , ']' . "\t";
-        $this->_console->writeLine($text);
+        $this->_console->writeLine($text, Color::WHITE);
     }
     public function wlDone($text)
     {
-        echo '[' , $this->_console->write('DONE', Color::GREEN) , ']' . "\t";
-        $this->_console->writeLine($text);
+        $this->_console->write(' DONE ', Color::WHITE, Color::GREEN);
+        $this->_console->write(' ');
+        $this->_console->writeLine($text, Color::GREEN);
+    }
+    public function wlAlert($text)
+    {
+        $this->_console->write(' ALER ', Color::WHITE, Color::YELLOW);
+        $this->_console->write(' ');
+        $this->_console->writeLine($text, Color::YELLOW);
     }
     public function wlError($text)
     {
-        echo '[' , $this->_console->write('ERROR', Color::RED) , ']' . "\t";
-        $this->_console->writeLine($text);
+        $this->_console->write(' ERRO ', Color::WHITE, Color::RED);
+        $this->_console->write(' ');
+        $this->_console->writeLine($text, Color::RED);
     }
 }
