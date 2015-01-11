@@ -53,15 +53,25 @@ $application = new Application(
     Console::getInstance()
 );
 
-$application->setBanner(function ($console) {
+$application->setBanner(function($console) {
     $script = (Phar::running(false) == '') ? __FILE__ : Phar::running(false);
-    $console->writeLine('PHPoole, Light and easy static website generator!');
+    $console->write('    ____  __  ______              __   
+   / __ \/ / / / __ \____  ____  / /__ 
+  / /_/ / /_/ / /_/ / __ \/ __ \/ / _ \
+ / ____/ __  / ____/ /_/ / /_/ / /  __/
+/_/   /_/ /_/_/    \____/\____/_/\___/ 
+');
+    $console->writeLine('Light and easy static website generator!');
     $console->writeLine('');
     $console->writeLine('Usage:', \Zend\Console\ColorInterface::GREEN);
     $console->writeLine(' php ' . basename($script) . ' command [options]');
     $console->writeLine('');
 });
-$application->setFooter("\n" . 'Created by Arnaud Ligny');
+$application->setFooter(function($console) {
+    $console->writeLine('');
+    $console->writeLine('Created by Arnaud Ligny');
+    $console->writeLine('');
+});
 
 $exit = $application->run();
 exit($exit);
