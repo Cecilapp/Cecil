@@ -2,9 +2,9 @@
 namespace PHPoole;
 
 /**
- * PHPoole Utils
+ * PHPoole Util
  */
-class Utils
+class Util
 {
     /**
      * Recursively remove a directory

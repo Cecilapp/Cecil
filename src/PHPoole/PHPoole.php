@@ -15,15 +15,15 @@ use Zend\Console\ColorInterface as Color;
 use Zend\EventManager\EventManager;
 use Zend\Loader\PluginClassLoader;
 use Michelf\MarkdownExtra;
-use PHPoole\Utils;
+use PHPoole\Util;
 use PHPoole\Spl;
 
 define('DS', DIRECTORY_SEPARATOR);
 
 /**
- * PHPoole API
+ * PHPoole
  */
-class Api
+class PHPoole
 {
     const VERSION = '0.0.2';
     const URL = 'http://phpoole.narno.org';
@@ -169,7 +169,7 @@ class Api
 
         if (file_exists($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME)) {
             if ($force === true) {
-                Utils::RecursiveRmdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
+                Util::RecursiveRmdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
             }
             else {
                 throw new \Exception('The website is already initialized');
@@ -530,8 +530,8 @@ EOT;
             );
             $tplVariables = array(
                 'phpoole' => array(
-                    'version' => Api::VERSION,
-                    'url'     => Api::URL
+                    'version' => PHPoole::VERSION,
+                    'url'     => PHPoole::URL
                 ),
                 'site' => new Proxy($this),
                 'page' => array_merge($page, $pageExtra),
@@ -568,9 +568,9 @@ EOT;
         $this->addMessage('Write pages');
         // Copy assets
         if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
-            Utils::RecursiveRmdir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
+            Util::RecursiveRmdir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
         }
-        Utils::RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
+        Util::RecursiveCopy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
         // Done!
         $this->addMessage('Copy assets directory (and sub)');
         $this->addMessage($this->createReadmeFile());

@@ -11,7 +11,7 @@ class Proxy
 
     public function __construct($phpoole)
     {
-        if (!$phpoole instanceof Api) {
+        if (!$phpoole instanceof PHPoole) {
             throw new \Exception('Proxy should be loaded with a PHPoole instance');
         }
         $this->_phpoole = $phpoole;

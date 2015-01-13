@@ -2,7 +2,6 @@
 namespace PHPoole\Command;
 
 use PHPoole\Command\AbstractCommand;
-use PHPoole;
 
 class ListPages extends AbstractCommand
 {
@@ -10,7 +9,7 @@ class ListPages extends AbstractCommand
     {
         try {
             $this->wlAnnonce('Pages list:');
-            $pages = $this->_api->getPagesTree();
+            $pages = $this->_phpoole->getPagesTree();
             if ($this->_console->isUtf8()) {
                 $unicodeTreePrefix = function(\RecursiveTreeIterator $tree) {
                     $prefixParts = [

@@ -2,7 +2,6 @@
 namespace PHPoole\Command;
 
 use PHPoole\Command\AbstractCommand;
-use PHPoole;
 
 class Init extends AbstractCommand
 {
@@ -17,7 +16,7 @@ class Init extends AbstractCommand
 
         $this->wlAnnonce('Initializing new website:');
         try {
-            $messages = $this->_api->init($this->_force);
+            $messages = $this->_phpoole->init($this->_force);
             foreach ($messages as $message) {
                 $this->wlDone($message);
             }

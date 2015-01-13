@@ -1,16 +1,15 @@
 <?php
 namespace PHPoole\Command;
 
-use PHPoole\PHPoole;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\Console\ColorInterface as Color;
 use ZF\Console\Route;
-use PHPoole\Api;
+use PHPoole\PHPoole;
 
 abstract class AbstractCommand
 {
     /**
-     * @var AdapterInterface
+     * @var Console
      */
     protected $_console;
 
@@ -25,9 +24,9 @@ abstract class AbstractCommand
     protected $_path;
 
     /**
-     * @var Api
+     * @var PHPoole
      */
-    protected $_api;
+    protected $_phpoole;
 
     /**
      * Start command processing
@@ -49,9 +48,9 @@ abstract class AbstractCommand
         }
         $this->_path = str_replace(DIRECTORY_SEPARATOR, '/', $this->_path);
 
-        // Instanciate the PHPoole API
+        // Instanciate PHPoole
         try {
-            $this->_api = new Api($this->_path);
+            $this->_phpoole = new PHPoole($this->_path);
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
             exit(2);

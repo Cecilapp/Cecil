@@ -16,7 +16,6 @@ $phpVersion = '5.4.0';
 
 use Zend\Console\Console;
 use ZF\Console\Application;
-use PHPoole\PHPoole;
 
 if (file_exists(__DIR__ . '/../composer.json')) {
     @$composer = json_decode(file_get_contents(__DIR__ . '/../composer.json'), true);

@@ -2,7 +2,7 @@
 namespace PHPoole\Command;
 
 use PHPoole\Command\AbstractCommand;
-use PHPoole;
+use PHPoole\Command\Serve;
 
 class Generate extends AbstractCommand
 {
@@ -17,8 +17,8 @@ class Generate extends AbstractCommand
 
         $this->wlAnnonce('Generating website:');
         try {
-            $this->_api->loadPages()->generate();
-            $messages = $this->_api->getMessages();
+            $this->_phpoole->loadPages()->generate();
+            $messages = $this->_phpoole->getMessages();
             foreach ($messages as $message) {
                 $this->wlDone($message);
             }
@@ -27,9 +27,9 @@ class Generate extends AbstractCommand
         }
 
         if ($this->_serve) {
-            $this->_api->setLocalServe(true);
+            $this->_phpoole->setLocalServe(true);
             $this->wlAlert('You should re-generate before deploy');
-            $callable = new PHPoole\Command\Serve;
+            $callable = new Serve;
             call_user_func($callable, $this->_route, $this->_console);
         }
     }

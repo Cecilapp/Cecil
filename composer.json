@@ -24,7 +24,6 @@
   "require": {
     "php":">=5.4",
     "zfcampus/zf-console": "~1.0-dev",
-    "zendframework/zend-console": "2.*",
     "zendframework/zend-eventmanager": "2.*",
     "twig/twig": "1.*",
     "michelf/php-markdown": "1.*"
@@ -33,8 +32,11 @@
     "kherge/box": "~2.4"
   },
   "autoload" : {
+    "psr-0" : {
+      "PHPoole" : "src/"
+    },
     "psr-4" : {
-      "PHPoole\\" : "src/"
+      "PHPoole\\Command\\" : "src/Command"
     }
   }
 }
