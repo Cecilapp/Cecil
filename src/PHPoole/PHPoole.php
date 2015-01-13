@@ -89,7 +89,7 @@ class PHPoole
 
     public function addMessage($message, $verbose=false)
     {
-        if (!$verbose) {
+        if (!$verbose) { // temporary
             $this->_messages[] = $message;
         }
         return $this->getMessages();
@@ -152,7 +152,7 @@ class PHPoole
         return $this;
     }
 
-    // temporay method
+    // temporary method
     public function setLocalServe($status)
     {
         return $this->localServe = $status;
