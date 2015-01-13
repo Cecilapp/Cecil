@@ -457,13 +457,17 @@ EOT;
         return $this;
     }
 
+    /**
+     * Process Markdown content
+     * @param $rawContent
+     * @return string
+     * @throws \Exception
+     */
     public function process($rawContent)
     {
-        // Markdown only
         $this->_processor = new MarkdownExtra;
         $this->_processor->code_attr_on_pre = true;
         $this->_processor->predef_urls = array('base_url' => $this->getConfig()['site']['base_url']);
-        // [my base url][base_url]
         return $this->_processor->transform($rawContent);
     }
 
@@ -594,43 +598,6 @@ EOT;
     }
 
     /**
-     * Return pages list
-     * @param  string $subDir
-     * @return array (path, url and title)
-     */
-    /*public function getPagesPath($subDir='')
-    {
-        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
-        $pagesPath = (
-            !empty($subDir)
-            ? $pagesPath . '/' . $subDir
-            : $pagesPath
-        );
-        if (!is_dir($pagesPath)) {
-            throw new \Exception(sprintf("Invalid %s/%s%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME, (!empty($subDir) ? '/' . $subDir : '')));
-        }
-        $pagesIterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(
-                $pagesPath,
-                \RecursiveDirectoryIterator::SKIP_DOTS
-            ),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-        foreach ($pagesIterator as $page) {
-            if ($page->isDir()) {
-                if (file_exists($page->getPathname() . '/index.md')) {
-                    $pages[] = array(
-                        'path'  => (!empty($subDir) ? $subDir . '/' : '')  . $pagesIterator->getSubPathName(),
-                        'title' => (new FileInfo($page->getPathname() . '/index.md'))
-                            ->parse($this->getConfig())->getData('info')['title'],
-                    );
-                }
-            }
-        }
-        return $pages;
-    }*/
-
-    /**
      * Return a console displayable tree of pages
      * @return iterator
      */
@@ -689,7 +656,7 @@ EOT;
                         if (method_exists($pluginObject, 'postInit')) {
                             $this->getEvents()->attach('init.post', array($pluginObject, 'postInit'));
                         }
-                        // loadpages
+                        // load pages
                         if (method_exists($pluginObject, 'postloopLoadPages')) {
                             $this->getEvents()->attach('loadPages.postloop', array($pluginObject, 'postloopLoadPages'));
                         }
