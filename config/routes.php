@@ -6,12 +6,15 @@ return array(
     'routes'  => array(
         array(
             'name' => 'init',
-            'route' => '[<path>] [--force]',
+            'route' => '[<path>] [--force|-f]',
+            'aliases' => array(
+                'f' => 'force',
+            ),
             'short_description' => 'Build a new PHPoole website',
             'description' => 'Build a new PHPoole website in <path> if provided',
             'options_descriptions' => array(
                 '<path>'  => 'Website path',
-                '--force' => 'Override if already exist',
+                '--force|-f' => 'Override if already exist',
             ),
             'defaults' => array(
                 'path' => getcwd(),
@@ -20,12 +23,15 @@ return array(
         ),
         array(
             'name' => 'generate',
-            'route' => '[<path>] [--serve]',
+            'route' => '[<path>] [--serve|-s]',
+            'aliases' => array(
+                's' => 'serve',
+            ),
             'short_description' => 'Generate static files',
             'description' => 'Generate static files',
             'options_descriptions' => array(
                 '<path>'  => 'Website path',
-                '--serve' => 'Generate and serve',
+                '--serve|s' => 'Generate and serve',
             ),
             'defaults' => array(
                 'path' => getcwd(),
