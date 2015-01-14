@@ -411,9 +411,6 @@ EOT;
                 ? $pageInfo['layout'] . '.html'
                 : 'default.html'
             );
-            if (isset($pageInfo['pagination'])) {
-                $pageData['pagination'] = $pageInfo['pagination'];
-            }
             // in case of external content
             if (isset($pageInfo['content']) /* && is valid URL to md file */) {
                 if (false === ($pageContent = @file_get_contents($pageInfo['content'], false))) {
@@ -504,33 +501,12 @@ EOT;
         }
         $pagesIterator = (new \ArrayObject($pages))->getIterator();
         $pagesIterator->ksort();
-        $currentPos = 0;
-        $prevPos = '';
         $this->clearMessages();
         while ($pagesIterator->valid()) {
-            // pagination
-            $previous = $next = '';
-            $prevTitle = $nextTitle = '';
             $page = $pagesIterator->current();
-            if (isset($page['pagination']) && $page['pagination'] == 'enabled') {
-                if ($pagesIterator->offsetExists($prevPos)) {
-                    $previous = $pagesIterator->offsetGet($prevPos)['path'];
-                    $prevTitle = $pagesIterator->offsetGet($prevPos)['title'];
-                }
-                $pagesIterator->next();
-                if ($pagesIterator->valid()) {
-                    if (isset($pagesIterator->current()['pagination']) && $pagesIterator->current()['pagination'] == 'enabled') {
-                        $next = $pagesIterator->current()['path'];
-                        $nextTitle = $pagesIterator->current()['title'];
-                    }
-                }
-                $pagesIterator->seek($currentPos);
-            }
             // template variables
             $pageExtra = array(
-                'nav'      => (isset($menuNav) ? $menuNav : ''),
-                'previous' => (isset($previous) ? array('path' => $previous, 'title' => $prevTitle) : ''),
-                'next'     => (isset($next) ? array('path' => $next, 'title' => $nextTitle) : ''),
+                'nav' => (isset($menuNav) ? $menuNav : ''),
             );
             $tplVariables = array(
                 'phpoole' => array(
@@ -563,10 +539,6 @@ EOT;
             $this->triggerEvent(__FUNCTION__, array(
                 'page' => $page
             ), 'postloop');
-
-            // use by the next iteration
-            $prevPos = $pagesIterator->key();
-            $currentPos++;
             $pagesIterator->next();
         }
         $this->addMessage('Write pages');
