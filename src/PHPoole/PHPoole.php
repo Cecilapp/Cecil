@@ -46,6 +46,10 @@ class PHPoole
     public $localServe = false;
     protected $_processor;
 
+    /**
+     * @param $websitePath
+     * @throws Exception
+     */
     public function __construct($websitePath)
     {
         $splFileInfo = new \SplFileInfo($websitePath);
@@ -61,32 +65,53 @@ class PHPoole
         $this->loadPlugins();
     }
 
+    /**
+     * @return \SplFileInfo
+     */
     public function getWebsiteFileInfo()
     {
         return $this->_websiteFileInfo;
     }
 
+    /**
+     * @param $path
+     * @return string
+     */
     public function setWebsitePath($path)
     {
         $this->_websitePath = $path;
         return $this->getWebsitePath();
     }
 
+    /**
+     * @return string
+     */
     public function getWebsitePath()
     {
         return $this->_websitePath;
     }
 
+    /**
+     * @return EventManager
+     */
     public function getEvents()
     {
         return $this->_events;
     }
 
+    /**
+     * @return array
+     */
     public function getMessages()
     {
         return $this->_messages;
     }
 
+    /**
+     * @param $message
+     * @param bool $verbose
+     * @return array
+     */
     public function addMessage($message, $verbose=false)
     {
         if (!$verbose) { // temporary
@@ -95,11 +120,18 @@ class PHPoole
         return $this->getMessages();
     }
 
+    /**
+     *
+     */
     public function clearMessages()
     {
         $this->_messages = array();
     }
 
+    /**
+     * @param string $subDir
+     * @return array
+     */
     public function getPages($subDir='')
     {
         if (!empty($subDir)) {
@@ -113,12 +145,21 @@ class PHPoole
         return $this->_pages;
     }
 
+    /**
+     * @param $index
+     * @param $data
+     * @return array
+     */
     public function addPage($index, $data)
     {
         $this->_pages[$index] = $data;
         return $this->getPages();
     }
 
+    /**
+     * @param string $menu
+     * @return array
+     */
     public function getMenu($menu='')
     {
         if (!empty($menu) && array_key_exists($menu, $this->_menu)) {
@@ -127,12 +168,23 @@ class PHPoole
         return $this->_menu;
     }
 
+    /**
+     * @param $menu
+     * @param $entry
+     * @return array
+     */
     public function addMenuEntry($menu, $entry)
     {
         $this->_menu[$menu][] = $entry;
         return $this->getMenu($menu);
     }
 
+    /**
+     * @param $method
+     * @param $args
+     * @param $when
+     * @return $this|mixed
+     */
     //public function triggerEvent($method, $args, $when=array('pre','post'))
     public function triggerEvent($method, $args, $when)
     {
@@ -152,7 +204,12 @@ class PHPoole
         return $this;
     }
 
-    // temporary method
+    /**
+     * temporary method
+     *
+     * @param $status
+     * @return mixed
+     */
     public function setLocalServe($status)
     {
         return $this->localServe = $status;
@@ -160,8 +217,10 @@ class PHPoole
 
     /**
      * Initialization of a new PHPoole website
-     * @param  boolean $force Remove if already initialized
-     * @return array Messages
+     *
+     * @param bool $force
+     * @return array
+     * @throws Exception
      */
     public function init($force=false)
     {
@@ -196,8 +255,10 @@ class PHPoole
 
     /**
      * Get config from config.ini file
-     * @param  string $key
-     * @return array
+     *
+     * @param string $key
+     * @return array|null
+     * @throws Exception
      */
     public function getConfig($key='')
     {
@@ -222,7 +283,9 @@ class PHPoole
 
     /**
      * Load pages files from content/pages
-     * @return object PHPoole\PHPoole
+     *
+     * @return $this
+     * @throws Exception
      */
     public function loadPages()
     {
@@ -295,6 +358,7 @@ class PHPoole
 
     /**
      * Process Markdown content
+     *
      * @param $rawContent
      * @return string
      * @throws Exception
@@ -309,6 +373,7 @@ class PHPoole
 
     /**
      * Temporary method to prepare (sort) "nav" menu
+     *
      * @return array
      */
     public function prepareMenuNav()
@@ -326,7 +391,9 @@ class PHPoole
 
     /**
      * Generate static files
-     * @return array Messages
+     *
+     * @return array
+     * @throws Exception
      */
     public function generate()
     {
@@ -394,8 +461,9 @@ class PHPoole
 
     /**
      * Temporary method to wrap Twig (and more?) engine
-     * @param  string $templatesPath Absolute path to templates files
-     * @return object Twig
+     *
+     * @param $templatesPath
+     * @return \Twig_Environment
      */
     public function tplEngine($templatesPath)
     {
@@ -410,7 +478,9 @@ class PHPoole
 
     /**
      * Return a console displayable tree of pages
-     * @return iterator
+     *
+     * @return Spl\FilenameRecursiveTreeIterator
+     * @throws Exception
      */
     public function getPagesTree()
     {
@@ -428,7 +498,6 @@ class PHPoole
 
     /**
      * Loads plugins in the plugins/ directory if exist
-     * @return void
      */
     private function loadPlugins()
     {

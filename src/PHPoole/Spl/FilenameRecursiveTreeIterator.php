@@ -1,13 +1,28 @@
 <?php
+/*
+ * This file is part of the PHPoole package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPoole\Spl;
 
 use RecursiveTreeIterator;
 
 /**
  * Replace Filepath by Filename
+ *
+ * Class FilenameRecursiveTreeIterator
+ * @package PHPoole\Spl
  */
 class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
 {
+    /**
+     * @return mixed
+     */
     public function current()
     {
         return str_replace(

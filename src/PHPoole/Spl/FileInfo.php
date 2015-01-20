@@ -1,21 +1,45 @@
 <?php
+/*
+ * This file is part of the PHPoole package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPoole\Spl;
 
 use SplFileInfo;
 
 /**
- * PHPoole FileInfo, extended from SplFileInfo
+ * PHPoole File
+ *
+ * Class FileInfo
+ * @package PHPoole\Spl
  */
 class FileInfo extends SplFileInfo
 {
+    /**
+     * @var array
+     */
     protected $_data = array();
 
+    /**
+     * @param $key
+     * @param $value
+     * @return $this
+     */
     public function setData($key, $value)
     {
         $this->_data[$key] = $value;
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @return array
+     */
     public function getData($key='')
     {
         if ($key == '') {
@@ -26,6 +50,9 @@ class FileInfo extends SplFileInfo
         }
     }
 
+    /**
+     * @return string
+     */
     public function getContents()
     {
         $level = error_reporting(0);
@@ -38,6 +65,10 @@ class FileInfo extends SplFileInfo
         return $content;
     }
 
+    /**
+     * @return $this
+     * @throws \Exception
+     */
     public function parse()
     {
         if (!$this->isReadable()) {
