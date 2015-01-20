@@ -1,19 +1,50 @@
 <?php
+/*
+ * This file is part of the PHPoole package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPoole;
 
 /**
- * PHPoole Util
+ * Class Util
+ * @package PHPoole
  */
 class Util
 {
     /**
+     * @param $filename
+     * @param $content
+     * @throws \Exception
+     */
+    public static function writeFile($filename, $content)
+    {
+        $dir = dirname($filename);
+        if (!is_dir($dir)) {
+            @mkdir($dir);
+        } elseif (!is_writable($dir)) {
+            throw new \Exception(sprintf('Unable to write to the "%s" directory.', $dir));
+        }
+        $tmpFile = tempnam($dir, basename($filename));
+        if (false === @file_put_contents($tmpFile, $content)) {
+            throw new \Exception(sprintf('Failed to write file "%s".', $filename));
+        }
+        @rename($tmpFile, $filename, true);
+    }
+
+    /**
      * Recursively remove a directory
      *
-     * @param string $dirname
-     * @param boolean $followSymlinks
-     * @return boolean
+     * @param $dirname
+     * @param bool $followSymlinks
+     * @return bool
+     * @throws \Exception
      */
-    public static function RecursiveRmdir($dirname, $followSymlinks=false)
+    public static function rmDir($dirname, $followSymlinks=false)
     {
         if (is_dir($dirname) && !is_link($dirname)) {
             if (!is_writable($dirname)) {
@@ -54,8 +85,11 @@ class Util
 
     /**
      * Copy a dir, and all its content from source to dest
+     *
+     * @param $source
+     * @param $dest
      */
-    public static function RecursiveCopy($source, $dest)
+    public static function copy($source, $dest)
     {
         if (!is_dir($dest)) {
             @mkdir($dest);
@@ -79,10 +113,9 @@ class Util
 
     /**
      * Execute git commands
-     * 
-     * @param string working directory
-     * @param array git commands
-     * @return void
+     *
+     * @param $wd
+     * @param $commands
      */
     public static function runGitCmd($wd, $commands)
     {
@@ -96,11 +129,20 @@ class Util
         chdir($cwd);
     }
 
+    /**
+     * Check if current OS is Windows
+     *
+     * @return bool
+     */
     public static function isWindows()
     {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
+    /**
+     * @param $string
+     * @return mixed|string
+     */
     public static function slugify($string)
     {    
         return md5($string);

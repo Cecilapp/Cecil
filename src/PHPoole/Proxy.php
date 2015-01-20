@@ -1,14 +1,33 @@
 <?php
+/*
+ * This file is part of the PHPoole package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPoole;
 
 /**
  * Proxy class used by the template engine
  * "site.data" = "class.method"
+ *
+ * Class Proxy
+ * @package PHPoole
  */
 class Proxy
 {
+    /**
+     * @var
+     */
     protected $_phpoole;
 
+    /**
+     * @param $phpoole
+     * @throws \Exception
+     */
     public function __construct($phpoole)
     {
         if (!$phpoole instanceof PHPoole) {
@@ -20,9 +39,10 @@ class Proxy
     /**
      * Magic method can get call like $site->name(), etc.
      * @todo do it better! :-)
-     * @param  string $function
-     * @param  array $arguments
-     * @return string
+     *
+     * @param $function
+     * @param $arguments
+     * @return null
      */
     public function __call($function, $arguments)
     {
@@ -49,6 +69,10 @@ class Proxy
         return null;
     }
 
+    /**
+     * @param string $subDir
+     * @return array
+     */
     public function getPages($subDir='')
     {
         return $this->_phpoole->getPages($subDir);

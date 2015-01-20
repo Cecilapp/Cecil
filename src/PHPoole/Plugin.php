@@ -1,13 +1,29 @@
 <?php
+/*
+ * This file is part of the PHPoole package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPoole;
 
 /**
  * PHPoole plugin abstract
+ *
+ * Class Plugin
+ * @package PHPoole
  */
 abstract class Plugin
 {
     const DEBUG = false;
 
+    /**
+     * @param $name
+     * @param $args
+     */
     public function __call($name, $args)
     {
         if (self::DEBUG) {
@@ -15,6 +31,10 @@ abstract class Plugin
         }
     }
 
+    /**
+     * @param bool $enabled
+     * @param $e
+     */
     public function trace($enabled=self::DEBUG, $e)
     {
         if ($enabled === true) {
