@@ -31,6 +31,7 @@ class PHPoole
     const PHPOOLE_DIRNAME = '_phpoole';
     const CONFIG_FILENAME = 'config.ini';
     const LAYOUTS_DIRNAME = 'layouts';
+    const STATIC_DIRNAME  = 'static';
     const ASSETS_DIRNAME  = 'assets';
     const CONTENT_DIRNAME = 'content';
     const CONTENT_PAGES_DIRNAME = 'pages';
@@ -241,11 +242,13 @@ class PHPoole
         }
         $this->addMessage(self::PHPOOLE_DIRNAME . ' directory');
         $this->addMessage(Skeleton::createConfigFile($this));
+        $this->addMessage(Skeleton::createStaticDir($this));
+        $this->addMessage(Skeleton::createReadmeFile($this));
         $this->addMessage(Skeleton::createLayoutsDir($this));
-        $this->addMessage(Skeleton::createLayoutDefaultFile($this)); // optional
+        $this->addMessage(Skeleton::createLayoutDefaultFile($this));
         $this->addMessage(Skeleton::createAssetsDir($this));
         $this->addMessage(Skeleton::createContentDir($this));
-        $this->addMessage(Skeleton::createContentDefaultFile($this)); // optional
+        $this->addMessage(Skeleton::createContentDefaultFile($this));
         $this->addMessage(Skeleton::createRouterFile($this));
 
         $this->triggerEvent(__FUNCTION__, func_get_args(), 'post');
@@ -397,6 +400,7 @@ class PHPoole
      */
     public function generate()
     {
+        // Build pages
         $pages = $this->getPages();
         $menuNav = $this->prepareMenuNav();            
         if (isset($this->getConfig()['site']['layouts'])) {
@@ -448,14 +452,24 @@ class PHPoole
             $pagesIterator->next();
         }
         $this->addMessage('Write pages');
-        // copy assets
+        // Copy static
+        if (is_dir($this->getWebsitePath() . '/' . self::STATIC_DIRNAME)) {
+            Util::rmDir($this->getWebsitePath() . '/' . self::STATIC_DIRNAME);
+        }
+        Util::copy(
+            $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::STATIC_DIRNAME,
+            $this->getWebsitePath() . '/' . self::STATIC_DIRNAME
+        );
+        $this->addMessage('copy static directory');
+        // Copy assets
         if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
             Util::rmDir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
         }
-        Util::copy($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME, $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
-        // Done!
-        $this->addMessage('copy assets directory (and sub)');
-        $this->addMessage(Skeleton::createReadmeFile($this));
+        Util::copy(
+            $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME,
+            $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME
+        );
+        $this->addMessage('copy assets directory');
         return $this->getMessages();
     }
 

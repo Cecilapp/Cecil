@@ -51,6 +51,19 @@ EOT;
      * @return string
      * @throws Exception
      */
+    public static function createStaticDir(PHPoole $phpoole)
+    {
+        if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::STATIC_DIRNAME)) {
+            throw new Exception('Cannot create the static directory');
+        }
+        return 'Static directory';
+    }
+
+    /**
+     * @param PHPoole $phpoole
+     * @return string
+     * @throws Exception
+     */
     public static function createLayoutsDir(PHPoole $phpoole)
     {
         if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::LAYOUTS_DIRNAME)) {
@@ -68,29 +81,78 @@ EOT;
     {
         $content = <<<'EOT'
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="{{ site.language }}"><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js" lang="{{ site.language }}"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <meta name="description" content="{{ site.description }}">
-  <title>{{ site.name}} - {{ page.title }}</title>
-  <style type="text/css">
-    body { font: bold 24px Helvetica, Arial; padding: 15px 20px; color: #ddd; background: #333;}
-    a:link {text-decoration: none; color: #fff;}
-    a:visited {text-decoration: none; color: #fff;}
-    a:active {text-decoration: none; color: #fff;}
-    a:hover {text-decoration: underline; color: #fff;}
-  </style>
-</head>
-<body>
-  <a href="{{ site.base_url}}"><strong>{{ site.name }}</strong></a><br />
-  <em>{{ site.baseline }}</em>
-  <hr />
-  <p>{{ page.content }}</p>
-  <hr />
-  <p>Powered by <a href="http://phpoole.narno.org">PHPoole</a>, coded by <a href="{{ site.author.home }}">{{ site.author.name }}</a></p>
-</body>
+<html lang="{{ site.language }}">
+  <head>
+    <meta charset="utf8" />
+    <title>{{ site.name}} - {{ page.title }}</title>
+    <meta name="description" content="{{ site.description }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+html, body {
+  font: sans-serif;
+  background-color: #fcfcfc;
+  color: #444;
+}
+#main {
+  width: 760px;
+  margin: 50px auto;
+}
+h1 {
+  font-weight: 300;
+  font-size: 56px;
+}
+h2 {
+  font-weight: 200;
+  font-size: 42px;
+}
+ul {
+  text-align: center;
+  padding-left: 0px;
+}
+#footer {
+  font-size: 14px;
+}
+a, a:visited {
+  color: #d23;
+  text-decoration: none;
+  -webkit-transition: color 0.15s linear;
+  -moz-transition: color 0.15s linear;
+  border-bottom: 1px dotted #fcc;
+}
+a:hover {
+  color: #f78;
+}
+li {
+  display: inline;
+  padding-right: 30px;
+}
+@media (max-width: 800px) {
+  #main {
+    width: 100%;
+  }
+  p {
+    padding: 0 0 0 15px;
+    min-width: 250px;
+  }
+}
+@media (max-width: 480px) {
+  #main {
+    margin-top: 20px;
+  }
+  h1, h2 {
+    text-align: center;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <h1><a href="{{ site.base_url}}">{{ site.name }}</a></h1>
+      <h2>{{ site.baseline }}</h2>
+      <p>{{ page.content }}</p>
+      <div id="footer">Powered by <a href="http://phpoole.narno.org">PHPoole</a>, coded by <a href="{{ site.author.home }}">{{ site.author.name }}</a></div>
+    </div>
+  </body>
 </html>
 EOT;
         if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::LAYOUTS_DIRNAME . '/default.html', $content)) {
@@ -204,14 +266,14 @@ EOT;
 Powered by [PHPoole](http://phpoole.narno.org).
 EOT;
 
-        if (is_file($phpoole->getWebsitePath() . '/README.md')) {
-            if (!@unlink($phpoole->getWebsitePath() . '/README.md')) {
+        if (is_file($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::STATIC_DIRNAME . '/README.md')) {
+            if (!@unlink($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::STATIC_DIRNAME . '/README.md')) {
                 throw new Exception('Cannot create the README file');
             }
         }
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/README.md', $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::STATIC_DIRNAME . '/README.md', $content)) {
             throw new Exception('Cannot create the README file');
         }
-        return 'Create README file';
+        return 'README file';
     }
 }
