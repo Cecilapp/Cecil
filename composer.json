@@ -16,9 +16,9 @@
       "role": "Developer"
     }
   ],
-  "bin": [
-      "phpoole.php"
-  ],
+  "support": {
+    "issues": "https://github.com/Narno/PHPoole/issues"
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
@@ -31,6 +31,12 @@
   "require-dev": {
     "kherge/box": "~2.4"
   },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "bin": [
+      "phpoole.php"
+  ],
   "autoload" : {
     "psr-0" : {
       "PHPoole" : "src/"
