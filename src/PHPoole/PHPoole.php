@@ -456,7 +456,7 @@ class PHPoole
             $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::STATIC_DIRNAME,
             $this->getWebsitePath() . '/'
         );
-        $this->addMessage('copy files in static directory');
+        $this->addMessage('Copy files in static directory');
         // Copy assets
         if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
             Util::rmDir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
@@ -465,7 +465,7 @@ class PHPoole
             $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME,
             $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME
         );
-        $this->addMessage('copy assets directory');
+        $this->addMessage('Copy assets directory');
         return $this->getMessages();
     }
 

@@ -105,10 +105,6 @@ h2 {
   font-weight: 200;
   font-size: 42px;
 }
-ul {
-  text-align: center;
-  padding-left: 0px;
-}
 #footer {
   font-size: 14px;
 }
@@ -119,10 +115,6 @@ a, a:visited {
 }
 a:hover {
   color: #f78;
-}
-li {
-  display: inline;
-  padding-right: 30px;
 }
 @media (max-width: 800px) {
   #main {
