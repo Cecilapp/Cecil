@@ -34,7 +34,6 @@ class PHPoole
     const STATIC_DIRNAME  = 'static';
     const ASSETS_DIRNAME  = 'assets';
     const CONTENT_DIRNAME = 'content';
-    const CONTENT_PAGES_DIRNAME = 'pages';
     const PLUGINS_DIRNAME  = 'plugins';
 
     protected $_websitePath;
@@ -295,7 +294,7 @@ class PHPoole
         $pageInfo  = array();
         $pageIndex = array();
         $pageData  = array();
-        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
+        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME;
         // Iterate pages files, filtered by markdown "md" extension
         $pagesIterator = new Spl\FileIterator($pagesPath, 'md');
         foreach ($pagesIterator as $filePage) {
@@ -453,14 +452,11 @@ class PHPoole
         }
         $this->addMessage('Write pages');
         // Copy static
-        if (is_dir($this->getWebsitePath() . '/' . self::STATIC_DIRNAME)) {
-            Util::rmDir($this->getWebsitePath() . '/' . self::STATIC_DIRNAME);
-        }
         Util::copy(
             $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::STATIC_DIRNAME,
-            $this->getWebsitePath() . '/' . self::STATIC_DIRNAME
+            $this->getWebsitePath() . '/'
         );
-        $this->addMessage('copy static directory');
+        $this->addMessage('copy files in static directory');
         // Copy assets
         if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
             Util::rmDir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
@@ -498,9 +494,9 @@ class PHPoole
      */
     public function getPagesTree()
     {
-        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME . '/' . self::CONTENT_PAGES_DIRNAME;
+        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME;
         if (!is_dir($pagesPath)) {
-            throw new Exception(sprintf("Invalid %s/%s directory", self::CONTENT_DIRNAME, self::CONTENT_PAGES_DIRNAME));
+            throw new Exception(sprintf("Invalid %s directory", self::CONTENT_DIRNAME));
         }
         $dirIterator = new \RecursiveDirectoryIterator($pagesPath, \RecursiveDirectoryIterator::SKIP_DOTS);
         $pages = new Spl\FilenameRecursiveTreeIterator(

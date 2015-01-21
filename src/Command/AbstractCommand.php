@@ -1,4 +1,13 @@
 <?php
+/*
+ * This file is part of the PHPoole package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPoole\Command;
 
 use Zend\Console\Adapter\AdapterInterface as Console;
@@ -33,7 +42,6 @@ abstract class AbstractCommand
      *
      * @param Route   $route
      * @param Console $console
-     *
      * @return mixed
      */
     public function __invoke(Route $route, Console $console)

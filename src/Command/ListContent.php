@@ -12,12 +12,12 @@ namespace PHPoole\Command;
 
 use PHPoole\Command\AbstractCommand;
 
-class ListPages extends AbstractCommand
+class ListContent extends AbstractCommand
 {
     public function processCommand()
     {
         try {
-            $this->wlAnnonce('Pages list:');
+            $this->wlAnnonce('Content list:');
             $pages = $this->_phpoole->getPagesTree();
             if ($this->_console->isUtf8()) {
                 $unicodeTreePrefix = function(\RecursiveTreeIterator $tree) {
@@ -33,7 +33,6 @@ class ListPages extends AbstractCommand
                 };
                 $unicodeTreePrefix($pages);
             }
-            $this->_console->writeLine('[pages]');
             foreach($pages as $page) {
                 $this->_console->writeLine($page);
             }

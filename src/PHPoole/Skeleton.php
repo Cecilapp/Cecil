@@ -115,8 +115,6 @@ ul {
 a, a:visited {
   color: #d23;
   text-decoration: none;
-  -webkit-transition: color 0.15s linear;
-  -moz-transition: color 0.15s linear;
   border-bottom: 1px dotted #fcc;
 }
 a:hover {
@@ -191,7 +189,6 @@ EOT;
     {
         $subDirList = array(
             PHPoole::CONTENT_DIRNAME,
-            PHPoole::CONTENT_DIRNAME . '/' . PHPoole::CONTENT_PAGES_DIRNAME,
         );
         foreach ($subDirList as $subDir) {
             if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . $subDir)) {
@@ -221,7 +218,7 @@ PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Stran
 
 Go to the [dedicated website](http://phpoole.narno.org) for more details.
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::CONTENT_DIRNAME . '/' . PHPoole::CONTENT_PAGES_DIRNAME . '/index.md', $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::CONTENT_DIRNAME . '/index.md', $content)) {
             throw new Exception('Cannot create the default content file');
         }
         return 'Default content file';
