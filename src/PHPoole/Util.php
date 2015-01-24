@@ -10,6 +10,8 @@
 
 namespace PHPoole;
 
+use Cocur\Slugify\Slugify;
+
 /**
  * Class Util
  * @package PHPoole
@@ -141,36 +143,12 @@ class Util
 
     /**
      * @param $string
-     * @return mixed|string
+     * @return mixed
      */
     public static function slugify($string)
-    {    
-        return md5($string);
+    {
+        $slugify = new Slugify();
 
-        $separator = '-';
-        $string = preg_replace('/
-            [\x09\x0A\x0D\x20-\x7E]              # ASCII
-            | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-            |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
-            | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
-            |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
-            |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
-            | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-            |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-            /', '', $string);
-        // @see https://github.com/cocur/slugify/blob/master/src/Cocur/Slugify/Slugify.php
-     
-        // transliterate
-        $string = iconv('utf-8', 'us-ascii//TRANSLIT', $string);
-        // replace non letter or digits by seperator
-        $string = preg_replace('#[^\\pL\d]+#u', $separator, $string);
-        // trim
-        $string = trim($string, $separator);
-        // lowercase
-        $string = (defined('MB_CASE_LOWER')) ? mb_strtolower($string) : strtolower($string);
-        // remove unwanted characters
-        $string = preg_replace('#[^-\w]+#', '', $string);
-
-        return $string;
+        return $slugify->slugify($string);
     }
 }

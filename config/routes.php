@@ -54,15 +54,15 @@ return array(
         array(
             'name' => 'list',
             'route' => '[<path>]',
-            'short_description' => 'Lists pages',
-            'description' => 'Lists pages',
+            'short_description' => 'Lists content',
+            'description' => 'Lists content',
             'options_descriptions' => array(
                 '<path>'  => 'Website path',
             ),
             'defaults' => array(
                 'path' => getcwd(),
             ),
-            'handler' => 'PHPoole\Command\ListPages',
+            'handler' => 'PHPoole\Command\ListContent',
         ),
     ),
 );
