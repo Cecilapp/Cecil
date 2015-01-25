@@ -25,8 +25,8 @@
     "php":">=5.4",
     "zfcampus/zf-console": "~1.0-dev",
     "zendframework/zend-eventmanager": "2.*",
+    "erusev/parsedown-extra": "0.*",
     "twig/twig": "1.*",
-    "michelf/php-markdown": "1.*",
     "cocur/slugify": "1.*"
   },
   "require-dev": {

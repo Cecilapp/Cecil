@@ -13,7 +13,7 @@ namespace PHPoole;
 
 use Zend\Console\ColorInterface as Color;
 use Zend\EventManager\EventManager;
-use Michelf\MarkdownExtra;
+use ParsedownExtra;
 use PHPoole\Spl;
 use PHPoole\Skeleton;
 use Exception;
@@ -367,10 +367,9 @@ class PHPoole
      */
     public function process($rawContent)
     {
-        $this->_processor = new MarkdownExtra;
-        $this->_processor->code_attr_on_pre = true;
-        $this->_processor->predef_urls = array('base_url' => $this->getConfig()['site']['base_url']);
-        return $this->_processor->transform($rawContent);
+        $this->_processor = new ParsedownExtra();
+
+        return $this->_processor->text($rawContent);
     }
 
     /**

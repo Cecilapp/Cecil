@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d03a1e2ccdd23772b98288f7f508a494",
+    "hash": "93ea961ddbd38da927d508c335b2e282",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -67,55 +67,87 @@
             "time": "2014-11-26 22:45:14"
         },
         {
-            "name": "michelf/php-markdown",
-            "version": "1.4.1",
+            "name": "erusev/parsedown",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6"
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "9da19c1108c39df9b42adc42e39b8371070652d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
-                "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/9da19c1108c39df9b42adc42e39b8371070652d0",
+                "reference": "9da19c1108c39df9b42adc42e39b8371070652d0",
                 "shasum": ""
             },
-            "require": {
-                "php": ">=5.3.0"
-            },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-lib": "1.4.x-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
-                    "Michelf": ""
+                    "Parsedown": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Michel Fortin",
-                    "email": "michel.fortin@michelf.ca",
-                    "homepage": "http://michelf.ca/",
-                    "role": "Developer"
-                },
-                {
-                    "name": "John Gruber",
-                    "homepage": "http://daringfireball.net/"
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
                 }
             ],
-            "description": "PHP Markdown",
-            "homepage": "http://michelf.ca/projects/php-markdown/",
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
             "keywords": [
-                "markdown"
+                "markdown",
+                "parser"
             ],
-            "time": "2014-05-05 02:43:50"
+            "time": "2015-01-24 13:01:47"
+        },
+        {
+            "name": "erusev/parsedown-extra",
+            "version": "0.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown-extra.git",
+                "reference": "a2b8418b2ae272eb59ef8767bf45df80ab02f29c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/a2b8418b2ae272eb59ef8767bf45df80ab02f29c",
+                "reference": "a2b8418b2ae272eb59ef8767bf45df80ab02f29c",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "~1.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ParsedownExtra": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "An extension of Parsedown that adds support for Markdown Extra.",
+            "homepage": "https://github.com/erusev/parsedown-extra",
+            "keywords": [
+                "markdown",
+                "markdown extra",
+                "parsedown",
+                "parser"
+            ],
+            "time": "2015-01-22 13:11:06"
         },
         {
             "name": "twig/twig",
