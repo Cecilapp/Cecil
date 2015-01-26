@@ -40,11 +40,15 @@ return array(
         ),
         array(
             'name' => 'serve',
-            'route' => '[<path>]',
+            'route' => '[<path>] [--watch|-w]',
+            'aliases' => array(
+                'w' => 'watch',
+            ),
             'short_description' => 'Start built-in web server',
             'description' => 'Start built-in web server',
             'options_descriptions' => array(
                 '<path>'  => 'Website path',
+                '--watch|w' => 'Watching files changes',
             ),
             'defaults' => array(
                 'path' => getcwd(),

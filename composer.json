@@ -27,7 +27,9 @@
     "zendframework/zend-eventmanager": "2.*",
     "erusev/parsedown-extra": "0.*",
     "twig/twig": "1.*",
-    "cocur/slugify": "1.*"
+    "cocur/slugify": "1.*",
+    "symfony/process": "2.*",
+    "yosymfony/resource-watcher": "1.*"
   },
   "require-dev": {
     "kherge/box": "~2.4"
