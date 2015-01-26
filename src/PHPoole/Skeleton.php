@@ -30,7 +30,7 @@ class Skeleton
 name        = "PHPoole"
 baseline    = "Light and easy static website generator!"
 description = "PHPoole is a light and easy static website / blog generator written in PHP. It parses your content written with Markdown, merge it with layouts and generates static HTML files."
-base_url    = "http://localhost:8000"
+base_url    = "http://phpoole.narno.org"
 language    = "en"
 [author]
 name  = "Arnaud Ligny"
@@ -174,36 +174,52 @@ a:hover {
       <div id="footer">Powered by <a href="http://phpoole.narno.org">PHPoole</a>, coded by <a href="{{ site.author.home }}">{{ site.author.name }}</a></div>
     </div>
   </body>
-  <script>
-    var HttpClient = function() {
-      this.get = function(aUrl, aCallback) {
-        anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() {
-          if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-            aCallback(anHttpRequest.responseText);
-        }
-        anHttpRequest.open( "GET", aUrl, true );
-        anHttpRequest.send( null );
-      }
-    }
-    aClient = new HttpClient();
-    var i = setInterval(function(){
-      aClient.get('http://localhost:8000/watcher', function(answer) {
-        //console.log(answer);
-        if (answer == 'true') {
-          location.reload();
-        } else if (answer == 'stop') {
-          clearInterval(i);
-        }
-      });
-    }, 1000);
-  </script>
 </html>
 EOT;
         if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::LAYOUTS_DIRNAME . '/default.html', $content)) {
             throw new Exception('Cannot create the default layout file');
         }
         return 'Default layout file';
+    }
+
+    /**
+     * @param PHPoole $phpoole
+     * @return string
+     * @throws Exception
+     */
+    public static function createLayoutWatchFile(PHPoole $phpoole)
+    {
+        $content = <<<'EOT'
+{% include layout_master %}
+
+<script>
+var HttpClient = function() {
+  this.get = function(aUrl, aCallback) {
+    anHttpRequest = new XMLHttpRequest();
+    anHttpRequest.onreadystatechange = function() {
+      if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+        aCallback(anHttpRequest.responseText);
+    }
+    anHttpRequest.open("GET", aUrl, true);
+    anHttpRequest.send(null);
+  }
+}
+aClient = new HttpClient();
+var i = setInterval(function(){
+  aClient.get('http://localhost:8000/watcher', function(answer) {
+    if (answer == 'true') {
+      location.reload(true);
+    } else if (answer == 'stop') {
+      clearInterval(i);
+    }
+  });
+}, 500); // 0.5 s
+</script>
+EOT;
+        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::LAYOUTS_DIRNAME . '/watch.html', $content)) {
+            throw new Exception('Cannot create the "watch" layout file');
+        }
+        return 'Watch layout file';
     }
 
     /**

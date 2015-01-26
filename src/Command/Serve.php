@@ -47,7 +47,11 @@ class Serve extends AbstractCommand
                 $finder = new Finder();
                 $finder->files()
                     ->name('*.md')
-                    ->in($this->_path . '/' . PHPoole::CONTENT_DIRNAME);
+                    ->name('*.html')
+                    ->in(array(
+                        $this->_path . '/' . PHPoole::CONTENT_DIRNAME,
+                        $this->_path . '/' . PHPoole::LAYOUTS_DIRNAME,
+                    ));
                 $rc = new ResourceCacheFile($this->_path . '/.cache.php');
                 $rw = new ResourceWatcher($rc);
                 $rw->setFinder($finder);

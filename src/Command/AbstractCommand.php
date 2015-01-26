@@ -80,20 +80,20 @@ abstract class AbstractCommand
     }
     public function wlDone($text)
     {
-        $this->_console->write(' DONE ', Color::WHITE, Color::GREEN);
-        $this->_console->write(' ');
+        //$this->_console->write(' DONE ', Color::WHITE, Color::GREEN);
+        //$this->_console->write(' ');
         $this->_console->writeLine($text, Color::GREEN);
     }
     public function wlAlert($text)
     {
-        $this->_console->write(' ALER ', Color::WHITE, Color::YELLOW);
-        $this->_console->write(' ');
+        //$this->_console->write(' ALER ', Color::WHITE, Color::YELLOW);
+        //$this->_console->write(' ');
         $this->_console->writeLine($text, Color::YELLOW);
     }
     public function wlError($text)
     {
-        $this->_console->write(' ERRO ', Color::WHITE, Color::RED);
-        $this->_console->write(' ');
+        //$this->_console->write(' ERRO ', Color::WHITE, Color::RED);
+        //$this->_console->write(' ');
         $this->_console->writeLine($text, Color::RED);
     }
 }

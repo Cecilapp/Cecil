@@ -25,6 +25,7 @@
     "php":">=5.4",
     "zfcampus/zf-console": "~1.0-dev",
     "zendframework/zend-eventmanager": "2.*",
+    "zendframework/zend-log": "2.*",
     "erusev/parsedown-extra": "0.*",
     "twig/twig": "1.*",
     "cocur/slugify": "1.*",

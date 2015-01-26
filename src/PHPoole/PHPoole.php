@@ -13,6 +13,8 @@ namespace PHPoole;
 
 use Zend\Console\ColorInterface as Color;
 use Zend\EventManager\EventManager;
+use Zend\Log\Writer\Stream as LogWriter;
+use Zend\Log\Logger as Logger;
 use ParsedownExtra;
 use PHPoole\Spl;
 use PHPoole\Skeleton;
@@ -25,7 +27,7 @@ define('DS', DIRECTORY_SEPARATOR);
  */
 class PHPoole
 {
-    const VERSION = '0.0.2';
+    const VERSION = '2.0.0-dev';
     const URL     = 'http://phpoole.narno.org';
     const CONFIG_FILENAME  = 'config.ini';
     const CONTENT_DIRNAME  = 'content';
@@ -34,6 +36,7 @@ class PHPoole
     const PLUGINS_DIRNAME  = 'plugins';
     const SITE_SRV_DIRNAME = 'site';
     const SITE_DEP_DIRNAME = 'deploy';
+    const LOG_FILENAME     = 'phpoole.log';
 
     protected $_websitePath;
     protected $_websiteFileInfo;
@@ -43,7 +46,7 @@ class PHPoole
     protected $_pages = array();
     protected $_menu = array();
     protected $_processor;
-    public $localServe = false;
+    protected $_localServe = false;
 
     /**
      * @param $websitePath
@@ -88,6 +91,45 @@ class PHPoole
     public function getWebsitePath()
     {
         return $this->_websitePath;
+    }
+
+    /**
+     * Get config from config.ini file
+     *
+     * @param string $key
+     * @return array|null
+     * @throws Exception
+     */
+    public function getConfig($key='')
+    {
+        if ($this->_config == null) {
+            $configFilePath = $this->getWebsitePath() . '/' . self::CONFIG_FILENAME;
+            if (!file_exists($configFilePath)) {
+                throw new Exception('Cannot get config file');
+            }
+            if (!($this->_config = parse_ini_file($configFilePath, true))) {
+                throw new Exception('Cannot parse config file');
+            }
+            if (!empty($key)) {
+                if (!array_key_exists($key, $this->_config)) {
+                    throw new Exception(sprintf('Cannot find %s key in config file', $key));
+                }
+                return $this->_config[$key];
+            }
+            $this->_config;
+        }
+        return $this->_config;
+    }
+
+    /**
+     * @param $msg
+     */
+    private function debug($msg)
+    {
+        $writer = new LogWriter($this->getWebsitePath() . '/' . self::LOG_FILENAME);
+        $logger = new Logger();
+        $logger->addWriter($writer);
+        $logger->debug($msg);
     }
 
     /**
@@ -205,7 +247,7 @@ class PHPoole
      */
     public function setLocalServe($status=true)
     {
-        return $this->localServe = $status;
+        return $this->_localServe = ($status) ? true : false;
     }
 
     /**
@@ -213,35 +255,7 @@ class PHPoole
      */
     public function isLocalServe()
     {
-        return $this->localServe;
-    }
-
-    /**
-     * Get config from config.ini file
-     *
-     * @param string $key
-     * @return array|null
-     * @throws Exception
-     */
-    public function getConfig($key='')
-    {
-        if ($this->_config == null) {
-            $configFilePath = $this->getWebsitePath() . '/' . self::CONFIG_FILENAME;
-            if (!file_exists($configFilePath)) {
-                throw new Exception('Cannot get config file');
-            }
-            if (!($this->_config = parse_ini_file($configFilePath, true))) {
-                throw new Exception('Cannot parse config file');
-            }
-            if (!empty($key)) {
-                if (!array_key_exists($key, $this->_config)) {
-                    throw new Exception(sprintf('Cannot find %s key in config file', $key));
-                }
-                return $this->_config[$key];
-            }
-            $this->_config;
-        }
-        return $this->_config;
+        return $this->_localServe;
     }
 
     /**
@@ -265,6 +279,7 @@ class PHPoole
         $this->addMessage(Skeleton::createContentDefaultFile($this));
         $this->addMessage(Skeleton::createLayoutsDir($this));
         $this->addMessage(Skeleton::createLayoutDefaultFile($this));
+        $this->addMessage(Skeleton::createLayoutWatchFile($this));
         $this->addMessage(Skeleton::createStaticDir($this));
         $this->addMessage(Skeleton::createReadmeFile($this));
         $this->addMessage(Skeleton::createRouterFile($this));
@@ -377,6 +392,7 @@ class PHPoole
         $twig = new \Twig_Environment($twigLoader, array(
             'autoescape' => false,
             'debug'      => true,
+            'cache'      => false,
         ));
         $twig->addExtension(new \Twig_Extension_Debug());
         return $twig;
@@ -391,14 +407,14 @@ class PHPoole
     public function generate()
     {
         // loading templates (layoyts) engine (Twig)
-        if (isset($this->getConfig()['site']['layouts'])) {
-            $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME . '/' . $this->getConfig()['site']['layouts']);
-        } else {
+        //if (isset($this->getConfig()['site']['layouts'])) {
+        //    $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME . '/' . $this->getConfig()['site']['layouts']);
+        //} else {
             $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME);
-        }
-        // preparing va menu
+        //}
+        // preparing nav menu
         $menuNav = $this->prepareMenuNav();
-        // loading, the rendering pages
+        // loading, then rendering pages
         $pagesIterator = (new \ArrayObject($this->getPages()))->getIterator();
         $pagesIterator->ksort();
         while ($pagesIterator->valid()) {
@@ -416,20 +432,26 @@ class PHPoole
                 'page' => array_merge($page, $pageExtra),
             );
             // rendering
-            $rendered = $tplEngine->render($page['layout'], $tplVariables);
+            if ($this->isLocalServe()) {
+                $rendered = $tplEngine->render('watch.html', array_merge($tplVariables, array('layout_master' => $page['layout'])));
+            } else {
+                $rendered = $tplEngine->render($page['layout'], $tplVariables);
+            }
+            $this->debug(print_r($rendered, true));
             // dir writing
             if (!is_dir($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . $page['path'])) {
                 if (!@mkdir($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . $page['path'], 0777, true)) {
                     throw new Exception(sprintf('Cannot create %s', $this->getWebsitePath() . '/' . $page['path']));
                 }
             }
-            // file writing
+            // file deleting
             if (is_file($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
                 if (!@unlink($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
                     throw new Exception(sprintf('Cannot delete %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
                 }
                 $this->addMessage('Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'], true);
             }
+            // file writing
             if (!@file_put_contents(sprintf('%s%s', $this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), $rendered)) {
                 throw new Exception(sprintf('Cannot write %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
             }

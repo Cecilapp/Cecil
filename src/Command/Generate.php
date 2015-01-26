@@ -23,6 +23,11 @@ class Generate extends AbstractCommand
     public function processCommand()
     {
         $this->_serve = $this->_route->getMatchedParam('serve', false);
+        if ($this->_serve) {
+            $this->_phpoole->setLocalServe();
+        } else {
+            $this->_phpoole->setLocalServe(false);
+        }
 
         $this->wlAnnonce('Generating website:');
         try {
@@ -34,9 +39,7 @@ class Generate extends AbstractCommand
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
         }
-
         if ($this->_serve) {
-            $this->_phpoole->setLocalServe();
             $this->wlAlert('You should re-generate before deploy');
             $callable = new Serve;
             call_user_func($callable, $this->_route, $this->_console);
