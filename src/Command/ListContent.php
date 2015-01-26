@@ -11,6 +11,10 @@
 namespace PHPoole\Command;
 
 use PHPoole\Command\AbstractCommand;
+use PHPoole\PHPoole;
+use RecursiveDirectoryIterator;
+use RecursiveTreeIterator;
+use PHPoole\Command\FilenameRecursiveTreeIterator;
 
 class ListContent extends AbstractCommand
 {
@@ -18,14 +22,14 @@ class ListContent extends AbstractCommand
     {
         try {
             $this->wlAnnonce('Content list:');
-            $pages = $this->_phpoole->getPagesTree();
+            $pages = $this->getPagesTree();
             if ($this->_console->isUtf8()) {
-                $unicodeTreePrefix = function(\RecursiveTreeIterator $tree) {
+                $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
                     $prefixParts = [
-                        \RecursiveTreeIterator::PREFIX_LEFT         => ' ',
-                        \RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
-                        \RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                        \RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
+                        RecursiveTreeIterator::PREFIX_LEFT         => ' ',
+                        RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
+                        RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
+                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
                     ];
                     foreach ($prefixParts as $part => $string) {
                         $tree->setPrefixPart($part, $string);
@@ -39,5 +43,25 @@ class ListContent extends AbstractCommand
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
         }
+    }
+
+    /**
+     * Return a console displayable tree of pages
+     *
+     * @return FilenameRecursiveTreeIterator
+     * @throws Exception
+     */
+    public function getPagesTree()
+    {
+        $pagesPath = $this->_phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::CONTENT_DIRNAME;
+        if (!is_dir($pagesPath)) {
+            throw new Exception(sprintf("Invalid %s directory", PHPoole::CONTENT_DIRNAME));
+        }
+        $dirIterator = new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS);
+        $pages = new FilenameRecursiveTreeIterator(
+            $dirIterator,
+            FilenameRecursiveTreeIterator::SELF_FIRST
+        );
+        return $pages;
     }
 }

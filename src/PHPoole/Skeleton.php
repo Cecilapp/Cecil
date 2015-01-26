@@ -40,7 +40,7 @@ home  = "http://narno.org"
 repository = "https://github.com/Narno/PHPoole.git"
 branch     = "gh-pages"
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::CONFIG_FILENAME, $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::CONFIG_FILENAME, $content)) {
             throw new Exception('Cannot create the config file');
         }
         return 'Config file';
@@ -51,12 +51,43 @@ EOT;
      * @return string
      * @throws Exception
      */
-    public static function createStaticDir(PHPoole $phpoole)
+    public static function createContentDir(PHPoole $phpoole)
     {
-        if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::STATIC_DIRNAME)) {
-            throw new Exception('Cannot create the static directory');
+        $subDirList = array(
+            PHPoole::CONTENT_DIRNAME,
+        );
+        foreach ($subDirList as $subDir) {
+            if (!@mkdir($phpoole->getWebsitePath() . '/' . $subDir)) {
+                throw new Exception('Cannot create the content directory');
+            }
         }
-        return 'Static directory';
+        return 'Content directory';
+    }
+
+    /**
+     * @param PHPoole $phpoole
+     * @return string
+     * @throws Exception
+     */
+    public static function createContentDefaultFile(PHPoole $phpoole)
+    {
+        $content = <<<'EOT'
+<!--
+title = Home
+layout = default
+menu = nav
+-->
+PHPoole is a light and easy static website / blog generator written in PHP.
+It parses your content written with Markdown, merge it with layouts and generates static HTML files.
+
+PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
+
+Go to the [dedicated website](http://phpoole.narno.org) for more details.
+EOT;
+        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::CONTENT_DIRNAME . '/index.md', $content)) {
+            throw new Exception('Cannot create the default content file');
+        }
+        return 'Default content file';
     }
 
     /**
@@ -66,7 +97,7 @@ EOT;
      */
     public static function createLayoutsDir(PHPoole $phpoole)
     {
-        if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::LAYOUTS_DIRNAME)) {
+        if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::LAYOUTS_DIRNAME)) {
             throw new Exception('Cannot create the layouts directory');
         }
         return 'Layouts directory';
@@ -143,9 +174,33 @@ a:hover {
       <div id="footer">Powered by <a href="http://phpoole.narno.org">PHPoole</a>, coded by <a href="{{ site.author.home }}">{{ site.author.name }}</a></div>
     </div>
   </body>
+  <script>
+    var HttpClient = function() {
+      this.get = function(aUrl, aCallback) {
+        anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() {
+          if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+            aCallback(anHttpRequest.responseText);
+        }
+        anHttpRequest.open( "GET", aUrl, true );
+        anHttpRequest.send( null );
+      }
+    }
+    aClient = new HttpClient();
+    var i = setInterval(function(){
+      aClient.get('http://localhost:8000/watcher', function(answer) {
+        //console.log(answer);
+        if (answer == 'true') {
+          location.reload();
+        } else if (answer == 'stop') {
+          clearInterval(i);
+        }
+      });
+    }, 1000);
+  </script>
 </html>
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::LAYOUTS_DIRNAME . '/default.html', $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::LAYOUTS_DIRNAME . '/default.html', $content)) {
             throw new Exception('Cannot create the default layout file');
         }
         return 'Default layout file';
@@ -156,20 +211,12 @@ EOT;
      * @return string
      * @throws Exception
      */
-    public static function createAssetsDir(PHPoole $phpoole)
+    public static function createStaticDir(PHPoole $phpoole)
     {
-        $subDirList = array(
-            PHPoole::ASSETS_DIRNAME,
-            PHPoole::ASSETS_DIRNAME . '/css',
-            PHPoole::ASSETS_DIRNAME . '/img',
-            PHPoole::ASSETS_DIRNAME . '/js',
-        );
-        foreach ($subDirList as $subDir) {
-            if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . $subDir)) {
-                throw new Exception('Cannot create the assets directory');
-            }
+        if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::STATIC_DIRNAME)) {
+            throw new Exception('Cannot create the static directory');
         }
-        return 'Assets directory';
+        return 'Static directory';
     }
 
     /**
@@ -177,43 +224,21 @@ EOT;
      * @return string
      * @throws Exception
      */
-    public static function createContentDir(PHPoole $phpoole)
-    {
-        $subDirList = array(
-            PHPoole::CONTENT_DIRNAME,
-        );
-        foreach ($subDirList as $subDir) {
-            if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . $subDir)) {
-                throw new Exception('Cannot create the content directory');
-            }
-        }
-        return 'Content directory';
-    }
-
-    /**
-     * @param PHPoole $phpoole
-     * @return string
-     * @throws Exception
-     */
-    public static function createContentDefaultFile(PHPoole $phpoole)
+    public static function createReadmeFile(PHPoole $phpoole)
     {
         $content = <<<'EOT'
-<!--
-title = Home
-layout = default
-menu = nav
--->
-PHPoole is a light and easy static website / blog generator written in PHP.
-It parses your content written with Markdown, merge it with layouts and generates static HTML files.
-
-PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
-
-Go to the [dedicated website](http://phpoole.narno.org) for more details.
+Powered by [PHPoole](http://phpoole.narno.org).
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::CONTENT_DIRNAME . '/index.md', $content)) {
-            throw new Exception('Cannot create the default content file');
+
+        if (is_file($phpoole->getWebsitePath() . '/' . PHPoole::STATIC_DIRNAME . '/README.md')) {
+            if (!@unlink($phpoole->getWebsitePath() . '/' . PHPoole::STATIC_DIRNAME . '/README.md')) {
+                throw new Exception('Cannot create the README file');
+            }
         }
-        return 'Default content file';
+        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::STATIC_DIRNAME . '/README.md', $content)) {
+            throw new Exception('Cannot create the README file');
+        }
+        return 'README file';
     }
 
     /**
@@ -229,6 +254,20 @@ date_default_timezone_set("UTC");
 define("DIRECTORY_INDEX", "index.html");
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $ext = pathinfo($path, PATHINFO_EXTENSION);
+if ($path == '/watcher') {
+    http_response_code(200);
+    if (!file_exists(__DIR__ . '/.watch')) {
+        echo 'stop';
+        exit();
+    }
+    if (file_exists(__DIR__ . '/.changes')) {
+        echo 'true';
+        unlink(__DIR__ . '/.changes');
+    } else {
+        echo 'false';
+    }
+    exit();
+}
 if (empty($ext)) {
     $path = rtrim($path, "/") . "/" . DIRECTORY_INDEX;
 }
@@ -238,31 +277,9 @@ if (file_exists($_SERVER["DOCUMENT_ROOT"] . $path)) {
 http_response_code(404);
 echo "404, page not found";
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/router.php', $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . '/router.php', $content)) {
             throw new Exception('Cannot create the router file');
         }
         return 'Router file';
-    }
-
-    /**
-     * @param PHPoole $phpoole
-     * @return string
-     * @throws Exception
-     */
-    public static function createReadmeFile(PHPoole $phpoole)
-    {
-        $content = <<<'EOT'
-Powered by [PHPoole](http://phpoole.narno.org).
-EOT;
-
-        if (is_file($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::STATIC_DIRNAME . '/README.md')) {
-            if (!@unlink($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::STATIC_DIRNAME . '/README.md')) {
-                throw new Exception('Cannot create the README file');
-            }
-        }
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::STATIC_DIRNAME . '/README.md', $content)) {
-            throw new Exception('Cannot create the README file');
-        }
-        return 'README file';
     }
 }

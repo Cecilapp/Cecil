@@ -54,7 +54,7 @@ class Proxy
         */
         $config = $this->_phpoole->getConfig();
         if (array_key_exists($function, $config['site'])) {
-            if ($this->_phpoole->localServe === true) {
+            if ($this->_phpoole->isLocalServe()) {
                 $configToMerge['site']['base_url'] = 'http://localhost:8000';
                 $config = array_replace_recursive($config, $configToMerge);
             }

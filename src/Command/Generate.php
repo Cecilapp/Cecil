@@ -36,7 +36,7 @@ class Generate extends AbstractCommand
         }
 
         if ($this->_serve) {
-            $this->_phpoole->setLocalServe(true);
+            $this->_phpoole->setLocalServe();
             $this->wlAlert('You should re-generate before deploy');
             $callable = new Serve;
             call_user_func($callable, $this->_route, $this->_console);

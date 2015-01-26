@@ -23,15 +23,17 @@ return array(
         ),
         array(
             'name' => 'generate',
-            'route' => '[<path>] [--serve|-s]',
+            'route' => '[<path>] [--serve|-s] [--watch|-w]',
             'aliases' => array(
                 's' => 'serve',
+                'w' => 'watch',
             ),
             'short_description' => 'Generate static files',
             'description' => 'Generate static files',
             'options_descriptions' => array(
                 '<path>'  => 'Website path',
                 '--serve|s' => 'Generate and serve',
+                '--watch|w' => 'Watching files changes',
             ),
             'defaults' => array(
                 'path' => getcwd(),

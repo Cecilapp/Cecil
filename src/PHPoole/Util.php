@@ -35,7 +35,7 @@ class Util
         if (false === @file_put_contents($tmpFile, $content)) {
             throw new \Exception(sprintf('Failed to write file "%s".', $filename));
         }
-        @rename($tmpFile, $filename, true);
+        @rename($tmpFile, $filename);
     }
 
     /**

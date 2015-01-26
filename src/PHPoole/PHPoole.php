@@ -26,15 +26,14 @@ define('DS', DIRECTORY_SEPARATOR);
 class PHPoole
 {
     const VERSION = '0.0.2';
-    const URL = 'http://phpoole.narno.org';
-    //
-    const PHPOOLE_DIRNAME = '_phpoole';
-    const CONFIG_FILENAME = 'config.ini';
-    const LAYOUTS_DIRNAME = 'layouts';
-    const STATIC_DIRNAME  = 'static';
-    const ASSETS_DIRNAME  = 'assets';
-    const CONTENT_DIRNAME = 'content';
+    const URL     = 'http://phpoole.narno.org';
+    const CONFIG_FILENAME  = 'config.ini';
+    const CONTENT_DIRNAME  = 'content';
+    const LAYOUTS_DIRNAME  = 'layouts';
+    const STATIC_DIRNAME   = 'static';
     const PLUGINS_DIRNAME  = 'plugins';
+    const SITE_SRV_DIRNAME = 'site';
+    const SITE_DEP_DIRNAME = 'deploy';
 
     protected $_websitePath;
     protected $_websiteFileInfo;
@@ -43,8 +42,8 @@ class PHPoole
     protected $_messages = array();
     protected $_pages = array();
     protected $_menu = array();
-    public $localServe = false;
     protected $_processor;
+    public $localServe = false;
 
     /**
      * @param $websitePath
@@ -114,18 +113,21 @@ class PHPoole
      */
     public function addMessage($message, $verbose=false)
     {
-        if (!$verbose) { // temporary
+        // @todo create a cleaner solution...
+        if (!$verbose) {
             $this->_messages[] = $message;
         }
         return $this->getMessages();
     }
 
     /**
-     *
+     * @return array
      */
     public function clearMessages()
     {
+        $tmpMessages = $this->_messages;
         $this->_messages = array();
+        return $tmpMessages;
     }
 
     /**
@@ -180,79 +182,38 @@ class PHPoole
     }
 
     /**
-     * @param $method
-     * @param $args
-     * @param $when
-     * @return $this|mixed
+     * Temporary method to prepare (sort) "nav" menu
+     *
+     * @return array
      */
-    //public function triggerEvent($method, $args, $when=array('pre','post'))
-    public function triggerEvent($method, $args, $when)
+    public function prepareMenuNav()
     {
-        $reflector = new \ReflectionClass(__CLASS__);
-        $parameters = $reflector->getMethod($method)->getParameters();
-        if (!empty($parameters)) {
-            $params = array();
-            foreach ($parameters as $parameter) {
-                $params[$parameter->getName()] = $parameter->getName();
-            }
-            $args = array_combine($params, $args);
+        $menuNav = $this->getMenu('nav');
+        // sort nav menu
+        foreach ($menuNav as $key => $row) {
+            $path[$key] = $row['path'];
         }
-        $results = $this->getEvents()->trigger($method . '.' . $when, $this, $args);
-        if ($results) {
-           return $results->last();
+        if (isset($path) && is_array($path)) {
+            array_multisort($path, SORT_ASC, $menuNav);
         }
-        return $this;
+        return $menuNav;
     }
 
     /**
-     * temporary method
-     *
-     * @param $status
-     * @return mixed
+     * @param bool $status
+     * @return bool
      */
-    public function setLocalServe($status)
+    public function setLocalServe($status=true)
     {
         return $this->localServe = $status;
     }
 
     /**
-     * Initialization of a new PHPoole website
-     *
-     * @param bool $force
-     * @return array
-     * @throws Exception
+     * @return bool
      */
-    public function init($force=false)
+    public function isLocalServe()
     {
-        $this->triggerEvent(__FUNCTION__, func_get_args(), 'pre');
-
-        if (file_exists($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME)) {
-            if ($force === true) {
-                Util::rmDir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME);
-            }
-            else {
-                throw new Exception('The website is already initialized');
-            }
-        }
-        if (!@mkdir($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME)) {
-            if ($force !== true) {
-                throw new Exception('Cannot create root PHPoole directory');
-            }
-        }
-        $this->addMessage(self::PHPOOLE_DIRNAME . ' directory');
-        $this->addMessage(Skeleton::createConfigFile($this));
-        $this->addMessage(Skeleton::createStaticDir($this));
-        $this->addMessage(Skeleton::createReadmeFile($this));
-        $this->addMessage(Skeleton::createLayoutsDir($this));
-        $this->addMessage(Skeleton::createLayoutDefaultFile($this));
-        $this->addMessage(Skeleton::createAssetsDir($this));
-        $this->addMessage(Skeleton::createContentDir($this));
-        $this->addMessage(Skeleton::createContentDefaultFile($this));
-        $this->addMessage(Skeleton::createRouterFile($this));
-
-        $this->triggerEvent(__FUNCTION__, func_get_args(), 'post');
-
-        return $this->getMessages();
+        return $this->localServe;
     }
 
     /**
@@ -265,7 +226,7 @@ class PHPoole
     public function getConfig($key='')
     {
         if ($this->_config == null) {
-            $configFilePath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONFIG_FILENAME;
+            $configFilePath = $this->getWebsitePath() . '/' . self::CONFIG_FILENAME;
             if (!file_exists($configFilePath)) {
                 throw new Exception('Cannot get config file');
             }
@@ -284,6 +245,36 @@ class PHPoole
     }
 
     /**
+     * Initialization of a new PHPoole website
+     *
+     * @param bool $force
+     * @return array
+     * @throws Exception
+     */
+    public function init($force=false)
+    {
+        $this->triggerEvent(__FUNCTION__, func_get_args(), 'pre');
+
+        if (file_exists($this->getWebsitePath() . '/' . self::CONFIG_FILENAME)) {
+            if (!$force === true) {
+                throw new Exception('The website is already initialized');
+            }
+        }
+        $this->addMessage(Skeleton::createConfigFile($this));
+        $this->addMessage(Skeleton::createContentDir($this));
+        $this->addMessage(Skeleton::createContentDefaultFile($this));
+        $this->addMessage(Skeleton::createLayoutsDir($this));
+        $this->addMessage(Skeleton::createLayoutDefaultFile($this));
+        $this->addMessage(Skeleton::createStaticDir($this));
+        $this->addMessage(Skeleton::createReadmeFile($this));
+        $this->addMessage(Skeleton::createRouterFile($this));
+
+        $this->triggerEvent(__FUNCTION__, func_get_args(), 'post');
+
+        return $this->getMessages();
+    }
+
+    /**
      * Load pages files from content/pages
      *
      * @return $this
@@ -291,17 +282,18 @@ class PHPoole
      */
     public function loadPages()
     {
-        $pageInfo  = array();
-        $pageIndex = array();
-        $pageData  = array();
-        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME;
-        // Iterate pages files, filtered by markdown "md" extension
-        $pagesIterator = new Spl\FileIterator($pagesPath, 'md');
+        // iterate pages files, filtered by markdown "md" extension
+        $pagesIterator = new Spl\FileIterator(
+            $this->getWebsitePath() . '/' . self::CONTENT_DIRNAME,
+            'md'
+        );
         foreach ($pagesIterator as $filePage) {
+            // loading front-matter's informations
             $pageInfo = $filePage->parse()->getData('info');
+            // creating an index (id as string)
             $pageIndex = ($pagesIterator->getSubPath() ? $pagesIterator->getSubPath() : 'home');
+            // agglomerating page's datas
             $pageData = $pageInfo;
-            //
             $pageData['title'] = (
                 isset($pageInfo['title']) && !empty($pageInfo['title'])
                 ? $pageInfo['title']
@@ -311,7 +303,7 @@ class PHPoole
             $pageData['basename'] = $filePage->getBasename('.md') . '.html';
             $pageData['layout'] = (
                 isset($pageInfo['layout'])
-                    && is_file($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . (isset($this->getConfig()['site']['layouts']) ? $this->getConfig()['site']['layouts'] . '/' : '') . $pageInfo['layout'] . '.html')
+                    && is_file($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME . '/' . (isset($this->getConfig()['site']['layouts']) ? $this->getConfig()['site']['layouts'] . '/' : '') . $pageInfo['layout'] . '.html')
                 ? $pageInfo['layout'] . '.html'
                 : 'default.html'
             );
@@ -320,8 +312,8 @@ class PHPoole
                 if (false === ($pageContent = @file_get_contents($pageInfo['content'], false))) {
                     throw new Exception(sprintf("Cannot get contents from %s\n", $filePage->getFilename()));
                 }
-            }
-            else {
+            // or local content
+            } else {
                 $pageContent = $filePage->getData('content_raw');
             }
             // content processing
@@ -337,9 +329,10 @@ class PHPoole
                 extract($results);
             }
 
-            // add page details
+            // adding page processed page
             $this->addPage($pageIndex, $pageData);
-            // menu
+
+            // adding menu entry?
             if (isset($pageInfo['menu'])) { // "nav" for example
                 $menuEntry = (
                     !empty($pageInfo['menu'])
@@ -351,6 +344,8 @@ class PHPoole
                 );
                 $this->addMenuEntry($pageInfo['menu'], $menuEntry);
             }
+
+            // unset datas for the next loop
             unset($pageInfo);
             unset($pageIndex);
             unset($pageData);
@@ -373,21 +368,18 @@ class PHPoole
     }
 
     /**
-     * Temporary method to prepare (sort) "nav" menu
-     *
-     * @return array
+     * @param $templatesPath
+     * @return \Twig_Environment
      */
-    public function prepareMenuNav()
+    public function tplEngine($templatesPath)
     {
-        $menuNav = $this->getMenu('nav');
-        // sort nav menu
-        foreach ($menuNav as $key => $row) {
-            $path[$key] = $row['path'];
-        }
-        if (isset($path) && is_array($path)) {
-            array_multisort($path, SORT_ASC, $menuNav);
-        }
-        return $menuNav;
+        $twigLoader = new \Twig_Loader_Filesystem($templatesPath);
+        $twig = new \Twig_Environment($twigLoader, array(
+            'autoescape' => false,
+            'debug'      => true,
+        ));
+        $twig->addExtension(new \Twig_Extension_Debug());
+        return $twig;
     }
 
     /**
@@ -398,18 +390,17 @@ class PHPoole
      */
     public function generate()
     {
-        // Build pages
-        $pages = $this->getPages();
-        $menuNav = $this->prepareMenuNav();            
+        // loading templates (layoyts) engine (Twig)
         if (isset($this->getConfig()['site']['layouts'])) {
-            $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME . '/' . $this->getConfig()['site']['layouts']);
+            $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME . '/' . $this->getConfig()['site']['layouts']);
+        } else {
+            $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::LAYOUTS_DIRNAME);
         }
-        else {
-            $tplEngine = $this->tplEngine($this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::LAYOUTS_DIRNAME);
-        }
-        $pagesIterator = (new \ArrayObject($pages))->getIterator();
+        // preparing va menu
+        $menuNav = $this->prepareMenuNav();
+        // loading, the rendering pages
+        $pagesIterator = (new \ArrayObject($this->getPages()))->getIterator();
         $pagesIterator->ksort();
-        $this->clearMessages();
         while ($pagesIterator->valid()) {
             $page = $pagesIterator->current();
             // template variables
@@ -426,19 +417,20 @@ class PHPoole
             );
             // rendering
             $rendered = $tplEngine->render($page['layout'], $tplVariables);
-            // dir/file writing
-            if (!is_dir($this->getWebsitePath() . '/' . $page['path'])) {
-                if (!@mkdir($this->getWebsitePath() . '/' . $page['path'], 0777, true)) {
+            // dir writing
+            if (!is_dir($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . $page['path'])) {
+                if (!@mkdir($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . $page['path'], 0777, true)) {
                     throw new Exception(sprintf('Cannot create %s', $this->getWebsitePath() . '/' . $page['path']));
                 }
             }
-            if (is_file($this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
-                if (!@unlink($this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
+            // file writing
+            if (is_file($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
+                if (!@unlink($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'])) {
                     throw new Exception(sprintf('Cannot delete %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
                 }
                 $this->addMessage('Delete ' . ($page['path'] != '' ? $page['path'] . '/' : '') . $page['basename'], true);
             }
-            if (!@file_put_contents(sprintf('%s%s', $this->getWebsitePath() . '/' . ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), $rendered)) {
+            if (!@file_put_contents(sprintf('%s%s', $this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), $rendered)) {
                 throw new Exception(sprintf('Cannot write %s%s', ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']));
             }
             $this->addMessage(sprintf("Write %s%s", ($page['path'] != '' ? $page['path'] . '/' : ''), $page['basename']), true);
@@ -450,59 +442,38 @@ class PHPoole
             $pagesIterator->next();
         }
         $this->addMessage('Write pages');
-        // Copy static
+        // copy static
         Util::copy(
-            $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::STATIC_DIRNAME,
-            $this->getWebsitePath() . '/'
+            $this->getWebsitePath() . '/' . self::STATIC_DIRNAME,
+            $this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME
         );
         $this->addMessage('Copy files in static directory');
-        // Copy assets
-        if (is_dir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME)) {
-            Util::rmDir($this->getWebsitePath() . '/' . self::ASSETS_DIRNAME);
-        }
-        Util::copy(
-            $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::ASSETS_DIRNAME,
-            $this->getWebsitePath() . '/' . self::ASSETS_DIRNAME
-        );
-        $this->addMessage('Copy assets directory');
         return $this->getMessages();
     }
 
     /**
-     * Temporary method to wrap Twig (and more?) engine
-     *
-     * @param $templatesPath
-     * @return \Twig_Environment
+     * @param $method
+     * @param $args
+     * @param $when
+     * @return $this|mixed
      */
-    public function tplEngine($templatesPath)
+    //public function triggerEvent($method, $args, $when=array('pre','post'))
+    public function triggerEvent($method, $args, $when)
     {
-        $twigLoader = new \Twig_Loader_Filesystem($templatesPath);
-        $twig = new \Twig_Environment($twigLoader, array(
-            'autoescape' => false,
-            'debug'      => true
-        ));
-        $twig->addExtension(new \Twig_Extension_Debug());
-        return $twig;
-    }
-
-    /**
-     * Return a console displayable tree of pages
-     *
-     * @return Spl\FilenameRecursiveTreeIterator
-     * @throws Exception
-     */
-    public function getPagesTree()
-    {
-        $pagesPath = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::CONTENT_DIRNAME;
-        if (!is_dir($pagesPath)) {
-            throw new Exception(sprintf("Invalid %s directory", self::CONTENT_DIRNAME));
+        $reflector = new \ReflectionClass(__CLASS__);
+        $parameters = $reflector->getMethod($method)->getParameters();
+        if (!empty($parameters)) {
+            $params = array();
+            foreach ($parameters as $parameter) {
+                $params[$parameter->getName()] = $parameter->getName();
+            }
+            $args = array_combine($params, $args);
         }
-        $dirIterator = new \RecursiveDirectoryIterator($pagesPath, \RecursiveDirectoryIterator::SKIP_DOTS);
-        $pages = new Spl\FilenameRecursiveTreeIterator(
-            $dirIterator,
-            Spl\FilenameRecursiveTreeIterator::SELF_FIRST
-        );
-        return $pages;
+        $results = $this->getEvents()->trigger($method . '.' . $when, $this, $args);
+        if ($results) {
+            return $results->last();
+        }
+        return $this;
     }
 
     /**
@@ -516,7 +487,7 @@ class PHPoole
             $configPlugins = array();
         }
         $pluginsDirCore = __DIR__ . '/' . self::PLUGINS_DIRNAME;
-        $pluginsDir     = $this->getWebsitePath() . '/' . self::PHPOOLE_DIRNAME . '/' . self::PLUGINS_DIRNAME;
+        $pluginsDir     = $this->getWebsitePath() . '/' . self::PLUGINS_DIRNAME;
         $pluginsIterator = new \AppendIterator();
         if (is_dir($pluginsDirCore)) {
             $pluginsIterator1 = new \FilesystemIterator($pluginsDirCore);

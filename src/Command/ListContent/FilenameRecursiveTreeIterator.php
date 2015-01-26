@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Spl;
+namespace PHPoole\Command;
 
 use RecursiveTreeIterator;
 
@@ -16,7 +16,7 @@ use RecursiveTreeIterator;
  * Replace Filepath by Filename
  *
  * Class FilenameRecursiveTreeIterator
- * @package PHPoole\Spl
+ * @package PHPoole\Command
  */
 class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
 {

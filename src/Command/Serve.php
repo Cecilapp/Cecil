@@ -12,6 +12,7 @@ namespace PHPoole\Command;
 
 use PHPoole\Command\AbstractCommand;
 use PHPoole\PHPoole;
+use PHPoole\Util;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Finder\Finder;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
@@ -28,39 +29,17 @@ class Serve extends AbstractCommand
     {
         $this->_watch = $this->_route->getMatchedParam('watch', false);
 
-        if (!is_file(sprintf('%s/%s/router.php', $this->_path, PHPoole::PHPOOLE_DIRNAME))) {
+        if (!is_file(sprintf('%s/router.php', $this->_path))) {
             $this->wlError('Router not found');
             exit(2);
         }
         $this->wlAnnonce(sprintf("Start server http://%s:%d", 'localhost', '8000'));
-        /*
-        if (Util::isWindows()) {
-            $command = sprintf(
-                'START php -S %s:%d -t %s %s > nul',
-                'localhost',
-                '8000',
-                $this->_path,
-                sprintf('%s/%s/router.php', $this->_path, PHPoole::PHPOOLE_DIRNAME)
-            );
-        }
-        else {
-            echo 'Ctrl-C to stop it.' . PHP_EOL;
-            $command = sprintf(
-                'php -S %s:%d -t %s %s >/dev/null',
-                'localhost',
-                '8000',
-                $this->_path,
-                sprintf('%s/%s/router.php', $this->_path, PHPoole::PHPOOLE_DIRNAME)
-            );
-        }
-        exec($command);
-        */
         $command = sprintf(
             'php -S %s:%d -t %s %s',
             'localhost',
             '8000',
-            $this->_path,
-            sprintf('%s/%s/router.php', $this->_path, PHPoole::PHPOOLE_DIRNAME)
+            $this->_path . '/' . PHPoole::SITE_SRV_DIRNAME,
+            sprintf('%s/router.php', $this->_path)
         );
         $process = new Process($command);
         if (!$process->isStarted()) {
@@ -68,16 +47,19 @@ class Serve extends AbstractCommand
                 $finder = new Finder();
                 $finder->files()
                     ->name('*.md')
-                    ->in($this->_path . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::CONTENT_DIRNAME);
-                $rc = new ResourceCacheFile($this->_path . '/' . PHPoole::PHPOOLE_DIRNAME . '/cache.php');
+                    ->in($this->_path . '/' . PHPoole::CONTENT_DIRNAME);
+                $rc = new ResourceCacheFile($this->_path . '/.cache.php');
                 $rw = new ResourceWatcher($rc);
                 $rw->setFinder($finder);
+                Util::writeFile($this->_path . '/.watch', '');
             }
             $process->start();
             while ($process->isRunning()) {
                 if ($this->_watch) {
                     $rw->findChanges();
                     if ($rw->hasChanges()) {
+                        Util::writeFile($this->_path . '/.changes', 'true');
+                        $this->wlDone('write "changes" flag file');
                         // re-generate
                         $this->wlAlert('Changes detected: re-generate');
                         $callable = new Generate;
