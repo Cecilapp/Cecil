@@ -2,6 +2,7 @@
     "chmod": "0755",
     "directories": [
         "config",
+        "plugins",
         "src"
     ],
     "files": [
@@ -27,11 +28,13 @@
                 "Tests",
                 "tests"
             ],
-            "in": ["vendor"]
+            "in": [
+                "vendor"
+            ]
         }
     ],
     "git-version": "git_version",
     "main": "bin/phpoole.php",
-    "output": "build/phpoole.phar",
+    "output": "dist/phpoole.phar",
     "stub": true
 }
