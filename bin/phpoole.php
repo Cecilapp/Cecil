@@ -11,7 +11,8 @@
 
 error_reporting(E_ALL ^ E_NOTICE);
 date_default_timezone_set("UTC");
-$version = '2.0.0-dev';
+$name       = 'PHPoole';
+$version    = '2.0.0-dev';
 $phpVersion = '5.4.0';
 
 use Zend\Console\Console;
@@ -23,7 +24,6 @@ if (file_exists(__DIR__ . '/../composer.json')) {
         $version = $composer['version'];
     }
 }
-define('VERSION', $version);
 
 if (version_compare(PHP_VERSION, $phpVersion, '<')) {
     print('PHP 5.4+ required (your version: ' . PHP_VERSION . ')' . "\n");
@@ -44,11 +44,11 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     exit(2);
 }
 
-$config = include __DIR__ . '/../config/routes.php';
+$routes = include __DIR__ . '/../config/routes.php';
 $application = new Application(
-    $config['name'],
-    $config['version'],
-    $config['routes'],
+    $name,
+    $version,
+    $routes,
     Console::getInstance()
 );
 

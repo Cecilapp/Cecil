@@ -41,12 +41,12 @@
   "bin": [
       "phpoole.php"
   ],
-  "autoload" : {
-    "psr-0" : {
-      "PHPoole" : "src/"
+  "autoload": {
+    "psr-0": {
+      "PHPoole": "src/"
     },
     "psr-4" : {
-      "PHPoole\\Command\\" : "src/Command"
+      "PHPoole\\Command\\": "src/Command"
     }
   }
 }

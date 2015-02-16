@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Command;
+namespace PHPoole\Command\ListContent;
 
 use RecursiveTreeIterator;
 

@@ -14,7 +14,7 @@ use PHPoole\Command\AbstractCommand;
 use PHPoole\PHPoole;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
-use PHPoole\Command\FilenameRecursiveTreeIterator;
+use PHPoole\Command\ListContent\FilenameRecursiveTreeIterator;
 
 class ListContent extends AbstractCommand
 {
