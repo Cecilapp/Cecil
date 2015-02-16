@@ -53,7 +53,7 @@ class ListContent extends AbstractCommand
      */
     public function getPagesTree()
     {
-        $pagesPath = $this->_phpoole->getWebsitePath() . '/' . PHPoole::PHPOOLE_DIRNAME . '/' . PHPoole::CONTENT_DIRNAME;
+        $pagesPath = $this->_phpoole->getWebsitePath() . '/' . PHPoole::CONTENT_DIRNAME;
         if (!is_dir($pagesPath)) {
             throw new Exception(sprintf("Invalid %s directory", PHPoole::CONTENT_DIRNAME));
         }
