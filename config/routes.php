@@ -15,7 +15,7 @@ return array(
         'aliases' => array(
             'f' => 'force',
         ),
-        'short_description' => 'Build a new PHPoole website',
+        'short_description' => 'Create a new PHPoole website',
         'description' => 'Build a new PHPoole website in <path> if provided',
         'options_descriptions' => array(
             '<path>'  => 'Website path',
@@ -27,23 +27,23 @@ return array(
         'handler' => 'PHPoole\Command\Init',
     ),
     array(
-        'name' => 'generate',
+        'name' => 'build',
         'route' => '[<path>] [--serve|-s] [--watch|-w]',
         'aliases' => array(
             's' => 'serve',
             'w' => 'watch',
         ),
-        'short_description' => 'Generate static files',
-        'description' => 'Generate static files',
+        'short_description' => 'Build website',
+        'description' => 'Build website',
         'options_descriptions' => array(
             '<path>'  => 'Website path',
-            '--serve|s' => 'Generate and serve',
+            '--serve|s' => 'Build and serve',
             '--watch|w' => 'Watching files changes',
         ),
         'defaults' => array(
             'path' => getcwd(),
         ),
-        'handler' => 'PHPoole\Command\Generate',
+        'handler' => 'PHPoole\Command\Build',
     ),
     array(
         'name' => 'serve',

@@ -56,7 +56,7 @@ abstract class AbstractCommand
         }
         $this->_path = str_replace(DIRECTORY_SEPARATOR, '/', $this->_path);
 
-        // Instanciate PHPoole
+        // Instantiate PHPoole library
         try {
             $this->_phpoole = new PHPoole($this->_path);
         } catch (\Exception $e) {
@@ -69,31 +69,70 @@ abstract class AbstractCommand
 
     /**
      * Process the command
-     *
-     * @return integer
      */
     abstract public function processCommand();
 
+    /**
+     * @return Console
+     */
+    public function getConsole()
+    {
+        return $this->_console;
+    }
+
+    /**
+     * @return Route
+     */
+    public function getRoute()
+    {
+        return $this->_route;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->_path;
+    }
+
+    /**
+     * @return PHPoole
+     */
+    public function getPhpoole()
+    {
+        return $this->_phpoole;
+    }
+
+    /**
+     * @param $text
+     */
     public function wlAnnonce($text)
     {
         $this->_console->writeLine($text, Color::WHITE);
     }
+
+    /**
+     * @param $text
+     */
     public function wlDone($text)
     {
-        //$this->_console->write(' DONE ', Color::WHITE, Color::GREEN);
-        //$this->_console->write(' ');
         $this->_console->writeLine($text, Color::GREEN);
     }
+
+    /**
+     * @param $text
+     */
     public function wlAlert($text)
     {
-        //$this->_console->write(' ALER ', Color::WHITE, Color::YELLOW);
-        //$this->_console->write(' ');
         $this->_console->writeLine($text, Color::YELLOW);
     }
+
+    /**
+     * @param $text
+     */
     public function wlError($text)
     {
-        //$this->_console->write(' ERRO ', Color::WHITE, Color::RED);
-        //$this->_console->write(' ');
         $this->_console->writeLine($text, Color::RED);
     }
 }

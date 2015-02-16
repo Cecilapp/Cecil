@@ -57,8 +57,7 @@ class PHPoole
         $splFileInfo = new \SplFileInfo($websitePath);
         if (!$splFileInfo->isDir()) {
             throw new Exception('Invalid directory provided');
-        }
-        else {
+        } else {
             $this->_websiteFileInfo = $splFileInfo;
             $this->_websitePath = $splFileInfo->getRealPath();
         }
@@ -116,7 +115,6 @@ class PHPoole
                 }
                 return $this->_config[$key];
             }
-            $this->_config;
         }
         return $this->_config;
     }
@@ -290,6 +288,21 @@ class PHPoole
     }
 
     /**
+     * Is a valid PHPoole website
+     *
+     * @return bool
+     */
+    public function isPhpoole()
+    {
+        try {
+            $this->getConfig();
+            return $this;
+        } catch (\Exception $e) {
+            throw new Exception('The website is not yet initialized');
+        }
+    }
+
+    /**
      * Load pages files from content/pages
      *
      * @return $this
@@ -399,12 +412,12 @@ class PHPoole
     }
 
     /**
-     * Generate static files
+     * Build website
      *
      * @return array
      * @throws Exception
      */
-    public function generate()
+    public function build()
     {
         // loading templates (layoyts) engine (Twig)
         //if (isset($this->getConfig()['site']['layouts'])) {
@@ -432,12 +445,12 @@ class PHPoole
                 'page' => array_merge($page, $pageExtra),
             );
             // rendering
-            if ($this->isLocalServe()) {
+            if ($this->isLocalServe()) { // move logic in router?
                 $rendered = $tplEngine->render('watch.html', array_merge($tplVariables, array('layout_master' => $page['layout'])));
             } else {
                 $rendered = $tplEngine->render($page['layout'], $tplVariables);
             }
-            $this->debug(print_r($rendered, true));
+            //$this->debug(print_r($rendered, true));
             // dir writing
             if (!is_dir($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . $page['path'])) {
                 if (!@mkdir($this->getWebsitePath() . '/' . PHPoole::SITE_SRV_DIRNAME . '/' . $page['path'], 0777, true)) {

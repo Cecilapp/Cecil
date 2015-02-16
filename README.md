@@ -19,8 +19,8 @@ Quick Start
 ### 2. Initialize a new website
     $ php phpoole.phar init
 
-### 3. Generate the static website
-    $ php phpoole.phar generate
+### 3. Build the website
+    $ php phpoole.phar build
 
 ### 4. Serve the local website
     $ php phpoole.phar serve
@@ -43,7 +43,7 @@ Usage
 
 ### Initialize
 
-Once PHPoole is downloaded, run the following command to build all files you need (in the curent or target folder).
+Once PHPoole is downloaded, run the following command to build all files you need (in the current or target folder).
 
     $ php phpoole.phar init [folder]
 
@@ -54,18 +54,13 @@ Note: You can force initialization of an already initialized folder.
 After ```init```, here's how the folder looks like:
 
     [folder]
-    +-- _phpoole
-        +-- assets
-        |   +-- css
-        |   +-- img
-        |   +-- js
-        +-- config.ini
-        +-- content
-        |   +-- pages
-        |   |   +-- *.md
-        +-- layouts
-        |   +-- *.html
-        +-- router.php
+    +-- content
+    |   +-- *.md
+    +-- layouts
+    |   +-- *.html
+    +-- static
+    +-- config.ini
+    +-- router.php
 
 #### _config.ini_
 
@@ -91,32 +86,28 @@ Website configuration file:
 
 Layouts folder: PHPoole use [Twig](http://twig.sensiolabs.org) layouts (```default.html``` by default) to generate static HTML files.
 
-#### _assets_
-
-Assets folder: CSS, Javascript, images, fonts, etc.
-
 #### _content_
 
 Content folder: Where you can put your content (pages in [Markdown](http://daringfireball.net/projects/markdown/) format).
 
+#### _static_
 
-### Generate
+Static files.
 
-Run the following command to generate your static website.
 
-    $ php phpoole.phar generate [folder]
+### Build
 
-After ```generate```, here's how the folder looks like:
+Run the following command to build the website.
+
+    $ php phpoole.phar build [folder]
+
+After ```build```, here's how the folder looks like:
 
     [folder]
-    +-- _phpoole
-    |   +-- [...]
-    +-- assets
-    |   +-- css
-    |   +-- img
-    |   +-- js
-    +-- *.html
-    +-- README.md
+    +-- [...]
+    +-- site
+        +-- *.html
+        +-- README.md
 
 
 ### Serve
@@ -127,5 +118,5 @@ Run the following command to launch the built-in server to test your website bef
 
 Then browse [http://localhost:8000](http://localhost:8000).
 
-If you want to generate then serve:
-```$ php phpoole.phar generate [folder] --serve```
+If you want to build then serve:
+```$ php phpoole.phar build [folder] --serve```

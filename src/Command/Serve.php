@@ -27,9 +27,9 @@ class Serve extends AbstractCommand
 
     public function processCommand()
     {
-        $this->_watch = $this->_route->getMatchedParam('watch', false);
+        $this->_watch = $this->getRoute()->getMatchedParam('watch', false);
 
-        if (!is_file(sprintf('%s/router.php', $this->_path))) {
+        if (!is_file(sprintf('%s/router.php', $this->getPath()))) {
             $this->wlError('Router not found');
             exit(2);
         }
@@ -38,8 +38,8 @@ class Serve extends AbstractCommand
             'php -S %s:%d -t %s %s',
             'localhost',
             '8000',
-            $this->_path . '/' . PHPoole::SITE_SRV_DIRNAME,
-            sprintf('%s/router.php', $this->_path)
+            $this->getPath() . '/' . PHPoole::SITE_SRV_DIRNAME,
+            sprintf('%s/router.php', $this->getPath())
         );
         $process = new Process($command);
         if (!$process->isStarted()) {
@@ -49,25 +49,25 @@ class Serve extends AbstractCommand
                     ->name('*.md')
                     ->name('*.html')
                     ->in(array(
-                        $this->_path . '/' . PHPoole::CONTENT_DIRNAME,
-                        $this->_path . '/' . PHPoole::LAYOUTS_DIRNAME,
+                        $this->getPath() . '/' . PHPoole::CONTENT_DIRNAME,
+                        $this->getPath() . '/' . PHPoole::LAYOUTS_DIRNAME,
                     ));
-                $rc = new ResourceCacheFile($this->_path . '/.cache.php');
+                $rc = new ResourceCacheFile($this->getPath() . '/.cache.php');
                 $rw = new ResourceWatcher($rc);
                 $rw->setFinder($finder);
-                Util::writeFile($this->_path . '/.watch', '');
+                Util::writeFile($this->getPath() . '/.watch', '');
             }
             $process->start();
             while ($process->isRunning()) {
                 if ($this->_watch) {
                     $rw->findChanges();
                     if ($rw->hasChanges()) {
-                        Util::writeFile($this->_path . '/.changes', 'true');
+                        Util::writeFile($this->getPath() . '/.changes', 'true');
                         $this->wlDone('write "changes" flag file');
                         // re-generate
-                        $this->wlAlert('Changes detected: re-generate');
-                        $callable = new Generate;
-                        call_user_func($callable, $this->_route, $this->_console);
+                        $this->wlAlert('Changes detected: re-build');
+                        $callable = new Build;
+                        call_user_func($callable, $this->getRoute(), $this->getConsole());
                     }
                 }
                 usleep(1000000); // 1 s

@@ -23,7 +23,7 @@ class ListContent extends AbstractCommand
         try {
             $this->wlAnnonce('Content list:');
             $pages = $this->getPagesTree();
-            if ($this->_console->isUtf8()) {
+            if ($this->getConsole()->isUtf8()) {
                 $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
                     $prefixParts = [
                         RecursiveTreeIterator::PREFIX_LEFT         => ' ',
@@ -38,7 +38,7 @@ class ListContent extends AbstractCommand
                 $unicodeTreePrefix($pages);
             }
             foreach($pages as $page) {
-                $this->_console->writeLine($page);
+                $this->getConsole()->writeLine($page);
             }
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
@@ -53,9 +53,9 @@ class ListContent extends AbstractCommand
      */
     public function getPagesTree()
     {
-        $pagesPath = $this->_phpoole->getWebsitePath() . '/' . PHPoole::CONTENT_DIRNAME;
+        $pagesPath = $this->getPhpoole()->getWebsitePath() . '/' . PHPoole::CONTENT_DIRNAME;
         if (!is_dir($pagesPath)) {
-            throw new Exception(sprintf("Invalid %s directory", PHPoole::CONTENT_DIRNAME));
+            throw new \Exception(sprintf("Invalid %s directory", PHPoole::CONTENT_DIRNAME));
         }
         $dirIterator = new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS);
         $pages = new FilenameRecursiveTreeIterator(
