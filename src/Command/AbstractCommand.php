@@ -17,6 +17,7 @@ use PHPoole\PHPoole;
 
 abstract class AbstractCommand
 {
+
     /**
      * @var Console
      */

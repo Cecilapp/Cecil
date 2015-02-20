@@ -30,7 +30,8 @@
     "twig/twig": "1.*",
     "cocur/slugify": "1.*",
     "symfony/process": "2.*",
-    "yosymfony/resource-watcher": "1.*"
+    "yosymfony/resource-watcher": "1.*",
+    "sabre/event": "2.*"
   },
   "require-dev": {
     "kherge/box": "~2.4"
