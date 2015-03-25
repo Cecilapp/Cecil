@@ -1,3 +1,5 @@
+*_Branch 1.5.0-dev_*
+
 **PHPoole** is a light and easy static website generator written in PHP.
 It takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
 
@@ -14,7 +16,7 @@ Quick Start
 -----------
 
 ### 1. Get PHPoole
-    $ curl -SO http://phpoole.narno.org/downloads/v2/phpoole.phar
+    $ curl -SO http://phpoole.narno.org/downloads/phpoole.phar
 
 ### 2. Initialize a new website
     $ php phpoole.phar init
@@ -30,7 +32,7 @@ Quick Start
 Requirements
 ------------
 
-Please see the [composer.json](https://github.com/Narno/PHPoole/blob/2.0.0-dev/composer.json) file.
+Please see the [composer.json](https://github.com/Narno/PHPoole/blob/1.5.0-dev/composer.json) file.
 
 
 Usage
@@ -38,7 +40,7 @@ Usage
 
 ### Get PHPoole
     
-    $ curl -SO http://phpoole.narno.org/downloads/v2/phpoole.phar
+    $ curl -SO http://phpoole.narno.org/downloads/phpoole.phar
 
 
 ### Initialize
