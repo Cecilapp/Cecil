@@ -1,4 +1,4 @@
-*_Branch 1.5.0-dev_*
+*_Branch 1.5.0-dev_: Decoupled code, uses [ZF\Console](https://github.com/zfcampus/zf-console)*
 
 **PHPoole** is a light and easy static website generator written in PHP.
 It takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
