@@ -1,6 +1,10 @@
 PHPoole is a light and easy static website generator written in PHP.
 It takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
 
+Branches:
+* [1.5.0-dev](https://github.com/Narno/PHPoole/tree/1.5.0-dev): Decoupled code, uses [ZF\Console](https://github.com/zfcampus/zf-console)
+* 2.0.0-dev: Based on the [new library](https://github.com/Narno/PHPoole-library), _WIP_
+
 **Q/A:**
 
 * Why the name _PHPoole_? It is [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole) (in reference to [Jekyll Ruby](http://jekyllrb.com))
