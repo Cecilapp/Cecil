@@ -3,7 +3,7 @@ It takes your content (written in [Markdown](http://daringfireball.net/projects/
 
 Branches:
 * [1.5.0-dev](https://github.com/Narno/PHPoole/tree/1.5.0-dev): Decoupled code, uses [ZF\Console](https://github.com/zfcampus/zf-console)
-* 2.0.0-dev: Based on the [new library](https://github.com/Narno/PHPoole-library), _WIP_
+* [2.0.0-dev](https://github.com/Narno/PHPoole/tree/2.0.0-dev): Based on the [new library](https://github.com/Narno/PHPoole-library), _WIP_
 
 **Q/A:**
 
