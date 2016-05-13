@@ -30,6 +30,7 @@
     "yosymfony/resource-watcher": "1.1.0"
   },
   "require-dev": {
+    "phpunit/phpunit": "4.8.*",
     "kherge/box": "2.7.2"
   },
   "config": {
