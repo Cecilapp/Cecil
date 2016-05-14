@@ -10,16 +10,16 @@
 
 return [
     [
-        'name' => 'build',
-        'route' => '[<path>] [--serve|-s] [--watch|-w]',
+        'name'    => 'build',
+        'route'   => '[<path>] [--serve|-s] [--watch|-w]',
         'aliases' => [
             's' => 'serve',
             'w' => 'watch',
         ],
-        'short_description' => 'Build website',
-        'description' => 'Build website',
+        'short_description'    => 'Build website',
+        'description'          => 'Build website',
         'options_descriptions' => [
-            '<path>'  => 'Website path',
+            '<path>'     => 'Website path',
             '--serve|-s' => 'Build and serve',
             '--watch|-w' => 'Watching files changes',
         ],
@@ -29,15 +29,15 @@ return [
         'handler' => 'PHPoole\Command\Build',
     ],
     [
-        'name' => 'serve',
-        'route' => '[<path>] [--watch|-w]',
+        'name'    => 'serve',
+        'route'   => '[<path>] [--watch|-w]',
         'aliases' => [
             'w' => 'watch',
         ],
-        'short_description' => 'Start built-in web server',
-        'description' => 'Start built-in web server',
+        'short_description'    => 'Start built-in web server',
+        'description'          => 'Start built-in web server',
         'options_descriptions' => [
-            '<path>'  => 'Website path',
+            '<path>'     => 'Website path',
             '--watch|-w' => 'Watching files changes',
         ],
         'defaults' => [
@@ -46,10 +46,10 @@ return [
         'handler' => 'PHPoole\Command\Serve',
     ],
     [
-        'name' => 'list',
-        'route' => '[<path>]',
-        'short_description' => 'Lists content',
-        'description' => 'Lists content',
+        'name'                 => 'list',
+        'route'                => '[<path>]',
+        'short_description'    => 'Lists content',
+        'description'          => 'Lists content',
         'options_descriptions' => [
             '<path>'  => 'Website path',
         ],
