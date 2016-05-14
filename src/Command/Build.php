@@ -10,9 +10,6 @@
 
 namespace PHPoole\Command;
 
-use PHPoole\Command\AbstractCommand;
-use PHPoole\Command\Serve;
-
 class Build extends AbstractCommand
 {
     /**
@@ -39,7 +36,7 @@ class Build extends AbstractCommand
         }
         if ($this->_serve) {
             $this->wlAlert('You should re-build before deploy');
-            $callable = new Serve;
+            $callable = new Serve();
             call_user_func($callable, $this->getRoute(), $this->getConsole());
         }
     }

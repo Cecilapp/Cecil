@@ -10,14 +10,12 @@
 
 namespace PHPoole\Command;
 
-use PHPoole\Command\AbstractCommand;
 use PHPoole\PHPoole;
 use PHPoole\Utils\Filesystem;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Finder\Finder;
-use Yosymfony\ResourceWatcher\ResourceWatcher;
+use Symfony\Component\Process\Process;
 use Yosymfony\ResourceWatcher\ResourceCacheFile;
+use Yosymfony\ResourceWatcher\ResourceWatcher;
 
 class Serve extends AbstractCommand
 {
@@ -34,7 +32,7 @@ class Serve extends AbstractCommand
             $this->wlError('Router not found');
             exit(2);
         }
-        $this->wlAnnonce(sprintf("Start server http://%s:%d", 'localhost', '8000'));
+        $this->wlAnnonce(sprintf('Start server http://%s:%d', 'localhost', '8000'));
         $command = sprintf(
             'php -S %s:%d -t %s %s',
             'localhost',
@@ -50,11 +48,11 @@ class Serve extends AbstractCommand
                 $finder->files()
                     ->name('*.md')
                     ->name('*.html')
-                    ->in(array(
+                    ->in([
                         $this->getPath().'/'.$this->getPhpoole()->getOption('content.dir'),
                         $this->getPath().'/'.$this->getPhpoole()->getOption('layouts.dir'),
                         $this->getPath().'/'.$this->getPhpoole()->getOption('themes.dir'),
-                    ));
+                    ]);
                 $rc = new ResourceCacheFile($this->getPath().'/.cache.php');
                 $rw = new ResourceWatcher($rc);
                 $rw->setFinder($finder);
@@ -71,7 +69,7 @@ class Serve extends AbstractCommand
                         $this->wlDone('write "changes" flag file');
                         // re-generate
                         $this->wlAlert('Changes detected: re-build');
-                        $callable = new Build;
+                        $callable = new Build();
                         call_user_func($callable, $this->getRoute(), $this->getConsole());
                     }
                 }

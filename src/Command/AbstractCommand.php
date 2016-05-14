@@ -10,11 +10,11 @@
 
 namespace PHPoole\Command;
 
+use PHPoole\PHPoole;
 use Symfony\Component\Yaml\Yaml;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\Console\ColorInterface as Color;
 use ZF\Console\Route;
-use PHPoole\PHPoole;
 
 abstract class AbstractCommand
 {
@@ -39,15 +39,16 @@ abstract class AbstractCommand
     protected $phpoole;
 
     /**
-     * Start command processing
+     * Start command processing.
      *
      * @param Route   $route
      * @param Console $console
+     *
      * @return mixed
      */
     public function __invoke(Route $route, Console $console)
     {
-        $this->route   = $route;
+        $this->route = $route;
         $this->console = $console;
 
         $this->path = realpath($this->route->getMatchedParam('path', getcwd()));
@@ -76,7 +77,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * Process the command
+     * Process the command.
      */
     abstract public function processCommand();
 
