@@ -1,1 +1,1 @@
-PHPoole 2.0.0-dev : WIP
+PHPoole 2.0.0-dev - WIP

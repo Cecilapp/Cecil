@@ -24,10 +24,11 @@
   "require": {
     "php": ">=5.5",
     "narno/phpoole-library": "dev-develop as 1.1.x-dev",
-    "symfony/yaml": "2.8.5",
-    "zfcampus/zf-console": "1.2.0",
+    "symfony/filesystem": "2.8.6",
     "symfony/process": "2.8.5",
-    "yosymfony/resource-watcher": "1.1.0"
+    "symfony/yaml": "2.8.5",
+    "yosymfony/resource-watcher": "1.1.0",
+    "zfcampus/zf-console": "1.2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "4.8.*",
@@ -41,8 +42,7 @@
   ],
   "autoload": {
     "psr-4" : {
-      "PHPoole\\Command\\": "src/Command",
-      "PHPoole\\Utils\\": "src/Utils"
+      "PHPoole\\Command\\": "src/Command"
     }
   }
 }
