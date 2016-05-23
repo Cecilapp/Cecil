@@ -112,6 +112,7 @@ abstract class AbstractCommand
                 exit(2);
             }
         }
+
         return $this->phpoole;
     }
 
