@@ -12,7 +12,10 @@ namespace PHPoole\Command;
 
 use PHPoole\PHPoole;
 use PHPoole\Utils\Filesystem;
+use Symfony\Component\Filesystem\Filesystem as FS;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Yosymfony\ResourceWatcher\ResourceCacheFile;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
@@ -28,18 +31,27 @@ class Serve extends AbstractCommand
     {
         $this->watch = $this->getRoute()->getMatchedParam('watch', false);
 
-        if (!is_file(sprintf('%s/router.php', $this->getPath()))) {
+        try {
+            $fs = new FS();
+            $fs->copy(__DIR__ . '/../../skeleton/.router.php', $this->getPath().'/.router.php', true);
+            $fs->copy(__DIR__ . '/../../skeleton/.watch.js', $this->getPath().'/.watch.js');
+            $fs->dumpFile($this->getPath().'/.baseurl', $this->getPHPoole()->getOption('site.baseurl'));
+        } catch (IOExceptionInterface $e) {
+            echo "An error occurred while copying file at ".$e->getPath();
+            exit(2);
+        }
+        if (!is_file(sprintf('%s/.router.php', $this->getPath()))) {
             $this->wlError('Router not found');
             exit(2);
         }
-        $this->wlAnnonce(sprintf('Start server http://%s:%d', 'localhost', '8000'));
         $command = sprintf(
             'php -S %s:%d -t %s %s',
             'localhost',
             '8000',
-            $this->getPath().'/'.$this->getPhpoole()->getOption('output.dir'),
-            sprintf('%s/router.php', $this->getPath())
+            $this->getPath().'/'.$this->getPHPoole()->getOption('output.dir'),
+            sprintf('%s/.router.php', $this->getPath())
         );
+        $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', 'localhost', '8000'));
         $process = new Process($command);
         if (!$process->isStarted()) {
             // write changes cache
@@ -49,31 +61,41 @@ class Serve extends AbstractCommand
                     ->name('*.md')
                     ->name('*.html')
                     ->in([
-                        $this->getPath().'/'.$this->getPhpoole()->getOption('content.dir'),
-                        $this->getPath().'/'.$this->getPhpoole()->getOption('layouts.dir'),
-                        $this->getPath().'/'.$this->getPhpoole()->getOption('themes.dir'),
+                        $this->getPath().'/'.$this->getPHPoole()->getOption('content.dir'),
+                        $this->getPath().'/'.$this->getPHPoole()->getOption('layouts.dir'),
+                        $this->getPath().'/'.$this->getPHPoole()->getOption('themes.dir'),
                     ]);
                 $rc = new ResourceCacheFile($this->getPath().'/.cache.php');
                 $rw = new ResourceWatcher($rc);
                 $rw->setFinder($finder);
-                Filesystem::writeFile($this->getPath().'/.watch', '');
+                $fs->dumpFile($this->getPath().'/.watch', '');
             }
             // start server
-            $process->start();
-            while ($process->isRunning()) {
-                // watch changes?
-                if ($this->watch) {
-                    $rw->findChanges();
-                    if ($rw->hasChanges()) {
-                        Filesystem::writeFile($this->getPath().'/.changes', 'true');
-                        $this->wlDone('write "changes" flag file');
-                        // re-generate
-                        $this->wlAlert('Changes detected: re-build');
-                        $callable = new Build();
-                        call_user_func($callable, $this->getRoute(), $this->getConsole());
+            try {
+                $process->start();
+                while ($process->isRunning()) {
+                    // watch changes?
+                    if ($this->watch) {
+                        $rw->findChanges();
+                        if ($rw->hasChanges()) {
+                            $fs->dumpFile($this->getPath().'/.changes', '');
+                            $this->wlDone('write "changes" flag file');
+                            // re-generate
+                            $this->wlAlert('Changes detected: re-build');
+                            $callable = new Build();
+                            call_user_func($callable, $this->getRoute(), $this->getConsole());
+                        }
                     }
+                    usleep(1000000); // 1 s
                 }
-                usleep(1000000); // 1 s
+            } catch (ProcessFailedException $e) {
+                $fs->remove([
+                    $this->getPath().'/.router.php',
+                    $this->getPath().'/.watch.js',
+                    $this->getPath().'/.baseurl',
+                ]);
+                echo $e->getMessage();
+                exit(2);
             }
         }
     }

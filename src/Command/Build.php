@@ -21,21 +21,13 @@ class Build extends AbstractCommand
     {
         $this->_serve = $this->route->getMatchedParam('serve', false);
 
-        $this->wlAnnonce('Building website:');
+        $this->wlAnnonce('Building website...');
         try {
-            $this->getPhpoole()
-                ->build();
-            /*
-            $messages = $this->getPhpoole()->getMessages();
-            foreach ($messages as $message) {
-                $this->wlDone($message);
-            }
-            */
+            $this->getPHPoole()->build();
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
         }
         if ($this->_serve) {
-            $this->wlAlert('You should re-build before deploy');
             $callable = new Serve();
             call_user_func($callable, $this->getRoute(), $this->getConsole());
         }

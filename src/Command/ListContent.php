@@ -53,7 +53,7 @@ class ListContent extends AbstractCommand
      */
     public function getPagesTree()
     {
-        $pagesPath = $this->path.'/'.$this->getPhpoole()->getOption('content.dir');
+        $pagesPath = $this->path.'/'.$this->getPHPoole()->getOption('content.dir');
         if (!is_dir($pagesPath)) {
             throw new \Exception(sprintf('Invalid %s directory', 'content'));
         }

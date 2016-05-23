@@ -18,6 +18,8 @@ use ZF\Console\Route;
 
 abstract class AbstractCommand
 {
+    const CONFIG_FILE = 'phpoole.yml';
+
     /**
      * @var Console
      */
@@ -57,21 +59,6 @@ abstract class AbstractCommand
             exit(2);
         }
         $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->path);
-        if (!file_exists($this->path.'/phpoole.yml')) {
-            $this->wlError('Config file (phpoole.yml) not found!');
-            exit(2);
-        }
-
-        // Instantiate PHPoole library
-        try {
-            $options = Yaml::parse(file_get_contents($this->path.'/phpoole.yml'));
-            $this->phpoole = new PHPoole($options);
-            $this->phpoole->setSourceDir($this->path);
-            $this->phpoole->setDestDir($this->path);
-        } catch (\Exception $e) {
-            $this->wlError($e->getMessage());
-            exit(2);
-        }
 
         return $this->processCommand();
     }
@@ -108,8 +95,23 @@ abstract class AbstractCommand
     /**
      * @return PHPoole
      */
-    public function getPhpoole()
+    public function getPHPoole()
     {
+        if (!$this->phpoole instanceof PHPoole) {
+            if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
+                $this->wlError('Config file (phpoole.yml) not found!');
+                exit(2);
+            }
+            try {
+                $options = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
+                $this->phpoole = new PHPoole($options);
+                $this->phpoole->setSourceDir($this->getPath());
+                $this->phpoole->setDestDir($this->getPath());
+            } catch (\Exception $e) {
+                $this->wlError($e->getMessage());
+                exit(2);
+            }
+        }
         return $this->phpoole;
     }
 
