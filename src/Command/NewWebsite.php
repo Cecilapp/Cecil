@@ -44,7 +44,7 @@ class NewWebsite extends AbstractCommand
 
                 $this->wlDone('Done!');
             } else {
-                $this->wlAlert(sprintf('File "%s" already exists.', $this->getPath().'/'.self::CONFIG_FILE)) ;
+                $this->wlAlert(sprintf('File "%s" already exists.', $this->getPath().'/'.self::CONFIG_FILE));
             }
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
