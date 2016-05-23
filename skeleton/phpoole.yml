@@ -1,6 +1,6 @@
 site:
-  title: Demo blog
-  baseline: This is a demo blog
-  baseurl: http://narno.net/
+  title: PHPoole
+  baseline: PHPoole is a light and easy static website generator!
+  baseurl: http://phpoole.org/
   description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-theme: hyde
+  language: en

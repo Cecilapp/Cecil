@@ -1,5 +1,5 @@
 <?php
-
+// PHP built-in server router
 date_default_timezone_set('UTC');
 define('DIRECTORY_INDEX', 'index.html');
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -26,10 +26,10 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'].$path)) {
     if ($ext == 'html') {
         $html = file_get_contents($_SERVER['DOCUMENT_ROOT'].$path);
         // includes "live relaod" script in HTML files
-        $script = file_get_contents(__DIR__.'/watch.js');
+        $script = file_get_contents(__DIR__ . '/.watch.js');
         $html = str_replace('</body>', $script."\n".'</body>', $html);
         // replaces base url by localhost
-        $html = str_replace('http://narno.net/', 'http://localhost:8000/', $html);
+        $html = str_replace(trim(file_get_contents(__DIR__.'/.baseurl')), 'http://localhost:8000/', $html);
         echo $html;
 
         return true;

@@ -10,6 +10,23 @@
 
 return [
     [
+        'name'    => 'new',
+        'route'   => '[<path>] [--force|-f]',
+        'aliases' => [
+            'f' => 'force',
+        ],
+        'short_description'    => 'Create a new website',
+        'description'          => 'Create a new website in <path> if provided',
+        'options_descriptions' => [
+            '<path>'     => 'Website path',
+            '--force|-f' => 'Override if already exist',
+        ],
+        'defaults' => [
+            'path' => getcwd(),
+        ],
+        'handler' => 'PHPoole\Command\NewWebsite',
+    ],
+    [
         'name'    => 'build',
         'route'   => '[<path>] [--serve|-s] [--watch|-w]',
         'aliases' => [
