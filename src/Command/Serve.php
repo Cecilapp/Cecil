@@ -11,9 +11,8 @@
 namespace PHPoole\Command;
 
 use PHPoole\PHPoole;
-use PHPoole\Utils\Filesystem;
-use Symfony\Component\Filesystem\Filesystem as FS;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem as FS;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -33,11 +32,11 @@ class Serve extends AbstractCommand
 
         try {
             $fs = new FS();
-            $fs->copy(__DIR__ . '/../../skeleton/.router.php', $this->getPath().'/.router.php', true);
-            $fs->copy(__DIR__ . '/../../skeleton/.watch.js', $this->getPath().'/.watch.js');
+            $fs->copy(__DIR__.'/../../skeleton/.router.php', $this->getPath().'/.router.php', true);
+            $fs->copy(__DIR__.'/../../skeleton/.watch.js', $this->getPath().'/.watch.js');
             $fs->dumpFile($this->getPath().'/.baseurl', $this->getPHPoole()->getOption('site.baseurl'));
         } catch (IOExceptionInterface $e) {
-            echo "An error occurred while copying file at ".$e->getPath();
+            echo 'An error occurred while copying file at '.$e->getPath();
             exit(2);
         }
         if (!is_file(sprintf('%s/.router.php', $this->getPath()))) {
