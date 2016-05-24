@@ -97,6 +97,30 @@ abstract class AbstractCommand
      */
     public function getPHPoole()
     {
+        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = true) {
+            switch ($code) {
+                case 'CREATE':
+                case 'CONVERT':
+                case 'GENERATE':
+                case 'RENDER':
+                case 'COPY':
+                    $this->wlAnnonce($message);
+                    break;
+                case 'CREATE_PROGRESS':
+                case 'CONVERT_PROGRESS':
+                case 'GENERATE_PROGRESS':
+                case 'RENDER_PROGRESS':
+                case 'COPY_PROGRESS':
+                    if ($itemsCount > 0 && $verbose !== false) {
+                        $length = (int) (($itemsCount / $itemsMax) * 100);
+                        $this->wlDone(sprintf("\r  %d%% (%u/%u) %s", $length, $itemsCount, $itemsMax, $message));
+                    } else {
+                        $this->wlDone($message);
+                    }
+                    break;
+            }
+        };
+
         if (!$this->phpoole instanceof PHPoole) {
             if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
                 $this->wlError('Config file (phpoole.yml) not found!');
@@ -104,7 +128,7 @@ abstract class AbstractCommand
             }
             try {
                 $options = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
-                $this->phpoole = new PHPoole($options);
+                $this->phpoole = new PHPoole($options, $messageCallback);
                 $this->phpoole->setSourceDir($this->getPath());
                 $this->phpoole->setDestDir($this->getPath());
             } catch (\Exception $e) {
