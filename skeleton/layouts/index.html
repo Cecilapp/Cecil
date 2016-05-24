@@ -5,60 +5,19 @@
     <title>{{ site.title}} - {{ page.title }}</title>
     <meta name="description" content="{{ site.description }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style type="text/css">
-        html, body {
-            font: sans-serif;
-            background-color: #fcfcfc;
-            color: #444;
-        }
-        #main {
-            width: 760px;
-            margin: 50px auto;
-        }
-        h1 {
-            font-weight: 300;
-            font-size: 56px;
-        }
-        h2 {
-            font-weight: 200;
-            font-size: 42px;
-        }
-        #footer {
-            font-size: 14px;
-        }
-        a, a:visited {
-            color: #d23;
-            text-decoration: none;
-            border-bottom: 1px dotted #fcc;
-        }
-        a:hover {
-            color: #f78;
-        }
-        @media (max-width: 800px) {
-            #main {
-                width: 100%;
-            }
-            p {
-                padding: 0 0 0 15px;
-                min-width: 250px;
-            }
-        }
-        @media (max-width: 480px) {
-            #main {
-                margin-top: 20px;
-            }
-            h1, h2 {
-                text-align: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/siimple.min.css">
 </head>
 <body>
-<div id="main">
-    <h1><a href="{{ site.baseurl}}">{{ site.title }}</a></h1>
-    <h2>{{ site.baseline }}</h2>
-    <p>{{ page.content }}</p>
-    <div id="footer"><a href="{{ phpoole.url }}">{{ phpoole.poweredby }}</a></div>
+<div id="main" class="grid grid-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1><a href="{{ site.baseurl}}">{{ site.title }}</a></h1>
+            <h3>{{ site.baseline }}</h3>
+            <p>{{ page.content }}</p>
+            <div id="footer"><a href="{{ phpoole.url }}">{{ phpoole.poweredby }}</a></div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
