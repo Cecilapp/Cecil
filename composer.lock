@@ -369,12 +369,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Narno/PHPoole-library.git",
-                "reference": "98f33b37122db398845bf5eb7cf30a015a74b738"
+                "reference": "44cce075c46ed33a531cc07ea4217ec80d113523"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Narno/PHPoole-library/zipball/98f33b37122db398845bf5eb7cf30a015a74b738",
-                "reference": "98f33b37122db398845bf5eb7cf30a015a74b738",
+                "url": "https://api.github.com/repos/Narno/PHPoole-library/zipball/44cce075c46ed33a531cc07ea4217ec80d113523",
+                "reference": "44cce075c46ed33a531cc07ea4217ec80d113523",
                 "shasum": ""
             },
             "require": {
@@ -423,7 +423,7 @@
                 "static",
                 "website"
             ],
-            "time": "2016-05-13 10:54:25"
+            "time": "2016-05-24 10:33:16"
         },
         {
             "name": "symfony/filesystem",
