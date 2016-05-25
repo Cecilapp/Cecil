@@ -10,7 +10,6 @@
 
 namespace PHPoole\Command;
 
-use PHPoole\PHPoole;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem as FS;
 use Symfony\Component\Finder\Finder;
