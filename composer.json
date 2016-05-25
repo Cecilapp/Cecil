@@ -44,5 +44,10 @@
     "psr-4" : {
       "PHPoole\\Command\\": "src/Command"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PHPoole\\Test\\": "tests/"
+    }
   }
 }
