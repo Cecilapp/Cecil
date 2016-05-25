@@ -11,7 +11,6 @@
 namespace PHPoole\Command;
 
 use PHPoole\Command\ListContent\FilenameRecursiveTreeIterator;
-use PHPoole\PHPoole;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
 
