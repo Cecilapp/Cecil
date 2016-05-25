@@ -112,10 +112,9 @@ abstract class AbstractCommand
                 case 'RENDER_PROGRESS':
                 case 'COPY_PROGRESS':
                     if ($itemsCount > 0 && $verbose !== false) {
-                        $length = (int) (($itemsCount / $itemsMax) * 100);
-                        $this->wlDone(sprintf("\r  %d%% (%u/%u) %s", $length, $itemsCount, $itemsMax, $message));
+                        $this->wlDone(sprintf("\r  (%u/%u) %s", $itemsCount, $itemsMax, $message));
                     } else {
-                        $this->wlDone($message);
+                        $this->wlDone("  $message");
                     }
                     break;
             }
