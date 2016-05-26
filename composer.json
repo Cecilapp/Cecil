@@ -20,15 +20,15 @@
   "require": {
     "php": ">=5.5",
     "narno/phpoole-library": "dev-develop as 1.1.x-dev",
-    "symfony/filesystem": "2.8.6",
-    "symfony/process": "2.8.5",
-    "symfony/yaml": "2.8.5",
-    "yosymfony/resource-watcher": "1.1.0",
-    "zfcampus/zf-console": "1.2.0"
+    "symfony/filesystem": "^2.8",
+    "symfony/process": "^2.8",
+    "symfony/yaml": "^2.8",
+    "yosymfony/resource-watcher": "^1.1",
+    "zfcampus/zf-console": "^1.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.8.*",
-    "kherge/box": "2.7.2"
+    "phpunit/phpunit": "^4.8",
+    "kherge/box": "^2.7"
   },
   "config": {
     "bin-dir": "bin"
