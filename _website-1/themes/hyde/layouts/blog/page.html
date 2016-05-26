@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+{% include 'include/head.html' %}
+
+<body>
+
+{% include 'include/sidebar.html' %}
+
+<div class="content container">
+    <h1 class="page-title">{{ page.title }}</h1>
+    {% if page.date %}
+    <span class="post-date">{{ page.date|date("j M Y") }}</span>
+    {% endif %}
+    {{ page.content }}
+    <p>
+    {% for tag in page.tags %}
+        <a href="{{ url('tags/' ~ tag) }}">#{{ tag }}</a>&nbsp;
+    {% endfor %}
+    </p>
+</div>
+
+</body>
+</html>

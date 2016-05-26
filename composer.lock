@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b1a7790895b8d10e27783ed88f2bf980",
-    "content-hash": "d926fac3d0e22b32ba0fbb83452f2232",
+    "hash": "471b139a7bfad11cb6d9709937d6ce91",
+    "content-hash": "e30ffb6daf74e9f00a253ee222dbb98b",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -369,34 +369,34 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Narno/PHPoole-library.git",
-                "reference": "44cce075c46ed33a531cc07ea4217ec80d113523"
+                "reference": "54a76d64766ee8d6c8032d506106ed1ba95d3395"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Narno/PHPoole-library/zipball/44cce075c46ed33a531cc07ea4217ec80d113523",
-                "reference": "44cce075c46ed33a531cc07ea4217ec80d113523",
+                "url": "https://api.github.com/repos/Narno/PHPoole-library/zipball/54a76d64766ee8d6c8032d506106ed1ba95d3395",
+                "reference": "54a76d64766ee8d6c8032d506106ed1ba95d3395",
                 "shasum": ""
             },
             "require": {
-                "cocur/slugify": "1.*",
-                "dflydev/dot-access-configuration": "1.0.1",
-                "erusev/parsedown-extra": "0.7.*",
+                "cocur/slugify": "^1.4",
+                "dflydev/dot-access-configuration": "^1.0",
+                "erusev/parsedown-extra": "^0.7",
                 "myclabs/php-enum": "^1.4",
-                "php": ">=5.5",
-                "symfony/filesystem": "2.*",
-                "symfony/finder": "2.*",
-                "symfony/yaml": "2.*",
-                "twig/twig": "1.*",
-                "zendframework/zend-eventmanager": "2.*"
+                "php": "^5.5|^7.0",
+                "symfony/filesystem": "^2.8",
+                "symfony/finder": "^2.7|^2.8",
+                "symfony/yaml": "^2.8",
+                "twig/twig": "^1.24",
+                "zendframework/zend-eventmanager": "^2.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.8.*",
+                "phpunit/phpunit": "^4.8",
                 "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-develop": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -416,14 +416,17 @@
                     "role": "Developer"
                 }
             ],
-            "description": "A PHP library to generate a static website.",
+            "description": "An intuitive PHP library to create a static Website.",
             "homepage": "https://github.com/Narno/PHPoole-library",
             "keywords": [
+                "flat file",
                 "generator",
+                "markdown",
                 "static",
+                "twig",
                 "website"
             ],
-            "time": "2016-05-24 10:33:16"
+            "time": "2016-05-26 15:00:50"
         },
         {
             "name": "symfony/filesystem",
@@ -525,7 +528,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v2.8.5",
+            "version": "v2.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -574,7 +577,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.5",
+            "version": "v2.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
