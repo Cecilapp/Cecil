@@ -3,9 +3,7 @@
   "description": "PHPoole is a light and easy static website generator written in PHP.",
   "version" : "2.0.0-dev",
   "type": "project",
-  "keywords": [
-    "website", "static", "generator"
-  ],
+  "keywords": ["static", "website", "generator", "flat file", "markdown", "twig"],
   "license": "MIT",
   "homepage": "http://phpoole.narno.org",
   "authors": [
@@ -19,8 +17,6 @@
   "support": {
     "issues": "https://github.com/Narno/PHPoole/issues"
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "require": {
     "php": ">=5.5",
     "narno/phpoole-library": "dev-develop as 1.1.x-dev",
@@ -49,5 +45,7 @@
     "psr-4": {
       "PHPoole\\Test\\": "tests/"
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
 }
