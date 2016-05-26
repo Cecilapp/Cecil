@@ -1,6 +1,0 @@
-site:
-  title: Demo blog
-  baseline: This is a demo blog
-  baseurl: http://narno.net/
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-theme: hyde
