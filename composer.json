@@ -1,11 +1,11 @@
 {
   "name": "narno/phpoole",
   "description": "PHPoole is a light and easy static website generator written in PHP.",
-  "version" : "2.0.0-dev",
-  "type": "project",
   "keywords": ["static", "website", "generator", "flat file", "markdown", "twig"],
-  "license": "MIT",
   "homepage": "http://phpoole.narno.org",
+  "license": "MIT",
+  "type": "project",
+  "version" : "2.0.0-dev",
   "authors": [
     {
       "name": "Arnaud Ligny",
