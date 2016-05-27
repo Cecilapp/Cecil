@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "471b139a7bfad11cb6d9709937d6ce91",
-    "content-hash": "e30ffb6daf74e9f00a253ee222dbb98b",
+    "hash": "0700cd385ec6b1df6af3997f378d1090",
+    "content-hash": "6e85dc478adc8b811064c5a8f59953fd",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -365,16 +365,16 @@
         },
         {
             "name": "narno/phpoole-library",
-            "version": "dev-develop",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Narno/PHPoole-library.git",
-                "reference": "54a76d64766ee8d6c8032d506106ed1ba95d3395"
+                "reference": "7cb3737d9f4153e7caf1d7ee7f3bc4594defcd26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Narno/PHPoole-library/zipball/54a76d64766ee8d6c8032d506106ed1ba95d3395",
-                "reference": "54a76d64766ee8d6c8032d506106ed1ba95d3395",
+                "url": "https://api.github.com/repos/Narno/PHPoole-library/zipball/7cb3737d9f4153e7caf1d7ee7f3bc4594defcd26",
+                "reference": "7cb3737d9f4153e7caf1d7ee7f3bc4594defcd26",
                 "shasum": ""
             },
             "require": {
@@ -426,7 +426,7 @@
                 "twig",
                 "website"
             ],
-            "time": "2016-05-26 15:00:50"
+            "time": "2016-05-27 14:20:37"
         },
         {
             "name": "symfony/filesystem",
@@ -2907,14 +2907,7 @@
             "time": "2015-07-04 07:35:09"
         }
     ],
-    "aliases": [
-        {
-            "alias": "1.1.x-dev",
-            "alias_normalized": "1.1.9999999.9999999-dev",
-            "version": "dev-develop",
-            "package": "narno/phpoole-library"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "narno/phpoole-library": 20
