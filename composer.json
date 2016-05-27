@@ -18,7 +18,7 @@
   },
   "require": {
     "php": ">=5.5",
-    "narno/phpoole-library": "dev-develop as 1.1.x-dev",
+    "narno/phpoole-library": "dev-master",
     "symfony/filesystem": "^2.8",
     "symfony/process": "^2.8",
     "symfony/yaml": "^2.8",
