@@ -20,6 +20,12 @@ It takes your content (written in [Markdown](http://daringfireball.net/projects/
 
 Please see the [composer.json](composer.json) file.
 
+## Usage
+
+1. Clone the repository
+2. Run ```php bin/phpoole```
+
+
 ## License
 
 PHPoole is a free software distributed under the terms of the MIT license.
