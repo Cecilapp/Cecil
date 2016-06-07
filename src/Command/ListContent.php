@@ -11,6 +11,7 @@
 namespace PHPoole\Command;
 
 use PHPoole\Command\ListContent\FilenameRecursiveTreeIterator;
+use PHPoole\Command\ListContent\FileExtensionFilter;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
 
@@ -61,6 +62,7 @@ class ListContent extends AbstractCommand
             $dirIterator,
             FilenameRecursiveTreeIterator::SELF_FIRST
         );
+        $pages = new FileExtensionFilter($pages, $this->getPHPoole()->getOption('content.ext'));
 
         return $pages;
     }
