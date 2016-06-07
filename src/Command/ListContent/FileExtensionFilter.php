@@ -17,7 +17,7 @@ class FileExtensionFilter extends FilterIterator
     // whitelist of file extensions
     protected $ext = ['md', 'markdown'];
 
-    public function __construct(\Iterator $iter, $ext='')
+    public function __construct(\Iterator $iter, $ext = '')
     {
         if (!empty($ext)) {
             if (!is_array($ext)) {
