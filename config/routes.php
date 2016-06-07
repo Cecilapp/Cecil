@@ -15,11 +15,11 @@ return [
         'aliases' => [
             'f' => 'force',
         ],
-        'short_description'    => 'Create a new website',
-        'description'          => 'Create a new website in <path> if provided',
+        'short_description'    => 'Creates a new Website',
+        'description'          => 'Creates a new Website in current directory, or in <path> if provided.',
         'options_descriptions' => [
-            '<path>'     => 'Website path',
-            '--force|-f' => 'Override if already exist',
+            '<path>'     => 'Website path.',
+            '--force|-f' => 'Override if already exist.',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -33,11 +33,11 @@ return [
             's' => 'serve',
             'w' => 'watch',
         ],
-        'short_description'    => 'Build website',
-        'description'          => 'Build website',
+        'short_description'    => 'Builds the Website',
+        'description'          => 'Builds the Website.',
         'options_descriptions' => [
             '<path>'     => 'Website path',
-            '--serve|-s' => 'Build and serve',
+            '--serve|-s' => 'Builds and serves',
             '--watch|-w' => 'Watching files changes',
         ],
         'defaults' => [
@@ -51,8 +51,8 @@ return [
         'aliases' => [
             'w' => 'watch',
         ],
-        'short_description'    => 'Start built-in web server',
-        'description'          => 'Start built-in web server',
+        'short_description'    => 'Starts the built-in Web server',
+        'description'          => 'Starts the built-in Web server.',
         'options_descriptions' => [
             '<path>'     => 'Website path',
             '--watch|-w' => 'Watching files changes',
@@ -65,8 +65,8 @@ return [
     [
         'name'                 => 'list',
         'route'                => '[<path>]',
-        'short_description'    => 'Lists content',
-        'description'          => 'Lists content',
+        'short_description'    => 'Lists Website content',
+        'description'          => 'Lists Website content files.',
         'options_descriptions' => [
             '<path>'  => 'Website path',
         ],
