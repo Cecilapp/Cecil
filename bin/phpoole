@@ -22,25 +22,26 @@ use ZF\Console\Application;
 
 // compare PHP version
 if (version_compare(PHP_VERSION, $phpVersion, '<')) {
-    print("PHP $phpVersion is required (your version: ".PHP_VERSION.')'."\n");
+    echo "PHP $phpVersion is required (your version: ".PHP_VERSION.PHP_EOL;
     exit(2);
 }
 
-// autoload from Phar vendor
-if (extension_loaded('phar') && ($uri = Phar::running())) {
-    require_once "$uri/vendor/autoload.php";
-// autoload from local vendor
-} else {
-    if (file_exists(__DIR__.'/../vendor/autoload.php')) {
-        require_once __DIR__.'/../vendor/autoload.php';
-    } else {
-        echo 'Run the following commands:'.PHP_EOL;
-        if (!file_exists(__DIR__.'/../composer.phar')) {
-            echo 'curl -s http://getcomposer.org/installer | php'.PHP_EOL;
-        }
-        echo 'php composer.phar install'.PHP_EOL;
+switch (true) {
+    // Installed standalone
+    case (file_exists(__DIR__.'/../vendor/autoload.php')):
+        require __DIR__.'/../vendor/autoload.php';
+        break;
+    // Installed as a Composer dependency
+    case (file_exists(__DIR__.'/../../../autoload.php')):
+        require __DIR__.'/../../../autoload.php';
+        break;
+    // Installed as a Composer dependency, relative to CWD
+    case (file_exists('vendor/autoload.php')):
+        require 'vendor/autoload.php';
+        break;
+    default:
+        echo 'Unable to locate Composer autoloader. Please run "composer install".'.PHP_EOL;
         exit(2);
-    }
 }
 
 $application = new Application(
@@ -59,9 +60,6 @@ $application->setBanner(function($console) {
 /_/   /_/ /_/_/    \____/\____/_/\___/ 
 ');
     $console->writeLine('Light and easy static website generator!');
-    $console->writeLine('');
-    $console->writeLine('Usage:', \Zend\Console\ColorInterface::GREEN);
-    $console->writeLine(' command [options]');
     $console->writeLine('');
 });
 $application->setDebug(true);
