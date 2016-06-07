@@ -9,22 +9,25 @@
 [![StyleCI](https://styleci.io/repos/12738012/shield)](https://styleci.io/repos/12738012)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269/mini.png)](https://insight.sensiolabs.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269)
 
-PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) powered by a [dedicated library](https://github.com/Narno/PHPoole-library).
+PHPoole takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
 
-It takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
+PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) application, powered by a [dedicated library](https://github.com/Narno/PHPoole-library).
 
-* [Documentation](https://github.com/Narno/PHPoole-library/blob/master/docs/usage.md)
+* [Documentation](https://github.com/Narno/PHPoole-library/blob/master/docs/usage.md) _(WIP)_
 * [Issue tracker](https://github.com/Narno/PHPoole/issues)
 
 ## Requirements
 
 Please see the [composer.json](composer.json) file.
 
-## Usage
+## Installation
 
 1. Clone the repository
-2. Run ```php bin/phpoole```
+2. Run ```composer update```
 
+## Usage
+
+Run ```php bin/phpoole```
 
 ## License
 
