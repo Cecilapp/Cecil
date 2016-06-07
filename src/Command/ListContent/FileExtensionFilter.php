@@ -10,26 +10,30 @@
 
 namespace PHPoole\Command\ListContent;
 
-use FilterIterator;
+use RecursiveFilterIterator;
 
-class FileExtensionFilter extends FilterIterator
+class FileExtensionFilter extends RecursiveFilterIterator
 {
-    // whitelist of file extensions
-    protected $ext = ['md', 'markdown'];
+    protected $allowedExt = ['md', 'markdown'];
 
-    public function __construct(\Iterator $iter, $ext = '')
+    public function __construct($iter, $ext = '')
     {
+        parent::__construct($iter);
         if (!empty($ext)) {
             if (!is_array($ext)) {
                 $ext = [$ext];
             }
-            $this->ext = $ext;
+            $this->allowedExt = $ext;
         }
-        parent::__construct($iter);
     }
 
     public function accept()
     {
-        return !in_array($this->getExtension(), $this->ext);
+        $file = $this->current();
+        if ($file->isFile()) {
+            return in_array($file->getExtension(), $this->allowedExt);
+        } else {
+            return true;
+        }
     }
 }

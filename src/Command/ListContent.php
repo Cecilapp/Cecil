@@ -39,6 +39,7 @@ class ListContent extends AbstractCommand
             foreach ($pages as $page) {
                 $this->getConsole()->writeLine($page);
             }
+            $this->getConsole()->writeLine('');
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
         }
@@ -58,11 +59,11 @@ class ListContent extends AbstractCommand
             throw new \Exception(sprintf('Invalid %s directory', 'content'));
         }
         $dirIterator = new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS);
+        $dirIterator = new FileExtensionFilter($dirIterator, $this->getPHPoole()->getOption('content.ext'));
         $pages = new FilenameRecursiveTreeIterator(
             $dirIterator,
             FilenameRecursiveTreeIterator::SELF_FIRST
         );
-        $pages = new FileExtensionFilter($pages, $this->getPHPoole()->getOption('content.ext'));
 
         return $pages;
     }
