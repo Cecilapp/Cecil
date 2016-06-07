@@ -10,8 +10,8 @@
 
 namespace PHPoole\Command;
 
-use PHPoole\Command\ListContent\FilenameRecursiveTreeIterator;
 use PHPoole\Command\ListContent\FileExtensionFilter;
+use PHPoole\Command\ListContent\FilenameRecursiveTreeIterator;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
 
