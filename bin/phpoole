@@ -20,23 +20,15 @@ $phpVersion = '5.5.0';
 use Zend\Console\Console;
 use ZF\Console\Application;
 
-// fetch app version from composer file if exists
-if (file_exists(__DIR__.'/../composer.json')) {
-    @$composer = json_decode(file_get_contents(__DIR__.'/../composer.json'), true);
-    if (isset($composer['version'])) {
-        $version = $composer['version'];
-    }
-}
-
 // compare PHP version
 if (version_compare(PHP_VERSION, $phpVersion, '<')) {
-    print('PHP 5.5+ required (your version: '.PHP_VERSION.')'."\n");
+    print("PHP $phpVersion is required (your version: ".PHP_VERSION.')'."\n");
     exit(2);
 }
 
 // autoload from Phar vendor
-if (Phar::running(false) != '') {
-    require_once Phar::running(true).'/vendor/autoload.php';
+if (extension_loaded('phar') && ($uri = Phar::running())) {
+    require_once "$uri/vendor/autoload.php";
 // autoload from local vendor
 } else {
     if (file_exists(__DIR__.'/../vendor/autoload.php')) {
@@ -46,10 +38,6 @@ if (Phar::running(false) != '') {
         if (!file_exists(__DIR__.'/../composer.phar')) {
             echo 'curl -s http://getcomposer.org/installer | php'.PHP_EOL;
         }
-        //if (!file_exists(__DIR__.'/../composer.json')) {
-        //    echo 'curl https://raw.github.com/Narno/PHPoole/master/composer.json > composer.json'.PHP_EOL;
-        //}
-        echo 'php composer.phar require narno/phpoole';
         echo 'php composer.phar install'.PHP_EOL;
         exit(2);
     }
@@ -64,7 +52,6 @@ $application = new Application(
 
 $application->removeRoute('autocomplete');
 $application->setBanner(function($console) {
-    $script = (Phar::running(false) == '') ? __FILE__ : Phar::running(false);
     $console->write('    ____  __  ______              __   
    / __ \/ / / / __ \____  ____  / /__ 
   / /_/ / /_/ / /_/ / __ \/ __ \/ / _ \
@@ -74,12 +61,7 @@ $application->setBanner(function($console) {
     $console->writeLine('Light and easy static website generator!');
     $console->writeLine('');
     $console->writeLine('Usage:', \Zend\Console\ColorInterface::GREEN);
-    $console->writeLine(basename($script).' command [options]');
-    $console->writeLine('');
-});
-$application->setFooter(function($console) {
-    //$console->writeLine('');
-    //$console->writeLine('Created by Arnaud Ligny');
+    $console->writeLine(' command [options]');
     $console->writeLine('');
 });
 $application->setDebug(true);
