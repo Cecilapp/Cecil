@@ -24,15 +24,21 @@ Please see the [composer.json](composer.json) file.
 
 ### Composer
 
-Run ```composer create-project narno/phpoole "~2.0"```.
+Run ```composer create-project narno/phpoole -sdev```
 
 ### Phar
 
-Download the last release from the [dist](https://github.com/Narno/PHPoole/tree/master/dist) direcrtory.
+Download the last release from the [dist](https://github.com/Narno/PHPoole/tree/master/dist) directory and rename it to ```phpoole.phar```.
 
 ## Usage
 
-Run ```php bin/phpoole help``` or ```php phpoole.phar help```.
+### Composer
+
+Run ```php bin/phpoole help```
+
+### Phar
+
+```php phpoole.phar help```
 
 ## License
 
