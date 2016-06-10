@@ -22,12 +22,17 @@ Please see the [composer.json](composer.json) file.
 
 ## Installation
 
-1. Clone the repository
-2. Run ```composer update```
+### Composer
+
+Run ```composer create-project narno/phpoole -sdev```.
+
+### Phar
+
+Download the last release from the [dist](https://github.com/Narno/PHPoole/tree/2.0.0-dev/dist) direcrtory.
 
 ## Usage
 
-Run ```php bin/phpoole```
+Run ```php bin/phpoole help``` or ```php phpoole.phar help```.
 
 ## License
 
