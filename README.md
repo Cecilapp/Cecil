@@ -13,7 +13,7 @@ PHPoole takes your content (written in [Markdown](http://daringfireball.net/proj
 
 PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) application, powered by a [dedicated library](https://github.com/Narno/PHPoole-library).
 
-* [Documentation](https://github.com/Narno/PHPoole-library/blob/master/docs/usage.md) _(WIP)_
+* [Documentation](https://github.com/Narno/PHPoole-library/tree/master/docs)
 * [Issue tracker](https://github.com/Narno/PHPoole/issues)
 
 ## Requirements
