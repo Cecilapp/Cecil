@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1ca94faf0db1673b432496af58c46783",
+    "hash": "e2b00834d7439db273d82c4065ff534a",
     "content-hash": "a734489d4e364a4c9143cacace18a37a",
     "packages": [
         {
@@ -369,12 +369,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Narno/PHPoole-library.git",
-                "reference": "7cb3737d9f4153e7caf1d7ee7f3bc4594defcd26"
+                "reference": "538c0fe30c84ec24255dfa43f71bbd467a56e055"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Narno/PHPoole-library/zipball/7cb3737d9f4153e7caf1d7ee7f3bc4594defcd26",
-                "reference": "7cb3737d9f4153e7caf1d7ee7f3bc4594defcd26",
+                "url": "https://api.github.com/repos/Narno/PHPoole-library/zipball/538c0fe30c84ec24255dfa43f71bbd467a56e055",
+                "reference": "538c0fe30c84ec24255dfa43f71bbd467a56e055",
                 "shasum": ""
             },
             "require": {
@@ -426,7 +426,7 @@
                 "twig",
                 "website"
             ],
-            "time": "2016-05-27 14:20:37"
+            "time": "2016-06-10 11:00:58"
         },
         {
             "name": "symfony/filesystem",
@@ -1809,22 +1809,22 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "3.0.2",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "45ada3e3fd09789fbfbd6d65b3f0901f0030dc61"
+                "reference": "9270140b940ff02e58ec577c237274e92cd40cdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/45ada3e3fd09789fbfbd6d65b3f0901f0030dc61",
-                "reference": "45ada3e3fd09789fbfbd6d65b3f0901f0030dc61",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/9270140b940ff02e58ec577c237274e92cd40cdd",
+                "reference": "9270140b940ff02e58ec577c237274e92cd40cdd",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5",
                 "phpdocumentor/reflection-common": "^1.0@dev",
-                "phpdocumentor/type-resolver": "^0.1.5",
+                "phpdocumentor/type-resolver": "^0.2.0",
                 "webmozart/assert": "^1.0"
             },
             "require-dev": {
@@ -1850,20 +1850,20 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2016-06-06 06:44:13"
+            "time": "2016-06-10 09:48:41"
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "0.1.8",
+            "version": "0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "9891754231e55d42f0d16988ffb799af39f31a12"
+                "reference": "b39c7a5b194f9ed7bd0dd345c751007a41862443"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/9891754231e55d42f0d16988ffb799af39f31a12",
-                "reference": "9891754231e55d42f0d16988ffb799af39f31a12",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/b39c7a5b194f9ed7bd0dd345c751007a41862443",
+                "reference": "b39c7a5b194f9ed7bd0dd345c751007a41862443",
                 "shasum": ""
             },
             "require": {
@@ -1872,7 +1872,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "^5.2"
+                "phpunit/phpunit": "^5.2||^4.8.24"
             },
             "type": "library",
             "extra": {
@@ -1897,7 +1897,7 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
-            "time": "2016-03-28 10:02:29"
+            "time": "2016-06-10 07:14:17"
         },
         {
             "name": "phpseclib/phpseclib",
