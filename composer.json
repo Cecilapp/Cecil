@@ -19,7 +19,7 @@
   },
   "require": {
     "php": "^5.5|^7.0",
-    "narno/phpoole-library": "dev-master",
+    "narno/phpoole-library": "~1.0",
     "symfony/filesystem": "^2.8",
     "symfony/process": "^2.8",
     "symfony/yaml": "^2.8",

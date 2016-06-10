@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e2b00834d7439db273d82c4065ff534a",
-    "content-hash": "a734489d4e364a4c9143cacace18a37a",
+    "hash": "d37c8a8201562d63c0d93cb67a15cae3",
+    "content-hash": "716569afbc775677a2b0133ec57a1e8c",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -365,7 +365,7 @@
         },
         {
             "name": "narno/phpoole-library",
-            "version": "dev-master",
+            "version": "1.1.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Narno/PHPoole-library.git",
@@ -3058,9 +3058,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "narno/phpoole-library": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
