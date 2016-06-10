@@ -38,7 +38,7 @@ Run ```php bin/phpoole help```
 
 ### Phar
 
-```php phpoole.phar help```
+Run ```php phpoole.phar help```
 
 ## License
 
