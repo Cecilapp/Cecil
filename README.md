@@ -28,7 +28,7 @@ Run ```composer create-project narno/phpoole -sdev```
 
 ### Phar
 
-Download the last release from the [dist](https://github.com/Narno/PHPoole/tree/master/dist) directory and rename it to ```phpoole.phar```.
+Download the ```phpoole.phar``` from the [releases page](https://github.com/Narno/PHPoole/releases).
 
 ## Usage
 
