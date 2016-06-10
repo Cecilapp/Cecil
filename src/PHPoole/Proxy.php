@@ -12,10 +12,9 @@ namespace PHPoole;
 
 /**
  * Proxy class used by the template engine
- * "site.data" = "class.method"
+ * "site.data" = "class.method".
  *
  * Class Proxy
- * @package PHPoole
  */
 class Proxy
 {
@@ -26,6 +25,7 @@ class Proxy
 
     /**
      * @param $phpoole
+     *
      * @throws \Exception
      */
     public function __construct($phpoole)
@@ -38,10 +38,12 @@ class Proxy
 
     /**
      * Magic method can get call like $site->name(), etc.
+     *
      * @todo do it better! :-)
      *
      * @param $function
      * @param $arguments
+     *
      * @return null
      */
     public function __call($function, $arguments)
@@ -58,6 +60,7 @@ class Proxy
                 $configToMerge['site']['base_url'] = 'http://localhost:8000';
                 $config = array_replace_recursive($config, $configToMerge);
             }
+
             return $config['site'][$function];
         }
         if ($function == 'author') {
@@ -66,14 +69,14 @@ class Proxy
         if ($function == 'source') {
             return $config['deploy'];
         }
-        return null;
     }
 
     /**
      * @param string $subDir
+     *
      * @return array
      */
-    public function getPages($subDir='')
+    public function getPages($subDir = '')
     {
         return $this->_phpoole->getPages($subDir);
     }

@@ -11,10 +11,9 @@
 namespace PHPoole;
 
 /**
- * PHPoole plugin abstract
+ * PHPoole plugin abstract.
  *
  * Class Plugin
- * @package PHPoole
  */
 abstract class Plugin
 {
@@ -35,11 +34,11 @@ abstract class Plugin
      * @param bool $enabled
      * @param $e
      */
-    public function trace($enabled=self::DEBUG, $e)
+    public function trace($enabled, $e)
     {
         if ($enabled === true) {
             printf(
-                '[EVENT] %s\%s %s' . "\n",
+                '[EVENT] %s\%s %s'."\n",
                 get_class($this),
                 $e->getName(),
                 json_encode($e->getParams())

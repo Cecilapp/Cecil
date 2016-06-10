@@ -13,14 +13,14 @@ namespace PHPoole;
 use Cocur\Slugify\Slugify;
 
 /**
- * Class Util
- * @package PHPoole
+ * Class Util.
  */
 class Util
 {
     /**
      * @param $filename
      * @param $content
+     *
      * @throws \Exception
      */
     public static function writeFile($filename, $content)
@@ -39,14 +39,16 @@ class Util
     }
 
     /**
-     * Recursively remove a directory
+     * Recursively remove a directory.
      *
      * @param $dirname
      * @param bool $followSymlinks
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
-    public static function rmDir($dirname, $followSymlinks=false)
+    public static function rmDir($dirname, $followSymlinks = false)
     {
         if (is_dir($dirname) && !is_link($dirname)) {
             if (!is_writable($dirname)) {
@@ -69,24 +71,22 @@ class Util
                     }
                     if ($iterator->isFile()) {
                         @unlink($iterator->getPathName());
-                    }
-                    elseif ($iterator->isDir()) {
+                    } elseif ($iterator->isDir()) {
                         @rmdir($iterator->getPathName());
                     }
                 }
                 $iterator->next();
             }
             unset($iterator);
-     
+
             return @rmdir($dirname);
-        }
-        else {
+        } else {
             throw new \Exception(sprintf('%s does not exist!', $dirname));
         }
     }
 
     /**
-     * Copy a dir, and all its content from source to dest
+     * Copy a dir, and all its content from source to dest.
      *
      * @param $source
      * @param $dest
@@ -105,16 +105,15 @@ class Util
         );
         foreach ($iterator as $item) {
             if ($item->isDir()) {
-                @mkdir($dest . DS . $iterator->getSubPathName());
-            }
-            else {
-                @copy($item, $dest . DS . $iterator->getSubPathName());
+                @mkdir($dest.DS.$iterator->getSubPathName());
+            } else {
+                @copy($item, $dest.DS.$iterator->getSubPathName());
             }
         }
     }
 
     /**
-     * Execute git commands
+     * Execute git commands.
      *
      * @param $wd
      * @param $commands
@@ -132,7 +131,7 @@ class Util
     }
 
     /**
-     * Check if current OS is Windows
+     * Check if current OS is Windows.
      *
      * @return bool
      */
@@ -143,6 +142,7 @@ class Util
 
     /**
      * @param $string
+     *
      * @return mixed
      */
     public static function slugify($string)

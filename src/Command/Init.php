@@ -10,12 +10,9 @@
 
 namespace PHPoole\Command;
 
-use PHPoole\Command\AbstractCommand;
 use Sabre\Event;
 
-class Init
-    extends AbstractCommand
-    implements Event\EventEmitterInterface
+class Init extends AbstractCommand implements Event\EventEmitterInterface
 {
     use Event\EventEmitterTrait;
 
@@ -26,7 +23,7 @@ class Init
 
     public function processCommand()
     {
-        $this->on('pre.processCommand', function() {
+        $this->on('pre.processCommand', function () {
             $this->wlAnnonce('TEST');
         });
         $this->emit('pre.processCommand');

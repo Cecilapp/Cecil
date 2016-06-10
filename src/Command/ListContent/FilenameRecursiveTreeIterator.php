@@ -13,10 +13,9 @@ namespace PHPoole\Command\ListContent;
 use RecursiveTreeIterator;
 
 /**
- * Replace Filepath by Filename
+ * Replace Filepath by Filename.
  *
  * Class FilenameRecursiveTreeIterator
- * @package PHPoole\Command
  */
 class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
 {
