@@ -2,9 +2,9 @@
 
 > A light and easy static website generator written in PHP.
 
-[![Build Status](https://travis-ci.org/Narno/PHPoole.svg?branch=2.0.0-dev)](https://travis-ci.org/Narno/PHPoole)
-[![Coverage Status](https://coveralls.io/repos/github/Narno/PHPoole/badge.svg?branch=2.0.0-dev)](https://coveralls.io/github/Narno/PHPoole?branch=2.0.0-dev)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Narno/PHPoole/badges/quality-score.png?b=2.0.0-dev)](https://scrutinizer-ci.com/g/Narno/PHPoole/?branch=2.0.0-dev)
+[![Build Status](https://travis-ci.org/Narno/PHPoole.svg)](https://travis-ci.org/Narno/PHPoole)
+[![Coverage Status](https://coveralls.io/repos/github/Narno/PHPoole/badge.svg)](https://coveralls.io/github/Narno/PHPoole)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Narno/PHPoole/badges/quality-score.png)](https://scrutinizer-ci.com/g/Narno/PHPoole/)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85aa408ef2e94925831b1f7dd4c98219)](https://www.codacy.com/app/Narno/PHPoole?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Narno/PHPoole&amp;utm_campaign=Badge_Grade)
 [![StyleCI](https://styleci.io/repos/12738012/shield)](https://styleci.io/repos/12738012)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269/mini.png)](https://insight.sensiolabs.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269)
@@ -24,11 +24,11 @@ Please see the [composer.json](composer.json) file.
 
 ### Composer
 
-Run ```composer create-project narno/phpoole -sdev```.
+Run ```composer create-project narno/phpoole "~2.0"```.
 
 ### Phar
 
-Download the last release from the [dist](https://github.com/Narno/PHPoole/tree/2.0.0-dev/dist) direcrtory.
+Download the last release from the [dist](https://github.com/Narno/PHPoole/tree/master/dist) direcrtory.
 
 ## Usage
 
@@ -37,3 +37,5 @@ Run ```php bin/phpoole help``` or ```php phpoole.phar help```.
 ## License
 
 PHPoole is a free software distributed under the terms of the MIT license.
+
+PHPoole logo designed by [Cécile Ricordeau](http://www.cecillie.fr).
