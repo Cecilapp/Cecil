@@ -14,7 +14,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 date_default_timezone_set('UTC');
 
 $name       = 'PHPoole';
-$version    = '2.0.0-dev';
+$version    = '2.0.x-dev';
 $phpVersion = '5.5.0';
 
 use Zend\Console\Console;
