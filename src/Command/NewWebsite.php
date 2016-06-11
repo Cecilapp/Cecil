@@ -27,12 +27,22 @@ class NewWebsite extends AbstractCommand
         try {
             $fs = new FS();
             if (!$fs->exists($this->getPath().'/'.self::CONFIG_FILE) || $this->force) {
-                $fs->copy(__DIR__.'/../../skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
-                $fs->mirror(__DIR__.'/../../skeleton/content', $this->getPath().'/content');
-                $fs->mirror(__DIR__.'/../../skeleton/layouts', $this->getPath().'/layouts');
-                $fs->mirror(__DIR__.'/../../skeleton/static', $this->getPath().'/static');
-                $fs->mirror(__DIR__.'/../../skeleton/themes', $this->getPath().'/themes');
-
+                if (!empty(\Phar::running())) {
+                    $phar = new \Phar(\Phar::running());
+                    $phar->extractTo($this->getPath(), [
+                        'skeleton/phpoole.yml',
+                        'skeleton/content/',
+                        'skeleton/layouts/',
+                        'skeleton/static/',
+                        'skeleton/themes/',
+                    ], true);
+                } else {
+                    $fs->copy(__DIR__.'/../../skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
+                    $fs->mirror(__DIR__.'/../../skeleton/content', $this->getPath().'/content');
+                    $fs->mirror(__DIR__.'/../../skeleton/layouts', $this->getPath().'/layouts');
+                    $fs->mirror(__DIR__.'/../../skeleton/static', $this->getPath().'/static');
+                    $fs->mirror(__DIR__.'/../../skeleton/themes', $this->getPath().'/themes');
+                }
                 $this->wlDone('Done!');
             } else {
                 $this->wlAlert(sprintf('File "%s" already exists.', $this->getPath().'/'.self::CONFIG_FILE));
