@@ -61,8 +61,10 @@ class Serve extends AbstractCommand
                     ->in([
                         $this->getPath().'/'.$this->getPHPoole()->getOption('content.dir'),
                         $this->getPath().'/'.$this->getPHPoole()->getOption('layouts.dir'),
-                        $this->getPath().'/'.$this->getPHPoole()->getOption('themes.dir'),
                     ]);
+                if (is_dir($this->getPath().'/'.$this->getPHPoole()->getOption('themes.dir'))) {
+                    $finder->in($this->getPath().'/'.$this->getPHPoole()->getOption('themes.dir'));
+                }
                 $rc = new ResourceCacheFile($this->getPath().'/.cache.php');
                 $rw = new ResourceWatcher($rc);
                 $rw->setFinder($finder);
