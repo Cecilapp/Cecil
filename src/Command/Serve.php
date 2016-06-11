@@ -24,29 +24,19 @@ class Serve extends AbstractCommand
      * @var bool
      */
     protected $watch;
+    /**
+     * @var FS
+     */
+    protected $fs;
 
     public function processCommand()
     {
         $this->watch = $this->getRoute()->getMatchedParam('watch', false);
 
-        try {
-            $fs = new FS();
-            $root = '';
-            if (empty(\Phar::running())) {
-                $root = __DIR__.'/../../';
-            }
-            $fs->copy($root.'skeleton/.router.php', $this->getPath().'/.router.php', true);
-            $fs->copy($root.'skeleton/.watch.js', $this->getPath().'/.watch.js', true);
-            $fs->dumpFile($this->getPath().'/.baseurl', $this->getPHPoole()->getOption('site.baseurl'));
-        } catch (IOExceptionInterface $e) {
-            echo 'An error occurred while copying file at '.$e->getPath();
-            echo PHP_EOL.$e->getMessage();
-            exit(2);
-        }
-        if (!is_file(sprintf('%s/.router.php', $this->getPath()))) {
-            $this->wlError('Router not found');
-            exit(2);
-        }
+        $this->fs = new FS();
+
+        $this->prepareServer();
+
         $command = sprintf(
             'php -S %s:%d -t %s %s',
             'localhost',
@@ -73,7 +63,7 @@ class Serve extends AbstractCommand
                 $rc = new ResourceCacheFile($this->getPath().'/.cache.php');
                 $rw = new ResourceWatcher($rc);
                 $rw->setFinder($finder);
-                $fs->dumpFile($this->getPath().'/.watch', '');
+                $this->fs->dumpFile($this->getPath().'/.watch', '');
             }
             // start server
             try {
@@ -83,7 +73,7 @@ class Serve extends AbstractCommand
                     if ($this->watch) {
                         $rw->findChanges();
                         if ($rw->hasChanges()) {
-                            $fs->dumpFile($this->getPath().'/.changes', '');
+                            $this->fs->dumpFile($this->getPath().'/.changes', '');
                             $this->wlDone('write "changes" flag file');
                             // re-generate
                             $this->wlAlert('Changes detected: re-build');
@@ -94,7 +84,7 @@ class Serve extends AbstractCommand
                     usleep(1000000); // 1 s
                 }
             } catch (ProcessFailedException $e) {
-                $fs->remove([
+                $this->fs->remove([
                     $this->getPath().'/.router.php',
                     $this->getPath().'/.watch.js',
                     $this->getPath().'/.baseurl',
@@ -102,6 +92,27 @@ class Serve extends AbstractCommand
                 echo $e->getMessage();
                 exit(2);
             }
+        }
+    }
+
+    public function prepareServer()
+    {
+        try {
+            $root = '';
+            if (empty(\Phar::running())) {
+                $root = __DIR__.'/../../';
+            }
+            $this->fs->copy($root.'skeleton/.router.php', $this->getPath().'/.router.php', true);
+            $this->fs->copy($root.'skeleton/.watch.js', $this->getPath().'/.watch.js', true);
+            $this->fs->dumpFile($this->getPath().'/.baseurl', $this->getPHPoole()->getOption('site.baseurl'));
+        } catch (IOExceptionInterface $e) {
+            echo 'An error occurred while copying file at '.$e->getPath();
+            echo PHP_EOL.$e->getMessage();
+            exit(2);
+        }
+        if (!is_file(sprintf('%s/.router.php', $this->getPath()))) {
+            $this->wlError('Router not found');
+            exit(2);
         }
     }
 }
