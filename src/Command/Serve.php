@@ -31,19 +31,16 @@ class Serve extends AbstractCommand
 
         try {
             $fs = new FS();
-            if (!empty(\Phar::running())) {
-                $phar = new \Phar(\Phar::running());
-                $phar->extractTo($this->getPath(), [
-                    'skeleton/.router.php',
-                    'skeleton/.watch.js',
-                ], true);
-            } else {
-                $fs->copy(__DIR__.'/../../skeleton/.router.php', $this->getPath().'/.router.php', true);
-                $fs->copy(__DIR__.'/../../skeleton/.watch.js', $this->getPath().'/.watch.js', true);
+            $root = '';
+            if (empty(\Phar::running())) {
+                $root = __DIR__.'/../../';
             }
+            $fs->copy($root.'skeleton/.router.php', $this->getPath().'/.router.php', true);
+            $fs->copy($root.'skeleton/.watch.js', $this->getPath().'/.watch.js', true);
             $fs->dumpFile($this->getPath().'/.baseurl', $this->getPHPoole()->getOption('site.baseurl'));
         } catch (IOExceptionInterface $e) {
             echo 'An error occurred while copying file at '.$e->getPath();
+            echo PHP_EOL.$e->getMessage();
             exit(2);
         }
         if (!is_file(sprintf('%s/.router.php', $this->getPath()))) {
