@@ -29,7 +29,7 @@ Download the latest ```phpoole.phar``` from the [releases page](https://github.c
 
 ### Requirements
 
-Please see the [composer.json](composer.json) file.
+Please see the [composer.json](https://github.com/Narno/PHPoole/blob/master/composer.json) file.
 
 ### Project installation
 
