@@ -9,36 +9,35 @@
 [![StyleCI](https://styleci.io/repos/12738012/shield)](https://styleci.io/repos/12738012)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269/mini.png)](https://insight.sensiolabs.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269)
 
-PHPoole takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format), merges it with layouts ([Twig](http://twig.sensiolabs.org/) templates) and generates static HTML files.
+PHPoole takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format) and merges files with layouts ([Twig](http://twig.sensiolabs.org/) templates) to generate static HTML files.
 
-PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) application, powered by a [dedicated library](https://github.com/Narno/PHPoole-library).
+PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) application, powered by a [core library](https://github.com/Narno/PHPoole-library).
 
-* [Documentation](https://github.com/Narno/PHPoole-library/tree/master/docs)
+* [Documentation](https://github.com/Narno/PHPoole-library/tree/master/docs) (of the core library)
 * [Issue tracker](https://github.com/Narno/PHPoole/issues)
-
-## Requirements
-
-Please see the [composer.json](composer.json) file.
 
 ## Installation
 
-### Composer
-
-Run ```composer create-project narno/phpoole -sdev```
-
-### Phar
-
-Download the ```phpoole.phar``` from the [releases page](https://github.com/Narno/PHPoole/releases).
+Download the latest ```phpoole.phar``` from the [releases page](https://github.com/Narno/PHPoole/releases).
 
 ## Usage
 
-### Composer
+* Get help: ```$ php phpoole.phar help```
+* Create new website: ```$ php phpoole.phar new```
 
-Run ```php bin/phpoole help```
+## Development
 
-### Phar
+### Requirements
 
-Run ```php phpoole.phar help```
+Please see the [composer.json](composer.json) file.
+
+### Project installation
+
+Run the following commands:
+```
+$ composer create-project narno/phpoole -sdev
+$ php bin/phpoole help
+```
 
 ## License
 
