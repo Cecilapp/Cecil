@@ -35,7 +35,7 @@ class Serve extends AbstractCommand
 
         $this->fs = new FS();
 
-        $this->prepareServer();
+        $this->setUpServer();
 
         $command = sprintf(
             'php -S %s:%d -t %s %s',
@@ -84,35 +84,45 @@ class Serve extends AbstractCommand
                     usleep(1000000); // 1 s
                 }
             } catch (ProcessFailedException $e) {
-                $this->fs->remove([
-                    $this->getPath().'/.router.php',
-                    $this->getPath().'/.watch.js',
-                    $this->getPath().'/.baseurl',
-                ]);
+                $this->tearDownServer();
                 echo $e->getMessage();
                 exit(2);
             }
         }
     }
 
-    public function prepareServer()
+    public function setUpServer()
     {
         try {
-            $root = '';
-            if (empty(\Phar::running())) {
-                $root = __DIR__.'/../../';
+            $root = __DIR__.'/../../';
+            if (!empty(\Phar::running())) {
+                $root = \Phar::running().'/';
             }
             $this->fs->copy($root.'skeleton/.router.php', $this->getPath().'/.router.php', true);
             $this->fs->copy($root.'skeleton/.watch.js', $this->getPath().'/.watch.js', true);
             $this->fs->dumpFile($this->getPath().'/.baseurl', $this->getPHPoole()->getOption('site.baseurl'));
         } catch (IOExceptionInterface $e) {
-            echo 'An error occurred while copying file at '.$e->getPath();
-            echo PHP_EOL.$e->getMessage();
+            echo 'An error occurred while copying file at '.$e->getPath().PHP_EOL;
+            echo $e->getMessage().PHP_EOL;
             exit(2);
         }
         if (!is_file(sprintf('%s/.router.php', $this->getPath()))) {
             $this->wlError('Router not found');
             exit(2);
         }
+    }
+
+    public function tearDownServer()
+    {
+        try {
+            $this->fs->remove([
+                $this->getPath().'/.router.php',
+                $this->getPath().'/.watch.js',
+                $this->getPath().'/.baseurl',
+            ]);
+        } catch (IOExceptionInterface $e) {
+            echo $e->getMessage().PHP_EOL;
+        }
+
     }
 }

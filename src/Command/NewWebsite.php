@@ -26,16 +26,15 @@ class NewWebsite extends AbstractCommand
         $this->wlAnnonce('Creates a new website...');
         try {
             $fs = new FS();
-            $root = '';
-            if (empty(\Phar::running())) {
-                $root = __DIR__.'/../../';
+            $root = __DIR__.'/../../';
+            if (!empty(\Phar::running())) {
+                $root = \Phar::running().'/';
             }
             if (!$fs->exists($this->getPath().'/'.self::CONFIG_FILE) || $this->force) {
                 $fs->copy($root.'skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
                 $fs->mirror($root.'skeleton/content', $this->getPath().'/content');
                 $fs->mirror($root.'skeleton/layouts', $this->getPath().'/layouts');
                 $fs->mirror($root.'skeleton/static', $this->getPath().'/static');
-                $fs->mirror($root.'skeleton/themes', $this->getPath().'/themes');
 
                 $this->wlDone('Done!');
             } else {
