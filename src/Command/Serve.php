@@ -123,6 +123,5 @@ class Serve extends AbstractCommand
         } catch (IOExceptionInterface $e) {
             echo $e->getMessage().PHP_EOL;
         }
-
     }
 }
