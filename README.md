@@ -1,6 +1,6 @@
 # ![PHPoole logo](https://avatars2.githubusercontent.com/u/5618939?s=50 "Logo created by Cécile Ricordeau") PHPoole
 
-> A light and easy static website generator written in PHP.
+> An easy and lightweight static website generator, written in PHP.
 
 [![Build Status](https://travis-ci.org/Narno/PHPoole.svg)](https://travis-ci.org/Narno/PHPoole)
 [![Coverage Status](https://coveralls.io/repos/github/Narno/PHPoole/badge.svg)](https://coveralls.io/github/Narno/PHPoole)
