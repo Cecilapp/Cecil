@@ -59,7 +59,7 @@ $application->setBanner(function($console) {
  / ____/ __  / ____/ /_/ / /_/ / /  __/
 /_/   /_/ /_/_/    \____/\____/_/\___/ 
 ');
-    $console->writeLine('Light and easy static website generator!');
+    $console->writeLine('An easy and lightweight static website generator!');
     $console->writeLine('');
 });
 $application->setDebug(true);
