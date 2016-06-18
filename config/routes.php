@@ -15,8 +15,8 @@ return [
         'aliases' => [
             'f' => 'force',
         ],
-        'short_description'    => 'Creates a new Website',
-        'description'          => 'Creates a new Website in current directory, or in <path> if provided.',
+        'short_description'    => 'Creates a new website',
+        'description'          => 'Creates a new website in current directory, or in <path> if provided.',
         'options_descriptions' => [
             '<path>'     => 'Website path.',
             '--force|-f' => 'Override if already exist.',
@@ -33,8 +33,8 @@ return [
             's' => 'serve',
             'w' => 'watch',
         ],
-        'short_description'    => 'Builds the Website',
-        'description'          => 'Builds the Website.',
+        'short_description'    => 'Builds the website',
+        'description'          => 'Builds the website.',
         'options_descriptions' => [
             '<path>'     => 'Website path',
             '--serve|-s' => 'Builds and serves',
@@ -65,8 +65,8 @@ return [
     [
         'name'                 => 'list',
         'route'                => '[<path>]',
-        'short_description'    => 'Lists Website content',
-        'description'          => 'Lists Website content files.',
+        'short_description'    => 'Lists website content',
+        'description'          => 'Lists website content files.',
         'options_descriptions' => [
             '<path>'  => 'Website path',
         ],
