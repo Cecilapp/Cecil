@@ -11,21 +11,28 @@
 
 PHPoole takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format) and merges files with layouts ([Twig](http://twig.sensiolabs.org/) templates) to generate static HTML files.
 
-PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) application, powered by a [core library](https://github.com/Narno/PHPoole-library).
+PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) application, powered by a [core library](https://github.com/PHPoole/PHPoole-library).
 
 ![Command line demo](https://raw.githubusercontent.com/Narno/PHPoole/master/docs/phpoole.gif)
 
-* [Documentation](https://github.com/Narno/PHPoole-library/tree/master/docs) (of the core library)
+* [Documentation](https://github.com/PHPoole/PHPoole-library/tree/master/docs) (of the core library)
 * [Issue tracker](https://github.com/Narno/PHPoole/issues)
 
 ## Installation
 
 Download the latest ```phpoole.phar``` from the [releases page](https://github.com/Narno/PHPoole/releases).
+```
+$ curl -SOL https://github.com/Narno/PHPoole/releases/download/X.Y.Z/phpoole.phar
+$ mv phpoole.phar /usr/local/bin/phpoole
+$ chmod +x /usr/local/bin/phpoole
+```
 
 ## Usage
 
-* Get help: ```$ php phpoole.phar help```
-* Create new website: ```$ php phpoole.phar new```
+1. Create new website: ```phpoole new```
+2. Build and serve it:  ```phpoole build -s```
+
+Get help: ```phpoole help```
 
 ## Development
 
