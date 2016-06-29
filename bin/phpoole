@@ -17,6 +17,7 @@ $name       = 'PHPoole';
 $version    = '2.0.x-dev';
 $phpVersion = '5.5.0';
 
+use PHPoole\Command\SelfUpdate;
 use Zend\Console\Console;
 use ZF\Console\Application;
 
@@ -44,25 +45,42 @@ switch (true) {
         exit(2);
 }
 
+$routes = include __DIR__.'/../config/routes.php';
+if (!empty(\Phar::running())) {
+    $routes = array_merge($routes, [[
+        'name'              => 'self-update',
+        'short_description' => 'Updates PHPoole to the latest version',
+        'description'       => 'The self-update command checks for a newer version, and, if found, downloads and installs the latest.',
+        'defaults' => [
+            'self-update' => true,
+        ]],
+    ]);
+}
+
 $application = new Application(
     $name,
     $version,
-    include __DIR__.'/../config/routes.php',
+    $routes,
     Console::getInstance()
 );
 
 $application->removeRoute('autocomplete');
 $application->setBanner(function($console) {
-    $console->write('    ____  __  ______              __   
-   / __ \/ / / / __ \____  ____  / /__ 
+    /* @var $console Zend\Console\Adapter\AbstractAdapter */
+    $console->write('    ____  __  ______              __
+   / __ \/ / / / __ \____  ____  / /__
   / /_/ / /_/ / /_/ / __ \/ __ \/ / _ \
  / ____/ __  / ____/ /_/ / /_/ / /  __/
-/_/   /_/ /_/_/    \____/\____/_/\___/ 
+/_/   /_/ /_/_/    \____/\____/_/\___/
 ');
     $console->writeLine('An easy and lightweight static website generator!');
     $console->writeLine('');
 });
 $application->setDebug(true);
+
+if (!empty(\Phar::running())) {
+    $application->getDispatcher()->map('self-update', new SelfUpdate($version));
+}
 
 $exit = $application->run();
 exit($exit);

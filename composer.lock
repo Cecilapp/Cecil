@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1c69eaa282278b85edff53059c7b22da",
-    "content-hash": "716569afbc775677a2b0133ec57a1e8c",
+    "hash": "78e113489ffaa19d29869fc7c13b8550",
+    "content-hash": "f69ca97b202c72c68dff93a32d22be9c",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -69,6 +69,61 @@
                 "slugify"
             ],
             "time": "2016-04-08 18:57:21"
+        },
+        {
+            "name": "composer/ca-bundle",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/ca-bundle.git",
+                "reference": "a2995e5fe351055f2c7630166af12ce8fd03edfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/a2995e5fe351055f2c7630166af12ce8fd03edfc",
+                "reference": "a2995e5fe351055f2c7630166af12ce8fd03edfc",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.2 || ^7.0"
+            },
+            "require-dev": {
+                "symfony/process": "^2.5 || ^3.0"
+            },
+            "suggest": {
+                "symfony/process": "This is necessary to reliably check whether openssl_x509_parse is vulnerable on older php versions, but can be ignored on PHP 5.5.6+"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\CaBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
+            "keywords": [
+                "cabundle",
+                "cacert",
+                "certificate",
+                "ssl",
+                "tls"
+            ],
+            "time": "2016-04-13 10:13:24"
         },
         {
             "name": "dflydev/dot-access-configuration",
@@ -365,17 +420,11 @@
         },
         {
             "name": "narno/phpoole-library",
-            "version": "1.1.0-beta.2",
+            "version": "1.1.0-beta.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPoole/PHPoole-library.git",
-                "reference": "026c5bbded34e2b2aebf31a42166fb52dc5a0eae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHPoole/PHPoole-library/zipball/026c5bbded34e2b2aebf31a42166fb52dc5a0eae",
-                "reference": "026c5bbded34e2b2aebf31a42166fb52dc5a0eae",
-                "shasum": ""
+                "url": "https://github.com/PHPoole/PHPoole-library",
+                "reference": "8f5c78640709a0997b4a922732c108c9b1fb80e3"
             },
             "require": {
                 "cocur/slugify": "^2.0",
@@ -404,7 +453,11 @@
                     "PHPoole\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "PHPoole\\Test\\": "tests"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -416,7 +469,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "An intuitive PHP library to create a static Website.",
+            "description": "An intuitive PHP library to create a static website.",
             "homepage": "https://github.com/Narno/PHPoole-library",
             "keywords": [
                 "flat file",
@@ -426,7 +479,123 @@
                 "twig",
                 "website"
             ],
-            "time": "2016-06-18 00:15:48"
+            "time": "2016-06-28 00:41:01"
+        },
+        {
+            "name": "padraic/humbug_get_contents",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Narno/file_get_contents",
+                "reference": "7886d96b961b1d9edbcba6d40667d08426159cba"
+            },
+            "require": {
+                "composer/ca-bundle": "^1.0",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Humbug\\": "src/Humbug/"
+                },
+                "files": [
+                    "src/function.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Humbug\\Test\\": "tests/Humbug/Test/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pádraic Brady",
+                    "email": "padraic.brady@gmail.com",
+                    "homepage": "http://blog.astrumfutura.com"
+                }
+            ],
+            "description": "Secure wrapper for accessing HTTPS resources with file_get_contents for PHP 5.3+",
+            "homepage": "https://github.com/padraic/file_get_contents",
+            "keywords": [
+                "download",
+                "file_get_contents",
+                "http",
+                "https",
+                "ssl",
+                "tls"
+            ],
+            "support": {
+                "issues": "https://github.com/padraic/file_get_contents/issues"
+            },
+            "time": "2016-06-29 18:51:13"
+        },
+        {
+            "name": "padraic/phar-updater",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/padraic/phar-updater.git",
+                "reference": "c17eeb3887dc4269d1b4837dc875d39e9f8149a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/padraic/phar-updater/zipball/c17eeb3887dc4269d1b4837dc875d39e9f8149a8",
+                "reference": "c17eeb3887dc4269d1b4837dc875d39e9f8149a8",
+                "shasum": ""
+            },
+            "require": {
+                "padraic/humbug_get_contents": "^1.0",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Humbug\\SelfUpdate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pádraic Brady",
+                    "email": "padraic.brady@gmail.com",
+                    "homepage": "http://blog.astrumfutura.com"
+                }
+            ],
+            "description": "A thing to make PHAR self-updating easy and secure.",
+            "keywords": [
+                "humbug",
+                "phar",
+                "self-update",
+                "update"
+            ],
+            "time": "2016-01-05 23:08:01"
         },
         {
             "name": "symfony/filesystem",
@@ -3059,11 +3228,13 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "padraic/humbug_get_contents": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^5.5|^7.0"
+        "php": "^5.6|^7.0"
     },
     "platform-dev": []
 }
