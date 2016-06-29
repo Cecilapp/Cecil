@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "78e113489ffaa19d29869fc7c13b8550",
-    "content-hash": "f69ca97b202c72c68dff93a32d22be9c",
+    "hash": "6be1a8cba6011bc53957002b0abf3f46",
+    "content-hash": "31ed8a162810204cfd92222cf04e5d72",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -483,7 +483,7 @@
         },
         {
             "name": "padraic/humbug_get_contents",
-            "version": "dev-master",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Narno/file_get_contents",
@@ -3228,9 +3228,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "padraic/humbug_get_contents": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
