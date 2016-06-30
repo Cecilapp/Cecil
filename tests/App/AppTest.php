@@ -1,4 +1,5 @@
 <?php
+
 namespace PHPoole\Test\App;
 
 use PHPUnit_Framework_TestCase;
@@ -15,9 +16,9 @@ class AppTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $config = [
-            'name' => 'PHPoole',
+            'name'    => 'PHPoole',
             'version' => '0.0.1',
-            'routes' => [
+            'routes'  => [
                 [
                     'name'    => 'new',
                     'route'   => '[<path>] [--force|-f]',
@@ -44,11 +45,12 @@ class AppTest extends PHPUnit_Framework_TestCase
             Console::getInstance()
         );
     }
+
     public function testNameOfAppIntoTheOutput()
     {
         ob_start();
         $this->app->run();
         $content = ob_get_clean();
-        $this->assertRegExp("/PHPoole/", $content);
+        $this->assertRegExp('/PHPoole/', $content);
     }
 }
