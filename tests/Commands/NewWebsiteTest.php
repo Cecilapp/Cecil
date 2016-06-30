@@ -1,4 +1,5 @@
 <?php
+
 namespace PHPoole\Test\Command;
 
 use PHPoole\Command\NewWebsite;
@@ -17,6 +18,7 @@ class NewWebsiteTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $this->consoleAdapter = $this->getMock('Zend\Console\Adapter\AdapterInterface');
     }
+
     public function testNewWebsiteCommandShouldRun()
     {
         $this->NewWebsiteCommand = new NewWebsite(
