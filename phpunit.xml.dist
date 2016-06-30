@@ -5,7 +5,7 @@
          convertWarningsToExceptions="true"
          bootstrap="./vendor/autoload.php">
     <testsuites>
-        <testsuite name="Test suite">
+        <testsuite name="Unit_tests">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
