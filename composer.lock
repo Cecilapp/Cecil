@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "777c76febdcb64f7e8bf5fe0ffa3bf00",
+    "hash": "147ef1a7c2905980f25d01d90c138daf",
     "content-hash": "574566f0928f5857c07b44ad4c97c646",
     "packages": [
         {
@@ -420,11 +420,11 @@
         },
         {
             "name": "narno/phpoole-library",
-            "version": "1.1.0-beta.3",
+            "version": "1.1.0-beta.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/PHPoole-library",
-                "reference": "8f5c78640709a0997b4a922732c108c9b1fb80e3"
+                "reference": "7d14ab4f9540a60b645c8ae3573b4a039d8d7adf"
             },
             "require": {
                 "cocur/slugify": "^2.0",
@@ -479,7 +479,7 @@
                 "twig",
                 "website"
             ],
-            "time": "2016-06-28 00:41:01"
+            "time": "2016-07-01 01:35:21"
         },
         {
             "name": "padraic/humbug_get_contents",
