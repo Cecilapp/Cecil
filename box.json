@@ -1,5 +1,9 @@
 {
   "chmod": "0755",
+  "compactors": [
+    "Herrera\\Box\\Compactor\\Json",
+    "Herrera\\Box\\Compactor\\Php"
+  ],
   "directories": [
     "config",
     "src",
@@ -37,6 +41,6 @@
   ],
   "git-version": "git_version",
   "main": "bin/phpoole",
-  "output": "dist/phpoole-v@git-version@.phar",
+  "output": "dist/phpoole-@git-version@.phar",
   "stub": true
 }
