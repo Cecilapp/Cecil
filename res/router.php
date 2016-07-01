@@ -1,4 +1,5 @@
 <?php
+
 // PHP built-in server router
 date_default_timezone_set('UTC');
 define('DIRECTORY_INDEX', 'index.html');
@@ -26,7 +27,7 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'].$pathname)) {
     if ($ext == 'html') {
         $html = file_get_contents($_SERVER['DOCUMENT_ROOT'].$pathname);
         // includes "live relaod" script in HTML files
-        $script = file_get_contents(__DIR__ . '/livereload.js');
+        $script = file_get_contents(__DIR__.'/livereload.js');
         $html = str_replace('</body>', $script."\n".'</body>', $html);
         // replaces base url by localhost
         $html = str_replace(trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../.baseurl')), 'http://localhost:8000/', $html);
