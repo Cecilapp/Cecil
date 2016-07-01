@@ -9,10 +9,12 @@
  */
 
 if (!function_exists('isPhar')) {
-    function isPhar() {
+    function isPhar()
+    {
         if (!empty(\Phar::running())) {
             return true;
         }
+
         return false;
     }
 }
