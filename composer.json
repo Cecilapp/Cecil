@@ -36,7 +36,8 @@
   "autoload": {
     "psr-4" : {
       "PHPoole\\Command\\": "src/Command"
-    }
+    },
+    "files": ["src/function.php"]
   },
   "autoload-dev": {
     "psr-4": {

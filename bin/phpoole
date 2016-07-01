@@ -14,7 +14,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 date_default_timezone_set('UTC');
 
 $name       = 'PHPoole';
-$version    = '2.0.x-dev';
+$version    = '2.0.0-beta.5';
 $phpVersion = '5.5.0';
 
 use PHPoole\Command\SelfUpdate;
@@ -46,7 +46,7 @@ switch (true) {
 }
 
 $routes = include __DIR__.'/../config/routes.php';
-if (!empty(\Phar::running())) {
+if (isPhar()) {
     $routes = array_merge($routes, [[
         'name'              => 'self-update',
         'short_description' => 'Updates PHPoole to the latest version',
@@ -78,7 +78,7 @@ $application->setBanner(function($console) {
 });
 $application->setDebug(true);
 
-if (!empty(\Phar::running())) {
+if (isPhar()) {
     $application->getDispatcher()->map('self-update', new SelfUpdate($version));
 }
 
