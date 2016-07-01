@@ -46,7 +46,7 @@ switch (true) {
 }
 
 $routes = include __DIR__.'/../config/routes.php';
-if (isPhar()) {
+if (isPhar() !== false) {
     $routes = array_merge($routes, [[
         'name'              => 'self-update',
         'short_description' => 'Updates PHPoole to the latest version',
@@ -78,7 +78,7 @@ $application->setBanner(function($console) {
 });
 $application->setDebug(true);
 
-if (isPhar()) {
+if (isPhar() !== false) {
     $application->getDispatcher()->map('self-update', new SelfUpdate($version));
 }
 

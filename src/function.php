@@ -12,7 +12,7 @@ if (!function_exists('isPhar')) {
     function isPhar()
     {
         if (!empty(\Phar::running())) {
-            return true;
+            return \Phar::running();
         }
 
         return false;
