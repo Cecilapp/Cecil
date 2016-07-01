@@ -6,30 +6,30 @@ $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $ext = pathinfo($path, PATHINFO_EXTENSION);
 if ($path == '/watcher') {
     http_response_code(200);
-    if (!file_exists(__DIR__.'/.watch')) {
+    if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/../.watch.flag')) {
         echo 'stop';
         exit();
     }
-    if (file_exists(__DIR__.'/.changes')) {
+    if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.changes.flag')) {
         echo 'true';
-        unlink(__DIR__.'/.changes');
+        unlink($_SERVER['DOCUMENT_ROOT'].'/../.changes.flag');
     } else {
         echo 'false';
     }
     exit();
 }
 if (empty($ext)) {
-    $path = rtrim($path, '/').'/'.DIRECTORY_INDEX;
+    $pathname = rtrim($path, '/').'/'.DIRECTORY_INDEX;
 }
-if (file_exists($_SERVER['DOCUMENT_ROOT'].$path)) {
-    $ext = pathinfo($path, PATHINFO_EXTENSION);
+if (file_exists($_SERVER['DOCUMENT_ROOT'].$pathname)) {
+    $ext = pathinfo($pathname, PATHINFO_EXTENSION);
     if ($ext == 'html') {
-        $html = file_get_contents($_SERVER['DOCUMENT_ROOT'].$path);
+        $html = file_get_contents($_SERVER['DOCUMENT_ROOT'].$pathname);
         // includes "live relaod" script in HTML files
-        $script = file_get_contents(__DIR__ . '/.watch.js');
+        $script = file_get_contents(__DIR__ . '/livereload.js');
         $html = str_replace('</body>', $script."\n".'</body>', $html);
         // replaces base url by localhost
-        $html = str_replace(trim(file_get_contents(__DIR__.'/.baseurl')), 'http://localhost:8000/', $html);
+        $html = str_replace(trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../.baseurl')), 'http://localhost:8000/', $html);
         echo $html;
 
         return true;

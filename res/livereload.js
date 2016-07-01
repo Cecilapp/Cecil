@@ -1,3 +1,4 @@
+<!-- Live reload script -->
 <script>
 var HttpClient = function() {
   this.get = function(aUrl, aCallback) {
