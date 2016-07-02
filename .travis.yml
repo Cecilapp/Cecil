@@ -34,3 +34,5 @@ deploy:
   overwrite: true
   on:
     tags: true
+# deploy to gh-pages
+after_deploy: deploy.sh
