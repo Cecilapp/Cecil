@@ -21,6 +21,6 @@ git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${REPO}
 cd gh-pages
 cp $HOME/$DIST_FILE $DIST_FILE
 git add -f .
-git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE} to gh-pages"
+git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
 git push -fq origin $TARGET_BRANCH > /dev/null
 exit 0

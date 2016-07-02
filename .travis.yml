@@ -32,7 +32,7 @@ deploy:
   file: "dist/phpoole.phar"
   skip_cleanup: true
   overwrite: true
-#  on:
-#    tags: true
-# deploy to gh-pages
+  on:
+    tags: true
+# deploy phar file to gh-pages
 after_deploy: bash deploy.sh
