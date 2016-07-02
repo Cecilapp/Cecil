@@ -1,8 +1,8 @@
 #!/bin/bash
 #set -e
 
+REPO="PHPoole/phpoole.github.io"
 SOURCE_BRANCH="master"
-TARGET_REPO="github.com/PHPoole/phpoole.github.io.git"
 TARGET_BRANCH="master"
 DIST_FILE="phpoole.phar"
 
@@ -17,10 +17,10 @@ cp "dist/"$DIST_FILE $HOME/$DIST_FILE
 cd $HOME
 git config --global user.name "Travis"
 git config --global user.email "travis@travis-ci.org"
-git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@${TARGET_REPO} gh-pages > /dev/null
+git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${REPO}.git gh-pages > /dev/null
 cd gh-pages
 cp $HOME/$DIST_FILE $DIST_FILE
 git add -f .
-git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to gh-pages"
+git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE} to gh-pages"
 git push -fq origin $TARGET_BRANCH > /dev/null
 exit 0
