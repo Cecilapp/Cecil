@@ -24,7 +24,7 @@ script:
 after_script:
   - php vendor/bin/coveralls -v
 # build phar
-before_deploy: "vendor/bin/box build"
+before_deploy: vendor/bin/box build
 # deploy to GitHub release
 deploy:
   provider: releases
@@ -35,4 +35,4 @@ deploy:
 #  on:
 #    tags: true
 # deploy to gh-pages
-after_deploy: deploy.sh
+after_deploy: bash deploy.sh
