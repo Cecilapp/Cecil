@@ -1,4 +1,5 @@
 {
+  "alias": "phpoole.phar",
   "chmod": "0755",
   "compactors": [
     "Herrera\\Box\\Compactor\\Json",
