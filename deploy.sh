@@ -3,7 +3,7 @@
 
 SOURCE_BRANCH="master"
 TARGET_REPO="github.com/PHPoole/phpoole.github.io.git"
-TARGET_BRANCH="gh-pages"
+TARGET_BRANCH="master"
 DIST_FILE="dist/phpoole.phar"
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
@@ -17,7 +17,7 @@ cp -R $DIST_FILE $HOME/$DIST_FILE
 cd $HOME
 git config --global user.name "Travis"
 git config --global user.email "travis@travis-ci.org"
-git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@${TARGET_REPO}  gh-pages > /dev/null
+git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@${TARGET_REPO} gh-pages > /dev/null
 cd gh-pages
 cp -Rf $HOME/$DIST_FILE/* .
 git add -f .
