@@ -35,17 +35,14 @@ class Serve extends AbstractCommand
         $this->fs = new FS();
 
         $this->setUpServer();
-        $root = __DIR__.'/../../';
-        if (isPhar() !== false) {
-            $root = isPhar().'/';
-        }
         $command = sprintf(
             'php -S %s:%d -t %s %s',
             'localhost',
             '8000',
             $this->getPath().'/'.$this->getPHPoole()->getOption('output.dir'),
-            sprintf('%s/router.php', $root.'res')
+            sprintf('%s/router.php', $this->getPath())
         );
+
         $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', 'localhost', '8000'));
         $process = new Process($command);
         if (!$process->isStarted()) {
@@ -95,10 +92,20 @@ class Serve extends AbstractCommand
     public function setUpServer()
     {
         try {
+            $root = __DIR__.'/../../';
+            if (isPhar()) {
+                $root = isPhar().'/';
+            }
+            $this->fs->copy($root.'res/router.php', $this->getPath().'/router.php', true);
+            $this->fs->copy($root.'res/livereload.js', $this->getPath().'/livereload.js', true);
             $this->fs->dumpFile($this->getPath().'/.baseurl', $this->getPHPoole()->getOption('site.baseurl'));
         } catch (IOExceptionInterface $e) {
             echo 'An error occurred while copying file at '.$e->getPath().PHP_EOL;
             echo $e->getMessage().PHP_EOL;
+            exit(2);
+        }
+        if (!is_file(sprintf('%s/router.php', $this->getPath()))) {
+            $this->wlError('Router not found');
             exit(2);
         }
     }
@@ -107,6 +114,8 @@ class Serve extends AbstractCommand
     {
         try {
             $this->fs->remove([
+                $this->getPath().'/router.php',
+                $this->getPath().'/livereload.js',
                 $this->getPath().'/.baseurl',
             ]);
         } catch (IOExceptionInterface $e) {
