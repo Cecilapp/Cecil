@@ -6,7 +6,11 @@ SOURCE_BRANCH="master"
 TARGET_BRANCH="master"
 DIST_FILE="phpoole.phar"
 
-if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
+#if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
+#    echo "Skipping deploy."
+#    exit 0
+#fi
+if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo "Skipping deploy."
     exit 0
 fi
