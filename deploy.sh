@@ -11,12 +11,12 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]
     exit 0
 fi
 
-echo "Starting to deploy Phar to gh-pages"
+echo "Starting to deploy ${DIST_FILE} to gh-pages..."
 
 cp "dist/"$DIST_FILE $HOME/$DIST_FILE
 cd $HOME
 git config --global user.name "Travis"
-git config --global user.email "travis@travis-ci.org"
+git config --global user.email "contact@travis-ci.org"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${REPO}.git gh-pages > /dev/null
 cd gh-pages
 cp $HOME/$DIST_FILE $DIST_FILE
