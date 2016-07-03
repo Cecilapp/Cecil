@@ -15,6 +15,7 @@ install:
   - composer self-update
 # install package
 before_script:
+  - phpenv config-rm xdebug.ini
   - composer install --no-interaction
   - mkdir -p build/logs
 # run PHPUnit and export code coverage log
