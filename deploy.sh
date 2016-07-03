@@ -11,7 +11,7 @@ DIST_FILE="phpoole.phar"
 #    exit 0
 #fi
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-    echo "Skipping deploy."
+    echo "Skipping deploy (PR? $TRAVIS_PULL_REQUEST)."
     exit 0
 fi
 
