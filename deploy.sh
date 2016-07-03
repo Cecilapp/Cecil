@@ -20,6 +20,7 @@ git config --global user.email "travis@travis-ci.org"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${REPO}.git gh-pages > /dev/null
 cd gh-pages
 cp $HOME/$DIST_FILE $DIST_FILE
+sha1sum $DIST_FILE > $DIST_FILE".version"
 git add -f .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
 git push -fq origin $TARGET_BRANCH > /dev/null
