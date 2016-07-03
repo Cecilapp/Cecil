@@ -21,6 +21,8 @@ if ($path == '/watcher') {
 }
 if (empty($ext)) {
     $pathname = rtrim($path, '/').'/'.DIRECTORY_INDEX;
+} else {
+    $pathname = $path;
 }
 if (file_exists($_SERVER['DOCUMENT_ROOT'].$pathname)) {
     $ext = pathinfo($pathname, PATHINFO_EXTENSION);
