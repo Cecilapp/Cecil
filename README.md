@@ -20,9 +20,8 @@ PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) applica
 
 ## Installation
 
-Download the latest ```phpoole.phar``` from the [releases page](https://github.com/Narno/PHPoole/releases).
 ```
-$ curl -SOL https://github.com/Narno/PHPoole/releases/download/X.Y.Z/phpoole.phar
+$ curl -SOL http://phpoole.org/phpoole.phar
 $ mv phpoole.phar /usr/local/bin/phpoole
 $ chmod +x /usr/local/bin/phpoole
 ```
