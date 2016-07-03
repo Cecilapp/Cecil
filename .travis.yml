@@ -35,5 +35,6 @@ deploy:
   overwrite: true
   on:
     tags: true
+    php: '5.6'
 # deploy phar file to gh-pages
 after_deploy: bash deploy.sh
