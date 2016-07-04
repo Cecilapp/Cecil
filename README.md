@@ -17,6 +17,13 @@ PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) applica
 * [Documentation](http://phpoole.org/docs)
 * [Issue tracker](https://github.com/Narno/PHPoole/issues)
 
+## Features
+
+* No database, files only
+* Flexible template engine & themes support
+* Dynamic menu creation
+* Generators (taxonomies, paginaton, etc.)
+
 ## Installation
 
 ```
@@ -31,6 +38,10 @@ $ chmod +x /usr/local/bin/phpoole
 2. Build and serve it:  ```phpoole build -s```
 
 Get help: ```phpoole help```
+
+## Demo
+
+Try the [demo](https://github.com/PHPoole/PHPoole-demo).
 
 ## Development
 
