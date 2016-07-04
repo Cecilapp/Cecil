@@ -3,7 +3,6 @@
 > An easy and lightweight static website generator, written in PHP.
 
 [![Build Status](https://travis-ci.org/Narno/PHPoole.svg)](https://travis-ci.org/Narno/PHPoole)
-[![Coverage Status](https://coveralls.io/repos/github/Narno/PHPoole/badge.svg)](https://coveralls.io/github/Narno/PHPoole)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Narno/PHPoole/badges/quality-score.png)](https://scrutinizer-ci.com/g/Narno/PHPoole/)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85aa408ef2e94925831b1f7dd4c98219)](https://www.codacy.com/app/Narno/PHPoole?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Narno/PHPoole&amp;utm_campaign=Badge_Grade)
 [![StyleCI](https://styleci.io/repos/12738012/shield)](https://styleci.io/repos/12738012)
