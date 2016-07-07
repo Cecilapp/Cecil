@@ -40,7 +40,7 @@ class Serve extends AbstractCommand
             'localhost',
             '8000',
             $this->getPath().'/'.$this->getPHPoole()->getOption('output.dir'),
-            sprintf('%s/router.php', $this->getPath())
+            sprintf('%s/.phpoole/router.php', $this->getPath())
         );
 
         $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', 'localhost', '8000'));
@@ -62,7 +62,7 @@ class Serve extends AbstractCommand
                 $rc = new ResourceCacheMemory();
                 $rw = new ResourceWatcher($rc);
                 $rw->setFinder($finder);
-                $this->fs->dumpFile($this->getPath().'/.watch.flag', '');
+                $this->fs->dumpFile($this->getPath().'/.phpoole/watch.flag', '');
             }
             // start server
             try {
@@ -72,7 +72,7 @@ class Serve extends AbstractCommand
                     if ($this->watch) {
                         $rw->findChanges();
                         if ($rw->hasChanges()) {
-                            $this->fs->dumpFile($this->getPath().'/.changes.flag', '');
+                            $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
                             // re-generate
                             $this->wlAlert('Changes detected!');
                             $callable = new Build();
@@ -96,15 +96,15 @@ class Serve extends AbstractCommand
             if (isPhar()) {
                 $root = isPhar().'/';
             }
-            $this->fs->copy($root.'res/router.php', $this->getPath().'/router.php', true);
-            $this->fs->copy($root.'res/livereload.js', $this->getPath().'/livereload.js', true);
-            $this->fs->dumpFile($this->getPath().'/.baseurl', $this->getPHPoole()->getOption('site.baseurl'));
+            $this->fs->copy($root.'res/router.php', $this->getPath().'/.phpoole/router.php', true);
+            $this->fs->copy($root.'res/livereload.js', $this->getPath().'/.phpoole/livereload.js', true);
+            $this->fs->dumpFile($this->getPath().'/.phpoole/baseurl', $this->getPHPoole()->getOption('site.baseurl'));
         } catch (IOExceptionInterface $e) {
             echo 'An error occurred while copying file at '.$e->getPath().PHP_EOL;
             echo $e->getMessage().PHP_EOL;
             exit(2);
         }
-        if (!is_file(sprintf('%s/router.php', $this->getPath()))) {
+        if (!is_file(sprintf('%s/.phpoole/router.php', $this->getPath()))) {
             $this->wlError('Router not found');
             exit(2);
         }
@@ -114,9 +114,9 @@ class Serve extends AbstractCommand
     {
         try {
             $this->fs->remove([
-                $this->getPath().'/router.php',
-                $this->getPath().'/livereload.js',
-                $this->getPath().'/.baseurl',
+                $this->getPath().'/.phpoole/router.php',
+                $this->getPath().'/.phpoole/livereload.js',
+                $this->getPath().'/.phpoole/baseurl',
             ]);
         } catch (IOExceptionInterface $e) {
             echo $e->getMessage().PHP_EOL;
