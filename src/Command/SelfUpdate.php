@@ -42,13 +42,14 @@ class SelfUpdate extends AbstractCommand
     public function processCommand()
     {
         try {
+            echo "\rChecks for updates...";
             $result = $this->updater->update();
             if ($result) {
                 $new = $this->updater->getNewVersion();
                 $old = $this->updater->getOldVersion();
-                $this->wlDone(sprintf('Updated from %s to %s', $old, $new));
+                printf("\rUpdated from %s to %s.", $old, $new);
             } else {
-                $this->wlDone('No update needed!');
+                printf("\rYou are already using last version (%s).", $this->version);
             }
         } catch (\Exception $e) {
             echo $e->getMessage();
