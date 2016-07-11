@@ -34,9 +34,9 @@
   },
   "autoload": {
     "psr-4" : {
-      "PHPoole\\Command\\": "src/Command"
-    },
-    "files": ["src/function.php"]
+      "PHPoole\\Command\\": "src/Command",
+      "PHPoole\\Util\\": "src/Util"
+    }
   },
   "autoload-dev": {
     "psr-4": {

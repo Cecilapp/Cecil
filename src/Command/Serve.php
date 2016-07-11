@@ -10,6 +10,7 @@
 
 namespace PHPoole\Command;
 
+use PHPoole\Util\Plateform;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem as FS;
 use Symfony\Component\Finder\Finder;
@@ -93,8 +94,8 @@ class Serve extends AbstractCommand
     {
         try {
             $root = __DIR__.'/../../';
-            if (isPhar()) {
-                $root = isPhar().'/';
+            if (Plateform::isPhar()) {
+                $root = Plateform::getPharPath().'/';
             }
             $this->fs->copy($root.'res/router.php', $this->getPath().'/.phpoole/router.php', true);
             $this->fs->copy($root.'res/livereload.js', $this->getPath().'/.phpoole/livereload.js', true);
