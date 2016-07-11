@@ -77,6 +77,7 @@ $application->setBanner(function($console) {
     $console->writeLine('An easy and lightweight static website generator!');
     $console->writeLine('');
 });
+$application->setBannerDisabledForUserCommands();
 $application->setDebug(true);
 
 if (Plateform::isPhar()) {
