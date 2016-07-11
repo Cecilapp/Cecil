@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "eff7f72332a8f2700d441b054a920fc3",
-    "content-hash": "31ed8a162810204cfd92222cf04e5d72",
+    "hash": "1c255371631e2641fddb914d43134cb4",
+    "content-hash": "4e7c9167a74cf5eba9d0ad10c96db0c7",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1125,37 +1125,39 @@
         },
         {
             "name": "zfcampus/zf-console",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-console.git",
-                "reference": "026fb1808b63e5100122a809392301612ed94723"
+                "reference": "663c19e22240b4ea51b3d01950720f6db8dfd6f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-console/zipball/026fb1808b63e5100122a809392301612ed94723",
-                "reference": "026fb1808b63e5100122a809392301612ed94723",
+                "url": "https://api.github.com/repos/zfcampus/zf-console/zipball/663c19e22240b4ea51b3d01950720f6db8dfd6f0",
+                "reference": "663c19e22240b4ea51b3d01950720f6db8dfd6f0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5",
-                "zendframework/zend-console": "~2.3"
+                "php": "^5.6 || ^7.0",
+                "zendframework/zend-console": "^2.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.7",
+                "container-interop/container-interop": "^1.1",
+                "phpunit/phpunit": "~4.8 || ^5.0",
                 "squizlabs/php_codesniffer": "^2.3.1",
-                "zendframework/zend-filter": "~2.3",
-                "zendframework/zend-validator": "~2.3"
+                "zendframework/zend-filter": "^2.7.1",
+                "zendframework/zend-validator": "^2.8.1"
             },
             "suggest": {
-                "zendframework/zend-filter": "~2.3; Useful for filtering/normalizing argument values",
-                "zendframework/zend-validator": "~2.3; Useful for providing more thorough argument validation logic"
+                "container-interop/container-interop": "^1.1; For ability to pull dispatched commands from container",
+                "zendframework/zend-filter": "^2.7.1; Useful for filtering/normalizing argument values",
+                "zendframework/zend-validator": "^2.8.1; Useful for providing more thorough argument validation logic"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev",
-                    "dev-develop": "1.3-dev"
+                    "dev-master": "1.3-dev",
+                    "dev-develop": "1.4-dev"
                 }
             },
             "autoload": {
@@ -1173,7 +1175,7 @@
                 "zend",
                 "zf2"
             ],
-            "time": "2015-07-15 16:12:47"
+            "time": "2016-07-11 20:33:55"
         }
     ],
     "packages-dev": [
