@@ -21,9 +21,6 @@ before_script:
 # run PHPUnit and export code coverage log
 script:
   - phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml
-# run coveralls
-after_script:
-  - php vendor/bin/coveralls -v
 # build phar
 before_deploy: vendor/bin/box build
 # deploy to GitHub release
