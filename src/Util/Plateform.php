@@ -23,6 +23,7 @@ class Plateform
     {
         if (!empty(\Phar::running())) {
             self::$pharPath = \Phar::running();
+
             return true;
         }
 
@@ -30,13 +31,14 @@ class Plateform
     }
 
     /**
-     * Returns the full path on disk to the currently executing Phar archive
+     * Returns the full path on disk to the currently executing Phar archive.
      */
     public static function getPharPath()
     {
         if (!isset(self::$pharPath)) {
             self::isPhar();
         }
+
         return self::$pharPath;
     }
 
