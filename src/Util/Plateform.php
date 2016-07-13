@@ -51,7 +51,7 @@ class Plateform
     }
 
     /**
-     * Opens a URL in the system default browser
+     * Opens a URL in the system default browser.
      *
      * @param string $url
      */
