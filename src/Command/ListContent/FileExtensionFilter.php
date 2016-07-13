@@ -33,6 +33,7 @@ class FileExtensionFilter extends RecursiveFilterIterator
         if ($file->isFile()) {
             return in_array($file->getExtension(), $this->allowedExt);
         }
+
         return true;
     }
 }
