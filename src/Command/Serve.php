@@ -68,6 +68,7 @@ class Serve extends AbstractCommand
             // start server
             try {
                 $process->start();
+                Plateform::openBrowser('http://localhost:8000');
                 while ($process->isRunning()) {
                     // watch changes?
                     if ($this->watch) {

@@ -49,4 +49,23 @@ class Plateform
     {
         return defined('PHP_WINDOWS_VERSION_BUILD');
     }
+
+    /**
+     * Opens a URL in the system default browser
+     *
+     * @param string $url
+     */
+    public static function openBrowser($url)
+    {
+        if (self::isWindows()) {
+            passthru('start "web" explorer "'.$url.'"');
+        }
+        passthru('which xdg-open', $linux);
+        passthru('which open', $osx);
+        if (0 === $linux) {
+            passthru('xdg-open '.$url);
+        } elseif (0 === $osx) {
+            passthru('open '.$url);
+        }
+    }
 }
