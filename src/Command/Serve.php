@@ -12,7 +12,7 @@ namespace PHPoole\Command;
 
 use PHPoole\Util\Plateform;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Filesystem\Filesystem as FS;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -26,14 +26,14 @@ class Serve extends AbstractCommand
      */
     protected $watch;
     /**
-     * @var FS
+     * @var Filesystem
      */
-    protected $fs;
+    protected $fileSystem;
 
     public function processCommand()
     {
         $this->watch = $this->getRoute()->getMatchedParam('watch', false);
-        $this->fs = new FS();
+        $this->fileSystem = new Filesystem();
 
         $this->setUpServer();
         $command = sprintf(
@@ -60,10 +60,10 @@ class Serve extends AbstractCommand
                 if (is_dir($this->getPath().'/'.$this->getPHPoole()->getOption('themes.dir'))) {
                     $finder->in($this->getPath().'/'.$this->getPHPoole()->getOption('themes.dir'));
                 }
-                $rc = new ResourceCacheMemory();
-                $rw = new ResourceWatcher($rc);
-                $rw->setFinder($finder);
-                $this->fs->dumpFile($this->getPath().'/.phpoole/watch.flag', '');
+                $resourceCache = new ResourceCacheMemory();
+                $resourceWatcher = new ResourceWatcher($resourceCache);
+                $resourceWatcher->setFinder($finder);
+                $this->fileSystem->dumpFile($this->getPath().'/.phpoole/watch.flag', '');
             }
             // start server
             try {
@@ -72,9 +72,9 @@ class Serve extends AbstractCommand
                 while ($process->isRunning()) {
                     // watch changes?
                     if ($this->watch) {
-                        $rw->findChanges();
-                        if ($rw->hasChanges()) {
-                            $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
+                        $resourceWatcher->findChanges();
+                        if ($resourceWatcher->hasChanges()) {
+                            $this->fileSystem->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
                             // re-generate
                             $this->wlAlert('Changes detected!');
                             $callable = new Build();
@@ -98,9 +98,9 @@ class Serve extends AbstractCommand
             if (Plateform::isPhar()) {
                 $root = Plateform::getPharPath().'/';
             }
-            $this->fs->copy($root.'res/router.php', $this->getPath().'/.phpoole/router.php', true);
-            $this->fs->copy($root.'res/livereload.js', $this->getPath().'/.phpoole/livereload.js', true);
-            $this->fs->dumpFile($this->getPath().'/.phpoole/baseurl', $this->getPHPoole()->getOption('site.baseurl'));
+            $this->fileSystem->copy($root.'res/router.php', $this->getPath().'/.phpoole/router.php', true);
+            $this->fileSystem->copy($root.'res/livereload.js', $this->getPath().'/.phpoole/livereload.js', true);
+            $this->fileSystem->dumpFile($this->getPath().'/.phpoole/baseurl', $this->getPHPoole()->getOption('site.baseurl'));
         } catch (IOExceptionInterface $e) {
             echo 'An error occurred while copying file at '.$e->getPath().PHP_EOL;
             echo $e->getMessage().PHP_EOL;
@@ -115,7 +115,7 @@ class Serve extends AbstractCommand
     public function tearDownServer()
     {
         try {
-            $this->fs->remove([
+            $this->fileSystem->remove([
                 $this->getPath().'/.phpoole/router.php',
                 $this->getPath().'/.phpoole/livereload.js',
                 $this->getPath().'/.phpoole/baseurl',

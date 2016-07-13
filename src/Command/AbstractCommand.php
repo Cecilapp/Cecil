@@ -98,24 +98,24 @@ abstract class AbstractCommand
     public function getPHPoole()
     {
         $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = true) {
-            switch ($code) {
-                case 'CREATE':
-                case 'CONVERT':
-                case 'GENERATE':
-                case 'RENDER':
-                case 'COPY':
+            switch (true) {
+                case $code == 'CREATE'
+                || $code == 'CONVERT'
+                || $code == 'GENERATE'
+                || $code == 'RENDER'
+                || $code == 'COPY':
                     $this->wlAnnonce($message);
                     break;
-                case 'CREATE_PROGRESS':
-                case 'CONVERT_PROGRESS':
-                case 'GENERATE_PROGRESS':
-                case 'RENDER_PROGRESS':
-                case 'COPY_PROGRESS':
+                case $code == 'CREATE_PROGRESS'
+                || $code == 'CONVERT_PROGRESS'
+                || $code == 'GENERATE_PROGRESS'
+                || $code == 'RENDER_PROGRESS'
+                || $code == 'COPY_PROGRESS':
                     if ($itemsCount > 0 && $verbose !== false) {
                         $this->wlDone(sprintf("\r  (%u/%u) %s", $itemsCount, $itemsMax, $message));
-                    } else {
-                        $this->wlDone("  $message");
+                        break;
                     }
+                    $this->wlDone("  $message");
                     break;
             }
         };
@@ -126,7 +126,7 @@ abstract class AbstractCommand
                 exit(2);
             }
             try {
-                $options = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
+                $options = (new Yaml())->parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
                 $this->phpoole = new PHPoole($options, $messageCallback);
                 $this->phpoole->setSourceDir($this->getPath());
                 $this->phpoole->setDestDir($this->getPath());

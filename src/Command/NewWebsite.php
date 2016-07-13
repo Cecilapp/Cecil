@@ -10,7 +10,8 @@
 
 namespace PHPoole\Command;
 
-use Symfony\Component\Filesystem\Filesystem as FS;
+use PHPoole\Util\Plateform;
+use Symfony\Component\Filesystem\Filesystem;
 
 class NewWebsite extends AbstractCommand
 {
@@ -25,21 +26,21 @@ class NewWebsite extends AbstractCommand
 
         $this->wlAnnonce('Creates a new website...');
         try {
-            $fs = new FS();
+            $fileSystem = new Filesystem();
             $root = __DIR__.'/../../';
-            if (!empty(\Phar::running())) {
-                $root = \Phar::running().'/';
+            if (Plateform::isPhar()) {
+                $root = Plateform::getPharPath().'/';
             }
-            if (!$fs->exists($this->getPath().'/'.self::CONFIG_FILE) || $this->force) {
-                $fs->copy($root.'skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
-                $fs->mirror($root.'skeleton/content', $this->getPath().'/content');
-                $fs->mirror($root.'skeleton/layouts', $this->getPath().'/layouts');
-                $fs->mirror($root.'skeleton/static', $this->getPath().'/static');
-
+            if (!$fileSystem->exists($this->getPath().'/'.self::CONFIG_FILE) || $this->force) {
+                $fileSystem->copy($root.'skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
+                $fileSystem->mirror($root.'skeleton/content', $this->getPath().'/content');
+                $fileSystem->mirror($root.'skeleton/layouts', $this->getPath().'/layouts');
+                $fileSystem->mirror($root.'skeleton/static', $this->getPath().'/static');
                 $this->wlDone('Done!');
-            } else {
-                $this->wlAlert(sprintf('File "%s" already exists.', $this->getPath().'/'.self::CONFIG_FILE));
+                exit(0);
             }
+            $this->wlAlert(sprintf('File "%s" already exists.', $this->getPath().'/'.self::CONFIG_FILE));
+            exit(1);
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
         }
