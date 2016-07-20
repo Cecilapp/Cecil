@@ -34,14 +34,11 @@ $ chmod +x /usr/local/bin/phpoole
 
 ## Usage
 
-1. Create new website: ```phpoole new```
-2. Build and serve it:  ```phpoole build -s```
+* Create new website: ```phpoole new```
+* Build and serve it:  ```phpoole build -s```
+* Get help: ```phpoole help```
 
-Get help: ```phpoole help```
-
-## Demo
-
-Try the [demo](https://github.com/PHPoole/PHPoole-demo).
+Try the [demo](https://github.com/PHPoole/PHPoole-demo)!
 
 ## Development
 
@@ -54,11 +51,12 @@ Please see the [composer.json](https://github.com/Narno/PHPoole/blob/master/comp
 Run the following commands:
 ```
 $ composer create-project narno/phpoole -sdev
-$ php bin/phpoole help
+$ cd phpoole
+$ php bin/phpoole -v
 ```
 
 ## License
 
 PHPoole is a free software distributed under the terms of the MIT license.
 
-PHPoole logo designed by [Cécile Ricordeau](http://www.cecillie.fr).
+Logo created by [Cécile Ricordeau](http://www.cecillie.fr).
