@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -e
+set -e
 
 REPO="PHPoole/phpoole.github.io"
 SOURCE_BRANCH="master"
@@ -15,7 +15,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     exit 0
 fi
 
-echo "Starting to deploy ${DIST_FILE} to gh-pages..."
+echo "Starting to deploy ${DIST_FILE} to ${REPO}..."
 
 cp "dist/"$DIST_FILE $HOME/$DIST_FILE
 cd $HOME
