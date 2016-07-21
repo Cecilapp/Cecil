@@ -19,7 +19,7 @@
   },
   "require": {
     "php": "^5.6|^7.0",
-    "narno/phpoole-library": "~1.0",
+    "narno/phpoole-library": "~1.1",
     "padraic/humbug_get_contents": "^1.0",
     "padraic/phar-updater": "^1.0",
     "symfony/filesystem": "^2.8",

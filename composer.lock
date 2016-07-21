@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1c255371631e2641fddb914d43134cb4",
-    "content-hash": "4e7c9167a74cf5eba9d0ad10c96db0c7",
+    "hash": "fa416c21eca516b97b828e84c9267afc",
+    "content-hash": "76d7ffd41b3820304ec09a6ae705adb2",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -73,19 +73,21 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "a2995e5fe351055f2c7630166af12ce8fd03edfc"
+                "reference": "5df9ed0ed0c9506ea6404a23450854e5df15cc12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/a2995e5fe351055f2c7630166af12ce8fd03edfc",
-                "reference": "a2995e5fe351055f2c7630166af12ce8fd03edfc",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/5df9ed0ed0c9506ea6404a23450854e5df15cc12",
+                "reference": "5df9ed0ed0c9506ea6404a23450854e5df15cc12",
                 "shasum": ""
             },
             "require": {
+                "ext-openssl": "*",
+                "ext-pcre": "*",
                 "php": "^5.3.2 || ^7.0"
             },
             "require-dev": {
@@ -124,7 +126,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2016-04-13 10:13:24"
+            "time": "2016-07-18 23:07:53"
         },
         {
             "name": "dflydev/dot-access-configuration",
@@ -421,11 +423,11 @@
         },
         {
             "name": "narno/phpoole-library",
-            "version": "1.1.0-beta.4",
+            "version": "1.1.0-rc.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/PHPoole-library",
-                "reference": "7d14ab4f9540a60b645c8ae3573b4a039d8d7adf"
+                "reference": "1f40db6140228449e4338fc225645b60b15b2011"
             },
             "require": {
                 "cocur/slugify": "^2.0",
@@ -435,6 +437,7 @@
                 "php": "^5.5|^7.0",
                 "symfony/filesystem": "^2.8",
                 "symfony/finder": "^2.7|^2.8",
+                "symfony/process": "^2.8",
                 "symfony/yaml": "^2.8",
                 "twig/twig": "^1.24",
                 "zendframework/zend-eventmanager": "^2.6"
@@ -480,7 +483,7 @@
                 "twig",
                 "website"
             ],
-            "time": "2016-07-01 01:35:21"
+            "time": "2016-07-20 23:42:23"
         },
         {
             "name": "padraic/humbug_get_contents",
