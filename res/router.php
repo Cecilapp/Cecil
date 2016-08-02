@@ -28,9 +28,11 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'].$pathname)) {
     $ext = pathinfo($pathname, PATHINFO_EXTENSION);
     if ($ext == 'html') {
         $html = file_get_contents($_SERVER['DOCUMENT_ROOT'].$pathname);
-        // includes "live relaod" script in HTML files
-        $script = file_get_contents(__DIR__.'/livereload.js');
-        $html = str_replace('</body>', $script."\n".'</body>', $html);
+        // includes "live reload" script in HTML files
+        if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/watch.flag')) {
+            $script = file_get_contents(__DIR__.'/livereload.js');
+            $html = str_replace('</body>', $script."\n".'</body>', $html);
+        }
         // replaces base url by localhost
         $html = str_replace(trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/baseurl')), 'http://localhost:8000/', $html);
         echo $html;
