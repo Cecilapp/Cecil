@@ -13,15 +13,16 @@ namespace PHPoole;
 use Exception;
 
 /**
- * Class Skeleton
- * @package PHPoole
+ * Class Skeleton.
  */
 class Skeleton
 {
     /**
      * @param PHPoole $phpoole
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public static function createConfigFile(PHPoole $phpoole)
     {
@@ -40,34 +41,40 @@ home  = "http://narno.org"
 repository = "https://github.com/Narno/PHPoole.git"
 branch     = "gh-pages"
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::CONFIG_FILENAME, $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath().'/'.PHPoole::CONFIG_FILENAME, $content)) {
             throw new Exception('Cannot create the config file');
         }
+
         return 'Config file';
     }
 
     /**
      * @param PHPoole $phpoole
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public static function createContentDir(PHPoole $phpoole)
     {
-        $subDirList = array(
+        $subDirList = [
             PHPoole::CONTENT_DIRNAME,
-        );
+        ];
         foreach ($subDirList as $subDir) {
-            if (!@mkdir($phpoole->getWebsitePath() . '/' . $subDir)) {
+            if (!@mkdir($phpoole->getWebsitePath().'/'.$subDir)) {
                 throw new Exception('Cannot create the content directory');
             }
         }
+
         return 'Content directory';
     }
 
     /**
      * @param PHPoole $phpoole
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public static function createContentDefaultFile(PHPoole $phpoole)
     {
@@ -84,29 +91,35 @@ PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Stran
 
 Go to the [dedicated website](http://phpoole.narno.org) for more details.
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::CONTENT_DIRNAME . '/index.md', $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath().'/'.PHPoole::CONTENT_DIRNAME.'/index.md', $content)) {
             throw new Exception('Cannot create the default content file');
         }
+
         return 'Default content file';
     }
 
     /**
      * @param PHPoole $phpoole
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public static function createLayoutsDir(PHPoole $phpoole)
     {
-        if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::LAYOUTS_DIRNAME)) {
+        if (!@mkdir($phpoole->getWebsitePath().'/'.PHPoole::LAYOUTS_DIRNAME)) {
             throw new Exception('Cannot create the layouts directory');
         }
+
         return 'Layouts directory';
     }
 
     /**
      * @param PHPoole $phpoole
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public static function createLayoutDefaultFile(PHPoole $phpoole)
     {
@@ -176,16 +189,19 @@ a:hover {
   </body>
 </html>
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::LAYOUTS_DIRNAME . '/default.html', $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath().'/'.PHPoole::LAYOUTS_DIRNAME.'/default.html', $content)) {
             throw new Exception('Cannot create the default layout file');
         }
+
         return 'Default layout file';
     }
 
     /**
      * @param PHPoole $phpoole
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public static function createLayoutWatchFile(PHPoole $phpoole)
     {
@@ -216,29 +232,35 @@ var i = setInterval(function(){
 }, 500); // 0.5 s
 </script>
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::LAYOUTS_DIRNAME . '/watch.html', $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath().'/'.PHPoole::LAYOUTS_DIRNAME.'/watch.html', $content)) {
             throw new Exception('Cannot create the "watch" layout file');
         }
+
         return 'Watch layout file';
     }
 
     /**
      * @param PHPoole $phpoole
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public static function createStaticDir(PHPoole $phpoole)
     {
-        if (!@mkdir($phpoole->getWebsitePath() . '/' . PHPoole::STATIC_DIRNAME)) {
+        if (!@mkdir($phpoole->getWebsitePath().'/'.PHPoole::STATIC_DIRNAME)) {
             throw new Exception('Cannot create the static directory');
         }
+
         return 'Static directory';
     }
 
     /**
      * @param PHPoole $phpoole
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public static function createReadmeFile(PHPoole $phpoole)
     {
@@ -246,21 +268,24 @@ EOT;
 Powered by [PHPoole](http://phpoole.narno.org).
 EOT;
 
-        if (is_file($phpoole->getWebsitePath() . '/' . PHPoole::STATIC_DIRNAME . '/README.md')) {
-            if (!@unlink($phpoole->getWebsitePath() . '/' . PHPoole::STATIC_DIRNAME . '/README.md')) {
+        if (is_file($phpoole->getWebsitePath().'/'.PHPoole::STATIC_DIRNAME.'/README.md')) {
+            if (!@unlink($phpoole->getWebsitePath().'/'.PHPoole::STATIC_DIRNAME.'/README.md')) {
                 throw new Exception('Cannot create the README file');
             }
         }
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . PHPoole::STATIC_DIRNAME . '/README.md', $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath().'/'.PHPoole::STATIC_DIRNAME.'/README.md', $content)) {
             throw new Exception('Cannot create the README file');
         }
+
         return 'README file';
     }
 
     /**
      * @param PHPoole $phpoole
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public static function createRouterFile(PHPoole $phpoole)
     {
@@ -293,9 +318,10 @@ if (file_exists($_SERVER["DOCUMENT_ROOT"] . $path)) {
 http_response_code(404);
 echo "404, page not found";
 EOT;
-        if (!@file_put_contents($phpoole->getWebsitePath() . '/' . '/router.php', $content)) {
+        if (!@file_put_contents($phpoole->getWebsitePath().'/'.'/router.php', $content)) {
             throw new Exception('Cannot create the router file');
         }
+
         return 'Router file';
     }
 }

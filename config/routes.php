@@ -8,71 +8,71 @@
  * file that was distributed with this source code.
  */
 
-return array(
-    array(
-        'name' => 'init',
-        'route' => '[<path>] [--force|-f]',
-        'aliases' => array(
+return [
+    [
+        'name'    => 'init',
+        'route'   => '[<path>] [--force|-f]',
+        'aliases' => [
             'f' => 'force',
-        ),
-        'short_description' => 'Create a new PHPoole website',
-        'description' => 'Build a new PHPoole website in <path> if provided',
-        'options_descriptions' => array(
-            '<path>'  => 'Website path',
+        ],
+        'short_description'    => 'Create a new PHPoole website',
+        'description'          => 'Build a new PHPoole website in <path> if provided',
+        'options_descriptions' => [
+            '<path>'     => 'Website path',
             '--force|-f' => 'Override if already exist',
-        ),
-        'defaults' => array(
+        ],
+        'defaults' => [
             'path' => getcwd(),
-        ),
+        ],
         'handler' => 'PHPoole\Command\Init',
-    ),
-    array(
-        'name' => 'build',
-        'route' => '[<path>] [--serve|-s] [--watch|-w]',
-        'aliases' => array(
+    ],
+    [
+        'name'    => 'build',
+        'route'   => '[<path>] [--serve|-s] [--watch|-w]',
+        'aliases' => [
             's' => 'serve',
             'w' => 'watch',
-        ),
-        'short_description' => 'Build website',
-        'description' => 'Build website',
-        'options_descriptions' => array(
-            '<path>'  => 'Website path',
+        ],
+        'short_description'    => 'Build website',
+        'description'          => 'Build website',
+        'options_descriptions' => [
+            '<path>'    => 'Website path',
             '--serve|s' => 'Build and serve',
             '--watch|w' => 'Watching files changes',
-        ),
-        'defaults' => array(
+        ],
+        'defaults' => [
             'path' => getcwd(),
-        ),
+        ],
         'handler' => 'PHPoole\Command\Build',
-    ),
-    array(
-        'name' => 'serve',
-        'route' => '[<path>] [--watch|-w]',
-        'aliases' => array(
+    ],
+    [
+        'name'    => 'serve',
+        'route'   => '[<path>] [--watch|-w]',
+        'aliases' => [
             'w' => 'watch',
-        ),
-        'short_description' => 'Start built-in web server',
-        'description' => 'Start built-in web server',
-        'options_descriptions' => array(
-            '<path>'  => 'Website path',
+        ],
+        'short_description'    => 'Start built-in web server',
+        'description'          => 'Start built-in web server',
+        'options_descriptions' => [
+            '<path>'    => 'Website path',
             '--watch|w' => 'Watching files changes',
-        ),
-        'defaults' => array(
+        ],
+        'defaults' => [
             'path' => getcwd(),
-        ),
+        ],
         'handler' => 'PHPoole\Command\Serve',
-    ),
-    array(
-        'name' => 'list',
-        'route' => '[<path>]',
-        'short_description' => 'Lists content',
-        'description' => 'Lists content',
-        'options_descriptions' => array(
+    ],
+    [
+        'name'                 => 'list',
+        'route'                => '[<path>]',
+        'short_description'    => 'Lists content',
+        'description'          => 'Lists content',
+        'options_descriptions' => [
             '<path>'  => 'Website path',
-        ),
-        'defaults' => array(
+        ],
+        'defaults' => [
             'path' => getcwd(),
-        ),
+        ],
         'handler' => 'PHPoole\Command\ListContent',
-    ),
-);
+    ],
+];

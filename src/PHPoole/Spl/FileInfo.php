@@ -13,34 +13,36 @@ namespace PHPoole\Spl;
 use SplFileInfo;
 
 /**
- * PHPoole File
+ * PHPoole File.
  *
  * Class FileInfo
- * @package PHPoole\Spl
  */
 class FileInfo extends SplFileInfo
 {
     /**
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * @param $key
      * @param $value
+     *
      * @return $this
      */
     public function setData($key, $value)
     {
         $this->_data[$key] = $value;
+
         return $this;
     }
 
     /**
      * @param string $key
+     *
      * @return array
      */
-    public function getData($key='')
+    public function getData($key = '')
     {
         if ($key == '') {
             return $this->_data;
@@ -62,12 +64,14 @@ class FileInfo extends SplFileInfo
             $error = error_get_last();
             throw new \RuntimeException($error['message']);
         }
+
         return $content;
     }
 
     /**
-     * @return $this
      * @throws \Exception
+     *
+     * @return $this
      */
     public function parse()
     {
@@ -79,6 +83,7 @@ class FileInfo extends SplFileInfo
         // if not front matter, return content only
         if (!$matches) {
             $this->setData('content_raw', $this->getContents());
+
             return $this;
         }
         // $rawInfo    = front matter data
@@ -88,6 +93,7 @@ class FileInfo extends SplFileInfo
         $info = parse_ini_string($rawInfo);
         $this->setData('info', $info);
         $this->setData('content_raw', $rawContent);
+
         return $this;
     }
 }

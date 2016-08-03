@@ -11,13 +11,11 @@
 namespace PHPoole\Spl;
 
 use FilterIterator;
-use PHPoole\Spl\FileInfo;
 
 /**
- * PHPoole File iterator
+ * PHPoole File iterator.
  *
  * Class FileIterator
- * @package PHPoole\Spl
  */
 class FileIterator extends FilterIterator
 {
@@ -30,7 +28,7 @@ class FileIterator extends FilterIterator
      * @param string $dirOrIterator
      * @param string $extFilter
      */
-    public function __construct($dirOrIterator = '.', $extFilter='')
+    public function __construct($dirOrIterator = '.', $extFilter = '')
     {
         if (is_string($dirOrIterator)) {
             if (!is_dir($dirOrIterator)) {
@@ -39,10 +37,9 @@ class FileIterator extends FilterIterator
             $dirOrIterator = new \RecursiveDirectoryIterator(
                 $dirOrIterator,
                 \FilesystemIterator::UNIX_PATHS
-                |\RecursiveIteratorIterator::SELF_FIRST
+                | \RecursiveIteratorIterator::SELF_FIRST
             );
-        }
-        elseif (!$dirOrIterator instanceof \DirectoryIterator) {
+        } elseif (!$dirOrIterator instanceof \DirectoryIterator) {
             throw new \InvalidArgumentException('Expected a DirectoryIterator');
         }
         if ($dirOrIterator instanceof \RecursiveIterator) {
@@ -71,8 +68,10 @@ class FileIterator extends FilterIterator
             if ($file->getExtension() != $this->_extFilter) {
                 return false;
             }
+
             return true;
         }
+
         return true;
     }
 }

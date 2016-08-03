@@ -10,11 +10,10 @@
 
 namespace PHPoole\Command;
 
-use PHPoole\Command\AbstractCommand;
+use PHPoole\Command\ListContent\FilenameRecursiveTreeIterator;
 use PHPoole\PHPoole;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
-use PHPoole\Command\ListContent\FilenameRecursiveTreeIterator;
 
 class ListContent extends AbstractCommand
 {
@@ -24,12 +23,12 @@ class ListContent extends AbstractCommand
             $this->wlAnnonce('Content list:');
             $pages = $this->getPagesTree();
             if ($this->getConsole()->isUtf8()) {
-                $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
+                $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
                     $prefixParts = [
                         RecursiveTreeIterator::PREFIX_LEFT         => ' ',
                         RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
                         RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ '
+                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ ',
                     ];
                     foreach ($prefixParts as $part => $string) {
                         $tree->setPrefixPart($part, $string);
@@ -37,7 +36,7 @@ class ListContent extends AbstractCommand
                 };
                 $unicodeTreePrefix($pages);
             }
-            foreach($pages as $page) {
+            foreach ($pages as $page) {
                 $this->getConsole()->writeLine($page);
             }
         } catch (\Exception $e) {
@@ -46,22 +45,24 @@ class ListContent extends AbstractCommand
     }
 
     /**
-     * Return a console displayable tree of pages
+     * Return a console displayable tree of pages.
+     *
+     * @throws Exception
      *
      * @return FilenameRecursiveTreeIterator
-     * @throws Exception
      */
     public function getPagesTree()
     {
-        $pagesPath = $this->getPhpoole()->getWebsitePath() . '/' . PHPoole::CONTENT_DIRNAME;
+        $pagesPath = $this->getPhpoole()->getWebsitePath().'/'.PHPoole::CONTENT_DIRNAME;
         if (!is_dir($pagesPath)) {
-            throw new \Exception(sprintf("Invalid %s directory", PHPoole::CONTENT_DIRNAME));
+            throw new \Exception(sprintf('Invalid %s directory', PHPoole::CONTENT_DIRNAME));
         }
         $dirIterator = new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS);
         $pages = new FilenameRecursiveTreeIterator(
             $dirIterator,
             FilenameRecursiveTreeIterator::SELF_FIRST
         );
+
         return $pages;
     }
 }
