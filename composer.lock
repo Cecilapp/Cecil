@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "cocur/slugify",
-            "version": "v2.2",
+            "version": "v2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cocur/slugify.git",
-                "reference": "13c1d3b2e602822c47a7ac62f9d409e1a2b76113"
+                "reference": "57a00e06a382928e350cc7bbb13b19f1b8f4e73a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cocur/slugify/zipball/13c1d3b2e602822c47a7ac62f9d409e1a2b76113",
-                "reference": "13c1d3b2e602822c47a7ac62f9d409e1a2b76113",
+                "url": "https://api.github.com/repos/cocur/slugify/zipball/57a00e06a382928e350cc7bbb13b19f1b8f4e73a",
+                "reference": "57a00e06a382928e350cc7bbb13b19f1b8f4e73a",
                 "shasum": ""
             },
             "require": {
@@ -69,7 +69,7 @@
                 "slug",
                 "slugify"
             ],
-            "time": "2016-07-10 13:06:05"
+            "time": "2016-08-09 20:10:17"
         },
         {
             "name": "composer/ca-bundle",
@@ -528,11 +528,11 @@
         },
         {
             "name": "narno/phpoole-library",
-            "version": "1.1.0-rc.3",
+            "version": "1.1.0-rc.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/PHPoole-library",
-                "reference": "80bcd784f131db4e14e31576f8887dd0a092c95b"
+                "reference": "4f3d8659a3e206faa9c9f25f4ecac098dc626992"
             },
             "require": {
                 "cocur/slugify": "^2.0",
@@ -589,7 +589,7 @@
                 "twig",
                 "website"
             ],
-            "time": "2016-08-09 15:44:47"
+            "time": "2016-08-10 13:52:34"
         },
         {
             "name": "padraic/humbug_get_contents",
