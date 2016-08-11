@@ -14,7 +14,7 @@ PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) applica
 
 ![Command line demo](https://raw.githubusercontent.com/Narno/PHPoole/master/docs/phpoole.gif)
 
-* [Documentation](http://phpoole.org/docs)
+* [Documentation](http://phpoole.org/documentation)
 * [Issue tracker](https://github.com/Narno/PHPoole/issues)
 
 ## Features
