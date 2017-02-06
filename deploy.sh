@@ -22,9 +22,6 @@ cd $HOME
 git config --global user.name "Travis"
 git config --global user.email "contact@travis-ci.org"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO}.git phpoole > /dev/null
-cp -R phpoole/.git $HOME/.git
-rm -rf phpoole/*
-cp -R $HOME/.git phpoole/.git
 cd phpoole"/static/"
 cp $HOME/$DIST_FILE $DIST_FILE
 sha1sum $DIST_FILE > $DIST_FILE".version"
