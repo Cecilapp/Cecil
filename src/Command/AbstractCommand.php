@@ -129,7 +129,7 @@ abstract class AbstractCommand
                 $options = (new Yaml())->parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
                 $this->phpoole = new PHPoole($options, $messageCallback);
                 $this->phpoole->setSourceDir($this->getPath());
-                $this->phpoole->setDestDir($this->getPath());
+                $this->phpoole->setDestinationDir($this->getPath());
             } catch (\Exception $e) {
                 $this->wlError($e->getMessage());
                 exit(2);

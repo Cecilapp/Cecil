@@ -54,12 +54,12 @@ class ListContent extends AbstractCommand
      */
     public function getPagesTree()
     {
-        $pagesPath = $this->path.'/'.$this->getPHPoole()->getOption('content.dir');
+        $pagesPath = $this->path.'/'.$this->getPHPoole()->getConfig()->get('content.dir');
         if (!is_dir($pagesPath)) {
             throw new \Exception(sprintf('Invalid %s directory', 'content'));
         }
         $dirIterator = new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS);
-        $dirIterator = new FileExtensionFilter($dirIterator, $this->getPHPoole()->getOption('content.ext'));
+        $dirIterator = new FileExtensionFilter($dirIterator, $this->getPHPoole()->getConfig()->get('content.ext'));
         $pages = new FilenameRecursiveTreeIterator(
             $dirIterator,
             FilenameRecursiveTreeIterator::SELF_FIRST

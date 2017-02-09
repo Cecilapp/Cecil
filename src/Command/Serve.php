@@ -40,7 +40,7 @@ class Serve extends AbstractCommand
             'php -S %s:%d -t %s %s',
             'localhost',
             '8000',
-            $this->getPath().'/'.$this->getPHPoole()->getOption('output.dir'),
+            $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'),
             sprintf('%s/.phpoole/router.php', $this->getPath())
         );
 
@@ -100,7 +100,7 @@ class Serve extends AbstractCommand
             }
             $this->fileSystem->copy($root.'res/router.php', $this->getPath().'/.phpoole/router.php', true);
             $this->fileSystem->copy($root.'res/livereload.js', $this->getPath().'/.phpoole/livereload.js', true);
-            $this->fileSystem->dumpFile($this->getPath().'/.phpoole/baseurl', $this->getPHPoole()->getOption('site.baseurl'));
+            $this->fileSystem->dumpFile($this->getPath().'/.phpoole/baseurl', $this->getPHPoole()->getConfig()->get('site.baseurl'));
         } catch (IOExceptionInterface $e) {
             echo 'An error occurred while copying file at '.$e->getPath().PHP_EOL;
             echo $e->getMessage().PHP_EOL;
