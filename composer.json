@@ -1,8 +1,8 @@
 {
   "name": "narno/phpoole",
   "description": "PHPoole is an easy and lightweight static website generator, written in PHP.",
-  "keywords": ["static", "website", "generator", "flat file", "markdown", "twig"],
-  "homepage": "https://github.com/Narno/PHPoole",
+  "keywords": ["static", "static-site", "generator", "flat file", "markdown", "twig"],
+  "homepage": "http://phpoole.org",
   "license": "MIT",
   "type": "project",
   "authors": [
