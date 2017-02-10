@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "443049be35ba71af429d814952425cad",
+    "content-hash": "64d8aa121ae2f828ba7c2ced67fa458b",
     "packages": [
         {
             "name": "cocur/slugify",
-            "version": "v2.3",
+            "version": "v2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cocur/slugify.git",
-                "reference": "57a00e06a382928e350cc7bbb13b19f1b8f4e73a"
+                "reference": "f11f22d4e60c408187c3efd8ac201c022a93cc3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cocur/slugify/zipball/57a00e06a382928e350cc7bbb13b19f1b8f4e73a",
-                "reference": "57a00e06a382928e350cc7bbb13b19f1b8f4e73a",
+                "url": "https://api.github.com/repos/cocur/slugify/zipball/f11f22d4e60c408187c3efd8ac201c022a93cc3f",
+                "reference": "f11f22d4e60c408187c3efd8ac201c022a93cc3f",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +68,7 @@
                 "slug",
                 "slugify"
             ],
-            "time": "2016-08-09T20:10:17+00:00"
+            "time": "2017-02-09T19:27:52+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -492,7 +492,7 @@
             "version": "1.0.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Narno/file_get_contents",
+                "url": "https://github.com/PHPoole/file_get_contents",
                 "reference": "7886d96b961b1d9edbcba6d40667d08426159cba"
             },
             "require": {
@@ -1298,7 +1298,6 @@
                 "doctrine",
                 "tokenizer"
             ],
-            "abandoned": true,
             "time": "2014-02-03T17:34:08+00:00"
         },
         {
@@ -1366,12 +1365,12 @@
             "version": "1.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kherge-php/json.git",
+                "url": "https://github.com/kherge-abandoned/php-json.git",
                 "reference": "60c696c9370a1e5136816ca557c17f82a6fa83f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kherge-php/json/zipball/60c696c9370a1e5136816ca557c17f82a6fa83f1",
+                "url": "https://api.github.com/repos/kherge-abandoned/php-json/zipball/60c696c9370a1e5136816ca557c17f82a6fa83f1",
                 "reference": "60c696c9370a1e5136816ca557c17f82a6fa83f1",
                 "shasum": ""
             },
@@ -1419,7 +1418,6 @@
                 "schema",
                 "validate"
             ],
-            "abandoned": "kherge/json",
             "time": "2013-10-30T16:51:34+00:00"
         },
         {
@@ -1477,7 +1475,6 @@
                 "phar",
                 "update"
             ],
-            "abandoned": true,
             "time": "2013-11-09T17:13:13+00:00"
         },
         {
@@ -1529,7 +1526,6 @@
                 "semantic",
                 "version"
             ],
-            "abandoned": true,
             "time": "2014-05-27T05:29:25+00:00"
         },
         {
@@ -1767,7 +1763,6 @@
             "keywords": [
                 "exception"
             ],
-            "abandoned": true,
             "time": "2013-08-27T17:43:25+00:00"
         },
         {
@@ -1820,7 +1815,6 @@
                 "path",
                 "system"
             ],
-            "abandoned": true,
             "time": "2013-10-15T22:58:04+00:00"
         },
         {
