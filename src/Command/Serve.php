@@ -54,11 +54,11 @@ class Serve extends AbstractCommand
                     ->name('*.md')
                     ->name('*.html')
                     ->in([
-                        $this->getPath().'/'.$this->getPHPoole()->getOption('content.dir'),
-                        $this->getPath().'/'.$this->getPHPoole()->getOption('layouts.dir'),
+                        $this->getPath().'/'.$this->getPHPoole()->->getConfig()->get('content.dir'),
+                        $this->getPath().'/'.$this->getPHPoole()->->getConfig()->get('layouts.dir'),
                     ]);
-                if (is_dir($this->getPath().'/'.$this->getPHPoole()->getOption('themes.dir'))) {
-                    $finder->in($this->getPath().'/'.$this->getPHPoole()->getOption('themes.dir'));
+                if (is_dir($this->getPath().'/'.$this->getPHPoole()->->getConfig()->get('themes.dir'))) {
+                    $finder->in($this->getPath().'/'.$this->getPHPoole()->->getConfig()->get('themes.dir'));
                 }
                 $resourceCache = new ResourceCacheMemory();
                 $resourceWatcher = new ResourceWatcher($resourceCache);
