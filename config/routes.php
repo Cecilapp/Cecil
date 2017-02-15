@@ -47,15 +47,17 @@ return [
     ],
     [
         'name'    => 'serve',
-        'route'   => '[<path>] [--watch|-w]',
+        'route'   => '[<path>] [--watch|-w] [--browser|-b]',
         'aliases' => [
             'w' => 'watch',
+            'b' => 'browser',
         ],
         'short_description'    => 'Starts the built-in Web server',
         'description'          => 'Starts the built-in Web server.',
         'options_descriptions' => [
-            '<path>'     => 'Website path',
-            '--watch|-w' => 'Watching files changes',
+            '<path>'       => 'Website path',
+            '--watch|-w'   => 'Watching files changes',
+            '--browser|-b' => 'Open browser on serve',
         ],
         'defaults' => [
             'path' => getcwd(),

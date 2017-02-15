@@ -26,6 +26,10 @@ class Serve extends AbstractCommand
      */
     protected $watch;
     /**
+     * @var bool
+     */
+    protected $browser;
+    /**
      * @var Filesystem
      */
     protected $fileSystem;
@@ -33,6 +37,7 @@ class Serve extends AbstractCommand
     public function processCommand()
     {
         $this->watch = $this->getRoute()->getMatchedParam('watch', false);
+        $this->browser = $this->getRoute()->getMatchedParam('browser', false);
         $this->fileSystem = new Filesystem();
 
         $this->setUpServer();
@@ -68,7 +73,9 @@ class Serve extends AbstractCommand
             // start server
             try {
                 $process->start();
-                Plateform::openBrowser('http://localhost:8000');
+                if ($this->browser) {
+                    Plateform::openBrowser('http://localhost:8000');
+                }
                 while ($process->isRunning()) {
                     // watch changes?
                     if ($this->watch) {
