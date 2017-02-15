@@ -52,7 +52,7 @@ class Serve extends AbstractCommand
                 $finder = new Finder();
                 $finder->files()
                     ->name('*.md')
-                    ->name('*.html')
+                    ->name('*.twig')
                     ->in([
                         $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('content.dir'),
                         $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('layouts.dir'),
