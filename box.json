@@ -24,7 +24,8 @@
         "*.xsd",
         "*.yaml",
         "*.yml",
-        "*.json"
+        "*.json",
+        "*.txt"
       ],
       "notName": [
         "composer.json"
