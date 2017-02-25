@@ -47,10 +47,10 @@ class SelfUpdate extends AbstractCommand
             if ($result) {
                 $new = $this->updater->getNewVersion();
                 $old = $this->updater->getOldVersion();
-                printf("\rUpdated from %s to %s.", $old, $new);
+                printf("\rUpdated from %s to %s.\n", $old, $new);
                 exit(0);
             }
-            printf("\rYou are already using last version (%s).", $this->version);
+            printf("\rYou are already using last version (%s).\n", $this->version);
             exit(0);
         } catch (\Exception $e) {
             echo $e->getMessage();
