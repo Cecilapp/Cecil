@@ -1,7 +1,6 @@
 language: php
 # PHP versions
 php:
-  - 5.5
   - 5.6
   - 7.0
 # faster builds on new travis setup not using sudo
