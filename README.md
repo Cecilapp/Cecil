@@ -40,6 +40,8 @@ $ chmod +x /usr/local/bin/phpoole
 
 Try the [demo](https://github.com/PHPoole/PHPoole-demo)!
 
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/PHPoole/Cecil)
+
 ## Development
 
 ### Requirements
