@@ -34,7 +34,10 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'].$pathname)) {
             $html = str_replace('</body>', $script."\n".'</body>', $html);
         }
         // replaces base url by localhost
-        $html = str_replace(trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/baseurl')), 'http://localhost:8000/', $html);
+        $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/baseurl'));
+        if (false !== strstr($baseurl, 'http') || $baseurl != '/') {
+            $html = str_replace($baseurl, 'http://localhost:8000/', $html);
+        }
         echo $html;
 
         return true;
