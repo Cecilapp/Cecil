@@ -38,9 +38,7 @@ $ chmod +x /usr/local/bin/phpoole
 * Build and serve it:  ```phpoole build -s```
 * Get help: ```phpoole help```
 
-Try the [demo](https://github.com/PHPoole/PHPoole-demo)!
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/PHPoole/Cecil)
+Try the [demo](https://github.com/PHPoole/PHPoole-demo) or [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/PHPoole/Cecil) a ready to go [blog](https://github.com/PHPoole/Cecil).
 
 ## Development
 
