@@ -1,10 +1,14 @@
 <?php
+// Router for the PHP built-in server
 
-// PHP built-in server router
 date_default_timezone_set('UTC');
 define('DIRECTORY_INDEX', 'index.html');
+define('DEBUG', false);
+
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $ext = pathinfo($path, PATHINFO_EXTENSION);
+
+// watcher, called by livereload.js
 if ($path == '/watcher') {
     http_response_code(200);
     if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/watch.flag')) {
@@ -19,26 +23,52 @@ if ($path == '/watcher') {
     }
     exit();
 }
+// ie: /blog/post-1/ -> /blog/post-1/index.html
 if (empty($ext)) {
     $pathname = rtrim($path, '/').'/'.DIRECTORY_INDEX;
+// ie: /css/style.css
 } else {
     $pathname = $path;
 }
-if (file_exists($_SERVER['DOCUMENT_ROOT'].$pathname)) {
-    $ext = pathinfo($pathname, PATHINFO_EXTENSION);
-    if ($ext == 'html') {
-        $html = file_get_contents($_SERVER['DOCUMENT_ROOT'].$pathname);
-        // includes "live reload" script in HTML files
-        if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/watch.flag')) {
-            $script = file_get_contents(__DIR__.'/livereload.js');
-            $html = str_replace('</body>', $script."\n".'</body>', $html);
+if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
+    //$ext = pathinfo($pathname, PATHINFO_EXTENSION);
+    $mimeshtml = ['xhtml+xml', 'html'];
+    $mimestxt  = ['json', 'xml', 'css', 'csv', 'javascript', 'plain', 'text'];
+
+    // get file mime type
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mimetype = finfo_file($finfo, $filename);
+    finfo_close($finfo);
+
+    // manipulate html and plain text file content for local serve
+    $mime = explode('/', $mimetype)[1];
+
+    if (DEBUG) {
+        http_response_code(500);
+        echo $mimetype;
+        return true;
+    }
+
+    if (in_array($mime, $mimeshtml) || in_array($mime, $mimestxt)) {
+        $content = file_get_contents($_SERVER['DOCUMENT_ROOT'].$pathname);
+        // html
+        if (in_array($mime, $mimeshtml)) {
+            // inject live reload script
+            if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/watch.flag')) {
+                $script = file_get_contents(__DIR__.'/livereload.js');
+                $content = str_replace('</body>', $script."\n".'</body>', $content);
+            }
         }
-        // replaces base url by localhost
-        $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/baseurl'));
-        if (false !== strstr($baseurl, 'http') || $baseurl != '/') {
-            $html = str_replace($baseurl, 'http://localhost:8000/', $html);
+        // mime text
+        if (in_array($mime, $mimestxt)) {
+            // replace `baseurl` by `http://localhost:8000/`
+            $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/baseurl'));
+            if (false !== strstr($baseurl, 'http') || $baseurl != '/') {
+                $content = str_replace($baseurl, 'http://localhost:8000/', $content);
+            }
         }
-        echo $html;
+        header('Content-Type: '.$mimetype);
+        echo $content;
 
         return true;
     }
