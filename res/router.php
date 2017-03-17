@@ -1,4 +1,5 @@
 <?php
+
 // Router for the PHP built-in server
 
 date_default_timezone_set('UTC');
@@ -33,7 +34,7 @@ if (empty($ext)) {
 if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
     //$ext = pathinfo($pathname, PATHINFO_EXTENSION);
     $mimeshtml = ['xhtml+xml', 'html'];
-    $mimestxt  = ['json', 'xml', 'css', 'csv', 'javascript', 'plain', 'text'];
+    $mimestxt = ['json', 'xml', 'css', 'csv', 'javascript', 'plain', 'text'];
 
     // get file mime type
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -46,6 +47,7 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
     if (DEBUG) {
         http_response_code(500);
         echo $mimetype;
+
         return true;
     }
 
