@@ -125,6 +125,7 @@ abstract class AbstractCommand
                 $this->wlError('Config file (phpoole.yml) not found!');
                 exit(2);
             }
+
             try {
                 $options = (new Yaml())->parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
                 $this->phpoole = new PHPoole($options, $messageCallback);
