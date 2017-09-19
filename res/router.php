@@ -27,7 +27,7 @@ if ($path == '/watcher') {
 // ie: /blog/post-1/ -> /blog/post-1/index.html
 if (empty($ext)) {
     $pathname = rtrim($path, '/').'/'.DIRECTORY_INDEX;
-// ie: /css/style.css
+    // ie: /css/style.css
 } else {
     $pathname = $path;
 }

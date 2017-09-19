@@ -25,6 +25,7 @@ class NewWebsite extends AbstractCommand
         $this->force = $this->getRoute()->getMatchedParam('force', false);
 
         $this->wlAnnonce('Creates a new website...');
+
         try {
             $fileSystem = new Filesystem();
             $root = __DIR__.'/../../';
