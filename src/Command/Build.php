@@ -22,6 +22,7 @@ class Build extends AbstractCommand
         $this->_serve = $this->route->getMatchedParam('serve', false);
 
         $this->wlAnnonce('Building website...');
+
         try {
             $this->getPHPoole()->build();
         } catch (\Exception $e) {
