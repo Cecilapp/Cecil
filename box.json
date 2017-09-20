@@ -25,7 +25,8 @@
         "*.yaml",
         "*.yml",
         "*.json",
-        "*.txt"
+        "*.txt",
+        "*.twig"
       ],
       "notName": [
         "composer.json"
