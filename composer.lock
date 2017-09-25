@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a7af18c60ad3e90edea743756d5e0060",
+    "content-hash": "611ef46308e0f2d8a04adfa309026e2d",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -494,43 +494,46 @@
         },
         {
             "name": "padraic/humbug_get_contents",
-            "version": "1.0.5",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPoole/file_get_contents",
-                "reference": "7886d96b961b1d9edbcba6d40667d08426159cba"
+                "url": "https://github.com/humbug/file_get_contents.git",
+                "reference": "6e6c47af83cb98c610f4ba7d06ee809ad59ede1b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/humbug/file_get_contents/zipball/6e6c47af83cb98c610f4ba7d06ee809ad59ede1b",
+                "reference": "6e6c47af83cb98c610f4ba7d06ee809ad59ede1b",
+                "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "^1.0",
-                "php": ">=5.3"
+                "ext-openssl": "*",
+                "php": "^5.3 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "bamarni/composer-bin-plugin": "^1.1",
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0"
             },
             "type": "library",
             "extra": {
+                "bamarni-bin": {
+                    "bin-links": false
+                },
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Humbug\\": "src/Humbug/"
+                    "Humbug\\": "src/"
                 },
                 "files": [
-                    "src/function.php"
+                    "src/function.php",
+                    "src/functions.php"
                 ]
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Humbug\\Test\\": "tests/Humbug/Test/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -539,6 +542,10 @@
                     "name": "Pádraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
+                },
+                {
+                    "name": "Théo FIDRY",
+                    "email": "theo.fidry@gmail.com"
                 }
             ],
             "description": "Secure wrapper for accessing HTTPS resources with file_get_contents for PHP 5.3+",
@@ -551,10 +558,7 @@
                 "ssl",
                 "tls"
             ],
-            "support": {
-                "issues": "https://github.com/padraic/file_get_contents/issues"
-            },
-            "time": "2016-06-29T18:51:13+00:00"
+            "time": "2017-07-10T10:32:34+00:00"
         },
         {
             "name": "padraic/phar-updater",
@@ -594,7 +598,7 @@
             ],
             "authors": [
                 {
-                    "name": "Pádraic Brady",
+                    "name": "Padraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 }
