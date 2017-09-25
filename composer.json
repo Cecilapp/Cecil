@@ -19,18 +19,18 @@
   },
   "require": {
     "php": "^5.6|^7.0",
-    "narno/phpoole-library": "^1.6",
-    "padraic/humbug_get_contents": "1.1.1",
-    "padraic/phar-updater": "^1.0",
-    "symfony/filesystem": "^2.8",
-    "symfony/process": "^2.8",
-    "symfony/yaml": "^2.8",
-    "yosymfony/resource-watcher": "^1.1",
-    "zfcampus/zf-console": "^1.3"
+    "narno/phpoole-library": "1.6.4",
+    "padraic/humbug_get_contents": "1.0.4",
+    "padraic/phar-updater": "1.0.4",
+    "symfony/filesystem": "2.8.27|3.0.0",
+    "symfony/process": "2.8.27|3.0.0",
+    "symfony/yaml": "2.8.27|3.0.0",
+    "yosymfony/resource-watcher": "1.2.0",
+    "zfcampus/zf-console": "1.3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.8",
-    "kherge/box": "^2.7"
+    "phpunit/phpunit": "5.0.0",
+    "kherge/box": "2.7.5"
   },
   "autoload": {
     "psr-4" : {
