@@ -6,6 +6,7 @@ collectors:
   # pull requests for updates to our major version
   - type: php-composer
     versions: "L.L.Y"
+    dependencies: "(?!.*humbug_get_contents).*"
   # create issues for new major versions
   - type: repo-issue
     versions: "L.L.Y"
