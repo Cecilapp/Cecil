@@ -22,7 +22,7 @@
     "narno/phpoole-library": "1.6.4",
     "padraic/humbug_get_contents": "1.0.4",
     "padraic/phar-updater": "1.0.4",
-    "symfony/filesystem": "2.8.27|3.0.0",
+    "symfony/filesystem": "v2.8.28",
     "symfony/process": "2.8.27|3.0.0",
     "symfony/yaml": "2.8.27|3.0.0",
     "yosymfony/resource-watcher": "1.2.0",
