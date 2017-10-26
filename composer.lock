@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2575fbfeeb2d508760195d1feb16641e",
+    "content-hash": "f4d4553c22a9e87e2acc360b699929e0",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -370,11 +370,11 @@
         },
         {
             "name": "narno/phpoole-library",
-            "version": "1.7.4",
+            "version": "1.7.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/PHPoole-library",
-                "reference": "0e1c57e988de49b8086239f3056ce85c9114ca26"
+                "reference": "a2beef1ef17d2d0d36f358b76a21d38ae899b2d7"
             },
             "require": {
                 "cocur/slugify": "v2.5",
@@ -431,7 +431,7 @@
                 "twig",
                 "website"
             ],
-            "time": "2017-10-16T00:47:44+00:00"
+            "time": "2017-10-26T15:57:55+00:00"
         },
         {
             "name": "padraic/humbug_get_contents",
@@ -1665,37 +1665,40 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.6.1",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102"
+                "reference": "3b8a3a99ba1f6a3952ac2747d989303cbd6b7a3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/8e6e04167378abf1ddb4d3522d8755c5fd90d102",
-                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3b8a3a99ba1f6a3952ac2747d989303cbd6b7a3e",
+                "reference": "3b8a3a99ba1f6a3952ac2747d989303cbd6b7a3e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": "^5.6 || ^7.0"
             },
             "require-dev": {
-                "doctrine/collections": "1.*",
-                "phpunit/phpunit": "~4.1"
+                "doctrine/collections": "^1.0",
+                "doctrine/common": "^2.6",
+                "phpunit/phpunit": "^4.1"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "DeepCopy\\": "src/DeepCopy/"
-                }
+                },
+                "files": [
+                    "src/DeepCopy/deep_copy.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Create deep copies (clones) of your objects",
-            "homepage": "https://github.com/myclabs/DeepCopy",
             "keywords": [
                 "clone",
                 "copy",
@@ -1703,7 +1706,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2017-04-12T18:52:22+00:00"
+            "time": "2017-10-19T19:58:43+00:00"
         },
         {
             "name": "phine/exception",
@@ -1956,16 +1959,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.6",
+            "version": "2.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "34a7699e6f31b1ef4035ee36444407cecf9f56aa"
+                "reference": "f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/34a7699e6f31b1ef4035ee36444407cecf9f56aa",
-                "reference": "34a7699e6f31b1ef4035ee36444407cecf9f56aa",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b",
+                "reference": "f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b",
                 "shasum": ""
             },
             "require": {
@@ -2044,7 +2047,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2017-06-05T06:31:10+00:00"
+            "time": "2017-10-23T05:04:54+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -3234,16 +3237,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803"
+                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
-                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
                 "shasum": ""
             },
             "require": {
@@ -3255,7 +3258,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5-dev"
+                    "dev-master": "1.6-dev"
                 }
             },
             "autoload": {
@@ -3289,7 +3292,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-14T15:44:48+00:00"
+            "time": "2017-10-11T12:05:26+00:00"
         },
         {
             "name": "tedivm/jshrink",
