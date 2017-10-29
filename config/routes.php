@@ -70,7 +70,7 @@ return [
         'short_description'    => 'Lists website content',
         'description'          => 'Lists website content files.',
         'options_descriptions' => [
-            '<path>'  => 'Website path',
+            '<path>' => 'Website path',
         ],
         'defaults' => [
             'path' => getcwd(),
