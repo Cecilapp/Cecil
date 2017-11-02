@@ -97,7 +97,7 @@ abstract class AbstractCommand
      *
      * @return PHPoole
      */
-    public function getPHPoole(array $options=[])
+    public function getPHPoole(array $options = [])
     {
         $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = true) {
             switch (true) {
