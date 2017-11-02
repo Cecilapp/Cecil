@@ -23,13 +23,13 @@ class Build extends AbstractCommand
 
     public function processCommand()
     {
-        $this->_serve  = $this->route->getMatchedParam('serve', false);
+        $this->_serve = $this->route->getMatchedParam('serve', false);
         $this->_drafts = $this->route->getMatchedParam('drafts', false);
 
         $this->wlAnnonce('Building website...');
 
         try {
-            $options = array();
+            $options = [];
             if ($this->_drafts) {
                 $options['drafts'] = true;
             }
