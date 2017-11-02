@@ -16,7 +16,7 @@ class NewWebsiteTest extends PHPUnit_Framework_TestCase
         $this->route = $this->getMockBuilder('ZF\Console\Route')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->consoleAdapter = $this->getMock('Zend\Console\Adapter\AdapterInterface');
+        //$this->consoleAdapter = $this->getMock('Zend\Console\Adapter\AdapterInterface');
     }
 
     public function testNewWebsiteCommandShouldRun()
