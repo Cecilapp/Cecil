@@ -93,9 +93,11 @@ abstract class AbstractCommand
     }
 
     /**
+     * @param array $options
+     *
      * @return PHPoole
      */
-    public function getPHPoole()
+    public function getPHPoole(array $options = [])
     {
         $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = true) {
             switch (true) {
@@ -127,7 +129,10 @@ abstract class AbstractCommand
             }
 
             try {
-                $options = (new Yaml())->parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
+                $optionsFile = (new Yaml())->parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
+                if (is_array($options)) {
+                    $options = array_replace_recursive($optionsFile, $options);
+                }
                 $this->phpoole = new PHPoole($options, $messageCallback);
                 $this->phpoole->setSourceDir($this->getPath());
                 $this->phpoole->setDestinationDir($this->getPath());

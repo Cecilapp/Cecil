@@ -16,15 +16,24 @@ class Build extends AbstractCommand
      * @var bool
      */
     protected $_serve;
+    /**
+     * @var bool
+     */
+    protected $_drafts;
 
     public function processCommand()
     {
         $this->_serve = $this->route->getMatchedParam('serve', false);
+        $this->_drafts = $this->route->getMatchedParam('drafts', false);
 
         $this->wlAnnonce('Building website...');
 
         try {
-            $this->getPHPoole()->build();
+            $options = [];
+            if ($this->_drafts) {
+                $options['drafts'] = true;
+            }
+            $this->getPHPoole($options)->build();
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
         }
