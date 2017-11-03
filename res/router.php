@@ -16,7 +16,7 @@ if ($path == '/watcher') {
     while (1) {
         if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag')) {
             echo "data: reload\n";
-            echo "time: ".time()."\n";
+            echo 'time: '.time()."\n";
             unlink($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag');
         }
         ob_flush();
