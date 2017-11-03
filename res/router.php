@@ -11,16 +11,17 @@ $ext = pathinfo($path, PATHINFO_EXTENSION);
 
 // watcher, called by livereload.js
 if ($path == '/watcher') {
-    http_response_code(200);
-    if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/watch.flag')) {
-        echo 'stop';
-        exit();
-    }
-    if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag')) {
-        echo 'true';
-        unlink($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag');
-    } else {
-        echo 'false';
+    header('Content-Type: text/event-stream');
+    header('Cache-Control: no-cache');
+    while (1) {
+        if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag')) {
+            echo "data: reload\n";
+            echo "time: ".time()."\n";
+            unlink($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag');
+        }
+        ob_flush();
+        flush();
+        sleep(1);
     }
     exit();
 }
