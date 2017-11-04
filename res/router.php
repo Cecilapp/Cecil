@@ -13,10 +13,10 @@ $ext = pathinfo($path, PATHINFO_EXTENSION);
 if ($path == '/watcher') {
     header("Content-Type: text/event-stream\n\n");
     header('Cache-Control: no-cache');
-    header("Access-Control-Allow-Origin: *");
+    header('Access-Control-Allow-Origin: *');
     if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag')) {
         echo "event: reload\n";
-        echo "data: reload";
+        echo 'data: reload';
         unlink($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag');
     }
     echo "\n\n";
