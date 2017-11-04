@@ -1,10 +1,8 @@
 <!-- Live reload script -->
 <script>
-var source = new EventSource('http://localhost:8000/watcher');
-source.onmessage = function(event) {
-  console.log(event)
-  if (event.data == 'reload') {
-    location.reload(true);
-  }
-};
+var evtSource = new EventSource('http://localhost:8000/watcher');
+evtSource.addEventListener('reload', function(e) {
+  console.log('reload');
+  location.reload(true);
+}, false);
 </script>
