@@ -11,17 +11,15 @@ $ext = pathinfo($path, PATHINFO_EXTENSION);
 
 // watcher, called by livereload.js
 if ($path == '/watcher') {
-    http_response_code(200);
-    if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/watch.flag')) {
-        echo 'stop';
-        exit();
-    }
+    header("Content-Type: text/event-stream\n\n");
+    header('Cache-Control: no-cache');
+    header('Access-Control-Allow-Origin: *');
     if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag')) {
-        echo 'true';
+        echo "event: reload\n";
+        echo 'data: reload';
         unlink($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag');
-    } else {
-        echo 'false';
     }
+    echo "\n\n";
     exit();
 }
 // ie: /blog/post-1/ -> /blog/post-1/index.html
