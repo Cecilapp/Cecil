@@ -81,11 +81,12 @@ class Serve extends AbstractCommand
                     if ($this->watch) {
                         $resourceWatcher->findChanges();
                         if ($resourceWatcher->hasChanges()) {
-                            $this->fileSystem->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
                             // re-generate
                             $this->wlAlert('Changes detected!');
                             $callable = new Build();
-                            call_user_func($callable, $this->getRoute(), $this->getConsole());
+                            if (false !== call_user_func($callable, $this->getRoute(), $this->getConsole())) {
+                                $this->fileSystem->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
+                            }
                         }
                     }
                     usleep(1000000); // 1 s
