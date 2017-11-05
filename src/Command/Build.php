@@ -20,11 +20,16 @@ class Build extends AbstractCommand
      * @var bool
      */
     protected $_drafts;
+    /**
+     * @var string
+     */
+    protected $_baseurl;
 
     public function processCommand()
     {
         $this->_serve = $this->route->getMatchedParam('serve', false);
         $this->_drafts = $this->route->getMatchedParam('drafts', false);
+        $this->_baseurl = $this->route->getMatchedParam('baseurl');
 
         $this->wlAnnonce('Building website...');
 
@@ -32,6 +37,9 @@ class Build extends AbstractCommand
             $options = [];
             if ($this->_drafts) {
                 $options['drafts'] = true;
+            }
+            if ($this->_baseurl) {
+                $options['site']['baseurl'] = $this->_baseurl;
             }
             $this->getPHPoole($options)->build();
         } catch (\Exception $e) {
