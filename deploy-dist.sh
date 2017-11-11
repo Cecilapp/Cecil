@@ -25,8 +25,8 @@ cd gh-pages/$TARGET_DIST_DIR/
 mkdir -p download/$TRAVIS_TAG
 cp $HOME/$DIST_FILE download/$TRAVIS_TAG/$DIST_FILE
 sha1sum download/$TRAVIS_TAG/$DIST_FILE > download/$TRAVIS_TAG/$DIST_FILE_VERSION
-ln -s $DIST_FILE download/$TRAVIS_TAG/$DIST_FILE
-ln -s $DIST_FILE_VERSION download/$TRAVIS_TAG/$DIST_FILE_VERSION
+ln -s download/$TRAVIS_TAG/$DIST_FILE $DIST_FILE
+ln -s download/$TRAVIS_TAG/$DIST_FILE_VERSION $DIST_FILE_VERSION
 git add -Af .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
 git push -fq origin $TARGET_BRANCH > /dev/null
