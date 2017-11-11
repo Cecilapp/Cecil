@@ -22,9 +22,10 @@ git config --global user.email "contact@travis-ci.org"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO}.git gh-pages > /dev/null
 cd gh-pages/$TARGET_DIST_DIR/
 cp $HOME/$DIST_FILE $DIST_FILE
-cp $DIST_FILE TRAVIS_TAG/$DIST_FILE
+mkdir -p $TRAVIS_TAG
+cp $DIST_FILE $TRAVIS_TAG/$DIST_FILE
 sha1sum $DIST_FILE > $DIST_FILE".version"
-cp $DIST_FILE".version" TRAVIS_TAG/$DIST_FILE".version"
+cp $DIST_FILE".version" $TRAVIS_TAG/$DIST_FILE".version"
 git add -Af .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
 git push -fq origin $TARGET_BRANCH > /dev/null
