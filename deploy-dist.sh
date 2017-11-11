@@ -25,11 +25,11 @@ cd gh-pages/$TARGET_DIST_DIR/
 mkdir -p download/$TRAVIS_TAG
 cp $HOME/$DIST_FILE download/$TRAVIS_TAG/$DIST_FILE
 sha1sum download/$TRAVIS_TAG/$DIST_FILE > download/$TRAVIS_TAG/$DIST_FILE_CHECKSUM
-rm $DIST_FILE
+[ -e $DIST_FILE ] && rm -- $DIST_FILE
 ln -s download/$TRAVIS_TAG/$DIST_FILE $DIST_FILE
-rm $DIST_FILE_CHECKSUM
+[ -e $DIST_FILE_CHECKSUM ] && rm -- $DIST_FILE_CHECKSUM
 ln -s download/$TRAVIS_TAG/$DIST_FILE_VERSION $DIST_FILE_CHECKSUM
-rm VERSION
+[ -e VERSION ] && rm -- VERSION
 $TRAVIS_TAG > VERSION
 git add -Af .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
