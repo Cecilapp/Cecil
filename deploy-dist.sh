@@ -30,7 +30,7 @@ ln -s download/$TRAVIS_TAG/$DIST_FILE $DIST_FILE
 [ -e $DIST_FILE_CHECKSUM ] && rm -- $DIST_FILE_CHECKSUM
 ln -s download/$TRAVIS_TAG/$DIST_FILE_VERSION $DIST_FILE_CHECKSUM
 [ -e VERSION ] && rm -- VERSION
-$TRAVIS_TAG > VERSION
+$TRAVIS_TAG >> VERSION
 git add -Af .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
 git push -fq origin $TARGET_BRANCH > /dev/null
