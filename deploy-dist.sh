@@ -7,7 +7,7 @@ TARGET_BRANCH="source"
 SOURCE_DIST_DIR="dist"
 TARGET_DIST_DIR="static"
 DIST_FILE="phpoole.phar"
-DIST_FILE_VERSION="phpoole.phar.version"
+DIST_FILE_CHECKSUM="phpoole.phar.checksum"
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo "Skipping deploy (PR? $TRAVIS_PULL_REQUEST)."
@@ -24,11 +24,13 @@ git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGE
 cd gh-pages/$TARGET_DIST_DIR/
 mkdir -p download/$TRAVIS_TAG
 cp $HOME/$DIST_FILE download/$TRAVIS_TAG/$DIST_FILE
-sha1sum download/$TRAVIS_TAG/$DIST_FILE > download/$TRAVIS_TAG/$DIST_FILE_VERSION
+sha1sum download/$TRAVIS_TAG/$DIST_FILE > download/$TRAVIS_TAG/$DIST_FILE_CHECKSUM
 rm $DIST_FILE
 ln -s download/$TRAVIS_TAG/$DIST_FILE $DIST_FILE
-rm $DIST_FILE_VERSION
-ln -s download/$TRAVIS_TAG/$DIST_FILE_VERSION $DIST_FILE_VERSION
+rm $DIST_FILE_CHECKSUM
+ln -s download/$TRAVIS_TAG/$DIST_FILE_VERSION $DIST_FILE_CHECKSUM
+rm VERSION
+$TRAVIS_TAG > VERSION
 git add -Af .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
 git push -fq origin $TARGET_BRANCH > /dev/null
