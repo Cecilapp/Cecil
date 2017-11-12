@@ -22,14 +22,14 @@
     "narno/phpoole-library": "1.8.1",
     "padraic/humbug_get_contents": "1.0.4",
     "padraic/phar-updater": "1.0.4",
-    "symfony/filesystem": "2.8.29|3.0.9",
-    "symfony/process": "2.8.29|3.0.9",
-    "symfony/yaml": "2.8.29|3.0.9",
+    "symfony/filesystem": "2.8.29|3.3.11",
+    "symfony/process": "2.8.29|3.3.11",
+    "symfony/yaml": "2.8.29|3.3.11",
     "yosymfony/resource-watcher": "1.2.0",
     "zfcampus/zf-console": "1.3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.7.23",
+    "phpunit/phpunit": "5.7.23|6.4.4",
     "kherge/box": "2.7.5"
   },
   "autoload": {
