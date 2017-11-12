@@ -12,7 +12,7 @@ DIST_FILE_VERSION="phpoole.phar.version"
 #    exit 0
 #fi
 
-if [[ $TRAVIS_BRANCH == 'dist' ]]
+if [[ $TRAVIS_BRANCH == 'dist' ]]; then
   TARGET_DIST_DIR="download/$TRAVIS_BRANCH"
 fi
 
