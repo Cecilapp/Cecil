@@ -5,12 +5,13 @@ set -e
 
 TARGET_REPO="PHPoole/phpoole.github.io"
 TARGET_BRANCH="source"
-TARGET_DIST_DIR="download/$TRAVIS_TAG"
+TARGET_RELEASE_DIR="static/download/$TRAVIS_TAG"
+TARGET_DIST_DIR="static"
 DIST_FILE="phpoole.phar"
 DIST_FILE_VERSION="phpoole.phar.version"
 
 if [ ! -n "$TRAVIS_TAG" ]; then
-  TARGET_DIST_DIR="download/$TRAVIS_BRANCH"
+  TARGET_RELEASE_DIR="download/$TRAVIS_BRANCH"
 fi
 
 echo "Starting to deploy ${DIST_FILE} to ${TARGET_REPO}..."
@@ -23,17 +24,17 @@ git config --global user.email "contact@travis-ci.org"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 
 cd $TARGET_REPO
-mkdir -p $TARGET_DIST_DIR
+mkdir -p $TARGET_RELEASE_DIR
 # copy dist file
-cp $HOME/$DIST_FILE $TARGET_DIST_DIR/$DIST_FILE
+cp $HOME/$DIST_FILE $TARGET_RELEASE_DIR/$DIST_FILE
 # create SHA1
-sha1sum $TARGET_DIST_DIR/$DIST_FILE > $TARGET_DIST_DIR/$DIST_FILE_VERSION
+sha1sum $TARGET_RELEASE_DIR/$DIST_FILE > $TARGET_RELEASE_DIR/$DIST_FILE_VERSION
 # create symlinks
-ln -sf $TARGET_DIST_DIR/$DIST_FILE $DIST_FILE
-ln -sf $TARGET_DIST_DIR/$DIST_FILE_VERSION $DIST_FILE_VERSION
+ln -sf $TARGET_RELEASE_DIR/$DIST_FILE $TARGET_DIST_DIR/$DIST_FILE
+ln -sf $TARGET_RELEASE_DIR/$DIST_FILE_VERSION $TARGET_DIST_DIR/$DIST_FILE_VERSION
 # create VERSION file
-[ -e VERSION ] && rm -- VERSION
-echo $TRAVIS_TAG > VERSION
+[ -e VERSION ] && rm -- $TARGET_DIST_DIR/VERSION
+echo $TRAVIS_TAG > $TARGET_DIST_DIR/VERSION
 
 # commit and push
 git add -Af .
