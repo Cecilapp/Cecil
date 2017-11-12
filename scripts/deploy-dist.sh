@@ -1,16 +1,13 @@
 #!/bin/bash
 set -e
 
+# Deploy dist file (phpoole.phar) to website
+
 TARGET_REPO="PHPoole/phpoole.github.io"
-TARGET_BRANCH="master"
+TARGET_BRANCH="source"
 TARGET_DIST_DIR="download/$TRAVIS_TAG"
 DIST_FILE="phpoole.phar"
 DIST_FILE_VERSION="phpoole.phar.version"
-
-if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-  echo "Skipping deploy (PR? $TRAVIS_PULL_REQUEST)."
-  exit 0
-fi
 
 if [ ! -n "$TRAVIS_TAG" ]; then
   TARGET_DIST_DIR="download/$TRAVIS_BRANCH"
