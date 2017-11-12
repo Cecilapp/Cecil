@@ -23,7 +23,7 @@ mkdir -p $TARGET_DOCS_DIR
 cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
 
 # commit and push
-git add -f .
-git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to $TARGET_DOCS_DIR"
+git add -Af .
+git commit -m "Travis build $TRAVIS_BUILD_NUMBER: update ${TARGET_DOCS_DIR}"
 git push -fq origin $TARGET_BRANCH > /dev/null
 exit 0
