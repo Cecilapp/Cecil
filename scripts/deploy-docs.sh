@@ -27,5 +27,7 @@ if [[ -n $(git status -s) ]]; then
   git add -Af .
   git commit -m "Travis build $TRAVIS_BUILD_NUMBER: update ${TARGET_DOCS_DIR}"
   git push -fq origin $TARGET_BRANCH > /dev/null
+else
+  echo "Nothing to update"
 fi
 exit 0
