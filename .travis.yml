@@ -42,6 +42,5 @@ deploy:
     skip_cleanup: true
     overwrite: true
     on:
-      #tags: true
-      branch: dist
+      tags: true
       php: '7.0'

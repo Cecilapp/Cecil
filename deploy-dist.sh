@@ -8,8 +8,8 @@ DIST_FILE="phpoole.phar"
 DIST_FILE_VERSION="phpoole.phar.version"
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-    echo "Skipping deploy (PR? $TRAVIS_PULL_REQUEST)."
-    exit 0
+  echo "Skipping deploy (PR? $TRAVIS_PULL_REQUEST)."
+  exit 0
 fi
 
 if [ ! -n "$TRAVIS_TAG" ]; then
