@@ -7,12 +7,12 @@ TARGET_DIST_DIR="download/$TRAVIS_TAG"
 DIST_FILE="phpoole.phar"
 DIST_FILE_VERSION="phpoole.phar.version"
 
-#if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-#    echo "Skipping deploy (PR? $TRAVIS_PULL_REQUEST)."
-#    exit 0
-#fi
+if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+    echo "Skipping deploy (PR? $TRAVIS_PULL_REQUEST)."
+    exit 0
+fi
 
-if [[ $TRAVIS_BRANCH == 'dist' ]]; then
+if [ ! -n "$TRAVIS_TAG" ]; then
   TARGET_DIST_DIR="download/$TRAVIS_BRANCH"
 fi
 

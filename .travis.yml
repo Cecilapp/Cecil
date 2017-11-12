@@ -43,5 +43,4 @@ deploy:
     overwrite: true
     on:
       #tags: true
-      branch: dist
       php: '7.0'
