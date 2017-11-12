@@ -1,5 +1,4 @@
 language: php
-# PHP versions
 php:
   - 5.6
   - 7.0
@@ -21,20 +20,27 @@ before_script:
 # run PHPUnit and export code coverage log
 script:
   - phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml
-# deploy docs to gh-pages
+# deploy docs to website
 after_success:
   - bash deploy-docs.sh
 # build phar
 before_deploy: vendor/bin/box build
-# deploy to GitHub release
+# deploy
 deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file: "dist/phpoole.phar"
-  skip_cleanup: true
-  overwrite: true
-  on:
-    tags: true
-    php: '5.6'
-# deploy phar file to gh-pages
-after_deploy: bash deploy-dist.sh
+  # deploy to GitHub release
+  - provider: releases
+    api_key: $GITHUB_TOKEN
+    file: "dist/phpoole.phar"
+    skip_cleanup: true
+    overwrite: true
+    on:
+      tags: true
+      php: '7.0'
+  # deploy dist file to website
+  - provider: script
+    script: bash deploy-dist.sh
+    skip_cleanup: true
+    overwrite: true
+    on:
+      tags: true
+      php: '7.0'
