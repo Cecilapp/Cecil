@@ -12,6 +12,10 @@ DIST_FILE_VERSION="phpoole.phar.version"
 #    exit 0
 #fi
 
+if [[ $TRAVIS_BRANCH == 'dist' ]]
+  TARGET_DIST_DIR="download/$TRAVIS_BRANCH"
+fi
+
 echo "Starting to deploy ${DIST_FILE} to ${TARGET_REPO}..."
 cp dist/$DIST_FILE $HOME/$DIST_FILE
 
