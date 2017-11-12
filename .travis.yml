@@ -38,7 +38,7 @@ deploy:
       php: '7.0'
   # deploy dist file to website
   - provider: script
-    script: deploy-dist.sh
+    script: bash deploy-dist.sh
     skip_cleanup: true
     overwrite: true
     on:
