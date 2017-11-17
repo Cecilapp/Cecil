@@ -1,7 +1,5 @@
 ---
-title: Home page
-layout: index.html
-menu: nav
+title: Home
 ---
 PHPoole is a light and easy static website generator written in PHP.
 It parses your content written with Markdown, merge it with layouts and generates static HTML files.
