@@ -1,9 +1,9 @@
 ---
-title: Home page
-layout: index.html
-menu: nav
+title: Home
 ---
-PHPoole is a light and easy static website generator written in PHP.
-It parses your content written with Markdown, merge it with layouts and generates static HTML files.
-PHPoole = [PHP](http://www.php.net) + [Poole](http://en.wikipedia.org/wiki/Strange_Case_of_Dr_Jekyll_and_Mr_Hyde#Mr._Poole)
-Go to the [dedicated website](http://phpoole.org) for more details.
+
+> The light and easy static website generator written in PHP.
+
+It takes your Markdown documents, merges them with Twig templates and generates a static website.
+
+Read the [documentation](https://phpoole.org/documentation) on [PHPoole.org](https://phpoole.org).
