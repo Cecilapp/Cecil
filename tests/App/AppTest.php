@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Zend\Console\Console;
 use ZF\Console\Application;
 
-class AppTest extends PHPUnit\Framework\TestCase
+class AppTest extends TestCase
 {
     /**
      * @var Application

@@ -3,9 +3,9 @@
 namespace PHPoole\Test\Command;
 
 use PHPoole\Command\NewWebsite;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class NewWebsiteTest extends PHPUnit_Framework_TestCase
+class NewWebsiteTest extends TestCase
 {
     protected $route;
     protected $consoleAdapter;
