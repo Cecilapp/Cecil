@@ -2,7 +2,6 @@
 
 namespace PHPoole\Test\App;
 
-use PHPUnit\Framework\TestCase;
 use Zend\Console\Console;
 use ZF\Console\Application;
 
