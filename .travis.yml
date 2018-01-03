@@ -32,7 +32,7 @@ deploy:
     overwrite: true
     on:
       branch: master
-      php: '7.0'
+      php: '7.1'
   # deploy to GitHub release
   - provider: releases
     api_key: $GITHUB_TOKEN
@@ -41,7 +41,7 @@ deploy:
     overwrite: true
     on:
       tags: true
-      php: '7.0'
+      php: '7.1'
   # deploy dist file to website
   - provider: script
     script: bash scripts/deploy-dist.sh
@@ -49,4 +49,4 @@ deploy:
     overwrite: true
     on:
       tags: true
-      php: '7.0'
+      php: '7.1'
