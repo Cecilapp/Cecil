@@ -2,11 +2,11 @@
 
 namespace PHPoole\Test\App;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Console\Console;
 use ZF\Console\Application;
 
-class AppTest extends PHPUnit_Framework_TestCase
+class AppTest extends TestCase
 {
     /**
      * @var Application
