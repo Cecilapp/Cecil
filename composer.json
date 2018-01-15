@@ -1,5 +1,5 @@
 {
-  "name": "narno/phpoole",
+  "name": "phpoole/phpoole",
   "description": "PHPoole is an easy and lightweight static website generator, written in PHP.",
   "keywords": ["static-site-generator", "static-site", "flat-file", "markdown", "twig", "yaml", "phpoole"],
   "homepage": "https://phpoole.org",
@@ -14,12 +14,12 @@
     }
   ],
   "support": {
-    "source": "https://github.com/Narno/PHPoole",
-    "issues": "https://github.com/Narno/PHPoole/issues"
+    "source": "https://github.com/PHPoole/PHPoole",
+    "issues": "https://github.com/PHPoole/PHPoole/issues"
   },
   "require": {
     "php": "^5.6 || ^7.1",
-    "narno/phpoole-library": "1.10.0",
+    "phpoole/library": "1.10.0",
     "padraic/humbug_get_contents": "1.0.4",
     "padraic/phar-updater": "1.0.4",
     "symfony/filesystem": "2.8.31 || 3.4.2 || 4.0.2",
@@ -46,7 +46,7 @@
   "bin": ["bin/phpoole"],
   "extra": {
     "branch-alias": {
-      "dev-master": "2.0.x-dev"
+      "dev-master": "2.x-dev"
     }
   },
   "minimum-stability": "dev",
@@ -54,7 +54,7 @@
   "repositories": [
     {
       "type": "git",
-      "url": "https://github.com/PHPoole/PHPoole-library"
+      "url": "https://github.com/PHPoole/library"
     },
     {
       "type": "git",
