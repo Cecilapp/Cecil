@@ -1,5 +1,5 @@
 {
-  "name": "narno/phpoole",
+  "name": "phpoole/phpoole",
   "description": "PHPoole is an easy and lightweight static website generator, written in PHP.",
   "keywords": ["static-site-generator", "static-site", "flat-file", "markdown", "twig", "yaml", "phpoole"],
   "homepage": "https://phpoole.org",
