@@ -29,7 +29,7 @@
     "zfcampus/zf-console": "1.4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.7.26",
+    "phpunit/phpunit": "7.2.4",
     "kherge/box": "2.7.5"
   },
   "autoload": {
@@ -53,11 +53,11 @@
   "prefer-stable": true,
   "repositories": [
     {
-      "type": "git",
+      "type": "vcs",
       "url": "https://github.com/PHPoole/library"
     },
     {
-      "type": "git",
+      "type": "vcs",
       "url": "https://github.com/PHPoole/file_get_contents"
     }
   ]
