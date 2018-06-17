@@ -22,7 +22,7 @@
     "phpoole/library": "1.10.0",
     "padraic/humbug_get_contents": "1.0.4",
     "padraic/phar-updater": "1.0.4",
-    "symfony/filesystem": "2.8.31 || 3.4.2 || 4.0.2",
+    "symfony/filesystem": "^3.3.13",
     "symfony/process": "2.8.31 || 3.4.2 || 4.0.2",
     "symfony/yaml": "2.8.31 || 3.4.2 || 4.0.2",
     "yosymfony/resource-watcher": "1.2.0",
@@ -53,11 +53,11 @@
   "prefer-stable": true,
   "repositories": [
     {
-      "type": "git",
+      "type": "vcs",
       "url": "https://github.com/PHPoole/library"
     },
     {
-      "type": "git",
+      "type": "vcs",
       "url": "https://github.com/PHPoole/file_get_contents"
     }
   ]
