@@ -18,18 +18,18 @@
     "issues": "https://github.com/PHPoole/PHPoole/issues"
   },
   "require": {
-    "php": "^5.6 || ^7.1",
-    "phpoole/library": "1.10.0",
-    "padraic/humbug_get_contents": "1.0.4",
-    "padraic/phar-updater": "1.0.4",
-    "symfony/filesystem": "2.8.31 || 3.4.2 || 4.0.2",
-    "symfony/process": "2.8.31 || 3.4.2 || 4.0.2",
-    "symfony/yaml": "2.8.31 || 3.4.2 || 4.0.2",
-    "yosymfony/resource-watcher": "1.2.0",
+    "php": "^5.6|^7.1",
+    "phpoole/library": "1.10.1",
+    "padraic/humbug_get_contents": "1.1.2",
+    "padraic/phar-updater": "1.0.6",
+    "symfony/filesystem": "2.8.41|3.4.11",
+    "symfony/process": "2.8.41|3.4.11",
+    "symfony/yaml": "2.8.41|3.4.11",
+    "yosymfony/resource-watcher": "2.0.0",
     "zfcampus/zf-console": "1.4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.7.26",
+    "phpunit/phpunit": "5.7.27|7.2.4",
     "kherge/box": "2.7.5"
   },
   "autoload": {
@@ -55,10 +55,6 @@
     {
       "type": "git",
       "url": "https://github.com/PHPoole/library"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/PHPoole/file_get_contents"
     }
   ]
 }
