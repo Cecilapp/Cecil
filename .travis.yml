@@ -1,29 +1,42 @@
 language: php
+sudo: false # faster builds on new travis setup not using sudo
 php:
-  - 5.6
   - 7.1
-# faster builds on new travis setup not using sudo
-sudo: false
-# cache vendor dirs
+  - 7.2
+matrix:
+  include:
+    - php: 5.6
+      env: COVERAGE=run
+  allow_failures:
+    - php: 7.2
+  fast_finish: true
+# cache Composer files
 cache:
   directories:
     - vendor
     - $COMPOSER_CACHE_DIR
-# update composer it-self
 install:
+  # update composer it-self
   - composer self-update
-# install package
+  # install coveralls.phar
+  - wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar -O coveralls.phar
+  - chmod +x coveralls.phar
+  - php coveralls.phar --version
 before_script:
-  - phpenv config-rm xdebug.ini
+  #- phpenv config-rm xdebug.ini
+  # install packages
   - composer install --no-interaction
-  - mkdir -p build/logs
-# run PHPUnit and export code coverage log
+  - if [[ $COVERAGE = run ]]; then mkdir -p build/logs; PHPUNIT_FLAGS="--coverage-text --coverage-clover build/logs/clover.xml"; fi
 script:
-  - phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml
-# build phar
+  # run PHPUnit and export code coverage log
+  - if [[ $COVERAGE = run ]]; then phpunit -c ./ $PHPUNIT_FLAGS; fi
 after_success:
+  # build phar
   - vendor/bin/box build
-# deploy
+  # submit coverage report to Coveralls
+  - if [[ $COVERAGE = run ]]; then travis_retry php coveralls.phar -v; fi
+  # submit coverage report to codecov.io
+  - bash <(curl -s https://codecov.io/bash)
 deploy:
   # deploy docs to website
   - provider: script
