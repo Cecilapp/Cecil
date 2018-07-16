@@ -10,9 +10,9 @@
 
 PHPoole takes your content (written in [Markdown](http://daringfireball.net/projects/markdown/) plain text format) and merges files with layouts ([Twig](http://twig.sensiolabs.org/) templates) to generate static HTML files.
 
-PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) application, powered by the [PHPoole core library](https://github.com/PHPoole/library), highly inspired by [Jekyll](http://jekyllrb.com/) and [Hugo](http://gohugo.io/).
+PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) application, powered by [PHPoole/library](https://github.com/PHPoole/library), highly inspired by [Jekyll](https://jekyllrb.com/) and [Hugo](https://gohugo.io/).
 
-![Command line demo](https://raw.githubusercontent.com/PHPoole/PHPoole/master/docs/phpoole.gif)
+![PHPoole demo](https://raw.githubusercontent.com/PHPoole/PHPoole/master/docs/phpoole.gif "PHPoole demo")
 
 * [Documentation](https://phpoole.org/documentation)
 * [Issue tracker](https://github.com/PHPoole/PHPoole/issues)
@@ -26,11 +26,12 @@ PHPoole is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) applica
 
 ## Installation
 
+```bash
+curl -SOL https://phpoole.org/phpoole.phar
+mv phpoole.phar /usr/local/bin/phpoole
+chmod +x /usr/local/bin/phpoole
 ```
-$ curl -SOL https://phpoole.org/phpoole.phar
-$ mv phpoole.phar /usr/local/bin/phpoole
-$ chmod +x /usr/local/bin/phpoole
-```
+> Note: PHP (5.6 ou 7.1) is required.
 
 ## Usage
 
@@ -38,7 +39,11 @@ $ chmod +x /usr/local/bin/phpoole
 * Build and serve it:  ```phpoole build -s```
 * Get help: ```phpoole help```
 
-Try the [demo](https://github.com/PHPoole/PHPoole-demo) or [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/PHPoole/Cecil) a ready to go [blog](https://github.com/PHPoole/Cecil).
+## Quick Start
+
+Try the [demo](https://github.com/PHPoole/demo).
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/PHPoole/Cecil) a ready to go [blog](https://github.com/PHPoole/Cecil).
 
 ## Development
 
@@ -49,10 +54,10 @@ Please see the [composer.json](https://github.com/PHPoole/PHPoole/blob/master/co
 ### Project installation
 
 Run the following commands:
-```
-$ composer create-project narno/phpoole -sdev
-$ cd phpoole
-$ php bin/phpoole -v
+```bash
+composer create-project narno/phpoole -sdev
+cd phpoole
+php bin/phpoole -v
 ```
 
 ## License
