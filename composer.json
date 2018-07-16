@@ -9,7 +9,7 @@
     {
       "name": "Arnaud Ligny",
       "email": "arnaud@ligny.org",
-      "homepage": "http://narno.org",
+      "homepage": "https://narno.org",
       "role": "Developer"
     }
   ],
@@ -18,18 +18,18 @@
     "issues": "https://github.com/PHPoole/PHPoole/issues"
   },
   "require": {
-    "php": "^5.6|^7.1",
+    "php": "^7.1|^5.6",
     "phpoole/library": "1.10.1",
     "padraic/humbug_get_contents": "1.1.2",
     "padraic/phar-updater": "1.0.6",
-    "symfony/filesystem": "2.8.41|3.4.11",
-    "symfony/process": "2.8.41|3.4.11",
-    "symfony/yaml": "2.8.41|3.4.11",
+    "symfony/filesystem": "3.4.11|2.8.41",
+    "symfony/process": "3.4.11|2.8.41",
+    "symfony/yaml": "3.4.11|2.8.41",
     "yosymfony/resource-watcher": "2.0.0",
     "zfcampus/zf-console": "1.4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.7.27|7.2.4",
+    "phpunit/phpunit": "7.2.4|5.7.27",
     "kherge/box": "2.7.5"
   },
   "autoload": {
