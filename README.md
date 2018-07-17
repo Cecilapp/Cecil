@@ -31,7 +31,7 @@ curl -SOL https://phpoole.org/phpoole.phar
 mv phpoole.phar /usr/local/bin/phpoole
 chmod +x /usr/local/bin/phpoole
 ```
-> Note: PHP (5.6 ou 7.1) is required.
+> PHP (5.6 or 7.1) is required.
 
 ## Usage
 
@@ -64,5 +64,5 @@ php bin/phpoole -v
 
 PHPoole is a free software distributed under the terms of the MIT license.
 
-© 2017 [Arnaud Ligny](https://arnaudligny.fr)  
+PHPoole © 2017 [Arnaud Ligny](https://arnaudligny.fr)  
 PHPoole logo © [Cécile Ricordeau](http://www.cecillie.fr)
