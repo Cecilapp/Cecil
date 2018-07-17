@@ -64,5 +64,5 @@ php bin/phpoole -v
 
 PHPoole is a free software distributed under the terms of the MIT license.
 
-PHPoole © 2017 [Arnaud Ligny](https://arnaudligny.fr)  
+PHPoole © [Arnaud Ligny](https://arnaudligny.fr)  
 PHPoole logo © [Cécile Ricordeau](http://www.cecillie.fr)
