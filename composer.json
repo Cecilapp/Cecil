@@ -19,7 +19,7 @@
   },
   "require": {
     "php": "^5.6|^7.1",
-    "phpoole/library": "1.11.1",
+    "phpoole/library": "1.11.2",
     "padraic/humbug_get_contents": "1.1.2",
     "padraic/phar-updater": "1.0.6",
     "symfony/filesystem": "2.8.41|3.4.11",
