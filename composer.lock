@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d961a3f0601aef93c5cbc2861cf80a02",
+    "content-hash": "a756f2bbcc6b0ac74082add07e8aba84",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -613,17 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPoole/library.git",
-                "reference": "d5490d6a3cfc17f9ad6c13022f24bebfc6d016dd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHPoole/library/zipball/d5490d6a3cfc17f9ad6c13022f24bebfc6d016dd",
-                "reference": "d5490d6a3cfc17f9ad6c13022f24bebfc6d016dd",
-                "shasum": ""
+                "url": "https://github.com/PHPoole/library",
+                "reference": "dc4712bcfe2cfcb634832f6d7bf28ec9c485c5ea"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -653,7 +647,33 @@
                     "PHPoole\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "PHPoole\\Test\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit -c ./"
+                ],
+                "test-coverage-install": [
+                    "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar -O coveralls.phar",
+                    "chmod +x coveralls.phar",
+                    "php coveralls.phar --version"
+                ],
+                "test-coverage": [
+                    "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml"
+                ],
+                "test-coverage-upload": [
+                    "php coveralls.phar -v"
+                ],
+                "api-docs-install": [
+                    "curl -O http://get.sensiolabs.org/sami.phar"
+                ],
+                "api-docs-build": [
+                    "php sami.phar update sami.php"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -675,7 +695,11 @@
                 "twig",
                 "website"
             ],
-            "time": "2018-07-26T00:20:40+00:00"
+            "support": {
+                "source": "https://github.com/PHPoole/library",
+                "issues": "https://github.com/PHPoole/library/issues"
+            },
+            "time": "2018-07-26T14:31:22+00:00"
         },
         {
             "name": "psr/container",

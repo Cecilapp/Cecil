@@ -19,7 +19,7 @@
   },
   "require": {
     "php": "^7.1",
-    "phpoole/library": "2.0.0",
+    "phpoole/library": "2.0.1",
     "padraic/humbug_get_contents": "1.1.2",
     "padraic/phar-updater": "1.0.6",
     "symfony/filesystem": "4.1.2",
@@ -56,5 +56,9 @@
       "type": "git",
       "url": "https://github.com/PHPoole/library"
     }
-  ]
+  ],
+  "scripts": {
+    "test": "phpunit -c ./",
+    "box": "box compile"
+  }
 }
