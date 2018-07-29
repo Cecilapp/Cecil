@@ -28,21 +28,20 @@ return [
     ],
     [
         'name'    => 'build',
-        'route'   => '[<path>] [--serve|-s] [--watch|-w] [--drafts|-d] [--baseurl=|-u]',
+        'route'   => '[<path>] [--serve|-s] [--watch|-w] [--drafts|-d] [--baseurl=]',
         'aliases' => [
             's' => 'serve',
             'w' => 'watch',
             'd' => 'drafts',
-            'u' => 'baseurl',
         ],
         'short_description'    => 'Builds the website',
         'description'          => 'Builds the website.',
         'options_descriptions' => [
-            '<path>'       => 'Website path',
-            '--serve|-s'   => 'Builds and serves',
-            '--watch|-w'   => 'Watching files changes',
-            '--drafts|-d'  => 'Includes drafts',
-            '--baseurl|-u' => 'Base URL',
+            '<path>'      => 'Website path',
+            '--serve|-s'  => 'Builds and serves',
+            '--watch|-w'  => 'Watching files changes',
+            '--drafts|-d' => 'Includes drafts',
+            '--baseurl'   => 'Base URL',
         ],
         'defaults' => [
             'path' => getcwd(),
