@@ -35,6 +35,10 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
     $mimestxt = ['json', 'xml', 'css', 'csv', 'javascript', 'plain', 'text'];
 
     // get file mime type
+    if (!extension_loaded('fileinfo')) {
+        http_response_code(500);
+        echo "The extension 'fileinfo' must be enabled in your 'php.ini' file!";
+    }
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mimetype = finfo_file($finfo, $filename);
     $mime = explode('/', $mimetype)[1];
