@@ -123,11 +123,7 @@ class Serve extends AbstractCommand
     public function tearDownServer()
     {
         try {
-            $this->fileSystem->remove([
-                $this->getPath().'/.phpoole/router.php',
-                $this->getPath().'/.phpoole/livereload.js',
-                $this->getPath().'/.phpoole/baseurl',
-            ]);
+            $this->fileSystem->remove($this->getPath().'/.phpoole');
         } catch (IOExceptionInterface $e) {
             echo $e->getMessage().PHP_EOL;
         }
