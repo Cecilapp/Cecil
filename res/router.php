@@ -35,6 +35,10 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
     $mimestxt = ['json', 'xml', 'css', 'csv', 'javascript', 'plain', 'text'];
 
     // get file mime type
+    if (!extension_loaded('fileinfo')) {
+        http_response_code(500);
+        echo "The extension 'fileinfo' must be enabled in your 'php.ini' file!";
+    }
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mimetype = finfo_file($finfo, $filename);
     $mime = explode('/', $mimetype)[1];
@@ -57,6 +61,9 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
             $content = str_replace($baseurl, 'http://localhost:8000/', $content);
         }
         // return result
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Cache-Control: post-check=0, pre-check=0', false);
+        header('Pragma: no-cache');
         header('Content-Type: '.$mimetype);
         if ($ext == 'css') {
             header('Content-Type: text/css');
