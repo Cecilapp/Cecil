@@ -10,44 +10,52 @@
 
 namespace PHPoole\Command;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 class Build extends AbstractCommand
 {
     /**
      * @var bool
      */
-    protected $_serve;
+    protected $serve;
     /**
      * @var bool
      */
-    protected $_drafts;
+    protected $drafts;
     /**
      * @var string
      */
-    protected $_baseurl;
+    protected $baseurl;
+    /**
+     * @var Filesystem
+     */
+    protected $fileSystem;
 
     public function processCommand()
     {
-        $this->_serve = $this->route->getMatchedParam('serve', false);
-        $this->_drafts = $this->route->getMatchedParam('drafts', false);
-        $this->_baseurl = $this->route->getMatchedParam('baseurl');
+        $this->serve = $this->route->getMatchedParam('serve', false);
+        $this->drafts = $this->route->getMatchedParam('drafts', false);
+        $this->baseurl = $this->route->getMatchedParam('baseurl');
+        $this->fileSystem = new Filesystem();
 
         $this->wlAnnonce('Building website...');
 
         try {
             $options = [];
-            if ($this->_drafts) {
+            if ($this->drafts) {
                 $options['drafts'] = true;
             }
-            if ($this->_baseurl) {
-                $options['site']['baseurl'] = $this->_baseurl;
+            if ($this->baseurl) {
+                $options['site']['baseurl'] = $this->baseurl;
             }
             $this->getPHPoole($options)->build();
+            $this->fileSystem->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
         }
-        if ($this->_serve) {
+        if ($this->serve) {
             $callable = new Serve();
-            call_user_func($callable, $this->getRoute(), $this->getConsole());
+            $callable($this->getRoute(), $this->getConsole());
         }
     }
 }

@@ -16,6 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Yosymfony\ResourceWatcher\Crc32ContentHash;
 use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
 
@@ -65,9 +66,10 @@ class Serve extends AbstractCommand
                 if (is_dir($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('themes.dir'))) {
                     $finder->in($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('themes.dir'));
                 }
+                $hashContent = new Crc32ContentHash();
                 $resourceCache = new ResourceCacheMemory();
-                $resourceWatcher = new ResourceWatcher($resourceCache);
-                $resourceWatcher->setFinder($finder);
+                $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
+                $resourceWatcher->initialize();
                 $this->fileSystem->dumpFile($this->getPath().'/.phpoole/watch.flag', '');
             }
             // start server
@@ -79,14 +81,12 @@ class Serve extends AbstractCommand
                 while ($process->isRunning()) {
                     // watch changes?
                     if ($this->watch) {
-                        $resourceWatcher->findChanges();
-                        if ($resourceWatcher->hasChanges()) {
+                        $result = $resourceWatcher->findChanges();
+                        if ($result->hasChanges()) {
                             // re-generate
                             $this->wlAlert('Changes detected!');
-                            $callable = new Build();
-                            if (false !== call_user_func($callable, $this->getRoute(), $this->getConsole())) {
-                                $this->fileSystem->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
-                            }
+                            $callable = new Build($this->getRoute(), $this->getConsole());
+                            $callable($this->getRoute(), $this->getConsole());
                         }
                     }
                     usleep(1000000); // 1 s
