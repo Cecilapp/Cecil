@@ -50,10 +50,8 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
         // html only
         if (in_array($mime, $mimeshtml)) {
             // inject live reload script
-            if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/watch.flag')) {
-                $script = file_get_contents(__DIR__.'/livereload.js');
-                $content = str_replace('</body>', $script."\n".'</body>', $content);
-            }
+            $script = file_get_contents(__DIR__.'/livereload.js');
+            $content = str_replace('</body>', $script."\n".'</body>', $content);
         }
         // replace `baseurl` by `http://localhost:8000/`
         $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/baseurl'));

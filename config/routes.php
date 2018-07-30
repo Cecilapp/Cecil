@@ -15,8 +15,8 @@ return [
         'aliases' => [
             'f' => 'force',
         ],
-        'short_description'    => 'Creates a new website',
-        'description'          => 'Creates a new website in current directory, or in <path> if provided.',
+        'short_description'    => 'Create a new website',
+        'description'          => 'Create a new website in current directory, or in <path> if provided.',
         'options_descriptions' => [
             '<path>'     => 'Website path.',
             '--force|-f' => 'Override if already exist.',
@@ -28,19 +28,15 @@ return [
     ],
     [
         'name'    => 'build',
-        'route'   => '[<path>] [--serve|-s] [--watch|-w] [--drafts|-d] [--baseurl=]',
+        'route'   => '[<path>] [--drafts|-d] [--baseurl=]',
         'aliases' => [
-            's' => 'serve',
-            'w' => 'watch',
             'd' => 'drafts',
         ],
-        'short_description'    => 'Builds the website',
-        'description'          => 'Builds the website.',
+        'short_description'    => 'Build the website',
+        'description'          => 'Build the website.',
         'options_descriptions' => [
             '<path>'      => 'Website path',
-            '--serve|-s'  => 'Builds and serves',
-            '--watch|-w'  => 'Watching files changes',
-            '--drafts|-d' => 'Includes drafts',
+            '--drafts|-d' => 'Include drafts',
             '--baseurl'   => 'Base URL',
         ],
         'defaults' => [
@@ -50,17 +46,17 @@ return [
     ],
     [
         'name'    => 'serve',
-        'route'   => '[<path>] [--watch|-w] [--browser|-b]',
+        'route'   => '[<path>] [--drafts|-d] [--open|-o]',
         'aliases' => [
-            'w' => 'watch',
-            'b' => 'browser',
+            'd' => 'drafts',
+            'o' => 'open',
         ],
-        'short_description'    => 'Starts the built-in Web server',
-        'description'          => 'Starts the built-in Web server.',
+        'short_description'    => 'Start the built-in web server',
+        'description'          => 'Start the live-reloading-built-in web server.',
         'options_descriptions' => [
-            '<path>'       => 'Website path',
-            '--watch|-w'   => 'Watching files changes',
-            '--browser|-b' => 'Open browser on serve',
+            '<path>'    => 'Website path',
+            '--drafts|-d' => 'Include drafts',
+            '--open|-o' => 'Open browser automatically',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -70,8 +66,8 @@ return [
     [
         'name'                 => 'list',
         'route'                => '[<path>]',
-        'short_description'    => 'Lists website content',
-        'description'          => 'Lists website content files.',
+        'short_description'    => 'List website pages',
+        'description'          => 'List website pages files.',
         'options_descriptions' => [
             '<path>' => 'Website path',
         ],

@@ -25,11 +25,11 @@ class Serve extends AbstractCommand
     /**
      * @var bool
      */
-    protected $watch;
+    protected $drafts;
     /**
      * @var bool
      */
-    protected $browser;
+    protected $open;
     /**
      * @var Filesystem
      */
@@ -37,8 +37,8 @@ class Serve extends AbstractCommand
 
     public function processCommand()
     {
-        $this->watch = $this->getRoute()->getMatchedParam('watch', false);
-        $this->browser = $this->getRoute()->getMatchedParam('browser', false);
+        $this->drafts = $this->route->getMatchedParam('drafts', false);
+        $this->browser = $this->getRoute()->getMatchedParam('open', false);
         $this->fileSystem = new Filesystem();
 
         $this->setUpServer();
@@ -49,45 +49,43 @@ class Serve extends AbstractCommand
             $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'),
             sprintf('%s/.phpoole/router.php', $this->getPath())
         );
-
-        $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', 'localhost', '8000'));
         $process = new Process($command);
+
+        // build website
+        $options = [];
+        if ($this->drafts) {
+            $options['drafts'] = true;
+        }
+        $callable = new Build();
+        $callable($this->getRoute(), $this->getConsole());
+
+        // handle process
         if (!$process->isStarted()) {
             // write changes cache
-            if ($this->watch) {
-                $finder = new Finder();
-                $finder->files()
-                    ->name('*.md')
-                    ->name('*.twig')
-                    ->in([
-                        $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('content.dir'),
-                        $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('layouts.dir'),
-                    ]);
-                if (is_dir($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('themes.dir'))) {
-                    $finder->in($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('themes.dir'));
-                }
-                $hashContent = new Crc32ContentHash();
-                $resourceCache = new ResourceCacheMemory();
-                $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
-                $resourceWatcher->initialize();
-                $this->fileSystem->dumpFile($this->getPath().'/.phpoole/watch.flag', '');
-            }
+            $finder = new Finder();
+            $finder->files()
+                ->name('*.md')
+                ->name('*.twig')
+                ->name('*.yml')
+                ->in($this->getPath());
+            $hashContent = new Crc32ContentHash();
+            $resourceCache = new ResourceCacheMemory();
+            $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
+            $resourceWatcher->initialize();
             // start server
             try {
+                $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', 'localhost', '8000'));
                 $process->start();
                 if ($this->browser) {
                     Plateform::openBrowser('http://localhost:8000');
                 }
                 while ($process->isRunning()) {
-                    // watch changes?
-                    if ($this->watch) {
-                        $result = $resourceWatcher->findChanges();
-                        if ($result->hasChanges()) {
-                            // re-generate
-                            $this->wlAlert('Changes detected!');
-                            $callable = new Build($this->getRoute(), $this->getConsole());
-                            $callable($this->getRoute(), $this->getConsole());
-                        }
+                    $result = $resourceWatcher->findChanges();
+                    if ($result->hasChanges()) {
+                        // re-generate
+                        $this->wlAlert('Changes detected!');
+                        $callable = new Build($this->getRoute(), $this->getConsole());
+                        $callable($this->getRoute(), $this->getConsole());
                     }
                     usleep(1000000); // 1 s
                 }
