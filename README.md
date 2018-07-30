@@ -31,7 +31,7 @@ curl -SOL https://phpoole.org/phpoole.phar
 mv phpoole.phar /usr/local/bin/phpoole
 chmod +x /usr/local/bin/phpoole
 ```
-> PHP (5.6 or 7.1) is required.
+> PHP 7.1+ is required.
 
 ## Usage
 
