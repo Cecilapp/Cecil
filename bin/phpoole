@@ -61,6 +61,10 @@ if (Plateform::isPhar()) {
     ]);
 }
 
+$exceptionTemplate = <<<EOT
+:message
+EOT;
+
 $application = new Application(
     $name,
     $version,
@@ -81,6 +85,7 @@ $application->setBanner(function($console) {
 });
 $application->setBannerDisabledForUserCommands();
 $application->setDebug(false);
+$application->getExceptionHandler()->setMessageTemplate($exceptionTemplate);
 
 if (Plateform::isPhar()) {
     $application->getDispatcher()->map('self-update', new SelfUpdate($version));
