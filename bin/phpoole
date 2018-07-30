@@ -53,7 +53,7 @@ $routes = include __DIR__.'/../config/routes.php';
 if (Plateform::isPhar()) {
     $routes = array_merge($routes, [[
         'name'              => 'self-update',
-        'short_description' => 'Updates PHPoole to the latest version',
+        'short_description' => 'Update PHPoole to the latest version',
         'description'       => 'The self-update command checks for a newer version, and, if found, downloads and installs the latest.',
         'defaults' => [
             'self-update' => true,
@@ -67,7 +67,6 @@ $application = new Application(
     $routes,
     Console::getInstance()
 );
-
 $application->removeRoute('autocomplete');
 $application->setBanner(function($console) {
     /* @var $console Zend\Console\Adapter\AbstractAdapter */
@@ -81,7 +80,7 @@ $application->setBanner(function($console) {
     $console->writeLine('');
 });
 $application->setBannerDisabledForUserCommands();
-$application->setDebug(true);
+$application->setDebug(false);
 
 if (Plateform::isPhar()) {
     $application->getDispatcher()->map('self-update', new SelfUpdate($version));

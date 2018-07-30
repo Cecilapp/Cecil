@@ -17,10 +17,6 @@ class Build extends AbstractCommand
     /**
      * @var bool
      */
-    protected $serve;
-    /**
-     * @var bool
-     */
     protected $drafts;
     /**
      * @var string
@@ -33,7 +29,6 @@ class Build extends AbstractCommand
 
     public function processCommand()
     {
-        $this->serve = $this->route->getMatchedParam('serve', false);
         $this->drafts = $this->route->getMatchedParam('drafts', false);
         $this->baseurl = $this->route->getMatchedParam('baseurl');
         $this->fileSystem = new Filesystem();
@@ -52,10 +47,6 @@ class Build extends AbstractCommand
             $this->fileSystem->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
         } catch (\Exception $e) {
             $this->wlError($e->getMessage());
-        }
-        if ($this->serve) {
-            $callable = new Serve();
-            $callable($this->getRoute(), $this->getConsole());
         }
     }
 }
