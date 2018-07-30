@@ -56,8 +56,7 @@ class Serve extends AbstractCommand
         if ($this->drafts) {
             $options['drafts'] = true;
         }
-        $callable = new Build();
-        $callable($this->getRoute(), $this->getConsole());
+        $this->getPHPoole($options)->build();
 
         // handle process
         if (!$process->isStarted()) {
