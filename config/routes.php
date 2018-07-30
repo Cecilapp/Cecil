@@ -54,9 +54,9 @@ return [
         'short_description'    => 'Start the built-in web server',
         'description'          => 'Start the live-reloading-built-in web server.',
         'options_descriptions' => [
-            '<path>'    => 'Website path',
+            '<path>'      => 'Website path',
             '--drafts|-d' => 'Include drafts',
-            '--open|-o' => 'Open browser automatically',
+            '--open|-o'   => 'Open browser automatically',
         ],
         'defaults' => [
             'path' => getcwd(),
