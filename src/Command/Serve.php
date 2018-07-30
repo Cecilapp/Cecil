@@ -38,7 +38,7 @@ class Serve extends AbstractCommand
     public function processCommand()
     {
         $this->drafts = $this->route->getMatchedParam('drafts', false);
-        $this->browser = $this->getRoute()->getMatchedParam('open', false);
+        $this->open = $this->getRoute()->getMatchedParam('open', false);
         $this->fileSystem = new Filesystem();
 
         $this->setUpServer();
@@ -75,7 +75,7 @@ class Serve extends AbstractCommand
             try {
                 $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', 'localhost', '8000'));
                 $process->start();
-                if ($this->browser) {
+                if ($this->open) {
                     Plateform::openBrowser('http://localhost:8000');
                 }
                 while ($process->isRunning()) {
