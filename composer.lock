@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a756f2bbcc6b0ac74082add07e8aba84",
+    "content-hash": "c81cf6b5812ce37dc670747f1d1faacd",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "dc4712bcfe2cfcb634832f6d7bf28ec9c485c5ea"
+                "reference": "c72807f14993255992ce84a6596c1d2f12c5e172"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -699,7 +699,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-07-26T14:31:22+00:00"
+            "time": "2018-07-31T16:24:43+00:00"
         },
         {
             "name": "psr/container",
@@ -3791,16 +3791,16 @@
         },
         {
             "name": "roave/better-reflection",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/BetterReflection.git",
-                "reference": "ca0298b9ba44e54c66311cb47a9e558f7d9e6fcc"
+                "reference": "c022c6c998251a5af8a51ca9b8662c323a183bf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/ca0298b9ba44e54c66311cb47a9e558f7d9e6fcc",
-                "reference": "ca0298b9ba44e54c66311cb47a9e558f7d9e6fcc",
+                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/c022c6c998251a5af8a51ca9b8662c323a183bf2",
+                "reference": "c022c6c998251a5af8a51ca9b8662c323a183bf2",
                 "shasum": ""
             },
             "require": {
@@ -3854,7 +3854,7 @@
                 }
             ],
             "description": "Better Reflection - an improved code reflection API",
-            "time": "2018-07-23T20:10:47+00:00"
+            "time": "2018-07-31T06:56:38+00:00"
         },
         {
             "name": "roave/signature",
