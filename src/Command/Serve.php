@@ -66,6 +66,9 @@ class Serve extends AbstractCommand
                 ->name('*.md')
                 ->name('*.twig')
                 ->name('*.yml')
+                ->name('*.css')
+                ->name('*.scss')
+                ->name('*.js')
                 ->in($this->getPath());
             $hashContent = new Crc32ContentHash();
             $resourceCache = new ResourceCacheMemory();
