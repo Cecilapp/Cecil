@@ -69,7 +69,8 @@ class Serve extends AbstractCommand
                 ->name('*.css')
                 ->name('*.scss')
                 ->name('*.js')
-                ->in($this->getPath());
+                ->in($this->getPath())
+                ->exclude($this->getPHPoole()->getConfig()->get('output.dir'));
             $hashContent = new Crc32ContentHash();
             $resourceCache = new ResourceCacheMemory();
             $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
