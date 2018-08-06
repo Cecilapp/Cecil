@@ -30,7 +30,7 @@ class ListContent extends AbstractCommand
             $this->wlAnnonce(sprintf('%s/', $this->contentDir));
             $pages = $this->getPagesTree();
             if ($this->getConsole()->isUtf8()) {
-                $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
+                $unicodeTreePrefix = function(RecursiveTreeIterator $tree) {
                     $prefixParts = [
                         RecursiveTreeIterator::PREFIX_LEFT         => ' ',
                         RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
