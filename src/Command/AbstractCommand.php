@@ -154,7 +154,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * @param $text
+     * @param string $text
      */
     public function wlAnnonce($text)
     {
@@ -170,7 +170,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * @param $text
+     * @param string $text
      */
     public function wlAlert($text)
     {
