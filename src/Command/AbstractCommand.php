@@ -142,7 +142,7 @@ abstract class AbstractCommand
                 $this->phpoole->setSourceDir($this->getPath());
                 $this->phpoole->setDestinationDir($this->getPath());
             } catch (ParseException $e) {
-                 throw new \Exception(sprintf('Config file parse error: %s', $e->getMessage()));
+                throw new \Exception(sprintf('Config file parse error: %s', $e->getMessage()));
                 exit(1);
             } catch (\Exception $e) {
                 throw new \Exception(sprintf($e->getMessage()));

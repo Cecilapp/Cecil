@@ -84,6 +84,7 @@ class Serve extends AbstractCommand
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
+
                 throw new \Exception(sprintf($e->getMessage()));
                 exit(1);
             }
