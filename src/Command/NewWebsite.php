@@ -31,7 +31,6 @@ class NewWebsite extends AbstractCommand
         }
         if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$this->force) {
             throw new \Exception(sprintf('Config file already exists: "%s".', $this->getPath().'/'.self::CONFIG_FILE));
-            exit(2);
         }
         $this->fs->copy($root.'skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
         $this->fs->mirror($root.'skeleton/content', $this->getPath().'/content');

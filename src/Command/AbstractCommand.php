@@ -59,7 +59,6 @@ abstract class AbstractCommand
         $this->path = realpath($this->route->getMatchedParam('path', getcwd()));
         if (!is_dir($this->path)) {
             throw new \Exception('Invalid <path> provided!');
-            exit(2);
         }
         $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->path);
 
@@ -130,7 +129,6 @@ abstract class AbstractCommand
         if (!$this->phpoole instanceof PHPoole) {
             if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
                 throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
-                exit(2);
             }
 
             try {
@@ -143,10 +141,8 @@ abstract class AbstractCommand
                 $this->phpoole->setDestinationDir($this->getPath());
             } catch (ParseException $e) {
                  throw new \Exception(sprintf('Config file parse error: %s', $e->getMessage()));
-                exit(1);
             } catch (\Exception $e) {
                 throw new \Exception(sprintf($e->getMessage()));
-                exit(1);
             }
         }
 

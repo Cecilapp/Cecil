@@ -43,7 +43,6 @@ class Build extends AbstractCommand
             $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
-            exit(1);
         }
     }
 }

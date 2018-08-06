@@ -85,7 +85,6 @@ class Serve extends AbstractCommand
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
                 throw new \Exception(sprintf($e->getMessage()));
-                exit(1);
             }
         }
     }
@@ -102,11 +101,9 @@ class Serve extends AbstractCommand
             $this->fs->dumpFile($this->getPath().'/.phpoole/baseurl', $this->getPHPoole()->getConfig()->get('site.baseurl'));
         } catch (IOExceptionInterface $e) {
             throw new \Exception(sprintf('An error occurred while copying file at "%s"', $e->getPath()));
-            exit(2);
         }
         if (!is_file(sprintf('%s/.phpoole/router.php', $this->getPath()))) {
             throw new \Exception(sprintf('Router not found: "%s"', './.phpoole/router.php'));
-            exit(2);
         }
     }
 
