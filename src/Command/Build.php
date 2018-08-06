@@ -38,6 +38,7 @@ class Build extends AbstractCommand
         }
 
         $this->wlAnnonce(sprintf($message, $messageOpt));
+
         try {
             $this->getPHPoole($options)->build();
             $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
