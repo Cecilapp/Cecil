@@ -10,8 +10,6 @@
 
 namespace PHPoole\Command;
 
-use Symfony\Component\Filesystem\Filesystem;
-
 class Build extends AbstractCommand
 {
     /**
@@ -22,31 +20,30 @@ class Build extends AbstractCommand
      * @var string
      */
     protected $baseurl;
-    /**
-     * @var Filesystem
-     */
-    protected $fileSystem;
 
     public function processCommand()
     {
         $this->drafts = $this->route->getMatchedParam('drafts', false);
         $this->baseurl = $this->route->getMatchedParam('baseurl');
-        $this->fileSystem = new Filesystem();
 
-        $this->wlAnnonce('Building website...');
+        $message = 'Building website%s...';
 
+        $options = [];
+        if ($this->drafts) {
+            $options['drafts'] = true;
+            $messageOpt = ' (with drafts)';
+        }
+        if ($this->baseurl) {
+            $options['site']['baseurl'] = $this->baseurl;
+        }
+
+        $this->wlAnnonce(sprintf($message, $messageOpt));
         try {
-            $options = [];
-            if ($this->drafts) {
-                $options['drafts'] = true;
-            }
-            if ($this->baseurl) {
-                $options['site']['baseurl'] = $this->baseurl;
-            }
             $this->getPHPoole($options)->build();
-            $this->fileSystem->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
+            $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
         } catch (\Exception $e) {
-            $this->wlError($e->getMessage());
+            throw new \Exception(sprintf($e->getMessage()));
+            exit(1);
         }
     }
 }
