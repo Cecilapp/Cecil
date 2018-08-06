@@ -11,7 +11,6 @@
 namespace PHPoole\Command;
 
 use PHPoole\Util\Plateform;
-use Symfony\Component\Filesystem\Filesystem;
 
 class NewWebsite extends AbstractCommand
 {
@@ -24,26 +23,20 @@ class NewWebsite extends AbstractCommand
     {
         $this->force = $this->getRoute()->getMatchedParam('force', false);
 
-        $this->wlAnnonce('Creates a new website...');
+        $this->wlAnnonce('Creating a new website...');
 
-        try {
-            $fileSystem = new Filesystem();
-            $root = __DIR__.'/../../';
-            if (Plateform::isPhar()) {
-                $root = Plateform::getPharPath().'/';
-            }
-            if (!$fileSystem->exists($this->getPath().'/'.self::CONFIG_FILE) || $this->force) {
-                $fileSystem->copy($root.'skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
-                $fileSystem->mirror($root.'skeleton/content', $this->getPath().'/content');
-                $fileSystem->mirror($root.'skeleton/layouts', $this->getPath().'/layouts');
-                $fileSystem->mirror($root.'skeleton/static', $this->getPath().'/static');
-                $this->wlDone('Done!');
-                exit(0);
-            }
-            $this->wlAlert(sprintf('File "%s" already exists.', $this->getPath().'/'.self::CONFIG_FILE));
-            exit(1);
-        } catch (\Exception $e) {
-            $this->wlError($e->getMessage());
+        $root = __DIR__.'/../../';
+        if (Plateform::isPhar()) {
+            $root = Plateform::getPharPath().'/';
         }
+        if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$this->force) {
+            throw new \Exception(sprintf('Config file already exists: "%s".', $this->getPath().'/'.self::CONFIG_FILE));
+        }
+        $this->fs->copy($root.'skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
+        $this->fs->mirror($root.'skeleton/content', $this->getPath().'/content');
+        $this->fs->mirror($root.'skeleton/layouts', $this->getPath().'/layouts');
+        $this->fs->mirror($root.'skeleton/static', $this->getPath().'/static');
+        $this->wlDone('Done!');
+        exit(0);
     }
 }

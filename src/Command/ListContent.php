@@ -17,10 +17,17 @@ use RecursiveTreeIterator;
 
 class ListContent extends AbstractCommand
 {
+    /**
+     * @var string
+     */
+    protected $contentDir;
+
     public function processCommand()
     {
+        $this->contentDir = $this->getPHPoole()->getConfig()->get('content.dir');
+
         try {
-            $this->wlAnnonce('Content:');
+            $this->wlAnnonce(sprintf('%s/', $this->contentDir));
             $pages = $this->getPagesTree();
             if ($this->getConsole()->isUtf8()) {
                 $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
@@ -41,7 +48,7 @@ class ListContent extends AbstractCommand
             }
             $this->getConsole()->writeLine('');
         } catch (\Exception $e) {
-            $this->wlError($e->getMessage());
+            throw new \Exception(sprintf($e->getMessage()));
         }
     }
 
@@ -54,9 +61,9 @@ class ListContent extends AbstractCommand
      */
     public function getPagesTree()
     {
-        $pagesPath = $this->path.'/'.$this->getPHPoole()->getConfig()->get('content.dir');
+        $pagesPath = $this->path.'/'.$this->contentDir;
         if (!is_dir($pagesPath)) {
-            throw new \Exception(sprintf('Invalid %s directory', 'content'));
+            throw new \Exception(sprintf('Invalid directory: %s.', $pagesPath));
         }
         $dirIterator = new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS);
         $dirIterator = new FileExtensionFilter($dirIterator, $this->getPHPoole()->getConfig()->get('content.ext'));

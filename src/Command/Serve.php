@@ -12,7 +12,6 @@ namespace PHPoole\Command;
 
 use PHPoole\Util\Plateform;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -30,16 +29,11 @@ class Serve extends AbstractCommand
      * @var bool
      */
     protected $open;
-    /**
-     * @var Filesystem
-     */
-    protected $fileSystem;
 
     public function processCommand()
     {
         $this->drafts = $this->route->getMatchedParam('drafts', false);
         $this->open = $this->getRoute()->getMatchedParam('open', false);
-        $this->fileSystem = new Filesystem();
 
         $this->setUpServer();
         $command = sprintf(
@@ -51,12 +45,9 @@ class Serve extends AbstractCommand
         );
         $process = new Process($command);
 
-        // build website
-        $options = [];
-        if ($this->drafts) {
-            $options['drafts'] = true;
-        }
-        $this->getPHPoole($options)->build();
+        // (re)build before serve
+        $callable = new Build();
+        $callable($this->getRoute(), $this->getConsole());
 
         // handle process
         if (!$process->isStarted()) {
@@ -87,15 +78,14 @@ class Serve extends AbstractCommand
                     if ($result->hasChanges()) {
                         // re-generate
                         $this->wlAlert('Changes detected!');
-                        $callable = new Build($this->getRoute(), $this->getConsole());
                         $callable($this->getRoute(), $this->getConsole());
                     }
-                    usleep(1000000); // 1 s
+                    usleep(1000000); // wait 1s
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
-                echo $e->getMessage();
-                exit(2);
+
+                throw new \Exception(sprintf($e->getMessage()));
             }
         }
     }
@@ -107,26 +97,23 @@ class Serve extends AbstractCommand
             if (Plateform::isPhar()) {
                 $root = Plateform::getPharPath().'/';
             }
-            $this->fileSystem->copy($root.'res/router.php', $this->getPath().'/.phpoole/router.php', true);
-            $this->fileSystem->copy($root.'res/livereload.js', $this->getPath().'/.phpoole/livereload.js', true);
-            $this->fileSystem->dumpFile($this->getPath().'/.phpoole/baseurl', $this->getPHPoole()->getConfig()->get('site.baseurl'));
+            $this->fs->copy($root.'res/router.php', $this->getPath().'/.phpoole/router.php', true);
+            $this->fs->copy($root.'res/livereload.js', $this->getPath().'/.phpoole/livereload.js', true);
+            $this->fs->dumpFile($this->getPath().'/.phpoole/baseurl', $this->getPHPoole()->getConfig()->get('site.baseurl'));
         } catch (IOExceptionInterface $e) {
-            echo 'An error occurred while copying file at '.$e->getPath().PHP_EOL;
-            echo $e->getMessage().PHP_EOL;
-            exit(2);
+            throw new \Exception(sprintf('An error occurred while copying file at "%s"', $e->getPath()));
         }
         if (!is_file(sprintf('%s/.phpoole/router.php', $this->getPath()))) {
-            $this->wlError('Router not found');
-            exit(2);
+            throw new \Exception(sprintf('Router not found: "%s"', './.phpoole/router.php'));
         }
     }
 
     public function tearDownServer()
     {
         try {
-            $this->fileSystem->remove($this->getPath().'/.phpoole');
+            $this->fs->remove($this->getPath().'/.phpoole');
         } catch (IOExceptionInterface $e) {
-            echo $e->getMessage().PHP_EOL;
+            throw new \Exception(sprintf($e->getMessage()));
         }
     }
 }

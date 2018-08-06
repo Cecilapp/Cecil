@@ -11,6 +11,8 @@
 namespace PHPoole\Command;
 
 use PHPoole\PHPoole;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\Console\ColorInterface as Color;
@@ -24,21 +26,22 @@ abstract class AbstractCommand
      * @var Console
      */
     protected $console;
-
     /**
      * @var Route
      */
     protected $route;
-
     /**
      * @var string
      */
     protected $path;
-
     /**
      * @var PHPoole
      */
     protected $phpoole;
+    /**
+     * @var Filesystem
+     */
+    protected $fs;
 
     /**
      * Start command processing.
@@ -55,10 +58,11 @@ abstract class AbstractCommand
 
         $this->path = realpath($this->route->getMatchedParam('path', getcwd()));
         if (!is_dir($this->path)) {
-            $this->wlError('Invalid directory provided!');
-            exit(2);
+            throw new \Exception('Invalid <path> provided!');
         }
         $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->path);
+
+        $this->fs = new Filesystem();
 
         return $this->processCommand();
     }
@@ -124,21 +128,21 @@ abstract class AbstractCommand
 
         if (!$this->phpoole instanceof PHPoole) {
             if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
-                $this->wlError('Config file (phpoole.yml) not found!');
-                exit(2);
+                throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
             }
 
             try {
-                $optionsFile = (new Yaml())->parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
+                $optionsFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
                 if (is_array($options)) {
                     $options = array_replace_recursive($optionsFile, $options);
                 }
                 $this->phpoole = new PHPoole($options, $messageCallback);
                 $this->phpoole->setSourceDir($this->getPath());
                 $this->phpoole->setDestinationDir($this->getPath());
+            } catch (ParseException $e) {
+                throw new \Exception(sprintf('Config file parse error: %s', $e->getMessage()));
             } catch (\Exception $e) {
-                $this->wlError($e->getMessage());
-                exit(2);
+                throw new \Exception(sprintf($e->getMessage()));
             }
         }
 
@@ -146,7 +150,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * @param $text
+     * @param string $text
      */
     public function wlAnnonce($text)
     {
@@ -162,7 +166,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * @param $text
+     * @param string $text
      */
     public function wlAlert($text)
     {
