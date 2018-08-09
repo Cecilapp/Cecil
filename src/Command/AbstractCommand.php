@@ -141,7 +141,7 @@ abstract class AbstractCommand
      */
     public function getPHPoole(array $options = [])
     {
-        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = true) {
+        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = false) {
             switch ($code) {
                 case 'CREATE':
                 case 'CONVERT':
@@ -156,11 +156,19 @@ abstract class AbstractCommand
                 case 'GENERATE_PROGRESS':
                 case 'COPY_PROGRESS':
                 case 'RENDER_PROGRESS':
-                    if ($itemsMax && $itemsCount) {
-                        $this->newPB(1, $itemsMax);
-                        $this->getPB()->update($itemsCount, "$message");
+                    if ($verbose) {
+                        if ($itemsCount > 0 && $verbose !== false) {
+                            $this->wlDone(sprintf("\r  (%u/%u) %s", $itemsCount, $itemsMax, $message));
+                            break;
+                        }
+                        $this->wlDone("  $message");
                     } else {
-                        $this->wl($message);
+                        if ($itemsMax && $itemsCount) {
+                            $this->newPB(1, $itemsMax);
+                            $this->getPB()->update($itemsCount, "$message");
+                        } else {
+                            $this->wl($message);
+                        }
                     }
                     break;
             }
