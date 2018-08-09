@@ -119,10 +119,11 @@ abstract class AbstractCommand
                 'elements' => [
                     \Zend\ProgressBar\Adapter\Console::ELEMENT_PERCENT,
                     \Zend\ProgressBar\Adapter\Console::ELEMENT_BAR,
-                    \Zend\ProgressBar\Adapter\Console::ELEMENT_TEXT
-                ]]);
+                    \Zend\ProgressBar\Adapter\Console::ELEMENT_TEXT,
+                ], ]);
             $this->progressBar = new ProgressBar($adapter, $start, $max);
         }
+
         return $this->progressBar;
     }
 
