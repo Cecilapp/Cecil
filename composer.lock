@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63c2717869535afe9df168c34d254beb",
+    "content-hash": "1e5d69d05f505352d83eb18825dc4d5b",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.2.1",
+            "version": "2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "37711a6d96b1d47cbd92171de83b33a62a563445"
+                "reference": "7a4871f9366edda10899e354360f61e7211374d2"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -699,7 +699,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-08-08T22:21:47+00:00"
+            "time": "2018-08-09T13:51:45+00:00"
         },
         {
             "name": "psr/container",
@@ -1246,6 +1246,58 @@
                 "zf"
             ],
             "time": "2018-01-25T19:08:04+00:00"
+        },
+        {
+            "name": "zendframework/zend-progressbar",
+            "version": "2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-progressbar.git",
+                "reference": "ae5565bbed54f9081d5695bc2f62fe3f27583bdd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-progressbar/zipball/ae5565bbed54f9081d5695bc2f62fe3f27583bdd",
+                "reference": "ae5565bbed54f9081d5695bc2f62fe3f27583bdd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "zendframework/zend-stdlib": "^2.7 || ^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.4",
+                "zendframework/zend-coding-standard": "~1.0.0",
+                "zendframework/zend-json": "^2.6.1",
+                "zendframework/zend-session": "^2.8.5"
+            },
+            "suggest": {
+                "zendframework/zend-json": "Zend\\Json component",
+                "zendframework/zend-session": "To support progressbar persistent"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6.x-dev",
+                    "dev-develop": "2.7.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\ProgressBar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Create and update progress bars in different environments",
+            "keywords": [
+                "ZendFramework",
+                "progressbar",
+                "zf"
+            ],
+            "time": "2018-04-30T19:15:33+00:00"
         },
         {
             "name": "zendframework/zend-stdlib",

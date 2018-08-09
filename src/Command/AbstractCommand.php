@@ -16,6 +16,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\Console\ColorInterface as Color;
+use Zend\ProgressBar\ProgressBar;
 use ZF\Console\Route;
 
 abstract class AbstractCommand
@@ -42,6 +43,14 @@ abstract class AbstractCommand
      * @var Filesystem
      */
     protected $fs;
+    /**
+     * @var ProgressBar
+     */
+    protected $progressBar = null;
+    /**
+     * @var int
+     */
+    protected $pbMax = 0;
 
     /**
      * Start command processing.
@@ -97,31 +106,71 @@ abstract class AbstractCommand
     }
 
     /**
+     * @param int $start
+     * @param int $max
+     *
+     * @return ProgressBar
+     */
+    protected function newPB($start, $max)
+    {
+        if ($this->progressBar == null || $max != $this->pbMax) {
+            $this->pbMax = $max;
+            $adapter = new \Zend\ProgressBar\Adapter\Console([
+                'elements' => [
+                    \Zend\ProgressBar\Adapter\Console::ELEMENT_PERCENT,
+                    \Zend\ProgressBar\Adapter\Console::ELEMENT_BAR,
+                    \Zend\ProgressBar\Adapter\Console::ELEMENT_TEXT,
+                ], ]);
+            $this->progressBar = new ProgressBar($adapter, $start, $max);
+        }
+
+        return $this->progressBar;
+    }
+
+    /**
+     * @return ProgressBar
+     */
+    protected function getPB()
+    {
+        return $this->progressBar;
+    }
+
+    /**
      * @param array $options
      *
      * @return PHPoole
      */
     public function getPHPoole(array $options = [])
     {
-        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = true) {
-            switch (true) {
-                case $code == 'CREATE'
-                || $code == 'CONVERT'
-                || $code == 'GENERATE'
-                || $code == 'RENDER'
-                || $code == 'COPY':
+        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = false) {
+            switch ($code) {
+                case 'CREATE':
+                case 'CONVERT':
+                case 'GENERATE':
+                case 'COPY':
+                case 'RENDER':
+                case 'TIME':
                     $this->wlAnnonce($message);
                     break;
-                case $code == 'CREATE_PROGRESS'
-                || $code == 'CONVERT_PROGRESS'
-                || $code == 'GENERATE_PROGRESS'
-                || $code == 'RENDER_PROGRESS'
-                || $code == 'COPY_PROGRESS':
-                    if ($itemsCount > 0 && $verbose !== false) {
-                        $this->wlDone(sprintf("\r  (%u/%u) %s", $itemsCount, $itemsMax, $message));
-                        break;
+                case 'CREATE_PROGRESS':
+                case 'CONVERT_PROGRESS':
+                case 'GENERATE_PROGRESS':
+                case 'COPY_PROGRESS':
+                case 'RENDER_PROGRESS':
+                    if ($verbose) {
+                        if ($itemsCount > 0 && $verbose !== false) {
+                            $this->wlDone(sprintf("\r  (%u/%u) %s", $itemsCount, $itemsMax, $message));
+                            break;
+                        }
+                        $this->wlDone("  $message");
+                    } else {
+                        if ($itemsMax && $itemsCount) {
+                            $this->newPB(1, $itemsMax);
+                            $this->getPB()->update($itemsCount, "$message");
+                        } else {
+                            $this->wl($message);
+                        }
                     }
-                    $this->wlDone("  $message");
                     break;
             }
         };
@@ -152,13 +201,21 @@ abstract class AbstractCommand
     /**
      * @param string $text
      */
+    public function wl($text)
+    {
+        $this->console->writeLine($text);
+    }
+
+    /**
+     * @param string $text
+     */
     public function wlAnnonce($text)
     {
         $this->console->writeLine($text, Color::WHITE);
     }
 
     /**
-     * @param $text
+     * @param string $text
      */
     public function wlDone($text)
     {

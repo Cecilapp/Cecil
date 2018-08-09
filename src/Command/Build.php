@@ -37,7 +37,7 @@ class Build extends AbstractCommand
             $options['site']['baseurl'] = $this->baseurl;
         }
 
-        $this->wlAnnonce(sprintf($message, $messageOpt));
+        $this->wl(sprintf($message, $messageOpt));
 
         try {
             $this->getPHPoole($options)->build();
