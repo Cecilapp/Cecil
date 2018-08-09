@@ -207,7 +207,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * @param $text
+     * @param string $text
      */
     public function wlDone($text)
     {
