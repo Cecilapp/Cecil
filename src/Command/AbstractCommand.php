@@ -142,7 +142,7 @@ abstract class AbstractCommand
      */
     public function getPHPoole(array $options = [])
     {
-        $messageCallback = function($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = true) {
+        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = true) {
             switch ($code) {
                 case 'CREATE':
                 case 'CONVERT':
