@@ -181,7 +181,7 @@ abstract class AbstractCommand
                 case 'RENDER_PROGRESS':
                     if ($this->debug) {
                         if ($itemsCount > 0) {
-                            $this->wlDone(sprintf("(%u/%u) %s", $itemsCount, $itemsMax, $message));
+                            $this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
                             break;
                         }
                         $this->wlDone("$message");
