@@ -28,9 +28,10 @@ return [
     ],
     [
         'name'    => 'build',
-        'route'   => '[<path>] [--drafts|-d] [--baseurl=]',
+        'route'   => '[<path>] [--drafts|-d] [--baseurl=] [--quiet|-q]',
         'aliases' => [
             'd' => 'drafts',
+            'q' => 'quiet',
         ],
         'short_description'    => 'Build the website',
         'description'          => 'Build the website.',
@@ -38,6 +39,7 @@ return [
             '<path>'      => 'Website path',
             '--drafts|-d' => 'Include drafts',
             '--baseurl'   => 'Base URL',
+            '--quiet|-q'  => 'Not verbose messages',
         ],
         'defaults' => [
             'path' => getcwd(),

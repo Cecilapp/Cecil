@@ -20,11 +20,16 @@ class Build extends AbstractCommand
      * @var string
      */
     protected $baseurl;
+    /**
+     * @var bool
+     */
+    protected $quiet;
 
     public function processCommand()
     {
         $this->drafts = $this->route->getMatchedParam('drafts', false);
         $this->baseurl = $this->route->getMatchedParam('baseurl');
+        $this->quiet = $this->route->getMatchedParam('quiet', false);
 
         $message = 'Building website%s...';
 
@@ -35,6 +40,9 @@ class Build extends AbstractCommand
         }
         if ($this->baseurl) {
             $options['site']['baseurl'] = $this->baseurl;
+        }
+        if ($this->quiet) {
+            $options['quiet'] = true;
         }
 
         $this->wl(sprintf($message, $messageOpt));
