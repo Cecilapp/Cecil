@@ -51,6 +51,14 @@ abstract class AbstractCommand
      * @var int
      */
     protected $pbMax = 0;
+    /**
+     * @var bool
+     */
+    protected $debug = false;
+    /**
+     * @var bool
+     */
+    protected $quiet = false;
 
     /**
      * Start command processing.
@@ -113,14 +121,16 @@ abstract class AbstractCommand
      */
     protected function newPB($start, $max)
     {
-        if ($this->progressBar == null || $max != $this->pbMax) {
+        if ($this->progressBar === null || $max != $this->pbMax) {
             $this->pbMax = $max;
             $adapter = new \Zend\ProgressBar\Adapter\Console([
                 'elements' => [
                     \Zend\ProgressBar\Adapter\Console::ELEMENT_PERCENT,
                     \Zend\ProgressBar\Adapter\Console::ELEMENT_BAR,
                     \Zend\ProgressBar\Adapter\Console::ELEMENT_TEXT,
-                ], ]);
+                ],
+                'textWidth' => 30,
+            ]);
             $this->progressBar = new ProgressBar($adapter, $start, $max);
         }
 
@@ -142,11 +152,22 @@ abstract class AbstractCommand
      */
     public function getPHPoole(array $options = [])
     {
-        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0, $verbose = false) {
+        // debug mode?
+        if (array_key_exists('debug', $options) && $options['debug']) {
+            $this->debug = true;
+        }
+        // quiet mode?
+        if (array_key_exists('quiet', $options) && $options['quiet']) {
+            $this->quiet = true;
+        }
+
+        // CLI custom message callback function
+        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
             switch ($code) {
                 case 'CREATE':
                 case 'CONVERT':
                 case 'GENERATE':
+                case 'MENU':
                 case 'COPY':
                 case 'RENDER':
                 case 'TIME':
@@ -155,26 +176,42 @@ abstract class AbstractCommand
                 case 'CREATE_PROGRESS':
                 case 'CONVERT_PROGRESS':
                 case 'GENERATE_PROGRESS':
+                case 'MENU_PROGRESS':
                 case 'COPY_PROGRESS':
                 case 'RENDER_PROGRESS':
-                    if ($verbose) {
-                        if ($itemsCount > 0 && $verbose !== false) {
-                            $this->wlDone(sprintf("\r  (%u/%u) %s", $itemsCount, $itemsMax, $message));
+                    if ($this->debug) {
+                        if ($itemsCount > 0) {
+                            $this->wlDone(sprintf("(%u/%u) %s", $itemsCount, $itemsMax, $message));
                             break;
                         }
-                        $this->wlDone("  $message");
+                        $this->wlDone("$message");
                     } else {
-                        if ($itemsMax && $itemsCount) {
-                            $this->newPB(1, $itemsMax);
-                            $this->getPB()->update($itemsCount, "$message");
-                        } else {
-                            $this->wl($message);
+                        if (!$this->quiet) {
+                            if ($itemsMax && $itemsCount) {
+                                $this->newPB(1, $itemsMax);
+                                $this->getPB()->update($itemsCount, "$message");
+                                if ($itemsCount == $itemsMax) {
+                                    $this->getPB()->update($itemsCount, "[$itemsCount/$itemsMax]");
+                                    $this->getPB()->finish();
+                                }
+                            } else {
+                                $this->wl($message);
+                            }
                         }
                     }
+                    break;
+                case 'CREATE_ERROR':
+                case 'CONVERT_ERROR':
+                case 'GENERATE_ERROR':
+                case 'MENU_ERROR':
+                case 'COPY_ERROR':
+                case 'RENDER_ERROR':
+                    $this->wlError($message);
                     break;
             }
         };
 
+        // instanciate PHPoole?
         if (!$this->phpoole instanceof PHPoole) {
             if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
                 throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
@@ -231,7 +268,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * @param $text
+     * @param string $text
      */
     public function wlError($text)
     {

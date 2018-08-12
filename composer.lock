@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e5d69d05f505352d83eb18825dc4d5b",
+    "content-hash": "12d1a335272a1fe470535ba53a0b4a88",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.2.2",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "7a4871f9366edda10899e354360f61e7211374d2"
+                "reference": "63b453ccf572663617113613ca30695832286807"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -699,7 +699,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-08-09T13:51:45+00:00"
+            "time": "2018-08-12T20:13:40+00:00"
         },
         {
             "name": "psr/container",
@@ -2430,16 +2430,16 @@
         },
         {
             "name": "humbug/php-scoper",
-            "version": "0.9.1",
+            "version": "0.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humbug/php-scoper.git",
-                "reference": "e7eb4b83ad8cf9aea45e5cb4d4d7742ee2d07648"
+                "reference": "f595614c73243fa084caa30a6e75f2442277e631"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humbug/php-scoper/zipball/e7eb4b83ad8cf9aea45e5cb4d4d7742ee2d07648",
-                "reference": "e7eb4b83ad8cf9aea45e5cb4d4d7742ee2d07648",
+                "url": "https://api.github.com/repos/humbug/php-scoper/zipball/f595614c73243fa084caa30a6e75f2442277e631",
+                "reference": "f595614c73243fa084caa30a6e75f2442277e631",
                 "shasum": ""
             },
             "require": {
@@ -2498,7 +2498,7 @@
                 }
             ],
             "description": "Prefixes all PHP namespaces in a file or directory.",
-            "time": "2018-08-06T18:04:52+00:00"
+            "time": "2018-08-10T11:35:57+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
