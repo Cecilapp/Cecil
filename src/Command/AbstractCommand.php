@@ -170,8 +170,10 @@ abstract class AbstractCommand
                 case 'MENU':
                 case 'COPY':
                 case 'RENDER':
-                case 'TIME':
                     $this->wlAnnonce($message);
+                    break;
+                case 'TIME':
+                    $this->wl($message);
                     break;
                 case 'CREATE_PROGRESS':
                 case 'CONVERT_PROGRESS':
