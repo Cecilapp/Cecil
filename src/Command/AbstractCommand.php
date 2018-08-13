@@ -164,6 +164,7 @@ abstract class AbstractCommand
         // CLI custom message callback function
         $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
             switch ($code) {
+                case 'LOCATE':
                 case 'CREATE':
                 case 'CONVERT':
                 case 'GENERATE':
@@ -175,6 +176,7 @@ abstract class AbstractCommand
                 case 'TIME':
                     $this->wl($message);
                     break;
+                case 'LOCATE_PROGRESS':
                 case 'CREATE_PROGRESS':
                 case 'CONVERT_PROGRESS':
                 case 'GENERATE_PROGRESS':
@@ -189,8 +191,8 @@ abstract class AbstractCommand
                         $this->wlDone("$message");
                     } else {
                         if (!$this->quiet) {
-                            if ($itemsMax && $itemsCount) {
-                                $this->newPB(1, $itemsMax);
+                            if (isset($itemsCount) && $itemsMax > 0) {
+                                $this->newPB(0, $itemsMax);
                                 $this->getPB()->update($itemsCount, "$message");
                                 if ($itemsCount == $itemsMax) {
                                     $this->getPB()->update($itemsCount, "[$itemsCount/$itemsMax]");
@@ -202,6 +204,7 @@ abstract class AbstractCommand
                         }
                     }
                     break;
+                case 'LOCATE_ERROR':
                 case 'CREATE_ERROR':
                 case 'CONVERT_ERROR':
                 case 'GENERATE_ERROR':
