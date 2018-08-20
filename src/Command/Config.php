@@ -21,17 +21,17 @@ class Config extends AbstractCommand
         }
     }
 
-    private function printArray($array, $i = -4)
+    private function printArray($array, $column = -4)
     {
         $return = '';
 
         if (is_array($array)) {
-            $i += 4;
+            $column += 4;
             foreach ($array as $key=>$val) {
                 if (is_array($val)) {
-                    $return .= str_repeat(' ', $i)."$key:\n".$this->printArray($val, $i);
+                    $return .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
                 }
-                $return .= str_repeat(' ', $i)."$key: $val\n";
+                $return .= str_repeat(' ', $column)."$key: $val\n";
             }
         }
 
