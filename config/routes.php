@@ -101,8 +101,8 @@ return [
     [
         'name'                 => 'config',
         'route'                => '[<path>]',
-        'short_description'    => 'Display config',
-        'description'          => 'Display website config as array.',
+        'short_description'    => 'Display configuration',
+        'description'          => 'Display website configuration.',
         'options_descriptions' => [
             '<path>' => 'Website path',
         ],
