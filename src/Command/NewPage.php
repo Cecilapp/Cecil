@@ -38,13 +38,12 @@ draft: true
 # New page
 EOT;
             $filePath = $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('content.dir').'/'.$this->name.'.md';
-
             if ($this->fs->exists($filePath) && !$this->force) {
                 if (!Confirm::prompt('This page already exists. Do you want to override it? [y/n]', 'y', 'n')) {
                     exit(0);
                 }
             }
-            $this->fs->dumpFile($filePath, sprintf($fileContent, $this->name, date('Y-m-d')));
+            $this->fs->dumpFile($filePath, sprintf($fileContent, substr(strrchr($this->name, '/'), 1), date('Y-m-d')));
             $this->wlDone('Done!');
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
