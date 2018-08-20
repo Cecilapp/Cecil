@@ -15,9 +15,27 @@ class Config extends AbstractCommand
     public function processCommand()
     {
         try {
-            print_r($this->getPHPoole()->getConfig()->getAllAsArray());
+            $this->wl($this->printArray($this->getPHPoole()->getConfig()->getAllAsArray()));
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }
+    }
+
+    private function printArray($array, $i = -4)
+    {
+        $return = '';
+
+        if (is_array($array)) {
+            $i += 4;
+            foreach ($array as $key=>$val) {
+                if (is_array($val)) {
+                    $return .= str_repeat(' ', $i)."$key:\n".$this->printArray($val, $i);
+                } else {
+                    $return .= str_repeat(' ', $i)."$key: $val\n";
+                }
+            }
+        }
+
+        return $return;
     }
 }
