@@ -27,8 +27,26 @@ return [
         'handler' => 'PHPoole\Command\NewWebsite',
     ],
     [
+        'name'    => 'newpage',
+        'route'   => '<name> [<path>] [--force|-f]',
+        'aliases' => [
+            'f' => 'force',
+        ],
+        'short_description'    => 'Create a new page',
+        'description'          => 'Create a new page "<name>.md".',
+        'options_descriptions' => [
+            '<name>'     => 'Page name.',
+            '<path>'     => 'Website path.',
+            '--force|-f' => 'Override if already exist.',
+        ],
+        'defaults' => [
+            'path' => getcwd(),
+        ],
+        'handler' => 'PHPoole\Command\NewPage',
+    ],
+    [
         'name'    => 'build',
-        'route'   => '[<path>] [--drafts|-d] [--baseurl=] [--quiet|-q]',
+        'route'   => '[<path>] [--drafts|-d] [--baseurl=] [--quiet|-q] [--remove]',
         'aliases' => [
             'd' => 'drafts',
             'q' => 'quiet',
@@ -40,6 +58,7 @@ return [
             '--drafts|-d' => 'Include drafts',
             '--baseurl'   => 'Base URL',
             '--quiet|-q'  => 'Not verbose messages',
+            '--remove'    => 'Remove output directory',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -48,7 +67,7 @@ return [
     ],
     [
         'name'    => 'serve',
-        'route'   => '[<path>] [--drafts|-d] [--open|-o]',
+        'route'   => '[<path>] [--drafts|-d] [--open|-o] [--clear]',
         'aliases' => [
             'd' => 'drafts',
             'o' => 'open',
@@ -59,6 +78,7 @@ return [
             '<path>'      => 'Website path',
             '--drafts|-d' => 'Include drafts',
             '--open|-o'   => 'Open browser automatically',
+            '--clear'     => 'Clear temporary files created by server',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -68,8 +88,8 @@ return [
     [
         'name'                 => 'list',
         'route'                => '[<path>]',
-        'short_description'    => 'List website pages',
-        'description'          => 'List website pages files.',
+        'short_description'    => 'List content pages',
+        'description'          => 'List content pages files.',
         'options_descriptions' => [
             '<path>' => 'Website path',
         ],
@@ -77,5 +97,18 @@ return [
             'path' => getcwd(),
         ],
         'handler' => 'PHPoole\Command\ListContent',
+    ],
+    [
+        'name'                 => 'config',
+        'route'                => '[<path>]',
+        'short_description'    => 'Display config',
+        'description'          => 'Display website config as array.',
+        'options_descriptions' => [
+            '<path>' => 'Website path',
+        ],
+        'defaults' => [
+            'path' => getcwd(),
+        ],
+        'handler' => 'PHPoole\Command\Config',
     ],
 ];
