@@ -25,7 +25,7 @@ class NewPage extends AbstractCommand
         $this->force = $this->getRoute()->getMatchedParam('force', false);
 
         try {
-            $fileContent = <<<EOT
+            $fileContent = <<<'EOT'
 ---
 title: '%s'
 date: '%s'
