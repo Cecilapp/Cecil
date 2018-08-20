@@ -15,6 +15,10 @@ use Zend\Console\Prompt\Confirm;
 class NewPage extends AbstractCommand
 {
     /**
+     * @var string
+     */
+    protected $name;
+    /**
      * @var bool
      */
     protected $force;
