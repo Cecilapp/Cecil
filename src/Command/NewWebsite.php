@@ -27,7 +27,6 @@ class NewWebsite extends AbstractCommand
         try {
             if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$this->force) {
                 if (!Confirm::prompt('Website already exists. Do you want to override it? [y/n]', 'y', 'n')) {
-                    // throw new \Exception(sprintf('Config file already exists: "%s".', $this->getPath().'/'.self::CONFIG_FILE));
                     exit(0);
                 }
             }
