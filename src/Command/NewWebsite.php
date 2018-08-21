@@ -11,6 +11,7 @@
 namespace PHPoole\Command;
 
 use PHPoole\Util\Plateform;
+use Zend\Console\Prompt\Confirm;
 
 class NewWebsite extends AbstractCommand
 {
@@ -23,20 +24,24 @@ class NewWebsite extends AbstractCommand
     {
         $this->force = $this->getRoute()->getMatchedParam('force', false);
 
-        $this->wlAnnonce('Creating a new website...');
-
-        $root = __DIR__.'/../../';
-        if (Plateform::isPhar()) {
-            $root = Plateform::getPharPath().'/';
+        try {
+            if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$this->force) {
+                if (!Confirm::prompt('Website already exists. Do you want to override it? [y/n]', 'y', 'n')) {
+                    exit(0);
+                }
+            }
+            $root = __DIR__.'/../../';
+            if (Plateform::isPhar()) {
+                $root = Plateform::getPharPath().'/';
+            }
+            $this->wlAnnonce('Creating a new website...');
+            $this->fs->copy($root.'skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
+            $this->fs->mirror($root.'skeleton/content', $this->getPath().'/content');
+            $this->fs->mirror($root.'skeleton/layouts', $this->getPath().'/layouts');
+            $this->fs->mirror($root.'skeleton/static', $this->getPath().'/static');
+            $this->wlDone('Done!');
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf($e->getMessage()));
         }
-        if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$this->force) {
-            throw new \Exception(sprintf('Config file already exists: "%s".', $this->getPath().'/'.self::CONFIG_FILE));
-        }
-        $this->fs->copy($root.'skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
-        $this->fs->mirror($root.'skeleton/content', $this->getPath().'/content');
-        $this->fs->mirror($root.'skeleton/layouts', $this->getPath().'/layouts');
-        $this->fs->mirror($root.'skeleton/static', $this->getPath().'/static');
-        $this->wlDone('Done!');
-        exit(0);
     }
 }

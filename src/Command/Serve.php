@@ -24,16 +24,22 @@ class Serve extends AbstractCommand
     /**
      * @var bool
      */
-    protected $drafts;
+    protected $open;
     /**
      * @var bool
      */
-    protected $open;
+    protected $clear;
 
     public function processCommand()
     {
-        $this->drafts = $this->route->getMatchedParam('drafts', false);
         $this->open = $this->getRoute()->getMatchedParam('open', false);
+        $this->clear = $this->getRoute()->getMatchedParam('clear', false);
+
+        if ($this->clear) {
+            $this->tearDownServer();
+            $this->wlDone('Temporary files deleted!');
+            exit(0);
+        }
 
         $this->setUpServer();
         $command = sprintf(

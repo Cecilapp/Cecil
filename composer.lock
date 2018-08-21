@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09417e3c59da8bde8585c41372444a16",
+    "content-hash": "682d6e9646d50c39f8eff2b401c5fe82",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1863,16 +1863,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "1.7.1",
+            "version": "1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "5d9311d4555787c8a57fea15f82471499aedf712"
+                "reference": "576aab9b5abb2ed11a1c52353a759363216a4ad2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/5d9311d4555787c8a57fea15f82471499aedf712",
-                "reference": "5d9311d4555787c8a57fea15f82471499aedf712",
+                "url": "https://api.github.com/repos/composer/composer/zipball/576aab9b5abb2ed11a1c52353a759363216a4ad2",
+                "reference": "576aab9b5abb2ed11a1c52353a759363216a4ad2",
                 "shasum": ""
             },
             "require": {
@@ -1939,7 +1939,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2018-08-07T07:39:23+00:00"
+            "time": "2018-08-16T14:57:12+00:00"
         },
         {
             "name": "composer/semver",
@@ -2066,16 +2066,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "c919dc6c62e221fc6406f861ea13433c0aa24f08"
+                "reference": "e1809da56ce1bd1b547a752936817341ac244d8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/c919dc6c62e221fc6406f861ea13433c0aa24f08",
-                "reference": "c919dc6c62e221fc6406f861ea13433c0aa24f08",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/e1809da56ce1bd1b547a752936817341ac244d8e",
+                "reference": "e1809da56ce1bd1b547a752936817341ac244d8e",
                 "shasum": ""
             },
             "require": {
@@ -2106,7 +2106,7 @@
                 "Xdebug",
                 "performance"
             ],
-            "time": "2018-04-11T15:42:36+00:00"
+            "time": "2018-08-16T10:54:23+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -4844,16 +4844,16 @@
         },
         {
             "name": "ulrichsg/getopt-php",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getopt-php/getopt-php.git",
-                "reference": "7e95ab48bd75c595092e1a032a0809f9e1112e8f"
+                "reference": "6d22d6febd672954bf1b9676a4833489c5509116"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getopt-php/getopt-php/zipball/7e95ab48bd75c595092e1a032a0809f9e1112e8f",
-                "reference": "7e95ab48bd75c595092e1a032a0809f9e1112e8f",
+                "url": "https://api.github.com/repos/getopt-php/getopt-php/zipball/6d22d6febd672954bf1b9676a4833489c5509116",
+                "reference": "6d22d6febd672954bf1b9676a4833489c5509116",
                 "shasum": ""
             },
             "require": {
@@ -4886,7 +4886,7 @@
             ],
             "description": "Command line arguments parser for PHP 5.4 - 7.1",
             "homepage": "http://getopt-php.github.io/getopt-php",
-            "time": "2018-05-31T10:50:50+00:00"
+            "time": "2018-08-17T04:48:55+00:00"
         },
         {
             "name": "webmozart/assert",

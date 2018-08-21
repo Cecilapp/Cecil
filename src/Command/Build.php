@@ -24,16 +24,21 @@ class Build extends AbstractCommand
      * @var bool
      */
     protected $quiet;
+    /**
+     * @var bool
+     */
+    protected $remove;
 
     public function processCommand()
     {
         $this->drafts = $this->route->getMatchedParam('drafts', false);
         $this->baseurl = $this->route->getMatchedParam('baseurl');
         $this->quiet = $this->route->getMatchedParam('quiet', false);
-
-        $message = 'Building website%s...';
+        $this->remove = $this->getRoute()->getMatchedParam('remove', false);
 
         $options = [];
+        $messageOpt = '';
+
         if ($this->drafts) {
             $options['drafts'] = true;
             $messageOpt = ' (with drafts)';
@@ -44,12 +49,22 @@ class Build extends AbstractCommand
         if ($this->quiet) {
             $options['quiet'] = true;
         }
-
-        $this->wl(sprintf($message, $messageOpt));
+        if ($this->remove) {
+            if ($this->fs->exists($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'))) {
+                $this->fs->remove($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'));
+                $this->wlDone('Output directory removed!');
+                exit(0);
+            }
+            $this->wlError('Output directory not found!');
+            exit(0);
+        }
 
         try {
+            $this->wl(sprintf('Building website%s...', $messageOpt));
             $this->getPHPoole($options)->build();
-            $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
+            if ($this->getRoute()->getName() == 'serve') {
+                $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
+            }
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }
