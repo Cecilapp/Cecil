@@ -23,18 +23,19 @@ class Config extends AbstractCommand
 
     private function printArray($array, $column = -4)
     {
-        $return = '';
+        $output = '';
 
         if (is_array($array)) {
             $column += 4;
             foreach ($array as $key=>$val) {
                 if (is_array($val)) {
-                    $return .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
+                    $output .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
+                } else {
+                    $output .= str_repeat(' ', $column)."$key: $val\n";
                 }
-                $return .= str_repeat(' ', $column)."$key: $val\n";
             }
         }
 
-        return $return;
+        return $output;
     }
 }
