@@ -30,7 +30,8 @@ class Config extends AbstractCommand
             foreach ($array as $key=>$val) {
                 if (is_array($val)) {
                     $output .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
-                } else {
+                }
+                if (is_string($val)) {
                     $output .= str_repeat(' ', $column)."$key: $val\n";
                 }
             }
