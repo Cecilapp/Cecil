@@ -31,8 +31,11 @@ class Config extends AbstractCommand
                 if (is_array($val)) {
                     $output .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
                 }
-                if (is_string($val)) {
+                if (is_string($val) || is_int($val)) {
                     $output .= str_repeat(' ', $column)."$key: $val\n";
+                }
+                if (is_bool($val)) {
+                    $output .= str_repeat(' ', $column)."$key: ".($val ? 'true' : 'false')."\n";
                 }
             }
         }
