@@ -82,7 +82,7 @@ class Serve extends AbstractCommand
                 while ($process->isRunning()) {
                     $result = $resourceWatcher->findChanges();
                     if ($result->hasChanges()) {
-                        // re-generate
+                        // re-build
                         $this->wlAlert('Changes detected!');
                         $callable($this->getRoute(), $this->getConsole());
                     }
