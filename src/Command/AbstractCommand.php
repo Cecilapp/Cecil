@@ -16,6 +16,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\Console\ColorInterface as Color;
+use Zend\Console\Prompt\Confirm;
 use Zend\ProgressBar\ProgressBar;
 use ZF\Console\Route;
 
@@ -72,14 +73,21 @@ abstract class AbstractCommand
     {
         $this->route = $route;
         $this->console = $console;
-
-        $this->path = realpath($this->route->getMatchedParam('path', getcwd()));
-        if (!is_dir($this->path)) {
-            throw new \Exception('Invalid <path> provided!');
-        }
-        $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->path);
-
         $this->fs = new Filesystem();
+
+        $this->path = $this->route->getMatchedParam('path', getcwd());
+
+        if (realpath($this->path) === false) {
+            if ($this->getRoute()->getName() != 'new') {
+                throw new \Exception('Invalid <path> provided!');
+            }
+            if (!Confirm::prompt('The provided <path> doesn\'t exist. Do you want to create it? [y/n]', 'y', 'n')) {
+                exit(0);
+            }
+            $this->fs->mkdir($this->path);
+        }
+        $this->path = realpath($this->path);
+        $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->path);
 
         return $this->processCommand();
     }
