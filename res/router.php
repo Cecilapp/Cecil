@@ -59,7 +59,7 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
             $content = str_replace($baseurl, 'http://localhost:8000/', $content);
         }
         // return result
-        header('Etag: '. md5_file($filename));
+        header('Etag: '.md5_file($filename));
         header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('Cache-Control: post-check=0, pre-check=0', false);
         header('Pragma: no-cache');
