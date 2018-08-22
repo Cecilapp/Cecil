@@ -33,7 +33,7 @@ class SelfUpdate extends AbstractCommand
         $this->updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
         /* @var $strategy \Humbug\SelfUpdate\Strategy\GithubStrategy */
         $strategy = $this->updater->getStrategy();
-        $strategy->setPackageName('narno/phpoole');
+        $strategy->setPackageName('phpoole/phpoole');
         $strategy->setPharName('phpoole.phar');
         $strategy->setCurrentLocalVersion($this->version);
         $strategy->setStability('any');
