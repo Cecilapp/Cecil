@@ -31,12 +31,9 @@ class SelfUpdate extends AbstractCommand
         $this->version = $version;
 
         $this->updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
-        /* @var $strategy \Humbug\SelfUpdate\Strategy\GithubStrategy */
-        $strategy = $this->updater->getStrategy();
-        $strategy->setPackageName('phpoole/phpoole');
-        $strategy->setPharName('phpoole.phar');
-        $strategy->setCurrentLocalVersion($this->version);
-        $strategy->setStability('any');
+        $this->updater->getStrategy()->setPackageName('phpoole/phpoole');
+        $this->updater->getStrategy()->setPharName('phpoole.phar');
+        $this->updater->getStrategy()->setCurrentLocalVersion($this->version);
     }
 
     public function processCommand()
