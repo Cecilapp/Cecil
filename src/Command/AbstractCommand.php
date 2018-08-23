@@ -224,25 +224,22 @@ abstract class AbstractCommand
             }
         };
 
-        // instanciate PHPoole?
-        if (!$this->phpoole instanceof PHPoole) {
-            if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
-                throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
-            }
+        if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
+            throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
+        }
 
-            try {
-                $optionsFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
-                if (is_array($options)) {
-                    $options = array_replace_recursive($optionsFile, $options);
-                }
-                $this->phpoole = new PHPoole($options, $messageCallback);
-                $this->phpoole->setSourceDir($this->getPath());
-                $this->phpoole->setDestinationDir($this->getPath());
-            } catch (ParseException $e) {
-                throw new \Exception(sprintf('Config file parse error: %s', $e->getMessage()));
-            } catch (\Exception $e) {
-                throw new \Exception(sprintf($e->getMessage()));
+        try {
+            $optionsFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
+            if (is_array($options)) {
+                $options = array_replace_recursive($optionsFile, $options);
             }
+            $this->phpoole = new PHPoole($options, $messageCallback);
+            $this->phpoole->setSourceDir($this->getPath());
+            $this->phpoole->setDestinationDir($this->getPath());
+        } catch (ParseException $e) {
+            throw new \Exception(sprintf('Config file parse error: %s', $e->getMessage()));
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf($e->getMessage()));
         }
 
         return $this->phpoole;
