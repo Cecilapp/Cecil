@@ -2066,16 +2066,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.2.1",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "e37cbd80da64afe314c72de8d2d2fec0e40d9373"
+                "reference": "b8e9745fb9b06ea6664d8872c4505fb16df4611c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/e37cbd80da64afe314c72de8d2d2fec0e40d9373",
-                "reference": "e37cbd80da64afe314c72de8d2d2fec0e40d9373",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/b8e9745fb9b06ea6664d8872c4505fb16df4611c",
+                "reference": "b8e9745fb9b06ea6664d8872c4505fb16df4611c",
                 "shasum": ""
             },
             "require": {
@@ -2106,7 +2106,7 @@
                 "Xdebug",
                 "performance"
             ],
-            "time": "2018-08-23T12:00:19+00:00"
+            "time": "2018-08-31T19:07:57+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2340,16 +2340,16 @@
         },
         {
             "name": "humbug/box",
-            "version": "3.0.0-RC.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humbug/box.git",
-                "reference": "274dba37a285fc90a403445c725173fe863793b2"
+                "reference": "abc01b39e68c86bdae7ee01ceee5fcfeb6fab620"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humbug/box/zipball/274dba37a285fc90a403445c725173fe863793b2",
-                "reference": "274dba37a285fc90a403445c725173fe863793b2",
+                "url": "https://api.github.com/repos/humbug/box/zipball/abc01b39e68c86bdae7ee01ceee5fcfeb6fab620",
+                "reference": "abc01b39e68c86bdae7ee01ceee5fcfeb6fab620",
                 "shasum": ""
             },
             "require": {
@@ -2363,7 +2363,7 @@
                 "justinrainbow/json-schema": "^5.2",
                 "nikic/iter": "^1.6",
                 "ocramius/package-versions": "^1.3",
-                "paragonie/pharaoh": "^0.4.0",
+                "paragonie/pharaoh": "dev-master#45f139d",
                 "php": "^7.1",
                 "phpseclib/phpseclib": "~2.0",
                 "seld/jsonlint": "^1.6",
@@ -2426,7 +2426,7 @@
             "keywords": [
                 "phar"
             ],
-            "time": "2018-08-06T17:17:03+00:00"
+            "time": "2018-09-10T12:17:56+00:00"
         },
         {
             "name": "humbug/php-scoper",
@@ -2489,7 +2489,7 @@
                     "email": "bschussek@gmail.com"
                 },
                 {
-                    "name": "Théo Fidry",
+                    "name": "Théo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 },
                 {
@@ -2879,16 +2879,16 @@
         },
         {
             "name": "paragonie/pharaoh",
-            "version": "v0.4.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/pharaoh.git",
-                "reference": "e2a17756a5eee892ac09ee6d29f64d717ef8713e"
+                "reference": "45f139d77664d5835a3003b8daadd9df97c2d3b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/pharaoh/zipball/e2a17756a5eee892ac09ee6d29f64d717ef8713e",
-                "reference": "e2a17756a5eee892ac09ee6d29f64d717ef8713e",
+                "url": "https://api.github.com/repos/paragonie/pharaoh/zipball/45f139d77664d5835a3003b8daadd9df97c2d3b5",
+                "reference": "45f139d77664d5835a3003b8daadd9df97c2d3b5",
                 "shasum": ""
             },
             "require": {
@@ -2930,7 +2930,7 @@
                 "tool",
                 "utility"
             ],
-            "time": "2018-08-04T18:01:48+00:00"
+            "time": "2018-08-05T14:34:39+00:00"
         },
         {
             "name": "paragonie/random_compat",
