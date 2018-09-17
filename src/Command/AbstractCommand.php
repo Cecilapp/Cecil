@@ -154,96 +154,47 @@ abstract class AbstractCommand
     }
 
     /**
+     * Print progress bar.
+     */
+    protected function printPB($itemsCount, $itemsMax, $message)
+    {
+        $this->newPB(0, $itemsMax);
+        $this->getPB()->update($itemsCount, "$message");
+        if ($itemsCount == $itemsMax) {
+            $this->getPB()->update($itemsCount, "[$itemsCount/$itemsMax]");
+            $this->getPB()->finish();
+        }
+    }
+
+    /**
      * @param array $config
      * @param array $options
      *
      * @return PHPoole
      */
-    public function getPHPoole(array $config = [], array $options = [])
+    public function getPHPoole(
+        array $config = ['debug' => false],
+        array $options = ['verbosity' => PHPoole::VERBOSITY_NORMAL])
     {
-        // debug mode?
-        if (array_key_exists('debug', $options) && $options['debug']) {
-            $this->debug = true;
-        }
-        // quiet mode?
-        if (array_key_exists('verbosity', $options) && $options['verbosity'] == PHPoole::VERBOSITY_QUIET) {
-            $this->quiet = true;
-        }
-
-        // CLI custom message callback function
-        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
-            switch ($code) {
-                case 'LOCATE':
-                case 'CREATE':
-                case 'CONVERT':
-                case 'GENERATE':
-                case 'MENU':
-                case 'COPY':
-                case 'RENDER':
-                case 'SAVE':
-                    if (!$this->quiet) {
-                        $this->wlAnnonce($message);
-                    }
-                    break;
-                case 'TIME':
-                    if (!$this->quiet) {
-                        $this->wl($message);
-                    }
-                    break;
-                case 'LOCATE_PROGRESS':
-                case 'CREATE_PROGRESS':
-                case 'CONVERT_PROGRESS':
-                case 'GENERATE_PROGRESS':
-                case 'MENU_PROGRESS':
-                case 'COPY_PROGRESS':
-                case 'RENDER_PROGRESS':
-                case 'SAVE_PROGRESS':
-                    if ($this->debug) {
-                        if ($itemsCount > 0) {
-                            $this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
-                            break;
-                        }
-                        $this->wlDone("$message");
-                    } else {
-                        if (!$this->quiet) {
-                            if (isset($itemsCount) && $itemsMax > 0) {
-                                $this->newPB(0, $itemsMax);
-                                $this->getPB()->update($itemsCount, "$message");
-                                if ($itemsCount == $itemsMax) {
-                                    $this->getPB()->update($itemsCount, "[$itemsCount/$itemsMax]");
-                                    $this->getPB()->finish();
-                                }
-                            } else {
-                                $this->wl($message);
-                            }
-                        }
-                    }
-                    break;
-                case 'LOCATE_ERROR':
-                case 'CREATE_ERROR':
-                case 'CONVERT_ERROR':
-                case 'GENERATE_ERROR':
-                case 'MENU_ERROR':
-                case 'COPY_ERROR':
-                case 'RENDER_ERROR':
-                case 'SAVE_ERROR':
-                    $this->wlError($message);
-                    break;
-            }
-        };
-
         if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
 
+        // debug mode?
+        if ($options['debug']) {
+            $this->debug = true;
+        }
+        // quiet mode?
+        if ($options['verbosity'] == PHPoole::VERBOSITY_QUIET) {
+            $this->quiet = true;
+        }
+
         try {
             $configFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
-            if (is_array($config)) {
-                $config = array_replace_recursive($configFile, $config);
-            }
-            $this->phpoole = new PHPoole($config, $messageCallback);
-            $this->phpoole->setSourceDir($this->getPath());
-            $this->phpoole->setDestinationDir($this->getPath());
+            $config = array_replace_recursive($configFile, $config);
+            $this->phpoole = (new PHPoole($config, $this->messageCallback()))
+                ->setSourceDir($this->getPath())
+                ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
             throw new \Exception(sprintf('Config file parse error: %s', $e->getMessage()));
         } catch (\Exception $e) {
@@ -251,6 +202,66 @@ abstract class AbstractCommand
         }
 
         return $this->phpoole;
+    }
+
+    /**
+     * Custom message callback function
+     */
+    public function messageCallback()
+    {
+        return function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
+            if ($this->quiet) {
+                return;
+            } else {
+                switch ($code) {
+                    case 'LOCATE':
+                    case 'CREATE':
+                    case 'CONVERT':
+                    case 'GENERATE':
+                    case 'MENU':
+                    case 'COPY':
+                    case 'RENDER':
+                    case 'SAVE':
+                        $this->wlAnnonce($message);
+                        break;
+                    case 'TIME':
+                        $this->wl($message);
+                        break;
+                    case 'LOCATE_PROGRESS':
+                    case 'CREATE_PROGRESS':
+                    case 'CONVERT_PROGRESS':
+                    case 'GENERATE_PROGRESS':
+                    case 'MENU_PROGRESS':
+                    case 'COPY_PROGRESS':
+                    case 'RENDER_PROGRESS':
+                    case 'SAVE_PROGRESS':
+                        if ($this->debug) {
+                            if ($itemsCount > 0) {
+                                $this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
+                                break;
+                            }
+                            $this->wlDone("$message");
+                        } else {
+                            if (isset($itemsCount) && $itemsMax > 0) {
+                                printPB($itemsCount, $itemsMax, $message);
+                            } else {
+                                $this->wl($message);
+                            }
+                        }
+                        break;
+                    case 'LOCATE_ERROR':
+                    case 'CREATE_ERROR':
+                    case 'CONVERT_ERROR':
+                    case 'GENERATE_ERROR':
+                    case 'MENU_ERROR':
+                    case 'COPY_ERROR':
+                    case 'RENDER_ERROR':
+                    case 'SAVE_ERROR':
+                        $this->wlError($message);
+                        break;
+                }
+            }
+        };
     }
 
     /**
