@@ -46,7 +46,7 @@ return [
     ],
     [
         'name'    => 'build',
-        'route'   => '[<path>] [--drafts|-d] [--baseurl=] [--quiet|-q] [--remove]',
+        'route'   => '[<path>] [--drafts|-d] [--baseurl=] [--quiet|-q] [--remove] [--dry-run]',
         'aliases' => [
             'd' => 'drafts',
             'q' => 'quiet',
@@ -59,6 +59,7 @@ return [
             '--baseurl'   => 'Base URL',
             '--quiet|-q'  => 'Not verbose messages',
             '--remove'    => 'Remove output directory',
+            '--dry-run'   => 'Build without saving',
         ],
         'defaults' => [
             'path' => getcwd(),

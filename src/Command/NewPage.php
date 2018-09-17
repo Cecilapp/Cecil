@@ -37,14 +37,23 @@ draft: true
 ---
 # New page
 EOT;
-            $filePath = $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('content.dir').'/'.$this->name.'.md';
+            if (false !== $extPos = strripos($this->name, '.md')) {
+                $this->name = substr($this->name, 0, $extPos);
+            }
+            $fileRelativePath = $this->getPHPoole()->getConfig()->get('content.dir').'/'.$this->name.'.md';
+            $filePath = $this->getPath().'/'.$fileRelativePath;
             if ($this->fs->exists($filePath) && !$this->force) {
                 if (!Confirm::prompt('This page already exists. Do you want to override it? [y/n]', 'y', 'n')) {
                     exit(0);
                 }
             }
-            $this->fs->dumpFile($filePath, sprintf($fileContent, substr(strrchr($this->name, '/'), 1), date('Y-m-d')));
-            $this->wlDone('Done!');
+            $title = $this->name;
+            if (false !== strrchr($this->name, '/')) {
+                $title = substr(strrchr($this->name, '/'), 1);
+            }
+            $date = date('Y-m-d');
+            $this->fs->dumpFile($filePath, sprintf($fileContent, $title, $date));
+            $this->wlDone(sprintf('File "%s" created!', $fileRelativePath));
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }

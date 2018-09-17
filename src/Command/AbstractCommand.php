@@ -165,7 +165,7 @@ abstract class AbstractCommand
             $this->debug = true;
         }
         // quiet mode?
-        if (array_key_exists('quiet', $options) && $options['quiet']) {
+        if (array_key_exists('verbosity', $options) && $options['verbosity'] == PHPoole::VERBOSITY_QUIET) {
             $this->quiet = true;
         }
 
@@ -179,10 +179,15 @@ abstract class AbstractCommand
                 case 'MENU':
                 case 'COPY':
                 case 'RENDER':
-                    $this->wlAnnonce($message);
+                case 'SAVE':
+                    if (!$this->quiet) {
+                        $this->wlAnnonce($message);
+                    }
                     break;
                 case 'TIME':
-                    $this->wl($message);
+                    if (!$this->quiet) {
+                        $this->wl($message);
+                    }
                     break;
                 case 'LOCATE_PROGRESS':
                 case 'CREATE_PROGRESS':
@@ -191,6 +196,7 @@ abstract class AbstractCommand
                 case 'MENU_PROGRESS':
                 case 'COPY_PROGRESS':
                 case 'RENDER_PROGRESS':
+                case 'SAVE_PROGRESS':
                     if ($this->debug) {
                         if ($itemsCount > 0) {
                             $this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
@@ -219,6 +225,7 @@ abstract class AbstractCommand
                 case 'MENU_ERROR':
                 case 'COPY_ERROR':
                 case 'RENDER_ERROR':
+                case 'SAVE_ERROR':
                     $this->wlError($message);
                     break;
             }
@@ -229,11 +236,8 @@ abstract class AbstractCommand
         }
 
         try {
-            $optionsFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
-            if (is_array($options)) {
-                $options = array_replace_recursive($optionsFile, $options);
-            }
-            $this->phpoole = new PHPoole($options, $messageCallback);
+            $configFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
+            $this->phpoole = new PHPoole($configFile, $messageCallback);
             $this->phpoole->setSourceDir($this->getPath());
             $this->phpoole->setDestinationDir($this->getPath());
         } catch (ParseException $e) {

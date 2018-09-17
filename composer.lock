@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "242b347552070899bf3f71acc069985d",
+    "content-hash": "2330c91bbf0788920d6c7097954f56f4",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -543,7 +543,7 @@
                     "homepage": "http://blog.astrumfutura.com"
                 },
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Théo Fidry",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.3.7",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "c59cdbf431bf34907f052e245dc43a4daa45ec48"
+                "reference": "7a529bd448e7707aeb62d42024303931f684772f"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -699,7 +699,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-08-29T22:58:17+00:00"
+            "time": "2018-09-17T12:09:44+00:00"
         },
         {
             "name": "psr/container",
@@ -2066,16 +2066,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.2.1",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "e37cbd80da64afe314c72de8d2d2fec0e40d9373"
+                "reference": "b8e9745fb9b06ea6664d8872c4505fb16df4611c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/e37cbd80da64afe314c72de8d2d2fec0e40d9373",
-                "reference": "e37cbd80da64afe314c72de8d2d2fec0e40d9373",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/b8e9745fb9b06ea6664d8872c4505fb16df4611c",
+                "reference": "b8e9745fb9b06ea6664d8872c4505fb16df4611c",
                 "shasum": ""
             },
             "require": {
@@ -2106,7 +2106,7 @@
                 "Xdebug",
                 "performance"
             ],
-            "time": "2018-08-23T12:00:19+00:00"
+            "time": "2018-08-31T19:07:57+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2340,16 +2340,16 @@
         },
         {
             "name": "humbug/box",
-            "version": "3.0.0-RC.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humbug/box.git",
-                "reference": "274dba37a285fc90a403445c725173fe863793b2"
+                "reference": "abc01b39e68c86bdae7ee01ceee5fcfeb6fab620"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humbug/box/zipball/274dba37a285fc90a403445c725173fe863793b2",
-                "reference": "274dba37a285fc90a403445c725173fe863793b2",
+                "url": "https://api.github.com/repos/humbug/box/zipball/abc01b39e68c86bdae7ee01ceee5fcfeb6fab620",
+                "reference": "abc01b39e68c86bdae7ee01ceee5fcfeb6fab620",
                 "shasum": ""
             },
             "require": {
@@ -2363,7 +2363,7 @@
                 "justinrainbow/json-schema": "^5.2",
                 "nikic/iter": "^1.6",
                 "ocramius/package-versions": "^1.3",
-                "paragonie/pharaoh": "^0.4.0",
+                "paragonie/pharaoh": "dev-master#45f139d",
                 "php": "^7.1",
                 "phpseclib/phpseclib": "~2.0",
                 "seld/jsonlint": "^1.6",
@@ -2426,7 +2426,7 @@
             "keywords": [
                 "phar"
             ],
-            "time": "2018-08-06T17:17:03+00:00"
+            "time": "2018-09-10T12:17:56+00:00"
         },
         {
             "name": "humbug/php-scoper",
@@ -2879,16 +2879,16 @@
         },
         {
             "name": "paragonie/pharaoh",
-            "version": "v0.4.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/pharaoh.git",
-                "reference": "e2a17756a5eee892ac09ee6d29f64d717ef8713e"
+                "reference": "45f139d77664d5835a3003b8daadd9df97c2d3b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/pharaoh/zipball/e2a17756a5eee892ac09ee6d29f64d717ef8713e",
-                "reference": "e2a17756a5eee892ac09ee6d29f64d717ef8713e",
+                "url": "https://api.github.com/repos/paragonie/pharaoh/zipball/45f139d77664d5835a3003b8daadd9df97c2d3b5",
+                "reference": "45f139d77664d5835a3003b8daadd9df97c2d3b5",
                 "shasum": ""
             },
             "require": {
@@ -2930,7 +2930,7 @@
                 "tool",
                 "utility"
             ],
-            "time": "2018-08-04T18:01:48+00:00"
+            "time": "2018-08-05T14:34:39+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2979,16 +2979,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.6.4",
+            "version": "v1.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "3f2fd07977541b4d630ea0365ad0eceddee5179c"
+                "reference": "aaaf71f3f7713248703c23cfbd1189ce1215f57f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/3f2fd07977541b4d630ea0365ad0eceddee5179c",
-                "reference": "3f2fd07977541b4d630ea0365ad0eceddee5179c",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/aaaf71f3f7713248703c23cfbd1189ce1215f57f",
+                "reference": "aaaf71f3f7713248703c23cfbd1189ce1215f57f",
                 "shasum": ""
             },
             "require": {
@@ -3057,7 +3057,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2018-08-29T22:02:48+00:00"
+            "time": "2018-09-14T00:17:10+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3533,20 +3533,23 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "cecbc684605bb0cc288828eb5d65d93d5c676d3c"
+                "reference": "050bedf145a257b1ff02746c31894800e5122946"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/cecbc684605bb0cc288828eb5d65d93d5c676d3c",
-                "reference": "cecbc684605bb0cc288828eb5d65d93d5c676d3c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/050bedf145a257b1ff02746c31894800e5122946",
+                "reference": "050bedf145a257b1ff02746c31894800e5122946",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.1"
             },
             "type": "library",
             "extra": {
@@ -3576,7 +3579,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2018-06-11T11:44:00+00:00"
+            "time": "2018-09-13T20:33:42+00:00"
         },
         {
             "name": "phpunit/php-text-template",
