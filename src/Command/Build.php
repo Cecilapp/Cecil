@@ -43,15 +43,16 @@ class Build extends AbstractCommand
         $this->remove = $this->getRoute()->getMatchedParam('remove', false);
         $this->dryrun = $this->getRoute()->getMatchedParam('dry-run', false);
 
+        $config = [];
         $options = [];
         $messageOpt = ' (';
 
+        if ($this->baseurl) {
+            $config['site']['baseurl'] = $this->baseurl;
+        }
         if ($this->drafts) {
             $options['drafts'] = true;
             $messageOpt .= 'with drafts, ';
-        }
-        if ($this->baseurl) {
-            $config['site']['baseurl'] = $this->baseurl;
         }
         if ($this->quiet) {
             $options['verbosity'] = PHPoole::VERBOSITY_QUIET;
@@ -75,7 +76,7 @@ class Build extends AbstractCommand
             if (!$this->quiet) {
                 $this->wl(sprintf('Building website%s...', $messageOpt));
             }
-            $this->getPHPoole($options)->build($options);
+            $this->getPHPoole($config, $options)->build($options);
             if ($this->getRoute()->getName() == 'serve') {
                 $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
             }

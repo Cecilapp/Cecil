@@ -154,11 +154,12 @@ abstract class AbstractCommand
     }
 
     /**
+     * @param array $config
      * @param array $options
      *
      * @return PHPoole
      */
-    public function getPHPoole(array $options = [])
+    public function getPHPoole(array $config = [], array $options = [])
     {
         // debug mode?
         if (array_key_exists('debug', $options) && $options['debug']) {
@@ -237,7 +238,10 @@ abstract class AbstractCommand
 
         try {
             $configFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
-            $this->phpoole = new PHPoole($configFile, $messageCallback);
+            if (is_array($config)) {
+                $config = array_replace_recursive($configFile, $config);
+            }
+            $this->phpoole = new PHPoole($config, $messageCallback);
             $this->phpoole->setSourceDir($this->getPath());
             $this->phpoole->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
