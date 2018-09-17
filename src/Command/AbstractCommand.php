@@ -205,7 +205,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * Custom message callback function
+     * Custom message callback function.
      */
     public function messageCallback()
     {
