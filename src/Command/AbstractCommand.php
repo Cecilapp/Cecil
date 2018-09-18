@@ -155,8 +155,9 @@ abstract class AbstractCommand
 
     /**
      * Print progress bar.
-     * @param integer $itemsCount
-     * @param integer $itemsMax
+     *
+     * @param int    $itemsCount
+     * @param int    $itemsMax
      * @param string $message
      */
     protected function printProgressBar($itemsCount, $itemsMax, $message)
