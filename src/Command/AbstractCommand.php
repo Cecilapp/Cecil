@@ -216,6 +216,7 @@ abstract class AbstractCommand
                     if ($this->verbose) {
                         if ($itemsCount > 0) {
                             $this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
+
                             return;
                         }
                         $this->wlDone("$message");
