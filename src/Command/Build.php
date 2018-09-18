@@ -10,6 +10,8 @@
 
 namespace PHPoole\Command;
 
+use PHPoole\PHPoole;
+
 class Build extends AbstractCommand
 {
     /**
@@ -23,31 +25,50 @@ class Build extends AbstractCommand
     /**
      * @var bool
      */
+    protected $verbose;
+    /**
+     * @var bool
+     */
     protected $quiet;
     /**
      * @var bool
      */
     protected $remove;
+    /**
+     * @var bool
+     */
+    protected $dryrun;
 
     public function processCommand()
     {
         $this->drafts = $this->route->getMatchedParam('drafts', false);
         $this->baseurl = $this->route->getMatchedParam('baseurl');
+        $this->verbose = $this->route->getMatchedParam('verbose', false);
         $this->quiet = $this->route->getMatchedParam('quiet', false);
         $this->remove = $this->getRoute()->getMatchedParam('remove', false);
+        $this->dryrun = $this->getRoute()->getMatchedParam('dry-run', false);
 
+        $config = [];
         $options = [];
         $messageOpt = '';
 
+        if ($this->baseurl) {
+            $config['site']['baseurl'] = $this->baseurl;
+        }
+        if ($this->dryrun) {
+            $options['dry-run'] = true;
+            $messageOpt .= ' dry-run';
+        }
         if ($this->drafts) {
             $options['drafts'] = true;
-            $messageOpt = ' (with drafts)';
+            $messageOpt .= ' with drafts';
         }
-        if ($this->baseurl) {
-            $options['site']['baseurl'] = $this->baseurl;
-        }
-        if ($this->quiet) {
-            $options['quiet'] = true;
+        if ($this->verbose) {
+            $options['verbosity'] = PHPoole::VERBOSITY_VERBOSE;
+        } else {
+            if ($this->quiet) {
+                $options['verbosity'] = PHPoole::VERBOSITY_QUIET;
+            }
         }
         if ($this->remove) {
             if ($this->fs->exists($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'))) {
@@ -60,8 +81,10 @@ class Build extends AbstractCommand
         }
 
         try {
-            $this->wl(sprintf('Building website%s...', $messageOpt));
-            $this->getPHPoole($options)->build();
+            if (!$this->quiet) {
+                $this->wl(sprintf('Building website%s...', $messageOpt));
+            }
+            $this->getPHPoole($config, $options)->build($options);
             if ($this->getRoute()->getName() == 'serve') {
                 $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
             }

@@ -1,7 +1,15 @@
 {
   "name": "phpoole/phpoole",
   "description": "PHPoole is an easy and lightweight static website generator, written in PHP.",
-  "keywords": ["static-site-generator", "static-site", "flat-file", "markdown", "twig", "yaml", "phpoole"],
+  "keywords": [
+    "static-site-generator",
+    "static-site",
+    "flat-file",
+    "markdown",
+    "twig",
+    "yaml",
+    "phpoole"
+  ],
   "homepage": "https://phpoole.org",
   "license": "MIT",
   "type": "project",
@@ -19,7 +27,7 @@
   },
   "require": {
     "php": "^7.1",
-    "phpoole/library": "2.3.7",
+    "phpoole/library": "2.4.0",
     "padraic/humbug_get_contents": "1.1.2",
     "padraic/phar-updater": "1.0.6",
     "symfony/filesystem": "4.1.2",
@@ -31,10 +39,11 @@
   },
   "require-dev": {
     "phpunit/phpunit": "7.2.7",
+    "phpmd/phpmd" : "@stable",
     "humbug/box": "^3.0"
   },
   "autoload": {
-    "psr-4" : {
+    "psr-4": {
       "PHPoole\\Command\\": "src/Command",
       "PHPoole\\Util\\": "src/Util"
     }
@@ -44,7 +53,9 @@
       "PHPoole\\Test\\": "tests/"
     }
   },
-  "bin": ["bin/phpoole"],
+  "bin": [
+    "bin/phpoole"
+  ],
   "extra": {
     "branch-alias": {
       "dev-master": "3.x-dev"

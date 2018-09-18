@@ -51,11 +51,11 @@ abstract class AbstractCommand
     /**
      * @var int
      */
-    protected $pbMax = 0;
+    protected $progressBarMax = 0;
     /**
      * @var bool
      */
-    protected $debug = false;
+    protected $verbose = false;
     /**
      * @var bool
      */
@@ -127,10 +127,10 @@ abstract class AbstractCommand
      *
      * @return ProgressBar
      */
-    protected function newPB($start, $max)
+    protected function createProgressBar($start, $max)
     {
-        if ($this->progressBar === null || $max != $this->pbMax) {
-            $this->pbMax = $max;
+        if ($this->progressBar === null || $max != $this->progressBarMax) {
+            $this->progressBarMax = $max;
             $adapter = new \Zend\ProgressBar\Adapter\Console([
                 'elements' => [
                     \Zend\ProgressBar\Adapter\Console::ELEMENT_PERCENT,
@@ -148,94 +148,56 @@ abstract class AbstractCommand
     /**
      * @return ProgressBar
      */
-    protected function getPB()
+    protected function getProgressBar()
     {
         return $this->progressBar;
     }
 
     /**
+     * Print progress bar.
+     *
+     * @param int    $itemsCount
+     * @param int    $itemsMax
+     * @param string $message
+     */
+    protected function printProgressBar($itemsCount, $itemsMax, $message)
+    {
+        $this->createProgressBar(0, $itemsMax);
+        $this->getProgressBar()->update($itemsCount, "$message");
+        if ($itemsCount == $itemsMax) {
+            $this->getProgressBar()->update($itemsCount, "[$itemsCount/$itemsMax]");
+            $this->getProgressBar()->finish();
+        }
+    }
+
+    /**
+     * @param array $config
      * @param array $options
      *
      * @return PHPoole
      */
-    public function getPHPoole(array $options = [])
+    public function getPHPoole(
+        array $config = ['debug' => false],
+        array $options = ['verbosity' => PHPoole::VERBOSITY_NORMAL])
     {
-        // debug mode?
-        if (array_key_exists('debug', $options) && $options['debug']) {
-            $this->debug = true;
-        }
-        // quiet mode?
-        if (array_key_exists('quiet', $options) && $options['quiet']) {
-            $this->quiet = true;
-        }
-
-        // CLI custom message callback function
-        $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
-            switch ($code) {
-                case 'LOCATE':
-                case 'CREATE':
-                case 'CONVERT':
-                case 'GENERATE':
-                case 'MENU':
-                case 'COPY':
-                case 'RENDER':
-                    $this->wlAnnonce($message);
-                    break;
-                case 'TIME':
-                    $this->wl($message);
-                    break;
-                case 'LOCATE_PROGRESS':
-                case 'CREATE_PROGRESS':
-                case 'CONVERT_PROGRESS':
-                case 'GENERATE_PROGRESS':
-                case 'MENU_PROGRESS':
-                case 'COPY_PROGRESS':
-                case 'RENDER_PROGRESS':
-                    if ($this->debug) {
-                        if ($itemsCount > 0) {
-                            $this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
-                            break;
-                        }
-                        $this->wlDone("$message");
-                    } else {
-                        if (!$this->quiet) {
-                            if (isset($itemsCount) && $itemsMax > 0) {
-                                $this->newPB(0, $itemsMax);
-                                $this->getPB()->update($itemsCount, "$message");
-                                if ($itemsCount == $itemsMax) {
-                                    $this->getPB()->update($itemsCount, "[$itemsCount/$itemsMax]");
-                                    $this->getPB()->finish();
-                                }
-                            } else {
-                                $this->wl($message);
-                            }
-                        }
-                    }
-                    break;
-                case 'LOCATE_ERROR':
-                case 'CREATE_ERROR':
-                case 'CONVERT_ERROR':
-                case 'GENERATE_ERROR':
-                case 'MENU_ERROR':
-                case 'COPY_ERROR':
-                case 'RENDER_ERROR':
-                    $this->wlError($message);
-                    break;
-            }
-        };
-
         if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
+        // verbosity: verbose
+        if ($options['verbosity'] == PHPoole::VERBOSITY_VERBOSE) {
+            $this->verbose = true;
+        }
+        // verbosity: quiet
+        if ($options['verbosity'] == PHPoole::VERBOSITY_QUIET) {
+            $this->quiet = true;
+        }
 
         try {
-            $optionsFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
-            if (is_array($options)) {
-                $options = array_replace_recursive($optionsFile, $options);
-            }
-            $this->phpoole = new PHPoole($options, $messageCallback);
-            $this->phpoole->setSourceDir($this->getPath());
-            $this->phpoole->setDestinationDir($this->getPath());
+            $configFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
+            $config = array_replace_recursive($configFile, $config);
+            $this->phpoole = (new PHPoole($config, $this->messageCallback()))
+                ->setSourceDir($this->getPath())
+                ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
             throw new \Exception(sprintf('Config file parse error: %s', $e->getMessage()));
         } catch (\Exception $e) {
@@ -243,6 +205,41 @@ abstract class AbstractCommand
         }
 
         return $this->phpoole;
+    }
+
+    /**
+     * Custom message callback function.
+     */
+    public function messageCallback()
+    {
+        return function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
+            if ($this->quiet) {
+                return;
+            } else {
+                if (strpos($code, '_PROGRESS') !== false) {
+                    if ($this->verbose) {
+                        if ($itemsCount > 0) {
+                            $this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
+
+                            return;
+                        }
+                        $this->wlDone("$message");
+                    } else {
+                        if (isset($itemsCount) && $itemsMax > 0) {
+                            $this->printProgressBar($itemsCount, $itemsMax, $message);
+                        } else {
+                            $this->wl($message);
+                        }
+                    }
+                } elseif (strpos($code, '_ERROR') !== false) {
+                    $this->wlError($message);
+                } elseif ($code == 'TIME') {
+                    $this->wl($message);
+                } else {
+                    $this->wlAnnonce($message);
+                }
+            }
+        };
     }
 
     /**
