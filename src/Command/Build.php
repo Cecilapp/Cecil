@@ -25,6 +25,10 @@ class Build extends AbstractCommand
     /**
      * @var bool
      */
+    protected $verbose;
+    /**
+     * @var bool
+     */
     protected $quiet;
     /**
      * @var bool
@@ -39,23 +43,32 @@ class Build extends AbstractCommand
     {
         $this->drafts = $this->route->getMatchedParam('drafts', false);
         $this->baseurl = $this->route->getMatchedParam('baseurl');
+        $this->verbose = $this->route->getMatchedParam('verbose', false);
         $this->quiet = $this->route->getMatchedParam('quiet', false);
         $this->remove = $this->getRoute()->getMatchedParam('remove', false);
         $this->dryrun = $this->getRoute()->getMatchedParam('dry-run', false);
 
         $config = [];
         $options = [];
-        $messageOpt = ' (';
+        $messageOpt = '';
 
         if ($this->baseurl) {
             $config['site']['baseurl'] = $this->baseurl;
         }
+        if ($this->dryrun) {
+            $options['dry-run'] = true;
+            $messageOpt .= ' dry-run';
+        }
         if ($this->drafts) {
             $options['drafts'] = true;
-            $messageOpt .= 'with drafts, ';
+            $messageOpt .= ' with drafts';
         }
-        if ($this->quiet) {
-            $options['verbosity'] = PHPoole::VERBOSITY_QUIET;
+        if ($this->verbose) {
+            $options['verbosity'] = PHPoole::VERBOSITY_VERBOSE;
+        } else {
+            if ($this->quiet) {
+                $options['verbosity'] = PHPoole::VERBOSITY_QUIET;
+            }
         }
         if ($this->remove) {
             if ($this->fs->exists($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'))) {
@@ -66,11 +79,6 @@ class Build extends AbstractCommand
             $this->wlError('Output directory not found!');
             exit(0);
         }
-        if ($this->dryrun) {
-            $options['dry-run'] = true;
-            $messageOpt .= 'dry-run, ';
-        }
-        $messageOpt .= ')';
 
         try {
             if (!$this->quiet) {
