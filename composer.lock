@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "242b347552070899bf3f71acc069985d",
+    "content-hash": "2330c91bbf0788920d6c7097954f56f4",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -543,7 +543,7 @@
                     "homepage": "http://blog.astrumfutura.com"
                 },
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Théo Fidry",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.3.7",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "c59cdbf431bf34907f052e245dc43a4daa45ec48"
+                "reference": "7a529bd448e7707aeb62d42024303931f684772f"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -699,7 +699,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-08-29T22:58:17+00:00"
+            "time": "2018-09-17T12:09:44+00:00"
         },
         {
             "name": "psr/container",
@@ -2489,7 +2489,7 @@
                     "email": "bschussek@gmail.com"
                 },
                 {
-                    "name": "Théo Fidry",
+                    "name": "Théo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 },
                 {
