@@ -51,11 +51,11 @@ abstract class AbstractCommand
     /**
      * @var int
      */
-    protected $pbMax = 0;
+    protected $progressBarMax = 0;
     /**
      * @var bool
      */
-    protected $debug = false;
+    protected $verbose = false;
     /**
      * @var bool
      */
@@ -127,10 +127,10 @@ abstract class AbstractCommand
      *
      * @return ProgressBar
      */
-    protected function newPB($start, $max)
+    protected function createProgressBar($start, $max)
     {
-        if ($this->progressBar === null || $max != $this->pbMax) {
-            $this->pbMax = $max;
+        if ($this->progressBar === null || $max != $this->progressBarMax) {
+            $this->progressBarMax = $max;
             $adapter = new \Zend\ProgressBar\Adapter\Console([
                 'elements' => [
                     \Zend\ProgressBar\Adapter\Console::ELEMENT_PERCENT,
@@ -148,7 +148,7 @@ abstract class AbstractCommand
     /**
      * @return ProgressBar
      */
-    protected function getPB()
+    protected function getProgressBar()
     {
         return $this->progressBar;
     }
@@ -156,13 +156,13 @@ abstract class AbstractCommand
     /**
      * Print progress bar.
      */
-    protected function printPB($itemsCount, $itemsMax, $message)
+    protected function printProgressBar($itemsCount, $itemsMax, $message)
     {
-        $this->newPB(0, $itemsMax);
-        $this->getPB()->update($itemsCount, "$message");
+        $this->createProgressBar(0, $itemsMax);
+        $this->getProgressBar()->update($itemsCount, "$message");
         if ($itemsCount == $itemsMax) {
-            $this->getPB()->update($itemsCount, "[$itemsCount/$itemsMax]");
-            $this->getPB()->finish();
+            $this->getProgressBar()->update($itemsCount, "[$itemsCount/$itemsMax]");
+            $this->getProgressBar()->finish();
         }
     }
 
@@ -179,12 +179,11 @@ abstract class AbstractCommand
         if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
-
-        // debug mode?
-        if ($options['debug']) {
-            $this->debug = true;
+        // verbosity: verbose
+        if ($options['verbosity'] == PHPoole::VERBOSITY_VERBOSE) {
+            $this->verbose = true;
         }
-        // quiet mode?
+        // verbosity: quiet
         if ($options['verbosity'] == PHPoole::VERBOSITY_QUIET) {
             $this->quiet = true;
         }
@@ -213,52 +212,26 @@ abstract class AbstractCommand
             if ($this->quiet) {
                 return;
             } else {
-                switch ($code) {
-                    case 'LOCATE':
-                    case 'CREATE':
-                    case 'CONVERT':
-                    case 'GENERATE':
-                    case 'MENU':
-                    case 'COPY':
-                    case 'RENDER':
-                    case 'SAVE':
-                        $this->wlAnnonce($message);
-                        break;
-                    case 'TIME':
-                        $this->wl($message);
-                        break;
-                    case 'LOCATE_PROGRESS':
-                    case 'CREATE_PROGRESS':
-                    case 'CONVERT_PROGRESS':
-                    case 'GENERATE_PROGRESS':
-                    case 'MENU_PROGRESS':
-                    case 'COPY_PROGRESS':
-                    case 'RENDER_PROGRESS':
-                    case 'SAVE_PROGRESS':
-                        if ($this->debug) {
-                            if ($itemsCount > 0) {
-                                $this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
-                                break;
-                            }
-                            $this->wlDone("$message");
-                        } else {
-                            if (isset($itemsCount) && $itemsMax > 0) {
-                                printPB($itemsCount, $itemsMax, $message);
-                            } else {
-                                $this->wl($message);
-                            }
+                if (strpos($code, '_PROGRESS') !== false) {
+                    if ($this->verbose) {
+                        if ($itemsCount > 0) {
+                            $this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
+                            return;
                         }
-                        break;
-                    case 'LOCATE_ERROR':
-                    case 'CREATE_ERROR':
-                    case 'CONVERT_ERROR':
-                    case 'GENERATE_ERROR':
-                    case 'MENU_ERROR':
-                    case 'COPY_ERROR':
-                    case 'RENDER_ERROR':
-                    case 'SAVE_ERROR':
-                        $this->wlError($message);
-                        break;
+                        $this->wlDone("$message");
+                    } else {
+                        if (isset($itemsCount) && $itemsMax > 0) {
+                            $this->printProgressBar($itemsCount, $itemsMax, $message);
+                        } else {
+                            $this->wl($message);
+                        }
+                    }
+                } elseif (strpos($code, '_ERROR') !== false) {
+                    $this->wlError($message);
+                } elseif ($code == 'TIME') {
+                    $this->wl($message);
+                } else {
+                    $this->wlAnnonce($message);
                 }
             }
         };
