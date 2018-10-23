@@ -29,14 +29,19 @@ class NewPage extends AbstractCommand
         $this->force = $this->getRoute()->getMatchedParam('force', false);
 
         try {
+            // file content
             $fileContent = <<<'EOT'
 ---
-title: '%s'
-date: '%s'
+title: '%title%'
+date: '%date%'
 draft: true
 ---
-# New page
+
 EOT;
+            if (file_exists($archetype = $this->getPath().'/archetypes/default.md')) {
+                $fileContent = file_get_contents($archetype);
+            }
+            // file name (without extension)
             if (false !== $extPos = strripos($this->name, '.md')) {
                 $this->name = substr($this->name, 0, $extPos);
             }
@@ -52,8 +57,11 @@ EOT;
                 $title = substr(strrchr($this->name, '/'), 1);
             }
             $date = date('Y-m-d');
-            $this->fs->dumpFile($filePath, sprintf($fileContent, $title, $date));
+            $fileContent = str_replace(["%title%", "%date%"], [$title, $date], $fileContent);
+            $this->fs->dumpFile($filePath, $fileContent);
             $this->wlDone(sprintf('File "%s" created!', $fileRelativePath));
+            $editor = 'atom';
+            passthru (sprintf("%s %s", $editor, $filePath), $return_var);
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }
