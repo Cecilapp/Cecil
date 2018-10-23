@@ -57,11 +57,11 @@ EOT;
                 $title = substr(strrchr($this->name, '/'), 1);
             }
             $date = date('Y-m-d');
-            $fileContent = str_replace(["%title%", "%date%"], [$title, $date], $fileContent);
+            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $fileContent);
             $this->fs->dumpFile($filePath, $fileContent);
             $this->wlDone(sprintf('File "%s" created!', $fileRelativePath));
             $editor = 'atom';
-            passthru (sprintf("%s %s", $editor, $filePath), $return_var);
+            passthru(sprintf('%s %s', $editor, $filePath), $return_var);
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }
