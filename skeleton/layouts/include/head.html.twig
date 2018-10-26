@@ -1,13 +1,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    {% if page.title == "Home" %}
-      {{ site.title }} &middot; {{ site.baseline }}
-    {% else %}
-      {{ page.title }} &middot; {{ site.title }}
-    {% endif %}
-  </title>
+  <title>{% spaceless %}
+{% if page.title == "Home" %}
+    {{ site.title }} &middot; {{ site.baseline }}
+{% else %}
+    {{ page.title }} &middot; {{ site.title }}
+{% endif %}
+  {% endspaceless %}</title>
   <link rel="stylesheet" href="{{ url('css/styles.css') }}">
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ url('images/apple-touch-icon-precomposed.png') }}">
   <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
