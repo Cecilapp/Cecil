@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6005fdb1a0c1e2eff03d9889c9578a59",
+    "content-hash": "07f29c1f53cd172ef4fa1cb9ef9c6227",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.6.2",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "6ae4ee03aea6424dcc40beaceeafa713b065f12e"
+                "reference": "3069c3b9866155f206352c683424d810aa835531"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -699,7 +699,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-10-26T15:41:08+00:00"
+            "time": "2018-10-29T15:14:00+00:00"
         },
         {
             "name": "psr/container",
@@ -1537,28 +1537,28 @@
         },
         {
             "name": "amphp/parallel",
-            "version": "v0.2.5",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/parallel.git",
-                "reference": "732694688461936bec02c0ccf020dfee10c4f7ee"
+                "reference": "4c3c93e46a0108f04990352b0d084ded2ec2cc17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/parallel/zipball/732694688461936bec02c0ccf020dfee10c4f7ee",
-                "reference": "732694688461936bec02c0ccf020dfee10c4f7ee",
+                "url": "https://api.github.com/repos/amphp/parallel/zipball/4c3c93e46a0108f04990352b0d084ded2ec2cc17",
+                "reference": "4c3c93e46a0108f04990352b0d084ded2ec2cc17",
                 "shasum": ""
             },
             "require": {
                 "amphp/amp": "^2",
-                "amphp/byte-stream": "^1.2",
+                "amphp/byte-stream": "^1.5",
                 "amphp/parser": "^1",
-                "amphp/process": "^0.2 || ^0.3",
+                "amphp/process": "^1",
                 "amphp/sync": "^1.0.1"
             },
             "require-dev": {
+                "amphp/php-cs-fixer-config": "dev-master",
                 "amphp/phpunit-util": "^1",
-                "friendsofphp/php-cs-fixer": "^2.3",
                 "phpunit/phpunit": "^6"
             },
             "suggest": {
@@ -1596,25 +1596,25 @@
                 "multi-processing",
                 "multi-threading"
             ],
-            "time": "2018-03-21T14:37:51+00:00"
+            "time": "2018-10-27T16:19:01+00:00"
         },
         {
             "name": "amphp/parallel-functions",
-            "version": "v0.1.2",
+            "version": "v0.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/parallel-functions.git",
-                "reference": "999ba8a00adaf4d1fd3a7cb40bf7e565e507ff48"
+                "reference": "12e6c602e067b02f78ddf5b720c17e9aa01ad4b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/parallel-functions/zipball/999ba8a00adaf4d1fd3a7cb40bf7e565e507ff48",
-                "reference": "999ba8a00adaf4d1fd3a7cb40bf7e565e507ff48",
+                "url": "https://api.github.com/repos/amphp/parallel-functions/zipball/12e6c602e067b02f78ddf5b720c17e9aa01ad4b4",
+                "reference": "12e6c602e067b02f78ddf5b720c17e9aa01ad4b4",
                 "shasum": ""
             },
             "require": {
                 "amphp/amp": "^2.0.3",
-                "amphp/parallel": "^0.1.8 || ^0.2",
+                "amphp/parallel": "^0.1.8 || ^0.2 || ^1",
                 "opis/closure": "^3.0.7",
                 "php": ">=7"
             },
@@ -1643,7 +1643,7 @@
                 }
             ],
             "description": "Parallel processing made simple.",
-            "time": "2017-12-17T18:33:29+00:00"
+            "time": "2018-10-28T15:29:02+00:00"
         },
         {
             "name": "amphp/parser",
@@ -1698,26 +1698,26 @@
         },
         {
             "name": "amphp/process",
-            "version": "v0.3.3",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/process.git",
-                "reference": "b795d20a7f6d5a0637128a02be613f520f1705fc"
+                "reference": "9d0d7ab3601272ec66d2b13f6d606257926b2c40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/process/zipball/b795d20a7f6d5a0637128a02be613f520f1705fc",
-                "reference": "b795d20a7f6d5a0637128a02be613f520f1705fc",
+                "url": "https://api.github.com/repos/amphp/process/zipball/9d0d7ab3601272ec66d2b13f6d606257926b2c40",
+                "reference": "9d0d7ab3601272ec66d2b13f6d606257926b2c40",
                 "shasum": ""
             },
             "require": {
                 "amphp/amp": "^2",
-                "amphp/byte-stream": "^1",
+                "amphp/byte-stream": "^1.4",
                 "php": ">=7"
             },
             "require-dev": {
+                "amphp/php-cs-fixer-config": "dev-master",
                 "amphp/phpunit-util": "^1",
-                "friendsofphp/php-cs-fixer": "^2.3",
                 "phpunit/phpunit": "^6"
             },
             "type": "library",
@@ -1749,7 +1749,7 @@
             ],
             "description": "Asynchronous process manager.",
             "homepage": "https://github.com/amphp/process",
-            "time": "2018-04-08T18:55:42+00:00"
+            "time": "2018-10-20T16:34:05+00:00"
         },
         {
             "name": "amphp/sync",
@@ -1809,16 +1809,16 @@
         },
         {
             "name": "beberlei/assert",
-            "version": "v3.0.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beberlei/assert.git",
-                "reference": "12322a8ea8eb0561ccb91a7a6b28fd2f6a9fefec"
+                "reference": "e4f4a40a8739e1151d40fd1ed754a3ed37e1f522"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beberlei/assert/zipball/12322a8ea8eb0561ccb91a7a6b28fd2f6a9fefec",
-                "reference": "12322a8ea8eb0561ccb91a7a6b28fd2f6a9fefec",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/e4f4a40a8739e1151d40fd1ed754a3ed37e1f522",
+                "reference": "e4f4a40a8739e1151d40fd1ed754a3ed37e1f522",
                 "shasum": ""
             },
             "require": {
@@ -1860,7 +1860,7 @@
                 "assertion",
                 "validation"
             ],
-            "time": "2018-10-11T22:24:24+00:00"
+            "time": "2018-10-29T11:13:48+00:00"
         },
         {
             "name": "composer/composer",
