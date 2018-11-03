@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bda37da46dd9a5de356f987014658776",
+    "content-hash": "0a8bcd4770223d3543d3e1ec24ba330b",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.8.0",
+            "version": "2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "176e3bd856b2894bd47821c7d34acbbb86748bef"
+                "reference": "58abd54b162ea7544a48f1ef2b80f811664d7cc7"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -699,7 +699,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-11-02T01:32:43+00:00"
+            "time": "2018-11-02T23:45:08+00:00"
         },
         {
             "name": "psr/container",
@@ -2890,12 +2890,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/pharaoh.git",
-                "reference": "45f139d77664d5835a3003b8daadd9df97c2d3b5"
+                "reference": "060418e946de2f39a3618ad70d9b6d0a61437b83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/pharaoh/zipball/45f139d77664d5835a3003b8daadd9df97c2d3b5",
-                "reference": "45f139d77664d5835a3003b8daadd9df97c2d3b5",
+                "url": "https://api.github.com/repos/paragonie/pharaoh/zipball/060418e946de2f39a3618ad70d9b6d0a61437b83",
+                "reference": "060418e946de2f39a3618ad70d9b6d0a61437b83",
                 "shasum": ""
             },
             "require": {
@@ -2905,7 +2905,7 @@
                 "ulrichsg/getopt-php": "^3"
             },
             "require-dev": {
-                "vimeo/psalm": "^0|^1"
+                "vimeo/psalm": "^1|^2"
             },
             "bin": [
                 "pharaoh"
@@ -2937,7 +2937,7 @@
                 "tool",
                 "utility"
             ],
-            "time": "2018-08-05T14:34:39+00:00"
+            "time": "2018-11-02T16:45:56+00:00"
         },
         {
             "name": "paragonie/random_compat",
