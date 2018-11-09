@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea25925feb71af434a8c36d7fcd2ba10",
+    "content-hash": "dfe89329bd85b656698ec37f035dff4d",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.8.2",
+            "version": "2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "e660fc2b60cf368f64f9de73b94483766cecfcf2"
+                "reference": "80a59448f96aa07f46be00a720302ddb15052e07"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -699,7 +699,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-11-08T21:07:18+00:00"
+            "time": "2018-11-09T00:03:53+00:00"
         },
         {
             "name": "psr/container",
@@ -1698,16 +1698,16 @@
         },
         {
             "name": "amphp/process",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/process.git",
-                "reference": "51874750e3a39fe72926c52547d67f2c4d532781"
+                "reference": "90f3f31cbd0eee7fa5ae03ce588b1fc8f122997c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/process/zipball/51874750e3a39fe72926c52547d67f2c4d532781",
-                "reference": "51874750e3a39fe72926c52547d67f2c4d532781",
+                "url": "https://api.github.com/repos/amphp/process/zipball/90f3f31cbd0eee7fa5ae03ce588b1fc8f122997c",
+                "reference": "90f3f31cbd0eee7fa5ae03ce588b1fc8f122997c",
                 "shasum": ""
             },
             "require": {
@@ -1749,7 +1749,7 @@
             ],
             "description": "Asynchronous process manager.",
             "homepage": "https://github.com/amphp/process",
-            "time": "2018-11-08T04:47:07+00:00"
+            "time": "2018-11-09T00:02:00+00:00"
         },
         {
             "name": "amphp/sync",
