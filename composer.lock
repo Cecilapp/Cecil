@@ -543,7 +543,7 @@
                     "homepage": "http://blog.astrumfutura.com"
                 },
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Théo Fidry",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -2948,16 +2948,16 @@
         },
         {
             "name": "humbug/box",
-            "version": "3.2.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humbug/box.git",
-                "reference": "4b4b069c248818834b48d437e49709c18a28b0a7"
+                "reference": "d2a2a7f5947086371ff0c46dab534fff36c3bfc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humbug/box/zipball/4b4b069c248818834b48d437e49709c18a28b0a7",
-                "reference": "4b4b069c248818834b48d437e49709c18a28b0a7",
+                "url": "https://api.github.com/repos/humbug/box/zipball/d2a2a7f5947086371ff0c46dab534fff36c3bfc5",
+                "reference": "d2a2a7f5947086371ff0c46dab534fff36c3bfc5",
                 "shasum": ""
             },
             "require": {
@@ -3035,20 +3035,20 @@
             "keywords": [
                 "phar"
             ],
-            "time": "2018-11-08T08:34:33+00:00"
+            "time": "2018-11-13T09:08:00+00:00"
         },
         {
             "name": "humbug/php-scoper",
-            "version": "0.11.2",
+            "version": "0.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humbug/php-scoper.git",
-                "reference": "40b89422e2977154aa732a2f65c699034ea23f6f"
+                "reference": "6fcb3ce7dce5b96e17fac2af17e801741f387df5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humbug/php-scoper/zipball/40b89422e2977154aa732a2f65c699034ea23f6f",
-                "reference": "40b89422e2977154aa732a2f65c699034ea23f6f",
+                "url": "https://api.github.com/repos/humbug/php-scoper/zipball/6fcb3ce7dce5b96e17fac2af17e801741f387df5",
+                "reference": "6fcb3ce7dce5b96e17fac2af17e801741f387df5",
                 "shasum": ""
             },
             "require": {
@@ -3108,7 +3108,7 @@
                 }
             ],
             "description": "Prefixes all PHP namespaces in a file or directory.",
-            "time": "2018-11-07T10:04:25+00:00"
+            "time": "2018-11-13T08:46:34+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
