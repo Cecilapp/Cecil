@@ -77,6 +77,7 @@ class NewPage extends AbstractCommand
         if (file_exists($archetype = sprintf('%s/archetypes/default.md', $this->getPath()))) {
             return file_get_contents($archetype);
         }
+
         return <<<'EOT'
 ---
 title: '%title%'
