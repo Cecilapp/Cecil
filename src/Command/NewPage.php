@@ -31,7 +31,6 @@ class NewPage extends AbstractCommand
 
         try {
             // file name (without extension)
-            // todo: should use config array instead of just '.md'
             if (false !== $extPos = strripos($this->name, '.md')) {
                 $this->name = substr($this->name, 0, $extPos);
             }
