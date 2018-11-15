@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ade7637e98afb40d31fc1473cd61f5e",
+    "content-hash": "21ab0c78de48edf30855ff7b055ca5b0",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -543,7 +543,7 @@
                     "homepage": "http://blog.astrumfutura.com"
                 },
                 {
-                    "name": "Théo Fidry",
+                    "name": "Théo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.10.1",
+            "version": "2.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "003865c7d45c58b37b4886b6751e7bd8e8134d02"
+                "reference": "0808945c3e04a6d100b4e45058334b775e14a3d8"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -705,7 +705,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-11-14T15:00:16+00:00"
+            "time": "2018-11-15T23:11:40+00:00"
         },
         {
             "name": "psr/container",
