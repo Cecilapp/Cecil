@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21ab0c78de48edf30855ff7b055ca5b0",
+    "content-hash": "00e259c218d4b998d772d407c5605e08",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -613,11 +613,11 @@
         },
         {
             "name": "phpoole/library",
-            "version": "2.10.2",
+            "version": "2.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPoole/library",
-                "reference": "0808945c3e04a6d100b4e45058334b775e14a3d8"
+                "reference": "a6f8be194d4c089c1eda559b97779dc21640adef"
             },
             "require": {
                 "cocur/slugify": "3.1",
@@ -705,7 +705,7 @@
                 "source": "https://github.com/PHPoole/library",
                 "issues": "https://github.com/PHPoole/library/issues"
             },
-            "time": "2018-11-15T23:11:40+00:00"
+            "time": "2018-11-16T00:23:56+00:00"
         },
         {
             "name": "psr/container",
