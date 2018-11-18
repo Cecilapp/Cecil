@@ -11,7 +11,6 @@
 namespace PHPoole\Command;
 
 use PHPoole\PHPoole;
-use PHPoole\Command\Serve;
 
 class Clean extends AbstractCommand
 {
