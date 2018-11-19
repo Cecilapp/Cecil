@@ -4,7 +4,7 @@ set -e
 # Deploy documentation files to website
 
 SOURCE_DOCS_DIR="docs"
-TARGET_REPO="PHPoole/phpoole.github.io"
+TARGET_REPO="PHPoole/cecil.app"
 TARGET_BRANCH="source"
 TARGET_DOCS_DIR="content/documentation"
 

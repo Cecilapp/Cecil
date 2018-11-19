@@ -1,0 +1,6 @@
+site:
+  title: Cecil
+  baseline: Your content driven static site generator.
+  baseurl: https://cecil.app/
+  description: Cecil is a CLI application that merges plain text files (written in Markdown), images and Twig templates to generate a static website.
+  language: en

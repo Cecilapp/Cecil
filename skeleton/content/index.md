@@ -2,10 +2,10 @@
 title: Home
 ---
 
-# Introducing PHPoole
+# Introducing Cecil
 
-> An easy and lightweight static website generator..
+> Your content driven static site generator.
 
-PHPoole is a CLI application that merge plain text files, images and templates to generate a static website..
+Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](http://twig.sensiolabs.org/) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
-Read the [documentation](https://phpoole.org/documentation) on [PHPoole.org](https://phpoole.org).
+Read the [documentation](https://cecil.app/documentation) on the [official website](https://cecil.app).

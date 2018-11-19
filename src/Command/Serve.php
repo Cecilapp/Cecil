@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole package.
+ * This file is part of the PHPoole/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Command;
+namespace Cecil\Command;
 
-use PHPoole\Util\Plateform;
+use Cecil\Util\Plateform;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -24,7 +24,7 @@ class Serve extends AbstractCommand
     /**
      * @var string
      */
-    public static $tmpDir = '.phpoole';
+    public static $tmpDir = '.cecil';
     /**
      * @var bool
      */

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00e259c218d4b998d772d407c5605e08",
+    "content-hash": "eaa05bc15d8e3b713f602532556d2bf2",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -543,7 +543,7 @@
                     "homepage": "http://blog.astrumfutura.com"
                 },
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Théo Fidry",
                     "email": "theo.fidry@gmail.com"
                 }
             ],

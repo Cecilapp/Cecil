@@ -1,29 +1,27 @@
 {
-  "name": "phpoole/phpoole",
-  "description": "PHPoole is an easy and lightweight static website generator, written in PHP.",
+  "name": "phpoole/cecil",
+  "description": "Your content driven static site generator.",
   "keywords": [
     "static-site-generator",
     "static-site",
-    "flat-file",
     "markdown",
     "twig",
-    "yaml",
-    "phpoole"
+    "yaml"
   ],
-  "homepage": "https://phpoole.org",
+  "homepage": "https://cecil.app",
   "license": "MIT",
   "type": "project",
   "authors": [
     {
       "name": "Arnaud Ligny",
       "email": "arnaud@ligny.org",
-      "homepage": "http://narno.org",
+      "homepage": "https://arnaudligny.fr",
       "role": "Developer"
     }
   ],
   "support": {
-    "source": "https://github.com/PHPoole/PHPoole",
-    "issues": "https://github.com/PHPoole/PHPoole/issues"
+    "source": "https://github.com/PHPoole/Cecil",
+    "issues": "https://github.com/PHPoole/Cecil/issues"
   },
   "require": {
     "php": "^7.1",
@@ -44,17 +42,17 @@
   },
   "autoload": {
     "psr-4": {
-      "PHPoole\\Command\\": "src/Command",
-      "PHPoole\\Util\\": "src/Util"
+      "Cecil\\Command\\": "src/Command",
+      "Cecil\\Util\\": "src/Util"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "PHPoole\\Test\\": "tests/"
+      "Cecil\\Test\\": "tests/"
     }
   },
   "bin": [
-    "bin/phpoole"
+    "bin/cecil"
   ],
   "extra": {
     "branch-alias": {

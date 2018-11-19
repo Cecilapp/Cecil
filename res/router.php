@@ -1,8 +1,17 @@
 <?php
+/*
+ * This file is part of the PHPoole/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 // Router for the PHP built-in server
 
 date_default_timezone_set('UTC');
+define('SERVER_TMP_DIR', '.cecil');
 define('DIRECTORY_INDEX', 'index.html');
 define('DEBUG', false);
 
@@ -14,10 +23,10 @@ if ($path == '/watcher') {
     header("Content-Type: text/event-stream\n\n");
     header('Cache-Control: no-cache');
     header('Access-Control-Allow-Origin: *');
-    if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag')) {
+    if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/changes.flag')) {
         echo "event: reload\n";
         echo 'data: reload';
-        unlink($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/changes.flag');
+        unlink($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/changes.flag');
     }
     echo "\n\n";
     exit();
@@ -54,7 +63,7 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
             $content = str_replace('</body>', $script."\n".'</body>', $content);
         }
         // replace `baseurl` by `http://localhost:8000/`
-        $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../.phpoole/baseurl'));
+        $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/baseurl'));
         if (false !== strstr($baseurl, 'http') || $baseurl != '/') {
             $content = str_replace($baseurl, 'http://localhost:8000/', $content);
         }

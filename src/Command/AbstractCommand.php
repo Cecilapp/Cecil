@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole package.
+ * This file is part of the PHPoole/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Command;
+namespace Cecil\Command;
 
 use PHPoole\PHPoole;
 use Symfony\Component\Filesystem\Filesystem;
@@ -22,7 +22,7 @@ use ZF\Console\Route;
 
 abstract class AbstractCommand
 {
-    const CONFIG_FILE = 'phpoole.yml';
+    const CONFIG_FILE = 'config.yml';
 
     /**
      * @var Console

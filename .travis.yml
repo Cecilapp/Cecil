@@ -55,7 +55,7 @@ deploy:
   # deploy to GitHub release
   - provider: releases
     api_key: $GITHUB_TOKEN
-    file: "dist/phpoole.phar"
+    file: "dist/cecil.phar"
     skip_cleanup: true
     overwrite: true
     on:

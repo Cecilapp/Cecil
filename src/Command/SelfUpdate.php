@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole package.
+ * This file is part of the PHPoole/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Command;
+namespace Cecil\Command;
 
 use Humbug\SelfUpdate\Updater;
 
@@ -33,8 +33,8 @@ class SelfUpdate extends AbstractCommand
         $this->updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
         /* @var $strategy \Humbug\SelfUpdate\Strategy\GithubStrategy */
         $strategy = $this->updater->getStrategy();
-        $strategy->setPackageName('phpoole/phpoole');
-        $strategy->setPharName('phpoole.phar');
+        $strategy->setPackageName('phpoole/cecil');
+        $strategy->setPharName('cecil.phar');
         $strategy->setCurrentLocalVersion($this->version);
         $strategy->setStability('any');
     }

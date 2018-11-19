@@ -1,0 +1,95 @@
+#!/usr/bin/env php
+<?php
+/*
+ * This file is part of the PHPoole/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+error_reporting(E_ALL ^ E_NOTICE);
+date_default_timezone_set('UTC');
+
+$name       = 'Cecil';
+$version    = '@git_version@';
+$phpVersion = '7.1.0';
+
+$version = ($version === '@' . 'git_version' . '@')
+    ? '4.x-dev'
+    : $version;
+
+use Cecil\Command\SelfUpdate;
+use Cecil\Util\Plateform;
+use Zend\Console\Console;
+use ZF\Console\Application;
+
+// compare PHP version
+if (version_compare(PHP_VERSION, $phpVersion, '<')) {
+    echo "PHP $phpVersion is required (server version: ".PHP_VERSION.PHP_EOL.")";
+    exit(2);
+}
+
+switch (true) {
+    // Installed standalone
+    case (file_exists(__DIR__.'/../vendor/autoload.php')):
+        require __DIR__.'/../vendor/autoload.php';
+        break;
+    // Installed as a Composer dependency
+    case (file_exists(__DIR__.'/../../../autoload.php')):
+        require __DIR__.'/../../../autoload.php';
+        break;
+    // Installed as a Composer dependency, relative to CWD
+    case (file_exists('vendor/autoload.php')):
+        require 'vendor/autoload.php';
+        break;
+    default:
+        echo 'Unable to locate Composer autoloader. Please run "composer install".'.PHP_EOL;
+        exit(2);
+}
+
+$routes = include __DIR__.'/../config/routes.php';
+if (Plateform::isPhar()) {
+    $routes = array_merge($routes, [[
+        'name'              => 'self-update',
+        'short_description' => 'Update Cecil to the latest version',
+        'description'       => 'The self-update command checks for a newer version, and, if found, downloads and installs the latest.',
+        'defaults' => [
+            'self-update' => true,
+        ]],
+    ]);
+}
+
+$exceptionTemplate = <<<EOT
+:message
+EOT;
+
+$application = new Application(
+    $name,
+    $version,
+    $routes,
+    Console::getInstance()
+);
+$application->removeRoute('autocomplete');
+$application->setBanner(function($console) use ($version) {
+    /* @var $console Zend\Console\Adapter\AbstractAdapter */
+    $console->write("  ____          _ _
+ / ___|___  ___(_) | Your content driven
+| |   / _ \/ __| | | static site generator.
+| |__|  __/ (__| | |
+ \____\___|\___|_|_| (version $version)
+");
+// http://patorjk.com/software/taag/#p=display&f=Standard&t=Cecil
+    $console->writeLine('');
+});
+$application->setBannerDisabledForUserCommands();
+$application->setDebug(false);
+$application->getExceptionHandler()->setMessageTemplate($exceptionTemplate);
+
+if (Plateform::isPhar()) {
+    $application->getDispatcher()->map('self-update', new SelfUpdate($version));
+}
+
+$exit = $application->run();
+exit($exit);
