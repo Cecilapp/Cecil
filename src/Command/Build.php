@@ -33,10 +33,6 @@ class Build extends AbstractCommand
     /**
      * @var bool
      */
-    protected $remove;
-    /**
-     * @var bool
-     */
     protected $dryrun;
 
     public function processCommand()
@@ -45,7 +41,6 @@ class Build extends AbstractCommand
         $this->baseurl = $this->route->getMatchedParam('baseurl');
         $this->verbose = $this->route->getMatchedParam('verbose', false);
         $this->quiet = $this->route->getMatchedParam('quiet', false);
-        $this->remove = $this->getRoute()->getMatchedParam('remove', false);
         $this->dryrun = $this->getRoute()->getMatchedParam('dry-run', false);
 
         $config = [];
@@ -69,15 +64,6 @@ class Build extends AbstractCommand
             if ($this->quiet) {
                 $options['verbosity'] = PHPoole::VERBOSITY_QUIET;
             }
-        }
-        if ($this->remove) {
-            if ($this->fs->exists($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'))) {
-                $this->fs->remove($this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'));
-                $this->wlDone('Output directory removed!');
-                exit(0);
-            }
-            $this->wlError('Output directory not found!');
-            exit(0);
         }
 
         try {

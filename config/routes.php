@@ -46,7 +46,7 @@ return [
     ],
     [
         'name'    => 'build',
-        'route'   => '[<path>] [--drafts|-d] [--baseurl=] [--verbose|-v] [--quiet|-q] [--remove] [--dry-run]',
+        'route'   => '[<path>] [--drafts|-d] [--baseurl=] [--verbose|-v] [--quiet|-q] [--dry-run]',
         'aliases' => [
             'd' => 'drafts',
             'v' => 'verbose',
@@ -60,7 +60,6 @@ return [
             '--baseurl'    => 'Base URL',
             '--verbose|-v' => 'Print build details',
             '--quiet|-q'   => 'Not verbose messages',
-            '--remove'     => 'Remove output directory',
             '--dry-run'    => 'Build without saving',
         ],
         'defaults' => [
@@ -70,7 +69,7 @@ return [
     ],
     [
         'name'    => 'serve',
-        'route'   => '[<path>] [--drafts|-d] [--open|-o] [--clear]',
+        'route'   => '[<path>] [--drafts|-d] [--open|-o]',
         'aliases' => [
             'd' => 'drafts',
             'o' => 'open',
@@ -81,7 +80,6 @@ return [
             '<path>'      => 'Website path',
             '--drafts|-d' => 'Include drafts',
             '--open|-o'   => 'Open browser automatically',
-            '--clear'     => 'Clear temporary files created by server',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -113,5 +111,18 @@ return [
             'path' => getcwd(),
         ],
         'handler' => 'PHPoole\Command\Config',
+    ],
+    [
+        'name'                 => 'clean',
+        'route'                => '[<path>]',
+        'short_description'    => 'Clean build',
+        'description'          => 'Clean build and temporary server files.',
+        'options_descriptions' => [
+            '<path>' => 'Website path',
+        ],
+        'defaults' => [
+            'path' => getcwd(),
+        ],
+        'handler' => 'PHPoole\Command\Clean',
     ],
 ];

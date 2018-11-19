@@ -22,24 +22,17 @@ use Yosymfony\ResourceWatcher\ResourceWatcher;
 class Serve extends AbstractCommand
 {
     /**
-     * @var bool
+     * @var string
      */
-    protected $open;
+    public static $tmpDir = '.phpoole';
     /**
      * @var bool
      */
-    protected $clear;
+    protected $open;
 
     public function processCommand()
     {
         $this->open = $this->getRoute()->getMatchedParam('open', false);
-        $this->clear = $this->getRoute()->getMatchedParam('clear', false);
-
-        if ($this->clear) {
-            $this->tearDownServer();
-            $this->wlDone('Temporary files deleted!');
-            exit(0);
-        }
 
         $this->setUpServer();
         $command = sprintf(
@@ -47,7 +40,7 @@ class Serve extends AbstractCommand
             'localhost',
             '8000',
             $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'),
-            sprintf('%s/.phpoole/router.php', $this->getPath())
+            sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir)
         );
         $process = new Process($command);
 
@@ -103,21 +96,24 @@ class Serve extends AbstractCommand
             if (Plateform::isPhar()) {
                 $root = Plateform::getPharPath().'/';
             }
-            $this->fs->copy($root.'res/router.php', $this->getPath().'/.phpoole/router.php', true);
-            $this->fs->copy($root.'res/livereload.js', $this->getPath().'/.phpoole/livereload.js', true);
-            $this->fs->dumpFile($this->getPath().'/.phpoole/baseurl', $this->getPHPoole()->getConfig()->get('site.baseurl'));
+            $this->fs->copy($root.'res/router.php', $this->getPath().'/'.self::$tmpDir.'/router.php', true);
+            $this->fs->copy($root.'res/livereload.js', $this->getPath().'/'.self::$tmpDir.'/livereload.js', true);
+            $this->fs->dumpFile(
+                $this->getPath().'/'.self::$tmpDir.'/baseurl',
+                $this->getPHPoole()->getConfig()->get('site.baseurl')
+            );
         } catch (IOExceptionInterface $e) {
             throw new \Exception(sprintf('An error occurred while copying file at "%s"', $e->getPath()));
         }
-        if (!is_file(sprintf('%s/.phpoole/router.php', $this->getPath()))) {
-            throw new \Exception(sprintf('Router not found: "%s"', './.phpoole/router.php'));
+        if (!is_file(sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir))) {
+            throw new \Exception(sprintf('Router not found: "./%s/router.php"', self::$tmpDir));
         }
     }
 
     public function tearDownServer()
     {
         try {
-            $this->fs->remove($this->getPath().'/.phpoole');
+            $this->fs->remove($this->getPath().'/'.self::$tmpDir);
         } catch (IOExceptionInterface $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }
