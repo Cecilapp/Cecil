@@ -20,8 +20,8 @@
     }
   ],
   "support": {
-    "source": "https://github.com/PHPoole/Cecil",
-    "issues": "https://github.com/PHPoole/Cecil/issues"
+    "source": "https://github.com/Cecilapp/Cecil",
+    "issues": "https://github.com/Cecilapp/Cecil/issues"
   },
   "require": {
     "php": "^7.1",
