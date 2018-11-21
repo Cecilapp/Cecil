@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole package.
+ * This file is part of the PHPoole/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Command;
+namespace Cecil\Command;
 
 use PHPoole\PHPoole;
 
@@ -72,7 +72,7 @@ class Build extends AbstractCommand
             }
             $this->getPHPoole($config, $options)->build($options);
             if ($this->getRoute()->getName() == 'serve') {
-                $this->fs->dumpFile($this->getPath().'/.phpoole/changes.flag', '');
+                $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', '');
             }
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));

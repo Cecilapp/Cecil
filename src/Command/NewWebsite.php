@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole package.
+ * This file is part of the PHPoole/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Command;
+namespace Cecil\Command;
 
-use PHPoole\Util\Plateform;
+use Cecil\Util\Plateform;
 use Zend\Console\Prompt\Confirm;
 
 class NewWebsite extends AbstractCommand
@@ -35,7 +35,7 @@ class NewWebsite extends AbstractCommand
                 $root = Plateform::getPharPath().'/';
             }
             $this->wlAnnonce('Creating a new website...');
-            $this->fs->copy($root.'skeleton/phpoole.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
+            $this->fs->copy($root.'skeleton/config.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
             $this->fs->mirror($root.'skeleton/content', $this->getPath().'/content');
             $this->fs->mirror($root.'skeleton/layouts', $this->getPath().'/layouts');
             $this->fs->mirror($root.'skeleton/static', $this->getPath().'/static');

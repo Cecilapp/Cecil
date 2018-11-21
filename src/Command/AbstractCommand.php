@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole package.
+ * This file is part of the PHPoole/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Command;
+namespace Cecil\Command;
 
-use PHPoole\PHPoole;
+use PHPoole\Builder;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -22,7 +22,7 @@ use ZF\Console\Route;
 
 abstract class AbstractCommand
 {
-    const CONFIG_FILE = 'phpoole.yml';
+    const CONFIG_FILE = 'config.yml';
 
     /**
      * @var Console
@@ -174,28 +174,28 @@ abstract class AbstractCommand
      * @param array $config
      * @param array $options
      *
-     * @return PHPoole
+     * @return Builder
      */
     public function getPHPoole(
         array $config = ['debug' => false],
-        array $options = ['verbosity' => PHPoole::VERBOSITY_NORMAL])
+        array $options = ['verbosity' => Builder::VERBOSITY_NORMAL])
     {
         if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
         // verbosity: verbose
-        if ($options['verbosity'] == PHPoole::VERBOSITY_VERBOSE) {
+        if ($options['verbosity'] == Builder::VERBOSITY_VERBOSE) {
             $this->verbose = true;
         }
         // verbosity: quiet
-        if ($options['verbosity'] == PHPoole::VERBOSITY_QUIET) {
+        if ($options['verbosity'] == Builder::VERBOSITY_QUIET) {
             $this->quiet = true;
         }
 
         try {
             $configFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
             $config = array_replace_recursive($configFile, $config);
-            $this->phpoole = (new PHPoole($config, $this->messageCallback()))
+            $this->phpoole = (new Builder($config, $this->messageCallback()))
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {

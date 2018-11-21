@@ -1,19 +1,11 @@
 {
-  "alias": "phpoole.phar",
-  "chmod": "0755",
+  "alias": "cecil.phar",
   "compactors": [
-    "Herrera\\Box\\Compactor\\Json",
-    "Herrera\\Box\\Compactor\\Php"
+    "KevinGH\\Box\\Compactor\\Json",
+    "KevinGH\\Box\\Compactor\\Php"
   ],
-  "directories": [
-    "config",
-    "src",
-    "res",
-    "skeleton"
-  ],
-  "files": [
-    "LICENSE"
-  ],
+  "directories": ["config", "src", "res", "skeleton"],
+  "files": ["LICENSE"],
   "finder": [
     {
       "name": [
@@ -29,21 +21,11 @@
         "*.twig",
         "VERSION"
       ],
-      "notName": [
-        "composer.json"
-      ],
-      "exclude": [
-        "phpunit",
-        "Tests",
-        "tests"
-      ],
-      "in": [
-        "vendor"
-      ]
+      "notName": ["composer.json"],
+      "exclude": ["phpunit", "Tests", "tests"],
+      "in": ["vendor"]
     }
   ],
   "git-version": "git_version",
-  "main": "bin/phpoole",
-  "output": "dist/phpoole.phar",
-  "stub": true
+  "output": "dist/cecil.phar"
 }

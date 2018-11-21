@@ -1,6 +1,0 @@
-site:
-  title: PHPoole
-  baseline: An easy and lightweight static website generator!
-  baseurl: http://phpoole.org/
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  language: en

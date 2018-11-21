@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-# Deploy dist file (phpoole.phar) to website
+# Deploy dist file to website
 
-TARGET_REPO="PHPoole/phpoole.github.io"
+TARGET_REPO="Cecilapp/website"
 TARGET_BRANCH="source"
 TARGET_RELEASE_DIR="download/$TRAVIS_TAG"
 TARGET_DIST_DIR="static"
-DIST_FILE="phpoole.phar"
-DIST_FILE_VERSION="phpoole.phar.version"
+DIST_FILE="cecil.phar"
+DIST_FILE_VERSION="cecil.phar.version"
 
 if [ ! -n "$TRAVIS_TAG" ]; then
   TARGET_RELEASE_DIR="download/$TRAVIS_BRANCH"
@@ -20,7 +20,7 @@ cp dist/$DIST_FILE $HOME/$DIST_FILE
 # clone target repo
 cd $HOME
 git config --global user.name "Travis"
-git config --global user.email "contact@travis-ci.org"
+git config --global user.email "contact@travis-ci.com"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 
 cd $TARGET_REPO/$TARGET_DIST_DIR

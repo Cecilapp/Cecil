@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole package.
+ * This file is part of the PHPoole/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -24,7 +24,7 @@ return [
         'defaults' => [
             'path' => getcwd(),
         ],
-        'handler' => 'PHPoole\Command\NewWebsite',
+        'handler' => 'Cecil\Command\NewWebsite',
     ],
     [
         'name'    => 'newpage',
@@ -42,7 +42,7 @@ return [
         'defaults' => [
             'path' => getcwd(),
         ],
-        'handler' => 'PHPoole\Command\NewPage',
+        'handler' => 'Cecil\Command\NewPage',
     ],
     [
         'name'    => 'build',
@@ -65,7 +65,7 @@ return [
         'defaults' => [
             'path' => getcwd(),
         ],
-        'handler' => 'PHPoole\Command\Build',
+        'handler' => 'Cecil\Command\Build',
     ],
     [
         'name'    => 'serve',
@@ -84,7 +84,7 @@ return [
         'defaults' => [
             'path' => getcwd(),
         ],
-        'handler' => 'PHPoole\Command\Serve',
+        'handler' => 'Cecil\Command\Serve',
     ],
     [
         'name'                 => 'list',
@@ -97,7 +97,7 @@ return [
         'defaults' => [
             'path' => getcwd(),
         ],
-        'handler' => 'PHPoole\Command\ListContent',
+        'handler' => 'Cecil\Command\ListContent',
     ],
     [
         'name'                 => 'config',
@@ -110,7 +110,7 @@ return [
         'defaults' => [
             'path' => getcwd(),
         ],
-        'handler' => 'PHPoole\Command\Config',
+        'handler' => 'Cecil\Command\Config',
     ],
     [
         'name'                 => 'clean',
@@ -123,6 +123,6 @@ return [
         'defaults' => [
             'path' => getcwd(),
         ],
-        'handler' => 'PHPoole\Command\Clean',
+        'handler' => 'Cecil\Command\Clean',
     ],
 ];
