@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole/Cecil package.
+ * This file is part of the Cecil/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -10,7 +10,7 @@
 
 namespace Cecil\Command;
 
-use PHPoole\PHPoole;
+use PHPoole\Builder;
 
 class Build extends AbstractCommand
 {
@@ -59,10 +59,10 @@ class Build extends AbstractCommand
             $messageOpt .= ' with drafts';
         }
         if ($this->verbose) {
-            $options['verbosity'] = PHPoole::VERBOSITY_VERBOSE;
+            $options['verbosity'] = Builder::VERBOSITY_VERBOSE;
         } else {
             if ($this->quiet) {
-                $options['verbosity'] = PHPoole::VERBOSITY_QUIET;
+                $options['verbosity'] = Builder::VERBOSITY_QUIET;
             }
         }
 

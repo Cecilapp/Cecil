@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole/Cecil package.
+ * This file is part of the Cecil/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -33,7 +33,7 @@ class SelfUpdate extends AbstractCommand
         $this->updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
         /* @var $strategy \Humbug\SelfUpdate\Strategy\GithubStrategy */
         $strategy = $this->updater->getStrategy();
-        $strategy->setPackageName('phpoole/cecil');
+        $strategy->setPackageName('cecil/cecil');
         $strategy->setPharName('cecil.phar');
         $strategy->setCurrentLocalVersion($this->version);
         $strategy->setStability('any');

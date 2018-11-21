@@ -1,19 +1,19 @@
-# ![Cecil logo](https://avatars2.githubusercontent.com/u/5618939?s=50 "Logo created by Cécile Ricordeau") Cecil
+# ![Cecil logo](https://avatars2.githubusercontent.com/u/45047331?s=50 "Logo created by Cécile Ricordeau") Cecil
 
 > Your content driven static site generator.
 
-[![Build Status](https://travis-ci.org/PHPoole/Cecil.svg)](https://travis-ci.org/PHPoole/Cecil)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/PHPoole/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/PHPoole/Cecil/)
+[![Build Status](https://travis-ci.com/Cecilapp/Cecil.svg)](https://travis-ci.com/Cecilapp/Cecil)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85aa408ef2e94925831b1f7dd4c98219)](https://www.codacy.com/app/Narno/Cecil)
 [![StyleCI](https://styleci.io/repos/12738012/shield)](https://styleci.io/repos/12738012)
 [![SymfonyInsight](https://insight.symfony.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269/mini.png)](https://insight.symfony.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269)
 
 Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](http://twig.sensiolabs.org/) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
-![Cecil CLI demo](https://raw.githubusercontent.com/PHPoole/PHPoole/master/docs/cecil-cli.gif "Cecil CLI demo")
+![Cecil CLI demo](https://raw.githubusercontent.com/Cecilapp/Cecil/master/docs/cecil-cli.gif "Cecil CLI demo")
 
 - [Documentation](https://cecil.app/documentation)
-- [Issue tracker](https://github.com/PHPoole/Cecil/issues)
+- [Issue tracker](https://github.com/Cecilapp/Cecil/issues)
 
 ## Features
 
@@ -40,29 +40,29 @@ chmod +x /usr/local/bin/cecil
 
 ## Quick Start
 
-Read the [Quick Start](https://phpoole.org/documentation/quick-start/) documentation page.
+Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/PHPoole/Cecil-starter-blog-Hyde) a ready to go [blog](https://github.com/PHPoole/Cecil-starter-blog-Hyde).
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/starter-blog) a ready to go [blog](https://github.com/Cecilapp/starter-blog).
 
 ## Development
 
 ### Requirements
 
-Please see the [composer.json](https://github.com/PHPoole/Cecil/blob/master/composer.json) file.
+Please see the [composer.json](https://github.com/Cecilapp/Cecil/blob/master/composer.json) file.
 
 ### Project installation
 
 Run the following commands:
 
 ```bash
-composer create-project phpoole/cecil -sdev
+composer create-project cecil/cecil -sdev
 cd cecil
 php bin/cecil
 ```
 
 ## License
 
-Cecil / Cecil is a free software distributed under the terms of the MIT license.
+Cecil is a free software distributed under the terms of the MIT license.
 
-PHPoole / Cecil © [Arnaud Ligny](https://arnaudligny.fr)  
-PHPoole / Cecil logo © [Cécile Ricordeau](http://www.cecillie.fr)
+Cecil © [Arnaud Ligny](https://arnaudligny.fr)  
+Logo © [Cécile Ricordeau](http://www.cecillie.fr)
