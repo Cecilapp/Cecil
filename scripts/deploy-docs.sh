@@ -4,7 +4,7 @@ set -e
 # Deploy documentation files to website
 
 SOURCE_DOCS_DIR="docs"
-TARGET_REPO="PHPoole/cecil.app"
+TARGET_REPO="Cecilapp/website"
 TARGET_BRANCH="source"
 TARGET_DOCS_DIR="content/documentation"
 
@@ -14,7 +14,7 @@ cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR
 # clone target repo
 cd $HOME
 git config --global user.name "Travis"
-git config --global user.email "contact@travis-ci.org"
+git config --global user.email "contact@travis-ci.com"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 
 cd $TARGET_REPO

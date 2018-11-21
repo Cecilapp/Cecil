@@ -51,16 +51,16 @@ deploy:
     overwrite: true
     on:
       branch: master
-      php: '7.1'
+      php: "7.1"
   # deploy to GitHub release
   - provider: releases
-    api_key: $GITHUB_TOKEN
+    api_key: $GH_TOKEN
     file: "dist/cecil.phar"
     skip_cleanup: true
     overwrite: true
     on:
       tags: true
-      php: '7.1'
+      php: "7.1"
   # deploy dist file to website
   - provider: script
     script: bash scripts/deploy-dist.sh
@@ -68,4 +68,4 @@ deploy:
     overwrite: true
     on:
       tags: true
-      php: '7.1'
+      php: "7.1"
