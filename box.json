@@ -1,9 +1,8 @@
 {
   "alias": "cecil.phar",
-  "chmod": "0755",
   "compactors": [
-    "Herrera\\Box\\Compactor\\Json",
-    "Herrera\\Box\\Compactor\\Php"
+    "KevinGH\\Box\\Compactor\\Json",
+    "KevinGH\\Box\\Compactor\\Php"
   ],
   "directories": ["config", "src", "res", "skeleton"],
   "files": ["LICENSE"],
@@ -28,7 +27,5 @@
     }
   ],
   "git-version": "git_version",
-  "main": "bin/cecil",
-  "output": "dist/cecil.phar",
-  "stub": true
+  "output": "dist/cecil.phar"
 }
