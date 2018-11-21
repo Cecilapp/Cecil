@@ -25,7 +25,7 @@
   },
   "require": {
     "php": "^7.1",
-    "phpoole/library": "dev-cecil",
+    "cecil/phpoole": "3.0.1",
     "padraic/humbug_get_contents": "1.1.2",
     "padraic/phar-updater": "1.0.6",
     "symfony/filesystem": "4.1.7",
