@@ -52,15 +52,13 @@ git push -fq origin $TARGET_BRANCH > /dev/null
 cd ../$TARGET_CONTENT_DIR
 
 # create content files
-touch content/$DIST_FILE.md
-cat <<EOT >> content/$DIST_FILE.md
+cat <<EOT >> $DIST_FILE.md
 ---
 redirect: $TARGET_RELEASE_DIR/$DIST_FILE
 permalink: $DIST_FILE
 ---
 EOT
-touch content/$DIST_FILE_VERSION.md
-cat <<EOT >> content/$DIST_FILE_VERSION.md
+cat <<EOT >> $DIST_FILE_VERSION.md
 ---
 redirect: $TARGET_RELEASE_DIR/$DIST_FILE_VERSION
 permalink: $DIST_FILE_VERSION
