@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e21362022875e3e9c5a6e6f587cca40",
+    "content-hash": "f14db62a39a7a7ebc3605d6ba87f85f3",
     "packages": [
         {
             "name": "cecil/phpoole",
             "version": "3.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPoole/library",
+                "url": "https://github.com/Cecilapp/PHPoole",
                 "reference": "1070514b55a397781ca21f9c8ff6bbf5118b8c3e"
             },
             "require": {

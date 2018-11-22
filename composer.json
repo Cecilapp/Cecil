@@ -64,7 +64,7 @@
   "repositories": [
     {
       "type": "git",
-      "url": "https://github.com/PHPoole/library"
+      "url": "https://github.com/Cecilapp/PHPoole"
     }
   ],
   "scripts": {

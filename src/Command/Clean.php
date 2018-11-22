@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the PHPoole/Cecil package.
+ * This file is part of the Cecil/Cecil package.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
@@ -9,8 +9,6 @@
  */
 
 namespace Cecil\Command;
-
-use PHPoole\PHPoole;
 
 class Clean extends AbstractCommand
 {
