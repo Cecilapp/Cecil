@@ -20,7 +20,7 @@ cp dist/$DIST_FILE $HOME/$DIST_FILE
 # clone target repo
 cd $HOME
 git config --global user.name "Travis"
-git config --global user.email "contact@travis-ci.com"
+git config --global user.email "contact@travis-ci.org"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 
 cd $TARGET_REPO/$TARGET_DIST_DIR
