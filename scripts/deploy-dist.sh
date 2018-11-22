@@ -32,6 +32,19 @@ sha1sum $TARGET_RELEASE_DIR/$DIST_FILE > $TARGET_RELEASE_DIR/$DIST_FILE_VERSION
 # create symlinks
 ln -sf $TARGET_RELEASE_DIR/$DIST_FILE $DIST_FILE
 ln -sf $TARGET_RELEASE_DIR/$DIST_FILE_VERSION $DIST_FILE_VERSION
+# create redirections (symlinks alternative)
+cat <<EOT >> content/$DIST_FILE.md
+---
+redirect: $TARGET_RELEASE_DIR/$DIST_FILE
+permalink: $DIST_FILE
+---
+EOT
+cat <<EOT >> content/$DIST_FILE_VERSION.md
+---
+redirect: $TARGET_RELEASE_DIR/$DIST_FILE_VERSION
+permalink: $DIST_FILE_VERSION
+---
+EOT
 # create VERSION file
 [ -e VERSION ] && rm -- VERSION
 echo $TRAVIS_TAG > VERSION
