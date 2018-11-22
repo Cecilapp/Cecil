@@ -9,6 +9,7 @@ TARGET_RELEASE_DIR="download/$TRAVIS_TAG"
 TARGET_DIST_DIR="static"
 DIST_FILE="cecil.phar"
 DIST_FILE_VERSION="cecil.phar.version"
+TARGET_CONTENT_DIR="content"
 
 if [ ! -n "$TRAVIS_TAG" ]; then
   TARGET_RELEASE_DIR="download/$TRAVIS_BRANCH"
@@ -23,6 +24,9 @@ git config --global user.name "Travis"
 git config --global user.email "contact@travis-ci.org"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 
+# prepare dist files
+
+# cd static dir
 cd $TARGET_REPO/$TARGET_DIST_DIR
 mkdir -p $TARGET_RELEASE_DIR
 # copy dist file
@@ -32,7 +36,22 @@ sha1sum $TARGET_RELEASE_DIR/$DIST_FILE > $TARGET_RELEASE_DIR/$DIST_FILE_VERSION
 # create symlinks
 ln -sf $TARGET_RELEASE_DIR/$DIST_FILE $DIST_FILE
 ln -sf $TARGET_RELEASE_DIR/$DIST_FILE_VERSION $DIST_FILE_VERSION
-# create redirections (symlinks alternative)
+
+# create VERSION file
+[ -e VERSION ] && rm -- VERSION
+echo $TRAVIS_TAG > VERSION
+
+# commit and push
+git add -Af .
+git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
+git push -fq origin $TARGET_BRANCH > /dev/null
+
+# prepare redirections (symlinks alternative)
+
+# cd content dir
+cd ../$TARGET_CONTENT_DIR
+
+# create content files
 touch content/$DIST_FILE.md
 cat <<EOT >> content/$DIST_FILE.md
 ---
@@ -47,12 +66,10 @@ redirect: $TARGET_RELEASE_DIR/$DIST_FILE_VERSION
 permalink: $DIST_FILE_VERSION
 ---
 EOT
-# create VERSION file
-[ -e VERSION ] && rm -- VERSION
-echo $TRAVIS_TAG > VERSION
 
 # commit and push
 git add -Af .
-git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
+git commit -m "Travis build $TRAVIS_BUILD_NUMBER: create redirections"
 git push -fq origin $TARGET_BRANCH > /dev/null
+
 exit 0
