@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ site.language }}">
 {% include 'include/head.html.twig' %}
   <body>
     <div class="container content">
       <header class="masthead">
+{% block header %}
         <h3 class="masthead-title">
           <a href="{{ site.baseurl }}" title="Home">{{ site.title }}</a>
           <small>{{ site.baseline }}</small>
         </h3>
+{% endblock %}
       </header>
       <main>
-        {{ page.content }}
+{% block content %}
+{{ page.content }}
+{% endblock %}
       </main>
       <footer class="footer">
+{% block footer %}
         <small>
-          &copy; <time datetime="{{ site.time|date('Y-m-dTH:i:sP') }}">{{ site.time|date('Y') }}</time> <a href="https://arnaudligny.fr">Arnaud Ligny</a>
+          &copy; <time datetime="{{ site.time|date('Y-m-dTH:i:sP') }}">{{ site.time|date('Y') }}</time> <a href="{{ site.author.url }}">{{ site.author.name }}</a>
         </small>
+{% endblock %}
       </footer>
     </div>
   </body>
