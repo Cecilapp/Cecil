@@ -8,14 +8,14 @@ TARGET_BRANCH="source"
 TARGET_RELEASE_DIR="download/$TRAVIS_TAG"
 TARGET_DIST_DIR="static"
 DIST_FILE="cecil.phar"
-DIST_FILE_VERSION="cecil.phar.sha1"
+DIST_FILE_SHA1="cecil.phar.sha1"
 TARGET_CONTENT_DIR="content"
 
 if [ ! -n "$TRAVIS_TAG" ]; then
   TARGET_RELEASE_DIR="download/$TRAVIS_BRANCH"
 fi
 
-echo "Starting to deploy ${DIST_FILE} to ${TARGET_REPO}..."
+echo "Starting deploy of dist files..."
 cp dist/$DIST_FILE $HOME/$DIST_FILE
 
 # clone target repo
@@ -32,10 +32,10 @@ mkdir -p $TARGET_RELEASE_DIR
 # copy dist file
 cp $HOME/$DIST_FILE $TARGET_RELEASE_DIR/$DIST_FILE
 # create SHA1
-sha1sum $TARGET_RELEASE_DIR/$DIST_FILE > $DIST_FILE_VERSION
+sha1sum $TARGET_RELEASE_DIR/$DIST_FILE > $DIST_FILE_SHA1
 # create symlinks
 ln -sf $TARGET_RELEASE_DIR/$DIST_FILE $DIST_FILE
-ln -sf $TARGET_RELEASE_DIR/$DIST_FILE_VERSION $DIST_FILE_VERSION
+ln -sf $TARGET_RELEASE_DIR/$DIST_FILE_SHA1 $DIST_FILE_SHA1
 
 # create VERSION file
 [ -e VERSION ] && rm -- VERSION
@@ -43,7 +43,7 @@ echo $TRAVIS_TAG > VERSION
 
 # commit and push
 git add -Af .
-git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}"
+git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}* files"
 git push -fq origin $TARGET_BRANCH > /dev/null
 
 # prepare redirections (symlinks alternative)
@@ -52,16 +52,18 @@ git push -fq origin $TARGET_BRANCH > /dev/null
 cd ../$TARGET_CONTENT_DIR
 
 # create content files
+rm -f $DIST_FILE.md
 cat <<EOT >> $DIST_FILE.md
 ---
 redirect: $TARGET_RELEASE_DIR/$DIST_FILE
 permalink: $DIST_FILE
 ---
 EOT
-cat <<EOT >> $DIST_FILE_VERSION.md
+rm -f $DIST_FILE_SHA1.md
+cat <<EOT >> $DIST_FILE_SHA1.md
 ---
-redirect: $TARGET_RELEASE_DIR/$DIST_FILE_VERSION
-permalink: $DIST_FILE_VERSION
+redirect: $TARGET_RELEASE_DIR/$DIST_FILE_SHA1
+permalink: $DIST_FILE_SHA1
 ---
 EOT
 
