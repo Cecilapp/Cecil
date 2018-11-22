@@ -1,6 +1,9 @@
 site:
-  title: Cecil
-  baseline: Your content driven static site generator.
-  baseurl: https://cecil.app/
-  description: Cecil is a CLI application that merges plain text files (written in Markdown), images and Twig templates to generate a static website.
   language: en
+  title: "Cecil"
+  baseline: "Your content driven static site generator."
+  baseurl: https://cecil.local/
+  description: "Cecil is a CLI application that merges plain text files (written in Markdown), images and Twig templates to generate a static website."
+  author:
+    name: Arnaud Ligny
+    url: https://arnaudligny.fr
