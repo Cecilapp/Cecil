@@ -49,9 +49,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Cecil\\": "src",
-      "Cecil\\Command\\": "src/Command",
-      "Cecil\\Util\\": "src/Util"
+      "Cecil\\": "src"
     }
   },
   "autoload-dev": {

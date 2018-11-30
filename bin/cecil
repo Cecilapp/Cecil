@@ -16,21 +16,13 @@ $name       = 'Cecil';
 $version    = '@git_version@';
 $phpVersion = '7.1.0';
 
-$version = ($version === '@' . 'git_version' . '@')
-    ? '4.x-dev'
-    : $version;
-
-use Cecil\Command\SelfUpdate;
-use Cecil\Util\Plateform;
-use Zend\Console\Console;
-use ZF\Console\Application;
-
 // compare PHP version
 if (version_compare(PHP_VERSION, $phpVersion, '<')) {
     echo "PHP $phpVersion is required (server version: ".PHP_VERSION.PHP_EOL.")";
     exit(2);
 }
 
+// autoload
 switch (true) {
     // Installed standalone
     case (file_exists(__DIR__.'/../vendor/autoload.php')):
@@ -48,6 +40,16 @@ switch (true) {
         echo 'Unable to locate Composer autoloader. Please run "composer install".'.PHP_EOL;
         exit(2);
 }
+
+use Cecil\Builder;
+use Cecil\Command\SelfUpdate;
+use Cecil\Util\Plateform;
+use Zend\Console\Console;
+use ZF\Console\Application;
+
+$version = ($version === '@' . 'git_version' . '@')
+    ? Builder::getVersion()
+    : $version;
 
 $routes = include __DIR__.'/../config/routes.php';
 if (Plateform::isPhar()) {
