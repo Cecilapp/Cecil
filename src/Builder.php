@@ -407,6 +407,7 @@ class Builder
     {
         if (!isset(self::$version)) {
             $filePath = __DIR__.'/../VERSION';
+
             try {
                 if (file_exists($filePath)) {
                     self::$version = file_get_contents(__DIR__.'/../VERSION');
