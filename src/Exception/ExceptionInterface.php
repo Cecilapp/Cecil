@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Exception;
+namespace Cecil\Exception;
 
 interface ExceptionInterface
 {

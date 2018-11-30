@@ -39,7 +39,7 @@ class Serve extends AbstractCommand
             'php -S %s:%d -t %s %s',
             'localhost',
             '8000',
-            $this->getPath().'/'.$this->getPHPoole()->getConfig()->get('output.dir'),
+            $this->getPath().'/'.$this->getBuilder()->getConfig()->get('output.dir'),
             sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir)
         );
         $process = new Process($command);
@@ -60,7 +60,7 @@ class Serve extends AbstractCommand
                 ->name('*.scss')
                 ->name('*.js')
                 ->in($this->getPath())
-                ->exclude($this->getPHPoole()->getConfig()->get('output.dir'));
+                ->exclude($this->getBuilder()->getConfig()->get('output.dir'));
             $hashContent = new Crc32ContentHash();
             $resourceCache = new ResourceCacheMemory();
             $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
@@ -100,7 +100,7 @@ class Serve extends AbstractCommand
             $this->fs->copy($root.'res/server/livereload.js', $this->getPath().'/'.self::$tmpDir.'/livereload.js', true);
             $this->fs->dumpFile(
                 $this->getPath().'/'.self::$tmpDir.'/baseurl',
-                $this->getPHPoole()->getConfig()->get('site.baseurl')
+                $this->getBuilder()->getConfig()->get('site.baseurl')
             );
         } catch (IOExceptionInterface $e) {
             throw new \Exception(sprintf('An error occurred while copying file at "%s"', $e->getPath()));

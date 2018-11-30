@@ -6,13 +6,13 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Collection\Page;
+namespace Cecil\Collection\Page;
 
 use Cocur\Slugify\Slugify;
-use PHPoole\Collection\Item;
-use PHPoole\Page\NodeType;
-use PHPoole\Page\Parser;
-use PHPoole\Page\VariableTrait;
+use Cecil\Collection\Item;
+use Cecil\Page\NodeType;
+use Cecil\Page\Parser;
+use Cecil\Page\VariableTrait;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**

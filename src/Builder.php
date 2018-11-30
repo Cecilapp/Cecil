@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole;
+namespace Cecil;
 
-use PHPoole\Collection\Collection as PageCollection;
-use PHPoole\Generator\GeneratorManager;
+use Cecil\Collection\Collection as PageCollection;
+use Cecil\Generator\GeneratorManager;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -37,15 +37,15 @@ class Builder
      * @see build()
      */
     protected $steps = [
-        'PHPoole\Step\ImportConfig',
-        'PHPoole\Step\LocateContent',
-        'PHPoole\Step\CreatePages',
-        'PHPoole\Step\ConvertPages',
-        'PHPoole\Step\GeneratePages',
-        'PHPoole\Step\GenerateMenus',
-        'PHPoole\Step\CopyStatic',
-        'PHPoole\Step\RenderPages',
-        'PHPoole\Step\SavePages',
+        'Cecil\Step\ImportConfig',
+        'Cecil\Step\LocateContent',
+        'Cecil\Step\CreatePages',
+        'Cecil\Step\ConvertPages',
+        'Cecil\Step\GeneratePages',
+        'Cecil\Step\GenerateMenus',
+        'Cecil\Step\CopyStatic',
+        'Cecil\Step\RenderPages',
+        'Cecil\Step\SavePages',
     ];
     /**
      * Config.

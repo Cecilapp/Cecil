@@ -6,9 +6,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Test;
+namespace Cecil\Test;
 
-use PHPoole\Builder;
+use Cecil\Builder;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Build extends \PHPUnit\Framework\TestCase
@@ -37,7 +37,7 @@ class Build extends \PHPUnit\Framework\TestCase
         Builder::create(
             [
                 'site' => [
-                    'title' => 'PHPoole test',
+                    'title' => 'Cecil test',
                     'menu'  => [
                         'main' => [
                             'index' => [
@@ -79,8 +79,8 @@ class Build extends \PHPUnit\Framework\TestCase
                     ],
                 ],
                 'generators' => [
-                    99  => 'PHPoole\Generator\Test',
-                    //100 => 'PHPoole\Generator\TitleReplace',
+                    99  => 'Cecil\Generator\Test',
+                    //100 => 'Cecil\Generator\TitleReplace',
                 ],
                 'debug' => true,
             ]

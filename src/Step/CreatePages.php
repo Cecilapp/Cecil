@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Step;
+namespace Cecil\Step;
 
-use PHPoole\Collection\Collection as PageCollection;
-use PHPoole\Collection\Page\Page;
+use Cecil\Collection\Collection as PageCollection;
+use Cecil\Collection\Page\Page;
 
 /**
  * Create Pages collection from content iterator.
@@ -21,21 +21,21 @@ class CreatePages extends AbstractStep
      */
     public function process()
     {
-        $this->phpoole->setPages(new PageCollection());
-        if (count($this->phpoole->getContent()) <= 0) {
+        $this->builder->setPages(new PageCollection());
+        if (count($this->builder->getContent()) <= 0) {
             return;
         }
-        call_user_func_array($this->phpoole->getMessageCb(), ['CREATE', 'Creating pages']);
-        $max = count($this->phpoole->getContent());
+        call_user_func_array($this->builder->getMessageCb(), ['CREATE', 'Creating pages']);
+        $max = count($this->builder->getContent());
         $count = 0;
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
-        foreach ($this->phpoole->getContent() as $file) {
+        foreach ($this->builder->getContent() as $file) {
             $count++;
             /* @var $page Page */
             $page = (new Page($file))->parse();
-            $this->phpoole->getPages()->add($page);
+            $this->builder->getPages()->add($page);
             $message = $page->getPathname();
-            call_user_func_array($this->phpoole->getMessageCb(), ['CREATE_PROGRESS', $message, $count, $max]);
+            call_user_func_array($this->builder->getMessageCb(), ['CREATE_PROGRESS', $message, $count, $max]);
         }
     }
 }

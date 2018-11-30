@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Page;
+namespace Cecil\Page;
 
 use Symfony\Component\Finder\SplFileInfo;
 

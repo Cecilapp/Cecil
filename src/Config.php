@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole;
+namespace Cecil;
 
 use Dflydev\DotAccessData\Data;
-use PHPoole\Exception\Exception;
+use Cecil\Exception\Exception;
 
 /**
  * Class Config.
@@ -111,14 +111,14 @@ class Config
             'dir' => 'themes',
         ],
         'generators' => [
-            10 => 'PHPoole\Generator\Section',
-            20 => 'PHPoole\Generator\Taxonomy',
-            30 => 'PHPoole\Generator\Homepage',
-            40 => 'PHPoole\Generator\Pagination',
-            50 => 'PHPoole\Generator\Alias',
-            35 => 'PHPoole\Generator\ExternalBody',
-            36 => 'PHPoole\Generator\PagesFromConfig',
-            60 => 'PHPoole\Generator\Redirect',
+            10 => 'Cecil\Generator\Section',
+            20 => 'Cecil\Generator\Taxonomy',
+            30 => 'Cecil\Generator\Homepage',
+            40 => 'Cecil\Generator\Pagination',
+            50 => 'Cecil\Generator\Alias',
+            35 => 'Cecil\Generator\ExternalBody',
+            36 => 'Cecil\Generator\PagesFromConfig',
+            60 => 'Cecil\Generator\Redirect',
         ],
     ];
 

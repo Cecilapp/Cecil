@@ -6,15 +6,15 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Collection\Taxonomy;
+namespace Cecil\Collection\Taxonomy;
 
-use PHPoole\Collection\Collection as PHPooleCollection;
-use PHPoole\Collection\ItemInterface;
+use Cecil\Collection\Collection as CecilCollection;
+use Cecil\Collection\ItemInterface;
 
 /**
  * Class Vocabulary.
  */
-class Vocabulary extends PHPooleCollection implements ItemInterface
+class Vocabulary extends CecilCollection implements ItemInterface
 {
     /**
      * Adds term to a Vocabulary collection.

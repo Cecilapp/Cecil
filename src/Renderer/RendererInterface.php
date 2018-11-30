@@ -6,9 +6,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Renderer;
+namespace Cecil\Renderer;
 
-use PHPoole\Config;
+use Cecil\Config;
 
 /**
  * Interface RendererInterface.

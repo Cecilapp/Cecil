@@ -6,18 +6,18 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Step;
+namespace Cecil\Step;
 
-use PHPoole\Builder;
+use Cecil\Builder;
 
 interface StepInterface
 {
     /**
      * StepInterface constructor.
      *
-     * @param Builder $phpoole
+     * @param Builder $builder
      */
-    public function __construct(Builder $phpoole);
+    public function __construct(Builder $builder);
 
     /**
      * Checks if step can be processed.

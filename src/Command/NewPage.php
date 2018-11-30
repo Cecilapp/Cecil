@@ -35,7 +35,7 @@ class NewPage extends AbstractCommand
                 $this->name = substr($this->name, 0, $extPos);
             }
             // path
-            $fileRelativePath = $this->getPHPoole()->getConfig()->get('content.dir').'/'.$this->name.'.md';
+            $fileRelativePath = $this->getBuilder()->getConfig()->get('content.dir').'/'.$this->name.'.md';
             $filePath = $this->getPath().'/'.$fileRelativePath;
 
             // file already exists?
@@ -97,7 +97,7 @@ EOT;
      */
     protected function openEditor($filePath)
     {
-        if ($editor = $this->phpoole->getConfig()->get('editor')) {
+        if ($editor = $this->builder->getConfig()->get('editor')) {
             $command = sprintf('%s %s', $editor, $filePath);
             $process = new Process($command);
             $process->run();

@@ -10,7 +10,7 @@
 
 namespace Cecil\Command;
 
-use PHPoole\Builder;
+use Cecil\Builder;
 
 class Build extends AbstractCommand
 {
@@ -70,7 +70,7 @@ class Build extends AbstractCommand
             if (!$this->quiet) {
                 $this->wl(sprintf('Building website%s...', $messageOpt));
             }
-            $this->getPHPoole($config, $options)->build($options);
+            $this->getBuilder($config, $options)->build($options);
             if ($this->getRoute()->getName() == 'serve') {
                 $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', '');
             }

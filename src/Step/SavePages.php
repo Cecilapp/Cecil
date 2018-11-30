@@ -6,11 +6,11 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Step;
+namespace Cecil\Step;
 
-use PHPoole\Collection\Page\Page;
-use PHPoole\Exception\Exception;
-use PHPoole\Util;
+use Cecil\Collection\Page\Page;
+use Cecil\Exception\Exception;
+use Cecil\Util;
 
 /**
  * Pages saving.
@@ -26,7 +26,7 @@ class SavePages extends AbstractStep
     {
         if ($options['dry-run']) {
             $this->process = false;
-            call_user_func_array($this->phpoole->getMessageCb(), ['SAVE', 'Dry run']);
+            call_user_func_array($this->builder->getMessageCb(), ['SAVE', 'Dry run']);
 
             return;
         }
@@ -43,10 +43,10 @@ class SavePages extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->phpoole->getMessageCb(), ['SAVE', 'Saving pages']);
+        call_user_func_array($this->builder->getMessageCb(), ['SAVE', 'Saving pages']);
 
         /* @var $page Page */
-        $filteredPages = $this->phpoole->getPages()->filter(function (Page $page) {
+        $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return !empty($page->getVariable('rendered'));
         });
         $max = count($filteredPages);
@@ -60,7 +60,7 @@ class SavePages extends AbstractStep
             Util::getFS()->dumpFile($pathname, $page->getVariable('rendered'));
 
             $message = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
-            call_user_func_array($this->phpoole->getMessageCb(), ['SAVE_PROGRESS', $message, $count, $max]);
+            call_user_func_array($this->builder->getMessageCb(), ['SAVE_PROGRESS', $message, $count, $max]);
         }
     }
 

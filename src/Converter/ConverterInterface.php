@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Converter;
+namespace Cecil\Converter;
 
 /**
  * Interface ConverterInterface.

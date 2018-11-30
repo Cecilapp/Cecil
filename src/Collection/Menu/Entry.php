@@ -6,9 +6,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Collection\Menu;
+namespace Cecil\Collection\Menu;
 
-use PHPoole\Collection\Item;
+use Cecil\Collection\Item;
 
 /**
  * Class Entry.

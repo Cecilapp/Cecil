@@ -6,11 +6,11 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Generator;
+namespace Cecil\Generator;
 
-use PHPoole\Collection\Collection as PageCollection;
-use PHPoole\Collection\Page\Page;
-use PHPoole\Page\NodeType;
+use Cecil\Collection\Collection as PageCollection;
+use Cecil\Collection\Page\Page;
+use Cecil\Page\NodeType;
 
 /**
  * Class Pagination.

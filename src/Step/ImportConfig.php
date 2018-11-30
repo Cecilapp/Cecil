@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Step;
+namespace Cecil\Step;
 
-use PHPoole\Exception\Exception;
-use PHPoole\Util;
+use Cecil\Exception\Exception;
+use Cecil\Util;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -36,7 +36,7 @@ class ImportConfig extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->phpoole->getMessageCb(), ['CONFIG', 'Importing config']);
+        call_user_func_array($this->builder->getMessageCb(), ['CONFIG', 'Importing config']);
 
         try {
             $themes = array_reverse($this->config->getTheme());
@@ -54,7 +54,7 @@ class ImportConfig extends AbstractStep
                 } else {
                     $message = sprintf('%s: no config file', $theme);
                 }
-                call_user_func_array($this->phpoole->getMessageCb(), ['CONFIG_PROGRESS', $message, $count, $max]);
+                call_user_func_array($this->builder->getMessageCb(), ['CONFIG_PROGRESS', $message, $count, $max]);
             }
         } catch (Exception $e) {
             echo $e->getMessage()."\n";

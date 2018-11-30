@@ -6,9 +6,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Generator;
+namespace Cecil\Generator;
 
-use PHPoole\Collection\Collection as PageCollection;
+use Cecil\Collection\Collection as PageCollection;
 
 class GeneratorManager extends \SplPriorityQueue
 {
@@ -59,7 +59,7 @@ class GeneratorManager extends \SplPriorityQueue
                 /* @var $generatedPages PageCollection */
                 $generatedPages = $generator->generate($pageCollection, $messageCallback);
                 foreach ($generatedPages as $page) {
-                    /* @var $page \PHPoole\Collection\Page\Page */
+                    /* @var $page \Cecil\Collection\Page\Page */
                     if ($pageCollection->has($page->getId())) {
                         $pageCollection->replace($page->getId(), $page);
                     } else {

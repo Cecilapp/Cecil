@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Step;
+namespace Cecil\Step;
 
-use PHPoole\Collection\Menu\Collection as MenusCollection;
-use PHPoole\Collection\Menu\Entry;
+use Cecil\Collection\Menu\Collection as MenusCollection;
+use Cecil\Collection\Menu\Entry;
 
 /**
  * Generates menus.
@@ -21,9 +21,9 @@ class GenerateMenus extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->phpoole->getMessageCb(), ['MENU', 'Generating menus']);
+        call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Generating menus']);
         $count = 0;
-        $this->phpoole->setMenus(new MenusCollection());
+        $this->builder->setMenus(new MenusCollection());
         $this->collectPages();
 
         /*
@@ -42,10 +42,10 @@ class GenerateMenus extends AbstractStep
          *     ],
          * ]]
          */
-        if (!empty($this->phpoole->getConfig()->get('site.menu'))) {
-            foreach ($this->phpoole->getConfig()->get('site.menu') as $name => $entry) {
-                /* @var $menu \PHPoole\Collection\Menu\Menu */
-                $menu = $this->phpoole->getMenus()->get($name);
+        if (!empty($this->builder->getConfig()->get('site.menu'))) {
+            foreach ($this->builder->getConfig()->get('site.menu') as $name => $entry) {
+                /* @var $menu \Cecil\Collection\Menu\Menu */
+                $menu = $this->builder->getMenus()->get($name);
                 foreach ($entry as $property) {
                     // remove disable entries
                     if (isset($property['disabled']) && $property['disabled']) {
@@ -65,10 +65,10 @@ class GenerateMenus extends AbstractStep
             }
         }
         if ($count) {
-            call_user_func_array($this->phpoole->getMessageCb(), ['MENU_PROGRESS', 'Start generating', 0, $count]);
-            call_user_func_array($this->phpoole->getMessageCb(), ['MENU_PROGRESS', 'Menus generated', $count, $count]);
+            call_user_func_array($this->builder->getMessageCb(), ['MENU_PROGRESS', 'Start generating', 0, $count]);
+            call_user_func_array($this->builder->getMessageCb(), ['MENU_PROGRESS', 'Menus generated', $count, $count]);
         } else {
-            call_user_func_array($this->phpoole->getMessageCb(), ['MENU_PROGRESS', 'No menu']);
+            call_user_func_array($this->builder->getMessageCb(), ['MENU_PROGRESS', 'No menu']);
         }
     }
 
@@ -77,8 +77,8 @@ class GenerateMenus extends AbstractStep
      */
     protected function collectPages()
     {
-        foreach ($this->phpoole->getPages() as $page) {
-            /* @var $page \PHPoole\Collection\Page\Page */
+        foreach ($this->builder->getPages() as $page) {
+            /* @var $page \Cecil\Collection\Page\Page */
             if (!empty($page['menu'])) {
                 /*
                  * Single case
@@ -89,8 +89,8 @@ class GenerateMenus extends AbstractStep
                     $item = (new Entry($page->getId()))
                         ->setName($page->getTitle())
                         ->setUrl($page->getPermalink());
-                    /* @var $menu \PHPoole\Collection\Menu\Menu */
-                    $menu = $this->phpoole->getMenus()->get($page['menu']);
+                    /* @var $menu \Cecil\Collection\Menu\Menu */
+                    $menu = $this->builder->getMenus()->get($page['menu']);
                     $menu->add($item);
                 } else {
                     /*
@@ -107,8 +107,8 @@ class GenerateMenus extends AbstractStep
                                 ->setName($page->getTitle())
                                 ->setUrl($page->getPermalink())
                                 ->setWeight($value['weight']);
-                            /* @var $menu \PHPoole\Collection\Menu\Menu */
-                            $menu = $this->phpoole->getMenus()->get($name);
+                            /* @var $menu \Cecil\Collection\Menu\Menu */
+                            $menu = $this->builder->getMenus()->get($name);
                             $menu->add($item);
                         }
                     }

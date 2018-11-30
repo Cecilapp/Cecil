@@ -6,13 +6,13 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Renderer;
+namespace Cecil\Renderer;
 
-use PHPoole\Collection\Page\Page;
-use PHPoole\Config;
-use PHPoole\Exception\Exception;
-use PHPoole\Page\NodeType;
-use PHPoole\Util;
+use Cecil\Collection\Page\Page;
+use Cecil\Config;
+use Cecil\Exception\Exception;
+use Cecil\Page\NodeType;
+use Cecil\Util;
 
 /**
  * Class Layout.

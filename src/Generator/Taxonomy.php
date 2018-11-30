@@ -6,15 +6,15 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Generator;
+namespace Cecil\Generator;
 
-use PHPoole\Collection\Collection as PageCollection;
-use PHPoole\Collection\Page\Page;
-use PHPoole\Collection\Taxonomy\Collection as TaxonomyCollection;
-use PHPoole\Collection\Taxonomy\Term as Term;
-use PHPoole\Collection\Taxonomy\Vocabulary as Vocabulary;
-use PHPoole\Exception\Exception;
-use PHPoole\Page\NodeType;
+use Cecil\Collection\Collection as PageCollection;
+use Cecil\Collection\Page\Page;
+use Cecil\Collection\Taxonomy\Collection as TaxonomyCollection;
+use Cecil\Collection\Taxonomy\Term as Term;
+use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
+use Cecil\Exception\Exception;
+use Cecil\Page\NodeType;
 
 /**
  * Class Taxonomy.

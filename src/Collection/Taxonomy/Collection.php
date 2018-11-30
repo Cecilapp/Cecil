@@ -6,14 +6,14 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Collection\Taxonomy;
+namespace Cecil\Collection\Taxonomy;
 
-use PHPoole\Collection\Collection as PHPooleCollection;
+use Cecil\Collection\Collection as CecilCollection;
 
 /**
  * Class Collection.
  */
-class Collection extends PHPooleCollection
+class Collection extends CecilCollection
 {
     /**
      * Return a Vocabulary collection (creates it if not exists)

@@ -10,7 +10,7 @@
 
 namespace Cecil\Command;
 
-use PHPoole\Builder;
+use Cecil\Builder;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -39,7 +39,7 @@ abstract class AbstractCommand
     /**
      * @var Builder
      */
-    protected $phpoole;
+    protected $builder;
     /**
      * @var Filesystem
      */
@@ -176,7 +176,7 @@ abstract class AbstractCommand
      *
      * @return Builder
      */
-    public function getPHPoole(
+    public function getBuilder(
         array $config = ['debug' => false],
         array $options = ['verbosity' => Builder::VERBOSITY_NORMAL])
     {
@@ -195,7 +195,7 @@ abstract class AbstractCommand
         try {
             $configFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
             $config = array_replace_recursive($configFile, $config);
-            $this->phpoole = (new Builder($config, $this->messageCallback()))
+            $this->builder = (new Builder($config, $this->messageCallback()))
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
@@ -204,7 +204,7 @@ abstract class AbstractCommand
             throw new \Exception(sprintf($e->getMessage()));
         }
 
-        return $this->phpoole;
+        return $this->builder;
     }
 
     /**

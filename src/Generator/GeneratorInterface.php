@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Generator;
+namespace Cecil\Generator;
 
 /**
  * Interface GeneratorInterface.
@@ -16,15 +16,15 @@ interface GeneratorInterface
     /**
      * Give config to object.
      *
-     * @param \PHPoole\Config $config
+     * @param \Cecil\Config $config
      */
-    public function __construct(\PHPoole\Config $config);
+    public function __construct(\Cecil\Config $config);
 
     /**
-     * @param \PHPoole\Collection\Collection $pageCollection
-     * @param \Closure                       $messageCallback
+     * @param \Cecil\Collection\Collection $pageCollection
+     * @param \Closure                     $messageCallback
      *
-     * @return \PHPoole\Collection\Collection
+     * @return \Cecil\Collection\Collection
      */
-    public function generate(\PHPoole\Collection\Collection $pageCollection, \Closure $messageCallback);
+    public function generate(\Cecil\Collection\Collection $pageCollection, \Closure $messageCallback);
 }

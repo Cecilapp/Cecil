@@ -6,9 +6,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Renderer;
+namespace Cecil\Renderer;
 
-use PHPoole\Renderer\Twig\Extension as TwigExtension;
+use Cecil\Renderer\Twig\Extension as TwigExtension;
 
 /**
  * Class Twig.
@@ -68,7 +68,7 @@ class Twig implements RendererInterface
 
         // add generator meta
         if (!preg_match('/<meta name="generator".*/i', $this->rendered)) {
-            $meta = '<meta name="generator" content="PHPoole" />';
+            $meta = '<meta name="generator" content="Cecil" />';
             $this->rendered = preg_replace('/(<head>|<head[[:space:]]+.*>)/i', '$1'."\n\t".$meta, $this->rendered);
         }
 

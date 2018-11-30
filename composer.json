@@ -69,12 +69,6 @@
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/Cecilapp/PHPoole"
-    }
-  ],
   "scripts": {
     "test": "phpunit -c ./",
     "box": "box compile",

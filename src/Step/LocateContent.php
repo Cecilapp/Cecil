@@ -6,9 +6,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Step;
+namespace Cecil\Step;
 
-use PHPoole\Exception\Exception;
+use Cecil\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -23,8 +23,8 @@ class LocateContent extends AbstractStep
      */
     public function init($options)
     {
-        if (!is_dir($this->phpoole->getConfig()->getContentPath())) {
-            throw new Exception(sprintf('%s not found!', $this->phpoole->getConfig()->getContentPath()));
+        if (!is_dir($this->builder->getConfig()->getContentPath())) {
+            throw new Exception(sprintf('%s not found!', $this->builder->getConfig()->getContentPath()));
         }
 
         $this->process = true;
@@ -35,20 +35,20 @@ class LocateContent extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->phpoole->getMessageCb(), ['LOCATE', 'Loading content']);
+        call_user_func_array($this->builder->getMessageCb(), ['LOCATE', 'Loading content']);
 
         try {
             $content = Finder::create()
                 ->files()
-                ->in($this->phpoole->getConfig()->getContentPath())
-                ->name('/\.('.implode('|', $this->phpoole->getConfig()->get('content.ext')).')$/');
+                ->in($this->builder->getConfig()->getContentPath())
+                ->name('/\.('.implode('|', $this->builder->getConfig()->get('content.ext')).')$/');
             if (!$content instanceof Finder) {
                 throw new Exception(__FUNCTION__.': result must be an instance of Symfony\Component\Finder.');
             }
             $count = $content->count();
-            call_user_func_array($this->phpoole->getMessageCb(), ['LOCATE_PROGRESS', 'Start locating', 0, $count]);
-            $this->phpoole->setContent($content);
-            call_user_func_array($this->phpoole->getMessageCb(), ['LOCATE_PROGRESS', 'Files loaded', $count, $count]);
+            call_user_func_array($this->builder->getMessageCb(), ['LOCATE_PROGRESS', 'Start locating', 0, $count]);
+            $this->builder->setContent($content);
+            call_user_func_array($this->builder->getMessageCb(), ['LOCATE_PROGRESS', 'Files loaded', $count, $count]);
         } catch (Exception $e) {
             echo $e->getMessage()."\n";
         }

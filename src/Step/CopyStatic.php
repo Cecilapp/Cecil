@@ -6,9 +6,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Step;
+namespace Cecil\Step;
 
-use PHPoole\Util;
+use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -24,7 +24,7 @@ class CopyStatic extends AbstractStep
     public function init($options)
     {
         // clean before
-        Util::getFS()->remove($this->phpoole->getConfig()->getOutputPath());
+        Util::getFS()->remove($this->builder->getConfig()->getOutputPath());
 
         $this->process = true;
     }
@@ -32,25 +32,25 @@ class CopyStatic extends AbstractStep
     /**
      * {@inheritdoc}
      *
-     * @throws \PHPoole\Exception\Exception
+     * @throws \Cecil\Exception\Exception
      */
     public function process()
     {
         $count = 0;
 
-        call_user_func_array($this->phpoole->getMessageCb(), ['COPY', 'Copying static files']);
+        call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying static files']);
         // copy <theme>/static/ dir if exists
-        if ($this->phpoole->getConfig()->hasTheme()) {
-            $themes = array_reverse($this->phpoole->getConfig()->getTheme());
+        if ($this->builder->getConfig()->hasTheme()) {
+            $themes = array_reverse($this->builder->getConfig()->getTheme());
             foreach ($themes as $theme) {
-                $themeStaticDir = $this->phpoole->getConfig()->getThemeDirPath($theme, 'static');
+                $themeStaticDir = $this->builder->getConfig()->getThemeDirPath($theme, 'static');
                 if (Util::getFS()->exists($themeStaticDir)) {
                     $finder = new Finder();
                     $finder->files()->in($themeStaticDir);
                     $count += $finder->count();
                     Util::getFS()->mirror(
                         $themeStaticDir,
-                        $this->phpoole->getConfig()->getOutputPath(),
+                        $this->builder->getConfig()->getOutputPath(),
                         null,
                         ['override' => true]
                     );
@@ -58,22 +58,22 @@ class CopyStatic extends AbstractStep
             }
         }
         // copy static/ dir if exists
-        $staticDir = $this->phpoole->getConfig()->getStaticPath();
+        $staticDir = $this->builder->getConfig()->getStaticPath();
         if (Util::getFS()->exists($staticDir)) {
             $finder = new Finder();
             $finder->files()->filter(function (\SplFileInfo $file) {
-                return !(is_array($this->phpoole->getConfig()->get('static.exclude'))
-                    && in_array($file->getBasename(), $this->phpoole->getConfig()->get('static.exclude')));
+                return !(is_array($this->builder->getConfig()->get('static.exclude'))
+                    && in_array($file->getBasename(), $this->builder->getConfig()->get('static.exclude')));
             })->in($staticDir);
             $count += $finder->count();
             Util::getFS()->mirror(
                 $staticDir,
-                $this->phpoole->getConfig()->getOutputPath(),
+                $this->builder->getConfig()->getOutputPath(),
                 $finder,
                 ['override' => true]
             );
         }
-        call_user_func_array($this->phpoole->getMessageCb(), ['COPY_PROGRESS', 'Start copy', 0, $count]);
-        call_user_func_array($this->phpoole->getMessageCb(), ['COPY_PROGRESS', 'Files copied', $count, $count]);
+        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Start copy', 0, $count]);
+        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Files copied', $count, $count]);
     }
 }

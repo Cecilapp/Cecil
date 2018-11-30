@@ -6,13 +6,13 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Test;
+namespace Cecil\Test;
 
-use PHPoole\Builder;
-use PHPoole\Collection\Collection as PageCollection;
-use PHPoole\Collection\Page\Page;
-use PHPoole\Converter\Converter;
-use PHPoole\Step\ConvertPages;
+use Cecil\Builder;
+use Cecil\Collection\Collection as PageCollection;
+use Cecil\Collection\Page\Page;
+use Cecil\Converter\Converter;
+use Cecil\Step\ConvertPages;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -57,7 +57,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testCreate()
     {
-        $this->assertInstanceOf('PHPoole\Builder', Builder::create());
+        $this->assertInstanceOf('Cecil\Builder', Builder::create());
     }
 
     public function testOptions()
@@ -66,9 +66,9 @@ class UnitTests extends \PHPUnit\Framework\TestCase
             'option1' => 'Option 1',
             'option2' => 'Option 2',
         ];
-        $phpoole = (new Builder())->setConfig($options);
-        //$this->assertEquals($options, $phpoole->getOptions()->getAllAsArray());
-        $this->assertArraySubset($options, $phpoole->getConfig()->getAllAsArray());
+        $builder = (new Builder())->setConfig($options);
+        //$this->assertEquals($options, $builder->getOptions()->getAllAsArray());
+        $this->assertArraySubset($options, $builder->getConfig()->getAllAsArray());
     }
 
     public function testContentIterator()

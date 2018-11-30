@@ -6,17 +6,17 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Step;
+namespace Cecil\Step;
 
-use PHPoole\Builder;
-use PHPoole\Config;
+use Cecil\Builder;
+use Cecil\Config;
 
 abstract class AbstractStep implements StepInterface
 {
     /**
      * @var Builder
      */
-    protected $phpoole;
+    protected $builder;
     /**
      * @var Config
      */
@@ -29,10 +29,10 @@ abstract class AbstractStep implements StepInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $phpoole)
+    public function __construct(Builder $builder)
     {
-        $this->phpoole = $phpoole;
-        $this->config = $phpoole->getConfig();
+        $this->builder = $builder;
+        $this->config = $builder->getConfig();
     }
 
     /**

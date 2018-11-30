@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Converter;
+namespace Cecil\Converter;
 
 use ParsedownExtra;
-use PHPoole\Exception\Exception;
+use Cecil\Exception\Exception;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 

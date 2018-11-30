@@ -6,16 +6,16 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Renderer\Twig;
+namespace Cecil\Renderer\Twig;
 
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use Leafo\ScssPhp\Compiler;
 use MatthiasMullie\Minify;
-use PHPoole\Collection\Collection;
-use PHPoole\Collection\CollectionInterface;
-use PHPoole\Collection\Page\Page;
-use PHPoole\Exception\Exception;
+use Cecil\Collection\Collection;
+use Cecil\Collection\CollectionInterface;
+use Cecil\Collection\Page\Page;
+use Cecil\Exception\Exception;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -50,7 +50,7 @@ class Extension extends SlugifyExtension
      */
     public function getName()
     {
-        return 'phpoole';
+        return 'cecil';
     }
 
     /**
@@ -90,8 +90,8 @@ class Extension extends SlugifyExtension
     /**
      * Filter by section.
      *
-     * @param \PHPoole\Page\Collection $pages
-     * @param string                   $section
+     * @param \Cecil\Page\Collection $pages
+     * @param string                 $section
      *
      * @return array
      */
@@ -103,9 +103,9 @@ class Extension extends SlugifyExtension
     /**
      * Filter by variable.
      *
-     * @param \PHPoole\Page\Collection $pages
-     * @param string                   $variable
-     * @param string                   $value
+     * @param \Cecil\Page\Collection $pages
+     * @param string                 $variable
+     * @param string                 $value
      *
      * @throws Exception
      *
@@ -224,9 +224,9 @@ class Extension extends SlugifyExtension
      *     'addhash'   => true,
      * ];
      *
-     * @param \Twig_Environment              $env
-     * @param string|\PHPoole\Page\Page|null $value
-     * @param array|null                     $options
+     * @param \Twig_Environment            $env
+     * @param string|\Cecil\Page\Page|null $value
+     * @param array|null                   $options
      *
      * @return string|null
      */

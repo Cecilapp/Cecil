@@ -6,14 +6,14 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Collection\Taxonomy;
+namespace Cecil\Collection\Taxonomy;
 
-use PHPoole\Collection\Collection as PHPooleCollection;
-use PHPoole\Collection\ItemInterface;
+use Cecil\Collection\Collection as CecilCollection;
+use Cecil\Collection\ItemInterface;
 
 /**
  * Class Term.
  */
-class Term extends PHPooleCollection implements ItemInterface
+class Term extends CecilCollection implements ItemInterface
 {
 }

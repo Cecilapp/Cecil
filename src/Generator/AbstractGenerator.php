@@ -6,20 +6,20 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Generator;
+namespace Cecil\Generator;
 
 /**
  * Abstract class AbstractGenerator.
  */
 abstract class AbstractGenerator implements GeneratorInterface
 {
-    /* @var \PHPoole\Config */
+    /* @var \Cecil\Config */
     protected $config;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(\PHPoole\Config $config)
+    public function __construct(\Cecil\Config $config)
     {
         $this->config = $config;
     }

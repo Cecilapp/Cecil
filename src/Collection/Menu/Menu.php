@@ -6,15 +6,15 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Collection\Menu;
+namespace Cecil\Collection\Menu;
 
-use PHPoole\Collection\Collection as PHPooleCollection;
-use PHPoole\Collection\ItemInterface;
+use Cecil\Collection\Collection as CecilCollection;
+use Cecil\Collection\ItemInterface;
 
 /**
  * Class Menu.
  */
-class Menu extends PHPooleCollection implements ItemInterface
+class Menu extends CecilCollection implements ItemInterface
 {
     /**
      * Add menu entry.

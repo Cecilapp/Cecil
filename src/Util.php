@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole;
+namespace Cecil;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;

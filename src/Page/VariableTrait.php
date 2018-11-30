@@ -6,9 +6,9 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Page;
+namespace Cecil\Page;
 
-use PHPoole\Exception\Exception;
+use Cecil\Exception\Exception;
 
 /**
  * Helper to set and get page variables.

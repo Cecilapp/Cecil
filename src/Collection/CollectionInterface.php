@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPoole\Collection;
+namespace Cecil\Collection;
 
 /**
  * Interface CollectionInterface.
