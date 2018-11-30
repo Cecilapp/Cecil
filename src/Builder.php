@@ -17,18 +17,18 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder
 {
-    const VERSION = '2.x-dev';
+    const VERSION = '4.x-dev';
     const VERBOSITY_QUIET = -1;
     const VERBOSITY_NORMAL = 0;
     const VERBOSITY_VERBOSE = 1;
     const VERBOSITY_DEBUG = 2;
 
     /**
-     * Library version.
+     * App version.
      *
      * @var string
      */
-    protected $version;
+    protected static $version;
     /**
      * Steps that are processed by build().
      *
@@ -403,19 +403,22 @@ class Builder
      *
      * @return string
      */
-    public function getVersion()
+    public static function getVersion()
     {
-        if (!isset($this->version)) {
+        if (!isset(self::$version)) {
+            $filePath = __DIR__.'/../VERSION';
             try {
-                $this->version = @file_get_contents(__DIR__.'/../VERSION');
-                if ($this->version === false) {
-                    throw new \Exception('Can\'t get version file!');
+                if (file_exists($filePath)) {
+                    self::$version = file_get_contents(__DIR__.'/../VERSION');
+                    if (self::$version === false) {
+                        throw new \Exception('Can\'t get version file!');
+                    }
                 }
             } catch (\Exception $e) {
-                $this->version = self::VERSION;
+                self::$version = self::VERSION;
             }
         }
 
-        return $this->version;
+        return self::$version;
     }
 }
