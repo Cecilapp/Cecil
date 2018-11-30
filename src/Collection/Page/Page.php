@@ -8,11 +8,11 @@
 
 namespace Cecil\Collection\Page;
 
-use Cocur\Slugify\Slugify;
 use Cecil\Collection\Item;
 use Cecil\Page\NodeType;
 use Cecil\Page\Parser;
 use Cecil\Page\VariableTrait;
+use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**

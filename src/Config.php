@@ -8,8 +8,8 @@
 
 namespace Cecil;
 
-use Dflydev\DotAccessData\Data;
 use Cecil\Exception\Exception;
+use Dflydev\DotAccessData\Data;
 
 /**
  * Class Config.
