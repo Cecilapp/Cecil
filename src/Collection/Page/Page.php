@@ -159,7 +159,7 @@ class Page extends Item
      *
      * @param $string
      *
-     * @return array|bool
+     * @return string[]|false
      */
     public static function asPrefix($string)
     {
@@ -175,7 +175,7 @@ class Page extends Item
      *
      * @param $string
      *
-     * @return string|bool
+     * @return string[]|false
      */
     public static function getPrefix($string)
     {

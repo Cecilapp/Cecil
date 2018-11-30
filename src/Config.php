@@ -167,8 +167,6 @@ class Config
      * Import array config to current config.
      *
      * @param array $config
-     *
-     * @return $this
      */
     public function import($config)
     {

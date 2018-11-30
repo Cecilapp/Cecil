@@ -68,7 +68,7 @@ class Parser
                 $matches
             );
             // if not front matter, set body only
-            if (!$matches) {
+            if (empty($matches)) {
                 $this->body = $this->file->getContents();
 
                 return $this;

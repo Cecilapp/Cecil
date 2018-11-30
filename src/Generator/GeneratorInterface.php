@@ -17,8 +17,6 @@ interface GeneratorInterface
      * Give config to object.
      *
      * @param \PHPoole\Config $config
-     *
-     * @return void
      */
     public function __construct(\PHPoole\Config $config);
 

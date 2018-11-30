@@ -16,8 +16,6 @@ interface StepInterface
      * StepInterface constructor.
      *
      * @param Builder $phpoole
-     *
-     * @return void
      */
     public function __construct(Builder $phpoole);
 

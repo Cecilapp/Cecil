@@ -224,11 +224,11 @@ class Extension extends SlugifyExtension
      *     'addhash'   => true,
      * ];
      *
-     * @param \Twig_Environment         $env
-     * @param string|\PHPoole\Page\Page $value
-     * @param array|null                $options
+     * @param \Twig_Environment              $env
+     * @param string|\PHPoole\Page\Page|null $value
+     * @param array|null                     $options
      *
-     * @return string
+     * @return string|null
      */
     public function createUrl(\Twig_Environment $env, $value = null, $options = null)
     {
@@ -271,8 +271,11 @@ class Extension extends SlugifyExtension
                     $url .= '?'.$hash;
                 }
             } else {
-                $value = $this->slugifyFilter($value);
-                $url = $base.'/'.ltrim(rtrim($value, '/').'/', '/');
+                $url = $base.'/';
+                if (!empty($value)) {
+                    $value = $this->slugifyFilter($value);
+                    $url .= ltrim(rtrim($value, '/').'/', '/');
+                }
             }
         }
 
@@ -369,7 +372,6 @@ class Extension extends SlugifyExtension
                     }
 
                     return $targetPath;
-                    break;
                 default:
                     throw new Exception(sprintf("File '%s' should be a '.scss'!", $path));
             }
@@ -429,7 +431,7 @@ class Extension extends SlugifyExtension
             $string,
             $matches
         );
-        if (!$matches) {
+        if (empty($matches)) {
             return $string;
         }
 
