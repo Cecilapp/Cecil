@@ -8,6 +8,7 @@
  * file that was distributed with this source code.
  */
 
+// CLI routes
 return [
     [
         'name'    => 'new',

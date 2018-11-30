@@ -1,17 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<phpunit colors="true"
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         bootstrap="./vendor/autoload.php">
+         bootstrap="./vendor/autoload.php"
+        >
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <ini name="date.timezone" value="Europe/Paris" />
+    </php>
     <testsuites>
         <testsuite name="Unit_tests">
-            <directory>./tests/</directory>
+            <file>./tests/UnitTests.php</file>
+        </testsuite>
+        <testsuite name="Build_test">
+            <file>./tests/Build.php</file>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory>./tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>

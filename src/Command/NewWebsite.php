@@ -35,10 +35,10 @@ class NewWebsite extends AbstractCommand
                 $root = Plateform::getPharPath().'/';
             }
             $this->wlAnnonce('Creating a new website...');
-            $this->fs->copy($root.'skeleton/config.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
-            $this->fs->mirror($root.'skeleton/content', $this->getPath().'/content');
-            $this->fs->mirror($root.'skeleton/layouts', $this->getPath().'/layouts');
-            $this->fs->mirror($root.'skeleton/static', $this->getPath().'/static');
+            $this->fs->copy($root.'res/skeleton/config.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
+            $this->fs->mirror($root.'res/skeleton/content', $this->getPath().'/content');
+            $this->fs->mirror($root.'res/skeleton/layouts', $this->getPath().'/layouts');
+            $this->fs->mirror($root.'res/skeleton/static', $this->getPath().'/static');
             $this->wlDone('Done!');
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));

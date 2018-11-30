@@ -3,70 +3,85 @@ sudo: false
 
 cache:
   directories:
-    - vendor
+    - $HOME/.composer/cache
     - $COMPOSER_CACHE_DIR
 
 php:
   - 7.1
   - 7.2
 
-matrix:
-  include:
-    - php: 7.1
-      env: COVERAGE=run
-  allow_failures:
-    - php: 7.2
-  fast_finish: true
+stages:
+  - name: Tests coverage
+    if: (NOT type IN (pull_request)) AND (branch = master)
+  - name: GitHub release deploy
+    if: tag = true
+  - name: Dist files deploy
+    if: tag = true
+  - name: HTML API docs build
+    if: (NOT type IN (pull_request)) AND (branch = master)
+  - name: Markdown docs deploy
+    if: (NOT type IN (pull_request)) AND (branch = master)
+
+before_install:
+  - composer self-update
+  - if [[ $TEST_COVERAGE != true ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
 
 install:
-  - composer self-update
-  # install coveralls.phar
-  - wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar -O coveralls.phar
-  - chmod +x coveralls.phar
-  - php coveralls.phar --version
+  - travis_retry composer install -n --prefer-source
+  - if [[ $TEST_COVERAGE == true ]]; then travis_retry composer test-coverage-install || return 0 ; fi
 
-before_script:
-  #- phpenv config-rm xdebug.ini
-  # install packages
-  - composer install --no-interaction
-  - if [[ $COVERAGE = run ]]; then mkdir -p build/logs; PHPUNIT_FLAGS="--coverage-text --coverage-clover build/logs/clover.xml"; fi
+script: composer test
 
-script:
-  # run PHPUnit and export code coverage log
-  - if [[ $COVERAGE = run ]]; then phpunit -c ./ $PHPUNIT_FLAGS; fi
-
-after_success:
-  # build phar
-  - composer box
-  # submit coverage report to Coveralls
-  - if [[ $COVERAGE = run ]]; then travis_retry php coveralls.phar -v; fi
-  # submit coverage report to codecov.io
-  - bash <(curl -s https://codecov.io/bash)
-
-deploy:
-  # deploy docs to website
-  - provider: script
-    script: bash scripts/deploy-docs.sh
-    skip_cleanup: true
-    overwrite: true
-    on:
-      branch: master
-      php: "7.1"
-  # deploy to GitHub release
-  - provider: releases
-    api_key: $GH_TOKEN
-    file: "dist/cecil.phar"
-    skip_cleanup: true
-    overwrite: true
-    on:
-      tags: true
-      php: "7.1"
-  # deploy dist file to website
-  - provider: script
-    script: bash scripts/deploy-dist.sh
-    skip_cleanup: true
-    overwrite: true
-    on:
-      tags: true
-      php: "7.1"
-      condition: $COVERAGE != run
+jobs:
+  allow_failures:
+    - php: 7.2
+  include:
+    - stage: Tests coverage
+      php: 7.1
+      env:
+        - TEST=true
+        - TEST_COVERAGE=true
+      before_script:
+        - mkdir -p build/logs
+      script:
+        - travis_retry composer test-coverage
+      after_success:
+        - travis_retry composer test-coverage-upload
+        - bash <(curl -s https://codecov.io/bash)
+    - stage: HTML API docs build
+      install: composer api-docs-install
+      script: composer api-docs-build
+    - stage: Markdown docs deploy
+      install: skip
+      script: skip
+      deploy:
+        provider: script
+        script: bash scripts/deploy-docs.sh
+        skip_cleanup: true
+        overwrite: true
+        on:
+          branch: master
+          php: "7.1"
+    - stage: GitHub release deploy
+      install: skip
+      script: skip
+      deploy:
+        provider: releases
+        api_key: $GH_TOKEN
+        file: "dist/cecil.phar"
+        skip_cleanup: true
+        overwrite: true
+        on:
+          tags: true
+          php: "7.1"
+    - stage: Dist files deploy
+      install: skip
+      script: skip
+      deploy:
+        provider: script
+        script: bash scripts/deploy-dist.sh
+        skip_cleanup: true
+        overwrite: true
+        on:
+          tags: true
+          php: "7.1"
