@@ -14,9 +14,9 @@ stages:
   - name: Tests coverage
     if: (NOT type IN (pull_request)) AND (branch = master)
   - name: GitHub release deploy
-    if: tag = true
+    if: (tags = true) AND (branch = master)
   - name: Dist files deploy
-    if: tag = true
+    if: (tags = true) AND (branch = master)
   - name: HTML API docs build
     if: (NOT type IN (pull_request)) AND (branch = master)
   - name: Markdown docs deploy
