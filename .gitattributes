@@ -1,8 +1,9 @@
 # Files to exclude when creating archive
-dist/ export-ignore
-tests/ export-ignore
 .* export-ignore
-deploy.sh export-ignore
+dist/ export-ignore
+scripts/ export-ignore
+tests/ export-ignore
+codecov.yml
 phpunit.xml.dist export-ignore
 
 # Auto detect text files and perform LF normalization

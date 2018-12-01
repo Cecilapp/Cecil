@@ -1,0 +1,25 @@
+version: 2
+jobs:
+    build:
+      docker:
+        - image: circleci/php:7.1-cli-stretch-node-browsers
+      steps:
+        - checkout
+        - run:
+            name: Switch timezone to Paris
+            command: sudo cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
+        - run:
+            name: Composer
+            command: |
+              sudo composer self-update
+              composer install --no-interaction
+        - run:
+            name: PHPUnit
+            command: |
+              mkdir -p ~/phpunit
+              vendor/bin/phpunit --log-junit ~/phpunit/junit.xml
+            when: always
+        - store_test_results:
+            path: ~/phpunit
+        - store_artifacts:
+            path: ~/phpunit

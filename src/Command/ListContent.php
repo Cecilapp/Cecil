@@ -24,7 +24,7 @@ class ListContent extends AbstractCommand
 
     public function processCommand()
     {
-        $this->contentDir = $this->getPHPoole()->getConfig()->get('content.dir');
+        $this->contentDir = $this->getBuilder()->getConfig()->get('content.dir');
 
         try {
             $this->wlAnnonce(sprintf('%s/', $this->contentDir));
@@ -66,7 +66,7 @@ class ListContent extends AbstractCommand
             throw new \Exception(sprintf('Invalid directory: %s.', $pagesPath));
         }
         $dirIterator = new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS);
-        $dirIterator = new FileExtensionFilter($dirIterator, $this->getPHPoole()->getConfig()->get('content.ext'));
+        $dirIterator = new FileExtensionFilter($dirIterator, $this->getBuilder()->getConfig()->get('content.ext'));
         $pages = new FilenameRecursiveTreeIterator(
             $dirIterator,
             FilenameRecursiveTreeIterator::SELF_FIRST

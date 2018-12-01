@@ -15,7 +15,7 @@ class Config extends AbstractCommand
     public function processCommand()
     {
         try {
-            $this->wl($this->printArray($this->getPHPoole()->getConfig()->getAllAsArray()));
+            $this->wl($this->printArray($this->getBuilder()->getConfig()->getAllAsArray()));
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }

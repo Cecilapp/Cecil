@@ -15,7 +15,7 @@ class Clean extends AbstractCommand
     public function processCommand()
     {
         //delete output dir
-        $outputDir = $this->getPHPoole()->getConfig()->get('output.dir');
+        $outputDir = $this->getBuilder()->getConfig()->get('output.dir');
         if ($this->fs->exists($this->getPath().'/'.$outputDir)) {
             $this->fs->remove($this->getPath().'/'.$outputDir);
             $this->wlDone(sprintf("Output directory '%s' removed.", $outputDir));

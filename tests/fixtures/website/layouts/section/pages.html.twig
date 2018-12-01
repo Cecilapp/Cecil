@@ -1,0 +1,18 @@
+{% extends '_default/list.html.twig' %}
+
+{% block content %}
+      <div class="posts">
+{% for post in site.pages|filterBy('section', page.pathname)|sortByWeight %}
+        <div class="post">
+{% block post %}
+          <h1 class="post-title">
+            <a href="{{ url(post) }}">{{ post.title|e }}</a>
+          </h1>
+          <span class="post-date">{{ post.date|date("j M Y") }}</span>
+          {{ post.content|excerptHtml }}
+          <p>Weight: {{ post.weight }}</p>
+{% endblock %}
+        </div>
+{% endfor %}
+      </div>
+{% endblock %}
