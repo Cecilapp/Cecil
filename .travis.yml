@@ -13,7 +13,6 @@ php:
 stages:
   - test
   - code coverage
-  - compile box
   - deploy release
   - deploy docs
 
@@ -44,15 +43,10 @@ jobs:
       after_success:
         - travis_retry composer test-coverage-upload
         - bash <(curl -s https://codecov.io/bash)
-    - stage: compile box
-      php: "7.1"
-      if: tag IS present
-      script: composer box
     - stage: deploy
       php: "7.1"
       if: tag IS present
-      install: skip
-      script: skip
+      script: composer box
       deploy:
         # GitHub release
         - provider: releases
