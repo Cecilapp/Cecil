@@ -11,16 +11,11 @@ php:
   - 7.2
 
 stages:
-  - name: Tests coverage
-    if: (NOT type IN (pull_request)) AND (branch = master)
-  - name: GitHub release deploy
-    if: (tags = true) AND (branch = master)
-  - name: Dist files deploy
-    if: (tags = true) AND (branch = master)
-  - name: HTML API docs build
-    if: (NOT type IN (pull_request)) AND (branch = master)
-  - name: Markdown docs deploy
-    if: (NOT type IN (pull_request)) AND (branch = master)
+  - test
+  - code coverage
+  - compile box
+  - deploy release
+  - deploy docs
 
 before_install:
   - composer self-update
@@ -35,11 +30,12 @@ script: composer test
 jobs:
   allow_failures:
     - php: 7.2
+    - stage: code coverage
   include:
-    - stage: Tests coverage
+    - stage: code coverage
       php: 7.1
+      if: (NOT type IN (pull_request)) AND (branch = master)
       env:
-        - TEST=true
         - TEST_COVERAGE=true
       before_script:
         - mkdir -p build/logs
@@ -48,40 +44,42 @@ jobs:
       after_success:
         - travis_retry composer test-coverage-upload
         - bash <(curl -s https://codecov.io/bash)
-    - stage: HTML API docs build
-      install: composer api-docs-install
-      script: composer api-docs-build
-    - stage: Markdown docs deploy
+    - stage: compile box
+      php: "7.1"
+      if: tag IS present
+      script: composer box
+    - stage: deploy
+      php: "7.1"
+      if: tag IS present
       install: skip
       script: skip
       deploy:
-        provider: script
-        script: bash scripts/deploy-docs.sh
-        skip_cleanup: true
-        overwrite: true
-        on:
-          branch: master
-          php: "7.1"
-    - stage: GitHub release deploy
+        # GitHub release
+        - provider: releases
+          api_key: $GH_TOKEN
+          file: "dist/cecil.phar"
+          skip_cleanup: true
+          overwrite: true
+          on:
+            branch: master
+            tags: true
+        # dist files
+        - provider: script
+          script: bash scripts/deploy-dist.sh
+          skip_cleanup: true
+          overwrite: true
+          on:
+            branch: master
+            tags: true
+    - stage: deploy docs
+      php: "7.1"
+      if: (NOT type IN (pull_request)) AND (branch = master)
       install: skip
       script: skip
       deploy:
-        provider: releases
-        api_key: $GH_TOKEN
-        file: "dist/cecil.phar"
-        skip_cleanup: true
-        overwrite: true
-        on:
-          tags: true
-          php: "7.1"
-    - stage: Dist files deploy
-      install: skip
-      script: skip
-      deploy:
-        provider: script
-        script: bash scripts/deploy-dist.sh
-        skip_cleanup: true
-        overwrite: true
-        on:
-          tags: true
-          php: "7.1"
+        - provider: script
+          script: bash scripts/deploy-docs.sh
+          skip_cleanup: true
+          overwrite: true
+          on:
+            branch: master
