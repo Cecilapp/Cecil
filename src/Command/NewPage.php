@@ -85,6 +85,7 @@ date: '%date%'
 draft: true
 ---
 
+**Your content here.**
 EOT;
     }
 
