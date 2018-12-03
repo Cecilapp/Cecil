@@ -410,7 +410,7 @@ class Builder
 
             try {
                 if (file_exists($filePath)) {
-                    self::$version = file_get_contents(__DIR__.'/../VERSION');
+                    self::$version = trim(file_get_contents(__DIR__.'/../VERSION'));
                     if (self::$version === false) {
                         throw new \Exception('Can\'t get version file!');
                     }
