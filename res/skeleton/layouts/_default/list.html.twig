@@ -2,7 +2,7 @@
 
 {% block content %}
 {% for p in site.pages|filterBy('section', page.pathname)|sortByDate %}
-        <h1><a href="{{ url(p) }}">{{ p.title|e }}</a></h1>
+        <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
         {{ p.content|excerptHtml }}
 {% endfor %}
 {% endblock content %}
