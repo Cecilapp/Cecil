@@ -8,7 +8,7 @@
     {{ page.title }} &middot; {{ site.title }}
 {% endif %}
   {% endspaceless %}</title>
-  <link rel="stylesheet" href="{{ url('css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url(toCSS('scss/styles.scss')) }}">
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ url('images/apple-touch-icon-precomposed.png') }}">
   <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ url('rss.xml') }}">
