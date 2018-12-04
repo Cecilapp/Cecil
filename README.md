@@ -4,7 +4,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://packagist.org/packages/cecil/cecil)
 [![Build Status](https://travis-ci.com/Cecilapp/Cecil.svg)](https://travis-ci.com/Cecilapp/Cecil)
-[![License](https://poser.pugx.org/cecil/cecil/license)](https://packagist.org/packages/cecil/cecil)  
+[![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85aa408ef2e94925831b1f7dd4c98219)](https://www.codacy.com/app/Narno/Cecil)
 [![Coverage Status](https://coveralls.io/repos/github/Cecilapp/Cecil/badge.svg?branch=master)](https://coveralls.io/github/Cecilapp/Cecil?branch=master)
@@ -23,7 +23,7 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 - No database, files only
 - Flexible template engine & themes support
 - Dynamic menu creation
-- Generators (taxonomies, paginaton, etc.)
+- Generators (taxonomies, paginaton and more!)
 
 ## Installation
 
@@ -46,22 +46,6 @@ chmod +x /usr/local/bin/cecil
 Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/starter-blog) a ready to go [blog](https://github.com/Cecilapp/starter-blog).
-
-## Development
-
-### Requirements
-
-Please see the [composer.json](https://github.com/Cecilapp/Cecil/blob/master/composer.json) file.
-
-### Project installation
-
-Run the following commands:
-
-```bash
-composer create-project cecil/cecil -sdev
-cd cecil
-php bin/cecil
-```
 
 ## License
 
