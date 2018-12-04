@@ -446,6 +446,9 @@ class Page extends Item
      */
     public function setPermalink($permalink)
     {
+        // https://regex101.com/r/45oTKm/1
+        $permalink = preg_replace('/index$/i', '', $permalink);
+
         $this->setVariable('permalink', $permalink);
 
         return $this;

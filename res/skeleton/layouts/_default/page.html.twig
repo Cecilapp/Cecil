@@ -8,20 +8,30 @@
         <h3 class="masthead-title">
           <a href="{{ site.baseurl }}" title="Home">{{ site.title }}</a>
           <small>{{ site.baseline }}</small>
+{% block nav %}
+{% if site.menus.main is defined %}
+          <nav><small>
+          {% for menu in site.menus.main|sortByWeight %}
+            <a class="{% if page.pathname == menu.url %} active{% endif %}" href="{{ url(menu.url) }}">{{ menu.name }}</a>
+            {% if not loop.last %} &middot; {% endif %}
+          {% endfor %}
+          </small></nav>
+{% endif %}
+{% endblock nav %}
         </h3>
-{% endblock %}
+{% endblock header %}
       </header>
       <main>
 {% block content %}
 {{ page.content }}
-{% endblock %}
+{% endblock content %}
       </main>
       <footer class="footer">
 {% block footer %}
         <small>
           &copy; <time datetime="{{ site.time|date('Y-m-dTH:i:sP') }}">{{ site.time|date('Y') }}</time> <a href="{{ site.author.url }}">{{ site.author.name }}</a>
         </small>
-{% endblock %}
+{% endblock footer %}
       </footer>
     </div>
   </body>
