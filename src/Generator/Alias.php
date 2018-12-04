@@ -30,7 +30,10 @@ class Alias extends AbstractGenerator implements GeneratorInterface
                 $aliases = $page->getVariable('aliases');
             }
             if ($page->hasVariable('alias')) {
-                $aliases[] = $page->getVariable('alias');
+                $aliases = $page->getVariable('alias');
+            }
+            if (!is_array($aliases)) {
+                $aliases = [$aliases];
             }
             if (!empty($aliases)) {
                 foreach ($aliases as $alias) {
