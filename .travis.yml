@@ -12,9 +12,9 @@ php:
 
 stages:
   - test
-  - code coverage
   - deploy release
   - deploy docs
+  - code coverage
 
 before_install:
   - composer self-update
