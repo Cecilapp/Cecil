@@ -411,6 +411,7 @@ class Builder
             if (Plateform::isPhar()) {
                 $filePath = Plateform::getPharPath().'/VERSION';
             }
+
             try {
                 if (!file_exists($filePath)) {
                     throw new \Exception(sprintf('%s file doesn\'t exist!', $filePath));
