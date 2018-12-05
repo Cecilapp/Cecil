@@ -10,6 +10,7 @@ namespace Cecil;
 
 use Cecil\Collection\Collection as PageCollection;
 use Cecil\Generator\GeneratorManager;
+use Cecil\Util\Plateform;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -407,13 +408,16 @@ class Builder
     {
         if (!isset(self::$version)) {
             $filePath = __DIR__.'/../VERSION';
-
+            if (Plateform::isPhar()) {
+                $filePath = Plateform::getPharPath().'/VERSION';
+            }
             try {
-                if (file_exists($filePath)) {
-                    self::$version = trim(file_get_contents(__DIR__.'/../VERSION'));
-                    if (self::$version === false) {
-                        throw new \Exception('Can\'t get version file!');
-                    }
+                if (!file_exists($filePath)) {
+                    throw new \Exception(sprintf('%s file doesn\'t exist!', $filePath));
+                }
+                self::$version = trim(file_get_contents($filePath));
+                if (self::$version === false) {
+                    throw new \Exception(sprintf('Can\'t get %s file!', $filePath));
                 }
             } catch (\Exception $e) {
                 self::$version = self::VERSION;
