@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
     <channel>
-        <title>{{ site.title }}</title>
-        <description><![CDATA[{{ site.description|escape }}]]></description>
+        <title>{{ site.title }} - {{ page.section }}</title>
+        <description><![CDATA[{{ page.description|default(site.description)|escape }}]]></description>
         <lastBuildDate>{{ page.date|date('Y-m-dTH:i:sP') }}</lastBuildDate>
         <link>{{ url('/', { canonical: true }) }}</link>
 {% for page in site.pages|filterBy('section', page.section)|filterBy('virtual', false)|sortByDate %}
