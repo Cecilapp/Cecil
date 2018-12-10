@@ -45,7 +45,7 @@ class Rss extends AbstractGenerator implements GeneratorInterface
                 ->setLayout('rss.xml')
                 ->setPermalink($page->getPathname().'/rss.xml')
                 //->setDate($page->getDate())
-                ;
+;
             $generatedPages->add($rssPage);
         }
 
