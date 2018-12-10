@@ -114,10 +114,6 @@ class Extension extends SlugifyExtension
     public function filterBy($pages, $variable, $value)
     {
         $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
-            // filter virtual pages in section
-            if ($variable == 'section' && $page->getVariable('virtual')) {
-                return false;
-            }
             // dedicated getter?
             $method = 'get'.ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
