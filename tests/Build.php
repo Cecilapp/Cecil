@@ -81,6 +81,7 @@ class Build extends \PHPUnit\Framework\TestCase
                 'generators' => [
                     99  => 'Cecil\Generator\Test',
                     //100 => 'Cecil\Generator\TitleReplace',
+                    35 =>  'Cecil\Generator\Rss',
                 ],
                 'debug' => true,
             ]
