@@ -84,6 +84,7 @@ class Layout
                 break;
             case NodeType::SECTION:
                 $layouts = [
+                    // 'section/$layout.twig',
                     // 'section/$section.html.twig',
                     '_default/section.html.twig',
                     '_default/list.html.twig',
@@ -92,6 +93,12 @@ class Layout
                     $section = explode('/', $page->getPathname())[0];
                     $layouts = array_merge(
                         [sprintf('section/%s.html.twig', $section)],
+                        $layouts
+                    );
+                }
+                if ($page->getLayout()) {
+                    $layouts = array_merge(
+                        [sprintf('section/%s.twig', $layout)],
                         $layouts
                     );
                 }
