@@ -31,7 +31,6 @@ class Rss extends AbstractGenerator implements GeneratorInterface
 
         /* @var $page Page */
         foreach ($filteredPages as $page) {
-
             printf("%s\n", $page->getId());
 
             /* @var $rssPage Page */
