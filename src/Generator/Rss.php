@@ -31,21 +31,22 @@ class Rss extends AbstractGenerator implements GeneratorInterface
 
         /* @var $page Page */
         foreach ($filteredPages as $page) {
-            //
+
             printf("%s\n", $page->getId());
-            //
-            /* @var $aliasPage Page */
-            $rssPage = clone $page;
-            $rssPage
-                //->setId($page->getId().'/rss')
-                //->setPathname(Page::urlize($page->getId().'/rss'))
-                //->setTitle($page->getTitle().' - RSS')
-                //->setNodeType(NodeType::SECTION)
-                //->setSection($page->getSection())
+
+            /* @var $rssPage Page */
+            $rssPage = (new Page())
+                ->setId(Page::urlize(sprintf('%s/rss', $page->getId())))
+                ->setPathname(Page::urlize(sprintf('%s/rss', $page->getId())))
+                ->setTitle($page->getTitle().' - RSS')
+                ->setNodeType(NodeType::SECTION)
                 ->setLayout('rss.xml')
                 ->setPermalink($page->getPathname().'/rss.xml')
-                //->setDate($page->getDate())
-                ;
+                ->setDate($page->getDate())
+                ->setVariable('pages', $page->getvariable('pages'));
+
+            //print_r($rssPage); die();
+
             $generatedPages->add($rssPage);
         }
 
