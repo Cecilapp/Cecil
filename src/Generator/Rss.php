@@ -45,8 +45,6 @@ class Rss extends AbstractGenerator implements GeneratorInterface
                 ->setDate($page->getDate())
                 ->setVariable('pages', $page->getvariable('pages'));
 
-            //print_r($rssPage); die();
-
             $generatedPages->add($rssPage);
         }
 
