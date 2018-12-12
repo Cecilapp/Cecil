@@ -43,7 +43,7 @@
     "zfcampus/zf-console": "1.4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "7.4.4",
+    "phpunit/phpunit": "7.5.0",
     "phpmd/phpmd": "2.6.0",
     "humbug/box": "3.3.1"
   },
