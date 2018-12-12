@@ -106,6 +106,23 @@ class Config
         'output' => [
             'dir'      => '_site',
             'filename' => 'index.html',
+
+            // WIP
+            'formats' => [
+                'html' => [
+                    'mediatype' => 'text/html',
+                    'filename'  => 'index.html',
+                ],
+                'rss' => [
+                    'mediatype' => 'application/rss+xml',
+                    'filename'  => 'rss.xml',
+                ],
+                'json' => [
+                    'mediatype' => 'application/json',
+                    'filename'  => 'index.json',
+                ],
+            ],
+            // /WIP
         ],
         'themes' => [
             'dir' => 'themes',
