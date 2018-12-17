@@ -34,93 +34,6 @@ class Config
      * @var string
      */
     protected $destinationDir;
-    /**
-     * Default data.
-     *
-     * @var array
-     */
-    protected static $defaultData = [
-        'site' => [
-            'title'        => 'My Webiste',
-            'baseline'     => 'An amazing static website!',
-            'baseurl'      => 'http://localhost:8000/',
-            'canonicalurl' => false,
-            'description'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'taxonomies'   => [
-                'tags'       => 'tag',
-                'categories' => 'category',
-            ],
-            'paginate' => [
-                'max'  => 5,
-                'path' => 'page',
-            ],
-            'date' => [
-                'format'   => 'j F Y',
-                'timezone' => 'Europe/Paris',
-            ],
-            'fmpages' => [
-                'robotstxt' => [
-                    'title'     => 'Robots.txt',
-                    'layout'    => 'robots.txt',
-                    'permalink' => 'robots.txt',
-                ],
-                'sitemap' => [
-                    'title'      => 'XML sitemap',
-                    'layout'     => 'sitemap.xml',
-                    'permalink'  => 'sitemap.xml',
-                    'changefreq' => 'monthly',
-                    'priority'   => '0.5',
-                ],
-                '404' => [
-                    'title'     => '404 page',
-                    'layout'    => '404.html',
-                    'permalink' => '404.html',
-                ],
-                'rss' => [
-                    'title'     => 'RSS file',
-                    'layout'    => 'rss.xml',
-                    'permalink' => 'rss.xml',
-                    'section'   => 'blog',
-                ],
-            ],
-        ],
-        'content' => [
-            'dir' => 'content',
-            'ext' => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
-        ],
-        'frontmatter' => [
-            'format' => 'yaml',
-        ],
-        'body' => [
-            'format' => 'md',
-        ],
-        'static' => [
-            'dir' => 'static',
-        ],
-        'layouts' => [
-            'dir'      => 'layouts',
-            'internal' => [
-                'dir' => 'res/layouts',
-            ],
-        ],
-        'output' => [
-            'dir'      => '_site',
-            'filename' => 'index.html',
-        ],
-        'themes' => [
-            'dir' => 'themes',
-        ],
-        'generators' => [
-            10 => 'Cecil\Generator\Section',
-            20 => 'Cecil\Generator\Taxonomy',
-            30 => 'Cecil\Generator\Homepage',
-            40 => 'Cecil\Generator\Pagination',
-            50 => 'Cecil\Generator\Alias',
-            35 => 'Cecil\Generator\ExternalBody',
-            36 => 'Cecil\Generator\PagesFromConfig',
-            60 => 'Cecil\Generator\Redirect',
-        ],
-    ];
 
     /**
      * Config constructor.
@@ -129,7 +42,7 @@ class Config
      */
     public function __construct($config = null)
     {
-        $data = new Data(self::$defaultData);
+        $data = new Data(include __DIR__.'/../config/default.php');
 
         if ($config) {
             if ($config instanceof self) {
@@ -153,7 +66,7 @@ class Config
                     $path[] = $iterator->getSubIterator($depth)->key();
                 }
                 $sPath = implode('_', $path);
-                if ($getEnv = getenv('PHPOOLE_'.strtoupper($sPath))) {
+                if ($getEnv = getenv('CECIL_'.strtoupper($sPath))) {
                     $data->set(str_replace('_', '.', strtolower($sPath)), $getEnv);
                 }
             }
