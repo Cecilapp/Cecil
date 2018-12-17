@@ -37,7 +37,7 @@
     "symfony/finder": "4.1.7",
     "symfony/process": "4.1.7",
     "symfony/yaml": "4.1.7",
-    "twig/twig": "2.5.0",
+    "twig/twig": "2.6.0",
     "yosymfony/resource-watcher": "2.0.0",
     "zendframework/zend-progressbar": "2.6.0",
     "zfcampus/zf-console": "1.4.0"
