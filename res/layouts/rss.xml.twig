@@ -5,7 +5,7 @@
         <description><![CDATA[{{ site.description|escape }}]]></description>
         <lastBuildDate>{{ page.date|date('Y-m-dTH:i:sP') }}</lastBuildDate>
         <link>{{ url('/', { canonical: true }) }}</link>
-{% for page in site.pages|filterBy('section', page.section)|filterBy('virtual', false)|sortByDate %}
+{% for page in site.pages|filterBy('section', page.targetsection)|filterBy('virtual', false)|sortByDate %}
         <item>
             <title>{{ page.title }}</title>
             <description><![CDATA[{{ page.content }}]]></description>
