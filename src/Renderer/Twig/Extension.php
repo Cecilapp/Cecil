@@ -84,6 +84,7 @@ class Extension extends SlugifyExtension
             new \Twig_SimpleFunction('readtime', [$this, 'readtime']),
             new \Twig_SimpleFunction('toCSS', [$this, 'toCss']),
             new \Twig_SimpleFunction('hash', [$this, 'hashFile']),
+            new \Twig_SimpleFunction('getenv', [$this, 'getEnv']),
         ];
     }
 
@@ -464,5 +465,17 @@ class Extension extends SlugifyExtension
         if (is_file($filePath = $this->destPath.'/'.$path)) {
             return sprintf('sha384-%s', base64_encode(hash_file('sha384', $filePath, true)));
         }
+    }
+
+    /**
+     * Gets the value of an environment variable.
+     *
+     * @param string $var
+     *
+     * @return string|false
+     */
+    public function getEnv($var)
+    {
+        return getenv($var);
     }
 }
