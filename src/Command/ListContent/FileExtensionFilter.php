@@ -12,6 +12,11 @@ namespace Cecil\Command\ListContent;
 
 use RecursiveFilterIterator;
 
+/**
+ * Filter files by extension type.
+ *
+ * Class FileExtensionFilter
+ */
 class FileExtensionFilter extends RecursiveFilterIterator
 {
     protected $allowedExt = ['md', 'markdown'];
@@ -27,6 +32,9 @@ class FileExtensionFilter extends RecursiveFilterIterator
         }
     }
 
+    /**
+     * @return bool
+     */
     public function accept()
     {
         $file = $this->current();

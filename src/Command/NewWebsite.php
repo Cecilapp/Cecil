@@ -13,6 +13,9 @@ namespace Cecil\Command;
 use Cecil\Util\Plateform;
 use Zend\Console\Prompt\Confirm;
 
+/**
+ * Class NewWebsite.
+ */
 class NewWebsite extends AbstractCommand
 {
     /**
@@ -20,6 +23,9 @@ class NewWebsite extends AbstractCommand
      */
     protected $force;
 
+    /**
+     * {@inheritdoc}
+     */
     public function processCommand()
     {
         $this->force = $this->getRoute()->getMatchedParam('force', false);

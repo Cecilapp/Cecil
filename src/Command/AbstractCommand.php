@@ -20,6 +20,9 @@ use Zend\Console\Prompt\Confirm;
 use Zend\ProgressBar\ProgressBar;
 use ZF\Console\Route;
 
+/**
+ * Abstract class AbstractCommand.
+ */
 abstract class AbstractCommand
 {
     const CONFIG_FILE = 'config.yml';

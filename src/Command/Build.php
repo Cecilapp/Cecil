@@ -12,16 +12,15 @@ namespace Cecil\Command;
 
 use Cecil\Builder;
 
+/**
+ * Class Build.
+ */
 class Build extends AbstractCommand
 {
     /**
      * @var bool
      */
     protected $drafts;
-    /**
-     * @var string
-     */
-    protected $baseurl;
     /**
      * @var bool
      */
@@ -31,29 +30,34 @@ class Build extends AbstractCommand
      */
     protected $quiet;
     /**
+     * @var string
+     */
+    protected $baseurl;
+    /**
+     * @var destination
+     */
+    protected $destination;
+    /**
      * @var bool
      */
     protected $dryrun;
 
+    /**
+     * {@inheritdoc}
+     */
     public function processCommand()
     {
-        $this->drafts = $this->route->getMatchedParam('drafts', false);
-        $this->baseurl = $this->route->getMatchedParam('baseurl');
-        $this->verbose = $this->route->getMatchedParam('verbose', false);
-        $this->quiet = $this->route->getMatchedParam('quiet', false);
+        $this->drafts = $this->getRoute()->getMatchedParam('drafts', false);
+        $this->verbose = $this->getRoute()->getMatchedParam('verbose', false);
+        $this->quiet = $this->getRoute()->getMatchedParam('quiet', false);
+        $this->baseurl = $this->getRoute()->getMatchedParam('baseurl');
+        $this->destination = $this->getRoute()->getMatchedParam('destination');
         $this->dryrun = $this->getRoute()->getMatchedParam('dry-run', false);
 
         $config = [];
         $options = [];
         $messageOpt = '';
 
-        if ($this->baseurl) {
-            $config['site']['baseurl'] = $this->baseurl;
-        }
-        if ($this->dryrun) {
-            $options['dry-run'] = true;
-            $messageOpt .= ' dry-run';
-        }
         if ($this->drafts) {
             $options['drafts'] = true;
             $messageOpt .= ' with drafts';
@@ -64,6 +68,17 @@ class Build extends AbstractCommand
             if ($this->quiet) {
                 $options['verbosity'] = Builder::VERBOSITY_QUIET;
             }
+        }
+        if ($this->baseurl) {
+            $config['site']['baseurl'] = $this->baseurl;
+        }
+        if ($this->destination) {
+            $config['output']['dir'] = $this->destination;
+            $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/output', $this->destination);
+        }
+        if ($this->dryrun) {
+            $options['dry-run'] = true;
+            $messageOpt .= ' dry-run';
         }
 
         try {

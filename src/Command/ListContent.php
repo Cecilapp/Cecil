@@ -15,6 +15,9 @@ use Cecil\Command\ListContent\FilenameRecursiveTreeIterator;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
 
+/**
+ * Class ListContent.
+ */
 class ListContent extends AbstractCommand
 {
     /**
@@ -22,6 +25,9 @@ class ListContent extends AbstractCommand
      */
     protected $contentDir;
 
+    /**
+     * {@inheritdoc}
+     */
     public function processCommand()
     {
         $this->contentDir = $this->getBuilder()->getConfig()->get('content.dir');

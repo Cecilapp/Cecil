@@ -19,8 +19,8 @@ return [
         'short_description'    => 'Create a new website',
         'description'          => 'Create a new website in the current directory, or in <path> if provided.',
         'options_descriptions' => [
-            '<path>'     => 'Website\'s path.',
-            '--force|-f' => 'Override directory if already exist.',
+            '<path>'     => 'Path to the Website',
+            '--force|-f' => 'Override the directory if already exist',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -34,11 +34,11 @@ return [
             'f' => 'force',
         ],
         'short_description'    => 'Create a new content',
-        'description'          => 'Create a new content file and set the date and title (from "<name>.md").',
+        'description'          => 'Create a new content file (with a default title and current date).',
         'options_descriptions' => [
-            '<name>'     => 'Page name.',
-            '<path>'     => 'Website\'s path.',
-            '--force|-f' => 'Override file if already exist.',
+            '<name>'     => 'Page name',
+            '<path>'     => 'Path to the Website',
+            '--force|-f' => 'Override the file if already exist',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -47,7 +47,7 @@ return [
     ],
     [
         'name'    => 'build',
-        'route'   => '[<path>] [--drafts|-d] [--baseurl=] [--verbose|-v] [--quiet|-q] [--dry-run]',
+        'route'   => '[<path>] [--drafts|-d] [--verbose|-v] [--quiet|-q] [--baseurl=] [--destination=] [--dry-run]',
         'aliases' => [
             'd' => 'drafts',
             'v' => 'verbose',
@@ -56,12 +56,13 @@ return [
         'short_description'    => 'Build the website',
         'description'          => 'Build the website in the output directory.',
         'options_descriptions' => [
-            '<path>'       => 'Website\'s path',
-            '--drafts|-d'  => 'Include drafts',
-            '--baseurl'    => 'Base URL',
-            '--verbose|-v' => 'Print build details',
-            '--quiet|-q'   => 'Not verbose messages',
-            '--dry-run'    => 'Build without saving',
+            '<path>'        => 'Path to the Website',
+            '--drafts|-d'   => 'Include drafts',
+            '--verbose|-v'  => 'Print build details',
+            '--quiet|-q'    => 'Disable build messages',
+            '--baseurl'     => 'Set the base URL',
+            '--destination' => 'Set the output directory',
+            '--dry-run'     => 'Build without saving',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -78,7 +79,7 @@ return [
         'short_description'    => 'Start the built-in server',
         'description'          => 'Start the live-reloading-built-in web server.',
         'options_descriptions' => [
-            '<path>'      => 'Website\'s path',
+            '<path>'      => 'Path to the Website',
             '--drafts|-d' => 'Include drafts',
             '--open|-o'   => 'Open browser automatically',
         ],
@@ -93,7 +94,7 @@ return [
         'short_description'    => 'List content',
         'description'          => 'List content tree.',
         'options_descriptions' => [
-            '<path>' => 'Website\'s path',
+            '<path>' => 'Path to the Website',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -103,10 +104,10 @@ return [
     [
         'name'                 => 'config',
         'route'                => '[<path>]',
-        'short_description'    => 'Display configuration',
-        'description'          => 'Display website configuration.',
+        'short_description'    => 'Print configuration',
+        'description'          => 'Print website configuration.',
         'options_descriptions' => [
-            '<path>' => 'Website\'s path',
+            '<path>' => 'Path to the Website',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -116,10 +117,10 @@ return [
     [
         'name'                 => 'clean',
         'route'                => '[<path>]',
-        'short_description'    => 'Remove the build directory',
-        'description'          => 'Remove the build directory and server temporary files.',
+        'short_description'    => 'Remove the output directory',
+        'description'          => 'Remove the output directory and temporary files.',
         'options_descriptions' => [
-            '<path>' => 'Website\'s path',
+            '<path>' => 'Path to the Website',
         ],
         'defaults' => [
             'path' => getcwd(),
