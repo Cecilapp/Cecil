@@ -19,8 +19,8 @@ return [
         'short_description'    => 'Create a new website',
         'description'          => 'Create a new website in the current directory, or in <path> if provided.',
         'options_descriptions' => [
-            '<path>'     => 'Website\'s path.',
-            '--force|-f' => 'Override the directory if already exist.',
+            '<path>'     => 'Path to the Website',
+            '--force|-f' => 'Override the directory if already exist',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -36,9 +36,9 @@ return [
         'short_description'    => 'Create a new content',
         'description'          => 'Create a new content file (with a default title and current date).',
         'options_descriptions' => [
-            '<name>'     => 'Page name.',
-            '<path>'     => 'Website\'s path.',
-            '--force|-f' => 'Override the file if already exist.',
+            '<name>'     => 'Page name',
+            '<path>'     => 'Path to the Website',
+            '--force|-f' => 'Override the file if already exist',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -56,7 +56,7 @@ return [
         'short_description'    => 'Build the website',
         'description'          => 'Build the website in the output directory.',
         'options_descriptions' => [
-            '<path>'        => 'Website\'s path',
+            '<path>'        => 'Path to the Website',
             '--drafts|-d'   => 'Include drafts',
             '--verbose|-v'  => 'Print build details',
             '--quiet|-q'    => 'Disable build messages',
@@ -79,7 +79,7 @@ return [
         'short_description'    => 'Start the built-in server',
         'description'          => 'Start the live-reloading-built-in web server.',
         'options_descriptions' => [
-            '<path>'      => 'Website\'s path',
+            '<path>'      => 'Path to the Website',
             '--drafts|-d' => 'Include drafts',
             '--open|-o'   => 'Open browser automatically',
         ],
@@ -94,7 +94,7 @@ return [
         'short_description'    => 'List content',
         'description'          => 'List content tree.',
         'options_descriptions' => [
-            '<path>' => 'Website\'s path',
+            '<path>' => 'Path to the Website',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -107,7 +107,7 @@ return [
         'short_description'    => 'Print configuration',
         'description'          => 'Print website configuration.',
         'options_descriptions' => [
-            '<path>' => 'Website\'s path',
+            '<path>' => 'Path to the Website',
         ],
         'defaults' => [
             'path' => getcwd(),
@@ -120,7 +120,7 @@ return [
         'short_description'    => 'Remove the output directory',
         'description'          => 'Remove the output directory and the local server temporary files.',
         'options_descriptions' => [
-            '<path>' => 'Website\'s path',
+            '<path>' => 'Path to the Website',
         ],
         'defaults' => [
             'path' => getcwd(),
