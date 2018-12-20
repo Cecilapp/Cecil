@@ -19,6 +19,9 @@ use Yosymfony\ResourceWatcher\Crc32ContentHash;
 use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
 
+/**
+ * Class Serve.
+ */
 class Serve extends AbstractCommand
 {
     /**
@@ -30,6 +33,9 @@ class Serve extends AbstractCommand
      */
     protected $open;
 
+    /**
+     * {@inheritdoc}
+     */
     public function processCommand()
     {
         $this->open = $this->getRoute()->getMatchedParam('open', false);

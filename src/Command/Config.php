@@ -10,8 +10,14 @@
 
 namespace Cecil\Command;
 
+/**
+ * Class Config.
+ */
 class Config extends AbstractCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     public function processCommand()
     {
         try {
@@ -21,6 +27,9 @@ class Config extends AbstractCommand
         }
     }
 
+    /**
+     * Print an array in console.
+     */
     private function printArray($array, $column = -4)
     {
         $output = '';

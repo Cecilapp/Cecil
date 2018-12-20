@@ -13,6 +13,9 @@ namespace Cecil\Command;
 use Symfony\Component\Process\Process;
 use Zend\Console\Prompt\Confirm;
 
+/**
+ * Class NewPage.
+ */
 class NewPage extends AbstractCommand
 {
     /**
@@ -24,6 +27,9 @@ class NewPage extends AbstractCommand
      */
     protected $force;
 
+    /**
+     * {@inheritdoc}
+     */
     public function processCommand()
     {
         $this->name = $this->getRoute()->getMatchedParam('name');
@@ -51,7 +57,7 @@ class NewPage extends AbstractCommand
                 $title = substr(strrchr($this->name, '/'), 1);
             }
             $date = date('Y-m-d');
-            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findArchetype($this->name));
+            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findModel($this->name));
             $this->fs->dumpFile($filePath, $fileContent);
             $this->wlDone(sprintf('File "%s" created!', $fileRelativePath));
             // open editor?
@@ -62,20 +68,20 @@ class NewPage extends AbstractCommand
     }
 
     /**
-     * Find the archtetype and return its content.
+     * Find the page model and return its content.
      *
      * @param string $name
      *
      * @return string
      */
-    protected function findArchetype($name)
+    protected function findModel($name)
     {
         $section = strstr($this->name, '/', true);
-        if ($section && file_exists($archetype = sprintf('%s/archetypes/%s.md', $this->getPath(), $section))) {
-            return file_get_contents($archetype);
+        if ($section && file_exists($model = sprintf('%s/models/%s.md', $this->getPath(), $section))) {
+            return file_get_contents($model);
         }
-        if (file_exists($archetype = sprintf('%s/archetypes/default.md', $this->getPath()))) {
-            return file_get_contents($archetype);
+        if (file_exists($model = sprintf('%s/models/default.md', $this->getPath()))) {
+            return file_get_contents($model);
         }
 
         return <<<'EOT'

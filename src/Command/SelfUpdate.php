@@ -12,6 +12,9 @@ namespace Cecil\Command;
 
 use Humbug\SelfUpdate\Updater;
 
+/**
+ * Class SelfUpdate.
+ */
 class SelfUpdate extends AbstractCommand
 {
     /**
@@ -39,6 +42,9 @@ class SelfUpdate extends AbstractCommand
         $strategy->setStability('any');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function processCommand()
     {
         try {
