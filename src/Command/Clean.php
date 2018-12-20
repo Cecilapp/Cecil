@@ -32,7 +32,7 @@ class Clean extends AbstractCommand
         // delete local server temp files
         if ($this->fs->exists($this->getPath().'/'.Serve::$tmpDir)) {
             $this->fs->remove($this->getPath().'/'.Serve::$tmpDir);
-            $this->wlDone('Temporary server files deleted.');
+            $this->wlDone('Temporary files deleted.');
         }
         exit(0);
     }

@@ -118,7 +118,7 @@ return [
         'name'                 => 'clean',
         'route'                => '[<path>]',
         'short_description'    => 'Remove the output directory',
-        'description'          => 'Remove the output directory and the local server temporary files.',
+        'description'          => 'Remove the output directory and temporary files.',
         'options_descriptions' => [
             '<path>' => 'Path to the Website',
         ],
