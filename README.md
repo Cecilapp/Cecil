@@ -2,7 +2,9 @@
 
 > Your content driven static site generator.
 
-[![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://packagist.org/packages/cecil/cecil)
+> _(previously PHPoole)_
+
+[![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
 [![Build Status](https://travis-ci.com/Cecilapp/Cecil.svg)](https://travis-ci.com/Cecilapp/Cecil)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
@@ -22,7 +24,6 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 - No database, files only
 - Flexible template engine & themes support
-- Dynamic menu creation
 - Generators (taxonomies, paginaton and more!)
 
 ## Installation
@@ -33,13 +34,13 @@ mv cecil.phar /usr/local/bin/cecil
 chmod +x /usr/local/bin/cecil
 ```
 
-> PHP 7.1+ is required.
+> [PHP](http://www.php.net) 7.1+ is required.
 
 ## Usage
 
-- Create new website: `cecil new`
-- Build and serve it: `cecil serve`
 - Get help: `cecil help`
+- Create new website: `cecil newsite`
+- Build and serve it: `cecil serve`
 
 ## Quick Start
 
@@ -52,4 +53,4 @@ Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentati
 Cecil is a free software distributed under the terms of the MIT license.
 
 Cecil © [Arnaud Ligny](https://arnaudligny.fr)  
-Logo © [Cécile Ricordeau](http://www.cecillie.fr)
+Logo © [Cécile Ricordeau](https://www.cecillie.fr)
