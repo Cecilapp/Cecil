@@ -81,7 +81,7 @@ abstract class AbstractCommand
         $this->path = $this->route->getMatchedParam('path', getcwd());
 
         if (realpath($this->path) === false) {
-            if ($this->getRoute()->getName() != 'new') {
+            if ($this->getRoute()->getName() != 'newsite') {
                 throw new \Exception('Invalid <path> provided!');
             }
             if (!Confirm::prompt('The provided <path> doesn\'t exist. Do you want to create it? [y/n]', 'y', 'n')) {
