@@ -79,7 +79,8 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         $this->taxonomies->get($plural)
                             ->add(new Term($term));
 
-print_r($this->taxonomies->get($plural)); die();
+                        print_r($this->taxonomies->get($plural));
+                        die();
 
                         // adds page to the term collection
                         $this->taxonomies
