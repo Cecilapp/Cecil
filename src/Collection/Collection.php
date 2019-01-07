@@ -45,10 +45,9 @@ class Collection implements CollectionInterface
      */
     public function setId($id = '')
     {
-        if (empty($id)) {
+        $this->id = $id;
+        if (empty($this->id)) {
             $this->id = spl_object_hash($this);
-        } else {
-            $this->id = $id;
         }
 
         return $this;
@@ -77,8 +76,9 @@ class Collection implements CollectionInterface
     {
         if ($this->has($item->getId())) {
             throw new \DomainException(sprintf(
-                'Failed adding item "%s": an item with that id has already been added.',
-                $item->getId()
+                'Failed adding "%s" in "%s" collection: item already exists.',
+                $item->getId(),
+                $this->getId()
             ));
         }
         $this->items[$item->getId()] = $item;
