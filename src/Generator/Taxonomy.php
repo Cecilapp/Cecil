@@ -76,11 +76,9 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     }
                     // adds each term to the vocabulary collection
                     foreach ($page->getVariable($plural) as $term) {
+                        $term = mb_strtolower($term);
                         $this->taxonomies->get($plural)
                             ->add(new Term($term));
-
-print_r($this->taxonomies->get($plural)); die();
-
                         // adds page to the term collection
                         $this->taxonomies
                             ->get($plural)
