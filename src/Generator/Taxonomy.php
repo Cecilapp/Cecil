@@ -22,7 +22,7 @@ use Cecil\Page\NodeType;
 class Taxonomy extends AbstractGenerator implements GeneratorInterface
 {
     /* @var TaxonomyCollection */
-    protected $taxonomies;
+    protected $taxonomyCollection;
     /* @var PageCollection */
     protected $pageCollection;
     /* @var PageCollection */
@@ -51,12 +51,12 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     protected function initTaxonomiesCollection()
     {
         // create an empty "taxonomies" collection
-        $this->taxonomies = new TaxonomyCollection('taxonomies');
+        $this->taxonomyCollection = new TaxonomyCollection('taxonomies');
 
         // adds each vocabulary collection to the "taxonomies" collection
         foreach ($this->config->get('site.taxonomies') as $vocabulary) {
             if ($vocabulary != 'disable') {
-                $this->taxonomies->add(new Vocabulary($vocabulary));
+                $this->taxonomyCollection->add(new Vocabulary($vocabulary));
             }
         }
     }
@@ -77,10 +77,10 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     // adds each term to the vocabulary collection
                     foreach ($page->getVariable($plural) as $term) {
                         $term = mb_strtolower($term);
-                        $this->taxonomies->get($plural)
+                        $this->taxonomyCollection->get($plural)
                             ->add(new Term($term));
                         // adds page to the term collection
-                        $this->taxonomies
+                        $this->taxonomyCollection
                             ->get($plural)
                             ->get($term)
                             ->add($page);
@@ -96,7 +96,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     protected function createNodePages()
     {
         /* @var $terms Vocabulary */
-        foreach ($this->taxonomies as $plural => $terms) {
+        foreach ($this->taxonomyCollection as $plural => $terms) {
             if (count($terms) > 0) {
                 /*
                  * Creates $plural/$term pages (list of pages)
@@ -135,12 +135,11 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
                     ->setVariable('terms', $terms)
                     ->setVariable('date', $date);
-
                 // add page only if a template exist
                 try {
                     $this->generatedPages->add($page);
                 } catch (Exception $e) {
-                    echo $e->getMessage()."\n";
+                    printf("%s\n", $e->getMessage());
                     // do not add page
                     unset($page);
                 }
