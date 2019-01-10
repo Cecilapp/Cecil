@@ -104,19 +104,23 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                  */
                 /* @var $pages PageCollection */
                 foreach ($terms as $term => $pages) {
-                    if (!$this->pageCollection->has($term)) {
-                        $pages = $pages->sortByDate()->toArray();
+                    $pages = $pages->sortByDate()->toArray();
+                    $pagePathname = Page::urlize(sprintf('%s/%s', $plural, $term));
+                    if ($this->pageCollection->has($pagePathname)) {
+                        $page = clone $this->pageCollection->get($pagePathname);
+                    } else {
                         $page = (new Page())
-                            ->setId(Page::urlize(sprintf('%s/%s/', $plural, $term)))
-                            ->setPathname(Page::urlize(sprintf('%s/%s', $plural, $term)))
-                            ->setTitle(ucfirst($term))
-                            ->setNodeType(NodeType::TAXONOMY)
-                            ->setVariable('pages', $pages)
-                            ->setVariable('date', $date = reset($pages)->getDate())
-                            ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
-                            ->setVariable('pagination', ['pages' => $pages]);
-                        $this->generatedPages->add($page);
+                            ->setTitle(ucfirst($term));
                     }
+                    $pageId = Page::urlize(sprintf('%s/%s/', $plural, $term));
+                    $page->setId($pageId)
+                        ->setPathname($pagePathname)
+                        ->setNodeType(NodeType::TAXONOMY)
+                        ->setVariable('pages', $pages)
+                        ->setVariable('date', $date = reset($pages)->getDate())
+                        ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
+                        ->setVariable('pagination', ['pages' => $pages]);
+                    $this->generatedPages->add($page);
                 }
                 /*
                  * Creates $plural pages (list of terms)
