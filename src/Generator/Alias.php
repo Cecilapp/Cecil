@@ -40,7 +40,7 @@ class Alias extends AbstractGenerator implements GeneratorInterface
                     /* @var $aliasPage Page */
                     $pagePathname = Page::urlize($alias);
                     $aliasPage = (new Page())
-                        ->setId(sprintf("%s/redirect", $pagePathname))
+                        ->setId(sprintf('%s/redirect', $pagePathname))
                         ->setPathname($pagePathname)
                         ->setTitle($alias)
                         ->setLayout('redirect.html')

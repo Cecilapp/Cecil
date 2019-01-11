@@ -60,7 +60,7 @@ class Entry extends Item
     /**
      * Get menu entry weight.
      *
-     * @return integer
+     * @return int
      */
     public function getWeight()
     {
