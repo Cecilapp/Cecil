@@ -10,7 +10,7 @@
 
 // Router for the PHP built-in server
 
-//date_default_timezone_set('UTC');
+date_default_timezone_set('UTC');
 define('SERVER_TMP_DIR', '.cecil');
 define('DIRECTORY_INDEX', 'index.html');
 define('DEBUG', false);
