@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <ruleset name="Custom Standard" namespace="Cecil\CS\Standard">
 
-<exclude-pattern>res/*</exclude-pattern>
+  <rule ref="Squiz">
+    <exclude name="Squiz.PHP.CommentedOutCode"/>
+  </rule>
 
 </ruleset>
