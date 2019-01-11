@@ -25,9 +25,10 @@ class PagesFromConfig extends AbstractGenerator implements GeneratorInterface
 
         $fmPages = $this->config->get('site.fmpages');
         foreach ($fmPages as $file => $frontmatter) {
+            $pageId = Page::urlize(sprintf('%s', $file));
             $page = (new Page())
-                ->setId(Page::urlize(sprintf('%s', $file)))
-                ->setPathname(Page::urlize(sprintf('%s', $file)));
+                ->setId($pageId)
+                ->setPathname($pageId);
             $page->setVariables($frontmatter);
             if (!empty($frontmatter['layout'])) {
                 $page->setLayout($frontmatter['layout']);

@@ -22,7 +22,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(PageCollection $pageCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PageCollection();
+        $generatedPages = new PageCollection('sections');
         $sections = [];
 
         // collects sections
@@ -36,11 +36,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
         if (count($sections) > 0) {
             $menuWeight = 100;
             foreach ($sections as $section => $pages) {
-                if (!$pageCollection->has($section.'/')) {
+                $pageId = Page::urlize(sprintf('%s', $section));
+                if (!$pageCollection->has($pageId)) {
                     usort($pages, 'Cecil\Util::sortByDate');
                     $page = (new Page())
-                        ->setId(Page::urlize(sprintf('%s/', $section)))
-                        ->setPathname(Page::urlize(sprintf('%s', $section)))
+                        ->setId($pageId)
+                        ->setPathname($pageId)
                         ->setTitle(ucfirst($section))
                         ->setNodeType(NodeType::SECTION)
                         ->setVariable('pages', $pages)
