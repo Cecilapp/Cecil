@@ -2,5 +2,8 @@
 <ruleset name="Custom Standard" namespace="Cecil\CS\Standard">
 
   <file>src</file>
+  <rule ref="Squiz">
+    <exclude name="Squiz.PHP.CommentedOutCode"/>
+  </rule>
 
 </ruleset>
