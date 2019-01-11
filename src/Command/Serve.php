@@ -102,8 +102,16 @@ class Serve extends AbstractCommand
             if (Plateform::isPhar()) {
                 $root = Plateform::getPharPath().'/';
             }
-            $this->fs->copy($root.'res/server/router.php', $this->getPath().'/'.self::$tmpDir.'/router.php', true);
-            $this->fs->copy($root.'res/server/livereload.js', $this->getPath().'/'.self::$tmpDir.'/livereload.js', true);
+            $this->fs->copy(
+                $root.'res/server/router.php',
+                $this->getPath().'/'.self::$tmpDir.'/router.php',
+                true
+            );
+            $this->fs->copy(
+                $root.'res/server/livereload.js',
+                $this->getPath().'/'.self::$tmpDir.'/livereload.js',
+                true
+            );
             $this->fs->dumpFile(
                 $this->getPath().'/'.self::$tmpDir.'/baseurl',
                 $this->getBuilder()->getConfig()->get('site.baseurl')

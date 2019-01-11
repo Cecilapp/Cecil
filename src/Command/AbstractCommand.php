@@ -181,8 +181,8 @@ abstract class AbstractCommand
      */
     public function getBuilder(
         array $config = ['debug' => false],
-        array $options = ['verbosity' => Builder::VERBOSITY_NORMAL])
-    {
+        array $options = ['verbosity' => Builder::VERBOSITY_NORMAL]
+    ) {
         if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
