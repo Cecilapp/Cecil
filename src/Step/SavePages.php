@@ -73,7 +73,7 @@ class SavePages extends AbstractStep
      */
     protected function getPathname(Page $page)
     {
-        // force pathname of a file node page (ie: "section/index.md")
+        // force pathname of "index" pages (ie: homepage, sections, etc.)
         if ($page->getName() == 'index') {
             return $page->getPath().'/'.$this->config->get('output.filename');
         } else {

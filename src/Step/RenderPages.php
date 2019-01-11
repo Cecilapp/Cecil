@@ -69,7 +69,7 @@ class RenderPages extends AbstractStep
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 
-            $message = sprintf('%s (%s)', ($page->getPathname() ?: 'index'), $layout);
+            $message = sprintf('%s (%s)', ($page->getId() ?: 'index'), $layout);
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
     }

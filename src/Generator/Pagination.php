@@ -45,18 +45,26 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 for ($i = 0; $i < $paginateCount; $i++) {
                     $pagesInPagination = array_slice($pages, ($i * $paginateMax), $paginateMax);
                     $alteredPage = clone $page;
-                    // first page, if homepage id = 'index'
+                    // first page
                     if ($i == 0) {
+                        // ie: blog/page/1 -> blog
+                        $pageId = Page::urlize(sprintf('%s', $path));
+                        // homepage special case
+                        if ($path == '') {
+                            $pageId = 'index';
+                        }
                         $alteredPage
-                            ->setId(Page::urlize(sprintf('%s/%s', $path, $path == '' ? 'index' : '')))
+                            ->setId($pageId)
                             ->setPathname(Page::urlize(sprintf('%s', $path)))
                             ->setVariable('aliases', [
                                 sprintf('%s/%s/%s', $path, $paginatePath, 1),
                             ]);
                     } else {
+                        // ie: blog/page/2
+                        $pageId = Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i + 1));
                         $alteredPage
-                            ->setId(Page::urlize(sprintf('%s/%s/%s/', $path, $paginatePath, $i + 1)))
-                            ->setPathname(Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i + 1)))
+                            ->setId($pageId)
+                            ->setPathname($pageId)
                             ->unVariable('menu');
                     }
                     // pagination
