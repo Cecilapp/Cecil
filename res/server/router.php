@@ -10,10 +10,10 @@
 
 // Router for the PHP built-in server
 
-date_default_timezone_set('UTC');
 define('SERVER_TMP_DIR', '.cecil');
 define('DIRECTORY_INDEX', 'index.html');
 define('DEBUG', false);
+date_default_timezone_set('UTC');
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $ext = pathinfo($path, PATHINFO_EXTENSION);
