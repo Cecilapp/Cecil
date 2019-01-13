@@ -8,8 +8,8 @@
 
 namespace Cecil\Renderer\Twig;
 
-use Cecil\Collection\Page\Collection as PageCollection;
 use Cecil\Collection\CollectionInterface;
+use Cecil\Collection\Page\Collection as PageCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;

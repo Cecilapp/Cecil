@@ -223,7 +223,7 @@ class Collection implements CollectionInterface
     /**
      * Implement ArrayAccess.
      *
-     * @param mixed $offset
+     * @param mixed         $offset
      * @param ItemInterface $value
      *
      * @return CollectionInterface|null

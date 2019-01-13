@@ -50,7 +50,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
     /**
      * Replace an item if exists.
      *
-     * @param string $id
+     * @param string        $id
      * @param ItemInterface $item
      *
      * @return self|null
@@ -110,7 +110,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return CollectionInterface
      */
-    public function usort(\Closure $callback = null): CollectionInterface;
+    public function usort(\Closure $callback = null): self;
 
     /**
      * Filters items using a callback function.
@@ -119,7 +119,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return CollectionInterface
      */
-    public function filter(\Closure $callback): CollectionInterface;
+    public function filter(\Closure $callback): self;
 
     /**
      * Applies a callback to items.
@@ -128,5 +128,5 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return CollectionInterface
      */
-    public function map(\Closure $callback): CollectionInterface;
+    public function map(\Closure $callback): self;
 }
