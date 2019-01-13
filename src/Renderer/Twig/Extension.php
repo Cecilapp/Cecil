@@ -316,7 +316,7 @@ class Extension extends SlugifyExtension
     /**
      * Minify CSS.
      *
-     * @param string  $value
+     * @param string $value
      *
      * @return string
      */
@@ -452,7 +452,7 @@ class Extension extends SlugifyExtension
             return '1';
         }
 
-        return (string)$min;
+        return (string) $min;
     }
 
     /**
