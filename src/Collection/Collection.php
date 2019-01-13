@@ -213,7 +213,7 @@ class Collection implements CollectionInterface
      *
      * @param string $offset
      *
-     * @return CollectionInterface|null
+     * @return CollectionInterface|boolean
      */
     public function offsetGet($offset)
     {

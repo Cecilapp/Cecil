@@ -108,7 +108,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @param \Closure|null $callback
      *
-     * @return CollectionInterface
+     * @return self
      */
     public function usort(\Closure $callback = null): self;
 
@@ -117,7 +117,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @param \Closure $callback
      *
-     * @return CollectionInterface
+     * @return self
      */
     public function filter(\Closure $callback): self;
 
@@ -126,7 +126,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @param \Closure $callback
      *
-     * @return CollectionInterface
+     * @return self
      */
     public function map(\Closure $callback): self;
 }

@@ -14,6 +14,13 @@ namespace Cecil\Collection;
 class Item implements ItemInterface
 {
     /**
+     * Item's identifier.
+     *
+     * @var string
+     */
+    protected $id = '';
+
+    /**
      * Item properties.
      *
      * @var array

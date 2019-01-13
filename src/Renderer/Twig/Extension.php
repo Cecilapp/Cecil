@@ -23,7 +23,9 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class Extension extends SlugifyExtension
 {
-    /* @var string */
+    /**
+     * @var string
+     */
     protected $destPath;
     /**
      * @var Filesystem
@@ -94,9 +96,9 @@ class Extension extends SlugifyExtension
      * @param PageCollection $pages
      * @param string         $section
      *
-     * @return array
+     * @return CollectionInterface
      */
-    public function filterBySection($pages, $section)
+    public function filterBySection(PageCollection $pages, string $section): CollectionInterface
     {
         return $this->filterBy($pages, 'section', $section);
     }
@@ -110,9 +112,9 @@ class Extension extends SlugifyExtension
      *
      * @throws Exception
      *
-     * @return array
+     * @return CollectionInterface
      */
-    public function filterBy($pages, $variable, $value)
+    public function filterBy(PageCollection $pages, string $variable, string $value): CollectionInterface
     {
         $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
             // dedicated getter?
@@ -131,13 +133,13 @@ class Extension extends SlugifyExtension
     /**
      * Sort by title.
      *
-     * @param $array|CollectionInterface
+     * @param CollectionInterface|array $array
      *
      * @return mixed
      */
     public function sortByTitle($array)
     {
-        if ($array instanceof Collection) {
+        if ($array instanceof CollectionInterface) {
             $array = $array->toArray();
         }
         if (is_array($array)) {
@@ -150,7 +152,7 @@ class Extension extends SlugifyExtension
     /**
      * Sort by weight.
      *
-     * @param $array|CollectionInterface
+     * @param CollectionInterface|array $array
      *
      * @return mixed
      */
@@ -183,7 +185,7 @@ class Extension extends SlugifyExtension
     /**
      * Sort by date.
      *
-     * @param $array|CollectionInterface
+     * @param CollectionInterface|array $array
      *
      * @return mixed
      */
@@ -221,9 +223,9 @@ class Extension extends SlugifyExtension
      *     'addhash'   => true,
      * ];
      *
-     * @param \Twig_Environment            $env
-     * @param string|\Cecil\Page\Page|null $value
-     * @param array|null                   $options
+     * @param \Twig_Environment $env
+     * @param string|Page|null  $value
+     * @param array|null        $options
      *
      * @return string|null
      */
@@ -288,7 +290,7 @@ class Extension extends SlugifyExtension
      *
      * @return string
      */
-    public function minify($path)
+    public function minify(string $path): string
     {
         $filePath = $this->destPath.'/'.$path;
         if (is_file($filePath)) {
@@ -314,11 +316,11 @@ class Extension extends SlugifyExtension
     /**
      * Minify CSS.
      *
-     * @param $value
+     * @param string  $value
      *
      * @return string
      */
-    public function minifyCss($value)
+    public function minifyCss(string $value): string
     {
         $minifier = new Minify\CSS($value);
 
@@ -328,11 +330,11 @@ class Extension extends SlugifyExtension
     /**
      * Minify JS.
      *
-     * @param $value
+     * @param string $value
      *
      * @return string
      */
-    public function minifyJs($value)
+    public function minifyJs(string $value): string
     {
         $minifier = new Minify\JS($value);
 
@@ -348,7 +350,7 @@ class Extension extends SlugifyExtension
      *
      * @return string
      */
-    public function toCss($path)
+    public function toCss(string $path): string
     {
         $filePath = $this->destPath.'/'.$path;
         $subPath = substr($path, 0, strrpos($path, '/'));
@@ -380,11 +382,11 @@ class Extension extends SlugifyExtension
     /**
      * Compile SCSS string to CSS.
      *
-     * @param $value
+     * @param string $value
      *
      * @return string
      */
-    public function scssToCss($value)
+    public function scssToCss(string $value): string
     {
         $scss = new Compiler();
 
@@ -394,13 +396,13 @@ class Extension extends SlugifyExtension
     /**
      * Read $lenght first characters of a string and add a suffix.
      *
-     * @param $string
+     * @param string $string
      * @param int    $length
      * @param string $suffix
      *
      * @return string
      */
-    public function excerpt($string, $length = 450, $suffix = ' …')
+    public function excerpt(string $string, int $length = 450, string $suffix = ' …'): string
     {
         $string = str_replace('</p>', '<br /><br />', $string);
         $string = trim(strip_tags($string, '<br>'), '<br />');
@@ -415,11 +417,11 @@ class Extension extends SlugifyExtension
     /**
      * Read characters before '<!-- excerpt -->'.
      *
-     * @param $string
+     * @param string $string
      *
      * @return string
      */
-    public function excerptHtml($string)
+    public function excerptHtml(string $string): string
     {
         // https://regex101.com/r/mA2mG0/3
         $pattern = '^(.*)[\n\r\s]*<!-- excerpt -->[\n\r\s]*(.*)$';
@@ -438,11 +440,11 @@ class Extension extends SlugifyExtension
     /**
      * Calculate estimated time to read a text.
      *
-     * @param $text
+     * @param string $text
      *
-     * @return float|string
+     * @return string
      */
-    public function readtime($text)
+    public function readtime(string $text): string
     {
         $words = str_word_count(strip_tags($text));
         $min = floor($words / 200);
@@ -450,7 +452,7 @@ class Extension extends SlugifyExtension
             return '1';
         }
 
-        return $min;
+        return (string)$min;
     }
 
     /**
@@ -460,7 +462,7 @@ class Extension extends SlugifyExtension
      *
      * @return string|null
      */
-    public function hashFile($path)
+    public function hashFile(string $path): ?string
     {
         if (is_file($filePath = $this->destPath.'/'.$path)) {
             return sprintf('sha384-%s', base64_encode(hash_file('sha384', $filePath, true)));
@@ -474,7 +476,7 @@ class Extension extends SlugifyExtension
      *
      * @return string|false
      */
-    public function getEnv($var)
+    public function getEnv($var): ?string
     {
         return getenv($var);
     }
