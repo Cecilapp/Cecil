@@ -8,7 +8,7 @@
 
 namespace Cecil;
 
-use Cecil\Collection\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PageCollection;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Util\Plateform;
 use Symfony\Component\Finder\Finder;

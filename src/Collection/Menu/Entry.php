@@ -18,11 +18,11 @@ class Entry extends Item
     /**
      * Set menu entry name.
      *
-     * @param $value
+     * @param string $value
      *
-     * @return $this
+     * @return self
      */
-    public function setName($value)
+    public function setName(string $value): self
     {
         $this->offsetSet('name', $value);
 
@@ -32,11 +32,11 @@ class Entry extends Item
     /**
      * Set menu entry URL.
      *
-     * @param $value
+     * @param string $value
      *
-     * @return $this
+     * @return self
      */
-    public function setUrl($value)
+    public function setUrl(string $value): self
     {
         $this->offsetSet('url', $value);
 
@@ -46,11 +46,11 @@ class Entry extends Item
     /**
      * Set menu entry weight.
      *
-     * @param $value
+     * @param string $value
      *
-     * @return $this
+     * @return self
      */
-    public function setWeight($value)
+    public function setWeight(string $value): self
     {
         $this->offsetSet('weight', $value);
 
@@ -60,9 +60,9 @@ class Entry extends Item
     /**
      * Get menu entry weight.
      *
-     * @return int
+     * @return int|null
      */
-    public function getWeight()
+    public function getWeight(): ?int
     {
         return $this->offsetGet('weight');
     }

@@ -46,7 +46,6 @@ class Page extends Item
      * @var string
      */
     protected $fileId;
-
     /**
      * @var bool
      */
@@ -55,7 +54,6 @@ class Page extends Item
      * @var string
      */
     protected $nodeType;
-
     /**
      * @var string
      */
@@ -72,7 +70,6 @@ class Page extends Item
      * @var string
      */
     protected $name;
-
     /**
      * @var string
      */
@@ -89,7 +86,7 @@ class Page extends Item
     /**
      * Constructor.
      *
-     * @param null|SplFileInfo $file
+     * @param SplFileInfo|null $file
      */
     public function __construct(SplFileInfo $file = null)
     {
@@ -134,10 +131,10 @@ class Page extends Item
                     return $d && $d->format($format) === $date;
                 };
                 if ($isValidDate(self::getPrefix($this->fileId))) {
-                    $this->setDate(self::getPrefix($this->fileId));
+                    $this->setDate((string) self::getPrefix($this->fileId));
                 } else {
                     // prefix is an integer
-                    $this->setWeight(self::getPrefix($this->fileId));
+                    $this->setWeight((int) self::getPrefix($this->fileId));
                 }
             }
             // permalink
@@ -157,11 +154,11 @@ class Page extends Item
     /**
      * Return matches array if prefix exist or false.
      *
-     * @param $string
+     * @param string $string
      *
      * @return string[]|false
      */
-    public static function asPrefix($string)
+    public static function hasPrefix(string $string)
     {
         if (preg_match('/'.self::PREFIX_PATTERN.'/', $string, $matches)) {
             return $matches;
@@ -173,13 +170,13 @@ class Page extends Item
     /**
      * Return prefix if prefix or false.
      *
-     * @param $string
+     * @param string $string
      *
      * @return string[]|false
      */
-    public static function getPrefix($string)
+    public static function getPrefix(string $string)
     {
-        if (false !== ($matches = self::asPrefix($string))) {
+        if (false !== ($matches = self::hasPrefix($string))) {
             return $matches[2];
         }
 
@@ -189,13 +186,13 @@ class Page extends Item
     /**
      * Return string without prefix (if exist).
      *
-     * @param $string
+     * @param string $string
      *
      * @return string
      */
-    public static function subPrefix($string)
+    public static function subPrefix(string $string): string
     {
-        if (false !== ($matches = self::asPrefix($string))) {
+        if (false !== ($matches = self::hasPrefix($string))) {
             return $matches[1].$matches[7];
         }
 
@@ -205,11 +202,11 @@ class Page extends Item
     /**
      * Format string into URL.
      *
-     * @param $string
+     * @param string $string
      *
      * @return string
      */
-    public static function urlize($string)
+    public static function urlize(string $string): string
     {
         return Slugify::create([
             'regexp' => self::SLUGIFY_PATTERN,
@@ -221,7 +218,7 @@ class Page extends Item
      *
      * @return bool
      */
-    public function isVirtual()
+    public function isVirtual(): bool
     {
         return $this->virtual;
     }
@@ -233,7 +230,7 @@ class Page extends Item
      *
      * @return self
      */
-    public function setNodeType($nodeType)
+    public function setNodeType(string $nodeType): self
     {
         $this->nodeType = new NodeType($nodeType);
 
@@ -243,9 +240,9 @@ class Page extends Item
     /**
      * Get node type.
      *
-     * @return string
+     * @return string|null
      */
-    public function getNodeType()
+    public function getNodeType(): ?string
     {
         return $this->nodeType;
     }
@@ -253,9 +250,9 @@ class Page extends Item
     /**
      * Parse file content.
      *
-     * @return $this
+     * @return self
      */
-    public function parse()
+    public function parse(): self
     {
         $parser = new Parser($this->file);
         $parsed = $parser->parse();
@@ -268,11 +265,11 @@ class Page extends Item
     /**
      * Set name.
      *
-     * @param $name
+     * @param string $name
      *
-     * @return $this
+     * @return self
      */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -282,9 +279,9 @@ class Page extends Item
     /**
      * Get name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -294,9 +291,9 @@ class Page extends Item
      *
      * @param $path
      *
-     * @return $this
+     * @return self
      */
-    public function setPath($path)
+    public function setPath(string $path): self
     {
         $this->path = $path;
 
@@ -308,7 +305,7 @@ class Page extends Item
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -318,9 +315,9 @@ class Page extends Item
      *
      * @param string $pathname
      *
-     * @return $this
+     * @return self
      */
-    public function setPathname($pathname)
+    public function setPathname(string $pathname): self
     {
         $this->pathname = $pathname;
 
@@ -332,7 +329,7 @@ class Page extends Item
      *
      * @return string
      */
-    public function getPathname()
+    public function getPathname(): string
     {
         return $this->pathname;
     }
@@ -340,11 +337,11 @@ class Page extends Item
     /**
      * Set section.
      *
-     * @param $section
+     * @param string $section
      *
-     * @return $this
+     * @return self
      */
-    public function setSection($section)
+    public function setSection(string $section): self
     {
         $this->setVariable('section', $section);
 
@@ -354,9 +351,9 @@ class Page extends Item
     /**
      * Get section.
      *
-     * @return mixed|false
+     * @return string|false
      */
-    public function getSection()
+    public function getSection(): ?string
     {
         if (empty($this->getVariable('section')) && !empty($this->path)) {
             $this->setSection(explode('/', $this->path)[0]);
@@ -368,11 +365,11 @@ class Page extends Item
     /**
      * Set title.
      *
-     * @param $title
+     * @param string $title
      *
-     * @return $this
+     * @return self
      */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->setVariable('title', $title);
 
@@ -382,9 +379,9 @@ class Page extends Item
     /**
      * Get title.
      *
-     * @return mixed|false
+     * @return string|false
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->getVariable('title');
     }
@@ -392,11 +389,11 @@ class Page extends Item
     /**
      * Set date.
      *
-     * @param $date
+     * @param string|\DateTime $date
      *
-     * @return $this
+     * @return self
      */
-    public function setDate($date)
+    public function setDate($date): self
     {
         $this->setVariable('date', $date);
 
@@ -408,7 +405,7 @@ class Page extends Item
      *
      * @return \DateTime|false
      */
-    public function getDate()
+    public function getDate(): ?\DateTime
     {
         return $this->getVariable('date');
     }
@@ -416,13 +413,13 @@ class Page extends Item
     /**
      * Set weight.
      *
-     * @param $int
+     * @param int $weight
      *
-     * @return $this
+     * @return self
      */
-    public function setWeight($int)
+    public function setWeight(int $weight): self
     {
-        $this->setVariable('weight', $int);
+        $this->setVariable('weight', $weight);
 
         return $this;
     }
@@ -430,9 +427,9 @@ class Page extends Item
     /**
      * Get weight.
      *
-     * @return int
+     * @return int|null
      */
-    public function getWeight()
+    public function getWeight(): ?int
     {
         return $this->getVariable('weight');
     }
@@ -440,11 +437,11 @@ class Page extends Item
     /**
      * Set permalink.
      *
-     * @param $permalink
+     * @param string $permalink
      *
-     * @return $this
+     * @return self
      */
-    public function setPermalink($permalink)
+    public function setPermalink(string $permalink): self
     {
         // https://regex101.com/r/45oTKm/1
         $permalink = preg_replace('/index$/i', '', $permalink);
@@ -457,9 +454,9 @@ class Page extends Item
     /**
      * Get permalink.
      *
-     * @return mixed|false
+     * @return string|false
      */
-    public function getPermalink()
+    public function getPermalink(): ?string
     {
         if (empty($this->getVariable('permalink'))) {
             $this->setPermalink($this->getPathname());
@@ -471,9 +468,9 @@ class Page extends Item
     /**
      * Get frontmatter.
      *
-     * @return string
+     * @return string|null
      */
-    public function getFrontmatter()
+    public function getFrontmatter(): ?string
     {
         return $this->frontmatter;
     }
@@ -483,7 +480,7 @@ class Page extends Item
      *
      * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
         return $this->body;
     }
@@ -493,9 +490,9 @@ class Page extends Item
      *
      * @param string $html
      *
-     * @return $this
+     * @return self
      */
-    public function setHtml($html)
+    public function setHtml(string $html): self
     {
         $this->html = $html;
 
@@ -505,9 +502,9 @@ class Page extends Item
     /**
      * Get HTML alias.
      *
-     * @return string
+     * @return string|null
      */
-    public function getContent()
+    public function getContent(): ?string
     {
         return $this->html;
     }
@@ -515,11 +512,11 @@ class Page extends Item
     /**
      * Set layout.
      *
-     * @param $layout
+     * @param string $layout
      *
-     * @return $this
+     * @return self
      */
-    public function setLayout($layout)
+    public function setLayout(string $layout): self
     {
         $this->setVariable('layout', $layout);
 
@@ -529,9 +526,9 @@ class Page extends Item
     /**
      * Get layout.
      *
-     * @return mixed|false
+     * @return string|false
      */
-    public function getLayout()
+    public function getLayout(): ?string
     {
         return $this->getVariable('layout');
     }

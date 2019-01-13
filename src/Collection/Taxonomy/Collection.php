@@ -9,6 +9,7 @@
 namespace Cecil\Collection\Taxonomy;
 
 use Cecil\Collection\Collection as CecilCollection;
+use Cecil\Collection\ItemInterface;
 
 /**
  * Class Collection.
@@ -16,10 +17,10 @@ use Cecil\Collection\Collection as CecilCollection;
 class Collection extends CecilCollection
 {
     /**
-     * Return a Vocabulary collection (creates it if not exists)
+     * Return a Vocabulary collection (creates it if not exists).
      * {@inheritdoc}
      */
-    public function get($id)
+    public function get(string $id): ?ItemInterface
     {
         if (!$this->has($id)) {
             $this->add(new Vocabulary($id));

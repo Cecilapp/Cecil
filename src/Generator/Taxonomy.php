@@ -8,7 +8,7 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PageCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Taxonomy\Collection as TaxonomyCollection;
 use Cecil\Collection\Taxonomy\Term as Term;
