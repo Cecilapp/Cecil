@@ -8,18 +8,20 @@
 
 namespace Cecil\Generator;
 
+use Cecil\Config as Config;
+
 /**
  * Abstract class AbstractGenerator.
  */
 abstract class AbstractGenerator implements GeneratorInterface
 {
-    /* @var \Cecil\Config */
+    /* @var Config */
     protected $config;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(\Cecil\Config $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
     }

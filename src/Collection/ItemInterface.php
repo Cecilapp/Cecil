@@ -14,18 +14,18 @@ namespace Cecil\Collection;
 interface ItemInterface extends \ArrayAccess
 {
     /**
-     * Set the item identifier.
+     * Set the item's identifier.
      *
      * @param string|null $id
      *
      * @return self
      */
-    public function setId($id = null);
+    public function setId(string $id = null);
 
     /**
-     * Return the item identifier.
+     * Return the item's identifier.
      *
      * @return string
      */
-    public function getId();
+    public function getId(): string;
 }

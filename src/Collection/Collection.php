@@ -14,7 +14,7 @@ namespace Cecil\Collection;
 class Collection implements CollectionInterface
 {
     /**
-     * Collections's identifier.
+     * Collection's identifier.
      *
      * @var string
      */
@@ -28,7 +28,7 @@ class Collection implements CollectionInterface
     protected $items = [];
 
     /**
-     * AbstractCollection constructor.
+     * Collection constructor.
      *
      * @param string|null $id
      * @param array       $items
@@ -40,10 +40,10 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * If parameter is empty uses the object hash
+     * If parameter is empty uses the object's hash.
      * {@inheritdoc}
      */
-    public function setId($id = '')
+    public function setId(string $id = null)
     {
         $this->id = $id;
         if (empty($this->id)) {
@@ -56,7 +56,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -64,7 +64,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function has($id)
+    public function has(string $id): bool
     {
         return array_key_exists($id, $this->items);
     }
@@ -72,7 +72,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function add(ItemInterface $item)
+    public function add(ItemInterface $item): ?CollectionInterface
     {
         if ($this->has($item->getId())) {
             throw new \DomainException(sprintf(
@@ -89,37 +89,41 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function replace($id, ItemInterface $item)
+    public function replace(string $id, ItemInterface $item): ?CollectionInterface
     {
-        if ($this->has($id)) {
-            $this->items[$id] = $item;
-        } else {
+        if (!$this->has($id)) {
             throw new \DomainException(sprintf(
-                'Failed replacing item "%s": item does not exist.',
-                $item->getId()
+                'Failed replacing "%s" in "%s" collection: item does not exist.',
+                $item->getId(),
+                $this->getId()
             ));
         }
+        $this->items[$id] = $item;
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove($id)
+    public function remove(string $id): ?CollectionInterface
     {
-        if ($this->has($id)) {
-            unset($this->items[$id]);
-        } else {
+        if (!$this->has($id)) {
             throw new \DomainException(sprintf(
-                'Failed removing item with ID "%s": item does not exist.',
-                $id
+                'Failed removing "%s" in "%s" collection: item does not exist.',
+                $id,
+                $this->getId()
             ));
         }
+        unset($this->items[$id]);
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get($id)
+    public function get(string $id): ?ItemInterface
     {
         if (!$this->has($id)) {
             return false;
@@ -131,7 +135,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function keys()
+    public function keys(): array
     {
         return array_keys($this->items);
     }
@@ -139,7 +143,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }
@@ -147,7 +151,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->items;
     }
@@ -155,7 +159,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->items);
     }
@@ -163,10 +167,9 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function usort(\Closure $callback = null)
+    public function usort(\Closure $callback = null): CollectionInterface
     {
-        $items = $this->items;
-        $callback ? uasort($items, $callback) : uasort($items, function ($a, $b) {
+        $callback ? uasort($this->items, $callback) : uasort($this->items, function ($a, $b) {
             if ($a == $b) {
                 return 0;
             }
@@ -174,37 +177,13 @@ class Collection implements CollectionInterface
             return ($a < $b) ? -1 : 1;
         });
 
-        return new static(self::getId(), $items);
-    }
-
-    /**
-     * Sort items by date.
-     *
-     * @return Collection
-     */
-    public function sortByDate()
-    {
-        return $this->usort(function ($a, $b) {
-            if (!isset($a['date'])) {
-                return -1;
-            }
-            if (!isset($b['date'])) {
-                return 1;
-            }
-            if ($a['date'] == $b['date']) {
-                return 0;
-            }
-
-            return ($a['date'] > $b['date']) ? -1 : 1;
-        });
+        return new static(self::getId(), $this->items);
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @return Collection
      */
-    public function filter(\Closure $callback)
+    public function filter(\Closure $callback): CollectionInterface
     {
         return new static(self::getId(), array_filter($this->items, $callback));
     }
@@ -212,7 +191,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function map(\Closure $callback)
+    public function map(\Closure $callback): CollectionInterface
     {
         return new static(self::getId(), array_map($callback, $this->items));
     }
@@ -220,7 +199,7 @@ class Collection implements CollectionInterface
     /**
      * Implement ArrayAccess.
      *
-     * @param mixed $offset
+     * @param string $offset
      *
      * @return bool
      */
@@ -232,9 +211,9 @@ class Collection implements CollectionInterface
     /**
      * Implement ArrayAccess.
      *
-     * @param mixed $offset
+     * @param string $offset
      *
-     * @return null|CollectionInterface
+     * @return CollectionInterface|null
      */
     public function offsetGet($offset)
     {
@@ -245,21 +224,25 @@ class Collection implements CollectionInterface
      * Implement ArrayAccess.
      *
      * @param mixed $offset
-     * @param mixed $value
+     * @param ItemInterface $value
+     *
+     * @return CollectionInterface|null
      */
     public function offsetSet($offset, $value)
     {
-        $this->add($value);
+        return $this->add($value);
     }
 
     /**
      * Implement ArrayAccess.
      *
-     * @param mixed $offset
+     * @param string $offset
+     *
+     * @return CollectionInterface|null
      */
     public function offsetUnset($offset)
     {
-        $this->remove($offset);
+        return $this->remove($offset);
     }
 
     /**
@@ -269,6 +252,6 @@ class Collection implements CollectionInterface
      */
     public function __toString()
     {
-        return json_encode($this->items)."\n";
+        return sprintf("%s\n", json_encode($this->items));
     }
 }

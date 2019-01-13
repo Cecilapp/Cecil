@@ -14,94 +14,94 @@ namespace Cecil\Collection;
 interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAccess
 {
     /**
-     * Set the collection identifier.
+     * Set the collection's identifier.
      *
-     * @param string $id
+     * @param string|null $id
      *
      * @return self
      */
-    public function setId($id = '');
+    public function setId(string $id = null);
 
     /**
-     * Return the collection identifier.
+     * Return the collection's identifier.
      *
      * @return string
      */
     public function getId();
 
     /**
-     * Does the item exist?
+     * Does the item exists?
      *
      * @param string $id
      *
      * @return bool
      */
-    public function has($id);
+    public function has(string $id): bool;
 
     /**
      * Add an item.
      *
      * @param ItemInterface $item
      *
-     * @return self
+     * @return self|null
      */
-    public function add(ItemInterface $item);
+    public function add(ItemInterface $item): ?self;
 
     /**
      * Replace an item if exists.
      *
-     * @param $id
+     * @param string $id
      * @param ItemInterface $item
      *
-     * @return null|self
+     * @return self|null
      */
-    public function replace($id, ItemInterface $item);
+    public function replace(string $id, ItemInterface $item): ?self;
 
     /**
      * Remove an item if exists.
      *
-     * @param $id
+     * @param string $id
      *
-     * @return null|self
+     * @return self|null
      */
-    public function remove($id);
+    public function remove(string $id): ?self;
 
     /**
      * Retrieve an item.
      *
      * @param string $id
      *
-     * @return null|self
+     * @return ItemInterface|bool
      */
-    public function get($id);
+    public function get(string $id): ?ItemInterface;
 
     /**
-     * Retrieve all the keys.
+     * Retrieve all keys.
      *
-     * @return array An array of all the keys
+     * @return array An array of all keys
      */
-    public function keys();
+    public function keys(): array;
 
     /**
      * Implement Countable.
      *
      * @return int
      */
-    public function count();
+    public function count(): int;
 
     /**
-     * Return collection.
+     * Return collection as array.
      *
      * @return array
      */
-    public function toArray();
+    public function toArray(): array;
 
     /**
      * Implement \IteratorAggregate.
      *
      * @return \ArrayIterator
      */
-    public function getIterator();
+    public function getIterator(): \ArrayIterator;
 
     /**
      * Implements usort.
@@ -110,7 +110,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return CollectionInterface
      */
-    public function usort(\Closure $callback = null);
+    public function usort(\Closure $callback = null): CollectionInterface;
 
     /**
      * Filters items using a callback function.
@@ -119,7 +119,7 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return CollectionInterface
      */
-    public function filter(\Closure $callback);
+    public function filter(\Closure $callback): CollectionInterface;
 
     /**
      * Applies a callback to items.
@@ -128,5 +128,5 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      *
      * @return CollectionInterface
      */
-    public function map(\Closure $callback);
+    public function map(\Closure $callback): CollectionInterface;
 }

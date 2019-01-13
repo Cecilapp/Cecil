@@ -8,7 +8,7 @@
 
 namespace Cecil\Renderer\Twig;
 
-use Cecil\Collection\Collection;
+use Cecil\Collection\Page\Collection as PageCollection;
 use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
@@ -91,8 +91,8 @@ class Extension extends SlugifyExtension
     /**
      * Filter by section.
      *
-     * @param \Cecil\Page\Collection $pages
-     * @param string                 $section
+     * @param PageCollection $pages
+     * @param string         $section
      *
      * @return array
      */
@@ -104,9 +104,9 @@ class Extension extends SlugifyExtension
     /**
      * Filter by variable.
      *
-     * @param \Cecil\Page\Collection $pages
-     * @param string                 $variable
-     * @param string                 $value
+     * @param PageCollection $pages
+     * @param string         $variable
+     * @param string         $value
      *
      * @throws Exception
      *
@@ -170,7 +170,7 @@ class Extension extends SlugifyExtension
             return ($a['weight'] < $b['weight']) ? -1 : 1;
         };
 
-        if ($array instanceof Collection) {
+        if ($array instanceof CollectionInterface) {
             $array = $array->toArray();
         }
         if (is_array($array)) {
@@ -203,7 +203,7 @@ class Extension extends SlugifyExtension
             return ($a['date'] > $b['date']) ? -1 : 1;
         };
 
-        if ($array instanceof Collection) {
+        if ($array instanceof CollectionInterface) {
             $array = $array->toArray();
         }
         if (is_array($array)) {

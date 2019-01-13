@@ -6,15 +6,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Collection\Taxonomy;
+namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Collection as CecilCollection;
-use Cecil\Collection\ItemInterface;
 
 /**
- * Class Term.
+ * Class Collection.
  */
-class Term extends CecilCollection implements ItemInterface
+class Collection extends CecilCollection
 {
     /**
      * Sort items by date.
