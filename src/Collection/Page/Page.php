@@ -131,10 +131,10 @@ class Page extends Item
                     return $d && $d->format($format) === $date;
                 };
                 if ($isValidDate(self::getPrefix($this->fileId))) {
-                    $this->setDate((string)self::getPrefix($this->fileId));
+                    $this->setDate((string) self::getPrefix($this->fileId));
                 } else {
                     // prefix is an integer
-                    $this->setWeight((int)self::getPrefix($this->fileId));
+                    $this->setWeight((int) self::getPrefix($this->fileId));
                 }
             }
             // permalink
