@@ -43,7 +43,7 @@ class GeneratorManager extends \SplPriorityQueue
      * Process each generators.
      *
      * @param PagesCollection $PagesCollection
-     * @param \Closure       $messageCallback
+     * @param \Closure        $messageCallback
      *
      * @return PagesCollection
      */
