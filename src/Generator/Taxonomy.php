@@ -22,7 +22,7 @@ use Cecil\Page\NodeType;
 class Taxonomy extends AbstractGenerator implements GeneratorInterface
 {
     /* @var TaxonomiesCollection */
-    protected $TaxonomiesCollection;
+    protected $taxonomiesCollection;
     /* @var PagesCollection */
     protected $pagesCollection;
     /* @var PagesCollection */
@@ -51,12 +51,12 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     protected function initTaxonomiesCollection()
     {
         // create an empty "taxonomies" collection
-        $this->TaxonomiesCollection = new TaxonomiesCollection('taxonomies');
+        $this->taxonomiesCollection = new TaxonomiesCollection('taxonomies');
 
         // adds each vocabularies collection to the "taxonomies" collection
         foreach ($this->config->get('site.taxonomies') as $vocabulary) {
             if ($vocabulary != 'disable') {
-                $this->TaxonomiesCollection->add(new VocabulariesCollection($vocabulary));
+                $this->taxonomiesCollection->add(new VocabulariesCollection($vocabulary));
             }
         }
     }
@@ -77,10 +77,10 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     // adds each term to the vocabulary collection
                     foreach ($page->getVariable($plural) as $term) {
                         $term = mb_strtolower($term);
-                        $this->TaxonomiesCollection->get($plural)
+                        $this->taxonomiesCollection->get($plural)
                             ->add(new Term($term));
                         // adds page to the term collection
-                        $this->TaxonomiesCollection
+                        $this->taxonomiesCollection
                             ->get($plural)
                             ->get($term)
                             ->add($page);
@@ -96,7 +96,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     protected function createNodePages()
     {
         /* @var $terms VocabulariesCollection */
-        foreach ($this->TaxonomiesCollection as $plural => $terms) {
+        foreach ($this->taxonomiesCollection as $plural => $terms) {
             if (count($terms) > 0) {
                 /*
                  * Creates $plural/$term pages (list of pages)
