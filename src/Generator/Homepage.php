@@ -20,12 +20,12 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $PagesCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $generatedPages = new PagesCollection();
 
-        if (!$PagesCollection->has('index')) {
-            $filteredPages = $PagesCollection->filter(function (Page $page) {
+        if (!$pagesCollection->has('index')) {
+            $filteredPages = $pagesCollection->filter(function (Page $page) {
                 return $page->getNodeType() === null
                 && $page->getSection() == $this->config->get('site.paginate.homepage.section')
                 && !empty($page->getBody());

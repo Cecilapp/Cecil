@@ -19,7 +19,7 @@ class PagesFromConfig extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $PagesCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $generatedPages = new PagesCollection();
 

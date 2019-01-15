@@ -42,12 +42,12 @@ class GeneratorManager extends \SplPriorityQueue
     /**
      * Process each generators.
      *
-     * @param PagesCollection $PagesCollection
+     * @param PagesCollection $pagesCollection
      * @param \Closure        $messageCallback
      *
      * @return PagesCollection
      */
-    public function process(PagesCollection $PagesCollection, \Closure $messageCallback)
+    public function process(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $max = $this->count();
 
@@ -57,13 +57,13 @@ class GeneratorManager extends \SplPriorityQueue
                 /* @var GeneratorInterface $generator */
                 $generator = $this->current();
                 /* @var $generatedPages PagesCollection */
-                $generatedPages = $generator->generate($PagesCollection, $messageCallback);
+                $generatedPages = $generator->generate($pagesCollection, $messageCallback);
                 foreach ($generatedPages as $page) {
                     /* @var $page \Cecil\Collection\Page\Page */
-                    if ($PagesCollection->has($page->getId())) {
-                        $PagesCollection->replace($page->getId(), $page);
+                    if ($pagesCollection->has($page->getId())) {
+                        $pagesCollection->replace($page->getId(), $page);
                     } else {
-                        $PagesCollection->add($page);
+                        $pagesCollection->add($page);
                     }
                 }
                 $message = substr(strrchr(get_class($generator), '\\'), 1).': '.count($generatedPages);
@@ -73,6 +73,6 @@ class GeneratorManager extends \SplPriorityQueue
             }
         }
 
-        return $PagesCollection;
+        return $pagesCollection;
     }
 }

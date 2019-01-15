@@ -19,11 +19,11 @@ class TitleReplace extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $PagesCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $generatedPages = new PagesCollection();
 
-        $filteredPages = $PagesCollection->filter(function (Page $page) {
+        $filteredPages = $pagesCollection->filter(function (Page $page) {
             return null !== $page->getTitle();
         });
 

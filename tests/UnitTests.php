@@ -90,8 +90,8 @@ class UnitTests extends \PHPUnit\Framework\TestCase
     public function testAddPageToCollection()
     {
         $page = new Page($this->file);
-        $PagesCollection = new PagesCollection();
-        $addResult = $PagesCollection->add($page);
+        $pagesCollection = new PagesCollection();
+        $addResult = $pagesCollection->add($page);
         $this->assertArrayHasKey('section1/page1', $addResult);
     }
 
@@ -119,20 +119,20 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testConvertPage()
     {
-        $PagesCollection = new PagesCollection();
+        $pagesCollection = new PagesCollection();
 
         /* @var $page Page */
         $page = new Page($this->file);
         $page->parse();
-        $PagesCollection->add($page);
+        $pagesCollection->add($page);
 
         $page = (new PagesConvert(Builder::create()))
             ->convertPage($page, 'yaml');
 
-        $PagesCollection->replace($page->getId(), $page);
+        $pagesCollection->replace($page->getId(), $page);
         unset($page);
 
-        $page = $PagesCollection->get('section1/page1');
+        $page = $pagesCollection->get('section1/page1');
         $this->assertObjectHasAttribute('html', $page);
         $this->assertObjectHasAttribute('properties', $page);
         $this->assertSame('Page 1', $page->getVariable('title'));
@@ -143,24 +143,24 @@ class UnitTests extends \PHPUnit\Framework\TestCase
     public function testAddPage()
     {
         $page = new Page();
-        $PagesCollection = new PagesCollection();
+        $pagesCollection = new PagesCollection();
 
         $page->setId('id-of-page')
             ->setTitle('title-of-page');
-        $PagesCollection->add($page);
+        $pagesCollection->add($page);
 
-        $this->assertContains($page, $PagesCollection);
+        $this->assertContains($page, $pagesCollection);
     }
 
     public function testGetPage()
     {
         $page = new Page();
-        $PagesCollection = new PagesCollection();
+        $pagesCollection = new PagesCollection();
 
         $page->setId('id-of-page')
             ->setTitle('title-of-page');
-        $PagesCollection->add($page);
+        $pagesCollection->add($page);
 
-        $this->assertNotNull($PagesCollection->get('id-of-page'));
+        $this->assertNotNull($pagesCollection->get('id-of-page'));
     }
 }

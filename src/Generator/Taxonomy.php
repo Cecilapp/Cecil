@@ -24,16 +24,16 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     /* @var TaxonomiesCollection */
     protected $TaxonomiesCollection;
     /* @var PagesCollection */
-    protected $PagesCollection;
+    protected $pagesCollection;
     /* @var PagesCollection */
     protected $generatedPages;
 
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $PagesCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $this->PagesCollection = $PagesCollection;
+        $this->PagesCollection = $pagesCollection;
         $this->generatedPages = new PagesCollection('generator-taxonomy');
 
         if ($this->config->get('site.taxonomies') && !$this->config->get('site.taxonomies.disabled')) {

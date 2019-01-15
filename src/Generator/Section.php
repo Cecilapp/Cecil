@@ -20,14 +20,14 @@ class Section extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $PagesCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $generatedPages = new PagesCollection('sections');
         $sections = [];
 
         // collects sections
         /* @var $page Page */
-        foreach ($PagesCollection as $page) {
+        foreach ($pagesCollection as $page) {
             if ($page->getSection() != '') {
                 $sections[$page->getSection()][] = $page;
             }
@@ -37,7 +37,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
             $menuWeight = 100;
             foreach ($sections as $section => $pages) {
                 $pageId = Page::urlize(sprintf('%s', $section));
-                if (!$PagesCollection->has($pageId)) {
+                if (!$pagesCollection->has($pageId)) {
                     usort($pages, 'Cecil\Util::sortByDate');
                     $page = (new Page())
                         ->setId($pageId)
