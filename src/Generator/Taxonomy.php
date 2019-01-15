@@ -33,7 +33,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $this->PagesCollection = $pagesCollection;
+        $this->pagesCollection = $pagesCollection;
         $this->generatedPages = new PagesCollection('generator-taxonomy');
 
         if ($this->config->get('site.taxonomies') && !$this->config->get('site.taxonomies.disabled')) {
@@ -67,7 +67,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     protected function collectTermsFromPages()
     {
         /* @var $page Page */
-        foreach ($this->PagesCollection as $page) {
+        foreach ($this->pagesCollection as $page) {
             foreach (array_keys($this->config->get('site.taxonomies')) as $plural) {
                 if ($page->hasVariable($plural)) {
                     // converts a list to an array if necessary
@@ -106,8 +106,8 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                 foreach ($terms as $term => $pages) {
                     $pages = $pages->sortByDate()->toArray();
                     $pageId = Page::urlize(sprintf('%s/%s', $plural, $term));
-                    if ($this->PagesCollection->has($pageId)) {
-                        $page = clone $this->PagesCollection->get($pageId);
+                    if ($this->pagesCollection->has($pageId)) {
+                        $page = clone $this->pagesCollection->get($pageId);
                     } else {
                         $page = (new Page())
                             ->setTitle(ucfirst($term));
