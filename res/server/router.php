@@ -9,7 +9,7 @@
  */
 
 // Router for the PHP built-in server
-// phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
+// phpcs:disable PSR1.Files.SideEffects
 
 date_default_timezone_set('UTC');
 define('SERVER_TMP_DIR', '.cecil');
