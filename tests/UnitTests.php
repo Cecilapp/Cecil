@@ -9,10 +9,10 @@
 namespace Cecil\Test;
 
 use Cecil\Builder;
-use Cecil\Collection\Collection as PageCollection;
+use Cecil\Collection\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
-use Cecil\Step\ConvertPages;
+use Cecil\Step\PagesConvert;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -90,8 +90,8 @@ class UnitTests extends \PHPUnit\Framework\TestCase
     public function testAddPageToCollection()
     {
         $page = new Page($this->file);
-        $pageCollection = new PageCollection();
-        $addResult = $pageCollection->add($page);
+        $PagesCollection = new PagesCollection();
+        $addResult = $PagesCollection->add($page);
         $this->assertArrayHasKey('section1/page1', $addResult);
     }
 
@@ -119,20 +119,20 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testConvertPage()
     {
-        $pageCollection = new PageCollection();
+        $PagesCollection = new PagesCollection();
 
         /* @var $page Page */
         $page = new Page($this->file);
         $page->parse();
-        $pageCollection->add($page);
+        $PagesCollection->add($page);
 
-        $page = (new ConvertPages(Builder::create()))
+        $page = (new PagesConvert(Builder::create()))
             ->convertPage($page, 'yaml');
 
-        $pageCollection->replace($page->getId(), $page);
+        $PagesCollection->replace($page->getId(), $page);
         unset($page);
 
-        $page = $pageCollection->get('section1/page1');
+        $page = $PagesCollection->get('section1/page1');
         $this->assertObjectHasAttribute('html', $page);
         $this->assertObjectHasAttribute('properties', $page);
         $this->assertSame('Page 1', $page->getVariable('title'));
@@ -143,24 +143,24 @@ class UnitTests extends \PHPUnit\Framework\TestCase
     public function testAddPage()
     {
         $page = new Page();
-        $pageCollection = new PageCollection();
+        $PagesCollection = new PagesCollection();
 
         $page->setId('id-of-page')
             ->setTitle('title-of-page');
-        $pageCollection->add($page);
+        $PagesCollection->add($page);
 
-        $this->assertContains($page, $pageCollection);
+        $this->assertContains($page, $PagesCollection);
     }
 
     public function testGetPage()
     {
         $page = new Page();
-        $pageCollection = new PageCollection();
+        $PagesCollection = new PagesCollection();
 
         $page->setId('id-of-page')
             ->setTitle('title-of-page');
-        $pageCollection->add($page);
+        $PagesCollection->add($page);
 
-        $this->assertNotNull($pageCollection->get('id-of-page'));
+        $this->assertNotNull($PagesCollection->get('id-of-page'));
     }
 }

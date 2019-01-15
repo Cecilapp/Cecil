@@ -9,7 +9,7 @@
 namespace Cecil\Renderer\Twig;
 
 use Cecil\Collection\CollectionInterface;
-use Cecil\Collection\Page\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
@@ -93,12 +93,12 @@ class Extension extends SlugifyExtension
     /**
      * Filter by section.
      *
-     * @param PageCollection $pages
+     * @param PagesCollection $pages
      * @param string         $section
      *
      * @return CollectionInterface
      */
-    public function filterBySection(PageCollection $pages, string $section): CollectionInterface
+    public function filterBySection(PagesCollection $pages, string $section): CollectionInterface
     {
         return $this->filterBy($pages, 'section', $section);
     }
@@ -106,7 +106,7 @@ class Extension extends SlugifyExtension
     /**
      * Filter by variable.
      *
-     * @param PageCollection $pages
+     * @param PagesCollection $pages
      * @param string         $variable
      * @param string         $value
      *
@@ -114,7 +114,7 @@ class Extension extends SlugifyExtension
      *
      * @return CollectionInterface
      */
-    public function filterBy(PageCollection $pages, string $variable, string $value): CollectionInterface
+    public function filterBy(PagesCollection $pages, string $variable, string $value): CollectionInterface
     {
         $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
             // dedicated getter?

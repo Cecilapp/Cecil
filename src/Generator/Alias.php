@@ -8,7 +8,7 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 
 /**
@@ -19,12 +19,12 @@ class Alias extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PageCollection $pageCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $PagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PageCollection();
+        $generatedPages = new PagesCollection();
 
         /* @var $page Page */
-        foreach ($pageCollection as $page) {
+        foreach ($PagesCollection as $page) {
             $aliases = [];
             if ($page->hasVariable('aliases')) {
                 $aliases = $page->getVariable('aliases');

@@ -8,7 +8,7 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 
 /**
@@ -19,11 +19,11 @@ class TitleReplace extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PageCollection $pageCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $PagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PageCollection();
+        $generatedPages = new PagesCollection();
 
-        $filteredPages = $pageCollection->filter(function (Page $page) {
+        $filteredPages = $PagesCollection->filter(function (Page $page) {
             return null !== $page->getTitle();
         });
 

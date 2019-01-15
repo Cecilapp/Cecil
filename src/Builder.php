@@ -8,7 +8,7 @@
 
 namespace Cecil;
 
-use Cecil\Collection\Page\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Util\Plateform;
 use Symfony\Component\Finder\Finder;
@@ -38,15 +38,15 @@ class Builder
      * @see build()
      */
     protected $steps = [
-        'Cecil\Step\ImportConfig',
-        'Cecil\Step\LocateContent',
-        'Cecil\Step\CreatePages',
-        'Cecil\Step\ConvertPages',
-        'Cecil\Step\GeneratePages',
-        'Cecil\Step\GenerateMenus',
-        'Cecil\Step\CopyStatic',
-        'Cecil\Step\RenderPages',
-        'Cecil\Step\SavePages',
+        'Cecil\Step\ConfigImport',
+        'Cecil\Step\ContentLoad',
+        'Cecil\Step\PagesCreate',
+        'Cecil\Step\PagesConvert',
+        'Cecil\Step\PagesGenerate',
+        'Cecil\Step\MenusCreate',
+        'Cecil\Step\StaticCopy',
+        'Cecil\Step\PagesRender',
+        'Cecil\Step\PagesSave',
     ];
     /**
      * Config.
@@ -63,7 +63,7 @@ class Builder
     /**
      * Pages collection.
      *
-     * @var PageCollection
+     * @var PagesCollection
      */
     protected $pages;
     /**
@@ -201,7 +201,7 @@ class Builder
     }
 
     /**
-     * @return PageCollection
+     * @return PagesCollection
      */
     public function getPages()
     {

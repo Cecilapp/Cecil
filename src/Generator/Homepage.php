@@ -8,7 +8,7 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Page\NodeType;
 
@@ -20,12 +20,12 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PageCollection $pageCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $PagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PageCollection();
+        $generatedPages = new PagesCollection();
 
-        if (!$pageCollection->has('index')) {
-            $filteredPages = $pageCollection->filter(function (Page $page) {
+        if (!$PagesCollection->has('index')) {
+            $filteredPages = $PagesCollection->filter(function (Page $page) {
                 return $page->getNodeType() === null
                 && $page->getSection() == $this->config->get('site.paginate.homepage.section')
                 && !empty($page->getBody());
