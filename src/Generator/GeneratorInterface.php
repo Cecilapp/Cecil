@@ -24,7 +24,7 @@ interface GeneratorInterface
 
     /**
      * @param PagesCollection $PagesCollection
-     * @param \Closure       $messageCallback
+     * @param \Closure        $messageCallback
      *
      * @return PagesCollection
      */

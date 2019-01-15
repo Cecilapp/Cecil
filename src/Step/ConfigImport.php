@@ -8,7 +8,6 @@
 
 namespace Cecil\Step;
 
-use Cecil\Exception\Exception;
 use Cecil\Util;
 use Symfony\Component\Yaml\Yaml;
 

@@ -94,7 +94,7 @@ class Extension extends SlugifyExtension
      * Filter by section.
      *
      * @param PagesCollection $pages
-     * @param string         $section
+     * @param string          $section
      *
      * @return CollectionInterface
      */
@@ -107,8 +107,8 @@ class Extension extends SlugifyExtension
      * Filter by variable.
      *
      * @param PagesCollection $pages
-     * @param string         $variable
-     * @param string         $value
+     * @param string          $variable
+     * @param string          $value
      *
      * @throws Exception
      *
