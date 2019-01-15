@@ -90,7 +90,7 @@ class Build extends AbstractCommand
                 $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', '');
             }
         } catch (\Exception $e) {
-            throw new \Exception(sprintf("%s", $e->getMessage()));
+            throw new \Exception(sprintf('%s', $e->getMessage()));
         }
     }
 }
