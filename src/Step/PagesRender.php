@@ -16,7 +16,7 @@ use Cecil\Renderer\Twig as Twig;
 /**
  * Pages rendering.
  */
-class RenderPages extends AbstractStep
+class PagesRender extends AbstractStep
 {
     /**
      * {@inheritdoc}

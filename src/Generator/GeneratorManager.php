@@ -8,7 +8,7 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PagesCollection;
 
 class GeneratorManager extends \SplPriorityQueue
 {
@@ -42,12 +42,12 @@ class GeneratorManager extends \SplPriorityQueue
     /**
      * Process each generators.
      *
-     * @param PageCollection $pageCollection
-     * @param \Closure       $messageCallback
+     * @param PagesCollection $pagesCollection
+     * @param \Closure        $messageCallback
      *
-     * @return PageCollection
+     * @return PagesCollection
      */
-    public function process(PageCollection $pageCollection, \Closure $messageCallback)
+    public function process(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $max = $this->count();
 
@@ -56,14 +56,14 @@ class GeneratorManager extends \SplPriorityQueue
             while ($this->valid()) {
                 /* @var GeneratorInterface $generator */
                 $generator = $this->current();
-                /* @var $generatedPages PageCollection */
-                $generatedPages = $generator->generate($pageCollection, $messageCallback);
+                /* @var $generatedPages PagesCollection */
+                $generatedPages = $generator->generate($pagesCollection, $messageCallback);
                 foreach ($generatedPages as $page) {
                     /* @var $page \Cecil\Collection\Page\Page */
-                    if ($pageCollection->has($page->getId())) {
-                        $pageCollection->replace($page->getId(), $page);
+                    if ($pagesCollection->has($page->getId())) {
+                        $pagesCollection->replace($page->getId(), $page);
                     } else {
-                        $pageCollection->add($page);
+                        $pagesCollection->add($page);
                     }
                 }
                 $message = substr(strrchr(get_class($generator), '\\'), 1).': '.count($generatedPages);
@@ -73,6 +73,6 @@ class GeneratorManager extends \SplPriorityQueue
             }
         }
 
-        return $pageCollection;
+        return $pagesCollection;
     }
 }

@@ -14,7 +14,7 @@ use Cecil\Collection\Menu\Entry;
 /**
  * Generates menus.
  */
-class GenerateMenus extends AbstractStep
+class MenusCreate extends AbstractStep
 {
     /**
      * {@inheritdoc}

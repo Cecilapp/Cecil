@@ -13,7 +13,7 @@ use Cecil\Generator\GeneratorManager;
 /**
  * Generates virtual pages.
  */
-class GeneratePages extends AbstractStep
+class PagesGenerate extends AbstractStep
 {
     /**
      * {@inheritdoc}
