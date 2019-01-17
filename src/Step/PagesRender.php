@@ -62,10 +62,19 @@ class PagesRender extends AbstractStep
         foreach ($filteredPages as $page) {
             $count++;
 
-            $rendered = $this->builder->getRenderer()->render(
-                $layout = (new Layout())->finder($page, $this->config),
-                ['page' => $page]
-            );
+            // WIP
+            if ($page->getVariable('output')) {
+
+            }
+
+            foreach ($page->getVariable('output') as $format) {
+                $rendered = $this->builder->getRenderer()->render(
+                    $layout = (new Layout())->finder($page, $this->config),
+                    ['page' => $page]
+                );
+            }
+
+
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 

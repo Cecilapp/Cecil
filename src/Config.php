@@ -256,7 +256,7 @@ class Config
      */
     public function getOutputPath()
     {
-        return $this->getSourceDir().'/'.$this->get('output.dir');
+        return $this->getDestinationDir().'/'.$this->get('site.output.dir');
     }
 
     /**

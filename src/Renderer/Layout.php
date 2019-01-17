@@ -23,18 +23,19 @@ class Layout
      * Layout file finder.
      *
      * @param Page   $page
+     * @param string $format
      * @param Config $config
      *
      * @throws Exception
      *
      * @return string
      */
-    public function finder(Page $page, Config $config)
+    public function finder(Page $page, string $format, Config $config)
     {
         $layout = 'unknown';
 
-        // what layouts could be use for the page?
-        $layouts = self::fallback($page);
+        // what layouts, in what format, could be use for the page?
+        $layouts = self::fallback($page, $format);
 
         // take the first available layout
         foreach ($layouts as $layout) {
@@ -63,13 +64,14 @@ class Layout
     /**
      * Layout fall-back.
      *
-     * @param $page
+     * @param Page $page
+     * @param string $format
      *
      * @return string[]
      *
      * @see finder()
      */
-    protected static function fallback(Page $page)
+    protected static function fallback(Page $page, string $format)
     {
         // remove redundant '.twig' extension
         $layout = str_replace('.twig', '', $page->getLayout());
@@ -77,66 +79,66 @@ class Layout
         switch ($page->getNodeType()) {
             case NodeType::HOMEPAGE:
                 $layouts = [
-                    'index.html.twig',
-                    '_default/list.html.twig',
-                    '_default/page.html.twig',
+                    "index.$format.twig",
+                    "_default/list.$format.twig",
+                    "_default/page.$format.twig",
                 ];
                 break;
             case NodeType::SECTION:
                 $layouts = [
-                    // 'section/$section.html.twig',
-                    '_default/section.html.twig',
-                    '_default/list.html.twig',
+                    // "section/$section.$format.twig",
+                    "_default/section.$format.twig",
+                    "_default/list.$format.twig",
                 ];
                 if ($page->getPathname()) {
                     $section = explode('/', $page->getPathname())[0];
                     $layouts = array_merge(
-                        [sprintf('section/%s.html.twig', $section)],
+                        [sprintf('section/%s.%s.twig', $section, $format)],
                         $layouts
                     );
                 }
                 break;
             case NodeType::TAXONOMY:
                 $layouts = [
-                    // 'taxonomy/$singular.html.twig',
-                    '_default/taxonomy.html.twig',
-                    '_default/list.html.twig',
+                    // "taxonomy/$singular.$format.twig",
+                    "_default/taxonomy.$format.twig",
+                    "_default/list.$format.twig",
                 ];
                 if ($page->getVariable('singular')) {
                     $layouts = array_merge(
-                        [sprintf('taxonomy/%s.html.twig', $page->getVariable('singular'))],
+                        [sprintf('taxonomy/%s.%s.twig', $page->getVariable('singular'), $format)],
                         $layouts
                     );
                 }
                 break;
             case NodeType::TERMS:
                 $layouts = [
-                    // 'taxonomy/$singular.terms.html.twig',
-                    '_default/terms.html.twig',
+                    // "taxonomy/$singular.terms.$format.twig",
+                    "_default/terms.$format.twig",
                 ];
                 if ($page->getVariable('singular')) {
                     $layouts = array_merge(
-                        [sprintf('taxonomy/%s.terms.html.twig', $page->getVariable('singular'))],
+                        [sprintf('taxonomy/%s.terms.%s.twig', $page->getVariable('singular'), $format)],
                         $layouts
                     );
                 }
                 break;
             default:
                 $layouts = [
-                    // '$section/$layout.twig',
-                    // '$layout.twig',
-                    // '$section/page.html.twig',
-                    // 'page.html.twig',
-                    '_default/page.html.twig',
+                    // "$section/$layout.twig",
+                    // "$layout.twig",
+                    // "$section/page.$format.twig",
+                    // "page.$format.twig",
+                    "_default/page.$format.twig",
                 ];
                 $layouts = array_merge(
-                    ['page.html.twig'],
+                    ["page.$format.twig"],
                     $layouts
                 );
 
                 if ($page->getSection()) {
                     $layouts = array_merge(
-                        [sprintf('%s/page.html.twig', $page->getSection())],
+                        [sprintf("%s/page.$format.twig", $page->getSection())],
                         $layouts
                     );
                 }
