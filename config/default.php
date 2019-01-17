@@ -53,6 +53,25 @@ return [
                 'targetsection' => 'blog',
             ],
         ],
+        'output' => [
+            'dir'      => '_site',
+            'filename' => 'index.html',
+            // WIP
+            'formats' => [
+                'html' => [
+                    'mediatype' => 'text/html',
+                    'filename'  => 'index.html',
+                ],
+                'rss' => [
+                    'mediatype' => 'application/rss+xml',
+                    'filename'  => 'index.xml',
+                ],
+                'json' => [
+                    'mediatype' => 'application/json',
+                    'filename'  => 'index.json',
+                ],
+            ],
+        ],
     ],
     'content' => [
         'dir' => 'content',
@@ -72,10 +91,6 @@ return [
         'internal' => [
             'dir' => 'res/layouts',
         ],
-    ],
-    'output' => [
-        'dir'      => '_site',
-        'filename' => 'index.html',
     ],
     'themes' => [
         'dir' => 'themes',
