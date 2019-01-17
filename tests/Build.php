@@ -73,6 +73,7 @@ class Build extends \PHPUnit\Framework\TestCase
                         'sitemap' => [
                             'published' => true,
                         ],
+                        'rss' => 'disabled',
                     ],
                 ],
                 'theme'  => [
