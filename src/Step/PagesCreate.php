@@ -8,20 +8,20 @@
 
 namespace Cecil\Step;
 
-use Cecil\Collection\Page\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 
 /**
  * Create Pages collection from content iterator.
  */
-class CreatePages extends AbstractStep
+class PagesCreate extends AbstractStep
 {
     /**
      * {@inheritdoc}
      */
     public function process()
     {
-        $this->builder->setPages(new PageCollection());
+        $this->builder->setPages(new PagesCollection());
         if (count($this->builder->getContent()) <= 0) {
             return;
         }

@@ -14,12 +14,10 @@ use Symfony\Component\Finder\Finder;
 /**
  * Copy static directory content to site root.
  */
-class CopyStatic extends AbstractStep
+class StaticCopy extends AbstractStep
 {
     /**
      * {@inheritdoc}
-     *
-     * @throws Exception
      */
     public function init($options)
     {
@@ -31,8 +29,6 @@ class CopyStatic extends AbstractStep
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Cecil\Exception\Exception
      */
     public function process()
     {

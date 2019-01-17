@@ -8,7 +8,7 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 
 /**
@@ -19,9 +19,9 @@ class PagesFromConfig extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PageCollection $pageCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PageCollection();
+        $generatedPages = new PagesCollection();
 
         $fmPages = $this->config->get('site.fmpages');
         foreach ($fmPages as $file => $frontmatter) {

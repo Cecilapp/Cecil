@@ -15,7 +15,7 @@ use Cecil\Util;
 /**
  * Pages saving.
  */
-class SavePages extends AbstractStep
+class PagesSave extends AbstractStep
 {
     /**
      * {@inheritdoc}

@@ -15,7 +15,7 @@ use Cecil\Exception\Exception;
 /**
  * Converts content of all pages.
  */
-class ConvertPages extends AbstractStep
+class PagesConvert extends AbstractStep
 {
     /**
      * {@inheritdoc}

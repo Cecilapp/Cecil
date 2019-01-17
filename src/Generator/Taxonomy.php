@@ -8,11 +8,11 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PageCollection;
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
-use Cecil\Collection\Taxonomy\Collection as TaxonomyCollection;
+use Cecil\Collection\Taxonomy\Collection as TaxonomiesCollection;
 use Cecil\Collection\Taxonomy\Term as Term;
-use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
+use Cecil\Collection\Taxonomy\Vocabulary as VocabulariesCollection;
 use Cecil\Exception\Exception;
 use Cecil\Page\NodeType;
 
@@ -21,20 +21,20 @@ use Cecil\Page\NodeType;
  */
 class Taxonomy extends AbstractGenerator implements GeneratorInterface
 {
-    /* @var TaxonomyCollection */
-    protected $taxonomyCollection;
-    /* @var PageCollection */
-    protected $pageCollection;
-    /* @var PageCollection */
+    /* @var TaxonomiesCollection */
+    protected $taxonomiesCollection;
+    /* @var PagesCollection */
+    protected $pagesCollection;
+    /* @var PagesCollection */
     protected $generatedPages;
 
     /**
      * {@inheritdoc}
      */
-    public function generate(PageCollection $pageCollection, \Closure $messageCallback)
+    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $this->pageCollection = $pageCollection;
-        $this->generatedPages = new PageCollection('generator-taxonomy');
+        $this->pagesCollection = $pagesCollection;
+        $this->generatedPages = new PagesCollection('generator-taxonomy');
 
         if ($this->config->get('site.taxonomies') && !$this->config->get('site.taxonomies.disabled')) {
             $this->initTaxonomiesCollection();
@@ -51,12 +51,12 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     protected function initTaxonomiesCollection()
     {
         // create an empty "taxonomies" collection
-        $this->taxonomyCollection = new TaxonomyCollection('taxonomies');
+        $this->taxonomiesCollection = new TaxonomiesCollection('taxonomies');
 
-        // adds each vocabulary collection to the "taxonomies" collection
+        // adds each vocabularies collection to the "taxonomies" collection
         foreach ($this->config->get('site.taxonomies') as $vocabulary) {
             if ($vocabulary != 'disable') {
-                $this->taxonomyCollection->add(new Vocabulary($vocabulary));
+                $this->taxonomiesCollection->add(new VocabulariesCollection($vocabulary));
             }
         }
     }
@@ -67,7 +67,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     protected function collectTermsFromPages()
     {
         /* @var $page Page */
-        foreach ($this->pageCollection as $page) {
+        foreach ($this->pagesCollection as $page) {
             foreach (array_keys($this->config->get('site.taxonomies')) as $plural) {
                 if ($page->hasVariable($plural)) {
                     // converts a list to an array if necessary
@@ -77,10 +77,10 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     // adds each term to the vocabulary collection
                     foreach ($page->getVariable($plural) as $term) {
                         $term = mb_strtolower($term);
-                        $this->taxonomyCollection->get($plural)
+                        $this->taxonomiesCollection->get($plural)
                             ->add(new Term($term));
                         // adds page to the term collection
-                        $this->taxonomyCollection
+                        $this->taxonomiesCollection
                             ->get($plural)
                             ->get($term)
                             ->add($page);
@@ -95,19 +95,19 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
      */
     protected function createNodePages()
     {
-        /* @var $terms Vocabulary */
-        foreach ($this->taxonomyCollection as $plural => $terms) {
+        /* @var $terms VocabulariesCollection */
+        foreach ($this->taxonomiesCollection as $plural => $terms) {
             if (count($terms) > 0) {
                 /*
                  * Creates $plural/$term pages (list of pages)
                  * ex: /tags/tag-1/
                  */
-                /* @var $pages PageCollection */
+                /* @var $pages PagesCollection */
                 foreach ($terms as $term => $pages) {
                     $pages = $pages->sortByDate()->toArray();
                     $pageId = Page::urlize(sprintf('%s/%s', $plural, $term));
-                    if ($this->pageCollection->has($pageId)) {
-                        $page = clone $this->pageCollection->get($pageId);
+                    if ($this->pagesCollection->has($pageId)) {
+                        $page = clone $this->pagesCollection->get($pageId);
                     } else {
                         $page = (new Page())
                             ->setTitle(ucfirst($term));
