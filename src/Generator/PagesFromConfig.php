@@ -25,6 +25,9 @@ class PagesFromConfig extends AbstractGenerator implements GeneratorInterface
 
         $fmPages = $this->config->get('site.fmpages');
         foreach ($fmPages as $file => $frontmatter) {
+            if ($frontmatter == 'disabled') {
+                continue;
+            }
             $pageId = Page::urlize(sprintf('%s', $file));
             $page = (new Page())
                 ->setId($pageId)
