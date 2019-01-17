@@ -64,7 +64,7 @@ class Layout
     /**
      * Layout fall-back.
      *
-     * @param Page $page
+     * @param Page   $page
      * @param string $format
      *
      * @return string[]

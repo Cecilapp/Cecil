@@ -64,7 +64,6 @@ class PagesRender extends AbstractStep
 
             // WIP
             if ($page->getVariable('output')) {
-
             }
 
             foreach ($page->getVariable('output') as $format) {
@@ -73,7 +72,6 @@ class PagesRender extends AbstractStep
                     ['page' => $page]
                 );
             }
-
 
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
