@@ -56,21 +56,28 @@ return [
         'output' => [
             'dir'      => '_site',
             'filename' => 'index.html',
-            // WIP
             'formats' => [
                 'html' => [
                     'mediatype' => 'text/html',
                     'filename'  => 'index.html',
+                    'basename'  => 'index',
+                    'extension' => 'html',
                 ],
                 'rss' => [
                     'mediatype' => 'application/rss+xml',
-                    'filename'  => 'index.xml',
+                    'filename'  => 'rss.xml',
                 ],
                 'json' => [
                     'mediatype' => 'application/json',
                     'filename'  => 'index.json',
                 ],
             ],
+            'bypagetype' => [
+                'PAGE'     => ['html'],
+                'HOMEPAGE' => ['html', 'rss'],
+                'SECTION'  => ['html', 'rss'],
+                'TAXONOMY' => ['html', 'rss'],
+            ]
         ],
     ],
     'content' => [

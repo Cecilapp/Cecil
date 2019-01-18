@@ -14,7 +14,7 @@ use Cecil\Collection\Taxonomy\Collection as TaxonomiesCollection;
 use Cecil\Collection\Taxonomy\Term as Term;
 use Cecil\Collection\Taxonomy\Vocabulary as VocabulariesCollection;
 use Cecil\Exception\Exception;
-use Cecil\Page\NodeType;
+use Cecil\Page\Type;
 
 /**
  * Class Taxonomy.
@@ -114,7 +114,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     }
                     $page->setId($pageId)
                         ->setPathname($pageId)
-                        ->setNodeType(NodeType::TAXONOMY)
+                        ->setType(Type::TAXONOMY)
                         ->setVariable('pages', $pages)
                         ->setVariable('date', $date = reset($pages)->getDate())
                         ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
@@ -129,7 +129,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     ->setId(Page::urlize($plural))
                     ->setPathname(strtolower($plural))
                     ->setTitle($plural)
-                    ->setNodeType(NodeType::TERMS)
+                    ->setType(Type::TERMS)
                     ->setVariable('plural', $plural)
                     ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
                     ->setVariable('terms', $terms)

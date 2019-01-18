@@ -11,15 +11,17 @@ namespace Cecil\Page;
 use MyCLabs\Enum\Enum;
 
 /**
- * Class NodeType.
+ * Class Type.
  *
- * @method static NodeType HOMEPAGE()
- * @method static NodeType SECTION()
- * @method static NodeType TAXONOMY()
- * @method static NodeType TERMS()
+ * @method static Type PAGE()
+ * @method static Type HOMEPAGE()
+ * @method static Type SECTION()
+ * @method static Type TAXONOMY()
+ * @method static Type TERMS()
  */
-class NodeType extends Enum
+class Type extends Enum
 {
+    const PAGE = 'page';
     const HOMEPAGE = 'homepage';
     const SECTION = 'section';
     const TAXONOMY = 'taxonomy';

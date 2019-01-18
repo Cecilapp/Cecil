@@ -10,7 +10,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
-use Cecil\Page\NodeType;
+use Cecil\Page\Type;
 
 /**
  * Class Section.
@@ -43,7 +43,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setId($pageId)
                         ->setPathname($pageId)
                         ->setTitle(ucfirst($section))
-                        ->setNodeType(NodeType::SECTION)
+                        ->setType(Type::SECTION)
                         ->setVariable('pages', $pages)
                         ->setVariable('date', reset($pages)->getDate())
                         ->setVariable('menu', [

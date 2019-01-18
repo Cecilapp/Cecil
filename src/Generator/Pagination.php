@@ -10,7 +10,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
-use Cecil\Page\NodeType;
+use Cecil\Page\Type;
 
 /**
  * Class Pagination.
@@ -25,7 +25,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
         $generatedPages = new PagesCollection();
 
         $filteredPages = $pagesCollection->filter(function (Page $page) {
-            return in_array($page->getNodeType(), [NodeType::HOMEPAGE, NodeType::SECTION]);
+            return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION]);
         });
 
         /* @var $page Page */

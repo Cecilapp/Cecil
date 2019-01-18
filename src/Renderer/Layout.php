@@ -11,7 +11,7 @@ namespace Cecil\Renderer;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Exception\Exception;
-use Cecil\Page\NodeType;
+use Cecil\Page\Type as PageType;
 use Cecil\Util;
 
 /**
@@ -64,7 +64,7 @@ class Layout
     /**
      * Layout fall-back.
      *
-     * @param Page $page
+     * @param Page   $page
      * @param string $format
      *
      * @return string[]
@@ -76,15 +76,15 @@ class Layout
         // remove redundant '.twig' extension
         $layout = str_replace('.twig', '', $page->getLayout());
 
-        switch ($page->getNodeType()) {
-            case NodeType::HOMEPAGE:
+        switch ($page->getType()) {
+            case PageType::HOMEPAGE:
                 $layouts = [
                     "index.$format.twig",
                     "_default/list.$format.twig",
                     "_default/page.$format.twig",
                 ];
                 break;
-            case NodeType::SECTION:
+            case PageType::SECTION:
                 $layouts = [
                     // "section/$section.$format.twig",
                     "_default/section.$format.twig",
@@ -98,7 +98,7 @@ class Layout
                     );
                 }
                 break;
-            case NodeType::TAXONOMY:
+            case PageType::TAXONOMY:
                 $layouts = [
                     // "taxonomy/$singular.$format.twig",
                     "_default/taxonomy.$format.twig",
@@ -111,7 +111,7 @@ class Layout
                     );
                 }
                 break;
-            case NodeType::TERMS:
+            case PageType::TERMS:
                 $layouts = [
                     // "taxonomy/$singular.terms.$format.twig",
                     "_default/terms.$format.twig",
@@ -123,6 +123,7 @@ class Layout
                     );
                 }
                 break;
+            case PageType::PAGE:
             default:
                 $layouts = [
                     // "$section/$layout.twig",

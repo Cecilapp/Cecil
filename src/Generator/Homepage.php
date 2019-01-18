@@ -10,7 +10,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
-use Cecil\Page\NodeType;
+use Cecil\Page\Type;
 
 /**
  * Class Homepage.
@@ -26,7 +26,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
 
         if (!$pagesCollection->has('index')) {
             $filteredPages = $pagesCollection->filter(function (Page $page) {
-                return $page->getNodeType() === null
+                return $page->getType() === null
                 && $page->getSection() == $this->config->get('site.paginate.homepage.section')
                 && !empty($page->getBody());
             });
@@ -35,7 +35,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             /* @var $page Page */
             $page = (new Page())
                 ->setId('index')
-                ->setNodeType(NodeType::HOMEPAGE)
+                ->setType(Type::HOMEPAGE)
                 ->setPathname(Page::urlize(''))
                 ->setTitle('Home')
                 ->setVariable('pages', $pages)

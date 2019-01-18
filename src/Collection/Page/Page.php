@@ -9,7 +9,7 @@
 namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Item;
-use Cecil\Page\NodeType;
+use Cecil\Page\Type;
 use Cecil\Page\Parser;
 use Cecil\Page\VariableTrait;
 use Cocur\Slugify\Slugify;
@@ -53,7 +53,7 @@ class Page extends Item
     /**
      * @var string
      */
-    protected $nodeType;
+    protected $type;
     /**
      * @var string
      */
@@ -224,27 +224,27 @@ class Page extends Item
     }
 
     /**
-     * Set node type.
+     * Set page type.
      *
-     * @param string $nodeType
+     * @param string $type
      *
      * @return self
      */
-    public function setNodeType(string $nodeType): self
+    public function setType(string $type): self
     {
-        $this->nodeType = new NodeType($nodeType);
+        $this->type = new Type($type);
 
         return $this;
     }
 
     /**
-     * Get node type.
+     * Get page type.
      *
      * @return string|null
      */
-    public function getNodeType(): ?string
+    public function getType(): ?string
     {
-        return $this->nodeType;
+        return $this->type;
     }
 
     /**

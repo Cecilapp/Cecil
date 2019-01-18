@@ -10,6 +10,7 @@ namespace Cecil\Step;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
+use Cecil\Page\Type;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Twig as Twig;
 
@@ -62,19 +63,22 @@ class PagesRender extends AbstractStep
         foreach ($filteredPages as $page) {
             $count++;
 
-            // WIP
-            if ($page->getVariable('output')) {
-
+            $formats = ['html'];
+            if ($page->getVariable('output') !== null) {
+                $formats = $page->getVariable('output');
             }
 
-            foreach ($page->getVariable('output') as $format) {
-                $rendered = $this->builder->getRenderer()->render(
-                    $layout = (new Layout())->finder($page, $this->config),
+            // test
+            if ($page->getType() == Type::SECTION) {
+                $formats = ['html', 'rss'];
+            }
+
+            foreach ($formats as $format) {
+                $rendered[$format] = $this->builder->getRenderer()->render(
+                    $layout = (new Layout())->finder($page, $format, $this->config),
                     ['page' => $page]
                 );
             }
-
-
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 
