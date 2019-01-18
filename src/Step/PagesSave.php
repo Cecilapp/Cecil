@@ -55,7 +55,7 @@ class PagesSave extends AbstractStep
         foreach ($filteredPages as $page) {
             $count++;
 
-            foreach($page->getVariable('rendered') as $format => $rendered) {
+            foreach ($page->getVariable('rendered') as $format => $rendered) {
                 $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$this->getPathname($page, $format));
                 Util::getFS()->dumpFile($pathname, $rendered);
             }
@@ -68,7 +68,7 @@ class PagesSave extends AbstractStep
     /**
      * Return output pathname.
      *
-     * @param Page $page
+     * @param Page   $page
      * @param string $format
      *
      * @return string
@@ -78,6 +78,7 @@ class PagesSave extends AbstractStep
         // force pathname of "index" pages (ie: homepage, sections, etc.)
         if ($page->getName() == 'index') {
             return $page->getPath().'/'.$this->config->get('site.output.filename');
+
             return $page->getPath().'/'.$this->config->get("site.output.formats.$format.filename");
         } else {
             // custom extension, ex: 'manifest.json'
