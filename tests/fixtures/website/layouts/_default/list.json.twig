@@ -1,0 +1,10 @@
+[
+{% for page in page.pages|sortByDate %}
+  {
+    "id": {{ page.id|json_encode() }},
+    "title": {{ page.title|json_encode() }},
+    "url": {{ url(page)|json_encode() }}
+  }{% if not loop.last %},{% endif %}
+
+{% endfor %}
+]

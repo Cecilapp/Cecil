@@ -26,8 +26,8 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
 
         if (!$pagesCollection->has('index')) {
             $filteredPages = $pagesCollection->filter(function (Page $page) {
-                return $page->getType() === null
-                && $page->getSection() == $this->config->get('site.paginate.homepage.section')
+                return ($page->getType() === null || $page->getType() === TYPE::PAGE)
+                //&& $page->getSection() == $this->config->get('site.paginate.homepage.section')
                 && !empty($page->getBody());
             });
             $pages = $filteredPages->sortByDate()->toArray();

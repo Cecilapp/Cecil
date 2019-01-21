@@ -10,6 +10,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Page\Type;
 
 /**
  * Class PagesFromConfig.
@@ -31,7 +32,8 @@ class PagesFromConfig extends AbstractGenerator implements GeneratorInterface
             $pageId = Page::urlize(sprintf('%s', $file));
             $page = (new Page())
                 ->setId($pageId)
-                ->setPathname($pageId);
+                ->setPathname($pageId)
+                ->setType(Type::PAGE);
             $page->setVariables($frontmatter);
             if (!empty($frontmatter['layout'])) {
                 $page->setLayout($frontmatter['layout']);

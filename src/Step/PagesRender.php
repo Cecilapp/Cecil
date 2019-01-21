@@ -64,25 +64,32 @@ class PagesRender extends AbstractStep
             $count++;
 
             $formats = ['html'];
-            if ($page->getVariable('output') !== null) {
-                $formats = $page->getVariable('output');
-            }
+            //if ($page->getVariable('output') !== null) {
+            //    $formats = $page->getVariable('output');
+            //}
+            // temp
 
-            // test
+            echo $page->getId()." - ".$page->getType()."\n";
+
             if ($page->getType() == Type::SECTION) {
-                $formats = ['html', 'rss'];
+                $formats = ['html', 'rss', 'json'];
             }
 
             foreach ($formats as $format) {
-                $rendered[$format] = $this->builder->getRenderer()->render(
-                    $layout = (new Layout())->finder($page, $format, $this->config),
+                $layout = (new Layout())->finder($page, $format, $this->config);
+                $rendered[$format]['output'] = $this->builder->getRenderer()->render(
+                    $layout,
                     ['page' => $page]
                 );
+                $rendered[$format]['template'] = $layout;
             }
+
+            $layouts = implode(', ', array_column($rendered, 'template'));
+
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 
-            $message = sprintf('%s (%s)', ($page->getId() ?: 'index'), $layout);
+            $message = sprintf('%s (%s)', ($page->getId() ?: 'index'), $layouts);
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
     }

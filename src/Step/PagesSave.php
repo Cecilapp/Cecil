@@ -54,14 +54,16 @@ class PagesSave extends AbstractStep
         $count = 0;
         foreach ($filteredPages as $page) {
             $count++;
+            $message = [];
 
             foreach($page->getVariable('rendered') as $format => $rendered) {
                 $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$this->getPathname($page, $format));
-                Util::getFS()->dumpFile($pathname, $rendered);
+                Util::getFS()->dumpFile($pathname, $rendered['output']);
+
+                $message[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
-            $message = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
-            call_user_func_array($this->builder->getMessageCb(), ['SAVE_PROGRESS', $message, $count, $max]);
+            call_user_func_array($this->builder->getMessageCb(), ['SAVE_PROGRESS', implode(' & ', $message), $count, $max]);
         }
     }
 
@@ -73,11 +75,11 @@ class PagesSave extends AbstractStep
      *
      * @return string
      */
-    protected function getPathname(Page $page, string $format)
+    protected function getPathname(Page $page, string $format = 'html')
     {
         // force pathname of "index" pages (ie: homepage, sections, etc.)
         if ($page->getName() == 'index') {
-            return $page->getPath().'/'.$this->config->get('site.output.filename');
+            //return $page->getPath().'/'.$this->config->get('site.output.filename');
             return $page->getPath().'/'.$this->config->get("site.output.formats.$format.filename");
         } else {
             // custom extension, ex: 'manifest.json'
@@ -89,7 +91,8 @@ class PagesSave extends AbstractStep
                 return $page->getPermalink();
             }
 
-            return $page->getPermalink().'/'.$this->config->get('site.output.filename');
+            //return $page->getPermalink().'/'.$this->config->get('site.output.filename');
+            return $page->getPermalink().'/'.$this->config->get("site.output.formats.$format.filename");
         }
     }
 
