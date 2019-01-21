@@ -62,16 +62,10 @@ class PagesRender extends AbstractStep
         $count = 0;
         foreach ($filteredPages as $page) {
             $count++;
-
             $formats = ['html'];
-            //if ($page->getVariable('output') !== null) {
-            //    $formats = $page->getVariable('output');
-            //}
-            // temp
+            $rendered = null;
 
-            echo $page->getId()." - ".$page->getType()."\n";
-
-            if ($page->getType() == Type::SECTION) {
+            if ($page->getType() == Type::SECTION || $page->getType() == Type::HOMEPAGE) {
                 $formats = ['html', 'rss', 'json'];
             }
 
@@ -83,12 +77,10 @@ class PagesRender extends AbstractStep
                 );
                 $rendered[$format]['template'] = $layout;
             }
-
-            $layouts = implode(', ', array_column($rendered, 'template'));
-
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 
+            $layouts = implode(', ', array_column($rendered, 'template'));
             $message = sprintf('%s (%s)', ($page->getId() ?: 'index'), $layouts);
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
