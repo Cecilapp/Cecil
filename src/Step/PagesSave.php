@@ -56,7 +56,7 @@ class PagesSave extends AbstractStep
             $count++;
             $message = [];
 
-            foreach($page->getVariable('rendered') as $format => $rendered) {
+            foreach ($page->getVariable('rendered') as $format => $rendered) {
                 $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$this->getPathname($page, $format));
                 Util::getFS()->dumpFile($pathname, $rendered['output']);
 
@@ -70,7 +70,7 @@ class PagesSave extends AbstractStep
     /**
      * Return output pathname.
      *
-     * @param Page $page
+     * @param Page   $page
      * @param string $format
      *
      * @return string

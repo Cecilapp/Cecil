@@ -69,7 +69,7 @@ class PagesRender extends AbstractStep
             //}
             // temp
 
-            echo $page->getId()." - ".$page->getType()."\n";
+            echo $page->getId().' - '.$page->getType()."\n";
 
             if ($page->getType() == Type::SECTION) {
                 $formats = ['html', 'rss', 'json'];
