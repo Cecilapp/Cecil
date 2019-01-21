@@ -56,7 +56,7 @@ return [
         'output' => [
             'dir'      => '_site',
             'filename' => 'index.html',
-            'formats' => [
+            'formats'  => [
                 'html' => [
                     'mediatype' => 'text/html',
                     'filename'  => 'index.html',
@@ -77,7 +77,7 @@ return [
                 'HOMEPAGE' => ['html', 'rss'],
                 'SECTION'  => ['html', 'rss'],
                 'TAXONOMY' => ['html', 'rss'],
-            ]
+            ],
         ],
     ],
     'content' => [
