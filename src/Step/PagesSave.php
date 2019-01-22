@@ -57,7 +57,14 @@ class PagesSave extends AbstractStep
             $message = [];
 
             foreach ($page->getVariable('rendered') as $format => $rendered) {
-                $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$this->getPathname($page, $format));
+                if (false === $pathname = $this->getPathname($page, $format)) {
+                    throw new Exception(sprintf(
+                        "Can't get pathname of page '%s' (format: '%s')",
+                        $page->getId(),
+                        $format
+                    ));
+                }
+                $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$pathname);
                 Util::getFS()->dumpFile($pathname, $rendered['output']);
 
                 $message[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
@@ -76,7 +83,7 @@ class PagesSave extends AbstractStep
      * @param Page   $page
      * @param string $format
      *
-     * @return string
+     * @return string|false
      */
     protected function getPathname(Page $page, string $format = 'html')
     {

@@ -11,7 +11,7 @@ namespace Cecil\Page;
 use MyCLabs\Enum\Enum;
 
 /**
- * Class Type.
+ * Type enum.
  *
  * @method static Type PAGE()
  * @method static Type HOMEPAGE()
