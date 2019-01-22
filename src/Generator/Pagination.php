@@ -46,14 +46,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 for ($i = 0; $i < $paginateCount; $i++) {
                     $pagesInPagination = array_slice($pages, ($i * $paginateMax), $paginateMax);
                     $alteredPage = clone $page;
-                    // ie: blog/page/2
-                    $pageId = Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i + 1));
-                    $currentPath = $pageId;
-                    $alteredPage
-                        ->setId($pageId)
-                        ->setPathname($currentPath)
-                        ->unVariable('menu');
                     // first page
+                    $firstPath = Page::urlize(sprintf('%s', $path));
                     if ($i == 0) {
                         // ie: blog/page/1 -> blog
                         $pageId = Page::urlize(sprintf('%s', $path));
@@ -61,13 +55,21 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         if ($path == '') {
                             $pageId = 'index';
                         }
-                        $currentPath = $firstPath = Page::urlize(sprintf('%s', $path));
+                        $currentPath = $firstPath;
                         $alteredPage
                             ->setId($pageId)
                             ->setPathname($currentPath)
                             ->setVariable('aliases', [
                                 sprintf('%s/%s/%s', $path, $paginatePath, 1),
                             ]);
+                    } else {
+                        // ie: blog/page/2
+                        $pageId = Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i + 1));
+                        $currentPath = $pageId;
+                        $alteredPage
+                            ->setId($pageId)
+                            ->setPathname($currentPath)
+                            ->unVariable('menu');
                     }
                     $alteredPage->setVariable('totalpages', $totalpages);
                     $alteredPage->setVariable('pages', $pagesInPagination);
