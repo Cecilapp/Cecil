@@ -60,8 +60,6 @@ return [
                 'html' => [
                     'mediatype' => 'text/html',
                     'filename'  => 'index.html',
-                    'basename'  => 'index',
-                    'extension' => 'html',
                 ],
                 'rss' => [
                     'mediatype' => 'application/rss+xml',
@@ -72,7 +70,7 @@ return [
                     'filename'  => 'index.json',
                 ],
             ],
-            'bypagetype' => [
+            'pagesformats' => [
                 'page'     => ['html', 'json'],
                 'homepage' => ['html', 'rss', 'json'],
                 'section'  => ['html', 'rss', 'json'],
