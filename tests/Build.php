@@ -69,7 +69,7 @@ class Build extends \PHPUnit\Framework\TestCase
                         'disabled' => false,
                     ],
                     'googleanalytics' => 'POUET',
-                    'fmpages'         => [
+                    'vpages'         => [
                         'sitemap' => [
                             'published' => true,
                         ],

@@ -4,8 +4,8 @@
     <url>
         <loc>{{ url(page, { canonical: true }) }}</loc>
         <lastmod>{{ page.date|date('Y-m-d') }}</lastmod>
-        <changefreq>{{ page.sitemap.changefreq|default(site.fmpages.sitemap.changefreq) }}</changefreq>
-        <priority>{{ page.sitemap.priority|default(site.fmpages.sitemap.priority) }}</priority>
+        <changefreq>{{ page.sitemap.changefreq|default(site.vpages.sitemap.changefreq) }}</changefreq>
+        <priority>{{ page.sitemap.priority|default(site.vpages.sitemap.priority) }}</priority>
     </url>
 {% endfor %}
 </urlset>
