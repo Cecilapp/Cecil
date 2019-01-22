@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cecil/theme-hyde",
-            "version": "1.11.0",
+            "version": "1.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/theme-hyde.git",
-                "reference": "bb54c7e248176cd8c1dff47dc8581118afd4f18a"
+                "reference": "97e5a0ac1c19909805d017d8ff4f08f2c1f78e1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/bb54c7e248176cd8c1dff47dc8581118afd4f18a",
-                "reference": "bb54c7e248176cd8c1dff47dc8581118afd4f18a",
+                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/97e5a0ac1c19909805d017d8ff4f08f2c1f78e1a",
+                "reference": "97e5a0ac1c19909805d017d8ff4f08f2c1f78e1a",
                 "shasum": ""
             },
             "require": {
@@ -40,7 +40,7 @@
                 "cecil",
                 "theme"
             ],
-            "time": "2018-11-21T14:27:19+00:00"
+            "time": "2019-01-15T17:01:23+00:00"
         },
         {
             "name": "cecil/theme-installer",
