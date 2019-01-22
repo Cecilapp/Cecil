@@ -40,8 +40,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             $path = $page->getPathname();
 
             // paginate
-            if (count($pages) > $paginateMax) {
-                $paginateCount = ceil(count($pages) / $paginateMax);
+            $totalpages = count($pages);
+            if ($totalpages > $paginateMax) {
+                $paginateCount = ceil($totalpages / $paginateMax);
                 for ($i = 0; $i < $paginateCount; $i++) {
                     $pagesInPagination = array_slice($pages, ($i * $paginateMax), $paginateMax);
                     $alteredPage = clone $page;
@@ -53,31 +54,37 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         if ($path == '') {
                             $pageId = 'index';
                         }
+                        $currentPath = $firstPath = Page::urlize(sprintf('%s', $path));
                         $alteredPage
                             ->setId($pageId)
-                            ->setPathname(Page::urlize(sprintf('%s', $path)))
+                            ->setPathname($currentPath)
                             ->setVariable('aliases', [
                                 sprintf('%s/%s/%s', $path, $paginatePath, 1),
                             ]);
                     } else {
                         // ie: blog/page/2
                         $pageId = Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i + 1));
+                        $currentPath = $pageId;
                         $alteredPage
                             ->setId($pageId)
                             ->setPathname($pageId)
                             ->unVariable('menu');
                     }
-                    // pagination
-                    $pagination = ['pages' => $pagesInPagination];
+                    $alteredPage->setVariable('totalpages', $totalpages);
+                    $alteredPage->setVariable('pages', $pagesInPagination);
+                    // links
+                    $pagination = ['self' => $currentPath];
+                    $pagination += ['first' => $firstPath];
                     if ($i > 0) {
                         $pagination += ['prev' => Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i))];
                     }
                     if ($i < $paginateCount - 1) {
                         $pagination += ['next' => Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i + 2))];
                     }
+                    $pagination += ['last' => Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $paginateCount))];
                     $alteredPage
                         ->setVariable('pagination', $pagination)
-                        ->setVariable('date', reset($pagination['pages'])->getDate());
+                        ->setVariable('date', reset($pagesInPagination)->getDate());
 
                     $generatedPages->add($alteredPage);
                 }

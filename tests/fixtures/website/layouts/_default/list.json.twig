@@ -1,10 +1,26 @@
-[
-{% for page in page.pages|sortByDate %}
-  {
-    "id": {{ page.id|json_encode() }},
-    "title": {{ page.title|json_encode() }},
-    "url": {{ url(page)|json_encode() }}
-  }{% if not loop.last %},{% endif %}
-
+{
+  "data": [
+{% for p in page.pages|sortByDate %}
+    {
+      "id": {{ p.id|json_encode() }},
+      "title": {{ p.title|json_encode() }},
+      "url": {{ url(p, { canonical: true })|json_encode() }}
+    }{% if not loop.last %},{% endif %}
 {% endfor %}
-]
+  ]{% if page.pagination is defined %},
+  "meta": {
+    "totalPage": {{ page.totalpages }}
+  },
+  "links": {
+    "self": "{{ url(page.pagination.self, {'canonical': true}) }}",
+    "first": "{{ url(page.pagination.first, {'canonical': true}) }}",
+{% if page.pagination.prev is defined %}
+    "prev": "{{ url(page.pagination.prev, {'canonical': true}) }}",
+{% endif %}
+{% if page.pagination.next is defined %}
+    "next": "{{ url(page.pagination.next, {'canonical': true}) }}",
+{% endif %}
+    "last": "{{ url(page.pagination.last, {'canonical': true}) }}"
+  }
+{% endif %}
+}

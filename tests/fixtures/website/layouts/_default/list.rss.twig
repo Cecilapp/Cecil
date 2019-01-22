@@ -1,3 +1,7 @@
+{% set pages = page.pages %}
+{% if page.id == 'index' %}
+{% set pages = site.pages|filterBy('virtual', false) %}
+{% endif %}
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
     <channel>
@@ -5,12 +9,12 @@
         <description><![CDATA[{{ site.description|escape }}]]></description>
         <lastBuildDate>{{ page.date|date('Y-m-dTH:i:sP') }}</lastBuildDate>
         <link>{{ url('/', { canonical: true }) }}</link>
-{% for page in page.pages|sortByDate %}
+{% for p in pages|sortByDate %}
         <item>
-            <title>{{ page.title }}</title>
-            <description><![CDATA[{{ page.content }}]]></description>
-            <pubDate>{{ page.date|date('Y-m-dTH:i:sP') }}</pubDate>
-            <link>{{ url(page, { canonical: true }) }}</link>
+            <title>{{ p.title }}</title>
+            <description><![CDATA[{{ p.content }}]]></description>
+            <pubDate>{{ p.date|date('Y-m-dTH:i:sP') }}</pubDate>
+            <link>{{ url(p, { canonical: true }) }}</link>
         </item>
 {% endfor %}
     </channel>

@@ -28,4 +28,11 @@ Imported config (from theme(s)):
 <p>Variable `foo`=`{{ site.foo }}`</p>
 {% endif %}
 
+<pre>
+Total pages: {{ page.totalpages }}
+Pages by page : {{ page.pages|length }}
+Links:
+{{ dump(page.pagination) }}
+</pre>
+
 {% endblock %}

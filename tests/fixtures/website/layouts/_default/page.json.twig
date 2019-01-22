@@ -1,0 +1,8 @@
+{% set url = url(page, { canonical: true }) ~ site.output.formats.json.filename %}
+{
+  "data": {
+    "id": {{ page.id|json_encode() }},
+    "title": {{ page.title|json_encode() }},
+    "url": {{ url|json_encode() }}
+  }
+}

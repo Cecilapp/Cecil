@@ -65,10 +65,12 @@ class PagesRender extends AbstractStep
             $formats = ['html'];
             $rendered = null;
 
-            if ($page->getType() == Type::SECTION || $page->getType() == Type::HOMEPAGE) {
-                $formats = ['html', 'rss', 'json'];
+            if (\is_array($this->config->get('site.output.bypagetype.'.$page->getType()))) {
+                $formats = $this->config->get('site.output.bypagetype.'.$page->getType());
             }
-
+            if (\is_array($page->getVariable('output'))) {
+                $formats = $page->getVariable('output');
+            }
             foreach ($formats as $format) {
                 $layout = (new Layout())->finder($page, $format, $this->config);
                 $rendered[$format]['output'] = $this->builder->getRenderer()->render(
