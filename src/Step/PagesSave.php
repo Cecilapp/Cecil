@@ -63,7 +63,10 @@ class PagesSave extends AbstractStep
                 $message[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
-            call_user_func_array($this->builder->getMessageCb(), ['SAVE_PROGRESS', implode(', ', $message), $count, $max]);
+            call_user_func_array(
+                $this->builder->getMessageCb(),
+                ['SAVE_PROGRESS', implode(', ', $message), $count, $max]
+            );
         }
     }
 
