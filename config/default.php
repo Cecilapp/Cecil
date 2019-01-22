@@ -46,12 +46,6 @@ return [
                 'layout'    => '404.html',
                 'permalink' => '404.html',
             ],
-            'rss' => [
-                'title'         => 'RSS file',
-                'layout'        => 'rss.xml',
-                'permalink'     => 'rss.xml',
-                'targetsection' => 'blog',
-            ],
         ],
         'output' => [
             'dir'      => '_site',
