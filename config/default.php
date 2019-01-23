@@ -28,7 +28,7 @@ return [
             'format'   => 'j F Y',
             'timezone' => 'Europe/Paris',
         ],
-        'vpages' => [
+        'virtualpages' => [
             'robotstxt' => [
                 'title'     => 'Robots.txt',
                 'layout'    => 'robots.txt',

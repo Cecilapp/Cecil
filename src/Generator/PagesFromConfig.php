@@ -24,8 +24,8 @@ class PagesFromConfig extends AbstractGenerator implements GeneratorInterface
     {
         $generatedPages = new PagesCollection();
 
-        $vpages = $this->config->get('site.vpages');
-        foreach ($vpages as $file => $frontmatter) {
+        $virtualpages = $this->config->get('site.virtualpages');
+        foreach ($virtualpages as $file => $frontmatter) {
             if ($frontmatter == 'disabled') {
                 continue;
             }
