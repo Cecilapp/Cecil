@@ -58,11 +58,12 @@ class PagesSave extends AbstractStep
 
             foreach ($page->getVariable('rendered') as $format => $rendered) {
                 if (false === $pathname = $this->getPathname($page, $format)) {
-                    throw new Exception(sprintf(
+                    /*throw new Exception(sprintf(
                         "Can't get pathname of page '%s' (format: '%s')",
                         $page->getId(),
                         $format
-                    ));
+                    ));*/
+                    continue;
                 }
                 $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$pathname);
                 Util::getFS()->dumpFile($pathname, $rendered['output']);
@@ -89,11 +90,14 @@ class PagesSave extends AbstractStep
     {
         // force pathname of "index" pages (ie: homepage, sections, etc.)
         if ($page->getName() == 'index') {
-            //return $page->getPath().'/'.$this->config->get('site.output.filename');
             return $page->getPath().'/'.$this->config->get("site.output.formats.$format.filename");
         } else {
             // custom extension, ex: 'manifest.json'
             if (!empty(pathinfo($page->getPermalink(), PATHINFO_EXTENSION))) {
+                if ($format != 'html') {
+                    return false;
+                }
+
                 return $page->getPermalink();
             }
             // underscore prefix, ex: '_redirects'
@@ -101,7 +105,6 @@ class PagesSave extends AbstractStep
                 return $page->getPermalink();
             }
 
-            //return $page->getPermalink().'/'.$this->config->get('site.output.filename');
             return $page->getPermalink().'/'.$this->config->get("site.output.formats.$format.filename");
         }
     }
