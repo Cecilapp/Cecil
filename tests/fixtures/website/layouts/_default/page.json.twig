@@ -3,6 +3,8 @@
   "data": {
     "id": {{ page.id|json_encode() }},
     "title": {{ page.title|json_encode() }},
-    "url": {{ url|json_encode() }}
+    "url": {{ url|json_encode() }}{% if page.body is defined %},
+    "body": {{ page.body|json_encode() }}
+{% endif %}
   }
 }
