@@ -146,6 +146,7 @@ class Page extends Item
 
             parent::__construct();
         }
+        $this->setType(Type::PAGE);
         $this->setVariable('virtual', $this->virtual);
         $this->setVariable('published', true);
         $this->setVariable('content_template', 'page.content.twig');
@@ -480,7 +481,7 @@ class Page extends Item
      *
      * @return string
      */
-    public function getBody(): string
+    public function getBody(): ?string
     {
         return $this->body;
     }
