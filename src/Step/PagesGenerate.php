@@ -32,6 +32,9 @@ class PagesGenerate extends AbstractStep
     {
         if ($this->process) {
             $generatorManager = new GeneratorManager();
+
+            call_user_func_array($this->builder->getMessageCb(), ['GENERATE', 'Generating pages']);
+
             $generators = $this->builder->getConfig()->get('generators');
             array_walk($generators, function ($generator, $priority) use ($generatorManager) {
                 if (!class_exists($generator)) {
@@ -42,7 +45,7 @@ class PagesGenerate extends AbstractStep
                 }
                 $generatorManager->addGenerator(new $generator($this->builder->getConfig()), $priority);
             });
-            call_user_func_array($this->builder->getMessageCb(), ['GENERATE', 'Generating pages']);
+
             $pages = $generatorManager->process($this->builder->getPages(), $this->builder->getMessageCb());
             $this->builder->setPages($pages);
         }

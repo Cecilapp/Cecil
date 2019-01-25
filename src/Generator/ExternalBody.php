@@ -34,7 +34,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
                 $pageContent = file_get_contents($page->getVariable('external'), false);
                 $html = (new Converter())
                     ->convertBody($pageContent);
-                $page->setHtml($html);
+                $page->setBodyHtml($html);
 
                 $generatedPages->add($page);
             } catch (\Exception $e) {

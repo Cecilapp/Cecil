@@ -90,7 +90,7 @@ class PagesConvert extends AbstractStep
 
         // converts body
         $html = Converter::convertBody($page->getBody());
-        $page->setHtml($html);
+        $page->setBodyHtml($html);
 
         return $page;
     }

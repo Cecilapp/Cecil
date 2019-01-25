@@ -64,7 +64,7 @@ return [
                     'filename'  => 'index.json',
                 ],
             ],
-            'pagesformats' => [
+            'pagetypeformats' => [
                 'page'     => ['html', 'json'],
                 'homepage' => ['html', 'rss', 'json'],
                 'section'  => ['html', 'rss', 'json'],
@@ -102,7 +102,7 @@ return [
         40 => 'Cecil\Generator\Pagination',
         50 => 'Cecil\Generator\Alias',
         35 => 'Cecil\Generator\ExternalBody',
-        36 => 'Cecil\Generator\PagesFromConfig',
+        36 => 'Cecil\Generator\VirtualPages',
         60 => 'Cecil\Generator\Redirect',
     ],
 ];

@@ -229,7 +229,7 @@ class Extension extends SlugifyExtension
      *
      * @return string|null
      */
-    public function createUrl(\Twig_Environment $env, $value = null, $options = null)
+    public function createUrl(\Twig_Environment $env, $value = null, $options = null): ?string
     {
         $base = '';
         $baseurl = $env->getGlobals()['site']['baseurl'];
@@ -256,11 +256,7 @@ class Extension extends SlugifyExtension
 
         if ($value instanceof Page) {
             $value = $value->getPermalink();
-            if (false !== strpos($value, '.')) { // file URL (with a dot for extension)
-                $url = $base.'/'.ltrim($value, '/');
-            } else {
-                $url = $base.'/'.ltrim(rtrim($value, '/').'/', '/');
-            }
+            $url = $base.'/'.ltrim($value, '/');
         } else {
             if (preg_match('~^(?:f|ht)tps?://~i', $value)) { // external URL
                 $url = $value;

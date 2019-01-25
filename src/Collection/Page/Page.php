@@ -138,7 +138,7 @@ class Page extends Item
                 }
             }
             // permalink
-            $this->setPermalink($this->pathname);
+            $this->setPermalink($this->pathname.'/');
 
             parent::__construct($this->id);
         } else {
@@ -444,9 +444,6 @@ class Page extends Item
      */
     public function setPermalink(string $permalink): self
     {
-        // https://regex101.com/r/45oTKm/1
-        $permalink = preg_replace('/index$/i', '', $permalink);
-
         $this->setVariable('permalink', $permalink);
 
         return $this;
@@ -460,7 +457,7 @@ class Page extends Item
     public function getPermalink(): ?string
     {
         if (empty($this->getVariable('permalink'))) {
-            $this->setPermalink($this->getPathname());
+            $this->setPermalink($this->getPathname().'/');
         }
 
         return $this->getVariable('permalink');
@@ -477,7 +474,7 @@ class Page extends Item
     }
 
     /**
-     * Get body.
+     * Get body as raw.
      *
      * @return string
      */
@@ -487,13 +484,13 @@ class Page extends Item
     }
 
     /**
-     * Set HTML.
+     * Set body as HTML.
      *
      * @param string $html
      *
      * @return self
      */
-    public function setHtml(string $html): self
+    public function setBodyHtml(string $html): self
     {
         $this->html = $html;
 
@@ -501,13 +498,23 @@ class Page extends Item
     }
 
     /**
-     * Get HTML alias.
+     * Get body as HTML.
+     *
+     * @return string|null
+     */
+    public function getBodyHtml(): ?string
+    {
+        return $this->html;
+    }
+
+    /**
+     * @see getBodyHtml()
      *
      * @return string|null
      */
     public function getContent(): ?string
     {
-        return $this->html;
+        return $this->getBodyHtml();
     }
 
     /**

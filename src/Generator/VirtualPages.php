@@ -13,9 +13,9 @@ use Cecil\Collection\Page\Page;
 use Cecil\Page\Type;
 
 /**
- * Class PagesFromConfig.
+ * Class VirtualPages.
  */
-class PagesFromConfig extends AbstractGenerator implements GeneratorInterface
+class VirtualPages extends AbstractGenerator implements GeneratorInterface
 {
     /**
      * {@inheritdoc}

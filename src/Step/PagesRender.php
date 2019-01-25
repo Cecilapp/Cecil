@@ -67,8 +67,8 @@ class PagesRender extends AbstractStep
             $alternates = [];
 
             // get available formats
-            if (\is_array($this->config->get('site.output.pagesformats.'.$page->getType()))) {
-                $formats = $this->config->get('site.output.pagesformats.'.$page->getType());
+            if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
+                $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
             }
             if (\is_array($page->getVariable('output'))) {
                 $formats = $page->getVariable('output');
