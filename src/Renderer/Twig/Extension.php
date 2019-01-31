@@ -255,7 +255,7 @@ class Extension extends SlugifyExtension
         }
 
         if ($value instanceof Page) {
-            $value = $value->getPermalink();
+            $value = $value->getVariable('url');
             $url = $base.'/'.ltrim($value, '/');
         } else {
             if (preg_match('~^(?:f|ht)tps?://~i', $value)) { // external URL

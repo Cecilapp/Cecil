@@ -29,27 +29,26 @@ return [
             'timezone' => 'Europe/Paris',
         ],
         'virtualpages' => [
-            'robotstxt' => [
-                'title'     => 'Robots.txt',
-                'layout'    => 'robots.txt',
-                'permalink' => 'robots.txt',
+            'robots' => [
+                'title'  => 'Robots.txt',
+                'layout' => 'robots.txt',
+                'url'    => 'robots.txt',
             ],
             'sitemap' => [
                 'title'      => 'XML sitemap',
                 'layout'     => 'sitemap.xml',
-                'permalink'  => 'sitemap.xml',
+                'url'        => 'sitemap.xml',
                 'changefreq' => 'monthly',
                 'priority'   => '0.5',
             ],
             '404' => [
-                'title'     => '404 page',
-                'layout'    => '404.html',
-                'permalink' => '404.html',
+                'title'  => '404 page',
+                'layout' => '404.html',
+                'url'    => '404.html',
             ],
         ],
         'output' => [
             'dir'      => '_site',
-            'filename' => 'index.html',
             'formats'  => [
                 'html' => [
                     'mediatype' => 'text/html',

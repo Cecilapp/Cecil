@@ -25,22 +25,15 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
         $generatedPages = new PagesCollection();
 
         $virtualpages = $this->config->get('site.virtualpages');
-        foreach ($virtualpages as $file => $frontmatter) {
+        foreach ($virtualpages as $pathname => $frontmatter) {
             if ($frontmatter == 'disabled') {
                 continue;
             }
-            $pageId = Page::slugify(sprintf('%s', $file));
             $page = (new Page())
-                ->setId($pageId)
-                ->setPathname($pageId)
+                ->setId(Page::slugify($pathname))
+                ->setPathname($pathname)
                 ->setType(Type::PAGE);
             $page->setVariables($frontmatter);
-            if (!empty($frontmatter['layout'])) {
-                $page->setLayout($frontmatter['layout']);
-            }
-            if (!empty($frontmatter['permalink'])) {
-                $page->setPermalink($frontmatter['permalink']);
-            }
             $generatedPages->add($page);
         }
 

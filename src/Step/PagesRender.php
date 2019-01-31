@@ -80,13 +80,19 @@ class PagesRender extends AbstractStep
             }
             foreach ($formats as $format) {
                 if ($format == 'html') {
+                    $alternates[] = [
+                        'rel'   => 'canonical',
+                        'type'  => $this->config->get("site.output.formats.html.mediatype"),
+                        'title' => 'HTML',
+                        'href'  => $page->getVariable('url'),
+                    ];
                     continue;
                 }
                 $alternates[] = [
                     'rel'   => 'alternate',
                     'type'  => $this->config->get("site.output.formats.$format.mediatype"),
                     'title' => strtoupper($format),
-                    'href'  => $page->getPermalink().'/'.$this->config->get("site.output.formats.$format.filename"),
+                    'href'  => $page->getVariable('url').$this->config->get("site.output.formats.$format.filename"),
                 ];
             }
             $page->setVariable('alternates', $alternates);

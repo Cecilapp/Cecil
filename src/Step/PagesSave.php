@@ -93,17 +93,17 @@ class PagesSave extends AbstractStep
             return $page->getPath().'/'.$this->config->get("site.output.formats.$format.filename");
         }
         // if "pathname/"
-        if (\strrpos($page->getPermalink(), '/') == \strlen($page->getPermalink()) - 1) {
-            return $page->getPermalink().$this->config->get("site.output.formats.$format.filename");
+        if (\strrpos($page->getVariable('url'), '/') == \strlen($page->getVariable('url')) - 1) {
+            return $page->getVariable('url').$this->config->get("site.output.formats.$format.filename");
         }
-        // != html + etxension. ie: 404.html -> 404.json
-        $extension = pathinfo($page->getPermalink(), PATHINFO_EXTENSION);
+        // != html + extension. ie: 404.html -> 404.json
+        $extension = pathinfo($page->getVariable('url'), PATHINFO_EXTENSION);
         if ($format != 'html' && $extension != null) {
-            $permalink = str_ireplace(".$extension", "", $page->getPermalink());
-            return $permalink.'/'.$this->config->get("site.output.formats.$format.filename");
+            $url = basename($page->getVariable('url'), ".$extension");
+            return $url.'/'.$this->config->get("site.output.formats.$format.filename");
         }
         // if "pathname"
-        return $page->getPermalink();
+        return $page->getVariable('url');
     }
 
     /**

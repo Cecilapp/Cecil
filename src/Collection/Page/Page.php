@@ -73,6 +73,10 @@ class Page extends Item
     /**
      * @var string
      */
+    protected $section;
+    /**
+     * @var string
+     */
     protected $frontmatter;
     /**
      * @var string
@@ -104,7 +108,7 @@ class Page extends Item
             $this->fileExtension = pathinfo($this->file, PATHINFO_EXTENSION);
             $this->filePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
             $this->fileName = $this->file->getBasename('.'.$this->fileExtension);
-            // filePathname = ilePath + '/' + fileName
+            // filePathname = filePath + '/' + fileName
             // ie: "Blog/Post 1"
             $this->filePathname = ($this->filePath ? $this->filePath.'/' : '')
                 .($this->filePath && $this->fileName == 'index' ? '' : $this->fileName);
@@ -120,19 +124,21 @@ class Page extends Item
             // Pathname. ie: "blog/post-1"
             $this->pathname = $this->slugify(Prefix::subPrefix($this->filePathname));
             /*
-             * Set default values
+             * Set variables
              */
             // Section. ie: "blog"
             $this->setSection(explode('/', $this->path)[0]);
             /*
-             * Set variables default values (overridden by front matter)
+             * Set variables overridden by front matter
              */
             // title. ie: "Post 1"
             $this->setVariable('title', Prefix::subPrefix($this->fileName));
             // date (from file meta)
             $this->setVariable('date', filemtime($this->file->getPathname()));
+            // weight
+            $this->setVariable('weight', null);
             // url
-            $this->setPermalink($this->pathname.'/');
+            $this->setVariable('url', $this->pathname.'/');
             // special case: file has a prefix
             if (Prefix::hasPrefix($this->filePathname)) {
                 // prefix is a valid date?
@@ -148,6 +154,8 @@ class Page extends Item
         } else {
             // virtual page
             $this->virtual = true;
+            // date (current date)
+            $this->setVariable('date', time());
 
             parent::__construct();
         }
@@ -301,7 +309,7 @@ class Page extends Item
      */
     public function setSection(string $section): self
     {
-        $this->setVariable('section', $section);
+        $this->section = $section;
 
         return $this;
     }
@@ -313,39 +321,11 @@ class Page extends Item
      */
     public function getSection(): ?string
     {
-        if (empty($this->getVariable('section')) && !empty($this->path)) {
+        if (empty($this->section) && !empty($this->path)) {
             $this->setSection(explode('/', $this->path)[0]);
         }
 
-        return $this->getVariable('section');
-    }
-
-    /**
-     * Set permalink.
-     *
-     * @param string $permalink
-     *
-     * @return self
-     */
-    public function setPermalink(string $permalink): self
-    {
-        $this->setVariable('permalink', $permalink);
-
-        return $this;
-    }
-
-    /**
-     * Get permalink.
-     *
-     * @return string|false
-     */
-    public function getPermalink(): ?string
-    {
-        if (empty($this->getVariable('permalink'))) {
-            $this->setPermalink($this->getPathname().'/');
-        }
-
-        return $this->getVariable('permalink');
+        return $this->section;
     }
 
     /**
@@ -400,29 +380,5 @@ class Page extends Item
     public function getContent(): ?string
     {
         return $this->getBodyHtml();
-    }
-
-    /**
-     * Set layout.
-     *
-     * @param string $layout
-     *
-     * @return self
-     */
-    public function setLayout(string $layout): self
-    {
-        $this->setVariable('layout', $layout);
-
-        return $this;
-    }
-
-    /**
-     * Get layout.
-     *
-     * @return string|false
-     */
-    public function getLayout(): ?string
-    {
-        return $this->getVariable('layout');
     }
 }

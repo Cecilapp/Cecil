@@ -1,4 +1,4 @@
-{% set url = url(page, { canonical: true }) ~ site.output.formats.json.filename %}
+{% set url = url(page, { canonical: true })|replace({'.html': '/'}) ~ site.output.formats.json.filename %}
 {
   "data": {
     "id": {{ page.id|json_encode() }},

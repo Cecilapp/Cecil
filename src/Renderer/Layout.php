@@ -74,7 +74,7 @@ class Layout
     protected static function fallback(Page $page, string $format)
     {
         // remove redundant '.twig' extension
-        $layout = str_replace('.twig', '', $page->getLayout());
+        $layout = str_replace('.twig', '', $page->getVariable('layout'));
 
         switch ($page->getType()) {
             case PageType::HOMEPAGE:
@@ -143,7 +143,7 @@ class Layout
                         $layouts
                     );
                 }
-                if ($page->getLayout()) {
+                if ($page->getVariable('layout')) {
                     $layouts = array_merge(
                         [sprintf('%s.twig', $layout)],
                         $layouts

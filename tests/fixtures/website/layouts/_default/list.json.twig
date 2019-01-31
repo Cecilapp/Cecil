@@ -4,7 +4,7 @@
     {
       "id": {{ p.id|json_encode() }},
       "title": {{ p.title|json_encode() }},
-      "url": {{ url(p, { canonical: true })|json_encode() }}
+      "url": {{ (url(p, { canonical: true })|replace({'.html': '/'}) ~ site.output.formats.json.filename)|json_encode() }}
     }{% if not loop.last %},{% endif %}
 {% endfor %}
   ]{% if page.pagination is defined %},
@@ -12,15 +12,15 @@
     "totalPage": {{ page.totalpages }}
   },
   "links": {
-    "self": "{{ url(page.pagination.self, {'canonical': true})|json_encode() }}",
-    "first": "{{ url(page.pagination.first, {'canonical': true})|json_encode() }}",
+    "self": {{ (url(page.pagination.self, {'canonical': true})|replace({'.html': '/'}) ~ site.output.formats.json.filename)|json_encode() }},
+    "first": {{ (url(page.pagination.first, {'canonical': true})|replace({'.html': '/'}) ~ site.output.formats.json.filename)|json_encode() }},
 {% if page.pagination.prev is defined %}
-    "prev": "{{ url(page.pagination.prev, {'canonical': true})|json_encode() }}",
+    "prev": {{ (url(page.pagination.prev, {'canonical': true})|replace({'.html': '/'}) ~ site.output.formats.json.filename)|json_encode() }},
 {% endif %}
 {% if page.pagination.next is defined %}
-    "next": "{{ url(page.pagination.next, {'canonical': true})|json_encode() }}",
+    "next": {{ (url(page.pagination.next, {'canonical': true})|replace({'.html': '/'}) ~ site.output.formats.json.filename)|json_encode() }},
 {% endif %}
-    "last": "{{ url(page.pagination.last, {'canonical': true})|json_encode() }}"
+    "last": {{ (url(page.pagination.last, {'canonical': true})|replace({'.html': '/'}) ~ site.output.formats.json.filename)|json_encode() }}
   }
 {% endif %}
 }
