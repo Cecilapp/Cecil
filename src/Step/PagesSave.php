@@ -100,6 +100,7 @@ class PagesSave extends AbstractStep
         $extension = pathinfo($page->getVariable('url'), PATHINFO_EXTENSION);
         if ($format != 'html' && $extension != null) {
             $url = basename($page->getVariable('url'), ".$extension");
+
             return $url.'/'.$this->config->get("site.output.formats.$format.filename");
         }
         // if "pathname"
