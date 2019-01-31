@@ -82,7 +82,7 @@ class PagesRender extends AbstractStep
                 if ($format == 'html') {
                     $alternates[] = [
                         'rel'   => 'canonical',
-                        'type'  => $this->config->get("site.output.formats.html.mediatype"),
+                        'type'  => $this->config->get('site.output.formats.html.mediatype'),
                         'title' => 'HTML',
                         'href'  => $page->getVariable('url'),
                     ];
