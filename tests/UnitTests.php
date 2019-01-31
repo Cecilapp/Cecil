@@ -146,7 +146,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
         $pagesCollection = new PagesCollection();
 
         $page->setId('id-of-page')
-            ->setTitle('title-of-page');
+            ->setVariable('title', 'title-of-page');
         $pagesCollection->add($page);
 
         $this->assertContains($page, $pagesCollection);
@@ -158,7 +158,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
         $pagesCollection = new PagesCollection();
 
         $page->setId('id-of-page')
-            ->setTitle('title-of-page');
+            ->setVariable('title', 'title-of-page');
         $pagesCollection->add($page);
 
         $this->assertNotNull($pagesCollection->get('id-of-page'));

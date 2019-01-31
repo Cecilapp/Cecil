@@ -29,7 +29,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
             if ($frontmatter == 'disabled') {
                 continue;
             }
-            $pageId = Page::urlize(sprintf('%s', $file));
+            $pageId = Page::slugify(sprintf('%s', $file));
             $page = (new Page())
                 ->setId($pageId)
                 ->setPathname($pageId)

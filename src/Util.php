@@ -85,4 +85,19 @@ class Util
 
         return ($a['date'] > $b['date']) ? -1 : 1;
     }
+
+    /**
+     * Checks if a date is valid.
+     *
+     * @param string $date
+     * @param string $format
+     *
+     * @return bool
+     */
+    public static function isValidDate(string $date, string $format = 'Y-m-d'): bool
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+
+        return $d && $d->format($format) === $date;
+    }
 }

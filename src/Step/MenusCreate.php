@@ -58,7 +58,7 @@ class MenusCreate extends AbstractStep
                     $item = (new Entry($property['id']))
                         ->setName($property['name'])
                         ->setUrl($property['url'])
-                        ->setWeight($property['weight']);
+                        ->setWeight('weight', $property['weight']);
                     $menu->add($item);
                     $count++;
                 }
@@ -87,7 +87,7 @@ class MenusCreate extends AbstractStep
                  */
                 if (is_string($page['menu'])) {
                     $item = (new Entry($page->getId()))
-                        ->setName($page->getTitle())
+                        ->setName($page->getVariable('title'))
                         ->setUrl($page->getPermalink());
                     /* @var $menu \Cecil\Collection\Menu\Menu */
                     $menu = $this->builder->getMenus()->get($page['menu']);
@@ -104,9 +104,9 @@ class MenusCreate extends AbstractStep
                     if (is_array($page['menu'])) {
                         foreach ($page['menu'] as $name => $value) {
                             $item = (new Entry($page->getId()))
-                                ->setName($page->getTitle())
+                                ->setName($page->getVariable('title'))
                                 ->setUrl($page->getPermalink())
-                                ->setWeight($value['weight']);
+                                ->setWeight('weight', $value['weight']);
                             /* @var $menu \Cecil\Collection\Menu\Menu */
                             $menu = $this->builder->getMenus()->get($name);
                             $menu->add($item);

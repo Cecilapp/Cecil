@@ -47,10 +47,10 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $pagesInPagination = array_slice($pages, ($i * $paginateMax), $paginateMax);
                     $alteredPage = clone $page;
                     // first page
-                    $firstPath = Page::urlize(sprintf('%s', $path));
+                    $firstPath = Page::slugify(sprintf('%s', $path));
                     if ($i == 0) {
                         // ie: blog/page/1 -> blog
-                        $pageId = Page::urlize(sprintf('%s', $path));
+                        $pageId = Page::slugify(sprintf('%s', $path));
                         // homepage special case
                         if ($path == '') {
                             $pageId = 'index';
@@ -64,7 +64,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                             ]);
                     } else {
                         // ie: blog/page/2
-                        $pageId = Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i + 1));
+                        $pageId = Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $i + 1));
                         $currentPath = $pageId;
                         $alteredPage
                             ->setId($pageId)
@@ -77,15 +77,15 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $pagination = ['self' => $currentPath];
                     $pagination += ['first' => $firstPath];
                     if ($i > 0) {
-                        $pagination += ['prev' => Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i))];
+                        $pagination += ['prev' => Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $i))];
                     }
                     if ($i < $paginateCount - 1) {
-                        $pagination += ['next' => Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $i + 2))];
+                        $pagination += ['next' => Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $i + 2))];
                     }
-                    $pagination += ['last' => Page::urlize(sprintf('%s/%s/%s', $path, $paginatePath, $paginateCount))];
+                    $pagination += ['last' => Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $paginateCount))];
                     $alteredPage
                         ->setVariable('pagination', $pagination)
-                        ->setVariable('date', reset($pagesInPagination)->getDate());
+                        ->setVariable('date', reset($pagesInPagination)->getVariable('date'));
 
                     $generatedPages->add($alteredPage);
                 }

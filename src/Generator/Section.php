@@ -36,16 +36,16 @@ class Section extends AbstractGenerator implements GeneratorInterface
         if (count($sections) > 0) {
             $menuWeight = 100;
             foreach ($sections as $section => $pages) {
-                $pageId = Page::urlize(sprintf('%s', $section));
+                $pageId = Page::slugify(sprintf('%s', $section));
                 if (!$pagesCollection->has($pageId)) {
                     usort($pages, 'Cecil\Util::sortByDate');
                     $page = (new Page())
                         ->setId($pageId)
                         ->setPathname($pageId)
-                        ->setTitle(ucfirst($section))
+                        ->setVariable('title', ucfirst($section))
                         ->setType(Type::SECTION)
                         ->setVariable('pages', $pages)
-                        ->setVariable('date', reset($pages)->getDate())
+                        ->setVariable('date', reset($pages)->getVariable('date'))
                         ->setVariable('menu', [
                             'main' => ['weight' => $menuWeight],
                         ]);

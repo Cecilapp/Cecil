@@ -26,7 +26,7 @@ trait VariableTrait
     abstract public function offsetUnset($offset);
 
     /**
-     * Set variables.
+     * Set an array of variables.
      *
      * @param array $variables
      *
@@ -37,7 +37,8 @@ trait VariableTrait
     public function setVariables($variables)
     {
         if (!is_array($variables)) {
-            return $this;
+            //return $this;
+            throw new Exception('Can\'t set variables: parmaeter is not an array');
         }
         foreach ($variables as $key => $value) {
             $this->setVariable($key, $value);
@@ -47,7 +48,7 @@ trait VariableTrait
     }
 
     /**
-     * Get variables.
+     * Get all variables.
      *
      * @return array
      */

@@ -24,13 +24,13 @@ class TitleReplace extends AbstractGenerator implements GeneratorInterface
         $generatedPages = new PagesCollection();
 
         $filteredPages = $pagesCollection->filter(function (Page $page) {
-            return null !== $page->getTitle();
+            return null !== $page->getVariable('title');
         });
 
         /* @var $page Page */
         foreach ($filteredPages as $page) {
             $alteredPage = clone $page;
-            $alteredPage->setTitle(strtoupper($page->getTitle()));
+            $alteredPage->setVariable('title', strtoupper($page->getVariable('title')));
             $generatedPages->add($alteredPage);
         }
 
