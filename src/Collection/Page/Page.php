@@ -94,7 +94,7 @@ class Page extends Item
 
         // physical page
         if ($this->file instanceof SplFileInfo) {
-            /**
+            /*
              * File path components
              */
             // ie: content/Blog/Post 1.md

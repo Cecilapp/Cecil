@@ -44,6 +44,7 @@ class Prefix
     {
         if (self::hasPrefix($string)) {
             preg_match('/'.self::PREFIX_PATTERN.'/', $string, $matches);
+
             return $matches[2];
         }
 
@@ -61,6 +62,7 @@ class Prefix
     {
         if (self::hasPrefix($string)) {
             preg_match('/'.self::PREFIX_PATTERN.'/', $string, $matches);
+
             return $matches[1].$matches[7];
         }
 
