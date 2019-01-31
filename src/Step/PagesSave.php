@@ -99,7 +99,8 @@ class PagesSave extends AbstractStep
         // != html + etxension. ie: 404.html -> 404.json
         $extension = pathinfo($page->getPermalink(), PATHINFO_EXTENSION);
         if ($format != 'html' && $extension != null) {
-            $permalink = str_ireplace(".$extension", "", $page->getPermalink());
+            $permalink = str_ireplace(".$extension", '', $page->getPermalink());
+
             return $permalink.'/'.$this->config->get("site.output.formats.$format.filename");
         }
         // if "pathname"
