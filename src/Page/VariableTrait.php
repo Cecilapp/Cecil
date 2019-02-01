@@ -16,8 +16,11 @@ namespace Cecil\Page;
 trait VariableTrait
 {
     abstract public function offsetExists($offset);
+
     abstract public function offsetGet($offset);
+
     abstract public function offsetSet($offset, $value);
+
     abstract public function offsetUnset($offset);
 
     /**
