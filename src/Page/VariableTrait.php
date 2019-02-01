@@ -37,8 +37,7 @@ trait VariableTrait
     public function setVariables($variables)
     {
         if (!is_array($variables)) {
-            //return $this;
-            throw new Exception('Can\'t set variables: parmaeter is not an array');
+            throw new Exception('Can\'t set variables: parameter is not an array');
         }
         foreach ($variables as $key => $value) {
             $this->setVariable($key, $value);
