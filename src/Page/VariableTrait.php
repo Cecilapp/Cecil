@@ -8,8 +8,6 @@
 
 namespace Cecil\Page;
 
-use Cecil\Exception\Exception;
-
 /**
  * Helper to set and get page variables.
  *
@@ -18,11 +16,8 @@ use Cecil\Exception\Exception;
 trait VariableTrait
 {
     abstract public function offsetExists($offset);
-
     abstract public function offsetGet($offset);
-
     abstract public function offsetSet($offset, $value);
-
     abstract public function offsetUnset($offset);
 
     /**
@@ -30,14 +25,14 @@ trait VariableTrait
      *
      * @param array $variables
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @return $this
      */
     public function setVariables($variables)
     {
         if (!is_array($variables)) {
-            throw new Exception('Can\'t set variables: parameter is not an array');
+            throw new \Exception('Can\'t set variables: parameter is not an array');
         }
         foreach ($variables as $key => $value) {
             $this->setVariable($key, $value);
@@ -62,7 +57,7 @@ trait VariableTrait
      * @param $name
      * @param $value
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @return $this
      */
@@ -72,19 +67,22 @@ trait VariableTrait
             case 'date':
                 try {
                     if ($value instanceof \DateTime) {
-                        $this->offsetSet('date', $value);
+                        $date = $value;
                     } else {
+                        // timestamp
                         if (is_numeric($value)) {
-                            $this->offsetSet('date', (new \DateTime())->setTimestamp($value));
+                            $date = (new \DateTime())->setTimestamp($value);
                         } else {
+                            // ie: 2019-01-01
                             if (is_string($value)) {
-                                $this->offsetSet('date', new \DateTime($value));
+                                $date = new \DateTime($value);
                             }
                         }
                     }
-                } catch (Exception $e) {
-                    throw new Exception(sprintf("Expected date string in page ID: '%s'", $this->getId()));
+                } catch (\Exception $e) {
+                    throw new \Exception(sprintf("Expected date string in page '%s'", $this->getId()));
                 }
+                $this->offsetSet('date', $date);
                 break;
             case 'draft':
                 if ($value === true) {
