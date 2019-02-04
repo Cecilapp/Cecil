@@ -33,7 +33,7 @@
     "myclabs/php-enum": "1.6.4",
     "padraic/humbug_get_contents": "1.1.2",
     "padraic/phar-updater": "1.0.6",
-    "symfony/filesystem": "4.1.7",
+    "symfony/filesystem": "4.2.3",
     "symfony/finder": "4.1.7",
     "symfony/process": "4.1.7",
     "symfony/yaml": "4.1.7",
