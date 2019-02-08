@@ -66,6 +66,7 @@ class PagesSave extends AbstractStep
                     continue;
                 }
                 $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$pathname);
+
                 try {
                     Util::getFS()->dumpFile($pathname, $rendered['output']);
                 } catch (\Exception $e) {
