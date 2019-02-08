@@ -59,22 +59,37 @@ class PagesRender extends AbstractStep
 
         // render each page
         $count = 0;
+        /* @var $page Page */
         foreach ($filteredPages as $page) {
             $count++;
             $formats = ['html'];
             $rendered = null;
             $alternates = [];
 
-            // get available formats
+            // get available formats for page type
             if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
                 $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
             }
+            // get page formats
             if ($page->getVariable('output')) {
                 $formats = $page->getVariable('output');
                 if (!is_array($formats)) {
                     $formats = [$formats];
                 }
+            } else {
+                $page->setVariable('output', $formats);
             }
+
+            // output file
+            /* ie:
+            output:
+              format: html
+              file: index.html
+            output:
+              format: txt
+              file: robots.txt (= name + extension)
+            */
+            $page->setVariable('output', $outputfile);
 
             // alternates
             if (count($formats) > 1 && array_key_exists('html', $formats)) {

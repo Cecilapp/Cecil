@@ -165,17 +165,52 @@ class Page extends Item
     }
 
     /**
-     * Turn a path (string) into a slung (URL).
+     * Parse file content.
      *
-     * @param string $string
+     * @return self
+     */
+    public function parse(): self
+    {
+        $parser = new Parser($this->file);
+        $parsed = $parser->parse();
+        $this->frontmatter = $parsed->getFrontmatter();
+        $this->body = $parsed->getBody();
+
+        return $this;
+    }
+
+    /**
+     * Get frontmatter.
+     *
+     * @return string|null
+     */
+    public function getFrontmatter(): ?string
+    {
+        return $this->frontmatter;
+    }
+
+    /**
+     * Get body as raw.
      *
      * @return string
      */
-    public static function slugify(string $string): string
+    public function getBody(): ?string
+    {
+        return $this->body;
+    }
+
+    /**
+     * Turn a path (string) into a slug (URL).
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function slugify(string $path): string
     {
         return Slugify::create([
             'regexp' => self::SLUGIFY_PATTERN,
-        ])->slugify($string);
+        ])->slugify($path);
     }
 
     /**
@@ -210,21 +245,6 @@ class Page extends Item
     public function getType(): ?string
     {
         return $this->type;
-    }
-
-    /**
-     * Parse file content.
-     *
-     * @return self
-     */
-    public function parse(): self
-    {
-        $parser = new Parser($this->file);
-        $parsed = $parser->parse();
-        $this->frontmatter = $parsed->getFrontmatter();
-        $this->body = $parsed->getBody();
-
-        return $this;
     }
 
     /**
@@ -334,26 +354,6 @@ class Page extends Item
     }
 
     /**
-     * Get frontmatter.
-     *
-     * @return string|null
-     */
-    public function getFrontmatter(): ?string
-    {
-        return $this->frontmatter;
-    }
-
-    /**
-     * Get body as raw.
-     *
-     * @return string
-     */
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
-
-    /**
      * Set body as HTML.
      *
      * @param string $html
@@ -417,7 +417,7 @@ class Page extends Item
      *
      * @return array
      */
-    public function getVariables()
+    public function getVariables(): array
     {
         return $this->properties;
     }
