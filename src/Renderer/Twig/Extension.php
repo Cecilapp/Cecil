@@ -274,7 +274,7 @@ class Extension extends SlugifyExtension
                 $url .= $env->getGlobals()['site']['output']['formats'][$format]['filename']
                 .'.'.$env->getGlobals()['site']['output']['formats'][$format]['extension'];
             }
-        // string
+            // string
         } else {
             if (preg_match('~^(?:f|ht)tps?://~i', $value)) { // external URL
                 $url = $value;
