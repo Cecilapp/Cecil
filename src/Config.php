@@ -328,9 +328,10 @@ class Config
         return $this->getThemesPath().'/'.$theme.'/'.$dir;
     }
 
-    public function getOutputFile($format) {
+    public function getOutputFile($format)
+    {
         if ($this->get("site.output.formats.$format.uglyurl")) {
-            return null;
+            return;
         }
 
         return $this->get("site.output.formats.$format.filename")

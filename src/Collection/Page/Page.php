@@ -12,7 +12,6 @@ use Cecil\Collection\Item;
 use Cecil\Page\Parser;
 use Cecil\Page\Prefix;
 use Cecil\Page\Type;
-use Cecil\Page\VariableTrait;
 use Cecil\Util;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
