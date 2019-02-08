@@ -92,6 +92,12 @@ trait VariableTrait
                     $this->offsetSet('published', false);
                 }
                 break;
+            case 'url':
+                $slug = self::slugify($value);
+                if ($value != $slug) {
+                    throw new \Exception(sprintf("'url' variable should be '%s', not '%s', in page '%s'", $slug, $value, $this->getId()));
+                }
+                break;
             default:
                 $this->offsetSet($name, $value);
         }

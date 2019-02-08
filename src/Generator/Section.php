@@ -32,7 +32,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 $sections[$page->getSection()][] = $page;
             }
         }
-        // adds node pages to collection
+        // adds section pages to collection
         if (count($sections) > 0) {
             $menuWeight = 100;
             foreach ($sections as $section => $pages) {
@@ -46,7 +46,6 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setType(Type::SECTION)
                         ->setVariable('pages', $pages)
                         ->setVariable('date', reset($pages)->getVariable('date'))
-                        ->setVariable('url', $pageId.'/')
                         ->setVariable('menu', [
                             'main' => ['weight' => $menuWeight],
                         ]);

@@ -63,45 +63,48 @@ class PagesRender extends AbstractStep
             $count++;
             $formats = ['html'];
             $rendered = null;
-            $hasAlternates = false;
             $alternates = [];
 
             // get available formats
             if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
                 $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
             }
-            if (\is_array($page->getVariable('output'))) {
+            if ($page->getVariable('output')) {
                 $formats = $page->getVariable('output');
+                if (!is_array($formats)) {
+                    $formats = [$formats];
+                }
             }
 
-            // list alternates
+            // alternates
             if (count($formats) > 1 && array_key_exists('html', $formats)) {
-                $hasAlternates = true;
-            }
-            foreach ($formats as $format) {
-                if ($format == 'html') {
+                foreach ($formats as $format) {
+                    if ($format == 'html') {
+                        $alternates[] = [
+                            'rel'   => 'canonical',
+                            'type'  => $this->config->get('site.output.formats.html.mediatype'),
+                            'title' => 'HTML',
+                            'href'  => $page->getVariable('url'),
+                        ];
+                        continue;
+                    }
                     $alternates[] = [
-                        'rel'   => 'canonical',
-                        'type'  => $this->config->get('site.output.formats.html.mediatype'),
-                        'title' => 'HTML',
-                        'href'  => $page->getVariable('url'),
+                        'rel'   => 'alternate',
+                        'type'  => $this->config->get("site.output.formats.$format.mediatype"),
+                        'title' => strtoupper($format),
+                        'href'  => $page->getVariable('url').$this->config->get("site.output.formats.$format.filename"),
                     ];
-                    continue;
                 }
-                $alternates[] = [
-                    'rel'   => 'alternate',
-                    'type'  => $this->config->get("site.output.formats.$format.mediatype"),
-                    'title' => strtoupper($format),
-                    'href'  => $page->getVariable('url').$this->config->get("site.output.formats.$format.filename"),
-                ];
+                $page->setVariable('alternates', $alternates);
             }
-            $page->setVariable('alternates', $alternates);
 
             // render each format
             foreach ($formats as $format) {
+                // escape redirect pages
                 if ($format != 'html' && $page->hasVariable('destination')) {
                     continue;
                 }
+
                 $layout = (new Layout())->finder($page, $format, $this->config);
                 $rendered[$format]['output'] = $this->builder->getRenderer()->render(
                     $layout,

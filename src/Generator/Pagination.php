@@ -71,7 +71,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                             ->setPathname($currentPath)
                             ->unVariable('menu');
                     }
-                    $alteredPage->setVariable('url', $currentPath.'/');
+                    $alteredPage->setVariable('url', $currentPath);
                     $alteredPage->setVariable('totalpages', $totalpages);
                     $alteredPage->setVariable('pages', $pagesInPagination);
                     // links

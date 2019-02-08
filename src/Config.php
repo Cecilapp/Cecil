@@ -327,4 +327,13 @@ class Config
     {
         return $this->getThemesPath().'/'.$theme.'/'.$dir;
     }
+
+    public function getOutputFile($format) {
+        if ($this->get("site.output.formats.$format.uglyurl")) {
+            return null;
+        }
+
+        return $this->get("site.output.formats.$format.filename")
+            .'.'.$this->get("site.output.formats.$format.extension");
+    }
 }

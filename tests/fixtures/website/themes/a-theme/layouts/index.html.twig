@@ -35,9 +35,11 @@ Links:
 {{ dump(page.pagination) }}
 </pre>
 
+{% if page.alternates is defined %}
 <pre>
 Alternates:
 {{ dump(page.alternates) }}
 </pre>
+{% endif %}
 
 {% endblock %}

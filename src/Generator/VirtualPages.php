@@ -31,7 +31,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
             }
             $page = (new Page())
                 ->setId(Page::slugify($pathname))
-                ->setPathname($pathname)
+                ->setPathname(Page::slugify($pathname))
                 ->setType(Type::PAGE);
             $page->setVariables($frontmatter);
             $generatedPages->add($page);

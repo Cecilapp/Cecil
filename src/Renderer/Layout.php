@@ -126,8 +126,8 @@ class Layout
             case PageType::PAGE:
             default:
                 $layouts = [
-                    // "$section/$layout.twig",
-                    // "$layout.twig",
+                    // "$section/$layout.$format.twig",
+                    // "$layout.$format.twig",
                     // "$section/page.$format.twig",
                     // "page.$format.twig",
                     "_default/page.$format.twig",
@@ -139,18 +139,18 @@ class Layout
 
                 if ($page->getSection()) {
                     $layouts = array_merge(
-                        [sprintf("%s/page.$format.twig", $page->getSection())],
+                        [sprintf('%s/page.%s.twig', $page->getSection(), $format)],
                         $layouts
                     );
                 }
                 if ($page->getVariable('layout')) {
                     $layouts = array_merge(
-                        [sprintf('%s.twig', $layout)],
+                        [sprintf('%s.%s.twig', $layout, $format)],
                         $layouts
                     );
                     if ($page->getSection()) {
                         $layouts = array_merge(
-                            [sprintf('%s/%s.twig', $page->getSection(), $layout)],
+                            [sprintf('%s/%s.%s.twig', $page->getSection(), $layout, $format)],
                             $layouts
                         );
                     }

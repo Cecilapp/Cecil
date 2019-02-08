@@ -36,7 +36,7 @@ class Entry extends Item
      *
      * @return self
      */
-    public function setUrl(string $value): self
+    public function setUrl(string $value = null): self
     {
         $this->offsetSet('url', $value);
 

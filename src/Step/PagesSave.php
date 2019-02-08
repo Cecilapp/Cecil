@@ -66,7 +66,11 @@ class PagesSave extends AbstractStep
                     continue;
                 }
                 $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$pathname);
-                Util::getFS()->dumpFile($pathname, $rendered['output']);
+                try {
+                    Util::getFS()->dumpFile($pathname, $rendered['output']);
+                } catch (\Exception $e) {
+                    throw new Exception($e->getMessage());
+                }
 
                 $message[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
@@ -88,23 +92,16 @@ class PagesSave extends AbstractStep
      */
     protected function getPathname(Page $page, string $format = 'html')
     {
-        // force pathname of "index" pages (ie: homepage, sections, etc.)
+        // special case: list/index pages (ie: homepage, sections, etc.)
         if ($page->getName() == 'index') {
-            return $page->getPath().'/'.$this->config->get("site.output.formats.$format.filename");
+            return $page->getPath().'/'.$this->config->getOutputFile($format);
         }
-        // if "pathname/"
-        if (\strrpos($page->getVariable('url'), '/') == \strlen($page->getVariable('url')) - 1) {
-            return $page->getVariable('url').$this->config->get("site.output.formats.$format.filename");
+        // uglyurl case. ie: robots.txt, 404.html, etc.
+        if ($page->getVariable('uglyurl') || $this->config->get("site.output.formats.$format.uglyurl")) {
+            return $page->getPathname().'.'.$this->config->get("site.output.formats.$format.extension");
         }
-        // != html + extension. ie: 404.html -> 404.json
-        $extension = pathinfo($page->getVariable('url'), PATHINFO_EXTENSION);
-        if ($format != 'html' && $extension != null) {
-            $url = basename($page->getVariable('url'), ".$extension");
 
-            return $url.'/'.$this->config->get("site.output.formats.$format.filename");
-        }
-        // if "pathname"
-        return $page->getVariable('url');
+        return $page->getPathname().'/'.$this->config->getOutputFile($format);
     }
 
     /**

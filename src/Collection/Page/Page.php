@@ -22,8 +22,6 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Page extends Item
 {
-    use VariableTrait;
-
     const SLUGIFY_PATTERN = '/(^\/|[^a-z0-9\/]|-)+/';
 
     /**
@@ -54,10 +52,6 @@ class Page extends Item
      * @var string
      */
     protected $type;
-    /**
-     * @var string
-     */
-    protected $id;
     /**
      * @var string
      */
@@ -109,7 +103,9 @@ class Page extends Item
             $this->filePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
             $this->fileName = $this->file->getBasename('.'.$this->fileExtension);
             // filePathname = filePath + '/' + fileName
-            // ie: "Blog/Post 1"
+            // ie: content/Blog/Post 1.md -> "Blog/Post 1"
+            // ie: content/index.md -> "index"
+            // ie: content/Blog/index.md -> "Blog/"
             $this->filePathname = ($this->filePath ? $this->filePath.'/' : '')
                 .($this->filePath && $this->fileName == 'index' ? '' : $this->fileName);
             /*
@@ -137,8 +133,6 @@ class Page extends Item
             $this->setVariable('date', filemtime($this->file->getPathname()));
             // weight
             $this->setVariable('weight', null);
-            // url
-            $this->setVariable('url', $this->pathname.'/');
             // special case: file has a prefix
             if (Prefix::hasPrefix($this->filePathname)) {
                 // prefix is a valid date?
@@ -154,12 +148,17 @@ class Page extends Item
         } else {
             // virtual page
             $this->virtual = true;
-            // date (current date)
-            $this->setVariable('date', time());
+            // default variables
+            $this->setVariables([
+                'title'  => 'Default Title',
+                'date'   => time(),
+                'weight' => null,
+            ]);
 
             parent::__construct();
         }
         $this->setType(Type::PAGE);
+        // required variables
         $this->setVariable('virtual', $this->virtual);
         $this->setVariable('published', true);
         $this->setVariable('content_template', 'page.content.twig');
@@ -297,6 +296,12 @@ class Page extends Item
      */
     public function getPathname(): string
     {
+        if ($this->hasVariable('url')
+            && $this->pathname != $this->getVariable('url')
+        ) {
+            $this->setPathname($this->getVariable('url'));
+        }
+
         return $this->pathname;
     }
 
@@ -380,5 +385,133 @@ class Page extends Item
     public function getContent(): ?string
     {
         return $this->getBodyHtml();
+    }
+
+    /*
+     * Helper to set and get variables.
+     */
+
+    /**
+     * Set an array as variables.
+     *
+     * @param array $variables
+     *
+     * @throws \Exception
+     *
+     * @return $this
+     */
+    public function setVariables($variables)
+    {
+        if (!is_array($variables)) {
+            throw new \Exception('Can\'t set variables: parameter is not an array');
+        }
+        foreach ($variables as $key => $value) {
+            $this->setVariable($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get all variables.
+     *
+     * @return array
+     */
+    public function getVariables()
+    {
+        return $this->properties;
+    }
+
+    /**
+     * Set a variable.
+     *
+     * @param $name
+     * @param $value
+     *
+     * @throws \Exception
+     *
+     * @return $this
+     */
+    public function setVariable($name, $value)
+    {
+        switch ($name) {
+            case 'date':
+                try {
+                    if ($value instanceof \DateTime) {
+                        $date = $value;
+                    } else {
+                        // timestamp
+                        if (is_numeric($value)) {
+                            $date = (new \DateTime())->setTimestamp($value);
+                        } else {
+                            // ie: 2019-01-01
+                            if (is_string($value)) {
+                                $date = new \DateTime($value);
+                            }
+                        }
+                    }
+                } catch (\Exception $e) {
+                    throw new \Exception(sprintf("Expected date string in page '%s'", $this->getId()));
+                }
+                $this->offsetSet('date', $date);
+                break;
+            case 'draft':
+                if ($value === true) {
+                    $this->offsetSet('published', false);
+                }
+                break;
+            case 'url':
+                $slug = self::slugify($value);
+                if ($value != $slug) {
+                    throw new \Exception(sprintf("'url' variable should be '%s', not '%s', in page '%s'", $slug, $value, $this->getId()));
+                }
+                break;
+            default:
+                $this->offsetSet($name, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Is variable exist?
+     *
+     * @param $name
+     *
+     * @return bool
+     */
+    public function hasVariable($name)
+    {
+        return $this->offsetExists($name);
+    }
+
+    /**
+     * Get a variable.
+     *
+     * @param string $name
+     *
+     * @return mixed|null
+     */
+    public function getVariable($name)
+    {
+        if ($this->offsetExists($name)) {
+            return $this->offsetGet($name);
+        }
+    }
+
+    /**
+     * Unset a variable.
+     *
+     * @param $name
+     *
+     * @return $this
+     */
+    public function unVariable($name)
+    {
+        if ($this->offsetExists($name)) {
+            $this->offsetUnset($name);
+        }
+
+        return $this;
     }
 }

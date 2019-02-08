@@ -30,21 +30,21 @@ return [
         ],
         'virtualpages' => [
             'robots' => [
-                'title'  => 'Robots.txt',
-                'layout' => 'robots.txt',
-                'url'    => 'robots.txt',
+                'title'   => 'Robots.txt',
+                'layout'  => 'robots',
+                'output'  => 'txt',
             ],
-            'sitemap' => [
+            /*'sitemap' => [
                 'title'      => 'XML sitemap',
-                'layout'     => 'sitemap.xml',
-                'url'        => 'sitemap.xml',
+                'layout'     => 'sitemap',
+                'output'     => 'xml',
                 'changefreq' => 'monthly',
                 'priority'   => '0.5',
-            ],
+            ],*/
             '404' => [
-                'title'  => '404 page',
-                'layout' => '404.html',
-                'url'    => '404.html',
+                'title'   => '404 page',
+                'layout'  => '404',
+                'uglyurl' => true,
             ],
         ],
         'output' => [
@@ -52,15 +52,23 @@ return [
             'formats'  => [
                 'html' => [
                     'mediatype' => 'text/html',
-                    'filename'  => 'index.html',
+                    'filename'  => 'index',
+                    'extension' => 'html',
                 ],
                 'rss' => [
                     'mediatype' => 'application/rss+xml',
-                    'filename'  => 'rss.xml',
+                    'filename'  => 'rss',
+                    'extension' => 'xml',
                 ],
                 'json' => [
                     'mediatype' => 'application/json',
-                    'filename'  => 'index.json',
+                    'filename'  => 'index',
+                    'extension' => 'json',
+                ],
+                'txt' => [
+                    'mediatype' => 'text/plain',
+                    'uglyurl'   => true,
+                    'extension' => 'txt',
                 ],
             ],
             'pagetypeformats' => [

@@ -47,7 +47,7 @@ class Item implements ItemInterface
         if (empty($this->id)) {
             $this->id = spl_object_hash($this);
         }
-        $this->offsetSet('id', $this->id);
+        //$this->offsetSet('id', $this->id);
 
         return $this;
     }
@@ -57,7 +57,8 @@ class Item implements ItemInterface
      */
     public function getId(): string
     {
-        return $this->offsetGet('id');
+        return $this->id;
+        //return $this->offsetGet('id');
     }
 
     /**

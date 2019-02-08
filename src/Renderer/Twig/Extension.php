@@ -236,6 +236,7 @@ class Extension extends SlugifyExtension
         $hash = md5($env->getGlobals()['site']['time']);
         $canonical = null;
         $addhash = true;
+        $format = 'html';
 
         if (isset($options['canonical'])) {
             $canonical = $options['canonical'];
@@ -246,6 +247,9 @@ class Extension extends SlugifyExtension
         if (isset($options['addhash'])) {
             $addhash = $options['addhash'];
         }
+        if (isset($options['format'])) {
+            $format = $options['format'];
+        }
 
         if ($env->getGlobals()['site']['canonicalurl'] === true || $canonical === true) {
             $base = rtrim($baseurl, '/');
@@ -254,9 +258,23 @@ class Extension extends SlugifyExtension
             $base = '';
         }
 
+        // Page item
         if ($value instanceof Page) {
-            $value = $value->getVariable('url');
-            $url = $base.'/'.ltrim($value, '/');
+            $uglyUrl = $value->getVariable('uglyurl');
+            $url = $value->getPathname();
+            $url = $base.'/'.ltrim($url, '/');
+            if (!$uglyUrl) {
+                $url .= '/';
+            }
+            $formats = $value->getVariable('output');
+            if (!\is_array($formats)) {
+                $formats = [$formats];
+            }
+            if (in_array($format, $formats) || $uglyUrl) {
+                $url .= $env->getGlobals()['site']['output']['formats'][$format]['filename']
+                .'.'.$env->getGlobals()['site']['output']['formats'][$format]['extension'];
+            }
+        // string
         } else {
             if (preg_match('~^(?:f|ht)tps?://~i', $value)) { // external URL
                 $url = $value;
@@ -268,8 +286,8 @@ class Extension extends SlugifyExtension
             } else {
                 $url = $base.'/';
                 if (!empty($value)) {
-                    $value = $this->slugifyFilter($value);
-                    $url .= ltrim(rtrim($value, '/').'/', '/');
+                    $url = $this->slugifyFilter($value);
+                    $url .= ltrim(rtrim($url, '/').'/', '/');
                 }
             }
         }
