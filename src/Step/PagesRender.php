@@ -80,17 +80,6 @@ class PagesRender extends AbstractStep
                 $page->setVariable('output', $formats);
             }
 
-            // output file
-            /* ie:
-            output:
-              format: html
-              file: index.html
-            output:
-              format: txt
-              file: robots.txt (= name + extension)
-            */
-            $page->setVariable('output', $outputfile);
-
             // alternates
             if (count($formats) > 1 && array_key_exists('html', $formats)) {
                 foreach ($formats as $format) {
@@ -120,7 +109,7 @@ class PagesRender extends AbstractStep
                     continue;
                 }
 
-                $layout = (new Layout())->finder($page, $format, $this->config);
+                $layout = Layout::finder($page, $format, $this->config);
                 $rendered[$format]['output'] = $this->builder->getRenderer()->render(
                     $layout,
                     ['page' => $page]

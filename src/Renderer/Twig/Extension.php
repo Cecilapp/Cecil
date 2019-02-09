@@ -258,36 +258,37 @@ class Extension extends SlugifyExtension
             $base = '';
         }
 
+        $extension = '/';
+        $uglyUrl = $value->getVariable('uglyurl') || (array_key_exists('uglyurl', $formatProperties) && $formatProperties['uglyurl']);
+        if ($uglyUrl) {
+            if ($format == 'html') {
+                // ie: 404.html
+                $extension = '.html';
+            } else {
+                // ie: robots.txt
+                $extension = '.'.$formatProperties['extension'];
+            }
+        }
+
         // Page item
         if ($value instanceof Page) {
-            $uglyUrl = $value->getVariable('uglyurl');
+            $formatProperties = $env->getGlobals()['site']['output']['formats'][$format];
             $url = $value->getPathname();
-            $url = $base.'/'.ltrim($url, '/');
-            if (!$uglyUrl) {
-                $url .= '/';
-            }
-            $formats = $value->getVariable('output');
-            if (!\is_array($formats)) {
-                $formats = [$formats];
-            }
-            if (in_array($format, $formats) || $uglyUrl) {
-                $url .= $env->getGlobals()['site']['output']['formats'][$format]['filename']
-                .'.'.$env->getGlobals()['site']['output']['formats'][$format]['extension'];
-            }
-            // string
+            $url = $base.'/'.ltrim($url, '/').$extension;
         } else {
-            if (preg_match('~^(?:f|ht)tps?://~i', $value)) { // external URL
-                $url = $value;
-            } elseif (false !== strpos($value, '.')) { // file URL (with a dot for extension)
-                $url = $base.'/'.ltrim($value, '/');
-                if ($addhash) {
-                    $url .= '?'.$hash;
-                }
-            } else {
-                $url = $base.'/';
-                if (!empty($value)) {
-                    $url = $this->slugifyFilter($value);
-                    $url .= ltrim(rtrim($url, '/').'/', '/');
+            $url = $value;
+            if (!preg_match('~^(?:f|ht)tps?://~i', $url)) { // external URL
+                if (false !== strpos($url, '.')) { // file URL (with a dot for extension)
+                    if ($addhash) {
+                        $url .= '?'.$hash;
+                    }
+                    $url = $base.'/'.ltrim($url, '/');
+                } else {
+                    if (!empty($url)) {
+                        $url = $this->slugifyFilter($url);
+                        $url = rtrim($url, '/').'/';
+                    }
+                    $url = $base.'/'.ltrim($url, '/');
                 }
             }
         }

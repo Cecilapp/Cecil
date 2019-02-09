@@ -30,7 +30,7 @@ class Layout
      *
      * @return string
      */
-    public function finder(Page $page, string $format, Config $config)
+    public static function finder(Page $page, string $format, Config $config)
     {
         $layout = 'unknown';
 

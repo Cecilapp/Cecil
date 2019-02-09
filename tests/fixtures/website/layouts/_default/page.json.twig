@@ -1,9 +1,8 @@
-{% set url = url(page, { canonical: true })|replace({'.html': '/'}) ~ site.output.formats.json.filename %}
 {
   "data": {
     "id": {{ page.id|json_encode() }},
     "title": {{ page.title|json_encode() }},
-    "url": {{ url|json_encode() }}{% if page.body is defined %},
+    "url": {{ url(page, { canonical: true, format: 'json' })|json_encode() }}{% if page.body is defined %},
     "body": {{ page.body|json_encode() }}
 {% endif %}
   }
