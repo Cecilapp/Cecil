@@ -2,7 +2,7 @@
 
 > Your content driven static site generator.
 
-> _(previously PHPoole)_
+> _(formerly PHPoole)_
 
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
 [![Build Status](https://travis-ci.com/Cecilapp/Cecil.svg)](https://travis-ci.com/Cecilapp/Cecil)
