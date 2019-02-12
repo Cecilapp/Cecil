@@ -230,8 +230,8 @@ class Extension extends SlugifyExtension
      *     'format'    => 'json',
      * ];
      *
-     * @param string|Page|null  $value
-     * @param array|null        $options
+     * @param string|Page|null $value
+     * @param array|null       $options
      *
      * @return string|null
      */
