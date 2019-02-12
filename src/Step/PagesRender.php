@@ -179,7 +179,7 @@ class PagesRender extends AbstractStep
     /**
      * Get page's alternates.
      *
-     * @param Page $page
+     * @param Page  $page
      * @param array $formats
      *
      * @return array
