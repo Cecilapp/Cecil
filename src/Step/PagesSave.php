@@ -57,7 +57,8 @@ class PagesSave extends AbstractStep
             $message = [];
 
             foreach ($page->getVariable('rendered') as $format => $rendered) {
-                if (false === $pathname = $this->getPathname($page, $format)) {
+                //if (false === $pathname = $this->getPathname($page, $format)) {
+                if (false === $pathname = $page->getOutputFile($format, $this->config)) {
                     throw new Exception(sprintf(
                         "Can't get pathname of page '%s' (format: '%s')",
                         $page->getId(),

@@ -34,13 +34,13 @@ return [
                 'layout'  => 'robots',
                 'output'  => 'txt',
             ],
-            /*'sitemap' => [
+            'sitemap' => [
                 'title'      => 'XML sitemap',
                 'layout'     => 'sitemap',
                 'output'     => 'xml',
                 'changefreq' => 'monthly',
                 'priority'   => '0.5',
-            ],*/
+            ],
             '404' => [
                 'title'   => '404 page',
                 'layout'  => '404',
@@ -50,25 +50,39 @@ return [
         'output' => [
             'dir'      => '_site',
             'formats'  => [
+                // ie: blog/post-1/index.html
                 'html' => [
                     'mediatype' => 'text/html',
-                    'filename'  => 'index',
+                    'suffix'    => '/index',
                     'extension' => 'html',
                 ],
+                // ie: blog/feed.xml
                 'rss' => [
                     'mediatype' => 'application/rss+xml',
-                    'filename'  => 'rss',
+                    'suffix'    => '/feed',
                     'extension' => 'xml',
                 ],
+                // ie: blog/post-1.json
                 'json' => [
                     'mediatype' => 'application/json',
-                    'filename'  => 'index',
                     'extension' => 'json',
                 ],
+                // ie: blog/post-1.xml
+                'xml' => [
+                    'mediatype' => 'application/xml',
+                    'extension' => 'xml',
+                ],
+                // ie: robots.txt
                 'txt' => [
                     'mediatype' => 'text/plain',
-                    'uglyurl'   => true,
                     'extension' => 'txt',
+                ],
+                // ie: blog/post-1/amp/index.html
+                'amp' => [
+                    'mediatype' => 'text/html',
+                    'subpath'   => '/amp',
+                    'suffix'    => '/index',
+                    'extension' => 'html',
                 ],
             ],
             'pagetypeformats' => [

@@ -66,50 +66,23 @@ class PagesRender extends AbstractStep
             $rendered = null;
             $alternates = [];
 
-            // get available formats for page type
-            if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
-                $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
-            }
-            // get page formats
-            if ($page->getVariable('output')) {
-                $formats = $page->getVariable('output');
-                if (!is_array($formats)) {
-                    $formats = [$formats];
-                }
-            } else {
-                $page->setVariable('output', $formats);
-            }
+            // get page's output formats
+            $formats = $this->getFormats($page);
+            $page->setVariable('output', $formats);
 
-            // alternates
-            if (count($formats) > 1 && array_key_exists('html', $formats)) {
-                foreach ($formats as $format) {
-                    if ($format == 'html') {
-                        $alternates[] = [
-                            'rel'   => 'canonical',
-                            'type'  => $this->config->get('site.output.formats.html.mediatype'),
-                            'title' => 'HTML',
-                            'href'  => $page->getVariable('url'),
-                        ];
-                        continue;
-                    }
-                    $alternates[] = [
-                        'rel'   => 'alternate',
-                        'type'  => $this->config->get("site.output.formats.$format.mediatype"),
-                        'title' => strtoupper($format),
-                        'href'  => $page->getVariable('url').$this->config->get("site.output.formats.$format.filename"),
-                    ];
-                }
-                $page->setVariable('alternates', $alternates);
-            }
+            // get pages's alternates links
+            $alternates = $this->getAlternates($page, $formats);
+            $page->setVariable('alternates', $alternates);
 
-            // render each format
+            // render each output format
             foreach ($formats as $format) {
                 // escape redirect pages
                 if ($format != 'html' && $page->hasVariable('destination')) {
                     continue;
                 }
-
+                // search for the template
                 $layout = Layout::finder($page, $format, $this->config);
+                // render with Twig
                 $rendered[$format]['output'] = $this->builder->getRenderer()->render(
                     $layout,
                     ['page' => $page]
@@ -128,9 +101,9 @@ class PagesRender extends AbstractStep
     /**
      * Return an array of layouts directories.
      *
-     * @return array Layouts directory
+     * @return array
      */
-    protected function getAllLayoutsPaths()
+    protected function getAllLayoutsPaths(): array
     {
         $paths = [];
 
@@ -172,5 +145,71 @@ class PagesRender extends AbstractStep
             'version'   => $this->builder->getVersion(),
             'poweredby' => sprintf('Cecil v%s', $this->builder->getVersion()),
         ]);
+    }
+
+    /**
+     * Get available formats.
+     *
+     * @param Page $page
+     *
+     * @return array
+     */
+    protected function getFormats(Page $page): array
+    {
+        $formats = [];
+
+        // Get page format(s).
+        // ie: "output: txt"
+        if ($page->getVariable('output')) {
+            $formats = $page->getVariable('output');
+            if (!\is_array($formats)) {
+                $formats = [$formats];
+            }
+        } else {
+            // get available formats for page type
+            // ie: "'page' => ['html', 'json']"
+            if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
+                $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
+            }
+        }
+
+        return $formats;
+    }
+
+    /**
+     * Get page's alternates.
+     *
+     * @param Page $page
+     * @param array $formats
+     *
+     * @return array
+     *
+     * @todo do it better! :-D
+     */
+    protected function getAlternates(Page $page, array $formats): array
+    {
+        $alternates = [];
+
+        if (count($formats) > 1 && array_key_exists('html', $formats)) {
+            foreach ($formats as $format) {
+                if ($format == 'html') {
+                    $alternates[] = [
+                        'rel'   => 'canonical',
+                        'type'  => $this->config->get('site.output.formats.html.mediatype'),
+                        'title' => 'HTML',
+                        'href'  => $page->getPathname(), // you should use use "url()" in template
+                    ];
+                    continue;
+                }
+                $alternates[] = [
+                    'rel'   => 'alternate',
+                    'type'  => $this->config->get("site.output.formats.$format.mediatype"),
+                    'title' => strtoupper($format),
+                    'href'  => $page->getPathname(), // should use "url()" in template
+                ];
+            }
+        }
+
+        return $alternates;
     }
 }
