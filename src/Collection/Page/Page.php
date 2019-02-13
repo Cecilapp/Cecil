@@ -342,7 +342,7 @@ class Page extends Item
     /**
      * Get section.
      *
-     * @return string|false
+     * @return string|null
      */
     public function getSection(): ?string
     {

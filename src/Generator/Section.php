@@ -23,15 +23,40 @@ class Section extends AbstractGenerator implements GeneratorInterface
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $generatedPages = new PagesCollection('sections');
-        $sections = [];
+        $sectionsList = [];
 
-        // collects sections
+        // identify sections
         /* @var $page Page */
         foreach ($pagesCollection as $page) {
-            if ($page->getSection() != '') {
-                $sections[$page->getSection()][] = $page;
+            if ($page->getSection()) {
+                // ie: ['blog'][0]['blog/post-1']
+                $sectionsList[$page->getSection()][] = $page->getId();
             }
         }
+
+        // sections collections
+        $sections = [];
+        foreach ($sectionsList as $sectionName => $pagesList) {
+            if (!array_key_exists($sectionName, $sections)) {
+                $sections[$sectionName] = new PagesCollection($sectionName);
+                foreach ($pagesList as $pageId) {
+                    $sections[$sectionName]->add($pagesCollection->get($pageId));
+                }
+            }
+        }
+
+        // DEBUG
+        //print_r($sections2);
+        //print_r($section3);
+        foreach ($section3 as $section => $collection) {
+            //echo $section."\n";
+            $collection->sortByDate();
+            //echo $collection->getId()."\n";
+            //echo $collection;
+            print_r($collection);
+        }
+        die();
+
         // adds section pages to collection
         if (count($sections) > 0) {
             $menuWeight = 100;
