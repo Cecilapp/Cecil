@@ -316,11 +316,11 @@ class Page extends Item
      */
     public function getPathname(): string
     {
-        if ($this->hasVariable('url')
+        /*if ($this->hasVariable('url')
             && $this->pathname != $this->getVariable('url')
         ) {
             $this->setPathname($this->getVariable('url'));
-        }
+        }*/
 
         return $this->pathname;
     }
