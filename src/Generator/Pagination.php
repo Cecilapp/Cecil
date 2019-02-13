@@ -44,7 +44,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             if ($totalpages > $paginateMax) {
                 $paginateCount = ceil($totalpages / $paginateMax);
                 for ($i = 0; $i < $paginateCount; $i++) {
-                    $pagesInPagination = array_slice($pages, ($i * $paginateMax), $paginateMax);
+                    //$pagesInPagination = array_slice($pages, ($i * $paginateMax), $paginateMax);
+                    $pagesInPagination = new \LimitIterator((new \IteratorIterator($pages)), ($i * $paginateMax), $paginateMax);
                     $alteredPage = clone $page;
                     // first page
                     $firstPath = Page::slugify(sprintf('%s', $path));
@@ -84,9 +85,13 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         $pagination += ['next' => Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $i + 2))];
                     }
                     $pagination += ['last' => Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $paginateCount))];
+
+                    var_dump($pagesInPagination);
+                    die();
+
                     $alteredPage
                         ->setVariable('pagination', $pagination)
-                        ->setVariable('date', reset($pagesInPagination)->getVariable('date'));
+                        ->setVariable('date', $pagesInPagination->current()->getVariable('date'));
 
                     $generatedPages->add($alteredPage);
                 }

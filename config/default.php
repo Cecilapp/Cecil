@@ -120,7 +120,7 @@ return [
         10 => 'Cecil\Generator\Section',
         20 => 'Cecil\Generator\Taxonomy',
         30 => 'Cecil\Generator\Homepage',
-        40 => 'Cecil\Generator\Pagination',
+        //40 => 'Cecil\Generator\Pagination',
         50 => 'Cecil\Generator\Alias',
         35 => 'Cecil\Generator\ExternalBody',
         36 => 'Cecil\Generator\VirtualPages',
