@@ -43,10 +43,9 @@ class Alias extends AbstractGenerator implements GeneratorInterface
                         ->setId(sprintf('%s/redirect', $pathname))
                         ->setPathname($pathname)
                         ->setVariable('title', $alias)
-                        ->setVariable('layout', 'redirect.html')
-                        ->setVariable('destination', $page->getVariable('url'))
-                        ->setVariable('date', $page->getVariable('date'))
-                        ->setVariable('url', $pathname.'/');
+                        ->setVariable('layout', 'redirect')
+                        ->setVariable('destination', $page->getUrl())
+                        ->setVariable('date', $page->getVariable('date'));
                     $generatedPages->add($aliasPage);
                 }
             }
