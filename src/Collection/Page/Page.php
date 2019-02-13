@@ -9,6 +9,7 @@
 namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Item;
+use Cecil\Config;
 use Cecil\Page\Parser;
 use Cecil\Page\Prefix;
 use Cecil\Page\Type;
@@ -315,11 +316,11 @@ class Page extends Item
      */
     public function getPathname(): string
     {
-        if ($this->hasVariable('url')
+        /*if ($this->hasVariable('url')
             && $this->pathname != $this->getVariable('url')
         ) {
             $this->setPathname($this->getVariable('url'));
-        }
+        }*/
 
         return $this->pathname;
     }
@@ -341,7 +342,7 @@ class Page extends Item
     /**
      * Get section.
      *
-     * @return string|false
+     * @return string|null
      */
     public function getSection(): ?string
     {
@@ -384,6 +385,74 @@ class Page extends Item
     public function getContent(): ?string
     {
         return $this->getBodyHtml();
+    }
+
+    /**
+     * Return output file.
+     *
+     * Use cases:
+     *   - default: pathname + suffix + extension (ie: blog/post-1/index.html)
+     *   - subpath: pathname + subpath + suffix + extension (ie: blog/post-1/amp/index.html)
+     *   - ugly: pathname + extension (ie: 404.html, sitemap.xml, robots.txt)
+     *   - pathname only (ie: _redirects)
+     *
+     * @param string $format
+     * @param Config $config
+     *
+     * @return string
+     */
+    public function getOutputFile(string $format, Config $config = null): string
+    {
+        $pathname = $this->getPathname();
+        $subpath = '';
+        $suffix = '/index';
+        $extension = 'html';
+        $uglyurl = $this->getVariable('uglyurl') ? true : false;
+
+        // site config
+        if ($config) {
+            $subpath = $config->get(sprintf('site.output.formats.%s.subpath', $format));
+            $suffix = $config->get(sprintf('site.output.formats.%s.suffix', $format));
+            $extension = $config->get(sprintf('site.output.formats.%s.extension', $format));
+        }
+        // if ugly URL: not suffix
+        if ($uglyurl) {
+            $suffix = '';
+        }
+        // format strings
+        if ($subpath) {
+            $subpath = sprintf('/%s', ltrim($subpath, '/'));
+        }
+        if ($suffix) {
+            $suffix = sprintf('/%s', ltrim($suffix, '/'));
+        }
+        if ($extension) {
+            $extension = sprintf('.%s', $extension);
+        }
+        if (!$pathname && !$suffix) {
+            $pathname = 'index'; // home page
+        }
+
+        return $pathname.$subpath.$suffix.$extension;
+    }
+
+    /**
+     * Return URL.
+     *
+     * @param string $format
+     * @param Config $config
+     *
+     * @return string
+     */
+    public function getUrl(string $format = 'html', Config $config = null): string
+    {
+        $uglyurl = $this->getVariable('uglyurl') ? true : false;
+
+        if (!$uglyurl) {
+            return str_replace('index.html', '', $this->getOutputFile($format, $config));
+        }
+
+        return $this->getOutputFile($format, $config);
     }
 
     /*

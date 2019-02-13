@@ -328,13 +328,24 @@ class Config
         return $this->getThemesPath().'/'.$theme.'/'.$dir;
     }
 
-    public function getOutputFile($format)
+    /**
+     * Return "clean" array output format array.
+     *
+     * @param string $format
+     *
+     * @return array
+     */
+    public function getOutputFormat(string $format): array
     {
-        if ($this->get("site.output.formats.$format.uglyurl")) {
-            return;
-        }
+        $default = [
+            'mediatype' => null, // 'text/html'
+            'subpath'   => null, // ''
+            'suffix'    => null, // '/index'
+            'extension' => null, // 'html'
+        ];
 
-        return $this->get("site.output.formats.$format.filename")
-            .'.'.$this->get("site.output.formats.$format.extension");
+        $result = $this->get(sprintf('site.output.formats.%s', $format));
+
+        return array_merge($default, $result);
     }
 }

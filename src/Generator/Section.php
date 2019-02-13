@@ -23,29 +23,45 @@ class Section extends AbstractGenerator implements GeneratorInterface
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $generatedPages = new PagesCollection('sections');
+        $sectionsList = [];
         $sections = [];
 
-        // collects sections
+        // identify sections
         /* @var $page Page */
         foreach ($pagesCollection as $page) {
-            if ($page->getSection() != '') {
-                $sections[$page->getSection()][] = $page;
+            if ($page->getSection()) {
+                // ie:
+                // [blog][0] = blog/post-1
+                // [blog][1] = blog/post-2
+                $sectionsList[$page->getSection()][] = $page->getId();
             }
         }
-        // adds section pages to collection
+
+        // sections collections
+        // ie:
+        // [blog] = Collection(blog)
+        foreach ($sectionsList as $sectionName => $pagesList) {
+            $sections[$sectionName] = new PagesCollection($sectionName);
+            foreach ($pagesList as $pageId) {
+                $sections[$sectionName]->add($pagesCollection->get($pageId));
+            }
+        }
+
+        // adds section to pages collection
         if (count($sections) > 0) {
             $menuWeight = 100;
             foreach ($sections as $section => $pages) {
-                $pageId = Page::slugify($section);
+                $pageId = $pathname = Page::slugify($section);
                 if (!$pagesCollection->has($pageId)) {
-                    usort($pages, 'Cecil\Util::sortByDate');
+                    //usort($pages, 'Cecil\Util::sortByDate');
+                    $pages = $pages->sortByDate();
                     $page = (new Page())
                         ->setId($pageId)
-                        ->setPathname($pageId)
-                        ->setVariable('title', ucfirst($section))
+                        ->setPathname($pathname)
                         ->setType(Type::SECTION)
+                        ->setVariable('title', ucfirst($section))
                         ->setVariable('pages', $pages)
-                        ->setVariable('date', reset($pages)->getVariable('date'))
+                        ->setVariable('date', $pages->getIterator()->current()->getVariable('date'))
                         ->setVariable('menu', [
                             'main' => ['weight' => $menuWeight],
                         ]);

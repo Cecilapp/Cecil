@@ -28,12 +28,14 @@ Imported config (from theme(s)):
 <p>Variable `foo`=`{{ site.foo }}`</p>
 {% endif %}
 
+{% if page.pagination is defined %}
 <pre>
 Total pages: {{ page.totalpages }}
 Pages by page : {{ page.pages|length }}
 Links:
 {{ dump(page.pagination) }}
 </pre>
+{% endif %}
 
 {% if page.alternates is defined %}
 <pre>

@@ -21,7 +21,7 @@ interface RendererInterface
      * @param string|array $templatesPath
      * @param Config       $config
      */
-    public function __construct($templatesPath, $config);
+    public function __construct($templatesPath, Config $config);
 
     /**
      * Add global variable.
