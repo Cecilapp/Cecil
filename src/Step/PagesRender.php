@@ -11,7 +11,7 @@ namespace Cecil\Step;
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 use Cecil\Renderer\Layout;
-use Cecil\Renderer\Twig as Twig;
+use Cecil\Renderer\Twig;
 
 /**
  * Pages rendering.
