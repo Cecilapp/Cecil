@@ -23,43 +23,28 @@ class Section extends AbstractGenerator implements GeneratorInterface
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $generatedPages = new PagesCollection('sections');
-        $sectionsList = [];
         $sections = [];
 
         // identify sections
         /* @var $page Page */
         foreach ($pagesCollection as $page) {
             if ($page->getSection()) {
-                // ie:
-                // [blog][0] = blog/post-1
-                // [blog][1] = blog/post-2
-                $sectionsList[$page->getSection()][] = $page->getId();
-            }
-        }
-
-        // sections collections
-        // ie:
-        // [blog] = Collection(blog)
-        foreach ($sectionsList as $sectionName => $pagesList) {
-            $sections[$sectionName] = new PagesCollection($sectionName);
-            foreach ($pagesList as $pageId) {
-                $sections[$sectionName]->add($pagesCollection->get($pageId));
+                $sections[$page->getSection()][] = $page;
             }
         }
 
         // adds section to pages collection
         if (count($sections) > 0) {
             $menuWeight = 100;
-            foreach ($sections as $section => $pages) {
-                $pageId = $pathname = Page::slugify($section);
+            foreach ($sections as $sectionName => $pagesArray) {
+                $pageId = $pathname = Page::slugify($sectionName);
                 if (!$pagesCollection->has($pageId)) {
-                    //usort($pages, 'Cecil\Util::sortByDate');
-                    $pages = $pages->sortByDate();
+                    $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
                     $page = (new Page())
                         ->setId($pageId)
                         ->setPathname($pathname)
                         ->setType(Type::SECTION)
-                        ->setVariable('title', ucfirst($section))
+                        ->setVariable('title', ucfirst($sectionName))
                         ->setVariable('pages', $pages)
                         ->setVariable('date', $pages->getIterator()->current()->getVariable('date'))
                         ->setVariable('menu', [
