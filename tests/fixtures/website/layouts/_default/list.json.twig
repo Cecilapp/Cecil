@@ -7,6 +7,7 @@
       "url": {{ url(p, { canonical: true, format: 'json' })|json_encode() }}
     }{% if not loop.last %},{% endif %}
 {% endfor %}
+
   ]{% if page.pagination is defined %},
   "meta": {
     "totalPage": {{ page.totalpages }}
