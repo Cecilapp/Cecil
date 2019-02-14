@@ -143,6 +143,8 @@ class Page extends Item
                     $this->setVariable('weight', (int) Prefix::getPrefix($this->filePathname));
                 }
             }
+            // file relative path
+            $this->setVariable('filepathname', $this->file->getRelativePathname());
 
             parent::__construct($this->id);
         } else {
@@ -502,6 +504,9 @@ class Page extends Item
      */
     public function setVariable($name, $value)
     {
+        if (is_bool($value)) {
+            $value = $value ?: 0;
+        }
         switch ($name) {
             case 'date':
                 try {
