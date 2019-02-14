@@ -149,6 +149,18 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
+    public function first(): ?ItemInterface
+    {
+        if (count($this->items) < 1) {
+            return null;
+        }
+
+        return array_shift($this->items);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function count(): int
     {
         return count($this->items);

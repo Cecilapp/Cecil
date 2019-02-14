@@ -30,7 +30,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 && $page->getSection() == $this->config->get('site.paginate.homepage.section')
                 && !empty($page->getBody());
             });
-            $pages = $filteredPages->sortByDate()->toArray();
+            $pages = $filteredPages->sortByDate();
 
             /* @var $page Page */
             $page = (new Page())

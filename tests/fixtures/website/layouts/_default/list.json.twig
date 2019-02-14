@@ -13,15 +13,15 @@
     "totalPage": {{ page.totalpages }}
   },
   "links": {
-    "self": {{ url(page.pagination.self, {canonical: true, format: 'json'})|json_encode() }},
-    "first": {{ url(page.pagination.first, {canonical: true, format: 'json'})|json_encode() }},
+    "self": {{ url(site.pages[page.pagination.self], {canonical: true, format: 'json'})|json_encode() }},
+    "first": {{ url(site.pages[page.pagination.first], {canonical: true, format: 'json'})|json_encode() }},
 {% if page.pagination.prev is defined %}
-    "prev": {{ url(page.pagination.prev, {canonical: true, format: 'json'})|json_encode() }},
+    "prev": {{ url(site.pages[page.pagination.prev], {canonical: true, format: 'json'})|json_encode() }},
 {% endif %}
 {% if page.pagination.next is defined %}
-    "next": {{ url(page.pagination.next, {canonical: true, format: 'json'})|json_encode() }},
+    "next": {{ url(site.pages[page.pagination.next], {canonical: true, format: 'json'})|json_encode() }},
 {% endif %}
-    "last": {{ url(page.pagination.last, {canonical: true, format: 'json'})|json_encode() }}
+    "last": {{ url(site.pages[page.pagination.last], {canonical: true, format: 'json'})|json_encode() }}
   }
 {% endif %}
 }
