@@ -47,7 +47,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 $paginatePagesCount = ceil($pagesTotal / $paginatePerPage);
                 for ($i = 0; $i < $paginatePagesCount; $i++) {
                     $pagesInPagination = new \LimitIterator($pages->getIterator(), ($i * $paginatePerPage), $paginatePerPage);
-                    $pagesInPagination = new PagesCollection($page->getId().'-page-'.($i+1), iterator_to_array($pagesInPagination));
+                    $pagesInPagination = new PagesCollection($page->getId().'-page-'.($i + 1), iterator_to_array($pagesInPagination));
                     $alteredPage = clone $page;
                     // first page
                     $firstPath = Page::slugify(sprintf('%s', $path));
@@ -77,10 +77,10 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $alteredPage->setVariable('totalpages', $pagesTotal);
                     $alteredPage->setVariable('pages', $pagesInPagination);
                     // create links
-                    $pagination = ['self' => $currentPath?: 'index'];
-                    $pagination += ['first' => $firstPath?: 'index'];
+                    $pagination = ['self' => $currentPath ?: 'index'];
+                    $pagination += ['first' => $firstPath ?: 'index'];
                     if ($i == 1) {
-                        $pagination += ['prev' => Page::slugify($path?: 'index')];
+                        $pagination += ['prev' => Page::slugify($path ?: 'index')];
                     }
                     if ($i > 1) {
                         $pagination += ['prev' => Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $i))];
