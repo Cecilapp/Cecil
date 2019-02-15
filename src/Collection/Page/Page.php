@@ -270,9 +270,9 @@ class Page extends Item
     /**
      * Get relative path.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRelPath(): string
+    public function getRelPath(): ?string
     {
         return $this->relpath;
     }

@@ -122,8 +122,6 @@ class Extension extends SlugifyExtension
      * @param string          $variable
      * @param string          $value
      *
-     * @throws Exception
-     *
      * @return CollectionInterface
      */
     public function filterBy(PagesCollection $pages, string $variable, string $value): CollectionInterface
@@ -145,30 +143,30 @@ class Extension extends SlugifyExtension
     /**
      * Sort by title.
      *
-     * @param CollectionInterface|array $array
+     * @param CollectionInterface|array $collection
      *
-     * @return mixed
+     * @return array
      */
-    public function sortByTitle($array)
+    public function sortByTitle($collection): array
     {
-        if ($array instanceof CollectionInterface) {
-            $array = $array->toArray();
+        if ($collection instanceof CollectionInterface) {
+            $collection = $collection->toArray();
         }
-        if (is_array($array)) {
-            array_multisort(array_keys($array), SORT_NATURAL | SORT_FLAG_CASE, $array);
+        if (is_array($collection)) {
+            array_multisort(array_keys($collection), SORT_NATURAL | SORT_FLAG_CASE, $collection);
         }
 
-        return $array;
+        return $collection;
     }
 
     /**
      * Sort by weight.
      *
-     * @param CollectionInterface|array $array
+     * @param CollectionInterface|array $collection
      *
-     * @return mixed
+     * @return array
      */
-    public function sortByWeight($array)
+    public function sortByWeight($collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['weight'])) {
@@ -184,24 +182,24 @@ class Extension extends SlugifyExtension
             return ($a['weight'] < $b['weight']) ? -1 : 1;
         };
 
-        if ($array instanceof CollectionInterface) {
-            $array = $array->toArray();
+        if ($collection instanceof CollectionInterface) {
+            $collection = $collection->toArray();
         }
-        if (is_array($array)) {
-            usort($array, $callback);
+        if (is_array($collection)) {
+            usort($collection, $callback);
         }
 
-        return $array;
+        return $collection;
     }
 
     /**
      * Sort by date.
      *
-     * @param CollectionInterface|array $array
+     * @param CollectionInterface|array $collection
      *
      * @return mixed
      */
-    public function sortByDate($array)
+    public function sortByDate($collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['date'])) {
@@ -217,14 +215,14 @@ class Extension extends SlugifyExtension
             return ($a['date'] > $b['date']) ? -1 : 1;
         };
 
-        if ($array instanceof CollectionInterface) {
-            $array = $array->toArray();
+        if ($collection instanceof CollectionInterface) {
+            $collection = $collection->toArray();
         }
-        if (is_array($array)) {
-            usort($array, $callback);
+        if (is_array($collection)) {
+            usort($collection, $callback);
         }
 
-        return $array;
+        return $collection;
     }
 
     /**
@@ -236,7 +234,7 @@ class Extension extends SlugifyExtension
      *     'format'    => 'json',
      * ];
      *
-     * @param string|Page|null $value
+     * @param Page|string|null $value
      * @param array|null       $options
      *
      * @return string|null
@@ -497,10 +495,10 @@ class Extension extends SlugifyExtension
      *
      * @param string $var
      *
-     * @return string|false
+     * @return string|null
      */
-    public function getEnv($var): ?string
+    public function getEnv(string $var): ?string
     {
-        return getenv($var);
+        return getenv($var) ?: null;
     }
 }
