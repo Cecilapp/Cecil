@@ -237,7 +237,7 @@ class Extension extends SlugifyExtension
         $canonical = null;
         $addhash = true;
         $format = 'html';
-
+        // options
         if (isset($options['canonical'])) {
             $canonical = $options['canonical'];
         }
@@ -250,7 +250,7 @@ class Extension extends SlugifyExtension
         if (isset($options['format'])) {
             $format = $options['format'];
         }
-
+        // baseurl
         if ($env->getGlobals()['site']['canonicalurl'] === true || $canonical === true) {
             $base = rtrim($baseurl, '/');
         }
