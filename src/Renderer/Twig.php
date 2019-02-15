@@ -8,6 +8,7 @@
 
 namespace Cecil\Renderer;
 
+use Cecil\Builder;
 use Cecil\Renderer\Twig\Extension as TwigExtension;
 
 /**
@@ -31,7 +32,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($templatesPath, $config)
+    public function __construct($templatesPath, Builder $buidler)
     {
         // load layouts
         $loader = new \Twig_Loader_Filesystem($templatesPath);
@@ -45,10 +46,10 @@ class Twig implements RendererInterface
         ]);
         // add extensions
         $this->twig->addExtension(new \Twig_Extension_Debug());
-        $this->twig->addExtension(new TwigExtension($config->getOutputPath()));
+        $this->twig->addExtension(new TwigExtension($buidler));
         $this->twig->addExtension(new \Twig_Extension_StringLoader());
-        $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($config->get('site.date.format'));
-        $this->twig->getExtension('Twig_Extension_Core')->setTimezone($config->get('site.date.timezone'));
+        $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($buidler->getConfig()->get('site.date.format'));
+        $this->twig->getExtension('Twig_Extension_Core')->setTimezone($buidler->getConfig()->get('site.date.timezone'));
     }
 
     /**

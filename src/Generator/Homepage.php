@@ -30,13 +30,13 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 && $page->getSection() == $this->config->get('site.paginate.homepage.section')
                 && !empty($page->getBody());
             });
-            $pages = $filteredPages->sortByDate()->toArray();
+            $pages = $filteredPages->sortByDate();
 
             /* @var $page Page */
             $page = (new Page())
                 ->setId('index')
                 ->setType(Type::HOMEPAGE)
-                ->setPathname(Page::slugify(''))
+                ->setPath('')
                 ->setVariable('title', 'Home')
                 ->setVariable('pages', $pages)
                 ->setVariable('menu', [

@@ -83,6 +83,13 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
     public function keys(): array;
 
     /**
+     * Retrieve the first item.
+     *
+     * @return ItemInterface|null
+     */
+    public function first(): ?ItemInterface;
+
+    /**
      * Implement Countable.
      *
      * @return int

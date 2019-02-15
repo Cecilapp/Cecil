@@ -8,9 +8,11 @@
 
 namespace Cecil\Renderer\Twig;
 
+use Cecil\Builder;
 use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Config;
 use Cecil\Exception\Exception;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
@@ -24,9 +26,17 @@ use Symfony\Component\Filesystem\Filesystem;
 class Extension extends SlugifyExtension
 {
     /**
+     * @var Builder
+     */
+    protected $builder;
+    /**
+     * @var Config
+     */
+    protected $config;
+    /**
      * @var string
      */
-    protected $destPath;
+    protected $outputPath;
     /**
      * @var Filesystem
      */
@@ -35,15 +45,17 @@ class Extension extends SlugifyExtension
     /**
      * Constructor.
      *
-     * @param string $destPath
+     * @param Builder $builder
      */
-    public function __construct($destPath)
+    public function __construct(Builder $builder)
     {
-        $this->destPath = $destPath;
         parent::__construct(Slugify::create([
             'regexp' => Page::SLUGIFY_PATTERN,
         ]));
 
+        $this->builder = $builder;
+        $this->config = $this->builder->getConfig();
+        $this->outputPath = $this->config->getOutputPath();
         $this->fileSystem = new Filesystem();
     }
 
@@ -81,7 +93,7 @@ class Extension extends SlugifyExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('url', [$this, 'createUrl'], ['needs_environment' => true]),
+            new \Twig_SimpleFunction('url', [$this, 'createUrl']),
             new \Twig_SimpleFunction('minify', [$this, 'minify']),
             new \Twig_SimpleFunction('readtime', [$this, 'readtime']),
             new \Twig_SimpleFunction('toCSS', [$this, 'toCss']),
@@ -221,23 +233,24 @@ class Extension extends SlugifyExtension
      * $options[
      *     'canonical' => null,
      *     'addhash'   => true,
+     *     'format'    => 'json',
      * ];
      *
-     * @param \Twig_Environment $env
-     * @param string|Page|null  $value
-     * @param array|null        $options
+     * @param string|Page|null $value
+     * @param array|null       $options
      *
      * @return string|null
      */
-    public function createUrl(\Twig_Environment $env, $value = null, $options = null): ?string
+    public function createUrl($value = null, $options = null): ?string
     {
         $base = '';
-        $baseurl = $env->getGlobals()['site']['baseurl'];
-        $hash = md5($env->getGlobals()['site']['time']);
+        $baseurl = $this->config->get('site.baseurl');
+        $hash = md5($this->config->get('site.time'));
         $canonical = null;
         $addhash = true;
         $format = 'html';
-        // options
+
+        // handle options
         if (isset($options['canonical'])) {
             $canonical = $options['canonical'];
         }
@@ -250,45 +263,40 @@ class Extension extends SlugifyExtension
         if (isset($options['format'])) {
             $format = $options['format'];
         }
-        // baseurl
-        if ($env->getGlobals()['site']['canonicalurl'] === true || $canonical === true) {
+        // set baseurl
+        if ($this->config->get('site.canonicalurl') === true || $canonical === true) {
             $base = rtrim($baseurl, '/');
         }
         if ($canonical === false) {
             $base = '';
         }
 
-        $extension = '/';
-        $uglyUrl = $value->getVariable('uglyurl') || (array_key_exists('uglyurl', $formatProperties) && $formatProperties['uglyurl']);
-        if ($uglyUrl) {
-            if ($format == 'html') {
-                // ie: 404.html
-                $extension = '.html';
-            } else {
-                // ie: robots.txt
-                $extension = '.'.$formatProperties['extension'];
-            }
-        }
-
         // Page item
         if ($value instanceof Page) {
-            $formatProperties = $env->getGlobals()['site']['output']['formats'][$format];
-            $url = $value->getPathname();
-            $url = $base.'/'.ltrim($url, '/').$extension;
+            $url = $value->getUrl($format, $this->config);
+            $url = $base.'/'.ltrim($url, '/');
         } else {
-            $url = $value;
-            if (!preg_match('~^(?:f|ht)tps?://~i', $url)) { // external URL
-                if (false !== strpos($url, '.')) { // file URL (with a dot for extension)
+            // string
+            if (preg_match('~^(?:f|ht)tps?://~i', $value)) { // external URL
+                $url = $value;
+            } else {
+                if (false !== strpos($value, '.')) { // ressource URL (with a dot for extension)
+                    $url = $value;
                     if ($addhash) {
                         $url .= '?'.$hash;
                     }
                     $url = $base.'/'.ltrim($url, '/');
                 } else {
-                    if (!empty($url)) {
-                        $url = $this->slugifyFilter($url);
-                        $url = rtrim($url, '/').'/';
+                    $url = $base.'/';
+                    if (!empty($value)) { // value == page ID
+                        $pageId = $this->slugifyFilter($value);
+                        if ($this->builder->getPages()->has($pageId)) {
+                            $page = $this->builder->getPages()->get($pageId);
+                            if ($page instanceof Page) {
+                                $url = $this->createUrl($page, $options);
+                            }
+                        }
                     }
-                    $url = $base.'/'.ltrim($url, '/');
                 }
             }
         }
@@ -307,7 +315,7 @@ class Extension extends SlugifyExtension
      */
     public function minify(string $path): string
     {
-        $filePath = $this->destPath.'/'.$path;
+        $filePath = $this->outputPath.'/'.$path;
         if (is_file($filePath)) {
             $extension = (new \SplFileInfo($filePath))->getExtension();
             switch ($extension) {
@@ -367,7 +375,7 @@ class Extension extends SlugifyExtension
      */
     public function toCss(string $path): string
     {
-        $filePath = $this->destPath.'/'.$path;
+        $filePath = $this->outputPath.'/'.$path;
         $subPath = substr($path, 0, strrpos($path, '/'));
 
         if (is_file($filePath)) {
@@ -375,14 +383,14 @@ class Extension extends SlugifyExtension
             switch ($extension) {
                 case 'scss':
                     $scssPhp = new Compiler();
-                    $scssPhp->setImportPaths($this->destPath.'/'.$subPath);
+                    $scssPhp->setImportPaths($this->outputPath.'/'.$subPath);
                     $targetPath = preg_replace('/scss/m', 'css', $path);
 
                     // compile if target file doesn't exists
-                    if (!$this->fileSystem->exists($this->destPath.'/'.$targetPath)) {
+                    if (!$this->fileSystem->exists($this->outputPath.'/'.$targetPath)) {
                         $scss = file_get_contents($filePath);
                         $css = $scssPhp->compile($scss);
-                        $this->fileSystem->dumpFile($this->destPath.'/'.$targetPath, $css);
+                        $this->fileSystem->dumpFile($this->outputPath.'/'.$targetPath, $css);
                     }
 
                     return $targetPath;
@@ -479,7 +487,7 @@ class Extension extends SlugifyExtension
      */
     public function hashFile(string $path): ?string
     {
-        if (is_file($filePath = $this->destPath.'/'.$path)) {
+        if (is_file($filePath = $this->outputPath.'/'.$path)) {
             return sprintf('sha384-%s', base64_encode(hash_file('sha384', $filePath, true)));
         }
     }

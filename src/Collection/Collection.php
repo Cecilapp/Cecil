@@ -37,6 +37,12 @@ class Collection implements CollectionInterface
     {
         $this->setId($id);
         $this->items = $items;
+        /*
+        if ($items) {
+            foreach ($items as $item) {
+                $this->add($item);
+            }
+        }*/
     }
 
     /**
@@ -138,6 +144,18 @@ class Collection implements CollectionInterface
     public function keys(): array
     {
         return array_keys($this->items);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function first(): ?ItemInterface
+    {
+        if (count($this->items) < 1) {
+            return null;
+        }
+
+        return array_shift($this->items);
     }
 
     /**

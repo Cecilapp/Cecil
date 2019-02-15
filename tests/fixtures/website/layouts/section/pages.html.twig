@@ -2,7 +2,7 @@
 
 {% block content %}
       <div class="posts">
-{% for post in site.pages|filterBy('section', page.pathname)|sortByWeight %}
+{% for post in site.pages|filterBy('section', page.path)|sortByWeight %}
         <div class="post">
 {% block post %}
           <h1 class="post-title">

@@ -34,7 +34,7 @@ class PagesCreate extends AbstractStep
             /* @var $page Page */
             $page = (new Page($file))->parse();
             $this->builder->getPages()->add($page);
-            $message = $page->getPathname();
+            $message = $page->getPath();
             call_user_func_array($this->builder->getMessageCb(), ['CREATE_PROGRESS', $message, $count, $max]);
         }
     }

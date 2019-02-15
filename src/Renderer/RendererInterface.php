@@ -8,7 +8,7 @@
 
 namespace Cecil\Renderer;
 
-use Cecil\Config;
+use Cecil\Builder;
 
 /**
  * Interface RendererInterface.
@@ -19,9 +19,9 @@ interface RendererInterface
      * Constructor.
      *
      * @param string|array $templatesPath
-     * @param Config       $config
+     * @param Builder      $buider
      */
-    public function __construct($templatesPath, $config);
+    public function __construct($templatesPath, Builder $buider);
 
     /**
      * Add global variable.

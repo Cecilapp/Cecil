@@ -25,27 +25,28 @@ class Section extends AbstractGenerator implements GeneratorInterface
         $generatedPages = new PagesCollection('sections');
         $sections = [];
 
-        // collects sections
+        // identify sections
         /* @var $page Page */
         foreach ($pagesCollection as $page) {
-            if ($page->getSection() != '') {
+            if ($page->getSection()) {
                 $sections[$page->getSection()][] = $page;
             }
         }
-        // adds section pages to collection
+
+        // adds section to pages collection
         if (count($sections) > 0) {
             $menuWeight = 100;
-            foreach ($sections as $section => $pages) {
-                $pageId = Page::slugify($section);
+            foreach ($sections as $sectionName => $pagesArray) {
+                $pageId = $path = Page::slugify($sectionName);
                 if (!$pagesCollection->has($pageId)) {
-                    usort($pages, 'Cecil\Util::sortByDate');
+                    $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
                     $page = (new Page())
                         ->setId($pageId)
-                        ->setPathname($pageId)
-                        ->setVariable('title', ucfirst($section))
+                        ->setPath($path)
                         ->setType(Type::SECTION)
+                        ->setVariable('title', ucfirst($sectionName))
                         ->setVariable('pages', $pages)
-                        ->setVariable('date', reset($pages)->getVariable('date'))
+                        ->setVariable('date', $pages->getIterator()->current()->getVariable('date'))
                         ->setVariable('menu', [
                             'main' => ['weight' => $menuWeight],
                         ]);
