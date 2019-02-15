@@ -23,7 +23,7 @@ class MenusCreate extends AbstractStep
     {
         call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Generating menus']);
         $count = 0;
-        $this->builder->setMenus(new MenusCollection());
+        $this->builder->setMenus(new MenusCollection('menus'));
         $this->collectPages();
 
         /*
@@ -88,7 +88,7 @@ class MenusCreate extends AbstractStep
                 if (is_string($page['menu'])) {
                     $item = (new Entry($page->getId()))
                         ->setName($page->getVariable('title'))
-                        ->setUrl($page->getUrl());
+                        ->setUrl($page->getPathname());
                     /* @var $menu \Cecil\Collection\Menu\Menu */
                     $menu = $this->builder->getMenus()->get($page['menu']);
                     $menu->add($item);
@@ -105,7 +105,7 @@ class MenusCreate extends AbstractStep
                         foreach ($page['menu'] as $name => $value) {
                             $item = (new Entry($page->getId()))
                                 ->setName($page->getVariable('title'))
-                                ->setUrl($page->getUrl())
+                                ->setUrl($page->getPathname())
                                 ->setWeight('weight', $value['weight']);
                             /* @var $menu \Cecil\Collection\Menu\Menu */
                             $menu = $this->builder->getMenus()->get($name);
