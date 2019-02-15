@@ -36,7 +36,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             $page = (new Page())
                 ->setId('index')
                 ->setType(Type::HOMEPAGE)
-                ->setPathname(Page::slugify(''))
+                ->setPath('')
                 ->setVariable('title', 'Home')
                 ->setVariable('pages', $pages)
                 ->setVariable('menu', [

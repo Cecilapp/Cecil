@@ -39,7 +39,7 @@ class PagesConvert extends AbstractStep
                 $count++;
                 $convertedPage = $this->convertPage($page, $this->builder->getConfig()->get('frontmatter.format'));
                 if (false !== $convertedPage) {
-                    $message = $page->getPathname();
+                    $message = $page->getPath();
                     // force convert drafts?
                     if ($this->builder->getBuildOptions()['drafts']) {
                         $page->setVariable('published', true);

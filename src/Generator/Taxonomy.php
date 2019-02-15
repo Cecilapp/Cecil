@@ -113,7 +113,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                             ->setVariable('title', ucfirst($term));
                     }
                     $page->setId($pageId)
-                        ->setPathname($pageId)
+                        ->setPath($pageId)
                         ->setType(Type::TAXONOMY)
                         ->setVariable('pages', $pages)
                         ->setVariable('date', $date = reset($pages)->getVariable('date'))
@@ -128,7 +128,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                  */
                 $page = (new Page())
                     ->setId(Page::slugify($plural))
-                    ->setPathname(strtolower($plural))
+                    ->setPath(strtolower($plural))
                     ->setVariable('title', $plural)
                     ->setType(Type::TERMS)
                     ->setVariable('plural', $plural)

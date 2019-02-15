@@ -37,12 +37,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
         if (count($sections) > 0) {
             $menuWeight = 100;
             foreach ($sections as $sectionName => $pagesArray) {
-                $pageId = $pathname = Page::slugify($sectionName);
+                $pageId = $path = Page::slugify($sectionName);
                 if (!$pagesCollection->has($pageId)) {
                     $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
                     $page = (new Page())
                         ->setId($pageId)
-                        ->setPathname($pathname)
+                        ->setPath($path)
                         ->setType(Type::SECTION)
                         ->setVariable('title', ucfirst($sectionName))
                         ->setVariable('pages', $pages)

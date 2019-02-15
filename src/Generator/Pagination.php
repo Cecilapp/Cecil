@@ -38,7 +38,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             $paginatePerPage = intval($this->config->get('site.paginate.max'));
             $paginatePath = $this->config->get('site.paginate.path');
             // page variables
-            $path = $page->getPathname();
+            $path = $page->getPath();
             $pages = $page->getVariable('pages');
 
             // paginate
@@ -61,7 +61,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         $currentPath = $firstPath;
                         $alteredPage
                             ->setId($pageId)
-                            ->setPathname($firstPath)
+                            ->setPath($firstPath)
                             ->setVariable('aliases', [
                                 sprintf('%s/%s/%s', $path, $paginatePath, 1),
                             ]);
@@ -71,7 +71,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         $currentPath = $pageId;
                         $alteredPage
                             ->setId($pageId)
-                            ->setPathname($currentPath)
+                            ->setPath($currentPath)
                             ->unVariable('menu');
                     }
                     $alteredPage->setVariable('totalpages', $pagesTotal);

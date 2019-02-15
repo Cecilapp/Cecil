@@ -57,7 +57,6 @@ class PagesSave extends AbstractStep
             $message = [];
 
             foreach ($page->getVariable('rendered') as $format => $rendered) {
-                //if (false === $pathname = $this->getPathname($page, $format)) {
                 if (false === $pathname = $page->getOutputFile($format, $this->config)) {
                     throw new Exception(sprintf(
                         "Can't get pathname of page '%s' (format: '%s')",
@@ -82,28 +81,6 @@ class PagesSave extends AbstractStep
                 ['SAVE_PROGRESS', implode(', ', $message), $count, $max]
             );
         }
-    }
-
-    /**
-     * Return output pathname.
-     *
-     * @param Page   $page
-     * @param string $format
-     *
-     * @return string|false
-     */
-    protected function getPathname(Page $page, string $format = 'html')
-    {
-        // special case: list/index pages (ie: homepage, sections, etc.)
-        if ($page->getName() == 'index') {
-            return $page->getPath().'/'.$this->config->getOutputFile($format);
-        }
-        // uglyurl case. ie: robots.txt, 404.html, etc.
-        if ($page->getVariable('uglyurl') || $this->config->get("site.output.formats.$format.uglyurl")) {
-            return $page->getPathname().'.'.$this->config->get("site.output.formats.$format.extension");
-        }
-
-        return $page->getPathname().'/'.$this->config->getOutputFile($format);
     }
 
     /**

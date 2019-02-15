@@ -195,7 +195,7 @@ class PagesRender extends AbstractStep
                         'rel'   => 'canonical',
                         'type'  => $this->config->get('site.output.formats.html.mediatype'),
                         'title' => 'HTML',
-                        'href'  => $page->getPathname(), // you should use use "url()" in template
+                        'href'  => $page->getPath(), // you should use use "url()" in template
                     ];
                     continue;
                 }
@@ -203,7 +203,7 @@ class PagesRender extends AbstractStep
                     'rel'   => 'alternate',
                     'type'  => $this->config->get("site.output.formats.$format.mediatype"),
                     'title' => strtoupper($format),
-                    'href'  => $page->getPathname(), // you should use "url()" in template
+                    'href'  => $page->getPath(), // you should use "url()" in template
                 ];
             }
         }
