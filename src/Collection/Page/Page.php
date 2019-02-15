@@ -449,12 +449,13 @@ class Page extends Item
     public function getUrl(string $format = 'html', Config $config = null): string
     {
         $uglyurl = $this->getVariable('uglyurl') ? true : false;
+        $output = $this->getOutputFile($format, $config);
 
         if (!$uglyurl) {
-            return str_replace('index.html', '', $this->getOutputFile($format, $config));
+            $output = str_replace('index.html', '', $output);
         }
 
-        return $this->getOutputFile($format, $config);
+        return $output;
     }
 
     /*

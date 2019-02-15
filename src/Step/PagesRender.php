@@ -43,7 +43,7 @@ class PagesRender extends AbstractStep
     public function process()
     {
         // prepares renderer
-        $this->builder->setRenderer(new Twig($this->getAllLayoutsPaths(), $this->config));
+        $this->builder->setRenderer(new Twig($this->getAllLayoutsPaths(), $this->builder));
 
         // add globals variables
         $this->addGlobals();
@@ -183,8 +183,6 @@ class PagesRender extends AbstractStep
      * @param array $formats
      *
      * @return array
-     *
-     * @todo do it better! :-D
      */
     protected function getAlternates(Page $page, array $formats): array
     {
@@ -205,7 +203,7 @@ class PagesRender extends AbstractStep
                     'rel'   => 'alternate',
                     'type'  => $this->config->get("site.output.formats.$format.mediatype"),
                     'title' => strtoupper($format),
-                    'href'  => $page->getPathname(), // should use "url()" in template
+                    'href'  => $page->getPathname(), // you should use "url()" in template
                 ];
             }
         }
