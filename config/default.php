@@ -56,10 +56,10 @@ return [
                     'suffix'    => '/index',
                     'extension' => 'html',
                 ],
-                // ie: blog/feed.xml
+                // ie: blog/rss.xml
                 'rss' => [
                     'mediatype' => 'application/rss+xml',
-                    'suffix'    => '/feed',
+                    'suffix'    => '/rss',
                     'extension' => 'xml',
                 ],
                 // ie: blog/post-1.json

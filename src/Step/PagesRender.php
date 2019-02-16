@@ -188,22 +188,14 @@ class PagesRender extends AbstractStep
     {
         $alternates = [];
 
-        if (count($formats) > 1 && array_key_exists('html', $formats)) {
+        if (count($formats) > 1 && in_array('html', $formats)) {
             foreach ($formats as $format) {
-                if ($format == 'html') {
-                    $alternates[] = [
-                        'rel'   => 'canonical',
-                        'type'  => $this->config->get('site.output.formats.html.mediatype'),
-                        'title' => 'HTML',
-                        'href'  => $page->getPath(), // you should use use "url()" in template
-                    ];
-                    continue;
-                }
+                $format == 'html' ? $rel = 'canonical' : $rel = 'alternate';
                 $alternates[] = [
-                    'rel'   => 'alternate',
-                    'type'  => $this->config->get("site.output.formats.$format.mediatype"),
-                    'title' => strtoupper($format),
-                    'href'  => $page->getPath(), // you should use "url()" in template
+                    'rel'    => $rel,
+                    'type'   => $this->config->get("site.output.formats.$format.mediatype"),
+                    'title'  => strtoupper($format),
+                    'format' => $format,
                 ];
             }
         }
