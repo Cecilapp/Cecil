@@ -36,4 +36,16 @@ class Collection extends CecilCollection
             return ($a['date'] > $b['date']) ? -1 : 1;
         });
     }
+
+    /**
+     * Sort items by title.
+     *
+     * @return self
+     */
+    public function sortByTitle(): self
+    {
+        return $this->usort(function ($a, $b) {
+            return strnatcmp($a['title'], $b['title']);
+        });
+    }
 }
