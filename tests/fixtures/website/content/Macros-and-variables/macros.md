@@ -1,7 +1,8 @@
 ---
 title: Macros
-layout: macro.html
+layout: macro
 ---
+<!-- excerpt -->
 # Macros in Markdown
 
 ## Youtube video

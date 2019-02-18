@@ -1,8 +1,9 @@
 ---
 title: Variables
-layout: macro.html
+layout: macro
 var1: 'var 1'
 ---
+<!-- excerpt -->
 # Variables in Markdown
 
 ## Set and show

@@ -1,5 +1,5 @@
 ---
-layout: getenv.html
+layout: getenv
 ---
-
+<!-- excerpt -->
 Test `getenv()` function:
