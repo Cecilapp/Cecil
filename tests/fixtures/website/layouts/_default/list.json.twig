@@ -1,27 +1,39 @@
+{% spaceless %}
+{% set pages = page.pages|sortByDate %}
+{% if page.pagination is defined %}
+{% set pagination = page.pagination %}
+{% set pages = pagination.pages %}
+{% endif %}
+{% endspaceless %}
 {
   "data": [
-{% for p in page.pages|sortByDate %}
+{% for p in pages %}
     {
+      "type": {{ p.rootpath|json_encode() }},
       "id": {{ p.id|json_encode() }},
-      "title": {{ p.title|json_encode() }},
-      "url": {{ url(p, { canonical: true, format: 'json' })|json_encode() }}
+      "attributes": {
+        "title": {{ p.title|json_encode() }},
+        "body": {{ p.body|json_encode() }},
+        "created": {{ p.date|date('c')|json_encode() }},
+        "updated": {{ p.updated|date('c')|json_encode() }}
+      }
     }{% if not loop.last %},{% endif %}
 {% endfor %}
 
-  ]{% if page.pagination is defined %},
+  ]{% if pagination is defined %},
   "meta": {
-    "totalPage": {{ page.totalpages }}
+    "totalPages": {{ pagination.totalpages }}
   },
   "links": {
-    "self": {{ url(site.pages[page.pagination.self], {canonical: true, format: 'json'})|json_encode() }},
-    "first": {{ url(site.pages[page.pagination.first], {canonical: true, format: 'json'})|json_encode() }},
-{% if page.pagination.prev is defined %}
-    "prev": {{ url(site.pages[page.pagination.prev], {canonical: true, format: 'json'})|json_encode() }},
+    "self": {{ url(pagination.links.self, {canonical: true, format: 'json'})|json_encode() }},
+    "first": {{ url(pagination.links.first, {canonical: true, format: 'json'})|json_encode() }},
+{% if pagination.links.prev is defined %}
+    "prev": {{ url(pagination.links.prev, {canonical: true, format: 'json'})|json_encode() }},
 {% endif %}
-{% if page.pagination.next is defined %}
-    "next": {{ url(site.pages[page.pagination.next], {canonical: true, format: 'json'})|json_encode() }},
+{% if pagination.links.next is defined %}
+    "next": {{ url(pagination.links.next, {canonical: true, format: 'json'})|json_encode() }},
 {% endif %}
-    "last": {{ url(site.pages[page.pagination.last], {canonical: true, format: 'json'})|json_encode() }}
+    "last": {{ url(pagination.links.last, {canonical: true, format: 'json'})|json_encode() }}
   }
 {% endif %}
 }

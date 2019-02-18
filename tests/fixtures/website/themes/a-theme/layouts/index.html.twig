@@ -23,17 +23,17 @@ Virtuals pages:
 {% endfor %}
 </ul>
 
-Imported config (from theme(s)):
 {% if site.foo is defined %}
+Imported config (from theme(s)):
 <p>Variable `foo`=`{{ site.foo }}`</p>
 {% endif %}
 
 {% if page.pagination is defined %}
 <pre>
-Total pages: {{ page.totalpages }}
-Pages by page : {{ page.pages|length }}
+Total pages: {{ page.pagination.totalpages }}
+Pages per page : {{ page.pagination.pages|length }}
 Links:
-{{ dump(page.pagination) }}
+{{ dump(page.pagination.links) }}
 </pre>
 {% endif %}
 
