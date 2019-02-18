@@ -25,32 +25,50 @@ class Alias extends AbstractGenerator implements GeneratorInterface
 
         /* @var $page Page */
         foreach ($pagesCollection as $page) {
-            $aliases = [];
-            if ($page->hasVariable('aliases')) {
-                $aliases = $page->getVariable('aliases');
-            }
-            if ($page->hasVariable('alias')) {
-                $aliases = $page->getVariable('alias');
-            }
-            if (!is_array($aliases)) {
-                $aliases = [$aliases];
-            }
+            $aliases = $this->getPageAliases($page);
+
             if (!empty($aliases)) {
                 foreach ($aliases as $alias) {
                     /* @var $aliasPage Page */
-                    $path = Page::slugify($alias);
+                    $pageId = $path = Page::slugify($alias);
                     $aliasPage = (new Page())
-                        ->setId(sprintf('%s/redirect', $path))
+                        ->setId($pageId)
                         ->setPath($path)
-                        ->setVariable('title', $alias)
-                        ->setVariable('layout', 'redirect')
-                        ->setVariable('destination', $page->getUrl())
-                        ->setVariable('date', $page->getVariable('date'));
+                        ->setVariables([
+                            'layout'   => 'redirect',
+                            'redirect' => $page->getPath(),
+                            'title'    => $alias,
+                            'date'     => $page->getVariable('date'),
+                        ]);
                     $generatedPages->add($aliasPage);
                 }
             }
         }
 
         return $generatedPages;
+    }
+
+    /**
+     * Return aliases array.
+     *
+     * @param Page $page
+     *
+     * @return array
+     */
+    protected function getPageAliases(Page $page): array
+    {
+        $aliases = [];
+
+        if ($page->hasVariable('aliases')) { // backward compatibility
+            $aliases = $page->getVariable('aliases');
+        }
+        if ($page->hasVariable('alias')) {
+            $aliases = $page->getVariable('alias');
+        }
+        if (!is_array($aliases)) {
+            $aliases = [$aliases];
+        }
+
+        return $aliases;
     }
 }
