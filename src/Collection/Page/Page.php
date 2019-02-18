@@ -516,7 +516,9 @@ class Page extends Item
                 if ($value != $slug) {
                     throw new \Exception(sprintf(
                         "'url' variable should be '%s', not '%s', in page '%s'",
-                        $slug, $value, $this->getId()
+                        $slug,
+                        $value,
+                        $this->getId()
                     ));
                 }
                 break;

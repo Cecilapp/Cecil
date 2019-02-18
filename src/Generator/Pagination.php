@@ -114,18 +114,24 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     if ($i > 1) {
                         $pagination['links'] += ['prev' => Page::slugify(sprintf(
                             '%s/%s/%s',
-                            $path, $paginationPath, $i
+                            $path,
+                            $paginationPath,
+                            $i
                         ))];
                     }
                     if ($i < $paginationPagesCount - 1) {
                         $pagination['links'] += ['next' => Page::slugify(sprintf(
                             '%s/%s/%s',
-                            $path, $paginationPath, $i + 2
+                            $path,
+                            $paginationPath,
+                            $i + 2
                         ))];
                     }
                     $pagination['links'] += ['last' => Page::slugify(sprintf(
                         '%s/%s/%s',
-                        $path, $paginationPath, $paginationPagesCount
+                        $path,
+                        $paginationPath,
+                        $paginationPagesCount
                     ))];
                     $alteredPage->setVariable('pagination', $pagination);
                     // update date with the first element of the collection
