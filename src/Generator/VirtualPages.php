@@ -26,7 +26,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
 
         $virtualpages = $this->config->get('site.virtualpages');
         foreach ($virtualpages as $path => $frontmatter) {
-            if ($frontmatter == 'disabled') {
+            if (isset ($frontmatter['published']) && $frontmatter['published'] == false) {
                 continue;
             }
             $page = (new Page())

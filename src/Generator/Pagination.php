@@ -24,7 +24,6 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
     {
         $generatedPages = new PagesCollection();
 
-        // disabled?
         if (false === $this->config->get('site.pagination.enabled')) {
             return $generatedPages;
         }

@@ -49,7 +49,7 @@ class Build extends \PHPUnit\Framework\TestCase
                             ],
                             'about' => [
                                 'id'       => 'about',
-                                'disabled' => true,
+                                'enabled'  => false,
                             ],
                             'narno' => [
                                 'id'     => 'narno',
@@ -68,14 +68,16 @@ class Build extends \PHPUnit\Framework\TestCase
                         ]
                     ],
                     'taxonomies' => [
-                        'disabled' => false,
+                        'enabled' => true,
                     ],
                     'googleanalytics' => 'UA-XXXXX',
                     'virtualpages'    => [
                         'sitemap' => [
                             'published' => true,
                         ],
-                        'rss' => 'disabled',
+                        'rss' => [
+                            'published' => false,
+                        ],
                     ],
                 ],
                 'theme'  => [

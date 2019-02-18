@@ -36,7 +36,9 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
         $this->pagesCollection = $pagesCollection;
         $this->generatedPages = new PagesCollection('generator-taxonomy');
 
-        if ($this->config->get('site.taxonomies') && !$this->config->get('site.taxonomies.disabled')) {
+        if ($this->config->get('site.taxonomies')
+            && false !== $this->config->get('site.taxonomies.enabled')
+        ) {
             $this->initTaxonomiesCollection();
             $this->collectTermsFromPages();
             $this->createNodePages();

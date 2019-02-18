@@ -48,7 +48,7 @@ class MenusCreate extends AbstractStep
                 $menu = $this->builder->getMenus()->get($name);
                 foreach ($entry as $property) {
                     // remove disable entries
-                    if (isset($property['disabled']) && $property['disabled']) {
+                    if (isset($property['enabled']) && false === $property['enabled']) {
                         if (isset($property['id']) && $menu->has($property['id'])) {
                             $menu->remove($property['id']);
                         }
