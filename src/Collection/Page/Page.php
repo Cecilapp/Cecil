@@ -514,7 +514,10 @@ class Page extends Item
             case 'url':
                 $slug = self::slugify($value);
                 if ($value != $slug) {
-                    throw new \Exception(sprintf("'url' variable should be '%s', not '%s', in page '%s'", $slug, $value, $this->getId()));
+                    throw new \Exception(sprintf(
+                        "'url' variable should be '%s', not '%s', in page '%s'",
+                        $slug, $value, $this->getId()
+                    ));
                 }
                 break;
             default:

@@ -64,8 +64,15 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             if ($pagesTotal > $paginationPerPage) {
                 $paginationPagesCount = ceil($pagesTotal / $paginationPerPage);
                 for ($i = 0; $i < $paginationPagesCount; $i++) {
-                    $pagesInPagination = new \LimitIterator($pages->getIterator(), ($i * $paginationPerPage), $paginationPerPage);
-                    $pagesInPagination = new PagesCollection($page->getId().'-page-'.($i + 1), iterator_to_array($pagesInPagination));
+                    $pagesInPagination = new \LimitIterator(
+                        $pages->getIterator(),
+                        ($i * $paginationPerPage),
+                        $paginationPerPage
+                    );
+                    $pagesInPagination = new PagesCollection(
+                        $page->getId().'-page-'.($i + 1),
+                        iterator_to_array($pagesInPagination)
+                    );
                     $alteredPage = clone $page;
                     // first page
                     $firstPath = Page::slugify(sprintf('%s', $path));
@@ -105,15 +112,24 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         $pagination['links'] += ['prev' => Page::slugify($path ?: 'index')];
                     }
                     if ($i > 1) {
-                        $pagination['links'] += ['prev' => Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $i))];
+                        $pagination['links'] += ['prev' => Page::slugify(sprintf(
+                            '%s/%s/%s',
+                            $path, $paginationPath, $i
+                        ))];
                     }
                     if ($i < $paginationPagesCount - 1) {
-                        $pagination['links'] += ['next' => Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $i + 2))];
+                        $pagination['links'] += ['next' => Page::slugify(sprintf(
+                            '%s/%s/%s',
+                            $path, $paginationPath, $i + 2
+                        ))];
                     }
-                    $pagination['links'] += ['last' => Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $paginationPagesCount))];
+                    $pagination['links'] += ['last' => Page::slugify(sprintf(
+                        '%s/%s/%s',
+                        $path, $paginationPath, $paginationPagesCount
+                    ))];
                     $alteredPage->setVariable('pagination', $pagination);
                     // update date with the first element of the collection
-                    $alteredPage->setVariable('date', $pagesInPagination->getIterator()->current()->getVariable('date'));
+                    $alteredPage->setVariable('date', $pagesInPagination->first()->getVariable('date'));
                     $generatedPages->add($alteredPage);
                 }
             }
