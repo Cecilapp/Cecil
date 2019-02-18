@@ -61,15 +61,12 @@ class Build extends \PHPUnit\Framework\TestCase
                     ],
                     'paginate' => [
                         'disabled' => false,
-                        'homepage' => [
-                            'section' => 'blog',
-                        ],
                     ],
                     'taxonomies' => [
                         'disabled' => false,
                     ],
-                    'googleanalytics'       => 'POUET',
-                    'virtualpages'          => [
+                    'googleanalytics' => 'POUET',
+                    'virtualpages' => [
                         'sitemap' => [
                             'published' => true,
                         ],
