@@ -37,12 +37,6 @@ class Collection implements CollectionInterface
     {
         $this->setId($id);
         $this->items = $items;
-        /*
-        if ($items) {
-            foreach ($items as $item) {
-                $this->add($item);
-            }
-        }*/
     }
 
     /**

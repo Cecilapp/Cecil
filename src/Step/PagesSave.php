@@ -63,7 +63,6 @@ class PagesSave extends AbstractStep
                         $page->getId(),
                         $format
                     ));
-                    continue;
                 }
                 $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$pathname);
 
