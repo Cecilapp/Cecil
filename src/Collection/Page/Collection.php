@@ -16,7 +16,7 @@ use Cecil\Collection\Collection as CecilCollection;
 class Collection extends CecilCollection
 {
     /**
-     * Sort items by date.
+     * Sort items by date: the most recent first.
      *
      * @return self
      */
@@ -38,7 +38,7 @@ class Collection extends CecilCollection
     }
 
     /**
-     * Sort items by title.
+     * Sort items by title (natural sort).
      *
      * @return self
      */
@@ -46,6 +46,28 @@ class Collection extends CecilCollection
     {
         return $this->usort(function ($a, $b) {
             return strnatcmp($a['title'], $b['title']);
+        });
+    }
+
+    /**
+     * Sort by weight: the heaviest first.
+     *
+     * @return self
+     */
+    public function sortByWeight(): self
+    {
+        return $this->usort(function ($a, $b) {
+            if (!isset($a['weight'])) {
+                return -1;
+            }
+            if (!isset($b['weight'])) {
+                return 1;
+            }
+            if ($a['weight'] == $b['weight']) {
+                return 0;
+            }
+
+            return ($a['weight'] > $b['weight']) ? -1 : 1;
         });
     }
 }
