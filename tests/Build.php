@@ -34,7 +34,7 @@ class Build extends \PHPUnit\Framework\TestCase
 
     public function testBuid()
     {
-        putenv('CECIL_SITE_TITLE=Cecil test (env)');
+        putenv('CECIL_SITE_DESCRIPTION=Description from environment variable');
         Builder::create(
             [
                 'site' => [
@@ -59,13 +59,18 @@ class Build extends \PHPUnit\Framework\TestCase
                             ],
                         ],
                     ],
-                    'paginate' => [
-                        'disabled' => false,
+                    'pagination' => [
+                        'enabled' => true,
+                        'sections' => [
+                            'project' => [
+                                'sortby' => 'title',
+                            ]
+                        ]
                     ],
                     'taxonomies' => [
                         'disabled' => false,
                     ],
-                    'googleanalytics' => 'POUET',
+                    'googleanalytics' => 'UA-XXXXX',
                     'virtualpages'    => [
                         'sitemap' => [
                             'published' => true,

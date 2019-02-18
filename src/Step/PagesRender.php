@@ -76,9 +76,14 @@ class PagesRender extends AbstractStep
 
             // render each output format
             foreach ($formats as $format) {
-                // escape redirect pages
-                if ($format != 'html' && $page->hasVariable('destination')) {
-                    continue;
+                // exclude pages with specific variable(s)
+                if ($exclude = $this->config->get("site.output.formats.$format.exclude")) {
+                    // ie: 'exclude' => ['paginated'],
+                    foreach ($exclude as $variable) {
+                        if ($page->hasVariable($variable)) {
+                            continue(2);
+                        }
+                    }
                 }
                 // search for the template
                 $layout = Layout::finder($page, $format, $this->config);

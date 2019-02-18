@@ -24,29 +24,48 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
     {
         $generatedPages = new PagesCollection();
 
+        // disabled?
+        if (false === $this->config->get('site.pagination.enabled')) {
+            return $generatedPages;
+        }
+
+        // filter pages: home and sections
         $filteredPages = $pagesCollection->filter(function (Page $page) {
             return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION]);
         });
-
         /* @var $page Page */
         foreach ($filteredPages as $page) {
-            if ($this->config->get('site.paginate.disabled')) {
-                return $generatedPages;
-            }
-
             // config
-            $paginatePerPage = intval($this->config->get('site.paginate.max'));
-            $paginatePath = $this->config->get('site.paginate.path');
+            $paginationPerPage = intval($this->config->get('site.pagination.max'));
+            $paginationPath = $this->config->get('site.pagination.path');
             // page variables
             $path = $page->getPath();
             $pages = $page->getVariable('pages');
-
-            // paginate
+            // sort
+            if ($sortSections = $this->config->get('site.pagination.sections')) {
+                if (array_key_exists($page->getPath(), $sortSections)
+                    && array_key_exists('sortby', $sortSections[$page->getPath()])
+                ) {
+                    switch ($sortSections[$page->getPath()]['sortby']) {
+                        case 'weight':
+                            $pages = $pages->sortByWeight();
+                            break;
+                        case 'title':
+                            $pages = $pages->sortByTitle();
+                            break;
+                        case 'date':
+                        default:
+                            $pages = $pages->sortByDate();
+                            break;
+                    }
+                }
+            }
+            // build pagination
             $pagesTotal = count($pages);
-            if ($pagesTotal > $paginatePerPage) {
-                $paginatePagesCount = ceil($pagesTotal / $paginatePerPage);
-                for ($i = 0; $i < $paginatePagesCount; $i++) {
-                    $pagesInPagination = new \LimitIterator($pages->getIterator(), ($i * $paginatePerPage), $paginatePerPage);
+            if ($pagesTotal > $paginationPerPage) {
+                $paginationPagesCount = ceil($pagesTotal / $paginationPerPage);
+                for ($i = 0; $i < $paginationPagesCount; $i++) {
+                    $pagesInPagination = new \LimitIterator($pages->getIterator(), ($i * $paginationPerPage), $paginationPerPage);
                     $pagesInPagination = new PagesCollection($page->getId().'-page-'.($i + 1), iterator_to_array($pagesInPagination));
                     $alteredPage = clone $page;
                     // first page
@@ -63,16 +82,17 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                             ->setId($pageId)
                             ->setPath($firstPath)
                             ->setVariable('aliases', [
-                                sprintf('%s/%s/%s', $path, $paginatePath, 1),
+                                sprintf('%s/%s/%s', $path, $paginationPath, 1),
                             ]);
                     } else {
                         // ie: blog/page/2
-                        $pageId = Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $i + 1));
+                        $pageId = Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $i + 1));
                         $currentPath = $pageId;
                         $alteredPage
                             ->setId($pageId)
                             ->setPath($currentPath)
-                            ->unVariable('menu');
+                            ->unVariable('menu')
+                            ->setVariable('paginated', true);
                     }
                     // create "pagination" variable
                     $pagination = [
@@ -86,12 +106,12 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         $pagination['links'] += ['prev' => Page::slugify($path ?: 'index')];
                     }
                     if ($i > 1) {
-                        $pagination['links'] += ['prev' => Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $i))];
+                        $pagination['links'] += ['prev' => Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $i))];
                     }
-                    if ($i < $paginatePagesCount - 1) {
-                        $pagination['links'] += ['next' => Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $i + 2))];
+                    if ($i < $paginationPagesCount - 1) {
+                        $pagination['links'] += ['next' => Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $i + 2))];
                     }
-                    $pagination['links'] += ['last' => Page::slugify(sprintf('%s/%s/%s', $path, $paginatePath, $paginatePagesCount))];
+                    $pagination['links'] += ['last' => Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $paginationPagesCount))];
                     $alteredPage->setVariable('pagination', $pagination);
                     // update date with the first element of the collection
                     $alteredPage->setVariable('date', $pagesInPagination->getIterator()->current()->getVariable('date'));

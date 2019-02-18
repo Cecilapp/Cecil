@@ -20,7 +20,7 @@ return [
             'tags'       => 'tag',
             'categories' => 'category',
         ],
-        'paginate' => [
+        'pagination' => [
             'max'  => 5,
             'path' => 'page',
         ],
@@ -42,7 +42,7 @@ return [
                 'priority'   => '0.5',
             ],
             '404' => [
-                'title'   => '404 page',
+                'title'   => 'Page not found',
                 'layout'  => '404',
                 'uglyurl' => true,
             ],
@@ -61,21 +61,25 @@ return [
                     'mediatype' => 'application/rss+xml',
                     'suffix'    => '/rss',
                     'extension' => 'xml',
+                    'exclude'   => ['redirect', 'paginated'],
                 ],
                 // ie: blog/post-1.json
                 'json' => [
                     'mediatype' => 'application/json',
                     'extension' => 'json',
+                    'exclude'   => ['redirect'],
                 ],
                 // ie: blog/post-1.xml
                 'xml' => [
                     'mediatype' => 'application/xml',
                     'extension' => 'xml',
+                    'exclude'   => ['redirect'],
                 ],
                 // ie: robots.txt
                 'txt' => [
                     'mediatype' => 'text/plain',
                     'extension' => 'txt',
+                    'exclude'   => ['redirect'],
                 ],
                 // ie: blog/post-1/amp/index.html
                 'amp' => [
