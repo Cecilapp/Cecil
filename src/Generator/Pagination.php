@@ -77,7 +77,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     // create "pagination" variable
                     $pagination = [
                         'totalpages' => $pagesTotal,
-                        'pages' => $pagesInPagination,
+                        'pages'      => $pagesInPagination,
                     ];
                     // add links
                     $pagination['links'] = ['self' => $currentPath ?: 'index'];
