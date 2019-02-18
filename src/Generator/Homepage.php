@@ -26,9 +26,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
 
         if (!$pagesCollection->has('index')) {
             $filteredPages = $pagesCollection->filter(function (Page $page) {
-                return ($page->getType() === null || $page->getType() === TYPE::PAGE)
-                && $page->getSection() == $this->config->get('site.paginate.homepage.section')
-                && !empty($page->getBody());
+                return $page->getType() === TYPE::PAGE;
             });
             $pages = $filteredPages->sortByDate();
 
@@ -39,6 +37,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 ->setPath('')
                 ->setVariable('title', 'Home')
                 ->setVariable('pages', $pages)
+                ->setVariable('date', $pages->first()->getVariable('date'))
                 ->setVariable('menu', [
                     'main' => ['weight' => 1],
                 ]);

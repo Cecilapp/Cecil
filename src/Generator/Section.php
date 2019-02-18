@@ -46,7 +46,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setType(Type::SECTION)
                         ->setVariable('title', ucfirst($sectionName))
                         ->setVariable('pages', $pages)
-                        ->setVariable('date', $pages->getIterator()->current()->getVariable('date'))
+                        ->setVariable('date', $pages->first()->getVariable('date'))
                         ->setVariable('menu', [
                             'main' => ['weight' => $menuWeight],
                         ]);
