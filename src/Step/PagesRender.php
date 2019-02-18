@@ -81,7 +81,7 @@ class PagesRender extends AbstractStep
                     // ie: 'exclude' => ['paginated'],
                     foreach ($exclude as $variable) {
                         if ($page->hasVariable($variable)) {
-                            continue(2);
+                            continue 2;
                         }
                     }
                 }
