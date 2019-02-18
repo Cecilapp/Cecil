@@ -39,7 +39,7 @@ class Page extends Item
     /**
      * @var string
      */
-    protected $relpath;
+    protected $rootpath;
     /**
      * @var string
      */
@@ -95,21 +95,22 @@ class Page extends Item
             /*
              * Set properties
              *
-             * id = path = relpath / slug
+             * id = path = rootpath / slug
              */
-            $this->relpath = $this->slugify($filePath); // ie: "blog"
+            $this->rootpath = $this->slugify($filePath); // ie: "blog"
             $this->slug = $this->slugify(Prefix::subPrefix($fileName)); // ie: "post-1"
             $this->path = $this->slugify(Prefix::subPrefix($filePathname)); // ie: "blog/post-1"
             $this->id = $this->path;
             /*
              * Set protected variables
              */
-            $this->setSection(explode('/', $this->relpath)[0]); // ie: "blog"
+            $this->setSection(explode('/', $this->rootpath)[0]); // ie: "blog"
             /*
              * Set overridable variables
              */
             $this->setVariable('title', Prefix::subPrefix($fileName)); // ie: "Post 1"
-            $this->setVariable('date', $this->file->getMTime());
+            $this->setVariable('date', $this->file->getCTime());
+            $this->setVariable('updated', $this->file->getMTime());
             $this->setVariable('weight', null);
             // special case: file has a prefix
             if (Prefix::hasPrefix($filePathname)) {
@@ -122,7 +123,7 @@ class Page extends Item
                 }
             }
             // physical file relative path
-            $this->setVariable('filepathname', $this->file->getRelativePathname());
+            $this->setVariable('filepath', $this->file->getRelativePathname());
 
             parent::__construct($this->id);
         } else {
@@ -130,9 +131,11 @@ class Page extends Item
             $this->virtual = true;
             // default variables
             $this->setVariables([
-                'title'  => 'Page Title',
-                'date'   => time(),
-                'weight' => null,
+                'title'    => 'Page Title',
+                'date'     => time(),
+                'updated'  => time(),
+                'weight'   => null,
+                'filepath' => null,
             ]);
 
             parent::__construct();
@@ -256,13 +259,13 @@ class Page extends Item
     /**
      * Set relative path.
      *
-     * @param $relpath
+     * @param $rootpath
      *
      * @return self
      */
-    public function setRelPath(string $relpath): self
+    public function setRootPath(string $rootpath): self
     {
-        $this->relpath = $relpath;
+        $this->rootpath = $rootpath;
 
         return $this;
     }
@@ -272,9 +275,9 @@ class Page extends Item
      *
      * @return string|null
      */
-    public function getRelPath(): ?string
+    public function getRootPath(): ?string
     {
-        return $this->relpath;
+        return $this->rootpath;
     }
 
     /**
@@ -322,8 +325,8 @@ class Page extends Item
      */
     public function getSection(): ?string
     {
-        if (empty($this->section) && !empty($this->relpath)) {
-            $this->setSection(explode('/', $this->relpath)[0]);
+        if (empty($this->section) && !empty($this->rootpath)) {
+            $this->setSection(explode('/', $this->rootpath)[0]);
         }
 
         return $this->section;

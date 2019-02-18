@@ -154,8 +154,22 @@ class Collection implements CollectionInterface
         if (count($this->items) < 1) {
             return null;
         }
+        $items = $this->items;
 
-        return array_shift($this->items);
+        return array_shift($items);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function last(): ?ItemInterface
+    {
+        if (count($this->items) < 1) {
+            return null;
+        }
+        $items = $this->items;
+
+        return array_pop($items);
     }
 
     /**
