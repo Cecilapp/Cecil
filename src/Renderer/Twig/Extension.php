@@ -248,6 +248,14 @@ class Extension extends SlugifyExtension
         $canonical = null;
         $addhash = true;
         $format = 'html';
+        // backward compatibility
+        if (is_bool($options)) {
+            $options = [];
+            $options['canonical'] = false;
+            if ($options === true) {
+                $options['canonical'] = true;
+            }
+        }
         extract($options ?: []);
 
         // set baseurl
