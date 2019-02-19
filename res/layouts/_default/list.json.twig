@@ -1,0 +1,39 @@
+{% spaceless %}
+{% set pages = page.pages|sortByDate %}
+{% if page.pagination is defined %}
+{% set pagination = page.pagination %}
+{% set pages = pagination.pages %}
+{% endif %}
+{% endspaceless %}
+{
+  "data": [
+{% for p in pages %}
+    {
+      "type": {{ p.rootpath|json_encode() }},
+      "id": {{ p.id|json_encode() }},
+      "attributes": {
+        "title": {{ p.title|json_encode() }},
+        "body": {{ p.body|e|json_encode() }},
+        "created": {{ p.date|date('c')|json_encode() }},
+        "updated": {{ p.updated|date('c')|json_encode() }}
+      }
+    }{% if not loop.last %},{% endif %}
+{% endfor %}
+
+  ]{% if pagination is defined %},
+  "meta": {
+    "totalPages": {{ pagination.totalpages }}
+  },
+  "links": {
+    "self": {{ url(pagination.links.self, {canonical: true, format: 'json'})|json_encode() }},
+    "first": {{ url(pagination.links.first, {canonical: true, format: 'json'})|json_encode() }},
+{% if pagination.links.prev is defined %}
+    "prev": {{ url(pagination.links.prev, {canonical: true, format: 'json'})|json_encode() }},
+{% endif %}
+{% if pagination.links.next is defined %}
+    "next": {{ url(pagination.links.next, {canonical: true, format: 'json'})|json_encode() }},
+{% endif %}
+    "last": {{ url(pagination.links.last, {canonical: true, format: 'json'})|json_encode() }}
+  }
+{% endif %}
+}

@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "type": {{ page.rootpath|json_encode() }},
+      "id": {{ page.id|json_encode() }},
+      "attributes": {
+        "title": {{ page.title|json_encode() }},
+        "body": {{ page.body|json_encode() }},
+        "created": {{ page.date|date('c')|json_encode() }},
+        "updated": {{ page.updated|date('c')|json_encode() }}
+      }
+    }
+  ]
+}
