@@ -67,11 +67,11 @@ class PagesRender extends AbstractStep
             $alternates = [];
 
             // get page's output formats
-            $formats = $this->getFormats($page);
+            $formats = $this->getOutputFormats($page);
             $page->setVariable('output', $formats);
 
-            // get pages's alternates links
-            $alternates = $this->getAlternates($page, $formats);
+            // get alternates links
+            $alternates = $this->getAlternates($formats);
             $page->setVariable('alternates', $alternates);
 
             // render each output format
@@ -153,28 +153,27 @@ class PagesRender extends AbstractStep
     }
 
     /**
-     * Get available formats.
+     * Get available output formats.
      *
      * @param Page $page
      *
      * @return array
      */
-    protected function getFormats(Page $page): array
+    protected function getOutputFormats(Page $page): array
     {
         $formats = [];
 
-        // Get page format(s).
+        // get available output formats for the page type
+        // ie: "'page' => ['html', 'json']"
+        if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
+            $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
+        }
+        // Get page output format(s).
         // ie: "output: txt"
         if ($page->getVariable('output')) {
             $formats = $page->getVariable('output');
             if (!\is_array($formats)) {
                 $formats = [$formats];
-            }
-        } else {
-            // get available formats for page type
-            // ie: "'page' => ['html', 'json']"
-            if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
-                $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
             }
         }
 
@@ -182,14 +181,13 @@ class PagesRender extends AbstractStep
     }
 
     /**
-     * Get page's alternates.
+     * Get alternates.
      *
-     * @param Page  $page
      * @param array $formats
      *
      * @return array
      */
-    protected function getAlternates(Page $page, array $formats): array
+    protected function getAlternates(array $formats): array
     {
         $alternates = [];
 

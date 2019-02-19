@@ -136,7 +136,6 @@ class Layout
                     ["page.$format.twig"],
                     $layouts
                 );
-
                 if ($page->getSection()) {
                     $layouts = array_merge(
                         [sprintf('%s/page.%s.twig', $page->getSection(), $format)],

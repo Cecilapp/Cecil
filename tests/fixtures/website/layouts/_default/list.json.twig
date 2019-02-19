@@ -13,7 +13,7 @@
       "id": {{ p.id|json_encode() }},
       "attributes": {
         "title": {{ p.title|json_encode() }},
-        "body": {{ p.body|json_encode() }},
+        "body": {{ p.body|e|json_encode() }},
         "created": {{ p.date|date('c')|json_encode() }},
         "updated": {{ p.updated|date('c')|json_encode() }}
       }

@@ -241,26 +241,15 @@ class Extension extends SlugifyExtension
      */
     public function createUrl($value = null, $options = null): ?string
     {
-        $base = '';
         $baseurl = $this->config->get('site.baseurl');
         $hash = md5($this->config->get('site.time'));
+        $base = '';
+        // handle options
         $canonical = null;
         $addhash = true;
         $format = 'html';
+        extract($options ?: []);
 
-        // handle options
-        if (isset($options['canonical'])) {
-            $canonical = $options['canonical'];
-        }
-        if (is_bool($options)) { // backward compatibility
-            $canonical = $options;
-        }
-        if (isset($options['addhash'])) {
-            $addhash = $options['addhash'];
-        }
-        if (isset($options['format'])) {
-            $format = $options['format'];
-        }
         // set baseurl
         if ($this->config->get('site.canonicalurl') === true || $canonical === true) {
             $base = rtrim($baseurl, '/');
@@ -286,13 +275,11 @@ class Extension extends SlugifyExtension
                     $url = $base.'/'.ltrim($url, '/');
                 } else {
                     $url = $base.'/';
-                    if (!empty($value)) { // value == page ID
+                    if (!empty($value)) { // value == page ID?
                         $pageId = $this->slugifyFilter($value);
                         if ($this->builder->getPages()->has($pageId)) {
                             $page = $this->builder->getPages()->get($pageId);
-                            if ($page instanceof Page) {
-                                $url = $this->createUrl($page, $options);
-                            }
+                            $url = $this->createUrl($page, $options);
                         }
                     }
                 }
