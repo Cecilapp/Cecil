@@ -305,6 +305,14 @@ class Page extends Item
     }
 
     /**
+     * Backward compatibility.
+     */
+    public function getPathname()
+    {
+        return $this->getPath();
+    }
+
+    /**
      * Set section.
      *
      * @param string $section
