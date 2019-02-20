@@ -24,25 +24,34 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
     {
         $generatedPages = new PagesCollection();
 
-        if (!$pagesCollection->has('index')) {
-            $filteredPages = $pagesCollection->filter(function (Page $page) {
-                return $page->getType() === TYPE::PAGE;
-            });
-            $pages = $filteredPages->sortByDate();
+        $subPages = $pagesCollection->filter(function (Page $page) {
+            return $page->getType() === TYPE::PAGE;
+        });
+        $pages = $subPages->sortByDate();
 
+        // create homepage
+        if (!$pagesCollection->has('index')) {
             /* @var $page Page */
             $page = (new Page())
                 ->setId('index')
-                ->setType(Type::HOMEPAGE)
-                ->setPath('')
-                ->setVariable('title', 'Home')
-                ->setVariable('pages', $pages)
-                ->setVariable('date', $pages->first()->getVariable('date'))
-                ->setVariable('menu', [
-                    'main' => ['weight' => 1],
+                ->setPath('index')
+                ->setVariables([
+                    'title' => 'Home',
+                    'date'  => $pages->first()->getVariable('date'),
                 ]);
-            $generatedPages->add($page);
+        } else {
+            // clone and update homepage
+            /* @var $page Page */
+            $page = clone $pagesCollection->get('index');
         }
+        $page->setType(Type::HOMEPAGE)
+            ->setVariables([
+                'pages' => $pages,
+                'menu'  => [
+                    'main' => ['weight' => 1],
+                ],
+            ]);
+        $generatedPages->add($page);
 
         return $generatedPages;
     }

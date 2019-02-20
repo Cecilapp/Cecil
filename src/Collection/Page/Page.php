@@ -22,7 +22,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Page extends Item
 {
-    const SLUGIFY_PATTERN = '/(^\/|[^a-z0-9\/]|-)+/';
+    const SLUGIFY_PATTERN = '/(^\/|[^_a-z0-9\/]|-)+/';
 
     /**
      * @var SplFileInfo
@@ -301,6 +301,14 @@ class Page extends Item
      */
     public function getPath(): ?string
     {
+        // special case: homepage
+        if ($this->path == 'index'
+            || (\strlen($this->path) >= 6
+            && substr_compare($this->path, 'index/', 0, 6) == 0))
+        {
+            $this->path = '';
+        }
+
         return $this->path;
     }
 
@@ -416,8 +424,9 @@ class Page extends Item
         if ($extension) {
             $extension = sprintf('.%s', $extension);
         }
+        // special case: homepage
         if (!$path && !$suffix) {
-            $path = 'index'; // home page
+            $path = 'index';
         }
 
         return $path.$subpath.$suffix.$extension;
@@ -510,7 +519,7 @@ class Page extends Item
                         }
                     }
                 } catch (\Exception $e) {
-                    throw new \Exception(sprintf("Expected date string in page '%s'", $this->getId()));
+                    throw new \Exception(sprintf('Expected date string for "date" in "%s": "%s"', $this->getId(), $value));
                 }
                 $this->offsetSet('date', $date);
                 break;
