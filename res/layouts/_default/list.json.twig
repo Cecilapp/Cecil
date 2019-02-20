@@ -9,7 +9,7 @@
   "data": [
 {% for p in pages %}
     {
-      "type": {{ p.rootpath|json_encode() }},
+      "type": {{ p.rootpath|default('page')|json_encode() }},
       "id": {{ p.id|json_encode() }},
       "attributes": {
         "title": {{ p.title|json_encode() }},

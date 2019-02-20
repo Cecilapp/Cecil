@@ -1,7 +1,7 @@
 {
   "data": [
     {
-      "type": {{ page.rootpath|json_encode() }},
+      "type": {{ page.rootpath|default('page')|json_encode() }},
       "id": {{ page.id|json_encode() }},
       "attributes": {
         "title": {{ page.title|json_encode() }},
