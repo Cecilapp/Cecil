@@ -304,8 +304,7 @@ class Page extends Item
         // special case: homepage
         if ($this->path == 'index'
             || (\strlen($this->path) >= 6
-            && substr_compare($this->path, 'index/', 0, 6) == 0))
-        {
+            && substr_compare($this->path, 'index/', 0, 6) == 0)) {
             $this->path = '';
         }
 
