@@ -23,10 +23,16 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
         $generatedPages = new PagesCollection();
+        $sortby = null;
 
         if (false === $this->config->get('site.pagination.enabled')) {
             return $generatedPages;
         }
+
+        // global config
+        $paginationPerPage = intval($this->config->get('site.pagination.max'));
+        $paginationPath = $this->config->get('site.pagination.path');
+        $paginationSections = $this->config->get('site.pagination.sections');
 
         // filter pages: home and sections
         $filteredPages = $pagesCollection->filter(function (Page $page) {
@@ -34,31 +40,45 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
         });
         /* @var $page Page */
         foreach ($filteredPages as $page) {
-            // config
-            $paginationPerPage = intval($this->config->get('site.pagination.max'));
-            $paginationPath = $this->config->get('site.pagination.path');
             // page variables
             $path = $page->getPath();
             $pages = $page->getVariable('pages');
-            // sort
-            if ($sortSections = $this->config->get('site.pagination.sections')) {
-                if (array_key_exists($page->getPath(), $sortSections)
-                    && array_key_exists('sortby', $sortSections[$page->getPath()])
-                ) {
-                    switch ($sortSections[$page->getPath()]['sortby']) {
-                        case 'weight':
-                            $pages = $pages->sortByWeight();
-                            break;
-                        case 'title':
-                            $pages = $pages->sortByTitle();
-                            break;
-                        case 'date':
-                        default:
-                            $pages = $pages->sortByDate();
-                            break;
-                    }
+            $paginate = $page->getVariable('paginate');
+            // page config
+            if ($paginate) {
+                // disabled?
+                if (array_key_exists('enabled', $paginate) && !$paginate['enabled']) {
+                    continue;
+                }
+                // sort by
+                if (array_key_exists('sortby', $paginate) && $paginate['sortby']) {
+                    $sortby = $paginate['sortby'];
                 }
             }
+
+            // sort by
+            if (!$sortby && $paginationSections) {
+                if (array_key_exists($page->getPath(), $paginationSections)
+                    && array_key_exists('sortby', $paginationSections[$page->getPath()])
+                ) {
+                    $sortby = $paginationSections[$page->getPath()]['sortby'];
+                }
+            }
+            if ($sortby) {
+                switch ($sortby) {
+                    case 'weight':
+                        $pages = $pages->sortByWeight();
+                        break;
+                    case 'title':
+                        $pages = $pages->sortByTitle();
+                        break;
+                    case 'date':
+                    default:
+                        $pages = $pages->sortByDate();
+                        break;
+                }
+            }
+
             // build pagination
             $pagesTotal = count($pages);
             if ($pagesTotal > $paginationPerPage) {
@@ -98,6 +118,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                             ->setId($pageId)
                             ->setPath($currentPath)
                             ->unVariable('menu')
+                            ->setVariable('virtual', true)
                             ->setVariable('paginated', true);
                     }
                     // create "pagination" variable
