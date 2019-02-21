@@ -251,7 +251,7 @@ class Page extends Item
      *
      * @return string|null
      */
-    public function geSlug(): ?string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
