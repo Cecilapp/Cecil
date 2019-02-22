@@ -2,10 +2,10 @@
   "data": [
     {
       "type": {{ page.rootpath|default('page')|json_encode() }},
-      "id": {{ page.id|json_encode() }},
+      "id": {{ page.id|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
       "attributes": {
-        "title": {{ page.title|json_encode() }},
-        "body": {{ page.body|json_encode() }},
+        "title": {{ page.title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+        "body": {{ page.body|striptags|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
         "created": {{ page.date|date('c')|json_encode() }},
         "updated": {{ page.updated|date('c')|json_encode() }}
       }
