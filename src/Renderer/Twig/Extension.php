@@ -412,13 +412,13 @@ class Extension extends SlugifyExtension
     /**
      * Read $lenght first characters of a string and add a suffix.
      *
-     * @param string $string
-     * @param int    $length
-     * @param string $suffix
+     * @param string|null $string
+     * @param int         $length
+     * @param string      $suffix
      *
-     * @return string
+     * @return string|null
      */
-    public function excerpt(string $string, int $length = 450, string $suffix = ' …'): string
+    public function excerpt(string $string = null, int $length = 450, string $suffix = ' …'): ?string
     {
         $string = str_replace('</p>', '<br /><br />', $string);
         $string = trim(strip_tags($string, '<br>'), '<br />');
@@ -433,11 +433,11 @@ class Extension extends SlugifyExtension
     /**
      * Read characters before '<!-- excerpt -->'.
      *
-     * @param string $string
+     * @param string|null $string
      *
-     * @return string
+     * @return string|null
      */
-    public function excerptHtml(string $string): string
+    public function excerptHtml(string $string = null): ?string
     {
         // https://regex101.com/r/mA2mG0/3
         $pattern = '^(.*)[\n\r\s]*<!-- excerpt -->[\n\r\s]*(.*)$';
@@ -456,11 +456,11 @@ class Extension extends SlugifyExtension
     /**
      * Calculate estimated time to read a text.
      *
-     * @param string $text
+     * @param string|null $text
      *
      * @return string
      */
-    public function readtime(string $text): string
+    public function readtime(string $text = null): string
     {
         $words = str_word_count(strip_tags($text));
         $min = floor($words / 200);
