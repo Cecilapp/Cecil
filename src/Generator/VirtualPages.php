@@ -10,7 +10,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
-use Cecil\Page\Type;
+use Cecil\Collection\Page\Type;
 
 /**
  * Class VirtualPages.

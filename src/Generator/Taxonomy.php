@@ -14,7 +14,7 @@ use Cecil\Collection\Taxonomy\Collection as TaxonomiesCollection;
 use Cecil\Collection\Taxonomy\Term as Term;
 use Cecil\Collection\Taxonomy\Vocabulary as VocabulariesCollection;
 use Cecil\Exception\Exception;
-use Cecil\Page\Type;
+use Cecil\Collection\Page\Type;
 
 /**
  * Class Taxonomy.

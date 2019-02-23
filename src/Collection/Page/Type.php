@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Page;
+namespace Cecil\Collection\Page;
 
 use MyCLabs\Enum\Enum;
 
