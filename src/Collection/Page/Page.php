@@ -518,7 +518,10 @@ class Page extends Item
                         }
                     }
                 } catch (\Exception $e) {
-                    throw new \Exception(sprintf('Expected date string for "date" in "%s": "%s"', $this->getId(), $value));
+                    throw new \Exception(sprintf('Expected date string for "date" in "%s": "%s"',
+                        $this->getId(),
+                        $value
+                    ));
                 }
                 $this->offsetSet('date', $date);
                 break;
