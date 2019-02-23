@@ -10,9 +10,6 @@ namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Item;
 use Cecil\Config;
-use Cecil\Collection\Page\Parser;
-use Cecil\Collection\Page\Prefix;
-use Cecil\Collection\Page\Type;
 use Cecil\Util;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;

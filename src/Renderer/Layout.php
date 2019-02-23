@@ -9,9 +9,9 @@
 namespace Cecil\Renderer;
 
 use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Type as PageType;
 use Cecil\Config;
 use Cecil\Exception\Exception;
-use Cecil\Collection\Page\Type as PageType;
 use Cecil\Util;
 
 /**
