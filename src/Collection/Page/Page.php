@@ -76,27 +76,22 @@ class Page extends Item
             /*
              * File path components
              */
-            // ie: content/Blog/Post 1.md
-            //             |    |      └─ fileExtension
-            //             |    └─ fileName
-            //             └─ filePath
-            $fileExtension = pathinfo($this->file, PATHINFO_EXTENSION);
-            $filePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
-            $fileName = $this->file->getBasename('.'.$fileExtension);
-            // filePathname = filePath + '/' + fileName
-            // ie: content/Blog/Post 1.md -> "Blog/Post 1"
-            // ie: content/index.md -> "index"
-            // ie: content/Blog/index.md -> "Blog/"
-            $filePathname = ($filePath ? $filePath.'/' : '')
-                .($filePath && $fileName == 'index' ? '' : $fileName);
+            $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath()); // ie: "Blog"
+            $fileExtension = $this->file->getExtension(); // ie: "md"
+            $fileName = $this->file->getBasename('.'.$fileExtension); // ie: "Post 1" or "2019-02-27-Post" or "1-Page"
             /*
              * Set properties
              *
              * id = path = folder / slug
              */
-            $this->folder = $this->slugify($filePath); // ie: "blog"
+            $this->folder = $this->slugify($fileRelativePath); // ie: "blog"
             $this->slug = $this->slugify(Prefix::subPrefix($fileName)); // ie: "post-1"
-            $this->path = $this->slugify(Prefix::subPrefix($filePathname)); // ie: "blog/post-1"
+            // ie: "blog" + "post-1" = "blog/post-1"
+            // ie: "blog" + "index" = "blog"
+            // ie: "projet" + "projet-1" = "projet/projet-a"
+            // ie: "404" = "404"
+            $this->path = ($this->folder ? $this->folder.'/' : '')
+                .($this->folder && $this->slug == 'index' ? '' : $this->slug);
             $this->id = $this->path;
             /*
              * Set protected variables
@@ -105,18 +100,19 @@ class Page extends Item
             /*
              * Set overridable variables
              */
-            $this->setVariable('title', Prefix::subPrefix($fileName)); // ie: "Post 1"
+            $this->setVariable('title', Prefix::subPrefix($fileName));
             $this->setVariable('date', $this->file->getCTime());
             $this->setVariable('updated', $this->file->getMTime());
             $this->setVariable('weight', null);
             // special case: file has a prefix
-            if (Prefix::hasPrefix($filePathname)) {
+            if (Prefix::hasPrefix($fileName)) {
+                $prefix = Prefix::getPrefix($fileName);
                 // prefix is a valid date?
-                if (Util::isValidDate(Prefix::getPrefix($filePathname))) {
-                    $this->setVariable('date', (string) Prefix::getPrefix($filePathname));
+                if (Util::isValidDate($prefix)) {
+                    $this->setVariable('date', (string) $prefix);
                 } else {
                     // prefix is an integer, use for sorting
-                    $this->setVariable('weight', (int) Prefix::getPrefix($filePathname));
+                    $this->setVariable('weight', (int) $prefix);
                 }
             }
             // physical file relative path
@@ -230,30 +226,6 @@ class Page extends Item
     }
 
     /**
-     * Set slug.
-     *
-     * @param string $slug
-     *
-     * @return self
-     */
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug.
-     *
-     * @return string|null
-     */
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    /**
      * Set path without slug.
      *
      * @param $folder
@@ -275,6 +247,30 @@ class Page extends Item
     public function getFolder(): ?string
     {
         return $this->folder;
+    }
+
+    /**
+     * Set slug.
+     *
+     * @param string $slug
+     *
+     * @return self
+     */
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string|null
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
     }
 
     /**
@@ -301,7 +297,7 @@ class Page extends Item
         // special case: homepage
         if ($this->path == 'index'
             || (\strlen($this->path) >= 6
-            && substr_compare($this->path, 'index/', 0, 6) == 0)) {
+            && \substr_compare($this->path, 'index/', 0, 6) == 0)) {
             $this->path = '';
         }
 
@@ -309,9 +305,11 @@ class Page extends Item
     }
 
     /**
-     * Backward compatibility.
+     * @see getPath()
+     *
+     * @return string|null
      */
-    public function getPathname()
+    public function getPathname(): ?string
     {
         return $this->getPath();
     }
