@@ -22,7 +22,7 @@ class Page extends Item
     const SLUGIFY_PATTERN = '/(^\/|[^_a-z0-9\/]|-)+/';
 
     /**
-     * @var SplFileInfo
+     * @var SplFileInfo|null
      */
     protected $file;
     /**
@@ -36,15 +36,15 @@ class Page extends Item
     /**
      * @var string
      */
-    protected $rootpath;
-    /**
-     * @var string
-     */
-    protected $path;
+    protected $folder;
     /**
      * @var string
      */
     protected $slug;
+    /**
+     * @var string
+     */
+    protected $path;
     /**
      * @var string
      */
@@ -92,16 +92,16 @@ class Page extends Item
             /*
              * Set properties
              *
-             * id = path = rootpath / slug
+             * id = path = folder / slug
              */
-            $this->rootpath = $this->slugify($filePath); // ie: "blog"
+            $this->folder = $this->slugify($filePath); // ie: "blog"
             $this->slug = $this->slugify(Prefix::subPrefix($fileName)); // ie: "post-1"
             $this->path = $this->slugify(Prefix::subPrefix($filePathname)); // ie: "blog/post-1"
             $this->id = $this->path;
             /*
              * Set protected variables
              */
-            $this->setSection(explode('/', $this->rootpath)[0]); // ie: "blog"
+            $this->setSection(explode('/', $this->folder)[0]); // ie: "blog"
             /*
              * Set overridable variables
              */
@@ -254,27 +254,27 @@ class Page extends Item
     }
 
     /**
-     * Set relative path.
+     * Set path without slug.
      *
-     * @param $rootpath
+     * @param $folder
      *
      * @return self
      */
-    public function setRootPath(string $rootpath): self
+    public function setFolder(string $folder): self
     {
-        $this->rootpath = $rootpath;
+        $this->folder = $folder;
 
         return $this;
     }
 
     /**
-     * Get relative path.
+     * Get path without slug.
      *
      * @return string|null
      */
-    public function getRootPath(): ?string
+    public function getFolder(): ?string
     {
-        return $this->rootpath;
+        return $this->folder;
     }
 
     /**
@@ -337,8 +337,8 @@ class Page extends Item
      */
     public function getSection(): ?string
     {
-        if (empty($this->section) && !empty($this->rootpath)) {
-            $this->setSection(explode('/', $this->rootpath)[0]);
+        if (empty($this->section) && !empty($this->folder)) {
+            $this->setSection(explode('/', $this->folder)[0]);
         }
 
         return $this->section;
