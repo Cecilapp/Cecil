@@ -21,9 +21,9 @@ use MyCLabs\Enum\Enum;
  */
 class Type extends Enum
 {
-    const PAGE = 'page';
-    const HOMEPAGE = 'homepage';
-    const SECTION = 'section';
-    const TAXONOMY = 'taxonomy';
-    const TERMS = 'terms';
+    public const PAGE = 'page';
+    public const HOMEPAGE = 'homepage';
+    public const SECTION = 'section';
+    public const TAXONOMY = 'taxonomy';
+    public const TERMS = 'terms';
 }

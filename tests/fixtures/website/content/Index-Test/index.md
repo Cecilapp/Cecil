@@ -1,4 +1,4 @@
 ---
-title: Permalink INDEX test
+title: index test
 ---
 `index.md` in `Index-Test/`.

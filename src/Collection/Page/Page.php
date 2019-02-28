@@ -6,6 +6,7 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
 namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Item;
@@ -32,7 +33,7 @@ class Page extends Item
     /**
      * @var string
      */
-    protected $type;
+    protected $type = TYPE::PAGE;
     /**
      * @var string
      */
@@ -86,12 +87,12 @@ class Page extends Item
              */
             $this->folder = $this->slugify($fileRelativePath); // ie: "blog"
             $this->slug = $this->slugify(Prefix::subPrefix($fileName)); // ie: "post-1"
-            // ie: "blog" + "post-1" = "blog/post-1"
-            // ie: "blog" + "index" = "blog"
-            // ie: "projet" + "projet-1" = "projet/projet-a"
-            // ie: "404" = "404"
-            $this->path = ($this->folder ? $this->folder.'/' : '')
-                .($this->folder && $this->slug == 'index' ? '' : $this->slug);
+            // ie: "blog/post-1" => "blog/post-1"
+            // ie: "blog/index" => "blog"
+            // ie: "projet/projet-a" => "projet/projet-a"
+            // ie: "404" => "404"
+            $this->path = rtrim(($this->folder ? $this->folder.'/' : '')
+                .($this->folder && $this->slug == 'index' ? '' : $this->slug), '/');
             $this->id = $this->path;
             /*
              * Set protected variables
@@ -218,11 +219,11 @@ class Page extends Item
     /**
      * Get page type.
      *
-     * @return string|null
+     * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
-        return $this->type;
+        return (string) $this->type;
     }
 
     /**
@@ -513,7 +514,8 @@ class Page extends Item
                         }
                     }
                 } catch (\Exception $e) {
-                    throw new \Exception(sprintf('Expected date string for "date" in "%s": "%s"',
+                    throw new \Exception(sprintf(
+                        'Expected date string for "date" in "%s": "%s"',
                         $this->getId(),
                         $value
                     ));
@@ -525,16 +527,20 @@ class Page extends Item
                     $this->offsetSet('published', false);
                 }
                 break;
-            case 'url':
-                $slug = self::slugify($value);
-                if ($value != $slug) {
+            case 'path':
+            case 'slug':
+                $slugify = self::slugify($value);
+                if ($value != $slugify) {
                     throw new \Exception(sprintf(
-                        "'url' variable should be '%s', not '%s', in page '%s'",
-                        $slug,
+                        '"%s" variable should be "%s" (not "%s") in "%s"',
+                        $name,
+                        $slugify,
                         $value,
                         $this->getId()
                     ));
                 }
+                $methodName = 'set'.\ucfirst($name);
+                $this->$methodName($value);
                 break;
             default:
                 $this->offsetSet($name, $value);
@@ -546,11 +552,11 @@ class Page extends Item
     /**
      * Is variable exist?
      *
-     * @param $name
+     * @param string $name
      *
      * @return bool
      */
-    public function hasVariable($name)
+    public function hasVariable(string $name): bool
     {
         return $this->offsetExists($name);
     }
@@ -562,7 +568,7 @@ class Page extends Item
      *
      * @return mixed|null
      */
-    public function getVariable($name)
+    public function getVariable(string $name)
     {
         if ($this->offsetExists($name)) {
             return $this->offsetGet($name);
@@ -572,11 +578,11 @@ class Page extends Item
     /**
      * Unset a variable.
      *
-     * @param $name
+     * @param string $name
      *
      * @return $this
      */
-    public function unVariable($name)
+    public function unVariable(string $name): self
     {
         if ($this->offsetExists($name)) {
             $this->offsetUnset($name);

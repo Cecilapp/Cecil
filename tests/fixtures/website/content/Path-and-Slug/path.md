@@ -1,0 +1,3 @@
+---
+path: mon-super/path
+---
