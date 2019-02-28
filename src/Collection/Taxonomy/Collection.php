@@ -20,7 +20,7 @@ class Collection extends CecilCollection
      * Return a Vocabulary collection (creates it if not exists).
      * {@inheritdoc}
      */
-    public function get(string $id): ?ItemInterface
+    public function get(string $id): ItemInterface
     {
         if (!$this->has($id)) {
             $this->add(new Vocabulary($id));

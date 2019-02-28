@@ -119,7 +119,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testConvertPage()
     {
-        $pagesCollection = new PagesCollection();
+        $pagesCollection = new PagesCollection('collection-testconvertpage');
 
         /* @var $page Page */
         $page = new Page($this->file);
@@ -142,8 +142,8 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testAddPage()
     {
-        $page = new Page();
-        $pagesCollection = new PagesCollection();
+        $page = new Page('testAddPage');
+        $pagesCollection = new PagesCollection('testAddPage');
 
         $page->setId('id-of-page')
             ->setVariable('title', 'title-of-page');
@@ -154,8 +154,8 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testGetPage()
     {
-        $page = new Page();
-        $pagesCollection = new PagesCollection();
+        $page = new Page('testGetPage');
+        $pagesCollection = new PagesCollection('testGetPage');
 
         $page->setId('id-of-page')
             ->setVariable('title', 'title-of-page');

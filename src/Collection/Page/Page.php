@@ -24,13 +24,13 @@ class Page extends Item
     const SLUGIFY_PATTERN = '/(^\/|[^_a-z0-9\/]|-)+/';
 
     /**
-     * @var SplFileInfo|null
+     * @var SplFileInfo
      */
     protected $file;
     /**
      * @var bool
      */
-    protected $virtual = false;
+    protected $virtual;
     /**
      * @var string
      */
@@ -67,40 +67,34 @@ class Page extends Item
     /**
      * Constructor.
      *
-     * @param SplFileInfo|null $file
+     * @param string $id
      */
-    public function __construct(SplFileInfo $file = null)
+    public function __construct(string $id)
     {
-        $this->file = $file;
+        // set file ?
 
         // physical page
-        if ($this->file instanceof SplFileInfo) {
+        if ($id instanceof SplFileInfo) {
+            $this->file = $id;
+
+            var_dump($this->file);
             /*
              * File path components
              */
-            $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath()); // ie: "Blog"
-            $fileExtension = $this->file->getExtension(); // ie: "md"
-            $fileName = $this->file->getBasename('.'.$fileExtension); // ie: "Post 1" or "2019-02-27-Post" or "1-Page"
-            /*
-             * Set properties
-             *
-             * id = path = folder / slug
-             */
-            $this->folder = $this->slugify($fileRelativePath); // ie: "blog"
-            $this->slug = $this->slugify(Prefix::subPrefix($fileName)); // ie: "post-1"
-            // ie: "blog/post-1" => "blog/post-1"
-            // ie: "blog/index" => "blog"
-            // ie: "projet/projet-a" => "projet/projet-a"
-            // ie: "404" => "404"
-            $this->path = rtrim(($this->folder ? $this->folder.'/' : '')
-                .($this->folder && $this->slug == 'index' ? '' : $this->slug), '/');
-            $this->id = $this->path;
+            $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
+            $fileExtension = $this->file->getExtension();
+            $fileName = $this->file->getBasename('.'.$fileExtension);
             /*
              * Set protected variables
              */
+            $this->virtual = false;
+            $this->setFolder($fileRelativePath); // ie: "blog"
+            $this->setSlug($fileName); // ie: "post-1"
+            $this->setPath($this->getFolder().'/'.$this->getSlug()); // ie: "blog/post-1"
+            $this->setId($this->getPath());
             $this->setSection(explode('/', $this->folder)[0]); // ie: "blog"
             /*
-             * Set overridable variables
+             * Set default variables
              */
             $this->setVariable('title', Prefix::subPrefix($fileName));
             $this->setVariable('date', $this->file->getCTime());
@@ -118,12 +112,12 @@ class Page extends Item
                 }
             }
             // physical file relative path
-            $this->setVariable('filepath', $this->file->getRelativePathname());
+            $this->setVariable('filepath', $fileRelativePath);
 
-            parent::__construct($this->id);
+            //parent::__construct($this->getPath());
         } else {
-            // virtual page
             $this->virtual = true;
+            $this->setId($id);
             // default variables
             $this->setVariables([
                 'title'    => 'Page Title',
@@ -133,7 +127,7 @@ class Page extends Item
                 'filepath' => null,
             ]);
 
-            parent::__construct();
+            //parent::__construct($id);
         }
         // required
         $this->setType(Type::PAGE);
@@ -142,6 +136,30 @@ class Page extends Item
             'virtual'          => $this->virtual,
             'content_template' => 'page.content.twig',
         ]);
+    }
+
+    /**
+     * Create ID from file.
+     *
+     * @param SplFileInfo $file
+     *
+     * @return string
+     */
+    public function createId(SplFileInfo $file): string
+    {
+        return trim($this->slugify(Prefix::subPrefix(basename($file->getRelativePathname(), $file->getFileExtension()))), '/');
+    }
+
+    /**
+     * Set file.
+     *
+     * @param SplFileInfo $file
+     *
+     * @return self
+     */
+    public function setFile(SplFileInfo $file): self
+    {
+        $this->file = $file;
     }
 
     /**
@@ -230,13 +248,13 @@ class Page extends Item
     /**
      * Set path without slug.
      *
-     * @param $folder
+     * @param string $folder
      *
      * @return self
      */
     public function setFolder(string $folder): self
     {
-        $this->folder = $folder;
+        $this->folder = $this->slugify($folder);
 
         return $this;
     }
@@ -260,7 +278,7 @@ class Page extends Item
      */
     public function setSlug(string $slug): self
     {
-        $this->slug = $slug;
+        $this->slug = $this->slugify(Prefix::subPrefix($slug));
 
         return $this;
     }
@@ -268,10 +286,15 @@ class Page extends Item
     /**
      * Get slug.
      *
-     * @return string|null
+     * @return string
      */
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
+        // custom slug, from front matter
+        if ($this->getVariable('slug')) {
+            $this->setSlug($this->getVariable('slug'));
+        }
+
         return $this->slug;
     }
 
@@ -284,7 +307,26 @@ class Page extends Item
      */
     public function setPath(string $path): self
     {
-        $this->path = $path;
+        // DEBUG
+        if ($this->getId()) {
+            echo '['.$this->getId().'] '.$path.' => '.trim($this->slugify(Prefix::subPrefix($path)), '/')."\n";
+        } else {
+            echo '[    ] '.$path.' => '.trim($this->slugify(Prefix::subPrefix($path)), '/')."\n";
+        }
+
+        if ($path) {
+            $this->path = $this->slugify(Prefix::subPrefix($path));
+        }
+        // default path
+        if (!$path) {
+            // Use cases:
+            // - "blog/post-1" => "blog/post-1"
+            // - "blog/index" => "blog"
+            // - "projet/projet-a" => "projet/projet-a"
+            // - "404" => "404"
+            $this->path = rtrim(($this->folder ? $this->folder.'/' : '')
+                .($this->folder && $this->slug == 'index' ? '' : $this->slug), '/');
+        }
 
         return $this;
     }
@@ -298,8 +340,8 @@ class Page extends Item
     {
         // special case: homepage
         if ($this->path == 'index'
-            || (\strlen($this->path) >= 6
-            && \substr_compare($this->path, 'index/', 0, 6) == 0)) {
+            || (\strlen($this->path) >= 6 && \substr_compare($this->path, 'index/', 0, 6) == 0))
+        {
             $this->path = '';
         }
 

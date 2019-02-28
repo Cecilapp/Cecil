@@ -32,7 +32,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         // create homepage
         if (!$pagesCollection->has('index')) {
             /* @var $page Page */
-            $page = (new Page())
+            $page = (new Page('index'))
                 ->setId('index')
                 ->setPath('index')
                 ->setVariables([

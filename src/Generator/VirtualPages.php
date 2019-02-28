@@ -29,7 +29,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
             if (isset($frontmatter['published']) && $frontmatter['published'] === false) {
                 continue;
             }
-            $page = (new Page())
+            $page = (new Page(Page::slugify($path)))
                 ->setId(Page::slugify($path))
                 ->setPath(Page::slugify($path))
                 ->setType(Type::PAGE);

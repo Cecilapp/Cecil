@@ -40,7 +40,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 $pageId = $path = Page::slugify($sectionName);
                 if (!$pagesCollection->has($pageId)) {
                     $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
-                    $page = (new Page())
+                    $page = (new Page($pageId))
                         ->setId($pageId)
                         ->setPath($path)
                         ->setType(Type::SECTION)

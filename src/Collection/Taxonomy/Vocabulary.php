@@ -21,7 +21,7 @@ class Vocabulary extends CecilCollection implements ItemInterface
      * Adds term to a Vocabulary collection.
      * {@inheritdoc}
      */
-    public function add(ItemInterface $item): ?CollectionInterface
+    public function add(ItemInterface $item): CollectionInterface
     {
         if ($this->has($item->getId())) {
             // return if already exists

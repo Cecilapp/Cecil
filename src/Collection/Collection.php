@@ -72,7 +72,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function add(ItemInterface $item): ?CollectionInterface
+    public function add(ItemInterface $item): CollectionInterface
     {
         if ($this->has($item->getId())) {
             throw new \DomainException(sprintf(
@@ -89,7 +89,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function replace(string $id, ItemInterface $item): ?CollectionInterface
+    public function replace(string $id, ItemInterface $item): CollectionInterface
     {
         if (!$this->has($id)) {
             throw new \DomainException(sprintf(
@@ -106,7 +106,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function remove(string $id): ?CollectionInterface
+    public function remove(string $id): CollectionInterface
     {
         if (!$this->has($id)) {
             throw new \DomainException(sprintf(
@@ -123,10 +123,14 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function get(string $id): ?ItemInterface
+    public function get(string $id): ItemInterface
     {
         if (!$this->has($id)) {
-            return false;
+            throw new \DomainException(sprintf(
+                'Failed getting "%s" in "%s" collection: item does not exist.',
+                $id,
+                $this->getId()
+            ));
         }
 
         return $this->items[$id];
@@ -239,7 +243,7 @@ class Collection implements CollectionInterface
      *
      * @param string $offset
      *
-     * @return CollectionInterface|bool
+     * @return CollectionInterface|ItemInterface|null
      */
     public function offsetGet($offset)
     {
@@ -252,7 +256,7 @@ class Collection implements CollectionInterface
      * @param mixed         $offset
      * @param ItemInterface $value
      *
-     * @return CollectionInterface|null
+     * @return CollectionInterface|ItemInterface|null
      */
     public function offsetSet($offset, $value)
     {

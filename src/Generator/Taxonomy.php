@@ -111,7 +111,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     if ($this->pagesCollection->has($pageId)) {
                         $page = clone $this->pagesCollection->get($pageId);
                     } else {
-                        $page = (new Page())
+                        $page = (new Page($pageId))
                             ->setVariable('title', ucfirst($term));
                     }
                     $page->setId($pageId)
@@ -128,7 +128,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                  * Creates $plural pages (list of terms)
                  * ex: /tags/
                  */
-                $page = (new Page())
+                $page = (new Page(Page::slugify($plural)))
                     ->setId(Page::slugify($plural))
                     ->setPath(strtolower($plural))
                     ->setVariable('title', $plural)

@@ -16,16 +16,16 @@ interface ItemInterface extends \ArrayAccess
     /**
      * Set the item's identifier.
      *
-     * @param string|null $id
+     * @param string $id
      *
      * @return self
      */
-    public function setId(string $id = null);
+    public function setId(string $id);
 
     /**
      * Return the item's identifier.
      *
      * @return string
      */
-    public function getId(): string;
+    public function getId();
 }

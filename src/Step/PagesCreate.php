@@ -32,7 +32,7 @@ class PagesCreate extends AbstractStep
         foreach ($this->builder->getContent() as $file) {
             $count++;
             /* @var $page Page */
-            $page = (new Page($file))->parse();
+            $page = (new Page($this->createId($file)))->setFile($file)->parse();
             $this->builder->getPages()->add($page);
             $message = $page->getPath();
             call_user_func_array($this->builder->getMessageCb(), ['CREATE_PROGRESS', $message, $count, $max]);
