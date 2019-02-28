@@ -7,6 +7,7 @@
  */
 
 declare(strict_types=1);
+
 namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Item;
