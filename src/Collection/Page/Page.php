@@ -34,7 +34,7 @@ class Page extends Item
     /**
      * @var string
      */
-    protected $type = TYPE::PAGE;
+    protected $type;
     /**
      * @var string
      */
