@@ -114,7 +114,7 @@ class Page extends Item
             // physical file relative path
             $this->setVariable('filepath', $fileRelativePath);
 
-            //parent::__construct($this->getPath());
+        //parent::__construct($this->getPath());
         } else {
             $this->virtual = true;
             $this->setId($id);
@@ -340,8 +340,7 @@ class Page extends Item
     {
         // special case: homepage
         if ($this->path == 'index'
-            || (\strlen($this->path) >= 6 && \substr_compare($this->path, 'index/', 0, 6) == 0))
-        {
+            || (\strlen($this->path) >= 6 && \substr_compare($this->path, 'index/', 0, 6) == 0)) {
             $this->path = '';
         }
 
