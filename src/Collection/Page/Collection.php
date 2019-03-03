@@ -16,7 +16,7 @@ use Cecil\Collection\Collection as CecilCollection;
 class Collection extends CecilCollection
 {
     /**
-     * Return all not virtual pages
+     * Return all not virtual pages.
      */
     public function all(): self
     {
