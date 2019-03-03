@@ -24,13 +24,13 @@ class Page extends Item
     const SLUGIFY_PATTERN = '/(^\/|[^_a-z0-9\/]|-)+/';
 
     /**
-     * @var SplFileInfo
-     */
-    protected $file;
-    /**
      * @var bool
      */
     protected $virtual;
+    /**
+     * @var SplFileInfo
+     */
+    protected $file;
     /**
      * @var string
      */
@@ -71,71 +71,33 @@ class Page extends Item
      */
     public function __construct(string $id)
     {
-        // set file ?
-
-        // physical page
-        if ($id instanceof SplFileInfo) {
-            $this->file = $id;
-
-            var_dump($this->file);
-            /*
-             * File path components
-             */
-            $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
-            $fileExtension = $this->file->getExtension();
-            $fileName = $this->file->getBasename('.'.$fileExtension);
-            /*
-             * Set protected variables
-             */
-            $this->virtual = false;
-            $this->setFolder($fileRelativePath); // ie: "blog"
-            $this->setSlug($fileName); // ie: "post-1"
-            $this->setPath($this->getFolder().'/'.$this->getSlug()); // ie: "blog/post-1"
-            $this->setId($this->getPath());
-            $this->setSection(explode('/', $this->folder)[0]); // ie: "blog"
-            /*
-             * Set default variables
-             */
-            $this->setVariable('title', Prefix::subPrefix($fileName));
-            $this->setVariable('date', $this->file->getCTime());
-            $this->setVariable('updated', $this->file->getMTime());
-            $this->setVariable('weight', null);
-            // special case: file has a prefix
-            if (Prefix::hasPrefix($fileName)) {
-                $prefix = Prefix::getPrefix($fileName);
-                // prefix is a valid date?
-                if (Util::isValidDate($prefix)) {
-                    $this->setVariable('date', (string) $prefix);
-                } else {
-                    // prefix is an integer, use for sorting
-                    $this->setVariable('weight', (int) $prefix);
-                }
-            }
-            // physical file relative path
-            $this->setVariable('filepath', $fileRelativePath);
-
-            //parent::__construct($this->getPath());
-        } else {
-            $this->virtual = true;
-            $this->setId($id);
-            // default variables
-            $this->setVariables([
-                'title'    => 'Page Title',
-                'date'     => time(),
-                'updated'  => time(),
-                'weight'   => null,
-                'filepath' => null,
-            ]);
-
-            //parent::__construct($id);
-        }
-        // required
+        parent::__construct($id);
+        $this->setVirtual(true);
         $this->setType(Type::PAGE);
+        // default variables
         $this->setVariables([
+            'title'            => 'Page Title',
+            'date'             => time(),
+            'updated'          => time(),
+            'weight'           => null,
+            'filepath'         => null,
             'published'        => true,
-            'virtual'          => $this->virtual,
             'content_template' => 'page.content.twig',
         ]);
+    }
+
+    /**
+     * Turn a path (string) into a slug (URI).
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function slugify(string $path): string
+    {
+        return Slugify::create([
+            'regexp' => self::SLUGIFY_PATTERN,
+        ])->slugify($path);
     }
 
     /**
@@ -145,9 +107,11 @@ class Page extends Item
      *
      * @return string
      */
-    public function createId(SplFileInfo $file): string
+    public static function createId(SplFileInfo $file): string
     {
-        return trim($this->slugify(Prefix::subPrefix(basename($file->getRelativePathname(), $file->getFileExtension()))), '/');
+        $id = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()).'/'.Prefix::subPrefix($file->getBasename('.'.$file->getExtension())));
+
+        return $id;
     }
 
     /**
@@ -159,7 +123,44 @@ class Page extends Item
      */
     public function setFile(SplFileInfo $file): self
     {
+        $this->setVirtual(false);
         $this->file = $file;
+
+        /*
+         * File path components
+         */
+        $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
+        $fileExtension = $this->file->getExtension();
+        $fileName = $this->file->getBasename('.'.$fileExtension);
+        /*
+         * Set protected variables
+         */
+        $this->setFolder($fileRelativePath); // ie: "blog"
+        $this->setSlug($fileName); // ie: "post-1"
+        $this->setPath($this->getFolder().'/'.$this->getSlug()); // ie: "blog/post-1"
+        //$this->setSection(explode('/', $this->folder)[0]); // ie: "blog"
+        /*
+         * Set default variables
+         */
+        $this->setVariables([
+            'title'    => Prefix::subPrefix($fileName),
+            'date'     => $this->file->getCTime(),
+            'updated'  => $this->file->getMTime(),
+            'filepath' => $this->file->getRelativePathname(),
+        ]);
+        // special case: file has a prefix
+        if (Prefix::hasPrefix($fileName)) {
+            $prefix = Prefix::getPrefix($fileName);
+            // prefix is a valid date?
+            if (Util::isValidDate($prefix)) {
+                $this->setVariable('date', (string) $prefix);
+            } else {
+                // prefix is an integer, use for sorting
+                $this->setVariable('weight', (int) $prefix);
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -198,17 +199,17 @@ class Page extends Item
     }
 
     /**
-     * Turn a path (string) into a slug (URL).
+     * Set virtual status.
      *
-     * @param string $path
+     * @param bool $virtual
      *
-     * @return string
+     * @return self
      */
-    public static function slugify(string $path): string
+    public function setVirtual(bool $virtual): self
     {
-        return Slugify::create([
-            'regexp' => self::SLUGIFY_PATTERN,
-        ])->slugify($path);
+        $this->virtual = $virtual;
+
+        return $this;
     }
 
     /**
@@ -307,25 +308,26 @@ class Page extends Item
      */
     public function setPath(string $path): self
     {
-        // DEBUG
-        if ($this->getId()) {
-            echo '['.$this->getId().'] '.$path.' => '.trim($this->slugify(Prefix::subPrefix($path)), '/')."\n";
-        } else {
-            echo '[    ] '.$path.' => '.trim($this->slugify(Prefix::subPrefix($path)), '/')."\n";
+        $this->path = $this->slugify(Prefix::subPrefix($path));
+
+        if ($this->path == 'index') {
+            $this->path = '';
+        }
+        if (substr($this->path, -6) == '/index') {
+            $this->path = substr($this->path, 0, strlen($this->path)-6);
         }
 
-        if ($path) {
-            $this->path = $this->slugify(Prefix::subPrefix($path));
-        }
-        // default path
-        if (!$path) {
-            // Use cases:
-            // - "blog/post-1" => "blog/post-1"
-            // - "blog/index" => "blog"
-            // - "projet/projet-a" => "projet/projet-a"
-            // - "404" => "404"
-            $this->path = rtrim(($this->folder ? $this->folder.'/' : '')
-                .($this->folder && $this->slug == 'index' ? '' : $this->slug), '/');
+        $lastslash = strrpos($this->path, '/');
+        if ($lastslash === false) {
+            $this->section = null;
+            $this->folder = null;
+            $this->slug = $this->path;
+        } else {
+            if (!$this->virtual) {
+                $this->section = explode('/', $this->path)[0];
+            }
+            $this->folder = substr($this->path, 0, $lastslash);
+            $this->slug = substr($this->path, -(strlen($this->path) - $lastslash - 1));
         }
 
         return $this;
@@ -338,13 +340,6 @@ class Page extends Item
      */
     public function getPath(): ?string
     {
-        // special case: homepage
-        if ($this->path == 'index'
-            || (\strlen($this->path) >= 6 && \substr_compare($this->path, 'index/', 0, 6) == 0))
-        {
-            $this->path = '';
-        }
-
         return $this->path;
     }
 
@@ -379,9 +374,9 @@ class Page extends Item
      */
     public function getSection(): ?string
     {
-        if (empty($this->section) && !empty($this->folder)) {
-            $this->setSection(explode('/', $this->folder)[0]);
-        }
+        //if (empty($this->section) && !empty($this->folder)) {
+        //    $this->setSection(explode('/', $this->folder)[0]);
+        //}
 
         return $this->section;
     }
@@ -464,7 +459,7 @@ class Page extends Item
         }
         // special case: homepage
         if (!$path && !$suffix) {
-            $path = 'index';
+            //$path = 'index';
         }
 
         return $path.$subpath.$suffix.$extension;
