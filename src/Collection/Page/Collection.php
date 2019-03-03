@@ -16,6 +16,20 @@ use Cecil\Collection\Collection as CecilCollection;
 class Collection extends CecilCollection
 {
     /**
+     * Return all not virtual pages
+     */
+    public function all(): self
+    {
+        $filteredPages = $this->filter(function (Page $page) {
+            if ($page->isVirtual() === false) {
+                return true;
+            }
+        });
+
+        return $filteredPages;
+    }
+
+    /**
      * Sort items by date: the most recent first.
      *
      * @return self

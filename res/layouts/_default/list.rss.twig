@@ -3,7 +3,7 @@
 {% set date = first.date %}
 {% set title = site.title ~ ' - ' ~ page.title %}
 {% if page.id == 'index' %}
-{% set pages = site.pages|filterBy('virtual', false) %}
+{% set pages = site.pages.all %}
 {% set date = site.time %}
 {% set title = site.title %}
 {% endif %}
