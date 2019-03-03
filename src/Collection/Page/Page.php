@@ -109,7 +109,10 @@ class Page extends Item
      */
     public static function createId(SplFileInfo $file): string
     {
-        $id = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()).'/'.Prefix::subPrefix($file->getBasename('.'.$file->getExtension())));
+        $id = self::slugify(
+            str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath())
+            .'/'.Prefix::subPrefix($file->getBasename('.'.$file->getExtension()))
+        );
 
         return $id;
     }
@@ -374,10 +377,6 @@ class Page extends Item
      */
     public function getSection(): ?string
     {
-        //if (empty($this->section) && !empty($this->folder)) {
-        //    $this->setSection(explode('/', $this->folder)[0]);
-        //}
-
         return $this->section;
     }
 
