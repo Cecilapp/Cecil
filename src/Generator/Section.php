@@ -38,6 +38,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
             $menuWeight = 100;
             foreach ($sections as $sectionName => $pagesArray) {
                 $pageId = $path = Page::slugify($sectionName);
+                // @todo should clone physical page if exists (ie: content/section/index.md)
                 if (!$pagesCollection->has($pageId)) {
                     $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
                     $page = (new Page($pageId))
