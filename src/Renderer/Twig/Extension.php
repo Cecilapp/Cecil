@@ -274,13 +274,13 @@ class Extension extends SlugifyExtension
         // Page item
         if ($value instanceof Page) {
             if (!$format) {
-               $format = $value->getVariable('output');
-               if (is_array($value->getVariable('output'))) {
+                $format = $value->getVariable('output');
+                if (is_array($value->getVariable('output'))) {
                     $format = $value->getVariable('output')[0];
-               }
-               if (!$format) {
-                   $format = 'html';
-               }
+                }
+                if (!$format) {
+                    $format = 'html';
+                }
             }
             $url = $value->getUrl($format, $this->config);
             $url = $base.'/'.ltrim($url, '/');

@@ -314,7 +314,7 @@ class Page extends Item
             $this->path = '';
         }
         if (substr($this->path, -6) == '/index') {
-            $this->path = substr($this->path, 0, strlen($this->path)-6);
+            $this->path = substr($this->path, 0, strlen($this->path) - 6);
         }
 
         $lastslash = strrpos($this->path, '/');
