@@ -33,8 +33,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         if (!$pagesCollection->has('index')) {
             /* @var $page Page */
             $page = (new Page('index'))
-                ->setId('index')
-                ->setPath('index')
+                ->setPath('')
                 ->setVariables([
                     'title' => 'Home',
                     'date'  => $pages->first()->getVariable('date'),

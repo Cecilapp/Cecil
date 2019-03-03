@@ -41,7 +41,6 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 if (!$pagesCollection->has($pageId)) {
                     $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
                     $page = (new Page($pageId))
-                        ->setId($pageId)
                         ->setPath($path)
                         ->setType(Type::SECTION)
                         ->setVariable('title', ucfirst($sectionName))

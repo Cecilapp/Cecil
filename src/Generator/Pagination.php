@@ -22,7 +22,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PagesCollection();
+        $generatedPages = new PagesCollection('generator-pagination');
         $sortby = null;
 
         if (false === $this->config->get('site.pagination.enabled')) {
@@ -116,9 +116,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         $currentPath = $pageId;
                         $alteredPage
                             ->setId($pageId)
+                            ->setVirtual(true)
                             ->setPath($currentPath)
                             ->unVariable('menu')
-                            ->setVariable('virtual', true)
                             ->setVariable('paginated', true);
                     }
                     // create "pagination" variable

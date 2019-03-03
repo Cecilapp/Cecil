@@ -32,7 +32,6 @@ class Alias extends AbstractGenerator implements GeneratorInterface
                     /* @var $aliasPage Page */
                     $pageId = $path = Page::slugify($alias);
                     $aliasPage = (new Page($pageId))
-                        ->setId($pageId)
                         ->setPath($path)
                         ->setVariables([
                             'layout'   => 'redirect',
