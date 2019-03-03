@@ -127,13 +127,18 @@ class Extension extends SlugifyExtension
     public function filterBy(PagesCollection $pages, string $variable, string $value): CollectionInterface
     {
         $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
+            $notVirtual = false;
+            // not virtual only
+            if (!$page->isVirtual()) {
+                $notVirtual = true;
+            }
             // dedicated getter?
             $method = 'get'.ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
-                return true;
+                return $notVirtual && true;
             }
             if ($page->getVariable($variable) == $value) {
-                return true;
+                return $notVirtual && true;
             }
         });
 
@@ -247,7 +252,7 @@ class Extension extends SlugifyExtension
         // handle options
         $canonical = null;
         $addhash = true;
-        $format = 'html';
+        $format = null;
         // backward compatibility
         if (is_bool($options)) {
             $options = [];
@@ -268,6 +273,15 @@ class Extension extends SlugifyExtension
 
         // Page item
         if ($value instanceof Page) {
+            if (!$format) {
+               $format = $value->getVariable('output');
+               if (is_array($value->getVariable('output'))) {
+                    $format = $value->getVariable('output')[0];
+               }
+               if (!$format) {
+                   $format = 'html';
+               }
+            }
             $url = $value->getUrl($format, $this->config);
             $url = $base.'/'.ltrim($url, '/');
         } else {
