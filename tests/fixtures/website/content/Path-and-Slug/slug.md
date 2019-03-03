@@ -1,4 +1,4 @@
 ---
 slug: another-slug
 ---
-Don't works...
+Slug `slug` is now `another-slug`.

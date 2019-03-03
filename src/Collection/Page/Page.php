@@ -109,12 +109,16 @@ class Page extends Item
      */
     public static function createId(SplFileInfo $file): string
     {
-        $id = self::slugify(
-            str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath())
-            .'/'.Prefix::subPrefix($file->getBasename('.'.$file->getExtension()))
-        );
+        $relpath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
+        $basename = self::slugify(Prefix::subPrefix($file->getBasename('.'.$file->getExtension())));
 
-        return $id;
+        // kill me with your fucking index!
+        if ($relpath && $basename == 'index') {
+
+            return $relpath;
+        }
+
+        return trim($relpath.'/'.$basename, '/');
     }
 
     /**
@@ -141,7 +145,6 @@ class Page extends Item
         $this->setFolder($fileRelativePath); // ie: "blog"
         $this->setSlug($fileName); // ie: "post-1"
         $this->setPath($this->getFolder().'/'.$this->getSlug()); // ie: "blog/post-1"
-        //$this->setSection(explode('/', $this->folder)[0]); // ie: "blog"
         /*
          * Set default variables
          */
@@ -258,7 +261,7 @@ class Page extends Item
      */
     public function setFolder(string $folder): self
     {
-        $this->folder = $this->slugify($folder);
+        $this->folder = self::slugify($folder);
 
         return $this;
     }
@@ -282,7 +285,14 @@ class Page extends Item
      */
     public function setSlug(string $slug): self
     {
-        $this->slug = $this->slugify(Prefix::subPrefix($slug));
+        if (!$this->slug) {
+            $slug = self::slugify(Prefix::subPrefix($slug));
+        }
+        // force slug and update path
+        if ($this->slug && $this->slug != $slug) {
+            $this->setPath($this->getFolder().'/'.$slug);
+        }
+        $this->slug = $slug;
 
         return $this;
     }
@@ -294,11 +304,6 @@ class Page extends Item
      */
     public function getSlug(): string
     {
-        // custom slug, from front matter
-        if ($this->getVariable('slug')) {
-            $this->setSlug($this->getVariable('slug'));
-        }
-
         return $this->slug;
     }
 
@@ -311,15 +316,19 @@ class Page extends Item
      */
     public function setPath(string $path): self
     {
-        $this->path = $this->slugify(Prefix::subPrefix($path));
-
-        if ($this->path == 'index') {
+        $path = self::slugify(Prefix::subPrefix($path));
+        // special case: homepage
+        if ($path == 'index') {
             $this->path = '';
-        }
-        if (substr($this->path, -6) == '/index') {
-            $this->path = substr($this->path, 0, strlen($this->path) - 6);
-        }
 
+            return $this;
+        }
+        // special case: custom section index (ie: content/section/index.md)
+        if (substr($path, -6) == '/index') {
+            $path = substr($path, 0, strlen($path) - 6);
+        }
+        $this->path = $path;
+        // explode path by slash
         $lastslash = strrpos($this->path, '/');
         if ($lastslash === false) {
             $this->section = null;
@@ -576,8 +585,10 @@ class Page extends Item
                         $this->getId()
                     ));
                 }
-                $methodName = 'set'.\ucfirst($name);
-                $this->$methodName($value);
+                // @see setPath()
+                // @see setSlug()
+                $method = 'set'.\ucfirst($name);
+                $this->$method($value);
                 break;
             default:
                 $this->offsetSet($name, $value);
