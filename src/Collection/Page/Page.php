@@ -114,7 +114,6 @@ class Page extends Item
 
         // kill me with your fucking index!
         if ($relpath && $basename == 'index') {
-
             return $relpath;
         }
 
