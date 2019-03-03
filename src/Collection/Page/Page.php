@@ -464,9 +464,9 @@ class Page extends Item
         if ($extension) {
             $extension = sprintf('.%s', $extension);
         }
-        // special case: homepage
+        // special case: homepage ('index' from hell!)
         if (!$path && !$suffix) {
-            //$path = 'index';
+            $path = 'index';
         }
 
         return $path.$subpath.$suffix.$extension;
