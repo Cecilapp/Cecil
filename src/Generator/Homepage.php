@@ -29,18 +29,13 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         });
         $pages = $subPages->sortByDate();
 
-        // create homepage
-        if (!$pagesCollection->has('index')) {
-            /* @var $page Page */
-            $page = (new Page('index'))
-                ->setPath('')
-                ->setVariables([
-                    'title' => 'Home',
-                    'date'  => $pages->first()->getVariable('date'),
-                ]);
-        } else {
-            // clone and update homepage
-            /* @var $page Page */
+        $page = (new Page('index'))
+            ->setPath('')
+            ->setVariables([
+                'title' => 'Home',
+                'date'  => $pages->first()->getVariable('date'),
+            ]);
+        if ($pagesCollection->has('index')) {
             $page = clone $pagesCollection->get('index');
         }
         $page->setType(Type::HOMEPAGE)
