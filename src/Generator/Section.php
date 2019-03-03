@@ -38,20 +38,19 @@ class Section extends AbstractGenerator implements GeneratorInterface
             $menuWeight = 100;
             foreach ($sections as $sectionName => $pagesArray) {
                 $pageId = $path = Page::slugify($sectionName);
-                // @todo should clone physical page if exists (ie: content/section/index.md)
-                if (!$pagesCollection->has($pageId)) {
-                    $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
-                    $page = (new Page($pageId))
-                        ->setPath($path)
-                        ->setType(Type::SECTION)
-                        ->setVariable('title', ucfirst($sectionName))
-                        ->setVariable('pages', $pages)
-                        ->setVariable('date', $pages->first()->getVariable('date'))
-                        ->setVariable('menu', [
-                            'main' => ['weight' => $menuWeight],
-                        ]);
-                    $generatedPages->add($page);
+                $page = (new Page($pageId))->setVariable('title', ucfirst($sectionName));
+                if ($pagesCollection->has($pageId)) {
+                    $page = clone $pagesCollection->get($pageId);
                 }
+                $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
+                $page->setPath($path)
+                    ->setType(Type::SECTION)
+                    ->setVariable('pages', $pages)
+                    ->setVariable('date', $pages->first()->getVariable('date'))
+                    ->setVariable('menu', [
+                        'main' => ['weight' => $menuWeight],
+                    ]);
+                $generatedPages->add($page);
                 $menuWeight += 10;
             }
         }
