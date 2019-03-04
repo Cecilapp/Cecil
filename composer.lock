@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "40af76a7a15c62d91007dcf3303ceeb2",
+    "content-hash": "cf6b4e90cc53207e93f247808165d705",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -543,7 +543,7 @@
                     "homepage": "http://blog.astrumfutura.com"
                 },
                 {
-                    "name": "Théo Fidry",
+                    "name": "Théo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -878,16 +878,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.1.7",
+            "version": "v4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "3e83acef94d979b1de946599ef86b3a352abcdc9"
+                "reference": "6c05edb11fbeff9e2b324b4270ecb17911a8b7ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/3e83acef94d979b1de946599ef86b3a352abcdc9",
-                "reference": "3e83acef94d979b1de946599ef86b3a352abcdc9",
+                "url": "https://api.github.com/repos/symfony/process/zipball/6c05edb11fbeff9e2b324b4270ecb17911a8b7ad",
+                "reference": "6c05edb11fbeff9e2b324b4270ecb17911a8b7ad",
                 "shasum": ""
             },
             "require": {
@@ -896,7 +896,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -923,7 +923,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2018-10-14T20:48:13+00:00"
+            "time": "2019-01-24T22:05:03+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -2937,7 +2937,7 @@
                     "homepage": "http://kevin.herrera.io"
                 },
                 {
-                    "name": "Théo Fidry",
+                    "name": "Théo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 }
             ],

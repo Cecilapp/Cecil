@@ -35,7 +35,7 @@
     "padraic/phar-updater": "1.0.6",
     "symfony/filesystem": "4.1.7",
     "symfony/finder": "4.1.7",
-    "symfony/process": "4.1.7",
+    "symfony/process": "4.2.4",
     "symfony/yaml": "4.1.7",
     "twig/twig": "2.5.0",
     "yosymfony/resource-watcher": "2.0.0",
