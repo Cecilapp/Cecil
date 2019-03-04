@@ -88,7 +88,7 @@ class MenusCreate extends AbstractStep
                 if (is_string($page['menu'])) {
                     $item = (new Entry($page->getId()))
                         ->setName($page->getVariable('title'))
-                        ->setUrl($page->getPath());
+                        ->setUrl($page->getId());
                     /* @var $menu \Cecil\Collection\Menu\Menu */
                     $menu = $this->builder->getMenus()->get($page['menu']);
                     $menu->add($item);
@@ -105,7 +105,7 @@ class MenusCreate extends AbstractStep
                         foreach ($page['menu'] as $name => $value) {
                             $item = (new Entry($page->getId()))
                                 ->setName($page->getVariable('title'))
-                                ->setUrl($page->getPath())
+                                ->setUrl($page->getId())
                                 ->setWeight($value['weight']);
                             /* @var $menu \Cecil\Collection\Menu\Menu */
                             $menu = $this->builder->getMenus()->get($name);
