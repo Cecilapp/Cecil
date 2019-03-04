@@ -1,7 +1,7 @@
 {
   "data": [
     {
-      "type": {{ page.rootpath|default('page')|json_encode() }},
+      "type": {{ page.section|default('page')|json_encode() }},
       "id": {{ page.id|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
       "attributes": {
         "title": {{ page.title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
