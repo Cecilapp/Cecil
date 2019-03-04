@@ -255,7 +255,6 @@ class Extension extends SlugifyExtension
         $format = null;
         // backward compatibility
         if (is_bool($options)) {
-            $options = [];
             $options['canonical'] = false;
             if ($options === true) {
                 $options['canonical'] = true;
