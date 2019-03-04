@@ -1,6 +1,6 @@
 {% set pages = page.pages %}
 {% set first = pages|first %}
-{% set date = first.date %}
+{% set date = first.date|default("now") %}
 {% set title = site.title ~ ' - ' ~ page.title %}
 {% if page.id == 'index' %}
 {% set pages = site.pages.all %}
