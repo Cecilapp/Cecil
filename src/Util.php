@@ -64,7 +64,7 @@ class Util
     }
 
     /**
-     * Sort array by 'date' item.
+     * Sort array items by date.
      *
      * @param $a
      * @param $b
@@ -94,10 +94,33 @@ class Util
      *
      * @return bool
      */
-    public static function isValidDate(string $date, string $format = 'Y-m-d'): bool
+    public static function dateIsValid(string $date, string $format = 'Y-m-d'): bool
     {
         $d = \DateTime::createFromFormat($format, $date);
 
         return $d && $d->format($format) === $date;
+    }
+
+    /**
+     * Date to DateTime.
+     *
+     * @param mixed $date
+     *
+     * @return \DateTime
+     */
+    public static function dateToDatetime($date): \DateTime
+    {
+        // DateTime
+        if ($date instanceof \DateTime) {
+            return $date;
+        }
+        // timestamp or AAAA-MM-DD
+        if (is_numeric($date)) {
+            return (new \DateTime())->setTimestamp($date);
+        }
+        // string (ie: '01/01/2019', 'today')
+        if (is_string($date)) {
+            return new \DateTime($date);
+        }
     }
 }

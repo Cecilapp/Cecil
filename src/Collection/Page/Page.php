@@ -157,7 +157,7 @@ class Page extends Item
         if (Prefix::hasPrefix($fileName)) {
             $prefix = Prefix::getPrefix($fileName);
             // prefix is a valid date?
-            if (Util::isValidDate($prefix)) {
+            if (Util::dateIsValid($prefix)) {
                 $this->setVariable('date', (string) $prefix);
             } else {
                 // prefix is an integer, use for sorting
@@ -545,19 +545,7 @@ class Page extends Item
         switch ($name) {
             case 'date':
                 try {
-                    // DateTime
-                    if ($value instanceof \DateTime) {
-                        $date = $value;
-                    } else {
-                        // timestamp or AAAA-MM-DD
-                        if (is_numeric($value)) {
-                            $date = (new \DateTime())->setTimestamp($value);
-                        }
-                        // string (ie: '01/01/2019', 'today')
-                        if (is_string($value)) {
-                            $date = new \DateTime($value);
-                        }
-                    }
+                    $date = Util::dateToDatetime($value);
                 } catch (\Exception $e) {
                     throw new \Exception(sprintf(
                         'Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"',
