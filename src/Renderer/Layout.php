@@ -123,7 +123,6 @@ class Layout
                     );
                 }
                 break;
-            case PageType::PAGE:
             default:
                 $layouts = [
                     // "$section/$layout.$format.twig",
