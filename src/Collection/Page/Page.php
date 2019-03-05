@@ -77,8 +77,8 @@ class Page extends Item
         // default variables
         $this->setVariables([
             'title'            => 'Page Title',
-            'date'             => time(),
-            'updated'          => time(),
+            'date'             => new \DateTime(),
+            'updated'          => new \DateTime(),
             'weight'           => null,
             'filepath'         => null,
             'published'        => true,
@@ -149,8 +149,8 @@ class Page extends Item
          */
         $this->setVariables([
             'title'    => Prefix::subPrefix($fileName),
-            'date'     => $this->file->getCTime(),
-            'updated'  => $this->file->getMTime(),
+            'date'     => (new \DateTime())->setTimestamp($this->file->getCTime()),
+            'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
         // special case: file has a prefix
@@ -545,22 +545,22 @@ class Page extends Item
         switch ($name) {
             case 'date':
                 try {
+                    // DateTime
                     if ($value instanceof \DateTime) {
                         $date = $value;
                     } else {
-                        // timestamp
+                        // timestamp or AAAA-MM-DD
                         if (is_numeric($value)) {
                             $date = (new \DateTime())->setTimestamp($value);
-                        } else {
-                            // ie: 2019-01-01
-                            if (is_string($value)) {
-                                $date = new \DateTime($value);
-                            }
+                        }
+                        // string (ie: '01/01/2019', 'today')
+                        if (is_string($value)) {
+                            $date = new \DateTime($value);
                         }
                     }
                 } catch (\Exception $e) {
                     throw new \Exception(sprintf(
-                        'Expected date string for "date" in "%s": "%s"',
+                        'Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"',
                         $this->getId(),
                         $value
                     ));

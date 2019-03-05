@@ -106,16 +106,17 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                  */
                 /* @var $pages PagesCollection */
                 foreach ($terms as $term => $pages) {
-                    $pages = $pages->sortByDate()->toArray();
+                    $pages = $pages->sortByDate();
                     $pageId = $path = Page::slugify(sprintf('%s/%s', $plural, $term));
                     $page = (new Page($pageId))->setVariable('title', ucfirst($term));
                     if ($this->pagesCollection->has($pageId)) {
                         $page = clone $this->pagesCollection->get($pageId);
                     }
+                    $date = $pages->first()->getVariable('date');
                     $page->setPath($path)
                         ->setType(Type::TAXONOMY)
                         ->setVariable('pages', $pages)
-                        ->setVariable('date', $date = reset($pages)->getVariable('date'))
+                        ->setVariable('date', $date)
                         ->setVariable('url', $path.'/')
                         ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
                         ->setVariable('pagination', ['pages' => $pages]);
