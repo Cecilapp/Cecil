@@ -98,7 +98,7 @@ class PagesRender extends AbstractStep
             $this->builder->getPages()->replace($page->getId(), $page);
 
             $layouts = implode(', ', array_column($rendered, 'template'));
-            $message = sprintf('%s (%s)', ($page->getId() ?: 'index'), $layouts);
+            $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), $layouts);
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
     }
