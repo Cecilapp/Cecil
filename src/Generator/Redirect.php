@@ -21,17 +21,17 @@ class Redirect extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PagesCollection();
+        $generatedPages = new PagesCollection('generator-redirect');
 
         $filteredPages = $pagesCollection->filter(function (Page $page) {
-            return null !== $page->getVariable('redirect');
+            return null !== $page->getVariable('redirect')
+                && $page->getVariable('layout') != 'redirect';
         });
 
         /* @var $page Page */
         foreach ($filteredPages as $page) {
             $alteredPage = clone $page;
-            $alteredPage->setLayout('redirect.html');
-            $alteredPage->setVariable('destination', $page->getVariable('redirect'));
+            $alteredPage->setVariable('layout', 'redirect');
             $generatedPages->add($alteredPage);
         }
 

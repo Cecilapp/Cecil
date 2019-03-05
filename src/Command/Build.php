@@ -73,7 +73,7 @@ class Build extends AbstractCommand
             $config['site']['baseurl'] = $this->baseurl;
         }
         if ($this->destination) {
-            $config['output']['dir'] = $this->destination;
+            $config['site']['output']['dir'] = $this->destination;
             $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/output', $this->destination);
         }
         if ($this->dryrun) {

@@ -54,39 +54,31 @@ class PagesSave extends AbstractStep
         $count = 0;
         foreach ($filteredPages as $page) {
             $count++;
+            $message = [];
 
-            $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$this->getPathname($page));
+            foreach ($page->getVariable('rendered') as $format => $rendered) {
+                if (false === $pathname = $page->getOutputFile($format, $this->config)) {
+                    throw new Exception(sprintf(
+                        "Can't get pathname of page '%s' (format: '%s')",
+                        $page->getId(),
+                        $format
+                    ));
+                }
+                $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$pathname);
 
-            Util::getFS()->dumpFile($pathname, $page->getVariable('rendered'));
+                try {
+                    Util::getFS()->dumpFile($pathname, $rendered['output']);
+                } catch (\Exception $e) {
+                    throw new Exception($e->getMessage());
+                }
 
-            $message = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
-            call_user_func_array($this->builder->getMessageCb(), ['SAVE_PROGRESS', $message, $count, $max]);
-        }
-    }
-
-    /**
-     * Return output pathname.
-     *
-     * @param Page $page
-     *
-     * @return string
-     */
-    protected function getPathname(Page $page)
-    {
-        // force pathname of "index" pages (ie: homepage, sections, etc.)
-        if ($page->getName() == 'index') {
-            return $page->getPath().'/'.$this->config->get('output.filename');
-        } else {
-            // custom extension, ex: 'manifest.json'
-            if (!empty(pathinfo($page->getPermalink(), PATHINFO_EXTENSION))) {
-                return $page->getPermalink();
-            }
-            // underscore prefix, ex: '_redirects'
-            if (strpos($page->getPermalink(), '_') === 0) {
-                return $page->getPermalink();
+                $message[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
-            return $page->getPermalink().'/'.$this->config->get('output.filename');
+            call_user_func_array(
+                $this->builder->getMessageCb(),
+                ['SAVE_PROGRESS', implode(', ', $message), $count, $max]
+            );
         }
     }
 

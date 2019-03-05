@@ -1,3 +1,13 @@
     <li>
-        <a href="{{ url(item) }}">{{ item.title }}</a> [id: {{ item.id }} | date: {{ item.date|date("d/m/Y") }} | type: {{ item.nodetype }} | virtual: {{ item.virtual }}]
+        <a href="{{ url(item) }}">{{ item.title }}</a>
+        <ul>
+          <li>id: {{ item.id }}</li>
+          <li>date: {{ item.date|date("d/m/Y") }}</li>
+          <li>type: {{ item.type }}</li>
+          <li>virtual: {{ item.virtual }}</li>
+          <li>section: {{ item.section }}</li>
+          <li>path: {{ item.path }}</li>
+          <li>folder: {{ item.folder }}</li>
+          <li>slug: {{ item.slug }}</li>
+        </ul>
     </li>

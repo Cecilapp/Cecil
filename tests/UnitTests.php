@@ -119,7 +119,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testConvertPage()
     {
-        $pagesCollection = new PagesCollection();
+        $pagesCollection = new PagesCollection('collection-testconvertpage');
 
         /* @var $page Page */
         $page = new Page($this->file);
@@ -136,17 +136,17 @@ class UnitTests extends \PHPUnit\Framework\TestCase
         $this->assertObjectHasAttribute('html', $page);
         $this->assertObjectHasAttribute('properties', $page);
         $this->assertSame('Page 1', $page->getVariable('title'));
-        $this->assertSame('<p>Content of page 1.</p>', $page->getContent());
+        $this->assertSame('<p>Content of page 1.</p>', $page->getBodyHtml());
         //$this->assertEquals(1427839200, $page['date'], '', 5);}
     }
 
     public function testAddPage()
     {
-        $page = new Page();
-        $pagesCollection = new PagesCollection();
+        $page = new Page('testAddPage');
+        $pagesCollection = new PagesCollection('testAddPage');
 
         $page->setId('id-of-page')
-            ->setTitle('title-of-page');
+            ->setVariable('title', 'title-of-page');
         $pagesCollection->add($page);
 
         $this->assertContains($page, $pagesCollection);
@@ -154,11 +154,11 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testGetPage()
     {
-        $page = new Page();
-        $pagesCollection = new PagesCollection();
+        $page = new Page('testGetPage');
+        $pagesCollection = new PagesCollection('testGetPage');
 
         $page->setId('id-of-page')
-            ->setTitle('title-of-page');
+            ->setVariable('title', 'title-of-page');
         $pagesCollection->add($page);
 
         $this->assertNotNull($pagesCollection->get('id-of-page'));

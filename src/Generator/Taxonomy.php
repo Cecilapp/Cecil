@@ -10,11 +10,11 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Type;
 use Cecil\Collection\Taxonomy\Collection as TaxonomiesCollection;
 use Cecil\Collection\Taxonomy\Term as Term;
 use Cecil\Collection\Taxonomy\Vocabulary as VocabulariesCollection;
 use Cecil\Exception\Exception;
-use Cecil\Page\NodeType;
 
 /**
  * Class Taxonomy.
@@ -36,7 +36,9 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
         $this->pagesCollection = $pagesCollection;
         $this->generatedPages = new PagesCollection('generator-taxonomy');
 
-        if ($this->config->get('site.taxonomies') && !$this->config->get('site.taxonomies.disabled')) {
+        if ($this->config->get('site.taxonomies')
+            && false !== $this->config->get('site.taxonomies.enabled')
+        ) {
             $this->initTaxonomiesCollection();
             $this->collectTermsFromPages();
             $this->createNodePages();
@@ -104,19 +106,18 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                  */
                 /* @var $pages PagesCollection */
                 foreach ($terms as $term => $pages) {
-                    $pages = $pages->sortByDate()->toArray();
-                    $pageId = Page::urlize(sprintf('%s/%s', $plural, $term));
+                    $pages = $pages->sortByDate();
+                    $pageId = $path = Page::slugify(sprintf('%s/%s', $plural, $term));
+                    $page = (new Page($pageId))->setVariable('title', ucfirst($term));
                     if ($this->pagesCollection->has($pageId)) {
                         $page = clone $this->pagesCollection->get($pageId);
-                    } else {
-                        $page = (new Page())
-                            ->setTitle(ucfirst($term));
                     }
-                    $page->setId($pageId)
-                        ->setPathname($pageId)
-                        ->setNodeType(NodeType::TAXONOMY)
+                    $date = $pages->first()->getVariable('date');
+                    $page->setPath($path)
+                        ->setType(Type::TAXONOMY)
                         ->setVariable('pages', $pages)
-                        ->setVariable('date', $date = reset($pages)->getDate())
+                        ->setVariable('date', $date)
+                        ->setVariable('url', $path.'/')
                         ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
                         ->setVariable('pagination', ['pages' => $pages]);
                     $this->generatedPages->add($page);
@@ -125,15 +126,15 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                  * Creates $plural pages (list of terms)
                  * ex: /tags/
                  */
-                $page = (new Page())
-                    ->setId(Page::urlize($plural))
-                    ->setPathname(strtolower($plural))
-                    ->setTitle($plural)
-                    ->setNodeType(NodeType::TERMS)
+                $page = (new Page(Page::slugify($plural)))
+                    ->setPath(strtolower($plural))
+                    ->setVariable('title', $plural)
+                    ->setType(Type::TERMS)
                     ->setVariable('plural', $plural)
                     ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
                     ->setVariable('terms', $terms)
-                    ->setVariable('date', $date);
+                    ->setVariable('date', $date)
+                    ->setVariable('url', strtolower($plural).'/');
                 // add page only if a template exist
                 try {
                     $this->generatedPages->add($page);

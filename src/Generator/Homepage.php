@@ -10,7 +10,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
-use Cecil\Page\NodeType;
+use Cecil\Collection\Page\Type;
 
 /**
  * Class Homepage.
@@ -24,26 +24,27 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
     {
         $generatedPages = new PagesCollection();
 
-        if (!$pagesCollection->has('index')) {
-            $filteredPages = $pagesCollection->filter(function (Page $page) {
-                return $page->getNodeType() === null
-                && $page->getSection() == $this->config->get('site.paginate.homepage.section')
-                && !empty($page->getBody());
-            });
-            $pages = $filteredPages->sortByDate()->toArray();
+        $subPages = $pagesCollection->filter(function (Page $page) {
+            return $page->getType() == TYPE::PAGE;
+        });
+        $pages = $subPages->sortByDate();
 
-            /* @var $page Page */
-            $page = (new Page())
-                ->setId('index')
-                ->setNodeType(NodeType::HOMEPAGE)
-                ->setPathname(Page::urlize(''))
-                ->setTitle('Home')
-                ->setVariable('pages', $pages)
-                ->setVariable('menu', [
-                    'main' => ['weight' => 1],
-                ]);
-            $generatedPages->add($page);
+        $page = (new Page('index'))->setPath('')->setVariable('title', 'Home');
+
+        if ($pagesCollection->has('index')) {
+            $page = clone $pagesCollection->get('index');
         }
+        if ($pages->first()) {
+            $page->setVariable('date', $pages->first()->getVariable('date'));
+        }
+        $page->setType(Type::HOMEPAGE)
+            ->setVariables([
+                'pages' => $pages,
+                'menu'  => [
+                    'main' => ['weight' => 1],
+                ],
+            ]);
+        $generatedPages->add($page);
 
         return $generatedPages;
     }

@@ -8,9 +8,11 @@
 
 namespace Cecil\Renderer\Twig;
 
+use Cecil\Builder;
 use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Config;
 use Cecil\Exception\Exception;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
@@ -24,9 +26,17 @@ use Symfony\Component\Filesystem\Filesystem;
 class Extension extends SlugifyExtension
 {
     /**
+     * @var Builder
+     */
+    protected $builder;
+    /**
+     * @var Config
+     */
+    protected $config;
+    /**
      * @var string
      */
-    protected $destPath;
+    protected $outputPath;
     /**
      * @var Filesystem
      */
@@ -35,15 +45,17 @@ class Extension extends SlugifyExtension
     /**
      * Constructor.
      *
-     * @param string $destPath
+     * @param Builder $builder
      */
-    public function __construct($destPath)
+    public function __construct(Builder $builder)
     {
-        $this->destPath = $destPath;
         parent::__construct(Slugify::create([
             'regexp' => Page::SLUGIFY_PATTERN,
         ]));
 
+        $this->builder = $builder;
+        $this->config = $this->builder->getConfig();
+        $this->outputPath = $this->config->getOutputPath();
         $this->fileSystem = new Filesystem();
     }
 
@@ -81,7 +93,7 @@ class Extension extends SlugifyExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('url', [$this, 'createUrl'], ['needs_environment' => true]),
+            new \Twig_SimpleFunction('url', [$this, 'createUrl']),
             new \Twig_SimpleFunction('minify', [$this, 'minify']),
             new \Twig_SimpleFunction('readtime', [$this, 'readtime']),
             new \Twig_SimpleFunction('toCSS', [$this, 'toCss']),
@@ -110,20 +122,23 @@ class Extension extends SlugifyExtension
      * @param string          $variable
      * @param string          $value
      *
-     * @throws Exception
-     *
      * @return CollectionInterface
      */
     public function filterBy(PagesCollection $pages, string $variable, string $value): CollectionInterface
     {
         $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
+            $notVirtual = false;
+            // not virtual only
+            if (!$page->isVirtual()) {
+                $notVirtual = true;
+            }
             // dedicated getter?
             $method = 'get'.ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
-                return true;
+                return $notVirtual && true;
             }
             if ($page->getVariable($variable) == $value) {
-                return true;
+                return $notVirtual && true;
             }
         });
 
@@ -133,30 +148,30 @@ class Extension extends SlugifyExtension
     /**
      * Sort by title.
      *
-     * @param CollectionInterface|array $array
+     * @param CollectionInterface|array $collection
      *
-     * @return mixed
+     * @return array
      */
-    public function sortByTitle($array)
+    public function sortByTitle($collection): array
     {
-        if ($array instanceof CollectionInterface) {
-            $array = $array->toArray();
+        if ($collection instanceof CollectionInterface) {
+            $collection = $collection->toArray();
         }
-        if (is_array($array)) {
-            array_multisort(array_keys($array), SORT_NATURAL | SORT_FLAG_CASE, $array);
+        if (is_array($collection)) {
+            array_multisort(array_keys($collection), SORT_NATURAL | SORT_FLAG_CASE, $collection);
         }
 
-        return $array;
+        return $collection;
     }
 
     /**
      * Sort by weight.
      *
-     * @param CollectionInterface|array $array
+     * @param CollectionInterface|array $collection
      *
-     * @return mixed
+     * @return array
      */
-    public function sortByWeight($array)
+    public function sortByWeight($collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['weight'])) {
@@ -172,24 +187,24 @@ class Extension extends SlugifyExtension
             return ($a['weight'] < $b['weight']) ? -1 : 1;
         };
 
-        if ($array instanceof CollectionInterface) {
-            $array = $array->toArray();
+        if ($collection instanceof CollectionInterface) {
+            $collection = $collection->toArray();
         }
-        if (is_array($array)) {
-            usort($array, $callback);
+        if (is_array($collection)) {
+            usort($collection, $callback);
         }
 
-        return $array;
+        return $collection;
     }
 
     /**
      * Sort by date.
      *
-     * @param CollectionInterface|array $array
+     * @param CollectionInterface|array $collection
      *
      * @return mixed
      */
-    public function sortByDate($array)
+    public function sortByDate($collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['date'])) {
@@ -205,14 +220,14 @@ class Extension extends SlugifyExtension
             return ($a['date'] > $b['date']) ? -1 : 1;
         };
 
-        if ($array instanceof CollectionInterface) {
-            $array = $array->toArray();
+        if ($collection instanceof CollectionInterface) {
+            $collection = $collection->toArray();
         }
-        if (is_array($array)) {
-            usort($array, $callback);
+        if (is_array($collection)) {
+            usort($collection, $callback);
         }
 
-        return $array;
+        return $collection;
     }
 
     /**
@@ -221,59 +236,73 @@ class Extension extends SlugifyExtension
      * $options[
      *     'canonical' => null,
      *     'addhash'   => true,
+     *     'format'    => 'json',
      * ];
      *
-     * @param \Twig_Environment $env
-     * @param string|Page|null  $value
-     * @param array|null        $options
+     * @param Page|string|null $value
+     * @param array|null       $options
      *
      * @return string|null
      */
-    public function createUrl(\Twig_Environment $env, $value = null, $options = null)
+    public function createUrl($value = null, $options = null): ?string
     {
+        $baseurl = $this->config->get('site.baseurl');
+        $hash = md5($this->config->get('site.time'));
         $base = '';
-        $baseurl = $env->getGlobals()['site']['baseurl'];
-        $hash = md5($env->getGlobals()['site']['time']);
+        // handle options
         $canonical = null;
         $addhash = true;
+        $format = null;
+        // backward compatibility
+        if (is_bool($options)) {
+            $options['canonical'] = false;
+            if ($options === true) {
+                $options['canonical'] = true;
+            }
+        }
+        extract($options ?: []);
 
-        if (isset($options['canonical'])) {
-            $canonical = $options['canonical'];
-        }
-        if (is_bool($options)) { // backward compatibility
-            $canonical = $options;
-        }
-        if (isset($options['addhash'])) {
-            $addhash = $options['addhash'];
-        }
-
-        if ($env->getGlobals()['site']['canonicalurl'] === true || $canonical === true) {
+        // set baseurl
+        if ($this->config->get('site.canonicalurl') === true || $canonical === true) {
             $base = rtrim($baseurl, '/');
         }
         if ($canonical === false) {
             $base = '';
         }
 
+        // Page item
         if ($value instanceof Page) {
-            $value = $value->getPermalink();
-            if (false !== strpos($value, '.')) { // file URL (with a dot for extension)
-                $url = $base.'/'.ltrim($value, '/');
-            } else {
-                $url = $base.'/'.ltrim(rtrim($value, '/').'/', '/');
+            if (!$format) {
+                $format = $value->getVariable('output');
+                if (is_array($value->getVariable('output'))) {
+                    $format = $value->getVariable('output')[0];
+                }
+                if (!$format) {
+                    $format = 'html';
+                }
             }
+            $url = $value->getUrl($format, $this->config);
+            $url = $base.'/'.ltrim($url, '/');
         } else {
+            // string
             if (preg_match('~^(?:f|ht)tps?://~i', $value)) { // external URL
                 $url = $value;
-            } elseif (false !== strpos($value, '.')) { // file URL (with a dot for extension)
-                $url = $base.'/'.ltrim($value, '/');
-                if ($addhash) {
-                    $url .= '?'.$hash;
-                }
             } else {
-                $url = $base.'/';
-                if (!empty($value)) {
-                    $value = $this->slugifyFilter($value);
-                    $url .= ltrim(rtrim($value, '/').'/', '/');
+                if (false !== strpos($value, '.')) { // ressource URL (with a dot for extension)
+                    $url = $value;
+                    if ($addhash) {
+                        $url .= '?'.$hash;
+                    }
+                    $url = $base.'/'.ltrim($url, '/');
+                } else {
+                    $url = $base.'/';
+                    if (!empty($value)) { // value == page ID?
+                        $pageId = $this->slugifyFilter($value);
+                        if ($this->builder->getPages()->has($pageId)) {
+                            $page = $this->builder->getPages()->get($pageId);
+                            $url = $this->createUrl($page, $options);
+                        }
+                    }
                 }
             }
         }
@@ -292,7 +321,7 @@ class Extension extends SlugifyExtension
      */
     public function minify(string $path): string
     {
-        $filePath = $this->destPath.'/'.$path;
+        $filePath = $this->outputPath.'/'.$path;
         if (is_file($filePath)) {
             $extension = (new \SplFileInfo($filePath))->getExtension();
             switch ($extension) {
@@ -352,7 +381,7 @@ class Extension extends SlugifyExtension
      */
     public function toCss(string $path): string
     {
-        $filePath = $this->destPath.'/'.$path;
+        $filePath = $this->outputPath.'/'.$path;
         $subPath = substr($path, 0, strrpos($path, '/'));
 
         if (is_file($filePath)) {
@@ -360,14 +389,14 @@ class Extension extends SlugifyExtension
             switch ($extension) {
                 case 'scss':
                     $scssPhp = new Compiler();
-                    $scssPhp->setImportPaths($this->destPath.'/'.$subPath);
+                    $scssPhp->setImportPaths($this->outputPath.'/'.$subPath);
                     $targetPath = preg_replace('/scss/m', 'css', $path);
 
                     // compile if target file doesn't exists
-                    if (!$this->fileSystem->exists($this->destPath.'/'.$targetPath)) {
+                    if (!$this->fileSystem->exists($this->outputPath.'/'.$targetPath)) {
                         $scss = file_get_contents($filePath);
                         $css = $scssPhp->compile($scss);
-                        $this->fileSystem->dumpFile($this->destPath.'/'.$targetPath, $css);
+                        $this->fileSystem->dumpFile($this->outputPath.'/'.$targetPath, $css);
                     }
 
                     return $targetPath;
@@ -396,13 +425,13 @@ class Extension extends SlugifyExtension
     /**
      * Read $lenght first characters of a string and add a suffix.
      *
-     * @param string $string
-     * @param int    $length
-     * @param string $suffix
+     * @param string|null $string
+     * @param int         $length
+     * @param string      $suffix
      *
-     * @return string
+     * @return string|null
      */
-    public function excerpt(string $string, int $length = 450, string $suffix = ' …'): string
+    public function excerpt(string $string = null, int $length = 450, string $suffix = ' …'): ?string
     {
         $string = str_replace('</p>', '<br /><br />', $string);
         $string = trim(strip_tags($string, '<br>'), '<br />');
@@ -417,11 +446,11 @@ class Extension extends SlugifyExtension
     /**
      * Read characters before '<!-- excerpt -->'.
      *
-     * @param string $string
+     * @param string|null $string
      *
-     * @return string
+     * @return string|null
      */
-    public function excerptHtml(string $string): string
+    public function excerptHtml(string $string = null): ?string
     {
         // https://regex101.com/r/mA2mG0/3
         $pattern = '^(.*)[\n\r\s]*<!-- excerpt -->[\n\r\s]*(.*)$';
@@ -440,11 +469,11 @@ class Extension extends SlugifyExtension
     /**
      * Calculate estimated time to read a text.
      *
-     * @param string $text
+     * @param string|null $text
      *
      * @return string
      */
-    public function readtime(string $text): string
+    public function readtime(string $text = null): string
     {
         $words = str_word_count(strip_tags($text));
         $min = floor($words / 200);
@@ -464,7 +493,7 @@ class Extension extends SlugifyExtension
      */
     public function hashFile(string $path): ?string
     {
-        if (is_file($filePath = $this->destPath.'/'.$path)) {
+        if (is_file($filePath = $this->outputPath.'/'.$path)) {
             return sprintf('sha384-%s', base64_encode(hash_file('sha384', $filePath, true)));
         }
     }
@@ -474,10 +503,10 @@ class Extension extends SlugifyExtension
      *
      * @param string $var
      *
-     * @return string|false
+     * @return string|null
      */
-    public function getEnv($var): ?string
+    public function getEnv(string $var): ?string
     {
-        return getenv($var);
+        return getenv($var) ?: null;
     }
 }

@@ -21,7 +21,7 @@ class PagesCreate extends AbstractStep
      */
     public function process()
     {
-        $this->builder->setPages(new PagesCollection());
+        $this->builder->setPages(new PagesCollection('all-pages'));
         if (count($this->builder->getContent()) <= 0) {
             return;
         }
@@ -32,9 +32,10 @@ class PagesCreate extends AbstractStep
         foreach ($this->builder->getContent() as $file) {
             $count++;
             /* @var $page Page */
-            $page = (new Page($file))->parse();
+            $page = new Page(Page::createId($file));
+            $page->setFile($file)->parse();
             $this->builder->getPages()->add($page);
-            $message = $page->getPathname();
+            $message = $page->getId();
             call_user_func_array($this->builder->getMessageCb(), ['CREATE_PROGRESS', $message, $count, $max]);
         }
     }

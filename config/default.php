@@ -20,7 +20,7 @@ return [
             'tags'       => 'tag',
             'categories' => 'category',
         ],
-        'paginate' => [
+        'pagination' => [
             'max'  => 5,
             'path' => 'page',
         ],
@@ -28,29 +28,73 @@ return [
             'format'   => 'j F Y',
             'timezone' => 'Europe/Paris',
         ],
-        'fmpages' => [
-            'robotstxt' => [
-                'title'     => 'Robots.txt',
-                'layout'    => 'robots.txt',
-                'permalink' => 'robots.txt',
+        'virtualpages' => [
+            'robots' => [
+                'title'   => 'Robots.txt',
+                'layout'  => 'robots',
+                'output'  => 'txt',
             ],
             'sitemap' => [
                 'title'      => 'XML sitemap',
-                'layout'     => 'sitemap.xml',
-                'permalink'  => 'sitemap.xml',
+                'layout'     => 'sitemap',
+                'output'     => 'xml',
                 'changefreq' => 'monthly',
                 'priority'   => '0.5',
             ],
             '404' => [
-                'title'     => '404 page',
-                'layout'    => '404.html',
-                'permalink' => '404.html',
+                'title'   => 'Page not found',
+                'layout'  => '404',
+                'uglyurl' => true,
             ],
-            'rss' => [
-                'title'         => 'RSS file',
-                'layout'        => 'rss.xml',
-                'permalink'     => 'rss.xml',
-                'targetsection' => 'blog',
+        ],
+        'output' => [
+            'dir'      => '_site',
+            'formats'  => [
+                // ie: blog/post-1/index.html
+                'html' => [
+                    'mediatype' => 'text/html',
+                    'suffix'    => '/index',
+                    'extension' => 'html',
+                ],
+                // ie: blog/rss.xml
+                'rss' => [
+                    'mediatype' => 'application/rss+xml',
+                    'suffix'    => '/rss',
+                    'extension' => 'xml',
+                    'exclude'   => ['redirect', 'paginated'],
+                ],
+                // ie: blog/post-1.json
+                'json' => [
+                    'mediatype' => 'application/json',
+                    'extension' => 'json',
+                    'exclude'   => ['redirect'],
+                ],
+                // ie: blog/post-1.xml
+                'xml' => [
+                    'mediatype' => 'application/xml',
+                    'extension' => 'xml',
+                    'exclude'   => ['redirect'],
+                ],
+                // ie: robots.txt
+                'txt' => [
+                    'mediatype' => 'text/plain',
+                    'extension' => 'txt',
+                    'exclude'   => ['redirect'],
+                ],
+                // ie: blog/post-1/amp/index.html
+                'amp' => [
+                    'mediatype' => 'text/html',
+                    'subpath'   => '/amp',
+                    'suffix'    => '/index',
+                    'extension' => 'html',
+                ],
+            ],
+            'pagetypeformats' => [
+                'page'     => ['html', 'json'],
+                'homepage' => ['html', 'rss', 'json'],
+                'section'  => ['html', 'rss', 'json'],
+                'taxonomy' => ['html', 'rss'],
+                'terms'    => ['html'],
             ],
         ],
     ],
@@ -73,10 +117,6 @@ return [
             'dir' => 'res/layouts',
         ],
     ],
-    'output' => [
-        'dir'      => '_site',
-        'filename' => 'index.html',
-    ],
     'themes' => [
         'dir' => 'themes',
     ],
@@ -87,7 +127,7 @@ return [
         40 => 'Cecil\Generator\Pagination',
         50 => 'Cecil\Generator\Alias',
         35 => 'Cecil\Generator\ExternalBody',
-        36 => 'Cecil\Generator\PagesFromConfig',
+        36 => 'Cecil\Generator\VirtualPages',
         60 => 'Cecil\Generator\Redirect',
     ],
 ];

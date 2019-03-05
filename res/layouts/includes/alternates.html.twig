@@ -1,0 +1,5 @@
+{% if page.alternates is defined %}
+{% for alternate in page.alternates %}
+    <link rel="{{ alternate.rel }}" type="{{ alternate.type }}" title="{{ alternate.title }}" href="{{ url(page, {canonical: true, format: alternate.format}) }}">
+{% endfor %}
+{% endif %}

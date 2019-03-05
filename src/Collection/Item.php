@@ -18,7 +18,7 @@ class Item implements ItemInterface
      *
      * @var string
      */
-    protected $id = '';
+    protected $id;
 
     /**
      * Item properties.
@@ -32,22 +32,17 @@ class Item implements ItemInterface
      *
      * @param string $id
      */
-    public function __construct(string $id = '')
+    public function __construct(string $id)
     {
         $this->setId($id);
     }
 
     /**
-     * If parameter is empty uses the object's hash.
      * {@inheritdoc}
      */
-    public function setId(string $id = null)
+    public function setId(string $id)
     {
         $this->id = $id;
-        if (empty($this->id)) {
-            $this->id = spl_object_hash($this);
-        }
-        $this->offsetSet('id', $this->id);
 
         return $this;
     }
@@ -55,9 +50,9 @@ class Item implements ItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getId(): string
+    public function getId()
     {
-        return $this->offsetGet('id');
+        return $this->id;
     }
 
     /**

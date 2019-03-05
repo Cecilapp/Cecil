@@ -9,23 +9,25 @@ All pages:
 {% endfor %}
 </ul>
 
-Blog pages:
-<ul>
-{% for item in site.pages|filterBy('section', 'blog')|sortByTitle %}
-{% include 'includes/page_li.html.twig' %}
-{% endfor %}
-</ul>
-
-Virtuals pages:
-<ul>
-{% for item in site.pages|filterBy('virtual', true)|sortByTitle %}
-{% include 'includes/page_li.html.twig' %}
-{% endfor %}
-</ul>
-
-Imported config (from theme(s)):
 {% if site.foo is defined %}
+Imported config (from theme(s)):
 <p>Variable `foo`=`{{ site.foo }}`</p>
+{% endif %}
+
+{% if page.pagination is defined %}
+<pre>
+Total pages: {{ page.pagination.totalpages }}
+Pages per page : {{ page.pagination.pages|length }}
+Links:
+{{ dump(page.pagination.links) }}
+</pre>
+{% endif %}
+
+{% if page.alternates is defined %}
+<pre>
+Alternates:
+{{ dump(page.alternates) }}
+</pre>
 {% endif %}
 
 {% endblock %}

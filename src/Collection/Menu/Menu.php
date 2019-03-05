@@ -21,7 +21,7 @@ class Menu extends CecilCollection implements ItemInterface
      * Add menu entry.
      * {@inheritdoc}
      */
-    public function add(ItemInterface $item): ?CollectionInterface
+    public function add(ItemInterface $item): CollectionInterface
     {
         $this->items[$item->getId()] = $item;
 

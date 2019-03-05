@@ -23,7 +23,7 @@ class MenusCreate extends AbstractStep
     {
         call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Generating menus']);
         $count = 0;
-        $this->builder->setMenus(new MenusCollection());
+        $this->builder->setMenus(new MenusCollection('menus'));
         $this->collectPages();
 
         /*
@@ -48,7 +48,7 @@ class MenusCreate extends AbstractStep
                 $menu = $this->builder->getMenus()->get($name);
                 foreach ($entry as $property) {
                     // remove disable entries
-                    if (isset($property['disabled']) && $property['disabled']) {
+                    if (isset($property['enabled']) && false === $property['enabled']) {
                         if (isset($property['id']) && $menu->has($property['id'])) {
                             $menu->remove($property['id']);
                         }
@@ -87,8 +87,8 @@ class MenusCreate extends AbstractStep
                  */
                 if (is_string($page['menu'])) {
                     $item = (new Entry($page->getId()))
-                        ->setName($page->getTitle())
-                        ->setUrl($page->getPermalink());
+                        ->setName($page->getVariable('title'))
+                        ->setUrl($page->getId());
                     /* @var $menu \Cecil\Collection\Menu\Menu */
                     $menu = $this->builder->getMenus()->get($page['menu']);
                     $menu->add($item);
@@ -104,8 +104,8 @@ class MenusCreate extends AbstractStep
                     if (is_array($page['menu'])) {
                         foreach ($page['menu'] as $name => $value) {
                             $item = (new Entry($page->getId()))
-                                ->setName($page->getTitle())
-                                ->setUrl($page->getPermalink())
+                                ->setName($page->getVariable('title'))
+                                ->setUrl($page->getId())
                                 ->setWeight($value['weight']);
                             /* @var $menu \Cecil\Collection\Menu\Menu */
                             $menu = $this->builder->getMenus()->get($name);

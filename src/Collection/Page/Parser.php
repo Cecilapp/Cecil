@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Page;
+namespace Cecil\Collection\Page;
 
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -44,12 +44,11 @@ class Parser
      * Parse the contents of the file.
      *
      * Example:
-     *
-     *     ---
-     *     title: Title
-     *     date: 2016-07-29
-     *     ---
-     *     Lorem Ipsum.
+     * ---
+     * title: Title
+     * date: 2016-07-29
+     * ---
+     * Lorem Ipsum.
      *
      * @throws \RuntimeException
      *
@@ -61,13 +60,12 @@ class Parser
             if (!$this->file->isReadable()) {
                 throw new \RuntimeException('Cannot read file');
             }
-            // parse front matter
             preg_match(
                 '/'.self::PATTERN.'/s',
                 $this->file->getContents(),
                 $matches
             );
-            // if not front matter, set body only
+            // if there is not front matter, set body only
             if (empty($matches)) {
                 $this->body = $this->file->getContents();
 

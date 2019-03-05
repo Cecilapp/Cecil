@@ -39,41 +39,41 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
     public function has(string $id): bool;
 
     /**
-     * Add an item.
+     * Add an item or throw an exception if exists.
      *
      * @param ItemInterface $item
      *
-     * @return self|null
+     * @return self
      */
-    public function add(ItemInterface $item): ?self;
+    public function add(ItemInterface $item): self;
 
     /**
-     * Replace an item if exists.
+     * Replace an item or throw an exception if not exists.
      *
      * @param string        $id
      * @param ItemInterface $item
      *
-     * @return self|null
+     * @return self
      */
-    public function replace(string $id, ItemInterface $item): ?self;
+    public function replace(string $id, ItemInterface $item): self;
 
     /**
-     * Remove an item if exists.
+     * Remove an item or throw an exception if not exists.
      *
      * @param string $id
      *
-     * @return self|null
+     * @return self
      */
-    public function remove(string $id): ?self;
+    public function remove(string $id): self;
 
     /**
-     * Retrieve an item.
+     * Retrieve an item or throw an exception if not exists.
      *
      * @param string $id
      *
-     * @return ItemInterface|bool
+     * @return ItemInterface
      */
-    public function get(string $id): ?ItemInterface;
+    public function get(string $id): ItemInterface;
 
     /**
      * Retrieve all keys.
@@ -81,6 +81,13 @@ interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAcce
      * @return array An array of all keys
      */
     public function keys(): array;
+
+    /**
+     * Retrieve the first item.
+     *
+     * @return ItemInterface|null
+     */
+    public function first(): ?ItemInterface;
 
     /**
      * Implement Countable.

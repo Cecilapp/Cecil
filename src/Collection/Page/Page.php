@@ -6,12 +6,13 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Item;
-use Cecil\Page\NodeType;
-use Cecil\Page\Parser;
-use Cecil\Page\VariableTrait;
+use Cecil\Config;
+use Cecil\Util;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -20,12 +21,12 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Page extends Item
 {
-    use VariableTrait;
+    const SLUGIFY_PATTERN = '/(^\/|[^_a-z0-9\/]|-)+/';
 
-    const SLUGIFY_PATTERN = '/(^\/|[^a-z0-9\/]|-)+/';
-    // https://regex101.com/r/tJWUrd/1
-    const PREFIX_PATTERN = '^(.*?)(([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|[0-9]+)(-|_|\.)(.*)$';
-
+    /**
+     * @var bool
+     */
+    protected $virtual;
     /**
      * @var SplFileInfo
      */
@@ -33,35 +34,15 @@ class Page extends Item
     /**
      * @var string
      */
-    protected $fileExtension;
+    protected $type;
     /**
      * @var string
      */
-    protected $filePath;
+    protected $folder;
     /**
      * @var string
      */
-    protected $fileName;
-    /**
-     * @var string
-     */
-    protected $fileId;
-    /**
-     * @var bool
-     */
-    protected $virtual = false;
-    /**
-     * @var string
-     */
-    protected $nodeType;
-    /**
-     * @var string
-     */
-    protected $id;
-    /**
-     * @var string
-     */
-    protected $pathname;
+    protected $slug;
     /**
      * @var string
      */
@@ -69,7 +50,7 @@ class Page extends Item
     /**
      * @var string
      */
-    protected $name;
+    protected $section;
     /**
      * @var string
      */
@@ -86,165 +67,105 @@ class Page extends Item
     /**
      * Constructor.
      *
-     * @param SplFileInfo|null $file
+     * @param string $id
      */
-    public function __construct(SplFileInfo $file = null)
+    public function __construct(string $id)
     {
-        $this->file = $file;
-
-        if ($this->file instanceof SplFileInfo) {
-            // file extension: "md"
-            $this->fileExtension = pathinfo($this->file, PATHINFO_EXTENSION);
-            // file path: "Blog"
-            $this->filePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
-            // file name: "Post 1"
-            $this->fileName = basename($this->file->getBasename(), '.'.$this->fileExtension);
-            // file id: "Blog/Post 1"
-            $this->fileId = ($this->filePath ? $this->filePath.'/' : '')
-                .($this->filePath && $this->fileName == 'index' ? '' : $this->fileName);
-            /*
-             * variables default values
-             */
-            // id - ie: "blog/post-1"
-            $this->id = $this->urlize(self::subPrefix($this->fileId));
-            // pathname - ie: "blog/post-1"
-            $this->pathname = $this->urlize(self::subPrefix($this->fileId));
-            // path - ie: "blog"
-            $this->path = $this->urlize($this->filePath);
-            // name - ie: "post-1"
-            $this->name = $this->urlize(self::subPrefix($this->fileName));
-            /*
-             * front matter default values
-             */
-            // title - ie: "Post 1"
-            $this->setTitle(self::subPrefix($this->fileName));
-            // section - ie: "blog"
-            $this->setSection(explode('/', $this->path)[0]);
-            // date from file meta
-            $this->setDate(filemtime($this->file->getPathname()));
-            // file as a prefix?
-            if (false !== self::getPrefix($this->fileId)) {
-                // prefix is a valid date?
-                $isValidDate = function ($date, $format = 'Y-m-d') {
-                    $d = \DateTime::createFromFormat($format, $date);
-
-                    return $d && $d->format($format) === $date;
-                };
-                if ($isValidDate(self::getPrefix($this->fileId))) {
-                    $this->setDate((string) self::getPrefix($this->fileId));
-                } else {
-                    // prefix is an integer
-                    $this->setWeight((int) self::getPrefix($this->fileId));
-                }
-            }
-            // permalink
-            $this->setPermalink($this->pathname);
-
-            parent::__construct($this->id);
-        } else {
-            $this->virtual = true;
-
-            parent::__construct();
-        }
-        $this->setVariable('virtual', $this->virtual);
-        $this->setVariable('published', true);
-        $this->setVariable('content_template', 'page.content.twig');
+        parent::__construct($id);
+        $this->setVirtual(true);
+        $this->setType(Type::PAGE);
+        // default variables
+        $this->setVariables([
+            'title'            => 'Page Title',
+            'date'             => new \DateTime(),
+            'updated'          => new \DateTime(),
+            'weight'           => null,
+            'filepath'         => null,
+            'published'        => true,
+            'content_template' => 'page.content.twig',
+        ]);
     }
 
     /**
-     * Return matches array if prefix exist or false.
+     * Turn a path (string) into a slug (URI).
      *
-     * @param string $string
-     *
-     * @return string[]|false
-     */
-    public static function hasPrefix(string $string)
-    {
-        if (preg_match('/'.self::PREFIX_PATTERN.'/', $string, $matches)) {
-            return $matches;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Return prefix if prefix or false.
-     *
-     * @param string $string
-     *
-     * @return string[]|false
-     */
-    public static function getPrefix(string $string)
-    {
-        if (false !== ($matches = self::hasPrefix($string))) {
-            return $matches[2];
-        }
-
-        return false;
-    }
-
-    /**
-     * Return string without prefix (if exist).
-     *
-     * @param string $string
+     * @param string $path
      *
      * @return string
      */
-    public static function subPrefix(string $string): string
-    {
-        if (false !== ($matches = self::hasPrefix($string))) {
-            return $matches[1].$matches[7];
-        }
-
-        return $string;
-    }
-
-    /**
-     * Format string into URL.
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    public static function urlize(string $string): string
+    public static function slugify(string $path): string
     {
         return Slugify::create([
             'regexp' => self::SLUGIFY_PATTERN,
-        ])->slugify($string);
+        ])->slugify($path);
     }
 
     /**
-     * Is current page is virtual?
+     * Create ID from file.
      *
-     * @return bool
+     * @param SplFileInfo $file
+     *
+     * @return string
      */
-    public function isVirtual(): bool
+    public static function createId(SplFileInfo $file): string
     {
-        return $this->virtual;
+        $relpath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
+        $basename = self::slugify(Prefix::subPrefix($file->getBasename('.'.$file->getExtension())));
+
+        // kill me with your fucking index!
+        if ($relpath && $basename == 'index') {
+            return $relpath;
+        }
+
+        return trim($relpath.'/'.$basename, '/');
     }
 
     /**
-     * Set node type.
+     * Set file.
      *
-     * @param string $nodeType
+     * @param SplFileInfo $file
      *
      * @return self
      */
-    public function setNodeType(string $nodeType): self
+    public function setFile(SplFileInfo $file): self
     {
-        $this->nodeType = new NodeType($nodeType);
+        $this->setVirtual(false);
+        $this->file = $file;
+
+        /*
+         * File path components
+         */
+        $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
+        $fileExtension = $this->file->getExtension();
+        $fileName = $this->file->getBasename('.'.$fileExtension);
+        /*
+         * Set protected variables
+         */
+        $this->setFolder($fileRelativePath); // ie: "blog"
+        $this->setSlug($fileName); // ie: "post-1"
+        $this->setPath($this->getFolder().'/'.$this->getSlug()); // ie: "blog/post-1"
+        /*
+         * Set default variables
+         */
+        $this->setVariables([
+            'title'    => Prefix::subPrefix($fileName),
+            'date'     => (new \DateTime())->setTimestamp($this->file->getCTime()),
+            'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
+            'filepath' => $this->file->getRelativePathname(),
+        ]);
+        // special case: file has a prefix
+        if (Prefix::hasPrefix($fileName)) {
+            $prefix = Prefix::getPrefix($fileName);
+            // prefix is a valid date?
+            if (Util::dateIsValid($prefix)) {
+                $this->setVariable('date', (string) $prefix);
+            } else {
+                // prefix is an integer, use for sorting
+                $this->setVariable('weight', (int) $prefix);
+            }
+        }
 
         return $this;
-    }
-
-    /**
-     * Get node type.
-     *
-     * @return string|null
-     */
-    public function getNodeType(): ?string
-    {
-        return $this->nodeType;
     }
 
     /**
@@ -263,39 +184,162 @@ class Page extends Item
     }
 
     /**
-     * Set name.
+     * Get frontmatter.
      *
-     * @param string $name
+     * @return string|null
+     */
+    public function getFrontmatter(): ?string
+    {
+        return $this->frontmatter;
+    }
+
+    /**
+     * Get body as raw.
+     *
+     * @return string
+     */
+    public function getBody(): ?string
+    {
+        return $this->body;
+    }
+
+    /**
+     * Set virtual status.
+     *
+     * @param bool $virtual
      *
      * @return self
      */
-    public function setName(string $name): self
+    public function setVirtual(bool $virtual): self
     {
-        $this->name = $name;
+        $this->virtual = $virtual;
 
         return $this;
     }
 
     /**
-     * Get name.
+     * Is current page is virtual?
+     *
+     * @return bool
+     */
+    public function isVirtual(): bool
+    {
+        return $this->virtual;
+    }
+
+    /**
+     * Set page type.
+     *
+     * @param string $type
+     *
+     * @return self
+     */
+    public function setType(string $type): self
+    {
+        $this->type = new Type($type);
+
+        return $this;
+    }
+
+    /**
+     * Get page type.
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return (string) $this->type;
+    }
+
+    /**
+     * Set path without slug.
+     *
+     * @param string $folder
+     *
+     * @return self
+     */
+    public function setFolder(string $folder): self
+    {
+        $this->folder = self::slugify($folder);
+
+        return $this;
+    }
+
+    /**
+     * Get path without slug.
      *
      * @return string|null
      */
-    public function getName(): ?string
+    public function getFolder(): ?string
     {
-        return $this->name;
+        return $this->folder;
+    }
+
+    /**
+     * Set slug.
+     *
+     * @param string $slug
+     *
+     * @return self
+     */
+    public function setSlug(string $slug): self
+    {
+        if (!$this->slug) {
+            $slug = self::slugify(Prefix::subPrefix($slug));
+        }
+        // force slug and update path
+        if ($this->slug && $this->slug != $slug) {
+            $this->setPath($this->getFolder().'/'.$slug);
+        }
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 
     /**
      * Set path.
      *
-     * @param $path
+     * @param string $path
      *
      * @return self
      */
     public function setPath(string $path): self
     {
+        $path = self::slugify(Prefix::subPrefix($path));
+        // special case: homepage
+        if ($path == 'index') {
+            $this->path = '';
+
+            return $this;
+        }
+        // special case: custom section index (ie: content/section/index.md)
+        if (substr($path, -6) == '/index') {
+            $path = substr($path, 0, strlen($path) - 6);
+        }
         $this->path = $path;
+        // explode path by slash
+        $lastslash = strrpos($this->path, '/');
+        if ($lastslash === false) {
+            $this->section = null;
+            $this->folder = null;
+            $this->slug = $this->path;
+        } else {
+            if (!$this->virtual) {
+                $this->section = explode('/', $this->path)[0];
+            }
+            $this->folder = substr($this->path, 0, $lastslash);
+            $this->slug = substr($this->path, -(strlen($this->path) - $lastslash - 1));
+        }
 
         return $this;
     }
@@ -303,35 +347,21 @@ class Page extends Item
     /**
      * Get path.
      *
-     * @return string
+     * @return string|null
      */
-    public function getPath(): string
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
     /**
-     * Set path name.
+     * @see getPath()
      *
-     * @param string $pathname
-     *
-     * @return self
+     * @return string|null
      */
-    public function setPathname(string $pathname): self
+    public function getPathname(): ?string
     {
-        $this->pathname = $pathname;
-
-        return $this;
-    }
-
-    /**
-     * Get path name.
-     *
-     * @return string
-     */
-    public function getPathname(): string
-    {
-        return $this->pathname;
+        return $this->getPath();
     }
 
     /**
@@ -343,7 +373,7 @@ class Page extends Item
      */
     public function setSection(string $section): self
     {
-        $this->setVariable('section', $section);
+        $this->section = $section;
 
         return $this;
     }
@@ -351,148 +381,21 @@ class Page extends Item
     /**
      * Get section.
      *
-     * @return string|false
+     * @return string|null
      */
     public function getSection(): ?string
     {
-        if (empty($this->getVariable('section')) && !empty($this->path)) {
-            $this->setSection(explode('/', $this->path)[0]);
-        }
-
-        return $this->getVariable('section');
+        return $this->section;
     }
 
     /**
-     * Set title.
-     *
-     * @param string $title
-     *
-     * @return self
-     */
-    public function setTitle(string $title): self
-    {
-        $this->setVariable('title', $title);
-
-        return $this;
-    }
-
-    /**
-     * Get title.
-     *
-     * @return string|false
-     */
-    public function getTitle(): ?string
-    {
-        return $this->getVariable('title');
-    }
-
-    /**
-     * Set date.
-     *
-     * @param string|\DateTime $date
-     *
-     * @return self
-     */
-    public function setDate($date): self
-    {
-        $this->setVariable('date', $date);
-
-        return $this;
-    }
-
-    /**
-     * Get Date.
-     *
-     * @return \DateTime|false
-     */
-    public function getDate(): ?\DateTime
-    {
-        return $this->getVariable('date');
-    }
-
-    /**
-     * Set weight.
-     *
-     * @param int $weight
-     *
-     * @return self
-     */
-    public function setWeight(int $weight): self
-    {
-        $this->setVariable('weight', $weight);
-
-        return $this;
-    }
-
-    /**
-     * Get weight.
-     *
-     * @return int|null
-     */
-    public function getWeight(): ?int
-    {
-        return $this->getVariable('weight');
-    }
-
-    /**
-     * Set permalink.
-     *
-     * @param string $permalink
-     *
-     * @return self
-     */
-    public function setPermalink(string $permalink): self
-    {
-        // https://regex101.com/r/45oTKm/1
-        $permalink = preg_replace('/index$/i', '', $permalink);
-
-        $this->setVariable('permalink', $permalink);
-
-        return $this;
-    }
-
-    /**
-     * Get permalink.
-     *
-     * @return string|false
-     */
-    public function getPermalink(): ?string
-    {
-        if (empty($this->getVariable('permalink'))) {
-            $this->setPermalink($this->getPathname());
-        }
-
-        return $this->getVariable('permalink');
-    }
-
-    /**
-     * Get frontmatter.
-     *
-     * @return string|null
-     */
-    public function getFrontmatter(): ?string
-    {
-        return $this->frontmatter;
-    }
-
-    /**
-     * Get body.
-     *
-     * @return string
-     */
-    public function getBody(): string
-    {
-        return $this->body;
-    }
-
-    /**
-     * Set HTML.
+     * Set body as HTML.
      *
      * @param string $html
      *
      * @return self
      */
-    public function setHtml(string $html): self
+    public function setBodyHtml(string $html): self
     {
         $this->html = $html;
 
@@ -500,36 +403,226 @@ class Page extends Item
     }
 
     /**
-     * Get HTML alias.
+     * Get body as HTML.
      *
      * @return string|null
      */
-    public function getContent(): ?string
+    public function getBodyHtml(): ?string
     {
         return $this->html;
     }
 
     /**
-     * Set layout.
+     * @see getBodyHtml()
      *
-     * @param string $layout
-     *
-     * @return self
+     * @return string|null
      */
-    public function setLayout(string $layout): self
+    public function getContent(): ?string
     {
-        $this->setVariable('layout', $layout);
+        return $this->getBodyHtml();
+    }
+
+    /**
+     * Return output file.
+     *
+     * Use cases:
+     *   - default: path + suffix + extension (ie: blog/post-1/index.html)
+     *   - subpath: path + subpath + suffix + extension (ie: blog/post-1/amp/index.html)
+     *   - ugly: path + extension (ie: 404.html, sitemap.xml, robots.txt)
+     *   - path only (ie: _redirects)
+     *
+     * @param string $format
+     * @param Config $config
+     *
+     * @return string
+     */
+    public function getOutputFile(string $format, Config $config = null): string
+    {
+        $path = $this->getPath();
+        $subpath = '';
+        $suffix = '/index';
+        $extension = 'html';
+        $uglyurl = $this->getVariable('uglyurl') ? true : false;
+
+        // site config
+        if ($config) {
+            $subpath = $config->get(sprintf('site.output.formats.%s.subpath', $format));
+            $suffix = $config->get(sprintf('site.output.formats.%s.suffix', $format));
+            $extension = $config->get(sprintf('site.output.formats.%s.extension', $format));
+        }
+        // if ugly URL: not suffix
+        if ($uglyurl) {
+            $suffix = '';
+        }
+        // format strings
+        if ($subpath) {
+            $subpath = sprintf('/%s', ltrim($subpath, '/'));
+        }
+        if ($suffix) {
+            $suffix = sprintf('/%s', ltrim($suffix, '/'));
+        }
+        if ($extension) {
+            $extension = sprintf('.%s', $extension);
+        }
+        // special case: homepage ('index' from hell!)
+        if (!$path && !$suffix) {
+            $path = 'index';
+        }
+
+        return $path.$subpath.$suffix.$extension;
+    }
+
+    /**
+     * Return URL.
+     *
+     * @param string $format
+     * @param Config $config
+     *
+     * @return string
+     */
+    public function getUrl(string $format = 'html', Config $config = null): string
+    {
+        $uglyurl = $this->getVariable('uglyurl') ? true : false;
+        $output = $this->getOutputFile($format, $config);
+
+        if (!$uglyurl) {
+            $output = str_replace('index.html', '', $output);
+        }
+
+        return $output;
+    }
+
+    /*
+     * Helper to set and get variables.
+     */
+
+    /**
+     * Set an array as variables.
+     *
+     * @param array $variables
+     *
+     * @throws \Exception
+     *
+     * @return $this
+     */
+    public function setVariables($variables)
+    {
+        if (!is_array($variables)) {
+            throw new \Exception('Can\'t set variables: parameter is not an array');
+        }
+        foreach ($variables as $key => $value) {
+            $this->setVariable($key, $value);
+        }
 
         return $this;
     }
 
     /**
-     * Get layout.
+     * Get all variables.
      *
-     * @return string|false
+     * @return array
      */
-    public function getLayout(): ?string
+    public function getVariables(): array
     {
-        return $this->getVariable('layout');
+        return $this->properties;
+    }
+
+    /**
+     * Set a variable.
+     *
+     * @param $name
+     * @param $value
+     *
+     * @throws \Exception
+     *
+     * @return $this
+     */
+    public function setVariable($name, $value)
+    {
+        if (is_bool($value)) {
+            $value = $value ?: 0;
+        }
+        switch ($name) {
+            case 'date':
+                try {
+                    $date = Util::dateToDatetime($value);
+                } catch (\Exception $e) {
+                    throw new \Exception(sprintf(
+                        'Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"',
+                        $this->getId(),
+                        $value
+                    ));
+                }
+                $this->offsetSet('date', $date);
+                break;
+            case 'draft':
+                if ($value === true) {
+                    $this->offsetSet('published', false);
+                }
+                break;
+            case 'path':
+            case 'slug':
+                $slugify = self::slugify($value);
+                if ($value != $slugify) {
+                    throw new \Exception(sprintf(
+                        '"%s" variable should be "%s" (not "%s") in "%s"',
+                        $name,
+                        $slugify,
+                        $value,
+                        $this->getId()
+                    ));
+                }
+                // @see setPath()
+                // @see setSlug()
+                $method = 'set'.\ucfirst($name);
+                $this->$method($value);
+                break;
+            default:
+                $this->offsetSet($name, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Is variable exist?
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasVariable(string $name): bool
+    {
+        return $this->offsetExists($name);
+    }
+
+    /**
+     * Get a variable.
+     *
+     * @param string $name
+     *
+     * @return mixed|null
+     */
+    public function getVariable(string $name)
+    {
+        if ($this->offsetExists($name)) {
+            return $this->offsetGet($name);
+        }
+    }
+
+    /**
+     * Unset a variable.
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function unVariable(string $name): self
+    {
+        if ($this->offsetExists($name)) {
+            $this->offsetUnset($name);
+        }
+
+        return $this;
     }
 }

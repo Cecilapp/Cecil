@@ -16,7 +16,21 @@ use Cecil\Collection\Collection as CecilCollection;
 class Collection extends CecilCollection
 {
     /**
-     * Sort items by date.
+     * Return all not virtual pages.
+     */
+    public function all(): self
+    {
+        $filteredPages = $this->filter(function (Page $page) {
+            if ($page->isVirtual() === false) {
+                return true;
+            }
+        });
+
+        return $filteredPages;
+    }
+
+    /**
+     * Sort items by date: the most recent first.
      *
      * @return self
      */
@@ -34,6 +48,40 @@ class Collection extends CecilCollection
             }
 
             return ($a['date'] > $b['date']) ? -1 : 1;
+        });
+    }
+
+    /**
+     * Sort items by title (natural sort).
+     *
+     * @return self
+     */
+    public function sortByTitle(): self
+    {
+        return $this->usort(function ($a, $b) {
+            return strnatcmp($a['title'], $b['title']);
+        });
+    }
+
+    /**
+     * Sort by weight: the heaviest first.
+     *
+     * @return self
+     */
+    public function sortByWeight(): self
+    {
+        return $this->usort(function ($a, $b) {
+            if (!isset($a['weight'])) {
+                return -1;
+            }
+            if (!isset($b['weight'])) {
+                return 1;
+            }
+            if ($a['weight'] == $b['weight']) {
+                return 0;
+            }
+
+            return ($a['weight'] > $b['weight']) ? -1 : 1;
         });
     }
 }

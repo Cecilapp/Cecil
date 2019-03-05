@@ -256,7 +256,7 @@ class Config
      */
     public function getOutputPath()
     {
-        return $this->getSourceDir().'/'.$this->get('output.dir');
+        return $this->getDestinationDir().'/'.$this->get('site.output.dir');
     }
 
     /**
@@ -326,5 +326,26 @@ class Config
     public function getThemeDirPath($theme, $dir = 'layouts')
     {
         return $this->getThemesPath().'/'.$theme.'/'.$dir;
+    }
+
+    /**
+     * Return "clean" array output format array.
+     *
+     * @param string $format
+     *
+     * @return array
+     */
+    public function getOutputFormat(string $format): array
+    {
+        $default = [
+            'mediatype' => null, // 'text/html'
+            'subpath'   => null, // ''
+            'suffix'    => null, // '/index'
+            'extension' => null, // 'html'
+        ];
+
+        $result = $this->get(sprintf('site.output.formats.%s', $format));
+
+        return array_merge($default, $result);
     }
 }

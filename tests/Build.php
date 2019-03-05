@@ -34,7 +34,7 @@ class Build extends \PHPUnit\Framework\TestCase
 
     public function testBuid()
     {
-        putenv('CECIL_SITE_TITLE=Cecil test (env)');
+        putenv('CECIL_SITE_DESCRIPTION=Description from environment variable');
         Builder::create(
             [
                 'site' => [
@@ -49,7 +49,7 @@ class Build extends \PHPUnit\Framework\TestCase
                             ],
                             'about' => [
                                 'id'       => 'about',
-                                'disabled' => true,
+                                'enabled'  => false,
                             ],
                             'narno' => [
                                 'id'     => 'narno',
@@ -59,21 +59,25 @@ class Build extends \PHPUnit\Framework\TestCase
                             ],
                         ],
                     ],
-                    'paginate' => [
-                        'disabled' => false,
-                        'homepage' => [
-                            'section' => 'blog',
+                    'pagination' => [
+                        'enabled'  => true,
+                        'sections' => [
+                            'project' => [
+                                'sortby' => 'title',
+                            ],
                         ],
                     ],
                     'taxonomies' => [
-                        'disabled' => false,
+                        'enabled' => true,
                     ],
-                    'googleanalytics' => 'POUET',
-                    'fmpages'         => [
+                    'googleanalytics' => 'UA-XXXXX',
+                    'virtualpages'    => [
                         'sitemap' => [
                             'published' => true,
                         ],
-                        'rss' => 'disabled',
+                        'rss' => [
+                            'published' => false,
+                        ],
                     ],
                 ],
                 'theme'  => [

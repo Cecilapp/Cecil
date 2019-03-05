@@ -10,11 +10,12 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Type;
 
 /**
- * Class PagesFromConfig.
+ * Class VirtualPages.
  */
-class PagesFromConfig extends AbstractGenerator implements GeneratorInterface
+class VirtualPages extends AbstractGenerator implements GeneratorInterface
 {
     /**
      * {@inheritdoc}
@@ -23,22 +24,15 @@ class PagesFromConfig extends AbstractGenerator implements GeneratorInterface
     {
         $generatedPages = new PagesCollection();
 
-        $fmPages = $this->config->get('site.fmpages');
-        foreach ($fmPages as $file => $frontmatter) {
-            if ($frontmatter == 'disabled') {
+        $virtualpages = $this->config->get('site.virtualpages');
+        foreach ($virtualpages as $path => $frontmatter) {
+            if (isset($frontmatter['published']) && $frontmatter['published'] === false) {
                 continue;
             }
-            $pageId = Page::urlize(sprintf('%s', $file));
-            $page = (new Page())
-                ->setId($pageId)
-                ->setPathname($pageId);
+            $page = (new Page(Page::slugify($path)))
+                ->setPath(Page::slugify($path))
+                ->setType(Type::PAGE);
             $page->setVariables($frontmatter);
-            if (!empty($frontmatter['layout'])) {
-                $page->setLayout($frontmatter['layout']);
-            }
-            if (!empty($frontmatter['permalink'])) {
-                $page->setPermalink($frontmatter['permalink']);
-            }
             $generatedPages->add($page);
         }
 

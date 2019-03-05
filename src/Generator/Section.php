@@ -10,7 +10,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
-use Cecil\Page\NodeType;
+use Cecil\Collection\Page\Type;
 
 /**
  * Class Section.
@@ -25,32 +25,32 @@ class Section extends AbstractGenerator implements GeneratorInterface
         $generatedPages = new PagesCollection('sections');
         $sections = [];
 
-        // collects sections
+        // identify sections
         /* @var $page Page */
         foreach ($pagesCollection as $page) {
-            if ($page->getSection() != '') {
+            if ($page->getSection()) {
                 $sections[$page->getSection()][] = $page;
             }
         }
-        // adds node pages to collection
+
+        // adds section to pages collection
         if (count($sections) > 0) {
             $menuWeight = 100;
-            foreach ($sections as $section => $pages) {
-                $pageId = Page::urlize(sprintf('%s', $section));
-                if (!$pagesCollection->has($pageId)) {
-                    usort($pages, 'Cecil\Util::sortByDate');
-                    $page = (new Page())
-                        ->setId($pageId)
-                        ->setPathname($pageId)
-                        ->setTitle(ucfirst($section))
-                        ->setNodeType(NodeType::SECTION)
-                        ->setVariable('pages', $pages)
-                        ->setVariable('date', reset($pages)->getDate())
-                        ->setVariable('menu', [
-                            'main' => ['weight' => $menuWeight],
-                        ]);
-                    $generatedPages->add($page);
+            foreach ($sections as $sectionName => $pagesArray) {
+                $pageId = $path = Page::slugify($sectionName);
+                $page = (new Page($pageId))->setVariable('title', ucfirst($sectionName));
+                if ($pagesCollection->has($pageId)) {
+                    $page = clone $pagesCollection->get($pageId);
                 }
+                $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
+                $page->setPath($path)
+                    ->setType(Type::SECTION)
+                    ->setVariable('pages', $pages)
+                    ->setVariable('date', $pages->first()->getVariable('date'))
+                    ->setVariable('menu', [
+                        'main' => ['weight' => $menuWeight],
+                    ]);
+                $generatedPages->add($page);
                 $menuWeight += 10;
             }
         }

@@ -8,7 +8,7 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Config as Config;
+use Cecil\Config;
 
 /**
  * Abstract class AbstractGenerator.

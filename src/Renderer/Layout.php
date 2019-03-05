@@ -9,9 +9,9 @@
 namespace Cecil\Renderer;
 
 use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Type as PageType;
 use Cecil\Config;
 use Cecil\Exception\Exception;
-use Cecil\Page\NodeType;
 use Cecil\Util;
 
 /**
@@ -23,18 +23,19 @@ class Layout
      * Layout file finder.
      *
      * @param Page   $page
+     * @param string $format
      * @param Config $config
      *
      * @throws Exception
      *
      * @return string
      */
-    public function finder(Page $page, Config $config)
+    public static function finder(Page $page, string $format, Config $config)
     {
         $layout = 'unknown';
 
-        // what layouts could be use for the page?
-        $layouts = self::fallback($page);
+        // what layouts, in what format, could be use for the page?
+        $layouts = self::fallback($page, $format);
 
         // take the first available layout
         foreach ($layouts as $layout) {
@@ -63,91 +64,91 @@ class Layout
     /**
      * Layout fall-back.
      *
-     * @param $page
+     * @param Page   $page
+     * @param string $format
      *
      * @return string[]
      *
      * @see finder()
      */
-    protected static function fallback(Page $page)
+    protected static function fallback(Page $page, string $format)
     {
         // remove redundant '.twig' extension
-        $layout = str_replace('.twig', '', $page->getLayout());
+        $layout = str_replace('.twig', '', $page->getVariable('layout'));
 
-        switch ($page->getNodeType()) {
-            case NodeType::HOMEPAGE:
+        switch ($page->getType()) {
+            case PageType::HOMEPAGE:
                 $layouts = [
-                    'index.html.twig',
-                    '_default/list.html.twig',
-                    '_default/page.html.twig',
+                    "index.$format.twig",
+                    "_default/list.$format.twig",
+                    "_default/page.$format.twig",
                 ];
                 break;
-            case NodeType::SECTION:
+            case PageType::SECTION:
                 $layouts = [
-                    // 'section/$section.html.twig',
-                    '_default/section.html.twig',
-                    '_default/list.html.twig',
+                    // "section/$section.$format.twig",
+                    "_default/section.$format.twig",
+                    "_default/list.$format.twig",
                 ];
-                if ($page->getPathname()) {
-                    $section = explode('/', $page->getPathname())[0];
+                if ($page->getPath()) {
+                    $section = explode('/', $page->getPath())[0];
                     $layouts = array_merge(
-                        [sprintf('section/%s.html.twig', $section)],
+                        [sprintf('section/%s.%s.twig', $section, $format)],
                         $layouts
                     );
                 }
                 break;
-            case NodeType::TAXONOMY:
+            case PageType::TAXONOMY:
                 $layouts = [
-                    // 'taxonomy/$singular.html.twig',
-                    '_default/taxonomy.html.twig',
-                    '_default/list.html.twig',
+                    // "taxonomy/$singular.$format.twig",
+                    "_default/taxonomy.$format.twig",
+                    "_default/list.$format.twig",
                 ];
                 if ($page->getVariable('singular')) {
                     $layouts = array_merge(
-                        [sprintf('taxonomy/%s.html.twig', $page->getVariable('singular'))],
+                        [sprintf('taxonomy/%s.%s.twig', $page->getVariable('singular'), $format)],
                         $layouts
                     );
                 }
                 break;
-            case NodeType::TERMS:
+            case PageType::TERMS:
                 $layouts = [
-                    // 'taxonomy/$singular.terms.html.twig',
-                    '_default/terms.html.twig',
+                    // "taxonomy/$singular.terms.$format.twig",
+                    "_default/terms.$format.twig",
                 ];
                 if ($page->getVariable('singular')) {
                     $layouts = array_merge(
-                        [sprintf('taxonomy/%s.terms.html.twig', $page->getVariable('singular'))],
+                        [sprintf('taxonomy/%s.terms.%s.twig', $page->getVariable('singular'), $format)],
                         $layouts
                     );
                 }
                 break;
             default:
                 $layouts = [
-                    // '$section/$layout.twig',
-                    // '$layout.twig',
-                    // '$section/page.html.twig',
-                    // 'page.html.twig',
-                    '_default/page.html.twig',
+                    // "$section/$layout.$format.twig",
+                    // "$layout.$format.twig",
+                    // "$section/page.$format.twig",
+                    // "page.$format.twig",
+                    "_default/page.$format.twig",
                 ];
                 $layouts = array_merge(
-                    ['page.html.twig'],
+                    ["page.$format.twig"],
                     $layouts
                 );
-
                 if ($page->getSection()) {
                     $layouts = array_merge(
-                        [sprintf('%s/page.html.twig', $page->getSection())],
+                        [sprintf('%s/page.%s.twig', $page->getSection(), $format)],
                         $layouts
                     );
                 }
-                if ($page->getLayout()) {
+                if ($page->getVariable('layout')) {
                     $layouts = array_merge(
-                        [sprintf('%s.twig', $layout)],
+                        [sprintf('%s.%s.twig', $layout, $format)],
                         $layouts
                     );
                     if ($page->getSection()) {
                         $layouts = array_merge(
-                            [sprintf('%s/%s.twig', $page->getSection(), $layout)],
+                            [sprintf('%s/%s.%s.twig', $page->getSection(), $layout, $format)],
                             $layouts
                         );
                     }

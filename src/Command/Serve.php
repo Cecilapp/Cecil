@@ -45,7 +45,7 @@ class Serve extends AbstractCommand
             'php -S %s:%d -t %s %s',
             'localhost',
             '8000',
-            $this->getPath().'/'.$this->getBuilder()->getConfig()->get('output.dir'),
+            $this->getPath().'/'.$this->getBuilder()->getConfig()->get('site.output.dir'),
             sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir)
         );
         $process = new Process($command);

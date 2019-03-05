@@ -11,7 +11,7 @@ namespace Cecil\Step;
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 use Cecil\Renderer\Layout;
-use Cecil\Renderer\Twig as Twig;
+use Cecil\Renderer\Twig;
 
 /**
  * Pages rendering.
@@ -43,7 +43,7 @@ class PagesRender extends AbstractStep
     public function process()
     {
         // prepares renderer
-        $this->builder->setRenderer(new Twig($this->getAllLayoutsPaths(), $this->config));
+        $this->builder->setRenderer(new Twig($this->getAllLayoutsPaths(), $this->builder));
 
         // add globals variables
         $this->addGlobals();
@@ -59,17 +59,46 @@ class PagesRender extends AbstractStep
 
         // render each page
         $count = 0;
+        /* @var $page Page */
         foreach ($filteredPages as $page) {
             $count++;
+            $formats = ['html'];
+            $rendered = null;
+            $alternates = [];
 
-            $rendered = $this->builder->getRenderer()->render(
-                $layout = (new Layout())->finder($page, $this->config),
-                ['page' => $page]
-            );
+            // get page's output formats
+            $formats = $this->getOutputFormats($page);
+            $page->setVariable('output', $formats);
+
+            // get alternates links
+            $alternates = $this->getAlternates($formats);
+            $page->setVariable('alternates', $alternates);
+
+            // render each output format
+            foreach ($formats as $format) {
+                // exclude pages with specific variable(s)
+                if ($exclude = $this->config->get("site.output.formats.$format.exclude")) {
+                    // ie: 'exclude' => ['paginated'],
+                    foreach ($exclude as $variable) {
+                        if ($page->hasVariable($variable)) {
+                            continue 2;
+                        }
+                    }
+                }
+                // search for the template
+                $layout = Layout::finder($page, $format, $this->config);
+                // render with Twig
+                $rendered[$format]['output'] = $this->builder->getRenderer()->render(
+                    $layout,
+                    ['page' => $page]
+                );
+                $rendered[$format]['template'] = $layout;
+            }
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 
-            $message = sprintf('%s (%s)', ($page->getId() ?: 'index'), $layout);
+            $layouts = implode(', ', array_column($rendered, 'template'));
+            $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), $layouts);
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
     }
@@ -77,9 +106,9 @@ class PagesRender extends AbstractStep
     /**
      * Return an array of layouts directories.
      *
-     * @return array Layouts directory
+     * @return array
      */
-    protected function getAllLayoutsPaths()
+    protected function getAllLayoutsPaths(): array
     {
         $paths = [];
 
@@ -121,5 +150,59 @@ class PagesRender extends AbstractStep
             'version'   => $this->builder->getVersion(),
             'poweredby' => sprintf('Cecil v%s', $this->builder->getVersion()),
         ]);
+    }
+
+    /**
+     * Get available output formats.
+     *
+     * @param Page $page
+     *
+     * @return array
+     */
+    protected function getOutputFormats(Page $page): array
+    {
+        $formats = [];
+
+        // get available output formats for the page type
+        // ie: "'page' => ['html', 'json']"
+        if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
+            $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
+        }
+        // Get page output format(s).
+        // ie: "output: txt"
+        if ($page->getVariable('output')) {
+            $formats = $page->getVariable('output');
+            if (!\is_array($formats)) {
+                $formats = [$formats];
+            }
+        }
+
+        return $formats;
+    }
+
+    /**
+     * Get alternates.
+     *
+     * @param array $formats
+     *
+     * @return array
+     */
+    protected function getAlternates(array $formats): array
+    {
+        $alternates = [];
+
+        if (count($formats) > 1 && in_array('html', $formats)) {
+            foreach ($formats as $format) {
+                $format == 'html' ? $rel = 'canonical' : $rel = 'alternate';
+                $alternates[] = [
+                    'rel'    => $rel,
+                    'type'   => $this->config->get("site.output.formats.$format.mediatype"),
+                    'title'  => strtoupper($format),
+                    'format' => $format,
+                ];
+            }
+        }
+
+        return $alternates;
     }
 }
