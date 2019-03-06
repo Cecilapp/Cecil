@@ -58,14 +58,14 @@ rm -f $DIST_FILE.md
 cat <<EOT >> $DIST_FILE.md
 ---
 redirect: $TARGET_RELEASE_DIR/$DIST_FILE
-permalink: $DIST_FILE
+path: $DIST_FILE
 ---
 EOT
 rm -f $DIST_FILE_SHA1.md
 cat <<EOT >> $DIST_FILE_SHA1.md
 ---
 redirect: $TARGET_RELEASE_DIR/$DIST_FILE_SHA1
-permalink: $DIST_FILE_SHA1
+path: $DIST_FILE_SHA1
 ---
 EOT
 
