@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "596e9276060dd15bcfedae1e00d9548d",
+    "content-hash": "07a7d09b0a05988900cffac9c5002fbb",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -543,7 +543,7 @@
                     "homepage": "http://blog.astrumfutura.com"
                 },
                 {
-                    "name": "Théo Fidry",
+                    "name": "Théo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -1608,16 +1608,16 @@
         },
         {
             "name": "amphp/process",
-            "version": "v1.0.3",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/process.git",
-                "reference": "e7e28219da753f865f9055e87d0b9b110ea607ba"
+                "reference": "355b1e561b01c16ab3d78fada1ad47ccc96df70e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/process/zipball/e7e28219da753f865f9055e87d0b9b110ea607ba",
-                "reference": "e7e28219da753f865f9055e87d0b9b110ea607ba",
+                "url": "https://api.github.com/repos/amphp/process/zipball/355b1e561b01c16ab3d78fada1ad47ccc96df70e",
+                "reference": "355b1e561b01c16ab3d78fada1ad47ccc96df70e",
                 "shasum": ""
             },
             "require": {
@@ -1636,7 +1636,7 @@
                     "Amp\\Process\\": "lib"
                 },
                 "files": [
-                    "lib/constants.php"
+                    "lib/functions.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1659,7 +1659,7 @@
             ],
             "description": "Asynchronous process manager.",
             "homepage": "https://github.com/amphp/process",
-            "time": "2019-01-15T21:42:43+00:00"
+            "time": "2019-02-26T16:33:03+00:00"
         },
         {
             "name": "amphp/sync",
@@ -2858,16 +2858,16 @@
         },
         {
             "name": "humbug/box",
-            "version": "3.3.1",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humbug/box.git",
-                "reference": "d2a2a7f5947086371ff0c46dab534fff36c3bfc5"
+                "reference": "4eeb28545646588c3683384e346cb632fc2e7892"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humbug/box/zipball/d2a2a7f5947086371ff0c46dab534fff36c3bfc5",
-                "reference": "d2a2a7f5947086371ff0c46dab534fff36c3bfc5",
+                "url": "https://api.github.com/repos/humbug/box/zipball/4eeb28545646588c3683384e346cb632fc2e7892",
+                "reference": "4eeb28545646588c3683384e346cb632fc2e7892",
                 "shasum": ""
             },
             "require": {
@@ -2885,10 +2885,11 @@
                 "php": "^7.1",
                 "phpseclib/phpseclib": "~2.0",
                 "seld/jsonlint": "^1.6",
-                "symfony/console": "^3.4 || ^4.0",
-                "symfony/filesystem": "^3.4 || ^4.0",
-                "symfony/finder": "^3.4 || ^4.0",
-                "symfony/var-dumper": "^3.4 || ^4.0",
+                "symfony/console": "^4.2",
+                "symfony/filesystem": "^4.2",
+                "symfony/finder": "^4.0",
+                "symfony/process": "^4.2",
+                "symfony/var-dumper": "^4.2",
                 "webmozart/path-util": "^2.3"
             },
             "require-dev": {
@@ -2937,7 +2938,7 @@
                     "homepage": "http://kevin.herrera.io"
                 },
                 {
-                    "name": "Théo Fidry",
+                    "name": "Théo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -2945,7 +2946,7 @@
             "keywords": [
                 "phar"
             ],
-            "time": "2018-11-13T09:08:00+00:00"
+            "time": "2018-12-13T09:41:27+00:00"
         },
         {
             "name": "humbug/php-scoper",
