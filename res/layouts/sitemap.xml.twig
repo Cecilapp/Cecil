@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {% for page in site.pages.all|sortByDate %}
     <url>
-        <loc>{{ url(page, { canonical: true }) }}</loc>
+        <loc>{{ url(page, {canonical:true}) }}</loc>
         <lastmod>{{ page.date|date('Y-m-d') }}</lastmod>
         <changefreq>{{ page.sitemap.changefreq|default(site.virtualpages.sitemap.changefreq) }}</changefreq>
         <priority>{{ page.sitemap.priority|default(site.virtualpages.sitemap.priority) }}</priority>
