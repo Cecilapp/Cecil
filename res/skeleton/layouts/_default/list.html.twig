@@ -1,7 +1,7 @@
 {% extends '_default/page.html.twig' %}
 
 {% block content %}
-{% for p in site.pages|filterBy('section', page.pathname)|sortByDate %}
+{% for p in site.pages|filterBy('section', page.path)|sortByDate %}
         <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
         {{ p.content|excerptHtml }}
 {% endfor %}
