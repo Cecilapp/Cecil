@@ -58,6 +58,7 @@ rm -f $DIST_FILE.md
 cat <<EOT >> $DIST_FILE.md
 ---
 redirect: $TARGET_RELEASE_DIR/$DIST_FILE
+slug: cecil
 output: phar
 ---
 EOT
@@ -65,6 +66,7 @@ rm -f $DIST_FILE_SHA1.md
 cat <<EOT >> $DIST_FILE_SHA1.md
 ---
 redirect: $TARGET_RELEASE_DIR/$DIST_FILE_SHA1
+slug: cecil
 output: sha1
 ---
 EOT
