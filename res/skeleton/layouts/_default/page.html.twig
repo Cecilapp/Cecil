@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ site.language }}">
-{% include 'include/head.html.twig' %}
+{% include 'partials/head.html.twig' %}
   <body>
     <div class="container content">
       <header class="masthead">
@@ -11,10 +11,10 @@
 {% block nav %}
 {% if site.menus.main is defined %}
           <nav><small>
-          {% for menu in site.menus.main|sortByWeight %}
-            <a class="{% if page.pathname == menu.url %} active{% endif %}" href="{{ url(menu.url) }}">{{ menu.name }}</a>
-            {% if not loop.last %} &middot; {% endif %}
-          {% endfor %}
+{% for menu in site.menus.main|sortByWeight %}
+            <a class="{% if url(page) == url(menu.url) %}active{% endif %}" href="{{ url(menu.url) }}">{{ menu.name }}</a>
+{% if not loop.last %} &middot; {% endif %}
+{% endfor %}
           </small></nav>
 {% endif %}
 {% endblock nav %}
@@ -22,6 +22,7 @@
 {% endblock header %}
       </header>
       <main>
+        <h1>{{ page.title }}</h1>
 {% block content %}
 {{ page.content }}
 {% endblock content %}
@@ -34,5 +35,6 @@
 {% endblock footer %}
       </footer>
     </div>
+{% include 'partials/googleanalytics.js.twig' %}
   </body>
 </html>
