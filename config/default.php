@@ -88,6 +88,16 @@ return [
                     'suffix'    => '/index',
                     'extension' => 'html',
                 ],
+                // ie: sw.js
+                'js' => [
+                    'mediatype' => 'application/javascript',
+                    'extension' => 'js',
+                ],
+                // ie: manifest.webmanifest
+                'webmanifest' => [
+                    'mediatype' => 'application/manifest+json',
+                    'extension' => 'webmanifest',
+                ],
             ],
             'pagetypeformats' => [
                 'page'     => ['html', 'json'],
