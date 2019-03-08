@@ -251,7 +251,7 @@ class Extension extends SlugifyExtension
         $base = '';
         // handle options
         $canonical = null;
-        $addhash = true;
+        $addhash = false;
         $format = null;
         // backward compatibility
         if (is_bool($options)) {
