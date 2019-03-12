@@ -10,6 +10,7 @@
 
 namespace Cecil\Command;
 
+use Cecil\Util\Plateform;
 use Symfony\Component\Process\Process;
 use Zend\Console\Prompt\Confirm;
 
@@ -34,6 +35,7 @@ class NewPage extends AbstractCommand
     {
         $this->name = $this->getRoute()->getMatchedParam('name');
         $this->force = $this->getRoute()->getMatchedParam('force', false);
+        $this->open = $this->getRoute()->getMatchedParam('open', false);
 
         try {
             // file name (without extension)
@@ -59,9 +61,16 @@ class NewPage extends AbstractCommand
             $date = date('Y-m-d');
             $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findModel($this->name));
             $this->fs->dumpFile($filePath, $fileContent);
+
             $this->wlDone(sprintf('File "%s" created!', $fileRelativePath));
+
             // open editor?
-            $this->openEditor($filePath);
+            if ($this->open) {
+                if (!$this->hasEditor()) {
+                    $this->wlAlert('No editor configured!');
+                }
+                $this->openEditor($filePath);
+            }
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }
@@ -96,6 +105,20 @@ EOT;
     }
 
     /**
+     * Editor is configured?
+     *
+     * @return bool
+     */
+    protected function hasEditor()
+    {
+        if ($this->builder->getConfig()->get('editor')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Open new file in editor (if configured).
      *
      * @param string $filePath
@@ -105,11 +128,20 @@ EOT;
     protected function openEditor($filePath)
     {
         if ($editor = $this->builder->getConfig()->get('editor')) {
-            $command = sprintf('%s %s', $editor, $filePath);
+            switch ($editor) {
+                case 'typora':
+                    if (Plateform::getOS() == Plateform::OS_OSX) {
+                        $command = sprintf('open -a typora %s', $filePath);
+                    }
+                    break;
+                default:
+                    $command = sprintf('%s %s', $editor, $filePath);
+                    break;
+            }
             $process = new Process($command);
             $process->run();
             if (!$process->isSuccessful()) {
-                throw new \Exception(sprintf("Can't open '%s' editor.", $editor));
+                throw new \Exception(sprintf('Can\'t open "%s" editor.', $editor));
             }
         }
     }
