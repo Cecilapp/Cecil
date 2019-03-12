@@ -29,9 +29,10 @@ return [
     ],
     [
         'name'    => 'new',
-        'route'   => '<name> [<path>] [--force|-f]',
+        'route'   => '<name> [<path>] [--force|-f] [--open|-o]',
         'aliases' => [
             'f' => 'force',
+            'o' => 'open',
         ],
         'short_description'    => 'Create a new content',
         'description'          => 'Create a new content file (with a default title and current date).',
@@ -39,6 +40,7 @@ return [
             '<name>'     => 'Page name',
             '<path>'     => 'Path to the Website',
             '--force|-f' => 'Override the file if already exist',
+            '--open|-o'  => 'Open editor automatically',
         ],
         'defaults' => [
             'path' => getcwd(),

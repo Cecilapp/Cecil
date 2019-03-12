@@ -84,7 +84,11 @@ abstract class AbstractCommand
             if ($this->getRoute()->getName() != 'newsite') {
                 throw new \Exception('Invalid <path> provided!');
             }
-            if (!Confirm::prompt('The provided <path> doesn\'t exist. Do you want to create it? [y/n]', 'y', 'n')) {
+            if (!Confirm::prompt(
+                sprintf('The provided <path> "%s" doesn\'t exist. Do you want to create it? [y/n]', $this->path),
+                'y',
+                'n'
+            )) {
                 exit(0);
             }
             $this->fs->mkdir($this->path);
