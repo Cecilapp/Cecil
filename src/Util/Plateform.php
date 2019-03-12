@@ -81,10 +81,14 @@ class Plateform
     public static function getOS()
     {
         switch (true) {
-            case stristr(PHP_OS, 'DAR'): return self::OS_OSX;
-            case stristr(PHP_OS, 'WIN'): return self::OS_WIN;
-            case stristr(PHP_OS, 'LINUX'): return self::OS_LINUX;
-            default: return self::OS_UNKNOWN;
+            case stristr(PHP_OS, 'DAR'):
+                return self::OS_OSX;
+            case stristr(PHP_OS, 'WIN'):
+                return self::OS_WIN;
+            case stristr(PHP_OS, 'LINUX'):
+                return self::OS_LINUX;
+            default:
+                return self::OS_UNKNOWN;
         }
     }
 }
