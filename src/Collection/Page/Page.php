@@ -508,7 +508,11 @@ class Page extends Item
     public function setVariables($variables)
     {
         if (!is_array($variables)) {
-            throw new \Exception('Can\'t set variables: parameter is not an array');
+            throw new \Exception(sprintf(
+                'Can\'t set variables in "%s": array expected, not %s',
+                $this->getId(),
+                gettype($variables)
+            ));
         }
         foreach ($variables as $key => $value) {
             $this->setVariable($key, $value);
