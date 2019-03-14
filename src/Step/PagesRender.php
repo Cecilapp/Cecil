@@ -97,7 +97,8 @@ class PagesRender extends AbstractStep
                 } catch (\Exception $e) {
                     throw new Exception(sprintf(
                         "Error in template \"%s\" for page \"%s\":\n%s",
-                        $layout, $page->getId(),
+                        $layout,
+                        $page->getId(),
                         $e->getMessage()
                     ));
                 }
