@@ -95,7 +95,11 @@ class PagesRender extends AbstractStep
                     );
                     $rendered[$format]['template'] = $layout;
                 } catch (\Exception $e) {
-                    throw new Exception(sprintf("Error in template \"%s\" for page \"%s\":\n%s", $layout, $page->getId(), $e->getMessage()));
+                    throw new Exception(sprintf(
+                        "Error in template \"%s\" for page \"%s\":\n%s",
+                        $layout, $page->getId(),
+                        $e->getMessage()
+                    ));
                 }
             }
             $page->setVariable('rendered', $rendered);
