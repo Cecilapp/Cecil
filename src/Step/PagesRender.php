@@ -88,11 +88,20 @@ class PagesRender extends AbstractStep
                 // search for the template
                 $layout = Layout::finder($page, $format, $this->config);
                 // render with Twig
-                $rendered[$format]['output'] = $this->builder->getRenderer()->render(
-                    $layout,
-                    ['page' => $page]
-                );
-                $rendered[$format]['template'] = $layout;
+                try {
+                    $rendered[$format]['output'] = $this->builder->getRenderer()->render(
+                        $layout,
+                        ['page' => $page]
+                    );
+                    $rendered[$format]['template'] = $layout;
+                } catch (\Exception $e) {
+                    throw new Exception(sprintf(
+                        "Error in template \"%s\" for page \"%s\":\n%s",
+                        $layout,
+                        $page->getId(),
+                        $e->getMessage()
+                    ));
+                }
             }
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
