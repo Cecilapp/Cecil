@@ -15,7 +15,7 @@
 
 Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](http://twig.sensiolabs.org/) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
-![Cecil CLI demo](https://raw.githubusercontent.com/Cecilapp/Cecil/master/docs/cecil-cli.gif "Cecil CLI demo")
+![Cecil CLI demo](https://raw.githubusercontent.com/Cecilapp/Cecil/master/docs/cecil-demo.png "Cecil CLI demo")
 
 - [Documentation](https://cecil.app/documentation)
 - [Issue tracker](https://github.com/Cecilapp/Cecil/issues)
