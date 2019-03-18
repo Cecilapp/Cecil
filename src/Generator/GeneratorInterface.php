@@ -8,8 +8,6 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PagesCollection;
-
 /**
  * Interface GeneratorInterface.
  */
