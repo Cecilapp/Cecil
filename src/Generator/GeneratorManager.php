@@ -9,6 +9,7 @@
 namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
+use Cecil\Util;
 
 class GeneratorManager extends \SplPriorityQueue
 {
@@ -66,7 +67,8 @@ class GeneratorManager extends \SplPriorityQueue
                         $pagesCollection->add($page);
                     }
                 }
-                $message = substr(strrchr(get_class($generator), '\\'), 1).': '.count($generatedPages);
+                $message = Util::formatClassName($generator).': '.count($generatedPages);
+
                 $count = ($max - $this->key());
                 call_user_func_array($messageCallback, ['GENERATE_PROGRESS', $message, $count, $max]);
                 $this->next();

@@ -33,8 +33,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     {
         $this->config = $config;
         // Create new empty collection
-        //$this->generatedPages = new PagesCollection('generator-'.$this->getGeneratorName($this));
-        $this->generatedPages = new PagesCollection('generator-'.Util::formatClassName($this));
+        $this->generatedPages = new PagesCollection('generator-'.Util::formatClassName($this, ['lowercase' => true]));
     }
 
     /**
@@ -51,17 +50,5 @@ abstract class AbstractGenerator implements GeneratorInterface
         $this->generate();
 
         return $this->generatedPages;
-    }
-
-    /**
-     * Format generator name.
-     *
-     * @param self $class
-     *
-     * @return string
-     */
-    protected static function getGeneratorName(self $class): string
-    {
-        return strtolower(substr(strrchr(get_class($class), '\\'), 1));
     }
 }

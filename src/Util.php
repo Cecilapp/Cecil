@@ -128,11 +128,20 @@ class Util
      * Format class name.
      *
      * @param \object $class
+     * @param array $options
      *
      * @return string
      */
-    public static function formatClassName($class): string
+    public static function formatClassName($class, array $options = []): string
     {
-        return strtolower(substr(strrchr(get_class($class), '\\'), 1));
+        $lowercase = false;
+        extract($options);
+
+        $className = substr(strrchr(get_class($class), '\\'), 1);
+        if ($lowercase) {
+            $className = strtolower($className);
+        }
+
+        return $className;
     }
 }
