@@ -22,7 +22,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PagesCollection('sections');
+        $generatedPages = new PagesCollection('generator-sections');
         $sections = [];
 
         // identify sections

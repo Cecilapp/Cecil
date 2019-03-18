@@ -23,10 +23,7 @@ interface GeneratorInterface
     public function __construct(\Cecil\Config $config);
 
     /**
-     * @param PagesCollection $pagesCollection
-     * @param \Closure        $messageCallback
-     *
-     * @return PagesCollection
+     * Create generated pages collection.
      */
-    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback);
+    public function generate(): void;
 }

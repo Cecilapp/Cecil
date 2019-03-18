@@ -123,4 +123,16 @@ class Util
             return new \DateTime($date);
         }
     }
+
+    /**
+     * Format class name.
+     *
+     * @param \object $class
+     *
+     * @return string
+     */
+    public static function formatClassName($class): string
+    {
+        return strtolower(substr(strrchr(get_class($class), '\\'), 1));
+    }
 }

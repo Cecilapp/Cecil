@@ -22,7 +22,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PagesCollection();
+        $generatedPages = new PagesCollection('generator-external');
 
         $filteredPages = $pagesCollection->filter(function (Page $page) {
             return null !== $page->getVariable('external');

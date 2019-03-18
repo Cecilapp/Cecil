@@ -22,7 +22,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PagesCollection();
+        $generatedPages = new PagesCollection('generator-virtualpages');
 
         $virtualpages = $this->config->get('site.virtualpages');
         foreach ($virtualpages as $path => $frontmatter) {

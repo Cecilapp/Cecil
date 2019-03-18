@@ -21,7 +21,7 @@ class TitleReplace extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
     {
-        $generatedPages = new PagesCollection();
+        $generatedPages = new PagesCollection('generator-title');
 
         $filteredPages = $pagesCollection->filter(function (Page $page) {
             return null !== $page->getVariable('title');

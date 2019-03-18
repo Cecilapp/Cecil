@@ -8,7 +8,9 @@
 
 namespace Cecil\Generator;
 
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Config;
+use Cecil\Util;
 
 /**
  * Abstract class AbstractGenerator.
@@ -17,6 +19,12 @@ abstract class AbstractGenerator implements GeneratorInterface
 {
     /* @var Config */
     protected $config;
+    /* @var PagesCollection */
+    protected $pagesCollection;
+    /* @var $messageCallback */
+    protected $messageCallback;
+    /* @var PagesCollection */
+    protected $generatedPages;
 
     /**
      * {@inheritdoc}
@@ -24,5 +32,36 @@ abstract class AbstractGenerator implements GeneratorInterface
     public function __construct(Config $config)
     {
         $this->config = $config;
+        // Create new empty collection
+        //$this->generatedPages = new PagesCollection('generator-'.$this->getGeneratorName($this));
+        $this->generatedPages = new PagesCollection('generator-'.Util::formatClassName($this));
+    }
+
+    /**
+     * @param PagesCollection $pagesCollection
+     * @param \Closure        $messageCallback
+     *
+     * @return PagesCollection
+     */
+    public function runGenerate(PagesCollection $pagesCollection, \Closure $messageCallback): PagesCollection
+    {
+        $this->pagesCollection = $pagesCollection;
+        $this->messageCallback = $messageCallback;
+
+        $this->generate();
+
+        return $this->generatedPages;
+    }
+
+    /**
+     * Format generator name.
+     *
+     * @param self $class
+     *
+     * @return string
+     */
+    protected static function getGeneratorName(self $class): string
+    {
+        return strtolower(substr(strrchr(get_class($class), '\\'), 1));
     }
 }
