@@ -128,7 +128,7 @@ class Util
      * Format class name.
      *
      * @param \object $class
-     * @param array $options
+     * @param array   $options
      *
      * @return string
      */
