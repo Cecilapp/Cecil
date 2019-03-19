@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1014a3e149328fac84b8e4cd07125a9",
+    "content-hash": "6ce4155cdf0eaca395578312be5a7e76",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -804,7 +804,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -2858,16 +2858,16 @@
         },
         {
             "name": "humbug/box",
-            "version": "3.5.1",
+            "version": "3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humbug/box.git",
-                "reference": "81a3abc51c156c82140378d7030f25ba5c0554ff"
+                "reference": "27df576ca098bd128d2cb586bd6e6b576f22d0c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humbug/box/zipball/81a3abc51c156c82140378d7030f25ba5c0554ff",
-                "reference": "81a3abc51c156c82140378d7030f25ba5c0554ff",
+                "url": "https://api.github.com/repos/humbug/box/zipball/27df576ca098bd128d2cb586bd6e6b576f22d0c7",
+                "reference": "27df576ca098bd128d2cb586bd6e6b576f22d0c7",
                 "shasum": ""
             },
             "require": {
@@ -2946,7 +2946,7 @@
             "keywords": [
                 "phar"
             ],
-            "time": "2019-03-05T19:47:44+00:00"
+            "time": "2019-03-18T12:01:18+00:00"
         },
         {
             "name": "humbug/php-scoper",
