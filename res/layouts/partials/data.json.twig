@@ -1,0 +1,20 @@
+{% set type = item.section|default('page')|json_encode() %}
+{% set id = item.id|json_encode(constant('JSON_UNESCAPED_SLASHES')) %}
+{% set attributes = {
+  'title': item.title|json_encode(constant('JSON_UNESCAPED_UNICODE')),
+  'body': item.body|e('html')|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')),
+  'date': item.date|date('c')|json_encode(),
+  'updated': item.updated|date('c')|json_encode(),
+} %}
+    {
+      "type": {{ type }},
+      "id": {{ id }}{% if attributes is defined %},
+      "attributes": {
+{% for key, value in attributes %}
+        "{{ key }}": {{ value }}{% if not loop.last %},
+{% endif %}
+{% endfor %}
+
+      }
+{% endif %}
+    }

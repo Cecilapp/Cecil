@@ -1,39 +1,7 @@
-{% spaceless %}
-{% set pages = page.pages|sortByDate %}
+{% extends '_default/page.json.twig' %}
+
+{% set items = page.pages|sortByDate %}
 {% if page.pagination is defined %}
 {% set pagination = page.pagination %}
-{% set pages = pagination.pages %}
+{% set items = pagination.pages %}
 {% endif %}
-{% endspaceless %}
-{
-  "data": [
-{% for p in pages %}
-    {
-      "type": {{ p.section|default('page')|json_encode() }},
-      "id": {{ p.id|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
-      "attributes": {
-        "title": {{ p.title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
-        "body": {{ p.body|striptags|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
-        "created": {{ p.date|date('c')|json_encode() }},
-        "updated": {{ p.updated|date('c')|json_encode() }}
-      }
-    }{% if not loop.last %},{% endif %}
-{% endfor %}
-
-  ]{% if pagination is defined %},
-  "meta": {
-    "totalPages": {{ pagination.totalpages }}
-  },
-  "links": {
-    "self": {{ url(pagination.links.self, {canonical: true, format: 'json'})|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
-    "first": {{ url(pagination.links.first, {canonical: true, format: 'json'})|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
-{% if pagination.links.prev is defined %}
-    "prev": {{ url(pagination.links.prev, {canonical: true, format: 'json'})|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
-{% endif %}
-{% if pagination.links.next is defined %}
-    "next": {{ url(pagination.links.next, {canonical: true, format: 'json'})|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
-{% endif %}
-    "last": {{ url(pagination.links.last, {canonical: true, format: 'json'})|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}
-  }
-{% endif %}
-}
