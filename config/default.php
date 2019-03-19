@@ -63,6 +63,13 @@ return [
                     'extension' => 'xml',
                     'exclude'   => ['redirect', 'paginated'],
                 ],
+                // ie: blog/atom.xml
+                'atom' => [
+                    'mediatype' => 'application/atom+xml',
+                    'suffix'    => '/atom',
+                    'extension' => 'xml',
+                    'exclude'   => ['redirect', 'paginated'],
+                ],
                 // ie: blog/post-1.json
                 'json' => [
                     'mediatype' => 'application/json',
@@ -101,9 +108,9 @@ return [
             ],
             'pagetypeformats' => [
                 'page'     => ['html', 'json'],
-                'homepage' => ['html', 'rss', 'json'],
-                'section'  => ['html', 'rss', 'json'],
-                'taxonomy' => ['html', 'rss'],
+                'homepage' => ['html', 'rss', 'atom', 'json'],
+                'section'  => ['html', 'rss', 'atom', 'json'],
+                'taxonomy' => ['html', 'rss', 'atom'],
                 'terms'    => ['html'],
             ],
         ],
