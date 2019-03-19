@@ -1,14 +1,57 @@
 {
+{# data #}
   "data": [
-    {
-      "type": {{ page.section|default('page')|json_encode() }},
-      "id": {{ page.id|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
-      "attributes": {
-        "title": {{ page.title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
-        "body": {{ page.body|striptags|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
-        "created": {{ page.date|date('c')|json_encode() }},
-        "updated": {{ page.updated|date('c')|json_encode() }}
-      }
-    }
+{% if items is defined %}
+{% for item in items %}
+{% include 'partials/data.json.twig' with {'item': item} only %}{% if not loop.last %},
+{% endif %}
+{% endfor %}
+{% else %}
+{% include 'partials/data.json.twig' with {'item': page} only %}
+{% endif %}
   ]
+{# meta #}
+{% block meta %}
+{% if meta is not defined and pagination is defined %}
+{% set meta = {'totalPages': pagination.totalpages} %}
+{% endif %}
+{% if meta is defined %},
+  "meta": {
+{% for key, value in meta %}
+    "{{ key }}": {{ value|json_encode() }}{% if not loop.last %},
+{% endif %}
+{% endfor %}
+
+  }
+{% endif %}
+{% endblock meta %}
+{# links #}
+{% block links %}
+{% if links is not defined and pagination is defined %}
+{% set links = {
+  'self': url(pagination.links.self, {canonical: true, format: 'json'}),
+  'first': url(pagination.links.first, {canonical: true, format: 'json'}),
+  'last': url(pagination.links.last, {canonical: true, format: 'json'})
+} %}
+{% if pagination.links.prev is defined %}
+{% set links = links|merge({'prev': url(pagination.links.prev, {canonical: true, format: 'json'})}) %}
+{% endif %}
+{% if pagination.links.next is defined %}
+{% set links = links|merge({'next': url(pagination.links.next, {canonical: true, format: 'json'})}) %}
+{% endif %}
+{% endif %}
+{% if links is defined %},
+  "links": {
+    "self": {{ links.self|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
+    "first": {{ links.first|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
+{% if links.prev is defined %}
+    "prev": {{ links.prev|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
+{% endif %}
+{% if inks.next is defined %}
+    "next": {{ links.next|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
+{% endif %}
+    "last": {{ links.last|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}
+  }
+{% endif %}
+{% endblock links %}
 }
