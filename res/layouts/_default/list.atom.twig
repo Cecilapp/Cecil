@@ -1,0 +1,31 @@
+{% extends 'feed.twig' %}
+
+{% set author_name = site.author.name|default(site.title) %}
+{% set author_uri = site.author.url|default(site.baseurl) %}
+
+{% block feed %}
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="fr">
+  <id>{{ url(page, {canonical:true}) }}</id>
+  <title>{{ title }}</title>
+  <link href="{{ url(page, {canonical:true,format:'atom'}) }}" rel="self" type="application/atom+xml" />
+  <link href="{{ url(page, {canonical:true}) }}" rel="alternate" type="text/html" />
+  <updated>{{ date|date('c') }}</updated>
+  <author>
+    <name>{{ author_name }}</name>
+    <uri>{{ author_uri }}</uri>
+  </author>
+{% for p in pages|sortByDate %}
+    <entry xml:lang="en">
+      <id>{{ url(p, {canonical:true}) }}</id>
+      <title>{{ p.title }}</title>
+      <content type="html">
+        <![CDATA[{{ p.content }}]]>
+      </content>
+      <link href="{{ url(p, {canonical:true}) }}" rel="alternate" type="text/html" />
+      <published>{{ p.date|date('c') }}</published>
+      <updated>{{ p.updated|date('c') }}</updated>
+    </entry>
+{% endfor %}
+</feed>
+{% endblock feed %}
