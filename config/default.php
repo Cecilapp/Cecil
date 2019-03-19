@@ -56,17 +56,17 @@ return [
                     'suffix'    => '/index',
                     'extension' => 'html',
                 ],
-                // ie: blog/rss.xml
-                'rss' => [
-                    'mediatype' => 'application/rss+xml',
-                    'suffix'    => '/rss',
-                    'extension' => 'xml',
-                    'exclude'   => ['redirect', 'paginated'],
-                ],
                 // ie: blog/atom.xml
                 'atom' => [
                     'mediatype' => 'application/atom+xml',
                     'suffix'    => '/atom',
+                    'extension' => 'xml',
+                    'exclude'   => ['redirect', 'paginated'],
+                ],
+                // ie: blog/rss.xml
+                'rss' => [
+                    'mediatype' => 'application/rss+xml',
+                    'suffix'    => '/rss',
                     'extension' => 'xml',
                     'exclude'   => ['redirect', 'paginated'],
                 ],
@@ -107,10 +107,10 @@ return [
                 ],
             ],
             'pagetypeformats' => [
-                'page'     => ['html', 'json'],
-                'homepage' => ['html', 'rss', 'atom', 'json'],
-                'section'  => ['html', 'rss', 'atom', 'json'],
-                'taxonomy' => ['html', 'rss', 'atom'],
+                'page'     => ['html'],
+                'homepage' => ['html', 'atom', 'rss'],
+                'section'  => ['html', 'atom', 'rss'],
+                'taxonomy' => ['html', 'atom', 'rss'],
                 'terms'    => ['html'],
             ],
         ],
