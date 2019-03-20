@@ -1,10 +1,8 @@
 {% set pages = page.pages %}
 {% set first = pages|first %}
-{% set date = first.updated|default("now") %}
+{% set date = first.updated|default(site.time) %}
 {% set title = site.title ~ ' - ' ~ page.title %}
 {% if page.id == 'index' %}
-{% set pages = site.pages.all %}
-{% set date = site.time %}
 {% set title = site.title %}
 {% endif %}
 {% block feed %}{% endblock %}

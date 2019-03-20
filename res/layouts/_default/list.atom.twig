@@ -4,24 +4,31 @@
 {% set author_uri = site.author.url|default(site.baseurl) %}
 
 {% block feed %}
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="fr">
   <id>{{ url(page, {canonical:true}) }}</id>
   <title>{{ title }}</title>
+  <subtitle><![CDATA[{{ site.description }}]]></subtitle>
   <link href="{{ url(page, {canonical:true,format:'atom'}) }}" rel="self" type="application/atom+xml" />
-  <link href="{{ url(page, {canonical:true}) }}" rel="alternate" type="text/html" />
+  <link href="{{ url(page, {canonical:true,format:'html'}) }}" rel="alternate" type="text/html" />
   <updated>{{ date|date('c') }}</updated>
   <author>
     <name>{{ author_name }}</name>
     <uri>{{ author_uri }}</uri>
   </author>
 {% for p in pages|sortByDate %}
-    <entry xml:lang="en">
+    <entry xml:lang="{{ site.lang|slice(0, 2)|default('en') }}">
       <id>{{ url(p, {canonical:true}) }}</id>
       <title>{{ p.title }}</title>
+{% if 'txt' in p.output|default('html') %}
+      <content type="text">
+        <![CDATA[{{ p.content }}]]>
+      </content>
+{% else %}
       <content type="html">
         <![CDATA[{{ p.content }}]]>
       </content>
+{% endif %}
       <link href="{{ url(p, {canonical:true}) }}" rel="alternate" type="text/html" />
       <published>{{ p.date|date('c') }}</published>
       <updated>{{ p.updated|date('c') }}</updated>
