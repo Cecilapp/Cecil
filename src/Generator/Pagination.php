@@ -20,13 +20,12 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
+    public function generate(): void
     {
-        $generatedPages = new PagesCollection('generator-pagination');
         $sortby = null;
 
         if (false === $this->config->get('site.pagination.enabled')) {
-            return $generatedPages;
+            return;
         }
 
         // global config
@@ -35,7 +34,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
         $paginationSections = $this->config->get('site.pagination.sections');
 
         // filter pages: home and sections
-        $filteredPages = $pagesCollection->filter(function (Page $page) {
+        $filteredPages = $this->pagesCollection->filter(function (Page $page) {
             return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION]);
         });
         /* @var $page Page */
@@ -157,11 +156,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $alteredPage->setVariable('pagination', $pagination);
                     // update date with the first element of the collection
                     $alteredPage->setVariable('date', $pagesInPagination->first()->getVariable('date'));
-                    $generatedPages->add($alteredPage);
+                    $this->generatedPages->add($alteredPage);
                 }
             }
         }
-
-        return $generatedPages;
     }
 }

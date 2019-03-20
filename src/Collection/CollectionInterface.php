@@ -11,23 +11,23 @@ namespace Cecil\Collection;
 /**
  * Interface CollectionInterface.
  */
-interface CollectionInterface extends \Countable, \IteratorAggregate, \ArrayAccess
+interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggregate, \ArrayAccess
 {
     /**
      * Set the collection's identifier.
      *
-     * @param string|null $id
+     * @param string $id
      *
      * @return self
      */
-    public function setId(string $id = null);
+    public function setId(string $id): BaseInterface;
 
     /**
      * Return the collection's identifier.
      *
      * @return string
      */
-    public function getId();
+    public function getId(): string;
 
     /**
      * Does the item exists?

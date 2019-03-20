@@ -9,21 +9,21 @@
 namespace Cecil\Collection;
 
 /**
- * Interface ItemInterface.
+ * Base interface.
  */
-interface ItemInterface extends BaseInterface, \ArrayAccess
+interface BaseInterface
 {
     /**
-     * Set the item's identifier.
+     * Set the unique identifier.
      *
      * @param string $id
      *
      * @return self
      */
-    public function setId(string $id): BaseInterface;
+    public function setId(string $id): self;
 
     /**
-     * Return the item's identifier.
+     * Return the unique identifier.
      *
      * @return string
      */

@@ -8,8 +8,6 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PagesCollection;
-
 /**
  * Interface GeneratorInterface.
  */
@@ -23,10 +21,9 @@ interface GeneratorInterface
     public function __construct(\Cecil\Config $config);
 
     /**
-     * @param PagesCollection $pagesCollection
-     * @param \Closure        $messageCallback
+     * Create page and add it to collection.
      *
-     * @return PagesCollection
+     * Use `$this->generatedPages->add($page);`
      */
-    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback);
+    public function generate(): void;
 }

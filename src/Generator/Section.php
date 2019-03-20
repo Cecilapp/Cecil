@@ -20,14 +20,13 @@ class Section extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
+    public function generate(): void
     {
-        $generatedPages = new PagesCollection('sections');
         $sections = [];
 
         // identify sections
         /* @var $page Page */
-        foreach ($pagesCollection as $page) {
+        foreach ($this->pagesCollection as $page) {
             if ($page->getSection()) {
                 $sections[$page->getSection()][] = $page;
             }
@@ -39,8 +38,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
             foreach ($sections as $sectionName => $pagesArray) {
                 $pageId = $path = Page::slugify($sectionName);
                 $page = (new Page($pageId))->setVariable('title', ucfirst($sectionName));
-                if ($pagesCollection->has($pageId)) {
-                    $page = clone $pagesCollection->get($pageId);
+                if ($this->pagesCollection->has($pageId)) {
+                    $page = clone $this->pagesCollection->get($pageId);
                 }
                 $pages = (new PagesCollection($sectionName, $pagesArray))->sortByDate();
                 $page->setPath($path)
@@ -50,11 +49,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     ->setVariable('menu', [
                         'main' => ['weight' => $menuWeight],
                     ]);
-                $generatedPages->add($page);
+                $this->generatedPages->add($page);
                 $menuWeight += 10;
             }
         }
-
-        return $generatedPages;
     }
 }

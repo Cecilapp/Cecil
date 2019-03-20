@@ -18,7 +18,7 @@ class Collection implements CollectionInterface
      *
      * @var string
      */
-    protected $id = '';
+    protected $id;
 
     /**
      * Collection's items.
@@ -30,25 +30,21 @@ class Collection implements CollectionInterface
     /**
      * Collection constructor.
      *
-     * @param string|null $id
-     * @param array       $items
+     * @param string $id
+     * @param array  $items
      */
-    public function __construct($id = null, $items = [])
+    public function __construct($id, $items = [])
     {
         $this->setId($id);
         $this->items = $items;
     }
 
     /**
-     * If parameter is empty uses the object's hash.
      * {@inheritdoc}
      */
-    public function setId(string $id = null)
+    public function setId(string $id): BaseInterface
     {
         $this->id = $id;
-        if (empty($this->id)) {
-            $this->id = spl_object_hash($this);
-        }
 
         return $this;
     }

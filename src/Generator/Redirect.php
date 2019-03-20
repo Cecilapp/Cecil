@@ -8,7 +8,6 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 
 /**
@@ -19,11 +18,9 @@ class Redirect extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
+    public function generate(): void
     {
-        $generatedPages = new PagesCollection('generator-redirect');
-
-        $filteredPages = $pagesCollection->filter(function (Page $page) {
+        $filteredPages = $this->pagesCollection->filter(function (Page $page) {
             return null !== $page->getVariable('redirect')
                 && $page->getVariable('layout') != 'redirect';
         });
@@ -32,9 +29,7 @@ class Redirect extends AbstractGenerator implements GeneratorInterface
         foreach ($filteredPages as $page) {
             $alteredPage = clone $page;
             $alteredPage->setVariable('layout', 'redirect');
-            $generatedPages->add($alteredPage);
+            $this->generatedPages->add($alteredPage);
         }
-
-        return $generatedPages;
     }
 }
