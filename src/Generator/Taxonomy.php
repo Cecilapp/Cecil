@@ -23,19 +23,12 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
 {
     /* @var TaxonomiesCollection */
     protected $taxonomiesCollection;
-    /* @var PagesCollection */
-    protected $pagesCollection;
-    /* @var PagesCollection */
-    protected $generatedPages;
 
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
+    public function generate(): void
     {
-        $this->pagesCollection = $pagesCollection;
-        $this->generatedPages = new PagesCollection('generator-taxonomy');
-
         if ($this->config->get('site.taxonomies')
             && false !== $this->config->get('site.taxonomies.enabled')
         ) {
@@ -43,8 +36,6 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
             $this->collectTermsFromPages();
             $this->createNodePages();
         }
-
-        return $this->generatedPages;
     }
 
     /**

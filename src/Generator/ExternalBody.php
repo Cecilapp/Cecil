@@ -20,11 +20,9 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
+    public function generate(): void
     {
-        $generatedPages = new PagesCollection('generator-external');
-
-        $filteredPages = $pagesCollection->filter(function (Page $page) {
+        $filteredPages = $this->pagesCollection->filter(function (Page $page) {
             return null !== $page->getVariable('external');
         });
 
@@ -36,14 +34,12 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
                     ->convertBody($pageContent);
                 $page->setBodyHtml($html);
 
-                $generatedPages->add($page);
+                $this->generatedPages->add($page);
             } catch (\Exception $e) {
                 $error = sprintf('Cannot get contents from %s', $page->getVariable('external'));
                 $message = sprintf("Unable to generate '%s': %s", $page->getId(), $error);
-                call_user_func_array($messageCallback, ['GENERATE_ERROR', $message]);
+                call_user_func_array($this->messageCallback, ['GENERATE_ERROR', $message]);
             }
         }
-
-        return $generatedPages;
     }
 }

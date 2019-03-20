@@ -20,10 +20,8 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
+    public function generate(): void
     {
-        $generatedPages = new PagesCollection('generator-virtualpages');
-
         $virtualpages = $this->config->get('site.virtualpages');
         foreach ($virtualpages as $path => $frontmatter) {
             if (isset($frontmatter['published']) && $frontmatter['published'] === false) {
@@ -33,9 +31,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
                 ->setPath(Page::slugify($path))
                 ->setType(Type::PAGE);
             $page->setVariables($frontmatter);
-            $generatedPages->add($page);
+            $this->generatedPages->add($page);
         }
-
-        return $generatedPages;
     }
 }

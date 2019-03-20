@@ -21,7 +21,9 @@ interface GeneratorInterface
     public function __construct(\Cecil\Config $config);
 
     /**
-     * Create generated pages collection.
+     * Create page and add it to collection.
+     *
+     * Use `$this->generatedPages->add($page);`
      */
     public function generate(): void;
 }

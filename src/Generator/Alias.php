@@ -19,12 +19,10 @@ class Alias extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(PagesCollection $pagesCollection, \Closure $messageCallback)
+    public function generate(): void
     {
-        $generatedPages = new PagesCollection('generator-alias');
-
         /* @var $page Page */
-        foreach ($pagesCollection as $page) {
+        foreach ($this->pagesCollection as $page) {
             $aliases = $this->getPageAliases($page);
 
             if (!empty($aliases)) {
@@ -39,12 +37,10 @@ class Alias extends AbstractGenerator implements GeneratorInterface
                             'title'    => $alias,
                             'date'     => $page->getVariable('date'),
                         ]);
-                    $generatedPages->add($aliasPage);
+                    $this->generatedPages->add($aliasPage);
                 }
             }
         }
-
-        return $generatedPages;
     }
 
     /**
