@@ -1,26 +1,22 @@
-{% set pages = page.pages %}
-{% set first = pages|first %}
-{% set date = first.date|default("now") %}
-{% set title = site.title ~ ' - ' ~ page.title %}
-{% if page.id == 'index' %}
-{% set pages = site.pages.all %}
-{% set date = site.time %}
-{% set title = site.title %}
-{% endif %}
-<?xml version="1.0" encoding="UTF-8"?>
+{% extends 'feed.twig' %}
+
+{% block feed %}
+<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
-    <channel>
-        <title>{{ title }}</title>
-        <description><![CDATA[{{ site.description|escape }}]]></description>
-        <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
-        <link>{{ url('', { canonical: true }) }}</link>
+  <channel>
+    <title>{{ title }}</title>
+    <description><![CDATA[{{ site.description }}]]></description>
+    <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
+    <link>{{ url(page, {canonical:true}) }}</link>
 {% for p in pages|sortByDate %}
-        <item>
-            <title>{{ p.title }}</title>
-            <description><![CDATA[{{ p.content }}]]></description>
-            <pubDate>{{ p.date|date('c') }}</pubDate>
-            <link>{{ url(p, { canonical: true }) }}</link>
-        </item>
+    <item>
+      <guid>{{ url(p, {canonical:true}) }}</guid>
+      <title>{{ p.title }}</title>
+      <description><![CDATA[{{ p.content }}]]></description>
+      <pubDate>{{ p.date|date('c') }}</pubDate>
+      <link>{{ url(p, {canonical:true}) }}</link>
+    </item>
 {% endfor %}
-    </channel>
+  </channel>
 </rss>
+{% endblock feed %}

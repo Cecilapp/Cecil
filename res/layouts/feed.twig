@@ -1,0 +1,9 @@
+{% set title = site.title ~ ' - ' ~ page.title %}
+{% set date = first.updated|default(site.time) %}
+{% set lang = site.lang|default('en')|slice(0, 2)|lower %}
+{% set pages = page.pages %}
+{% set first = pages|first %}
+{% if page.type == 'homepage' %}
+{% set title = site.title %}
+{% endif %}
+{% block feed %}{% endblock %}

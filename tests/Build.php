@@ -79,6 +79,15 @@ class Build extends \PHPUnit\Framework\TestCase
                             'published' => false,
                         ],
                     ],
+                    'output' => [
+                        'pagetypeformats' => [
+                            'page'     => ['html', 'json'],
+                            'homepage' => ['html', 'atom', 'rss', 'json'],
+                            'section'  => ['html', 'atom', 'rss', 'json'],
+                            'taxonomy' => ['html', 'atom', 'rss'],
+                            'terms'    => ['html'],
+                        ],
+                    ],
                 ],
                 'theme'  => [
                     'a-theme',
