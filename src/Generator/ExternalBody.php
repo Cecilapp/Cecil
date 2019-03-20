@@ -8,7 +8,6 @@
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
 
