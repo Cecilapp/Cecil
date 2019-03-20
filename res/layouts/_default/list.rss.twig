@@ -1,11 +1,11 @@
 {% extends 'feed.twig' %}
 
 {% block feed %}
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
   <channel>
     <title>{{ title }}</title>
-    <description><![CDATA[{{ site.description|escape }}]]></description>
+    <description><![CDATA[{{ site.description }}]]></description>
     <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
     <link>{{ url(page, {canonical:true}) }}</link>
 {% for p in pages|sortByDate %}
