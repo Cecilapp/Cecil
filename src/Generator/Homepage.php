@@ -25,7 +25,8 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         $generatedPages = new PagesCollection();
 
         $subPages = $pagesCollection->filter(function (Page $page) {
-            return $page->getType() == TYPE::PAGE;
+            return $page->getType() == TYPE::PAGE
+                && $page->getId() != 'index'; // exclude homepage
         });
         $pages = $subPages->sortByDate();
 
