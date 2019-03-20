@@ -5,7 +5,7 @@
 
 {% block feed %}
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="fr">
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ lang }}">
   <id>{{ url(page, {canonical:true}) }}</id>
   <title>{{ title }}</title>
   <subtitle><![CDATA[{{ site.description }}]]></subtitle>
@@ -31,7 +31,7 @@
 {% endif %}
       <link href="{{ url(p, {canonical:true}) }}" rel="alternate" type="text/html" />
       <published>{{ p.date|date('c') }}</published>
-      <updated>{{ p.updated|date('c') }}</updated>
+      <updated>{{ p.date|date('c') }}</updated>
     </entry>
 {% endfor %}
 </feed>
