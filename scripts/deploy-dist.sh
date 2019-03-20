@@ -50,6 +50,8 @@ git push -fq origin $TARGET_BRANCH > /dev/null
 
 # prepare redirections (symlinks alternative)
 
+now=$(date +"%Y-%m-%d")
+
 # cd content dir
 cd ../$TARGET_CONTENT_DIR
 
@@ -60,6 +62,7 @@ cat <<EOT >> $DIST_FILE.md
 redirect: $TARGET_RELEASE_DIR/$DIST_FILE
 slug: cecil
 output: phar
+date: $now
 ---
 EOT
 rm -f $DIST_FILE_SHA1.md
@@ -68,6 +71,7 @@ cat <<EOT >> $DIST_FILE_SHA1.md
 redirect: $TARGET_RELEASE_DIR/$DIST_FILE_SHA1
 slug: cecil
 output: sha1
+date: $now
 ---
 EOT
 
