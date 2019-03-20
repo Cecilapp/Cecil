@@ -17,7 +17,7 @@
     <uri>{{ author_uri }}</uri>
   </author>
 {% for p in pages|sortByDate %}
-    <entry xml:lang="{{ site.lang|slice(0, 2)|default('en') }}">
+    <entry xml:lang="{{ lang }}">
       <id>{{ url(p, {canonical:true}) }}</id>
       <title>{{ p.title }}</title>
 {% if 'txt' in p.output|default('html') %}
