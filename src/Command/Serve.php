@@ -39,6 +39,7 @@ class Serve extends AbstractCommand
     public function processCommand()
     {
         $this->open = $this->getRoute()->getMatchedParam('open', false);
+        $this->nowatcher = $this->getRoute()->getMatchedParam('no-watcher', false);
 
         $this->setUpServer();
         $command = sprintf(
@@ -67,10 +68,12 @@ class Serve extends AbstractCommand
                 ->name('*.js')
                 ->in($this->getPath())
                 ->exclude($this->getBuilder()->getConfig()->get('output.dir'));
-            $hashContent = new Crc32ContentHash();
-            $resourceCache = new ResourceCacheMemory();
-            $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
-            $resourceWatcher->initialize();
+            if (!$this->nowatcher) {
+                $hashContent = new Crc32ContentHash();
+                $resourceCache = new ResourceCacheMemory();
+                $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
+                $resourceWatcher->initialize();
+            }
             // start server
             try {
                 $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', 'localhost', '8000'));
@@ -79,13 +82,15 @@ class Serve extends AbstractCommand
                     Plateform::openBrowser('http://localhost:8000');
                 }
                 while ($process->isRunning()) {
-                    $result = $resourceWatcher->findChanges();
-                    if ($result->hasChanges()) {
-                        // re-build
-                        $this->wlAlert('Changes detected!');
-                        $callable($this->getRoute(), $this->getConsole());
+                    if (!$this->nowatcher) {
+                        $result = $resourceWatcher->findChanges();
+                        if ($result->hasChanges()) {
+                            // re-build
+                            $this->wlAlert('Changes detected!');
+                            $callable($this->getRoute(), $this->getConsole());
+                        }
+                        usleep(1000000); // wait 1s
                     }
-                    usleep(1000000); // wait 1s
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
@@ -107,11 +112,13 @@ class Serve extends AbstractCommand
                 $this->getPath().'/'.self::$tmpDir.'/router.php',
                 true
             );
-            $this->fs->copy(
-                $root.'res/server/livereload.js',
-                $this->getPath().'/'.self::$tmpDir.'/livereload.js',
-                true
-            );
+            if (!$this->nowatcher) {
+                $this->fs->copy(
+                    $root.'res/server/livereload.js',
+                    $this->getPath().'/'.self::$tmpDir.'/livereload.js',
+                    true
+                );
+            }
             $this->fs->dumpFile(
                 $this->getPath().'/'.self::$tmpDir.'/baseurl',
                 $this->getBuilder()->getConfig()->get('site.baseurl')

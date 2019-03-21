@@ -73,17 +73,19 @@ return [
     ],
     [
         'name'    => 'serve',
-        'route'   => '[<path>] [--drafts|-d] [--open|-o]',
+        'route'   => '[<path>] [--drafts|-d] [--open|-o] [--no-watcher|-nw]',
         'aliases' => [
-            'd' => 'drafts',
-            'o' => 'open',
+            'd'  => 'drafts',
+            'o'  => 'open',
+            'nw' => 'no-watcher',
         ],
         'short_description'    => 'Start the built-in server',
         'description'          => 'Start the live-reloading-built-in web server.',
         'options_descriptions' => [
-            '<path>'      => 'Path to the Website',
-            '--drafts|-d' => 'Include drafts',
-            '--open|-o'   => 'Open browser automatically',
+            '<path>'           => 'Path to the Website',
+            '--drafts|-d'      => 'Include drafts',
+            '--open|-o'        => 'Open browser automatically',
+            '--no-watcher|-nw' => 'Disable watcher',
         ],
         'defaults' => [
             'path' => getcwd(),
