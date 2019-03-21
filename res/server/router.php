@@ -60,8 +60,10 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
         // html only
         if (in_array($mime, $mimeshtml)) {
             // inject live reload script
-            $script = file_get_contents(__DIR__.'/livereload.js');
-            $content = str_replace('</body>', "$script\n  </body>", $content);
+            if (file_exists(__DIR__.'/livereload.js')) {
+                $script = file_get_contents(__DIR__.'/livereload.js');
+                $content = str_replace('</body>', "$script\n  </body>", $content);
+            }
         }
         // replace `baseurl` by `http://localhost:8000/`
         $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/baseurl'));
