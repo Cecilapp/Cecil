@@ -39,6 +39,15 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function has(string $id): bool;
 
     /**
+     * Retrieve an item position or throw an exception if not exists.
+     *
+     * @param string $id
+     *
+     * @return int
+     */
+    public function getPosition(string $id): int;
+
+    /**
      * Add an item or throw an exception if exists.
      *
      * @param ItemInterface $item
