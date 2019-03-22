@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1014a3e149328fac84b8e4cd07125a9",
+    "content-hash": "b767d2457d713770e30e7056c6426e9b",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -804,7 +804,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -986,16 +986,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "70c59531da43afe598c66135e39cac39475a2f51"
+                "reference": "52b9a5bd41c8c53a1d784f90ca25e33bf558a6b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/70c59531da43afe598c66135e39cac39475a2f51",
-                "reference": "70c59531da43afe598c66135e39cac39475a2f51",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/52b9a5bd41c8c53a1d784f90ca25e33bf558a6b3",
+                "reference": "52b9a5bd41c8c53a1d784f90ca25e33bf558a6b3",
                 "shasum": ""
             },
             "require": {
@@ -1049,7 +1049,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-03-12T18:48:26+00:00"
+            "time": "2019-03-21T14:53:02+00:00"
         },
         {
             "name": "yosymfony/resource-watcher",
