@@ -140,7 +140,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     ->setVariable('terms', $terms)
                     ->setVariable('date', $date)
                     //->setVariable('url', strtolower($plural).'/')
-                    ;
+;
                 // add page only if a template exist
                 try {
                     $this->generatedPages->add($page);
