@@ -23,7 +23,8 @@ class Menu extends CecilCollection implements ItemInterface
      */
     public function add(ItemInterface $item): CollectionInterface
     {
-        $this->items[$item->getId()] = $item;
+        //$this->items[$item->getId()] = $item;
+        $this->items[] = $item;
 
         return $this;
     }

@@ -68,7 +68,7 @@ class Build extends \PHPUnit\Framework\TestCase
                         ],
                     ],
                     'taxonomies' => [
-                        'enabled' => true,
+                        'pouet' => 'disabled',
                     ],
                     'googleanalytics' => 'UA-XXXXX',
                     'virtualpages'    => [
