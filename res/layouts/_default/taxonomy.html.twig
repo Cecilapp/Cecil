@@ -3,7 +3,7 @@
 {% block content %}
 {% set vocabulary = page.singular %}
 {% set term = page %}
-<h1 class="page-title">{{ vocabulary|title }} "{{ term.title }}"</h1>
+<h1>{{ vocabulary|title }} "{{ term.title }}"</h1>
 <ul>
 {% for page in term.pages|sortByDate %}
     <li>

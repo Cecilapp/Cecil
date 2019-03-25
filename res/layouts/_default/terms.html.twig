@@ -3,8 +3,8 @@
 {% block content %}
 {% set vocabulary = page %}
 {% set vocabulary_id = page.plural %}
-<h1 class="page-title">{{ vocabulary_id|title }}</h1>
-<ul style="list-style:none;padding-inline-start:unset;">
+<h1>{{ vocabulary_id|title }}</h1>
+<ul>
 {% for term in vocabulary.terms %}
     <li>
         <h2><a href="{{ url(vocabulary_id ~ '/' ~ term.id) }}">{{ term.id|title }}</a> ({{ term|length }})</h2>
