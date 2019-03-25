@@ -26,7 +26,6 @@ class Collection extends CecilCollection
             $this->add(new Vocabulary($id));
         }
 
-        //return $this->items[$id];
         return parent::get($id);
     }
 }

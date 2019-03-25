@@ -90,16 +90,10 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
      */
     protected function createNodePages()
     {
-        // debug
-        //print_r($this->taxonomiesCollection);
-        //die();
-
         /* @var $terms VocabulariesCollection */
-        //foreach ($this->taxonomiesCollection as $plural => $terms) {
         foreach ($this->taxonomiesCollection as $position => $taxonomy) {
             /* @var $taxonomy TaxonomiesCollection */
             $plural = $taxonomy->getId();
-            //$terms = $taxonomy->toArray();
             $terms = $taxonomy;
             if (count($terms) > 0) {
                 /*
@@ -107,7 +101,6 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                  * ex: /tags/tag-1/
                  */
                 /* @var $pages PagesCollection */
-                //foreach ($terms as $term => $pages) {
                 foreach ($terms as $position => $vocabulary) {
                     $term = $vocabulary->getId();
                     $pages = $vocabulary;
@@ -122,7 +115,6 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         ->setType(Type::TAXONOMY)
                         ->setVariable('pages', $pages)
                         ->setVariable('date', $date)
-                        //->setVariable('url', $path.'/')
                         ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
                         ->setVariable('pagination', ['pages' => $pages]);
                     $this->generatedPages->add($page);
@@ -138,9 +130,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     ->setVariable('plural', $plural)
                     ->setVariable('singular', $this->config->get('site.taxonomies')[$plural])
                     ->setVariable('terms', $terms)
-                    ->setVariable('date', $date)
-                    //->setVariable('url', strtolower($plural).'/')
-                    ;
+                    ->setVariable('date', $date);
                 // add page only if a template exist
                 try {
                     $this->generatedPages->add($page);

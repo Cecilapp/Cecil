@@ -76,7 +76,6 @@ class Collection implements CollectionInterface
      */
     public function has(string $id): bool
     {
-        //return array_key_exists($id, $this->items);
         $result = $this->searchItem($id);
         if (is_array($result) && !empty($result)) {
             return true;
@@ -97,7 +96,6 @@ class Collection implements CollectionInterface
                 $this->getId()
             ));
         }
-        //$this->items[$item->getId()] = $item;
         $this->items[] = $item;
 
         return $this;
@@ -115,7 +113,6 @@ class Collection implements CollectionInterface
                 $this->getId()
             ));
         }
-        //$this->items[$id] = $item;
         $this->items[$this->getPosition($id)] = $item;
 
         return $this;
@@ -133,7 +130,6 @@ class Collection implements CollectionInterface
                 $this->getId()
             ));
         }
-        //unset($this->items[$id]);
         unset($this->items[$this->getPosition($id)]);
 
         return $this;
@@ -152,7 +148,6 @@ class Collection implements CollectionInterface
             ));
         }
 
-        //return $this->items[$id];
         return $this->items[$this->getPosition($id)];
     }
 
@@ -237,7 +232,6 @@ class Collection implements CollectionInterface
      */
     public function usort(\Closure $callback = null): CollectionInterface
     {
-        //$callback ? uasort($this->items, $callback) : uasort($this->items, function ($a, $b) {
         $callback ? usort($this->items, $callback) : usort($this->items, function ($a, $b) {
             if ($a == $b) {
                 return 0;

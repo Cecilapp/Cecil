@@ -27,7 +27,7 @@ class Vocabulary extends CecilCollection implements ItemInterface
             // return if already exists
             return $this;
         }
-        //$this->items[$item->getId()] = $item;
+
         $this->items[] = $item;
 
         return $this;
