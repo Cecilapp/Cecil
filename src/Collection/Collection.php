@@ -88,24 +88,6 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function getPosition(string $id): int
-    {
-        $result = $this->searchItem($id);
-        $position = key($result);
-        if (!is_int($position)) {
-            throw new \DomainException(sprintf(
-                'Failed getting position of "%s" in "%s" collection: item does not exist.',
-                $id,
-                $this->getId()
-            ));
-        }
-
-        return $position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function add(ItemInterface $item): CollectionInterface
     {
         if ($this->has($item->getId())) {
@@ -172,6 +154,24 @@ class Collection implements CollectionInterface
 
         //return $this->items[$id];
         return $this->items[$this->getPosition($id)];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPosition(string $id): int
+    {
+        $result = $this->searchItem($id);
+        $position = key($result);
+        if (!is_int($position)) {
+            throw new \DomainException(sprintf(
+                'Failed getting position of "%s" in "%s" collection: item does not exist.',
+                $id,
+                $this->getId()
+            ));
+        }
+
+        return $position;
     }
 
     /**
