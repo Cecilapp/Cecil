@@ -46,14 +46,12 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
         // create an empty "taxonomies" collection
         $this->taxonomiesCollection = new TaxonomiesCollection('taxonomies');
 
-        /*
         // adds each vocabularies collection to the "taxonomies" collection
-        foreach ($this->config->get('site.taxonomies') as $vocabulary) {
-            if ($vocabulary != 'disabled') {
-                $this->taxonomiesCollection->add(new VocabulariesCollection($vocabulary));
+        foreach ($this->config->get('site.taxonomies') as $plural => $singular) {
+            if ($singular != 'disabled') {
+                $this->taxonomiesCollection->add(new VocabulariesCollection($plural));
             }
         }
-        */
     }
 
     /**
