@@ -69,7 +69,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
             //foreach (array_keys($this->config->get('site.taxonomies')) as $plural) {
             foreach ($this->taxonomiesCollection as $vocabularyCollection) {
                 $plural = $vocabularyCollection->getId();
-                /**
+                /*
                  * ie:
                  *   tags: Tag 1, Tag 2
                  */
