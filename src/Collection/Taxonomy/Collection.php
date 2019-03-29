@@ -16,7 +16,7 @@ use Cecil\Collection\ItemInterface;
  */
 class Collection extends CecilCollection
 {
-    /**
+    /*
      * Return a Vocabulary collection (creates it if not exists).
      * {@inheritdoc}
      */
