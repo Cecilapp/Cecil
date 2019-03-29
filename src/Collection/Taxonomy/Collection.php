@@ -20,6 +20,7 @@ class Collection extends CecilCollection
      * Return a Vocabulary collection (creates it if not exists).
      * {@inheritdoc}
      */
+    /*
     public function get(string $id): ItemInterface
     {
         if (!$this->has($id)) {
@@ -28,4 +29,5 @@ class Collection extends CecilCollection
 
         return parent::get($id);
     }
+    */
 }
