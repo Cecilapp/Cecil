@@ -98,7 +98,7 @@ class Layout
                     );
                 }
                 break;
-            case PageType::TAXONOMY:
+            case PageType::TAXONOMY_VOCABULARY:
                 $layouts = [
                     // "taxonomy/$singular.$format.twig",
                     "_default/taxonomy.$format.twig",
@@ -111,7 +111,7 @@ class Layout
                     );
                 }
                 break;
-            case PageType::TERMS:
+            case PageType::TAXONOMY_TERMS:
                 $layouts = [
                     // "taxonomy/$singular.terms.$format.twig",
                     "_default/terms.$format.twig",
