@@ -113,6 +113,13 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function toArray(): array;
 
     /**
+     * Return a JSON string of items.
+     *
+     * @return string
+     */
+    public function toJson(): string;
+
+    /**
      * Implement \IteratorAggregate.
      *
      * @return \ArrayIterator

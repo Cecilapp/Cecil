@@ -222,6 +222,14 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
+    public function toJson(): string
+    {
+        return sprintf("%s\n", json_encode($this->items));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->items);
@@ -309,12 +317,12 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Returns a string representation of this object.
+     * Return collection ID.
      *
      * @return string
      */
     public function __toString()
     {
-        return sprintf("%s\n", json_encode($this->items));
+        return $this->getId();
     }
 }
