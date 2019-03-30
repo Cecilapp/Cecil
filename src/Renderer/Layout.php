@@ -98,27 +98,27 @@ class Layout
                     );
                 }
                 break;
-            case PageType::TAXONOMY_VOCABULARY:
-                $layouts = [
-                    // "taxonomy/$singular.$format.twig",
-                    "_default/taxonomy.$format.twig",
-                    "_default/list.$format.twig",
+            case PageType::VOCABULARY:
+                 $layouts = [
+                    // "taxonomy/$plural.$format.twig", // ie: taxonomy/tags.html.twig
+                    "_default/vocabulary.$format.twig", // ie: _default/vocabulary.html.twig
                 ];
-                if ($page->getVariable('singular')) {
+                if ($page->getVariable('plural')) {
                     $layouts = array_merge(
-                        [sprintf('taxonomy/%s.%s.twig', $page->getVariable('singular'), $format)],
+                        [sprintf('taxonomy/%s.%s.twig', $page->getVariable('plural'), $format)],
                         $layouts
                     );
                 }
                 break;
-            case PageType::TAXONOMY_TERMS:
-                $layouts = [
-                    // "taxonomy/$singular.terms.$format.twig",
-                    "_default/terms.$format.twig",
+            case PageType::TERM:
+               $layouts = [
+                    // "taxonomy/$term.$format.twig", // ie: taxonomy/velo.html.twig
+                    "_default/term.$format.twig",     // ie: _default/term.html.twig
+                    "_default/list.$format.twig",     // ie: _default/list.html.twig
                 ];
-                if ($page->getVariable('singular')) {
+                if ($page->getVariable('term')) {
                     $layouts = array_merge(
-                        [sprintf('taxonomy/%s.terms.%s.twig', $page->getVariable('singular'), $format)],
+                        [sprintf('taxonomy/%s.%s.twig', $page->getVariable('term'), $format)],
                         $layouts
                     );
                 }

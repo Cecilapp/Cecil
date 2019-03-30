@@ -102,6 +102,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
         /* @var $vocabulary Vocabulary */
         foreach ($this->vocabulariesCollection as $position => $vocabulary) {
             $plural = $vocabulary->getId();
+            $singular = $this->config->get("site.taxonomies.$plural");
             if (count($vocabulary) > 0) {
                 /*
                  * Creates $plural/$term pages (list of pages)
@@ -109,18 +110,22 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                  */
                 /* @var $pages PagesCollection */
                 foreach ($vocabulary as $position => $term) {
-                    $pages = $term->sortByDate();
                     $pageId = $path = Page::slugify(sprintf('%s/%s', $plural, $term->getId()));
-                    $page = (new Page($pageId))->setVariable('title', ucfirst($term->getId()));
+                    $pages = $term->sortByDate();
+                    $date = $pages->first()->getVariable('date');
+                    $page = (new Page($pageId))
+                        ->setVariable('title', ucfirst($term->getId()));
                     if ($this->pagesCollection->has($pageId)) {
                         $page = clone $this->pagesCollection->get($pageId);
                     }
-                    $date = $pages->first()->getVariable('date');
-                    $page->setPath($path)
-                        ->setType(Type::TAXONOMY_VOCABULARY)
-                        ->setVariable('pages', $pages)
+                    $page
+                        ->setType(Type::TERM)
+                        ->setPath($path)
                         ->setVariable('date', $date)
-                        ->setVariable('singular', $this->config->get("site.taxonomies.$plural"))
+                        ->setVariable('term', $term->getId())
+                        ->setVariable('plural', $plural)
+                        ->setVariable('singular', $singular)
+                        ->setVariable('pages', $pages)
                         ->setVariable('pagination', ['pages' => $pages]);
                     $this->generatedPages->add($page);
                 }
@@ -128,14 +133,15 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                  * Creates $plural pages (list of terms)
                  * ex: /tags/
                  */
-                $page = (new Page(Page::slugify($plural)))
-                    ->setPath(strtolower($plural))
-                    ->setVariable('title', $plural)
-                    ->setType(Type::TAXONOMY_TERMS)
+                $pageId = $path = Page::slugify($plural);
+                $page = (new Page($pageId))
+                    ->setType(Type::VOCABULARY)
+                    ->setPath($path)
+                    ->setVariable('title', ucfirst($plural))
+                    ->setVariable('date', $date)
                     ->setVariable('plural', $plural)
-                    ->setVariable('singular', $this->config->get("site.taxonomies.$plural"))
-                    ->setVariable('terms', $vocabulary)
-                    ->setVariable('date', $date);
+                    ->setVariable('singular', $singular)
+                    ->setVariable('terms', $vocabulary);
                 // add page only if a template exist
                 try {
                     $this->generatedPages->add($page);
