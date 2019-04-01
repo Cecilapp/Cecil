@@ -70,6 +70,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
      * Add pagination (next and prev) to section sub pages.
      *
      * @param PagesCollection $pages
+     *
      * @return void
      */
     protected function addNavigationLinks(PagesCollection $pages): void
@@ -82,33 +83,33 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     case 0:
                         $page->setVariables([
                             'next' => [
-                                'id'    => $pagesAsArray[$position+1]->getId(),
-                                'path'  => $pagesAsArray[$position+1]->getPath(),
-                                'title' => $pagesAsArray[$position+1]->getVariable('title'),
+                                'id'    => $pagesAsArray[$position + 1]->getId(),
+                                'path'  => $pagesAsArray[$position + 1]->getPath(),
+                                'title' => $pagesAsArray[$position + 1]->getVariable('title'),
                             ],
                         ]);
                         break;
                     // last
-                    case (count($pagesAsArray)-1):
+                    case count($pagesAsArray) - 1:
                         $page->setVariables([
                             'prev' => [
-                                'id'    => $pagesAsArray[$position-1]->getId(),
-                                'path'  => $pagesAsArray[$position-1]->getPath(),
-                                'title' => $pagesAsArray[$position-1]->getVariable('title'),
+                                'id'    => $pagesAsArray[$position - 1]->getId(),
+                                'path'  => $pagesAsArray[$position - 1]->getPath(),
+                                'title' => $pagesAsArray[$position - 1]->getVariable('title'),
                             ],
                         ]);
                         break;
                     default:
                         $page->setVariables([
                             'prev' => [
-                                'id'    => $pagesAsArray[$position-1]->getId(),
-                                'path'  => $pagesAsArray[$position-1]->getPath(),
-                                'title' => $pagesAsArray[$position-1]->getVariable('title'),
+                                'id'    => $pagesAsArray[$position - 1]->getId(),
+                                'path'  => $pagesAsArray[$position - 1]->getPath(),
+                                'title' => $pagesAsArray[$position - 1]->getVariable('title'),
                             ],
                             'next' => [
-                                'id'    => $pagesAsArray[$position+1]->getId(),
-                                'path'  => $pagesAsArray[$position+1]->getPath(),
-                                'title' => $pagesAsArray[$position+1]->getVariable('title'),
+                                'id'    => $pagesAsArray[$position + 1]->getId(),
+                                'path'  => $pagesAsArray[$position + 1]->getPath(),
+                                'title' => $pagesAsArray[$position + 1]->getVariable('title'),
                             ],
                         ]);
                         break;
