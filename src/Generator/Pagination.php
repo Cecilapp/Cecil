@@ -60,8 +60,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             }
             // sort
             $pages = $pages->sortByDate();
-            if ($page->getVariable('sortby')) {
-                $sortMethod = sprintf('sortBy%s', ucfirst($page->getVariable('sortby')));
+            if ($sortby) {
+                $sortMethod = sprintf('sortBy%s', ucfirst($sortby));
                 if (method_exists($pages, $sortMethod)) {
                     $pages = $pages->$sortMethod();
                 }
