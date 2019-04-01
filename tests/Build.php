@@ -61,11 +61,6 @@ class Build extends \PHPUnit\Framework\TestCase
                     ],
                     'pagination' => [
                         'enabled'  => true,
-                        'sections' => [
-                            'project' => [
-                                'sortby' => 'title',
-                            ],
-                        ],
                     ],
                     'taxonomies' => [
                         'tests' => 'disabled',

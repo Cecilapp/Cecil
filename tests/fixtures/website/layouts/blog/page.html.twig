@@ -1,0 +1,17 @@
+{% extends 'page.html.twig' %}
+
+{% block content %}
+{{ parent() }}
+<div class="pagination">
+  {% if page.prev is defined %}
+  <a class="pagination-item older" href="{{ url(page.prev.path) }}" title="{{ page.prev.title }}">Previous</a>
+  {% else %}
+  <span class="pagination-item older">Previous</span>
+  {% endif %}
+  {% if page.next is defined %}
+  <a class="pagination-item newer" href="{{ url(page.next.path) }}" title="{{ page.next.title }}">Next</a>
+  {% else %}
+  <span class="pagination-item newer">Next</span>
+  {% endif %}
+</div>
+{% endblock %}
