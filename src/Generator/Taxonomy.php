@@ -65,7 +65,8 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     protected function collectTermsFromPages()
     {
         /* @var $page Page */
-        foreach ($this->pagesCollection as $page) {
+        $pages = $this->pagesCollection->sortByDate();
+        foreach ($pages as $page) {
             foreach ($this->vocabulariesCollection as $vocabulary) {
                 $plural = $vocabulary->getId();
                 /*

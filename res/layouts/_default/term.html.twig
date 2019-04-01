@@ -3,7 +3,7 @@
 {% block content %}
 {{ parent() }}
 <ul>
-{% for page in page.pages|sortByDate %}
+{% for page in page.pages %}
     <li>
         <h2><a href="{{ url(page) }}">{{ page.title }}</a></h2>
     </li>
