@@ -99,7 +99,7 @@ class Layout
                 }
                 break;
             case PageType::VOCABULARY:
-                 $layouts = [
+                $layouts = [
                     // "taxonomy/$plural.$format.twig", // ie: taxonomy/tags.html.twig
                     "_default/vocabulary.$format.twig", // ie: _default/vocabulary.html.twig
                 ];
@@ -111,7 +111,7 @@ class Layout
                 }
                 break;
             case PageType::TERM:
-               $layouts = [
+                $layouts = [
                     // "taxonomy/$term.$format.twig", // ie: taxonomy/velo.html.twig
                     "_default/term.$format.twig",     // ie: _default/term.html.twig
                     "_default/list.$format.twig",     // ie: _default/list.html.twig
