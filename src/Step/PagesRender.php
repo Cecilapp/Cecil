@@ -70,21 +70,28 @@ class PagesRender extends AbstractStep
             $formats = $this->getOutputFormats($page);
             $page->setVariable('output', $formats);
 
+            // excluded format(s)?
+            foreach ($formats as $key => $format) {
+                if ($exclude = $this->config->get("site.output.formats.$format.exclude")) {
+                    // ie:
+                    //   formats:
+                    //     atom:
+                    //       [...]
+                    //       exclude: [paginated]
+                    foreach ($exclude as $variable) {
+                        if ($page->hasVariable($variable)) {
+                            unset($formats[$key]);
+                        }
+                    }
+                }
+            }
+
             // get alternates links
             $alternates = $this->getAlternates($formats);
             $page->setVariable('alternates', $alternates);
 
             // render each output format
             foreach ($formats as $format) {
-                // exclude pages with specific variable(s)
-                if ($exclude = $this->config->get("site.output.formats.$format.exclude")) {
-                    // ie: 'exclude' => ['paginated'],
-                    foreach ($exclude as $variable) {
-                        if ($page->hasVariable($variable)) {
-                            continue 2;
-                        }
-                    }
-                }
                 // search for the template
                 $layout = Layout::finder($page, $format, $this->config);
                 // render with Twig
