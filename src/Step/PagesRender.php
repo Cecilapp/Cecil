@@ -209,7 +209,7 @@ class PagesRender extends AbstractStep
     {
         $alternates = [];
 
-        if (count($formats) > 1 && in_array('html', $formats)) {
+        if (count($formats) > 1 || in_array('html', $formats)) {
             foreach ($formats as $format) {
                 $format == 'html' ? $rel = 'canonical' : $rel = 'alternate';
                 $alternates[] = [
