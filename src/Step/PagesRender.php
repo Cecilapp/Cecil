@@ -179,13 +179,15 @@ class PagesRender extends AbstractStep
     {
         $formats = [];
 
-        // get available output formats for the page type
-        // ie: "'page' => ['html', 'json']"
+        // Get available output formats for the page type.
+        // ie:
+        //   page: [html, json]
         if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
             $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
         }
         // Get page output format(s).
-        // ie: "output: txt"
+        // ie:
+        //   output: txt
         if ($page->getVariable('output')) {
             $formats = $page->getVariable('output');
             if (!\is_array($formats)) {
