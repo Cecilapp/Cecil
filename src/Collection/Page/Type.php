@@ -16,14 +16,14 @@ use MyCLabs\Enum\Enum;
  * @method static Type PAGE()
  * @method static Type HOMEPAGE()
  * @method static Type SECTION()
- * @method static Type TAXONOMY()
- * @method static Type TERMS()
+ * @method static Type VOCABULARY()
+ * @method static Type TERM()
  */
 class Type extends Enum
 {
     public const PAGE = 'page';
     public const HOMEPAGE = 'homepage';
     public const SECTION = 'section';
-    public const TAXONOMY = 'taxonomy';
-    public const TERMS = 'terms';
+    public const VOCABULARY = 'vocabulary';
+    public const TERM = 'term';
 }

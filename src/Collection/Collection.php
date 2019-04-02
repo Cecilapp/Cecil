@@ -58,11 +58,30 @@ class Collection implements CollectionInterface
     }
 
     /**
+     * Search item by ID.
+     *
+     * @param string $id
+     *
+     * @return array|null
+     */
+    protected function searchItem(string $id): ?array
+    {
+        return array_filter($this->items, function ($item) use ($id) {
+            return $item->getId() == $id;
+        });
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function has(string $id): bool
     {
-        return array_key_exists($id, $this->items);
+        $result = $this->searchItem($id);
+        if (is_array($result) && !empty($result)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -77,7 +96,7 @@ class Collection implements CollectionInterface
                 $this->getId()
             ));
         }
-        $this->items[$item->getId()] = $item;
+        $this->items[] = $item;
 
         return $this;
     }
@@ -94,7 +113,7 @@ class Collection implements CollectionInterface
                 $this->getId()
             ));
         }
-        $this->items[$id] = $item;
+        $this->items[$this->getPosition($id)] = $item;
 
         return $this;
     }
@@ -111,7 +130,7 @@ class Collection implements CollectionInterface
                 $this->getId()
             ));
         }
-        unset($this->items[$id]);
+        unset($this->items[$this->getPosition($id)]);
 
         return $this;
     }
@@ -129,7 +148,25 @@ class Collection implements CollectionInterface
             ));
         }
 
-        return $this->items[$id];
+        return $this->items[$this->getPosition($id)];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPosition(string $id): int
+    {
+        $result = $this->searchItem($id);
+        $position = key($result);
+        if (!is_int($position)) {
+            throw new \DomainException(sprintf(
+                'Failed getting position of "%s" in "%s" collection: item does not exist.',
+                $id,
+                $this->getId()
+            ));
+        }
+
+        return $position;
     }
 
     /**
@@ -185,6 +222,14 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
+    public function toJson(): string
+    {
+        return sprintf("%s\n", json_encode($this->items));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->items);
@@ -195,7 +240,7 @@ class Collection implements CollectionInterface
      */
     public function usort(\Closure $callback = null): CollectionInterface
     {
-        $callback ? uasort($this->items, $callback) : uasort($this->items, function ($a, $b) {
+        $callback ? usort($this->items, $callback) : usort($this->items, function ($a, $b) {
             if ($a == $b) {
                 return 0;
             }
@@ -272,12 +317,12 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Returns a string representation of this object.
+     * Return collection ID.
      *
      * @return string
      */
     public function __toString()
     {
-        return sprintf("%s\n", json_encode($this->items));
+        return $this->getId();
     }
 }

@@ -22,59 +22,48 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        $sortby = null;
-
         if (false === $this->config->get('site.pagination.enabled')) {
             return;
         }
 
         // global config
-        $paginationPerPage = intval($this->config->get('site.pagination.max'));
-        $paginationPath = $this->config->get('site.pagination.path');
-        $paginationSections = $this->config->get('site.pagination.sections');
+        $configPaginationPerPage = intval($this->config->get('site.pagination.max'));
+        $configPaginationPath = $this->config->get('site.pagination.path');
 
         // filter pages: home and sections
         $filteredPages = $this->pagesCollection->filter(function (Page $page) {
-            return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION]);
+            return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION, Type::TERM]);
         });
         /* @var $page Page */
         foreach ($filteredPages as $page) {
-            // page variables
             $path = $page->getPath();
             $pages = $page->getVariable('pages');
+            $sortby = $page->getVariable('sortby');
             $paginate = $page->getVariable('paginate');
+            $paginationPerPage = $configPaginationPerPage;
+            $paginationPath = $configPaginationPath;
             // page config
             if ($paginate) {
-                // disabled?
                 if (array_key_exists('enabled', $paginate) && !$paginate['enabled']) {
                     continue;
                 }
-                // sort by
-                if (array_key_exists('sortby', $paginate) && $paginate['sortby']) {
-                    $sortby = $paginate['sortby'];
+                if (array_key_exists('max', $paginate)) {
+                    $paginationPerPage = $paginate['max'];
+                }
+                if (array_key_exists('path', $paginate)) {
+                    $paginationPath = $paginate['path'];
                 }
             }
-
-            // sort by
-            if (!$sortby && $paginationSections) {
-                if (array_key_exists($page->getPath(), $paginationSections)
-                    && array_key_exists('sortby', $paginationSections[$page->getPath()])
-                ) {
-                    $sortby = $paginationSections[$page->getPath()]['sortby'];
-                }
+            // abord pagination?
+            if (count($pages) <= $paginationPerPage) {
+                continue;
             }
+            // sort
+            $pages = $pages->sortByDate();
             if ($sortby) {
-                switch ($sortby) {
-                    case 'weight':
-                        $pages = $pages->sortByWeight();
-                        break;
-                    case 'title':
-                        $pages = $pages->sortByTitle();
-                        break;
-                    case 'date':
-                    default:
-                        $pages = $pages->sortByDate();
-                        break;
+                $sortMethod = sprintf('sortBy%s', ucfirst($sortby));
+                if (method_exists($pages, $sortMethod)) {
+                    $pages = $pages->$sortMethod();
                 }
             }
 

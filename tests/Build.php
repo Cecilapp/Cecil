@@ -61,14 +61,9 @@ class Build extends \PHPUnit\Framework\TestCase
                     ],
                     'pagination' => [
                         'enabled'  => true,
-                        'sections' => [
-                            'project' => [
-                                'sortby' => 'title',
-                            ],
-                        ],
                     ],
                     'taxonomies' => [
-                        'enabled' => true,
+                        'tests' => 'disabled',
                     ],
                     'googleanalytics' => 'UA-XXXXX',
                     'virtualpages'    => [
@@ -81,11 +76,11 @@ class Build extends \PHPUnit\Framework\TestCase
                     ],
                     'output' => [
                         'pagetypeformats' => [
-                            'page'     => ['html', 'json'],
-                            'homepage' => ['html', 'atom', 'rss', 'json'],
-                            'section'  => ['html', 'atom', 'rss', 'json'],
-                            'taxonomy' => ['html', 'atom', 'rss'],
-                            'terms'    => ['html'],
+                            'page'       => ['html', 'json'],
+                            'homepage'   => ['html', 'atom', 'rss', 'json'],
+                            'section'    => ['html', 'atom', 'rss', 'json'],
+                            'vocabulary' => ['html'],
+                            'term'       => ['html', 'atom', 'rss'],
                         ],
                     ],
                 ],

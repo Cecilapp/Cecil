@@ -26,6 +26,6 @@ class Collection extends CecilCollection
             $this->add(new Menu($id));
         }
 
-        return $this->items[$id];
+        return parent::get($id);
     }
 }

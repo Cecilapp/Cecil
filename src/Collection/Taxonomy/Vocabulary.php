@@ -18,7 +18,7 @@ use Cecil\Collection\ItemInterface;
 class Vocabulary extends CecilCollection implements ItemInterface
 {
     /**
-     * Adds term to a Vocabulary collection.
+     * Adds a term to a Vocabulary collection.
      * {@inheritdoc}
      */
     public function add(ItemInterface $item): CollectionInterface
@@ -27,7 +27,8 @@ class Vocabulary extends CecilCollection implements ItemInterface
             // return if already exists
             return $this;
         }
-        $this->items[$item->getId()] = $item;
+
+        $this->items[] = $item;
 
         return $this;
     }

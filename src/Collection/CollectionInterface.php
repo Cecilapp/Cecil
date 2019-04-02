@@ -76,6 +76,15 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function get(string $id): ItemInterface;
 
     /**
+     * Retrieve an item position or throw an exception if not exists.
+     *
+     * @param string $id
+     *
+     * @return int
+     */
+    public function getPosition(string $id): int;
+
+    /**
      * Retrieve all keys.
      *
      * @return array An array of all keys
@@ -102,6 +111,13 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
      * @return array
      */
     public function toArray(): array;
+
+    /**
+     * Return a JSON string of items.
+     *
+     * @return string
+     */
+    public function toJson(): string;
 
     /**
      * Implement \IteratorAggregate.
