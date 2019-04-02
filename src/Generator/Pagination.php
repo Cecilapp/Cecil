@@ -26,32 +26,29 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             return;
         }
 
-        // global config
-        $configPaginationPerPage = intval($this->config->get('site.pagination.max'));
-        $configPaginationPath = $this->config->get('site.pagination.path');
-
         // filter pages: home and sections
         $filteredPages = $this->pagesCollection->filter(function (Page $page) {
             return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION, Type::TERM]);
         });
         /* @var $page Page */
         foreach ($filteredPages as $page) {
+            // global config
+            $paginationPerPage = intval($this->config->get('site.pagination.max'));
+            $paginationPath = $this->config->get('site.pagination.path');
+            // page config
             $path = $page->getPath();
             $pages = $page->getVariable('pages');
             $sortby = $page->getVariable('sortby');
-            $paginate = $page->getVariable('paginate');
-            $paginationPerPage = $configPaginationPerPage;
-            $paginationPath = $configPaginationPath;
-            // page config
-            if ($paginate) {
-                if (array_key_exists('enabled', $paginate) && !$paginate['enabled']) {
+            $pagination = $page->getVariable('pagination');
+            if ($pagination) {
+                if (array_key_exists('enabled', $pagination) && !$pagination['enabled']) {
                     continue;
                 }
-                if (array_key_exists('max', $paginate)) {
-                    $paginationPerPage = $paginate['max'];
+                if (array_key_exists('max', $pagination)) {
+                    $paginationPerPage = intval($pagination['max']);
                 }
-                if (array_key_exists('path', $paginate)) {
-                    $paginationPath = $paginate['path'];
+                if (array_key_exists('path', $pagination)) {
+                    $paginationPath = $pagination['path'];
                 }
             }
             // abord pagination?
@@ -109,7 +106,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                             ->unVariable('menu')
                             ->setVariable('paginated', true);
                     }
-                    // create "pagination" variable
+                    // update 'pagination' variable
                     $pagination = [
                         'totalpages' => $pagesTotal,
                         'pages'      => $pagesInPagination,

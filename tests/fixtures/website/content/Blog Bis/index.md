@@ -1,7 +1,7 @@
 ---
 title: Blog (bis)
 sortby: title
-paginate:
+pagination:
   max: 2
   path: p
 ---
