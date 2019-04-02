@@ -66,7 +66,7 @@ class Collection implements CollectionInterface
      */
     protected function searchItem(string $id): ?array
     {
-        return array_filter($this->items, function ($item) use ($id) {
+        return array_filter($this->items, function (ItemInterface $item) use ($id) {
             return $item->getId() == $id;
         });
     }
