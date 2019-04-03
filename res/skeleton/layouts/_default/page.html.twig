@@ -1,6 +1,20 @@
+{% set title = page.title ~ ' &middot; ' ~ site.title %}
+{% if page.type == 'homepage' %}
+{% set title = site.title ~ ' &middot; ' ~ site.baseline %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="{{ site.language }}">
-{% include 'partials/head.html.twig' %}
+  <head>
+{% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url(toCSS('scss/styles.scss')) }}">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ url('images/apple-touch-icon-precomposed.png') }}">
+    <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
+{% include 'partials/alternates.html.twig' %}
+{% endblock head %}
+  </head>
   <body>
     <div class="container content">
       <header class="masthead">
