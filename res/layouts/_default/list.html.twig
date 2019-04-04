@@ -1,0 +1,22 @@
+{% set pages = page.pages %}
+{% if page.pagination is defined %}
+{% set pages = page.pagination.pages %}
+{% endif %}
+
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+      <h1 class="page-title">{{ page.title }}</h1>
+      <div class="pages">
+{% for p in pages %}
+        <div class="page">
+          <h2 class="page-title">
+            <a href="{{ url(p) }}">{{ p.title|e }}</a>
+          </h2>
+          <span class="page-date">{{ p.date|date("j M Y") }}</span>
+          {{ p.content|excerptHtml }}
+        </div>
+{% endfor %}
+      </div>
+{% include 'partials/pagination.html.twig' %}
+{% endblock content %}
