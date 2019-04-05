@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <meta name="description" content="{{ site.description }}">
+    <meta name="author" content="{{ site.author.name|default('Cecil') }}">
+  </head>
+  <body>
+{% block content %}
+    <h1 class="page-title">{{ page.title }}</h1>
+    <span class="page-date">{{ page.date|date("j M Y") }}</span>
+    {{ page.content }}
+{% endblock content %}
+  </body>
+</html>
