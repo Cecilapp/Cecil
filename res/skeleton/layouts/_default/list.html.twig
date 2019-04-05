@@ -12,4 +12,5 @@
         <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
         {{ p.content|excerptHtml }}
 {% endfor %}
+{% include 'partials/pagination.html.twig' %}
 {% endblock content %}

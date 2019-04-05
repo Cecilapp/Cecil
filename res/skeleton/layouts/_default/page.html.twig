@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
+    <meta name="description" content="{{ page.description|default(site.description)|e }}">
     <link rel="stylesheet" href="{{ url(toCSS('scss/styles.scss')) }}">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ url('images/apple-touch-icon-precomposed.png') }}">
     <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
