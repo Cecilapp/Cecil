@@ -93,7 +93,7 @@ class Serve extends AbstractCommand
                 $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', $this->host, $this->port));
                 $process->start();
                 if ($this->open) {
-                    Plateform::openBrowser(sprintf("http://%s:%s", $this->host, $this->port));
+                    Plateform::openBrowser(sprintf('http://%s:%s', $this->host, $this->port));
                 }
                 while ($process->isRunning()) {
                     if (!$this->nowatcher) {
