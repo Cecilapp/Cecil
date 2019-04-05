@@ -55,12 +55,6 @@ class Serve extends AbstractCommand
         $this->host = $this->getRoute()->getMatchedParam('host', 'localhost');
         $this->port = $this->getRoute()->getMatchedParam('port', '8000');
 
-        // debug
-        $this->wlAlert(var_export($this->open, true));
-        $this->wlAlert(var_export($this->nowatcher));
-        $this->wlAlert(var_export($this->host));
-        $this->wlAlert(var_export($this->port));
-
         $this->setUpServer();
         $command = sprintf(
             'php -S %s:%d -t %s %s',
