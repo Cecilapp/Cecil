@@ -68,7 +68,7 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
         // replace `baseurl` by `http://localhost:8000/`
         $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/baseurl'));
         if (false !== strstr($baseurl, 'http') || $baseurl != '/') {
-            $content = str_replace($baseurl, 'http://localhost:8000/', $content);
+            $content = str_replace($baseurl, '/', $content);
         }
         // return result
         header('Etag: '.md5_file($filename));
