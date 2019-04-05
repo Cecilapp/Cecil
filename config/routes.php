@@ -73,7 +73,7 @@ return [
     ],
     [
         'name'    => 'serve',
-        'route'   => '[<path>] [--drafts|-d] [--open|-o] [--no-watcher|-nw]',
+        'route'   => '[<path>] [--drafts|-d] [--open|-o] [--no-watcher|-nw] [--host=] [--port=]',
         'aliases' => [
             'd'  => 'drafts',
             'o'  => 'open',
@@ -86,9 +86,13 @@ return [
             '--drafts|-d'      => 'Include drafts',
             '--open|-o'        => 'Open browser automatically',
             '--no-watcher|-nw' => 'Disable watcher',
+            '--host'           => 'Server host',
+            '--port'           => 'Server port',
         ],
         'defaults' => [
             'path' => getcwd(),
+            'host' => 'localhost',
+            'port' => '8000',
         ],
         'handler' => 'Cecil\Command\Serve',
     ],

@@ -32,6 +32,18 @@ class Serve extends AbstractCommand
      * @var bool
      */
     protected $open;
+    /**
+     * @var bool
+     */
+    protected $nowatcher;
+    /**
+     * @var string
+     */
+    protected $host;
+    /**
+     * @var string
+     */
+    protected $port;
 
     /**
      * {@inheritdoc}
@@ -40,12 +52,20 @@ class Serve extends AbstractCommand
     {
         $this->open = $this->getRoute()->getMatchedParam('open', false);
         $this->nowatcher = $this->getRoute()->getMatchedParam('no-watcher', false);
+        $this->host = $this->getRoute()->getMatchedParam('host', 'localhost');
+        $this->port = $this->getRoute()->getMatchedParam('port', '8000');
+
+        // debug
+        $this->wlAlert(var_export($this->open, true));
+        $this->wlAlert(var_export($this->nowatcher));
+        $this->wlAlert(var_export($this->host));
+        $this->wlAlert(var_export($this->port));
 
         $this->setUpServer();
         $command = sprintf(
             'php -S %s:%d -t %s %s',
-            'localhost',
-            '8000',
+            $this->host,
+            $this->port,
             $this->getPath().'/'.$this->getBuilder()->getConfig()->get('site.output.dir'),
             sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir)
         );
@@ -76,10 +96,10 @@ class Serve extends AbstractCommand
             }
             // start server
             try {
-                $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', 'localhost', '8000'));
+                $this->wlAnnonce(sprintf('Starting server (http://%s:%d)...', $this->host, $this->port));
                 $process->start();
                 if ($this->open) {
-                    Plateform::openBrowser('http://localhost:8000');
+                    Plateform::openBrowser(sprintf("http://%s:%s", $this->host, $this->port));
                 }
                 while ($process->isRunning()) {
                     if (!$this->nowatcher) {
