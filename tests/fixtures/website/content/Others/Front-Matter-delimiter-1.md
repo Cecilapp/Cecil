@@ -1,4 +1,5 @@
 <!--
-title: Front-Matter delimiter
+title: "Front-Matter delimiter comment"
 -->
+
 Front-matter delimiter is ```<!-- -->```.
