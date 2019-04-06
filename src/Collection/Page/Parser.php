@@ -15,8 +15,8 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Parser
 {
-    // https://regex101.com/r/xH7cL3/1
-    const PATTERN = '^\s*(?:<!--|---|\+++){1}[\n\r\s]*(.*?)[\n\r\s]*(?:-->|---|\+++){1}[\s\n\r]*(.*)$';
+    // https://regex101.com/r/xH7cL3/2
+    const PATTERN = '^\s*(?:<!--|---|\+\+\+){1}[\n\r\s]*(.*?)[\n\r\s]*(?:-->|---|\+\+\+){1}[\s\n\r]*(.*)$';
     /**
      * @var SplFileInfo
      */

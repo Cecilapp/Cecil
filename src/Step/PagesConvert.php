@@ -80,7 +80,7 @@ class PagesConvert extends AbstractStep
             try {
                 $variables = Converter::convertFrontmatter($page->getFrontmatter(), $format);
             } catch (Exception $e) {
-                $message = sprintf("Unable to convert frontmatter of '%s': %s", $page->getId(), $e->getMessage());
+                $message = sprintf('Unable to convert front matter of "%s": %s', $page->getId(), $e->getMessage());
                 call_user_func_array($this->builder->getMessageCb(), ['CONVERT_ERROR', $message]);
 
                 return false;
