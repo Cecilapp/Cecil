@@ -1,7 +1,7 @@
 
     <!-- Cecil: live reload script -->
     <script>
-    var evtSource = new EventSource('http://localhost:8000/watcher');
+    var evtSource = new EventSource('watcher');
     evtSource.addEventListener('reload', function(e) {
       console.log('reload');
       location.reload(true);
