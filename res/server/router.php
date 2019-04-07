@@ -65,7 +65,7 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
                 $content = str_replace('</body>', "$script\n  </body>", $content);
             }
         }
-        // replace `baseurl` by `http://localhost:8000/`
+        // replace the baseurl by "/"
         $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/baseurl'));
         if (false !== strstr($baseurl, 'http') || $baseurl != '/') {
             $content = str_replace($baseurl, '/', $content);
