@@ -298,7 +298,9 @@ class Extension extends SlugifyExtension
                     $url = $base.'/'.ltrim($url, '/');
                 } else {
                     $url = $base.'/';
-                    if (!empty($value)) { // value == page ID?
+                    if (!empty($value)) {
+                        $url = $base.'/'.$value;
+                        // value == page ID?
                         $pageId = $this->slugifyFilter($value);
                         if ($this->builder->getPages()->has($pageId)) {
                             $page = $this->builder->getPages()->get($pageId);
