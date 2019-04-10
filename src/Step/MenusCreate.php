@@ -23,38 +23,37 @@ class MenusCreate extends AbstractStep
     {
         call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Generating menus']);
         $count = 0;
+
+        // create an empty menus collection
         $this->builder->setMenus(new MenusCollection('menus'));
+        // add entries from pages to menus collection
         $this->collectPages();
 
         /*
-         * Removing/adding/replacing menus entries from config array
+         * Removing/adding/replacing menus entries from config
          * ie:
-         * ['site' => [
-         *     'menu' => [
-         *         'main' => [
-         *             'test' => [
-         *                 'id'     => 'test',
-         *                 'name'   => 'Test website',
-         *                 'url'    => 'http://test.org',
-         *                 'weight' => 999,
-         *             ],
-         *         ],
-         *     ],
-         * ]]
+         *   site:
+         *     menu:
+         *       main:
+         *         test:
+         *           id: test
+         *           name: "Test website"
+         *           url: http://test.org
+         *           weight: 999
          */
         if (!empty($this->builder->getConfig()->get('site.menu'))) {
             foreach ($this->builder->getConfig()->get('site.menu') as $name => $entry) {
                 /* @var $menu \Cecil\Collection\Menu\Menu */
                 $menu = $this->builder->getMenus()->get($name);
                 foreach ($entry as $property) {
-                    // remove disable entries
+                    // remove a disabled entry
                     if (isset($property['enabled']) && false === $property['enabled']) {
                         if (isset($property['id']) && $menu->has($property['id'])) {
                             $menu->remove($property['id']);
                         }
                         continue;
                     }
-                    // add new entries
+                    // add a new entry
                     $item = (new Entry($property['id']))
                         ->setName($property['name'])
                         ->setUrl($property['url'])
@@ -73,39 +72,39 @@ class MenusCreate extends AbstractStep
     }
 
     /**
-     * Collects pages with menu entry.
+     * Collects pages with a menu variable.
      */
     protected function collectPages()
     {
         foreach ($this->builder->getPages() as $page) {
             /* @var $page \Cecil\Collection\Page\Page */
-            if (!empty($page['menu'])) {
+            if (!empty($page->getVariable('menu'))) {
                 /*
                  * Single case
                  * ie:
-                 * menu: main
+                 *   menu: main
                  */
-                if (is_string($page['menu'])) {
+                if (is_string($page->getVariable('menu'))) {
                     $item = (new Entry($page->getId()))
                         ->setName($page->getVariable('title'))
-                        ->setUrl($page->getPath());
+                        ->setUrl($page->getUrl());
                     /* @var $menu \Cecil\Collection\Menu\Menu */
-                    $menu = $this->builder->getMenus()->get($page['menu']);
+                    $menu = $this->builder->getMenus()->get($page->getVariable('menu'));
                     $menu->add($item);
                 } else {
                     /*
                      * Multiple case
                      * ie:
-                     * menu:
+                     *   menu:
                      *     main:
-                     *         weight: 1000
+                     *       weight: 999
                      *     other
                      */
-                    if (is_array($page['menu'])) {
-                        foreach ($page['menu'] as $name => $value) {
+                    if (is_array($page->getVariable('menu'))) {
+                        foreach ($page->getVariable('menu') as $name => $value) {
                             $item = (new Entry($page->getId()))
                                 ->setName($page->getVariable('title'))
-                                ->setUrl($page->getPath())
+                                ->setUrl($page->getId())
                                 ->setWeight($value['weight']);
                             /* @var $menu \Cecil\Collection\Menu\Menu */
                             $menu = $this->builder->getMenus()->get($name);
