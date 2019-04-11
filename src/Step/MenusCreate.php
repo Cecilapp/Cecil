@@ -11,7 +11,6 @@ namespace Cecil\Step;
 use Cecil\Collection\Menu\Collection as MenusCollection;
 use Cecil\Collection\Menu\Entry;
 use Cecil\Collection\Menu\Menu;
-use Cecil\Collection\Page\Page;
 
 /**
  * Generates menus.
