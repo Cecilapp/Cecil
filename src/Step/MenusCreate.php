@@ -135,6 +135,9 @@ class MenusCreate extends AbstractStep
         /* @var $page \Cecil\Collection\Page\Page */
         foreach ($filteredPages as $page) {
             $count++;
+            /* @var $menu \Cecil\Collection\Menu\Menu */
+            $menu = $page->getVariable('menu');
+
             /*
              * Single case
              * ie:
@@ -144,8 +147,6 @@ class MenusCreate extends AbstractStep
                 $item = (new Entry($page->getId()))
                     ->setName($page->getVariable('title'))
                     ->setUrl($page->getUrl());
-                /* @var $menu \Cecil\Collection\Menu\Menu */
-                $menu = $page->getVariable('menu');
                 if (!$this->menus->has($menu)) {
                     $this->menus->add(new Menu($menu));
                 }
@@ -159,8 +160,8 @@ class MenusCreate extends AbstractStep
                  *       weight: 999
                  *     other
                  */
-                if (is_array($page->getVariable('menu'))) {
-                    foreach ($page->getVariable('menu') as $menu => $property) {
+                if (is_array($menu)) {
+                    foreach ($menu as $menu => $property) {
                         $item = (new Entry($page->getId()))
                             ->setName($page->getVariable('title'))
                             ->setUrl($page->getId())
