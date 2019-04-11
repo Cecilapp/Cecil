@@ -17,15 +17,11 @@ use Cecil\Collection\ItemInterface;
 class Collection extends CecilCollection
 {
     /**
-     * Return a Menu collection (creates it if not exists).
+     * Return a Menu collection.
      * {@inheritdoc}
      */
     public function get(string $id): ItemInterface
     {
-        if (!$this->has($id)) {
-            $this->add(new Menu($id));
-        }
-
         return parent::get($id);
     }
 }
