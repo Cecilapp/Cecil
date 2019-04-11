@@ -28,4 +28,11 @@ interface ItemInterface extends BaseInterface, \ArrayAccess
      * @return string
      */
     public function getId(): string;
+
+    /**
+     * Return collection as array.
+     *
+     * @return array
+     */
+    public function toArray(): array;
 }

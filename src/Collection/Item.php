@@ -99,4 +99,12 @@ class Item implements ItemInterface
     {
         unset($this->properties[$offset]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array
+    {
+        return $this->properties;
+    }
 }

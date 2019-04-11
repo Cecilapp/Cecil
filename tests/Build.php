@@ -41,21 +41,17 @@ class Build extends \PHPUnit\Framework\TestCase
                     'title' => 'Cecil test',
                     'menu'  => [
                         'main' => [
-                            'index' => [
-                                'id'     => 'index',
-                                'name'   => 'Da home!',
-                                'url'    => '',
-                                'weight' => 1,
+                            'home' => [
+                                'id'   => 'index',
+                                'name' => 'Da home! \o/',
                             ],
                             'about' => [
-                                'id'       => 'about',
-                                'enabled'  => false,
+                                'enabled' => false,
                             ],
-                            'narno' => [
-                                'id'     => 'narno',
-                                'name'   => 'narno.org',
-                                'url'    => 'http://narno.org',
-                                'weight' => 999,
+                            'aligny' => [
+                                'name'   => 'The author',
+                                'url'    => 'https://arnaudligny.fr',
+                                'weight' => 9999,
                             ],
                         ],
                     ],
