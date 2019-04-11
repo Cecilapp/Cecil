@@ -106,12 +106,11 @@ class MenusCreate extends AbstractStep
         $count = 0;
 
         $filteredPages = $this->builder->getPages()
-            ->filter(function (Page $page)
-        {
-            if ($page->getVariable('menu')) {
-                return true;
-            }
-        });
+            ->filter(function (Page $page) {
+                if ($page->getVariable('menu')) {
+                    return true;
+                }
+            });
 
         $total = count($filteredPages);
 
