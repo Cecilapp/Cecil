@@ -74,16 +74,31 @@ class MenusCreate extends AbstractStep
                     if ($menu->has($property['id'])) {
                         // remove a disabled entry
                         if (array_key_exists('enabled', $property) && false === $property['enabled']) {
-                            call_user_func_array($this->builder->getMessageCb(), ['MENU_PROGRESS', sprintf('%s > %s (removed)', $menu, $property['id']), $countConfig, $totalConfig]);
+                            call_user_func_array($this->builder->getMessageCb(), [
+                                'MENU_PROGRESS',
+                                sprintf('%s > %s (removed)', $menu, $property['id']),
+                                $countConfig,
+                                $totalConfig
+                            ]);
                             $menu->remove($property['id']);
                             continue;
                         }
                         // merge properties
                         $current = $menu->get($property['id'])->toArray();
                         $property = array_merge($current, $property);
-                        call_user_func_array($this->builder->getMessageCb(), ['MENU_PROGRESS', sprintf('%s > %s (updated)', $menu, $property['id']), $countConfig, $totalConfig]);
+                        call_user_func_array($this->builder->getMessageCb(), [
+                            'MENU_PROGRESS',
+                            sprintf('%s > %s (updated)', $menu, $property['id']),
+                            $countConfig,
+                            $totalConfig
+                        ]);
                     } else {
-                        call_user_func_array($this->builder->getMessageCb(), ['MENU_PROGRESS', sprintf('%s > %s', $menu, $property['id']), $countConfig, $totalConfig]);
+                        call_user_func_array($this->builder->getMessageCb(), [
+                            'MENU_PROGRESS',
+                            sprintf('%s > %s', $menu, $property['id']),
+                            $countConfig,
+                            $totalConfig
+                        ]);
                     }
                     // add/replace entry
                     $item = (new Entry($property['id']))
@@ -160,7 +175,12 @@ class MenusCreate extends AbstractStep
                     }
                 }
             }
-            call_user_func_array($this->builder->getMessageCb(), ['MENU_PROGRESS', sprintf('%s > %s', $menu, $page->getId()), $count, $total]);
+            call_user_func_array($this->builder->getMessageCb(), [
+                'MENU_PROGRESS',
+                sprintf('%s > %s', $menu, $page->getId()),
+                $count,
+                $total
+            ]);
         }
     }
 }
