@@ -78,7 +78,7 @@ class MenusCreate extends AbstractStep
                                 'MENU_PROGRESS',
                                 sprintf('%s > %s (removed)', $menu, $property['id']),
                                 $countConfig,
-                                $totalConfig
+                                $totalConfig,
                             ]);
                             $menu->remove($property['id']);
                             continue;
@@ -90,14 +90,14 @@ class MenusCreate extends AbstractStep
                             'MENU_PROGRESS',
                             sprintf('%s > %s (updated)', $menu, $property['id']),
                             $countConfig,
-                            $totalConfig
+                            $totalConfig,
                         ]);
                     } else {
                         call_user_func_array($this->builder->getMessageCb(), [
                             'MENU_PROGRESS',
                             sprintf('%s > %s', $menu, $property['id']),
                             $countConfig,
-                            $totalConfig
+                            $totalConfig,
                         ]);
                     }
                     // add/replace entry
@@ -121,12 +121,11 @@ class MenusCreate extends AbstractStep
         $count = 0;
 
         $filteredPages = $this->builder->getPages()
-            ->filter(function (Page $page)
-        {
-            if ($page->getVariable('menu')) {
-                return true;
-            }
-        });
+            ->filter(function (Page $page) {
+                if ($page->getVariable('menu')) {
+                    return true;
+                }
+            });
 
         $total = count($filteredPages);
 
@@ -179,7 +178,7 @@ class MenusCreate extends AbstractStep
                 'MENU_PROGRESS',
                 sprintf('%s > %s', $menu, $page->getId()),
                 $count,
-                $total
+                $total,
             ]);
         }
     }
