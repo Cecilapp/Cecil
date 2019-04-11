@@ -62,7 +62,6 @@ class MenusCreate extends AbstractStep
                 }
                 $menu = $this->menus->get($menu);
                 foreach ($entry as $key => $property) {
-                    $updated = '';
                     $countConfig++;
 
                     // ID is key
