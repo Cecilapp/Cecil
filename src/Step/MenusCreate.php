@@ -50,9 +50,8 @@ class MenusCreate extends AbstractStep
          *           id: about
          *           enabled: false
          */
-        if ($this->builder->getConfig()->get('site.menu')) {
+        if ($menus = $this->builder->getConfig()->get('site.menu')) {
             call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Creating menus (config)']);
-            $menus = $this->builder->getConfig()->get('site.menu');
             $totalConfig = array_sum(array_map('count', $menus));
             $countConfig = 0;
             foreach ($menus as $menu => $entry) {
@@ -63,16 +62,29 @@ class MenusCreate extends AbstractStep
                 $menu = $this->menus->get($menu);
                 foreach ($entry as $key => $property) {
                     $countConfig++;
+                    $enabled = true;
+                    $updated = false;
 
                     // ID is key
                     if (!array_key_exists('id', $property)) {
                         $property['id'] = $key;
                     }
-
+                    // enabled?
+                    if (array_key_exists('enabled', $property) && false === $property['enabled']) {
+                        $enabled = false;
+                        if (!$menu->has($property['id'])) {
+                            call_user_func_array($this->builder->getMessageCb(), [
+                                'MENU_PROGRESS',
+                                sprintf('%s > %s (disabled)', $menu, $property['id']),
+                                $countConfig,
+                                $totalConfig,
+                            ]);
+                        }
+                    }
                     // is entry already exist?
                     if ($menu->has($property['id'])) {
                         // remove a disabled entry
-                        if (array_key_exists('enabled', $property) && false === $property['enabled']) {
+                        if (!$enabled) {
                             call_user_func_array($this->builder->getMessageCb(), [
                                 'MENU_PROGRESS',
                                 sprintf('%s > %s (removed)', $menu, $property['id']),
@@ -83,6 +95,7 @@ class MenusCreate extends AbstractStep
                             continue;
                         }
                         // merge properties
+                        $updated = true;
                         $current = $menu->get($property['id'])->toArray();
                         $property = array_merge($current, $property);
                         call_user_func_array($this->builder->getMessageCb(), [
@@ -91,20 +104,23 @@ class MenusCreate extends AbstractStep
                             $countConfig,
                             $totalConfig,
                         ]);
-                    } else {
-                        call_user_func_array($this->builder->getMessageCb(), [
-                            'MENU_PROGRESS',
-                            sprintf('%s > %s', $menu, $property['id']),
-                            $countConfig,
-                            $totalConfig,
-                        ]);
                     }
                     // add/replace entry
-                    $item = (new Entry($property['id']))
-                        ->setName($property['name'] ?? ucfirst($key))
-                        ->setUrl($property['url'] ?? '/noURL')
-                        ->setWeight($property['weight'] ?? 0);
-                    $menu->add($item);
+                    if ($enabled) {
+                        $item = (new Entry($property['id']))
+                            ->setName($property['name'] ?? ucfirst($key))
+                            ->setUrl($property['url'] ?? '/noURL')
+                            ->setWeight($property['weight'] ?? 0);
+                        $menu->add($item);
+                        if (!$updated) {
+                            call_user_func_array($this->builder->getMessageCb(), [
+                                'MENU_PROGRESS',
+                                sprintf('%s > %s', $menu, $property['id']),
+                                $countConfig,
+                                $totalConfig,
+                            ]);
+                        }
+                    }
                 }
             }
         }
