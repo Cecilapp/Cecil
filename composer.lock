@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a54847e6a0e9b14aeb0c4b95a0b5c92b",
+    "content-hash": "e563489d20dd35ff6a47a777eac438ed",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -878,7 +878,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.2.6",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
