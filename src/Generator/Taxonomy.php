@@ -41,10 +41,10 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
      */
     protected function createVocabulariesCollection()
     {
-        // create an empty "taxonomies" collection
+        // create an empty a vocabularies collection
         $this->vocabulariesCollection = new VocabulariesCollection('taxonomies');
 
-        // adds vocabularies to the collection
+        // adds each vocabulary to the collection
         foreach (array_keys($this->config->get('site.taxonomies')) as $vocabulary) {
             /*
              * ie:
@@ -79,15 +79,16 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         $page->setVariable($plural, [$page->getVariable($plural)]);
                     }
                     // adds each term to the vocabulary collection...
-                    foreach ($page->getVariable($plural) as $term) {
-                        $term = mb_strtolower($term);
+                    foreach ($page->getVariable($plural) as $termName) {
+                        $termId = Page::slugify($termName);
+                        $term = (new Term($termId))->setName($termName);
                         $this->vocabulariesCollection
                             ->get($plural)
-                            ->add(new Term($term));
+                            ->add($term);
                         // ... and adds page to the term collection
                         $this->vocabulariesCollection
                             ->get($plural)
-                            ->get($term)
+                            ->get($termId)
                             ->add($page);
                     }
                 }
@@ -115,7 +116,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     $pages = $term->sortByDate();
                     $date = $pages->first()->getVariable('date');
                     $page = (new Page($pageId))
-                        ->setVariable('title', ucfirst($term->getId()));
+                        ->setVariable('title', $term->getName());
                     if ($this->pagesCollection->has($pageId)) {
                         $page = clone $this->pagesCollection->get($pageId);
                     }
