@@ -17,6 +17,37 @@ use Cecil\Collection\ItemInterface;
 class Term extends CecilCollection implements ItemInterface
 {
     /**
+     * Term's name.
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * Set term's name.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function setName(string $value): self
+    {
+        $this->name = $value;
+
+        return $this;
+    }
+
+    /**
+     * get term's name.
+     *
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
      * Sort items by date.
      *
      * @return self

@@ -80,8 +80,8 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     }
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
-                        $termId = mb_strtolower($termName);
-                        $term = new Term($termId);
+                        $termId = Page::slugify($termName);
+                        $term = (new Term($termId))->setName($termName);
                         $this->vocabulariesCollection
                             ->get($plural)
                             ->add($term);
@@ -116,7 +116,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     $pages = $term->sortByDate();
                     $date = $pages->first()->getVariable('date');
                     $page = (new Page($pageId))
-                        ->setVariable('title', ucfirst($term->getId()));
+                        ->setVariable('title', $term->getName());
                     if ($this->pagesCollection->has($pageId)) {
                         $page = clone $this->pagesCollection->get($pageId);
                     }

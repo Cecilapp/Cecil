@@ -5,7 +5,7 @@
 <ul>
 {% for term in page.terms %}
     <li>
-        <h2><a href="{{ url(page.path ~ '/' ~ term.id) }}">{{ term.id|title }}</a> ({{ term|length }})</h2>
+        <h2><a href="{{ url(page.path ~ '/' ~ term.id) }}">{{ term.name }}</a> ({{ term|length }})</h2>
     </li>
 {% endfor %}
 </ul>
