@@ -73,9 +73,9 @@ class Twig implements RendererInterface
             $this->rendered = preg_replace('/(<head>|<head[[:space:]]+.*>)/i', "$1\n    $meta", $this->rendered);
         }
 
-        // replace excerpt tag by HTML anchor
-        $pattern = '/(.*)(<!-- excerpt -->)(.*)/i';
-        $replacement = '$1<span id="more"></span>$3';
+        // replace excerpt or break tag by HTML anchor
+        $pattern = '/(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)/i'; // https://regex101.com/r/9M2W0M/2
+        $replacement = '$1<span id="more"></span>$4';
         $this->rendered = preg_replace($pattern, $replacement, $this->rendered);
 
         return $this->rendered;
