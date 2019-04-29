@@ -30,7 +30,7 @@
     "erusev/parsedown-extra": "^0.8.0",
     "leafo/scssphp": "0.7.7",
     "matthiasmullie/minify": "1.3.60",
-    "myclabs/php-enum": "1.6.4",
+    "myclabs/php-enum": "1.7.0",
     "padraic/humbug_get_contents": "1.1.2",
     "padraic/phar-updater": "1.0.6",
     "symfony/filesystem": "4.2.6",
