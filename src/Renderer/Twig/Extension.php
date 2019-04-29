@@ -490,6 +490,9 @@ class Extension extends SlugifyExtension
 
     /**
      * Hash file with sha384.
+     * Useful for SRI (Subresource Integrity).
+     *
+     * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
      *
      * @param string $path
      *
@@ -498,8 +501,10 @@ class Extension extends SlugifyExtension
     public function hashFile(string $path): ?string
     {
         if (is_file($filePath = $this->outputPath.'/'.$path)) {
-            return sprintf('sha384-%s', base64_encode(hash_file('sha384', $filePath, true)));
+            $path = $filePath;
         }
+
+        return sprintf('sha384-%s', base64_encode(hash_file('sha384', $path, true)));
     }
 
     /**
