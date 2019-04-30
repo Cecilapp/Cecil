@@ -44,7 +44,7 @@ class ConfigImport extends AbstractStep
             if (Util::getFS()->exists($themeConfigFile)) {
                 set_error_handler(
                     function ($severity, $message, $file, $line) {
-                        throw new \ErrorException($message, $severity, $severity, $file, $line);
+                        throw new \ErrorException($message, 0, $severity, $file, $line, null);
                     }
                 );
                 $config = file_get_contents($themeConfigFile);
