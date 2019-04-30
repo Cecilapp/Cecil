@@ -63,7 +63,7 @@ class PagesRender extends AbstractStep
         foreach ($filteredPages as $page) {
             $count++;
             $formats = ['html'];
-            $rendered = null;
+            $rendered = [];
             $alternates = [];
 
             // get page's output formats
