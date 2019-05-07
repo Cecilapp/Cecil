@@ -59,10 +59,10 @@ class Twig implements RendererInterface
         }
         // gettext
         if (!extension_loaded('gettext')) {
-            throw new \Exception(" The PHP gettext extension is needed to use translations");
+            throw new \Exception(' The PHP gettext extension is needed to use translations');
         }
         $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
-        $localePath = \realpath($builder->getConfig()->getSourceDir()."/locales");
+        $localePath = \realpath($builder->getConfig()->getSourceDir().'/locales');
         $domain = 'messages';
         \putenv("LC_ALL=$locale");
         \setlocale(LC_ALL, $locale.'.utf8');

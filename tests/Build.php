@@ -38,9 +38,9 @@ class Build extends \PHPUnit\Framework\TestCase
         Builder::create(
             [
                 'site' => [
-                    'title' => 'Cecil test',
+                    'title'  => 'Cecil test',
                     'locale' => 'fr_FR',
-                    'menu'  => [
+                    'menu'   => [
                         'main' => [
                             'home' => [
                                 'id'   => 'index',
