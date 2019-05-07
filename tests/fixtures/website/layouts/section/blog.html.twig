@@ -1,0 +1,19 @@
+{% extends '_default/list.html.twig' %}
+
+{% block content %}
+<div class="posts">
+  {% for post in pages %}
+  <div class="post">
+    {% block post %}
+    <h1 class="post-title">
+      <a href="{{ url(post) }}">{{ post.title|e }}</a>
+    </h1>
+    {# localized date #}
+    <span class="post-date">{% trans "Publication date:" %} {{ page.date|localizeddate('long', 'none', 'fr_FR') }}</span>
+    {{ post.content|excerptHtml }}
+    {% endblock post %}
+  </div>
+  {% endfor %}
+</div>
+{% include 'partials/pagination.html.twig' %}
+{% endblock content %}

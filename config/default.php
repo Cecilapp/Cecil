@@ -24,6 +24,7 @@ return [
             'max'  => 5,
             'path' => 'page',
         ],
+        'locale' => 'en_US',
         'date' => [
             'format'   => 'j F Y',
             'timezone' => 'Europe/Paris',

@@ -39,6 +39,7 @@ class Build extends \PHPUnit\Framework\TestCase
             [
                 'site' => [
                     'title' => 'Cecil test',
+                    'locale' => 'fr_FR',
                     'menu'  => [
                         'main' => [
                             'home' => [
