@@ -1,0 +1,20 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+      <h1 class="page-title">{{ page.title }}</h1>
+{% if page.date is defined %}
+      {# localized date #}
+      <span class="post-date">{% trans "Publication date:" %} {{ page.date|localizeddate('long', 'none') }}</span>
+{% endif %}
+{% if page.image is defined %}
+      <img src="{{ page.image }}" />
+{% endif %}
+      {{ page.content }}
+      <p>
+{% if page.tags is defined %}
+{% for tag in page.tags %}
+        <a href="{{ url('tags/' ~ tag) }}">#{{ tag }}</a>&nbsp;
+{% endfor %}
+{% endif %}
+      </p>
+{% endblock content %}

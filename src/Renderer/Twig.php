@@ -32,7 +32,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($templatesPath, Builder $buidler)
+    public function __construct($templatesPath, Builder $builder)
     {
         // load layouts
         $loader = new \Twig_Loader_Filesystem($templatesPath);
@@ -46,10 +46,27 @@ class Twig implements RendererInterface
         ]);
         // add extensions
         $this->twig->addExtension(new \Twig_Extension_Debug());
-        $this->twig->addExtension(new TwigExtension($buidler));
+        $this->twig->addExtension(new TwigExtension($builder));
         $this->twig->addExtension(new \Twig_Extension_StringLoader());
-        $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($buidler->getConfig()->get('site.date.format'));
-        $this->twig->getExtension('Twig_Extension_Core')->setTimezone($buidler->getConfig()->get('site.date.timezone'));
+        // set date format & timezone
+        $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($builder->getConfig()->get('site.date.format'));
+        $this->twig->getExtension('Twig_Extension_Core')->setTimezone($builder->getConfig()->get('site.date.timezone'));
+        // Internationalisation
+        $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
+        $locale = \Locale::getDefault();
+        if ($locale = $builder->getConfig()->get('site.locale')) {
+            \Locale::setDefault($locale);
+        }
+        // The PHP gettext extension is needed to use translations
+        if (extension_loaded('gettext')) {
+            $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
+            $localePath = realpath($builder->getConfig()->getSourceDir().'/locale');
+            $domain = 'messages';
+            putenv("LC_ALL=$locale");
+            putenv("LANGUAGE=$locale");
+            setlocale(LC_ALL, "$locale.UTF-8");
+            bindtextdomain($domain, $localePath);
+        }
     }
 
     /**
