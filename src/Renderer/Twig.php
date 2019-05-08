@@ -51,25 +51,22 @@ class Twig implements RendererInterface
         // set date format & timezone
         $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($builder->getConfig()->get('site.date.format'));
         $this->twig->getExtension('Twig_Extension_Core')->setTimezone($builder->getConfig()->get('site.date.timezone'));
-        // intl
+        // Internationalisation
         $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
         $locale = \Locale::getDefault();
         if ($locale = $builder->getConfig()->get('site.locale')) {
             \Locale::setDefault($locale);
         }
-        // gettext
-        if (!extension_loaded('gettext')) {
-            throw new \Exception(' The PHP gettext extension is needed to use translations');
+        // The PHP gettext extension is needed to use translations
+        if (extension_loaded('gettext')) {
+            $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
+            $localePath = realpath($builder->getConfig()->getSourceDir().'/locale');
+            $domain = 'messages';
+            putenv("LC_ALL=$locale");
+            putenv("LANGUAGE=$locale");
+            setlocale(LC_ALL, "$locale.UTF-8");
+            bindtextdomain($domain, $localePath);
         }
-        $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
-        $localePath = \realpath($builder->getConfig()->getSourceDir().'/locales');
-        $domain = 'messages';
-        \putenv("LC_ALL=$locale");
-        \setlocale(LC_ALL, $locale.'.utf8');
-        \bindtextdomain($domain, $localePath);
-        //\bind_textdomain_codeset($domain, 'UTF-8');
-        //\textdomain($domain);
-        //echo \gettext("Publication date:")."\n";
     }
 
     /**
