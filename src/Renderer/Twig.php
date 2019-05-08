@@ -52,20 +52,22 @@ class Twig implements RendererInterface
         $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($builder->getConfig()->get('site.date.format'));
         $this->twig->getExtension('Twig_Extension_Core')->setTimezone($builder->getConfig()->get('site.date.timezone'));
         // Internationalisation
-        $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
-        $locale = \Locale::getDefault();
-        if ($locale = $builder->getConfig()->get('site.locale')) {
-            \Locale::setDefault($locale);
-        }
-        // The PHP gettext extension is needed to use translations
-        if (extension_loaded('gettext')) {
-            $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
-            $localePath = realpath($builder->getConfig()->getSourceDir().'/locale');
-            $domain = 'messages';
-            putenv("LC_ALL=$locale");
-            putenv("LANGUAGE=$locale");
-            setlocale(LC_ALL, "$locale.UTF-8");
-            bindtextdomain($domain, $localePath);
+        if (extension_loaded('intl')) {
+            $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
+            $locale = \Locale::getDefault();
+            if ($locale = $builder->getConfig()->get('site.locale')) {
+                \Locale::setDefault($locale);
+            }
+            // The PHP gettext extension is needed to use translation
+            if (extension_loaded('gettext')) {
+                $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
+                $localePath = realpath($builder->getConfig()->getSourceDir().'/locale');
+                $domain = 'messages';
+                putenv("LC_ALL=$locale");
+                putenv("LANGUAGE=$locale");
+                setlocale(LC_ALL, "$locale.UTF-8");
+                bindtextdomain($domain, $localePath);
+            }
         }
     }
 
