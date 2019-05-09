@@ -24,7 +24,7 @@
     "issues": "https://github.com/Cecilapp/Cecil/issues"
   },
   "require": {
-    "php": "^7.1",
+    "php": "^7.1.3",
     "cocur/slugify": "3.2",
     "dflydev/dot-access-data": "2.0.0",
     "erusev/parsedown-extra": "^0.8.0",
@@ -46,8 +46,7 @@
   "require-dev": {
     "phpunit/phpunit": "7.5.9",
     "phpmd/phpmd": "2.6.0",
-    "humbug/box": "3.7.0",
-    "roave/better-reflection": "3.3.0"
+    "humbug/box": "3.7.0"
   },
   "autoload": {
     "psr-4": {
@@ -85,5 +84,10 @@
     "api-docs-build": "php sami.phar update sami.php",
     "post-install-cmd": "cd tests/fixtures/website;composer install;",
     "post-update-cmd": "cd tests/fixtures/website;composer update;"
+  },
+  "config": {
+    "platform": {
+      "php": "7.1.3"
+    }
   }
 }
