@@ -24,7 +24,7 @@ return [
             'max'  => 5,
             'path' => 'page',
         ],
-        'language' => 'fr-fr',
+        'language'  => 'fr-fr',
         'languages' => [
             'en-us' => [
                 'name'   => 'English',
