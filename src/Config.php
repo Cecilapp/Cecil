@@ -372,7 +372,7 @@ class Config
 
         $languages = $this->getLanguages();
         if (!is_array($languages)) {
-            throw new Exception("There is no default language!");
+            throw new Exception('There is no default language!');
         }
         reset($languages);
 
