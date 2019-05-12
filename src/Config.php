@@ -366,14 +366,17 @@ class Config
      */
     public function getLanguageDefaultKey(): string
     {
-        /*$languages = $this->getLanguages();
+        if ($this->get('site.language')) {
+            return $this->get('site.language');
+        }
+
+        $languages = $this->getLanguages();
         if (!is_array($languages)) {
             throw new Exception("There is no default language!");
         }
         reset($languages);
-        return key($languages);*/
 
-        return $this->get('site.language');
+        return key($languages);
     }
 
     /**
