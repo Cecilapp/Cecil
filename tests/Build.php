@@ -38,8 +38,14 @@ class Build extends \PHPUnit\Framework\TestCase
         Builder::create(
             [
                 'site' => [
-                    'title'  => 'Cecil test',
-                    'locale' => 'fr_FR',
+                    'title'     => 'Cecil test',
+                    'language'  => 'fr-fr',
+                    'languages' => [
+                        'fr-fr' => [
+                            'name'   => 'Français',
+                            'locale' => 'fr_FR',
+                        ],
+                    ],
                     'menu'   => [
                         'main' => [
                             'home' => [
