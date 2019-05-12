@@ -448,7 +448,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Read characters before '<!-- excerpt -->'.
+     * Read characters before '<!-- excerpt|break -->'.
      *
      * @param string|null $string
      *
@@ -456,8 +456,7 @@ class Extension extends SlugifyExtension
      */
     public function excerptHtml(string $string = null): ?string
     {
-        // https://regex101.com/r/mA2mG0/3
-        $pattern = '^(.*)[\n\r\s]*<!-- excerpt -->[\n\r\s]*(.*)$';
+        $pattern = '^(.*)[\n\r\s]*<!--[[:blank:]]?excerpt|break[[:blank:]]?-->[\n\r\s]*(.*)$';
         preg_match(
             '/'.$pattern.'/s',
             $string,
