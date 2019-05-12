@@ -24,15 +24,11 @@ return [
             'max'  => 5,
             'path' => 'page',
         ],
-        'language'  => 'fr-fr',
+        'language'  => 'en-us',
         'languages' => [
             'en-us' => [
                 'name'   => 'English',
                 'locale' => 'en_US',
-            ],
-            'fr-fr' => [
-                'name'   => 'Français',
-                'locale' => 'fr_FR',
             ],
         ],
         'date'   => [
