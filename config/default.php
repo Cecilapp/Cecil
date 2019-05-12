@@ -24,7 +24,17 @@ return [
             'max'  => 5,
             'path' => 'page',
         ],
-        'locale' => 'en_US',
+        'language' => 'fr-fr',
+        'languages' => [
+            'en-us' => [
+                'name'   => 'English',
+                'locale' => 'en_US',
+            ],
+            'fr-fr' => [
+                'name'   => 'Français',
+                'locale' => 'fr_FR',
+            ],
+        ],
         'date'   => [
             'format'   => 'j F Y',
             'timezone' => 'Europe/Paris',

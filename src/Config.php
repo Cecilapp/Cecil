@@ -348,4 +348,92 @@ class Config
 
         return array_merge($default, $result);
     }
+
+    /**
+     * Return available languages.
+     *
+     * @return array
+     */
+    public function getLanguages(): array
+    {
+        return $this->get('site.languages');
+    }
+
+    /**
+     * Return default language key (ie: "en-us").
+     *
+     * @return string
+     */
+    public function getLanguageDefaultKey(): string
+    {
+        /*$languages = $this->getLanguages();
+        if (!is_array($languages)) {
+            throw new Exception("There is no default language!");
+        }
+        reset($languages);
+        return key($languages);*/
+
+        return $this->get('site.language');
+    }
+
+    /**
+     * Return (specified or default) language properties.
+     *
+     * @return array
+     */
+    public function getLanguageProperties($key = null): array
+    {
+        $key = $key ?? $this->getLanguageDefaultKey();
+
+        $language = $this->get(sprintf('site.languages.%s', $key));
+        if (!is_array($language)) {
+            throw new Exception(sprintf("Language \"%s\" is not correctly set!", $key));
+        }
+
+        return $language;
+    }
+
+    /**
+     * Return (specified or default) language property value.
+     *
+     * @return string
+     */
+    public function getLanguageProperty($property, $key = null): string
+    {
+        $properties = ['name', 'locale'];
+        if (!in_array($property, $properties)) {
+             throw new Exception(sprintf("Language property \"%s\" is not available!", $property));
+        }
+
+        $language = $this->getLanguageProperties($key);
+        if (!\array_key_exists('locale', $language)) {
+            throw new Exception(sprintf("\"%s\" is not defined for language \"%s\"!", $property, $language['name']));
+        }
+
+        return $language[$property];
+    }
+
+    /**
+     * Language helper: return language key.
+     */
+    public function getLang(): string
+    {
+        return $this->getLanguageDefaultKey();
+    }
+
+    /**
+     * Language helper: return language name.
+     */
+    public function getLanguage(): string
+    {
+        return $this->getLanguageProperty('name');
+    }
+
+    /**
+     * Language helper: return language locale.
+     */
+    public function getLocale(): string
+    {
+        return $this->getLanguageProperty('locale');
+    }
 }
