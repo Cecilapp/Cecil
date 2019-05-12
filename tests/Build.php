@@ -46,7 +46,6 @@ class Build extends \PHPUnit\Framework\TestCase
                             'locale' => 'fr_FR',
                         ],
                     ],
-                    'locale' => 'fr_FR',
                     'menu'   => [
                         'main' => [
                             'home' => [
