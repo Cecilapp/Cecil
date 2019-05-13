@@ -121,11 +121,13 @@ class Serve extends AbstractCommand
             if (Plateform::isPhar()) {
                 $root = Plateform::getPharPath().'/';
             }
+            // copy router
             $this->fs->copy(
                 $root.'res/server/router.php',
                 $this->getPath().'/'.self::$tmpDir.'/router.php',
                 true
             );
+            // copy livereload JS
             if (!$this->nowatcher) {
                 $this->fs->copy(
                     $root.'res/server/livereload.js',
@@ -133,9 +135,14 @@ class Serve extends AbstractCommand
                     true
                 );
             }
+            // copy baseurl text file
             $this->fs->dumpFile(
                 $this->getPath().'/'.self::$tmpDir.'/baseurl',
-                $this->getBuilder()->getConfig()->get('site.baseurl')
+                sprintf(
+                    '%s;%s',
+                    $this->getBuilder()->getConfig()->get('site.baseurl'),
+                    sprintf('http://%s:%s/', $this->host, $this->port)
+                )
             );
         } catch (IOExceptionInterface $e) {
             throw new \Exception(sprintf('An error occurred while copying file at "%s"', $e->getPath()));
