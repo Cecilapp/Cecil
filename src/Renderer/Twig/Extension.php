@@ -298,7 +298,7 @@ class Extension extends SlugifyExtension
                     $url = $base.'/'.ltrim($url, '/');
                 } else {
                     $url = $base.'/';
-                    if (!empty($value)) {
+                    if (!empty($value) && $value != '/') {
                         $url = $base.'/'.$value;
                         // value == page ID?
                         $pageId = $this->slugifyFilter($value);

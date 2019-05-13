@@ -65,10 +65,13 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
                 $content = str_replace('</body>', "$script\n  </body>", $content);
             }
         }
-        // replace the baseurl by "/"
-        $baseurl = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/baseurl'));
+        // replace the "prod" baseurl by the "local" baseurl
+        $baseurls = trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/baseurl'));
+        $baseurls = explode(';', $baseurls);
+        $baseurl = $baseurls[0];
+        $baseurlLocal = $baseurls[1];
         if (false !== strstr($baseurl, 'http') || $baseurl != '/') {
-            $content = str_replace($baseurl, '/', $content);
+            $content = str_replace($baseurl, $baseurlLocal, $content);
         }
         // return result
         header('Etag: '.md5_file($filename));
