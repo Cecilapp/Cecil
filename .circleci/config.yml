@@ -2,12 +2,15 @@ version: 2
 jobs:
     build:
       docker:
-        - image: circleci/php:7.2.9-cli
+        - image: circleci/php:7.1-cli
       steps:
         - checkout
         - run:
             name: Switch timezone to Paris
             command: sudo cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
+        - run:
+            name: Enable Gettext
+            command: php -d extension=gettext
         - run:
             name: Composer
             command: |
