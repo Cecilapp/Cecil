@@ -24,9 +24,9 @@ return [
             'max'  => 5,
             'path' => 'page',
         ],
-        'language'  => 'en-us',
+        'language'  => 'en',
         'languages' => [
-            'en-us' => [
+            'en' => [
                 'name'   => 'English',
                 'locale' => 'en_US',
             ],
