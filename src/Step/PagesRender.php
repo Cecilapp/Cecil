@@ -152,16 +152,15 @@ class PagesRender extends AbstractStep
      */
     protected function addGlobals()
     {
-        // adds global variables
+        $this->builder->getRenderer()->addGlobal('config', $this->config);
         $this->builder->getRenderer()->addGlobal('site', array_merge(
-            $this->config->get('site'),
-            ['menus' => $this->builder->getMenus()],
+            $this->config->get('site'), // Site config backward compatibility
             ['pages' => $this->builder->getPages()->filter(function (Page $page) {
                 return $page->getVariable('published');
             })],
+            ['menus' => $this->builder->getMenus()],
             ['time' => time()]
         ));
-        $this->builder->getRenderer()->addGlobal('config', $this->config);
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => sprintf('https://cecil.app/#%s', $this->builder->getVersion()),
             'version'   => $this->builder->getVersion(),

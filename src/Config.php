@@ -14,7 +14,7 @@ use Dflydev\DotAccessData\Data;
 /**
  * Class Config.
  */
-class Config
+class Config implements \ArrayAccess
 {
     /**
      * Config.
@@ -139,6 +139,51 @@ class Config
     public function get($key, $default = '')
     {
         return $this->data->get($key, $default);
+    }
+
+    /**
+     * Implement ArrayAccess.
+     *
+     * @param mixed $offset
+     *
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return $this->data->has("site.$offset");
+    }
+
+    /**
+     * Implement ArrayAccess.
+     *
+     * @param mixed $offset
+     *
+     * @return null
+     */
+    public function offsetGet($offset)
+    {
+        return $this->data->get("site.$offset");
+    }
+
+    /**
+     * Implement ArrayAccess.
+     *
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        return $this->data->set("site.$offset", $value);
+    }
+
+    /**
+     * Implement ArrayAccess.
+     *
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset)
+    {
+        return $this->data->remove("site.$offset");
     }
 
     /**
