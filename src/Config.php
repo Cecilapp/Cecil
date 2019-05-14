@@ -360,7 +360,7 @@ class Config
     }
 
     /**
-     * Return default language key (ie: "en-us").
+     * Return default language key (ie: "en", "fr-fr", etc.).
      *
      * @return string
      */
@@ -372,7 +372,7 @@ class Config
 
         $languages = $this->getLanguages();
         if (!is_array($languages)) {
-            throw new Exception('There is no default language!');
+            throw new Exception('There is no default `language` in config!');
         }
         reset($languages);
 
@@ -390,7 +390,7 @@ class Config
 
         $language = $this->get(sprintf('site.languages.%s', $key));
         if (!is_array($language)) {
-            throw new Exception(sprintf('Language "%s" is not correctly set!', $key));
+            throw new Exception(sprintf('Language "%s" is not correctly set in config!', $key));
         }
 
         return $language;
@@ -404,13 +404,20 @@ class Config
     public function getLanguageProperty($property, $key = null): string
     {
         $properties = ['name', 'locale'];
-        if (!in_array($property, $properties)) {
-            throw new Exception(sprintf('Language property "%s" is not available!', $property));
-        }
-
         $language = $this->getLanguageProperties($key);
-        if (!\array_key_exists('locale', $language)) {
-            throw new Exception(sprintf('"%s" is not defined for language "%s"!', $property, $language['name']));
+
+        if (!in_array($property, $properties)) {
+            throw new Exception(sprintf(
+                'Property language "%s" is not available!',
+                $property
+            ));
+        }
+        if (!\array_key_exists($property, $language)) {
+            throw new Exception(sprintf(
+                'Property "%s" is not defined for language "%s"!',
+                $property,
+                $language['name']
+            ));
         }
 
         return $language[$property];
