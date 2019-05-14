@@ -315,7 +315,28 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Themes helpers.
+     * Return "clean" array output format array.
+     *
+     * @param string $format
+     *
+     * @return array
+     */
+    public function getOutputFormat(string $format): array
+    {
+        $default = [
+            'mediatype' => null, // 'text/html'
+            'subpath'   => null, // ''
+            'suffix'    => null, // '/index'
+            'extension' => null, // 'html'
+        ];
+
+        $result = $this->get(sprintf('site.output.formats.%s', $format));
+
+        return array_merge($default, $result);
+    }
+
+    /**
+     * Theme helpers.
      */
 
     /**
@@ -374,25 +395,8 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return "clean" array output format array.
-     *
-     * @param string $format
-     *
-     * @return array
+     * Languages helpers.
      */
-    public function getOutputFormat(string $format): array
-    {
-        $default = [
-            'mediatype' => null, // 'text/html'
-            'subpath'   => null, // ''
-            'suffix'    => null, // '/index'
-            'extension' => null, // 'html'
-        ];
-
-        $result = $this->get(sprintf('site.output.formats.%s', $format));
-
-        return array_merge($default, $result);
-    }
 
     /**
      * Return available languages.
