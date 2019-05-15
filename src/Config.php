@@ -383,7 +383,7 @@ class Config implements \ArrayAccess
 
     /**
      * Return the path of a specific theme's directory.
-     * ("layouts" by default)
+     * ("layouts" by default).
      *
      * @param string $theme
      * @param string $dir
