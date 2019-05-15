@@ -233,7 +233,10 @@ class Config implements \ArrayAccess
             $destinationDir = $this->sourceDir;
         }
         if (!is_dir($destinationDir)) {
-            throw new \InvalidArgumentException(sprintf('The directory "%s" is not a valid destination!', $destinationDir));
+            throw new \InvalidArgumentException(sprintf(
+                'The directory "%s" is not a valid destination!',
+                $destinationDir
+            ));
         }
         $this->destinationDir = $destinationDir;
 
