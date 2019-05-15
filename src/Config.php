@@ -17,7 +17,7 @@ use Dflydev\DotAccessData\Data;
 class Config implements \ArrayAccess
 {
     /**
-     * Config.
+     * Configuration is a Data object.
      *
      * @var Data
      */
@@ -77,7 +77,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Import array config to current config.
+     * Import an array to the current configuration.
      *
      * @param array $config
      */
@@ -93,7 +93,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Set config data.
+     * Set a Data object as configuration.
      *
      * @param Data $data
      *
@@ -109,7 +109,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Get config data.
+     * Get configuration as a Data object.
      *
      * @return Data
      */
@@ -119,7 +119,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Get data as array.
+     * Get configuration as an array.
      *
      * @return array
      */
@@ -129,7 +129,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return a config value.
+     * Get the value of a configuration's key'.
      *
      * @param string $key
      * @param string $default
@@ -187,7 +187,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Set source directory.
+     * Set the source directory.
      *
      * @param null $sourceDir
      *
@@ -201,7 +201,7 @@ class Config implements \ArrayAccess
             $sourceDir = getcwd();
         }
         if (!is_dir($sourceDir)) {
-            throw new \InvalidArgumentException(sprintf("'%s' is not a valid source directory.", $sourceDir));
+            throw new \InvalidArgumentException(sprintf('The directory "%s" is not a valid source!', $sourceDir));
         }
         $this->sourceDir = $sourceDir;
 
@@ -209,7 +209,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Get source directory.
+     * Get the source directory.
      *
      * @return string
      */
@@ -219,7 +219,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Set destination directory.
+     * Set the destination directory.
      *
      * @param null $destinationDir
      *
@@ -233,7 +233,7 @@ class Config implements \ArrayAccess
             $destinationDir = $this->sourceDir;
         }
         if (!is_dir($destinationDir)) {
-            throw new \InvalidArgumentException(sprintf("'%s' is not a valid destination directory.", $destinationDir));
+            throw new \InvalidArgumentException(sprintf('The directory "%s" is not a valid destination!', $destinationDir));
         }
         $this->destinationDir = $destinationDir;
 
@@ -241,7 +241,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Get destination directory.
+     * Get the destination directory.
      *
      * @return string
      */
@@ -251,11 +251,11 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Path helpers.
+     * Paths helpers.
      */
 
     /**
-     * Return content directory path.
+     * Return the path of the content directory.
      *
      * @return string
      */
@@ -265,7 +265,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return templates directory path.
+     * Return the path of templates directory.
      *
      * @return string
      */
@@ -275,7 +275,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return themes directory path.
+     * Return the path of themes directory.
      *
      * @return string
      */
@@ -285,7 +285,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return internal templates directory path.
+     * Return the path of internal templates directory.
      *
      * @return string
      */
@@ -295,7 +295,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return output directory path.
+     * Return the path of the output directory.
      *
      * @return string
      */
@@ -305,7 +305,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return static files directory path.
+     * Return the path of static files directory.
      *
      * @return string
      */
@@ -315,7 +315,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return "clean" array output format array.
+     * Return a "clean" array of an output format.
      *
      * @param string $format
      *
@@ -340,7 +340,7 @@ class Config implements \ArrayAccess
      */
 
     /**
-     * Return theme(s).
+     * Return theme(s) as an array.
      *
      * @return array|null
      */
@@ -383,6 +383,7 @@ class Config implements \ArrayAccess
 
     /**
      * Return the path of a specific theme's directory.
+     * ("layouts" by default)
      *
      * @param string $theme
      * @param string $dir
@@ -395,11 +396,11 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Languages helpers.
+     * Language helpers.
      */
 
     /**
-     * Return available languages.
+     * Return an array of available languages.
      *
      * @return array
      */
@@ -409,7 +410,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return default language key (ie: "en", "fr-fr", etc.).
+     * Return the default language key (ie: "en", "fr-fr", etc.).
      *
      * @return string
      */
@@ -421,7 +422,7 @@ class Config implements \ArrayAccess
 
         $languages = $this->getLanguages();
         if (!is_array($languages)) {
-            throw new Exception('There is no default `language` in config!');
+            throw new Exception('There is no default "language" in configuration!');
         }
         reset($languages);
 
@@ -429,7 +430,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Return (specified or default) language properties.
+     * Return properties of a (specified or default) language.
      *
      * @return array
      */
@@ -437,23 +438,23 @@ class Config implements \ArrayAccess
     {
         $key = $key ?? $this->getLanguageDefaultKey();
 
-        $language = $this->get(sprintf('site.languages.%s', $key));
-        if (!is_array($language)) {
+        $languageProperties = $this->get(sprintf('site.languages.%s', $key));
+        if (!is_array($languageProperties)) {
             throw new Exception(sprintf('Language "%s" is not correctly set in config!', $key));
         }
 
-        return $language;
+        return $languageProperties;
     }
 
     /**
-     * Return (specified or default) language property value.
+     * Return the property value of a (specified or default) language.
      *
      * @return string
      */
     public function getLanguageProperty($property, $key = null): string
     {
         $properties = ['name', 'locale'];
-        $language = $this->getLanguageProperties($key);
+        $languageProperties = $this->getLanguageProperties($key);
 
         if (!in_array($property, $properties)) {
             throw new Exception(sprintf(
@@ -461,19 +462,19 @@ class Config implements \ArrayAccess
                 $property
             ));
         }
-        if (!\array_key_exists($property, $language)) {
+        if (!\array_key_exists($property, $languageProperties)) {
             throw new Exception(sprintf(
                 'Property "%s" is not defined for language "%s"!',
                 $property,
-                $language['name']
+                $languageProperties['name']
             ));
         }
 
-        return $language[$property];
+        return $languageProperties[$property];
     }
 
     /**
-     * Language helper: return language key.
+     * Get the language key.
      */
     public function getLang(): string
     {
@@ -481,7 +482,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Language helper: return language name.
+     * Get the language name.
      */
     public function getLanguage(): string
     {
@@ -489,7 +490,7 @@ class Config implements \ArrayAccess
     }
 
     /**
-     * Language helper: return language locale.
+     * Get the language locale.
      */
     public function getLocale(): string
     {

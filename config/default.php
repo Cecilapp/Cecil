@@ -11,8 +11,8 @@
 // Default config
 return [
     'site' => [
-        'title'        => 'My Webiste',
-        'baseline'     => 'An amazing static website!',
+        'title'        => 'My Website',
+        'baseline'     => 'My amazing static website!',
         'baseurl'      => 'http://localhost:8000/',
         'canonicalurl' => false,
         'description'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
