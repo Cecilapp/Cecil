@@ -9,8 +9,8 @@ jobs:
             name: Switch timezone to Paris
             command: sudo cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
         - run:
-            name: Enable Gettext
-            command: php -d extension=gettext
+            name: Install Gettext
+            command: sudo docker-php-ext-install gettext
         - run:
             name: Composer
             command: |
