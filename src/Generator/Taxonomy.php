@@ -43,10 +43,16 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     {
         // create an empty a vocabularies collection
         $this->vocabulariesCollection = new VocabulariesCollection('taxonomies');
-
-        // adds each vocabulary to the collection
+        /*
+         * Adds each vocabulary to the collection.
+         * ie:
+         *   taxonomies:
+         *     - tags: tag
+         *     - categories: category
+         */
         foreach (array_keys($this->config->get('site.taxonomies')) as $vocabulary) {
             /*
+             * Disabled vocabulary?
              * ie:
              *   taxonomies:
              *     tags: disabled
@@ -67,6 +73,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
         /* @var $page Page */
         $pages = $this->pagesCollection->sortByDate();
         foreach ($pages as $page) {
+            // ie: tags
             foreach ($this->vocabulariesCollection as $vocabulary) {
                 $plural = $vocabulary->getId();
                 /*

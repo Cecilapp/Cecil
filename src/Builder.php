@@ -225,6 +225,22 @@ class Builder
     }
 
     /**
+     * @param $taxonomies
+     */
+    public function setTaxonomies($taxonomies)
+    {
+        $this->taxonomies = $taxonomies;
+    }
+
+    /**
+     * @return Collection\Taxonomy\Collection
+     */
+    public function getTaxonomies()
+    {
+        return $this->taxonomies;
+    }
+
+    /**
      * @param \Closure|null $messageCallback
      */
     public function setMessageCallback($messageCallback = null)
