@@ -456,9 +456,9 @@ class Extension extends SlugifyExtension
      */
     public function excerptHtml(string $string = null): ?string
     {
-        // https://regex101.com/r/Xl7d5I/1/
-        $pattern = '(.*)[\n\r\s]*(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)[\n\r\s]*(.*)';
-        preg_match('/'.$pattern.'/i', $string, $matches);
+        // https://regex101.com/r/Xl7d5I/3
+        $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
+        preg_match('/'.$pattern.'/is', $string, $matches);
         if (empty($matches)) {
             return $string;
         }
