@@ -94,10 +94,10 @@ class Twig implements RendererInterface
         }
 
         // replace excerpt or break tag by HTML anchor
-        // https://regex101.com/r/Xl7d5I/1/
-        $pattern = '(.*)[\n\r\s]*(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)[\n\r\s]*(.*)';
+        // https://regex101.com/r/Xl7d5I/3
+        $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
         $replacement = '$1<span id="more"></span>$4';
-        $this->rendered = preg_replace('/'.$pattern.'/i', $replacement, $this->rendered);
+        $this->rendered = preg_replace('/'.$pattern.'/is', $replacement, $this->rendered);
 
         return $this->rendered;
     }
