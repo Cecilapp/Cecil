@@ -73,6 +73,12 @@ class Builder
      */
     protected $menus;
     /**
+     * Collection of site taxonomies.
+     *
+     * @var Collection\Taxonomy\Collection
+     */
+    protected $taxonomies;
+    /**
      * Twig renderer.
      *
      * @var Renderer\Twig

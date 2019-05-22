@@ -14,7 +14,7 @@ use Cecil\Collection\Menu\Menu;
 use Cecil\Collection\Page\Page;
 
 /**
- * Generates menus.
+ * Create menus collection.
  */
 class MenusCreate extends AbstractStep
 {
