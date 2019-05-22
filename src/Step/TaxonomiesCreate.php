@@ -8,11 +8,6 @@
 
 namespace Cecil\Step;
 
-use Cecil\Collection\Taxonomies\Collection as TaxonomiesCollection;
-use Cecil\Collection\Taxonomies\Term;
-use Cecil\Collection\Taxonomies\Vocabulary;
-use Cecil\Collection\Page\Page;
-
 /**
  * Create taxonomies collection.
  */
