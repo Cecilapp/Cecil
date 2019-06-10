@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a23df3e957953c3d563aa70c8ece506d",
+    "content-hash": "fbb1f050226412ebe9f4bbbcfe023762",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1044,16 +1044,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.11.0",
+            "version": "v2.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "c344879ae57dc1487b1df3e3d8325936125ba2cc"
+                "reference": "84a463403da1c81afbcedda8f0e788c78bd25a79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/c344879ae57dc1487b1df3e3d8325936125ba2cc",
-                "reference": "c344879ae57dc1487b1df3e3d8325936125ba2cc",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/84a463403da1c81afbcedda8f0e788c78bd25a79",
+                "reference": "84a463403da1c81afbcedda8f0e788c78bd25a79",
                 "shasum": ""
             },
             "require": {
@@ -1064,7 +1064,7 @@
             "require-dev": {
                 "psr/container": "^1.0",
                 "symfony/debug": "^2.7",
-                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+                "symfony/phpunit-bridge": "^3.4.19|^4.1.8|^5.0"
             },
             "type": "library",
             "extra": {
@@ -1107,7 +1107,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-05-31T06:21:42+00:00"
+            "time": "2019-06-05T11:17:07+00:00"
         },
         {
             "name": "yosymfony/resource-watcher",
