@@ -51,7 +51,7 @@ jobs:
       deploy:
         # GitHub release
         - provider: releases
-          api_key: $GH_TOKEN
+          api_key: $GITHUB_TOKEN
           file: "dist/cecil.phar"
           skip_cleanup: true
           overwrite: true
