@@ -159,6 +159,7 @@ class PagesRender extends AbstractStep
                 return $page->getVariable('published');
             })],
             ['menus' => $this->builder->getMenus()],
+            ['taxonomies' => $this->builder->getTaxonomies()],
             ['time'  => time()]
         ));
         $this->builder->getRenderer()->addGlobal('cecil', [

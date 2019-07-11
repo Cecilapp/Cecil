@@ -1,0 +1,20 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+
+      {{ page.content }}
+
+<ul>
+{% for vocabulary in site.taxonomies %}
+  <li>{{ vocabulary }} ({{ vocabulary.id }})</li>
+  <ul>
+    {% for term in vocabulary %}
+    <li>{{ term.name }} ({{ term.id }})</li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+</ul>
+
+      <pre>{{ dump(site.taxonomies) }}</pre>
+
+{% endblock content %}
