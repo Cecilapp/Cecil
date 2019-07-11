@@ -158,9 +158,9 @@ class PagesRender extends AbstractStep
             ['pages' => $this->builder->getPages()->filter(function (Page $page) {
                 return $page->getVariable('published');
             })],
-            ['menus' => $this->builder->getMenus()],
+            ['menus'      => $this->builder->getMenus()],
             ['taxonomies' => $this->builder->getTaxonomies()],
-            ['time'  => time()]
+            ['time'       => time()]
         ));
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => sprintf('https://cecil.app/#%s', $this->builder->getVersion()),
