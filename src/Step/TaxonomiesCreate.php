@@ -34,14 +34,6 @@ class TaxonomiesCreate extends AbstractStep
         }
 
         $this->builder->setTaxonomies($this->vocabulariesCollection);
-
-        // DEBUG
-        /*foreach ($this->builder->getTaxonomies() as $key => $value) {
-            echo "$value:\n";
-            foreach ($value as $k => $v) {
-                echo "  - $v\n";
-            }
-        }*/
     }
 
     /**
