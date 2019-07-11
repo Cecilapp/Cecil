@@ -14,11 +14,11 @@ namespace Cecil\Generator;
 interface GeneratorInterface
 {
     /**
-     * Give config to object.
+     * Give Builder to object.
      *
-     * @param \Cecil\Config $config
+     * @param \Cecil\Builder $builder
      */
-    public function __construct(\Cecil\Config $config);
+    public function __construct(\Cecil\Builder $builder);
 
     /**
      * Create page and add it to collection.

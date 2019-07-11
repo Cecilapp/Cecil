@@ -43,7 +43,7 @@ class PagesGenerate extends AbstractStep
 
                     return;
                 }
-                $generatorManager->addGenerator(new $generator($this->builder->getConfig()), $priority);
+                $generatorManager->addGenerator(new $generator($this->builder), $priority);
             });
 
             $pages = $generatorManager->process($this->builder->getPages(), $this->builder->getMessageCb());

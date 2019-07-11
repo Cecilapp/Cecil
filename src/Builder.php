@@ -42,6 +42,7 @@ class Builder
         'Cecil\Step\ContentLoad',
         'Cecil\Step\PagesCreate',
         'Cecil\Step\PagesConvert',
+        'Cecil\Step\TaxonomiesCreate',
         'Cecil\Step\PagesGenerate',
         'Cecil\Step\MenusCreate',
         'Cecil\Step\StaticCopy',
