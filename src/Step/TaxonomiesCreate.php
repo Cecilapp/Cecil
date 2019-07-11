@@ -12,7 +12,6 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Taxonomy\Collection as VocabulariesCollection;
 use Cecil\Collection\Taxonomy\Term as Term;
 use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
-use Cecil\Exception\Exception;
 
 /**
  * Create taxonomies collection.
