@@ -3,8 +3,8 @@ set -e
 
 # Deploy dist file to website
 
-TARGET_REPO="Cecilapp/website"
-TARGET_BRANCH="source"
+TARGET_REPO="Cecilapp/cecil.app"
+TARGET_BRANCH="master"
 TARGET_RELEASE_DIR="download/$TRAVIS_TAG"
 TARGET_DIST_DIR="static"
 DIST_FILE="cecil.phar"

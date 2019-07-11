@@ -4,8 +4,8 @@ set -e
 # Deploy documentation files to website
 
 SOURCE_DOCS_DIR="docs"
-TARGET_REPO="Cecilapp/website"
-TARGET_BRANCH="source"
+TARGET_REPO="Cecilapp/cecil.app"
+TARGET_BRANCH="master"
 TARGET_DOCS_DIR="content/documentation"
 
 echo "Starting to update documentation to ${TARGET_REPO}..."
