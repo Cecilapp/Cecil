@@ -21,7 +21,7 @@ class TaxonomiesCreate extends AbstractStep
     /**
      * @var VocabulariesCollection
      */
-    protected $vocabulariesCollection;
+    protected $vocabCollection;
 
     /**
      * {@inheritdoc}
@@ -33,7 +33,7 @@ class TaxonomiesCreate extends AbstractStep
             $this->collectTermsFromPages();
         }
 
-        $this->builder->setTaxonomies($this->vocabulariesCollection);
+        $this->builder->setTaxonomies($this->vocabCollection);
     }
 
     /**
@@ -42,7 +42,7 @@ class TaxonomiesCreate extends AbstractStep
     protected function createVocabulariesCollection()
     {
         // create an empty a vocabularies collection
-        $this->vocabulariesCollection = new VocabulariesCollection('taxonomies');
+        $this->vocabCollection = new VocabulariesCollection('taxonomies');
         /*
          * Adds each vocabulary to the collection.
          * ie:
@@ -61,7 +61,7 @@ class TaxonomiesCreate extends AbstractStep
                 continue;
             }
 
-            $this->vocabulariesCollection->add(new Vocabulary($vocabulary));
+            $this->vocabCollection->add(new Vocabulary($vocabulary));
         }
     }
 
@@ -74,7 +74,7 @@ class TaxonomiesCreate extends AbstractStep
         $pages = $this->builder->getPages()->sortByDate();
         foreach ($pages as $page) {
             // ie: tags
-            foreach ($this->vocabulariesCollection as $vocabulary) {
+            foreach ($this->vocabCollection as $vocabulary) {
                 $plural = $vocabulary->getId();
                 /*
                  * ie:
@@ -89,11 +89,11 @@ class TaxonomiesCreate extends AbstractStep
                     foreach ($page->getVariable($plural) as $termName) {
                         $termId = Page::slugify($termName);
                         $term = (new Term($termId))->setName($termName);
-                        $this->vocabulariesCollection
+                        $this->vocabCollection
                             ->get($plural)
                             ->add($term);
                         // ... and adds page to the term collection
-                        $this->vocabulariesCollection
+                        $this->vocabCollection
                             ->get($plural)
                             ->get($termId)
                             ->add($page);
