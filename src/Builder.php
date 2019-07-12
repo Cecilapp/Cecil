@@ -42,6 +42,7 @@ class Builder
         'Cecil\Step\ContentLoad',
         'Cecil\Step\PagesCreate',
         'Cecil\Step\PagesConvert',
+        'Cecil\Step\TaxonomiesCreate',
         'Cecil\Step\PagesGenerate',
         'Cecil\Step\MenusCreate',
         'Cecil\Step\StaticCopy',
@@ -72,6 +73,12 @@ class Builder
      * @var Collection\Menu\Collection
      */
     protected $menus;
+    /**
+     * Collection of site taxonomies.
+     *
+     * @var Collection\Taxonomy\Collection
+     */
+    protected $taxonomies;
     /**
      * Twig renderer.
      *
@@ -222,6 +229,22 @@ class Builder
     public function getMenus()
     {
         return $this->menus;
+    }
+
+    /**
+     * @param $taxonomies
+     */
+    public function setTaxonomies($taxonomies)
+    {
+        $this->taxonomies = $taxonomies;
+    }
+
+    /**
+     * @return Collection\Taxonomy\Collection
+     */
+    public function getTaxonomies()
+    {
+        return $this->taxonomies;
     }
 
     /**

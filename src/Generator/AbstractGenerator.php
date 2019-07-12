@@ -8,6 +8,7 @@
 
 namespace Cecil\Generator;
 
+use Cecil\Builder;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Config;
 use Cecil\Util;
@@ -17,6 +18,8 @@ use Cecil\Util;
  */
 abstract class AbstractGenerator implements GeneratorInterface
 {
+    /* @var Builder */
+    protected $builder;
     /* @var Config */
     protected $config;
     /* @var PagesCollection */
@@ -29,9 +32,10 @@ abstract class AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct(Config $config)
+    public function __construct(Builder $builder)
     {
-        $this->config = $config;
+        $this->builder = $builder;
+        $this->config = $builder->getConfig();
         // Create new empty collection
         $this->generatedPages = new PagesCollection('generator-'.Util::formatClassName($this, ['lowercase' => true]));
     }
