@@ -487,28 +487,4 @@ class Config implements \ArrayAccess
 
         return $languageProperties[$property];
     }
-
-    /**
-     * Get the language key.
-     */
-    public function getLang(): string
-    {
-        return $this->getLanguageDefaultKey();
-    }
-
-    /**
-     * Get the language name.
-     */
-    public function getLanguage(): string
-    {
-        return $this->getLanguageProperty('name');
-    }
-
-    /**
-     * Get the language locale.
-     */
-    public function getLocale(): string
-    {
-        return $this->getLanguageProperty('locale');
-    }
 }

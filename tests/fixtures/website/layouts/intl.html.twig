@@ -18,5 +18,5 @@
 {% endif %}
       </p>
       <hr />
-      <p>Default language: {{ site.language }} (lang: {{ site.lang }}; locale: {{ site.locale }})</p>
+      <p>Default language: {{ site.language }} (lang: {{ site.languages[site.language].name }}; locale: {{ site.languages[site.language].locale }})</p>
 {% endblock content %}
