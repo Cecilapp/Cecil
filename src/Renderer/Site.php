@@ -11,7 +11,6 @@ namespace Cecil\Renderer;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
-use Cecil\Exception\Exception;
 
 /**
  * Class Site.
@@ -42,7 +41,8 @@ class Site
         $this->config = $builder->getConfig();
     }
 
-    public function __call($method, $args) {
+    public function __call($method, $args)
+    {
         $camelMethod = 'get'.ucwords($method);
         // local method
         if (method_exists($this, $camelMethod)) {
@@ -56,21 +56,25 @@ class Site
         return $this->config->get($method);
     }
 
-    public function getPages() {
+    public function getPages()
+    {
         return $this->builder->getPages()->filter(function (Page $page) {
             return $page->getVariable('published');
         });
     }
 
-    public function getMenus() {
+    public function getMenus()
+    {
         return $this->builder->getMenus();
     }
 
-    public function getTaxonomies() {
+    public function getTaxonomies()
+    {
         return $this->builder->getTaxonomies();
     }
 
-    public function getTime() {
+    public function getTime()
+    {
         return time();
     }
 }
