@@ -246,8 +246,8 @@ class Extension extends SlugifyExtension
      */
     public function createUrl($value = null, $options = null): ?string
     {
-        $baseurl = $this->config->get('site.baseurl');
-        $hash = md5($this->config->get('site.time'));
+        $baseurl = $this->config->get('baseurl');
+        $hash = md5($this->config->get('time'));
         $base = '';
         // handle options
         $canonical = null;
@@ -265,7 +265,7 @@ class Extension extends SlugifyExtension
         extract($options ?: []);
 
         // set baseurl
-        if ($this->config->get('site.canonicalurl') === true || $canonical === true) {
+        if ($this->config->get('canonicalurl') === true || $canonical === true) {
             $base = rtrim($baseurl, '/');
         }
         if ($canonical === false) {

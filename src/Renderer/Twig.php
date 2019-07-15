@@ -49,8 +49,8 @@ class Twig implements RendererInterface
         $this->twig->addExtension(new TwigExtension($builder));
         $this->twig->addExtension(new \Twig_Extension_StringLoader());
         // set date format & timezone
-        $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($builder->getConfig()->get('site.date.format'));
-        $this->twig->getExtension('Twig_Extension_Core')->setTimezone($builder->getConfig()->get('site.date.timezone'));
+        $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($builder->getConfig()->get('date.format'));
+        $this->twig->getExtension('Twig_Extension_Core')->setTimezone($builder->getConfig()->get('date.timezone'));
         // Internationalisation
         $locale = $builder->getConfig()->getLanguageProperty('locale');
         // The PHP Intl extension is needed to use localized date

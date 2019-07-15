@@ -34,57 +34,55 @@ class Build extends \PHPUnit\Framework\TestCase
 
     public function testBuid()
     {
-        putenv('CECIL_SITE_DESCRIPTION=Description from environment variable');
+        putenv('CECIL_DESCRIPTION=Description from environment variable');
         Builder::create(
             [
-                'site' => [
-                    'title'     => 'Cecil test',
-                    'language'  => 'fr-fr',
-                    'languages' => [
-                        'fr-fr' => [
-                            'name'   => 'Français',
-                            'locale' => 'fr_FR',
+                'title'     => 'Cecil test',
+                'language'  => 'fr-fr',
+                'languages' => [
+                    'fr-fr' => [
+                        'name'   => 'Français',
+                        'locale' => 'fr_FR',
+                    ],
+                ],
+                'menu'   => [
+                    'main' => [
+                        'home' => [
+                            'id'   => 'index',
+                            'name' => 'Da home! \o/',
+                        ],
+                        'about' => [
+                            'enabled' => false,
+                        ],
+                        'aligny' => [
+                            'name'   => 'The author',
+                            'url'    => 'https://arnaudligny.fr',
+                            'weight' => 9999,
                         ],
                     ],
-                    'menu'   => [
-                        'main' => [
-                            'home' => [
-                                'id'   => 'index',
-                                'name' => 'Da home! \o/',
-                            ],
-                            'about' => [
-                                'enabled' => false,
-                            ],
-                            'aligny' => [
-                                'name'   => 'The author',
-                                'url'    => 'https://arnaudligny.fr',
-                                'weight' => 9999,
-                            ],
-                        ],
+                ],
+                'pagination' => [
+                    'enabled'  => true,
+                ],
+                'taxonomies' => [
+                    'tests' => 'disabled',
+                ],
+                'googleanalytics' => 'UA-XXXXX',
+                'virtualpages'    => [
+                    'sitemap' => [
+                        'published' => true,
                     ],
-                    'pagination' => [
-                        'enabled'  => true,
+                    'rss' => [
+                        'published' => false,
                     ],
-                    'taxonomies' => [
-                        'tests' => 'disabled',
-                    ],
-                    'googleanalytics' => 'UA-XXXXX',
-                    'virtualpages'    => [
-                        'sitemap' => [
-                            'published' => true,
-                        ],
-                        'rss' => [
-                            'published' => false,
-                        ],
-                    ],
-                    'output' => [
-                        'pagetypeformats' => [
-                            'page'       => ['html', 'json'],
-                            'homepage'   => ['html', 'atom', 'rss', 'json'],
-                            'section'    => ['html', 'atom', 'rss', 'json'],
-                            'vocabulary' => ['html'],
-                            'term'       => ['html', 'atom', 'rss'],
-                        ],
+                ],
+                'output' => [
+                    'pagetypeformats' => [
+                        'page'       => ['html', 'json'],
+                        'homepage'   => ['html', 'atom', 'rss', 'json'],
+                        'section'    => ['html', 'atom', 'rss', 'json'],
+                        'vocabulary' => ['html'],
+                        'term'       => ['html', 'atom', 'rss'],
                     ],
                 ],
                 'theme'  => [
