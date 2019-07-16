@@ -159,7 +159,8 @@ class PagesRender extends AbstractStep
             })],
             ['menus'      => $this->builder->getMenus()],
             ['taxonomies' => $this->builder->getTaxonomies()],
-            ['time'       => time()]
+            ['time'       => time()],
+            ['language'   => new \Cecil\Config\Language($this->config)]
         ));
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => sprintf('https://cecil.app/#%s', $this->builder->getVersion()),
