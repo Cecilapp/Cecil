@@ -9,7 +9,6 @@
 namespace Cecil\Config;
 
 use Cecil\Config;
-use Cecil\Exception\Exception;
 
 /**
  * Class Language.
