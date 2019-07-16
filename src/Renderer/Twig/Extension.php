@@ -99,6 +99,7 @@ class Extension extends SlugifyExtension
             new \Twig_SimpleFunction('toCSS', [$this, 'toCss']),
             new \Twig_SimpleFunction('hash', [$this, 'hashFile']),
             new \Twig_SimpleFunction('getenv', [$this, 'getEnv']),
+            new \Twig_SimpleFunction('lang', [$this, 'getLanguage']),
         ];
     }
 
@@ -513,5 +514,26 @@ class Extension extends SlugifyExtension
     public function getEnv(string $var): ?string
     {
         return getenv($var) ?: null;
+    }
+
+    /**
+     * Language helper.
+     *
+     * @param string $variable
+     *
+     * @return string|null
+     */
+    public function getLanguage(string $variable): ?string
+    {
+        switch ($variable) {
+            case 'name':
+                return $this->config->getLanguageProperty('name');
+                break;
+            case 'locale':
+                return $this->config->getLanguageProperty('locale');
+                break;
+            default:
+                return $this->config->getLanguageDefaultKey();
+        }
     }
 }
