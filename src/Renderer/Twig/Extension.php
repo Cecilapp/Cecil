@@ -73,17 +73,17 @@ class Extension extends SlugifyExtension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('filterBySection', [$this, 'filterBySection']),
-            new \Twig_SimpleFilter('filterBy', [$this, 'filterBy']),
-            new \Twig_SimpleFilter('sortByTitle', [$this, 'sortByTitle']),
-            new \Twig_SimpleFilter('sortByWeight', [$this, 'sortByWeight']),
-            new \Twig_SimpleFilter('sortByDate', [$this, 'sortByDate']),
-            new \Twig_SimpleFilter('urlize', [$this, 'slugifyFilter']),
-            new \Twig_SimpleFilter('minifyCSS', [$this, 'minifyCss']),
-            new \Twig_SimpleFilter('minifyJS', [$this, 'minifyJs']),
-            new \Twig_SimpleFilter('SCSStoCSS', [$this, 'scssToCss']),
-            new \Twig_SimpleFilter('excerpt', [$this, 'excerpt']),
-            new \Twig_SimpleFilter('excerptHtml', [$this, 'excerptHtml']),
+            new \Twig\TwigFilter('filterBySection', [$this, 'filterBySection']),
+            new \Twig\TwigFilter('filterBy', [$this, 'filterBy']),
+            new \Twig\TwigFilter('sortByTitle', [$this, 'sortByTitle']),
+            new \Twig\TwigFilter('sortByWeight', [$this, 'sortByWeight']),
+            new \Twig\TwigFilter('sortByDate', [$this, 'sortByDate']),
+            new \Twig\TwigFilter('urlize', [$this, 'slugifyFilter']),
+            new \Twig\TwigFilter('minifyCSS', [$this, 'minifyCss']),
+            new \Twig\TwigFilter('minifyJS', [$this, 'minifyJs']),
+            new \Twig\TwigFilter('SCSStoCSS', [$this, 'scssToCss']),
+            new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
+            new \Twig\TwigFilter('excerptHtml', [$this, 'excerptHtml']),
         ];
     }
 
@@ -93,13 +93,13 @@ class Extension extends SlugifyExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('url', [$this, 'createUrl']),
-            new \Twig_SimpleFunction('minify', [$this, 'minify']),
-            new \Twig_SimpleFunction('readtime', [$this, 'readtime']),
-            new \Twig_SimpleFunction('toCSS', [$this, 'toCss']),
-            new \Twig_SimpleFunction('hash', [$this, 'hashFile']),
-            new \Twig_SimpleFunction('getenv', [$this, 'getEnv']),
-            new \Twig_SimpleFunction('lang', [$this, 'getLanguage']),
+            new \Twig\TwigFunction('url', [$this, 'createUrl']),
+            new \Twig\TwigFunction('minify', [$this, 'minify']),
+            new \Twig\TwigFunction('readtime', [$this, 'readtime']),
+            new \Twig\TwigFunction('toCSS', [$this, 'toCss']),
+            new \Twig\TwigFunction('hash', [$this, 'hashFile']),
+            new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
+            new \Twig\TwigFunction('lang', [$this, 'getLanguage']),
         ];
     }
 
@@ -528,10 +528,8 @@ class Extension extends SlugifyExtension
         switch ($variable) {
             case 'name':
                 return $this->config->getLanguageProperty('name');
-                break;
             case 'locale':
                 return $this->config->getLanguageProperty('locale');
-                break;
             default:
                 return $this->config->getLanguageDefaultKey();
         }
