@@ -10,6 +10,7 @@ namespace Cecil\Step;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
+use Cecil\Renderer\Language;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Twig;
 
@@ -160,7 +161,7 @@ class PagesRender extends AbstractStep
             ['menus'      => $this->builder->getMenus()],
             ['taxonomies' => $this->builder->getTaxonomies()],
             ['time'       => time()],
-            ['language'   => new \Cecil\Config\Language($this->config)]
+            ['language'   => new Language($this->config)]
         ));
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => sprintf('https://cecil.app/#%s', $this->builder->getVersion()),

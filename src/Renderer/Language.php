@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Config;
+namespace Cecil\Renderer;
 
 use Cecil\Config;
 
