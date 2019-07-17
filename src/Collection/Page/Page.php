@@ -446,9 +446,9 @@ class Page extends Item
 
         // site config
         if ($config) {
-            $subpath = $config->get(sprintf('site.output.formats.%s.subpath', $format));
-            $suffix = $config->get(sprintf('site.output.formats.%s.suffix', $format));
-            $extension = $config->get(sprintf('site.output.formats.%s.extension', $format));
+            $subpath = $config->get(sprintf('output.formats.%s.subpath', $format));
+            $suffix = $config->get(sprintf('output.formats.%s.suffix', $format));
+            $extension = $config->get(sprintf('output.formats.%s.extension', $format));
         }
         // if ugly URL: not suffix
         if ($uglyurl) {

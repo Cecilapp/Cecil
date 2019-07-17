@@ -10,6 +10,7 @@ namespace Cecil\Step;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
+use Cecil\Renderer\Language;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Twig;
 
@@ -152,15 +153,15 @@ class PagesRender extends AbstractStep
      */
     protected function addGlobals()
     {
-        $this->builder->getRenderer()->addGlobal('config', $this->config);
         $this->builder->getRenderer()->addGlobal('site', array_merge(
-            $this->config->get('site'), // Site config backward compatibility
+            $this->config->getAllAsArray(),
             ['pages' => $this->builder->getPages()->filter(function (Page $page) {
                 return $page->getVariable('published');
             })],
             ['menus'      => $this->builder->getMenus()],
             ['taxonomies' => $this->builder->getTaxonomies()],
-            ['time'       => time()]
+            ['time'       => time()],
+            ['language'   => new Language($this->config)]
         ));
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => sprintf('https://cecil.app/#%s', $this->builder->getVersion()),
@@ -183,8 +184,8 @@ class PagesRender extends AbstractStep
         // Get available output formats for the page type.
         // ie:
         //   page: [html, json]
-        if (\is_array($this->config->get('site.output.pagetypeformats.'.$page->getType()))) {
-            $formats = $this->config->get('site.output.pagetypeformats.'.$page->getType());
+        if (\is_array($this->config->get('output.pagetypeformats.'.$page->getType()))) {
+            $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
         }
         // Get page output format(s).
         // ie:

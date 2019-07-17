@@ -50,7 +50,7 @@ class MenusCreate extends AbstractStep
          *           id: about
          *           enabled: false
          */
-        if ($menus = $this->builder->getConfig()->get('site.menu')) {
+        if ($menus = $this->builder->getConfig()->get('menu')) {
             call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Creating menus (config)']);
             $totalConfig = array_sum(array_map('count', $menus));
             $countConfig = 0;

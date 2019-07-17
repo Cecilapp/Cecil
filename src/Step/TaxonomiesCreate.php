@@ -28,7 +28,7 @@ class TaxonomiesCreate extends AbstractStep
      */
     public function process()
     {
-        if ($this->config->get('site.taxonomies')) {
+        if ($this->config->get('taxonomies')) {
             $this->createVocabulariesCollection();
             $this->collectTermsFromPages();
         }
@@ -50,7 +50,7 @@ class TaxonomiesCreate extends AbstractStep
          *     - tags: tag
          *     - categories: category
          */
-        foreach (array_keys($this->config->get('site.taxonomies')) as $vocabulary) {
+        foreach (array_keys($this->config->get('taxonomies')) as $vocabulary) {
             /*
              * Disabled vocabulary?
              * ie:

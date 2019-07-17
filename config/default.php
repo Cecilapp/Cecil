@@ -10,116 +10,114 @@
 
 // Default config
 return [
-    'site' => [
-        'title'        => 'My Website',
-        'baseline'     => 'My amazing static website!',
-        'baseurl'      => 'http://localhost:8000/',
-        'canonicalurl' => false,
-        'description'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        'taxonomies'   => [
-            'tags'       => 'tag',
-            'categories' => 'category',
+    'title'        => 'My Website',
+    'baseline'     => 'My amazing static website!',
+    'baseurl'      => 'http://localhost:8000/',
+    'canonicalurl' => false,
+    'description'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'taxonomies'   => [
+        'tags'       => 'tag',
+        'categories' => 'category',
+    ],
+    'pagination' => [
+        'max'  => 5,
+        'path' => 'page',
+    ],
+    'language'  => 'en',
+    'languages' => [
+        'en' => [
+            'name'   => 'English',
+            'locale' => 'en_US',
         ],
-        'pagination' => [
-            'max'  => 5,
-            'path' => 'page',
+    ],
+    'date'   => [
+        'format'   => 'j F Y',
+        'timezone' => 'Europe/Paris',
+    ],
+    'virtualpages' => [
+        'robots' => [
+            'title'   => 'Robots.txt',
+            'layout'  => 'robots',
+            'output'  => 'txt',
         ],
-        'language'  => 'en',
-        'languages' => [
-            'en' => [
-                'name'   => 'English',
-                'locale' => 'en_US',
+        'sitemap' => [
+            'title'      => 'XML sitemap',
+            'layout'     => 'sitemap',
+            'output'     => 'xml',
+            'changefreq' => 'monthly',
+            'priority'   => '0.5',
+        ],
+        '404' => [
+            'title'   => 'Page not found',
+            'layout'  => '404',
+            'uglyurl' => true,
+        ],
+    ],
+    'output' => [
+        'dir'      => '_site',
+        'formats'  => [
+            // ie: blog/post-1/index.html
+            'html' => [
+                'mediatype' => 'text/html',
+                'suffix'    => '/index',
+                'extension' => 'html',
+            ],
+            // ie: blog/atom.xml
+            'atom' => [
+                'mediatype' => 'application/atom+xml',
+                'suffix'    => '/atom',
+                'extension' => 'xml',
+                'exclude'   => ['redirect', 'paginated'],
+            ],
+            // ie: blog/rss.xml
+            'rss' => [
+                'mediatype' => 'application/rss+xml',
+                'suffix'    => '/rss',
+                'extension' => 'xml',
+                'exclude'   => ['redirect', 'paginated'],
+            ],
+            // ie: blog/post-1.json
+            'json' => [
+                'mediatype' => 'application/json',
+                'extension' => 'json',
+                'exclude'   => ['redirect'],
+            ],
+            // ie: blog/post-1.xml
+            'xml' => [
+                'mediatype' => 'application/xml',
+                'extension' => 'xml',
+                'exclude'   => ['redirect'],
+            ],
+            // ie: robots.txt
+            'txt' => [
+                'mediatype' => 'text/plain',
+                'extension' => 'txt',
+                'exclude'   => ['redirect'],
+            ],
+            // ie: blog/post-1/amp/index.html
+            'amp' => [
+                'mediatype' => 'text/html',
+                'subpath'   => '/amp',
+                'suffix'    => '/index',
+                'extension' => 'html',
+            ],
+            // ie: sw.js
+            'js' => [
+                'mediatype' => 'application/javascript',
+                'extension' => 'js',
+            ],
+            // ie: manifest.webmanifest
+            'webmanifest' => [
+                'mediatype' => 'application/manifest+json',
+                'extension' => 'webmanifest',
             ],
         ],
-        'date'   => [
-            'format'   => 'j F Y',
-            'timezone' => 'Europe/Paris',
-        ],
-        'virtualpages' => [
-            'robots' => [
-                'title'   => 'Robots.txt',
-                'layout'  => 'robots',
-                'output'  => 'txt',
-            ],
-            'sitemap' => [
-                'title'      => 'XML sitemap',
-                'layout'     => 'sitemap',
-                'output'     => 'xml',
-                'changefreq' => 'monthly',
-                'priority'   => '0.5',
-            ],
-            '404' => [
-                'title'   => 'Page not found',
-                'layout'  => '404',
-                'uglyurl' => true,
-            ],
-        ],
-        'output' => [
-            'dir'      => '_site',
-            'formats'  => [
-                // ie: blog/post-1/index.html
-                'html' => [
-                    'mediatype' => 'text/html',
-                    'suffix'    => '/index',
-                    'extension' => 'html',
-                ],
-                // ie: blog/atom.xml
-                'atom' => [
-                    'mediatype' => 'application/atom+xml',
-                    'suffix'    => '/atom',
-                    'extension' => 'xml',
-                    'exclude'   => ['redirect', 'paginated'],
-                ],
-                // ie: blog/rss.xml
-                'rss' => [
-                    'mediatype' => 'application/rss+xml',
-                    'suffix'    => '/rss',
-                    'extension' => 'xml',
-                    'exclude'   => ['redirect', 'paginated'],
-                ],
-                // ie: blog/post-1.json
-                'json' => [
-                    'mediatype' => 'application/json',
-                    'extension' => 'json',
-                    'exclude'   => ['redirect'],
-                ],
-                // ie: blog/post-1.xml
-                'xml' => [
-                    'mediatype' => 'application/xml',
-                    'extension' => 'xml',
-                    'exclude'   => ['redirect'],
-                ],
-                // ie: robots.txt
-                'txt' => [
-                    'mediatype' => 'text/plain',
-                    'extension' => 'txt',
-                    'exclude'   => ['redirect'],
-                ],
-                // ie: blog/post-1/amp/index.html
-                'amp' => [
-                    'mediatype' => 'text/html',
-                    'subpath'   => '/amp',
-                    'suffix'    => '/index',
-                    'extension' => 'html',
-                ],
-                // ie: sw.js
-                'js' => [
-                    'mediatype' => 'application/javascript',
-                    'extension' => 'js',
-                ],
-                // ie: manifest.webmanifest
-                'webmanifest' => [
-                    'mediatype' => 'application/manifest+json',
-                    'extension' => 'webmanifest',
-                ],
-            ],
-            'pagetypeformats' => [
-                'page'       => ['html'],
-                'homepage'   => ['html', 'atom', 'rss'],
-                'section'    => ['html', 'atom', 'rss'],
-                'vocabulary' => ['html'],
-                'term'       => ['html', 'atom', 'rss'],
-            ],
+        'pagetypeformats' => [
+            'page'       => ['html'],
+            'homepage'   => ['html', 'atom', 'rss'],
+            'section'    => ['html', 'atom', 'rss'],
+            'vocabulary' => ['html'],
+            'term'       => ['html', 'atom', 'rss'],
         ],
     ],
     'content' => [

@@ -20,7 +20,7 @@ class Clean extends AbstractCommand
      */
     public function processCommand()
     {
-        $outputDir = $this->getBuilder()->getConfig()->get('site.output.dir');
+        $outputDir = $this->getBuilder()->getConfig()->get('output.dir');
         if ($this->fs->exists($this->getPath().'/'.Serve::$tmpDir.'/output')) {
             $outputDir = file_get_contents($this->getPath().'/'.Serve::$tmpDir.'/output');
         }

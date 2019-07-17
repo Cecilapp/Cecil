@@ -129,6 +129,18 @@ class Config implements \ArrayAccess
     }
 
     /**
+     * Is configuration's key' exists?
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function has($key)
+    {
+        return $this->data->has($key);
+    }
+
+    /**
      * Get the value of a configuration's key'.
      *
      * @param string $key
@@ -150,7 +162,7 @@ class Config implements \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return $this->data->has("site.$offset");
+        return $this->data->has($offset);
     }
 
     /**
@@ -162,7 +174,7 @@ class Config implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->data->get("site.$offset");
+        return $this->data->get($offset);
     }
 
     /**
@@ -173,7 +185,7 @@ class Config implements \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        return $this->data->set("site.$offset", $value);
+        return $this->data->set($offset, $value);
     }
 
     /**
@@ -183,7 +195,7 @@ class Config implements \ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        return $this->data->remove("site.$offset");
+        return $this->data->remove($offset);
     }
 
     /**
@@ -304,7 +316,7 @@ class Config implements \ArrayAccess
      */
     public function getOutputPath()
     {
-        return $this->getDestinationDir().'/'.$this->get('site.output.dir');
+        return $this->getDestinationDir().'/'.$this->get('output.dir');
     }
 
     /**
@@ -333,7 +345,7 @@ class Config implements \ArrayAccess
             'extension' => null, // 'html'
         ];
 
-        $result = $this->get(sprintf('site.output.formats.%s', $format));
+        $result = $this->get(sprintf('output.formats.%s', $format));
 
         return array_merge($default, $result);
     }
@@ -409,7 +421,7 @@ class Config implements \ArrayAccess
      */
     public function getLanguages(): array
     {
-        return $this->get('site.languages');
+        return $this->get('languages');
     }
 
     /**
@@ -419,8 +431,8 @@ class Config implements \ArrayAccess
      */
     public function getLanguageDefaultKey(): string
     {
-        if ($this->get('site.language')) {
-            return $this->get('site.language');
+        if ($this->get('language')) {
+            return $this->get('language');
         }
 
         $languages = $this->getLanguages();
@@ -441,7 +453,7 @@ class Config implements \ArrayAccess
     {
         $key = $key ?? $this->getLanguageDefaultKey();
 
-        $languageProperties = $this->get(sprintf('site.languages.%s', $key));
+        $languageProperties = $this->get(sprintf('languages.%s', $key));
         if (!is_array($languageProperties)) {
             throw new Exception(sprintf('Language "%s" is not correctly set in config!', $key));
         }
@@ -474,29 +486,5 @@ class Config implements \ArrayAccess
         }
 
         return $languageProperties[$property];
-    }
-
-    /**
-     * Get the language key.
-     */
-    public function getLang(): string
-    {
-        return $this->getLanguageDefaultKey();
-    }
-
-    /**
-     * Get the language name.
-     */
-    public function getLanguage(): string
-    {
-        return $this->getLanguageProperty('name');
-    }
-
-    /**
-     * Get the language locale.
-     */
-    public function getLocale(): string
-    {
-        return $this->getLanguageProperty('locale');
     }
 }
