@@ -56,10 +56,13 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 $page->setPath($path)
                     ->setType(Type::SECTION)
                     ->setVariable('pages', $pages)
-                    ->setVariable('date', $pages->first()->getVariable('date'))
-                    ->setVariable('menu', [
+                    ->setVariable('date', $pages->first()->getVariable('date'));
+                // default menu
+                if (!$page->getVariable('menu')) {
+                    $page->setVariable('menu', [
                         'main' => ['weight' => $menuWeight],
                     ]);
+                }
                 $this->generatedPages->add($page);
                 $menuWeight += 10;
             }
