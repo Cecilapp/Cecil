@@ -36,12 +36,13 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             $page->setVariable('date', $pages->first()->getVariable('date'));
         }
         $page->setType(Type::HOMEPAGE)
-            ->setVariables([
-                'pages' => $pages,
-                'menu'  => [
-                    'main' => ['weight' => 1],
-                ],
+            ->setVariable('pages', $pages);
+        // default menu
+        if (!$page->getVariable('menu')) {
+            $page->setVariable('menu', [
+                'main' => ['weight' => 0],
             ]);
+        }
         $this->generatedPages->add($page);
     }
 }
