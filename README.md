@@ -2,8 +2,6 @@
 
 > Your content driven static site generator.
 
-> _(formerly PHPoole)_
-
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
 [![Build Status](https://travis-ci.com/Cecilapp/Cecil.svg)](https://travis-ci.com/Cecilapp/Cecil)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
@@ -13,18 +11,20 @@
 [![StyleCI](https://styleci.io/repos/12738012/shield)](https://styleci.io/repos/12738012)
 [![SymfonyInsight](https://insight.symfony.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269/mini.png)](https://insight.symfony.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269)
 
-Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](http://twig.sensiolabs.org/) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
+Cecil (formerly PHPoole) is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](http://twig.sensiolabs.org/) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
 ![Cecil CLI demo](https://raw.githubusercontent.com/Cecilapp/Cecil/master/docs/cecil-demo.png "Cecil CLI demo")
 
 - [Documentation](https://cecil.app/documentation)
 - [Issue tracker](https://github.com/Cecilapp/Cecil/issues)
+- [Demo](https://demo.cecil.app)
 
 ## Features
 
-- No database, files only
-- Flexible template engine & themes support
-- Generators (taxonomies, paginaton and more!)
+- No server, no database, no dependency: performance and security
+- Content is stored in flat files, written in Markdown with YAML front matter
+- Powered by Twig, a flexible template engine, with theme support
+- Paginaton, taxonomies, redirections (and more !) are generated automatically
 
 ## Installation
 
