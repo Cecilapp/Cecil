@@ -1,4 +1,5 @@
-# ![Cecil logo](https://avatars2.githubusercontent.com/u/45047331?s=50 "Logo created by Cécile Ricordeau") Cecil
+# ![Cecil logo](https://avatars2.githubusercontent.com/u/45047331?s=50 "Logo created by Cécile Ricordeau") [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FCecilapp%2FCecil.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FCecilapp%2FCecil?ref=badge_shield)
+Cecil
 
 > Your content driven static site generator.
 
@@ -54,3 +55,6 @@ Cecil is a free software distributed under the terms of the MIT license.
 
 Cecil © [Arnaud Ligny](https://arnaudligny.fr)  
 Logo © [Cécile Ricordeau](https://www.cecillie.fr)
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FCecilapp%2FCecil.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FCecilapp%2FCecil?ref=badge_large)
