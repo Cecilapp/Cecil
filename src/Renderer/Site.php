@@ -10,7 +10,6 @@ namespace Cecil\Renderer;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
-use Cecil\Exception\Exception;
 
 /**
  * Class Site.
@@ -93,6 +92,7 @@ class Site implements \ArrayAccess
     {
         return $this->builder->getPages()->filter(function (Page $page) {
             return true;
+
             return $page->getVariable('published');
         });
     }
