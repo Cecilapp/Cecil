@@ -170,7 +170,7 @@ class Config implements \ArrayAccess
      *
      * @param mixed $offset
      *
-     * @return null
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {

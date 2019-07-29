@@ -153,7 +153,7 @@ class PagesRender extends AbstractStep
      */
     protected function addGlobals()
     {
-        $this->builder->getRenderer()->addGlobal('site', array_merge(
+        /*$this->builder->getRenderer()->addGlobal('site', array_merge(
             $this->config->getAllAsArray(),
             ['pages' => $this->builder->getPages()->filter(function (Page $page) {
                 return $page->getVariable('published');
@@ -162,7 +162,8 @@ class PagesRender extends AbstractStep
             ['taxonomies' => $this->builder->getTaxonomies()],
             ['time'       => time()],
             ['language'   => new Language($this->config)]
-        ));
+        ));*/
+        $this->builder->getRenderer()->addGlobal('site', new \Cecil\Renderer\Site($this->builder));
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => sprintf('https://cecil.app/#%s', $this->builder->getVersion()),
             'version'   => $this->builder->getVersion(),
