@@ -91,8 +91,6 @@ class Site implements \ArrayAccess
     public function getPages()
     {
         return $this->builder->getPages()->filter(function (Page $page) {
-            return true;
-
             return $page->getVariable('published');
         });
     }
