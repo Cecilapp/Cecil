@@ -79,8 +79,8 @@ $application->setBanner(function($console) use ($version) {
     $console->write("  ____          _ _
  / ___|___  ___(_) | Your content driven
 | |   / _ \/ __| | | static site generator.
-| |__|  __/ (__| | |
- \____\___|\___|_|_| (version $version)
+| |__|  __/ (__| | | v$version
+ \____\___|\___|_|_| by Arnaud Ligny
 ");
 // http://patorjk.com/software/taag/#p=display&f=Standard&t=Cecil
     $console->writeLine('');
