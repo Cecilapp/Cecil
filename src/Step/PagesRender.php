@@ -10,7 +10,6 @@ namespace Cecil\Step;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
-use Cecil\Renderer\Language;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
