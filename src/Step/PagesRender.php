@@ -67,6 +67,16 @@ class PagesRender extends AbstractStep
             $rendered = [];
             $alternates = [];
 
+            // global site variables
+            $this->builder->getRenderer()
+                    ->addGlobal('site', new Site($this->builder));
+            // if page language: replace global site variables
+            $pageLang = $page->getVariable('language');
+            if (!empty($pageLang) && $pageLang != $this->config->get('language')) {
+                $this->builder->getRenderer()
+                    ->addGlobal('site', new Site($this->builder, $pageLang));
+            }
+
             // get page's output formats
             $formats = $this->getOutputFormats($page);
             $page->setVariable('output', $formats);
@@ -153,7 +163,6 @@ class PagesRender extends AbstractStep
      */
     protected function addGlobals()
     {
-        $this->builder->getRenderer()->addGlobal('site', new Site($this->builder));
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => sprintf('https://cecil.app/#%s', $this->builder->getVersion()),
             'version'   => $this->builder->getVersion(),

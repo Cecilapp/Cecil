@@ -22,15 +22,23 @@ class Site implements \ArrayAccess
      * @var Builder
      */
     protected $builder;
+    /**
+     * Current language.
+     *
+     * @var string
+     */
+    protected $language;
 
     /**
      * Site constructor.
      *
      * @param Builder $builder
+     * @param string $language
      */
-    public function __construct(Builder $builder)
+    public function __construct(Builder $builder, $language = null)
     {
         $this->builder = $builder;
+        $this->language = $language;
     }
 
     /**
@@ -42,7 +50,7 @@ class Site implements \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return $this->builder->getConfig()->getAll()->has($offset);
+        return $this->builder->getConfig()->has($offset);
     }
 
     /**
@@ -58,10 +66,10 @@ class Site implements \ArrayAccess
             case 'taxonomies':
                 return $this->builder->getTaxonomies();
             case 'language':
-                return new Language($this->builder->getConfig());
+                return new Language($this->builder->getConfig(), $this->language);
         }
 
-        return $this->builder->getConfig()->getAll()->get($offset);
+        return $this->builder->getConfig()->get($offset, $this->language);
     }
 
     /**
@@ -72,7 +80,7 @@ class Site implements \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        return $this->builder->getConfig()->getAll()->set($offset, $value);
+        return null;
     }
 
     /**
@@ -82,7 +90,7 @@ class Site implements \ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        return $this->builder->getConfig()->getAll()->remove($offset);
+        return null;
     }
 
     /**
