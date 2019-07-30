@@ -151,7 +151,7 @@ class Config
      */
     public function get(string $key, string $language = null)
     {
-        if ($language) {
+        if ($language !== null) {
             $keyLang = "languages.$language.$key";
             if ($this->data->has($keyLang)) {
                 return $this->data->get($keyLang);

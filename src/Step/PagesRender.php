@@ -65,11 +65,10 @@ class PagesRender extends AbstractStep
             $count++;
             $formats = ['html'];
             $rendered = [];
-            $alternates = [];
 
             // global site variables
             $this->builder->getRenderer()
-                    ->addGlobal('site', new Site($this->builder));
+                ->addGlobal('site', new Site($this->builder));
             // if page language: replace global site variables
             $pageLang = $page->getVariable('language');
             if (!empty($pageLang) && $pageLang != $this->config->get('language')) {
@@ -97,9 +96,8 @@ class PagesRender extends AbstractStep
                 }
             }
 
-            // get alternates links
-            $alternates = $this->getAlternates($formats);
-            $page->setVariable('alternates', $alternates);
+            // get and set alternates links
+            $page->setVariable('alternates', $this->getAlternates($formats));
 
             // render each output format
             foreach ($formats as $format) {
