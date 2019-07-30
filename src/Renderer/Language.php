@@ -31,7 +31,7 @@ class Language
     /**
      * Language constructor.
      *
-     * @param Config $config
+     * @param Config      $config
      * @param string|null $language
      */
     public function __construct(Config $config, string $language = null)

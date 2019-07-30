@@ -144,7 +144,7 @@ class Config
     /**
      * Get the value of a configuration's key'.
      *
-     * @param string $key
+     * @param string      $key
      * @param string|null $language
      *
      * @return array|mixed|null
@@ -429,7 +429,7 @@ class Config
     /**
      * Return the property value of a (specified or default) language.
      *
-     * @param string $property
+     * @param string      $property
      * @param string|null $key
      *
      * @return string

@@ -33,7 +33,7 @@ class Site implements \ArrayAccess
      * Site constructor.
      *
      * @param Builder $builder
-     * @param string $language
+     * @param string  $language
      */
     public function __construct(Builder $builder, $language = null)
     {
@@ -80,7 +80,6 @@ class Site implements \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        return null;
     }
 
     /**
@@ -90,7 +89,6 @@ class Site implements \ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        return null;
     }
 
     /**
