@@ -5,5 +5,5 @@ layout: intl
 language: fr
 ---
 <!-- break -->
-- Use `localizeddate()` to localize a date
-- Use `trans` to translate a text string (Gettext)
+- Utiliser le filtre `localizeddate()` pour localiser une date
+- Utiliser `{% trans "Text" %}` pour traduire du texte (via Gettext)
