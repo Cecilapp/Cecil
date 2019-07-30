@@ -32,8 +32,8 @@ class Site implements \ArrayAccess
     /**
      * Site constructor.
      *
-     * @param Builder      $builder
-     * @param string|null  $language
+     * @param Builder     $builder
+     * @param string|null $language
      */
     public function __construct(Builder $builder, string $language = null)
     {
