@@ -66,11 +66,27 @@ class PagesRender extends AbstractStep
             $formats = ['html'];
             $rendered = [];
 
+            // i18n
+            $pageLang = $page->getVariable('language');
+            $locale = $this->config->getLanguageProperty('locale', $pageLang);
+            // The PHP Intl extension is needed to use localized date
+            if (extension_loaded('intl')) {
+                \Locale::setDefault($locale);
+            }
+            // The PHP Gettext extension is needed to use translation
+            if (extension_loaded('gettext')) {
+                $localePath = realpath($this->config->getSourceDir().'/locale');
+                $domain = 'messages';
+                putenv("LC_ALL=$locale");
+                putenv("LANGUAGE=$locale");
+                setlocale(LC_ALL, "$locale.UTF-8");
+                bindtextdomain($domain, $localePath);
+            }
+
             // global site variables
             $this->builder->getRenderer()
                 ->addGlobal('site', new Site($this->builder));
-            // if page language: replace global site variables
-            $pageLang = $page->getVariable('language');
+            // specific language: replace global site variables
             if (!empty($pageLang) && $pageLang != $this->config->get('language')) {
                 $this->builder->getRenderer()
                     ->addGlobal('site', new Site($this->builder, $pageLang));

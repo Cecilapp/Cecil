@@ -38,21 +38,6 @@ class Language
     {
         $this->config = $config;
         $this->language = $language;
-
-        $locale = $this->config->getLanguageProperty('locale', $this->language);
-        // The PHP Intl extension is needed to use localized date
-        if (extension_loaded('intl')) {
-            \Locale::setDefault($locale);
-        }
-        // The PHP Gettext extension is needed to use translation
-        if (extension_loaded('gettext')) {
-            $localePath = realpath($config->getSourceDir().'/locale');
-            $domain = 'messages';
-            putenv("LC_ALL=$locale");
-            putenv("LANGUAGE=$locale");
-            setlocale(LC_ALL, "$locale.UTF-8");
-            bindtextdomain($domain, $localePath);
-        }
     }
 
     public function __toString()
