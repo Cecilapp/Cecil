@@ -19,17 +19,24 @@
       </p>
       <hr />
       <p>
-        Langue de la page :<br>
+        {% trans "Page's language:" %}<br>
         - key: {{ site.language }}<br>
         - name: {{ site.language.name }}<br>
         - locale: {{ site.language.locale }}<br>
         - weight: {{ site.language.weight }}<br>
       </p>
       <p>
-        Langue par défaut :<br>
+        {% trans "Default language:" %}<br>
         - key: en<br>
         - name: {{ site.languages.en.name }}<br>
         - locale: {{ site.languages.en.locale }}<br>
         - weight: {{ site.languages.en.weight }}<br>
+      </p>
+      <hr />
+      <p>
+        {% trans "Available translations:" %}<br>
+{% for p in site.pages|filterBy('languageref', page.languageref) %}
+        - <a href="{{ url(p.path) }}">{{ p.title }}</a><br>
+{% endfor %}
       </p>
 {% endblock content %}
