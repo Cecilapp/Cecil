@@ -84,13 +84,7 @@ class PagesRender extends AbstractStep
             }
 
             // global site variables
-            $this->builder->getRenderer()
-                ->addGlobal('site', new Site($this->builder));
-            // specific language: replace global site variables
-            if (!empty($pageLang) && $pageLang != $this->config->get('language')) {
-                $this->builder->getRenderer()
-                    ->addGlobal('site', new Site($this->builder, $pageLang));
-            }
+            $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $pageLang));
 
             // get page's output formats
             $formats = $this->getOutputFormats($page);
