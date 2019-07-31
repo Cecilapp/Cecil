@@ -10,8 +10,8 @@ namespace Cecil\Step;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
-use Cecil\Renderer\Language;
 use Cecil\Renderer\Layout;
+use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
 
 /**
@@ -65,7 +65,26 @@ class PagesRender extends AbstractStep
             $count++;
             $formats = ['html'];
             $rendered = [];
-            $alternates = [];
+
+            // i18n
+            $pageLang = $page->getVariable('language');
+            $locale = $this->config->getLanguageProperty('locale', $pageLang);
+            // The PHP Intl extension is needed to use localized date
+            if (extension_loaded('intl')) {
+                \Locale::setDefault($locale);
+            }
+            // The PHP Gettext extension is needed to use translation
+            if (extension_loaded('gettext')) {
+                $localePath = realpath($this->config->getSourceDir().'/locale');
+                $domain = 'messages';
+                putenv("LC_ALL=$locale");
+                putenv("LANGUAGE=$locale");
+                setlocale(LC_ALL, "$locale.UTF-8");
+                bindtextdomain($domain, $localePath);
+            }
+
+            // global site variables
+            $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $pageLang));
 
             // get page's output formats
             $formats = $this->getOutputFormats($page);
@@ -87,9 +106,8 @@ class PagesRender extends AbstractStep
                 }
             }
 
-            // get alternates links
-            $alternates = $this->getAlternates($formats);
-            $page->setVariable('alternates', $alternates);
+            // get and set alternates links
+            $page->setVariable('alternates', $this->getAlternates($formats));
 
             // render each output format
             foreach ($formats as $format) {
@@ -153,16 +171,6 @@ class PagesRender extends AbstractStep
      */
     protected function addGlobals()
     {
-        $this->builder->getRenderer()->addGlobal('site', array_merge(
-            $this->config->getAllAsArray(),
-            ['pages' => $this->builder->getPages()->filter(function (Page $page) {
-                return $page->getVariable('published');
-            })],
-            ['menus'      => $this->builder->getMenus()],
-            ['taxonomies' => $this->builder->getTaxonomies()],
-            ['time'       => time()],
-            ['language'   => new Language($this->config)]
-        ));
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => sprintf('https://cecil.app/#%s', $this->builder->getVersion()),
             'version'   => $this->builder->getVersion(),

@@ -1,8 +1,10 @@
 ---
-title: Internationalisation
+title: Internationalisation (FR)
 date: 08-05-2019
 layout: intl
+language: fr
+languageref: intl
 ---
 <!-- break -->
-- Use `localizeddate()` to localize a date
-- Use `trans` to translate a text string (Gettext)
+- Utiliser le filtre `localizeddate()` pour localiser une date
+- Utiliser `{% trans "Text" %}` pour traduire du texte (via Gettext)

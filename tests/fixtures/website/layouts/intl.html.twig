@@ -4,7 +4,7 @@
       <h1 class="page-title">{{ page.title }}</h1>
 {% if page.date is defined %}
       {# localized date #}
-      <span class="post-date">{# trans "Publication date:" #} {# page.date|localizeddate('long', 'none') #}</span>
+      <span class="post-date">{% trans "Publication date:" %} {{ page.date|localizeddate('long', 'none') }}</span>
 {% endif %}
 {% if page.image is defined %}
       <img src="{{ page.image }}" />
@@ -19,10 +19,24 @@
       </p>
       <hr />
       <p>
-        Default language:<br>
+        {% trans "Page's language:" %}<br>
         - key: {{ site.language }}<br>
         - name: {{ site.language.name }}<br>
         - locale: {{ site.language.locale }}<br>
         - weight: {{ site.language.weight }}<br>
+      </p>
+      <p>
+        {% trans "Default language:" %}<br>
+        - key: en<br>
+        - name: {{ site.languages.en.name }}<br>
+        - locale: {{ site.languages.en.locale }}<br>
+        - weight: {{ site.languages.en.weight }}<br>
+      </p>
+      <hr />
+      <p>
+        {% trans "Available translations:" %}<br>
+{% for p in site.pages|filterBy('languageref', page.languageref) %}
+        - <a href="{{ url(p.path) }}">{{ p.title }}</a><br>
+{% endfor %}
       </p>
 {% endblock content %}

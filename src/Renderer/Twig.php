@@ -52,23 +52,11 @@ class Twig implements RendererInterface
         $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($builder->getConfig()->get('date.format'));
         $this->twig->getExtension('Twig_Extension_Core')->setTimezone($builder->getConfig()->get('date.timezone'));
         // Internationalisation
-        $locale = $builder->getConfig()->getLanguageProperty('locale');
-        // The PHP Intl extension is needed to use localized date
         if (extension_loaded('intl')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
-            if ($locale) {
-                \Locale::setDefault($locale);
-            }
         }
-        // The PHP Gettext extension is needed to use translation
         if (extension_loaded('gettext')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
-            $localePath = realpath($builder->getConfig()->getSourceDir().'/locale');
-            $domain = 'messages';
-            putenv("LC_ALL=$locale");
-            putenv("LANGUAGE=$locale");
-            setlocale(LC_ALL, "$locale.UTF-8");
-            bindtextdomain($domain, $localePath);
         }
     }
 

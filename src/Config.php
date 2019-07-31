@@ -14,7 +14,7 @@ use Dflydev\DotAccessData\Data;
 /**
  * Class Config.
  */
-class Config implements \ArrayAccess
+class Config
 {
     /**
      * Configuration is a Data object.
@@ -42,11 +42,12 @@ class Config implements \ArrayAccess
      */
     public function __construct($config = null)
     {
+        // default config
         $data = new Data(include __DIR__.'/../config/default.php');
-
+        // import local config
         if ($config) {
             if ($config instanceof self) {
-                $data->importData($config->getAll());
+                $data->importData($config->getData());
             } elseif (is_array($config)) {
                 $data->import($config);
             }
@@ -73,23 +74,23 @@ class Config implements \ArrayAccess
         };
         $applyEnv($data->export());
 
-        $this->setFromData($data);
+        $this->setData($data);
     }
 
     /**
-     * Import an array to the current configuration.
+     * Import an array into the current configuration.
      *
      * @param array $config
+     *
+     * @return void
      */
-    public function import($config)
+    public function import(array $config): void
     {
-        if (is_array($config)) {
-            $data = $this->getAll();
-            $origin = $data->export();
-            $data->import($config);
-            $data->import($origin);
-            $this->setFromData($data);
-        }
+        $data = $this->getData();
+        $origin = $data->export();
+        $data->import($config);
+        $data->import($origin);
+        $this->setData($data);
     }
 
     /**
@@ -99,7 +100,7 @@ class Config implements \ArrayAccess
      *
      * @return $this
      */
-    protected function setFromData(Data $data)
+    protected function setData(Data $data): self
     {
         if ($this->data !== $data) {
             $this->data = $data;
@@ -113,7 +114,7 @@ class Config implements \ArrayAccess
      *
      * @return Data
      */
-    public function getAll()
+    public function getData(): Data
     {
         return $this->data;
     }
@@ -123,7 +124,7 @@ class Config implements \ArrayAccess
      *
      * @return array
      */
-    public function getAllAsArray()
+    public function getAsArray(): array
     {
         return $this->data->export();
     }
@@ -135,7 +136,7 @@ class Config implements \ArrayAccess
      *
      * @return bool
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         return $this->data->has($key);
     }
@@ -143,71 +144,33 @@ class Config implements \ArrayAccess
     /**
      * Get the value of a configuration's key'.
      *
-     * @param string $key
-     * @param string $default
+     * @param string      $key
+     * @param string|null $language
      *
      * @return array|mixed|null
      */
-    public function get($key, $default = '')
+    public function get(string $key, string $language = null)
     {
-        return $this->data->get($key, $default);
-    }
+        if ($language !== null) {
+            $keyLang = "languages.$language.$key";
+            if ($this->data->has($keyLang)) {
+                return $this->data->get($keyLang);
+            }
+        }
 
-    /**
-     * Implement ArrayAccess.
-     *
-     * @param mixed $offset
-     *
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return $this->data->has($offset);
-    }
-
-    /**
-     * Implement ArrayAccess.
-     *
-     * @param mixed $offset
-     *
-     * @return null
-     */
-    public function offsetGet($offset)
-    {
-        return $this->data->get($offset);
-    }
-
-    /**
-     * Implement ArrayAccess.
-     *
-     * @param mixed $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
-    {
-        return $this->data->set($offset, $value);
-    }
-
-    /**
-     * Implement ArrayAccess.
-     *
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset)
-    {
-        return $this->data->remove($offset);
+        return $this->data->get($key);
     }
 
     /**
      * Set the source directory.
      *
-     * @param null $sourceDir
+     * @param string|null $sourceDir
      *
-     * @throws Exception
+     * @throws \InvalidArgumentException
      *
      * @return $this
      */
-    public function setSourceDir($sourceDir = null)
+    public function setSourceDir(string $sourceDir = null): self
     {
         if ($sourceDir === null) {
             $sourceDir = getcwd();
@@ -225,7 +188,7 @@ class Config implements \ArrayAccess
      *
      * @return string
      */
-    public function getSourceDir()
+    public function getSourceDir(): string
     {
         return $this->sourceDir;
     }
@@ -233,13 +196,13 @@ class Config implements \ArrayAccess
     /**
      * Set the destination directory.
      *
-     * @param null $destinationDir
+     * @param string|null $destinationDir
      *
-     * @throws Exception
+     * @throws \InvalidArgumentException
      *
      * @return $this
      */
-    public function setDestinationDir($destinationDir = null)
+    public function setDestinationDir(string $destinationDir = null): self
     {
         if ($destinationDir === null) {
             $destinationDir = $this->sourceDir;
@@ -260,7 +223,7 @@ class Config implements \ArrayAccess
      *
      * @return string
      */
-    public function getDestinationDir()
+    public function getDestinationDir(): string
     {
         return $this->destinationDir;
     }
@@ -274,7 +237,7 @@ class Config implements \ArrayAccess
      *
      * @return string
      */
-    public function getContentPath()
+    public function getContentPath(): string
     {
         return $this->getSourceDir().'/'.$this->get('content.dir');
     }
@@ -284,7 +247,7 @@ class Config implements \ArrayAccess
      *
      * @return string
      */
-    public function getLayoutsPath()
+    public function getLayoutsPath(): string
     {
         return $this->getSourceDir().'/'.$this->get('layouts.dir');
     }
@@ -294,7 +257,7 @@ class Config implements \ArrayAccess
      *
      * @return string
      */
-    public function getThemesPath()
+    public function getThemesPath(): string
     {
         return $this->getSourceDir().'/'.$this->get('themes.dir');
     }
@@ -304,7 +267,7 @@ class Config implements \ArrayAccess
      *
      * @return string
      */
-    public function getInternalLayoutsPath()
+    public function getInternalLayoutsPath(): string
     {
         return __DIR__.'/../'.$this->get('layouts.internal.dir');
     }
@@ -314,7 +277,7 @@ class Config implements \ArrayAccess
      *
      * @return string
      */
-    public function getOutputPath()
+    public function getOutputPath(): string
     {
         return $this->getDestinationDir().'/'.$this->get('output.dir');
     }
@@ -324,7 +287,7 @@ class Config implements \ArrayAccess
      *
      * @return string
      */
-    public function getStaticPath()
+    public function getStaticPath(): string
     {
         return $this->getSourceDir().'/'.$this->get('static.dir');
     }
@@ -359,7 +322,7 @@ class Config implements \ArrayAccess
      *
      * @return array|null
      */
-    public function getTheme()
+    public function getTheme(): ?array
     {
         if ($themes = $this->get('theme')) {
             if (is_array($themes)) {
@@ -368,6 +331,8 @@ class Config implements \ArrayAccess
 
             return [$themes];
         }
+
+        return null;
     }
 
     /**
@@ -377,7 +342,7 @@ class Config implements \ArrayAccess
      *
      * @return bool
      */
-    public function hasTheme()
+    public function hasTheme(): bool
     {
         if ($themes = $this->getTheme()) {
             foreach ($themes as $theme) {
@@ -405,7 +370,7 @@ class Config implements \ArrayAccess
      *
      * @return string
      */
-    public function getThemeDirPath($theme, $dir = 'layouts')
+    public function getThemeDirPath(string $theme, string $dir = 'layouts'): string
     {
         return $this->getThemesPath().'/'.$theme.'/'.$dir;
     }
@@ -447,9 +412,11 @@ class Config implements \ArrayAccess
     /**
      * Return properties of a (specified or default) language.
      *
+     * @param string|null $key
+     *
      * @return array
      */
-    public function getLanguageProperties($key = null): array
+    public function getLanguageProperties(string $key = null): array
     {
         $key = $key ?? $this->getLanguageDefaultKey();
 
@@ -463,6 +430,9 @@ class Config implements \ArrayAccess
 
     /**
      * Return the property value of a (specified or default) language.
+     *
+     * @param string      $property
+     * @param string|null $key
      *
      * @return string
      */

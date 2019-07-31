@@ -21,34 +21,46 @@ class Language
      * @var Config
      */
     protected $config;
+    /**
+     * Current language.
+     *
+     * @var string
+     */
+    protected $language;
 
     /**
      * Language constructor.
      *
-     * @param Config
+     * @param Config      $config
+     * @param string|null $language
      */
-    public function __construct($config)
+    public function __construct(Config $config, string $language = null)
     {
         $this->config = $config;
+        $this->language = $language;
     }
 
     public function __toString()
     {
+        if ($this->language) {
+            return $this->language;
+        }
+
         return $this->config->getLanguageDefaultKey();
     }
 
     public function getName()
     {
-        return $this->config->getLanguageProperty('name');
+        return $this->config->getLanguageProperty('name', $this->language);
     }
 
     public function getLocale()
     {
-        return $this->config->getLanguageProperty('locale');
+        return $this->config->getLanguageProperty('locale', $this->language);
     }
 
     public function getWeight()
     {
-        return array_search($this->config->getLanguageDefaultKey(), array_keys($this->config->get('languages')));
+        return array_search((string) $this, array_keys($this->config->get('languages')));
     }
 }

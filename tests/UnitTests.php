@@ -67,8 +67,8 @@ class UnitTests extends \PHPUnit\Framework\TestCase
             'option2' => 'Option 2',
         ];
         $builder = (new Builder())->setConfig($options);
-        //$this->assertEquals($options, $builder->getOptions()->getAllAsArray());
-        $this->assertArraySubset($options, $builder->getConfig()->getAllAsArray());
+        //$this->assertEquals($options, $builder->getOptions()->getAsArray());
+        $this->assertArraySubset($options, $builder->getConfig()->getAsArray());
     }
 
     public function testContentIterator()
