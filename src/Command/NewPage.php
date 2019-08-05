@@ -131,17 +131,17 @@ EOT;
             switch ($editor) {
                 case 'typora':
                     if (Plateform::getOS() == Plateform::OS_OSX) {
-                        $command = sprintf('open -a typora %s', $filePath);
+                        $command = sprintf('open -a typora "%s"', $filePath);
                     }
                     break;
                 default:
-                    $command = sprintf('%s %s', $editor, $filePath);
+                    $command = sprintf('%s "%s"', $editor, $filePath);
                     break;
             }
             $process = new Process($command);
             $process->run();
             if (!$process->isSuccessful()) {
-                throw new \Exception(sprintf('Can\'t open "%s" editor.', $editor));
+                throw new \Exception(sprintf('Can\'t run "%s".', $command));
             }
         }
     }
