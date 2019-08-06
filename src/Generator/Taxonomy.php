@@ -29,7 +29,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
             /* @var $vocabulary Vocabulary */
             foreach ($this->builder->getTaxonomies() as $position => $vocabulary) {
                 $plural = $vocabulary->getId();
-                $singular = $this->config->get("site.taxonomies.$plural");
+                $singular = $this->config->get("taxonomies.$plural");
                 if (count($vocabulary) > 0) {
                     /*
                     * Creates $plural/$term pages (list of pages)

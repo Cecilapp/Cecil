@@ -57,7 +57,7 @@ class TaxonomiesCreate extends AbstractStep
              *   taxonomies:
              *     tags: disabled
              */
-            if ($this->config->get("site.taxonomies.$vocabulary") == 'disabled') {
+            if ($this->config->get("taxonomies.$vocabulary") == 'disabled') {
                 continue;
             }
 
