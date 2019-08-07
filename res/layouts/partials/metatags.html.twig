@@ -1,0 +1,37 @@
+{# title #}
+{% set title = page.title|e ~ ' &middot; ' ~ site.title|e %}
+{# title - homepage #}
+{% if page.id == 'index' %}
+{% set title = site.title|e ~ ' &middot; ' ~ site.base|default(site.description)|e %}
+{% endif %}
+{# description #}
+{% set description = page.description|default(site.description)|e %}
+{# keywords #}
+{% set keywords = page.keywords|default(site.keywords)|e %}
+{# author #}
+{% set author = page.author|default(site.author)|e %}
+{% if author.firstname is defined and author.lastname is defined %}
+{% set author = author.firstname|e ~ ' ' ~ author.lastname|e %}
+{% endif %}
+
+{# template #}
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
+    <meta name="keywords" content="{{ keywords|join(', ') }}" />
+{% if author is defined %}
+    <meta name="author" content="{{ author|e }}">
+{% endif %}
+{# alternates #}
+{% include 'partials/alternates.html.twig' %}
+{# Facebook #}
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Arnaud Ligny" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Arnaud Ligny" />
+    <meta property="og:description" content="Consultant technique Web, mobile &amp; e-commerce." />
+    <meta property="og:url" content="http://localhost:8000/" />
+    <meta property="fb:profile_id" content="516589570" />
+    <meta property="profile:first_name" content="Arnaud" />
+    <meta property="profile:last_name" content="Ligny" />
+    <meta property="profile:username" content="Narno" />
+    <meta property="og:image" content="http://localhost:8000/images/avatars/avatar-300.png" />
