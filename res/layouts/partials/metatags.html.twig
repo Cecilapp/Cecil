@@ -15,8 +15,19 @@
 {% if author.firstname is defined and author.lastname is defined %}
 {% set author = author.firstname|e ~ ' ' ~ author.lastname|e %}
 {% endif %}
+{% endif %}
 {# open graph #}
-{% set opengraph = page.opengraph|default(site.opengraph)|default({'type':'website'}) %}
+{% set opengraph = {
+  'locale': site.language.locale,
+  'site_name': site.title,
+  'type': 'website',
+  'title': block('title'),
+  'description': block('description'),
+  'url': url(page),
+} %}
+{% if page.opengraph is defined or site.opengraph is defined %}
+{% set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
+{% endif %}
 {# template #}
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
@@ -30,11 +41,13 @@
     <meta property="og:locale" content="{{ site.language.locale }}" />
     <meta property="og:site_name" content="{{ site.title }}" />
     <meta property="og:type" content="{{ opengraph.type }}" />
-    <meta property="og:title" content="Arnaud Ligny" />
-    <meta property="og:description" content="Consultant technique Web, mobile &amp; e-commerce." />
+    <meta property="og:title" content="{{ block('title') }}" />
+    <meta property="og:description" content="{{ block('description') }}" />
     <meta property="og:url" content="http://localhost:8000/" />
+{% if opengraph.image is defined %}
+<meta property="og:image" content="{{ url(opengraph.image) }}" />
+{% endif %}
     <meta property="fb:profile_id" content="516589570" />
     <meta property="profile:first_name" content="Arnaud" />
     <meta property="profile:last_name" content="Ligny" />
     <meta property="profile:username" content="Narno" />
-    <meta property="og:image" content="http://localhost:8000/images/avatars/avatar-300.png" />
