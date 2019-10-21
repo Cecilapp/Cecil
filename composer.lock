@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc324f74ae9a45674d2dbfefd05c8785",
+    "content-hash": "b53adbee028259004802937e7dbcc99b",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1217,21 +1217,21 @@
         },
         {
             "name": "zendframework/zend-progressbar",
-            "version": "2.6.0",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-progressbar.git",
-                "reference": "ae5565bbed54f9081d5695bc2f62fe3f27583bdd"
+                "reference": "f5b885453c4c789ddc86e395ae553df5b4148d15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-progressbar/zipball/ae5565bbed54f9081d5695bc2f62fe3f27583bdd",
-                "reference": "ae5565bbed54f9081d5695bc2f62fe3f27583bdd",
+                "url": "https://api.github.com/repos/zendframework/zend-progressbar/zipball/f5b885453c4c789ddc86e395ae553df5b4148d15",
+                "reference": "f5b885453c4c789ddc86e395ae553df5b4148d15",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.6 || ^7.0",
-                "zendframework/zend-stdlib": "^2.7 || ^3.0"
+                "zendframework/zend-stdlib": "^3.2.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.4",
@@ -1246,8 +1246,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6.x-dev",
-                    "dev-develop": "2.7.x-dev"
+                    "dev-master": "2.7.x-dev",
+                    "dev-develop": "2.8.x-dev"
                 }
             },
             "autoload": {
@@ -1265,7 +1265,7 @@
                 "progressbar",
                 "zf"
             ],
-            "time": "2018-04-30T19:15:33+00:00"
+            "time": "2019-10-17T14:52:53+00:00"
         },
         {
             "name": "zendframework/zend-stdlib",
