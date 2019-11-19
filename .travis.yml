@@ -9,6 +9,7 @@ cache:
 php:
   - 7.1
   - 7.2
+  - 7.3
 
 stages:
   - test
@@ -29,11 +30,10 @@ script: composer test
 jobs:
   fast_finish: true
   allow_failures:
-    - php: 7.2
     - stage: code coverage
   include:
     - stage: code coverage
-      php: 7.1
+      php: 7.3
       if: (NOT type IN (pull_request)) AND (branch = master)
       env:
         - TEST_COVERAGE=true
@@ -45,7 +45,7 @@ jobs:
         - travis_retry composer test-coverage-upload
         - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
-      php: "7.1"
+      php: 7.3
       if: tag IS present
       script: composer box
       deploy:
@@ -67,7 +67,7 @@ jobs:
             branch: master
             tags: true
     - stage: deploy docs
-      php: "7.1"
+      php: 7.3
       if: (NOT type IN (pull_request)) AND (branch = master)
       install: skip
       script: skip
