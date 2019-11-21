@@ -3,7 +3,7 @@
 > Your content driven static site generator.
 
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
-[![Build Status](https://travis-ci.org/Cecilapp/Cecil.svg)](https://travis-ci.com/Cecilapp/Cecil)
+[![Build Status](https://travis-ci.org/Cecilapp/Cecil.svg?branch=master)](https://travis-ci.org/Cecilapp/Cecil)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85aa408ef2e94925831b1f7dd4c98219)](https://www.codacy.com/app/Narno/Cecil)
