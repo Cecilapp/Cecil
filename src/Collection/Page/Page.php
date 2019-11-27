@@ -64,7 +64,7 @@ class Page extends Item
      */
     protected $html;
     /**
-     * @var Slufy
+     * @var Slugify
      */
     private static $slugifier;
 

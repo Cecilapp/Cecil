@@ -41,6 +41,10 @@ class Extension extends SlugifyExtension
      * @var Filesystem
      */
     protected $fileSystem;
+    /**
+     * @var Slugify
+     */
+    private static $slugifier;
 
     /**
      * Constructor.
@@ -49,9 +53,11 @@ class Extension extends SlugifyExtension
      */
     public function __construct(Builder $builder)
     {
-        parent::__construct(Slugify::create([
-            'regexp' => Page::SLUGIFY_PATTERN,
-        ]));
+        if (!self::$slugifier instanceof Slugify) {
+            self::$slugifier = Slugify::create(['regexp' => Page::SLUGIFY_PATTERN]);
+        }
+
+        parent::__construct(self::$slugifier);
 
         $this->builder = $builder;
         $this->config = $this->builder->getConfig();
