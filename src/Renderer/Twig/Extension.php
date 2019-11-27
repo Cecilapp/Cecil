@@ -308,9 +308,15 @@ class Extension extends SlugifyExtension
                         $url = $base.'/'.$value;
                         // value == page ID?
                         $pageId = $this->slugifyFilter($value);
-                        if ($this->builder->getPages()->has($pageId)) {
+                        /*if ($this->builder->getPages()->has($pageId)) {
                             $page = $this->builder->getPages()->get($pageId);
                             $url = $this->createUrl($page, $options);
+                        }*/
+                        try {
+                            $page = $this->builder->getPages()->get($pageId);
+                            $url = $this->createUrl($page, $options);
+                        } catch (\DomainException $e) {
+                            // do nothing :P
                         }
                     }
                 }
