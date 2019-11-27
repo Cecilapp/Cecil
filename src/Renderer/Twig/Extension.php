@@ -302,21 +302,17 @@ class Extension extends SlugifyExtension
                         $url .= '?'.$hash;
                     }
                     $url = $base.'/'.ltrim($url, '/');
-                } else {
+                } else { // others cases
                     $url = $base.'/';
                     if (!empty($value) && $value != '/') {
                         $url = $base.'/'.$value;
-                        // value == page ID?
-                        $pageId = $this->slugifyFilter($value);
-                        /*if ($this->builder->getPages()->has($pageId)) {
-                            $page = $this->builder->getPages()->get($pageId);
-                            $url = $this->createUrl($page, $options);
-                        }*/
+                        // value == page ID? (ie: 'my-page')
                         try {
+                            $pageId = $this->slugifyFilter($value);
                             $page = $this->builder->getPages()->get($pageId);
                             $url = $this->createUrl($page, $options);
                         } catch (\DomainException $e) {
-                            // do nothing :P
+                            // nothing to do
                         }
                     }
                 }
