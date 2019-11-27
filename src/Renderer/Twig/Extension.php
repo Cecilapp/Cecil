@@ -317,6 +317,8 @@ class Extension extends SlugifyExtension
     /**
      * Minify a CSS or a JS file.
      *
+     * ie: minify('css/style.css')
+     *
      * @param string $path
      *
      * @throws Exception
@@ -326,9 +328,16 @@ class Extension extends SlugifyExtension
     public function minify(string $path): string
     {
         $filePath = $this->outputPath.'/'.$path;
+        $fileInfo = new \SplFileInfo($filePath);
+        $fileExtension = $fileInfo->getExtension();
+        // ie: minify('css/style.min.css')
+        $pathMinified = \sprintf("%s.min.%s", substr($path, 0, -strlen(".$fileExtension")), $fileExtension);
+        $filePathMinified = $this->outputPath.'/'.$pathMinified;
+        if (is_file($filePathMinified)) {
+            return $pathMinified;
+        }
         if (is_file($filePath)) {
-            $extension = (new \SplFileInfo($filePath))->getExtension();
-            switch ($extension) {
+            switch ($fileExtension) {
                 case 'css':
                     $minifier = new Minify\CSS($filePath);
                     break;
@@ -338,9 +347,10 @@ class Extension extends SlugifyExtension
                 default:
                     throw new Exception(sprintf("File '%s' should be a '.css' or a '.js'!", $path));
             }
-            $minifier->minify($filePath);
+            //unlink($filePath);
+            $minifier->minify($filePathMinified);
 
-            return $path;
+            return $pathMinified;
         }
 
         throw new Exception(sprintf("File '%s' doesn't exist!", $path));
@@ -389,8 +399,8 @@ class Extension extends SlugifyExtension
         $subPath = substr($path, 0, strrpos($path, '/'));
 
         if (is_file($filePath)) {
-            $extension = (new \SplFileInfo($filePath))->getExtension();
-            switch ($extension) {
+            $fileExtension = (new \SplFileInfo($filePath))->getExtension();
+            switch ($fileExtension) {
                 case 'scss':
                     $scssPhp = new Compiler();
                     $scssPhp->setImportPaths($this->outputPath.'/'.$subPath);
