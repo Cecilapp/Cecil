@@ -3,7 +3,7 @@
 {% block head_css %}
     <link rel="stylesheet"
       href="{{ url(minify('css/style.css')) }}"
-      integrity="{{ hash('css/style.css') }}"
+      integrity="{{ hash(minify('css/style.css')) }}"
     >
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 {% endblock head_css %}
