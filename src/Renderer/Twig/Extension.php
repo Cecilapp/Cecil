@@ -331,7 +331,7 @@ class Extension extends SlugifyExtension
         $fileInfo = new \SplFileInfo($filePath);
         $fileExtension = $fileInfo->getExtension();
         // ie: minify('css/style.min.css')
-        $pathMinified = \sprintf("%s.min.%s", substr($path, 0, -strlen(".$fileExtension")), $fileExtension);
+        $pathMinified = \sprintf('%s.min.%s', substr($path, 0, -strlen(".$fileExtension")), $fileExtension);
         $filePathMinified = $this->outputPath.'/'.$pathMinified;
         if (is_file($filePathMinified)) {
             return $pathMinified;
