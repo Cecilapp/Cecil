@@ -63,6 +63,10 @@ class Page extends Item
      * @var string
      */
     protected $html;
+    /**
+     * @var Slugify
+     */
+    private static $slugifier;
 
     /**
      * Constructor.
@@ -95,9 +99,11 @@ class Page extends Item
      */
     public static function slugify(string $path): string
     {
-        return Slugify::create([
-            'regexp' => self::SLUGIFY_PATTERN,
-        ])->slugify($path);
+        if (!self::$slugifier instanceof Slugify) {
+            self::$slugifier = Slugify::create(['regexp' => self::SLUGIFY_PATTERN]);
+        }
+
+        return self::$slugifier->slugify($path);
     }
 
     /**

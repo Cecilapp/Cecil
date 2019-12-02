@@ -41,6 +41,10 @@ class Extension extends SlugifyExtension
      * @var Filesystem
      */
     protected $fileSystem;
+    /**
+     * @var Slugify
+     */
+    private static $slugifier;
 
     /**
      * Constructor.
@@ -49,9 +53,11 @@ class Extension extends SlugifyExtension
      */
     public function __construct(Builder $builder)
     {
-        parent::__construct(Slugify::create([
-            'regexp' => Page::SLUGIFY_PATTERN,
-        ]));
+        if (!self::$slugifier instanceof Slugify) {
+            self::$slugifier = Slugify::create(['regexp' => Page::SLUGIFY_PATTERN]);
+        }
+
+        parent::__construct(self::$slugifier);
 
         $this->builder = $builder;
         $this->config = $this->builder->getConfig();
@@ -285,29 +291,36 @@ class Extension extends SlugifyExtension
             }
             $url = $value->getUrl($format, $this->config);
             $url = $base.'/'.ltrim($url, '/');
-        } else {
-            // string
-            if (preg_match('~^(?:f|ht)tps?://~i', $value)) { // external URL
-                $url = $value;
-            } else {
-                if (false !== strpos($value, '.')) { // ressource URL (with a dot for extension)
-                    $url = $value;
-                    if ($addhash) {
-                        $url .= '?'.$hash;
-                    }
-                    $url = $base.'/'.ltrim($url, '/');
-                } else {
-                    $url = $base.'/';
-                    if (!empty($value) && $value != '/') {
-                        $url = $base.'/'.$value;
-                        // value == page ID?
-                        $pageId = $this->slugifyFilter($value);
-                        if ($this->builder->getPages()->has($pageId)) {
-                            $page = $this->builder->getPages()->get($pageId);
-                            $url = $this->createUrl($page, $options);
-                        }
-                    }
-                }
+
+            return $url;
+        }
+        // external URL
+        if (preg_match('~^(?:f|ht)tps?://~i', $value)) {
+            $url = $value;
+
+            return $url;
+        }
+        // ressource URL (ie: 'path/style.css')
+        if (false !== strpos($value, '.')) {
+            $url = $value;
+            if ($addhash) {
+                $url .= '?'.$hash;
+            }
+            $url = $base.'/'.ltrim($url, '/');
+
+            return $url;
+        }
+        // others cases
+        $url = $base.'/';
+        if (!empty($value) && $value != '/') {
+            $url = $base.'/'.$value;
+            // value == 'page-id' (ie: 'path/my-page')
+            try {
+                $pageId = $this->slugifyFilter($value);
+                $page = $this->builder->getPages()->get($pageId);
+                $url = $this->createUrl($page, $options);
+            } catch (\DomainException $e) {
+                // nothing to do
             }
         }
 
@@ -316,6 +329,8 @@ class Extension extends SlugifyExtension
 
     /**
      * Minify a CSS or a JS file.
+     *
+     * ie: minify('css/style.css')
      *
      * @param string $path
      *
@@ -326,9 +341,16 @@ class Extension extends SlugifyExtension
     public function minify(string $path): string
     {
         $filePath = $this->outputPath.'/'.$path;
+        $fileInfo = new \SplFileInfo($filePath);
+        $fileExtension = $fileInfo->getExtension();
+        // ie: minify('css/style.min.css')
+        $pathMinified = \sprintf('%s.min.%s', substr($path, 0, -strlen(".$fileExtension")), $fileExtension);
+        $filePathMinified = $this->outputPath.'/'.$pathMinified;
+        if (is_file($filePathMinified)) {
+            return $pathMinified;
+        }
         if (is_file($filePath)) {
-            $extension = (new \SplFileInfo($filePath))->getExtension();
-            switch ($extension) {
+            switch ($fileExtension) {
                 case 'css':
                     $minifier = new Minify\CSS($filePath);
                     break;
@@ -338,9 +360,10 @@ class Extension extends SlugifyExtension
                 default:
                     throw new Exception(sprintf("File '%s' should be a '.css' or a '.js'!", $path));
             }
-            $minifier->minify($filePath);
+            //unlink($filePath);
+            $minifier->minify($filePathMinified);
 
-            return $path;
+            return $pathMinified;
         }
 
         throw new Exception(sprintf("File '%s' doesn't exist!", $path));
@@ -389,8 +412,8 @@ class Extension extends SlugifyExtension
         $subPath = substr($path, 0, strrpos($path, '/'));
 
         if (is_file($filePath)) {
-            $extension = (new \SplFileInfo($filePath))->getExtension();
-            switch ($extension) {
+            $fileExtension = (new \SplFileInfo($filePath))->getExtension();
+            switch ($fileExtension) {
                 case 'scss':
                     $scssPhp = new Compiler();
                     $scssPhp->setImportPaths($this->outputPath.'/'.$subPath);
