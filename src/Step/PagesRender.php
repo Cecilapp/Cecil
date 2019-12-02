@@ -8,6 +8,7 @@
 
 namespace Cecil\Step;
 
+use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 use Cecil\Renderer\Layout;
@@ -172,9 +173,9 @@ class PagesRender extends AbstractStep
     protected function addGlobals()
     {
         $this->builder->getRenderer()->addGlobal('cecil', [
-            'url'       => sprintf('https://cecil.app/#%s', $this->builder->getVersion()),
-            'version'   => $this->builder->getVersion(),
-            'poweredby' => sprintf('Cecil v%s', $this->builder->getVersion()),
+            'url'       => sprintf('https://cecil.app/#%s', Builder::getVersion()),
+            'version'   => Builder::getVersion(),
+            'poweredby' => sprintf('Cecil v%s', Builder::getVersion()),
         ]);
     }
 
