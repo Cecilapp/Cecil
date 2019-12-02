@@ -293,39 +293,38 @@ class Extension extends SlugifyExtension
             $url = $base.'/'.ltrim($url, '/');
 
             return $url;
-        } else {
-            // string
-            if (preg_match('~^(?:f|ht)tps?://~i', $value)) { // external URL
-                $url = $value;
+        }
+        // external URL
+        if (preg_match('~^(?:f|ht)tps?://~i', $value)) {
+            $url = $value;
 
-                return $url;
-            } else {
-                if (false !== strpos($value, '.')) { // ressource URL (ie: 'path/style.css')
-                    $url = $value;
-                    if ($addhash) {
-                        $url .= '?'.$hash;
-                    }
-                    $url = $base.'/'.ltrim($url, '/');
+            return $url;
+        }
+        // ressource URL (ie: 'path/style.css')
+        if (false !== strpos($value, '.')) {
+            $url = $value;
+            if ($addhash) {
+                $url .= '?'.$hash;
+            }
+            $url = $base.'/'.ltrim($url, '/');
 
-                    return $url;
-                } else { // others cases
-                    $url = $base.'/';
-                    if (!empty($value) && $value != '/') {
-                        $url = $base.'/'.$value;
-                        // value == 'page-id' (ie: 'path/my-page')
-                        try {
-                            $pageId = $this->slugifyFilter($value);
-                            $page = $this->builder->getPages()->get($pageId);
-                            $url = $this->createUrl($page, $options);
-                        } catch (\DomainException $e) {
-                            // nothing to do
-                        }
-                    }
-
-                    return $url;
-                }
+            return $url;
+        }
+        // others cases
+        $url = $base.'/';
+        if (!empty($value) && $value != '/') {
+            $url = $base.'/'.$value;
+            // value == 'page-id' (ie: 'path/my-page')
+            try {
+                $pageId = $this->slugifyFilter($value);
+                $page = $this->builder->getPages()->get($pageId);
+                $url = $this->createUrl($page, $options);
+            } catch (\DomainException $e) {
+                // nothing to do
             }
         }
+
+        return $url;
     }
 
     /**
