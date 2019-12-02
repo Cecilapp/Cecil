@@ -3,10 +3,8 @@
   "description": "Your content driven static site generator.",
   "keywords": [
     "static-site-generator",
-    "static-site",
     "markdown",
-    "twig",
-    "yaml"
+    "twig"
   ],
   "homepage": "https://cecil.app",
   "license": "MIT",
@@ -14,7 +12,7 @@
   "authors": [
     {
       "name": "Arnaud Ligny",
-      "email": "arnaud@ligny.org",
+      "email": "arnaud@ligny.fr",
       "homepage": "https://arnaudligny.fr",
       "role": "Developer"
     }
