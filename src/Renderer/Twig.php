@@ -77,7 +77,7 @@ class Twig implements RendererInterface
 
         // add generator meta
         if (!preg_match('/<meta name="generator".*/i', $this->rendered)) {
-            $meta = '<meta name="generator" content="Cecil" />';
+            $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
             $this->rendered = preg_replace('/(<\/head>)/i', "\t$meta\n$1", $this->rendered);
         }
 
