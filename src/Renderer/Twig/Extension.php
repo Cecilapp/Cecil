@@ -360,7 +360,6 @@ class Extension extends SlugifyExtension
                 default:
                     throw new Exception(sprintf("File '%s' should be a '.css' or a '.js'!", $path));
             }
-            //unlink($filePath);
             $minifier->minify($filePathMinified);
 
             return $pathMinified;
