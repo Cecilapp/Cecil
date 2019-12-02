@@ -5,7 +5,7 @@
 {% if page.pages is defined %}
 {% set pages = page.pages %}
 {% endif %}
-{% if page.pagination is defined %}
+{% if page.pagination.pages is defined %}
 {% set pages = page.pagination.pages %}
 {% endif %}
 {% for p in pages %}
