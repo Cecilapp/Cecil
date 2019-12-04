@@ -3,7 +3,7 @@
 > Your content driven static site generator.
 
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
-[![Build Status](https://travis-ci.com/Cecilapp/Cecil.svg)](https://travis-ci.com/Cecilapp/Cecil)
+[![Build Status](https://travis-ci.org/Cecilapp/Cecil.svg?branch=master)](https://travis-ci.org/Cecilapp/Cecil)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85aa408ef2e94925831b1f7dd4c98219)](https://www.codacy.com/app/Narno/Cecil)
@@ -11,7 +11,7 @@
 [![StyleCI](https://styleci.io/repos/12738012/shield)](https://styleci.io/repos/12738012)
 [![SymfonyInsight](https://insight.symfony.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269/mini.png)](https://insight.symfony.com/projects/2a9ae313-1dce-405c-9632-0727ecdac269)
 
-Cecil (formerly PHPoole) is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](http://twig.sensiolabs.org/) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
+Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
 ![Cecil CLI demo](https://raw.githubusercontent.com/Cecilapp/Cecil/master/docs/cecil-demo.png "Cecil CLI demo")
 
@@ -29,12 +29,12 @@ Cecil (formerly PHPoole) is a CLI application that merges plain text files (writ
 ## Installation
 
 ```bash
-curl -SOL https://cecil.app/cecil.phar
+curl -LO https://cecil.app/cecil.phar
 mv cecil.phar /usr/local/bin/cecil
 chmod +x /usr/local/bin/cecil
 ```
 
-> [PHP](http://www.php.net) 7.1+ is required.
+> [PHP](https://www.php.net) 7.1+ is required.
 
 ## Usage
 
@@ -46,7 +46,7 @@ chmod +x /usr/local/bin/cecil
 
 Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/starter-blog) a ready to go [blog](https://github.com/Cecilapp/starter-blog).
+[![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://app.forestry.io/quick-start?repo=cecilapp/starter-blog) [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/starter-blog) [![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/Cecilapp/starter-blog)
 
 ## License
 

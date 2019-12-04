@@ -14,7 +14,7 @@ Imported config (from theme(s)):
 <p>Variable `foo`=`{{ site.foo }}`</p>
 {% endif %}
 
-{% if page.pagination is defined %}
+{% if page.pagination.pages is defined %}
 <pre>
 Total pages: {{ page.pagination.totalpages }}
 Pages per page : {{ page.pagination.pages|length }}

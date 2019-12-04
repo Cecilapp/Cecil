@@ -3,10 +3,8 @@
   "description": "Your content driven static site generator.",
   "keywords": [
     "static-site-generator",
-    "static-site",
     "markdown",
-    "twig",
-    "yaml"
+    "twig"
   ],
   "homepage": "https://cecil.app",
   "license": "MIT",
@@ -14,7 +12,7 @@
   "authors": [
     {
       "name": "Arnaud Ligny",
-      "email": "arnaud@ligny.org",
+      "email": "arnaud@ligny.fr",
       "homepage": "https://arnaudligny.fr",
       "role": "Developer"
     }
@@ -30,22 +28,22 @@
     "erusev/parsedown-extra": "^0.8.0",
     "leafo/scssphp": "0.8.4",
     "matthiasmullie/minify": "1.3.61",
-    "myclabs/php-enum": "1.7.1",
+    "myclabs/php-enum": "1.7.2",
     "padraic/humbug_get_contents": "1.1.2",
     "padraic/phar-updater": "1.0.6",
-    "symfony/filesystem": "4.3.3",
-    "symfony/finder": "4.3.3",
-    "symfony/process": "4.3.3",
-    "symfony/yaml": "4.3.3",
+    "symfony/filesystem": "4.4.1",
+    "symfony/finder": "4.4.1",
+    "symfony/process": "4.4.1",
+    "symfony/yaml": "4.4.1",
     "twig/extensions": "1.5.4",
-    "twig/twig": "2.11.3",
+    "twig/twig": "2.12.2",
     "yosymfony/resource-watcher": "2.0.0",
-    "zendframework/zend-progressbar": "2.6.0",
+    "zendframework/zend-progressbar": "2.7.0",
     "zfcampus/zf-console": "1.4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "7.5.14",
-    "phpmd/phpmd": "2.6.1",
+    "phpunit/phpunit": "7.5.17",
+    "phpmd/phpmd": "2.7.0",
     "humbug/box": "3.7.0"
   },
   "autoload": {
