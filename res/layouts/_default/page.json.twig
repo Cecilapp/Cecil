@@ -47,7 +47,7 @@
 {% if links.prev is defined %}
     "prev": {{ links.prev|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
 {% endif %}
-{% if inks.next is defined %}
+{% if links.next is defined %}
     "next": {{ links.next|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
 {% endif %}
     "last": {{ links.last|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}

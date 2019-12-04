@@ -17,22 +17,22 @@
     <uri>{{ author_uri }}</uri>
   </author>
 {% for p in pages|sortByDate %}
-    <entry xml:lang="{{ lang }}">
-      <id>{{ url(p, {canonical:true}) }}</id>
-      <title>{{ p.title }}</title>
+  <entry xml:lang="{{ lang }}">
+    <id>{{ url(p, {canonical:true}) }}</id>
+    <title>{{ p.title }}</title>
 {% if 'txt' in p.output|default('html') %}
-      <content type="text">
-        <![CDATA[{{ p.content }}]]>
-      </content>
+    <content type="text">
+      <![CDATA[{{ p.content }}]]>
+    </content>
 {% else %}
-      <content type="html">
-        <![CDATA[{{ p.content }}]]>
-      </content>
+    <content type="html">
+      <![CDATA[{{ p.content }}]]>
+    </content>
 {% endif %}
-      <link href="{{ url(p, {canonical:true}) }}" rel="alternate" type="text/html" />
-      <published>{{ p.date|date('c') }}</published>
-      <updated>{{ p.date|date('c') }}</updated>
-    </entry>
+    <link href="{{ url(p, {canonical:true}) }}" rel="alternate" type="text/html" />
+    <published>{{ p.date|date('c') }}</published>
+    <updated>{{ p.date|date('c') }}</updated>
+  </entry>
 {% endfor %}
 </feed>
 {% endblock feed %}
