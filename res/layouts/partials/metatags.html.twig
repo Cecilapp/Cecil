@@ -1,0 +1,60 @@
+{# title #}
+{% if title is not defined %}
+{% set title = page.title|e ~ ' &middot; ' ~ site.title|e %}
+{% if page.id == 'index' %}
+{% set title = site.title|e ~ ' &middot; ' ~ site.baseline|default(site.description)|e %}
+{% endif %}
+{% endif %}
+{# description #}
+{% set description = page.description|default(site.description)|e %}
+{# keywords #}
+{% set keywords = page.keywords|default(site.keywords)|e %}
+{# author #}
+{% set author = page.author|default(site.author)|e %}
+{% if author.firstname is defined and author.lastname is defined %}
+{% set author = author.firstname|e ~ ' ' ~ author.lastname|e %}
+{% endif %}
+{# image #}
+{% if site.image is defined %}
+{% set image = site.image %}
+{% endif %}
+{% if page.image is defined %}
+{% set image = page.image %}
+{% endif %}
+{# open graph #}
+{% set opengraph = {
+  'locale': site.language.locale,
+  'site_name': site.title,
+  'type': 'website',
+  'title': block('title'),
+  'description': block('description'),
+  'url': url(page, {canonical:true}),
+  'image': image|default(),
+} %}
+{% if page.opengraph is defined or site.opengraph is defined %}
+{% set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
+{% endif %}
+{# template #}
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
+    <meta name="keywords" content="{{ keywords|join(', ') }}" />
+{% if author is defined %}
+    <meta name="author" content="{{ author|e }}">
+{% endif %}
+{# template: alternates #}
+{% include 'partials/alternates.html.twig' %}
+{# template: open graph #}
+    <meta property="og:locale" content="{{ opengraph.locale }}" />
+    <meta property="og:site_name" content="{{ opengraph.site_name }}" />
+    <meta property="og:type" content="{{ opengraph.type }}" />
+    <meta property="og:title" content="{{ block('title') }}" />
+    <meta property="og:description" content="{{ block('description') }}" />
+    <meta property="og:url" content="{{ url(page.url, {canonical:true}) }}" />
+{% if opengraph.image is not empty %}
+    <meta property="og:image" content="{{ url(opengraph.image, {canonical:true}) }}" />
+{% endif %}
+{# template: Facebook #}
+    <meta property="fb:profile_id" content="516589570" />
+    <meta property="profile:first_name" content="Arnaud" />
+    <meta property="profile:last_name" content="Ligny" />
+    <meta property="profile:username" content="Narno" />
