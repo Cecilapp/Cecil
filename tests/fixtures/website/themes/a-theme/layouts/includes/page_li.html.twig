@@ -9,5 +9,8 @@
           <li>path: {{ item.path }}</li>
           <li>folder: {{ item.folder }}</li>
           <li>slug: {{ item.slug }}</li>
+{% if item.menu is defined %}
+          <li>menu: {{ dump(item.menu) }}</li>
+{% endif %}
         </ul>
     </li>

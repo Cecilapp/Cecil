@@ -44,6 +44,7 @@ class Build extends \PHPUnit\Framework\TestCase
                         'name'   => 'Français',
                         'locale' => 'fr_FR',
                         'title'  => 'Cecil FR',
+                        'description' => 'En français !',
                     ],
                 ],
                 'menu'   => [

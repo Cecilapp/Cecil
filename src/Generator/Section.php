@@ -24,9 +24,14 @@ class Section extends AbstractGenerator implements GeneratorInterface
     {
         $sections = [];
 
+        // excludes pages in other language than default
+        $filteredPages = $this->pagesCollection->filter(function (Page $page) {
+            return !$page->hasVariable('language');
+        });
+
         // identify sections
         /* @var $page Page */
-        foreach ($this->pagesCollection as $page) {
+        foreach ($filteredPages as $page) {
             if ($page->getSection()) {
                 $sections[$page->getSection()][] = $page;
             }

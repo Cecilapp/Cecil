@@ -116,7 +116,7 @@ class Page extends Item
     public static function createId(SplFileInfo $file): string
     {
         $relpath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = self::slugify(Prefix::subPrefix($file->getBasename('.'.$file->getExtension())));
+        $basename = self::slugify(FileStr::subPrefix($file->getBasename('.'.$file->getExtension())));
 
         // kill me with your fucking index!
         if ($relpath && $basename == 'index') {
@@ -154,14 +154,14 @@ class Page extends Item
          * Set default variables
          */
         $this->setVariables([
-            'title'    => Prefix::subPrefix($fileName),
+            'title'    => FileStr::sub($fileName),
             'date'     => (new \DateTime())->setTimestamp($this->file->getCTime()),
             'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
         // special case: file has a prefix
-        if (Prefix::hasPrefix($fileName)) {
-            $prefix = Prefix::getPrefix($fileName);
+        if (FileStr::hasPrefix($fileName)) {
+            $prefix = FileStr::getPrefix($fileName);
             // prefix is a valid date?
             if (Util::dateIsValid($prefix)) {
                 $this->setVariable('date', (string) $prefix);
@@ -169,6 +169,13 @@ class Page extends Item
                 // prefix is an integer, use for sorting
                 $this->setVariable('weight', (int) $prefix);
             }
+        }
+        // special case: file has a suffix
+        if (FileStr::hasSuffix($fileName)) {
+            $suffix = FileStr::getSuffix($fileName);
+            $this->setVariable('language', $suffix);
+            $this->setPath($suffix.(null !== $this->getFolder() ? '/'.$this->getFolder() : '').'/'.$this->getSlug());
+
         }
 
         return $this;
@@ -291,7 +298,7 @@ class Page extends Item
     public function setSlug(string $slug): self
     {
         if (!$this->slug) {
-            $slug = self::slugify(Prefix::subPrefix($slug));
+            $slug = self::slugify(FileStr::sub($slug));
         }
         // force slug and update path
         if ($this->slug && $this->slug != $slug) {
@@ -321,7 +328,7 @@ class Page extends Item
      */
     public function setPath(string $path): self
     {
-        $path = self::slugify(Prefix::subPrefix($path));
+        $path = self::slugify(FileStr::sub($path));
         // special case: homepage
         if ($path == 'index') {
             $this->path = '';
