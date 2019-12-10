@@ -73,7 +73,8 @@ return [
     ],
     [
         'name'    => 'serve',
-        'route'   => '[<path>] [--drafts|-d] [--verbose|-v] [--quiet|-q] [--open|-o] [--no-watcher|-nw] [--host=] [--port=]',
+        'route'   => '[<path>] [--drafts|-d] [--verbose|-v] [--quiet|-q]'
+                   .' [--open|-o] [--no-watcher|-nw] [--host=] [--port=]',
         'aliases' => [
             'd'  => 'drafts',
             'v'  => 'verbose',
