@@ -73,9 +73,11 @@ return [
     ],
     [
         'name'    => 'serve',
-        'route'   => '[<path>] [--drafts|-d] [--open|-o] [--no-watcher|-nw] [--host=] [--port=]',
+        'route'   => '[<path>] [--drafts|-d] [--verbose|-v] [--quiet|-q] [--open|-o] [--no-watcher|-nw] [--host=] [--port=]',
         'aliases' => [
             'd'  => 'drafts',
+            'v'  => 'verbose',
+            'q'  => 'quiet',
             'o'  => 'open',
             'nw' => 'no-watcher',
         ],
@@ -84,6 +86,8 @@ return [
         'options_descriptions' => [
             '<path>'           => 'Path to the Website',
             '--drafts|-d'      => 'Include drafts',
+            '--verbose|-v'     => 'Print build details',
+            '--quiet|-q'       => 'Disable build messages',
             '--open|-o'        => 'Open browser automatically',
             '--no-watcher|-nw' => 'Disable watcher',
             '--host'           => 'Server host',
