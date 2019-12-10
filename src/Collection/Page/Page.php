@@ -175,7 +175,6 @@ class Page extends Item
             $suffix = FileStr::getSuffix($fileName);
             $this->setVariable('language', $suffix);
             $this->setPath($suffix.(null !== $this->getFolder() ? '/'.$this->getFolder() : '').'/'.$this->getSlug());
-
         }
 
         return $this;
