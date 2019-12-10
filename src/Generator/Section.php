@@ -24,14 +24,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
     {
         $sections = [];
 
-        // excludes pages in other language than default
-        $filteredPages = $this->pagesCollection->filter(function (Page $page) {
-            return !$page->hasVariable('language');
-        });
-
         // identify sections
         /* @var $page Page */
-        foreach ($filteredPages as $page) {
+        foreach ($this->pagesCollection as $page) {
             if ($page->getSection()) {
                 $sections[$page->getSection()][] = $page;
             }
@@ -41,6 +36,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
         if (count($sections) > 0) {
             $menuWeight = 100;
             foreach ($sections as $section => $pagesAsArray) {
+                // excludes "sections" based on language code
+                if (!empty($this->config->getLanguages())) {
+                    if (in_array($section, array_keys($this->config->getLanguages()))) {
+                        continue;
+                    }
+                }
                 $pageId = $path = Page::slugify($section);
                 $page = (new Page($pageId))->setVariable('title', ucfirst($section));
                 if ($this->pagesCollection->has($pageId)) {
