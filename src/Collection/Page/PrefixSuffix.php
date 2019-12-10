@@ -9,9 +9,9 @@
 namespace Cecil\Collection\Page;
 
 /**
- * Class FileStr.
+ * Class PrefixSuffix.
  */
-class FileStr
+class PrefixSuffix
 {
     // https://regex101.com/r/tJWUrd/6
     // ie: "blog/2017-10-19-post-1.md" prefix is "2017-10-19"
