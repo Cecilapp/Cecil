@@ -32,11 +32,7 @@ class FileStr
      */
     protected static function has(string $string, string $type): bool
     {
-        if (preg_match('/'.self::getPattern($type).'/', $string)) {
-            return true;
-        }
-
-        return false;
+        return (bool) preg_match('/'.self::getPattern($type).'/', $string);
     }
 
     /**
@@ -78,7 +74,6 @@ class FileStr
             switch ($type) {
                 case 'prefix':
                     return $matches[2];
-                    break;
                 case 'suffix':
                     return $matches[2];
             }
@@ -164,10 +159,8 @@ class FileStr
         switch ($type) {
             case 'prefix':
                 return self::PREFIX_PATTERN;
-                break;
             case 'suffix':
                 return self::SUFFIX_PATTERN;
-                break;
             default:
                 throw new Exception(\sprintf('%s must be "prefix" or "suffix"', $type));
         }
