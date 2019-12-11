@@ -2,8 +2,8 @@
 title: About
 menu: main
 aliases:
-    - a-propos
+  - contact
 ---
 Page:
- - in `main` menu
- - with `a-propos` URL alias
+ - in `main` menu (but disabled in config.)
+ - with [`contact`](/contact) URL alias

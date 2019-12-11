@@ -67,6 +67,10 @@ class Page extends Item
      * @var Slugify
      */
     private static $slugifier;
+    /**
+     * @var string
+     */
+    protected $language;
 
     /**
      * Constructor.
@@ -116,7 +120,7 @@ class Page extends Item
     public static function createId(SplFileInfo $file): string
     {
         $relpath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = self::slugify(Prefix::subPrefix($file->getBasename('.'.$file->getExtension())));
+        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.'.$file->getExtension())));
 
         // kill me with your fucking index!
         if ($relpath && $basename == 'index') {
@@ -154,22 +158,31 @@ class Page extends Item
          * Set default variables
          */
         $this->setVariables([
-            'title'    => Prefix::subPrefix($fileName),
+            'title'    => PrefixSuffix::sub($fileName),
             'date'     => (new \DateTime())->setTimestamp($this->file->getCTime()),
             'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
-        // special case: file has a prefix
-        if (Prefix::hasPrefix($fileName)) {
-            $prefix = Prefix::getPrefix($fileName);
+        /*
+         * Set specific variables
+         */
+        // file has a prefix
+        if (PrefixSuffix::hasPrefix($fileName)) {
+            $prefix = PrefixSuffix::getPrefix($fileName);
             // prefix is a valid date?
             if (Util::dateIsValid($prefix)) {
                 $this->setVariable('date', (string) $prefix);
             } else {
-                // prefix is an integer, use for sorting
+                // prefix is an integer: used for sorting
                 $this->setVariable('weight', (int) $prefix);
             }
         }
+        // file has a suffix
+        if (PrefixSuffix::hasSuffix($fileName)) {
+            $this->language = PrefixSuffix::getSuffix($fileName);
+            $this->setVariable('language', $this->language);
+        }
+        $this->setVariable('langref', PrefixSuffix::sub($fileName));
 
         return $this;
     }
@@ -291,7 +304,7 @@ class Page extends Item
     public function setSlug(string $slug): self
     {
         if (!$this->slug) {
-            $slug = self::slugify(Prefix::subPrefix($slug));
+            $slug = self::slugify(PrefixSuffix::sub($slug));
         }
         // force slug and update path
         if ($this->slug && $this->slug != $slug) {
@@ -321,7 +334,7 @@ class Page extends Item
      */
     public function setPath(string $path): self
     {
-        $path = self::slugify(Prefix::subPrefix($path));
+        $path = self::slugify(PrefixSuffix::sub($path));
         // special case: homepage
         if ($path == 'index') {
             $this->path = '';
@@ -437,8 +450,8 @@ class Page extends Item
      *   - ugly: path + extension (ie: 404.html, sitemap.xml, robots.txt)
      *   - path only (ie: _redirects)
      *
-     * @param string $format
-     * @param Config $config
+     * @param string      $format
+     * @param null|Config $config
      *
      * @return string
      */
@@ -449,6 +462,7 @@ class Page extends Item
         $suffix = '/index';
         $extension = 'html';
         $uglyurl = $this->getVariable('uglyurl') ? true : false;
+        $language = '';
 
         // site config
         if ($config) {
@@ -458,7 +472,7 @@ class Page extends Item
         }
         // if ugly URL: not suffix
         if ($uglyurl) {
-            $suffix = '';
+            $suffix = null;
         }
         // format strings
         if ($subpath) {
@@ -471,18 +485,22 @@ class Page extends Item
             $extension = sprintf('.%s', $extension);
         }
         // special case: homepage ('index' from hell!)
-        if (!$path && !$suffix) {
+        if ($path === null && $suffix === null) {
             $path = 'index';
         }
+        // language
+        if ($this->language !== null) {
+            $language = $this->language.'/';
+        }
 
-        return $path.$subpath.$suffix.$extension;
+        return $language.$path.$subpath.$suffix.$extension;
     }
 
     /**
      * Return URL.
      *
-     * @param string $format
-     * @param Config $config
+     * @param string      $format
+     * @param null|Config $config
      *
      * @return string
      */
