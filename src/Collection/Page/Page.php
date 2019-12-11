@@ -450,7 +450,7 @@ class Page extends Item
      *   - ugly: path + extension (ie: 404.html, sitemap.xml, robots.txt)
      *   - path only (ie: _redirects)
      *
-     * @param string $format
+     * @param string      $format
      * @param null|Config $config
      *
      * @return string
@@ -499,7 +499,7 @@ class Page extends Item
     /**
      * Return URL.
      *
-     * @param string $format
+     * @param string      $format
      * @param null|Config $config
      *
      * @return string
