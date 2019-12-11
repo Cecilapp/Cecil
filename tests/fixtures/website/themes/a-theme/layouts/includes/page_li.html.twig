@@ -2,7 +2,9 @@
         <a href="{{ url(item) }}">{{ item.title }}</a>
         <ul>
           <li>id: {{ item.id }}</li>
+          <li>filepath: {{ item.filepath }}</li>
           <li>date: {{ item.date|date("d/m/Y") }}</li>
+          <li>updated: {{ item.updated|date("d/m/Y") }}</li>
           <li>type: {{ item.type }}</li>
           <li>virtual: {{ item.virtual }}</li>
           <li>section: {{ item.section }}</li>
@@ -11,6 +13,15 @@
           <li>slug: {{ item.slug }}</li>
 {% if item.menu is defined %}
           <li>menu: {{ dump(item.menu) }}</li>
+{% endif %}
+{% if item.weight is defined %}
+          <li>weight: {{ item.weight }}</li>
+{% endif %}
+{% if item.language is defined %}
+          <li>language: {{ item.language }}</li>
+{% endif %}
+{% if item.langref is defined %}
+          <li>langref: {{ item.langref }}</li>
 {% endif %}
         </ul>
     </li>
