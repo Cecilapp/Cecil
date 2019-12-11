@@ -181,7 +181,6 @@ class Page extends Item
         if (PrefixSuffix::hasSuffix($fileName)) {
             $this->language = PrefixSuffix::getSuffix($fileName);
             $this->setVariable('language', $this->language);
-            //$this->setPath($this->language.(null !== $this->getFolder() ? '/'.$this->getFolder() : '').'/'.$this->getSlug());
         }
         $this->setVariable('langref', PrefixSuffix::sub($fileName));
 
@@ -452,7 +451,7 @@ class Page extends Item
      *   - path only (ie: _redirects)
      *
      * @param string $format
-     * @param Config $config
+     * @param null|Config $config
      *
      * @return string
      */
@@ -473,7 +472,7 @@ class Page extends Item
         }
         // if ugly URL: not suffix
         if ($uglyurl) {
-            $suffix = '';
+            $suffix = null;
         }
         // format strings
         if ($subpath) {
@@ -486,11 +485,11 @@ class Page extends Item
             $extension = sprintf('.%s', $extension);
         }
         // special case: homepage ('index' from hell!)
-        if (!$path && !$suffix) {
+        if ($path === null && $suffix === null) {
             $path = 'index';
         }
         // language
-        if (!empty($this->language)) {
+        if ($this->language !== null) {
             $language = $this->language.'/';
         }
 
@@ -501,7 +500,7 @@ class Page extends Item
      * Return URL.
      *
      * @param string $format
-     * @param Config $config
+     * @param null|Config $config
      *
      * @return string
      */
