@@ -159,23 +159,27 @@ class Page extends Item
             'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
-        // special case: file has a prefix
+        /*
+         * Set specific variables
+         */
+        // file has a prefix
         if (PrefixSuffix::hasPrefix($fileName)) {
             $prefix = PrefixSuffix::getPrefix($fileName);
             // prefix is a valid date?
             if (Util::dateIsValid($prefix)) {
                 $this->setVariable('date', (string) $prefix);
             } else {
-                // prefix is an integer, use for sorting
+                // prefix is an integer: used for sorting
                 $this->setVariable('weight', (int) $prefix);
             }
         }
-        // special case: file has a suffix
+        // file has a suffix
         if (PrefixSuffix::hasSuffix($fileName)) {
             $suffix = PrefixSuffix::getSuffix($fileName);
             $this->setVariable('language', $suffix);
             $this->setPath($suffix.(null !== $this->getFolder() ? '/'.$this->getFolder() : '').'/'.$this->getSlug());
         }
+        $this->setVariable('langref', PrefixSuffix::sub($fileName));
 
         return $this;
     }
