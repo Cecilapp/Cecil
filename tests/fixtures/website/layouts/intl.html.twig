@@ -36,7 +36,7 @@
       <p>
         {% trans "Available translations:" %}<br>
 {% for p in site.pages|filterBy('langref', page.langref) %}
-        - <a href="{{ url(p.path) }}">{{ p.title }}</a><br>
+        - <a href="{{ url(p) }}">{{ p.title }}</a><br>
 {% endfor %}
       </p>
 {% endblock content %}
