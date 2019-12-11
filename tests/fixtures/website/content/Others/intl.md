@@ -2,7 +2,6 @@
 title: Internationalization
 date: 2019-07-31
 layout: intl
-langref: intl
 ---
 <!-- break -->
 - Use `localizeddate()` filter to localize a date
