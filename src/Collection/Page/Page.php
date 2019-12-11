@@ -67,6 +67,10 @@ class Page extends Item
      * @var Slugify
      */
     private static $slugifier;
+    /**
+     * @var string
+     */
+    protected $language;
 
     /**
      * Constructor.
@@ -175,9 +179,9 @@ class Page extends Item
         }
         // file has a suffix
         if (PrefixSuffix::hasSuffix($fileName)) {
-            $suffix = PrefixSuffix::getSuffix($fileName);
-            $this->setVariable('language', $suffix);
-            $this->setPath($suffix.(null !== $this->getFolder() ? '/'.$this->getFolder() : '').'/'.$this->getSlug());
+            $this->language = PrefixSuffix::getSuffix($fileName);
+            $this->setVariable('language', $this->language);
+            //$this->setPath($this->language.(null !== $this->getFolder() ? '/'.$this->getFolder() : '').'/'.$this->getSlug());
         }
         $this->setVariable('langref', PrefixSuffix::sub($fileName));
 
@@ -459,6 +463,7 @@ class Page extends Item
         $suffix = '/index';
         $extension = 'html';
         $uglyurl = $this->getVariable('uglyurl') ? true : false;
+        $language = '';
 
         // site config
         if ($config) {
@@ -484,8 +489,12 @@ class Page extends Item
         if (!$path && !$suffix) {
             $path = 'index';
         }
+        // language
+        if (!empty($this->language)) {
+            $language = $this->language.'/';
+        }
 
-        return $path.$subpath.$suffix.$extension;
+        return $language.$path.$subpath.$suffix.$extension;
     }
 
     /**
