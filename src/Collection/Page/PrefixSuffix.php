@@ -8,6 +8,8 @@
 
 namespace Cecil\Collection\Page;
 
+use Cecil\Exception\Exception;
+
 /**
  * Class PrefixSuffix.
  */
