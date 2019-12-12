@@ -93,7 +93,7 @@ class Twig implements RendererInterface
         // https://regex101.com/r/dZ02zO/5
         $this->rendered = preg_replace_callback(
             '/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
-            function($matches) {
+            function ($matches) {
                 return 'href="../'.Page::slugify(PrefixSuffix::sub(sprintf('%s', $matches[1]))).$matches[2].'"';
             },
             $this->rendered
