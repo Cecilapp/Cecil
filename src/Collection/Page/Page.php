@@ -67,10 +67,6 @@ class Page extends Item
      * @var Slugify
      */
     private static $slugifier;
-    /**
-     * @var string
-     */
-    protected $language;
 
     /**
      * Constructor.
@@ -179,8 +175,7 @@ class Page extends Item
         }
         // file has a suffix
         if (PrefixSuffix::hasSuffix($fileName)) {
-            $this->language = PrefixSuffix::getSuffix($fileName);
-            $this->setVariable('language', $this->language);
+            $this->setVariable('language', PrefixSuffix::getSuffix($fileName));
         }
         $this->setVariable('langref', PrefixSuffix::sub($fileName));
 
@@ -449,6 +444,7 @@ class Page extends Item
      *   - subpath: path + subpath + suffix + extension (ie: blog/post-1/amp/index.html)
      *   - ugly: path + extension (ie: 404.html, sitemap.xml, robots.txt)
      *   - path only (ie: _redirects)
+     *   - i18n: language + path + suffix + extension (ie: fr/blog/page/index.html)
      *
      * @param string      $format
      * @param null|Config $config
@@ -462,13 +458,13 @@ class Page extends Item
         $suffix = '/index';
         $extension = 'html';
         $uglyurl = $this->getVariable('uglyurl') ? true : false;
-        $language = '';
+        $language = $this->getVariable('language');
 
         // site config
         if ($config) {
-            $subpath = $config->get(sprintf('output.formats.%s.subpath', $format));
-            $suffix = $config->get(sprintf('output.formats.%s.suffix', $format));
-            $extension = $config->get(sprintf('output.formats.%s.extension', $format));
+            $subpath = $config->get(\sprintf('output.formats.%s.subpath', $format));
+            $suffix = $config->get(\sprintf('output.formats.%s.suffix', $format));
+            $extension = $config->get(\sprintf('output.formats.%s.extension', $format));
         }
         // if ugly URL: not suffix
         if ($uglyurl) {
@@ -476,21 +472,20 @@ class Page extends Item
         }
         // format strings
         if ($subpath) {
-            $subpath = sprintf('/%s', ltrim($subpath, '/'));
+            $subpath = \sprintf('/%s', ltrim($subpath, '/'));
         }
         if ($suffix) {
-            $suffix = sprintf('/%s', ltrim($suffix, '/'));
+            $suffix = \sprintf('/%s', ltrim($suffix, '/'));
         }
         if ($extension) {
-            $extension = sprintf('.%s', $extension);
+            $extension = \sprintf('.%s', $extension);
+        }
+        if ($language !== null) {
+            $language = \sprintf('%s/', $language);
         }
         // special case: homepage ('index' from hell!)
         if ($path === null && $suffix === null) {
             $path = 'index';
-        }
-        // language
-        if ($this->language !== null) {
-            $language = $this->language.'/';
         }
 
         return $language.$path.$subpath.$suffix.$extension;
