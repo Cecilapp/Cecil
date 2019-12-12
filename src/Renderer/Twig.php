@@ -9,6 +9,8 @@
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
+use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Renderer\Twig\Extension as TwigExtension;
 
 /**
@@ -86,6 +88,16 @@ class Twig implements RendererInterface
         $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
         $replacement = '$1<span id="more"></span>$4';
         $this->rendered = preg_replace('/'.$pattern.'/is', $replacement, $this->rendered);
+
+        // replace internal link to *.md files with the right URL
+        // https://regex101.com/r/dZ02zO/5
+        $this->rendered = preg_replace_callback(
+            '/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
+            function ($matches) {
+                return \sprintf('href="../%s%s', Page::slugify(PrefixSuffix::sub($matches[1])), $matches[2] ?? '');
+            },
+            $this->rendered
+        );
 
         return $this->rendered;
     }
