@@ -10,6 +10,7 @@ namespace Cecil\Renderer;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Renderer\Twig\Extension as TwigExtension;
 
 /**
@@ -89,11 +90,11 @@ class Twig implements RendererInterface
         $this->rendered = preg_replace('/'.$pattern.'/is', $replacement, $this->rendered);
 
         // replace internal link to *.md files with the right URL
-        // https://regex101.com/r/dZ02zO/4
+        // https://regex101.com/r/dZ02zO/5
         $this->rendered = preg_replace_callback(
-            '/href="\/([A-Za-z0-9_\.\-\/]+)\.md"/is',
+            '/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
             function($matches) {
-                return 'href="/'.Page::slugify(sprintf('%s', $matches[1])).'"';
+                return 'href="../'.Page::slugify(PrefixSuffix::sub(sprintf('%s', $matches[1]))).$matches[2].'"';
             },
             $this->rendered
         );
