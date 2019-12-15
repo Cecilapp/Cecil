@@ -58,7 +58,7 @@ class Config
     /**
      * Import config data into the current configuration.
      *
-     * @param Config|array $config
+     * @param Config|array|null $config
      *
      * @return void
      */
