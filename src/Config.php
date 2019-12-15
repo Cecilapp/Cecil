@@ -23,6 +23,12 @@ class Config
      */
     protected $data;
     /**
+     * Local configuration.
+     *
+     * @var Config|array
+     */
+    protected $localConfig;
+    /**
      * Source directory.
      *
      * @var string
@@ -43,19 +49,35 @@ class Config
     public function __construct($config = null)
     {
         // default config
-        $data = new Data(include __DIR__.'/../config/default.php');
+        $this->data = new Data(include __DIR__.'/../config/default.php');
         // import local config
-        if ($config) {
-            if ($config instanceof self) {
-                $data->importData($config->getData());
-            } elseif (is_array($config)) {
-                $data->import($config);
-            }
+        $this->localConfig = $config;
+        $this->import($this->localConfig);
+    }
+
+    /**
+     * Import config data into the current configuration.
+     *
+     * @param Config|array|null $config
+     *
+     * @return void
+     */
+    public function import($config): void
+    {
+        if ($config instanceof self) {
+            $this->data->importData($config->getData());
+        } elseif (is_array($config)) {
+            $this->data->import($config);
+        }
+        // re-import local config
+        if ($config !== $this->localConfig) {
+            $this->import($this->localConfig);
         }
 
         /**
          * Apply environment variables.
          */
+        $data = $this->getData();
         $applyEnv = function ($array) use ($data) {
             $iterator = new \RecursiveIteratorIterator(
                 new \RecursiveArrayIterator($array),
@@ -73,24 +95,6 @@ class Config
             }
         };
         $applyEnv($data->export());
-
-        $this->setData($data);
-    }
-
-    /**
-     * Import an array into the current configuration.
-     *
-     * @param array $config
-     *
-     * @return void
-     */
-    public function import(array $config): void
-    {
-        $data = $this->getData();
-        $origin = $data->export();
-        $data->import($config);
-        $data->import($origin);
-        $this->setData($data);
     }
 
     /**
