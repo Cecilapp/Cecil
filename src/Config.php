@@ -25,7 +25,7 @@ class Config
     /**
      * Local configuration.
      *
-     * @var Config|array|null
+     * @var Config|array
      */
     protected $localConfig;
     /**
