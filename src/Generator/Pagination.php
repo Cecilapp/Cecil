@@ -40,20 +40,21 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             $pages = $page->getVariable('pages');
             $sortby = $page->getVariable('sortby');
             // pagination page config
-            $pagination = $page->getVariable('pagination');
-            if ($pagination) {
-                if (array_key_exists('enabled', $pagination) && !$pagination['enabled']) {
+            $pagePagination = $page->getVariable('pagination');
+            if ($pagePagination) {
+                if (array_key_exists('enabled', $pagePagination) && !$pagePagination['enabled']) {
                     continue;
                 }
-                if (array_key_exists('max', $pagination)) {
-                    $paginationPerPage = intval($pagination['max']);
+                if (array_key_exists('max', $pagePagination)) {
+                    $paginationPerPage = intval($pagePagination['max']);
                 }
-                if (array_key_exists('path', $pagination)) {
-                    $paginationPath = $pagination['path'];
+                if (array_key_exists('path', $pagePagination)) {
+                    $paginationPath = $pagePagination['path'];
                 }
             }
+            $pagesTotal = count($pages);
             // abord pagination?
-            if (count($pages) <= $paginationPerPage) {
+            if ($pagesTotal <= $paginationPerPage) {
                 continue;
             }
             // sort pages
@@ -66,7 +67,6 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             }
 
             // build pagination
-            $pagesTotal = count($pages);
             if ($pagesTotal > $paginationPerPage) {
                 $paginationPagesCount = ceil($pagesTotal / $paginationPerPage);
                 for ($i = 0; $i < $paginationPagesCount; $i++) {

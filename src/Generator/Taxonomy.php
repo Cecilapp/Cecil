@@ -52,8 +52,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                             ->setVariable('term', $term->getId())
                             ->setVariable('plural', $plural)
                             ->setVariable('singular', $singular)
-                            ->setVariable('pages', $pages)
-                            ->setVariable('pagination', ['pages' => $pages]);
+                            ->setVariable('pages', $pages);
                         $this->generatedPages->add($page);
                     }
                     /*

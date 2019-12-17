@@ -70,7 +70,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Add pagination (next and prev) to section sub pages.
+     * Add navigation (next and prev) to section sub pages.
      *
      * @param PagesCollection $pages
      *
