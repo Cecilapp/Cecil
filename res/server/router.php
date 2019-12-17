@@ -85,6 +85,9 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
         if ($ext == 'js') {
             header('Content-Type: application/javascript');
         }
+        if ($ext == 'svg') {
+            header('Content-Type: image/svg+xml');
+        }
         echo $content;
 
         return true;
