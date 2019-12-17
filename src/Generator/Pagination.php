@@ -26,7 +26,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             return;
         }
 
-        // filter pages: home and sections
+        // filter pages: home, sections and terms
         $filteredPages = $this->pagesCollection->filter(function (Page $page) {
             return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION, Type::TERM]);
         });
@@ -35,10 +35,11 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             // global config
             $paginationPerPage = intval($this->config->get('pagination.max'));
             $paginationPath = $this->config->get('pagination.path');
-            // page config
+            // global page config
             $path = $page->getPath();
             $pages = $page->getVariable('pages');
             $sortby = $page->getVariable('sortby');
+            // pagination page config
             $pagination = $page->getVariable('pagination');
             if ($pagination) {
                 if (array_key_exists('enabled', $pagination) && !$pagination['enabled']) {
@@ -55,7 +56,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             if (count($pages) <= $paginationPerPage) {
                 continue;
             }
-            // sort
+            // sort pages
             $pages = $pages->sortByDate();
             if ($sortby) {
                 $sortMethod = sprintf('sortBy%s', ucfirst($sortby));
@@ -110,6 +111,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $pagination = [
                         'totalpages' => $pagesTotal,
                         'pages'      => $pagesInPagination,
+                        'current'    => $i + 1,
+                        'count'      => $paginationPagesCount,
                     ];
                     // add links
                     $pagination['links'] = ['self' => $currentPath ?: 'index'];
