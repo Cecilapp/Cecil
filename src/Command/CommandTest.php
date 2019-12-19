@@ -18,7 +18,7 @@ class CommandTest extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('A test! ' . $input->getArgument('path'));
+        $output->writeln('A test! '.$input->getArgument('path'));
 
         return 0;
     }
