@@ -41,11 +41,12 @@ switch (true) {
         exit(2);
 }
 
+use Cecil\Application;
 use Cecil\Builder;
 use Cecil\Command\SelfUpdate;
 use Cecil\Util\Plateform;
 use Zend\Console\Console;
-use ZF\Console\Application;
+//use ZF\Console\Application;
 
 $version = ($version === '@' . 'git_version' . '@')
     ? Builder::getVersion()
@@ -63,35 +64,7 @@ if (Plateform::isPhar()) {
     ]);
 }
 
-$exceptionTemplate = <<<EOT
-:message
-EOT;
-
-$application = new Application(
-    $name,
-    $version,
-    $routes,
-    Console::getInstance()
-);
-$application->removeRoute('autocomplete');
-$application->setBanner(function($console) use ($version) {
-    /* @var $console Zend\Console\Adapter\AbstractAdapter */
-    $console->write("  ____          _ _
- / ___|___  ___(_) | Your content driven
-| |   / _ \/ __| | | static site generator.
-| |__|  __/ (__| | | v$version
- \____\___|\___|_|_| by Arnaud Ligny
-");
-// http://patorjk.com/software/taag/#p=display&f=Standard&t=Cecil
-    $console->writeLine('');
-});
-$application->setBannerDisabledForUserCommands();
-$application->setDebug(false);
-$application->getExceptionHandler()->setMessageTemplate($exceptionTemplate);
-
-if (Plateform::isPhar()) {
-    $application->getDispatcher()->map('self-update', new SelfUpdate($version));
-}
+$application = new Application('Cecil', $version);
 
 $exit = $application->run();
 exit($exit);
