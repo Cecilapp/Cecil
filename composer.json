@@ -34,7 +34,7 @@
     "symfony/filesystem": "4.4.1",
     "symfony/finder": "4.4.1",
     "symfony/process": "4.4.1",
-    "symfony/yaml": "4.4.1",
+    "symfony/yaml": "4.4.2",
     "twig/extensions": "1.5.4",
     "twig/twig": "2.12.2",
     "yosymfony/resource-watcher": "2.0.0",
