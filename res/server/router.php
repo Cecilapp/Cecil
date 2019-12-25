@@ -24,10 +24,10 @@ if ($path == '/watcher') {
     header("Content-Type: text/event-stream\n\n");
     header('Cache-Control: no-cache');
     header('Access-Control-Allow-Origin: *');
-    if (file_exists($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/changes.flag')) {
+    $flagFile = $_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/changes.flag';
+    if (file_exists($flagFile)) {
         echo "event: reload\n";
-        echo 'data: reload';
-        unlink($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/changes.flag');
+        printf('data: %s', file_get_contents($flagFile));
     }
     echo "\n\n";
     exit();

@@ -87,7 +87,7 @@ class Build extends AbstractCommand
             }
             $this->getBuilder($config, $options)->build($options);
             if ($this->getRoute()->getName() == 'serve') {
-                $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', '');
+                $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', \time());
             }
         } catch (\Exception $e) {
             throw new \Exception(sprintf('%s', $e->getMessage()));
