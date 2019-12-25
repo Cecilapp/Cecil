@@ -387,6 +387,8 @@ class Builder
      */
     public function build($options)
     {
+        // start script time
+        $startTime = microtime(true);
         // backward compatibility
         if ($options === true) {
             $options['verbosity'] = self::VERBOSITY_VERBOSE;
@@ -414,7 +416,7 @@ class Builder
         // show process time
         call_user_func_array($this->messageCallback, [
             'TIME',
-            sprintf('Built in %ss', round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2)),
+            sprintf('Built in %ss', round(microtime(true) - $startTime, 2)),
         ]);
         // show log
         $this->showLog($this->options['verbosity']);
