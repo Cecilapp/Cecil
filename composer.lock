@@ -237,16 +237,16 @@
         },
         {
             "name": "erusev/parsedown-extra",
-            "version": "0.8.0-beta-1",
+            "version": "0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown-extra.git",
-                "reference": "e756b1bf8642ab1091403e902b0503f1cec7527d"
+                "reference": "32f6e957286bf9ff98d07ca924a18299461acc8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/e756b1bf8642ab1091403e902b0503f1cec7527d",
-                "reference": "e756b1bf8642ab1091403e902b0503f1cec7527d",
+                "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/32f6e957286bf9ff98d07ca924a18299461acc8f",
+                "reference": "32f6e957286bf9ff98d07ca924a18299461acc8f",
                 "shasum": ""
             },
             "require": {
@@ -283,7 +283,7 @@
                 "parsedown",
                 "parser"
             ],
-            "time": "2018-05-08T21:54:32+00:00"
+            "time": "2019-12-29T11:14:16+00:00"
         },
         {
             "name": "leafo/scssphp",
