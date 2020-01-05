@@ -63,7 +63,7 @@ class NewPage extends AbstractCommand
             }
 
             // create new file
-            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findModel(sprintf('%s%s', !$dirname ?: $dirname . '/', $filename)));
+            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findModel(sprintf('%s%s', !$dirname ?: $dirname.'/', $filename)));
             $this->fs->dumpFile($filePath, $fileContent);
 
             $this->wlDone(sprintf('File "%s" created!', $fileRelativePath));
