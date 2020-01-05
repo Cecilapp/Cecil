@@ -12,6 +12,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Taxonomy\Collection as VocabulariesCollection;
 use Cecil\Collection\Taxonomy\Term as Term;
 use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
+use Cecil\Exception\Exception;
 
 /**
  * Create taxonomies collection.
@@ -87,6 +88,9 @@ class TaxonomiesCreate extends AbstractStep
                     }
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
+                        if (NULL === $termName) {
+                            throw new Exception(\sprintf('Taxonomy "%s" of "%s" can\'t be empty.', $plural, $page->getId()));
+                        }
                         $termId = Page::slugify($termName);
                         $term = (new Term($termId))->setName($termName);
                         $this->vocabCollection
