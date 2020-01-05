@@ -88,7 +88,7 @@ class TaxonomiesCreate extends AbstractStep
                     }
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
-                        if (NULL === $termName) {
+                        if (null === $termName) {
                             throw new Exception(\sprintf(
                                 'Taxonomy "%s" of "%s" can\'t be empty.',
                                 $plural,
