@@ -29,18 +29,20 @@ return [
     ],
     [
         'name'    => 'new',
-        'route'   => '<name> [<path>] [--force|-f] [--open|-o]',
+        'route'   => '<name> [<path>] [--force|-f] [--open|-o] [--prefix|-p]',
         'aliases' => [
             'f' => 'force',
             'o' => 'open',
+            'p' => 'prefix',
         ],
         'short_description'    => 'Create a new content',
         'description'          => 'Create a new content file (with a default title and current date).',
         'options_descriptions' => [
-            '<name>'     => 'Page name',
-            '<path>'     => 'Path to the Website',
-            '--force|-f' => 'Override the file if already exist',
-            '--open|-o'  => 'Open editor automatically',
+            '<name>'      => 'Page name',
+            '<path>'      => 'Path to the Website',
+            '--force|-f'  => 'Override the file if already exist',
+            '--open|-o'   => 'Open editor automatically',
+            '--prefix|-p' => 'Add date (`YYYY-MM-DD-`) as a prefix',
         ],
         'defaults' => [
             'path' => getcwd(),
