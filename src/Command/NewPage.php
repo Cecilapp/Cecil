@@ -27,6 +27,14 @@ class NewPage extends AbstractCommand
      * @var bool
      */
     protected $force;
+    /**
+     * @var bool
+     */
+    protected $open;
+    /**
+     * @var bool
+     */
+    protected $prefix;
 
     /**
      * {@inheritdoc}
@@ -39,9 +47,9 @@ class NewPage extends AbstractCommand
         $this->prefix = $this->getRoute()->getMatchedParam('prefix', false);
 
         try {
-            $path_parts = pathinfo($this->name);
-            $dirname = $path_parts['dirname'];
-            $filename = $path_parts['filename'];
+            $nameParts = pathinfo($this->name);
+            $dirname = $nameParts['dirname'];
+            $filename = $nameParts['filename'];
             $date = date('Y-m-d');
             $title = $filename;
 
