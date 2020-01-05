@@ -27,6 +27,14 @@ class NewPage extends AbstractCommand
      * @var bool
      */
     protected $force;
+    /**
+     * @var bool
+     */
+    protected $open;
+    /**
+     * @var bool
+     */
+    protected $prefix;
 
     /**
      * {@inheritdoc}
@@ -36,14 +44,29 @@ class NewPage extends AbstractCommand
         $this->name = $this->getRoute()->getMatchedParam('name');
         $this->force = $this->getRoute()->getMatchedParam('force', false);
         $this->open = $this->getRoute()->getMatchedParam('open', false);
+        $this->prefix = $this->getRoute()->getMatchedParam('prefix', false);
 
         try {
-            // file name (without extension)
-            if (false !== $extPos = strripos($this->name, '.md')) {
-                $this->name = substr($this->name, 0, $extPos);
+            $nameParts = pathinfo($this->name);
+            $dirname = $nameParts['dirname'];
+            $filename = $nameParts['filename'];
+            $date = date('Y-m-d');
+            $title = $filename;
+
+            // date prefix?
+            $prefix = '';
+            if ($this->prefix) {
+                $prefix = sprintf('%s-', $date);
             }
+
             // path
-            $fileRelativePath = $this->getBuilder()->getConfig()->get('content.dir').'/'.$this->name.'.md';
+            $fileRelativePath = sprintf(
+                '%s/%s%s%s.md',
+                $this->getBuilder()->getConfig()->get('content.dir'),
+                !$dirname ?: $dirname.'/',
+                $prefix,
+                $filename
+            );
             $filePath = $this->getPath().'/'.$fileRelativePath;
 
             // file already exists?
@@ -54,12 +77,11 @@ class NewPage extends AbstractCommand
             }
 
             // create new file
-            $title = $this->name;
-            if (false !== strrchr($this->name, '/')) {
-                $title = substr(strrchr($this->name, '/'), 1);
-            }
-            $date = date('Y-m-d');
-            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findModel($this->name));
+            $fileContent = str_replace(
+                ['%title%', '%date%'],
+                [$title, $date],
+                $this->findModel(sprintf('%s%s', !$dirname ?: $dirname.'/', $filename))
+            );
             $this->fs->dumpFile($filePath, $fileContent);
 
             $this->wlDone(sprintf('File "%s" created!', $fileRelativePath));
@@ -85,7 +107,7 @@ class NewPage extends AbstractCommand
      */
     protected function findModel($name)
     {
-        $section = strstr($this->name, '/', true);
+        $section = strstr($name, '/', true);
         if ($section && file_exists($model = sprintf('%s/models/%s.md', $this->getPath(), $section))) {
             return file_get_contents($model);
         }
