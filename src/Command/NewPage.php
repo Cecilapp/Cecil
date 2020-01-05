@@ -52,7 +52,13 @@ class NewPage extends AbstractCommand
             }
 
             // path
-            $fileRelativePath = sprintf('%s/%s%s%s.md', $this->getBuilder()->getConfig()->get('content.dir'), !$dirname ?: $dirname.'/', $prefix, $filename);
+            $fileRelativePath = sprintf(
+                '%s/%s%s%s.md',
+                $this->getBuilder()->getConfig()->get('content.dir'),
+                !$dirname ?: $dirname.'/',
+                $prefix,
+                $filename
+            );
             $filePath = $this->getPath().'/'.$fileRelativePath;
 
             // file already exists?
@@ -63,7 +69,13 @@ class NewPage extends AbstractCommand
             }
 
             // create new file
-            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findModel(sprintf('%s%s', !$dirname ?: $dirname.'/', $filename)));
+            $fileContent = str_replace(
+                ['%title%', '%date%'],
+                [$title, $date],
+                $this->findModel(sprintf('%s%s',
+                !$dirname ?: $dirname.'/',
+                $filename))
+            );
             $this->fs->dumpFile($filePath, $fileContent);
 
             $this->wlDone(sprintf('File "%s" created!', $fileRelativePath));
