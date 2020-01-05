@@ -72,9 +72,7 @@ class NewPage extends AbstractCommand
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],
-                $this->findModel(sprintf('%s%s',
-                !$dirname ?: $dirname.'/',
-                $filename))
+                $this->findModel(sprintf('%s%s', !$dirname ?: $dirname.'/', $filename))
             );
             $this->fs->dumpFile($filePath, $fileContent);
 
