@@ -35,6 +35,7 @@ class Application extends BaseApplication
     {
         $commands = array_merge(parent::getDefaultCommands(), [
             new Command\CommandTest(),
+            new Command\CommandBuild(),
         ]);
         if (Util\Plateform::isPhar()) {
             $commands[] = new Command\SelfUpdate($this->getVersion());
