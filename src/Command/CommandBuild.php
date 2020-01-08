@@ -18,6 +18,9 @@ class CommandBuild extends Command
             ->setDefinition(
                 new InputDefinition([
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
+                    new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
+                    new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
+                    new InputOption('destination', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
                 ])
             );
     }
@@ -30,6 +33,17 @@ class CommandBuild extends Command
         if ($input->getOption('drafts')) {
             $options['drafts'] = true;
             $messageOpt .= ' with drafts';
+        }
+        if ($input->getOption('dry-run')) {
+            $options['dry-run'] = true;
+            $messageOpt .= ' dry-run';
+        }
+        if ($input->getOption('baseurl')) {
+            $config['site']['baseurl'] = $input->getOption('baseurl');
+        }
+        if ($input->getOption('destination')) {
+            $config['site']['output']['dir'] = $input->getOption('destination');
+            $this->fs->dumpFile($this->getPath() . '/' . Serve::$tmpDir . '/output', $input->getOption('destination'));
         }
 
         try {
