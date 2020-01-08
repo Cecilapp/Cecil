@@ -29,6 +29,7 @@ class CommandBuild extends Command
     {
         $config = [];
         $options = [];
+        $messageOpt = '';
 
         if ($input->getOption('drafts')) {
             $options['drafts'] = true;
