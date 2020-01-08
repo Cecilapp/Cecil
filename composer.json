@@ -37,7 +37,7 @@
     "symfony/yaml": "4.4.2",
     "twig/extensions": "1.5.4",
     "twig/twig": "2.12.3",
-    "yosymfony/resource-watcher": "2.0.0",
+    "yosymfony/resource-watcher": "2.0.1",
     "zendframework/zend-progressbar": "2.7.0",
     "zfcampus/zf-console": "1.4.0"
   },
