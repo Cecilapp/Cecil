@@ -23,7 +23,7 @@ class Command extends BaseCommand
     protected $builder;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -44,8 +44,8 @@ class Command extends BaseCommand
 
     /**
      * @param OutputInterface $output
-     * @param array $config
-     * @param array $options
+     * @param array           $config
+     * @param array           $options
      *
      * @return Builder
      */
@@ -54,7 +54,7 @@ class Command extends BaseCommand
         array $config = ['debug' => false],
         array $options = ['verbosity' => Builder::VERBOSITY_NORMAL]
     ) {
-        if (!file_exists($this->getPath() . '/' . self::CONFIG_FILE)) {
+        if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
         // verbosity: verbose
@@ -67,7 +67,7 @@ class Command extends BaseCommand
         }
 
         try {
-            $configFile = Yaml::parse(file_get_contents($this->getPath() . '/' . self::CONFIG_FILE));
+            $configFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
             $config = array_replace_recursive($configFile, $config);
             $this->builder = (new Builder($config, $this->messageCallback($output)))
                 ->setSourceDir($this->getPath())
