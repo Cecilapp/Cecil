@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -14,6 +15,10 @@ class Command extends BaseCommand
 {
     const CONFIG_FILE = 'config.yml';
 
+    /**
+     * @var Filesystem
+     */
+    protected $fs;
     /**
      * @var string
      */
@@ -32,6 +37,8 @@ class Command extends BaseCommand
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        $this->fs = new Filesystem();
+
         $this->path = $input->getArgument('path');
         $this->path = realpath($this->path);
         $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->path);
