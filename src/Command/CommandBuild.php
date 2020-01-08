@@ -44,7 +44,7 @@ class CommandBuild extends Command
         }
         if ($input->getOption('destination')) {
             $config['site']['output']['dir'] = $input->getOption('destination');
-            $this->fs->dumpFile($this->getPath() . '/' . Serve::$tmpDir . '/output', $input->getOption('destination'));
+            $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/output', $input->getOption('destination'));
         }
 
         try {
