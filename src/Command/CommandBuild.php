@@ -28,8 +28,6 @@ class CommandBuild extends Command
         $config = [];
         $options = [];
 
-        $output->writeln('Path: '.$this->getPath());
-
         if ($input->getOption('drafts')) {
             $options['drafts'] = true;
             $messageOpt .= ' with drafts';
@@ -38,6 +36,7 @@ class CommandBuild extends Command
         try {
             if (!$this->quiet) {
                 $output->writeln(sprintf('Building website%s...', $messageOpt));
+                $output->writeln(sprintf('<comment>Path: %s</comment>', $this->getPath()));
             }
             $this->getBuilder($output, $config, $options)->build($options);
             //if ($this->getRoute()->getName() == 'serve') {

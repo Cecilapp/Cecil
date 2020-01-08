@@ -4,6 +4,7 @@ namespace Cecil\Command;
 
 use Cecil\Builder;
 use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -21,6 +22,10 @@ class Command extends BaseCommand
      * @var Builder
      */
     protected $builder;
+    /**
+     * @var ProgressBar
+     */
+    protected $progressBar = null;
 
     /**
      * {@inheritDoc}
@@ -32,6 +37,14 @@ class Command extends BaseCommand
         $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->path);
 
         parent::initialize($input, $output);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        parent::interact($input, $output);
     }
 
     /**
@@ -82,6 +95,50 @@ class Command extends BaseCommand
     }
 
     /**
+     * @param OutputInterface $output
+     * @param int             $start
+     * @param int             $max
+     *
+     * @return ProgressBar
+     */
+    protected function createProgressBar(OutputInterface $output, $start, $max)
+    {
+        if ($this->progressBar === null || $max != $this->progressBarMax) {
+            $this->progressBarMax = $max;
+            $this->progressBar = new ProgressBar($output, $max);
+            $this->progressBar->start();
+        }
+    }
+
+    /**
+     * @return ProgressBar
+     */
+    protected function getProgressBar()
+    {
+        return $this->progressBar;
+    }
+
+    /**
+     * Print progress bar.
+     *
+     * @param OutputInterface $output
+     * @param int             $itemsCount
+     * @param int             $itemsMax
+     * @param string          $message
+     */
+    protected function printProgressBar(OutputInterface $output, $itemsCount, $itemsMax, $message)
+    {
+        $this->createProgressBar($output, 0, $itemsMax);
+        $this->getProgressBar()->clear();
+        $this->getProgressBar()->setProgress($itemsCount);
+        $this->getProgressBar()->display();
+        if ($itemsCount == $itemsMax) {
+            $this->getProgressBar()->finish();
+            $output->writeln('');
+        }
+    }
+
+    /**
      * Custom message callback function.
      *
      * @param OutputInterface $output
@@ -95,31 +152,24 @@ class Command extends BaseCommand
                 if (strpos($code, '_PROGRESS') !== false) {
                     if ($this->verbose) {
                         if ($itemsCount > 0) {
-                            //$this->wlDone(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
                             $output->writeln(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
 
                             return;
                         }
-                        //$this->wlDone("$message");
-                        $output->writeln("$message");
+                        $output->writeln("<info>$message</info>");
                     } else {
                         if (isset($itemsCount) && $itemsMax > 0) {
-                            //$this->printProgressBar($itemsCount, $itemsMax, $message);
-                            $output->writeln("$message");
+                            $this->printProgressBar($output, $itemsCount, $itemsMax, $message);
                         } else {
-                            //$this->wl($message);
                             $output->writeln("$message");
                         }
                     }
                 } elseif (strpos($code, '_ERROR') !== false) {
-                    //$this->wlError($message);
-                    $output->writeln("$message");
+                    $output->writeln("<error>$message</error>");
                 } elseif ($code == 'TIME') {
-                    //$this->wl($message);
-                    $output->writeln("$message");
+                    $output->writeln("<comment>$message</comment>");
                 } else {
-                    //$this->wlAnnonce($message);
-                    $output->writeln("$message");
+                    $output->writeln("<info>$message</info>");
                 }
             }
         };
