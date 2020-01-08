@@ -106,6 +106,7 @@ class Command extends BaseCommand
         if ($this->progressBar === null || $max != $this->progressBarMax) {
             $this->progressBarMax = $max;
             $this->progressBar = new ProgressBar($output, $max);
+            $this->progressBar->setFormat(' %percent:3s%% [%bar%] %current%/%max%');
             $this->progressBar->start();
         }
     }
