@@ -151,9 +151,9 @@ class Command extends BaseCommand
                 return;
             } else {
                 if (strpos($code, '_PROGRESS') !== false) {
-                    if ($this->verbose) {
+                    if ($output->isVerbose()) {
                         if ($itemsCount > 0) {
-                            $output->writeln(sprintf('(%u/%u) %s', $itemsCount, $itemsMax, $message));
+                            $output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
 
                             return;
                         }
