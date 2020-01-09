@@ -2,6 +2,7 @@
 
 namespace Cecil\Command;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,16 +14,18 @@ class CommandBuild extends Command
     {
         $this
             ->setName('build')
+            ->setAliases(['b'])
             ->setDescription('Build the website')
-            ->setHelp('Build the website in the output directory.')
             ->setDefinition(
                 new InputDefinition([
+                    new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                     new InputOption('destination', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
                 ])
-            );
+            )
+            ->setHelp('Build the website in the output directory.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -10,6 +10,7 @@ namespace Cecil;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * The console application that handles the commands.
@@ -47,7 +48,7 @@ class Application extends BaseApplication
     protected function getDefaultInputDefinition()
     {
         $definition = parent::getDefaultInputDefinition();
-        $definition->addArgument(new InputArgument('path', InputArgument::OPTIONAL, 'Path to the Website'));
+        //$definition->addArgument(new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'));
 
         return $definition;
     }

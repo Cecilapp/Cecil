@@ -38,10 +38,22 @@ class Command extends BaseCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->fs = new Filesystem();
-
         $this->path = $input->getArgument('path');
-        $this->path = realpath($this->path);
-        $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->path);
+
+        if (null === $this->getPath()) {
+            $this->path = getcwd();
+        }
+        if (false === realpath($this->getPath())) {
+            $message = sprintf('"%s" is not valid path.', $this->getPath());
+            throw new \InvalidArgumentException($message);
+
+        }
+        $this->path = realpath($this->getPath());
+        $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->getPath());
+        if (!file_exists($this->getPath() . '/' . self::CONFIG_FILE)) {
+            $message = sprintf('Cecil could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
+            throw new \InvalidArgumentException($message);
+        }
 
         parent::initialize($input, $output);
     }
@@ -74,16 +86,16 @@ class Command extends BaseCommand
         array $config = ['debug' => false],
         array $options = ['verbosity' => Builder::VERBOSITY_NORMAL]
     ) {
-        if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
+        /*if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
-        }
+        }*/
         // verbosity: verbose
         if ($options['verbosity'] == Builder::VERBOSITY_VERBOSE) {
-            $this->verbose = true;
+            //$this->verbose = true;
         }
         // verbosity: quiet
         if ($options['verbosity'] == Builder::VERBOSITY_QUIET) {
-            $this->quiet = true;
+            //$this->quiet = true;
         }
 
         try {
