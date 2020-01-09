@@ -40,10 +40,10 @@ class CommandBuild extends Command
             $messageOpt .= ' dry-run';
         }
         if ($input->getOption('baseurl')) {
-            $config['site']['baseurl'] = $input->getOption('baseurl');
+            $config['baseurl'] = $input->getOption('baseurl');
         }
         if ($input->getOption('destination')) {
-            $config['site']['output']['dir'] = $input->getOption('destination');
+            $config['output']['dir'] = $input->getOption('destination');
             $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/output', $input->getOption('destination'));
         }
 
