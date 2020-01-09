@@ -10,7 +10,6 @@ namespace Cecil;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * The console application that handles the commands.
