@@ -81,19 +81,11 @@ class Command extends BaseCommand
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        parent::interact($input, $output);
-    }
-
-    /**
      * Return the working directory.
      *
-     * @return string
+     * @return string|null
      */
-    public function getPath(): string
+    public function getPath(): ?string
     {
         return $this->path;
     }
@@ -135,10 +127,8 @@ class Command extends BaseCommand
      *
      * @param OutputInterface $output
      * @param int             $max
-     *
-     * @return ProgressBar
      */
-    protected function createProgressBar(OutputInterface $output, $max): ProgressBar
+    protected function createProgressBar(OutputInterface $output, $max)
     {
         if ($this->progressBar === null || $max != $this->progressBarMax) {
             $this->progressBarMax = $max;
