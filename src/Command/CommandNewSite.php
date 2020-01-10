@@ -47,15 +47,15 @@ class CommandNewSite extends Command
                     exit(0);
                 }
             }*/
-            $root = __DIR__ . '/../../';
+            $root = __DIR__.'/../../';
             if (Plateform::isPhar()) {
-                $root = Plateform::getPharPath() . '/';
+                $root = Plateform::getPharPath().'/';
             }
             $output->writeln('<info>Creating a new website...</info>');
-            $this->fs->copy($root . 'res/skeleton/config.yml', $this->getPath() . '/' . self::CONFIG_FILE, true);
-            $this->fs->mirror($root . 'res/skeleton/content', $this->getPath() . '/content');
-            $this->fs->mirror($root . 'res/skeleton/layouts', $this->getPath() . '/layouts');
-            $this->fs->mirror($root . 'res/skeleton/static', $this->getPath() . '/static');
+            $this->fs->copy($root.'res/skeleton/config.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
+            $this->fs->mirror($root.'res/skeleton/content', $this->getPath().'/content');
+            $this->fs->mirror($root.'res/skeleton/layouts', $this->getPath().'/layouts');
+            $this->fs->mirror($root.'res/skeleton/static', $this->getPath().'/static');
             $output->writeln('Done!');
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
