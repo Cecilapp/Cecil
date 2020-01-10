@@ -1,4 +1,10 @@
 <?php
+/*
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Cecil\Command;
 
@@ -10,6 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CommandBuild extends Command
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -28,6 +37,9 @@ class CommandBuild extends Command
             ->setHelp('Build the website in the output directory.');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $config = [];
@@ -55,7 +67,7 @@ class CommandBuild extends Command
                 $output->writeln(sprintf('Building website%s...', $messageOpt));
                 $output->writeln(sprintf('<comment>Path: %s</comment>', $this->getPath()));
             }
-            $this->getBuilder($output, $config, $options)->build($options);
+            $this->getBuilder($output, $config)->build($options);
             //if ($this->getRoute()->getName() == 'serve') {
             //    $this->fs->dumpFile($this->getPath() . '/' . Serve::$tmpDir . '/changes.flag', '');
             //}
