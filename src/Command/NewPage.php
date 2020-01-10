@@ -43,7 +43,7 @@ class NewPage extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name = $input->getArgument('name');
+        $name = (string) $input->getArgument('name');
         $force = $input->getOption('force');
         $open = $input->getOption('open');
 
@@ -52,6 +52,10 @@ class NewPage extends Command
             if (false !== $extPos = strripos($name, '.md')) {
                 $name = substr($name, 0, $extPos);
             }
+            if (null === $name) {
+                throw new \Exception('New page\'s name can\'t be empty');
+            }
+
             // path
             $fileRelativePath = $this->getBuilder($output)->getConfig()->get('content.dir').'/'.$name.'.md';
             $filePath = $this->getPath().'/'.$fileRelativePath;
