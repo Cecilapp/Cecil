@@ -9,7 +9,6 @@
 namespace Cecil;
 
 use Symfony\Component\Console\Application as BaseApplication;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * The console application that handles the commands.
@@ -23,32 +22,27 @@ class Application extends BaseApplication
  \____\___|\___|_|_| by Arnaud Ligny
 ';
 
+    /**
+     * {@inheritdoc}
+     */
     public function getHelp()
     {
         return self::$banner.parent::getHelp();
     }
 
     /**
-     * Initializes all the composer commands.
+     * {@inheritdoc}
      */
     protected function getDefaultCommands()
     {
         $commands = array_merge(parent::getDefaultCommands(), [
-            new Command\CommandTest(),
             new Command\CommandBuild(),
+            new Command\CommandClean(),
         ]);
         if (Util\Plateform::isPhar()) {
-            $commands[] = new Command\SelfUpdate($this->getVersion());
+            $commands[] = new Command\CommandSelfUpdate();
         }
 
         return $commands;
-    }
-
-    protected function getDefaultInputDefinition()
-    {
-        $definition = parent::getDefaultInputDefinition();
-        //$definition->addArgument(new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'));
-
-        return $definition;
     }
 }
