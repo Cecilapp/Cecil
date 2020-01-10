@@ -180,31 +180,27 @@ class Command extends BaseCommand
     public function messageCallback(OutputInterface $output)
     {
         return function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) use ($output) {
-            if ($this->quiet) {
-                return;
-            } else {
-                if (strpos($code, '_PROGRESS') !== false) {
-                    if ($output->isVerbose()) {
-                        if ($itemsCount > 0) {
-                            $output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
+            if (strpos($code, '_PROGRESS') !== false) {
+                if ($output->isVerbose()) {
+                    if ($itemsCount > 0) {
+                        $output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
 
-                            return;
-                        }
-                        $output->writeln("<info>$message</info>");
-                    } else {
-                        if (isset($itemsCount) && $itemsMax > 0) {
-                            $this->printProgressBar($output, $itemsCount, $itemsMax);
-                        } else {
-                            $output->writeln("$message");
-                        }
+                        return;
                     }
-                } elseif (strpos($code, '_ERROR') !== false) {
-                    $output->writeln("<error>$message</error>");
-                } elseif ($code == 'TIME') {
-                    $output->writeln("<comment>$message</comment>");
-                } else {
                     $output->writeln("<info>$message</info>");
+                } else {
+                    if (isset($itemsCount) && $itemsMax > 0) {
+                        $this->printProgressBar($output, $itemsCount, $itemsMax);
+                    } else {
+                        $output->writeln("$message");
+                    }
                 }
+            } elseif (strpos($code, '_ERROR') !== false) {
+                $output->writeln("<error>$message</error>");
+            } elseif ($code == 'TIME') {
+                $output->writeln("<comment>$message</comment>");
+            } else {
+                $output->writeln("<info>$message</info>");
             }
         };
     }
