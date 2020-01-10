@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class CommandNewSite extends Command
 {
@@ -42,11 +43,13 @@ class CommandNewSite extends Command
         $this->force = $input->getOption('force');
 
         try {
-            /*if ($this->fs->exists($this->getPath() . '/' . self::CONFIG_FILE) && !$this->force) {
-                if (!Confirm::prompt('Website already exists. Do you want to override it? [y/n]', 'y', 'n')) {
-                    exit(0);
+            if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$this->force) {
+                $helper = $this->getHelper('question');
+                $question = new ConfirmationQuestion('Website already exists. Do you want to override it? [y/n]', false);
+                if (!$helper->ask($input, $output, $question)) {
+                    return;
                 }
-            }*/
+            }
             $root = __DIR__.'/../../';
             if (Plateform::isPhar()) {
                 $root = Plateform::getPharPath().'/';
