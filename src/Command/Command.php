@@ -57,10 +57,13 @@ class Command extends BaseCommand
             }
             $this->path = realpath($this->getPath());
             $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->getPath());
-            if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
-                $message = sprintf('Cecil could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
 
-                throw new \InvalidArgumentException($message);
+            if (!in_array($this->getName(), ['new:site'])) {
+                if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
+                    $message = sprintf('Cecil could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
+
+                    throw new \InvalidArgumentException($message);
+                }
             }
         }
 
