@@ -36,6 +36,7 @@ class Application extends BaseApplication
     protected function getDefaultCommands()
     {
         $commands = array_merge(parent::getDefaultCommands(), [
+            new Command\CommandNewSite(),
             new Command\CommandBuild(),
             new Command\CommandClean(),
         ]);
