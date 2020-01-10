@@ -43,26 +43,10 @@ switch (true) {
 
 use Cecil\Application;
 use Cecil\Builder;
-use Cecil\Command\SelfUpdate;
-use Cecil\Util\Plateform;
-use Zend\Console\Console;
-//use ZF\Console\Application;
 
-$version = ($version === '@' . 'git_version' . '@')
+$version = ($version === '@'.'git_version'.'@')
     ? Builder::getVersion()
     : $version;
-
-$routes = include __DIR__.'/../config/routes.php';
-if (Plateform::isPhar()) {
-    $routes = array_merge($routes, [[
-        'name'              => 'self-update',
-        'short_description' => 'Update Cecil to the latest version',
-        'description'       => 'The self-update command checks for a newer version, and, if found, downloads and installs the latest.',
-        'defaults' => [
-            'self-update' => true,
-        ]],
-    ]);
-}
 
 $application = new Application('Cecil', $version);
 
