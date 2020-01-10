@@ -82,7 +82,7 @@ class CommandServe extends Command
             'php -S %s:%d -t %s %s',
             $this->host,
             $this->port,
-            $this->getPath() . '/' . $this->getBuilder($output)->getConfig()->get('output.dir'),
+            $this->getPath().'/'.$this->getBuilder($output)->getConfig()->get('output.dir'),
             sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir)
         );
         $process = new Process($command);
@@ -146,27 +146,27 @@ class CommandServe extends Command
     private function setUpServer($output)
     {
         try {
-            $root = __DIR__ . '/../../';
+            $root = __DIR__.'/../../';
             if (Plateform::isPhar()) {
-                $root = Plateform::getPharPath() . '/';
+                $root = Plateform::getPharPath().'/';
             }
             // copy router
             $this->fs->copy(
-                $root . 'res/server/router.php',
-                $this->getPath() . '/' . self::$tmpDir . '/router.php',
+                $root.'res/server/router.php',
+                $this->getPath().'/'.self::$tmpDir.'/router.php',
                 true
             );
             // copy livereload JS
             if (!$this->nowatcher) {
                 $this->fs->copy(
-                    $root . 'res/server/livereload.js',
-                    $this->getPath() . '/' . self::$tmpDir . '/livereload.js',
+                    $root.'res/server/livereload.js',
+                    $this->getPath().'/'.self::$tmpDir.'/livereload.js',
                     true
                 );
             }
             // copy baseurl text file
             $this->fs->dumpFile(
-                $this->getPath() . '/' . self::$tmpDir . '/baseurl',
+                $this->getPath().'/'.self::$tmpDir.'/baseurl',
                 sprintf(
                     '%s;%s',
                     $this->getBuilder($output)->getConfig()->get('baseurl'),
@@ -184,7 +184,7 @@ class CommandServe extends Command
     public function tearDownServer()
     {
         try {
-            $this->fs->remove($this->getPath() . '/' . self::$tmpDir);
+            $this->fs->remove($this->getPath().'/'.self::$tmpDir);
         } catch (IOExceptionInterface $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }
