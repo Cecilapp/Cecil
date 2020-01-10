@@ -60,7 +60,7 @@ class Command extends BaseCommand
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion(
                     sprintf('The provided <path> "%s" doesn\'t exist.
- Do you want to create it? [y/n]', $this->getpath()),
+Do you want to create it? [y/n]', $this->getpath()),
                     false
                 );
                 if (!$helper->ask($input, $output, $question)) {
@@ -188,17 +188,16 @@ class Command extends BaseCommand
                 if ($output->isVerbose()) {
                     if ($itemsCount > 0) {
                         $output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
-
-                        return;
                     }
-                } else {
-                    if (isset($itemsCount) && $itemsMax > 0) {
-                        $this->printProgressBar($output, $itemsCount, $itemsMax);
 
-                        return;
-                    }
-                    $output->writeln("$message");
+                    return;
                 }
+                if (isset($itemsCount) && $itemsMax > 0) {
+                    $this->printProgressBar($output, $itemsCount, $itemsMax);
+
+                    return;
+                }
+                $output->writeln("$message");
             } elseif (strpos($code, '_ERROR') !== false) {
                 $output->writeln("<error>$message</error>");
 
