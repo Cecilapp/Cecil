@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Cecil\Command;
 
@@ -37,7 +45,7 @@ class Clean extends Command
         // delete output dir
         if ($this->fs->exists($this->getPath().'/'.$outputDir)) {
             $this->fs->remove($this->getPath().'/'.$outputDir);
-            $output->writeln(sprintf("Output directory '%s' removed.", $outputDir));
+            $output->writeln(sprintf('Output directory "%s" removed.', $outputDir));
         }
         // delete local server temp files
         if ($this->fs->exists($this->getPath().'/'.Serve::$tmpDir)) {
