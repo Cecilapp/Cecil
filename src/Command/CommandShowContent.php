@@ -51,18 +51,18 @@ class CommandShowContent extends Command
             $output->writeln(sprintf('<info>%s/</info>', $this->contentDir));
             $pages = $this->getPagesTree($output);
             //if ($this->getConsole()->isUtf8()) {
-                $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
-                    $prefixParts = [
-                        RecursiveTreeIterator::PREFIX_LEFT         => ' ',
-                        RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
-                        RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ ',
-                    ];
-                    foreach ($prefixParts as $part => $string) {
-                        $tree->setPrefixPart($part, $string);
-                    }
-                };
-                $unicodeTreePrefix($pages);
+            $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
+                $prefixParts = [
+                    RecursiveTreeIterator::PREFIX_LEFT         => ' ',
+                    RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
+                    RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
+                    RecursiveTreeIterator::PREFIX_END_LAST     => '└ ',
+                ];
+                foreach ($prefixParts as $part => $string) {
+                    $tree->setPrefixPart($part, $string);
+                }
+            };
+            $unicodeTreePrefix($pages);
             //}
             foreach ($pages as $page) {
                 $output->writeln($page);
