@@ -67,7 +67,7 @@ class CommandBuild extends Command
             $output->writeln(sprintf('<comment>Path: %s</comment>', $this->getPath()));
             $this->getBuilder($output, $config)->build($options);
             //if ($this->getRoute()->getName() == 'serve') {
-                $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', '');
+            $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', '');
             //}
         } catch (\Exception $e) {
             throw new \Exception(sprintf('%s', $e->getMessage()));
