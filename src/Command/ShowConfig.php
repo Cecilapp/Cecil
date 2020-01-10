@@ -25,7 +25,11 @@ class ShowConfig extends Command
             ->setDescription('Show configuration')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'),
+                    new InputArgument(
+                        'path',
+                        InputArgument::OPTIONAL,
+                        'If specified, use the given path as working directory'
+                    ),
                 ])
             )
             ->setHelp('Show Website configuration.');

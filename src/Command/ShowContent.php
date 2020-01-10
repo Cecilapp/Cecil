@@ -29,7 +29,7 @@ class ShowContent extends Command
             ->setDescription('Show content')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'),
+                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
             ->setHelp('Show content as tree.');
@@ -87,7 +87,10 @@ class ShowContent extends Command
             throw new \Exception(sprintf('Invalid directory: %s.', $pagesPath));
         }
         $dirIterator = new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS);
-        $dirIterator = new FileExtensionFilter($dirIterator, $this->getBuilder($output)->getConfig()->get('content.ext'));
+        $dirIterator = new FileExtensionFilter(
+            $dirIterator,
+            $this->getBuilder($output)->getConfig()->get('content.ext')
+        );
         $pages = new FilenameRecursiveTreeIterator(
             $dirIterator,
             FilenameRecursiveTreeIterator::SELF_FIRST

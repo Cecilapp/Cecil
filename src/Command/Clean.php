@@ -19,7 +19,7 @@ class Clean extends Command
             ->setDescription('Remove the output directory')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'),
+                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
             ->setHelp('Remove the output directory and temporary files.');

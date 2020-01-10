@@ -30,7 +30,7 @@ class NewPage extends Command
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('name', InputArgument::REQUIRED, 'New page name'),
-                    new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'),
+                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
                 ])
@@ -63,7 +63,11 @@ class NewPage extends Command
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
                 $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion(sprintf('This page already exists. Do you want to override it? [y/n]', $this->getpath()), false);
+                $question = new ConfirmationQuestion(sprintf(
+                    'This page already exists. Do you want to override it? [y/n]',
+                    $this->getpath()),
+                    false
+                );
                 if (!$helper->ask($input, $output, $question)) {
                     return;
                 }

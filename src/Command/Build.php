@@ -26,7 +26,7 @@ class Build extends Command
             ->setDescription('Build the website')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'),
+                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),

@@ -28,7 +28,7 @@ class NewSite extends Command
             ->setDescription('Create a new website')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'),
+                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the directory if already exist'),
                 ])
             )
@@ -45,7 +45,10 @@ class NewSite extends Command
         try {
             if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$force) {
                 $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion('Website already exists. Do you want to override it? [y/n]', false);
+                $question = new ConfirmationQuestion(
+                    'Website already exists. Do you want to override it? [y/n]',
+                    false
+                );
                 if (!$helper->ask($input, $output, $question)) {
                     return;
                 }

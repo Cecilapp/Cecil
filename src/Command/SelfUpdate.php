@@ -26,10 +26,15 @@ class SelfUpdate extends Command
             ->setDescription('Update Cecil to the latest version')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'If specified, use the given path as working directory'),
+                    new InputArgument(
+                        'path',
+                        InputArgument::OPTIONAL,
+                        'If specified, use the given path as working directory'
+                    ),
                 ])
             )
-            ->setHelp('The self-update command checks for a newer version, and, if found, downloads and installs the latest.');
+            ->setHelp('The self-update command checks for a newer version and,
+ if found, downloads and installs the latest.');
     }
 
     /**
