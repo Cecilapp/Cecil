@@ -31,17 +31,17 @@ class CommandClean extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $outputDir = $this->getBuilder($output)->getConfig()->get('output.dir');
-        if ($this->fs->exists($this->getPath() . '/' . Serve::$tmpDir . '/output')) {
-            $outputDir = file_get_contents($this->getPath() . '/' . Serve::$tmpDir . '/output');
+        if ($this->fs->exists($this->getPath().'/'.Serve::$tmpDir.'/output')) {
+            $outputDir = file_get_contents($this->getPath().'/'.Serve::$tmpDir.'/output');
         }
         // delete output dir
-        if ($this->fs->exists($this->getPath() . '/' . $outputDir)) {
-            $this->fs->remove($this->getPath() . '/' . $outputDir);
+        if ($this->fs->exists($this->getPath().'/'.$outputDir)) {
+            $this->fs->remove($this->getPath().'/'.$outputDir);
             $output->writeln(sprintf("Output directory '%s' removed.", $outputDir));
         }
         // delete local server temp files
-        if ($this->fs->exists($this->getPath() . '/' . Serve::$tmpDir)) {
-            $this->fs->remove($this->getPath() . '/' . Serve::$tmpDir);
+        if ($this->fs->exists($this->getPath().'/'.Serve::$tmpDir)) {
+            $this->fs->remove($this->getPath().'/'.Serve::$tmpDir);
             $output->writeln('Temporary files deleted.');
         }
 
