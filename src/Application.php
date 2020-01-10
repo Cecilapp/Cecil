@@ -39,6 +39,7 @@ class Application extends BaseApplication
             new Command\CommandNewSite(),
             new Command\CommandNewPage(),
             new Command\CommandBuild(),
+            new Command\CommandServe(),
             new Command\CommandClean(),
         ]);
         if (Util\Plateform::isPhar()) {
