@@ -124,8 +124,8 @@ class Serve extends Command
 
     /**
      * @param OutputInterface $output
-     * @param string $host
-     * @param string $port
+     * @param string          $host
+     * @param string          $port
      */
     private function setUpServer(OutputInterface $output, string $host, string $port)
     {
