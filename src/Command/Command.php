@@ -13,6 +13,7 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -51,9 +52,18 @@ class Command extends BaseCommand
                 $this->path = getcwd();
             }
             if (false === realpath($this->getPath())) {
-                $message = sprintf('"%s" is not valid path.', $this->getPath());
+                if (!in_array($this->getName(), ['new:site'])) {
+                    $message = sprintf('"%s" is not valid path.', $this->getPath());
 
-                throw new \InvalidArgumentException($message);
+                    throw new \InvalidArgumentException($message);
+                }
+                $helper = $this->getHelper('question');
+                $question = new ConfirmationQuestion(sprintf('The provided <path> "%s" doesn\'t exist. Do you want to create it? [y/n]', $this->getpath()), false);
+                if (!$helper->ask($input, $output, $question)) {
+                    return;
+                }
+
+                $this->fs->mkdir($this->getPath());
             }
             $this->path = realpath($this->getPath());
             $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->getPath());
