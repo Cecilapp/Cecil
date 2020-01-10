@@ -63,9 +63,8 @@ class NewPage extends Command
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
                 $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion(sprintf(
-                    'This page already exists. Do you want to override it? [y/n]',
-                    $this->getpath()),
+                $question = new ConfirmationQuestion(
+                    sprintf('This page already exists. Do you want to override it? [y/n]', $this->getpath()),
                     false
                 );
                 if (!$helper->ask($input, $output, $question)) {

@@ -77,7 +77,7 @@ class Serve extends Command
             'path'     => $this->getPath(),
             '--drafts' => $drafts,
         ]);
-        $returnCode = $buildCommand->run($buildInput, $output);
+        $buildCommand->run($buildInput, $output);
 
         // handle process
         if (!$process->isStarted()) {
@@ -108,7 +108,7 @@ class Serve extends Command
                     if ($result->hasChanges()) {
                         // re-build
                         $output->writeln('<comment>Changes detected.</comment>');
-                        $returnCode = $buildCommand->run($buildInput, $output);
+                        $buildCommand->run($buildInput, $output);
                     }
                     usleep(1000000); // wait 1s
                 }

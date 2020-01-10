@@ -58,9 +58,9 @@ class Command extends BaseCommand
                     throw new \InvalidArgumentException($message);
                 }
                 $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion(sprintf(
-                    'The provided <path> "%s" doesn\'t exist. Do you want to create it? [y/n]',
-                    $this->getpath()),
+                $question = new ConfirmationQuestion(
+                    sprintf('The provided <path> "%s" doesn\'t exist.
+ Do you want to create it? [y/n]', $this->getpath()),
                     false
                 );
                 if (!$helper->ask($input, $output, $question)) {
