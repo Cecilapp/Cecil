@@ -53,8 +53,8 @@ class CommandNewPage extends Command
                 $this->name = substr($this->name, 0, $extPos);
             }
             // path
-            $fileRelativePath = $this->getBuilder($output)->getConfig()->get('content.dir') . '/' . $this->name . '.md';
-            $filePath = $this->getPath() . '/' . $fileRelativePath;
+            $fileRelativePath = $this->getBuilder($output)->getConfig()->get('content.dir').'/'.$this->name.'.md';
+            $filePath = $this->getPath().'/'.$fileRelativePath;
 
             // file already exists?
             if ($this->fs->exists($filePath) && !$this->force) {
