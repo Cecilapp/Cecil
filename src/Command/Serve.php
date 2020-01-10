@@ -29,22 +29,6 @@ class Serve extends Command
      * @var string
      */
     public static $tmpDir = '.cecil';
-    /**
-     * @var string
-     */
-    protected $drafts;
-    /**
-     * @var bool
-     */
-    protected $open;
-    /**
-     * @var string
-     */
-    protected $host;
-    /**
-     * @var string
-     */
-    protected $port;
 
     /**
      * {@inheritdoc}
@@ -71,16 +55,16 @@ class Serve extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->drafts = $input->getOption('drafts');
-        $this->open = $input->getOption('open');
-        $this->host = $input->getOption('host') ?? 'localhost';
-        $this->port = $input->getOption('port') ?? '8000';
+        $drafts = $input->getOption('drafts');
+        $open = $input->getOption('open');
+        $host = $input->getOption('host') ?? 'localhost';
+        $port = $input->getOption('port') ?? '8000';
 
-        $this->setUpServer($output);
+        $this->setUpServer($output, $host, $port);
         $command = sprintf(
             'php -S %s:%d -t %s %s',
-            $this->host,
-            $this->port,
+            $host,
+            $port,
             $this->getPath().'/'.$this->getBuilder($output)->getConfig()->get('output.dir'),
             sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir)
         );
@@ -91,7 +75,7 @@ class Serve extends Command
         $buildInput = new ArrayInput([
             'command'  => 'build',
             'path'     => $this->getPath(),
-            '--drafts' => $this->drafts,
+            '--drafts' => $drafts,
         ]);
         $returnCode = $buildCommand->run($buildInput, $output);
 
@@ -108,29 +92,25 @@ class Serve extends Command
                 ->name('*.js')
                 ->in($this->getPath())
                 ->exclude($this->getBuilder($output)->getConfig()->get('output.dir'));
-            if (!$this->nowatcher) {
-                $hashContent = new Crc32ContentHash();
-                $resourceCache = new ResourceCacheMemory();
-                $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
-                $resourceWatcher->initialize();
-            }
+            $hashContent = new Crc32ContentHash();
+            $resourceCache = new ResourceCacheMemory();
+            $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
+            $resourceWatcher->initialize();
             // start server
             try {
-                $output->writeln(sprintf('<info>Starting server (http://%s:%d)...</info>', $this->host, $this->port));
+                $output->writeln(sprintf('<info>Starting server (http://%s:%d)...</info>', $host, $port));
                 $process->start();
-                if ($this->open) {
-                    Plateform::openBrowser(sprintf('http://%s:%s', $this->host, $this->port));
+                if ($open) {
+                    Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
-                    if (!$this->nowatcher) {
-                        $result = $resourceWatcher->findChanges();
-                        if ($result->hasChanges()) {
-                            // re-build
-                            $output->writeln('<comment>Changes detected.</comment>');
-                            $returnCode = $buildCommand->run($buildInput, $output);
-                        }
-                        usleep(1000000); // wait 1s
+                    $result = $resourceWatcher->findChanges();
+                    if ($result->hasChanges()) {
+                        // re-build
+                        $output->writeln('<comment>Changes detected.</comment>');
+                        $returnCode = $buildCommand->run($buildInput, $output);
                     }
+                    usleep(1000000); // wait 1s
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
@@ -142,7 +122,12 @@ class Serve extends Command
         return 0;
     }
 
-    private function setUpServer($output)
+    /**
+     * @param OutputInterface $output
+     * @param string $host
+     * @param string $port
+     */
+    private function setUpServer(OutputInterface $output, string $host, string $port)
     {
         try {
             $root = __DIR__.'/../../';
@@ -156,20 +141,18 @@ class Serve extends Command
                 true
             );
             // copy livereload JS
-            if (!$this->nowatcher) {
-                $this->fs->copy(
-                    $root.'res/server/livereload.js',
-                    $this->getPath().'/'.self::$tmpDir.'/livereload.js',
-                    true
-                );
-            }
+            $this->fs->copy(
+                $root.'res/server/livereload.js',
+                $this->getPath().'/'.self::$tmpDir.'/livereload.js',
+                true
+            );
             // copy baseurl text file
             $this->fs->dumpFile(
                 $this->getPath().'/'.self::$tmpDir.'/baseurl',
                 sprintf(
                     '%s;%s',
                     $this->getBuilder($output)->getConfig()->get('baseurl'),
-                    sprintf('http://%s:%s/', $this->host, $this->port)
+                    sprintf('http://%s:%s/', $host, $port)
                 )
             );
         } catch (IOExceptionInterface $e) {

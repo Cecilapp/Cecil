@@ -50,8 +50,10 @@ class ShowConfig extends Command
      *
      * @param array $array
      * @param int   $column
+     *
+     * @return string
      */
-    private function printArray($array, $column = -2)
+    private function printArray($array, $column = -2): string
     {
         $output = '';
 

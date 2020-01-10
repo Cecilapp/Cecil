@@ -17,15 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SelfUpdate extends Command
 {
     /**
-     * @var string
-     */
-    protected $version;
-    /**
-     * @var Updater
-     */
-    protected $updater;
-
-    /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -46,27 +37,27 @@ class SelfUpdate extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->version = $this->getApplication()->getVersion();
+        $version = $this->getApplication()->getVersion();
 
-        $this->updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
+        $updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
         /* @var $strategy \Humbug\SelfUpdate\Strategy\GithubStrategy */
-        $strategy = $this->updater->getStrategy();
+        $strategy = $updater->getStrategy();
         $strategy->setPackageName('cecil/cecil');
         $strategy->setPharName('cecil.phar');
-        $strategy->setCurrentLocalVersion($this->version);
+        $strategy->setCurrentLocalVersion($version);
         $strategy->setStability('any');
 
         try {
             $output->writeln('Checks for updates...');
-            $result = $this->updater->update();
+            $result = $updater->update();
             if ($result) {
-                $new = $this->updater->getNewVersion();
-                $old = $this->updater->getOldVersion();
+                $new = $updater->getNewVersion();
+                $old = $updater->getOldVersion();
                 $output->writeln(sprintf('Updated from %s to %s.', $old, $new));
 
                 return 0;
             }
-            $output->writeln(sprintf('You are already using last version (%s).', $this->version));
+            $output->writeln(sprintf('You are already using last version (%s).', $version));
 
             return 0;
         } catch (\Exception $e) {

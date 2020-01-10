@@ -43,21 +43,21 @@ class NewPage extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->name = $input->getArgument('name');
-        $this->force = $input->getOption('force');
-        $this->open = $input->getOption('open');
+        $name = $input->getArgument('name');
+        $force = $input->getOption('force');
+        $open = $input->getOption('open');
 
         try {
             // file name (without extension)
-            if (false !== $extPos = strripos($this->name, '.md')) {
-                $this->name = substr($this->name, 0, $extPos);
+            if (false !== $extPos = strripos($name, '.md')) {
+                $name = substr($name, 0, $extPos);
             }
             // path
-            $fileRelativePath = $this->getBuilder($output)->getConfig()->get('content.dir').'/'.$this->name.'.md';
+            $fileRelativePath = $this->getBuilder($output)->getConfig()->get('content.dir').'/'.$name.'.md';
             $filePath = $this->getPath().'/'.$fileRelativePath;
 
             // file already exists?
-            if ($this->fs->exists($filePath) && !$this->force) {
+            if ($this->fs->exists($filePath) && !$force) {
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion(sprintf('This page already exists. Do you want to override it? [y/n]', $this->getpath()), false);
                 if (!$helper->ask($input, $output, $question)) {
@@ -66,18 +66,18 @@ class NewPage extends Command
             }
 
             // create new file
-            $title = $this->name;
-            if (false !== strrchr($this->name, '/')) {
-                $title = substr(strrchr($this->name, '/'), 1);
+            $title = $name;
+            if (false !== strrchr($name, '/')) {
+                $title = substr(strrchr($name, '/'), 1);
             }
             $date = date('Y-m-d');
-            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findModel($this->name));
+            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findModel($name));
             $this->fs->dumpFile($filePath, $fileContent);
 
             $output->writeln(sprintf('File "%s" created.', $fileRelativePath));
 
             // open editor?
-            if ($this->open) {
+            if ($open) {
                 if (!$this->hasEditor()) {
                     $output->writeln('<comment>No editor configured.</comment>');
                 }
@@ -97,9 +97,9 @@ class NewPage extends Command
      *
      * @return string
      */
-    protected function findModel($name)
+    protected function findModel(string $name): string
     {
-        $section = strstr($this->name, '/', true);
+        $section = strstr($name, '/', true);
         if ($section && file_exists($model = sprintf('%s/models/%s.md', $this->getPath(), $section))) {
             return file_get_contents($model);
         }
@@ -123,7 +123,7 @@ EOT;
      *
      * @return bool
      */
-    protected function hasEditor()
+    protected function hasEditor(): bool
     {
         if ($this->builder->getConfig()->get('editor')) {
             return true;
@@ -139,7 +139,7 @@ EOT;
      *
      * @return void
      */
-    protected function openEditor($filePath)
+    protected function openEditor(string $filePath)
     {
         if ($editor = $this->builder->getConfig()->get('editor')) {
             switch ($editor) {

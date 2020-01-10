@@ -93,7 +93,7 @@ class Command extends BaseCommand
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -110,7 +110,7 @@ class Command extends BaseCommand
     public function getBuilder(
         OutputInterface $output,
         array $config = ['debug' => false]
-    ) {
+    ): Builder {
         if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
@@ -134,12 +134,11 @@ class Command extends BaseCommand
      * Create the Progress bar.
      *
      * @param OutputInterface $output
-     * @param int             $start
      * @param int             $max
      *
      * @return ProgressBar
      */
-    protected function createProgressBar(OutputInterface $output, $start, $max)
+    protected function createProgressBar(OutputInterface $output, $max): ProgressBar
     {
         if ($this->progressBar === null || $max != $this->progressBarMax) {
             $this->progressBarMax = $max;
@@ -170,11 +169,10 @@ class Command extends BaseCommand
      * @param OutputInterface $output
      * @param int             $itemsCount
      * @param int             $itemsMax
-     * @param string          $message
      */
-    protected function printProgressBar(OutputInterface $output, $itemsCount, $itemsMax, $message)
+    protected function printProgressBar(OutputInterface $output, $itemsCount, $itemsMax)
     {
-        $this->createProgressBar($output, 0, $itemsMax);
+        $this->createProgressBar($output, $itemsMax);
         $this->getProgressBar()->clear();
         $this->getProgressBar()->setProgress($itemsCount);
         $this->getProgressBar()->display();

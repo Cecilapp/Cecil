@@ -20,11 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ShowContent extends Command
 {
     /**
-     * @var string
-     */
-    protected $contentDir;
-
-    /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -45,11 +40,11 @@ class ShowContent extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->contentDir = $this->getBuilder($output)->getConfig()->get('content.dir');
+        $contentDir = $this->getBuilder($output)->getConfig()->get('content.dir');
 
         try {
-            $output->writeln(sprintf('<info>%s/</info>', $this->contentDir));
-            $pages = $this->getPagesTree($output);
+            $output->writeln(sprintf('<info>%s/</info>', $contentDir));
+            $pages = $this->getPagesTree($output, $contentDir);
             //if ($this->getConsole()->isUtf8()) {
             $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
                 $prefixParts = [
@@ -79,14 +74,15 @@ class ShowContent extends Command
      * Return a console displayable tree of pages.
      *
      * @param OutputInterface $output
+     * @param string          $contentDir
      *
      * @throws \Exception
      *
      * @return FilenameRecursiveTreeIterator
      */
-    public function getPagesTree(OutputInterface $output)
+    public function getPagesTree(OutputInterface $output, string $contentDir)
     {
-        $pagesPath = $this->getPath().'/'.$this->contentDir;
+        $pagesPath = $this->getPath().'/'.$contentDir;
         if (!is_dir($pagesPath)) {
             throw new \Exception(sprintf('Invalid directory: %s.', $pagesPath));
         }

@@ -40,10 +40,10 @@ class NewSite extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->force = $input->getOption('force');
+        $force = $input->getOption('force');
 
         try {
-            if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$this->force) {
+            if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$force) {
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion('Website already exists. Do you want to override it? [y/n]', false);
                 if (!$helper->ask($input, $output, $question)) {
