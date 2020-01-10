@@ -23,7 +23,6 @@ class CommandBuild extends Command
     {
         $this
             ->setName('build')
-            ->setAliases(['b'])
             ->setDescription('Build the website')
             ->setDefinition(
                 new InputDefinition([
