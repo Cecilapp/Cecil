@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-class CommandNewSite extends Command
+class NewSite extends Command
 {
     /**
      * {@inheritdoc}

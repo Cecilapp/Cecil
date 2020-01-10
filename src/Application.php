@@ -36,16 +36,16 @@ class Application extends BaseApplication
     protected function getDefaultCommands()
     {
         $commands = array_merge(parent::getDefaultCommands(), [
-            new Command\CommandNewSite(),
-            new Command\CommandNewPage(),
-            new Command\CommandBuild(),
-            new Command\CommandServe(),
-            new Command\CommandClean(),
-            new Command\CommandShowContent(),
-            new Command\CommandShowConfig(),
+            new Command\NewSite(),
+            new Command\NewPage(),
+            new Command\Build(),
+            new Command\Serve(),
+            new Command\Clean(),
+            new Command\ShowContent(),
+            new Command\ShowConfig(),
         ]);
         if (Util\Plateform::isPhar()) {
-            $commands[] = new Command\CommandSelfUpdate();
+            $commands[] = new Command\SelfUpdate();
         }
 
         return $commands;

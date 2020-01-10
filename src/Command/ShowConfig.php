@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CommandShowConfig extends Command
+class ShowConfig extends Command
 {
     /**
      * {@inheritdoc}
