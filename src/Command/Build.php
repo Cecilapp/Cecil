@@ -1,5 +1,7 @@
 <?php
 /*
+ * This file is part of the Cecil/Cecil package.
+ *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -65,9 +67,7 @@ class Build extends Command
             $output->writeln(sprintf('Building website%s...', $messageOpt));
             $output->writeln(sprintf('<comment>Path: %s</comment>', $this->getPath()));
             $this->getBuilder($output, $config)->build($options);
-            //if ($this->getRoute()->getName() == 'serve') {
             $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', '');
-            //}
         } catch (\Exception $e) {
             throw new \Exception(sprintf('%s', $e->getMessage()));
         }
