@@ -53,7 +53,6 @@ class CommandServe extends Command
     {
         $this
             ->setName('serve')
-            ->setAliases(['s'])
             ->setDescription('Start the built-in server')
             ->setDefinition(
                 new InputDefinition([
