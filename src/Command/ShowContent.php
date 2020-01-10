@@ -10,9 +10,9 @@
 
 namespace Cecil\Command;
 
-use Cecil\Util\Plateform;
 use Cecil\Command\ShowContent\FileExtensionFilter;
 use Cecil\Command\ShowContent\FilenameRecursiveTreeIterator;
+use Cecil\Util\Plateform;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -49,18 +49,18 @@ class ShowContent extends Command
             $output->writeln(sprintf('<info>%s/</info>', $contentDir));
             $pages = $this->getPagesTree($output, $contentDir);
             if (!Plateform::isWindows()) {
-            $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
-                $prefixParts = [
-                    RecursiveTreeIterator::PREFIX_LEFT         => ' ',
-                    RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
-                    RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                    RecursiveTreeIterator::PREFIX_END_LAST     => '└ ',
-                ];
-                foreach ($prefixParts as $part => $string) {
-                    $tree->setPrefixPart($part, $string);
-                }
-            };
-            $unicodeTreePrefix($pages);
+                $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
+                    $prefixParts = [
+                        RecursiveTreeIterator::PREFIX_LEFT         => ' ',
+                        RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
+                        RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
+                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ ',
+                    ];
+                    foreach ($prefixParts as $part => $string) {
+                        $tree->setPrefixPart($part, $string);
+                    }
+                };
+                $unicodeTreePrefix($pages);
             }
             foreach ($pages as $page) {
                 $output->writeln($page);
