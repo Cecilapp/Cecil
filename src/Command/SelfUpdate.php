@@ -34,7 +34,7 @@ class SelfUpdate extends Command
                 ])
             )
             ->setHelp('The self-update command checks for a newer version and,
- if found, downloads and installs the latest.');
+if found, downloads and installs the latest.');
     }
 
     /**
