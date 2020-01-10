@@ -1,5 +1,7 @@
 <?php
 /*
+ * This file is part of the Cecil/Cecil package.
+ *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -8,6 +10,7 @@
 
 namespace Cecil\Command;
 
+use Cecil\Util\Plateform;
 use Cecil\Command\ShowContent\FileExtensionFilter;
 use Cecil\Command\ShowContent\FilenameRecursiveTreeIterator;
 use RecursiveDirectoryIterator;
@@ -45,7 +48,7 @@ class ShowContent extends Command
         try {
             $output->writeln(sprintf('<info>%s/</info>', $contentDir));
             $pages = $this->getPagesTree($output, $contentDir);
-            //if ($this->getConsole()->isUtf8()) {
+            if (!Plateform::isWindows()) {
             $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
                 $prefixParts = [
                     RecursiveTreeIterator::PREFIX_LEFT         => ' ',
@@ -58,7 +61,7 @@ class ShowContent extends Command
                 }
             };
             $unicodeTreePrefix($pages);
-            //}
+            }
             foreach ($pages as $page) {
                 $output->writeln($page);
             }
