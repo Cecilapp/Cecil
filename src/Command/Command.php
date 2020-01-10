@@ -1,4 +1,10 @@
 <?php
+/*
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Cecil\Command;
 
@@ -68,6 +74,8 @@ class Command extends BaseCommand
     }
 
     /**
+     * Return the working directory.
+     *
      * @return string
      */
     public function getPath()
@@ -76,6 +84,8 @@ class Command extends BaseCommand
     }
 
     /**
+     * Create or return a Builder instance.
+     *
      * @param OutputInterface $output
      * @param array           $config
      * @param array           $options
@@ -84,19 +94,10 @@ class Command extends BaseCommand
      */
     public function getBuilder(
         OutputInterface $output,
-        array $config = ['debug' => false],
-        array $options = ['verbosity' => Builder::VERBOSITY_NORMAL]
+        array $config = ['debug' => false]
     ) {
-        /*if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
+        if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
-        }*/
-        // verbosity: verbose
-        if ($options['verbosity'] == Builder::VERBOSITY_VERBOSE) {
-            //$this->verbose = true;
-        }
-        // verbosity: quiet
-        if ($options['verbosity'] == Builder::VERBOSITY_QUIET) {
-            //$this->quiet = true;
         }
 
         try {
@@ -115,6 +116,8 @@ class Command extends BaseCommand
     }
 
     /**
+     * Create the Progress bar.
+     *
      * @param OutputInterface $output
      * @param int             $start
      * @param int             $max
@@ -137,6 +140,8 @@ class Command extends BaseCommand
     }
 
     /**
+     * Return Progress Bar.
+     *
      * @return ProgressBar
      */
     protected function getProgressBar()
@@ -145,7 +150,7 @@ class Command extends BaseCommand
     }
 
     /**
-     * Print progress bar.
+     * Print the Progress Bar.
      *
      * @param OutputInterface $output
      * @param int             $itemsCount
