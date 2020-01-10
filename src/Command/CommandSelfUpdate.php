@@ -32,7 +32,6 @@ class CommandSelfUpdate extends Command
     {
         $this
             ->setName('self-update')
-            ->setAliases(['selfupdate'])
             ->setDescription('Update Cecil to the latest version')
             ->setDefinition(
                 new InputDefinition([
