@@ -191,21 +191,24 @@ class Command extends BaseCommand
 
                         return;
                     }
-                    $output->writeln("<info>$message</info>");
                 } else {
                     if (isset($itemsCount) && $itemsMax > 0) {
                         $this->printProgressBar($output, $itemsCount, $itemsMax);
-                    } else {
-                        $output->writeln("$message");
+
+                        return;
                     }
+                    $output->writeln("$message");
                 }
             } elseif (strpos($code, '_ERROR') !== false) {
                 $output->writeln("<error>$message</error>");
+
+                return;
             } elseif ($code == 'TIME') {
                 $output->writeln("<comment>$message</comment>");
-            } else {
-                $output->writeln("<info>$message</info>");
+
+                return;
             }
+            $output->writeln("<info>$message</info>");
         };
     }
 }
