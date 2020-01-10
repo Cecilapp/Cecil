@@ -49,7 +49,7 @@ class CommandShowConfig extends Command
      * Print an array in console.
      *
      * @param array $array
-     * @param int $column
+     * @param int   $column
      */
     private function printArray($array, $column = -2)
     {
@@ -59,13 +59,13 @@ class CommandShowConfig extends Command
             $column += 2;
             foreach ($array as $key => $val) {
                 if (is_array($val)) {
-                    $output .= str_repeat(' ', $column) . "$key:\n" . $this->printArray($val, $column);
+                    $output .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
                 }
                 if (is_string($val) || is_int($val)) {
-                    $output .= str_repeat(' ', $column) . "$key: $val\n";
+                    $output .= str_repeat(' ', $column)."$key: $val\n";
                 }
                 if (is_bool($val)) {
-                    $output .= str_repeat(' ', $column) . "$key: " . ($val ? 'true' : 'false') . "\n";
+                    $output .= str_repeat(' ', $column)."$key: ".($val ? 'true' : 'false')."\n";
                 }
             }
         }
