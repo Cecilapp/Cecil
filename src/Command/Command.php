@@ -44,22 +44,24 @@ class Command extends BaseCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->fs = new Filesystem();
-        $this->path = $input->getArgument('path');
 
-        if (null === $this->getPath()) {
-            $this->path = getcwd();
-        }
-        if (false === realpath($this->getPath())) {
-            $message = sprintf('"%s" is not valid path.', $this->getPath());
+        if (!in_array($this->getName(), ['self-update'])) {
+            $this->path = $input->getArgument('path');
+            if (null === $this->getPath()) {
+                $this->path = getcwd();
+            }
+            if (false === realpath($this->getPath())) {
+                $message = sprintf('"%s" is not valid path.', $this->getPath());
 
-            throw new \InvalidArgumentException($message);
-        }
-        $this->path = realpath($this->getPath());
-        $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->getPath());
-        if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
-            $message = sprintf('Cecil could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
+                throw new \InvalidArgumentException($message);
+            }
+            $this->path = realpath($this->getPath());
+            $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->getPath());
+            if (!file_exists($this->getPath() . '/' . self::CONFIG_FILE)) {
+                $message = sprintf('Cecil could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
 
-            throw new \InvalidArgumentException($message);
+                throw new \InvalidArgumentException($message);
+            }
         }
 
         parent::initialize($input, $output);
