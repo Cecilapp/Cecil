@@ -203,7 +203,7 @@ class Command extends BaseCommand
                         $output->writeln("<info>$message</info>");
                     } else {
                         if (isset($itemsCount) && $itemsMax > 0) {
-                            $this->printProgressBar($output, $itemsCount, $itemsMax, $message);
+                            $this->printProgressBar($output, $itemsCount, $itemsMax);
                         } else {
                             $output->writeln("$message");
                         }
