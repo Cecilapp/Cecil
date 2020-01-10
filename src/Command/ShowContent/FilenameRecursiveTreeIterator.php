@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Command\ListContent;
+namespace Cecil\Command\ShowContent;
 
 use RecursiveTreeIterator;
 

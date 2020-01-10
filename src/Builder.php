@@ -18,7 +18,7 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder
 {
-    const VERSION = '4.x-dev';
+    const VERSION = '5.x-dev';
     const VERBOSITY_QUIET = -1;
     const VERBOSITY_NORMAL = 0;
     const VERBOSITY_VERBOSE = 1;

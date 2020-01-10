@@ -41,57 +41,14 @@ switch (true) {
         exit(2);
 }
 
+use Cecil\Application;
 use Cecil\Builder;
-use Cecil\Command\SelfUpdate;
-use Cecil\Util\Plateform;
-use Zend\Console\Console;
-use ZF\Console\Application;
 
-$version = ($version === '@' . 'git_version' . '@')
+$version = ($version === '@'.'git_version'.'@')
     ? Builder::getVersion()
     : $version;
 
-$routes = include __DIR__.'/../config/routes.php';
-if (Plateform::isPhar()) {
-    $routes = array_merge($routes, [[
-        'name'              => 'self-update',
-        'short_description' => 'Update Cecil to the latest version',
-        'description'       => 'The self-update command checks for a newer version, and, if found, downloads and installs the latest.',
-        'defaults' => [
-            'self-update' => true,
-        ]],
-    ]);
-}
-
-$exceptionTemplate = <<<EOT
-:message
-EOT;
-
-$application = new Application(
-    $name,
-    $version,
-    $routes,
-    Console::getInstance()
-);
-$application->removeRoute('autocomplete');
-$application->setBanner(function($console) use ($version) {
-    /* @var $console Zend\Console\Adapter\AbstractAdapter */
-    $console->write("  ____          _ _
- / ___|___  ___(_) | Your content driven
-| |   / _ \/ __| | | static site generator.
-| |__|  __/ (__| | | v$version
- \____\___|\___|_|_| by Arnaud Ligny
-");
-// http://patorjk.com/software/taag/#p=display&f=Standard&t=Cecil
-    $console->writeLine('');
-});
-$application->setBannerDisabledForUserCommands();
-$application->setDebug(false);
-$application->getExceptionHandler()->setMessageTemplate($exceptionTemplate);
-
-if (Plateform::isPhar()) {
-    $application->getDispatcher()->map('self-update', new SelfUpdate($version));
-}
+$application = new Application('Cecil', $version);
 
 $exit = $application->run();
 exit($exit);

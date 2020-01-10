@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Command\ListContent;
+namespace Cecil\Command\ShowContent;
 
 use RecursiveFilterIterator;
 
@@ -19,6 +19,9 @@ use RecursiveFilterIterator;
  */
 class FileExtensionFilter extends RecursiveFilterIterator
 {
+    /**
+     * @var array
+     */
     protected $allowedExt = ['md', 'markdown'];
 
     public function __construct($iter, $ext = '')
@@ -35,7 +38,7 @@ class FileExtensionFilter extends RecursiveFilterIterator
     /**
      * @return bool
      */
-    public function accept()
+    public function accept(): bool
     {
         $file = $this->current();
         if ($file->isFile()) {

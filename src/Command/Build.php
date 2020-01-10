@@ -10,87 +10,68 @@
 
 namespace Cecil\Command;
 
-use Cecil\Builder;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Build.
- */
-class Build extends AbstractCommand
+class Build extends Command
 {
     /**
-     * @var bool
+     * {@inheritdoc}
      */
-    protected $drafts;
-    /**
-     * @var bool
-     */
-    protected $verbose;
-    /**
-     * @var bool
-     */
-    protected $quiet;
-    /**
-     * @var string
-     */
-    protected $baseurl;
-    /**
-     * @var destination
-     */
-    protected $destination;
-    /**
-     * @var bool
-     */
-    protected $dryrun;
+    protected function configure()
+    {
+        $this
+            ->setName('build')
+            ->setDescription('Build the website')
+            ->setDefinition(
+                new InputDefinition([
+                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
+                    new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
+                    new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
+                    new InputOption('destination', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
+                ])
+            )
+            ->setHelp('Build the website in the output directory.');
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function processCommand()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->drafts = $this->getRoute()->getMatchedParam('drafts', false);
-        $this->verbose = $this->getRoute()->getMatchedParam('verbose', false);
-        $this->quiet = $this->getRoute()->getMatchedParam('quiet', false);
-        $this->baseurl = $this->getRoute()->getMatchedParam('baseurl');
-        $this->destination = $this->getRoute()->getMatchedParam('destination');
-        $this->dryrun = $this->getRoute()->getMatchedParam('dry-run', false);
-
         $config = [];
         $options = [];
         $messageOpt = '';
 
-        if ($this->drafts) {
+        if ($input->getOption('drafts')) {
             $options['drafts'] = true;
             $messageOpt .= ' with drafts';
         }
-        if ($this->verbose) {
-            $options['verbosity'] = Builder::VERBOSITY_VERBOSE;
-        } else {
-            if ($this->quiet) {
-                $options['verbosity'] = Builder::VERBOSITY_QUIET;
-            }
-        }
-        if ($this->baseurl) {
-            $config['site']['baseurl'] = $this->baseurl;
-        }
-        if ($this->destination) {
-            $config['site']['output']['dir'] = $this->destination;
-            $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/output', $this->destination);
-        }
-        if ($this->dryrun) {
+        if ($input->getOption('dry-run')) {
             $options['dry-run'] = true;
             $messageOpt .= ' dry-run';
         }
+        if ($input->getOption('baseurl')) {
+            $config['baseurl'] = $input->getOption('baseurl');
+        }
+        if ($input->getOption('destination')) {
+            $config['output']['dir'] = $input->getOption('destination');
+            $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/output', $input->getOption('destination'));
+        }
 
         try {
-            if (!$this->quiet) {
-                $this->wl(sprintf('Building website%s...', $messageOpt));
-            }
-            $this->getBuilder($config, $options)->build($options);
-            if ($this->getRoute()->getName() == 'serve') {
-                $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', \time());
-            }
+            $output->writeln(sprintf('Building website%s...', $messageOpt));
+            $output->writeln(sprintf('<comment>Path: %s</comment>', $this->getPath()));
+            $this->getBuilder($output, $config)->build($options);
+            $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', '');
         } catch (\Exception $e) {
             throw new \Exception(sprintf('%s', $e->getMessage()));
         }
+
+        return 0;
     }
 }
