@@ -40,6 +40,10 @@ class Command extends BaseCommand
      * @var ProgressBar
      */
     protected $progressBar = null;
+    /**
+     * @var int
+     */
+    protected $progressBarMax;
 
     /**
      * {@inheritdoc}
@@ -49,7 +53,7 @@ class Command extends BaseCommand
         $this->fs = new Filesystem();
 
         if (!in_array($this->getName(), ['self-update'])) {
-            $this->path = $input->getArgument('path');
+            $this->path = (string) $input->getArgument('path');
             if (null === $this->getPath()) {
                 $this->path = getcwd();
             }
@@ -101,7 +105,6 @@ Do you want to create it? [y/n]', $this->getpath()),
      *
      * @param OutputInterface $output
      * @param array           $config
-     * @param array           $options
      *
      * @return Builder
      */

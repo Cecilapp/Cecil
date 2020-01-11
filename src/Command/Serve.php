@@ -70,7 +70,7 @@ class Serve extends Command
             $this->getPath().'/'.$this->getBuilder($output)->getConfig()->get('output.dir'),
             sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir)
         );
-        $process = new Process($command);
+        $process = new Process([$command]);
 
         // (re)build before serve
         $buildCommand = $this->getApplication()->find('build');

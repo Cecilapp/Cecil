@@ -72,7 +72,5 @@ if found, downloads and installs the latest.');
 
             return 1;
         }
-
-        return 0;
     }
 }
