@@ -35,6 +35,7 @@ class NewPage extends Command
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
+                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Add date (`YYYY-MM-DD`) as a prefix'),
                 ])
             )
             ->setHelp('Create a new page file (with a default title and the current date).');
@@ -48,19 +49,28 @@ class NewPage extends Command
         $name = (string) $input->getArgument('name');
         $force = $input->getOption('force');
         $open = $input->getOption('open');
+        $prefix = $input->getOption('prefix');
 
         try {
-            // file name (without extension)
-            if (false !== $extPos = strripos($name, '.md')) {
-                $name = substr($name, 0, $extPos);
+            $nameParts = pathinfo($name);
+            $dirname = $nameParts['dirname'];
+            $filename = $nameParts['filename'];
+            $date = date('Y-m-d');
+            $title = $filename;
+            // date prefix?
+            $datePrefix = '';
+            if ($prefix) {
+                $datePrefix = sprintf('%s-', $date);
             }
-            if (null === $name) {
-                throw new \Exception('New page\'s name can\'t be empty');
-            }
-
             // path
-            $fileRelativePath = $this->getBuilder($output)->getConfig()->get('content.dir').'/'.$name.'.md';
-            $filePath = $this->getPath().'/'.$fileRelativePath;
+            $fileRelativePath = sprintf(
+                '%s/%s%s%s.md',
+                $this->getBuilder($output)->getConfig()->get('content.dir'),
+                !$dirname ?: $dirname . '/',
+                $datePrefix,
+                $filename
+            );
+            $filePath = $this->getPath() . '/' . $fileRelativePath;
 
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
@@ -75,22 +85,20 @@ class NewPage extends Command
             }
 
             // create new file
-            $title = $name;
-            if (false !== strrchr($name, '/')) {
-                $title = substr(strrchr($name, '/'), 1);
-            }
-            $date = date('Y-m-d');
-            $fileContent = str_replace(['%title%', '%date%'], [$title, $date], $this->findModel($name));
+            $fileContent = str_replace(
+                ['%title%', '%date%'],
+                [$title, $date],
+                $this->findModel(sprintf('%s%s', !$dirname ?: $dirname . '/', $filename))
+            );
             $this->fs->dumpFile($filePath, $fileContent);
-
             $output->writeln(sprintf('File "%s" created.', $fileRelativePath));
 
             // open editor?
             if ($open) {
-                if (!$this->hasEditor()) {
+                if (!$this->hasEditor($output)) {
                     $output->writeln('<comment>No editor configured.</comment>');
                 }
-                $this->openEditor($filePath);
+                $this->openEditor($output, $filePath);
             }
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
@@ -130,11 +138,13 @@ EOT;
     /**
      * Editor is configured?
      *
+     * @param OutputInterface $output
+     *
      * @return bool
      */
-    protected function hasEditor(): bool
+    protected function hasEditor(OutputInterface $output): bool
     {
-        if ($this->builder->getConfig()->get('editor')) {
+        if ($this->getBuilder($output)->getConfig()->get('editor')) {
             return true;
         }
 
@@ -144,13 +154,14 @@ EOT;
     /**
      * Open new file in editor (if configured).
      *
-     * @param string $filePath
+     * @param OutputInterface $output
+     * @param string          $filePath
      *
      * @return void
      */
-    protected function openEditor(string $filePath)
+    protected function openEditor(OutputInterface $output, string $filePath)
     {
-        if ($editor = $this->builder->getConfig()->get('editor')) {
+        if ($editor = $this->getBuilder($output)->getConfig()->get('editor')) {
             switch ($editor) {
                 case 'typora':
                     if (Plateform::getOS() == Plateform::OS_OSX) {
@@ -161,7 +172,7 @@ EOT;
                     $command = sprintf('%s "%s"', $editor, $filePath);
                     break;
             }
-            $process = new Process($command);
+            $process = Process::fromShellCommandline($command);
             $process->run();
             if (!$process->isSuccessful()) {
                 throw new \Exception(sprintf('Can\'t run "%s".', $command));
