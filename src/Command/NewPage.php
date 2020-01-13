@@ -144,11 +144,7 @@ EOT;
      */
     protected function hasEditor(OutputInterface $output): bool
     {
-        if ($this->getBuilder($output)->getConfig()->get('editor')) {
-            return true;
-        }
-
-        return false;
+        return (bool) $this->getBuilder($output)->getConfig()->get('editor');
     }
 
     /**
@@ -162,15 +158,12 @@ EOT;
     protected function openEditor(OutputInterface $output, string $filePath)
     {
         if ($editor = $this->getBuilder($output)->getConfig()->get('editor')) {
-            switch ($editor) {
-                case 'typora':
-                    if (Plateform::getOS() == Plateform::OS_OSX) {
-                        $command = sprintf('open -a typora "%s"', $filePath);
-                    }
-                    break;
-                default:
-                    $command = sprintf('%s "%s"', $editor, $filePath);
-                    break;
+            $command = sprintf('%s "%s"', $editor, $filePath);
+            // Typora 4TW!
+            if ($editor == 'typora') {
+                if (Plateform::getOS() == Plateform::OS_OSX) {
+                    $command = sprintf('open -a typora "%s"', $filePath);
+                }
             }
             $process = Process::fromShellCommandline($command);
             $process->run();
