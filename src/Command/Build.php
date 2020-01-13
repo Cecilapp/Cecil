@@ -60,14 +60,14 @@ class Build extends Command
         }
         if ($input->getOption('destination')) {
             $config['output']['dir'] = $input->getOption('destination');
-            $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/output', $input->getOption('destination'));
+            $this->fs->dumpFile($this->getPath().'/'.self::TMP_DIR.'/output', $input->getOption('destination'));
         }
 
         try {
             $output->writeln(sprintf('Building website%s...', $messageOpt));
             $output->writeln(sprintf('<comment>Path: %s</comment>', $this->getPath()));
             $this->getBuilder($output, $config)->build($options);
-            $this->fs->dumpFile($this->getPath().'/'.Serve::$tmpDir.'/changes.flag', '');
+            $this->fs->dumpFile($this->getPath().'/'.self::TMP_DIR.'/changes.flag', time());
         } catch (\Exception $e) {
             throw new \Exception(sprintf('%s', $e->getMessage()));
         }

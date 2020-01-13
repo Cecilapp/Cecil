@@ -28,11 +28,6 @@ use Yosymfony\ResourceWatcher\ResourceWatcher;
 class Serve extends Command
 {
     /**
-     * @var string
-     */
-    public static $tmpDir = '.cecil';
-
-    /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -68,7 +63,7 @@ class Serve extends Command
             $host,
             $port,
             $this->getPath().'/'.$this->getBuilder($output)->getConfig()->get('output.dir'),
-            sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir)
+            sprintf('%s/%s/router.php', $this->getPath(), self::TMP_DIR)
         );
         $process = new Process([$command]);
 
@@ -114,6 +109,7 @@ class Serve extends Command
                     }
                     usleep(1000000); // wait 1s
                 }
+                $output->writeln('<comment>Server stopped...<comment>');
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
 
@@ -139,18 +135,18 @@ class Serve extends Command
             // copy router
             $this->fs->copy(
                 $root.'res/server/router.php',
-                $this->getPath().'/'.self::$tmpDir.'/router.php',
+                $this->getPath().'/'.self::TMP_DIR.'/router.php',
                 true
             );
             // copy livereload JS
             $this->fs->copy(
                 $root.'res/server/livereload.js',
-                $this->getPath().'/'.self::$tmpDir.'/livereload.js',
+                $this->getPath().'/'.self::TMP_DIR.'/livereload.js',
                 true
             );
             // copy baseurl text file
             $this->fs->dumpFile(
-                $this->getPath().'/'.self::$tmpDir.'/baseurl',
+                $this->getPath().'/'.self::TMP_DIR.'/baseurl',
                 sprintf(
                     '%s;%s',
                     $this->getBuilder($output)->getConfig()->get('baseurl'),
@@ -160,15 +156,15 @@ class Serve extends Command
         } catch (IOExceptionInterface $e) {
             throw new \Exception(sprintf('An error occurred while copying file at "%s"', $e->getPath()));
         }
-        if (!is_file(sprintf('%s/%s/router.php', $this->getPath(), self::$tmpDir))) {
-            throw new \Exception(sprintf('Router not found: "./%s/router.php"', self::$tmpDir));
+        if (!is_file(sprintf('%s/%s/router.php', $this->getPath(), self::TMP_DIR))) {
+            throw new \Exception(sprintf('Router not found: "./%s/router.php"', self::TMP_DIR));
         }
     }
 
     public function tearDownServer()
     {
         try {
-            $this->fs->remove($this->getPath().'/'.self::$tmpDir);
+            $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
         } catch (IOExceptionInterface $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }

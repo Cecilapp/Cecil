@@ -23,6 +23,7 @@ use Symfony\Component\Yaml\Yaml;
 class Command extends BaseCommand
 {
     const CONFIG_FILE = 'config.yml';
+    const TMP_DIR = '.cecil';
 
     /**
      * @var Filesystem
