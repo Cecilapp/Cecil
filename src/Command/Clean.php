@@ -39,8 +39,8 @@ class Clean extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $outputDir = $this->getBuilder($output)->getConfig()->get('output.dir');
-        if ($this->fs->exists($this->getPath().'/'.Serve::$tmpDir.'/output')) {
-            $outputDir = file_get_contents($this->getPath().'/'.Serve::$tmpDir.'/output');
+        if ($this->fs->exists($this->getPath().'/'.self::TMP_DIR.'/output')) {
+            $outputDir = file_get_contents($this->getPath().'/'.self::TMP_DIR.'/output');
         }
         // delete output dir
         if ($this->fs->exists($this->getPath().'/'.$outputDir)) {
@@ -48,8 +48,8 @@ class Clean extends Command
             $output->writeln(sprintf('Output directory "%s" removed.', $outputDir));
         }
         // delete local server temp files
-        if ($this->fs->exists($this->getPath().'/'.Serve::$tmpDir)) {
-            $this->fs->remove($this->getPath().'/'.Serve::$tmpDir);
+        if ($this->fs->exists($this->getPath().'/'.self::TMP_DIR)) {
+            $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
             $output->writeln('Temporary files deleted.');
         }
 
