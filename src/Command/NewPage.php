@@ -66,11 +66,11 @@ class NewPage extends Command
             $fileRelativePath = sprintf(
                 '%s/%s%s%s.md',
                 $this->getBuilder($output)->getConfig()->get('content.dir'),
-                !$dirname ?: $dirname . '/',
+                !$dirname ?: $dirname.'/',
                 $datePrefix,
                 $filename
             );
-            $filePath = $this->getPath() . '/' . $fileRelativePath;
+            $filePath = $this->getPath().'/'.$fileRelativePath;
 
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
@@ -88,7 +88,7 @@ class NewPage extends Command
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],
-                $this->findModel(sprintf('%s%s', !$dirname ?: $dirname . '/', $filename))
+                $this->findModel(sprintf('%s%s', !$dirname ?: $dirname.'/', $filename))
             );
             $this->fs->dumpFile($filePath, $fileContent);
             $output->writeln(sprintf('File "%s" created.', $fileRelativePath));
