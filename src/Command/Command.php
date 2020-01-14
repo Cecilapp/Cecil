@@ -194,7 +194,10 @@ Do you want to create it? [y/n]', $this->getpath()),
                 if ($output->isVerbose()) {
                     if ($itemsCount > 0) {
                         $output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
+
+                        return;
                     }
+                    $output->writeln(" $message");
 
                     return;
                 }
@@ -203,7 +206,9 @@ Do you want to create it? [y/n]', $this->getpath()),
 
                     return;
                 }
-                $output->writeln("$message");
+                $output->writeln(" $message");
+
+                return;
             } elseif (strpos($code, '_ERROR') !== false) {
                 $output->writeln("<error>$message</error>");
 
