@@ -8,9 +8,8 @@
 
 namespace Cecil\Step;
 
-use Cecil\Util;
-use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Load data files.
@@ -37,7 +36,7 @@ class DataLoad extends AbstractStep
         $data = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getDataPath())
-            ->name('/\.(' . implode('|', $this->builder->getConfig()->get('data.ext')) . ')$/')
+            ->name('/\.('.implode('|', $this->builder->getConfig()->get('data.ext')).')$/')
             ->sortByName(true);
 
         $count = 0;
@@ -57,7 +56,7 @@ class DataLoad extends AbstractStep
             $message = sprintf('"%s" loaded', $file->getBasename());
             $dataArray = array_merge_recursive(
                 $this->builder->getData(),
-                [$file->getBasename('.' . $file->getExtension()) => $dataArray]
+                [$file->getBasename('.'.$file->getExtension()) => $dataArray]
             );
             $this->builder->setData($dataArray);
 
