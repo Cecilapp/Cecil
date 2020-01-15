@@ -1,0 +1,7 @@
+{% for page in site.pages|sortByDate if page.redirect is defined %}
+{{ url(page, {canonical:false}) }} {{ url(page.redirect, {canonical:false}) }} 301
+{% endfor %}
+
+{% for url, redirect in site.data.redirects %}
+{{ url(url, {canonical:false}) }} {{ url(redirect, {canonical:false}) }} 301
+{% endfor %}

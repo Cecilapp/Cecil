@@ -40,6 +40,7 @@ class Builder
     protected $steps = [
         'Cecil\Step\ConfigImport',
         'Cecil\Step\ContentLoad',
+        'Cecil\Step\DataLoad',
         'Cecil\Step\PagesCreate',
         'Cecil\Step\PagesConvert',
         'Cecil\Step\TaxonomiesCreate',
@@ -61,6 +62,12 @@ class Builder
      * @var Finder
      */
     protected $content;
+    /**
+     * Data array.
+     *
+     * @var array
+     */
+    protected $data = [];
     /**
      * Pages collection.
      *
@@ -184,9 +191,9 @@ class Builder
     }
 
     /**
-     * @param $content
+     * @param Finder $content
      */
-    public function setContent($content)
+    public function setContent(Finder $content)
     {
         $this->content = $content;
     }
@@ -194,9 +201,25 @@ class Builder
     /**
      * @return Finder
      */
-    public function getContent()
+    public function getContent(): Finder
     {
         return $this->content;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData(array $data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->data;
     }
 
     /**
@@ -257,6 +280,7 @@ class Builder
                 switch ($code) {
                     case 'CONFIG':
                     case 'LOCATE':
+                    case 'DATA':
                     case 'CREATE':
                     case 'CONVERT':
                     case 'GENERATE':
@@ -270,6 +294,7 @@ class Builder
                         break;
                     case 'CONFIG_PROGRESS':
                     case 'LOCATE_PROGRESS':
+                    case 'DATA_PROGRESS':
                     case 'CREATE_PROGRESS':
                     case 'CONVERT_PROGRESS':
                     case 'GENERATE_PROGRESS':
@@ -285,7 +310,9 @@ class Builder
                             $this->addLog($log, 1);
                         }
                         break;
+                    case 'CONFIG_ERROR':
                     case 'LOCATE_ERROR':
+                    case 'DATA_ERROR':
                     case 'CREATE_ERROR':
                     case 'CONVERT_ERROR':
                     case 'GENERATE_ERROR':

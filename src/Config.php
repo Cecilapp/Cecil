@@ -247,6 +247,16 @@ class Config
     }
 
     /**
+     * Return the path of the data directory.
+     *
+     * @return string
+     */
+    public function getDataPath(): string
+    {
+        return $this->getSourceDir().'/'.$this->get('data.dir');
+    }
+
+    /**
      * Return the path of templates directory.
      *
      * @return string

@@ -125,6 +125,10 @@ return [
         'dir' => 'content',
         'ext' => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
     ],
+    'data' => [
+        'dir' => 'data',
+        'ext' => ['yaml', 'yml'],
+    ],
     'frontmatter' => [
         'format' => 'yaml',
     ],

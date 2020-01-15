@@ -77,15 +77,24 @@ class Build extends \PHPUnit\Framework\TestCase
                     'rss' => [
                         'published' => false,
                     ],
+                    '_redirects' => [
+                        'output' => 'netlify_redirects',
+                    ]
                 ],
                 'output' => [
+                    'formats' => [
+                        'netlify_redirects' => [
+                            'mediatype' => 'text/plain',
+                            'extension' => '',
+                        ]
+                    ],
                     'pagetypeformats' => [
                         'page'       => ['html', 'json'],
                         'homepage'   => ['html', 'atom', 'rss', 'json'],
                         'section'    => ['html', 'atom', 'rss', 'json'],
                         'vocabulary' => ['html'],
                         'term'       => ['html', 'atom', 'rss'],
-                    ],
+                    ]
                 ],
                 'theme'  => [
                     'a-theme',

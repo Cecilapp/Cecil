@@ -62,11 +62,14 @@ class Site implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
+        // special cases
         switch ($offset) {
             case 'taxonomies':
                 return $this->builder->getTaxonomies();
             case 'language':
                 return new Language($this->builder->getConfig(), $this->language);
+            case 'data':
+                return $this->builder->getData();
         }
 
         return $this->builder->getConfig()->get($offset, $this->language);
