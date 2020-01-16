@@ -53,14 +53,36 @@ class DataLoad extends AbstractStep
             $dataFile = $file->getContents();
             restore_error_handler();
             $dataArray = Yaml::parse($dataFile);
-            $message = sprintf('"%s" loaded', $file->getBasename());
+
+            $basename = $file->getBasename('.'.$file->getExtension());
+            $subpath = \Cecil\Util::getFS()->makePathRelative(
+                $file->getPath(),
+                $this->builder->getConfig()->getDataPath()
+            );
+            $subpath = trim($subpath, './');
+            $array = [];
+            $path = $subpath ? $subpath.'/'.$basename : $basename;
+            $this->pathToArray($array, $path, $dataArray);
+
             $dataArray = array_merge_recursive(
                 $this->builder->getData(),
-                [$file->getBasename('.'.$file->getExtension()) => $dataArray]
+                $array
             );
             $this->builder->setData($dataArray);
 
+            $message = sprintf('"%s" loaded', $path);
             call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
         }
+    }
+
+    private function pathToArray(&$arr, $path, $value, $separator = '/')
+    {
+        $keys = explode($separator, $path);
+
+        foreach ($keys as $key) {
+            $arr = &$arr[$key];
+        }
+
+        $arr = $value;
     }
 }
