@@ -54,14 +54,14 @@ class DataLoad extends AbstractStep
             restore_error_handler();
             $dataArray = Yaml::parse($dataFile);
 
-            $basename = $file->getBasename('.' . $file->getExtension());
+            $basename = $file->getBasename('.'.$file->getExtension());
             $subpath = \Cecil\Util::getFS()->makePathRelative(
                 $file->getPath(),
                 $this->builder->getConfig()->getDataPath()
             );
-            $subpath = trim($subpath, "./");
+            $subpath = trim($subpath, './');
             $array = [];
-            $path = $subpath ? $subpath . '/' . $basename : $basename;
+            $path = $subpath ? $subpath.'/'.$basename : $basename;
             $this->pathToArray($array, $path, $dataArray);
 
             $dataArray = array_merge_recursive(
