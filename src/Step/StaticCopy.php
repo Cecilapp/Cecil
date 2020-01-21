@@ -23,6 +23,7 @@ class StaticCopy extends AbstractStep
     {
         // clean before
         Util::getFS()->remove($this->builder->getConfig()->getOutputPath());
+        Util::getFS()->mkdir($this->builder->getConfig()->getOutputPath());
 
         $this->process = true;
     }
