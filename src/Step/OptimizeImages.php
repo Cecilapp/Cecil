@@ -21,11 +21,18 @@ class OptimizeImages extends AbstractStep
      */
     public function init($options)
     {
-        if (is_dir($this->builder->getConfig()->getOutputPath())) {
-            $this->process = true;
-        }
         if (false === $this->builder->getConfig()->get('optimize.images.enabled')) {
             $this->process = false;
+
+            return;
+        }
+        if ($options['dry-run']) {
+            $this->process = false;
+
+            return;
+        }
+        if (is_dir($this->builder->getConfig()->getOutputPath())) {
+            $this->process = true;
         }
     }
 
@@ -61,13 +68,19 @@ class OptimizeImages extends AbstractStep
             $sizeBefore = $file->getSize();
             $optimizerChain->optimize($file->getPathname());
             $sizeAfter = $file->getSize();
-            //$sizeAfter = filesize($file->getPathname());
+
+            $subpath = \Cecil\Util::getFS()->makePathRelative(
+                $file->getPath(),
+                $this->builder->getConfig()->getOutputPath()
+            );
+            $subpath = trim($subpath, './');
+            $path = $subpath ? $subpath.'/'.$file->getFilename() : $file->getFilename();
 
             $message = sprintf(
-                '"%s" processed (%s Ko -> %s Ko)',
-                $file->getFilename(),
-                $sizeBefore/1000,
-                $sizeAfter/1000
+                '%s: %s Ko -> %s Ko',
+                $path,
+                ceil($sizeBefore/1000),
+                ceil($sizeAfter/1000)
             );
             call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message, $count, $max]);
         }
