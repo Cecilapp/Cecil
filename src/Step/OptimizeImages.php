@@ -66,8 +66,8 @@ class OptimizeImages extends AbstractStep
             $message = sprintf(
                 '"%s" processed (%s Ko -> %s Ko)',
                 $file->getFilename(),
-                $sizeBefore/1000,
-                $sizeAfter/1000
+                $sizeBefore / 1000,
+                $sizeAfter / 1000
             );
             call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message, $count, $max]);
         }
