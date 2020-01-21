@@ -53,6 +53,7 @@ class OptimizeImages extends AbstractStep
 
         $count = 0;
         $max = count($data);
+        $optimized = 0;
 
         if ($max <= 0) {
             $message = 'No images';
@@ -82,7 +83,14 @@ class OptimizeImages extends AbstractStep
                 ceil($sizeBefore/1000),
                 ceil($sizeAfter/1000)
             );
-            call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message, $count, $max]);
+            if ($sizeAfter < $sizeBefore) {
+                call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message, $count, $max]);
+                $optimized++;
+            }
+        }
+        if ($optimized == 0) {
+            $message = 'Nothing to do (not optimizers installed?)';
+            call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message]);
         }
     }
 }
