@@ -147,10 +147,9 @@ return [
     'themes' => [
         'dir' => 'themes',
     ],
-    'process' => [
+    'optimize' => [
         'images' => [
-            'dir' => 'static',
-            'ext' => ['jpg', 'jpeg', 'png'],
+            'ext' => ['jpeg', 'jpg', 'png'],
         ],
     ],
     'generators' => [

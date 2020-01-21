@@ -47,9 +47,9 @@ class Builder
         'Cecil\Step\PagesGenerate',
         'Cecil\Step\MenusCreate',
         'Cecil\Step\StaticCopy',
+        'Cecil\Step\OptimizeImages',
         'Cecil\Step\PagesRender',
         'Cecil\Step\PagesSave',
-        'Cecil\Step\ImagesOptim',
     ];
     /**
      * Config.
@@ -287,6 +287,7 @@ class Builder
                     case 'GENERATE':
                     case 'MENU':
                     case 'COPY':
+                    case 'OPTIMIZE':
                     case 'RENDER':
                     case 'SAVE':
                     case 'TIME':
@@ -301,6 +302,7 @@ class Builder
                     case 'GENERATE_PROGRESS':
                     case 'MENU_PROGRESS':
                     case 'COPY_PROGRESS':
+                    case 'OPTIMIZE_PROGRESS':
                     case 'RENDER_PROGRESS':
                     case 'SAVE_PROGRESS':
                         if ($itemsCount > 0) {
@@ -319,6 +321,7 @@ class Builder
                     case 'GENERATE_ERROR':
                     case 'MENU_ERROR':
                     case 'COPY_ERROR':
+                    case 'OPTIMIZE_ERROR':
                     case 'RENDER_ERROR':
                     case 'SAVE_ERROR':
                         $log = sprintf(">> %s\n", $message);
