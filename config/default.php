@@ -149,7 +149,7 @@ return [
     ],
     'optimize' => [
         'images' => [
-            'ext' => ['jpeg', 'jpg', 'png'],
+            'ext' => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'],
         ],
     ],
     'generators' => [
