@@ -49,6 +49,7 @@ class Builder
         'Cecil\Step\StaticCopy',
         'Cecil\Step\PagesRender',
         'Cecil\Step\PagesSave',
+        'Cecil\Step\ImagesOptim',
     ];
     /**
      * Config.

@@ -147,6 +147,12 @@ return [
     'themes' => [
         'dir' => 'themes',
     ],
+    'process' => [
+        'images' => [
+            'dir' => 'static',
+            'ext' => ['jpg', 'jpeg', 'png'],
+        ],
+    ],
     'generators' => [
         10 => 'Cecil\Generator\Section',
         20 => 'Cecil\Generator\Taxonomy',
