@@ -66,7 +66,7 @@ class OptimizeJs extends AbstractStep
         $optimized = 0;
 
         // setup processor
-	    //
+        //
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($files as $file) {
