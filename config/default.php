@@ -148,6 +148,16 @@ return [
         'dir' => 'themes',
     ],
     'optimize' => [
+        'enabled' => false,
+        'css' => [
+            'ext' => ['css'],
+        ],
+        'js' => [
+            'ext' => ['js'],
+        ],
+        'html' => [
+            'ext' => ['html', 'htm'],
+        ],
         'images' => [
             'ext' => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'],
         ],
