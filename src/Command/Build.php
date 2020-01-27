@@ -33,6 +33,13 @@ class Build extends Command
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                     new InputOption('destination', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
+                    new InputOption(
+                        'optimize',
+                        null,
+                        InputOption::VALUE_OPTIONAL,
+                        'Optimize output (disable with "no")',
+                        false
+                    ),
                 ])
             )
             ->setHelp('Build the website in the output directory.');
@@ -61,6 +68,12 @@ class Build extends Command
         if ($input->getOption('destination')) {
             $config['output']['dir'] = $input->getOption('destination');
             $this->fs->dumpFile($this->getPath().'/'.self::TMP_DIR.'/output', $input->getOption('destination'));
+        }
+        if ($input->getOption('optimize') === null) {
+            $config['optimize']['enabled'] = true;
+        }
+        if ($input->getOption('optimize') === false || $input->getOption('optimize') == 'no') {
+            $config['optimize']['enabled'] = false;
         }
 
         try {

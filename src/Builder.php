@@ -47,9 +47,12 @@ class Builder
         'Cecil\Step\PagesGenerate',
         'Cecil\Step\MenusCreate',
         'Cecil\Step\StaticCopy',
-        'Cecil\Step\OptimizeImages',
         'Cecil\Step\PagesRender',
         'Cecil\Step\PagesSave',
+        'Cecil\Step\OptimizeCss',
+        'Cecil\Step\OptimizeJs',
+        'Cecil\Step\OptimizeHtml',
+        'Cecil\Step\OptimizeImages',
     ];
     /**
      * Config.

@@ -8,21 +8,22 @@
 
 namespace Cecil\Step;
 
-use Spatie\ImageOptimizer\OptimizerChainFactory as Optimizer;
+use MatthiasMullie\Minify;
 
 /**
- * Images Optimization.
+ * JS files Optimization.
  */
-class OptimizeImages extends AbstractStepOptimize
+class OptimizeJs extends AbstractStepOptimize
 {
     public function setProcessor()
     {
-        $this->type = 'images';
-        $this->processor = Optimizer::create();
+        $this->type = 'js';
     }
 
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file)
     {
-        $this->processor->optimize($file->getPathname());
+        $minifier = new Minify\JS($file->getPathname());
+        $minified = $minifier->minify();
+        \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
     }
 }
