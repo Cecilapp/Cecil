@@ -149,7 +149,7 @@ return [
     ],
     'optimize' => [
         'enabled' => false,
-        'css' => [
+        'css'     => [
             'ext' => ['css'],
         ],
         'js' => [

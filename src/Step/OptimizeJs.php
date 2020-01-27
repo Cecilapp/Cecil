@@ -18,15 +18,13 @@ class OptimizeJs extends AbstractStep
 {
     const TYPE = 'js';
 
-
     /**
      * {@inheritdoc}
      */
     public function init($options)
     {
         if (false === $this->builder->getConfig()->get(sprintf('optimize.%s.enabled', self::TYPE))
-            || false === $this->builder->getConfig()->get('optimize.enabled'))
-        {
+            || false === $this->builder->getConfig()->get('optimize.enabled')) {
             $this->process = false;
 
             return;
@@ -53,7 +51,7 @@ class OptimizeJs extends AbstractStep
             ->files()
             ->in($this->builder->getConfig()->getOutputPath())
             ->name('/\.('.implode('|', $extensions).')$/')
-            ->notName('/\.min\.(' . implode('|', $extensions) . ')$/')
+            ->notName('/\.min\.('.implode('|', $extensions).')$/')
             ->sortByName(true);
         $max = count($files);
 
@@ -90,7 +88,7 @@ class OptimizeJs extends AbstractStep
                 $this->builder->getConfig()->getOutputPath()
             );
             $subpath = trim($subpath, './');
-            $path = $subpath ? $subpath . '/' . $file->getFilename() : $file->getFilename();
+            $path = $subpath ? $subpath.'/'.$file->getFilename() : $file->getFilename();
 
             $message = sprintf(
                 '%s: %s Ko -> %s Ko',
