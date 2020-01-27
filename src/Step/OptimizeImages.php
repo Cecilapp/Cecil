@@ -16,12 +16,17 @@ use Symfony\Component\Finder\Finder;
  */
 class OptimizeImages extends AbstractStep
 {
+    const TYPE = 'images';
+
+
     /**
      * {@inheritdoc}
      */
     public function init($options)
     {
-        if (false === $this->builder->getConfig()->get('optimize.images.enabled')) {
+        if (false === $this->builder->getConfig()->get(sprintf('optimize.%s.enabled', self::TYPE))
+            || false === $this->builder->getConfig()->get('optimize.enabled'))
+        {
             $this->process = false;
 
             return;
@@ -41,33 +46,41 @@ class OptimizeImages extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE', 'Optimizing images']);
+        call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE', sprintf('Optimizing %s', self::TYPE)]);
 
-        $optimizerChain = OptimizerChainFactory::create();
-
-        $data = Finder::create()
+        $extensions = $this->builder->getConfig()->get(sprintf('optimize.%s.ext', self::TYPE));
+        $files = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getOutputPath())
-            ->name('/\.('.implode('|', $this->builder->getConfig()->get('optimize.images.ext')).')$/')
+            ->name('/\.('.implode('|', $extensions).')$/')
+            ->notName('/\.min\.(' . implode('|', $extensions) . ')$/')
             ->sortByName(true);
-
-        $count = 0;
-        $max = count($data);
-        $optimized = 0;
+        $max = count($files);
 
         if ($max <= 0) {
-            $message = 'No images';
+            $message = 'No files';
             call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message]);
 
             return;
         }
 
+        $count = 0;
+        $optimized = 0;
+
+        // setup processor
+        $optimizerChain = OptimizerChainFactory::create();
+
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
-        foreach ($data as $file) {
+        foreach ($files as $file) {
+            $sizeBefore = 0;
+            $sizeAfter = 0;
             $count++;
 
             $sizeBefore = $file->getSize();
+
+            // process file
             $optimizerChain->optimize($file->getPathname());
+
             $sizeAfter = $file->getSize();
 
             $subpath = \Cecil\Util::getFS()->makePathRelative(
@@ -83,13 +96,13 @@ class OptimizeImages extends AbstractStep
                 ceil($sizeBefore / 1000),
                 ceil($sizeAfter / 1000)
             );
+            call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message, $count, $max]);
             if ($sizeAfter < $sizeBefore) {
-                call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message, $count, $max]);
                 $optimized++;
             }
         }
         if ($optimized == 0) {
-            $message = 'Nothing to do (not optimizers installed?)';
+            $message = 'Nothing to do';
             call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message]);
         }
     }
