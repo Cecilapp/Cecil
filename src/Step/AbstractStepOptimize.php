@@ -8,7 +8,6 @@
 
 namespace Cecil\Step;
 
-use Exception;
 use Symfony\Component\Finder\Finder;
 
 /**

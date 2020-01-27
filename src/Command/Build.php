@@ -10,7 +10,6 @@
 
 namespace Cecil\Command;
 
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
