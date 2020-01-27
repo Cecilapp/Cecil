@@ -42,7 +42,12 @@ class Serve extends Command
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
-                    new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize output (disable with "no")', false),
+                    new InputOption('optimize',
+                        null,
+                        InputOption::VALUE_OPTIONAL,
+                        'Optimize output (disable with "no")',
+                        false
+                    ),
                 ])
             )
             ->setHelp('Start the live-reloading-built-in web server.');

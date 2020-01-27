@@ -33,7 +33,13 @@ class Build extends Command
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                     new InputOption('destination', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
-                    new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize output (disable with "no")', false),
+                    new InputOption(
+                        'optimize',
+                        null,
+                        InputOption::VALUE_OPTIONAL,
+                        'Optimize output (disable with "no")',
+                        false
+                    ),
                 ])
             )
             ->setHelp('Build the website in the output directory.');
