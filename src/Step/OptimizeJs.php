@@ -70,8 +70,6 @@ class OptimizeJs extends AbstractStep
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($files as $file) {
-            $sizeBefore = 0;
-            $sizeAfter = 0;
             $count++;
 
             $sizeBefore = $file->getSize();
