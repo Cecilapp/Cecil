@@ -8,7 +8,7 @@
 
 namespace Cecil\Step;
 
-use WyriHaximus\HtmlCompress\Factory;
+use WyriHaximus\HtmlCompress\Factory as Compressor;
 
 /**
  * HTML files Optimization.
@@ -18,7 +18,7 @@ class OptimizeHtml extends AbstractStepOptimize
     public function setProcessor()
     {
         $this->type = 'html';
-        $this->processor = Factory::construct();
+        $this->processor = Compressor::construct();
     }
 
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file)

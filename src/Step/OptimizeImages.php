@@ -8,7 +8,7 @@
 
 namespace Cecil\Step;
 
-use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Spatie\ImageOptimizer\OptimizerChainFactory as Optimizer;
 
 /**
  * Images Optimization.
@@ -18,7 +18,7 @@ class OptimizeImages extends AbstractStepOptimize
     public function setProcessor()
     {
         $this->type = 'images';
-        $this->processor = OptimizerChainFactory::create();
+        $this->processor = Optimizer::create();
     }
 
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file)

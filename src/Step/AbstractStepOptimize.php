@@ -114,6 +114,8 @@ abstract class AbstractStepOptimize extends AbstractStep
 
     /**
      * Set file processor object.
+     *
+     * @return void
      */
     abstract public function setProcessor();
 
@@ -121,6 +123,8 @@ abstract class AbstractStepOptimize extends AbstractStep
      * Process a file.
      *
      * @param \Symfony\Component\Finder\SplFileInfo $file
+     *
+     * @return void
      */
     abstract public function processFile(\Symfony\Component\Finder\SplFileInfo $file);
 }
