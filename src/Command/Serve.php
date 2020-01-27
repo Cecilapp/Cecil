@@ -40,8 +40,9 @@ class Serve extends Command
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open browser automatically'),
-                    new InputOption('host', null, InputOption::VALUE_OPTIONAL, 'Server host'),
-                    new InputOption('port', null, InputOption::VALUE_OPTIONAL, 'Server port'),
+                    new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
+                    new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
+                    new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize output (disable with "no")', false),
                 ])
             )
             ->setHelp('Start the live-reloading-built-in web server.');
@@ -56,6 +57,7 @@ class Serve extends Command
         $open = $input->getOption('open');
         $host = $input->getOption('host') ?? 'localhost';
         $port = $input->getOption('port') ?? '8000';
+        $optimize = $input->getOption('optimize');
 
         $this->setUpServer($output, $host, $port);
         $command = sprintf(
@@ -73,6 +75,7 @@ class Serve extends Command
             'command'  => 'build',
             'path'     => $this->getPath(),
             '--drafts' => $drafts,
+            '--optimize' => $optimize,
         ]);
         $buildCommand->run($buildInput, $output);
 
