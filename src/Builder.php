@@ -49,6 +49,9 @@ class Builder
         'Cecil\Step\StaticCopy',
         'Cecil\Step\PagesRender',
         'Cecil\Step\PagesSave',
+        'Cecil\Step\OptimizeCss',
+        'Cecil\Step\OptimizeJs',
+        'Cecil\Step\OptimizeHtml',
         'Cecil\Step\OptimizeImages',
     ];
     /**
