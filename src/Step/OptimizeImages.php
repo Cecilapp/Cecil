@@ -9,97 +9,20 @@
 namespace Cecil\Step;
 
 use Spatie\ImageOptimizer\OptimizerChainFactory;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Images Optimization.
  */
-class OptimizeImages extends AbstractStep
+class OptimizeImages extends AbstractStepOptimize
 {
-    const TYPE = 'images';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function init($options)
+    public function setProcessor()
     {
-        if (false === $this->builder->getConfig()->get(sprintf('optimize.%s.enabled', self::TYPE))
-            || false === $this->builder->getConfig()->get('optimize.enabled')) {
-            $this->process = false;
-
-            return;
-        }
-        if ($options['dry-run']) {
-            $this->process = false;
-
-            return;
-        }
-        if (is_dir($this->builder->getConfig()->getOutputPath())) {
-            $this->process = true;
-        }
+        $this->type = 'images';
+        $this->processor = OptimizerChainFactory::create();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process()
+    public function processFile(\Symfony\Component\Finder\SplFileInfo $file)
     {
-        call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE', sprintf('Optimizing %s', self::TYPE)]);
-
-        $extensions = $this->builder->getConfig()->get(sprintf('optimize.%s.ext', self::TYPE));
-        $files = Finder::create()
-            ->files()
-            ->in($this->builder->getConfig()->getOutputPath())
-            ->name('/\.('.implode('|', $extensions).')$/')
-            ->notName('/\.min\.('.implode('|', $extensions).')$/')
-            ->sortByName(true);
-        $max = count($files);
-
-        if ($max <= 0) {
-            $message = 'No files';
-            call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message]);
-
-            return;
-        }
-
-        $count = 0;
-        $optimized = 0;
-
-        // setup processor
-        $optimizerChain = OptimizerChainFactory::create();
-
-        /* @var $file \Symfony\Component\Finder\SplFileInfo */
-        foreach ($files as $file) {
-            $count++;
-
-            $sizeBefore = $file->getSize();
-
-            // process file
-            $optimizerChain->optimize($file->getPathname());
-
-            $sizeAfter = $file->getSize();
-
-            $subpath = \Cecil\Util::getFS()->makePathRelative(
-                $file->getPath(),
-                $this->builder->getConfig()->getOutputPath()
-            );
-            $subpath = trim($subpath, './');
-            $path = $subpath ? $subpath.'/'.$file->getFilename() : $file->getFilename();
-
-            $message = sprintf(
-                '%s: %s Ko -> %s Ko',
-                $path,
-                ceil($sizeBefore / 1000),
-                ceil($sizeAfter / 1000)
-            );
-            call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message, $count, $max]);
-            if ($sizeAfter < $sizeBefore) {
-                $optimized++;
-            }
-        }
-        if ($optimized == 0) {
-            $message = 'Nothing to do';
-            call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message]);
-        }
+        $this->processor->optimize($file->getPathname());
     }
 }
