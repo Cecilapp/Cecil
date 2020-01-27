@@ -18,15 +18,13 @@ class OptimizeCss extends AbstractStep
 {
     const TYPE = 'css';
 
-
     /**
      * {@inheritdoc}
      */
     public function init($options)
     {
         if (false === $this->builder->getConfig()->get(sprintf('optimize.%s.enabled', self::TYPE))
-            || false === $this->builder->getConfig()->get('optimize.enabled'))
-        {
+            || false === $this->builder->getConfig()->get('optimize.enabled')) {
             $this->process = false;
 
             return;
@@ -53,7 +51,7 @@ class OptimizeCss extends AbstractStep
             ->files()
             ->in($this->builder->getConfig()->getOutputPath())
             ->name('/\.('.implode('|', $extensions).')$/')
-            ->notName('/\.min\.(' . implode('|', $extensions) . ')$/')
+            ->notName('/\.min\.('.implode('|', $extensions).')$/')
             ->sortByName(true);
         $max = count($files);
 
@@ -68,7 +66,7 @@ class OptimizeCss extends AbstractStep
         $optimized = 0;
 
         // setup processor
-	//
+        //
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($files as $file) {
