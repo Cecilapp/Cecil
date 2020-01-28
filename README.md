@@ -39,7 +39,7 @@ chmod +x /usr/local/bin/cecil
 ## Usage
 
 - Get help: `cecil help`
-- Create new website: `cecil newsite`
+- Create new website: `cecil new:site`
 - Build and serve it: `cecil serve`
 
 ## Quick Start
