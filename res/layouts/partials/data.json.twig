@@ -8,13 +8,12 @@
 } %}
     {
       "type": {{ type }},
-      "id": {{ id }}{% if attributes is defined %},
+      "id": {{ id }}
+{%- if attributes is defined %},
       "attributes": {
-{% for key, value in attributes %}
-        "{{ key }}": {{ value }}{% if not loop.last %},
-{% endif %}
-{% endfor %}
-
+{%- for key, value in attributes ~%}
+        "{{ key }}": {{ value }}{% if not loop.last %},{% endif %}
+{% endfor ~%}
       }
 {% endif %}
     }
