@@ -72,7 +72,7 @@ class Build extends Command
         if ($input->getOption('optimize') === null) {
             $config['optimize']['enabled'] = true;
         }
-        if ($input->getOption('optimize') === false || $input->getOption('optimize') == 'no') {
+        if ($input->getOption('optimize') == 'no') {
             $config['optimize']['enabled'] = false;
         }
 

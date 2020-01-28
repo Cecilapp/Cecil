@@ -29,18 +29,17 @@ abstract class AbstractStepOptimize extends AbstractStep
      */
     public function init($options)
     {
-        if (false === $this->builder->getConfig()->get(sprintf('optimize.%s.enabled', $this->type))
-            || false === $this->builder->getConfig()->get('optimize.enabled')) {
-            $this->process = false;
-
-            return;
-        }
         if ($options['dry-run']) {
             $this->process = false;
 
             return;
         }
-        if (is_dir($this->builder->getConfig()->getOutputPath())) {
+        if (false === $this->builder->getConfig()->get(sprintf('optimize.%s.enabled', $this->type))) {
+            $this->process = false;
+
+            return;
+        }
+        if (true === $this->builder->getConfig()->get('optimize.enabled')) {
             $this->process = true;
         }
     }
