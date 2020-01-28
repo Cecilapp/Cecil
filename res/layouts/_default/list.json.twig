@@ -1,6 +1,7 @@
 {% extends '_default/page.json.twig' %}
 
 {% set items = page.pages|sortByDate %}
+
 {% if page.pagination.pages is defined %}
 {% set pagination = page.pagination %}
 {% set items = pagination.pages %}

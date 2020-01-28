@@ -3,14 +3,13 @@
   "data": [
 {% if items is defined %}
 {% for item in items %}
-{% include 'partials/data.json.twig' with {'item': item} only %}{% if not loop.last %},
-{% endif %}
+{% include 'partials/data.json.twig' with {'item': item} only %}{% if not loop.last %},{% endif ~%}
 {% endfor %}
 {% else %}
-{% include 'partials/data.json.twig' with {'item': page} only %}
+{% include 'partials/data.json.twig' with {'item': page} only ~%}
 {% endif %}
   ]
-{# meta #}
+{#- meta #}
 {% block meta %}
 {% if meta is not defined and pagination is defined %}
 {% set meta = {'totalPages': pagination.totalpages} %}
@@ -18,12 +17,10 @@
 {% if meta is defined %},
   "meta": {
 {% for key, value in meta %}
-    "{{ key }}": {{ value|json_encode() }}{% if not loop.last %},
-{% endif %}
-{% endfor %}
-
+    "{{ key }}": {{ value|json_encode() }}{% if not loop.last %},{% endif %}
+{% endfor ~%}
   }
-{% endif %}
+{%- endif %}
 {% endblock meta %}
 {# links #}
 {% block links %}
@@ -52,6 +49,6 @@
 {% endif %}
     "last": {{ links.last|json_encode(constant('JSON_UNESCAPED_SLASHES')) }}
   }
-{% endif %}
-{% endblock links %}
+{%- endif %}
+{% endblock links ~%}
 }
