@@ -1,3 +1,4 @@
+{#- data -#}
 {% set type = item.section|default('page')|json_encode() %}
 {% set id = item.id|json_encode(constant('JSON_UNESCAPED_SLASHES')) %}
 {% set attributes = {
@@ -17,3 +18,4 @@
       }
 {% endif %}
     }
+{#- /data -#}

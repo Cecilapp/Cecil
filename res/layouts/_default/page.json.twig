@@ -6,7 +6,7 @@
 {% include 'partials/data.json.twig' with {'item': item} only %}{% if not loop.last %},{% endif ~%}
 {% endfor %}
 {% else %}
-{% include 'partials/data.json.twig' with {'item': page} only ~%}
+{% include 'partials/data.json.twig' with {'item': page} only -%}
 {% endif %}
   ]
 {#- meta #}
