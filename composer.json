@@ -40,7 +40,9 @@
     "twig/extensions": "1.5.4",
     "twig/twig": "2.12.3",
     "voku/html-min": "4.0.7",
-    "yosymfony/resource-watcher": "2.0.1"
+    "yosymfony/resource-watcher": "2.0.1",
+    "symfony/serializer": "^4.4",
+    "symfony/property-access": "^4.4"
   },
   "require-dev": {
     "phpunit/phpunit": "7.5.17",

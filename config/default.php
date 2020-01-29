@@ -127,7 +127,7 @@ return [
     ],
     'data' => [
         'dir' => 'data',
-        'ext' => ['yaml', 'yml'],
+        'ext' => ['yaml', 'yml', 'json', 'xml', 'csv'],
     ],
     'frontmatter' => [
         'format' => 'yaml',
