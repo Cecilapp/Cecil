@@ -1,3 +1,26 @@
-{% for key, value in site.data.subdir.subsub.test %}
-{{ key }}: {{ value }}
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+YAML:
+<ul>
+{% for key, value in site.data.subdir.subsub.yaml %}
+  <li>{{ key }}: {{ value }}</li>
 {% endfor %}
+</ul>
+JSON:
+<ul>
+{% for key, value in site.data.subdir.subsub.json %}
+  <li>{{ key }}: {{ value }}</li>
+{% endfor %}
+</ul>
+XML:
+<ul>
+{% for key, value in site.data.subdir.subsub.xml %}
+  <li>{{ key }}: {{ value }}</li>
+{% endfor %}
+</ul>
+CSV:
+<pre>
+  {{ dump(site.data.subdir.subsub.csv) }}
+</pre>
+{% endblock %}

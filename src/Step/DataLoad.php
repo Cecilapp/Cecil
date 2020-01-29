@@ -9,6 +9,12 @@
 namespace Cecil\Step;
 
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\YamlEncoder;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -38,9 +44,17 @@ class DataLoad extends AbstractStep
             ->in($this->builder->getConfig()->getDataPath())
             ->name('/\.('.implode('|', $this->builder->getConfig()->get('data.ext')).')$/')
             ->sortByName(true);
-
-        $count = 0;
         $max = count($data);
+        $count = 0;
+
+        // JSON
+        $serializerJson = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
+        // XML
+        $serializerXml = new Serializer([new ObjectNormalizer()], [new XmlEncoder()]);
+        // YAML
+        $serializerYaml = new Serializer([new ObjectNormalizer()], [new YamlEncoder()]);
+        // CSV
+        $serializerCsv = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
         foreach ($data as $file) {
@@ -52,7 +66,25 @@ class DataLoad extends AbstractStep
             );
             $dataFile = $file->getContents();
             restore_error_handler();
-            $dataArray = Yaml::parse($dataFile);
+
+            switch ($file->getExtension()) {
+                case 'json':
+                    $dataArray = $serializerJson->decode($dataFile, 'json');
+                    break;
+                case 'xml':
+                    $dataArray = $serializerXml->decode($dataFile, 'xml');
+                    break;
+                case 'yml':
+                case 'yaml':
+                    $dataArray = $serializerYaml->decode($dataFile, 'yaml');
+                    break;
+                case 'csv':
+                    $dataArray = $serializerCsv->decode($dataFile, 'csv');
+                    break;
+                default:
+                    return;
+                    break;
+            }
 
             $basename = $file->getBasename('.'.$file->getExtension());
             $subpath = \Cecil\Util::getFS()->makePathRelative(
