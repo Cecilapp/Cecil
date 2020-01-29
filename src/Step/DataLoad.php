@@ -83,7 +83,6 @@ class DataLoad extends AbstractStep
                     break;
                 default:
                     return;
-                    break;
             }
 
             $basename = $file->getBasename('.'.$file->getExtension());
