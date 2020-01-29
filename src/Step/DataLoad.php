@@ -15,7 +15,6 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\YamlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Load data files.
@@ -39,47 +38,55 @@ class DataLoad extends AbstractStep
     {
         call_user_func_array($this->builder->getMessageCb(), ['DATA', 'Loading data']);
 
-        $data = Finder::create()
+        $files = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getDataPath())
             ->name('/\.('.implode('|', $this->builder->getConfig()->get('data.ext')).')$/')
             ->sortByName(true);
-        $max = count($data);
-        $count = 0;
+        $max = count($files);
 
-        // JSON
-        $serializerJson = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
-        // XML
-        $serializerXml = new Serializer([new ObjectNormalizer()], [new XmlEncoder()]);
+        if ($max <= 0) {
+            $message = 'No files';
+            call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message]);
+
+            return;
+        }
+
         // YAML
         $serializerYaml = new Serializer([new ObjectNormalizer()], [new YamlEncoder()]);
+        // JSON
+        $serializerJson = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
         // CSV
         $serializerCsv = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+        // XML
+        $serializerXml = new Serializer([new ObjectNormalizer()], [new XmlEncoder()]);
+
+        $count = 0;
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */
-        foreach ($data as $file) {
+        foreach ($files as $file) {
             $count++;
             set_error_handler(
                 function ($severity, $message, $file, $line) {
                     throw new \ErrorException($message, 0, $severity, $file, $line, null);
                 }
             );
-            $dataFile = $file->getContents();
+            $data = $file->getContents();
             restore_error_handler();
 
             switch ($file->getExtension()) {
-                case 'json':
-                    $dataArray = $serializerJson->decode($dataFile, 'json');
-                    break;
-                case 'xml':
-                    $dataArray = $serializerXml->decode($dataFile, 'xml');
-                    break;
                 case 'yml':
                 case 'yaml':
-                    $dataArray = $serializerYaml->decode($dataFile, 'yaml');
+                    $dataArray = $serializerYaml->decode($data, 'yaml');
+                    break;
+                case 'json':
+                    $dataArray = $serializerJson->decode($data, 'json');
                     break;
                 case 'csv':
-                    $dataArray = $serializerCsv->decode($dataFile, 'csv');
+                    $dataArray = $serializerCsv->decode($data, 'csv');
+                    break;
+                case 'xml':
+                    $dataArray = $serializerXml->decode($data, 'xml');
                     break;
                 default:
                     return;
