@@ -50,7 +50,7 @@ class Build extends \PHPUnit\Framework\TestCase
                 'menus'   => [
                     'main' => [
                         [
-                            //'id'   => 'index',
+                            'id'   => 'index',
                             'name' => 'Da home! \o/',
                         ],
                         [
