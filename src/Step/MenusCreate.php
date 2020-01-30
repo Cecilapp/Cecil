@@ -12,6 +12,7 @@ use Cecil\Collection\Menu\Collection as MenusCollection;
 use Cecil\Collection\Menu\Entry;
 use Cecil\Collection\Menu\Menu;
 use Cecil\Collection\Page\Page;
+use Cecil\Exception\Exception;
 
 /**
  * Create menus collection.
@@ -28,46 +29,45 @@ class MenusCreate extends AbstractStep
      */
     public function process()
     {
-        // create menus collection, with a 'main' menu
+        // create the 'menus' collection with a default 'main' menu
         $main = new Menu('main');
         $this->menus = new MenusCollection('menus');
         $this->menus->add($main);
 
-        // add entries from pages to menus collection
+        // Collect 'menu' entries from pages
         $this->collectPages();
 
         /*
          * Removing/adding/replacing menus entries from config
          * ie:
-         *   site:
-         *     menu:
-         *       main:
-         *         example:
-         *           name: "Example"
-         *           url: https://example.com
-         *           weight: 999
-         *         a-propos:
-         *           id: about
-         *           enabled: false
+         *   menus:
+         *     main:
+         *       - id: example
+         *         name: "Example"
+         *         url: https://example.com
+         *         weight: 999
+         *       - id: about
+         *         enabled: false
          */
-        if ($menus = $this->builder->getConfig()->get('menu')) {
+        if ($menusConfig = $this->builder->getConfig()->get('menus')) {
             call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Creating menus (config)']);
-            $totalConfig = array_sum(array_map('count', $menus));
+            $totalConfig = array_sum(array_map('count', $menusConfig));
             $countConfig = 0;
-            foreach ($menus as $menu => $entry) {
+
+            foreach ($menusConfig as $menuConfig => $entry) {
                 /* @var $menu \Cecil\Collection\Menu\Menu */
-                if (!$this->menus->has($menu)) {
-                    $this->menus->add(new Menu($menu));
+                if (!$this->menus->has($menuConfig)) {
+                    $this->menus->add(new Menu($menuConfig));
                 }
-                $menu = $this->menus->get($menu);
+                $menu = $this->menus->get($menuConfig);
                 foreach ($entry as $key => $property) {
                     $countConfig++;
                     $enabled = true;
                     $updated = false;
 
-                    // ID is key
+                    // ID is required
                     if (!array_key_exists('id', $property)) {
-                        $property['id'] = $key;
+                        throw New Exception(sprintf('"id" is required for menu entry "%s"', $key));
                     }
                     // enabled?
                     if (array_key_exists('enabled', $property) && false === $property['enabled']) {
@@ -108,8 +108,8 @@ class MenusCreate extends AbstractStep
                     // add/replace entry
                     if ($enabled) {
                         $item = (new Entry($property['id']))
-                            ->setName($property['name'] ?? ucfirst($key))
-                            ->setUrl($property['url'] ?? '/noURL')
+                            ->setName($property['name'] ?? ucfirst($property['id']))
+                            ->setUrl($property['url'] ?? '/404')
                             ->setWeight($property['weight'] ?? 0);
                         $menu->add($item);
                         if (!$updated) {
