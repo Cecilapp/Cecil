@@ -67,7 +67,7 @@ class MenusCreate extends AbstractStep
 
                     // ID is required
                     if (!array_key_exists('id', $property)) {
-                        throw New Exception(sprintf('"id" is required for menu entry "%s"', $key));
+                        throw new Exception(sprintf('"id" is required for menu entry "%s"', $key));
                     }
                     // enabled?
                     if (array_key_exists('enabled', $property) && false === $property['enabled']) {
