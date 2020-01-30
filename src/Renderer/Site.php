@@ -64,6 +64,8 @@ class Site implements \ArrayAccess
     {
         // special cases
         switch ($offset) {
+            case 'menus':
+                return $this->builder->getMenus();
             case 'taxonomies':
                 return $this->builder->getTaxonomies();
             case 'language':
@@ -102,14 +104,6 @@ class Site implements \ArrayAccess
         return $this->builder->getPages()->filter(function (Page $page) {
             return $page->getVariable('published');
         });
-    }
-
-    /**
-     * Navigation menus.
-     */
-    public function getMenus()
-    {
-        return $this->builder->getMenus();
     }
 
     /**

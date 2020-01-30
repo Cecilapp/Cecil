@@ -47,16 +47,18 @@ class Build extends \PHPUnit\Framework\TestCase
                         'description' => 'En français !',
                     ],
                 ],
-                'menu'   => [
+                'menus'   => [
                     'main' => [
-                        'home' => [
+                        [
                             'id'   => 'index',
                             'name' => 'Da home! \o/',
                         ],
-                        'about' => [
+                        [
+                            'id'      => 'about',
                             'enabled' => false,
                         ],
-                        'aligny' => [
+                        [
+                            'id'     => 'aligny',
                             'name'   => 'The author',
                             'url'    => 'https://arnaudligny.fr',
                             'weight' => 9999,
