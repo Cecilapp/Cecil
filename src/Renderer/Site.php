@@ -50,6 +50,12 @@ class Site implements \ArrayAccess
      */
     public function offsetExists($offset)
     {
+        // special cases
+        switch ($offset) {
+            case 'menus':
+                return true;
+        }
+
         return $this->builder->getConfig()->has($offset);
     }
 
