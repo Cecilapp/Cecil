@@ -156,6 +156,8 @@ class Config
     public function get(string $key, string $language = null)
     {
         if ($language !== null) {
+            //DEBUG
+            die('POUET');
             $keyLang = "languages.$language.$key";
             if ($this->data->has($keyLang)) {
                 return $this->data->get($keyLang);
@@ -404,11 +406,11 @@ class Config
     }
 
     /**
-     * Return the default language key (ie: "en", "fr-fr", etc.).
+     * Return the default language code (ie: "en", "fr-fr", etc.).
      *
      * @return string
      */
-    public function getLanguageDefaultKey(): string
+    public function getLanguageDefault(): string
     {
         if ($this->get('language')) {
             return $this->get('language');
@@ -420,23 +422,24 @@ class Config
         }
         reset($languages);
 
-        return key($languages);
+        //return key($languages);
+        return $languages['code'];
     }
 
     /**
      * Return properties of a (specified or default) language.
      *
-     * @param string|null $key
+     * @param string|null $code
      *
      * @return array
      */
-    public function getLanguageProperties(string $key = null): array
+    public function getLanguageProperties(string $code = null): array
     {
-        $key = $key ?? $this->getLanguageDefaultKey();
+        $code = $code ?? $this->getLanguageDefault();
 
-        $languageProperties = $this->get(sprintf('languages.%s', $key));
+        $languageProperties = $this->get(sprintf('languages.%s', $code));
         if (!is_array($languageProperties)) {
-            throw new Exception(sprintf('Language "%s" is not correctly set in config!', $key));
+            throw new Exception(sprintf('Language "%s" is not correctly set in config!', $code));
         }
 
         return $languageProperties;
