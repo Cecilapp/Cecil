@@ -144,22 +144,4 @@ class Util
 
         return $className;
     }
-
-    /**
-     * search multidimensional array for key and return value.
-     */
-    public function arraySearchByKey(string $keyVal, array $array)
-    {
-        foreach ($array as $key => $val) {
-            if ($keyVal == $key) {
-                $resultSet['name'] = $val['name'];
-                $resultSet['key'] = $key;
-                $resultSet['id'] = $val['id'];
-
-                return $resultSet;
-            }
-        }
-
-        return null;
-    }
 }
