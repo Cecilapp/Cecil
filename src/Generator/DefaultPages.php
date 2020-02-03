@@ -10,7 +10,6 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Exception\Exception;
 
 /**
  * Class DefaultPages.
