@@ -34,7 +34,7 @@
     "spatie/image-optimizer": "1.1.4",
     "symfony/console": "4.4.3",
     "symfony/filesystem": "4.4.3",
-    "symfony/finder": "4.4.3",
+    "symfony/finder": "4.4.4",
     "symfony/process": "4.4.3",
     "symfony/yaml": "4.4.3",
     "twig/extensions": "1.5.4",

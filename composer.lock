@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db6468365076573fbe5801c4c20dd064",
+    "content-hash": "41c49d4f3d165f23ad22069934b3492e",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -950,7 +950,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.4.3",
+            "version": "v4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
