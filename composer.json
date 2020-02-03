@@ -36,7 +36,7 @@
     "symfony/filesystem": "4.4.3",
     "symfony/finder": "4.4.3",
     "symfony/process": "4.4.3",
-    "symfony/yaml": "4.4.3",
+    "symfony/yaml": "4.4.4",
     "twig/extensions": "1.5.4",
     "twig/twig": "2.12.3",
     "voku/html-min": "4.0.7",
