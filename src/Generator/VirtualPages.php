@@ -23,11 +23,6 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
     public function generate(): void
     {
         $virtualpages = $this->config->get('virtualpages');
-
-        // DEBUG
-        //var_dump($virtualpages);
-        //die();
-
         foreach ($virtualpages as $frontmatter) {
             if (isset($frontmatter['published']) && $frontmatter['published'] === false) {
                 continue;
