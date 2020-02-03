@@ -20,17 +20,13 @@
       <hr />
       <p>
         {% trans "Page's language:" %}<br>
-        - key: {{ site.language }}<br>
+        - code: {{ site.language }}<br>
         - name: {{ site.language.name }}<br>
         - locale: {{ site.language.locale }}<br>
         - weight: {{ site.language.weight }}<br>
       </p>
       <p>
-        {% trans "Default language:" %}<br>
-        - key: en<br>
-        - name: {{ site.languages.en.name }}<br>
-        - locale: {{ site.languages.en.locale }}<br>
-        - weight: {{ site.languages.en.weight }}<br>
+        {% trans "Default language:" %} {{ site.languages.0.name }}<br>
       </p>
       <hr />
       <p>

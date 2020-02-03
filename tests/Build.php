@@ -40,11 +40,19 @@ class Build extends \PHPUnit\Framework\TestCase
                 'title'     => 'Cecil test',
                 'language'  => 'en',
                 'languages' => [
-                    'fr' => [
-                        'name'        => 'Français',
-                        'locale'      => 'fr_FR',
-                        'title'       => 'Cecil FR',
-                        'description' => 'En français !',
+                    [
+                        'code'   => 'en',
+                        'name'   => 'English',
+                        'locale' => 'en_US',
+                    ],
+                    [
+                        'code'   => 'fr',
+                        'name'   => 'Français',
+                        'locale' => 'fr_FR',
+                        'config' => [
+                            'title'       => 'Cecil FR',
+                            'description' => 'En français !',
+                        ],
                     ],
                 ],
                 'menus'   => [

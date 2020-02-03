@@ -25,10 +25,10 @@ return [
     ],
     'language'  => 'en',
     'languages' => [
-        'en' => [
+        [
+            'code'   => 'en',
             'name'   => 'English',
             'locale' => 'en_US',
-            'weight' => 0,
         ],
     ],
     'date'   => [

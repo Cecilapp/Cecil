@@ -156,7 +156,8 @@ class Config
     public function get(string $key, string $language = null)
     {
         if ($language !== null) {
-            $keyLang = "languages.$language.$key";
+            $index = $this->getLanguageIndex($language);
+            $keyLang = sprintf('languages.%s.config.%s', $index, $key);
             if ($this->data->has($keyLang)) {
                 return $this->data->get($keyLang);
             }
@@ -404,71 +405,59 @@ class Config
     }
 
     /**
-     * Return the default language key (ie: "en", "fr-fr", etc.).
+     * Return the default language code (ie: "en", "fr-fr", etc.).
      *
      * @return string
      */
-    public function getLanguageDefaultKey(): string
+    public function getLanguageDefault(): string
     {
-        if ($this->get('language')) {
-            return $this->get('language');
+        if (!$this->get('language')) {
+            throw new Exception('There is no default "language" in configuration.');
         }
 
-        $languages = $this->getLanguages();
-        if (!is_array($languages)) {
-            throw new Exception('There is no default "language" in configuration!');
-        }
-        reset($languages);
-
-        return key($languages);
+        return $this->get('language');
     }
 
     /**
-     * Return properties of a (specified or default) language.
+     * Return a language code index.
      *
-     * @param string|null $key
+     * @param string $code
      *
-     * @return array
+     * @return int
      */
-    public function getLanguageProperties(string $key = null): array
+    public function getLanguageIndex(string $code): int
     {
-        $key = $key ?? $this->getLanguageDefaultKey();
+        $array = array_column($this->getLanguages(), 'code');
 
-        $languageProperties = $this->get(sprintf('languages.%s', $key));
-        if (!is_array($languageProperties)) {
-            throw new Exception(sprintf('Language "%s" is not correctly set in config!', $key));
+        if (!$index = array_search($code, $array)) {
+            throw new Exception(sprintf('The language code "%s" is not defined.', $code));
         }
 
-        return $languageProperties;
+        return $index;
     }
 
     /**
      * Return the property value of a (specified or default) language.
      *
      * @param string      $property
-     * @param string|null $key
+     * @param string|null $code
      *
-     * @return string
+     * @return string|null
      */
-    public function getLanguageProperty($property, $key = null): string
+    public function getLanguageProperty(string $property, string $code = null): ?string
     {
-        $properties = ['name', 'locale'];
-        $languageProperties = $this->getLanguageProperties($key);
+        $code = $code ?? $this->getLanguageDefault();
 
-        if (!in_array($property, $properties)) {
+        $properties = array_column($this->getLanguages(), $property, 'code');
+
+        if (empty($properties)) {
             throw new Exception(sprintf(
-                'Property language "%s" is not available!',
-                $property
-            ));
-        }
-        if (!\array_key_exists($property, $languageProperties)) {
-            throw new Exception(sprintf(
-                'Property "%s" is not defined for language "%s"!',
+                'Property "%s" is not defined for language "%s".',
                 $property,
-                $languageProperties['name']
+                $code
             ));
         }
 
-        return $languageProperties[$property];
+        return $properties[$code];
     }
 }
