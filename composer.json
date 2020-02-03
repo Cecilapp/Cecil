@@ -33,7 +33,7 @@
     "scssphp/scssphp": "1.0.6",
     "spatie/image-optimizer": "1.1.4",
     "symfony/console": "4.4.3",
-    "symfony/filesystem": "4.4.3",
+    "symfony/filesystem": "4.4.4",
     "symfony/finder": "4.4.3",
     "symfony/process": "4.4.3",
     "symfony/yaml": "4.4.3",
