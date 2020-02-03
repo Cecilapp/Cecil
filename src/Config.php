@@ -422,27 +422,7 @@ class Config
         }
         reset($languages);
 
-        //return key($languages);
         return $languages['code'];
-    }
-
-    /**
-     * Return properties of a (specified or default) language.
-     *
-     * @param string|null $code
-     *
-     * @return array
-     */
-    public function getLanguageProperties(string $code = null): array
-    {
-        $code = $code ?? $this->getLanguageDefault();
-
-        $languageProperties = $this->get(sprintf('languages.%s', $code));
-        if (!is_array($languageProperties)) {
-            throw new Exception(sprintf('Language "%s" is not correctly set in config!', $code));
-        }
-
-        return $languageProperties;
     }
 
     /**
