@@ -36,19 +36,23 @@ return [
         'timezone' => 'Europe/Paris',
     ],
     'virtualpages' => [
-        'robots' => [
-            'title'   => 'Robots.txt',
-            'layout'  => 'robots',
-            'output'  => 'txt',
+        // merge ovverride index !!
+        [
+            'path'   => 'robots',
+            'title'  => 'Robots.txt',
+            'layout' => 'robots',
+            'output' => 'txt',
         ],
-        'sitemap' => [
+        [
+            'path'       => 'sitemap',
             'title'      => 'XML sitemap',
             'layout'     => 'sitemap',
             'output'     => 'xml',
             'changefreq' => 'monthly',
             'priority'   => '0.5',
         ],
-        '404' => [
+        [
+            'path'    => '404',
             'title'   => 'Page not found',
             'layout'  => '404',
             'uglyurl' => true,

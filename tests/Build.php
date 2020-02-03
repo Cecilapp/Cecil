@@ -81,13 +81,16 @@ class Build extends \PHPUnit\Framework\TestCase
                 ],
                 'googleanalytics' => 'UA-XXXXX',
                 'virtualpages'    => [
-                    'sitemap' => [
+                    [
+                        'path'      => 'sitemap',
                         'published' => true,
                     ],
-                    'rss' => [
+                    [
+                        'path'      => 'rss',
                         'published' => false,
                     ],
-                    '_redirects' => [
+                    [
+                        'path'   => '_redirects',
                         'output' => 'netlify_redirects',
                     ],
                 ],
