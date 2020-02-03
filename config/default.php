@@ -29,7 +29,6 @@ return [
             'code'   => 'en',
             'name'   => 'English',
             'locale' => 'en_US',
-            'weight' => 0,
         ],
     ],
     'date'   => [
