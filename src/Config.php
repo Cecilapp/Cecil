@@ -423,7 +423,7 @@ class Config
      *
      * @param string $code
      *
-     * @return integer
+     * @return int
      */
     public function getLanguageIndex(string $code): int
     {

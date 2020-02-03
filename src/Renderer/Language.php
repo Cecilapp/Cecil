@@ -79,6 +79,7 @@ class Language
 
         if (empty($value)) {
             $language = $this->language ?: $this->config->getLanguageDefault();
+
             throw new Exception(sprintf(
                 'The property "%s" is empty for language "%s".',
                 $property,
