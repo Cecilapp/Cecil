@@ -35,27 +35,26 @@ return [
         'format'   => 'j F Y',
         'timezone' => 'Europe/Paris',
     ],
-    'virtualpages' => [
-        // merge ovverride index !!
-        [
-            'path'   => 'robots',
-            'title'  => 'Robots.txt',
-            'layout' => 'robots',
-            'output' => 'txt',
+    'defaultpages' => [
+        'robots' => [
+            'title'     => 'Robots.txt',
+            'layout'    => 'robots',
+            'output'    => 'txt',
+            'published' => true,
         ],
-        [
-            'path'       => 'sitemap',
+        'sitemap' => [
             'title'      => 'XML sitemap',
             'layout'     => 'sitemap',
             'output'     => 'xml',
             'changefreq' => 'monthly',
             'priority'   => '0.5',
+            'published'  => true,
         ],
-        [
-            'path'    => '404',
-            'title'   => 'Page not found',
-            'layout'  => '404',
-            'uglyurl' => true,
+        '404' => [
+            'title'     => 'Page not found',
+            'layout'    => '404',
+            'uglyurl'   => true,
+            'published' => true,
         ],
     ],
     'output' => [
@@ -174,6 +173,7 @@ return [
         50 => 'Cecil\Generator\Alias',
         35 => 'Cecil\Generator\ExternalBody',
         36 => 'Cecil\Generator\VirtualPages',
+        37 => 'Cecil\Generator\DefaultPages',
         60 => 'Cecil\Generator\Redirect',
     ],
 ];
