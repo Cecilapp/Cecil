@@ -52,14 +52,14 @@ class Language
 
     public function getName(): ?string
     {
-        if ($this->checkProperty('name')) {
+        if ($this->hasProperty('name')) {
             return $this->config->getLanguageProperty('name', $this->language);
         }
     }
 
     public function getLocale(): ?string
     {
-        if ($this->checkProperty('locale')) {
+        if ($this->hasProperty('locale')) {
             return $this->config->getLanguageProperty('locale', $this->language);
         }
     }
@@ -73,7 +73,7 @@ class Language
         return 0;
     }
 
-    private function checkProperty(string $property): bool
+    private function hasProperty(string $property): bool
     {
         $value = $this->config->getLanguageProperty($property, $this->language);
 
