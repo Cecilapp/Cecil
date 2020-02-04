@@ -35,7 +35,10 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             if (!array_key_exists('path', $frontmatter)) {
-                throw new Exception(sprintf('Each pages in "%s" config\'s section must have a "path".', $this->configKey));
+                throw new Exception(sprintf(
+                    'Each pages in "%s" config\'s section must have a "path".',
+                    $this->configKey
+                ));
             }
             $page = (new Page(Page::slugify($frontmatter['path'])))
                 ->setPath(Page::slugify($frontmatter['path']))
