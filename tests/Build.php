@@ -80,15 +80,20 @@ class Build extends \PHPUnit\Framework\TestCase
                     'tests' => 'disabled',
                 ],
                 'googleanalytics' => 'UA-XXXXX',
-                'virtualpages'    => [
+                'defaultpages'    => [
                     'sitemap' => [
-                        'published' => true,
-                    ],
-                    'rss' => [
                         'published' => false,
+                        'priority'  => 99,
                     ],
-                    '_redirects' => [
+                ],
+                'virtualpages'    => [
+                    [
+                        'path'   => '_redirects',
                         'output' => 'netlify_redirects',
+                    ],
+                    [
+                        'path'      => 'rss',
+                        'published' => false,
                     ],
                 ],
                 'output' => [
