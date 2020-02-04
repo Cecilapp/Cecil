@@ -1,4 +1,10 @@
 User-agent: *
-Disallow: /404.html
 Allow: /
-Sitemap: {{ url('sitemap.xml', {canonical:true}) }}
+{# 404 #}
+{% if site.pages.404 is defined %}
+Disallow: {{ url('404', {canonical:false}) }}
+{% endif %}
+{# sitemap #}
+{% if site.pages.sitemap is defined %}
+Sitemap: {{ url('sitemap', {canonical:true}) }}
+{% endif %}
