@@ -37,12 +37,14 @@ return [
     ],
     'defaultpages' => [
         'robots' => [
+            'path'      => 'robots',
             'title'     => 'Robots.txt',
             'layout'    => 'robots',
             'output'    => 'txt',
             'published' => true,
         ],
         'sitemap' => [
+            'path'       => 'sitemap',
             'title'      => 'XML sitemap',
             'layout'     => 'sitemap',
             'output'     => 'xml',
@@ -51,6 +53,7 @@ return [
             'published'  => true,
         ],
         '404' => [
+            'path'      => '404',
             'title'     => 'Page not found',
             'layout'    => '404',
             'uglyurl'   => true,

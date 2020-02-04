@@ -82,7 +82,8 @@ class Build extends \PHPUnit\Framework\TestCase
                 'googleanalytics' => 'UA-XXXXX',
                 'defaultpages'    => [
                     'sitemap' => [
-                        'published' => true,
+                        'published' => false,
+                        'priority'  => 99,
                     ],
                 ],
                 'virtualpages'    => [
