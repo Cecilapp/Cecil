@@ -21,7 +21,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Page extends Item
 {
-    const SLUGIFY_PATTERN = '/(^\/|[^_a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
+    const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
 
     /**
      * @var bool
