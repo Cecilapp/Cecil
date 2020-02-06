@@ -340,8 +340,6 @@ class Config
     {
         $properties = array_column($this->get('output.formats'), $property, 'name');
 
-        var_dump($this->get('output.formats'));
-
         if (empty($properties)) {
             throw new Exception(sprintf(
                 'Property "%s" is not defined for format "%s".',
@@ -350,7 +348,7 @@ class Config
             ));
         }
 
-        if (!in_array($name, $properties)) {
+        if (!array_key_exists($name, $properties)) {
             return null;
         }
 
