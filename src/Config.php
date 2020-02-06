@@ -308,27 +308,6 @@ class Config
     }
 
     /**
-     * Return a "clean" array of an output format.
-     *
-     * @param string $format
-     *
-     * @return array
-     */
-    /*public function getOutputFormat(string $format): array
-    {
-        $default = [
-            'mediatype' => null, // 'text/html'
-            'subpath'   => null, // ''
-            'suffix'    => null, // '/index'
-            'extension' => null, // 'html'
-        ];
-
-        $result = $this->get(sprintf('output.formats.%s', $format));
-
-        return array_merge($default, $result);
-    }*/
-
-    /**
      * Return the property value of an output format.
      *
      * @param string $property
