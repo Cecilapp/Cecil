@@ -99,6 +99,9 @@ class PagesRender extends AbstractStep
                     //     atom:
                     //       [...]
                     //       exclude: [paginated]
+                    if (!is_array($exclude)) {
+                        $exclude = [$exclude];
+                    }
                     foreach ($exclude as $variable) {
                         if ($page->hasVariable($variable)) {
                             unset($formats[$key]);
