@@ -465,13 +465,6 @@ class Page extends Item
             $subpath = $config->getOutputFormatProperty($format, 'subpath');
             $suffix = $config->getOutputFormatProperty($format, 'suffix');
             $extension = $config->getOutputFormatProperty($format, 'extension');
-
-            // DEBUG
-            if (!$extension) {
-                echo "pouet\n";
-                echo "$format\n";
-                die();
-            }
         }
 
         // if ugly URL: not suffix
