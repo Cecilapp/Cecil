@@ -98,7 +98,8 @@ class Build extends \PHPUnit\Framework\TestCase
                 ],
                 'output' => [
                     'formats' => [
-                        'netlify_redirects' => [
+                        [
+                            'name'      => 'netlify_redirects',
                             'mediatype' => 'text/plain',
                             'extension' => '',
                         ],

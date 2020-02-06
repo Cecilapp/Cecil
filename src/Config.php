@@ -308,24 +308,30 @@ class Config
     }
 
     /**
-     * Return a "clean" array of an output format.
+     * Return the property value of an output format.
      *
-     * @param string $format
+     * @param string $property
+     * @param string $name
      *
-     * @return array
+     * @return string|array|null
      */
-    public function getOutputFormat(string $format): array
+    public function getOutputFormatProperty(string $name, string $property)
     {
-        $default = [
-            'mediatype' => null, // 'text/html'
-            'subpath'   => null, // ''
-            'suffix'    => null, // '/index'
-            'extension' => null, // 'html'
-        ];
+        $properties = array_column($this->get('output.formats'), $property, 'name');
 
-        $result = $this->get(sprintf('output.formats.%s', $format));
+        if (empty($properties)) {
+            throw new Exception(sprintf(
+                'Property "%s" is not defined for format "%s".',
+                $property,
+                $name
+            ));
+        }
 
-        return array_merge($default, $result);
+        if (!array_key_exists($name, $properties)) {
+            return null;
+        }
+
+        return $properties[$name];
     }
 
     /**
