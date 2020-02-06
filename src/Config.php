@@ -314,7 +314,7 @@ class Config
      *
      * @return array
      */
-    public function getOutputFormat(string $format): array
+    /*public function getOutputFormat(string $format): array
     {
         $default = [
             'mediatype' => null, // 'text/html'
@@ -326,6 +326,35 @@ class Config
         $result = $this->get(sprintf('output.formats.%s', $format));
 
         return array_merge($default, $result);
+    }*/
+
+    /**
+     * Return the property value of an output format.
+     *
+     * @param string $property
+     * @param string $name
+     *
+     * @return string|array|null
+     */
+    public function getOutputFormatProperty(string $name, string $property)
+    {
+        $properties = array_column($this->get('output.formats'), $property, 'name');
+
+        var_dump($this->get('output.formats'));
+
+        if (empty($properties)) {
+            throw new Exception(sprintf(
+                'Property "%s" is not defined for format "%s".',
+                $property,
+                $name
+            ));
+        }
+
+        if (!in_array($name, $properties)) {
+            return null;
+        }
+
+        return $properties[$name];
     }
 
     /**

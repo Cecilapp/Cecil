@@ -93,7 +93,7 @@ class PagesRender extends AbstractStep
 
             // excluded format(s)?
             foreach ($formats as $key => $format) {
-                if ($exclude = $this->config->get("output.formats.$format.exclude")) {
+                if ($exclude = $this->config->getOutputFormatProperty($format, 'exclude')) {
                     // ie:
                     //   formats:
                     //     atom:
@@ -225,7 +225,7 @@ class PagesRender extends AbstractStep
                 $format == 'html' ? $rel = 'canonical' : $rel = 'alternate';
                 $alternates[] = [
                     'rel'    => $rel,
-                    'type'   => $this->config->get("output.formats.$format.mediatype"),
+                    'type'   => $this->config->getOutputFormatProperty($format, 'mediatype'),
                     'title'  => strtoupper($format),
                     'format' => $format,
                 ];
