@@ -19,7 +19,7 @@ use Cecil\Renderer\Twig\Extension as TwigExtension;
 class Twig implements RendererInterface
 {
     /**
-     * @var \Twig_Environment
+     * @var \Twig\Environment
      */
     protected $twig;
     /**
@@ -37,9 +37,9 @@ class Twig implements RendererInterface
     public function __construct($templatesPath, Builder $builder)
     {
         // load layouts
-        $loader = new \Twig_Loader_Filesystem($templatesPath);
+        $loader = new \Twig\Loader\FilesystemLoader($templatesPath);
         // Twig
-        $this->twig = new \Twig_Environment($loader, [
+        $this->twig = new \Twig\Environment($loader, [
             'debug'            => true,
             'strict_variables' => true,
             'autoescape'       => false,
@@ -47,12 +47,14 @@ class Twig implements RendererInterface
             'auto_reload'      => true,
         ]);
         // add extensions
-        $this->twig->addExtension(new \Twig_Extension_Debug());
+        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig->addExtension(new TwigExtension($builder));
-        $this->twig->addExtension(new \Twig_Extension_StringLoader());
+        $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // set date format & timezone
-        $this->twig->getExtension('Twig_Extension_Core')->setDateFormat($builder->getConfig()->get('date.format'));
-        $this->twig->getExtension('Twig_Extension_Core')->setTimezone($builder->getConfig()->get('date.timezone'));
+        $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
+            ->setDateFormat($builder->getConfig()->get('date.format'));
+        $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
+            ->setTimezone($builder->getConfig()->get('date.timezone'));
         // Internationalisation
         if (extension_loaded('intl')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
@@ -111,7 +113,7 @@ class Twig implements RendererInterface
             $this->twig->parse($this->twig->tokenize($template));
 
             return true;
-        } catch (\Twig_Error_Syntax $e) {
+        } catch (\Twig\Error\SyntaxError $e) {
             return false;
         }
     }
