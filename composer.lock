@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cdaab8e8f65b278709e95fee46fd9257",
+    "content-hash": "720088ca058380678813933222a138ff",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1666,16 +1666,16 @@
         },
         {
             "name": "voku/html-min",
-            "version": "4.0.7",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/HtmlMin.git",
-                "reference": "91add239139b8d8efd99f37f7b0b4a7960b4fa3e"
+                "reference": "f73514a9c9dfcef6d1b24043c1dcb6142c8e8cc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/91add239139b8d8efd99f37f7b0b4a7960b4fa3e",
-                "reference": "91add239139b8d8efd99f37f7b0b4a7960b4fa3e",
+                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/f73514a9c9dfcef6d1b24043c1dcb6142c8e8cc3",
+                "reference": "f73514a9c9dfcef6d1b24043c1dcb6142c8e8cc3",
                 "shasum": ""
             },
             "require": {
@@ -1711,7 +1711,7 @@
                 "html",
                 "minifier"
             ],
-            "time": "2019-11-18T15:47:00+00:00"
+            "time": "2020-02-06T23:10:13+00:00"
         },
         {
             "name": "voku/simple_html_dom",
