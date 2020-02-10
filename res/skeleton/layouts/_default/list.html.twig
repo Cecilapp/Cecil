@@ -1,6 +1,3 @@
-{% extends '_default/page.html.twig' %}
-
-{% block content %}
 {% set pages = site.pages.all %}
 {% if page.pages is defined %}
 {% set pages = page.pages %}
@@ -8,6 +5,10 @@
 {% if page.pagination.pages is defined %}
 {% set pages = page.pagination.pages %}
 {% endif %}
+
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
 {% for p in pages %}
         <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
         {{ p.content|excerptHtml }}
