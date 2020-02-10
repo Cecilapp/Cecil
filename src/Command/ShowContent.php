@@ -99,9 +99,9 @@ class ShowContent extends Command
      */
     public function getFilesTree(OutputInterface $output, string $directory)
     {
-        $path = $this->getBuilder($output)->getConfig()->get("$directory.dir");
+        $dir = $this->getBuilder($output)->getConfig()->get("$directory.dir");
         $ext = $this->getBuilder($output)->getConfig()->get("$directory.ext");
-        $path = $this->getPath().'/'.$directory;
+        $path = $this->getPath().'/'.$dir;
 
         if (!is_dir($path)) {
             throw new \Exception(sprintf('Invalid directory: %s.', $path));
