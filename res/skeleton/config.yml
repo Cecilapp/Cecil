@@ -1,4 +1,3 @@
-language: en
 title: "Cecil"
 baseline: "Your content driven static site generator."
 baseurl: https://cecil.local/

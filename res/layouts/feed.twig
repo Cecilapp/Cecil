@@ -1,4 +1,7 @@
+{% set pages = site.pages.all %}
+{% if page.pages is defined %}
 {% set pages = page.pages %}
+{% endif %}
 {% set first = pages|first %}
 {% set title = site.title ~ ' - ' ~ page.title %}
 {% set date = first.date|default(site.time) %}
