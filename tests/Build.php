@@ -118,7 +118,8 @@ class Build extends \PHPUnit\Framework\TestCase
                 ],
                 'static' => [
                     'exclude' => [
-                        'test.txt',
+                        'test*.txt',
+                        '/\.php$/',
                     ],
                 ],
                 'generators' => [

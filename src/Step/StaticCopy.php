@@ -57,12 +57,16 @@ class StaticCopy extends AbstractStep
         // copy static/ dir if exists
         $staticDir = $this->builder->getConfig()->getStaticPath();
         if (Util::getFS()->exists($staticDir)) {
+            $exclude = $this->builder->getConfig()->get('static.exclude');
+
+            if (!is_array($exclude)) {
+                return;
+            }
+
             $finder = new Finder();
-            $finder->files()->filter(function (\SplFileInfo $file) {
-                return !(is_array($this->builder->getConfig()->get('static.exclude'))
-                    && in_array($file->getBasename(), $this->builder->getConfig()->get('static.exclude')));
-            })->in($staticDir);
+            $finder->files()->notName($exclude)->in($staticDir);
             $count += $finder->count();
+
             Util::getFS()->mirror(
                 $staticDir,
                 $this->builder->getConfig()->getOutputPath(),
