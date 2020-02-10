@@ -44,28 +44,42 @@ class ShowContent extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $contentDir = $this->getBuilder($output)->getConfig()->get('content.dir');
+        $dataDir = $this->getBuilder($output)->getConfig()->get('data.dir');
+
+        // format output
+        $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
+            $prefixParts = [
+                RecursiveTreeIterator::PREFIX_LEFT         => ' ',
+                RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
+                RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
+                RecursiveTreeIterator::PREFIX_END_LAST     => '└ ',
+            ];
+            foreach ($prefixParts as $part => $string) {
+                $tree->setPrefixPart($part, $string);
+            }
+        };
 
         try {
+            // pages content
             $output->writeln(sprintf('<info>%s/</info>', $contentDir));
-            $pages = $this->getPagesTree($output, $contentDir);
+            $pages = $this->getFilesTree($output, $contentDir);
             if (!Plateform::isWindows()) {
-                $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
-                    $prefixParts = [
-                        RecursiveTreeIterator::PREFIX_LEFT         => ' ',
-                        RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
-                        RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                        RecursiveTreeIterator::PREFIX_END_LAST     => '└ ',
-                    ];
-                    foreach ($prefixParts as $part => $string) {
-                        $tree->setPrefixPart($part, $string);
-                    }
-                };
                 $unicodeTreePrefix($pages);
             }
             foreach ($pages as $page) {
                 $output->writeln($page);
             }
-            $output->writeln('');
+            // data content
+            if (is_dir($this->getPath().'/'.$dataDir)) {
+                $output->writeln(sprintf('<info>%s/</info>', $dataDir));
+                $datas = $this->getFilesTree($output, $dataDir);
+                if (!Plateform::isWindows()) {
+                    $unicodeTreePrefix($datas);
+                }
+                foreach ($datas as $data) {
+                    $output->writeln($data);
+                }
+            }
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }
@@ -74,31 +88,32 @@ class ShowContent extends Command
     }
 
     /**
-     * Return a console displayable tree of pages.
+     * Return a console displayable tree of files.
      *
      * @param OutputInterface $output
-     * @param string          $contentDir
+     * @param string          $directory
      *
      * @throws \Exception
      *
      * @return FilenameRecursiveTreeIterator
      */
-    public function getPagesTree(OutputInterface $output, string $contentDir)
+    public function getFilesTree(OutputInterface $output, string $directory)
     {
-        $pagesPath = $this->getPath().'/'.$contentDir;
-        if (!is_dir($pagesPath)) {
-            throw new \Exception(sprintf('Invalid directory: %s.', $pagesPath));
+        $dir = $this->getBuilder($output)->getConfig()->get("$directory.dir");
+        $ext = $this->getBuilder($output)->getConfig()->get("$directory.ext");
+        $path = $this->getPath().'/'.$dir;
+
+        if (!is_dir($path)) {
+            throw new \Exception(sprintf('Invalid directory: %s.', $path));
         }
-        $dirIterator = new RecursiveDirectoryIterator($pagesPath, RecursiveDirectoryIterator::SKIP_DOTS);
-        $dirIterator = new FileExtensionFilter(
-            $dirIterator,
-            $this->getBuilder($output)->getConfig()->get('content.ext')
-        );
-        $pages = new FilenameRecursiveTreeIterator(
+
+        $dirIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
+        $dirIterator = new FileExtensionFilter($dirIterator, $ext);
+        $files = new FilenameRecursiveTreeIterator(
             $dirIterator,
             FilenameRecursiveTreeIterator::SELF_FIRST
         );
 
-        return $pages;
+        return $files;
     }
 }
