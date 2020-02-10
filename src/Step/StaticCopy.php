@@ -64,9 +64,6 @@ class StaticCopy extends AbstractStep
             }
 
             $finder = new Finder();
-            /*$finder->files()->filter(function (\SplFileInfo $file) use ($exclude) {
-                return !(is_array($exclude) && in_array($file->getBasename(), $exclude));
-            })->in($staticDir);*/
             $finder->files()->notName($exclude)->in($staticDir);
             $count += $finder->count();
 
