@@ -101,7 +101,7 @@ class ShowContent extends Command
     {
         $path = $this->getBuilder($output)->getConfig()->get("$directory.dir");
         $ext = $this->getBuilder($output)->getConfig()->get("$directory.ext");
-        $path = $this->getPath().'/'. $directory;
+        $path = $this->getPath().'/'.$directory;
 
         if (!is_dir($path)) {
             throw new \Exception(sprintf('Invalid directory: %s.', $path));
