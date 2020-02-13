@@ -33,7 +33,8 @@ if ($path == '/watcher') {
     exit();
 }
 // ie: /blog/post-1/ -> /blog/post-1/index.html
-if (empty($ext)) {
+//if (empty($ext)) {
+if (substr($path, -1) == '/') {
     $pathname = rtrim($path, '/').'/'.DIRECTORY_INDEX;
 // ie: /css/style.css
 } else {
@@ -78,15 +79,19 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
         header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('Cache-Control: post-check=0, pre-check=0', false);
         header('Pragma: no-cache');
-        header('Content-Type: '.$mimetype);
-        if ($ext == 'css') {
-            header('Content-Type: text/css');
-        }
-        if ($ext == 'js') {
-            header('Content-Type: application/javascript');
-        }
-        if ($ext == 'svg') {
-            header('Content-Type: image/svg+xml');
+        switch ($ext) {
+            case 'css':
+                header('Content-Type: text/css');
+                break;
+            case 'js':
+                header('Content-Type: application/javascript');
+                break;
+            case 'svg':
+                header('Content-Type: image/svg+xml');
+                break;
+            default:
+                header('Content-Type: '.$mimetype);
+                break;
         }
         echo $content;
 
