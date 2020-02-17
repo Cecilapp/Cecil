@@ -8,6 +8,8 @@
 
 namespace Cecil\Converter;
 
+use Cecil\Config;
+
 /**
  * Interface ConverterInterface.
  */
@@ -16,19 +18,20 @@ interface ConverterInterface
     /**
      * Converts frontmatter.
      *
-     * @param  $string
-     * @param  $type
+     * @param  string $string
+     * @param  string $type
      *
-     * @return mixed
+     * @return array
      */
-    public static function convertFrontmatter($string, $type);
+    public static function convertFrontmatter($string, $type): array;
 
     /**
      * Converts body.
      *
-     * @param  $string
+     * @param  string      $string
+     * @param  Config|null $config
      *
-     * @return mixed
+     * @return string
      */
-    public static function convertBody($string);
+    public static function convertBody($string, $config = null): string;
 }
