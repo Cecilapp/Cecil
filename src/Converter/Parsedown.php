@@ -38,29 +38,30 @@ class Parsedown extends ParsedownExtra
             $matches
         );
 
-        if (!$matches) {
+        if (empty($matches)) {
             return $image;
         }
 
-        if (array_key_exists(3, $matches) && $matches[3] == 'resize') {
-            $image['element']['attributes']['src'] = $matches[1];
-            $resize = $matches[4];
-        }
+        $image['element']['attributes']['src'] = $matches[1];
 
         if ($this->config === null) {
             return $image;
         }
 
-        Util::getFS()->mkdir($this->config->getOutputPath().'/assets');
+        if (array_key_exists(3, $matches) && $matches[3] == 'resize') {
+            $resize = $matches[4];
 
-        Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src'])
-            ->resize($resize, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->save($this->config->getOutputPath().'/assets'.$image['element']['attributes']['src']);
+            Util::getFS()->mkdir($this->config->getOutputPath().'/assets');
 
-        $image['element']['attributes']['src'] = '/assets'.$image['element']['attributes']['src'];
+            Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src'])
+                ->resize($resize, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->save($this->config->getOutputPath().'/assets'.$image['element']['attributes']['src']);
+
+            $image['element']['attributes']['src'] = '/assets'.$image['element']['attributes']['src'];
+        }
 
         return $image;
     }
