@@ -18,8 +18,8 @@ interface ConverterInterface
     /**
      * Converts frontmatter.
      *
-     * @param  string $string
-     * @param  string $type
+     * @param string $string
+     * @param string $type
      *
      * @return array
      */
@@ -28,8 +28,8 @@ interface ConverterInterface
     /**
      * Converts body.
      *
-     * @param  string      $string
-     * @param  Config|null $config
+     * @param string      $string
+     * @param Config|null $config
      *
      * @return string
      */
