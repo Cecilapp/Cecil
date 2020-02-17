@@ -2,7 +2,7 @@ version: 2
 jobs:
     build:
       docker:
-        - image: circleci/php:7.1-cli
+        - image: circleci/php:7.2-cli
       steps:
         - checkout
         - run:
@@ -13,7 +13,7 @@ jobs:
             command: sudo docker-php-ext-install gettext
         - run:
             name: Install GD
-            command: sudo docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && docker-php-ext-install gd
+            command: sudo apt-get install -y php-gd
         - run:
             name: Composer
             command: |
