@@ -19,7 +19,7 @@ class Parsedown extends ParsedownExtra
     const PATTERN = '(.*)(\?|\&)([^=]+)\=([^&]+)';
     private $config;
 
-    function __construct(Config $config = null)
+    public function __construct(Config $config = null)
     {
         $this->config = $config;
     }
@@ -42,7 +42,7 @@ class Parsedown extends ParsedownExtra
             return $image;
         }
 
-        if (key_exists(3, $matches) && $matches[3] == 'resize') {
+        if (array_key_exists(3, $matches) && $matches[3] == 'resize') {
             $image['element']['attributes']['src'] = $matches[1];
             $resize = $matches[4];
         }
@@ -58,7 +58,7 @@ class Parsedown extends ParsedownExtra
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })
-            ->save($this->config->getOutputPath(). '/assets'.$image['element']['attributes']['src']);
+            ->save($this->config->getOutputPath().'/assets'.$image['element']['attributes']['src']);
 
         $image['element']['attributes']['src'] = '/assets'.$image['element']['attributes']['src'];
 

@@ -9,7 +9,6 @@
 namespace Cecil\Converter;
 
 use Cecil\Exception\Exception;
-use ParsedownExtra;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
