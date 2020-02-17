@@ -12,6 +12,9 @@ jobs:
             name: Install Gettext
             command: sudo docker-php-ext-install gettext
         - run:
+            name: Install GD
+            command: sudo docker-php-ext-install gd
+        - run:
             name: Composer
             command: |
               sudo composer self-update
