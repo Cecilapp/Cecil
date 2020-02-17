@@ -26,6 +26,8 @@ class Parsedown extends ParsedownExtra
 
     protected function inlineImage($excerpt)
     {
+        $save = true;
+
         $image = parent::inlineImage($excerpt);
 
         if (!isset($image)) {
@@ -51,16 +53,20 @@ class Parsedown extends ParsedownExtra
         if (array_key_exists(3, $matches) && $matches[3] == 'resize') {
             $resize = $matches[4];
 
-            Util::getFS()->mkdir($this->config->getOutputPath().'/assets');
+            $image['element']['attributes']['width'] = $resize;
 
-            Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src'])
-                ->resize($resize, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->save($this->config->getOutputPath().'/assets'.$image['element']['attributes']['src']);
-
-            $image['element']['attributes']['src'] = '/assets'.$image['element']['attributes']['src'];
+            if (extension_loaded('gd')) {
+                $img = Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src'])
+                    ->resize($resize, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+                if ($save) {
+                    Util::getFS()->mkdir($this->config->getOutputPath().'/assets/thumbs/'.$resize);
+                    $img->save($this->config->getOutputPath().'/assets/thumbs/'.$resize.$image['element']['attributes']['src']);
+                    $image['element']['attributes']['src'] = '/assets/thumbs/'.$resize.$image['element']['attributes']['src'];
+                }
+            }
         }
 
         return $image;
