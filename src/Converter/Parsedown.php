@@ -61,9 +61,9 @@ class Parsedown extends ParsedownExtra
                     $img = Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src']);
                 }
                 $img->resize($resize, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
                 if ($save) {
                     if ($external) {
                         $imgPath = (string) $img->encode('data-url');
