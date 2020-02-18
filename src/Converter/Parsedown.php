@@ -63,8 +63,9 @@ class Parsedown extends ParsedownExtra
                     });
                 if ($save) {
                     Util::getFS()->mkdir($this->config->getOutputPath().'/assets/thumbs/'.$resize);
-                    $img->save($this->config->getOutputPath().'/assets/thumbs/'.$resize.$image['element']['attributes']['src']);
-                    $image['element']['attributes']['src'] = '/assets/thumbs/'.$resize.$image['element']['attributes']['src'];
+                    $imgPath = '/assets/thumbs/'.$resize.$image['element']['attributes']['src'];
+                    $img->save($this->config->getOutputPath().$imgPath);
+                    $image['element']['attributes']['src'] = $imgPath;
                 }
             }
         }
