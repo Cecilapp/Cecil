@@ -15,8 +15,8 @@ use ParsedownExtra;
 
 class Parsedown extends ParsedownExtra
 {
-    // https://regex101.com/r/EhIh5N/2
-    const PATTERN = '(.*)(\?|\&)([^=]+)\=([^&]+)';
+    const TMP_DIR = '.cecil';
+    const PATTERN = '(.*)(\?|\&)([^=]+)\=([^&]+)'; // https://regex101.com/r/EhIh5N/2
     private $config;
 
     public function __construct(Config $config = null)
@@ -27,6 +27,7 @@ class Parsedown extends ParsedownExtra
     protected function inlineImage($excerpt)
     {
         $save = true;
+        $external = false;
 
         $image = parent::inlineImage($excerpt);
 
@@ -34,16 +35,14 @@ class Parsedown extends ParsedownExtra
             return null;
         }
 
-        preg_match(
-            '/'.self::PATTERN.'/s',
-            $image['element']['attributes']['src'],
-            $matches
-        );
+        if (preg_match('~^(?:f|ht)tps?://~i', $image['element']['attributes']['src'])) {
+            $external = true;
+        }
 
+        preg_match('/'.self::PATTERN.'/s', $image['element']['attributes']['src'], $matches);
         if (empty($matches)) {
             return $image;
         }
-
         $image['element']['attributes']['src'] = $matches[1];
 
         if ($this->config === null) {
@@ -56,15 +55,28 @@ class Parsedown extends ParsedownExtra
             $image['element']['attributes']['width'] = $resize;
 
             if (extension_loaded('gd')) {
-                $img = Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src'])
-                    ->resize($resize, null, function ($constraint) {
+                if ($external) {
+                    $img = Image::make($image['element']['attributes']['src']);
+                } else {
+                    $img = Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src']);
+                }
+                $img->resize($resize, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
                 if ($save) {
-                    Util::getFS()->mkdir($this->config->getOutputPath().'/assets/thumbs/'.$resize);
-                    $imgPath = '/assets/thumbs/'.$resize.$image['element']['attributes']['src'];
-                    $img->save($this->config->getOutputPath().$imgPath);
+                    if ($external) {
+                        $imgPath = (string) $img->encode('data-url');
+                    } else {
+                        $imgPath = '/'.self::TMP_DIR.'/images/thumbs/'.$resize.$image['element']['attributes']['src'];
+                        $dir = Util::getFS()->makePathRelative(
+                            dirname($imgPath),
+                            '/'.self::TMP_DIR.'/images/thumbs/'.$resize
+                        );
+                        Util::getFS()->mkdir($this->config->getDestinationDir().'/'.self::TMP_DIR.'/images/thumbs/'.$resize.'/'.$dir);
+                        $img->save($this->config->getDestinationDir().$imgPath);
+                        $imgPath = '/images/thumbs/'.$resize.$image['element']['attributes']['src'];
+                    }
                     $image['element']['attributes']['src'] = $imgPath;
                 }
             }
