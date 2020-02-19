@@ -55,7 +55,7 @@ class Parsedown extends ParsedownExtra
 
         // has resize value
         if (array_key_exists(3, $matches) && $matches[3] == 'resize') {
-            $resize = (integer) $matches[4];
+            $resize = (int) $matches[4];
             $image['element']['attributes']['width'] = $resize;
 
             // PHP GD extension is requiried
@@ -73,6 +73,7 @@ class Parsedown extends ParsedownExtra
                     }
                     $imgPath = (string) $img->encode('data-url');
                     $image['element']['attributes']['src'] = $imgPath;
+
                     return $image;
                 }
                 // save thumb file
