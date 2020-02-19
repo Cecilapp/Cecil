@@ -81,12 +81,13 @@ class Parsedown extends ParsedownExtra
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
-                $imgPath = '/'.self::TMP_DIR.'/images/thumbs/'.$resize.$image['element']['attributes']['src'];
-                $dir = Util::getFS()->makePathRelative(
+                $imgThumbPath = '/'.self::TMP_DIR.'/images/thumbs/'.$resize;
+                $imgPath = $imgThumbPath.$image['element']['attributes']['src'];
+                $imgSubdir = Util::getFS()->makePathRelative(
                     dirname($imgPath),
-                    '/'.self::TMP_DIR.'/images/thumbs/'.$resize
+                    $imgThumbPath
                 );
-                Util::getFS()->mkdir($this->config->getDestinationDir().'/'.self::TMP_DIR.'/images/thumbs/'.$resize.'/'.$dir);
+                Util::getFS()->mkdir($this->config->getDestinationDir().$imgThumbPath.'/'.$imgSubdir);
                 $img->save($this->config->getDestinationDir().$imgPath);
                 $imgPath = '/images/thumbs/'.$resize.$image['element']['attributes']['src'];
                 $image['element']['attributes']['src'] = $imgPath;
