@@ -48,8 +48,8 @@ class Parsedown extends ParsedownExtra
         }
         $image['element']['attributes']['src'] = $matches[1]; // URL without query string
 
-        // no config, can't process
-        if ($this->config === null) {
+        // no config or no GD, can't process
+        if ($this->config === null || !extension_loaded('gd')) {
             return $image;
         }
 
@@ -57,42 +57,34 @@ class Parsedown extends ParsedownExtra
         if (array_key_exists(3, $matches) && $matches[3] == 'resize') {
             $resize = (int) $matches[4];
             $image['element']['attributes']['width'] = $resize;
-
-            // PHP GD extension is requiried
-            if (extension_loaded('gd')) {
-                $external = false;
-                if (preg_match('~^(?:f|ht)tps?://~i', $image['element']['attributes']['src'])) {
-                    $external = true;
+            // external image? return data URL
+            if (preg_match('~^(?:f|ht)tps?://~i', $image['element']['attributes']['src'])) {
+                try {
+                    $img = Image::make($image['element']['attributes']['src']);
+                } catch (NotReadableException $e) {
+                    throw new Exception(sprintf('Cannot get image "%s"', $image['element']['attributes']['src']));
                 }
-                // return data URL
-                if ($external) {
-                    try {
-                        $img = Image::make($image['element']['attributes']['src']);
-                    } catch (NotReadableException $e) {
-                        throw new Exception(sprintf('Cannot get image "%s"', $image['element']['attributes']['src']));
-                    }
-                    $imgPath = (string) $img->encode('data-url');
-                    $image['element']['attributes']['src'] = $imgPath;
-
-                    return $image;
-                }
-                // save thumb file
-                $img = Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src']);
-                $img->resize($resize, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                });
-                $imgThumbPath = '/'.self::TMP_DIR.'/images/thumbs/'.$resize;
-                $imgPath = $imgThumbPath.$image['element']['attributes']['src'];
-                $imgSubdir = Util::getFS()->makePathRelative(
-                    dirname($imgPath),
-                    $imgThumbPath
-                );
-                Util::getFS()->mkdir($this->config->getDestinationDir().$imgThumbPath.'/'.$imgSubdir);
-                $img->save($this->config->getDestinationDir().$imgPath);
-                $imgPath = '/images/thumbs/'.$resize.$image['element']['attributes']['src'];
+                $imgPath = (string) $img->encode('data-url');
                 $image['element']['attributes']['src'] = $imgPath;
+
+                return $image;
             }
+            // save thumb file
+            $img = Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src']);
+            $img->resize($resize, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $imgThumbPath = '/'.self::TMP_DIR.'/images/thumbs/'.$resize;
+            $imgPath = $imgThumbPath.$image['element']['attributes']['src'];
+            $imgSubdir = Util::getFS()->makePathRelative(
+                dirname($imgPath),
+                $imgThumbPath
+            );
+            Util::getFS()->mkdir($this->config->getDestinationDir().$imgThumbPath.'/'.$imgSubdir);
+            $img->save($this->config->getDestinationDir().$imgPath);
+            $imgPath = '/images/thumbs/'.$resize.$image['element']['attributes']['src'];
+            $image['element']['attributes']['src'] = $imgPath;
         }
 
         return $image;
