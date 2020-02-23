@@ -18,7 +18,6 @@ use ParsedownExtra;
 class Parsedown extends ParsedownExtra
 {
     const TMP_DIR = '.cecil';
-    const PATTERN = '(.*)(\?|\&)([^=]+)\=([^&]+)'; // https://regex101.com/r/EhIh5N/2
     private $config;
 
     /**
@@ -41,22 +40,24 @@ class Parsedown extends ParsedownExtra
             return null;
         }
 
-        preg_match('/'.self::PATTERN.'/s', $image['element']['attributes']['src'], $matches);
-        // nothing to do
-        if (empty($matches)) {
-            return $image;
-        }
-        $image['element']['attributes']['src'] = $matches[1]; // URL without query string
+        $query = parse_url($image['element']['attributes']['src'], PHP_URL_QUERY);
 
-        // no config or no GD, can't process
-        if ($this->config === null || !extension_loaded('gd')) {
+        // nothing to do
+        if ($query === null) {
             return $image;
         }
+        // URL without query string
+        $image['element']['attributes']['src'] = strtok($image['element']['attributes']['src'], '?');
 
         // has resize value
-        if (array_key_exists(3, $matches) && $matches[3] == 'resize') {
-            $resize = (int) $matches[4];
+        parse_str($query, $result);
+        if (array_key_exists('resize', $result)) {
+            $resize = (int) $result['resize'];
             $image['element']['attributes']['width'] = $resize;
+            // no config or no GD, can't process
+            if ($this->config === null || !extension_loaded('gd')) {
+                return $image;
+            }
             // external image? return data URL
             if (preg_match('~^(?:f|ht)tps?://~i', $image['element']['attributes']['src'])) {
                 try {
