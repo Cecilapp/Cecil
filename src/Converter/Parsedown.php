@@ -72,7 +72,7 @@ class Parsedown extends ParsedownExtra
             }
             // save thumb file
             $img = Image::make($this->config->getStaticPath().'/'.$image['element']['attributes']['src']);
-            $img->resize($resize, null, function ($constraint) {
+            $img->resize($resize, null, function (\Intervention\Image\Constraint $constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
