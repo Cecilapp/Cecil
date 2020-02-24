@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e44d945b08e7355baf8555cd6a56a722",
+    "content-hash": "4a7b9c5757e195ac8374111cacc38bf1",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -892,16 +892,16 @@
         },
         {
             "name": "scssphp/scssphp",
-            "version": "1.0.6",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scssphp/scssphp.git",
-                "reference": "5b3c9d704950d8f9637f5110c36c281ec47dc13c"
+                "reference": "20d661952d19d4d75508180c453a594423b4f10b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/5b3c9d704950d8f9637f5110c36c281ec47dc13c",
-                "reference": "5b3c9d704950d8f9637f5110c36c281ec47dc13c",
+                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/20d661952d19d4d75508180c453a594423b4f10b",
+                "reference": "20d661952d19d4d75508180c453a594423b4f10b",
                 "shasum": ""
             },
             "require": {
@@ -949,7 +949,7 @@
                 "scss",
                 "stylesheet"
             ],
-            "time": "2019-12-12T05:00:52+00:00"
+            "time": "2020-02-20T16:44:03+00:00"
         },
         {
             "name": "spatie/image-optimizer",
