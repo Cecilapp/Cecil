@@ -43,17 +43,17 @@ class StaticCopy extends AbstractStep
             $themes = array_reverse($this->config->getTheme());
             foreach ($themes as $theme) {
                 $themeStaticDir = $this->config->getThemeDirPath($theme, 'static');
-                $this->copyFiles($themeStaticDir);
+                $this->copy($themeStaticDir);
             }
         }
 
         // copy content of 'static/' dir if exists
         $staticDir = $this->builder->getConfig()->getStaticPath();
-        $this->copyFiles($staticDir, null, $this->config->get('static.exclude'));
+        $this->copy($staticDir, null, $this->config->get('static.exclude'));
 
         // copy temporary images files
         $tmpDirImages = $this->config->getDestinationDir().'/'.self::TMP_DIR.'/images';
-        if ($this->copyFiles($tmpDirImages, 'images')) {
+        if ($this->copy($tmpDirImages, 'images')) {
             Util::getFS()->remove($tmpDirImages);
         }
 
@@ -70,7 +70,7 @@ class StaticCopy extends AbstractStep
      *
      * @return bool
      */
-    private function copyFiles(string $from, string $to = null, array $exclude = []): bool
+    private function copy(string $from, string $to = null, array $exclude = []): bool
     {
         if (Util::getFS()->exists($from)) {
             $finder = new Finder();
