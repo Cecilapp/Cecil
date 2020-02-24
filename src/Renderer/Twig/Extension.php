@@ -554,13 +554,6 @@ class Extension extends SlugifyExtension
         if (!extension_loaded('gd')) {
             return $path;
         }
-        // nothing to do?
-        list($width, $height) = getimagesize(
-            $this->config->getStaticPath().'/'.$path
-        );
-        if ($width <= $size && $height <= $size) {
-            return $path;
-        }
         // external image? return data URL
         if (preg_match('~^(?:f|ht)tps?://~i', $path)) {
             try {
@@ -570,6 +563,13 @@ class Extension extends SlugifyExtension
             }
             $path = (string) $img->encode('data-url');
 
+            return $path;
+        }
+        // nothing to do?
+        list($width, $height) = getimagesize(
+            $this->config->getStaticPath().'/'.$path
+        );
+        if ($width <= $size && $height <= $size) {
             return $path;
         }
         // save thumb file

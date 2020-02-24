@@ -54,13 +54,6 @@ class Parsedown extends ParsedownExtra
         if (array_key_exists('resize', $result)) {
             $resize = (int) $result['resize'];
             $image['element']['attributes']['width'] = $resize;
-            // nothing to do?
-            list($width, $height) = getimagesize(
-                $this->config->getStaticPath().'/'.$image['element']['attributes']['src']
-            );
-            if ($width <= $resize && $height <= $resize) {
-                return $image;
-            }
             // no config or no GD, can't process
             if ($this->config === null || !extension_loaded('gd')) {
                 return $image;
@@ -75,6 +68,13 @@ class Parsedown extends ParsedownExtra
                 $imgPath = (string) $img->encode('data-url');
                 $image['element']['attributes']['src'] = $imgPath;
 
+                return $image;
+            }
+            // nothing to do?
+            list($width, $height) = getimagesize(
+                $this->config->getStaticPath().'/'.$image['element']['attributes']['src']
+            );
+            if ($width <= $resize && $height <= $resize) {
                 return $image;
             }
             // save thumb file
