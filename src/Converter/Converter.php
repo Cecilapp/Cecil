@@ -9,7 +9,6 @@
 namespace Cecil\Converter;
 
 use Cecil\Exception\Exception;
-use ParsedownExtra;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -21,7 +20,7 @@ class Converter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public static function convertFrontmatter($string, $type = 'yaml')
+    public static function convertFrontmatter($string, $type = 'yaml'): array
     {
         switch ($type) {
             case 'ini':
@@ -39,9 +38,9 @@ class Converter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public static function convertBody($string)
+    public static function convertBody($string, $config = null): string
     {
-        $parsedown = new ParsedownExtra();
+        $parsedown = new Parsedown($config);
 
         return $parsedown->text($string);
     }

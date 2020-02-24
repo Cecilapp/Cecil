@@ -37,7 +37,7 @@ class PagesConvert extends AbstractStep
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
-                $convertedPage = $this->convertPage($page, $this->builder->getConfig()->get('frontmatter.format'));
+                $convertedPage = $this->convertPage($page, $this->config->get('frontmatter.format'));
                 if (false !== $convertedPage) {
                     $message = $page->getId();
                     // force convert drafts?
@@ -89,7 +89,7 @@ class PagesConvert extends AbstractStep
         }
 
         // converts body
-        $html = Converter::convertBody($page->getBody());
+        $html = Converter::convertBody($page->getBody(), $this->config);
         $page->setBodyHtml($html);
 
         return $page;

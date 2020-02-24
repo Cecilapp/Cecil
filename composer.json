@@ -26,6 +26,7 @@
     "cocur/slugify": "4.0.0",
     "dflydev/dot-access-data": "2.0.0",
     "erusev/parsedown-extra": "0.8.1",
+    "intervention/image": "^2.5",
     "matthiasmullie/minify": "1.3.63",
     "myclabs/php-enum": "1.7.4",
     "padraic/humbug_get_contents": "1.1.2",
@@ -36,13 +37,13 @@
     "symfony/filesystem": "4.4.4",
     "symfony/finder": "4.4.4",
     "symfony/process": "4.4.4",
+    "symfony/property-access": "^4.4",
+    "symfony/serializer": "^4.4",
     "symfony/yaml": "4.4.4",
     "twig/extensions": "1.5.4",
     "twig/twig": "2.12.3",
     "voku/html-min": "4.1.0",
-    "yosymfony/resource-watcher": "2.0.1",
-    "symfony/serializer": "^4.4",
-    "symfony/property-access": "^4.4"
+    "yosymfony/resource-watcher": "2.0.1"
   },
   "require-dev": {
     "phpunit/phpunit": "7.5.17",
