@@ -66,11 +66,11 @@ class StaticCopy extends AbstractStep
      *
      * @param string      $from
      * @param string|null $to
-     * @param array       $exclude
+     * @param array|null  $exclude
      *
      * @return bool
      */
-    private function copy(string $from, string $to = null, array $exclude = []): bool
+    private function copy(string $from, string $to = null, array $exclude = null): bool
     {
         if (Util::getFS()->exists($from)) {
             $finder = new Finder();
