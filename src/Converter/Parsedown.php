@@ -41,25 +41,39 @@ class Parsedown extends ParsedownExtra
         }
 
         $query = parse_url($image['element']['attributes']['src'], PHP_URL_QUERY);
-
         // nothing to do
         if ($query === null) {
             return $image;
         }
-        // URL without query string
+
+        // Clean URL
         $image['element']['attributes']['src'] = strtok($image['element']['attributes']['src'], '?');
 
+        // external image?
+        $external = false;
+        if (preg_match('~^(?:f|ht)tps?://~i', $image['element']['attributes']['src'])) {
+            $external = true;
+        }
         // has resize value
         parse_str($query, $result);
         if (array_key_exists('resize', $result)) {
             $resize = (int) $result['resize'];
             $image['element']['attributes']['width'] = $resize;
+            // size is OK: nothing to do
+            list($width, $height) = getimagesize(
+                $external ?
+                $image['element']['attributes']['src']
+                : $this->config->getStaticPath().'/'.$image['element']['attributes']['src']
+            );
+            if ($width <= $resize && $height <= $resize) {
+                return $image;
+            }
             // no config or no GD, can't process
             if ($this->config === null || !extension_loaded('gd')) {
                 return $image;
             }
-            // external image? return data URL
-            if (preg_match('~^(?:f|ht)tps?://~i', $image['element']['attributes']['src'])) {
+            // return data URL
+            if ($external) {
                 try {
                     $img = Image::make($image['element']['attributes']['src']);
                 } catch (NotReadableException $e) {
@@ -68,13 +82,6 @@ class Parsedown extends ParsedownExtra
                 $imgPath = (string) $img->encode('data-url');
                 $image['element']['attributes']['src'] = $imgPath;
 
-                return $image;
-            }
-            // nothing to do?
-            list($width, $height) = getimagesize(
-                $this->config->getStaticPath().'/'.$image['element']['attributes']['src']
-            );
-            if ($width <= $resize && $height <= $resize) {
                 return $image;
             }
             // save thumb file
