@@ -544,7 +544,7 @@ class Extension extends SlugifyExtension
      * Resize image.
      *
      * @param string $path
-     * @param integer $size
+     * @param int    $size
      *
      * @return string
      */
