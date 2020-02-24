@@ -550,12 +550,22 @@ class Extension extends SlugifyExtension
      */
     public function resize(string $path, int $size): string
     {
+        // external image?
+        $external = false;
+        if (preg_match('~^(?:f|ht)tps?://~i', $path)) {
+            $external = true;
+        }
+        // size is OK: nothing to do
+        list($width, $height) = getimagesize($external ? $path : $this->config->getStaticPath().'/'.$path);
+        if ($width <= $size && $height <= $size) {
+            return $path;
+        }
         // no GD, can't process
         if (!extension_loaded('gd')) {
             return $path;
         }
-        // external image? return data URL
-        if (preg_match('~^(?:f|ht)tps?://~i', $path)) {
+        // return data URL
+        if ($external) {
             try {
                 $img = Image::make($path);
             } catch (NotReadableException $e) {
@@ -563,13 +573,6 @@ class Extension extends SlugifyExtension
             }
             $path = (string) $img->encode('data-url');
 
-            return $path;
-        }
-        // nothing to do?
-        list($width, $height) = getimagesize(
-            $this->config->getStaticPath().'/'.$path
-        );
-        if ($width <= $size && $height <= $size) {
             return $path;
         }
         // save thumb file
