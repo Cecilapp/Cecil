@@ -17,6 +17,7 @@ use Symfony\Component\Finder\Finder;
 class StaticCopy extends AbstractStep
 {
     const TMP_DIR = '.cecil';
+    private $count = 0;
 
     /**
      * {@inheritdoc}
@@ -35,8 +36,6 @@ class StaticCopy extends AbstractStep
      */
     public function process()
     {
-        $count = 0;
-
         call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying static files']);
 
         // copy content of '<theme>/static/' dir if exists
@@ -44,52 +43,52 @@ class StaticCopy extends AbstractStep
             $themes = array_reverse($this->config->getTheme());
             foreach ($themes as $theme) {
                 $themeStaticDir = $this->config->getThemeDirPath($theme, 'static');
-                if (Util::getFS()->exists($themeStaticDir)) {
-                    $finder = new Finder();
-                    $finder->files()->in($themeStaticDir);
-                    $count += $finder->count();
-                    Util::getFS()->mirror(
-                        $themeStaticDir,
-                        $this->config->getOutputPath(),
-                        null,
-                        ['override' => true]
-                    );
-                }
+                $this->copy($themeStaticDir);
             }
         }
+
         // copy content of 'static/' dir if exists
-        $staticDir = $this->config->getStaticPath();
-        if (Util::getFS()->exists($staticDir)) {
-            $exclude = $this->config->get('static.exclude');
-            $finder = new Finder();
-            $finder->files()->in($staticDir);
-            if (is_array($exclude)) {
-                $finder->files()->notName($exclude)->in($staticDir);
-            }
-            $count += $finder->count();
-            Util::getFS()->mirror(
-                $staticDir,
-                $this->config->getOutputPath(),
-                $finder,
-                ['override' => true]
-            );
-        }
+        $staticDir = $this->builder->getConfig()->getStaticPath();
+        $this->copy($staticDir, null, $this->config->get('static.exclude'));
+
         // copy temporary images files
         $tmpDirImages = $this->config->getDestinationDir().'/'.self::TMP_DIR.'/images';
-        if (Util::getFS()->exists($tmpDirImages)) {
-            $finder = new Finder();
-            $finder->files()->in($tmpDirImages);
-            $count += $finder->count();
-            Util::getFS()->mirror(
-                $tmpDirImages,
-                $this->config->getOutputPath().'/images',
-                $finder,
-                ['override' => true]
-            );
+        if ($this->copy($tmpDirImages, 'images')) {
             Util::getFS()->remove($tmpDirImages);
         }
 
-        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Start copy', 0, $count]);
-        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Files copied', $count, $count]);
+        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Start copy', 0, $this->count]);
+        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Files copied', $this->count, $this->count]);
+    }
+
+    /**
+     * Copy (mirror) files.
+     *
+     * @param string      $from
+     * @param string|null $to
+     * @param array       $exclude
+     *
+     * @return bool
+     */
+    private function copy(string $from, string $to = null, array $exclude = []): bool
+    {
+        if (Util::getFS()->exists($from)) {
+            $finder = new Finder();
+            $finder->files()->in($from);
+            if (is_array($this->config->get('static.exclude'))) {
+                $finder->files()->notName($this->config->get('static.exclude'))->in($from);
+            }
+            $this->count += $finder->count();
+            Util::getFS()->mirror(
+                $from,
+                $this->config->getOutputPath().(isset($to) ? '/'.$to : ''),
+                $finder,
+                ['override' => true]
+            );
+
+            return true;
+        }
+
+        return false;
     }
 }
