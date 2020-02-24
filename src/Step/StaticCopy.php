@@ -58,7 +58,7 @@ class StaticCopy extends AbstractStep
         }
 
         call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Start copy', 0, $this->count]);
-        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Files copied', $this->count, $this->count]);
+        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Copied', $this->count, $this->count]);
     }
 
     /**
