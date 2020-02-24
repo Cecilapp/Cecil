@@ -14,8 +14,11 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Exception\Exception;
+use Cecil\Util;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
+use Intervention\Image\Exception\NotReadableException;
+use Intervention\Image\ImageManagerStatic as Image;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
 use Symfony\Component\Filesystem\Filesystem;
@@ -62,7 +65,6 @@ class Extension extends SlugifyExtension
         $this->builder = $builder;
         $this->config = $this->builder->getConfig();
         $this->outputPath = $this->config->getOutputPath();
-        $this->fileSystem = new Filesystem();
     }
 
     /**
@@ -90,6 +92,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('SCSStoCSS', [$this, 'scssToCss']),
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
             new \Twig\TwigFilter('excerptHtml', [$this, 'excerptHtml']),
+            new \Twig\TwigFilter('resize', [$this, 'resize']),
         ];
     }
 
@@ -419,10 +422,10 @@ class Extension extends SlugifyExtension
                     $targetPath = preg_replace('/scss/m', 'css', $path);
 
                     // compile if target file doesn't exists
-                    if (!$this->fileSystem->exists($this->outputPath.'/'.$targetPath)) {
+                    if (!Util::getFS()->exists($this->outputPath.'/'.$targetPath)) {
                         $scss = file_get_contents($filePath);
                         $css = $scssPhp->compile($scss);
-                        $this->fileSystem->dumpFile($this->outputPath.'/'.$targetPath, $css);
+                        Util::getFS()->dumpFile($this->outputPath.'/'.$targetPath, $css);
                     }
 
                     return $targetPath;
@@ -535,5 +538,60 @@ class Extension extends SlugifyExtension
     public function getEnv(string $var): ?string
     {
         return getenv($var) ?: null;
+    }
+
+    /**
+     * Resize image.
+     *
+     * @param string $path
+     * @param int    $size
+     *
+     * @return string
+     */
+    public function resize(string $path, int $size): string
+    {
+        // external image?
+        $external = false;
+        if (preg_match('~^(?:f|ht)tps?://~i', $path)) {
+            $external = true;
+        }
+        // size is OK: nothing to do
+        list($width, $height) = getimagesize($external ? $path : $this->config->getStaticPath().'/'.$path);
+        if ($width <= $size && $height <= $size) {
+            return $path;
+        }
+        // no GD, can't process
+        if (!extension_loaded('gd')) {
+            return $path;
+        }
+        // return data URL
+        if ($external) {
+            try {
+                $img = Image::make($path);
+            } catch (NotReadableException $e) {
+                throw new Exception(sprintf('Cannot get image "%s"', $path));
+            }
+            $path = (string) $img->encode('data-url');
+
+            return $path;
+        }
+        // save thumb file
+        $img = Image::make($this->config->getStaticPath().'/'.$path);
+        $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $imgThumbPath = '/images/thumbs/'.$size;
+        $imgPath = $imgThumbPath.$path;
+        $imgSubdir = Util::getFS()->makePathRelative(
+            dirname($imgPath),
+            $imgThumbPath
+        );
+        Util::getFS()->mkdir($this->outputPath.$imgThumbPath.'/'.$imgSubdir);
+        $img->save($this->outputPath.$imgPath);
+        $imgPath = '/images/thumbs/'.$size.$path;
+        $path = $imgPath;
+
+        return $path;
     }
 }
