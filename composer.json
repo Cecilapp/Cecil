@@ -28,7 +28,7 @@
     "erusev/parsedown-extra": "0.8.1",
     "intervention/image": "^2.5",
     "matthiasmullie/minify": "1.3.63",
-    "myclabs/php-enum": "1.7.4",
+    "myclabs/php-enum": "1.7.6",
     "padraic/humbug_get_contents": "1.1.2",
     "padraic/phar-updater": "1.0.6",
     "scssphp/scssphp": "1.0.6",
