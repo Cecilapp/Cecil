@@ -43,7 +43,7 @@ ln -sf $TARGET_RELEASE_DIR/$DIST_FILE_SHA1 $DIST_FILE_SHA1
 [ -e VERSION ] && rm -- VERSION
 echo $TRAVIS_TAG > VERSION
 
-# commit and push
+# commit dist files
 git add -Af .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}* files"
 git push -fq origin $TARGET_BRANCH > /dev/null
@@ -75,9 +75,11 @@ date: $now
 ---
 EOT
 
-# commit and push
+# commit redirections
 git add -Af .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER: create redirections"
+
+# push
 git push -fq origin $TARGET_BRANCH > /dev/null
 
 exit 0
