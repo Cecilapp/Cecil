@@ -151,7 +151,7 @@ class MenusCreate extends AbstractStep
         /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-            $menu = $page->getVariable('menu');
+            $menuFromPage = $page->getVariable('menu');
 
             /*
              * Single case
@@ -162,11 +162,19 @@ class MenusCreate extends AbstractStep
                 $item = (new Entry($page->getId()))
                     ->setName($page->getVariable('title'))
                     ->setUrl($page->getUrl());
-                if (!$this->menus->has($menu)) {
-                    $this->menus->add(new Menu($menu));
+                if (!$this->menus->has($menuFromPage)) {
+                    $this->menus->add(new Menu($menuFromPage));
                 }
-                /** @var \Cecil\Collection\Menu\Menu */
-                $this->menus->get($menu)->add($item);
+                /** @var \Cecil\Collection\Menu\Menu $menu */
+                $menu = $this->menus->get($menuFromPage);
+                $menu->add($item);
+                // message
+                call_user_func_array($this->builder->getMessageCb(), [
+                    'MENU_PROGRESS',
+                    sprintf('%s > %s', $menuFromPage, $page->getId()),
+                    $count,
+                    $total,
+                ]);
             } else {
                 /*
                  * Multiple case
@@ -176,26 +184,28 @@ class MenusCreate extends AbstractStep
                  *       weight: 999
                  *     other
                  */
-                if (is_array($menu)) {
-                    foreach ($menu as $menu => $property) {
+                if (is_array($menuFromPage)) {
+                    foreach ($menuFromPage as $menuName => $property) {
                         $item = (new Entry($page->getId()))
                             ->setName($page->getVariable('title'))
                             ->setUrl($page->getId())
                             ->setWeight($property['weight']);
-                        /** @var \Cecil\Collection\Menu\Menu $menu */
-                        if (!$this->menus->has($menu)) {
-                            $this->menus->add(new Menu($menu));
+                        if (!$this->menus->has($menuName)) {
+                            $this->menus->add(new Menu($menuName));
                         }
-                        $this->menus->get($menu)->add($item);
+                        /** @var \Cecil\Collection\Menu\Menu $menu */
+                        $menu = $this->menus->get($menuName);
+                        $menu->add($item);
                     }
                 }
+                // message
+                call_user_func_array($this->builder->getMessageCb(), [
+                    'MENU_PROGRESS',
+                    sprintf('%s > %s', $menuName, $page->getId()),
+                    $count,
+                    $total,
+                ]);
             }
-            call_user_func_array($this->builder->getMessageCb(), [
-                'MENU_PROGRESS',
-                sprintf('%s > %s', $menu, $page->getId()),
-                $count,
-                $total,
-            ]);
         }
     }
 }
