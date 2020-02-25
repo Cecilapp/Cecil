@@ -108,10 +108,6 @@ class Util
             return false;
         }
 
-        if (preg_match('~^(?:f|ht)tps?://~i', $url)) {
-            return true;
-        }
-
-        return false;
+        return (bool) preg_match('~^(?:f|ht)tps?://~i', $url);
     }
 }
