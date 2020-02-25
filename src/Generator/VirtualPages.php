@@ -24,7 +24,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        $pagesConfig = $this->collectPagesConfig($this->configKey);
+        $pagesConfig = $this->collectPagesFromConfig($this->configKey);
 
         if (!$pagesConfig) {
             return;
@@ -58,7 +58,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
      *
      * @return array|null
      */
-    private function collectPagesConfig(string $configKey): ?array
+    private function collectPagesFromConfig(string $configKey): ?array
     {
         return $this->config->get($configKey);
     }

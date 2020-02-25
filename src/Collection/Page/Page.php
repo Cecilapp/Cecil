@@ -457,14 +457,14 @@ class Page extends Item
         $subpath = '';
         $suffix = '/index';
         $extension = 'html';
-        $uglyurl = $this->getVariable('uglyurl') ? true : false;
+        $uglyurl = (bool) $this->getVariable('uglyurl');
         $language = $this->getVariable('language');
 
         // site config
         if ($config) {
-            $subpath = $config->getOutputFormatProperty($format, 'subpath');
-            $suffix = $config->getOutputFormatProperty($format, 'suffix');
-            $extension = $config->getOutputFormatProperty($format, 'extension');
+            $subpath = (string) $config->getOutputFormatProperty($format, 'subpath');
+            $suffix = (string) $config->getOutputFormatProperty($format, 'suffix');
+            $extension = (string) $config->getOutputFormatProperty($format, 'extension');
         }
 
         // if ugly URL: not suffix
@@ -525,15 +525,8 @@ class Page extends Item
      *
      * @return $this
      */
-    public function setVariables($variables)
+    public function setVariables(array $variables)
     {
-        if (!is_array($variables)) {
-            throw new \Exception(sprintf(
-                'Can\'t set variables in "%s": array expected, not %s',
-                $this->getId(),
-                gettype($variables)
-            ));
-        }
         foreach ($variables as $key => $value) {
             $this->setVariable($key, $value);
         }

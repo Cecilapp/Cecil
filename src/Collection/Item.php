@@ -72,7 +72,7 @@ class Item implements ItemInterface
      *
      * @param mixed $offset
      *
-     * @return null
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
