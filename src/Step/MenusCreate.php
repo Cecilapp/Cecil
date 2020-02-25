@@ -204,7 +204,6 @@ class MenusCreate extends AbstractStep
                             $total,
                         ]);
                     }
-
                 }
             }
         }
