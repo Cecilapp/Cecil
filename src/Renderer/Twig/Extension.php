@@ -265,7 +265,7 @@ class Extension extends SlugifyExtension
                 $options['canonical'] = true;
             }
         }
-        extract($options ?: []);
+        extract(is_array($options) ?: []);
 
         // set baseurl
         if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
