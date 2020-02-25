@@ -41,7 +41,7 @@ class Util
      *
      * @return bool
      */
-    public static function dateIsValid($date = null, string $format = 'Y-m-d'): bool
+    public static function dateIsValid($date, string $format = 'Y-m-d'): bool
     {
         if ($date === null) {
             return false;
@@ -93,5 +93,25 @@ class Util
         }
 
         return $className;
+    }
+
+    /**
+     * Test if a string is an external URL or not.
+     *
+     * @param string|null $url
+     *
+     * @return bool
+     */
+    public static function isExternalUrl($url): bool
+    {
+        if ($url === null) {
+            return false;
+        }
+
+        if (preg_match('~^(?:f|ht)tps?://~i', $url)) {
+            return true;
+        }
+
+        return false;
     }
 }
