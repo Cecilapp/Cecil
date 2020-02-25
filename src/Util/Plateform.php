@@ -95,16 +95,13 @@ class Plateform
             case 'OpenBSD':
             case 'Linux':
                 return self::OS_LINUX;
-                break;
             case 'WINNT':
             case 'WIN32':
             case 'Windows':
             case 'CYGWIN_NT':
                 return self::OS_WIN;
-                break;
             case 'Darwin':
                 return self::OS_OSX;
-                break;
             default:
                 return self::OS_UNKNOWN;
         }
