@@ -67,7 +67,10 @@ class Build extends Command
         }
         if ($input->getOption('destination')) {
             $config['output']['dir'] = $input->getOption('destination');
-            $this->fs->dumpFile($this->getPath().'/'.self::TMP_DIR.'/output', $input->getOption('destination'));
+            $this->fs->dumpFile(
+                $this->getPath().'/'.self::TMP_DIR.'/output',
+                (string) $input->getOption('destination')
+            );
         }
         if ($input->getOption('optimize') === null) {
             $config['optimize']['enabled'] = true;

@@ -55,10 +55,10 @@ class MenusCreate extends AbstractStep
             $countConfig = 0;
 
             foreach ($menusConfig as $menuConfig => $entry) {
-                /* @var $menu \Cecil\Collection\Menu\Menu */
                 if (!$this->menus->has($menuConfig)) {
                     $this->menus->add(new Menu($menuConfig));
                 }
+                /* @var $menu \Cecil\Collection\Menu\Menu */
                 $menu = $this->menus->get($menuConfig);
                 foreach ($entry as $key => $property) {
                     $countConfig++;
@@ -75,7 +75,7 @@ class MenusCreate extends AbstractStep
                         if (!$menu->has($property['id'])) {
                             call_user_func_array($this->builder->getMessageCb(), [
                                 'MENU_PROGRESS',
-                                sprintf('%s > %s (disabled)', $menu, $property['id']),
+                                sprintf('%s > %s (disabled)', (string) $menu, $property['id']),
                                 $countConfig,
                                 $totalConfig,
                             ]);

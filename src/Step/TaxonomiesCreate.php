@@ -51,7 +51,7 @@ class TaxonomiesCreate extends AbstractStep
          *     - tags: tag
          *     - categories: category
          */
-        foreach (array_keys($this->config->get('taxonomies')) as $vocabulary) {
+        foreach (array_keys((array) $this->config->get('taxonomies')) as $vocabulary) {
             /*
              * Disabled vocabulary?
              * ie:

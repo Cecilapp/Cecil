@@ -70,7 +70,7 @@ class Serve extends Command
             'php -S %s:%d -t %s %s',
             $host,
             $port,
-            $this->getPath().'/'.$this->getBuilder($output)->getConfig()->get('output.dir'),
+            $this->getPath().'/'.(string) $this->getBuilder($output)->getConfig()->get('output.dir'),
             sprintf('%s/%s/router.php', $this->getPath(), self::TMP_DIR)
         );
         $process = Process::fromShellCommandline($command);
@@ -158,7 +158,7 @@ class Serve extends Command
                 $this->getPath().'/'.self::TMP_DIR.'/baseurl',
                 sprintf(
                     '%s;%s',
-                    $this->getBuilder($output)->getConfig()->get('baseurl'),
+                    (string) $this->getBuilder($output)->getConfig()->get('baseurl'),
                     sprintf('http://%s:%s/', $host, $port)
                 )
             );

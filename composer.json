@@ -83,8 +83,6 @@
     "test-coverage-upload": [
       "php coveralls.phar -v"
     ],
-    "api-docs-install": "curl -O http://get.sensiolabs.org/sami.phar",
-    "api-docs-build": "php sami.phar update sami.php",
     "post-install-cmd": "cd tests/fixtures/website;composer install;",
     "post-update-cmd": "cd tests/fixtures/website;composer update;"
   },
