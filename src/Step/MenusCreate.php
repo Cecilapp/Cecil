@@ -196,15 +196,16 @@ class MenusCreate extends AbstractStep
                         /** @var \Cecil\Collection\Menu\Menu $menu */
                         $menu = $this->menus->get($menuName);
                         $menu->add($item);
+                        // message
+                        call_user_func_array($this->builder->getMessageCb(), [
+                            'MENU_PROGRESS',
+                            sprintf('%s > %s', $menuName, $page->getId()),
+                            $count,
+                            $total,
+                        ]);
                     }
+
                 }
-                // message
-                call_user_func_array($this->builder->getMessageCb(), [
-                    'MENU_PROGRESS',
-                    sprintf('%s > %s', $menuName, $page->getId()),
-                    $count,
-                    $total,
-                ]);
             }
         }
     }
