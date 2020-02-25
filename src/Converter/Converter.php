@@ -24,11 +24,19 @@ class Converter implements ConverterInterface
     {
         switch ($type) {
             case 'ini':
-                return parse_ini_string($string);
+                $result = parse_ini_string($string);
+                if (!$result) {
+                    throw new Exception('Can\'t parse INI front matter');
+                }
+                return $result;
             case 'yaml':
             default:
                 try {
-                    return Yaml::parse((string) $string);
+                    $result = Yaml::parse((string) $string);
+                    if (!is_array($result)) {
+                        throw new Exception('Parse result of YAML front matter is not an array');
+                    }
+                    return $result;
                 } catch (ParseException $e) {
                     throw new Exception($e->getMessage());
                 }

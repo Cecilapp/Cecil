@@ -18,6 +18,9 @@ use ParsedownExtra;
 class Parsedown extends ParsedownExtra
 {
     const TMP_DIR = '.cecil';
+    /**
+     * @var Config
+     */
     private $config;
 
     /**
