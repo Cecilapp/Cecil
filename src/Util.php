@@ -41,7 +41,7 @@ class Util
      *
      * @return bool
      */
-    public static function dateIsValid($date, string $format = 'Y-m-d'): bool
+    public static function isDateValid($date, string $format = 'Y-m-d'): bool
     {
         if ($date === null) {
             return false;
