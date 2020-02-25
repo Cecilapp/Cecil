@@ -51,7 +51,7 @@ class Parsedown extends ParsedownExtra
 
         // external image?
         $external = false;
-        if (preg_match('~^(?:f|ht)tps?://~i', $image['element']['attributes']['src'])) {
+        if (Util::isExternalUrl($image['element']['attributes']['src'])) {
             $external = true;
         }
         // has resize value

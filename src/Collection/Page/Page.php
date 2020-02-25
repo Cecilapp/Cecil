@@ -166,7 +166,7 @@ class Page extends Item
         if (PrefixSuffix::hasPrefix($fileName)) {
             $prefix = PrefixSuffix::getPrefix($fileName);
             // prefix is a valid date?
-            if (Util::dateIsValid($prefix)) {
+            if (Util::isDateValid($prefix)) {
                 $this->setVariable('date', (string) $prefix);
             } else {
                 // prefix is an integer: used for sorting
