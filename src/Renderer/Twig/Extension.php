@@ -298,7 +298,7 @@ class Extension extends SlugifyExtension
             return $url;
         }
         // external URL
-        if (preg_match('~^(?:f|ht)tps?://~i', $value)) {
+        if (Util::isExternalUrl($value)) {
             $url = $value;
 
             return $url;
@@ -552,7 +552,7 @@ class Extension extends SlugifyExtension
     {
         // external image?
         $external = false;
-        if (preg_match('~^(?:f|ht)tps?://~i', $path)) {
+        if (Util::isExternalUrl($path)) {
             $external = true;
         }
         // size is OK: nothing to do
