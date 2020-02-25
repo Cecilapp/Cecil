@@ -88,7 +88,7 @@ class Plateform
      */
     public static function getOS(): int
     {
-        switch(PHP_OS) {
+        switch (PHP_OS) {
             case 'Unix':
             case 'FreeBSD':
             case 'NetBSD':
