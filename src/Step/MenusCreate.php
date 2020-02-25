@@ -58,7 +58,7 @@ class MenusCreate extends AbstractStep
                 if (!$this->menus->has($menuConfig)) {
                     $this->menus->add(new Menu($menuConfig));
                 }
-                /* @var $menu \Cecil\Collection\Menu\Menu */
+                /** @var \Cecil\Collection\Menu\Menu $menu */
                 $menu = $this->menus->get($menuConfig);
                 foreach ($entry as $key => $property) {
                     $countConfig++;
@@ -148,10 +148,9 @@ class MenusCreate extends AbstractStep
             call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Creating menus (pages)']);
         }
 
-        /* @var $page \Cecil\Collection\Page\Page */
+        /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-            /* @var $menu \Cecil\Collection\Menu\Menu */
             $menu = $page->getVariable('menu');
 
             /*
@@ -166,6 +165,7 @@ class MenusCreate extends AbstractStep
                 if (!$this->menus->has($menu)) {
                     $this->menus->add(new Menu($menu));
                 }
+                /** @var \Cecil\Collection\Menu\Menu */
                 $this->menus->get($menu)->add($item);
             } else {
                 /*
@@ -182,7 +182,7 @@ class MenusCreate extends AbstractStep
                             ->setName($page->getVariable('title'))
                             ->setUrl($page->getId())
                             ->setWeight($property['weight']);
-                        /* @var $menu \Cecil\Collection\Menu\Menu */
+                        /** @var \Cecil\Collection\Menu\Menu $menu */
                         if (!$this->menus->has($menu)) {
                             $this->menus->add(new Menu($menu));
                         }
