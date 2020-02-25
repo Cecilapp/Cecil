@@ -28,6 +28,7 @@ class Converter implements ConverterInterface
                 if (!$result) {
                     throw new Exception('Can\'t parse INI front matter');
                 }
+
                 return $result;
             case 'yaml':
             default:
@@ -36,6 +37,7 @@ class Converter implements ConverterInterface
                     if (!is_array($result)) {
                         throw new Exception('Parse result of YAML front matter is not an array');
                     }
+
                     return $result;
                 } catch (ParseException $e) {
                     throw new Exception($e->getMessage());
