@@ -35,7 +35,7 @@ class ConfigImport extends AbstractStep
     {
         call_user_func_array($this->builder->getMessageCb(), ['CONFIG', 'Importing config']);
 
-        $themes = array_reverse($this->config->getTheme());
+        $themes = array_reverse((array) $this->config->getTheme());
         $count = 0;
         $max = count($themes);
         foreach ($themes as $theme) {

@@ -43,8 +43,8 @@ class ShowContent extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $contentDir = $this->getBuilder($output)->getConfig()->get('content.dir');
-        $dataDir = $this->getBuilder($output)->getConfig()->get('data.dir');
+        $contentDir = (string) $this->getBuilder($output)->getConfig()->get('content.dir');
+        $dataDir = (string) $this->getBuilder($output)->getConfig()->get('data.dir');
 
         // format output
         $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
@@ -99,8 +99,8 @@ class ShowContent extends Command
      */
     public function getFilesTree(OutputInterface $output, string $directory)
     {
-        $dir = $this->getBuilder($output)->getConfig()->get("$directory.dir");
-        $ext = $this->getBuilder($output)->getConfig()->get("$directory.ext");
+        $dir = (string) $this->getBuilder($output)->getConfig()->get("$directory.dir");
+        $ext = (string) $this->getBuilder($output)->getConfig()->get("$directory.ext");
         $path = $this->getPath().'/'.$dir;
 
         if (!is_dir($path)) {

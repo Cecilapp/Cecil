@@ -40,7 +40,7 @@ class ContentLoad extends AbstractStep
         $content = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getContentPath())
-            ->name('/\.('.implode('|', $this->builder->getConfig()->get('content.ext')).')$/')
+            ->name('/\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/')
             ->sortByName(true);
         if (!$content instanceof Finder) {
             throw new Exception(sprintf("'%s->%s()' result must be an instance of 'Finder'.", __CLASS__, __FUNCTION__));

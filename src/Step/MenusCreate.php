@@ -55,10 +55,10 @@ class MenusCreate extends AbstractStep
             $countConfig = 0;
 
             foreach ($menusConfig as $menuConfig => $entry) {
-                /* @var $menu \Cecil\Collection\Menu\Menu */
                 if (!$this->menus->has($menuConfig)) {
                     $this->menus->add(new Menu($menuConfig));
                 }
+                /** @var \Cecil\Collection\Menu\Menu $menu */
                 $menu = $this->menus->get($menuConfig);
                 foreach ($entry as $key => $property) {
                     $countConfig++;
@@ -75,7 +75,7 @@ class MenusCreate extends AbstractStep
                         if (!$menu->has($property['id'])) {
                             call_user_func_array($this->builder->getMessageCb(), [
                                 'MENU_PROGRESS',
-                                sprintf('%s > %s (disabled)', $menu, $property['id']),
+                                sprintf('%s > %s (disabled)', (string) $menu, $property['id']),
                                 $countConfig,
                                 $totalConfig,
                             ]);
@@ -148,11 +148,10 @@ class MenusCreate extends AbstractStep
             call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Creating menus (pages)']);
         }
 
-        /* @var $page \Cecil\Collection\Page\Page */
+        /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-            /* @var $menu \Cecil\Collection\Menu\Menu */
-            $menu = $page->getVariable('menu');
+            $menuFromPage = $page->getVariable('menu');
 
             /*
              * Single case
@@ -163,10 +162,19 @@ class MenusCreate extends AbstractStep
                 $item = (new Entry($page->getId()))
                     ->setName($page->getVariable('title'))
                     ->setUrl($page->getUrl());
-                if (!$this->menus->has($menu)) {
-                    $this->menus->add(new Menu($menu));
+                if (!$this->menus->has($menuFromPage)) {
+                    $this->menus->add(new Menu($menuFromPage));
                 }
-                $this->menus->get($menu)->add($item);
+                /** @var \Cecil\Collection\Menu\Menu $menu */
+                $menu = $this->menus->get($menuFromPage);
+                $menu->add($item);
+                // message
+                call_user_func_array($this->builder->getMessageCb(), [
+                    'MENU_PROGRESS',
+                    sprintf('%s > %s', $menuFromPage, $page->getId()),
+                    $count,
+                    $total,
+                ]);
             } else {
                 /*
                  * Multiple case
@@ -176,26 +184,28 @@ class MenusCreate extends AbstractStep
                  *       weight: 999
                  *     other
                  */
-                if (is_array($menu)) {
-                    foreach ($menu as $menu => $property) {
+                if (is_array($menuFromPage)) {
+                    foreach ($menuFromPage as $menuName => $property) {
                         $item = (new Entry($page->getId()))
                             ->setName($page->getVariable('title'))
                             ->setUrl($page->getId())
                             ->setWeight($property['weight']);
-                        /* @var $menu \Cecil\Collection\Menu\Menu */
-                        if (!$this->menus->has($menu)) {
-                            $this->menus->add(new Menu($menu));
+                        if (!$this->menus->has($menuName)) {
+                            $this->menus->add(new Menu($menuName));
                         }
-                        $this->menus->get($menu)->add($item);
+                        /** @var \Cecil\Collection\Menu\Menu $menu */
+                        $menu = $this->menus->get($menuName);
+                        $menu->add($item);
+                        // message
+                        call_user_func_array($this->builder->getMessageCb(), [
+                            'MENU_PROGRESS',
+                            sprintf('%s > %s', $menuName, $page->getId()),
+                            $count,
+                            $total,
+                        ]);
                     }
                 }
             }
-            call_user_func_array($this->builder->getMessageCb(), [
-                'MENU_PROGRESS',
-                sprintf('%s > %s', $menu, $page->getId()),
-                $count,
-                $total,
-            ]);
         }
     }
 }

@@ -27,7 +27,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     {
         if ($this->config->get('taxonomies')) {
             /* @var $vocabulary Vocabulary */
-            foreach ($this->builder->getTaxonomies() as $position => $vocabulary) {
+            foreach ($this->builder->getTaxonomies() as $vocabulary) {
                 $plural = $vocabulary->getId();
                 $singular = $this->config->get("taxonomies.$plural");
                 if (count($vocabulary) > 0) {
@@ -36,7 +36,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     * ie: /tags/tag-1/
                     */
                     /* @var $pages PagesCollection */
-                    foreach ($vocabulary as $position => $term) {
+                    foreach ($vocabulary as $term) {
                         $pageId = $path = Page::slugify(sprintf('%s/%s', $plural, $term->getId()));
                         $pages = $term->sortByDate();
                         $date = $pages->first()->getVariable('date');

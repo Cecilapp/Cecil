@@ -37,7 +37,7 @@ class PagesConvert extends AbstractStep
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
-                $convertedPage = $this->convertPage($page, $this->config->get('frontmatter.format'));
+                $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
                 if (false !== $convertedPage) {
                     $message = $page->getId();
                     // force convert drafts?
