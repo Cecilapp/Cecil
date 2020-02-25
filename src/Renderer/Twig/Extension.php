@@ -166,9 +166,7 @@ class Extension extends SlugifyExtension
         if ($collection instanceof CollectionInterface) {
             $collection = $collection->toArray();
         }
-        if (is_array($collection)) {
-            array_multisort(array_keys($collection), SORT_NATURAL | SORT_FLAG_CASE, $collection);
-        }
+        array_multisort(array_keys($collection), SORT_NATURAL | SORT_FLAG_CASE, $collection);
 
         return $collection;
     }
@@ -199,9 +197,7 @@ class Extension extends SlugifyExtension
         if ($collection instanceof CollectionInterface) {
             $collection = $collection->toArray();
         }
-        if (is_array($collection)) {
-            usort($collection, $callback);
-        }
+        usort($collection, $callback);
 
         return $collection;
     }
@@ -232,9 +228,7 @@ class Extension extends SlugifyExtension
         if ($collection instanceof CollectionInterface) {
             $collection = $collection->toArray();
         }
-        if (is_array($collection)) {
-            usort($collection, $callback);
-        }
+        usort($collection, $callback);
 
         return $collection;
     }
@@ -249,14 +243,14 @@ class Extension extends SlugifyExtension
      * ];
      *
      * @param Page|string|null $value
-     * @param array|null       $options
+     * @param array|bool|null  $options
      *
      * @return string|null
      */
     public function createUrl($value = null, $options = null): ?string
     {
-        $baseurl = $this->config->get('baseurl');
-        $hash = md5($this->config->get('time'));
+        $baseurl = (string) $this->config->get('baseurl');
+        $hash = md5((string) $this->config->get('time'));
         $base = '';
         // handle options
         $canonical = null;
@@ -271,10 +265,10 @@ class Extension extends SlugifyExtension
                 $options['canonical'] = true;
             }
         }
-        extract($options ?: []);
+        extract(is_array($options) ? $options : []);
 
         // set baseurl
-        if ($this->config->get('canonicalurl') === true || $canonical === true) {
+        if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
             $base = rtrim($baseurl, '/');
         }
         if ($canonical === false) {
