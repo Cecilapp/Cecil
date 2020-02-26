@@ -37,7 +37,7 @@ class MenusCreate extends AbstractStep
         // Collect 'menu' entries from pages
         $this->collectPages();
 
-        /*
+        /**
          * Removing/adding/replacing menus entries from config
          * ie:
          *   menus:
@@ -47,7 +47,7 @@ class MenusCreate extends AbstractStep
          *         url: https://example.com
          *         weight: 999
          *       - id: about
-         *         enabled: false
+         *         enabled: false.
          */
         if ($menusConfig = $this->builder->getConfig()->get('menus')) {
             call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Creating menus (config)']);
@@ -151,61 +151,68 @@ class MenusCreate extends AbstractStep
         /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-            $menuFromPage = $page->getVariable('menu');
-
-            /*
-             * Single case
+            /**
+             * Array case.
+             *
+             * ie 1:
+             *   menu:
+             *     main:
+             *       weight: 999
+             * ie 2:
+             *   menu: [main, navigation]
+             */
+            if (is_array($page->getVariable('menu'))) {
+                foreach ($page->getVariable('menu') as $key => $value) {
+                    $menuName = $key;
+                    $property = $value;
+                    $weight = null;
+                    if (is_int($key)) {
+                        $menuName = $value;
+                        $property = null;
+                    }
+                    $item = (new Entry($page->getId()))
+                        ->setName($page->getVariable('title'))
+                        ->setUrl($page->getId());
+                    if (array_key_exists('weight', (array) $property)) {
+                        $weight = $property['weight'];
+                        $item->setWeight($property['weight']);
+                    }
+                    if (!$this->menus->has($menuName)) {
+                        $this->menus->add(new Menu($menuName));
+                    }
+                    /** @var \Cecil\Collection\Menu\Menu $menu */
+                    $menu = $this->menus->get($menuName);
+                    $menu->add($item);
+                    call_user_func_array($this->builder->getMessageCb(), [
+                        'MENU_PROGRESS',
+                        sprintf('%s > %s (%s)', $menuName, $page->getId(), $weight),
+                        $count,
+                        $total,
+                    ]);
+                }
+                continue;
+            }
+            /**
+             * String case.
+             *
              * ie:
              *   menu: main
              */
-            if (is_string($page->getVariable('menu'))) {
-                $item = (new Entry($page->getId()))
-                    ->setName($page->getVariable('title'))
-                    ->setUrl($page->getUrl());
-                if (!$this->menus->has($menuFromPage)) {
-                    $this->menus->add(new Menu($menuFromPage));
-                }
-                /** @var \Cecil\Collection\Menu\Menu $menu */
-                $menu = $this->menus->get($menuFromPage);
-                $menu->add($item);
-                // message
-                call_user_func_array($this->builder->getMessageCb(), [
-                    'MENU_PROGRESS',
-                    sprintf('%s > %s', $menuFromPage, $page->getId()),
-                    $count,
-                    $total,
-                ]);
-            } else {
-                /*
-                 * Multiple case
-                 * ie:
-                 *   menu:
-                 *     main:
-                 *       weight: 999
-                 *     other:
-                 */
-                if (is_array($menuFromPage)) {
-                    foreach ($menuFromPage as $menuName => $property) {
-                        $item = (new Entry($page->getId()))
-                            ->setName($page->getVariable('title'))
-                            ->setUrl($page->getId())
-                            ->setWeight($property['weight']);
-                        if (!$this->menus->has($menuName)) {
-                            $this->menus->add(new Menu($menuName));
-                        }
-                        /** @var \Cecil\Collection\Menu\Menu $menu */
-                        $menu = $this->menus->get($menuName);
-                        $menu->add($item);
-                        // message
-                        call_user_func_array($this->builder->getMessageCb(), [
-                            'MENU_PROGRESS',
-                            sprintf('%s > %s', $menuName, $page->getId()),
-                            $count,
-                            $total,
-                        ]);
-                    }
-                }
+            $item = (new Entry($page->getId()))
+                ->setName($page->getVariable('title'))
+                ->setUrl($page->getUrl());
+            if (!$this->menus->has($page->getVariable('menu'))) {
+                $this->menus->add(new Menu($page->getVariable('menu')));
             }
+            /** @var \Cecil\Collection\Menu\Menu $menu */
+            $menu = $this->menus->get($page->getVariable('menu'));
+            $menu->add($item);
+            call_user_func_array($this->builder->getMessageCb(), [
+                'MENU_PROGRESS',
+                sprintf('%s > %s', $page->getVariable('menu'), $page->getId()),
+                $count,
+                $total,
+            ]);
         }
     }
 }

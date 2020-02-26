@@ -1,0 +1,7 @@
+{% extends 'page.html.twig' %}
+
+{% block content %}
+      <h1 class="page-title">{{ page.title }}</h1>
+      {{ page.content }}
+      <pre>{{ dump(site.menus) }}</pre>
+{% endblock %}
