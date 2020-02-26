@@ -173,9 +173,7 @@ class MenusCreate extends AbstractStep
                     $item = (new Entry($page->getId()))
                         ->setName($page->getVariable('title'))
                         ->setUrl($page->getId());
-                    if (is_array($property)
-                        && array_key_exists('weight', $property)
-                        && $property['weight'] !== null) {
+                    if (array_key_exists('weight', (array) $property)) {
                         $weight = $property['weight'];
                         $item->setWeight($property['weight']);
                     }
