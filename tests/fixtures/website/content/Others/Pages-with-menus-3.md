@@ -1,11 +1,7 @@
 ---
-menu:
-  - main
-  - navigation
+menu: [main, navigation]
 ---
 
 ```yaml
-menu:
-  - main
-  - navigation
+menu: [main, navigation]
 ```
