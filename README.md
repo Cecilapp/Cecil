@@ -15,16 +15,18 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 ![Cecil CLI demo](https://raw.githubusercontent.com/Cecilapp/Cecil/master/docs/cecil-demo.png "Cecil CLI demo")
 
-- [Documentation](https://cecil.app/documentation)
-- [Issue tracker](https://github.com/Cecilapp/Cecil/issues)
-- [Demo](https://demo.cecil.app)
+- 📄 [Documentation](https://cecil.app/documentation)
+- 🐛 [Issue tracker](https://github.com/Cecilapp/Cecil/issues)
+- 💻 [Demo](https://demo.cecil.app)
 
 ## Features
 
 - No server, no database, no dependency: performance and security
-- Content is stored in flat files, written in Markdown with YAML front matter
-- Powered by Twig, a flexible template engine, with theme support
+- Content is stored in flat files, written in [Markdown](https://daringfireball.net/projects/markdown/) with [YAML front matter](https://cecil.app/documentation/content/#front-matter)
+- Powered by [Twig](https://twig.symfony.com/doc/templates.html), a flexible template engine, with [theme](https://github.com/Cecilapp/theme-hyde) support
 - Paginaton, taxonomies, redirections (and more !) are generated automatically
+- [Download](https://cecil.app/download/) just one file and run it
+- Easy to deploy
 
 ## Installation
 
