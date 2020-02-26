@@ -152,13 +152,14 @@ class MenusCreate extends AbstractStep
         foreach ($filteredPages as $page) {
             $count++;
             /**
-             * Array case
+             * Array case.
+             *
              * ie 1:
              *   menu:
              *     main:
              *       weight: 999
              * ie 2:
-             *   menu: [main, navigation].
+             *   menu: [main, navigation]
              */
             if (is_array($page->getVariable('menu'))) {
                 foreach ($page->getVariable('menu') as $key => $value) {
@@ -194,9 +195,10 @@ class MenusCreate extends AbstractStep
                 continue;
             }
             /**
-             * String case
+             * String case.
+             *
              * ie:
-             *   menu: main.
+             *   menu: main
              */
             $item = (new Entry($page->getId()))
                 ->setName($page->getVariable('title'))
