@@ -47,7 +47,7 @@ class MenusCreate extends AbstractStep
          *         url: https://example.com
          *         weight: 999
          *       - id: about
-         *         enabled: false
+         *         enabled: false.
          */
         if ($menusConfig = $this->builder->getConfig()->get('menus')) {
             call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Creating menus (config)']);
