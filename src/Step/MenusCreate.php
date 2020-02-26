@@ -182,7 +182,7 @@ class MenusCreate extends AbstractStep
                  *   menu:
                  *     main:
                  *       weight: 999
-                 *     other
+                 *     other:
                  */
                 if (is_array($menuFromPage)) {
                     foreach ($menuFromPage as $menuName => $property) {
