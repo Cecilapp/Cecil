@@ -37,7 +37,7 @@ class MenusCreate extends AbstractStep
         // Collect 'menu' entries from pages
         $this->collectPages();
 
-        /*
+        /**
          * Removing/adding/replacing menus entries from config
          * ie:
          *   menus:
@@ -151,11 +151,6 @@ class MenusCreate extends AbstractStep
         /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-
-            // DEBUG
-            echo $page->getId()."\n";
-            var_dump($page->getVariable('menu'));
-
             /**
              * Array case
              * ie 1:
