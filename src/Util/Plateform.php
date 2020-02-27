@@ -70,6 +70,7 @@ class Plateform
     {
         if (self::isWindows()) {
             passthru('start "web" explorer "'.$url.'"');
+
             return;
         }
         passthru('which xdg-open', $linux);

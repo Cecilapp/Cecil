@@ -84,8 +84,7 @@ class Config
                 \RecursiveIteratorIterator::SELF_FIRST
             );
             $iterator->rewind();
-            while ($iterator->valid())
-            {
+            while ($iterator->valid()) {
                 $path = [];
                 foreach (range(0, $iterator->getDepth()) as $depth) {
                     $path[] = $iterator->getSubIterator($depth)->key();
