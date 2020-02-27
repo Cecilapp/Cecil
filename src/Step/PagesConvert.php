@@ -38,23 +38,23 @@ class PagesConvert extends AbstractStep
             if (!$page->isVirtual()) {
                 $count++;
                 $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
-                if (false !== $convertedPage) {
-                    $message = $page->getId();
-                    // force convert drafts?
-                    if ($this->builder->getBuildOptions()['drafts']) {
-                        $page->setVariable('published', true);
-                    }
-                    if ($page->getVariable('published')) {
-                        $this->builder->getPages()->replace($page->getId(), $convertedPage);
-                    } else {
-                        $this->builder->getPages()->remove($page->getId());
-                        $message .= ' (not published)';
-                    }
-                    call_user_func_array($this->builder->getMessageCb(), ['CONVERT_PROGRESS', $message, $count, $max]);
-                } else {
+                if ($convertedPage === false) {
                     $this->builder->getPages()->remove($page->getId());
                     $countError++;
+                    continue;
                 }
+                $message = $page->getId();
+                // force convert drafts?
+                if ($this->builder->getBuildOptions()['drafts']) {
+                    $page->setVariable('published', true);
+                }
+                if ($page->getVariable('published')) {
+                    $this->builder->getPages()->replace($page->getId(), $convertedPage);
+                } else {
+                    $this->builder->getPages()->remove($page->getId());
+                    $message .= ' (not published)';
+                }
+                call_user_func_array($this->builder->getMessageCb(), ['CONVERT_PROGRESS', $message, $count, $max]);
             }
         }
         if ($countError > 0) {
