@@ -83,7 +83,9 @@ class Config
                 new \RecursiveArrayIterator($array),
                 \RecursiveIteratorIterator::SELF_FIRST
             );
-            foreach ($iterator as $leafValue) {
+            $iterator->rewind();
+            while ($iterator->valid())
+            {
                 $path = [];
                 foreach (range(0, $iterator->getDepth()) as $depth) {
                     $path[] = $iterator->getSubIterator($depth)->key();
@@ -92,6 +94,7 @@ class Config
                 if ($getEnv = getenv('CECIL_'.strtoupper($sPath))) {
                     $data->set(str_replace('_', '.', strtolower($sPath)), $getEnv);
                 }
+                $iterator->next();
             }
         };
         $applyEnv($data->export());

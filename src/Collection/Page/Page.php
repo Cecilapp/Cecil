@@ -347,13 +347,14 @@ class Page extends Item
             $this->section = null;
             $this->folder = null;
             $this->slug = $this->path;
-        } else {
-            if (!$this->virtual) {
-                $this->section = explode('/', $this->path)[0];
-            }
-            $this->folder = substr($this->path, 0, $lastslash);
-            $this->slug = substr($this->path, -(strlen($this->path) - $lastslash - 1));
+
+            return $this;
         }
+        if (!$this->virtual) {
+            $this->section = explode('/', $this->path)[0];
+        }
+        $this->folder = substr($this->path, 0, $lastslash);
+        $this->slug = substr($this->path, -(strlen($this->path) - $lastslash - 1));
 
         return $this;
     }
@@ -589,8 +590,8 @@ class Page extends Item
                         $this->getId()
                     ));
                 }
-                // @see setPath()
-                // @see setSlug()
+                /** @see setPath() */
+                /** @see setSlug() */
                 $method = 'set'.\ucfirst($name);
                 $this->$method($value);
                 break;

@@ -34,7 +34,8 @@ class Build extends \PHPUnit\Framework\TestCase
 
     public function testBuid()
     {
-        putenv('CECIL_DESCRIPTION=Description from environment variable');
+        putenv('CECIL_TITLE=Cecil');
+        putenv('CECIL_DESCRIPTION=Description (env. variable)');
         Builder::create(
             [
                 'title'     => 'Cecil test',

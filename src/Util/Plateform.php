@@ -70,14 +70,14 @@ class Plateform
     {
         if (self::isWindows()) {
             passthru('start "web" explorer "'.$url.'"');
-        } else {
-            passthru('which xdg-open', $linux);
-            passthru('which open', $osx);
-            if (0 === $linux) {
-                passthru('xdg-open '.$url);
-            } elseif (0 === $osx) {
-                passthru('open '.$url);
-            }
+            return;
+        }
+        passthru('which xdg-open', $linux);
+        passthru('which open', $osx);
+        if (0 === $linux) {
+            passthru('xdg-open '.$url);
+        } elseif (0 === $osx) {
+            passthru('open '.$url);
         }
     }
 
