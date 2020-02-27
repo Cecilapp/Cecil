@@ -28,7 +28,7 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 ## Installation
 
-[Download _cecil.phar_](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar) from your browser or from your terminal:
+[Download `cecil.phar`](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar) from your browser or from your terminal:
 
 ```bash
 curl -LO https://cecil.app/cecil.phar
