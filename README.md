@@ -13,11 +13,9 @@
 
 Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
-![Cecil CLI demo](https://raw.githubusercontent.com/Cecilapp/Cecil/master/docs/cecil-demo.png "Cecil CLI demo")
+💻 [Demo](https://demo.cecil.app) | 📄 [Documentation](https://cecil.app/documentation) | 🐛 [Issue tracker](https://github.com/Cecilapp/Cecil/issues)
 
-- 📄 [Documentation](https://cecil.app/documentation)
-- 🐛 [Issue tracker](https://github.com/Cecilapp/Cecil/issues)
-- 💻 [Demo](https://demo.cecil.app)
+![Cecil CLI demo](docs/cecil-demo.gif "Cecil CLI demo")
 
 ## Features
 
@@ -30,8 +28,15 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 ## Installation
 
+[Download _cecil.phar_](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar) from your browser or from your terminal:
+
 ```bash
 curl -LO https://cecil.app/cecil.phar
+```
+
+Then install the binary globally:
+
+```bash
 mv cecil.phar /usr/local/bin/cecil
 chmod +x /usr/local/bin/cecil
 ```
