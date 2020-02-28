@@ -38,7 +38,8 @@ class CacheCopy extends StaticCopy
     {
         call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying cache']);
 
-        $cacheDirImages = $this->config->getDestinationDir().'/'.$this->config->get('cache.dir').'/'.$this->config->get('cache.images.dir');
+        $cacheDirImages = $this->config->getDestinationDir().'/'
+            .$this->config->get('cache.dir').'/'.$this->config->get('cache.images.dir');
         if ($this->config->get('cache.external')) {
             $cacheDirImages = $this->config->get('cache.dir').'/'.$this->config->get('cache.images.dir');
         }
