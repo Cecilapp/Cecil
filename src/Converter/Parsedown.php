@@ -10,8 +10,6 @@ namespace Cecil\Converter;
 
 use Cecil\Assets\Image;
 use Cecil\Builder;
-use Cecil\Exception\Exception;
-use Cecil\Util;
 use ParsedownExtra;
 
 class Parsedown extends ParsedownExtra
