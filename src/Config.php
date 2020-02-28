@@ -323,7 +323,6 @@ class Config
         }
 
         return $this->getDestinationDir().'/'.$path;
-
     }
 
     /**
