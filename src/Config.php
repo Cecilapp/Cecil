@@ -310,6 +310,24 @@ class Config
     }
 
     /**
+     * Return the path to images/thumbs cache dir.
+     *
+     * @return string
+     */
+    public function getCacheImagesThumbsPath(): string
+    {
+        $path = (string) $this->get('cache.dir')
+            .'/'.(string) $this->get('cache.images.dir')
+            .'/'.(string) $this->get('cache.images.thumbs.dir');
+
+        if ($this->get('cache.external')) {
+            return $path;
+        }
+
+        return $this->getDestinationDir().'/'.$path;
+    }
+
+    /**
      * Return the property value of an output format.
      *
      * @param string $property

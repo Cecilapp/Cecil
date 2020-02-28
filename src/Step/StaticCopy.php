@@ -16,8 +16,7 @@ use Symfony\Component\Finder\Finder;
  */
 class StaticCopy extends AbstractStep
 {
-    const TMP_DIR = '.cecil';
-    private $count = 0;
+    protected $count = 0;
 
     /**
      * {@inheritdoc}
@@ -36,7 +35,7 @@ class StaticCopy extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying static files']);
+        call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying static']);
 
         // copy content of '<theme>/static/' dir if exists
         if ($this->config->hasTheme()) {
@@ -51,12 +50,6 @@ class StaticCopy extends AbstractStep
         $staticDir = $this->builder->getConfig()->getStaticPath();
         $this->copy($staticDir, null, $this->config->get('static.exclude'));
 
-        // copy temporary images files
-        $tmpDirImages = $this->config->getDestinationDir().'/'.self::TMP_DIR.'/images';
-        if ($this->copy($tmpDirImages, 'images')) {
-            Util::getFS()->remove($tmpDirImages);
-        }
-
         call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Start copy', 0, $this->count]);
         call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Copied', $this->count, $this->count]);
     }
@@ -70,13 +63,13 @@ class StaticCopy extends AbstractStep
      *
      * @return bool
      */
-    private function copy(string $from, string $to = null, array $exclude = null): bool
+    protected function copy(string $from, string $to = null, array $exclude = null): bool
     {
         if (Util::getFS()->exists($from)) {
             $finder = new Finder();
             $finder->files()->in($from);
             if (is_array($exclude)) {
-                $finder->files()->notName($this->config->get('static.exclude'))->in($from);
+                $finder->files()->notName($exclude)->in($from);
             }
             $this->count += $finder->count();
             Util::getFS()->mirror(

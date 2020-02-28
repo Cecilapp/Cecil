@@ -188,4 +188,15 @@ return [
         80 => 'Cecil\Generator\Alias',
         90 => 'Cecil\Generator\Redirect',
     ],
+    'cache' => [
+        'enabled' => false,
+        'dir'     => '.cache',
+        'images'  => [
+            'dir'    => 'images',
+            'thumbs' => [
+                'dir' => 'thumbs',
+            ],
+        ],
+        'external' => false,
+    ],
 ];

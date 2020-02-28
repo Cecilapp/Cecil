@@ -48,9 +48,9 @@ class Converter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public static function convertBody($string, $config = null): string
+    public static function convertBody($string, $builder = null): string
     {
-        $parsedown = new Parsedown($config);
+        $parsedown = new Parsedown($builder);
 
         return $parsedown->text($string);
     }

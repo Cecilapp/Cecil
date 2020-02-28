@@ -128,6 +128,9 @@ class Build extends \PHPUnit\Framework\TestCase
                     //100 => 'Cecil\Generator\TitleReplace',
                 ],
                 'debug' => true,
+                'cache' => [
+                    'enabled' => true,
+                ],
             ]
         )->setSourceDir($this->wsSourceDir)
         ->setDestinationDir($this->wsDestinationDir)
