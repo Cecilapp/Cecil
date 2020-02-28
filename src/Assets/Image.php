@@ -40,7 +40,7 @@ class Image
     /**
      * Resize an image.
      *
-     * @param string $path Image path (relative from static/ dir or external)
+     * @param string $path       Image path (relative from static/ dir or external)
      * @param int    $this->size Image new size (width)
      *
      * @return string Path to image thumbnail
@@ -110,7 +110,8 @@ class Image
     /**
      * Resize with Intervention ImageManager.
      */
-    private function doResize() {
+    private function doResize()
+    {
         if (!Util::getFS()->exists($this->destination)) {
             $img = ImageManager::make($this->source);
             $img->resize($this->size, null, function (\Intervention\Image\Constraint $constraint) {
