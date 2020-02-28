@@ -28,10 +28,10 @@ interface ConverterInterface
     /**
      * Converts body.
      *
-     * @param string      $string
-     * @param Config|null $config
+     * @param string       $string
+     * @param Builder|null $builder
      *
      * @return string
      */
-    public static function convertBody($string, $config = null): string;
+    public static function convertBody($string, $builder = null): string;
 }

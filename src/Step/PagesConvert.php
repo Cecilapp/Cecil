@@ -89,7 +89,7 @@ class PagesConvert extends AbstractStep
         }
 
         // converts body
-        $html = Converter::convertBody($page->getBody(), $this->config);
+        $html = Converter::convertBody($page->getBody(), $this->builder);
         $page->setBodyHtml($html);
 
         return $page;
