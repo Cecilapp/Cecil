@@ -314,9 +314,9 @@ class Config
      */
     public function getCacheImagesThumbsPath(): string
     {
-        $path = (string) $this->get('cache.dir').'/'
-            .$this->get('cache.images.dir').'/'
-            .$this->get('cache.images.thumbs.dir');
+        $path = (string) $this->get('cache.dir')
+            .'/'.(string) $this->get('cache.images.dir')
+            .'/'.(string) $this->get('cache.images.thumbs.dir');
 
         if ($this->get('cache.external')) {
             return $path;

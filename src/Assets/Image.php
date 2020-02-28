@@ -38,11 +38,14 @@ class Image
     public function resize(string $path, int $size): string
     {
         $external = false;
+        $source = $path;
+        $destination = null;
+        $imageRelPath = null;
+        $thumbsDir = null;
 
         // is external image?
         if (Util::isExternalUrl($path)) {
             $external = true;
-            $source = $path;
         }
 
         if (!$external) {
@@ -53,8 +56,10 @@ class Image
             }
             // destination
             // ie: .cache/images/thumbs
-            $thumbsDir = (string) $this->config->get('cache.dir').'/'
-                .$this->config->get('cache.images.dir').'/'.$this->config->get('cache.images.thumbs.dir').'/'.$size;
+            $thumbsDir = (string) $this->config->get('cache.dir')
+                .'/'.(string) $this->config->get('cache.images.dir')
+                .'/'.(string) $this->config->get('cache.images.thumbs.dir')
+                .'/'.$size;
             // ie: .cache/images/thumbs/img/logo.png
             $imageRelPath = $thumbsDir.'/'.ltrim($path, '/');
             // full absolute path
@@ -103,7 +108,7 @@ class Image
         }
 
         // return relative path
-        return '/'.$this->config->get('cache.images.dir').'/'
-            .$this->config->get('cache.images.thumbs.dir').'/'.$size.'/'.ltrim($path, '/');
+        return '/'.$this->config->get('cache.images.dir')
+            .'/'.(string) $this->config->get('cache.images.thumbs.dir').'/'.$size.'/'.ltrim($path, '/');
     }
 }

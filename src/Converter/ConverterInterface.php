@@ -8,6 +8,8 @@
 
 namespace Cecil\Converter;
 
+use Cecil\Builder;
+
 /**
  * Interface ConverterInterface.
  */

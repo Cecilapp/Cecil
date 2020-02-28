@@ -22,9 +22,9 @@ class CacheCopy extends StaticCopy
      */
     public function init($options)
     {
-        $cacheDir = $this->config->getDestinationDir().'/'.$this->config->get('cache.dir');
-        if ($this->config->get('cache.external')) {
-            $cacheDir = $this->config->get('cache.dir');
+        $cacheDir = $this->config->getDestinationDir().'/'.(string) $this->config->get('cache.dir');
+        if ((bool) $this->config->get('cache.external')) {
+            $cacheDir = (string) $this->config->get('cache.dir');
         }
         if (Util::getFS()->exists($cacheDir)) {
             $this->process = true;
@@ -38,10 +38,12 @@ class CacheCopy extends StaticCopy
     {
         call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying cache']);
 
-        $cacheDirImages = $this->config->getDestinationDir().'/'
-            .$this->config->get('cache.dir').'/'.$this->config->get('cache.images.dir');
+        $cacheDirImages = $this->config->getDestinationDir()
+            .'/'.(string) $this->config->get('cache.dir')
+            .'/'.(string) $this->config->get('cache.images.dir');
         if ($this->config->get('cache.external')) {
-            $cacheDirImages = $this->config->get('cache.dir').'/'.$this->config->get('cache.images.dir');
+            $cacheDirImages = (string) $this->config->get('cache.dir')
+                .'/'.(string) $this->config->get('cache.images.dir');
         }
         if ($this->copy($cacheDirImages, 'images')) {
             if ((bool) $this->config->get('cache.enabled') === false) {
