@@ -53,7 +53,8 @@ class Image
             }
             // destination
             // ie: .cache/images/thumbs
-            $thumbsDir = (string) $this->config->get('cache.dir').'/'.$this->config->get('cache.images.dir').'/'.$this->config->get('cache.images.thumbs.dir').'/'.$size;
+            $thumbsDir = (string) $this->config->get('cache.dir').'/'
+                .$this->config->get('cache.images.dir').'/'.$this->config->get('cache.images.thumbs.dir').'/'.$size;
             // ie: .cache/images/thumbs/img/logo.png
             $imageRelPath = $thumbsDir.'/'.ltrim($path, '/');
             // full absolute path
@@ -102,6 +103,7 @@ class Image
         }
 
         // return relative path
-        return '/'.$this->config->get('cache.images.dir').'/'.$this->config->get('cache.images.thumbs.dir').'/'.$size.'/'.ltrim($path, '/');
+        return '/'.$this->config->get('cache.images.dir').'/'
+            .$this->config->get('cache.images.thumbs.dir').'/'.$size.'/'.ltrim($path, '/');
     }
 }
