@@ -55,12 +55,12 @@ class GeneratorManager extends \SplPriorityQueue
         if ($max > 0) {
             $this->top();
             while ($this->valid()) {
-                /* @var GeneratorInterface $generator */
+                /** @var AbstractGenerator $generator */
                 $generator = $this->current();
-                /* @var $generatedPages PagesCollection */
+                /** @var PagesCollection $generatedPages */
                 $generatedPages = $generator->runGenerate($pagesCollection, $messageCallback);
                 foreach ($generatedPages as $page) {
-                    /* @var $page \Cecil\Collection\Page\Page */
+                    /** @var \Cecil\Collection\Page\Page $page */
                     if ($pagesCollection->has($page->getId())) {
                         $pagesCollection->replace($page->getId(), $page);
                     } else {

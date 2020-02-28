@@ -41,7 +41,7 @@ class DataLoad extends AbstractStep
         $files = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getDataPath())
-            ->name('/\.('.implode('|', $this->builder->getConfig()->get('data.ext')).')$/')
+            ->name('/\.('.implode('|', (array) $this->builder->getConfig()->get('data.ext')).')$/')
             ->sortByName(true);
         $max = count($files);
 

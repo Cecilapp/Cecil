@@ -24,7 +24,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     protected $config;
     /* @var PagesCollection */
     protected $pagesCollection;
-    /* @var $messageCallback */
+    /* @var \Closure */
     protected $messageCallback;
     /* @var PagesCollection */
     protected $generatedPages;

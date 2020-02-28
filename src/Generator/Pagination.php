@@ -30,7 +30,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
         $filteredPages = $this->pagesCollection->filter(function (Page $page) {
             return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION, Type::TERM]);
         });
-        /* @var $page Page */
+        /** @var Page $page */
         foreach ($filteredPages as $page) {
             // global config
             $paginationPerPage = intval($this->config->get('pagination.max'));

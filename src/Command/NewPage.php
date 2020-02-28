@@ -65,7 +65,7 @@ class NewPage extends Command
             // path
             $fileRelativePath = sprintf(
                 '%s/%s%s%s.md',
-                $this->getBuilder($output)->getConfig()->get('content.dir'),
+                (string) $this->getBuilder($output)->getConfig()->get('content.dir'),
                 !$dirname ?: $dirname.'/',
                 $datePrefix,
                 $filename
@@ -157,7 +157,7 @@ EOT;
      */
     protected function openEditor(OutputInterface $output, string $filePath)
     {
-        if ($editor = $this->getBuilder($output)->getConfig()->get('editor')) {
+        if ($editor = (string) $this->getBuilder($output)->getConfig()->get('editor')) {
             $command = sprintf('%s "%s"', $editor, $filePath);
             // Typora 4TW!
             if ($editor == 'typora') {

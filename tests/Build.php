@@ -34,7 +34,8 @@ class Build extends \PHPUnit\Framework\TestCase
 
     public function testBuid()
     {
-        putenv('CECIL_DESCRIPTION=Description from environment variable');
+        putenv('CECIL_TITLE=Cecil');
+        putenv('CECIL_DESCRIPTION=Description (env. variable)');
         Builder::create(
             [
                 'title'     => 'Cecil test',
@@ -55,7 +56,7 @@ class Build extends \PHPUnit\Framework\TestCase
                         ],
                     ],
                 ],
-                'menus'   => [
+                'menus' => [
                     'main' => [
                         [
                             'id'   => 'index',
@@ -74,7 +75,7 @@ class Build extends \PHPUnit\Framework\TestCase
                     ],
                 ],
                 'pagination' => [
-                    'enabled'  => true,
+                    'enabled' => true,
                 ],
                 'taxonomies' => [
                     'tests' => 'disabled',
@@ -86,7 +87,7 @@ class Build extends \PHPUnit\Framework\TestCase
                         'priority'  => 99,
                     ],
                 ],
-                'virtualpages'    => [
+                'virtualpages' => [
                     [
                         'path'   => '_redirects',
                         'output' => 'netlify_redirects',
@@ -112,7 +113,7 @@ class Build extends \PHPUnit\Framework\TestCase
                         'term'       => ['html', 'atom', 'rss'],
                     ],
                 ],
-                'theme'  => [
+                'theme' => [
                     'a-theme',
                     'hyde',
                 ],

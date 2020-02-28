@@ -38,7 +38,7 @@ class Clean extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $outputDir = $this->getBuilder($output)->getConfig()->get('output.dir');
+        $outputDir = (string) $this->getBuilder($output)->getConfig()->get('output.dir');
         if ($this->fs->exists($this->getPath().'/'.self::TMP_DIR.'/output')) {
             $outputDir = file_get_contents($this->getPath().'/'.self::TMP_DIR.'/output');
         }

@@ -83,7 +83,8 @@ class Config
                 new \RecursiveArrayIterator($array),
                 \RecursiveIteratorIterator::SELF_FIRST
             );
-            foreach ($iterator as $leafValue) {
+            $iterator->rewind();
+            while ($iterator->valid()) {
                 $path = [];
                 foreach (range(0, $iterator->getDepth()) as $depth) {
                     $path[] = $iterator->getSubIterator($depth)->key();
@@ -92,6 +93,7 @@ class Config
                 if ($getEnv = getenv('CECIL_'.strtoupper($sPath))) {
                     $data->set(str_replace('_', '.', strtolower($sPath)), $getEnv);
                 }
+                $iterator->next();
             }
         };
         $applyEnv($data->export());
@@ -244,7 +246,7 @@ class Config
      */
     public function getContentPath(): string
     {
-        return $this->getSourceDir().'/'.$this->get('content.dir');
+        return $this->getSourceDir().'/'.(string) $this->get('content.dir');
     }
 
     /**
@@ -254,7 +256,7 @@ class Config
      */
     public function getDataPath(): string
     {
-        return $this->getSourceDir().'/'.$this->get('data.dir');
+        return $this->getSourceDir().'/'.(string) $this->get('data.dir');
     }
 
     /**
@@ -264,7 +266,7 @@ class Config
      */
     public function getLayoutsPath(): string
     {
-        return $this->getSourceDir().'/'.$this->get('layouts.dir');
+        return $this->getSourceDir().'/'.(string) $this->get('layouts.dir');
     }
 
     /**
@@ -274,7 +276,7 @@ class Config
      */
     public function getThemesPath(): string
     {
-        return $this->getSourceDir().'/'.$this->get('themes.dir');
+        return $this->getSourceDir().'/'.(string) $this->get('themes.dir');
     }
 
     /**
@@ -284,7 +286,7 @@ class Config
      */
     public function getInternalLayoutsPath(): string
     {
-        return __DIR__.'/../'.$this->get('layouts.internal.dir');
+        return __DIR__.'/../'.(string) $this->get('layouts.internal.dir');
     }
 
     /**
@@ -294,7 +296,7 @@ class Config
      */
     public function getOutputPath(): string
     {
-        return $this->getDestinationDir().'/'.$this->get('output.dir');
+        return $this->getDestinationDir().'/'.(string) $this->get('output.dir');
     }
 
     /**
@@ -304,7 +306,7 @@ class Config
      */
     public function getStaticPath(): string
     {
-        return $this->getSourceDir().'/'.$this->get('static.dir');
+        return $this->getSourceDir().'/'.(string) $this->get('static.dir');
     }
 
     /**
@@ -335,7 +337,7 @@ class Config
      */
     public function getOutputFormatProperty(string $name, string $property)
     {
-        $properties = array_column($this->get('output.formats'), $property, 'name');
+        $properties = array_column((array) $this->get('output.formats'), $property, 'name');
 
         if (empty($properties)) {
             throw new Exception(sprintf(

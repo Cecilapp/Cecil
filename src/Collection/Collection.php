@@ -248,7 +248,7 @@ class Collection implements CollectionInterface
             return ($a < $b) ? -1 : 1;
         });
 
-        return new static(self::getId(), $this->items);
+        return new static($this->getId(), $this->items);
     }
 
     /**
@@ -256,7 +256,7 @@ class Collection implements CollectionInterface
      */
     public function filter(\Closure $callback): CollectionInterface
     {
-        return new static(self::getId(), array_filter($this->items, $callback));
+        return new static($this->getId(), array_filter($this->items, $callback));
     }
 
     /**
@@ -264,7 +264,7 @@ class Collection implements CollectionInterface
      */
     public function map(\Closure $callback): CollectionInterface
     {
-        return new static(self::getId(), array_map($callback, $this->items));
+        return new static($this->getId(), array_map($callback, $this->items));
     }
 
     /**
