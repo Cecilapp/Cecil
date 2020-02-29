@@ -57,24 +57,19 @@ class Image
         }
 
         if (!$external) {
-            // source
-            $this->source = $this->config->getStaticPath().'/'.$path;
+            $this->source = $this->config->getStaticPath().'/'.ltrim($path, '/');
             if (!Util::getFS()->exists($this->source)) {
-                throw new Exception(sprintf('Can\'t resize "%s": file doesn\'t exits.', $path));
+                throw new Exception(sprintf('Can\'t resize "%s": file doesn\'t exists.', $path));
             }
-            // destination
-            // ie: .cache/images/thumbs
+            // ie: .cache/images/thumbs/300
             $this->thumbsDir = (string) $this->config->get('cache.dir')
                 .'/'.(string) $this->config->get('cache.images.dir')
                 .'/'.(string) $this->config->get('cache.images.thumbs.dir')
                 .'/'.$this->size;
-            // ie: .cache/images/thumbs/img/logo.png
+            // ie: .cache/images/thumbs/300/img/logo.png
             $this->imageRelPath = $this->thumbsDir.'/'.ltrim($path, '/');
             // full absolute path
             $this->destination = $this->config->getDestinationDir().'/'.$this->imageRelPath;
-            if ((bool) $this->config->get('cache.external')) {
-                $this->destination = $this->imageRelPath;
-            }
         }
 
         // is size is already OK?
@@ -99,12 +94,13 @@ class Image
             return (string) $img->encode('data-url');
         }
 
-        // resize
         $this->doResize();
 
         // return relative path
         return '/'.$this->config->get('cache.images.dir')
-            .'/'.(string) $this->config->get('cache.images.thumbs.dir').'/'.$this->size.'/'.ltrim($path, '/');
+            .'/'.(string) $this->config->get('cache.images.thumbs.dir')
+            .'/'.$this->size
+            .'/'.ltrim($path, '/');
     }
 
     /**
@@ -124,6 +120,7 @@ class Image
                 $destDir = $this->config->getCacheImagesThumbsPath().'/'.$this->size.'/'.$imageSubDir;
                 Util::getFS()->mkdir($destDir);
             }
+
             $img->save($this->destination);
         }
     }

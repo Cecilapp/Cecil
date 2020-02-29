@@ -22,13 +22,7 @@ class CacheCopy extends StaticCopy
      */
     public function init($options)
     {
-        $cacheDir = $this->config->getDestinationDir().'/'.(string) $this->config->get('cache.dir');
-        if ((bool) $this->config->get('cache.external')) {
-            $cacheDir = (string) $this->config->get('cache.dir');
-        }
-        if (Util::getFS()->exists($cacheDir)) {
-            $this->process = true;
-        }
+        $this->process = true;
     }
 
     /**
