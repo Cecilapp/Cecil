@@ -11,9 +11,9 @@ namespace Cecil\Step;
 use Cecil\Util;
 
 /**
- * Copy cached files.
+ * Copy assets files.
  */
-class CacheCopy extends StaticCopy
+class AssetsCopy extends StaticCopy
 {
     protected $count = 0;
 
@@ -30,15 +30,9 @@ class CacheCopy extends StaticCopy
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying cache']);
+        call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying assets']);
 
-        $cacheDirImages = $this->config->getDestinationDir()
-            .'/'.(string) $this->config->get('cache.dir')
-            .'/'.(string) $this->config->get('cache.images.dir');
-        if ($this->config->get('cache.external')) {
-            $cacheDirImages = (string) $this->config->get('cache.dir')
-                .'/'.(string) $this->config->get('cache.images.dir');
-        }
+        $cacheDirImages = $this->config->getCachePath().'/'.(string) $this->config->get('cache.images.dir');
         if ($this->copy($cacheDirImages, 'images')) {
             if ((bool) $this->config->get('cache.enabled') === false) {
                 Util::getFS()->remove($cacheDirImages);

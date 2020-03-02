@@ -197,6 +197,5 @@ return [
                 'dir' => 'thumbs',
             ],
         ],
-        'external' => false,
     ],
 ];

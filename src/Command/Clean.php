@@ -38,19 +38,45 @@ class Clean extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $doSomething = false;
+
+        // delete output dir
         $outputDir = (string) $this->getBuilder($output)->getConfig()->get('output.dir');
         if ($this->fs->exists($this->getPath().'/'.self::TMP_DIR.'/output')) {
             $outputDir = file_get_contents($this->getPath().'/'.self::TMP_DIR.'/output');
         }
-        // delete output dir
         if ($this->fs->exists($this->getPath().'/'.$outputDir)) {
             $this->fs->remove($this->getPath().'/'.$outputDir);
-            $output->writeln(sprintf('Output directory "%s" removed.', $outputDir));
+            $output->writeln('Output directory removed.');
+            $output->writeln(
+                sprintf('-> %s', $this->getPath().'/'.$outputDir),
+                OutputInterface::VERBOSITY_VERBOSE
+            );
+            $doSomething = true;
         }
         // delete local server temp files
         if ($this->fs->exists($this->getPath().'/'.self::TMP_DIR)) {
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
-            $output->writeln('Temporary files deleted.');
+            $output->writeln('Temporary directory deleted.');
+            $output->writeln(
+                sprintf('-> %s', $this->getPath().'/'.self::TMP_DIR),
+                OutputInterface::VERBOSITY_VERBOSE
+            );
+            $doSomething = true;
+        }
+        // delete cache directory
+        if ($this->fs->exists($this->builder->getConfig()->getCachePath())) {
+            $this->fs->remove($this->builder->getConfig()->getCachePath());
+            $output->writeln('Cache directory deleted.');
+            $output->writeln(
+                sprintf('-> %s', $this->builder->getConfig()->getCachePath()),
+                OutputInterface::VERBOSITY_VERBOSE
+            );
+            $doSomething = true;
+        }
+
+        if ($doSomething === false) {
+            $output->writeln('Nothing to do.');
         }
 
         return 0;
