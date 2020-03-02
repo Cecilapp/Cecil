@@ -81,8 +81,18 @@ class Build extends Command
 
         try {
             $output->writeln(sprintf('Building website%s...', $messageOpt));
-            $output->writeln(sprintf('<comment>Path: %s</comment>', $this->getPath()));
-            $this->getBuilder($output, $config)->build($options);
+            $output->writeln(sprintf(
+                '<comment>Path: %s</comment>', $this->getPath()),
+                OutputInterface::VERBOSITY_VERBOSE
+            );
+            $builder = $this->getBuilder($output, $config);
+            if ((bool) $this->builder->getConfig()->get('cache.enabled')) {
+                $output->writeln(
+                    sprintf('<comment>Cache: %s</comment>', $this->builder->getConfig()->getCachePath()),
+                    OutputInterface::VERBOSITY_VERBOSE
+                );
+            }
+            $builder->build($options);
             $this->fs->dumpFile($this->getPath().'/'.self::TMP_DIR.'/changes.flag', time());
         } catch (\Exception $e) {
             throw new \Exception(sprintf('%s', $e->getMessage()));

@@ -23,7 +23,7 @@ class Image
     private $config;
     /** @var string */
     private $path;
-    /** @var string */
+    /** @var int */
     private $size;
     /** @var bool */
     private $external;
