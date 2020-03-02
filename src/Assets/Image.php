@@ -124,7 +124,10 @@ class Image
                     $constraint->upsize();
                 });
                 // is a sub dir is necessary?
-                $imageSubDir = Util::getFS()->makePathRelative('/'.dirname($this->imageRelPath), '/'.$this->thumbsDir.'/');
+                $imageSubDir = Util::getFS()->makePathRelative(
+                    '/'.dirname($this->imageRelPath),
+                    '/'.$this->thumbsDir.'/'
+                );
                 if (!empty($imageSubDir)) {
                     $destDir = $this->config->getCacheImagesThumbsPath().'/'.$this->size.'/'.$imageSubDir;
                         Util::getFS()->mkdir($destDir);
