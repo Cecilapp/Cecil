@@ -130,7 +130,7 @@ class Image
                 );
                 if (!empty($imageSubDir)) {
                     $destDir = $this->config->getCacheImagesThumbsPath().'/'.$this->size.'/'.$imageSubDir;
-                        Util::getFS()->mkdir($destDir);
+                    Util::getFS()->mkdir($destDir);
                 }
                 $img->save($this->destination);
             }
