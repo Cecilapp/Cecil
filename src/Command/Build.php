@@ -81,8 +81,8 @@ class Build extends Command
 
         try {
             $output->writeln(sprintf('Building website%s...', $messageOpt));
-            $output->writeln(sprintf(
-                '<comment>Path: %s</comment>', $this->getPath()),
+            $output->writeln(
+                sprintf('<comment>Path: %s</comment>', $this->getPath()),
                 OutputInterface::VERBOSITY_VERBOSE
             );
             $builder = $this->getBuilder($output, $config);
