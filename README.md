@@ -17,6 +17,12 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 ![Cecil CLI demo](docs/cecil-demo.gif "Cecil CLI demo")
 
+## Quick Start
+
+Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
+
+[![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://app.forestry.io/quick-start?repo=cecilapp/the-butler) [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/the-butler&stack=cms) [![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/Cecilapp/the-butler)
+
 ## Features
 
 - No server, no database, no dependency: performance and security
@@ -48,12 +54,6 @@ chmod +x /usr/local/bin/cecil
 - Get help: `cecil help`
 - Create new website: `cecil new:site`
 - Build and serve it: `cecil serve`
-
-## Quick Start
-
-Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
-
-[![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://app.forestry.io/quick-start?repo=cecilapp/the-butler) [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/the-butler&stack=cms) [![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/Cecilapp/the-butler)
 
 ## License
 
