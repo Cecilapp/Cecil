@@ -21,8 +21,12 @@ class Image
 {
     /** @var Config */
     private $config;
-    /** @var int */
+    /** @var string */
+    private $path;
+    /** @var string */
     private $size;
+    /** @var bool */
+    private $external;
     /** @var string */
     private $source;
     /** @var string */
@@ -47,19 +51,19 @@ class Image
      */
     public function resize(string $path, int $size): string
     {
-        $external = false;
-        $this->source = $path;
+        $this->path = $path;
         $this->size = $size;
+        $this->source = $path;
 
         // is external image?
-        if (Util::isExternalUrl($path)) {
-            $external = true;
+        if (Util::isExternalUrl($this->path)) {
+            $this->external = true;
         }
 
-        if (!$external) {
-            $this->source = $this->config->getStaticPath().'/'.ltrim($path, '/');
+        if (!$this->external) {
+            $this->source = $this->config->getStaticPath().'/'.ltrim($this->path, '/');
             if (!Util::getFS()->exists($this->source)) {
-                throw new Exception(sprintf('Can\'t resize "%s": file doesn\'t exists.', $path));
+                throw new Exception(sprintf('Can\'t resize "%s": file doesn\'t exists.', $this->path));
             }
             // ie: .cache/images/thumbs/300
             $this->thumbsDir = (string) $this->config->get('cache.dir')
@@ -67,61 +71,77 @@ class Image
                 .'/'.(string) $this->config->get('cache.images.thumbs.dir')
                 .'/'.$this->size;
             // ie: .cache/images/thumbs/300/img/logo.png
-            $this->imageRelPath = $this->thumbsDir.'/'.ltrim($path, '/');
-            // full absolute path
+            $this->imageRelPath = $this->thumbsDir.'/'.ltrim($this->path, '/');
+            // where to write file
             $this->destination = $this->config->getDestinationDir().'/'.$this->imageRelPath;
+            if ($this->config->isCacheDirIsAbsolute()) {
+                $this->destination = $this->imageRelPath;
+            }
         }
 
         // is size is already OK?
-        list($width, $height) = getimagesize($external ? $path : $this->source);
+        list($width, $height) = getimagesize($this->external ? $this->path : $this->source);
         if ($width <= $this->size && $height <= $this->size) {
-            return $path;
+            return $this->path;
         }
 
         // if GD extension is not installed: can't process
         if (!extension_loaded('gd')) {
-            return $path;
+            return $this->path;
         }
 
-        // external image: return data URL
-        if ($external) {
-            try {
-                $img = ImageManager::make($path);
-            } catch (NotReadableException $e) {
-                throw new Exception(sprintf('Cannot get image "%s"', $path));
-            }
-
-            return (string) $img->encode('data-url');
-        }
-
-        $this->doResize();
-
-        // return relative path
-        return '/'.$this->config->get('cache.images.dir')
-            .'/'.(string) $this->config->get('cache.images.thumbs.dir')
-            .'/'.$this->size
-            .'/'.ltrim($path, '/');
+        return $this->doResize();
     }
 
     /**
      * Resize with Intervention ImageManager.
+     *
+     * @return string
      */
-    private function doResize()
+    private function doResize(): string
     {
-        if (!Util::getFS()->exists($this->destination)) {
-            $img = ImageManager::make($this->source);
-            $img->resize($this->size, null, function (\Intervention\Image\Constraint $constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            // is a sub dir is necessary?
-            $imageSubDir = Util::getFS()->makePathRelative('/'.dirname($this->imageRelPath), '/'.$this->thumbsDir.'/');
-            if (!empty($imageSubDir)) {
-                $destDir = $this->config->getCacheImagesThumbsPath().'/'.$this->size.'/'.$imageSubDir;
-                Util::getFS()->mkdir($destDir);
+        try {
+            // external image
+            if ($this->external) {
+                try {
+                    $img = ImageManager::make($this->path);
+                    $img->resize($this->size, null, function (\Intervention\Image\Constraint $constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+                } catch (NotReadableException $e) {
+                    throw new Exception(sprintf('Cannot get image "%s"', $this->path));
+                }
+
+                // return data:image
+                return (string) $img->encode('data-url');
+            }
+            // local image
+            if (!Util::getFS()->exists($this->destination)) {
+                $img = ImageManager::make($this->source);
+                $img->resize($this->size, null, function (\Intervention\Image\Constraint $constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                // is a sub dir is necessary?
+                $imageSubDir = Util::getFS()->makePathRelative(
+                    '/'.dirname($this->imageRelPath),
+                    '/'.$this->thumbsDir.'/'
+                );
+                if (!empty($imageSubDir)) {
+                    $destDir = $this->config->getCacheImagesThumbsPath().'/'.$this->size.'/'.$imageSubDir;
+                    Util::getFS()->mkdir($destDir);
+                }
+                $img->save($this->destination);
             }
 
-            $img->save($this->destination);
+            // return relative path
+            return '/'.$this->config->get('cache.images.dir')
+                .'/'.(string) $this->config->get('cache.images.thumbs.dir')
+                .'/'.$this->size
+                .'/'.ltrim($this->path, '/');
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf("Error during \"%s\" process.\n%s", get_class($this), $e->getMessage()));
         }
     }
 }

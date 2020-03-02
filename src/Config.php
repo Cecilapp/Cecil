@@ -310,21 +310,45 @@ class Config
     }
 
     /**
+     * Is cache dir is absolute to systeme file
+     * or relative to project destiantion?
+     *
+     * @return bool
+     */
+    public function isCacheDirIsAbsolute(): bool
+    {
+        $path = (string) $this->get('cache.dir');
+        if (strpos($path, '/') !== false && strpos($path, '/') === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Return cache path.
+     *
+     * @return string
+     */
+    public function getCachePath(): string
+    {
+        if ($this->isCacheDirIsAbsolute()) {
+            return (string) $this->get('cache.dir');
+        }
+
+        return $this->getDestinationDir().'/'.(string) $this->get('cache.dir');
+    }
+
+    /**
      * Return the path to images/thumbs cache dir.
      *
      * @return string
      */
     public function getCacheImagesThumbsPath(): string
     {
-        $path = (string) $this->get('cache.dir')
+        return $this->getCachePath()
             .'/'.(string) $this->get('cache.images.dir')
             .'/'.(string) $this->get('cache.images.thumbs.dir');
-
-        if ($this->get('cache.external')) {
-            return $path;
-        }
-
-        return $this->getDestinationDir().'/'.$path;
     }
 
     /**
