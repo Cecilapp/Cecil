@@ -51,6 +51,7 @@ jobs:
       deploy:
         # GitHub release
         - provider: releases
+          edge: true
           token: $GH_TOKEN
           file: "dist/cecil.phar"
           overwrite: true
@@ -59,6 +60,7 @@ jobs:
             tags: true
         # dist files
         - provider: script
+          edge: true
           script: bash scripts/deploy-dist.sh
           on:
             branch: master
@@ -70,6 +72,7 @@ jobs:
       script: skip
       deploy:
         - provider: script
+          edge: true
           script: bash scripts/deploy-docs.sh
           on:
             branch: master
