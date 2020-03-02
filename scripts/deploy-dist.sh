@@ -46,7 +46,6 @@ echo $TRAVIS_TAG > VERSION
 # commit dist files
 git add -Af .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}* files"
-git push -fq origin $TARGET_BRANCH > /dev/null
 
 # prepare redirections (symlinks alternative)
 
