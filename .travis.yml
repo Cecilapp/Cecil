@@ -1,5 +1,5 @@
+os: linux
 language: php
-sudo: false
 
 cache:
   directories:
@@ -33,7 +33,7 @@ jobs:
     - stage: code coverage
   include:
     - stage: code coverage
-      php: 7.3
+      php: 7.2
       if: (NOT type IN (pull_request)) AND (branch = master)
       env:
         - TEST_COVERAGE=true
@@ -45,15 +45,14 @@ jobs:
         - travis_retry composer test-coverage-upload
         - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
-      php: 7.3
+      php: 7.2
       if: tag IS present
       script: composer box
       deploy:
         # GitHub release
         - provider: releases
-          api_key: $GH_TOKEN
+          token: $GH_TOKEN
           file: "dist/cecil.phar"
-          skip_cleanup: true
           overwrite: true
           on:
             branch: master
@@ -61,20 +60,16 @@ jobs:
         # dist files
         - provider: script
           script: bash scripts/deploy-dist.sh
-          skip_cleanup: true
-          overwrite: true
           on:
             branch: master
             tags: true
     - stage: deploy docs
-      php: 7.3
+      php: 7.2
       if: (NOT type IN (pull_request)) AND (branch = master)
       install: skip
       script: skip
       deploy:
         - provider: script
           script: bash scripts/deploy-docs.sh
-          skip_cleanup: true
-          overwrite: true
           on:
             branch: master
