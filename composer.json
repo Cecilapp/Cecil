@@ -33,13 +33,13 @@
     "padraic/phar-updater": "1.0.6",
     "scssphp/scssphp": "1.0.8",
     "spatie/image-optimizer": "1.1.4",
-    "symfony/console": "4.4.4",
-    "symfony/filesystem": "4.4.4",
-    "symfony/finder": "4.4.4",
-    "symfony/process": "4.4.4",
+    "symfony/console": "4.4.5",
+    "symfony/filesystem": "4.4.5",
+    "symfony/finder": "4.4.5",
+    "symfony/process": "4.4.5",
     "symfony/property-access": "^4.4",
     "symfony/serializer": "^4.4",
-    "symfony/yaml": "4.4.4",
+    "symfony/yaml": "4.4.5",
     "twig/extensions": "1.5.4",
     "twig/twig": "2.12.5",
     "voku/html-min": "4.1.0",
@@ -47,7 +47,7 @@
   },
   "require-dev": {
     "phpunit/phpunit": "7.5.17",
-    "phpmd/phpmd": "2.8.1",
+    "phpmd/phpmd": "2.8.2",
     "humbug/box": "3.7.0"
   },
   "autoload": {
