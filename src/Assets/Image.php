@@ -127,7 +127,7 @@ class Image
                 $imageSubDir = Util::getFS()->makePathRelative('/'.dirname($this->imageRelPath), '/'.$this->thumbsDir.'/');
                 if (!empty($imageSubDir)) {
                     $destDir = $this->config->getCacheImagesThumbsPath().'/'.$this->size.'/'.$imageSubDir;
-                        Util::getFS()->mkdir($destDir);
+                    Util::getFS()->mkdir($destDir);
                 }
                 $img->save($this->destination);
             }
