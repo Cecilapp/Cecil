@@ -64,7 +64,7 @@ class Parsedown extends ParsedownExtra
             }
             $srcset = '';
             for ($i = 1; $i <= $steps; $i++) {
-                $w = ceil($wMin + ($wMax - $wMin) / $steps * $i);
+                $w = (int) ceil($wMin + ($wMax - $wMin) / $steps * $i);
                 $img = (new Image($this->builder))->resize($image['element']['attributes']['src'], $w);
                 $srcset .= sprintf('%s %sw', $img, $w);
                 if ($i < $steps) {
