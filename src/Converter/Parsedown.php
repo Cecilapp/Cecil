@@ -50,32 +50,44 @@ class Parsedown extends ParsedownExtra
         $image['element']['attributes']['src'] = strtok($image['element']['attributes']['src'], '?');
 
         // should be responsive?
+        $responsive = false;
         if (array_key_exists('responsive', $result) && !Util::isExternalUrl($image['element']['attributes']['src'])) {
+            $responsive = true;
             $path = $this->builder->getConfig()->getStaticPath().'/'.ltrim($image['element']['attributes']['src'], '/');
             list($width) = getimagesize($path);
-            $image['element']['attributes']['srcset'] = sprintf(
-                '%s %sw, %s %sw, %s %sw',
-                (new Image($this->builder))->resize($image['element']['attributes']['src'], ceil($width/2)),
-                ceil($width/2),
-                (new Image($this->builder))->resize($image['element']['attributes']['src'], ceil($width/1.5)),
-                ceil($width/1.5),
-                (new Image($this->builder))->resize($image['element']['attributes']['src'], $width),
-                ceil($width)
-            );
-            $image['element']['attributes']['sizes'] = sprintf(
-                '(max-width: %spx) %spx, %spx',
-                ceil($width/1.5),
-                ceil($width/2),
-                ceil($width)
-            );
+            // process
+            $steps = 5;
+            $wMin = 320;
+            $wMax = 2560;
+            if ($width < $wMax) {
+                $wMax = $width;
+            }
+            $srcset = '';
+            for ($i=1; $i <= $steps; $i++) {
+                $w = ceil($wMin+($wMax-$wMin)/$steps*$i);
+                $img = (new Image($this->builder))->resize($image['element']['attributes']['src'], $w);
+                $srcset .= sprintf('%s %sw', $img, $w);
+                if ($i < $steps) {
+                    $srcset .= ', ';
+                }
+            }
+            // srcset="/img-480.jpg 480w, img-800.jpg 800w"
+            $image['element']['attributes']['srcset'] = $srcset;
         }
 
         // has resize value?
         if (array_key_exists('resize', $result)) {
             $size = (int) $result['resize'];
-            $image['element']['attributes']['width'] = $size;
+            $width = $size;
+            $image['element']['attributes']['width'] = $width;
             $image['element']['attributes']['src'] = (new Image($this->builder))
                 ->resize($image['element']['attributes']['src'], $size);
+        }
+
+        // set sizes
+        if ($responsive) {
+            // sizes="(max-width: 2800px) 100vw, 2800px"
+            $image['element']['attributes']['sizes'] = sprintf('(max-width: %spx) 100vw, %spx', $width, $width);
         }
 
         return $image;

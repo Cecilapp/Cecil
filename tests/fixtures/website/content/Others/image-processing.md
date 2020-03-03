@@ -28,3 +28,19 @@ typora-root-url: ../../static
 ```
 
 ![JAMstatic](https://jamstatic.fr/assets/images/twitter-card.png?resize=250 'JAMstatic')
+
+### Responsive image
+
+```markdown
+![Alt text](/cecil-logo-1000.png?responsive 'Title text')
+```
+
+![Alt text](/cecil-logo-1000.png?responsive 'Title text')
+
+### Image resized + Responsive
+
+```markdown
+![Alt text](/cecil-logo-2000.png?resize=900&responsive 'Title text')
+```
+
+![Alt text](/cecil-logo-2000.png?resize=900&responsive 'Title text')
