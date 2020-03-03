@@ -55,17 +55,17 @@ class Parsedown extends ParsedownExtra
             list($width) = getimagesize($path);
             $image['element']['attributes']['srcset'] = sprintf(
                 '%s %sw, %s %sw, %s %sw',
-                (new Image($this->builder))->resize($image['element']['attributes']['src'], ceil($width/2)),
-                ceil($width/2),
-                (new Image($this->builder))->resize($image['element']['attributes']['src'], ceil($width/1.5)),
-                ceil($width/1.5),
+                (new Image($this->builder))->resize($image['element']['attributes']['src'], ceil($width / 2)),
+                ceil($width / 2),
+                (new Image($this->builder))->resize($image['element']['attributes']['src'], ceil($width / 1.5)),
+                ceil($width / 1.5),
                 (new Image($this->builder))->resize($image['element']['attributes']['src'], $width),
                 ceil($width)
             );
             $image['element']['attributes']['sizes'] = sprintf(
                 '(max-width: %spx) %spx, %spx',
-                ceil($width/1.5),
-                ceil($width/2),
+                ceil($width / 1.5),
+                ceil($width / 2),
                 ceil($width)
             );
         }
