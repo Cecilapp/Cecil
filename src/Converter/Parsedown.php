@@ -40,6 +40,9 @@ class Parsedown extends ParsedownExtra
             return null;
         }
 
+        // force lazy loading
+        $image['element']['attributes']['loading'] = 'lazy';
+
         // capture query string. ie: "?resize=300&responsive"
         $query = parse_url($image['element']['attributes']['src'], PHP_URL_QUERY);
         if ($query === null) {
@@ -89,6 +92,13 @@ class Parsedown extends ParsedownExtra
         if ($responsive) {
             // sizes="(max-width: 2800px) 100vw, 2800px"
             $image['element']['attributes']['sizes'] = sprintf('(max-width: %spx) 100vw, %spx', $width, $width);
+        }
+
+        // set class attribute
+        if (array_key_exists('class', $result)) {
+            $class = $result['class'];
+            $class = strtr($class, ',', ' ');
+            $image['element']['attributes']['class'] = $class;
         }
 
         return $image;
