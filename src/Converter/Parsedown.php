@@ -51,6 +51,7 @@ class Parsedown extends ParsedownExtra
 
         // should be responsive?
         $responsive = false;
+        $width = null;
         if (array_key_exists('responsive', $result) && !Util::isExternalUrl($image['element']['attributes']['src'])) {
             $responsive = true;
             $path = $this->builder->getConfig()->getStaticPath().'/'.ltrim($image['element']['attributes']['src'], '/');
