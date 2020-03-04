@@ -52,15 +52,10 @@ class DataLoad extends AbstractStep
             return;
         }
 
-        // YAML
         $serializerYaml = new Serializer([new ObjectNormalizer()], [new YamlEncoder()]);
-        // JSON
         $serializerJson = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
-        // CSV
         $serializerCsv = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
-        // XML
         $serializerXml = new Serializer([new ObjectNormalizer()], [new XmlEncoder()]);
-
         $count = 0;
 
         /* @var $file \Symfony\Component\Finder\SplFileInfo */

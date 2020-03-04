@@ -35,7 +35,10 @@ class StaticCopy extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying static']);
+        call_user_func_array(
+            $this->builder->getMessageCb(),
+            ['COPY', 'Copying static']
+        );
 
         // copy content of '<theme>/static/' dir if exists
         if ($this->config->hasTheme()) {
@@ -51,10 +54,16 @@ class StaticCopy extends AbstractStep
         $this->copy($staticDir, null, $this->config->get('static.exclude'));
 
         if ($this->count === 0) {
-            call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Nothing to copy']);
+            call_user_func_array(
+                $this->builder->getMessageCb(),
+                ['COPY_PROGRESS', 'Nothing to copy']
+            );
             return 0;
         }
-        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Files copied', $this->count, $this->count]);
+        call_user_func_array(
+            $this->builder->getMessageCb(),
+            ['COPY_PROGRESS', 'Files copied', $this->count, $this->count]
+        );
     }
 
     /**
