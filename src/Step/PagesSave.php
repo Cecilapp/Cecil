@@ -26,7 +26,6 @@ class PagesSave extends AbstractStep
     {
         if ($options['dry-run']) {
             $this->process = false;
-            call_user_func_array($this->builder->getMessageCb(), ['SAVE', 'Dry run']);
 
             return;
         }

@@ -22,6 +22,12 @@ class AssetsCopy extends StaticCopy
      */
     public function init($options)
     {
+        if ($options['dry-run']) {
+            $this->process = false;
+
+            return;
+        }
+
         $this->process = true;
     }
 
