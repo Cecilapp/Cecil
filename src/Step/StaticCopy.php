@@ -58,6 +58,7 @@ class StaticCopy extends AbstractStep
                 $this->builder->getMessageCb(),
                 ['COPY_PROGRESS', 'Nothing to copy']
             );
+
             return 0;
         }
         call_user_func_array(
