@@ -30,7 +30,10 @@ class AssetsCopy extends StaticCopy
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['COPY', 'Copying assets']);
+        call_user_func_array(
+            $this->builder->getMessageCb(),
+            ['COPY', 'Copying assets']
+        );
 
         $cacheDirImages = $this->config->getCachePath().'/'.(string) $this->config->get('cache.images.dir');
         if ($this->copy($cacheDirImages, 'images')) {
@@ -39,7 +42,17 @@ class AssetsCopy extends StaticCopy
             }
         }
 
-        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Start copy', 0, $this->count]);
-        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Copied', $this->count, $this->count]);
+        if ($this->count === 0) {
+            call_user_func_array(
+                $this->builder->getMessageCb(),
+                ['COPY_PROGRESS', 'Nothing to copy']
+            );
+
+            return 0;
+        }
+        call_user_func_array(
+            $this->builder->getMessageCb(),
+            ['COPY_PROGRESS', 'Files copied', $this->count, $this->count]
+        );
     }
 }

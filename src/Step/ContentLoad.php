@@ -24,7 +24,7 @@ class ContentLoad extends AbstractStep
     public function init($options)
     {
         if (!is_dir($this->builder->getConfig()->getContentPath())) {
-            throw new Exception(sprintf('%s not found!', $this->builder->getConfig()->getContentPath()));
+            throw new Exception(sprintf('"%s" directory not found.', $this->builder->getConfig()->getContentPath()));
         }
 
         $this->process = true;
@@ -35,7 +35,10 @@ class ContentLoad extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['LOCATE', 'Loading content']);
+        call_user_func_array(
+            $this->builder->getMessageCb(),
+            ['LOCATE', 'Loading content']
+        );
 
         $content = Finder::create()
             ->files()
@@ -43,11 +46,22 @@ class ContentLoad extends AbstractStep
             ->name('/\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/')
             ->sortByName(true);
         if (!$content instanceof Finder) {
-            throw new Exception(sprintf("'%s->%s()' result must be an instance of 'Finder'.", __CLASS__, __FUNCTION__));
+            throw new Exception(sprintf('%s result must be an instance of Finder.', __CLASS__));
         }
-        $count = $content->count();
-        call_user_func_array($this->builder->getMessageCb(), ['LOCATE_PROGRESS', 'Start load', 0, $count]);
         $this->builder->setContent($content);
-        call_user_func_array($this->builder->getMessageCb(), ['LOCATE_PROGRESS', 'Files loaded', $count, $count]);
+
+        $count = $content->count();
+        if ($count === 0) {
+            call_user_func_array(
+                $this->builder->getMessageCb(),
+                ['LOCATE_PROGRESS', 'Nothing to load']
+            );
+
+            return 0;
+        }
+        call_user_func_array(
+            $this->builder->getMessageCb(),
+            ['LOCATE_PROGRESS', 'Files loaded', $count, $count]
+        );
     }
 }

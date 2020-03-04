@@ -8,6 +8,7 @@
 
 namespace Cecil\Step;
 
+use Cecil\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -55,7 +56,7 @@ abstract class AbstractStepOptimize extends AbstractStep
 
         $extensions = $this->builder->getConfig()->get(sprintf('optimize.%s.ext', $this->type));
         if (empty($extensions)) {
-            throw new \Exception(sprintf('The config key "optimize.%s.ext" is empty', $this->type));
+            throw new Exception(sprintf('The config key "optimize.%s.ext" is empty', $this->type));
         }
 
         $files = Finder::create()
