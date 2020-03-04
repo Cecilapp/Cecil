@@ -23,6 +23,12 @@ class StaticCopy extends AbstractStep
      */
     public function init($options)
     {
+        if ($options['dry-run']) {
+            $this->process = false;
+
+            return;
+        }
+
         // reset output directory
         Util::getFS()->remove($this->config->getOutputPath());
         Util::getFS()->mkdir($this->config->getOutputPath());

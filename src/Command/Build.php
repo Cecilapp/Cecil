@@ -60,7 +60,7 @@ class Build extends Command
         }
         if ($input->getOption('dry-run')) {
             $options['dry-run'] = true;
-            $messageOpt .= ' dry-run';
+            $messageOpt .= ' (dry-run)';
         }
         if ($input->getOption('baseurl')) {
             $config['baseurl'] = $input->getOption('baseurl');
