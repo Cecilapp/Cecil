@@ -46,7 +46,7 @@ class ContentLoad extends AbstractStep
             ->name('/\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/')
             ->sortByName(true);
         if (!$content instanceof Finder) {
-            throw new Exception(sprintf("%s result must be an instance of Finder.", __CLASS__));
+            throw new Exception(sprintf('%s result must be an instance of Finder.', __CLASS__));
         }
         $this->builder->setContent($content);
 
@@ -56,6 +56,7 @@ class ContentLoad extends AbstractStep
                 $this->builder->getMessageCb(),
                 ['LOCATE_PROGRESS', 'Nothing to load']
             );
+
             return 0;
         }
         call_user_func_array(
