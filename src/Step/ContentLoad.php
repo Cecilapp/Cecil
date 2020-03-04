@@ -45,9 +45,13 @@ class ContentLoad extends AbstractStep
         if (!$content instanceof Finder) {
             throw new Exception(sprintf("'%s->%s()' result must be an instance of 'Finder'.", __CLASS__, __FUNCTION__));
         }
-        $count = $content->count();
-        call_user_func_array($this->builder->getMessageCb(), ['LOCATE_PROGRESS', 'Start load', 0, $count]);
         $this->builder->setContent($content);
+
+        $count = $content->count();
+        if ($count === 0) {
+            call_user_func_array($this->builder->getMessageCb(), ['LOCATE_PROGRESS', 'Nothing to load']);
+            return 0;
+        }
         call_user_func_array($this->builder->getMessageCb(), ['LOCATE_PROGRESS', 'Files loaded', $count, $count]);
     }
 }

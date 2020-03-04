@@ -50,8 +50,11 @@ class StaticCopy extends AbstractStep
         $staticDir = $this->builder->getConfig()->getStaticPath();
         $this->copy($staticDir, null, $this->config->get('static.exclude'));
 
-        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Start copy', 0, $this->count]);
-        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Copied', $this->count, $this->count]);
+        if ($this->count === 0) {
+            call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Nothing to copy']);
+            return 0;
+        }
+        call_user_func_array($this->builder->getMessageCb(), ['COPY_PROGRESS', 'Files copied', $this->count, $this->count]);
     }
 
     /**
