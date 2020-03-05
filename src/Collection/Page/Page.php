@@ -486,7 +486,7 @@ class Page extends Item
             $language = \sprintf('%s/', $language);
         }
         // special case: homepage ('index' from hell!)
-        if (empty($path) && $suffix === null) {
+        if (empty($path) && empty($suffix)) {
             $path = 'index';
         }
 
