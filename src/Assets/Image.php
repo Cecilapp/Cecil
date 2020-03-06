@@ -55,6 +55,7 @@ class Image
         // source file
         if (!$this->local) {
             $this->source = $this->path;
+
             return;
         }
         $this->source = $this->config->getStaticPath().'/'.ltrim($this->path, '/');
@@ -129,7 +130,6 @@ class Image
             var_dump($img->width());
             var_dump($img->height());
             die();
-
         } catch (NotReadableException $e) {
             throw new Exception(sprintf('Cannot get image "%s"', $this->path));
         }
