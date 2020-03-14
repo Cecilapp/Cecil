@@ -32,9 +32,6 @@ jobs:
   allow_failures:
     - stage: code coverage
   include:
-    - stage: test
-      name: "Unit tests"
-      php: 7.2
     - script: composer test-cli
       name: "CLI bin run test"
       php: 7.2
