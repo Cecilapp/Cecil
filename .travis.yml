@@ -33,10 +33,10 @@ jobs:
     - stage: code coverage
   include:
     - script: composer test-cli
-      name: "CLI bin run test"
+      name: "CLI run test"
       php: 7.2
     - script: composer test-build-cli
-      name: "CLI bin build and run test"
+      name: "bin build and CLI run test"
       php: 7.2
     - stage: code coverage
       php: 7.2
