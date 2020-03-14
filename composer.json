@@ -72,6 +72,8 @@
   "prefer-stable": true,
   "scripts": {
     "test": "phpunit -c ./",
+    "test-cli": "cd bin && mkdir skeleton && php cecil new:site skeleton && php cecil build -v skeleton && rm -rf skeleton",
+    "test-build-cli": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton && php cecil.phar build -v skeleton && rm -rf skeleton",
     "box": "box compile",
     "build": "@box",
     "test-coverage-install": [
