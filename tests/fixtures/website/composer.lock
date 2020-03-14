@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cecil/theme-hyde",
-            "version": "1.15.3",
+            "version": "1.15.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/theme-hyde.git",
-                "reference": "7abe3c15086bc8eeb71d70f2d309f90412e13aed"
+                "reference": "9842dbc47a2ade50f40265a0e1666ba51f0a78cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/7abe3c15086bc8eeb71d70f2d309f90412e13aed",
-                "reference": "7abe3c15086bc8eeb71d70f2d309f90412e13aed",
+                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/9842dbc47a2ade50f40265a0e1666ba51f0a78cb",
+                "reference": "9842dbc47a2ade50f40265a0e1666ba51f0a78cb",
                 "shasum": ""
             },
             "require": {
@@ -40,7 +40,13 @@
                 "cecil",
                 "theme"
             ],
-            "time": "2020-02-10T11:08:14+00:00"
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/narno",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-03-12T20:54:10+00:00"
         },
         {
             "name": "cecil/theme-installer",
@@ -99,5 +105,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
