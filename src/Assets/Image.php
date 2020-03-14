@@ -39,6 +39,7 @@ class Image
     private $cacheDir;
 
     const CACHE_IMAGES_DIR = 'images';
+    const CACHE_IMAGES_THUMBS_DIR = 'thumbs';
 
     public function __construct(Builder $builder)
     {
@@ -63,12 +64,8 @@ class Image
             throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $this->path));
         }
 
-        // ie: .cache/images
-        $this->cacheDir = (string) $this->config->get('cache.dir')
-            .'/'.(string) $this->config->get('cache.images.dir');
-        // ie: /www/website/.cache/images
-        $this->cachePath = $this->config->getCachePath()
-            .'/'.(string) $this->config->get('cache.images.dir');
+        // images cache path
+        $this->cachePath = $this->config->getCachePath().'/'.self::CACHE_IMAGES_DIR;
     }
 
     /**
@@ -99,8 +96,7 @@ class Image
         }
 
         // ie: .cache/images/thumbs/300
-        $this->thumbsDir = $this->cacheDir
-            .'/'.(string) $this->config->get('cache.images.thumbs.dir').'/'.$this->size;
+        $this->thumbsDir = $this->cacheDir.'/'.self::CACHE_IMAGES_THUMBS_DIR.'/'.$this->size;
         // ie: .cache/images/thumbs/300/img/logo.png
         $this->imageRelPath = $this->thumbsDir.'/'.ltrim($this->path, '/');
         // where to write the file
