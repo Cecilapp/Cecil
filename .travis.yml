@@ -32,11 +32,8 @@ jobs:
   allow_failures:
     - stage: code coverage
   include:
-    - script: composer test-cli
-      name: "CLI run test"
-      php: 7.2
     - script: composer test-build-cli
-      name: "bin build and CLI run test"
+      name: "Build phar and run it"
       php: 7.2
     - stage: code coverage
       php: 7.2
