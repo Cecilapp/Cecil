@@ -13,6 +13,8 @@ php:
 
 stages:
   - test
+  - test-cli
+  - test-build-cli
   - deploy release
   - deploy docs
   - code coverage
@@ -32,9 +34,12 @@ jobs:
   allow_failures:
     - stage: code coverage
   include:
-    - stage: test cli
+    - stage: test-cli
       php: 7.2
       script: composer test-cli
+    - stage: test-build-cli
+      php: 7.2
+      script: composer test-build-cli
     - stage: code coverage
       php: 7.2
       if: (NOT type IN (pull_request)) AND (branch = master)
