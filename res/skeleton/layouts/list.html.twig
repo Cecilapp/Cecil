@@ -1,0 +1,9 @@
+{% extends '_default/list.html.twig' %}
+
+{% block content %}
+{% for p in pages %}
+        <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
+        {{ p.content|excerptHtml }}
+{% endfor %}
+{% include 'partials/pagination.html.twig' %}
+{% endblock content %}
