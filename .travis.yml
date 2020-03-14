@@ -32,6 +32,9 @@ jobs:
   allow_failures:
     - stage: code coverage
   include:
+    - stage: test cli
+      php: 7.2
+      script: composer test-cli
     - stage: code coverage
       php: 7.2
       if: (NOT type IN (pull_request)) AND (branch = master)
