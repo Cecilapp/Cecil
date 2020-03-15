@@ -58,9 +58,8 @@ class Image
     {
         /**
          * path = /images/img-1.jpg
-         * path = https://example.com/img-2.png
+         * path = https://example.com/img-2.png.
          */
-
         $this->path = $path;
         $this->size = $size;
 
@@ -81,12 +80,6 @@ class Image
                 throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $this->source));
             }
         }
-
-
-
-
-
-
 
         // images cache path
         $this->cachePath = $this->config->getCachePath().'/'.self::CACHE_IMAGES_DIR;
