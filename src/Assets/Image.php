@@ -46,28 +46,6 @@ class Image
         $this->config = $builder->getConfig();
     }
 
-    private function prepare(): void
-    {
-        // is not a local image?
-        if (Util::isExternalUrl($this->path)) {
-            $this->local = false;
-        }
-
-        // source file
-        if (!$this->local) {
-            $this->source = $this->path;
-
-            return;
-        }
-        $this->source = $this->config->getStaticPath().'/'.ltrim($this->path, '/');
-        if (!Util::getFS()->exists($this->source)) {
-            throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $this->path));
-        }
-
-        // images cache path
-        $this->cachePath = $this->config->getCachePath().'/'.self::CACHE_IMAGES_DIR;
-    }
-
     /**
      * Resize an image.
      *
@@ -78,11 +56,40 @@ class Image
      */
     public function resize(string $path, int $size): string
     {
+        /**
+         * path = /images/img-1.jpg
+         * path = https://example.com/img-2.png
+         */
+
         $this->path = $path;
         $this->size = $size;
-        $this->source = $path;
 
-        $this->prepare();
+        // is not a local image?
+        if (Util::isExternalUrl($this->path)) {
+            $this->local = false;
+        }
+
+        // source file
+        if ($this->local) {
+            $this->source = $this->config->getStaticPath().'/'.ltrim($this->path, '/');
+            if (!Util::getFS()->exists($this->source)) {
+                throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $this->source));
+            }
+        } else {
+            $this->source = $this->path;
+            if (!Util::isUrlFileExists($this->source)) {
+                throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $this->source));
+            }
+        }
+
+
+
+
+
+
+
+        // images cache path
+        $this->cachePath = $this->config->getCachePath().'/'.self::CACHE_IMAGES_DIR;
 
         // is size is already OK?
         list($width, $height) = getimagesize($this->source);
@@ -125,7 +132,7 @@ class Image
             // DEBUG
             var_dump($img->width());
             var_dump($img->height());
-            die();
+            //die();
         } catch (NotReadableException $e) {
             throw new Exception(sprintf('Cannot get image "%s"', $this->path));
         }
@@ -145,7 +152,7 @@ class Image
             $destDir = $this->config->getCacheImagesThumbsPath().'/'.$this->size.'/'.$imageSubDir;
             Util::getFS()->mkdir($destDir);
         }
-        $img->save($this->destination);
+        //$img->save($this->destination);
 
         // return relative path
         return '/'.$this->config->get('cache.images.dir')
