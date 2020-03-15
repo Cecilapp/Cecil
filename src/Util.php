@@ -114,7 +114,7 @@ class Util
     public static function isUrlFileExists(string $remoteFile): bool
     {
         $handle = @fopen($remoteFile, 'r');
-        if(!$handle) {
+        if (!$handle) {
             return false;
         }
 
