@@ -9,8 +9,6 @@
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
-use Cecil\Collection\Page\Page;
-use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Renderer\Twig\Extension as TwigExtension;
 
 /**
