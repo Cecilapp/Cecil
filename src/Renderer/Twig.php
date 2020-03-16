@@ -26,10 +26,6 @@ class Twig implements RendererInterface
      * @var string
      */
     protected $templatesDir;
-    /**
-     * @var string
-     */
-    protected $rendered;
 
     /**
      * {@inheritdoc}
@@ -77,31 +73,7 @@ class Twig implements RendererInterface
      */
     public function render($template, $variables)
     {
-        $this->rendered = $this->twig->render($template, $variables);
-
-        // add generator meta
-        if (!preg_match('/<meta name="generator".*/i', $this->rendered)) {
-            $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
-            $this->rendered = preg_replace('/(<\/head>)/i', "\t$meta\n  $1", $this->rendered);
-        }
-
-        // replace excerpt or break tag by HTML anchor
-        // https://regex101.com/r/Xl7d5I/3
-        $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
-        $replacement = '$1<span id="more"></span>$4';
-        $this->rendered = preg_replace('/'.$pattern.'/is', $replacement, $this->rendered);
-
-        // replace internal link to *.md files with the right URL
-        // https://regex101.com/r/dZ02zO/5
-        $this->rendered = preg_replace_callback(
-            '/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
-            function ($matches) {
-                return \sprintf('href="../%s%s/"', Page::slugify(PrefixSuffix::sub($matches[1])), $matches[2] ?? '');
-            },
-            $this->rendered
-        );
-
-        return $this->rendered;
+        return $this->twig->render($template, $variables);
     }
 
     /**
