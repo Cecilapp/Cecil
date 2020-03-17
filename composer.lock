@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1aa3d282f053231d5a65629f9d9cef6",
+    "content-hash": "3b2161d2c9677ac56b6a72596619dccd",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1983,22 +1983,22 @@
         },
         {
             "name": "voku/html-min",
-            "version": "4.1.0",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/HtmlMin.git",
-                "reference": "f73514a9c9dfcef6d1b24043c1dcb6142c8e8cc3"
+                "reference": "d2da25afb8216238414eaa1f1e9472f140655289"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/f73514a9c9dfcef6d1b24043c1dcb6142c8e8cc3",
-                "reference": "f73514a9c9dfcef6d1b24043c1dcb6142c8e8cc3",
+                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/d2da25afb8216238414eaa1f1e9472f140655289",
+                "reference": "d2da25afb8216238414eaa1f1e9472f140655289",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "php": ">=7.0.0",
-                "voku/simple_html_dom": "~4.7.7"
+                "voku/simple_html_dom": "~4.7.12"
             },
             "require-dev": {
                 "phpunit/phpunit": "~6.0 || ~7.0"
@@ -2028,7 +2028,21 @@
                 "html",
                 "minifier"
             ],
-            "time": "2020-02-06T23:10:13+00:00"
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/moelleken",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/voku",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/voku",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-03-05T23:43:01+00:00"
         },
         {
             "name": "voku/simple_html_dom",

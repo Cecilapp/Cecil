@@ -42,7 +42,7 @@
     "symfony/yaml": "4.4.5",
     "twig/extensions": "1.5.4",
     "twig/twig": "2.12.5",
-    "voku/html-min": "4.1.0",
+    "voku/html-min": "4.2.0",
     "yosymfony/resource-watcher": "2.0.1"
   },
   "require-dev": {
@@ -72,6 +72,8 @@
   "prefer-stable": true,
   "scripts": {
     "test": "phpunit -c ./",
+    "test-cli": "cd bin && mkdir skeleton && php cecil new:site skeleton && php cecil build -v skeleton && rm -rf skeleton",
+    "test-build-cli": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton && php cecil.phar build -v skeleton && rm -rf skeleton",
     "box": "box compile",
     "build": "@box",
     "test-coverage-install": [

@@ -1,5 +1,7 @@
 ---
 title: Locale codes
+description: List of availables locale codes (language_country).
+weight: 4
 exclude: true
 ---
 # Language

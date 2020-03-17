@@ -32,6 +32,9 @@ jobs:
   allow_failures:
     - stage: code coverage
   include:
+    - script: composer test-build-cli
+      name: "Build phar and run it"
+      php: 7.2
     - stage: code coverage
       php: 7.2
       if: (NOT type IN (pull_request)) AND (branch = master)

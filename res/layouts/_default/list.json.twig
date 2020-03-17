@@ -1,8 +1,9 @@
-{% extends '_default/page.json.twig' %}
-
-{% set items = page.pages|sortByDate %}
-
-{% if page.pagination.pages is defined %}
-{% set pagination = page.pagination %}
-{% set items = pagination.pages %}
+{% set items = site.pages.all %}
+{% if page.pages is defined %}
+{% set items = page.pages %}
 {% endif %}
+{% if page.pagination.pages is defined %}
+{% set items = page.pagination.pages %}
+{% endif %}
+
+{% extends '_default/page.json.twig' %}

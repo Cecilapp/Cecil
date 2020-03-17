@@ -25,9 +25,16 @@ class Section extends AbstractGenerator implements GeneratorInterface
         $sections = [];
 
         // identify sections
-        /* @var $page Page */
+        /** @var Page $page */
         foreach ($this->pagesCollection as $page) {
             if ($page->getSection()) {
+                // exclude page from section
+                if ($page->getVariable('exclude')) {
+                    $alteredPage = clone $page;
+                    $alteredPage->setSection('');
+                    $this->builder->getPages()->replace($page->getId(), $alteredPage);
+                    continue;
+                }
                 $sections[$page->getSection()][] = $page;
             }
         }

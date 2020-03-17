@@ -10,6 +10,7 @@ namespace Cecil\Step;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Exception\Exception;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Site;
@@ -119,10 +120,10 @@ class PagesRender extends AbstractStep
                 $layout = Layout::finder($page, $format, $this->config);
                 // render with Twig
                 try {
-                    $rendered[$format]['output'] = $this->builder->getRenderer()->render(
+                    $rendered[$format]['output'] = $this->postProcessOutput($this->builder->getRenderer()->render(
                         $layout,
                         ['page' => $page]
-                    );
+                    ), $format);
                     $rendered[$format]['template'] = $layout;
                 } catch (\Exception $e) {
                     throw new Exception(sprintf(
@@ -236,5 +237,42 @@ class PagesRender extends AbstractStep
         }
 
         return $alternates;
+    }
+
+    /**
+     * Apply post rendering on output.
+     *
+     * @param string $rendered
+     * @param string $format
+     *
+     * @return string
+     */
+    private function postProcessOutput(string $rendered, string $format): string
+    {
+        switch ($format) {
+            case 'html':
+                // add generator meta
+                if (!preg_match('/<meta name="generator".*/i', $rendered)) {
+                    $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
+                    $rendered = preg_replace('/(<\/head>)/i', "\t$meta\n  $1", $rendered);
+                }
+                // replace excerpt or break tag by HTML anchor
+                // https://regex101.com/r/Xl7d5I/3
+                $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
+                $replacement = '$1<span id="more"></span>$4';
+                $rendered = preg_replace('/'.$pattern.'/is', $replacement, $rendered);
+        }
+
+        // replace internal link to *.md files with the right URL
+        // https://regex101.com/r/dZ02zO/5
+        $rendered = preg_replace_callback(
+            '/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
+            function ($matches) {
+                return \sprintf('href="../%s/%s"', Page::slugify(PrefixSuffix::sub($matches[1])), $matches[2] ?? '');
+            },
+            $rendered
+        );
+
+        return $rendered;
     }
 }
