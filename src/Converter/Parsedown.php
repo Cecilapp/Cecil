@@ -40,10 +40,11 @@ class Parsedown extends ParsedownExtra
             return null;
         }
 
-        // force lazy loading
+        // set lazy loading attribute
         $image['element']['attributes']['loading'] = 'lazy';
 
-        // capture query string. ie: "?resize=300&responsive"
+        // capture query string.
+        // ie: "?resize=300&responsive"
         $query = parse_url($image['element']['attributes']['src'], PHP_URL_QUERY);
         if ($query === null) {
             return $image;
@@ -52,7 +53,9 @@ class Parsedown extends ParsedownExtra
         // clean URL
         $image['element']['attributes']['src'] = strtok($image['element']['attributes']['src'], '?');
 
-        // should be responsive?
+        /**
+         * Should be responsive?
+         */
         $responsive = false;
         $width = null;
         if (array_key_exists('responsive', $result) && !Util::isExternalUrl($image['element']['attributes']['src'])) {
@@ -75,11 +78,13 @@ class Parsedown extends ParsedownExtra
                     $srcset .= ', ';
                 }
             }
-            // srcset="/img-480.jpg 480w, img-800.jpg 800w"
+            // ie: srcset="/img-480.jpg 480w, img-800.jpg 800w"
             $image['element']['attributes']['srcset'] = $srcset;
         }
 
-        // has resize value?
+        /**
+         * Should be resized?
+         */
         if (array_key_exists('resize', $result)) {
             $size = (int) $result['resize'];
             $width = $size;
@@ -88,13 +93,13 @@ class Parsedown extends ParsedownExtra
                 ->resize($image['element']['attributes']['src'], $size);
         }
 
-        // set sizes
+        // if responsive set 'sizes' attribute
         if ($responsive) {
             // sizes="(max-width: 2800px) 100vw, 2800px"
             $image['element']['attributes']['sizes'] = sprintf('(max-width: %spx) 100vw, %spx', $width, $width);
         }
 
-        // set class attribute
+        // set 'class' attribute
         if (array_key_exists('class', $result)) {
             $class = $result['class'];
             $class = strtr($class, ',', ' ');
