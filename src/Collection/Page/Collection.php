@@ -72,16 +72,16 @@ class Collection extends CecilCollection
     {
         return $this->usort(function ($a, $b) {
             if (!isset($a['weight'])) {
-                return -1;
+                return 1;
             }
             if (!isset($b['weight'])) {
-                return 1;
+                return -1;
             }
             if ($a['weight'] == $b['weight']) {
                 return 0;
             }
 
-            return ($a['weight'] > $b['weight']) ? -1 : 1;
+            return ($a['weight'] < $b['weight']) ? -1 : 1;
         });
     }
 }
