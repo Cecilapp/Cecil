@@ -55,21 +55,14 @@ class Image
         }
 
         $this->path = '/'.ltrim($path, '/');
+        if (!$this->local) {
+            $this->path = $path;
+        }
         $this->size = $size;
         $returnPath = '/'.self::CACHE_IMAGES_THUMBS_DIR.'/'.$this->size.$this->path;
 
         // source file
-        if ($this->local) {
-            $this->source = $this->config->getStaticPath().$this->path;
-            if (!Util::getFS()->exists($this->source)) {
-                throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $this->source));
-            }
-        } else {
-            $this->source = $path;
-            if (!Util::isUrlFileExists($this->source)) {
-                throw new Exception(sprintf('Can\'t process "%s": remonte file doesn\'t exists.', $this->source));
-            }
-        }
+        $this->setSource();
 
         // images cache path
         $this->cachePath = $this->config->getCachePath().'/'.self::CACHE_IMAGES_THUMBS_DIR.'/';
@@ -113,5 +106,25 @@ class Image
 
         // return new path
         return $returnPath;
+    }
+
+    /**
+     * Set source.
+     */
+    private function setSource(): void
+    {
+        if ($this->local) {
+            $this->source = $this->config->getStaticPath().$this->path;
+            if (!Util::getFS()->exists($this->source)) {
+                throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $this->source));
+            }
+
+            return;
+        }
+
+        $this->source = $this->path;
+        if (!Util::isUrlFileExists($this->source)) {
+            throw new Exception(sprintf('Can\'t process "%s": remonte file doesn\'t exists.', $this->source));
+        }
     }
 }
