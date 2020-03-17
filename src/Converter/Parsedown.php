@@ -83,7 +83,7 @@ class Parsedown extends ParsedownExtra
         }
 
         /**
-         * Should resize?
+         * Should be resized?
          */
         if (array_key_exists('resize', $result)) {
             $size = (int) $result['resize'];
