@@ -30,6 +30,8 @@ class Image
     /** @var string */
     private $source;
     /** @var string */
+    private $cachePath;
+    /** @var string */
     private $destination = null;
 
     const CACHE_IMAGES_THUMBS_DIR = 'images/thumbs';

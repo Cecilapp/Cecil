@@ -111,13 +111,20 @@ class Util
         return (bool) preg_match('~^(?:f|ht)tps?://~i', $url);
     }
 
+    /**
+     * Test if a remote file exists or not.
+     *
+     * @param string $remoteFile
+     *
+     * @return bool
+     */
     public static function isUrlFileExists(string $remoteFile): bool
     {
         $handle = @fopen($remoteFile, 'r');
-        if (!$handle) {
-            return false;
+        if (is_resource($handle)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
