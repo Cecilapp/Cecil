@@ -534,10 +534,10 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Resize image.
+     * Resize an image.
      *
-     * @param string $path
-     * @param int    $size
+     * @param string $path Image path (relative from static/ dir or external)
+     * @param int    $size Image new size (width)
      *
      * @return string
      */
