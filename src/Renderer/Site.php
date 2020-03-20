@@ -78,6 +78,8 @@ class Site implements \ArrayAccess
                 return new Language($this->builder->getConfig(), $this->language);
             case 'data':
                 return $this->builder->getData();
+            case 'static':
+                return $this->builder->getStatic();
         }
 
         return $this->builder->getConfig()->get($offset, $this->language);
