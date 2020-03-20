@@ -25,12 +25,6 @@ class Builder
     const VERBOSITY_DEBUG = 2;
 
     /**
-     * App version.
-     *
-     * @var string
-     */
-    protected static $version;
-    /**
      * Steps that are processed by build().
      *
      * @var array
@@ -57,7 +51,13 @@ class Builder
         'Cecil\Step\OptimizeImages',
     ];
     /**
-     * Config.
+     * App version.
+     *
+     * @var string
+     */
+    protected static $version;
+    /**
+     * Configuration.
      *
      * @var Config
      */
@@ -69,13 +69,13 @@ class Builder
      */
     protected $content;
     /**
-     * Data array.
+     * Data collection.
      *
      * @var array
      */
     protected $data = [];
     /**
-     * Static files array.
+     * Static files collection.
      *
      * @var array
      */
@@ -87,36 +87,44 @@ class Builder
      */
     protected $pages;
     /**
-     * Collection of site menus.
+     * Menus collection.
      *
      * @var Collection\Menu\Collection
      */
     protected $menus;
     /**
-     * Collection of site taxonomies.
+     * Taxonomies collection.
      *
      * @var Collection\Taxonomy\Collection
      */
     protected $taxonomies;
     /**
-     * Twig renderer.
+     * Renderer (Renderer\Twig).
      *
-     * @var Renderer\Twig
+     * @var Renderer\RendererInterface
      */
     protected $renderer;
     /**
+     * Message callback.
+     *
      * @var \Closure
      */
     protected $messageCallback;
     /**
+     * Generators manager.
+     *
      * @var GeneratorManager
      */
     protected $generatorManager;
     /**
+     * Log.
+     *
      * @var array
      */
     protected $log;
     /**
+     * Options.
+     *
      * @var array
      */
     protected $options;
@@ -140,7 +148,7 @@ class Builder
      *
      * @return Builder
      */
-    public static function create()
+    public static function create(): Builder
     {
         $class = new \ReflectionClass(get_called_class());
 
@@ -154,7 +162,7 @@ class Builder
      *
      * @return $this
      */
-    public function setConfig($config)
+    public function setConfig($config): self
     {
         if (!$config instanceof Config) {
             $config = new Config($config);
@@ -169,7 +177,7 @@ class Builder
     /**
      * @return Config
      */
-    public function getConfig()
+    public function getConfig(): Config
     {
         return $this->config;
     }
@@ -177,11 +185,11 @@ class Builder
     /**
      * Config::setSourceDir alias.
      *
-     * @param $sourceDir
+     * @param string|null $sourceDir
      *
      * @return $this
      */
-    public function setSourceDir($sourceDir)
+    public function setSourceDir(string $sourceDir=null): self
     {
         $this->config->setSourceDir($sourceDir);
 
@@ -191,11 +199,11 @@ class Builder
     /**
      * Config::setDestinationDir alias.
      *
-     * @param $destinationDir
+     * @param string|null $destinationDir
      *
      * @return $this
      */
-    public function setDestinationDir($destinationDir)
+    public function setDestinationDir(string $destinationDir=null): self
     {
         $this->config->setDestinationDir($destinationDir);
 
@@ -243,7 +251,7 @@ class Builder
     }
 
     /**
-     * @return array
+     * @return array static files collection
      */
     public function getStatic(): array
     {
@@ -251,9 +259,9 @@ class Builder
     }
 
     /**
-     * @param $pages
+     * @param PagesCollection $pages
      */
-    public function setPages($pages)
+    public function setPages(PagesCollection $pages)
     {
         $this->pages = $pages;
     }
@@ -261,15 +269,15 @@ class Builder
     /**
      * @return PagesCollection
      */
-    public function getPages()
+    public function getPages(): PagesCollection
     {
         return $this->pages;
     }
 
     /**
-     * @param $menus
+     * @param Collection\Menu\Collection $menus
      */
-    public function setMenus($menus)
+    public function setMenus(Collection\Menu\Collection $menus)
     {
         $this->menus = $menus;
     }
@@ -277,15 +285,15 @@ class Builder
     /**
      * @return Collection\Menu\Collection
      */
-    public function getMenus()
+    public function getMenus(): Collection\Menu\Collection
     {
         return $this->menus;
     }
 
     /**
-     * @param $taxonomies
+     * @param Collection\Taxonomy\Collection $taxonomies
      */
-    public function setTaxonomies($taxonomies)
+    public function setTaxonomies(Collection\Taxonomy\Collection $taxonomies)
     {
         $this->taxonomies = $taxonomies;
     }
@@ -293,7 +301,7 @@ class Builder
     /**
      * @return Collection\Taxonomy\Collection
      */
-    public function getTaxonomies()
+    public function getTaxonomies(): Collection\Taxonomy\Collection
     {
         return $this->taxonomies;
     }
@@ -301,7 +309,7 @@ class Builder
     /**
      * @param \Closure|null $messageCallback
      */
-    public function setMessageCallback($messageCallback = null)
+    public function setMessageCallback(\Closure $messageCallback = null)
     {
         if ($messageCallback === null) {
             $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
@@ -363,34 +371,34 @@ class Builder
     /**
      * @return \Closure
      */
-    public function getMessageCb()
+    public function getMessageCb(): \Closure
     {
         return $this->messageCallback;
     }
 
     /**
-     * @param $renderer
+     * @param Renderer\RendererInterface $renderer
      */
-    public function setRenderer($renderer)
+    public function setRenderer(Renderer\RendererInterface $renderer)
     {
         $this->renderer = $renderer;
     }
 
     /**
-     * @return Renderer\Twig
+     * @return Renderer\RendererInterface
      */
-    public function getRenderer()
+    public function getRenderer(): Renderer\RendererInterface
     {
         return $this->renderer;
     }
 
     /**
-     * @param string $log
-     * @param int    $type
+     * @param string $log  Message
+     * @param int    $type Verbosity
      *
      * @return array|null
      */
-    public function addLog($log, $type = 0)
+    public function addLog(string $log, int $type = 0): ?array
     {
         $this->log[] = [
             'type' => $type,
@@ -405,7 +413,7 @@ class Builder
      *
      * @return array|null
      */
-    public function getLog($type = 0)
+    public function getLog(int $type = 0): ?array
     {
         if (is_array($this->log)) {
             return array_filter($this->log, function ($key) use ($type) {
@@ -419,7 +427,7 @@ class Builder
      *
      * Display $log string.
      */
-    public function showLog($type = 0)
+    public function showLog(int $type = 0)
     {
         if ($log = $this->getLog($type)) {
             foreach ($log as $value) {
@@ -431,7 +439,7 @@ class Builder
     /**
      * @return array $options
      */
-    public function getBuildOptions()
+    public function getBuildOptions(): array
     {
         return $this->options;
     }
@@ -443,14 +451,10 @@ class Builder
      *
      * @return $this
      */
-    public function build($options)
+    public function build(array $options): self
     {
         // start script time
         $startTime = microtime(true);
-        // backward compatibility
-        if ($options === true) {
-            $options['verbosity'] = self::VERBOSITY_VERBOSE;
-        }
         $this->options = array_merge([
             'verbosity' => self::VERBOSITY_NORMAL, // -1: quiet, 0: normal, 1: verbose, 2: debug
             'drafts'    => false, // build drafts or not
@@ -487,7 +491,7 @@ class Builder
      *
      * @return string
      */
-    public static function getVersion()
+    public static function getVersion(): string
     {
         if (!isset(self::$version)) {
             $filePath = __DIR__.'/../VERSION';
