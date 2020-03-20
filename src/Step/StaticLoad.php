@@ -45,9 +45,9 @@ class StaticLoad extends AbstractStep
             return;
         }
 
+        $staticFiles = [];
         $count = 0;
-
-        /* @var $file \Symfony\Component\Finder\SplFileInfo */
+        /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
             $staticFiles[$count]['path'] = $file->getRelativePathname();
             $staticFiles[$count]['date'] = (new \DateTime())->setTimestamp($file->getCTime());
