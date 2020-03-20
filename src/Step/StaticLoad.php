@@ -55,11 +55,12 @@ class StaticLoad extends AbstractStep
             $staticFiles[$count]['name'] = $file->getBasename();
             $staticFiles[$count]['basename'] = $file->getBasename('.'.$file->getExtension());
             $staticFiles[$count]['ext'] = $file->getExtension();
-            $this->builder->setStatic($staticFiles);
             $count++;
 
             $message = sprintf('%s', $file->getRelativePathname());
             call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
         }
+
+        $this->builder->setStatic($staticFiles);
     }
 }
