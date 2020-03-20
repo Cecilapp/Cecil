@@ -106,8 +106,10 @@ class Site implements \ArrayAccess
 
     /**
      * All pages, filtered by published status.
+     *
+     * @return \Cecil\Collection\Page\Collection
      */
-    public function getPages()
+    public function getPages(): \Cecil\Collection\Page\Collection
     {
         return $this->builder->getPages()->filter(function (Page $page) {
             return $page->getVariable('published');
@@ -116,8 +118,10 @@ class Site implements \ArrayAccess
 
     /**
      * Current time.
+     *
+     * @return int
      */
-    public function getTime()
+    public function getTime(): int
     {
         return time();
     }
