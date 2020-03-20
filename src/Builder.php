@@ -148,7 +148,7 @@ class Builder
      *
      * @return Builder
      */
-    public static function create(): Builder
+    public static function create(): self
     {
         $class = new \ReflectionClass(get_called_class());
 
@@ -189,7 +189,7 @@ class Builder
      *
      * @return $this
      */
-    public function setSourceDir(string $sourceDir=null): self
+    public function setSourceDir(string $sourceDir = null): self
     {
         $this->config->setSourceDir($sourceDir);
 
@@ -203,7 +203,7 @@ class Builder
      *
      * @return $this
      */
-    public function setDestinationDir(string $destinationDir=null): self
+    public function setDestinationDir(string $destinationDir = null): self
     {
         $this->config->setDestinationDir($destinationDir);
 
