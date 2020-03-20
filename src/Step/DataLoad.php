@@ -26,7 +26,9 @@ class DataLoad extends AbstractStep
      */
     public function init($options)
     {
-        if (is_dir($this->builder->getConfig()->getDataPath())) {
+        /** @var \Cecil\Builder $builder */
+        /** @var \Cecil\Config $config */
+        if (is_dir($this->builder->getConfig()->getDataPath()) && $this->config->get('data.load.enabled')) {
             $this->process = true;
         }
     }
@@ -58,7 +60,7 @@ class DataLoad extends AbstractStep
         $serializerXml = new Serializer([new ObjectNormalizer()], [new XmlEncoder()]);
         $count = 0;
 
-        /* @var $file \Symfony\Component\Finder\SplFileInfo */
+        /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
             $count++;
             set_error_handler(
@@ -103,7 +105,7 @@ class DataLoad extends AbstractStep
             );
             $this->builder->setData($dataArray);
 
-            $message = sprintf('"%s" loaded', $path);
+            $message = sprintf('%s.%s', $path, $file->getExtension());
             call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
         }
     }

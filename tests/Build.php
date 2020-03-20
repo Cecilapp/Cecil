@@ -122,6 +122,9 @@ class Build extends \PHPUnit\Framework\TestCase
                         'test*.txt',
                         '/\.php$/',
                     ],
+                    'load' => [
+                        'enabled' => true,
+                    ],
                 ],
                 'generators' => [
                     99  => 'Cecil\Generator\Test',
