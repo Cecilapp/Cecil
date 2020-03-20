@@ -420,6 +420,8 @@ class Builder
                 return $key['type'] <= $type;
             });
         }
+
+        return null;
     }
 
     /**
