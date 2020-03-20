@@ -1,0 +1,32 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+<ul>
+  <li><a href="#all-static-files">All static files</a></li>
+  <li><a href="#photo-stream">Photo stream</a></li>
+</ul>
+<ul>
+<a name="all-static-files"></a>
+{% for file in site.static %}
+  <li>
+    {{ file.path }}
+    <ul>
+      <li>path: {{ file.path }}</li>
+      <li>date: {{ file.date|date }}</li>
+      <li>updated: {{ file.updated|date }}</li>
+      <li>name: {{ file.name }}</li>
+      <li>basename: {{ file.basename }}</li>
+      <li>ext: {{ file.ext }}</li>
+    </ul>
+  </li>
+{% endfor %}
+</ul>
+<a name="photo-stream"></a>
+{% for file in site.static if file.ext in ['jpg', 'jpeg', 'png', 'gif'] %}
+<figure>
+  <img src="{{ url(file.path) }}" alt="{{ file.name }}"/>
+	<figcaption>{{ file.basename|replace({'-':' ','_':' '})|title }}</figcaption>
+</figure>
+{% endfor %}
+
+{% endblock %}

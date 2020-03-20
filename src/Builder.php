@@ -41,6 +41,7 @@ class Builder
         'Cecil\Step\ConfigImport',
         'Cecil\Step\ContentLoad',
         'Cecil\Step\DataLoad',
+        'Cecil\Step\StaticLoad',
         'Cecil\Step\PagesCreate',
         'Cecil\Step\PagesConvert',
         'Cecil\Step\TaxonomiesCreate',
@@ -73,6 +74,12 @@ class Builder
      * @var array
      */
     protected $data = [];
+    /**
+     * Static files array.
+     *
+     * @var array
+     */
+    protected $static = [];
     /**
      * Pages collection.
      *
@@ -225,6 +232,22 @@ class Builder
     public function getData(): array
     {
         return $this->data;
+    }
+
+    /**
+     * @param array $static
+     */
+    public function setStatic(array $static)
+    {
+        $this->static = $static;
+    }
+
+    /**
+     * @return array
+     */
+    public function getStatic(): array
+    {
+        return $this->static;
     }
 
     /**
