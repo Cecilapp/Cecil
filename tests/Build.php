@@ -38,8 +38,8 @@ class Build extends \PHPUnit\Framework\TestCase
         putenv('CECIL_DESCRIPTION=Description (env. variable)');
         Builder::create(
             [
-                'debug' => true,
-                'title' => 'Cecil test',
+                'debug'      => true,
+                'title'      => 'Cecil test',
                 'taxonomies' => [
                     'tests' => 'disabled',
                 ],
@@ -69,7 +69,7 @@ class Build extends \PHPUnit\Framework\TestCase
                     'hyde',
                 ],
                 'googleanalytics' => 'UA-XXXXX',
-                'output' => [
+                'output'          => [
                     'formats' => [
                         [
                             'name'      => 'netlify_redirects',
@@ -123,7 +123,7 @@ class Build extends \PHPUnit\Framework\TestCase
                         'test*.txt',
                         '/\.php$/',
                     ],
-                    'load' =>  true,
+                    'load' => true,
                 ],
                 'generators' => [
                     99  => 'Cecil\Generator\Test',
