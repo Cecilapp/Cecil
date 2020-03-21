@@ -23,42 +23,9 @@ return [
         'max'  => 5,      // number of pages on each paginated pages
         'path' => 'page', // path to paginated pages. ie: '/blog/page/2/'
     ],
-    'language'  => 'en',
-    'languages' => [
-        [
-            'code'   => 'en',
-            'name'   => 'English',
-            'locale' => 'en_US',
-        ],
-    ],
     'date'   => [
         'format'   => 'j F Y', // See https://php.net/manual/function.date.php
         'timezone' => 'Europe/Paris',
-    ],
-    'defaultpages' => [
-        'robots' => [
-            'path'      => 'robots',
-            'title'     => 'Robots.txt',
-            'layout'    => 'robots',
-            'output'    => 'txt',
-            'published' => true,
-        ],
-        'sitemap' => [
-            'path'       => 'sitemap',
-            'title'      => 'XML sitemap',
-            'layout'     => 'sitemap',
-            'output'     => 'xml',
-            'changefreq' => 'monthly',
-            'priority'   => '0.5',
-            'published'  => true,
-        ],
-        '404' => [
-            'path'      => '404',
-            'title'     => 'Page not found',
-            'layout'    => '404',
-            'uglyurl'   => true,
-            'published' => true,
-        ],
     ],
     'output' => [
         'dir'      => '_site',
@@ -136,6 +103,39 @@ return [
             'term'       => ['html', 'atom', 'rss'],
         ],
     ],
+    'language'  => 'en',
+    'languages' => [
+        [
+            'code'   => 'en',
+            'name'   => 'English',
+            'locale' => 'en_US',
+        ],
+    ],
+    'defaultpages' => [
+        'robots' => [
+            'path'      => 'robots',
+            'title'     => 'Robots.txt',
+            'layout'    => 'robots',
+            'output'    => 'txt',
+            'published' => true,
+        ],
+        'sitemap' => [
+            'path'       => 'sitemap',
+            'title'      => 'XML sitemap',
+            'layout'     => 'sitemap',
+            'output'     => 'xml',
+            'changefreq' => 'monthly',
+            'priority'   => '0.5',
+            'published'  => true,
+        ],
+        '404' => [
+            'path'      => '404',
+            'title'     => 'Page not found',
+            'layout'    => '404',
+            'uglyurl'   => true,
+            'published' => true,
+        ],
+    ],
     // Markdown files
     'content' => [
         'dir' => 'content',
@@ -151,16 +151,12 @@ return [
     'data' => [
         'dir'  => 'data',
         'ext'  => ['yaml', 'yml', 'json', 'xml', 'csv'],
-        'load' => [
-            'enabled' => true, // enables `site.data` collection
-        ],
+        'load' => true, // enables `site.data` collection
     ],
     // static files
     'static' => [
         'dir'  => 'static',
-        'load' => [
-            'enabled' => false, // enables `site.static` collection
-        ],
+        'load' => false, // enables `site.static` collection
     ],
     // templates
     'layouts' => [

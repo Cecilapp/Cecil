@@ -38,23 +38,10 @@ class Build extends \PHPUnit\Framework\TestCase
         putenv('CECIL_DESCRIPTION=Description (env. variable)');
         Builder::create(
             [
-                'title'     => 'Cecil test',
-                'language'  => 'en',
-                'languages' => [
-                    [
-                        'code'   => 'en',
-                        'name'   => 'English',
-                        'locale' => 'en_US',
-                    ],
-                    [
-                        'code'   => 'fr',
-                        'name'   => 'Français',
-                        'locale' => 'fr_FR',
-                        'config' => [
-                            'title'       => 'Cecil FR',
-                            'description' => 'En français !',
-                        ],
-                    ],
+                'debug' => true,
+                'title' => 'Cecil test',
+                'taxonomies' => [
+                    'tests' => 'disabled',
                 ],
                 'menus' => [
                     'main' => [
@@ -77,26 +64,11 @@ class Build extends \PHPUnit\Framework\TestCase
                 'pagination' => [
                     'enabled' => true,
                 ],
-                'taxonomies' => [
-                    'tests' => 'disabled',
+                'theme' => [
+                    'a-theme',
+                    'hyde',
                 ],
                 'googleanalytics' => 'UA-XXXXX',
-                'defaultpages'    => [
-                    'sitemap' => [
-                        'published' => false,
-                        'priority'  => 99,
-                    ],
-                ],
-                'virtualpages' => [
-                    [
-                        'path'   => '_redirects',
-                        'output' => 'netlify_redirects',
-                    ],
-                    [
-                        'path'      => 'rss',
-                        'published' => false,
-                    ],
-                ],
                 'output' => [
                     'formats' => [
                         [
@@ -113,24 +85,50 @@ class Build extends \PHPUnit\Framework\TestCase
                         'term'       => ['html', 'atom', 'rss'],
                     ],
                 ],
-                'theme' => [
-                    'a-theme',
-                    'hyde',
+                'language'  => 'en',
+                'languages' => [
+                    [
+                        'code'   => 'en',
+                        'name'   => 'English',
+                        'locale' => 'en_US',
+                    ],
+                    [
+                        'code'   => 'fr',
+                        'name'   => 'Français',
+                        'locale' => 'fr_FR',
+                        'config' => [
+                            'title'       => 'Cecil FR',
+                            'description' => 'En français !',
+                        ],
+                    ],
+                ],
+                'virtualpages' => [
+                    [
+                        'path'   => '_redirects',
+                        'output' => 'netlify_redirects',
+                    ],
+                    [
+                        'path'      => 'rss',
+                        'published' => false,
+                    ],
+                ],
+                'defaultpages'    => [
+                    'sitemap' => [
+                        'published' => false,
+                        'priority'  => 99,
+                    ],
                 ],
                 'static' => [
                     'exclude' => [
                         'test*.txt',
                         '/\.php$/',
                     ],
-                    'load' => [
-                        'enabled' => true,
-                    ],
+                    'load' =>  true,
                 ],
                 'generators' => [
                     99  => 'Cecil\Generator\Test',
                     //100 => 'Cecil\Generator\TitleReplace',
                 ],
-                'debug' => true,
                 'cache' => [
                     'enabled' => true,
                 ],

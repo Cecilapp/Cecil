@@ -88,7 +88,7 @@ class StaticCopy extends AbstractStep
             $finder = new Finder();
             $finder->files()->in($from);
             if (is_array($exclude)) {
-                $finder->files()->notName($exclude)->in($from);
+                $finder->notName($exclude);
             }
             $this->count += $finder->count();
             Util::getFS()->mirror(

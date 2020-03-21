@@ -22,7 +22,7 @@ class StaticLoad extends AbstractStep
     {
         /** @var \Cecil\Builder $builder */
         /** @var \Cecil\Config $config */
-        if (is_dir($this->builder->getConfig()->getStaticPath()) && $this->config->get('static.load.enabled')) {
+        if (is_dir($this->builder->getConfig()->getStaticPath()) && $this->config->get('static.load')) {
             $this->process = true;
         }
     }
@@ -36,8 +36,11 @@ class StaticLoad extends AbstractStep
 
         $files = Finder::create()
             ->files()
-            ->in($this->builder->getConfig()->getStaticPath())
-            ->sortByName(true);
+            ->in($this->builder->getConfig()->getStaticPath());
+        if (is_array($this->config->get('static.exclude'))) {
+            $files->notName($this->config->get('static.exclude'));
+        }
+        $files->sortByName(true);
         $max = count($files);
 
         if ($max <= 0) {

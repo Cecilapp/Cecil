@@ -28,7 +28,7 @@ class DataLoad extends AbstractStep
     {
         /** @var \Cecil\Builder $builder */
         /** @var \Cecil\Config $config */
-        if (is_dir($this->builder->getConfig()->getDataPath()) && $this->config->get('data.load.enabled')) {
+        if (is_dir($this->builder->getConfig()->getDataPath()) && $this->config->get('data.load')) {
             $this->process = true;
         }
     }
