@@ -29,6 +29,7 @@ class Build extends \PHPUnit\Framework\TestCase
         if (!self::DEBUG) {
             $fs->remove($this->wsDestinationDir.'/_site');
             $fs->remove(__DIR__.'/../_cache');
+            $fs->remove($this->wsDestinationDir.'/.cache');
         }
     }
 
