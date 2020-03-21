@@ -10,7 +10,6 @@ namespace Cecil\Generator;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection as PagesCollection;
-use Cecil\Config;
 use Cecil\Util;
 
 /**
@@ -18,16 +17,16 @@ use Cecil\Util;
  */
 abstract class AbstractGenerator implements GeneratorInterface
 {
-    /* @var Builder */
+    /** @var Builder */
     protected $builder;
-    /* @var Config */
+    /** @var \Cecil\Config */
     protected $config;
-    /* @var PagesCollection */
+    /** @var PagesCollection */
     protected $pagesCollection;
-    /* @var \Closure */
-    protected $messageCallback;
-    /* @var PagesCollection */
+    /** @var PagesCollection */
     protected $generatedPages;
+    /** @var \Closure */
+    protected $messageCallback;
 
     /**
      * {@inheritdoc}

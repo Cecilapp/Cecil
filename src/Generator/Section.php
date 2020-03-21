@@ -13,7 +13,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 
 /**
- * Class Section.
+ * Class Generator\Section.
  */
 class Section extends AbstractGenerator implements GeneratorInterface
 {
@@ -51,6 +51,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 $pages = new PagesCollection($section, $pagesAsArray);
                 // sort
                 $pages = $pages->sortByDate();
+                /** @var \Cecil\Collection\Page\Page $page */
                 if ($page->getVariable('sortby')) {
                     $sortMethod = sprintf('sortBy%s', ucfirst($page->getVariable('sortby')));
                     if (method_exists($pages, $sortMethod)) {

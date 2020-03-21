@@ -9,7 +9,7 @@
 namespace Cecil\Generator;
 
 /**
- * Class DefaultPages.
+ * Class Generator\DefaultPages.
  */
 class DefaultPages extends VirtualPages
 {

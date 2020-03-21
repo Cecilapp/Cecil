@@ -12,7 +12,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 
 /**
- * Class Homepage.
+ * Class Generator\Homepage.
  */
 class Homepage extends AbstractGenerator implements GeneratorInterface
 {
@@ -25,6 +25,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             return $page->getType() == TYPE::PAGE
                 && $page->getId() != 'index'; // exclude homepage
         });
+        /** @var \Cecil\Collection\Page\Collection $subPages */
         $pages = $subPages->sortByDate();
 
         $page = (new Page('index'))->setPath('')->setVariable('title', 'Home');
@@ -32,11 +33,12 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         if ($this->pagesCollection->has('index')) {
             $page = clone $this->pagesCollection->get('index');
         }
+        /** @var \Cecil\Collection\Page\Page $page */
+        $page->setType(Type::HOMEPAGE)
+            ->setVariable('pages', $pages);
         if ($pages->first()) {
             $page->setVariable('date', $pages->first()->getVariable('date'));
         }
-        $page->setType(Type::HOMEPAGE)
-            ->setVariable('pages', $pages);
         // default menu
         if (!$page->getVariable('menu')) {
             $page->setVariable('menu', [

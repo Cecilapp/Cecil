@@ -21,7 +21,7 @@ class GeneratorManager extends \SplPriorityQueue
      *
      * @return self
      */
-    public function addGenerator(GeneratorInterface $generator, $priority = 1)
+    public function addGenerator(GeneratorInterface $generator, $priority = 1): self
     {
         $this->insert($generator, $priority);
 
@@ -48,7 +48,7 @@ class GeneratorManager extends \SplPriorityQueue
      *
      * @return PagesCollection
      */
-    public function process(PagesCollection $pagesCollection, \Closure $messageCallback)
+    public function process(PagesCollection $pagesCollection, \Closure $messageCallback): PagesCollection
     {
         $max = $this->count();
 
@@ -67,9 +67,8 @@ class GeneratorManager extends \SplPriorityQueue
                         $pagesCollection->add($page);
                     }
                 }
-                $message = Util::formatClassName($generator).': '.count($generatedPages);
-
-                $count = ($max - $this->key());
+                $message = sprintf('%s: %s', Util::formatClassName($generator), count($generatedPages));
+                $count = $max - $this->key();
                 call_user_func_array($messageCallback, ['GENERATE_PROGRESS', $message, $count, $max]);
                 $this->next();
             }

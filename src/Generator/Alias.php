@@ -11,7 +11,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Page;
 
 /**
- * Class Alias.
+ * Class Generator\Alias.
  */
 class Alias extends AbstractGenerator implements GeneratorInterface
 {

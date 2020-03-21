@@ -12,7 +12,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
 
 /**
- * Class Homepage.
+ * Class Generator\ExternalBody.
  */
 class ExternalBody extends AbstractGenerator implements GeneratorInterface
 {

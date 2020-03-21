@@ -13,7 +13,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 
 /**
- * Class Pagination.
+ * Class Generator\Pagination.
  */
 class Pagination extends AbstractGenerator implements GeneratorInterface
 {

@@ -13,7 +13,7 @@ use Cecil\Collection\Page\Type;
 use Cecil\Exception\Exception;
 
 /**
- * Class VirtualPages.
+ * Class Generator\VirtualPages.
  */
 class VirtualPages extends AbstractGenerator implements GeneratorInterface
 {

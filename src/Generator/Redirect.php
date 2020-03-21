@@ -11,7 +11,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Page;
 
 /**
- * Class TitleReplace.
+ * Class Generator\Redirect.
  */
 class Redirect extends AbstractGenerator implements GeneratorInterface
 {
@@ -25,7 +25,7 @@ class Redirect extends AbstractGenerator implements GeneratorInterface
                 && $page->getVariable('layout') != 'redirect';
         });
 
-        /* @var $page Page */
+        /** @var Page $page */
         foreach ($filteredPages as $page) {
             $alteredPage = clone $page;
             $alteredPage->setVariable('layout', 'redirect');

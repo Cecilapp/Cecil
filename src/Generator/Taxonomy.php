@@ -15,7 +15,7 @@ use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
 use Cecil\Exception\Exception;
 
 /**
- * Class Taxonomy.
+ * Class Generator\Taxonomy.
  */
 class Taxonomy extends AbstractGenerator implements GeneratorInterface
 {
@@ -25,16 +25,16 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     public function generate(): void
     {
         if ($this->config->get('taxonomies')) {
-            /* @var $vocabulary Vocabulary */
+            /** @var Vocabulary $vocabulary */
             foreach ($this->builder->getTaxonomies() as $vocabulary) {
                 $plural = $vocabulary->getId();
                 $singular = $this->config->get("taxonomies.$plural");
                 if (count($vocabulary) > 0) {
                     /*
-                    * Creates $plural/$term pages (list of pages)
-                    * ie: /tags/tag-1/
-                    */
-                    /* @var $pages PagesCollection */
+                     * Creates $plural/$term pages (list of pages)
+                     * ie: /tags/tag-1/
+                     */
+                    /** @var PagesCollection $pages */
                     foreach ($vocabulary as $term) {
                         $pageId = $path = Page::slugify(sprintf('%s/%s', $plural, $term->getId()));
                         $pages = $term->sortByDate();
@@ -44,6 +44,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         if ($this->pagesCollection->has($pageId)) {
                             $page = clone $this->pagesCollection->get($pageId);
                         }
+                        /** @var Page $page */
                         $page
                             ->setType(Type::TERM)
                             ->setPath($path)
@@ -55,9 +56,9 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         $this->generatedPages->add($page);
                     }
                     /*
-                    * Creates $plural pages (list of terms)
-                    * ex: /tags/
-                    */
+                     * Creates $plural pages (list of terms)
+                     * ex: /tags/
+                     */
                     $pageId = $path = Page::slugify($plural);
                     $page = (new Page($pageId))
                         ->setType(Type::VOCABULARY)
