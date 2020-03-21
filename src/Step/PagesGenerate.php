@@ -35,6 +35,14 @@ class PagesGenerate extends AbstractStep
 
             call_user_func_array($this->builder->getMessageCb(), ['GENERATE', 'Generating pages']);
 
+            // load local generators
+            spl_autoload_register(function ($className) {
+                $generatorFile = $this->config->getDestinationDir().'/generators/'.$className.'.php';
+                if (file_exists($generatorFile)) {
+                    require $generatorFile;
+                }
+            });
+
             $generators = (array) $this->builder->getConfig()->get('generators');
             array_walk($generators, function ($generator, $priority) use ($generatorManager) {
                 if (!class_exists($generator)) {

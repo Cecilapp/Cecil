@@ -128,7 +128,7 @@ class Build extends \PHPUnit\Framework\TestCase
                 ],
                 'generators' => [
                     99  => 'Cecil\Generator\Test',
-                    //100 => 'Cecil\Generator\TitleReplace',
+                    100 => 'Cecil\Generator\TitleReplace',
                 ],
                 'cache' => [
                     'enabled' => true,
