@@ -168,17 +168,6 @@ return [
     'themes' => [
         'dir' => 'themes',
     ],
-    'generators' => [
-        10 => 'Cecil\Generator\Section',
-        20 => 'Cecil\Generator\Taxonomy',
-        30 => 'Cecil\Generator\Homepage',
-        40 => 'Cecil\Generator\ExternalBody',
-        50 => 'Cecil\Generator\DefaultPages',
-        60 => 'Cecil\Generator\VirtualPages',
-        70 => 'Cecil\Generator\Pagination',
-        80 => 'Cecil\Generator\Alias',
-        90 => 'Cecil\Generator\Redirect',
-    ],
     'optimize' => [
         'enabled' => false,
         'css'     => [
@@ -197,5 +186,16 @@ return [
     'cache' => [
         'dir'     => '.cache',
         'enabled' => false,
+    ],
+    'generators' => [
+        10 => 'Cecil\Generator\Section',
+        20 => 'Cecil\Generator\Taxonomy',
+        30 => 'Cecil\Generator\Homepage',
+        40 => 'Cecil\Generator\ExternalBody',
+        50 => 'Cecil\Generator\DefaultPages',
+        60 => 'Cecil\Generator\VirtualPages',
+        70 => 'Cecil\Generator\Pagination',
+        80 => 'Cecil\Generator\Alias',
+        90 => 'Cecil\Generator\Redirect',
     ],
 ];
