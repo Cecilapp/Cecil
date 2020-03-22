@@ -88,6 +88,7 @@ class Image
 
         // image object
         try {
+            ini_set('memory_limit', '512M');
             $img = ImageManager::make($this->source);
             $img->resize($this->size, null, function (\Intervention\Image\Constraint $constraint) {
                 $constraint->aspectRatio();
