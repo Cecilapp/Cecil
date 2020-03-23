@@ -78,11 +78,18 @@ class Layout
 
         switch ($page->getType()) {
             case PageType::HOMEPAGE:
+                // "$layout.$format.twig",
                 $layouts = [
                     "index.$format.twig",
                     "_default/list.$format.twig",
                     "_default/page.$format.twig",
                 ];
+                if ($page->getVariable('layout')) {
+                    $layouts = array_merge(
+                        [sprintf('%s.%s.twig', $layout, $format)],
+                        $layouts
+                    );
+                }
                 break;
             case PageType::SECTION:
                 $layouts = [
