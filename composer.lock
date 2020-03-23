@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b2161d2c9677ac56b6a72596619dccd",
+    "content-hash": "acfbb38b068588e1e30951271a34b0cd",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1983,22 +1983,22 @@
         },
         {
             "name": "voku/html-min",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/HtmlMin.git",
-                "reference": "d2da25afb8216238414eaa1f1e9472f140655289"
+                "reference": "fa912ebd0c2c338868af2e8a14436f5ad1af6e83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/d2da25afb8216238414eaa1f1e9472f140655289",
-                "reference": "d2da25afb8216238414eaa1f1e9472f140655289",
+                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/fa912ebd0c2c338868af2e8a14436f5ad1af6e83",
+                "reference": "fa912ebd0c2c338868af2e8a14436f5ad1af6e83",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "php": ">=7.0.0",
-                "voku/simple_html_dom": "~4.7.12"
+                "voku/simple_html_dom": "~4.7.13"
             },
             "require-dev": {
                 "phpunit/phpunit": "~6.0 || ~7.0"
@@ -2042,7 +2042,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-03-05T23:43:01+00:00"
+            "time": "2020-03-22T22:20:41+00:00"
         },
         {
             "name": "voku/simple_html_dom",
@@ -4722,16 +4722,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.25",
+            "version": "2.0.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "c18159618ed7cd7ff721ac1a8fec7860a475d2f0"
+                "reference": "09655fcc1f8bab65727be036b28f6f20311c126c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c18159618ed7cd7ff721ac1a8fec7860a475d2f0",
-                "reference": "c18159618ed7cd7ff721ac1a8fec7860a475d2f0",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/09655fcc1f8bab65727be036b28f6f20311c126c",
+                "reference": "09655fcc1f8bab65727be036b28f6f20311c126c",
                 "shasum": ""
             },
             "require": {
@@ -4810,7 +4810,21 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2020-02-25T04:16:50+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/terrafrost",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/phpseclib",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpseclib/phpseclib",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-03-13T04:15:39+00:00"
         },
         {
             "name": "phpspec/prophecy",
