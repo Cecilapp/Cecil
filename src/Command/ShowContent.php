@@ -12,7 +12,7 @@ namespace Cecil\Command;
 
 use Cecil\Command\ShowContent\FileExtensionFilter;
 use Cecil\Command\ShowContent\FilenameRecursiveTreeIterator;
-use Cecil\Util\Plateform;
+use Cecil\Util;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -63,17 +63,17 @@ class ShowContent extends Command
             // pages content
             $output->writeln(sprintf('<info>%s/</info>', $contentDir));
             $pages = $this->getFilesTree($output, $contentDir);
-            if (!Plateform::isWindows()) {
+            if (!Util\Plateform::isWindows()) {
                 $unicodeTreePrefix($pages);
             }
             foreach ($pages as $page) {
                 $output->writeln($page);
             }
             // data content
-            if (is_dir($this->getPath().'/'.$dataDir)) {
+            if (is_dir(Util::joinFile([$this->getPath(), $dataDir]))) {
                 $output->writeln(sprintf('<info>%s/</info>', $dataDir));
                 $datas = $this->getFilesTree($output, $dataDir);
-                if (!Plateform::isWindows()) {
+                if (!Util\Plateform::isWindows()) {
                     $unicodeTreePrefix($datas);
                 }
                 foreach ($datas as $data) {
@@ -100,8 +100,8 @@ class ShowContent extends Command
     public function getFilesTree(OutputInterface $output, string $directory)
     {
         $dir = (string) $this->getBuilder($output)->getConfig()->get("$directory.dir");
-        $ext = (string) $this->getBuilder($output)->getConfig()->get("$directory.ext");
-        $path = $this->getPath().'/'.$dir;
+        $ext = $this->getBuilder($output)->getConfig()->get("$directory.ext");
+        $path = Util::joinFile([$this->getPath(), $dir]);
 
         if (!is_dir($path)) {
             throw new \Exception(sprintf('Invalid directory: %s.', $path));
