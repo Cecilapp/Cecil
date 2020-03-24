@@ -142,7 +142,24 @@ class Util
             $value = trim($value, '/');
         });
 
-        return implode('/', $strings);
+        return trim(implode('/', $strings), '/');
+    }
+
+    /**
+     * Convert an array of strings into a system path.
+     *
+     * @param array $strings
+     *
+     * @return string
+     */
+    public static function joinFile(array $strings): string
+    {
+        array_walk($strings, function (&$value) {
+            $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
+            $value = trim($value, DIRECTORY_SEPARATOR);
+        });
+
+        return trim(implode(DIRECTORY_SEPARATOR, $strings), DIRECTORY_SEPARATOR);
     }
 
     /**

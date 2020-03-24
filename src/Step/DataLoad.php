@@ -97,7 +97,7 @@ class DataLoad extends AbstractStep
             );
             $subpath = trim($subpath, './');
             $array = [];
-            $path = !empty($subpath) ? Util::joinPath([$subpath, $basename]) : $basename;
+            $path = !empty($subpath) ? Util::joinFile([$subpath, $basename]) : $basename;
             $this->pathToArray($array, $path, $dataArray);
 
             $dataArray = array_merge_recursive(
@@ -106,12 +106,20 @@ class DataLoad extends AbstractStep
             );
             $this->builder->setData($dataArray);
 
-            $message = sprintf('%s.%s', Util::joinPath([$path]), $file->getExtension());
+            $message = sprintf('%s.%s', Util::joinFile([$path]), $file->getExtension());
             call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
         }
     }
 
-    private function pathToArray(&$arr, $path, $value, $separator = '/')
+    /**
+     * Convert a path to an array.
+     *
+     * @param array  $arr target array
+     * @param string $path source path
+     * @param array  $value source values
+     * @param string $separator separator (ie: /)
+     */
+    private function pathToArray(array &$arr, string $path, array $value, string $separator = DIRECTORY_SEPARATOR): void
     {
         $keys = explode($separator, $path);
 

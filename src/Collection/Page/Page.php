@@ -123,7 +123,7 @@ class Page extends Item
             return $relpath;
         }
 
-        return trim(Util::joinPath([$relpath, $basename]), '/');
+        return Util::joinPath([$relpath, $basename]);
     }
 
     /**

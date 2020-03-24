@@ -246,7 +246,7 @@ class Config
      */
     public function getContentPath(): string
     {
-        return Util::joinPath([$this->getSourceDir(), (string) $this->get('content.dir')]);
+        return Util::joinFile([$this->getSourceDir(), (string) $this->get('content.dir')]);
     }
 
     /**
@@ -256,7 +256,7 @@ class Config
      */
     public function getDataPath(): string
     {
-        return Util::joinPath([$this->getSourceDir(), (string) $this->get('data.dir')]);
+        return Util::joinFile([$this->getSourceDir(), (string) $this->get('data.dir')]);
     }
 
     /**
@@ -266,7 +266,7 @@ class Config
      */
     public function getLayoutsPath(): string
     {
-        return Util::joinPath([$this->getSourceDir(), (string) $this->get('layouts.dir')]);
+        return Util::joinFile([$this->getSourceDir(), (string) $this->get('layouts.dir')]);
     }
 
     /**
@@ -276,7 +276,7 @@ class Config
      */
     public function getThemesPath(): string
     {
-        return Util::joinPath([$this->getSourceDir(), (string) $this->get('themes.dir')]);
+        return Util::joinFile([$this->getSourceDir(), (string) $this->get('themes.dir')]);
     }
 
     /**
@@ -286,7 +286,7 @@ class Config
      */
     public function getInternalLayoutsPath(): string
     {
-        return Util::joinPath([__DIR__, '..', (string) $this->get('layouts.internal.dir')]);
+        return Util::joinFile([__DIR__, '..', (string) $this->get('layouts.internal.dir')]);
     }
 
     /**
@@ -296,7 +296,7 @@ class Config
      */
     public function getOutputPath(): string
     {
-        return Util::joinPath([$this->getDestinationDir(), (string) $this->get('output.dir')]);
+        return Util::joinFile([$this->getDestinationDir(), (string) $this->get('output.dir')]);
     }
 
     /**
@@ -306,7 +306,7 @@ class Config
      */
     public function getStaticPath(): string
     {
-        return Util::joinPath([$this->getSourceDir(), (string) $this->get('static.dir')]);
+        return Util::joinFile([$this->getSourceDir(), (string) $this->get('static.dir')]);
     }
 
     /**
@@ -336,7 +336,7 @@ class Config
             return (string) $this->get('cache.dir');
         }
 
-        return Util::joinPath([$this->getDestinationDir(), (string) $this->get('cache.dir')]);
+        return Util::joinFile([$this->getDestinationDir(), (string) $this->get('cache.dir')]);
     }
 
     /**
@@ -425,7 +425,7 @@ class Config
      */
     public function getThemeDirPath(string $theme, string $dir = 'layouts'): string
     {
-        return Util::joinPath([$this->getThemesPath(), $theme, $dir]);
+        return Util::joinFile([$this->getThemesPath(), $theme, $dir]);
     }
 
     /**
