@@ -115,15 +115,15 @@ class Page extends Item
      */
     public static function createId(SplFileInfo $file): string
     {
-        $relpath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
+        $relativepath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.'.$file->getExtension())));
 
-        // kill me with your fucking index!
-        if ($relpath && $basename == 'index') {
-            return $relpath;
+        // case of section's index: "section/index" -> "section"
+        if (!empty($relativepath) && $basename == 'index') {
+            return $relativepath;
         }
 
-        return Util::joinPath([$relpath, $basename]);
+        return trim(Util::joinPath([$relativepath, $basename]), '/');
     }
 
     /**
