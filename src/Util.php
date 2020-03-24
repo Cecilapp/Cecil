@@ -142,7 +142,7 @@ class Util
             $value = trim($value, '/');
         });
 
-        return trim(implode('/', $strings), '/');
+        return rtrim(implode('/', $strings), '/');
     }
 
     /**
@@ -159,7 +159,7 @@ class Util
             $value = trim($value, DIRECTORY_SEPARATOR);
         });
 
-        return trim(implode(DIRECTORY_SEPARATOR, $strings), DIRECTORY_SEPARATOR);
+        return rtrim(implode(DIRECTORY_SEPARATOR, $strings), DIRECTORY_SEPARATOR);
     }
 
     /**
