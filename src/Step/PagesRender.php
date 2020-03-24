@@ -141,7 +141,7 @@ class PagesRender extends AbstractStep
             $formatedArray = array_combine(
                 array_column(array_column($rendered, 'template'), 'scope'),
                 array_column(array_column($rendered, 'template'), 'file')
-            )?:[];
+            ) ?: [];
             $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), Util::arrayToString($formatedArray));
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
@@ -254,7 +254,7 @@ class PagesRender extends AbstractStep
     private function postProcessOutput(string $rendered, string $format): string
     {
         switch ($format) {
-            case 'html':
+            case 'html' :
                 // add generator meta
                 if (!preg_match('/<meta name="generator".*/i', $rendered)) {
                     $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
