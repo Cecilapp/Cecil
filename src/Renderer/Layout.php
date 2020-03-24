@@ -39,7 +39,7 @@ class Layout
 
         // take the first available layout
         foreach ($layouts as $layout) {
-             $layout = Util::joinFile([$layout]);
+            $layout = Util::joinFile([$layout]);
             // is it in layouts/ dir?
             if (Util::getFS()->exists(Util::joinFile([$config->getLayoutsPath(), $layout]))) {
                 return [

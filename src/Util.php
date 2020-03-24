@@ -137,7 +137,7 @@ class Util
      */
     public static function joinPath(array $strings): string
     {
-        return join('/', $strings);
+        return implode('/', $strings);
     }
 
     /**
@@ -149,11 +149,11 @@ class Util
      */
     public static function joinFile(array $strings): string
     {
-        array_walk($strings, function(&$value, &$key) {
+        array_walk($strings, function (&$value, &$key) {
             $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
         });
 
-        return join(DIRECTORY_SEPARATOR, $strings);
+        return implode(DIRECTORY_SEPARATOR, $strings);
     }
 
     /**
