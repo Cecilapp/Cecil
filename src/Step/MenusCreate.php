@@ -185,7 +185,7 @@ class MenusCreate extends AbstractStep
                     $menu->add($item);
                     call_user_func_array($this->builder->getMessageCb(), [
                         'MENU_PROGRESS',
-                        sprintf('%s > %s (%s)', $menuName, $page->getId(), $weight),
+                        sprintf('%s > %s (weight: %s)', $menuName, $page->getId(), $weight ?? 'N/A'),
                         $count,
                         $total,
                     ]);

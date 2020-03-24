@@ -9,6 +9,7 @@
 namespace Cecil;
 
 use Cecil\Exception\Exception;
+use Cecil\Util\Plateform;
 use Dflydev\DotAccessData\Data;
 
 /**
@@ -49,7 +50,11 @@ class Config
     public function __construct($config = null)
     {
         // default config
-        $this->data = new Data(include Util::joinFile([__DIR__, '/../config/default.php']));
+        $defaultConfig = realpath(Util::joinFile([__DIR__, '../config/default.php']));
+        if (Plateform::isPhar()) {
+            $defaultConfig = Util::joinPath([Plateform::getPharPath(), 'config/default.php']);
+        }
+        $this->data = new Data(include $defaultConfig);
         // import local config
         $this->localConfig = $config;
         $this->import($this->localConfig);
@@ -286,7 +291,7 @@ class Config
      */
     public function getInternalLayoutsPath(): string
     {
-        return Util::joinFile([__DIR__, '..', (string) $this->get('layouts.internal.dir')]);
+        return Util::joinPath([__DIR__, '..', (string) $this->get('layouts.internal.dir')]);
     }
 
     /**

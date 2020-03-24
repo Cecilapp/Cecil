@@ -91,7 +91,7 @@ class PagesSave extends AbstractStep
     protected function cleanPath($pathname): string
     {
         if (DIRECTORY_SEPARATOR == '\\') {
-            return preg_replace('#\\\\+#', '\\', $pathname);
+            $pathname = preg_replace('#\\\\+#', '\\', $pathname);
         }
 
         return preg_replace('#/+#', '/', $pathname);

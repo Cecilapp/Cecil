@@ -137,6 +137,11 @@ class Util
      */
     public static function joinPath(array $strings): string
     {
+        array_walk($strings, function (&$value) {
+            $value = str_replace('\\', '/', $value);
+            $value = rtrim($value, '/');
+        });
+
         return implode('/', $strings);
     }
 
@@ -151,6 +156,7 @@ class Util
     {
         array_walk($strings, function (&$value) {
             $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
+            $value = rtrim($value, DIRECTORY_SEPARATOR);
         });
 
         return implode(DIRECTORY_SEPARATOR, $strings);

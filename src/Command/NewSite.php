@@ -55,7 +55,7 @@ class NewSite extends Command
                     return;
                 }
             }
-            $root = __DIR__.'/../../';
+            $root = realpath(__DIR__.'/../../');
             if (Plateform::isPhar()) {
                 $root = Plateform::getPharPath().'/';
             }
