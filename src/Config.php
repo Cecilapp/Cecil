@@ -54,6 +54,10 @@ class Config
         if (Plateform::isPhar()) {
             $defaultConfig = Util::joinPath([Plateform::getPharPath(), 'config/default.php']);
         }
+
+        // DEBUG
+        echo "\nDEBUG: $defaultConfig\n";
+
         $this->data = new Data(include $defaultConfig);
         // import local config
         $this->localConfig = $config;
