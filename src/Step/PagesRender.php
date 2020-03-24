@@ -9,13 +9,13 @@
 namespace Cecil\Step;
 
 use Cecil\Builder;
-use Cecil\Util;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Exception\Exception;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
+use Cecil\Util;
 
 /**
  * Pages rendering.
