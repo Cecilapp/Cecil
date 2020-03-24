@@ -51,19 +51,9 @@ class Config
     {
         // default config
         $defaultConfig = realpath(Util::joinFile([__DIR__, '../config/default.php']));
-        // DEBUG
-        echo "\nDEBUG: ".__DIR__.'../config/default.php'."\n";
-        echo "\nDEBUG: ".Util::joinFile([__DIR__, '../config/default.php'])."\n";
         if (Plateform::isPhar()) {
             $defaultConfig = Util::joinPath([Plateform::getPharPath(), 'config/default.php']);
-            // DEBUG
-            echo "\nDEBUG: ".Plateform::getPharPath().'config/default.php'."\n";
-            echo "\nDEBUG: ".Util::joinFile([Plateform::getPharPath(), 'config/default.php'])."\n";
         }
-
-        // DEBUG
-        echo "\nDEBUG: $defaultConfig\n";
-
         $this->data = new Data(include $defaultConfig);
         // import local config
         $this->localConfig = $config;
