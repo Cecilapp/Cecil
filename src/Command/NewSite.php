@@ -61,13 +61,13 @@ class NewSite extends Command
             }
             $output->writeln('<info>Creating a new website...</info>');
             $this->fs->copy(
-                Util::joinFile([$root, 'res/skeleton', self::CONFIG_FILE]),
-                Util::joinFile([$this->getPath(), self::CONFIG_FILE])
+                Util::joinPath([$root, 'res/skeleton', self::CONFIG_FILE]),
+                Util::joinPath([$this->getPath(), self::CONFIG_FILE])
             );
             foreach (['content', 'layouts', 'static'] as $value) {
                 $this->fs->mirror(
-                    Util::joinFile([$root, 'res/skeleton', $value]),
-                    Util::joinFile([$this->getPath(), $value])
+                    Util::joinPath([$root, 'res/skeleton', $value]),
+                    Util::joinPath([$this->getPath(), $value])
                 );
             }
             $output->writeln('Done!');
