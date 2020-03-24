@@ -10,7 +10,7 @@
 
 namespace Cecil\Command;
 
-use Cecil\Util\Plateform;
+use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -45,7 +45,7 @@ class NewSite extends Command
         $force = $input->getOption('force');
 
         try {
-            if ($this->fs->exists($this->getPath().'/'.self::CONFIG_FILE) && !$force) {
+            if ($this->fs->exists(Util::joinFile([$this->getPath(), self::CONFIG_FILE])) && !$force) {
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion(
                     'Website already exists. Do you want to override it? [y/n]',
@@ -55,15 +55,21 @@ class NewSite extends Command
                     return;
                 }
             }
-            $root = realpath(__DIR__.'/../../');
-            if (Plateform::isPhar()) {
-                $root = Plateform::getPharPath().'/';
+            $root = realpath(Util::joinFile([__DIR__, '/../../']));
+            if (Util\Plateform::isPhar()) {
+                $root = Util\Plateform::getPharPath().'/';
             }
             $output->writeln('<info>Creating a new website...</info>');
-            $this->fs->copy($root.'res/skeleton/config.yml', $this->getPath().'/'.self::CONFIG_FILE, true);
-            $this->fs->mirror($root.'res/skeleton/content', $this->getPath().'/content');
-            $this->fs->mirror($root.'res/skeleton/layouts', $this->getPath().'/layouts');
-            $this->fs->mirror($root.'res/skeleton/static', $this->getPath().'/static');
+            $this->fs->copy(
+                Util::joinFile([$root, 'res/skeleton', self::CONFIG_FILE]),
+                Util::joinFile([$this->getPath(), self::CONFIG_FILE])
+            );
+            foreach (['content', 'layouts', 'static'] as $value) {
+                $this->fs->mirror(
+                    Util::joinFile([$root, 'res/skeleton', $value]),
+                    Util::joinFile([$this->getPath(), $value])
+                );
+            }
             $output->writeln('Done!');
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
