@@ -114,9 +114,9 @@ class DataLoad extends AbstractStep
     /**
      * Convert a path to an array.
      *
-     * @param array  $arr target array
-     * @param string $path source path
-     * @param array  $value source values
+     * @param array  $arr       target array
+     * @param string $path      source path
+     * @param array  $value     source values
      * @param string $separator separator (ie: /)
      */
     private function pathToArray(array &$arr, string $path, array $value, string $separator = DIRECTORY_SEPARATOR): void
