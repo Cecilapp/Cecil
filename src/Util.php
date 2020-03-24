@@ -127,4 +127,50 @@ class Util
 
         return false;
     }
+
+    /**
+     * Convert an array of strings into a path.
+     *
+     * @param array $strings
+     *
+     * @return string
+     */
+    public static function joinPath(array $strings): string
+    {
+        return implode('/', $strings);
+    }
+
+    /**
+     * Convert an array of strings into a system path.
+     *
+     * @param array $strings
+     *
+     * @return string
+     */
+    public static function joinFile(array $strings): string
+    {
+        array_walk($strings, function (&$value) {
+            $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
+        });
+
+        return implode(DIRECTORY_SEPARATOR, $strings);
+    }
+
+    /**
+     * Convert array to string.
+     *
+     * @param array $array
+     *
+     * @return string
+     */
+    public static function arrayToString(array $array): string
+    {
+        $string = '';
+
+        foreach ($array as $key => $value) {
+            $string .= sprintf('%s:%s, ', $key, $value);
+        }
+
+        return substr($string, 0, -2);
+    }
 }

@@ -8,6 +8,7 @@
 
 namespace Cecil\Step;
 
+use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -96,7 +97,7 @@ class DataLoad extends AbstractStep
             );
             $subpath = trim($subpath, './');
             $array = [];
-            $path = $subpath ? $subpath.'/'.$basename : $basename;
+            $path = !empty($subpath) ? Util::joinPath([$subpath, $basename]) : $basename;
             $this->pathToArray($array, $path, $dataArray);
 
             $dataArray = array_merge_recursive(
@@ -105,7 +106,7 @@ class DataLoad extends AbstractStep
             );
             $this->builder->setData($dataArray);
 
-            $message = sprintf('%s.%s', $path, $file->getExtension());
+            $message = sprintf('%s.%s', Util::joinFile([$path]), $file->getExtension());
             call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
         }
     }

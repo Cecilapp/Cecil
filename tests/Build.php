@@ -9,6 +9,7 @@
 namespace Cecil\Test;
 
 use Cecil\Builder;
+use Cecil\Util;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Build extends \PHPUnit\Framework\TestCase
@@ -19,7 +20,7 @@ class Build extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        $this->wsSourceDir = __DIR__.'/fixtures/website';
+        $this->wsSourceDir = Util::joinFile([__DIR__, 'fixtures/website']);
         $this->wsDestinationDir = $this->wsSourceDir;
     }
 
@@ -27,9 +28,8 @@ class Build extends \PHPUnit\Framework\TestCase
     {
         $fs = new Filesystem();
         if (!self::DEBUG) {
-            $fs->remove($this->wsDestinationDir.'/_site');
-            $fs->remove(__DIR__.'/../_cache');
-            $fs->remove($this->wsDestinationDir.'/.cache');
+            $fs->remove(Util::joinFile([$this->wsDestinationDir, '_site']));
+            $fs->remove(Util::joinFile([$this->wsDestinationDir, '.cache']));
         }
     }
 
