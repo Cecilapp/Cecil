@@ -9,6 +9,7 @@
 namespace Cecil\Step;
 
 use Cecil\Builder;
+use Cecil\Util;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Exception\Exception;
@@ -77,7 +78,7 @@ class PagesRender extends AbstractStep
             }
             // The PHP Gettext extension is needed to use translation
             if (extension_loaded('gettext')) {
-                $localePath = realpath($this->config->getSourceDir().'/locale');
+                $localePath = realpath(Util::joinFile([$this->config->getSourceDir(), 'locale']));
                 $domain = 'messages';
                 putenv("LC_ALL=$locale");
                 putenv("LANGUAGE=$locale");
@@ -120,15 +121,15 @@ class PagesRender extends AbstractStep
                 $layout = Layout::finder($page, $format, $this->config);
                 // render with Twig
                 try {
-                    $rendered[$format]['output'] = $this->postProcessOutput($this->builder->getRenderer()->render(
-                        $layout,
-                        ['page' => $page]
-                    ), $format);
-                    $rendered[$format]['template'] = $layout;
+                    $output = $this->builder->getRenderer()->render($layout['file'], ['page' => $page]);
+                    $output = $this->postProcessOutput($output, $format);
+                    $rendered[$format]['output'] = $output;
+                    $rendered[$format]['template']['scope'] = $layout['scope'];
+                    $rendered[$format]['template']['file'] = $layout['file'];
                 } catch (\Exception $e) {
                     throw new Exception(sprintf(
                         "Error in template \"%s\" for page \"%s\":\n%s",
-                        $layout,
+                        $layout['file'],
                         $page->getId(),
                         $e->getMessage()
                     ));
@@ -137,8 +138,8 @@ class PagesRender extends AbstractStep
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 
-            $layouts = implode(', ', array_column($rendered, 'template'));
-            $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), $layouts);
+            $formatedArray = array_combine(array_column(array_column($rendered, 'template'), 'scope'), array_column(array_column($rendered, 'template'), 'file'));
+            $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), Util::arrayToString($formatedArray));
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
     }

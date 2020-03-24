@@ -11,6 +11,7 @@
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Cecil\Util;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,6 +34,10 @@ class Command extends BaseCommand
      * @var string
      */
     protected $path;
+    /**
+     * @var string
+     */
+    protected $configFile;
     /**
      * @var Builder
      */
@@ -77,10 +82,10 @@ Do you want to create it? [y/n]', $this->getpath()),
                 $this->fs->mkdir($this->getPath());
             }
             $this->path = realpath($this->getPath());
-            $this->path = str_replace(DIRECTORY_SEPARATOR, '/', $this->getPath());
+            $this->configFile = Util::joinFile([$this->getPath(), self::CONFIG_FILE]);
 
             if (!in_array($this->getName(), ['new:site'])) {
-                if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
+                if (!file_exists($this->configFile)) {
                     $message = sprintf('Cecil could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
 
                     throw new \InvalidArgumentException($message);
@@ -113,13 +118,13 @@ Do you want to create it? [y/n]', $this->getpath()),
         OutputInterface $output,
         array $config = ['debug' => false]
     ): Builder {
-        if (!file_exists($this->getPath().'/'.self::CONFIG_FILE)) {
+        if (!file_exists($this->configFile)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
 
         try {
-            $configFile = Yaml::parse(file_get_contents($this->getPath().'/'.self::CONFIG_FILE));
-            $config = array_replace_recursive($configFile, $config);
+            $siteConfig = Yaml::parse(file_get_contents($this->configFile));
+            $config = array_replace_recursive($siteConfig, $config);
             $this->builder = (new Builder($config, $this->messageCallback($output)))
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());

@@ -63,7 +63,7 @@ class PagesSave extends AbstractStep
                         $format
                     ));
                 }
-                $pathname = $this->cleanPath($this->config->getOutputPath().'/'.$pathname);
+                $pathname = $this->cleanPath(Util::joinFile([$this->config->getOutputPath(), $pathname]));
 
                 try {
                     Util::getFS()->dumpFile($pathname, $rendered['output']);
@@ -82,14 +82,19 @@ class PagesSave extends AbstractStep
     }
 
     /**
-     * Remove unnecessary slashes.
+     * Remove unnecessary directory separators.
      *
      * @param string $pathname
      *
      * @return string
      */
-    protected function cleanPath($pathname)
+    protected function cleanPath($pathname): string
     {
+        if (DIRECTORY_SEPARATOR == '\\') {
+
+            return preg_replace('#\\\\+#', '\\', $pathname);
+        }
+
         return preg_replace('#/+#', '/', $pathname);
     }
 }

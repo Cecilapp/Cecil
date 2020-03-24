@@ -28,9 +28,9 @@ class Layout
      *
      * @throws Exception
      *
-     * @return string
+     * @return array
      */
-    public static function finder(Page $page, string $format, Config $config)
+    public static function finder(Page $page, string $format, Config $config): array
     {
         $layout = 'unknown';
 
@@ -39,22 +39,32 @@ class Layout
 
         // take the first available layout
         foreach ($layouts as $layout) {
+             $layout = Util::joinFile([$layout]);
             // is it in layouts/ dir?
-            if (Util::getFS()->exists($config->getLayoutsPath().'/'.$layout)) {
-                return $layout;
+            if (Util::getFS()->exists(Util::joinFile([$config->getLayoutsPath(), $layout]))) {
+                return [
+                    'scope' => '',
+                    'file'  => $layout,
+                ];
             }
             // is it in <theme>/layouts/ dir?
             if ($config->hasTheme()) {
                 $themes = $config->getTheme();
                 foreach ($themes as $theme) {
-                    if (Util::getFS()->exists($config->getThemeDirPath($theme, 'layouts').'/'.$layout)) {
-                        return $layout;
+                    if (Util::getFS()->exists(Util::joinFile([$config->getThemeDirPath($theme, 'layouts'), $layout]))) {
+                        return [
+                            'scope' => $theme,
+                            'file'  => $layout,
+                        ];
                     }
                 }
             }
             // is it in res/layouts/ dir?
-            if (Util::getFS()->exists($config->getInternalLayoutsPath().'/'.$layout)) {
-                return $layout;
+            if (Util::getFS()->exists(Util::joinFile([$config->getInternalLayoutsPath(), $layout]))) {
+                return [
+                    'scope' => 'cecil',
+                    'file'  => $layout,
+                ];
             }
         }
 

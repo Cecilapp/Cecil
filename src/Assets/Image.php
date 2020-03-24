@@ -88,12 +88,14 @@ class Image
 
         // image object
         try {
+            $memoryLimit = ini_get('memory_limit');
             ini_set('memory_limit', '512M');
             $img = ImageManager::make($this->source);
             $img->resize($this->size, null, function (\Intervention\Image\Constraint $constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
+            ini_set('memory_limit', $memoryLimit);
         } catch (NotReadableException $e) {
             throw new Exception(sprintf('Cannot get image "%s"', $this->path));
         }
