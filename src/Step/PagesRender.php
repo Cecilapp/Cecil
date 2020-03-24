@@ -122,7 +122,7 @@ class PagesRender extends AbstractStep
                 // render with Twig
                 try {
                     $output = $this->builder->getRenderer()->render($layout['file'], ['page' => $page]);
-                    $output = $this->postProcessOutput($output, $format);
+                    $output = $this->postProcessOutput($output, $page, $format);
                     $rendered[$format]['output'] = $output;
                     $rendered[$format]['template']['scope'] = $layout['scope'];
                     $rendered[$format]['template']['file'] = $layout['file'];
@@ -247,11 +247,12 @@ class PagesRender extends AbstractStep
      * Apply post rendering on output.
      *
      * @param string $rendered
+     * @param Page   $page
      * @param string $format
      *
      * @return string
      */
-    private function postProcessOutput(string $rendered, string $format): string
+    private function postProcessOutput(string $rendered, Page $page, string $format): string
     {
         switch ($format) {
             case 'html':
@@ -269,10 +270,14 @@ class PagesRender extends AbstractStep
 
         // replace internal link to *.md files with the right URL
         // https://regex101.com/r/dZ02zO/5
+        $replace = 'href="../%s/%s"';
+        if (empty($page->getFolder())) {
+            $replace = 'href="%s/%s"';
+        }
         $rendered = preg_replace_callback(
             '/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
-            function ($matches) {
-                return \sprintf('href="../%s/%s"', Page::slugify(PrefixSuffix::sub($matches[1])), $matches[2] ?? '');
+            function ($matches) use ($replace) {
+                return \sprintf($replace, Page::slugify(PrefixSuffix::sub($matches[1])), $matches[2] ?? '');
             },
             $rendered
         );
