@@ -41,7 +41,7 @@ class ConfigImport extends AbstractStep
         foreach ($themes as $theme) {
             $count++;
             $themeConfigFile = $this->config->getThemesPath().'/'.$theme.'/'.self::THEME_CONFIG_FILE;
-            $message = sprintf('"%s" theme: no config file', $theme);
+            $message = sprintf('"%s": no config file', $theme);
             if (Util::getFS()->exists($themeConfigFile)) {
                 set_error_handler(
                     function ($severity, $message, $file, $line) {
@@ -52,7 +52,7 @@ class ConfigImport extends AbstractStep
                 restore_error_handler();
                 $themeConfig = Yaml::parse($config);
                 $this->config->import($themeConfig);
-                $message = sprintf('"%s" theme: config imported', $theme);
+                $message = sprintf('"%s": imported', $theme);
             }
             call_user_func_array($this->builder->getMessageCb(), ['CONFIG_PROGRESS', $message, $count, $max]);
         }
