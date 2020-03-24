@@ -286,7 +286,7 @@ class Config
      */
     public function getInternalLayoutsPath(): string
     {
-        return Util::joinFile([__DIR__, '..', (string) $this->get('layouts.internal.dir')]);
+        return Util::joinPath([__DIR__, '..', (string) $this->get('layouts.internal.dir')]);
     }
 
     /**
