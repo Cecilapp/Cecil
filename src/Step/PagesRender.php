@@ -254,7 +254,7 @@ class PagesRender extends AbstractStep
     private function postProcessOutput(string $rendered, string $format): string
     {
         switch ($format) {
-            case 'html' :
+            case 'html':
                 // add generator meta
                 if (!preg_match('/<meta name="generator".*/i', $rendered)) {
                     $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
