@@ -137,23 +137,12 @@ class Util
      */
     public static function joinPath(array $strings): string
     {
-        return implode('/', $strings);
-    }
-
-    /**
-     * Convert an array of strings into a system path.
-     *
-     * @param array $strings
-     *
-     * @return string
-     */
-    public static function joinFile(array $strings): string
-    {
         array_walk($strings, function (&$value) {
-            $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
+            $value = str_replace('\\', '/', $value);
+            $value = trim($value, '/');
         });
 
-        return implode(DIRECTORY_SEPARATOR, $strings);
+        return implode('/', $strings);
     }
 
     /**

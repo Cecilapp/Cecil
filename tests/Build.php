@@ -20,7 +20,7 @@ class Build extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        $this->wsSourceDir = Util::joinFile([__DIR__, 'fixtures/website']);
+        $this->wsSourceDir = Util::joinPath([__DIR__, 'fixtures/website']);
         $this->wsDestinationDir = $this->wsSourceDir;
     }
 
@@ -28,8 +28,8 @@ class Build extends \PHPUnit\Framework\TestCase
     {
         $fs = new Filesystem();
         if (!self::DEBUG) {
-            $fs->remove(Util::joinFile([$this->wsDestinationDir, '_site']));
-            $fs->remove(Util::joinFile([$this->wsDestinationDir, '.cache']));
+            $fs->remove(Util::joinPath([$this->wsDestinationDir, '_site']));
+            $fs->remove(Util::joinPath([$this->wsDestinationDir, '.cache']));
         }
     }
 

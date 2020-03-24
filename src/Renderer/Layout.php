@@ -39,9 +39,9 @@ class Layout
 
         // take the first available layout
         foreach ($layouts as $layout) {
-            $layout = Util::joinFile([$layout]);
+            $layout = Util::joinPath([$layout]);
             // is it in layouts/ dir?
-            if (Util::getFS()->exists(Util::joinFile([$config->getLayoutsPath(), $layout]))) {
+            if (Util::getFS()->exists(Util::joinPath([$config->getLayoutsPath(), $layout]))) {
                 return [
                     'scope' => 'site',
                     'file'  => $layout,
@@ -51,7 +51,7 @@ class Layout
             if ($config->hasTheme()) {
                 $themes = $config->getTheme();
                 foreach ($themes as $theme) {
-                    if (Util::getFS()->exists(Util::joinFile([$config->getThemeDirPath($theme, 'layouts'), $layout]))) {
+                    if (Util::getFS()->exists(Util::joinPath([$config->getThemeDirPath($theme, 'layouts'), $layout]))) {
                         return [
                             'scope' => $theme,
                             'file'  => $layout,
@@ -60,7 +60,7 @@ class Layout
                 }
             }
             // is it in res/layouts/ dir?
-            if (Util::getFS()->exists(Util::joinFile([$config->getInternalLayoutsPath(), $layout]))) {
+            if (Util::getFS()->exists(Util::joinPath([$config->getInternalLayoutsPath(), $layout]))) {
                 return [
                     'scope' => 'cecil',
                     'file'  => $layout,

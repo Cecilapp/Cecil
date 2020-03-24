@@ -106,7 +106,7 @@ class DataLoad extends AbstractStep
             );
             $this->builder->setData($dataArray);
 
-            $message = sprintf('%s.%s', Util::joinFile([$path]), $file->getExtension());
+            $message = sprintf('%s.%s', Util::joinPath([$path]), $file->getExtension());
             call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
         }
     }

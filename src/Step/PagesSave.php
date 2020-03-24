@@ -63,7 +63,7 @@ class PagesSave extends AbstractStep
                         $format
                     ));
                 }
-                $pathname = $this->cleanPath(Util::joinFile([$this->config->getOutputPath(), $pathname]));
+                $pathname = $this->cleanPath(Util::joinPath([$this->config->getOutputPath(), $pathname]));
 
                 try {
                     Util::getFS()->dumpFile($pathname, $rendered['output']);
@@ -91,7 +91,7 @@ class PagesSave extends AbstractStep
     protected function cleanPath($pathname): string
     {
         if (DIRECTORY_SEPARATOR == '\\') {
-            return preg_replace('#\\\\+#', '\\', $pathname);
+            $pathname = preg_replace('#\\\\+#', '\\', $pathname);
         }
 
         return preg_replace('#/+#', '/', $pathname);
