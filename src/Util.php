@@ -139,7 +139,7 @@ class Util
     {
         array_walk($strings, function (&$value) {
             $value = str_replace('\\', '/', $value);
-            $value = rtrim($value, '/');
+            $value = rtrim($value, '/').'/';
         });
 
         return implode('/', $strings);
@@ -156,7 +156,7 @@ class Util
     {
         array_walk($strings, function (&$value) {
             $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
-            $value = rtrim($value, DIRECTORY_SEPARATOR);
+            $value = rtrim($value, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
         });
 
         return implode(DIRECTORY_SEPARATOR, $strings);
