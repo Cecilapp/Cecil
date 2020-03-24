@@ -141,7 +141,7 @@ class PagesRender extends AbstractStep
             $formatedArray = array_combine(
                 array_column(array_column($rendered, 'template'), 'scope'),
                 array_column(array_column($rendered, 'template'), 'file')
-            );
+            )?:[];
             $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), Util::arrayToString($formatedArray));
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }

@@ -43,7 +43,7 @@ class Layout
             // is it in layouts/ dir?
             if (Util::getFS()->exists(Util::joinFile([$config->getLayoutsPath(), $layout]))) {
                 return [
-                    'scope' => '',
+                    'scope' => 'site',
                     'file'  => $layout,
                 ];
             }

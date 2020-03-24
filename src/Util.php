@@ -149,7 +149,7 @@ class Util
      */
     public static function joinFile(array $strings): string
     {
-        array_walk($strings, function (&$value, &$key) {
+        array_walk($strings, function (&$value) {
             $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
         });
 
@@ -168,7 +168,7 @@ class Util
         $string = '';
 
         foreach ($array as $key => $value) {
-            $string .= sprintf('%s%s%s, ', $key, DIRECTORY_SEPARATOR, $value);
+            $string .= sprintf('%s:%s, ', $key, $value);
         }
 
         return substr($string, 0, -2);
