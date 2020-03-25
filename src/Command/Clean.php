@@ -10,6 +10,7 @@
 
 namespace Cecil\Command;
 
+use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,7 +50,7 @@ class Clean extends Command
             $this->fs->remove($this->getPath().'/'.$outputDir);
             $output->writeln('Output directory removed.');
             $output->writeln(
-                sprintf('-> %s', $this->getPath().'/'.$outputDir),
+                sprintf('> %s', Util::joinFile([$this->getPath(), $outputDir])),
                 OutputInterface::VERBOSITY_VERBOSE
             );
             $doSomething = true;
@@ -59,7 +60,7 @@ class Clean extends Command
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
             $output->writeln('Temporary directory deleted.');
             $output->writeln(
-                sprintf('-> %s', $this->getPath().'/'.self::TMP_DIR),
+                sprintf('> %s', Util::joinFile([$this->getPath(), self::TMP_DIR])),
                 OutputInterface::VERBOSITY_VERBOSE
             );
             $doSomething = true;
@@ -69,7 +70,7 @@ class Clean extends Command
             $this->fs->remove($this->builder->getConfig()->getCachePath());
             $output->writeln('Cache directory deleted.');
             $output->writeln(
-                sprintf('-> %s', $this->builder->getConfig()->getCachePath()),
+                sprintf('> %s', $this->builder->getConfig()->getCachePath()),
                 OutputInterface::VERBOSITY_VERBOSE
             );
             $doSomething = true;

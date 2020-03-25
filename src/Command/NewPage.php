@@ -10,7 +10,7 @@
 
 namespace Cecil\Command;
 
-use Cecil\Util\Plateform;
+use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -53,7 +53,7 @@ class NewPage extends Command
 
         try {
             $nameParts = pathinfo($name);
-            $dirname = $nameParts['dirname'];
+            $dirname = trim($nameParts['dirname'], '.');
             $filename = $nameParts['filename'];
             $date = date('Y-m-d');
             $title = $filename;
@@ -64,13 +64,14 @@ class NewPage extends Command
             }
             // path
             $fileRelativePath = sprintf(
-                '%s/%s%s%s.md',
+                '%s%s%s%s%s.md',
                 (string) $this->getBuilder($output)->getConfig()->get('content.dir'),
-                !$dirname ?: $dirname.'/',
+                DIRECTORY_SEPARATOR,
+                empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR,
                 $datePrefix,
                 $filename
             );
-            $filePath = $this->getPath().'/'.$fileRelativePath;
+            $filePath = Util::joinFile([$this->getPath(), $fileRelativePath]);
 
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
@@ -88,7 +89,7 @@ class NewPage extends Command
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],
-                $this->findModel(sprintf('%s%s', !$dirname ?: $dirname.'/', $filename))
+                $this->findModel(sprintf('%s%s', empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR, $filename))
             );
             $this->fs->dumpFile($filePath, $fileContent);
             $output->writeln(sprintf('File "%s" created.', $fileRelativePath));
@@ -116,11 +117,11 @@ class NewPage extends Command
      */
     protected function findModel(string $name): string
     {
-        $section = strstr($name, '/', true);
-        if ($section && file_exists($model = sprintf('%s/models/%s.md', $this->getPath(), $section))) {
+        $section = strstr($name, DIRECTORY_SEPARATOR, true);
+        if ($section && file_exists($model = Util::joinFile([$this->getPath(), 'models', "$section.md"]))) {
             return file_get_contents($model);
         }
-        if (file_exists($model = sprintf('%s/models/default.md', $this->getPath()))) {
+        if (file_exists($model = Util::joinFile([$this->getPath(), 'models/default.md']))) {
             return file_get_contents($model);
         }
 
@@ -161,7 +162,7 @@ EOT;
             $command = sprintf('%s "%s"', $editor, $filePath);
             // Typora 4TW!
             if ($editor == 'typora') {
-                if (Plateform::getOS() == Plateform::OS_OSX) {
+                if (Util\Plateform::getOS() == Util\Plateform::OS_OSX) {
                     $command = sprintf('open -a typora "%s"', $filePath);
                 }
             }
