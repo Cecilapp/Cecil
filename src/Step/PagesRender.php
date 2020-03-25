@@ -128,7 +128,8 @@ class PagesRender extends AbstractStep
                     $rendered[$format]['template']['file'] = $layout['file'];
                 } catch (\Exception $e) {
                     throw new Exception(sprintf(
-                        "Error in template \"%s\" for page \"%s\":\n%s",
+                        "Error in template \"%s: %s\" for page \"%s\":\n%s",
+                        $layout['scope'],
                         $layout['file'],
                         $page->getId(),
                         $e->getMessage()
@@ -141,7 +142,7 @@ class PagesRender extends AbstractStep
             $formatedArray = array_combine(
                 array_column(array_column($rendered, 'template'), 'scope'),
                 array_column(array_column($rendered, 'template'), 'file')
-            ) ?: [];
+            ) ?: ['N/A'];
             $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), Util::arrayToString($formatedArray));
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
@@ -201,9 +202,11 @@ class PagesRender extends AbstractStep
         // Get available output formats for the page type.
         // ie:
         //   page: [html, json]
-        if (\is_array($this->config->get('output.pagetypeformats.'.$page->getType()))) {
-            $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
+        $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
+        if (!\is_array($formats)) {
+            throw new Exception('Configuration key "pagetypeformats" must be an array.');
         }
+
         // Get page output format(s).
         // ie:
         //   output: txt
