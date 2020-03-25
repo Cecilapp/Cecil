@@ -197,8 +197,6 @@ class PagesRender extends AbstractStep
      */
     protected function getOutputFormats(Page $page): array
     {
-        $formats = [];
-
         // Get available output formats for the page type.
         // ie:
         //   page: [html, json]
