@@ -219,9 +219,9 @@ class Builder
     }
 
     /**
-     * @return Finder
+     * @return Finder|null
      */
-    public function getContent(): Finder
+    public function getContent(): ?Finder
     {
         return $this->content;
     }
@@ -299,9 +299,9 @@ class Builder
     }
 
     /**
-     * @return Collection\Taxonomy\Collection
+     * @return Collection\Taxonomy\Collection|null
      */
-    public function getTaxonomies(): Collection\Taxonomy\Collection
+    public function getTaxonomies(): ?Collection\Taxonomy\Collection
     {
         return $this->taxonomies;
     }

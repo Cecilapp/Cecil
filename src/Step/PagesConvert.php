@@ -20,6 +20,17 @@ class PagesConvert extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function init($options)
+    {
+        /** @var \Cecil\Builder $builder */
+        if (is_dir($this->builder->getConfig()->getContentPath())) {
+            $this->process = true;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function process()
     {
         if (count($this->builder->getPages()) <= 0) {

@@ -24,7 +24,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        if ($this->config->get('taxonomies')) {
+        if ($this->config->get('taxonomies') && $this->builder->getTaxonomies() !== null) {
             /** @var Vocabulary $vocabulary */
             foreach ($this->builder->getTaxonomies() as $vocabulary) {
                 $plural = $vocabulary->getId();
