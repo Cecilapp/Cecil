@@ -18,16 +18,13 @@ class ContentLoad extends AbstractStep
 {
     /**
      * {@inheritdoc}
-     *
-     * @throws Exception
      */
     public function init($options)
     {
-        if (!is_dir($this->builder->getConfig()->getContentPath())) {
-            throw new Exception(sprintf('"%s" directory not found.', $this->builder->getConfig()->getContentPath()));
+        /** @var \Cecil\Builder $builder */
+        if (is_dir($this->builder->getConfig()->getContentPath())) {
+            $this->process = true;
         }
-
-        $this->process = true;
     }
 
     /**
