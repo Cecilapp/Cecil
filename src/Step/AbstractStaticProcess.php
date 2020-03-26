@@ -12,9 +12,9 @@ use Cecil\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Files Optimization.
+ * Static Files Processing.
  */
-abstract class AbstractStepOptimize extends AbstractStep
+abstract class AbstractStaticProcess extends AbstractStep
 {
     /**
      * File type (ie: 'css').

@@ -168,7 +168,7 @@ return [
     'themes' => [
         'dir' => 'themes',
     ],
-    'optimize' => [
+    /*'optimize' => [
         'enabled' => false,
         'css'     => [
             'ext' => ['css'],
@@ -182,7 +182,29 @@ return [
         'images' => [
             'ext' => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'],
         ],
+    ],*/
+    'media' => [
+        'images' => [
+            'ext' => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'],
+            'compress' => [
+                'enabled' => false,
+            ]
+        ],
     ],
+    'assets' => [
+        'html' => [
+            'ext' => ['html', 'htm'],
+            'minify' => true,
+        ],
+        'css'     => [
+            'ext' => ['css'],
+            'minify' => true,
+        ],
+        'js' => [
+            'ext' => ['js'],
+            'minify' => true,
+        ],
+    ]
     'cache' => [
         'dir'     => '.cache',
         'enabled' => false,
