@@ -274,7 +274,7 @@ class Extension extends SlugifyExtension
             $base = '';
         }
 
-        // Page item
+        // value is a Page item
         if ($value instanceof Page) {
             if (!$format) {
                 $format = $value->getVariable('output');
@@ -290,13 +290,18 @@ class Extension extends SlugifyExtension
 
             return $url;
         }
-        // external URL
+
+        // value is an external URL
         if (Util::isExternalUrl($value)) {
             $url = $value;
 
             return $url;
         }
-        // ressource URL (ie: 'path/style.css')
+
+        // value is a string
+        $value = Util::joinPath([$value]);
+
+        // value is a ressource URL (ie: 'path/style.css')
         if (false !== strpos($value, '.')) {
             $url = $value;
             if ($addhash) {
@@ -306,11 +311,13 @@ class Extension extends SlugifyExtension
 
             return $url;
         }
+
         // others cases
         $url = $base.'/';
         if (!empty($value) && $value != '/') {
             $url = $base.'/'.$value;
-            // value == 'page-id' (ie: 'path/my-page')
+
+            // value is a page ID (ie: 'path/my-page')
             try {
                 $pageId = $this->slugifyFilter($value);
                 $page = $this->builder->getPages()->get($pageId);

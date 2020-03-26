@@ -8,6 +8,7 @@
 
 namespace Cecil\Step;
 
+use cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -54,7 +55,8 @@ class StaticLoad extends AbstractStep
         $count = 0;
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
-            $staticFiles[$count]['path'] = $file->getRelativePathname();
+            $staticFiles[$count]['file'] = $file->getRelativePathname();
+            $staticFiles[$count]['path'] = Util::joinPath([$file->getRelativePathname()]);
             $staticFiles[$count]['date'] = (new \DateTime())->setTimestamp($file->getCTime());
             $staticFiles[$count]['updated'] = (new \DateTime())->setTimestamp($file->getMTime());
             $staticFiles[$count]['name'] = $file->getBasename();
