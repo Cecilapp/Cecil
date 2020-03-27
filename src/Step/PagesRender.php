@@ -139,19 +139,12 @@ class PagesRender extends AbstractStep
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 
-            $formatedArray = array_combine(
-                array_column(array_column($rendered, 'template'), 'scope'),
-                array_column(array_column($rendered, 'template'), 'file')
-            ) ?: ['N/A'];
-
-            // DEBUG
-            $scopes = array_column($rendered, 'template');
-            $files = array_column(array_column($rendered, 'template'), 'file');
-            var_dump($scopes);
-            //var_dump($files);
-            //var_dump(array_combine($scopes, $files));
-
-            $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), Util::arrayToString($formatedArray));
+            $templates = array_column($rendered, 'template');
+            $message = sprintf(
+                '%s [%s]',
+                ($page->getId() ?: 'index'),
+                Util::CombineArrayToString($templates, 'scope', 'file')
+            );
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
     }
