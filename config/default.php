@@ -112,6 +112,13 @@ return [
         ],
     ],
     'defaultpages' => [
+        '404' => [
+            'path'      => '404',
+            'title'     => 'Page not found',
+            'layout'    => '404',
+            'uglyurl'   => true,
+            'published' => true,
+        ],
         'robots' => [
             'path'      => 'robots',
             'title'     => 'Robots.txt',
@@ -127,13 +134,6 @@ return [
             'changefreq' => 'monthly',
             'priority'   => '0.5',
             'published'  => true,
-        ],
-        '404' => [
-            'path'      => '404',
-            'title'     => 'Page not found',
-            'layout'    => '404',
-            'uglyurl'   => true,
-            'published' => true,
         ],
     ],
     // Markdown files
