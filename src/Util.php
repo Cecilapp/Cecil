@@ -191,7 +191,7 @@ class Util
      *
      * @return string
      */
-    public static function CombineArrayToString(
+    public static function combineArrayToString(
         array $array,
         string $keyToKey,
         string $keyToValue,
