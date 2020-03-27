@@ -192,9 +192,11 @@ class Util
      * @return string
      */
     public static function CombineArrayToString(
-        array $array, string $keyToKey, string $keyToValue, string $separator = ':'
-    ): string
-    {
+        array $array,
+        string $keyToKey,
+        string $keyToValue,
+        string $separator = ':'
+    ): string {
         $string = '';
 
         foreach ($array as $subArray) {
