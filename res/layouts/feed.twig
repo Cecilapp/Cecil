@@ -1,12 +1,18 @@
-{% set pages = site.pages.all %}
+{% set pages = site.pages.all -%}
+
 {% if page.pages is defined %}
 {% set pages = page.pages %}
-{% endif %}
+{% endif -%}
+
+{% set pages = pages|filter(p => p.id not in ['404', 'robots', 'sitemap']) -%}
+
 {% set first = pages|first %}
 {% set title = site.title ~ ' - ' ~ page.title %}
 {% set date = first.date|default(site.time) %}
-{% set lang = site.lang|default('en')|slice(0, 2)|lower %}
+{% set lang = site.lang|default('en')|slice(0, 2)|lower -%}
+
 {% if page.type == 'homepage' %}
 {% set title = site.title %}
-{% endif %}
+{% endif -%}
+
 {% block feed %}{% endblock %}
