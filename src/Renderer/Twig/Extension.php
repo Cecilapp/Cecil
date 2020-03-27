@@ -162,9 +162,7 @@ class Extension extends SlugifyExtension
      */
     public function sortByTitle(\Traversable $collection): array
     {
-        if (!is_array($collection)) {
-            $collection = iterator_to_array($collection);
-        }
+        $collection = iterator_to_array($collection);
         array_multisort(array_keys($collection), SORT_NATURAL | SORT_FLAG_CASE, $collection);
 
         return $collection;
@@ -193,9 +191,7 @@ class Extension extends SlugifyExtension
             return ($a['weight'] < $b['weight']) ? -1 : 1;
         };
 
-        if (!is_array($collection)) {
-            $collection = iterator_to_array($collection);
-        }
+        $collection = iterator_to_array($collection);
         usort($collection, $callback);
 
         return $collection;
@@ -224,9 +220,7 @@ class Extension extends SlugifyExtension
             return ($a['date'] > $b['date']) ? -1 : 1;
         };
 
-        if (!is_array($collection)) {
-            $collection = iterator_to_array($collection);
-        }
+        $collection = iterator_to_array($collection);
         usort($collection, $callback);
 
         return $collection;
