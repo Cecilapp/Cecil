@@ -89,7 +89,7 @@ class PagesRender extends AbstractStep
             // global site variables
             $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $pageLang));
 
-            // get page's output formats
+            // get Page's output formats
             $formats = $this->getOutputFormats($page);
             $page->setVariable('output', $formats);
 
@@ -143,6 +143,14 @@ class PagesRender extends AbstractStep
                 array_column(array_column($rendered, 'template'), 'scope'),
                 array_column(array_column($rendered, 'template'), 'file')
             ) ?: ['N/A'];
+
+            // DEBUG
+            $scopes = array_column($rendered, 'template');
+            $files = array_column(array_column($rendered, 'template'), 'file');
+            var_dump($scopes);
+            //var_dump($files);
+            //var_dump(array_combine($scopes, $files));
+
             $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), Util::arrayToString($formatedArray));
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
