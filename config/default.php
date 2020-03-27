@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-// Default config
+// Website default configuration
 return [
     'title'        => 'My Website',
     'baseline'     => 'My amazing static website!',
