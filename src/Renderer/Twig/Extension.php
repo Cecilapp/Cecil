@@ -156,15 +156,12 @@ class Extension extends SlugifyExtension
     /**
      * Sort by title.
      *
-     * @param CollectionInterface|array $collection
+     * @param \Traversable $collection
      *
      * @return array
      */
-    public function sortByTitle($collection): array
+    public function sortByTitle(\Traversable $collection): array
     {
-        if ($collection instanceof CollectionInterface) {
-            $collection = $collection->toArray();
-        }
         if (!is_array($collection)) {
             $collection = iterator_to_array($collection);
         }
@@ -176,11 +173,11 @@ class Extension extends SlugifyExtension
     /**
      * Sort by weight.
      *
-     * @param CollectionInterface|array $collection
+     * @param \Traversable $collection
      *
      * @return array
      */
-    public function sortByWeight($collection): array
+    public function sortByWeight(\Traversable $collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['weight'])) {
@@ -196,9 +193,6 @@ class Extension extends SlugifyExtension
             return ($a['weight'] < $b['weight']) ? -1 : 1;
         };
 
-        if ($collection instanceof CollectionInterface) {
-            $collection = $collection->toArray();
-        }
         if (!is_array($collection)) {
             $collection = iterator_to_array($collection);
         }
@@ -210,11 +204,11 @@ class Extension extends SlugifyExtension
     /**
      * Sort by date.
      *
-     * @param CollectionInterface|array $collection
+     * @param \Traversable $collection
      *
      * @return mixed
      */
-    public function sortByDate($collection): array
+    public function sortByDate(\Traversable $collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['date'])) {
@@ -230,9 +224,6 @@ class Extension extends SlugifyExtension
             return ($a['date'] > $b['date']) ? -1 : 1;
         };
 
-        if ($collection instanceof CollectionInterface) {
-            $collection = $collection->toArray();
-        }
         if (!is_array($collection)) {
             $collection = iterator_to_array($collection);
         }
