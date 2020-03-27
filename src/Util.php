@@ -165,16 +165,42 @@ class Util
     /**
      * Convert array to string.
      *
-     * @param array $array
+     * @param array  $array
+     * @param string $separator Separtor between the key and the value in the result string
      *
      * @return string
      */
-    public static function arrayToString(array $array): string
+    public static function arrayToString(array $array, string $separator = ':'): string
     {
         $string = '';
 
         foreach ($array as $key => $value) {
-            $string .= sprintf('%s:%s, ', $key, $value);
+            $string .= sprintf('%s%s%s, ', $key, $separator, $value);
+        }
+
+        return substr($string, 0, -2);
+    }
+
+    /**
+     * Conbine array to string.
+     *
+     * @param array  $array
+     * @param string $keyToKey   the cuurrent key who become the key of the new array
+     * @param string $keyToValue the cuurrent key who become the value of the new array
+     * @param string $separator  Separtor between the key and the value in the result string
+     *
+     * @return string
+     */
+    public static function combineArrayToString(
+        array $array,
+        string $keyToKey,
+        string $keyToValue,
+        string $separator = ':'
+    ): string {
+        $string = '';
+
+        foreach ($array as $subArray) {
+            $string .= sprintf('%s%s%s, ', $subArray[$keyToKey], $separator, $subArray[$keyToValue]);
         }
 
         return substr($string, 0, -2);
