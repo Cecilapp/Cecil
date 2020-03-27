@@ -165,6 +165,9 @@ class Extension extends SlugifyExtension
         if ($collection instanceof CollectionInterface) {
             $collection = $collection->toArray();
         }
+        if (!is_array($collection)) {
+            $collection = iterator_to_array($collection);
+        }
         array_multisort(array_keys($collection), SORT_NATURAL | SORT_FLAG_CASE, $collection);
 
         return $collection;
@@ -196,6 +199,9 @@ class Extension extends SlugifyExtension
         if ($collection instanceof CollectionInterface) {
             $collection = $collection->toArray();
         }
+        if (!is_array($collection)) {
+            $collection = iterator_to_array($collection);
+        }
         usort($collection, $callback);
 
         return $collection;
@@ -226,6 +232,9 @@ class Extension extends SlugifyExtension
 
         if ($collection instanceof CollectionInterface) {
             $collection = $collection->toArray();
+        }
+        if (!is_array($collection)) {
+            $collection = iterator_to_array($collection);
         }
         usort($collection, $callback);
 
