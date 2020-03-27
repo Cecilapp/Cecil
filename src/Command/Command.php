@@ -82,7 +82,7 @@ Do you want to create it? [y/n]', $this->getpath()),
                 $this->fs->mkdir($this->getPath());
             }
             $this->path = realpath($this->getPath());
-            $this->configFile = Util::joinFile([$this->getPath(), self::CONFIG_FILE]);
+            $this->configFile = Util::joinFile($this->getPath(), self::CONFIG_FILE);
 
             if (!in_array($this->getName(), ['new:site'])) {
                 if (!file_exists($this->configFile)) {

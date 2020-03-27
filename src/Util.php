@@ -131,35 +131,35 @@ class Util
     /**
      * Convert an array of strings into a path.
      *
-     * @param array $strings
+     * @param string $path
      *
      * @return string
      */
-    public static function joinPath(array $strings): string
+    public static function joinPath(string ...$path): string
     {
-        array_walk($strings, function (&$value) {
+        array_walk($path, function (&$value) {
             $value = str_replace('\\', '/', $value);
             $value = rtrim($value, '/');
         });
 
-        return implode('/', $strings);
+        return implode('/', $path);
     }
 
     /**
      * Convert an array of strings into a system path.
      *
-     * @param array $strings
+     * @param string $path
      *
      * @return string
      */
-    public static function joinFile(array $strings): string
+    public static function joinFile(string ...$path): string
     {
-        array_walk($strings, function (&$value) {
+        array_walk($path, function (&$value) {
             $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
             $value = rtrim($value, DIRECTORY_SEPARATOR);
         });
 
-        return implode(DIRECTORY_SEPARATOR, $strings);
+        return implode(DIRECTORY_SEPARATOR, $path);
     }
 
     /**

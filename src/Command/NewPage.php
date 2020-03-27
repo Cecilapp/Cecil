@@ -71,7 +71,7 @@ class NewPage extends Command
                 $datePrefix,
                 $filename
             );
-            $filePath = Util::joinFile([$this->getPath(), $fileRelativePath]);
+            $filePath = Util::joinFile($this->getPath(), $fileRelativePath);
 
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
@@ -118,10 +118,10 @@ class NewPage extends Command
     protected function findModel(string $name): string
     {
         $section = strstr($name, DIRECTORY_SEPARATOR, true);
-        if ($section && file_exists($model = Util::joinFile([$this->getPath(), 'models', "$section.md"]))) {
+        if ($section && file_exists($model = Util::joinFile($this->getPath(), 'models', "$section.md"))) {
             return file_get_contents($model);
         }
-        if (file_exists($model = Util::joinFile([$this->getPath(), 'models/default.md']))) {
+        if (file_exists($model = Util::joinFile($this->getPath(), 'models/default.md'))) {
             return file_get_contents($model);
         }
 

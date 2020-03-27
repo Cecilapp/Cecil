@@ -50,7 +50,7 @@ class Clean extends Command
             $this->fs->remove($this->getPath().'/'.$outputDir);
             $output->writeln('Output directory removed.');
             $output->writeln(
-                sprintf('> %s', Util::joinFile([$this->getPath(), $outputDir])),
+                sprintf('> %s', Util::joinFile($this->getPath(), $outputDir)),
                 OutputInterface::VERBOSITY_VERBOSE
             );
             $doSomething = true;
@@ -60,7 +60,7 @@ class Clean extends Command
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
             $output->writeln('Temporary directory deleted.');
             $output->writeln(
-                sprintf('> %s', Util::joinFile([$this->getPath(), self::TMP_DIR])),
+                sprintf('> %s', Util::joinFile($this->getPath(), self::TMP_DIR)),
                 OutputInterface::VERBOSITY_VERBOSE
             );
             $doSomething = true;

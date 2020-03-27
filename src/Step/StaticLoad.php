@@ -56,7 +56,7 @@ class StaticLoad extends AbstractStep
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
             $staticFiles[$count]['file'] = $file->getRelativePathname();
-            $staticFiles[$count]['path'] = Util::joinPath([$file->getRelativePathname()]);
+            $staticFiles[$count]['path'] = Util::joinPath($file->getRelativePathname());
             $staticFiles[$count]['date'] = (new \DateTime())->setTimestamp($file->getCTime());
             $staticFiles[$count]['updated'] = (new \DateTime())->setTimestamp($file->getMTime());
             $staticFiles[$count]['name'] = $file->getBasename();

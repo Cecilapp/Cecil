@@ -299,7 +299,7 @@ class Extension extends SlugifyExtension
         }
 
         // value is a string
-        $value = Util::joinPath([$value]);
+        $value = is_null($value) ?: Util::joinPath($value);
 
         // value is a ressource URL (ie: 'path/style.css')
         if (false !== strpos($value, '.')) {
