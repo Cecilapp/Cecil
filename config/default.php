@@ -193,7 +193,7 @@ return [
         30 => 'Cecil\Generator\Homepage',
         40 => 'Cecil\Generator\ExternalBody',
         50 => 'Cecil\Generator\DefaultPages',
-        25 => 'Cecil\Generator\VirtualPages',
+        60 => 'Cecil\Generator\VirtualPages',
         70 => 'Cecil\Generator\Pagination',
         80 => 'Cecil\Generator\Alias',
         90 => 'Cecil\Generator\Redirect',
