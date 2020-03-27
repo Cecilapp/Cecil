@@ -201,8 +201,13 @@ class PagesRender extends AbstractStep
         // ie:
         //   page: [html, json]
         $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
+
+        if (empty($formats)) {
+            throw new Exception('Configuration key "pagetypeformats" can\'t be empty.');
+        }
+
         if (!\is_array($formats)) {
-            throw new Exception('Configuration key "pagetypeformats" must be an array.');
+            $formats = [$formats];
         }
 
         // Get page output format(s).
