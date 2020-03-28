@@ -112,6 +112,11 @@ return [
         ],
     ],
     'defaultpages' => [
+        'index' => [
+            'path'      => '',
+            'title'     => 'Home',
+            'published' => true,
+        ],
         '404' => [
             'path'      => '404',
             'title'     => 'Page not found',
