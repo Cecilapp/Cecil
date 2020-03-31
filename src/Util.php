@@ -131,50 +131,76 @@ class Util
     /**
      * Convert an array of strings into a path.
      *
-     * @param array $strings
+     * @param string $path
      *
      * @return string
      */
-    public static function joinPath(array $strings): string
+    public static function joinPath(string ...$path): string
     {
-        array_walk($strings, function (&$value) {
+        array_walk($path, function (&$value) {
             $value = str_replace('\\', '/', $value);
             $value = rtrim($value, '/');
         });
 
-        return implode('/', $strings);
+        return implode('/', $path);
     }
 
     /**
      * Convert an array of strings into a system path.
      *
-     * @param array $strings
+     * @param string $path
      *
      * @return string
      */
-    public static function joinFile(array $strings): string
+    public static function joinFile(string ...$path): string
     {
-        array_walk($strings, function (&$value) {
+        array_walk($path, function (&$value) {
             $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
             $value = rtrim($value, DIRECTORY_SEPARATOR);
         });
 
-        return implode(DIRECTORY_SEPARATOR, $strings);
+        return implode(DIRECTORY_SEPARATOR, $path);
     }
 
     /**
      * Convert array to string.
      *
-     * @param array $array
+     * @param array  $array
+     * @param string $separator Separtor between the key and the value in the result string
      *
      * @return string
      */
-    public static function arrayToString(array $array): string
+    public static function arrayToString(array $array, string $separator = ':'): string
     {
         $string = '';
 
         foreach ($array as $key => $value) {
-            $string .= sprintf('%s:%s, ', $key, $value);
+            $string .= sprintf('%s%s%s, ', $key, $separator, $value);
+        }
+
+        return substr($string, 0, -2);
+    }
+
+    /**
+     * Conbine array to string.
+     *
+     * @param array  $array
+     * @param string $keyToKey   the cuurrent key who become the key of the new array
+     * @param string $keyToValue the cuurrent key who become the value of the new array
+     * @param string $separator  Separtor between the key and the value in the result string
+     *
+     * @return string
+     */
+    public static function combineArrayToString(
+        array $array,
+        string $keyToKey,
+        string $keyToValue,
+        string $separator = ':'
+    ): string {
+        $string = '';
+
+        foreach ($array as $subArray) {
+            $string .= sprintf('%s%s%s, ', $subArray[$keyToKey], $separator, $subArray[$keyToValue]);
         }
 
         return substr($string, 0, -2);

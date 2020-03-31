@@ -28,8 +28,9 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         /** @var \Cecil\Collection\Page\Collection $subPages */
         $pages = $subPages->sortByDate();
 
+        // create new index page...
         $page = (new Page('index'))->setPath('')->setVariable('title', 'Home');
-
+        // ... clone it if already exists
         if ($this->pagesCollection->has('index')) {
             $page = clone $this->pagesCollection->get('index');
         }

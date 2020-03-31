@@ -45,7 +45,7 @@ class NewSite extends Command
         $force = $input->getOption('force');
 
         try {
-            if ($this->fs->exists(Util::joinFile([$this->getPath(), self::CONFIG_FILE])) && !$force) {
+            if ($this->fs->exists(Util::joinFile($this->getPath(), self::CONFIG_FILE)) && !$force) {
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion(
                     'Website already exists. Do you want to override it? [y/n]',
@@ -55,19 +55,19 @@ class NewSite extends Command
                     return;
                 }
             }
-            $root = realpath(Util::joinFile([__DIR__, '/../../']));
+            $root = realpath(Util::joinFile(__DIR__, '/../../'));
             if (Util\Plateform::isPhar()) {
                 $root = Util\Plateform::getPharPath().'/';
             }
             $output->writeln('<info>Creating a new website...</info>');
             $this->fs->copy(
-                Util::joinPath([$root, 'res/skeleton', self::CONFIG_FILE]),
-                Util::joinPath([$this->getPath(), self::CONFIG_FILE])
+                Util::joinPath($root, 'res/skeleton', self::CONFIG_FILE),
+                Util::joinPath($this->getPath(), self::CONFIG_FILE)
             );
             foreach (['content', 'layouts', 'static'] as $value) {
                 $this->fs->mirror(
-                    Util::joinPath([$root, 'res/skeleton', $value]),
-                    Util::joinPath([$this->getPath(), $value])
+                    Util::joinPath($root, 'res/skeleton', $value),
+                    Util::joinPath($this->getPath(), $value)
                 );
             }
             $output->writeln('Done!');
