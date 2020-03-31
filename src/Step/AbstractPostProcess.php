@@ -52,7 +52,10 @@ abstract class AbstractPostProcess extends AbstractStep
     {
         $this->setProcessor();
 
-        call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS', sprintf('Post-processing %s', $this->type)]);
+        call_user_func_array(
+            $this->builder->getMessageCb(),
+            ['POSTPROCESS', sprintf('Post-processing %s', $this->type)]
+        );
 
         $extensions = $this->builder->getConfig()->get(sprintf('postprocess.%s.ext', $this->type));
         if (empty($extensions)) {
