@@ -39,7 +39,7 @@ class PostProcessHtml extends AbstractPostProcess
      */
     public function processFile()
     {
-        $cachedFile = Util::joinFile([$this->config->getCachePath(), $this->inputFile->getRelativePathname()]);
+        $cachedFile = Util::joinFile($this->config->getCachePath(), $this->inputFile->getRelativePathname());
 
         if (!Util::getFS()->exists($cachedFile)) {
             $html = file_get_contents($this->inputFile->getPathname());
