@@ -16,11 +16,23 @@ use MatthiasMullie\Minify;
  */
 class PostProcessJs extends AbstractPostProcess
 {
-    public function setProcessor()
+    /**
+     * {@inheritdoc}
+     */
+    public function init($options)
     {
         $this->type = 'js';
+        parent::init($options);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function setProcessor() {}
+
+    /**
+     * {@inheritdoc}
+     */
     public function processFile()
     {
         $cachedFile = Util::joinFile([$this->config->getCachePath(), $this->inputFile->getRelativePathname()]);

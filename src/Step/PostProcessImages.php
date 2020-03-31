@@ -16,12 +16,26 @@ use Spatie\ImageOptimizer\OptimizerChainFactory as Optimizer;
  */
 class PostProcessImages extends AbstractPostProcess
 {
-    public function setProcessor()
+    /**
+     * {@inheritdoc}
+     */
+    public function init($options)
     {
         $this->type = 'images';
+        parent::init($options);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setProcessor()
+    {
         $this->processor = Optimizer::create();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function processFile()
     {
         $cachedFile = Util::joinFile([$this->config->getCachePath(), $this->inputFile->getRelativePathname()]);
