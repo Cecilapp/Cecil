@@ -19,7 +19,7 @@ class PostProcessCss extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function init(array $options)
+    public function init($options)
     {
         $this->type = 'css';
         parent::init($options);

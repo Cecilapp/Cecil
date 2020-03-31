@@ -28,7 +28,7 @@ abstract class AbstractPostProcess extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init(array $options)
+    public function init($options)
     {
         if ($options['dry-run']) {
             $this->process = false;

@@ -26,7 +26,7 @@ interface StepInterface
      *
      * @return void
      */
-    public function init(array $options);
+    public function init($options);
 
     /**
      * Public call to process.
