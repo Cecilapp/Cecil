@@ -156,15 +156,13 @@ class Extension extends SlugifyExtension
     /**
      * Sort by title.
      *
-     * @param CollectionInterface|array $collection
+     * @param \Traversable $collection
      *
      * @return array
      */
-    public function sortByTitle($collection): array
+    public function sortByTitle(\Traversable $collection): array
     {
-        if ($collection instanceof CollectionInterface) {
-            $collection = $collection->toArray();
-        }
+        $collection = iterator_to_array($collection);
         array_multisort(array_keys($collection), SORT_NATURAL | SORT_FLAG_CASE, $collection);
 
         return $collection;
@@ -173,11 +171,11 @@ class Extension extends SlugifyExtension
     /**
      * Sort by weight.
      *
-     * @param CollectionInterface|array $collection
+     * @param \Traversable $collection
      *
      * @return array
      */
-    public function sortByWeight($collection): array
+    public function sortByWeight(\Traversable $collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['weight'])) {
@@ -193,9 +191,7 @@ class Extension extends SlugifyExtension
             return ($a['weight'] < $b['weight']) ? -1 : 1;
         };
 
-        if ($collection instanceof CollectionInterface) {
-            $collection = $collection->toArray();
-        }
+        $collection = iterator_to_array($collection);
         usort($collection, $callback);
 
         return $collection;
@@ -204,11 +200,11 @@ class Extension extends SlugifyExtension
     /**
      * Sort by date.
      *
-     * @param CollectionInterface|array $collection
+     * @param \Traversable $collection
      *
      * @return mixed
      */
-    public function sortByDate($collection): array
+    public function sortByDate(\Traversable $collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['date'])) {
@@ -224,9 +220,7 @@ class Extension extends SlugifyExtension
             return ($a['date'] > $b['date']) ? -1 : 1;
         };
 
-        if ($collection instanceof CollectionInterface) {
-            $collection = $collection->toArray();
-        }
+        $collection = iterator_to_array($collection);
         usort($collection, $callback);
 
         return $collection;
@@ -274,7 +268,7 @@ class Extension extends SlugifyExtension
             $base = '';
         }
 
-        // Page item
+        // value is a Page item
         if ($value instanceof Page) {
             if (!$format) {
                 $format = $value->getVariable('output');
@@ -290,13 +284,18 @@ class Extension extends SlugifyExtension
 
             return $url;
         }
-        // external URL
+
+        // value is an external URL
         if (Util::isExternalUrl($value)) {
             $url = $value;
 
             return $url;
         }
-        // ressource URL (ie: 'path/style.css')
+
+        // value is a string
+        $value = is_null($value) ?: Util::joinPath($value);
+
+        // value is a ressource URL (ie: 'path/style.css')
         if (false !== strpos($value, '.')) {
             $url = $value;
             if ($addhash) {
@@ -306,11 +305,13 @@ class Extension extends SlugifyExtension
 
             return $url;
         }
+
         // others cases
         $url = $base.'/';
         if (!empty($value) && $value != '/') {
             $url = $base.'/'.$value;
-            // value == 'page-id' (ie: 'path/my-page')
+
+            // value is a page ID (ie: 'path/my-page')
             try {
                 $pageId = $this->slugifyFilter($value);
                 $page = $this->builder->getPages()->get($pageId);

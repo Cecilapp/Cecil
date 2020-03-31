@@ -97,7 +97,7 @@ class DataLoad extends AbstractStep
             );
             $subpath = trim($subpath, './');
             $array = [];
-            $path = !empty($subpath) ? Util::joinFile([$subpath, $basename]) : $basename;
+            $path = !empty($subpath) ? Util::joinFile($subpath, $basename) : $basename;
             $this->pathToArray($array, $path, $dataArray);
 
             $dataArray = array_merge_recursive(
@@ -106,7 +106,7 @@ class DataLoad extends AbstractStep
             );
             $this->builder->setData($dataArray);
 
-            $message = sprintf('%s.%s', Util::joinFile([$path]), $file->getExtension());
+            $message = sprintf('%s.%s', Util::joinFile($path), $file->getExtension());
             call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
         }
     }

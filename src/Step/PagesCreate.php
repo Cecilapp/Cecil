@@ -19,9 +19,21 @@ class PagesCreate extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function init($options)
+    {
+        /** @var \Cecil\Builder $builder */
+        $this->builder->setPages(new PagesCollection('all-pages'));
+
+        if (is_dir($this->builder->getConfig()->getContentPath())) {
+            $this->process = true;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function process()
     {
-        $this->builder->setPages(new PagesCollection('all-pages'));
         if (count($this->builder->getContent()) <= 0) {
             return;
         }

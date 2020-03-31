@@ -70,7 +70,7 @@ class ShowContent extends Command
                 $output->writeln($page);
             }
             // data content
-            if (is_dir(Util::joinFile([$this->getPath(), $dataDir]))) {
+            if (is_dir(Util::joinFile($this->getPath(), $dataDir))) {
                 $output->writeln(sprintf('<info>%s/</info>', $dataDir));
                 $datas = $this->getFilesTree($output, $dataDir);
                 if (!Util\Plateform::isWindows()) {
@@ -101,7 +101,7 @@ class ShowContent extends Command
     {
         $dir = (string) $this->getBuilder($output)->getConfig()->get("$directory.dir");
         $ext = $this->getBuilder($output)->getConfig()->get("$directory.ext");
-        $path = Util::joinFile([$this->getPath(), $dir]);
+        $path = Util::joinFile($this->getPath(), $dir);
 
         if (!is_dir($path)) {
             throw new \Exception(sprintf('Invalid directory: %s.', $path));

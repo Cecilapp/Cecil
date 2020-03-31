@@ -63,7 +63,7 @@ class PagesSave extends AbstractStep
                         $format
                     ));
                 }
-                $pathname = $this->cleanPath(Util::joinFile([$this->config->getOutputPath(), $pathname]));
+                $pathname = $this->cleanPath(Util::joinFile($this->config->getOutputPath(), $pathname));
 
                 try {
                     Util::getFS()->dumpFile($pathname, $rendered['output']);

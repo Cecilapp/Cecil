@@ -78,7 +78,7 @@ class PagesRender extends AbstractStep
             }
             // The PHP Gettext extension is needed to use translation
             if (extension_loaded('gettext')) {
-                $localePath = realpath(Util::joinFile([$this->config->getSourceDir(), 'locale']));
+                $localePath = realpath(Util::joinFile($this->config->getSourceDir(), 'locale'));
                 $domain = 'messages';
                 putenv("LC_ALL=$locale");
                 putenv("LANGUAGE=$locale");
@@ -89,7 +89,7 @@ class PagesRender extends AbstractStep
             // global site variables
             $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $pageLang));
 
-            // get page's output formats
+            // get Page's output formats
             $formats = $this->getOutputFormats($page);
             $page->setVariable('output', $formats);
 
@@ -139,11 +139,12 @@ class PagesRender extends AbstractStep
             $page->setVariable('rendered', $rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 
-            $formatedArray = array_combine(
-                array_column(array_column($rendered, 'template'), 'scope'),
-                array_column(array_column($rendered, 'template'), 'file')
-            ) ?: ['N/A'];
-            $message = sprintf('%s [%s]', ($page->getId() ?: 'index'), Util::arrayToString($formatedArray));
+            $templates = array_column($rendered, 'template');
+            $message = sprintf(
+                '%s [%s]',
+                ($page->getId() ?: 'index'),
+                Util::combineArrayToString($templates, 'scope', 'file')
+            );
             call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
         }
     }
@@ -201,8 +202,13 @@ class PagesRender extends AbstractStep
         // ie:
         //   page: [html, json]
         $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
+
+        if (empty($formats)) {
+            throw new Exception('Configuration key "pagetypeformats" can\'t be empty.');
+        }
+
         if (!\is_array($formats)) {
-            throw new Exception('Configuration key "pagetypeformats" must be an array.');
+            $formats = [$formats];
         }
 
         // Get page output format(s).
