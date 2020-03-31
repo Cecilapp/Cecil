@@ -41,10 +41,10 @@ class AssetsCopy extends StaticCopy
             ['COPY', 'Copying assets']
         );
 
-        $cacheDirImages = $this->config->getCachePath().'/'.(string) $this->config->get('cache.images.dir');
-        if ($this->copy($cacheDirImages, '')) {
+        if ($this->copy($this->config->getCachePath(), null)) {
+            // delete cache?
             if ((bool) $this->config->get('cache.enabled') === false) {
-                Util::getFS()->remove($cacheDirImages);
+                Util::getFS()->remove($this->config->getCachePath());
             }
         }
 

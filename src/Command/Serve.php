@@ -43,10 +43,10 @@ class Serve extends Command
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
                     new InputOption(
-                        'optimize',
+                        'postprocess',
                         null,
                         InputOption::VALUE_OPTIONAL,
-                        'Optimize output (disable with "no")',
+                        'Post-process output (disable with "no")',
                         false
                     ),
                 ])
@@ -63,7 +63,7 @@ class Serve extends Command
         $open = $input->getOption('open');
         $host = $input->getOption('host') ?? 'localhost';
         $port = $input->getOption('port') ?? '8000';
-        $optimize = $input->getOption('optimize');
+        $postprocess = $input->getOption('postprocess');
 
         $this->setUpServer($output, $host, $port);
         $command = sprintf(
@@ -81,7 +81,7 @@ class Serve extends Command
             'command'    => 'build',
             'path'       => $this->getPath(),
             '--drafts'   => $drafts,
-            '--optimize' => $optimize,
+            '--postprocess' => $postprocess,
         ]);
         $buildCommand->run($buildInput, $output);
 

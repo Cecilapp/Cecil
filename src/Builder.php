@@ -45,10 +45,10 @@ class Builder
         'Cecil\Step\PagesRender',
         'Cecil\Step\PagesSave',
         'Cecil\Step\AssetsCopy',
-        'Cecil\Step\OptimizeCss',
-        'Cecil\Step\OptimizeJs',
-        'Cecil\Step\OptimizeHtml',
-        'Cecil\Step\OptimizeImages',
+        'Cecil\Step\PostProcessHtml',
+        'Cecil\Step\PostProcessCss',
+        'Cecil\Step\PostProcessJs',
+        'Cecil\Step\PostProcessImages',
     ];
     /**
      * App version.
@@ -322,10 +322,11 @@ class Builder
                     case 'GENERATE':
                     case 'MENU':
                     case 'COPY':
-                    case 'OPTIMIZE':
                     case 'RENDER':
                     case 'SAVE':
+                    case 'POSTPROCESS':
                     case 'TIME':
+                    case 'DEFAULT':
                         $log = sprintf("%s\n", $message);
                         $this->addLog($log);
                         break;
@@ -337,9 +338,10 @@ class Builder
                     case 'GENERATE_PROGRESS':
                     case 'MENU_PROGRESS':
                     case 'COPY_PROGRESS':
-                    case 'OPTIMIZE_PROGRESS':
                     case 'RENDER_PROGRESS':
                     case 'SAVE_PROGRESS':
+                    case 'POSTPROCESS_PROGRESS':
+                    case 'DEFAULT_PROGRESS':
                         if ($itemsCount > 0) {
                             $log = sprintf("(%u/%u) %s\n", $itemsCount, $itemsMax, $message);
                             $this->addLog($log, 1);
@@ -359,6 +361,8 @@ class Builder
                     case 'OPTIMIZE_ERROR':
                     case 'RENDER_ERROR':
                     case 'SAVE_ERROR':
+                    case 'POSTPROCESS_ERROR':
+                    case 'DEFAULT_ERROR':
                         $log = sprintf(">> %s\n", $message);
                         $this->addLog($log);
                         break;
