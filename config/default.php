@@ -173,19 +173,23 @@ return [
     'themes' => [
         'dir' => 'themes',
     ],
-    'optimize' => [
+    'postprocess' => [
         'enabled' => false,
+        'html'    => [
+            'ext'     => ['html', 'htm'],
+            'enabled' => true,
+        ],
         'css'     => [
-            'ext' => ['css'],
+            'ext'     => ['css'],
+            'enabled' => true,
         ],
         'js' => [
-            'ext' => ['js'],
-        ],
-        'html' => [
-            'ext' => ['html', 'htm'],
+            'ext'     => ['js'],
+            'enabled' => true,
         ],
         'images' => [
-            'ext' => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'],
+            'ext'     => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'],
+            'enabled' => true,
         ],
     ],
     'cache' => [

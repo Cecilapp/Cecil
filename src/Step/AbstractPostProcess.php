@@ -12,18 +12,18 @@ use Cecil\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Files Optimization.
+ * Post Processing.
  */
-abstract class AbstractStepOptimize extends AbstractStep
+abstract class AbstractPostProcess extends AbstractStep
 {
-    /**
-     * File type (ie: 'css').
-     */
+    /** @var string File type (ie: 'css') */
     protected $type = 'type';
-    /**
-     * File processor.
-     */
+    /** @var mixed File processor */
     protected $processor;
+    /** @var \Symfony\Component\Finder\SplFileInfo Input file */
+    protected $inputFile;
+    /** @var \SplFileInfo Output file */
+    protected $outputFile;
 
     /**
      * {@inheritdoc}
@@ -35,12 +35,12 @@ abstract class AbstractStepOptimize extends AbstractStep
 
             return;
         }
-        if (false === $this->builder->getConfig()->get(sprintf('optimize.%s.enabled', $this->type))) {
+        if (false === $this->builder->getConfig()->get(sprintf('postprocess.%s.enabled', $this->type))) {
             $this->process = false;
 
             return;
         }
-        if (true === $this->builder->getConfig()->get('optimize.enabled')) {
+        if (true === $this->builder->getConfig()->get('postprocess.enabled')) {
             $this->process = true;
         }
     }
@@ -52,11 +52,14 @@ abstract class AbstractStepOptimize extends AbstractStep
     {
         $this->setProcessor();
 
-        call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE', sprintf('Optimizing %s', $this->type)]);
+        call_user_func_array(
+            $this->builder->getMessageCb(),
+            ['POSTPROCESS', sprintf('Post-processing %s', $this->type)]
+        );
 
-        $extensions = $this->builder->getConfig()->get(sprintf('optimize.%s.ext', $this->type));
+        $extensions = $this->builder->getConfig()->get(sprintf('postprocess.%s.ext', $this->type));
         if (empty($extensions)) {
-            throw new Exception(sprintf('The config key "optimize.%s.ext" is empty', $this->type));
+            throw new Exception(sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
         }
 
         $files = Finder::create()
@@ -69,45 +72,40 @@ abstract class AbstractStepOptimize extends AbstractStep
 
         if ($max <= 0) {
             $message = 'No files';
-            call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message]);
+            call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message]);
 
             return;
         }
 
         $count = 0;
-        $optimized = 0;
+        $postprocessed = 0;
 
-        /* @var $file \Symfony\Component\Finder\SplFileInfo */
+        /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
             $count++;
 
             $sizeBefore = $file->getSize();
 
-            $this->processFile($file);
+            $this->inputFile = $file;
 
-            $sizeAfter = $file->getSize();
+            $this->processFile();
 
-            $subpath = \Cecil\Util::getFS()->makePathRelative(
-                $file->getPath(),
-                $this->builder->getConfig()->getOutputPath()
-            );
-            $subpath = trim($subpath, './');
-            $path = $subpath ? $subpath.'/'.$file->getFilename() : $file->getFilename();
+            $sizeAfter = $this->outputFile->getSize();
 
             $message = sprintf(
                 '%s: %s Ko -> %s Ko',
-                $path,
+                $file->getRelativePathname(),
                 ceil($sizeBefore / 1000),
                 ceil($sizeAfter / 1000)
             );
-            call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message, $count, $max]);
+            call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message, $count, $max]);
             if ($sizeAfter < $sizeBefore) {
-                $optimized++;
+                $postprocessed++;
             }
         }
-        if ($optimized == 0) {
+        if ($postprocessed == 0) {
             $message = 'Nothing to do';
-            call_user_func_array($this->builder->getMessageCb(), ['OPTIMIZE_PROGRESS', $message]);
+            call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message]);
         }
     }
 
@@ -125,5 +123,5 @@ abstract class AbstractStepOptimize extends AbstractStep
      *
      * @return void
      */
-    abstract public function processFile(\Symfony\Component\Finder\SplFileInfo $file);
+    abstract public function processFile();
 }

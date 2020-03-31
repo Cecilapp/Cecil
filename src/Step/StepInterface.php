@@ -22,7 +22,7 @@ interface StepInterface
     /**
      * Checks if step can be processed.
      *
-     * @param array
+     * @param array $options
      *
      * @return void
      */

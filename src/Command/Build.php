@@ -34,10 +34,10 @@ class Build extends Command
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                     new InputOption('destination', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
                     new InputOption(
-                        'optimize',
+                        'postprocess',
                         null,
                         InputOption::VALUE_OPTIONAL,
-                        'Optimize output (disable with "no")',
+                        'Post-process output (disable with "no")',
                         false
                     ),
                 ])
@@ -72,11 +72,11 @@ class Build extends Command
                 (string) $input->getOption('destination')
             );
         }
-        if ($input->getOption('optimize') === null) {
-            $config['optimize']['enabled'] = true;
+        if ($input->getOption('postprocess') === null) {
+            $config['postprocess']['enabled'] = true;
         }
-        if ($input->getOption('optimize') == 'no') {
-            $config['optimize']['enabled'] = false;
+        if ($input->getOption('postprocess') == 'no') {
+            $config['postprocess']['enabled'] = false;
         }
 
         $output->writeln(sprintf('Building website%s...', $messageOpt));
