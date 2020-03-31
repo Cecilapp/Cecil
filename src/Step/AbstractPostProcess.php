@@ -16,7 +16,7 @@ use Symfony\Component\Finder\Finder;
  */
 abstract class AbstractPostProcess extends AbstractStep
 {
-    /** @var string $type File type (ie: 'css') */
+    /** @var string File type (ie: 'css') */
     protected $type = 'type';
     /** @var mixed File processor */
     protected $processor;

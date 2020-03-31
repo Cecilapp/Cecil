@@ -78,9 +78,9 @@ class Serve extends Command
         // (re)build before serve
         $buildCommand = $this->getApplication()->find('build');
         $buildInput = new ArrayInput([
-            'command'    => 'build',
-            'path'       => $this->getPath(),
-            '--drafts'   => $drafts,
+            'command'       => 'build',
+            'path'          => $this->getPath(),
+            '--drafts'      => $drafts,
             '--postprocess' => $postprocess,
         ]);
         $buildCommand->run($buildInput, $output);
