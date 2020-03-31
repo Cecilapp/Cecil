@@ -19,7 +19,7 @@ class PostProcessHtml extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options)
     {
         $this->type = 'html';
         parent::init($options);
