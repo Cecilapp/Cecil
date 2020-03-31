@@ -38,10 +38,10 @@ class PostProcessImages extends AbstractPostProcess
      */
     public function processFile()
     {
-        $cachedFile = Util::joinFile([$this->config->getCachePath(), $this->inputFile->getRelativePathname()]);
+        $cachedFile = Util::joinFile($this->config->getCachePath(), $this->inputFile->getRelativePathname());
 
         if (!Util::getFS()->exists($cachedFile)) {
-            Util::getFS()->mkdir(Util::joinFile([$this->config->getCachePath(), $this->inputFile->getRelativePath()]));
+            Util::getFS()->mkdir(Util::joinFile($this->config->getCachePath(), $this->inputFile->getRelativePath()));
             /** @var Optimizer $processor */
             $this->processor->optimize($this->inputFile->getPathname(), $cachedFile);
         }
