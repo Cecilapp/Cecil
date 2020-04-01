@@ -341,6 +341,7 @@ class Config
             $cacheDir = Util::joinFile((string) $this->get('cache.dir'));
             $cacheDir = Util::joinFile($cacheDir, 'cecil');
             Util::getFS()->mkdir($cacheDir);
+
             return $cacheDir;
         }
 
