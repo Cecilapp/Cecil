@@ -8,7 +8,6 @@
 
 namespace Cecil\Step;
 
-use Cecil\Util;
 use MatthiasMullie\Minify;
 
 /**
@@ -37,10 +36,8 @@ class PostProcessCss extends AbstractPostProcess
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file)
     {
-
-            $minifier = new Minify\CSS($file->getPathname());
-            $minified = $minifier->minify();
-            \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
-
+        $minifier = new Minify\CSS($file->getPathname());
+        $minified = $minifier->minify();
+        \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
     }
 }

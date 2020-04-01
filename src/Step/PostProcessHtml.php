@@ -8,7 +8,6 @@
 
 namespace Cecil\Step;
 
-use Cecil\Util;
 use voku\helper\HtmlMin;
 
 /**
@@ -38,10 +37,8 @@ class PostProcessHtml extends AbstractPostProcess
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file)
     {
-
-            $html = file_get_contents($file->getPathname());
-            $minified = $this->processor->minify($html);
-            \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
-
+        $html = file_get_contents($file->getPathname());
+        $minified = $this->processor->minify($html);
+        \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
     }
 }

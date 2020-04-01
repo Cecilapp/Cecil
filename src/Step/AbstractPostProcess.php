@@ -8,8 +8,8 @@
 
 namespace Cecil\Step;
 
-use Cecil\Util;
 use Cecil\Exception\Exception;
+use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -88,8 +88,7 @@ abstract class AbstractPostProcess extends AbstractStep
             $hashFile = Util::joinFile($this->config->getPostProcessPath(), 'hash', $hash);
 
             if (!Util::getFS()->exists($processedFile)
-            || hash_file('md5', $file->getPathname()) != $hash)
-            {
+            || hash_file('md5', $file->getPathname()) != $hash) {
                 $this->processFile($file);
 
                 Util::getFS()->copy($file->getPathname(), $processedFile, true);
