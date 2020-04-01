@@ -87,7 +87,11 @@ abstract class AbstractPostProcess extends AbstractStep
             $sizeBefore = $file->getSize();
 
             $hash = hash_file('md5', $file->getPathname());
-            $processedFile = Util::joinFile($this->config->getCachePath(), self::CACHE_FILES, $file->getRelativePathname());
+            $processedFile = Util::joinFile(
+                $this->config->getCachePath(),
+                self::CACHE_FILES,
+                $file->getRelativePathname()
+            );
             $hashFile = Util::joinFile($this->config->getCachePath(), self::CACHE_HASH, $hash);
 
             if (!Util::getFS()->exists($processedFile)
