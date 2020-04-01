@@ -8,7 +8,6 @@
 
 namespace Cecil\Step;
 
-use Cecil\Util;
 use Spatie\ImageOptimizer\OptimizerChainFactory as Optimizer;
 
 /**
