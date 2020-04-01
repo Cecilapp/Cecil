@@ -30,23 +30,18 @@ class PostProcessHtml extends AbstractPostProcess
      */
     public function setProcessor()
     {
-        $this->type = 'html';
         $this->processor = new HtmlMin();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function processFile()
+    public function processFile(\Symfony\Component\Finder\SplFileInfo $file)
     {
-        $cachedFile = Util::joinFile($this->config->getCachePath(), $this->inputFile->getRelativePathname());
 
-        if (!Util::getFS()->exists($cachedFile)) {
-            $html = file_get_contents($this->inputFile->getPathname());
-            $htmlCompressed = $this->processor->minify($html);
-            \Cecil\Util::getFS()->dumpFile($cachedFile, $htmlCompressed);
-        }
+            $html = file_get_contents($file->getPathname());
+            $minified = $this->processor->minify($html);
+            \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
 
-        $this->outputFile = new \SplFileInfo($cachedFile);
     }
 }

@@ -35,16 +35,13 @@ class PostProcessJs extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function processFile()
+    public function processFile(\Symfony\Component\Finder\SplFileInfo $file)
     {
-        $cachedFile = Util::joinFile($this->config->getCachePath(), $this->inputFile->getRelativePathname());
 
-        if (!Util::getFS()->exists($cachedFile)) {
-            $minifier = new Minify\JS($this->inputFile->getPathname());
+            $minifier = new Minify\JS($file->getPathname());
             $minified = $minifier->minify();
-            \Cecil\Util::getFS()->dumpFile($cachedFile, $minified);
-        }
+            \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
 
-        $this->outputFile = new \SplFileInfo($cachedFile);
+
     }
 }
