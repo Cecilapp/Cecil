@@ -338,7 +338,10 @@ class Config
     public function getCachePath(): string
     {
         if ($this->isCacheDirIsAbsolute()) {
-            return (string) $this->get('cache.dir');
+            $cacheDir = Util::joinFile((string) $this->get('cache.dir'));
+            $cacheDir = Util::joinFile($cacheDir, 'cecil');
+            Util::getFS()->mkdir($cacheDir);
+            return $cacheDir;
         }
 
         return Util::joinFile($this->getDestinationDir(), (string) $this->get('cache.dir'));
