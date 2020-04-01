@@ -82,8 +82,6 @@ abstract class AbstractPostProcess extends AbstractStep
 
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
-            $count++;
-
             $sizeBefore = $file->getSize();
 
             $hash = hash_file('md5', $file->getPathname());
@@ -96,24 +94,25 @@ abstract class AbstractPostProcess extends AbstractStep
 
             if (!Util::getFS()->exists($processedFile)
             || hash_file('md5', $file->getPathname()) != $hash) {
+                $count++;
                 $this->processFile($file);
 
                 Util::getFS()->copy($file->getPathname(), $processedFile, true);
                 Util::getFS()->mkdir(Util::joinFile($this->config->getCachePath(), self::CACHE_HASH));
                 Util::getFS()->touch($hashFile);
-            }
 
-            $sizeAfter = $file->getSize();
+                $sizeAfter = $file->getSize();
 
-            $message = sprintf(
-                '%s: %s Ko -> %s Ko',
-                $file->getRelativePathname(),
-                ceil($sizeBefore / 1000),
-                ceil($sizeAfter / 1000)
-            );
-            call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message, $count, $max]);
-            if ($sizeAfter < $sizeBefore) {
-                $postprocessed++;
+                $message = sprintf(
+                    '%s: %s Ko -> %s Ko',
+                    $file->getRelativePathname(),
+                    ceil($sizeBefore / 1000),
+                    ceil($sizeAfter / 1000)
+                );
+                call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message, $count, $max]);
+                if ($sizeAfter < $sizeBefore) {
+                    $postprocessed++;
+                }
             }
         }
         if ($postprocessed == 0) {
