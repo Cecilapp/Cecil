@@ -9,6 +9,7 @@
 namespace Cecil\Step;
 
 use Cecil\Exception\Exception;
+use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -20,10 +21,6 @@ abstract class AbstractPostProcess extends AbstractStep
     protected $type = 'type';
     /** @var mixed File processor */
     protected $processor;
-    /** @var \Symfony\Component\Finder\SplFileInfo Input file */
-    protected $inputFile;
-    /** @var \SplFileInfo Output file */
-    protected $outputFile;
 
     /**
      * {@inheritdoc}
@@ -86,11 +83,20 @@ abstract class AbstractPostProcess extends AbstractStep
 
             $sizeBefore = $file->getSize();
 
-            $this->inputFile = $file;
+            $hash = hash_file('md5', $file->getPathname());
+            $processedFile = Util::joinFile($this->config->getPostProcessPath(), 'files', $file->getRelativePathname());
+            $hashFile = Util::joinFile($this->config->getPostProcessPath(), 'hash', $hash);
 
-            $this->processFile();
+            if (!Util::getFS()->exists($processedFile)
+            || hash_file('md5', $file->getPathname()) != $hash) {
+                $this->processFile($file);
 
-            $sizeAfter = $this->outputFile->getSize();
+                Util::getFS()->copy($file->getPathname(), $processedFile, true);
+                Util::getFS()->mkdir(Util::joinFile($this->config->getPostProcessPath(), 'hash'));
+                Util::getFS()->touch($hashFile);
+            }
+
+            $sizeAfter = $file->getSize();
 
             $message = sprintf(
                 '%s: %s Ko -> %s Ko',
@@ -123,5 +129,5 @@ abstract class AbstractPostProcess extends AbstractStep
      *
      * @return void
      */
-    abstract public function processFile();
+    abstract public function processFile(\Symfony\Component\Finder\SplFileInfo $file);
 }

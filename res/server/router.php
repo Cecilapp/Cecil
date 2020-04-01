@@ -63,7 +63,10 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
             // inject live reload script
             if (file_exists(__DIR__.'/livereload.js')) {
                 $script = file_get_contents(__DIR__.'/livereload.js');
-                $content = str_replace('</body>', "$script\n  </body>", $content);
+                $content = str_ireplace('</body>', "$script\n  </body>", $content);
+                if (stristr($content, '</body>') === false) {
+                    $content .= "\n$script";
+                }
             }
         }
         // replace the "prod" baseurl by the "local" baseurl
