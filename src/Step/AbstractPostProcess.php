@@ -22,6 +22,9 @@ abstract class AbstractPostProcess extends AbstractStep
     /** @var mixed File processor */
     protected $processor;
 
+    const CACHE_FILES = 'postprocess/files';
+    const CACHE_HASH = 'postprocess/hash';
+
     /**
      * {@inheritdoc}
      */
@@ -84,15 +87,15 @@ abstract class AbstractPostProcess extends AbstractStep
             $sizeBefore = $file->getSize();
 
             $hash = hash_file('md5', $file->getPathname());
-            $processedFile = Util::joinFile($this->config->getPostProcessPath(), 'files', $file->getRelativePathname());
-            $hashFile = Util::joinFile($this->config->getPostProcessPath(), 'hash', $hash);
+            $processedFile = Util::joinFile($this->config->getCachePath(), self::CACHE_FILES, $file->getRelativePathname());
+            $hashFile = Util::joinFile($this->config->getCachePath(), self::CACHE_HASH, $hash);
 
             if (!Util::getFS()->exists($processedFile)
             || hash_file('md5', $file->getPathname()) != $hash) {
                 $this->processFile($file);
 
                 Util::getFS()->copy($file->getPathname(), $processedFile, true);
-                Util::getFS()->mkdir(Util::joinFile($this->config->getPostProcessPath(), 'hash'));
+                Util::getFS()->mkdir(Util::joinFile($this->config->getCachePath(), self::CACHE_HASH));
                 Util::getFS()->touch($hashFile);
             }
 

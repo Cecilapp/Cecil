@@ -34,7 +34,8 @@ class Image
     /** @var string */
     private $destination = null;
 
-    const CACHE_IMAGES_THUMBS_DIR = 'images/thumbs';
+    const CACHE_THUMBS_PATH = 'images/thumbs';
+    const CACHE_THUMBS_DIR = 'resize/images/thumbs';
 
     public function __construct(Builder $builder)
     {
@@ -61,13 +62,13 @@ class Image
             $this->path = $path;
         }
         $this->size = $size;
-        $returnPath = '/'.self::CACHE_IMAGES_THUMBS_DIR.'/'.$this->size.$this->path;
+        $returnPath = '/'.Util::joinPath(self::CACHE_THUMBS_PATH, $this->size.$this->path);
 
         // source file
         $this->setSource();
 
         // images cache path
-        $this->cachePath = $this->config->getCachePath().'/'.self::CACHE_IMAGES_THUMBS_DIR.'/';
+        $this->cachePath = Util::joinFile($this->config->getCachePath(), self::CACHE_THUMBS_DIR);
 
         // is size is already OK?
         list($width, $height) = getimagesize($this->source);
@@ -80,7 +81,7 @@ class Image
             throw new Exception('GD extension is required to use images resize.');
         }
 
-        $this->destination = $this->cachePath.$this->size.$this->path;
+        $this->destination = Util::joinFile($this->cachePath, $this->size.$this->path);
 
         if (Util::getFS()->exists($this->destination)) {
             return $returnPath;
