@@ -345,16 +345,6 @@ class Config
     }
 
     /**
-     * Return temporary path.
-     *
-     * @return string
-     */
-    public function getPostProcessPath(): string
-    {
-        return Util::joinFile($this->getDestinationDir(), '.postprocess');
-    }
-
-    /**
      * Return the property value of an output format.
      *
      * @param string $property
