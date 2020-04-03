@@ -27,7 +27,7 @@ interface RendererInterface
      * Adds a global variable.
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return void
      */
@@ -37,7 +37,7 @@ interface RendererInterface
      * Rendering.
      *
      * @param string $template
-     * @param array $variables
+     * @param array  $variables
      *
      * @return self
      */
