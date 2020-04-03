@@ -23,10 +23,10 @@ class FileExtensionFilter extends RecursiveFilterIterator
     protected $allowedExt = ['md', 'markdown'];
 
     /**
-     * @param RecursiveIterator $iterator
+     * @param \RecursiveIterator $iterator
      * @param mixed             $ext
      */
-    public function __construct($iter, $ext = '')
+    public function __construct(\RecursiveIterator $iter, $ext = '')
     {
         parent::__construct($iter);
         if (!empty($ext)) {
