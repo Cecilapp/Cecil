@@ -39,7 +39,7 @@
     "symfony/process": "4.4.6",
     "symfony/property-access": "^4.4",
     "symfony/serializer": "^4.4",
-    "symfony/yaml": "4.4.6",
+    "symfony/yaml": "4.4.7",
     "twig/extensions": "1.5.4",
     "twig/twig": "2.12.5",
     "voku/html-min": "4.3.0",
