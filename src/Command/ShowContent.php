@@ -1,8 +1,8 @@
 <?php
-/*
+/**
  * This file is part of the Cecil/Cecil package.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -46,7 +46,7 @@ class ShowContent extends Command
         $contentDir = (string) $this->getBuilder($output)->getConfig()->get('content.dir');
         $dataDir = (string) $this->getBuilder($output)->getConfig()->get('data.dir');
 
-        // format output
+        // formating output
         $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
             $prefixParts = [
                 RecursiveTreeIterator::PREFIX_LEFT         => ' ',
@@ -88,7 +88,7 @@ class ShowContent extends Command
     }
 
     /**
-     * Return a console displayable tree of files.
+     * Returns a console displayable tree of files.
      *
      * @param OutputInterface $output
      * @param string          $directory
@@ -97,7 +97,7 @@ class ShowContent extends Command
      *
      * @return FilenameRecursiveTreeIterator
      */
-    public function getFilesTree(OutputInterface $output, string $directory)
+    public function getFilesTree(OutputInterface $output, string $directory): FilenameRecursiveTreeIterator
     {
         $dir = (string) $this->getBuilder($output)->getConfig()->get("$directory.dir");
         $ext = $this->getBuilder($output)->getConfig()->get("$directory.ext");

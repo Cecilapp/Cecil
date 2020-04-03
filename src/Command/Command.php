@@ -1,8 +1,8 @@
 <?php
-/*
+/**
  * This file is part of the Cecil/Cecil package.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,29 +26,17 @@ class Command extends BaseCommand
     const CONFIG_FILE = 'config.yml';
     const TMP_DIR = '.cecil';
 
-    /**
-     * @var Filesystem
-     */
+    /** @var Filesystem */
     protected $fs;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $path;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $configFile;
-    /**
-     * @var Builder
-     */
+    /** @var Builder */
     protected $builder;
-    /**
-     * @var ProgressBar
-     */
+    /** @var ProgressBar */
     protected $progressBar = null;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $progressBarMax;
 
     /**
@@ -97,7 +85,7 @@ Do you want to create it? [y/n]', $this->getpath()),
     }
 
     /**
-     * Return the working directory.
+     * Returns the working directory.
      *
      * @return string|null
      */
@@ -107,7 +95,7 @@ Do you want to create it? [y/n]', $this->getpath()),
     }
 
     /**
-     * Create or return a Builder instance.
+     * Creates or returns a Builder instance.
      *
      * @param OutputInterface $output
      * @param array           $config
@@ -138,12 +126,14 @@ Do you want to create it? [y/n]', $this->getpath()),
     }
 
     /**
-     * Create the Progress bar.
+     * Creates the Progress bar.
      *
      * @param OutputInterface $output
      * @param int             $max
+     *
+     * @return void
      */
-    protected function createProgressBar(OutputInterface $output, $max)
+    protected function createProgressBar(OutputInterface $output, $max): void
     {
         if ($this->progressBar === null || $max != $this->progressBarMax) {
             $this->progressBarMax = $max;
@@ -159,11 +149,11 @@ Do you want to create it? [y/n]', $this->getpath()),
     }
 
     /**
-     * Return Progress Bar.
+     * Returns the Progress Bar.
      *
      * @return ProgressBar
      */
-    protected function getProgressBar()
+    protected function getProgressBar(): ProgressBar
     {
         return $this->progressBar;
     }
@@ -174,8 +164,10 @@ Do you want to create it? [y/n]', $this->getpath()),
      * @param OutputInterface $output
      * @param int             $itemsCount
      * @param int             $itemsMax
+     *
+     * @return void
      */
-    protected function printProgressBar(OutputInterface $output, $itemsCount, $itemsMax)
+    protected function printProgressBar(OutputInterface $output, $itemsCount, $itemsMax): void
     {
         $this->createProgressBar($output, $itemsMax);
         $this->getProgressBar()->clear();
@@ -188,11 +180,13 @@ Do you want to create it? [y/n]', $this->getpath()),
     }
 
     /**
-     * Custom message callback function.
+     * Customs messages callback function.
      *
      * @param OutputInterface $output
+     *
+     * @return \Closure
      */
-    public function messageCallback(OutputInterface $output)
+    public function messageCallback(OutputInterface $output): \Closure
     {
         return function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) use ($output) {
             if (strpos($code, '_PROGRESS') !== false) {

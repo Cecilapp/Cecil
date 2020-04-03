@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -21,15 +23,13 @@ class Item implements ItemInterface
     protected $id;
 
     /**
-     * Item properties.
+     * Item's properties.
      *
      * @var array
      */
     protected $properties = [];
 
     /**
-     * Item constructor.
-     *
      * @param string $id
      */
     public function __construct(string $id)
@@ -56,7 +56,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param mixed $offset
      *
@@ -68,7 +68,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param mixed $offset
      *
@@ -80,7 +80,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param mixed $offset
      * @param mixed $value
@@ -91,7 +91,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param mixed $offset
      */

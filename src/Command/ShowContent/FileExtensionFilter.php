@@ -1,8 +1,8 @@
 <?php
-/*
+/**
  * This file is part of the Cecil/Cecil package.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,11 +19,13 @@ use RecursiveFilterIterator;
  */
 class FileExtensionFilter extends RecursiveFilterIterator
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $allowedExt = ['md', 'markdown'];
 
+    /**
+     * @param RecursiveIterator $iterator
+     * @param mixed $ext
+     */
     public function __construct($iter, $ext = '')
     {
         parent::__construct($iter);

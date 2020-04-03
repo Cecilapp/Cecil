@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,7 +22,7 @@ use Cecil\Util;
 class Layout
 {
     /**
-     * Layout file finder.
+     * Layout files finder.
      *
      * @param Page   $page
      * @param string $format
@@ -81,7 +83,7 @@ class Layout
      *
      * @see finder()
      */
-    protected static function fallback(Page $page, string $format)
+    protected static function fallback(Page $page, string $format): array
     {
         // remove redundant '.twig' extension
         $layout = str_replace('.twig', '', $page->getVariable('layout'));

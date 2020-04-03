@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -25,7 +27,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
             return null !== $page->getVariable('external');
         });
 
-        /* @var $page Page */
+        /** @var Page $page */
         foreach ($filteredPages as $page) {
             try {
                 $pageContent = file_get_contents($page->getVariable('external'), false);
@@ -35,8 +37,8 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
 
                 $this->generatedPages->add($page);
             } catch (\Exception $e) {
-                $error = sprintf('Cannot get contents from %s', $page->getVariable('external'));
-                $message = sprintf("Unable to generate '%s': %s", $page->getId(), $error);
+                $error = sprintf('Cannot get contents from "%s"', $page->getVariable('external'));
+                $message = sprintf('Unable to generate "%s": %s', $page->getId(), $error);
                 call_user_func_array($this->messageCallback, ['GENERATE_ERROR', $message]);
             }
         }

@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -35,7 +37,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
-        // Create new empty collection
+        // Creates a new empty collection
         $this->generatedPages = new PagesCollection('generator-'.Util::formatClassName($this, ['lowercase' => true]));
     }
 

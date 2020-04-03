@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,7 +14,7 @@ use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Copy static files to site root.
+ * Copying static files to site root.
  */
 class StaticCopy extends AbstractStep
 {
@@ -46,7 +48,7 @@ class StaticCopy extends AbstractStep
             ['COPY', 'Copying static']
         );
 
-        // copy content of '<theme>/static/' dir if exists
+        // copying content of '<theme>/static/' dir if exists
         if ($this->config->hasTheme()) {
             $themes = array_reverse($this->config->getTheme());
             foreach ($themes as $theme) {
@@ -55,7 +57,7 @@ class StaticCopy extends AbstractStep
             }
         }
 
-        // copy content of 'static/' dir if exists
+        // copying content of 'static/' dir if exists
         $staticDir = $this->builder->getConfig()->getStaticPath();
         $this->copy($staticDir, null, $this->config->get('static.exclude'));
 
@@ -74,7 +76,7 @@ class StaticCopy extends AbstractStep
     }
 
     /**
-     * Copy (mirror) files.
+     * Copying (mirror) files.
      *
      * @param string      $from
      * @param string|null $to

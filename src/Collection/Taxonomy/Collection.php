@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,8 +18,8 @@ use Cecil\Collection\ItemInterface;
  */
 class Collection extends CecilCollection
 {
-    /*
-     * Return a Vocabulary collection (creates it if not exists).
+    /**
+     * Returns a Vocabulary collection (creates it if not exists).
      * {@inheritdoc}
      */
     /*

@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,7 +20,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * Load data files.
+ * Loads data files.
  */
 class DataLoad extends AbstractStep
 {
@@ -112,12 +114,12 @@ class DataLoad extends AbstractStep
     }
 
     /**
-     * Convert a path to an array.
+     * Converts a path to an array.
      *
-     * @param array  $arr       target array
-     * @param string $path      source path
-     * @param array  $value     source values
-     * @param string $separator separator (ie: /)
+     * @param array  $arr       Target array
+     * @param string $path      Source path
+     * @param array  $value     Source values
+     * @param string $separator Separator (ie: /)
      */
     private function pathToArray(array &$arr, string $path, array $value, string $separator = DIRECTORY_SEPARATOR): void
     {

@@ -1,8 +1,8 @@
 <?php
-/*
+/**
  * This file is part of the Cecil/Cecil package.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -43,12 +43,12 @@ class Image
     }
 
     /**
-     * Resize an image.
+     * Resizes an image.
      *
-     * @param string $path       Image path (relative from static/ dir or external)
-     * @param int    $this->size Image new size (width)
+     * @param string $path Image path (relative from static/ dir or external).
+     * @param int    $size Image new size (width).
      *
-     * @return string Path to image thumbnail
+     * @return string Path to the image thumbnail
      */
     public function resize(string $path, int $size): string
     {
@@ -112,7 +112,9 @@ class Image
     }
 
     /**
-     * Set source.
+     * Set the source file path.
+     *
+     * @return void
      */
     private function setSource(): void
     {

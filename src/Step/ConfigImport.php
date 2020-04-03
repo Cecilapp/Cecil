@@ -12,7 +12,7 @@ use Cecil\Util;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Import (themes) config.
+ * Imports (themes) configuration.
  */
 class ConfigImport extends AbstractStep
 {

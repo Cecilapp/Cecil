@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +17,7 @@ use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
 use Cecil\Exception\Exception;
 
 /**
- * Create taxonomies collection.
+ * Creates taxonomies collection.
  */
 class TaxonomiesCreate extends AbstractStep
 {
@@ -49,11 +51,11 @@ class TaxonomiesCreate extends AbstractStep
     }
 
     /**
-     * Create a collection from the vocabularies configuration.
+     * Creates a collection from the vocabularies configuration.
      */
     protected function createVocabulariesCollection()
     {
-        // create an empty a vocabularies collection
+        // creates an empty a vocabularies collection
         $this->vocabCollection = new VocabulariesCollection('taxonomies');
         /*
          * Adds each vocabulary to the collection.
@@ -82,7 +84,7 @@ class TaxonomiesCreate extends AbstractStep
      */
     protected function collectTermsFromPages()
     {
-        /* @var $page Page */
+        /** @var Page $page */
         $pages = $this->builder->getPages()->sortByDate();
         foreach ($pages as $page) {
             // ie: tags

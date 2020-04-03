@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +17,7 @@ use ParsedownExtra;
 
 class Parsedown extends ParsedownExtra
 {
-    /**
-     * @var Builder
-     */
+    /** @var Builder */
     private $builder;
 
     /**
@@ -40,17 +40,17 @@ class Parsedown extends ParsedownExtra
             return null;
         }
 
-        // set lazy loading attribute
+        // sets lazy loading attribute
         $image['element']['attributes']['loading'] = 'lazy';
 
-        // capture query string.
+        // captures query string.
         // ie: "?resize=300&responsive"
         $query = parse_url($image['element']['attributes']['src'], PHP_URL_QUERY);
         if ($query === null) {
             return $image;
         }
         parse_str($query, $result);
-        // clean URL
+        // cleans URL
         $image['element']['attributes']['src'] = strtok($image['element']['attributes']['src'], '?');
 
         /**
@@ -93,7 +93,7 @@ class Parsedown extends ParsedownExtra
                 ->resize($image['element']['attributes']['src'], $size);
         }
 
-        // if responsive set 'sizes' attribute
+        // if responsive: set 'sizes' attribute
         if ($responsive) {
             // sizes="(max-width: 2800px) 100vw, 2800px"
             $image['element']['attributes']['sizes'] = sprintf('(max-width: %spx) 100vw, %spx', $width, $width);

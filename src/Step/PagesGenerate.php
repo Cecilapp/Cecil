@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -36,7 +38,7 @@ class PagesGenerate extends AbstractStep
 
             call_user_func_array($this->builder->getMessageCb(), ['GENERATE', 'Generating pages']);
 
-            // load local generators
+            // loads local generators
             spl_autoload_register(function ($className) {
                 $generatorFile = $this->config->getDestinationDir().'/generators/'.$className.'.php';
                 if (file_exists($generatorFile)) {

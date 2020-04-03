@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,13 +18,9 @@ use Cecil\Renderer\Twig\Extension as TwigExtension;
  */
 class Twig implements RendererInterface
 {
-    /**
-     * @var \Twig\Environment
-     */
+    /** @var \Twig\Environment */
     protected $twig;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $templatesDir;
 
     /**
@@ -40,7 +38,7 @@ class Twig implements RendererInterface
             'cache'            => false,
             'auto_reload'      => true,
         ]);
-        // add extensions
+        // adds extensions
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig->addExtension(new TwigExtension($builder));
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
@@ -49,7 +47,7 @@ class Twig implements RendererInterface
             ->setDateFormat($builder->getConfig()->get('date.format'));
         $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
             ->setTimezone($builder->getConfig()->get('date.timezone'));
-        // Internationalisation
+        // internationalisation
         if (extension_loaded('intl')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
         }
@@ -72,19 +70,5 @@ class Twig implements RendererInterface
     public function render($template, $variables)
     {
         return $this->twig->render($template, $variables);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isValid($template)
-    {
-        try {
-            $this->twig->parse($this->twig->tokenize($template));
-
-            return true;
-        } catch (\Twig\Error\SyntaxError $e) {
-            return false;
-        }
     }
 }

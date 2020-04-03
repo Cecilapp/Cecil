@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -27,30 +29,18 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class Extension extends SlugifyExtension
 {
-    /**
-     * @var Builder
-     */
+    /** @var Builder */
     protected $builder;
-    /**
-     * @var Config
-     */
+    /** @var Config */
     protected $config;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $outputPath;
-    /**
-     * @var Filesystem
-     */
+    /** @var Filesystem */
     protected $fileSystem;
-    /**
-     * @var Slugify
-     */
+    /** @var Slugify */
     private static $slugifier;
 
     /**
-     * Constructor.
-     *
      * @param Builder $builder
      */
     public function __construct(Builder $builder)
@@ -124,7 +114,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Filter by variable.
+     * Filters by variable's name/value.
      *
      * @param PagesCollection $pages
      * @param string          $variable
@@ -136,11 +126,10 @@ class Extension extends SlugifyExtension
     {
         $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
             $notVirtual = false;
-            // not virtual only
             if (!$page->isVirtual()) {
                 $notVirtual = true;
             }
-            // dedicated getter?
+            // is a dedicated getter exists?
             $method = 'get'.ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
                 return $notVirtual && true;
@@ -154,7 +143,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Sort by title.
+     * Sorts by title.
      *
      * @param \Traversable $collection
      *
@@ -169,7 +158,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Sort by weight.
+     * Sorts by weight.
      *
      * @param \Traversable $collection
      *
@@ -198,11 +187,11 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Sort by date.
+     * Sorts by date.
      *
      * @param \Traversable $collection
      *
-     * @return mixed
+     * @return array
      */
     public function sortByDate(\Traversable $collection): array
     {
@@ -227,7 +216,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Create an URL.
+     * Creates an URL.
      *
      * $options[
      *     'canonical' => null,
@@ -245,7 +234,7 @@ class Extension extends SlugifyExtension
         $baseurl = (string) $this->config->get('baseurl');
         $hash = md5((string) $this->config->get('time'));
         $base = '';
-        // handle options
+        // handles options
         $canonical = null;
         $addhash = false;
         $format = null;
@@ -286,10 +275,12 @@ class Extension extends SlugifyExtension
         }
 
         // value is an external URL
-        if (Util::isExternalUrl($value)) {
-            $url = $value;
+        if ($value !== null ) {
+            if (Util::isExternalUrl($value)) {
+                $url = $value;
 
-            return $url;
+                return $url;
+            }
         }
 
         // value is a string
@@ -325,7 +316,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Minify a CSS or a JS file.
+     * Minifying a CSS or a JS file.
      *
      * ie: minify('css/style.css')
      *
@@ -366,7 +357,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Minify CSS.
+     * Minifying CSS.
      *
      * @param string $value
      *
@@ -380,7 +371,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Minify JS.
+     * Minifying JS.
      *
      * @param string $value
      *
@@ -394,7 +385,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Compile style file to CSS.
+     * Compiles style file to CSS.
      *
      * @param string $path
      *
@@ -415,7 +406,7 @@ class Extension extends SlugifyExtension
                     $scssPhp->setImportPaths($this->outputPath.'/'.$subPath);
                     $targetPath = preg_replace('/scss/m', 'css', $path);
 
-                    // compile if target file doesn't exists
+                    // compiles if target file doesn't exists
                     if (!Util::getFS()->exists($this->outputPath.'/'.$targetPath)) {
                         $scss = file_get_contents($filePath);
                         $css = $scssPhp->compile($scss);
@@ -432,7 +423,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Compile SCSS string to CSS.
+     * Compiles SCSS string to CSS.
      *
      * @param string $value
      *
@@ -446,7 +437,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Read $lenght first characters of a string and add a suffix.
+     * Reads $length first characters of a string and adds a suffix.
      *
      * @param string|null $string
      * @param int         $length
@@ -467,7 +458,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Read characters before '<!-- excerpt|break -->'.
+     * Reads characters before '<!-- excerpt|break -->'.
      *
      * @param string|null $string
      *
@@ -486,7 +477,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Calculate estimated time to read a text.
+     * Calculates estimated time to read a text.
      *
      * @param string|null $text
      *
@@ -504,7 +495,8 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Hash file with sha384.
+     * Hashing a file with sha384.
+     *
      * Useful for SRI (Subresource Integrity).
      *
      * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
@@ -535,10 +527,10 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Resize an image.
+     * Resizes an image.
      *
-     * @param string $path Image path (relative from static/ dir or external)
-     * @param int    $size Image new size (width)
+     * @param string $path Image path (relative from static/ dir or external).
+     * @param int    $size Image new size (width).
      *
      * @return string
      */

@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,7 +18,9 @@ use Cecil\Collection\Collection as CecilCollection;
 class Collection extends CecilCollection
 {
     /**
-     * Return all not virtual pages.
+     * Returns all non virtual pages.
+     *
+     * @return self
      */
     public function all(): self
     {
@@ -30,7 +34,7 @@ class Collection extends CecilCollection
     }
 
     /**
-     * Sort items by date: the most recent first.
+     * Sorts pages by date: the most recent first.
      *
      * @return self
      */
@@ -52,7 +56,7 @@ class Collection extends CecilCollection
     }
 
     /**
-     * Sort items by title (natural sort).
+     * Sorts pages by title (natural sort).
      *
      * @return self
      */
@@ -64,7 +68,7 @@ class Collection extends CecilCollection
     }
 
     /**
-     * Sort by weight: the heaviest first.
+     * Sorts by weight (the heaviest first).
      *
      * @return self
      */

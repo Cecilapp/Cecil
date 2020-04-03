@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,13 +22,13 @@ class Alias extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        /* @var $page Page */
+        /** @var Page $page */
         foreach ($this->pagesCollection as $page) {
             $aliases = $this->getPageAliases($page);
 
             if (!empty($aliases)) {
                 foreach ($aliases as $alias) {
-                    /* @var $aliasPage Page */
+                    /** @var Page $aliasPage */
                     $pageId = $path = Page::slugify($alias);
                     $aliasPage = (new Page($pageId))
                         ->setPath($path)
@@ -43,7 +45,7 @@ class Alias extends AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Return aliases array.
+     * Returns aliases array.
      *
      * @param Page $page
      *
