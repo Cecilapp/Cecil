@@ -238,15 +238,6 @@ class Extension extends SlugifyExtension
         $canonical = null;
         $addhash = false;
         $format = null;
-        // backward compatibility
-        if (is_bool($options)) {
-            $oldOptions = $options;
-            $options = [];
-            $options['canonical'] = false;
-            if ($oldOptions === true) {
-                $options['canonical'] = true;
-            }
-        }
         extract(is_array($options) ? $options : []);
 
         // set baseurl
