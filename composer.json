@@ -36,7 +36,7 @@
     "symfony/console": "4.4.6",
     "symfony/filesystem": "4.4.6",
     "symfony/finder": "4.4.6",
-    "symfony/process": "4.4.6",
+    "symfony/process": "4.4.7",
     "symfony/property-access": "^4.4",
     "symfony/serializer": "^4.4",
     "symfony/yaml": "4.4.6",
