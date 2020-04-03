@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,27 +15,16 @@ namespace Cecil\Collection;
  */
 class Collection implements CollectionInterface
 {
-    /**
-     * Collection's identifier.
-     *
-     * @var string
-     */
+    /** @var string Collection's identifier. */
     protected $id;
-
-    /**
-     * Collection's items.
-     *
-     * @var array
-     */
+    /** @var array Collection's items. */
     protected $items = [];
 
     /**
-     * Collection constructor.
-     *
      * @param string $id
      * @param array  $items
      */
-    public function __construct($id, $items = [])
+    public function __construct(string $id, array $items = [])
     {
         $this->setId($id);
         $this->items = $items;
@@ -58,7 +49,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Search item by ID.
+     * Search an item by ID.
      *
      * @param string $id
      *
@@ -268,7 +259,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param string $offset
      *
@@ -280,7 +271,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param string $offset
      *
@@ -292,7 +283,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param mixed         $offset
      * @param ItemInterface $value
@@ -305,7 +296,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param string $offset
      *
@@ -317,7 +308,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Return collection ID.
+     * Returns the collection ID.
      *
      * @return string
      */

@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,22 +18,12 @@ use Cecil\Exception\Exception;
  */
 class Language
 {
-    /**
-     * Config.
-     *
-     * @var Config
-     */
+    /** @var Config */
     protected $config;
-    /**
-     * Current language.
-     *
-     * @var string
-     */
+    /** @var string Current language. */
     protected $language;
 
     /**
-     * Language constructor.
-     *
      * @param Config      $config
      * @param string|null $language
      */
@@ -41,6 +33,11 @@ class Language
         $this->language = $language;
     }
 
+    /**
+     * Returns the current language.
+     *
+     * @return string
+     */
     public function __toString()
     {
         if ($this->language) {
@@ -50,6 +47,9 @@ class Language
         return $this->config->getLanguageDefault();
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         if ($this->hasProperty('name')) {
@@ -57,6 +57,9 @@ class Language
         }
     }
 
+    /**
+     * @return string|null
+     */
     public function getLocale(): ?string
     {
         if ($this->hasProperty('locale')) {
@@ -64,6 +67,9 @@ class Language
         }
     }
 
+    /**
+     * @return int
+     */
     public function getWeight(): int
     {
         if ($this->language) {
@@ -73,6 +79,9 @@ class Language
         return 0;
     }
 
+    /**
+     * @return bool
+     */
     private function hasProperty(string $property): bool
     {
         $value = $this->config->getLanguageProperty($property, $this->language);

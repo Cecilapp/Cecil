@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,22 +18,12 @@ use Cecil\Collection\Page\Page;
  */
 class Site implements \ArrayAccess
 {
-    /**
-     * Builder object.
-     *
-     * @var Builder
-     */
+    /** @var Builder Builder object. */
     protected $builder;
-    /**
-     * Current language.
-     *
-     * @var string
-     */
+    /** @var string Current language. */
     protected $language;
 
     /**
-     * Site constructor.
-     *
      * @param Builder     $builder
      * @param string|null $language
      */
@@ -60,7 +52,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param mixed $offset
      *
@@ -86,7 +78,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param mixed $offset
      * @param mixed $value
@@ -96,7 +88,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implements ArrayAccess.
      *
      * @param mixed $offset
      */
@@ -105,7 +97,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * All pages, filtered by published status.
+     * Returns all pages, filtered by published status.
      *
      * @return \Cecil\Collection\Page\Collection
      */
@@ -117,7 +109,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Current time.
+     * Return current time.
      *
      * @return int
      */

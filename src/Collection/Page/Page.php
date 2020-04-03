@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,54 +25,30 @@ class Page extends Item
 {
     const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
 
-    /**
-     * @var bool
-     */
+    /** @var bool True if page is not created from a Markdown file. */
     protected $virtual;
-    /**
-     * @var SplFileInfo
-     */
+    /** @var SplFileInfo */
     protected $file;
-    /**
-     * @var string
-     */
+    /** @var string Homepage, Page, Section, etc. */
     protected $type;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $folder;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $slug;
-    /**
-     * @var string
-     */
+    /** @var string folder + slug */
     protected $path;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $section;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $frontmatter;
-    /**
-     * @var string
-     */
+    /** @var string Body before conversion. */
     protected $body;
-    /**
-     * @var string
-     */
+    /** @var string Body after Markdown conversion. */
     protected $html;
-    /**
-     * @var Slugify
-     */
+    /** @var Slugify */
     private static $slugifier;
 
     /**
-     * Constructor.
-     *
      * @param string $id
      */
     public function __construct(string $id)
@@ -91,7 +69,7 @@ class Page extends Item
     }
 
     /**
-     * Turn a path (string) into a slug (URI).
+     * Turns a path (string) into a slug (URI).
      *
      * @param string $path
      *
@@ -107,7 +85,7 @@ class Page extends Item
     }
 
     /**
-     * Create ID from file.
+     * Creates the ID from the file.
      *
      * @param SplFileInfo $file
      *
@@ -162,18 +140,20 @@ class Page extends Item
         /*
          * Set specific variables
          */
-        // file has a prefix
+        // is file has a prefix?
         if (PrefixSuffix::hasPrefix($fileName)) {
             $prefix = PrefixSuffix::getPrefix($fileName);
-            // prefix is a valid date?
-            if (Util::isDateValid($prefix)) {
-                $this->setVariable('date', (string) $prefix);
-            } else {
-                // prefix is an integer: used for sorting
-                $this->setVariable('weight', (int) $prefix);
+            if ($prefix !== null) {
+                // prefix is a valid date?
+                if (Util::isDateValid($prefix)) {
+                    $this->setVariable('date', (string) $prefix);
+                } else {
+                    // prefix is an integer: used for sorting
+                    $this->setVariable('weight', (int) $prefix);
+                }
             }
         }
-        // file has a suffix
+        // is file has a suffix?
         if (PrefixSuffix::hasSuffix($fileName)) {
             $this->setVariable('language', PrefixSuffix::getSuffix($fileName));
         }
@@ -330,17 +310,20 @@ class Page extends Item
     public function setPath(string $path): self
     {
         $path = self::slugify(PrefixSuffix::sub($path));
+
         // special case: homepage
         if ($path == 'index') {
             $this->path = '';
 
             return $this;
         }
+
         // special case: custom section index (ie: content/section/index.md)
         if (substr($path, -6) == '/index') {
             $path = substr($path, 0, strlen($path) - 6);
         }
         $this->path = $path;
+
         // explode path by slash
         $lastslash = strrpos($this->path, '/');
         if ($lastslash === false) {
@@ -438,17 +421,17 @@ class Page extends Item
     }
 
     /**
-     * Return output file.
+     * Returns the path to the output (rendered) file.
      *
      * Use cases:
-     *   - default: path + suffix + extension (ie: blog/post-1/index.html)
-     *   - subpath: path + subpath + suffix + extension (ie: blog/post-1/amp/index.html)
-     *   - ugly: path + extension (ie: 404.html, sitemap.xml, robots.txt)
-     *   - path only (ie: _redirects)
-     *   - i18n: language + path + suffix + extension (ie: fr/blog/page/index.html)
+     * - default: path + suffix + extension (ie: blog/post-1/index.html)
+     * - subpath: path + subpath + suffix + extension (ie: blog/post-1/amp/index.html)
+     * - ugly: path + extension (ie: 404.html, sitemap.xml, robots.txt)
+     * - path only (ie: _redirects)
+     * - i18n: language + path + suffix + extension (ie: fr/blog/page/index.html)
      *
      * @param string      $format
-     * @param null|Config $config
+     * @param Config|null $config
      *
      * @return string
      */
@@ -472,7 +455,7 @@ class Page extends Item
         if ($uglyurl) {
             $suffix = null;
         }
-        // format strings
+        // formatting strings
         if ($subpath) {
             $subpath = \sprintf('/%s', ltrim($subpath, '/'));
         }
@@ -485,7 +468,7 @@ class Page extends Item
         if ($language !== null) {
             $language = \sprintf('%s/', $language);
         }
-        // special case: homepage ('index' from hell!)
+        // homepage special case: path = 'index'
         if (empty($path) && empty($suffix)) {
             $path = 'index';
         }
@@ -494,10 +477,10 @@ class Page extends Item
     }
 
     /**
-     * Return URL.
+     * Returns the public URL.
      *
      * @param string      $format
-     * @param null|Config $config
+     * @param Config|null $config
      *
      * @return string
      */
@@ -514,7 +497,7 @@ class Page extends Item
     }
 
     /*
-     * Helper to set and get variables.
+     * Helpers to set and get variables.
      */
 
     /**
@@ -524,9 +507,9 @@ class Page extends Item
      *
      * @throws \Exception
      *
-     * @return $this
+     * @return self
      */
-    public function setVariables(array $variables)
+    public function setVariables(array $variables): self
     {
         foreach ($variables as $key => $value) {
             $this->setVariable($key, $value);
@@ -553,9 +536,9 @@ class Page extends Item
      *
      * @throws \Exception
      *
-     * @return $this
+     * @return self
      */
-    public function setVariable($name, $value)
+    public function setVariable($name, $value): self
     {
         if (is_bool($value)) {
             $value = $value ?: 0;
@@ -603,7 +586,7 @@ class Page extends Item
     }
 
     /**
-     * Is variable exist?
+     * Is variable exists?
      *
      * @param string $name
      *
@@ -633,7 +616,7 @@ class Page extends Item
      *
      * @param string $name
      *
-     * @return $this
+     * @return self
      */
     public function unVariable(string $name): self
     {

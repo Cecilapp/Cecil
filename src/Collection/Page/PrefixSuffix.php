@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -25,7 +27,7 @@ class PrefixSuffix
     const SUFFIX_PATTERN = '^(.*)\.([a-z]{2}(-[A-Z]{2})?)$';
 
     /**
-     * Return true if the string contains a prefix or a suffix.
+     * Returns true if the string contains a prefix or a suffix.
      *
      * @param string $string
      * @param string $type
@@ -38,7 +40,7 @@ class PrefixSuffix
     }
 
     /**
-     * Return true if the string contains a prefix.
+     * Returns true if the string contains a prefix.
      *
      * @param string $string
      *
@@ -50,7 +52,7 @@ class PrefixSuffix
     }
 
     /**
-     * Return true if the string contains a suffix.
+     * Returns true if the string contains a suffix.
      *
      * @param string $string
      *
@@ -62,7 +64,7 @@ class PrefixSuffix
     }
 
     /**
-     * Return the prefix or the suffix if exists.
+     * Returns the prefix or the suffix if exists.
      *
      * @param string $string
      * @param string $type
@@ -85,7 +87,7 @@ class PrefixSuffix
     }
 
     /**
-     * Return the prefix if exists.
+     * Returns the prefix if exists.
      *
      * @param string $string
      *
@@ -97,7 +99,7 @@ class PrefixSuffix
     }
 
     /**
-     * Return the suffix if exists.
+     * Returns the suffix if exists.
      *
      * @param string $string
      *
@@ -109,7 +111,7 @@ class PrefixSuffix
     }
 
     /**
-     * Return string without the prefix and the suffix (if exists).
+     * Returns string without the prefix and the suffix (if exists).
      *
      * @param string $string
      *
@@ -132,7 +134,7 @@ class PrefixSuffix
     }
 
     /**
-     * Return string without the prefix (if exists).
+     * Returns string without the prefix (if exists).
      *
      * @param string $string
      *
@@ -150,9 +152,11 @@ class PrefixSuffix
     }
 
     /**
-     * Return expreg pattern by $type.
+     * Returns expreg pattern by $type.
      *
      * @param string $type
+     *
+     * @throws Exception
      *
      * @return string
      */

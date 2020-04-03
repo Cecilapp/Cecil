@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,40 +19,22 @@ use Dflydev\DotAccessData\Data;
  */
 class Config
 {
-    /**
-     * Configuration is a Data object.
-     *
-     * @var Data
-     */
+    /** @var Data Configuration is a Data object. */
     protected $data;
-    /**
-     * Local configuration.
-     *
-     * @var Config|array
-     */
+    /** @var Config|array Configuration. */
     protected $localConfig;
-    /**
-     * Source directory.
-     *
-     * @var string
-     */
+    /** @var string Source directory. */
     protected $sourceDir;
-    /**
-     * Destination directory.
-     *
-     * @var string
-     */
+    /** @var string Destination directory. */
     protected $destinationDir;
 
     /**
-     * Config constructor.
-     *
      * @param Config|array|null $config
      */
     public function __construct($config = null)
     {
         // default config
-        $defaultConfig = realpath(Util::joinFile(__DIR__, '../config/default.php'));
+        $defaultConfig = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
         if (Plateform::isPhar()) {
             $defaultConfig = Util::joinPath(Plateform::getPharPath(), 'config/default.php');
         }
@@ -61,7 +45,7 @@ class Config
     }
 
     /**
-     * Import config data into the current configuration.
+     * Import configuration data into the current configuration.
      *
      * @param Config|array|null $config
      *
@@ -109,7 +93,7 @@ class Config
      *
      * @param Data $data
      *
-     * @return $this
+     * @return self
      */
     protected function setData(Data $data): self
     {
@@ -158,7 +142,7 @@ class Config
      * @param string      $key
      * @param string|null $language
      *
-     * @return array|mixed|null
+     * @return mixed|null
      */
     public function get(string $key, string $language = null)
     {
@@ -180,7 +164,7 @@ class Config
      *
      * @throws \InvalidArgumentException
      *
-     * @return $this
+     * @return self
      */
     public function setSourceDir(string $sourceDir = null): self
     {
@@ -212,7 +196,7 @@ class Config
      *
      * @throws \InvalidArgumentException
      *
-     * @return $this
+     * @return self
      */
     public function setDestinationDir(string $destinationDir = null): self
     {
@@ -241,7 +225,7 @@ class Config
     }
 
     /**
-     * Paths helpers.
+     * Path helpers.
      */
 
     /**
@@ -315,8 +299,8 @@ class Config
     }
 
     /**
-     * Is cache dir is absolute to systeme file
-     * or relative to project destiantion?
+     * Is cache dir is absolute to system files
+     * or relative to project destination?
      *
      * @return bool
      */
@@ -351,8 +335,8 @@ class Config
     /**
      * Return the property value of an output format.
      *
-     * @param string $property
      * @param string $name
+     * @param string $property
      *
      * @return string|array|null
      */
@@ -410,7 +394,7 @@ class Config
             foreach ($themes as $theme) {
                 if (!Util::getFS()->exists($this->getThemeDirPath($theme, 'layouts'))) {
                     throw new Exception(sprintf(
-                        "Theme directory '%s/%s/layouts' not found!",
+                        'Theme directory "%s/%s/layouts" not found!',
                         $this->getThemesPath(),
                         $theme
                     ));

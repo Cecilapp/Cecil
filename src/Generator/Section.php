@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -24,11 +26,11 @@ class Section extends AbstractGenerator implements GeneratorInterface
     {
         $sections = [];
 
-        // identify sections
+        // identifying sections
         /** @var Page $page */
         foreach ($this->pagesCollection as $page) {
             if ($page->getSection()) {
-                // exclude page from section
+                // excludes page from section
                 if ($page->getVariable('exclude')) {
                     $alteredPage = clone $page;
                     $alteredPage->setSection('');
@@ -49,7 +51,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $page = clone $this->pagesCollection->get($pageId);
                 }
                 $pages = new PagesCollection($section, $pagesAsArray);
-                // sort
+                // sorts
                 $pages = $pages->sortByDate();
                 /** @var \Cecil\Collection\Page\Page $page */
                 if ($page->getVariable('sortby')) {
@@ -58,9 +60,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $pages = $pages->$sortMethod();
                     }
                 }
-                // add navigation links
+                // adds navigation links
                 $this->addNavigationLinks($pages);
-                // create page for each section
+                // creates page for each section
                 $page->setPath($path)
                     ->setType(Type::SECTION)
                     ->setVariable('pages', $pages)
@@ -78,7 +80,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Add navigation (next and prev) to section sub pages.
+     * Adds navigation (next and prev) to section sub pages.
      *
      * @param PagesCollection $pages
      *

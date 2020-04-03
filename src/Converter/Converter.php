@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -8,6 +10,7 @@
 
 namespace Cecil\Converter;
 
+use Cecil\Builder;
 use Cecil\Exception\Exception;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -20,7 +23,7 @@ class Converter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public static function convertFrontmatter($string, $type = 'yaml'): array
+    public static function convertFrontmatter(string $string, string $type = 'yaml'): array
     {
         switch ($type) {
             case 'ini':
@@ -48,7 +51,7 @@ class Converter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public static function convertBody($string, $builder = null): string
+    public static function convertBody(string $string, Builder $builder = null): string
     {
         $parsedown = new Parsedown($builder);
 

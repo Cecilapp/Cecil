@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -44,7 +46,7 @@ class PagesConvert extends AbstractStep
         $max = count($this->builder->getPages());
         $count = 0;
         $countError = 0;
-        /* @var $page Page */
+        /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
@@ -55,7 +57,7 @@ class PagesConvert extends AbstractStep
                     continue;
                 }
                 $message = $page->getId();
-                // force convert drafts?
+                // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
                     $page->setVariable('published', true);
                 }
@@ -82,7 +84,7 @@ class PagesConvert extends AbstractStep
      * @param Page   $page
      * @param string $format
      *
-     * @return Page
+     * @return Page|bool
      */
     public function convertPage(Page $page, $format = 'yaml')
     {

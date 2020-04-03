@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,7 +28,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             return;
         }
 
-        // filter pages: home, sections and terms
+        // filters pages: home, sections and terms
         $filteredPages = $this->pagesCollection->filter(function (Page $page) {
             return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION, Type::TERM]);
         });
@@ -53,11 +55,11 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 }
             }
             $pagesTotal = count($pages);
-            // abord pagination?
+            // abords pagination?
             if ($pagesTotal <= $paginationPerPage) {
                 continue;
             }
-            // sort pages
+            // sorts pages
             $pages = $pages->sortByDate();
             if ($sortby) {
                 $sortMethod = sprintf('sortBy%s', ucfirst($sortby));
@@ -66,7 +68,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 }
             }
 
-            // build pagination
+            // builds pagination
             if ($pagesTotal > $paginationPerPage) {
                 $paginationPagesCount = ceil($pagesTotal / $paginationPerPage);
                 for ($i = 0; $i < $paginationPagesCount; $i++) {
@@ -107,14 +109,14 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                             ->unVariable('menu')
                             ->setVariable('paginated', true);
                     }
-                    // update 'pagination' variable
+                    // updates 'pagination' variable
                     $pagination = [
                         'totalpages' => $pagesTotal,
                         'pages'      => $pagesInPagination,
                         'current'    => $i + 1,
                         'count'      => $paginationPagesCount,
                     ];
-                    // add links
+                    // adds links
                     $pagination['links'] = ['self' => $currentPath ?: 'index'];
                     $pagination['links'] += ['first' => $firstPath ?: 'index'];
                     if ($i == 1) {
@@ -143,7 +145,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         $paginationPagesCount
                     ))];
                     $alteredPage->setVariable('pagination', $pagination);
-                    // update date with the first element of the collection
+                    // updates date with the first element of the collection
                     $alteredPage->setVariable('date', $pagesInPagination->first()->getVariable('date'));
                     $this->generatedPages->add($alteredPage);
                 }

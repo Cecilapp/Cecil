@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,7 +14,7 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 
 /**
- * Create Pages collection from content iterator.
+ * Creates Pages collection from content iterator.
  */
 class PagesCreate extends AbstractStep
 {
@@ -40,10 +42,10 @@ class PagesCreate extends AbstractStep
         call_user_func_array($this->builder->getMessageCb(), ['CREATE', 'Creating pages']);
         $max = count($this->builder->getContent());
         $count = 0;
-        /* @var $file \Symfony\Component\Finder\SplFileInfo */
+        /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($this->builder->getContent() as $file) {
             $count++;
-            /* @var $page Page */
+            /** @var Page $page */
             $page = new Page(Page::createId($file));
             $page->setFile($file)->parse();
             $this->builder->getPages()->add($page);

@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,7 +25,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function setId(string $id): BaseInterface;
 
     /**
-     * Return the collection's identifier.
+     * Returns the collection's identifier.
      *
      * @return string
      */
@@ -48,7 +50,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function add(ItemInterface $item): self;
 
     /**
-     * Replace an item or throw an exception if not exists.
+     * Replaces an item or throw an exception if not exists.
      *
      * @param string        $id
      * @param ItemInterface $item
@@ -58,7 +60,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function replace(string $id, ItemInterface $item): self;
 
     /**
-     * Remove an item or throw an exception if not exists.
+     * Removes an item or throw an exception if not exists.
      *
      * @param string $id
      *
@@ -67,7 +69,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function remove(string $id): self;
 
     /**
-     * Retrieve an item or throw an exception if not exists.
+     * Retrieves an item or throw an exception if not exists.
      *
      * @param string $id
      *
@@ -76,7 +78,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function get(string $id): ItemInterface;
 
     /**
-     * Retrieve an item position or throw an exception if not exists.
+     * Retrieves an item position or throw an exception if not exists.
      *
      * @param string $id
      *
@@ -85,42 +87,42 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function getPosition(string $id): int;
 
     /**
-     * Retrieve all keys.
+     * Retrieves all keys.
      *
      * @return array An array of all keys
      */
     public function keys(): array;
 
     /**
-     * Retrieve the first item.
+     * Retrieves the first item.
      *
      * @return ItemInterface|null
      */
     public function first(): ?ItemInterface;
 
     /**
-     * Implement Countable.
+     * Implements Countable.
      *
      * @return int
      */
     public function count(): int;
 
     /**
-     * Return collection as array.
+     * Returns collection as array.
      *
      * @return array
      */
     public function toArray(): array;
 
     /**
-     * Return a JSON string of items.
+     * Returns a JSON string of items.
      *
      * @return string
      */
     public function toJson(): string;
 
     /**
-     * Implement \IteratorAggregate.
+     * Implements \IteratorAggregate.
      *
      * @return \ArrayIterator
      */

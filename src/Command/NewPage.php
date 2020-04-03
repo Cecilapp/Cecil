@@ -1,8 +1,8 @@
 <?php
-/*
+/**
  * This file is part of the Cecil/Cecil package.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -57,7 +57,7 @@ class NewPage extends Command
             $filename = $nameParts['filename'];
             $date = date('Y-m-d');
             $title = $filename;
-            // date prefix?
+            // has date prefix?
             $datePrefix = '';
             if ($prefix) {
                 $datePrefix = sprintf('%s-', $date);
@@ -85,7 +85,7 @@ class NewPage extends Command
                 }
             }
 
-            // create new file
+            // creates a new file
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],
@@ -109,7 +109,7 @@ class NewPage extends Command
     }
 
     /**
-     * Find the page model and return its content.
+     * Finds the page model and returns its content.
      *
      * @param string $name
      *
@@ -149,14 +149,14 @@ EOT;
     }
 
     /**
-     * Open new file in editor (if configured).
+     * Opens the new file in editor (if configured).
      *
      * @param OutputInterface $output
      * @param string          $filePath
      *
      * @return void
      */
-    protected function openEditor(OutputInterface $output, string $filePath)
+    protected function openEditor(OutputInterface $output, string $filePath): void
     {
         if ($editor = (string) $this->getBuilder($output)->getConfig()->get('editor')) {
             $command = sprintf('%s "%s"', $editor, $filePath);

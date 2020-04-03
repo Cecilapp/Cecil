@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +17,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 
 /**
- * Create menus collection.
+ * Creates menus collection.
  */
 class MenusCreate extends AbstractStep
 {
@@ -29,12 +31,12 @@ class MenusCreate extends AbstractStep
      */
     public function process()
     {
-        // create the 'menus' collection with a default 'main' menu
+        // creates the 'menus' collection with a default 'main' menu
         $main = new Menu('main');
         $this->menus = new MenusCollection('menus');
         $this->menus->add($main);
 
-        // Collect 'menu' entries from pages
+        // collects 'menu' entries from pages
         $this->collectPages();
 
         /**
@@ -81,9 +83,9 @@ class MenusCreate extends AbstractStep
                             ]);
                         }
                     }
-                    // is entry already exist?
+                    // is entry already exists?
                     if ($menu->has($property['id'])) {
-                        // remove a disabled entry
+                        // removes a disabled entry
                         if (!$enabled) {
                             call_user_func_array($this->builder->getMessageCb(), [
                                 'MENU_PROGRESS',
@@ -94,7 +96,7 @@ class MenusCreate extends AbstractStep
                             $menu->remove($property['id']);
                             continue;
                         }
-                        // merge properties
+                        // merges properties
                         $updated = true;
                         $current = $menu->get($property['id'])->toArray();
                         $property = array_merge($current, $property);
@@ -105,7 +107,7 @@ class MenusCreate extends AbstractStep
                             $totalConfig,
                         ]);
                     }
-                    // add/replace entry
+                    // adds/replaces entry
                     if ($enabled) {
                         $item = (new Entry($property['id']))
                             ->setName($property['name'] ?? ucfirst($property['id']))

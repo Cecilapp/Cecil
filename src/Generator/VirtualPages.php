@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -45,7 +47,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
             }
             $path = Page::slugify($frontmatter['path']);
             $id = !empty($path) ? $path : 'index';
-            // abort if already exists...
+            // aborts if already exists...
             if ($this->pagesCollection->has($id)) {
                 continue;
             }
@@ -58,7 +60,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Collect "virtual pages" config.
+     * Collects virtual pages configuration.
      *
      * @param string $configKey
      *

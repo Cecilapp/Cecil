@@ -1,8 +1,8 @@
 <?php
-/*
+/**
  * This file is part of the Cecil/Cecil package.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -47,7 +47,7 @@ if found, downloads and installs the latest.');
         $version = $this->getApplication()->getVersion();
 
         $updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
-        /* @var $strategy \Humbug\SelfUpdate\Strategy\GithubStrategy */
+        /** @var \Humbug\SelfUpdate\Strategy\GithubStrategy $strategy */
         $strategy = $updater->getStrategy();
         $strategy->setPackageName('cecil/cecil');
         $strategy->setPharName('cecil.phar');

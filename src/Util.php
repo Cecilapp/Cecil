@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,15 +14,11 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Util
 {
-    /**
-     * Symfony\Component\Filesystem.
-     *
-     * @var Filesystem
-     */
+    /** @var Filesystem */
     protected static $fs;
 
     /**
-     * Return Symfony\Component\Filesystem instance.
+     * Return a Symfony\Component\Filesystem instance.
      *
      * @return Filesystem
      */
@@ -36,16 +34,13 @@ class Util
     /**
      * Checks if a date is valid.
      *
-     * @param string|null $date
-     * @param string      $format
+     * @param string $date
+     * @param string $format
      *
      * @return bool
      */
-    public static function isDateValid($date, string $format = 'Y-m-d'): bool
+    public static function isDateValid(string $date, string $format = 'Y-m-d'): bool
     {
-        if ($date === null) {
-            return false;
-        }
         $d = \DateTime::createFromFormat($format, $date);
 
         return $d && $d->format($format) === $date;
@@ -64,7 +59,7 @@ class Util
         if ($date instanceof \DateTime) {
             return $date;
         }
-        // timestamp or AAAA-MM-DD
+        // timestamp or 'AAAA-MM-DD'
         if (is_numeric($date)) {
             return (new \DateTime())->setTimestamp($date);
         }
@@ -75,7 +70,7 @@ class Util
     }
 
     /**
-     * Format class name.
+     * Format a class name.
      *
      * @param \object $class
      * @param array   $options
@@ -98,16 +93,12 @@ class Util
     /**
      * Test if a string is an external URL or not.
      *
-     * @param string|null $url
+     * @param string $url
      *
      * @return bool
      */
-    public static function isExternalUrl($url): bool
+    public static function isExternalUrl(string $url): bool
     {
-        if ($url === null) {
-            return false;
-        }
-
         return (bool) preg_match('~^(?:f|ht)tps?://~i', $url);
     }
 
@@ -129,7 +120,7 @@ class Util
     }
 
     /**
-     * Convert an array of strings into a path.
+     * Converts an array of strings into a path.
      *
      * @param string $path
      *
@@ -146,7 +137,7 @@ class Util
     }
 
     /**
-     * Convert an array of strings into a system path.
+     * Converts an array of strings into a system path.
      *
      * @param string $path
      *
@@ -163,7 +154,9 @@ class Util
     }
 
     /**
-     * Convert array to string.
+     * Converts an array to a string.
+     *
+     * ie: [0 => 'A', 1 => B] become "0:A, 1:B"
      *
      * @param array  $array
      * @param string $separator Separtor between the key and the value in the result string
@@ -182,12 +175,12 @@ class Util
     }
 
     /**
-     * Conbine array to string.
+     * Combines an array into a string.
      *
      * @param array  $array
-     * @param string $keyToKey   the cuurrent key who become the key of the new array
-     * @param string $keyToValue the cuurrent key who become the value of the new array
-     * @param string $separator  Separtor between the key and the value in the result string
+     * @param string $keyToKey   The key that become the key of the new array
+     * @param string $keyToValue The key that become the value of the new array
+     * @param string $separator  The separtor between the key and the value in the result string
      *
      * @return string
      */

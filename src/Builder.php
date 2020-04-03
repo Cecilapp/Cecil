@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -25,9 +27,7 @@ class Builder
     const VERBOSITY_DEBUG = 2;
 
     /**
-     * Steps that are processed by build().
-     *
-     * @var array
+     * @var array Steps that are processed by build().
      *
      * @see build()
      */
@@ -50,88 +50,34 @@ class Builder
         'Cecil\Step\PostProcessJs',
         'Cecil\Step\PostProcessImages',
     ];
-    /**
-     * App version.
-     *
-     * @var string
-     */
+    /** @var string App version. */
     protected static $version;
-    /**
-     * Configuration.
-     *
-     * @var Config
-     */
+    /** @var Config Configuration. */
     protected $config;
-    /**
-     * Content iterator.
-     *
-     * @var Finder
-     */
+    /** @var Finder Content iterator. */
     protected $content;
-    /**
-     * Data collection.
-     *
-     * @var array
-     */
+    /** @var array Data collection. */
     protected $data = [];
-    /**
-     * Static files collection.
-     *
-     * @var array
-     */
+    /** @var array Static files collection. */
     protected $static = [];
-    /**
-     * Pages collection.
-     *
-     * @var PagesCollection
-     */
+    /** @var PagesCollection Pages collection. */
     protected $pages;
-    /**
-     * Menus collection.
-     *
-     * @var Collection\Menu\Collection
-     */
+    /** @var Collection\Menu\Collection Menus collection. */
     protected $menus;
-    /**
-     * Taxonomies collection.
-     *
-     * @var Collection\Taxonomy\Collection
-     */
+    /** @var Collection\Taxonomy\Collection Taxonomies collection. */
     protected $taxonomies;
-    /**
-     * Renderer (Renderer\Twig).
-     *
-     * @var Renderer\RendererInterface
-     */
+    /** @var Renderer\RendererInterface Renderer. */
     protected $renderer;
-    /**
-     * Message callback.
-     *
-     * @var \Closure
-     */
+    /** @var \Closure Message callback. */
     protected $messageCallback;
-    /**
-     * Generators manager.
-     *
-     * @var GeneratorManager
-     */
+    /** @var GeneratorManager Generators manager. */
     protected $generatorManager;
-    /**
-     * Log.
-     *
-     * @var array
-     */
+    /** @var array Log. */
     protected $log;
-    /**
-     * Options.
-     *
-     * @var array
-     */
+    /** @var array Options. */
     protected $options;
 
     /**
-     * Builder constructor.
-     *
      * @param Config|array|null $config
      * @param \Closure|null     $messageCallback
      */
@@ -156,11 +102,11 @@ class Builder
     }
 
     /**
-     * Set config.
+     * Set configuration.
      *
      * @param Config|array|null $config
      *
-     * @return $this
+     * @return self
      */
     public function setConfig($config): self
     {
@@ -183,11 +129,11 @@ class Builder
     }
 
     /**
-     * Config::setSourceDir alias.
+     * Config::setSourceDir() alias.
      *
      * @param string|null $sourceDir
      *
-     * @return $this
+     * @return self
      */
     public function setSourceDir(string $sourceDir = null): self
     {
@@ -197,11 +143,11 @@ class Builder
     }
 
     /**
-     * Config::setDestinationDir alias.
+     * Config::setDestinationDir() alias.
      *
      * @param string|null $destinationDir
      *
-     * @return $this
+     * @return self
      */
     public function setDestinationDir(string $destinationDir = null): self
     {
@@ -211,9 +157,13 @@ class Builder
     }
 
     /**
+     * Set collected content.
+     *
      * @param Finder $content
+     *
+     * @return void
      */
-    public function setContent(Finder $content)
+    public function setContent(Finder $content): void
     {
         $this->content = $content;
     }
@@ -227,9 +177,13 @@ class Builder
     }
 
     /**
+     * Set collected data.
+     *
      * @param array $data
+     *
+     * @return void
      */
-    public function setData(array $data)
+    public function setData(array $data): void
     {
         $this->data = $data;
     }
@@ -243,15 +197,19 @@ class Builder
     }
 
     /**
+     * Set collected static files.
+     *
      * @param array $static
+     *
+     * @return void
      */
-    public function setStatic(array $static)
+    public function setStatic(array $static): void
     {
         $this->static = $static;
     }
 
     /**
-     * @return array static files collection
+     * @return array Static files collection.
      */
     public function getStatic(): array
     {
@@ -259,9 +217,13 @@ class Builder
     }
 
     /**
+     * Set/update Pages colelction.
+     *
      * @param PagesCollection $pages
+     *
+     * @return void
      */
-    public function setPages(PagesCollection $pages)
+    public function setPages(PagesCollection $pages): void
     {
         $this->pages = $pages;
     }
@@ -276,8 +238,10 @@ class Builder
 
     /**
      * @param Collection\Menu\Collection $menus
+     *
+     * @return void
      */
-    public function setMenus(Collection\Menu\Collection $menus)
+    public function setMenus(Collection\Menu\Collection $menus): void
     {
         $this->menus = $menus;
     }
@@ -291,9 +255,13 @@ class Builder
     }
 
     /**
+     * Set taxonomies collection.
+     *
      * @param Collection\Taxonomy\Collection $taxonomies
+     *
+     * @return void
      */
-    public function setTaxonomies(Collection\Taxonomy\Collection $taxonomies)
+    public function setTaxonomies(Collection\Taxonomy\Collection $taxonomies): void
     {
         $this->taxonomies = $taxonomies;
     }
@@ -307,9 +275,14 @@ class Builder
     }
 
     /**
+     * Set log message format by step status (start, progress or error)
+     * in a callback function.
+     *
      * @param \Closure|null $messageCallback
+     *
+     * @return void
      */
-    public function setMessageCallback(\Closure $messageCallback = null)
+    public function setMessageCallback(\Closure $messageCallback = null): void
     {
         if ($messageCallback === null) {
             $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
@@ -373,7 +346,7 @@ class Builder
     }
 
     /**
-     * @return \Closure
+     * @return \Closure Return message callback function.
      */
     public function getMessageCb(): \Closure
     {
@@ -381,9 +354,13 @@ class Builder
     }
 
     /**
+     * Set renderer object.
+     *
      * @param Renderer\RendererInterface $renderer
+     *
+     * @return void
      */
-    public function setRenderer(Renderer\RendererInterface $renderer)
+    public function setRenderer(Renderer\RendererInterface $renderer): void
     {
         $this->renderer = $renderer;
     }
@@ -397,8 +374,10 @@ class Builder
     }
 
     /**
-     * @param string $log  Message
-     * @param int    $type Verbosity
+     * Add log entry.
+     *
+     * @param string $log  Log message.
+     * @param int    $type Verbosity level.
      *
      * @return array|null
      */
@@ -415,7 +394,7 @@ class Builder
     /**
      * @param int $type
      *
-     * @return array|null
+     * @return array|null Return log array filtered by type.
      */
     public function getLog(int $type = 0): ?array
     {
@@ -429,11 +408,13 @@ class Builder
     }
 
     /**
+     * Print log message.
+     *
      * @param int $type
      *
-     * Display $log string.
+     * @return void
      */
-    public function showLog(int $type = 0)
+    public function showLog(int $type = 0): void
     {
         if ($log = $this->getLog($type)) {
             foreach ($log as $value) {
@@ -455,22 +436,24 @@ class Builder
      *
      * @param array $options
      *
-     * @return $this
+     * @return self
      */
     public function build(array $options): self
     {
-        // start script time
+        // set start script time
         $startTime = microtime(true);
+        // prepare options
         $this->options = array_merge([
             'verbosity' => self::VERBOSITY_NORMAL, // -1: quiet, 0: normal, 1: verbose, 2: debug
             'drafts'    => false, // build drafts or not
             'dry-run'   => false, // if dry-run is true, generated files are not saved
         ], $options);
 
+        // process each step
         $steps = [];
         // init...
         foreach ($this->steps as $step) {
-            /* @var $stepClass Step\StepInterface */
+            /** @var Step\StepInterface $stepClass */
             $stepClass = new $step($this);
             $stepClass->init($this->options);
             $steps[] = $stepClass;
@@ -478,10 +461,11 @@ class Builder
         $this->steps = $steps;
         // ... and process!
         foreach ($this->steps as $step) {
-            /* @var $step Step\StepInterface */
+            /** @var Step\StepInterface $step */
             $step->runProcess();
         }
-        // show process time
+
+        // add process duration to log
         call_user_func_array($this->messageCallback, [
             'TIME',
             sprintf('Built in %ss', round(microtime(true) - $startTime, 2)),

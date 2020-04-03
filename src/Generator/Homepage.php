@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,14 +25,14 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
     {
         $subPages = $this->pagesCollection->filter(function (Page $page) {
             return $page->getType() == TYPE::PAGE
-                && $page->getId() != 'index'; // exclude homepage
+                && $page->getId() != 'index'; // excludes homepage
         });
         /** @var \Cecil\Collection\Page\Collection $subPages */
         $pages = $subPages->sortByDate();
 
-        // create new index page...
+        // creates a new index page...
         $page = (new Page('index'))->setPath('')->setVariable('title', 'Home');
-        // ... clone it if already exists
+        // ... clones it if already exists
         if ($this->pagesCollection->has('index')) {
             $page = clone $this->pagesCollection->get('index');
         }

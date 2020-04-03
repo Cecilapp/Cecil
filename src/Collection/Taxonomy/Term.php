@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,11 +18,7 @@ use Cecil\Collection\ItemInterface;
  */
 class Term extends CecilCollection implements ItemInterface
 {
-    /**
-     * Term's name.
-     *
-     * @var string
-     */
+    /** @var string Term's name. */
     protected $name;
 
     /**
@@ -38,7 +36,7 @@ class Term extends CecilCollection implements ItemInterface
     }
 
     /**
-     * get term's name.
+     * Get term's name.
      *
      * @return string|null
      */
@@ -48,7 +46,7 @@ class Term extends CecilCollection implements ItemInterface
     }
 
     /**
-     * Sort items by date.
+     * Sorts terms by date.
      *
      * @return self
      */

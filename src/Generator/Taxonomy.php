@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -68,12 +70,12 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         ->setVariable('plural', $plural)
                         ->setVariable('singular', $singular)
                         ->setVariable('terms', $vocabulary);
-                    // add page only if a template exist
+                    // adds page only if a template exist
                     try {
                         $this->generatedPages->add($page);
                     } catch (Exception $e) {
                         printf("%s\n", $e->getMessage());
-                        unset($page); // do not add page
+                        unset($page); // do not adds page
                     }
                 }
             }

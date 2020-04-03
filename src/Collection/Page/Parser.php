@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,22 +19,14 @@ class Parser
 {
     // https://regex101.com/r/xH7cL3/2
     const PATTERN = '^\s*(?:<!--|---|\+\+\+){1}[\n\r\s]*(.*?)[\n\r\s]*(?:-->|---|\+\+\+){1}[\s\n\r]*(.*)$';
-    /**
-     * @var SplFileInfo
-     */
+    /** @var SplFileInfo */
     protected $file;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $frontmatter;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $body;
 
     /**
-     * Constructor.
-     *
      * @param SplFileInfo $file
      */
     public function __construct(SplFileInfo $file)
@@ -52,9 +46,9 @@ class Parser
      *
      * @throws \RuntimeException
      *
-     * @return $this
+     * @return self
      */
-    public function parse()
+    public function parse(): self
     {
         if ($this->file->isFile()) {
             if (!$this->file->isReadable()) {
@@ -81,9 +75,9 @@ class Parser
     /**
      * Get frontmatter.
      *
-     * @return string
+     * @return string|null
      */
-    public function getFrontmatter()
+    public function getFrontmatter(): ?string
     {
         return $this->frontmatter;
     }
@@ -93,7 +87,7 @@ class Parser
      *
      * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
         return $this->body;
     }

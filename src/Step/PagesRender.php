@@ -1,6 +1,8 @@
 <?php
-/*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+/**
+ * This file is part of the Cecil/Cecil package.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -49,21 +51,21 @@ class PagesRender extends AbstractStep
         // prepares renderer
         $this->builder->setRenderer(new Twig($this->getAllLayoutsPaths(), $this->builder));
 
-        // add globals variables
+        // adds global variables
         $this->addGlobals();
 
         call_user_func_array($this->builder->getMessageCb(), ['RENDER', 'Rendering pages']);
 
-        // collect published pages
-        /* @var $page Page */
+        // collects published pages
+        /** @var Page $page */
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return !empty($page->getVariable('published'));
         });
         $max = count($filteredPages);
 
-        // render each page
+        // renders each page
         $count = 0;
-        /* @var $page Page */
+        /** @var Page $page */
         foreach ($filteredPages as $page) {
             $count++;
             $formats = ['html'];
@@ -72,11 +74,11 @@ class PagesRender extends AbstractStep
             // i18n
             $pageLang = $page->getVariable('language');
             $locale = $this->config->getLanguageProperty('locale', $pageLang);
-            // The PHP Intl extension is needed to use localized date
+            // the PHP Intl extension is needed to use localized date
             if (extension_loaded('intl')) {
                 \Locale::setDefault($locale);
             }
-            // The PHP Gettext extension is needed to use translation
+            // the PHP Gettext extension is needed to use translation
             if (extension_loaded('gettext')) {
                 $localePath = realpath(Util::joinFile($this->config->getSourceDir(), 'locale'));
                 $domain = 'messages';
@@ -115,11 +117,11 @@ class PagesRender extends AbstractStep
             // get and set alternates links
             $page->setVariable('alternates', $this->getAlternates($formats));
 
-            // render each output format
+            // renders each output format
             foreach ($formats as $format) {
                 // search for the template
                 $layout = Layout::finder($page, $format, $this->config);
-                // render with Twig
+                // renders with Twig
                 try {
                     $output = $this->builder->getRenderer()->render($layout['file'], ['page' => $page]);
                     $output = $this->postProcessOutput($output, $page, $format);
@@ -150,7 +152,7 @@ class PagesRender extends AbstractStep
     }
 
     /**
-     * Return an array of layouts directories.
+     * Returns an array of layouts directories.
      *
      * @return array
      */
@@ -178,7 +180,7 @@ class PagesRender extends AbstractStep
     }
 
     /**
-     * Add globals variables.
+     * Adds global variables.
      */
     protected function addGlobals()
     {

@@ -1,8 +1,8 @@
 <?php
-/*
+/**
  * This file is part of the Cecil/Cecil package.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -75,7 +75,7 @@ class Serve extends Command
         );
         $process = Process::fromShellCommandline($command);
 
-        // (re)build before serve
+        // (re)builds before serve
         $buildCommand = $this->getApplication()->find('build');
         $buildInput = new ArrayInput([
             'command'       => 'build',
@@ -85,9 +85,9 @@ class Serve extends Command
         ]);
         $buildCommand->run($buildInput, $output);
 
-        // handle process
+        // handles process
         if (!$process->isStarted()) {
-            // write changes cache
+            // writes changes cache
             $finder = new Finder();
             $finder->files()
                 ->name('*.md')
@@ -102,7 +102,7 @@ class Serve extends Command
             $resourceCache = new ResourceCacheMemory();
             $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
             $resourceWatcher->initialize();
-            // start server
+            // starts server
             try {
                 $output->writeln(sprintf('<info>Starting server (http://%s:%d)...</info>', $host, $port));
                 $process->start();
@@ -112,11 +112,11 @@ class Serve extends Command
                 while ($process->isRunning()) {
                     $result = $resourceWatcher->findChanges();
                     if ($result->hasChanges()) {
-                        // re-build
+                        // re-builds
                         $output->writeln('<comment>Changes detected.</comment>');
                         $buildCommand->run($buildInput, $output);
                     }
-                    usleep(1000000); // wait 1s
+                    usleep(1000000); // waits 1s
                 }
                 $output->writeln('<comment>Server stopped...<comment>');
             } catch (ProcessFailedException $e) {
@@ -133,27 +133,31 @@ class Serve extends Command
      * @param OutputInterface $output
      * @param string          $host
      * @param string          $port
+     *
+     * @throws \Exception
+     *
+     * @return void
      */
-    private function setUpServer(OutputInterface $output, string $host, string $port)
+    private function setUpServer(OutputInterface $output, string $host, string $port): void
     {
         try {
             $root = __DIR__.'/../../';
             if (Plateform::isPhar()) {
                 $root = Plateform::getPharPath().'/';
             }
-            // copy router
+            // copying router
             $this->fs->copy(
                 $root.'res/server/router.php',
                 $this->getPath().'/'.self::TMP_DIR.'/router.php',
                 true
             );
-            // copy livereload JS
+            // copying livereload JS
             $this->fs->copy(
                 $root.'res/server/livereload.js',
                 $this->getPath().'/'.self::TMP_DIR.'/livereload.js',
                 true
             );
-            // copy baseurl text file
+            // copying baseurl text file
             $this->fs->dumpFile(
                 $this->getPath().'/'.self::TMP_DIR.'/baseurl',
                 sprintf(
@@ -170,7 +174,14 @@ class Serve extends Command
         }
     }
 
-    public function tearDownServer()
+    /**
+     * Removes temporary directory.
+     *
+     * @throws \Exception
+     *
+     * @return void
+     */
+    public function tearDownServer(): void
     {
         try {
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
