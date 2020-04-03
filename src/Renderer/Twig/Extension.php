@@ -284,7 +284,15 @@ class Extension extends SlugifyExtension
         }
 
         // value is a string
-        $value = is_null($value) ?: Util::joinPath($value);
+        if (!is_null($value)) {
+            // value is an external URL
+            if (Util::isExternalUrl($value)) {
+                $url = $value;
+
+                return $url;
+            }
+            $value = Util::joinPath($value);
+        }
 
         // value is a ressource URL (ie: 'path/style.css')
         if (false !== strpos($value, '.')) {
