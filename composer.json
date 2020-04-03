@@ -33,7 +33,7 @@
     "padraic/phar-updater": "1.0.6",
     "scssphp/scssphp": "1.0.8",
     "spatie/image-optimizer": "1.1.4",
-    "symfony/console": "4.4.6",
+    "symfony/console": "4.4.7",
     "symfony/filesystem": "4.4.6",
     "symfony/finder": "4.4.6",
     "symfony/process": "4.4.6",
