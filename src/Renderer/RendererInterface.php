@@ -31,7 +31,7 @@ interface RendererInterface
      *
      * @return void
      */
-    public function addGlobal(string $name, $value);
+    public function addGlobal(string $name, $value): void;
 
     /**
      * Rendering.
@@ -39,7 +39,7 @@ interface RendererInterface
      * @param string $template
      * @param array  $variables
      *
-     * @return self
+     * @return string
      */
-    public function render(string $template, array $variables);
+    public function render(string $template, array $variables): string;
 }

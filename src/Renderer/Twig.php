@@ -59,7 +59,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
-    public function addGlobal($name, $value)
+    public function addGlobal(string $name, $value): void
     {
         $this->twig->addGlobal($name, $value);
     }
@@ -67,7 +67,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
-    public function render($template, $variables)
+    public function render(string $template, array $variables): string
     {
         return $this->twig->render($template, $variables);
     }
