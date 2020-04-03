@@ -275,7 +275,7 @@ class Extension extends SlugifyExtension
         }
 
         // value is an external URL
-        if ($value !== null ) {
+        if ($value !== null) {
             if (Util::isExternalUrl($value)) {
                 $url = $value;
 

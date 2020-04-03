@@ -24,7 +24,7 @@ class FileExtensionFilter extends RecursiveFilterIterator
 
     /**
      * @param RecursiveIterator $iterator
-     * @param mixed $ext
+     * @param mixed             $ext
      */
     public function __construct($iter, $ext = '')
     {

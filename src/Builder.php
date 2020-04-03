@@ -28,6 +28,7 @@ class Builder
 
     /**
      * @var array Steps that are processed by build().
+     *
      * @see build()
      */
     protected $steps = [
