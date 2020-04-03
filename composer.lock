@@ -2130,16 +2130,16 @@
         },
         {
             "name": "voku/simple_html_dom",
-            "version": "4.7.13",
+            "version": "4.7.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/simple_html_dom.git",
-                "reference": "301e41cb38df258d3e8749a7ee514d37845fe54e"
+                "reference": "eed633604e7fec922a4af5ccd306762ef4a2bdac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/simple_html_dom/zipball/301e41cb38df258d3e8749a7ee514d37845fe54e",
-                "reference": "301e41cb38df258d3e8749a7ee514d37845fe54e",
+                "url": "https://api.github.com/repos/voku/simple_html_dom/zipball/eed633604e7fec922a4af5ccd306762ef4a2bdac",
+                "reference": "eed633604e7fec922a4af5ccd306762ef4a2bdac",
                 "shasum": ""
             },
             "require": {
@@ -2185,7 +2185,25 @@
                 "dom",
                 "php dom"
             ],
-            "time": "2020-02-17T15:47:33+00:00"
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/moelleken",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/voku",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/voku",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/voku/simple_html_dom",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-04-02T00:34:59+00:00"
         },
         {
             "name": "yosymfony/resource-watcher",
