@@ -22,7 +22,6 @@ use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class Twig\Extension.
@@ -33,10 +32,6 @@ class Extension extends SlugifyExtension
     protected $builder;
     /** @var Config */
     protected $config;
-    /** @var string */
-    protected $outputPath;
-    /** @var Filesystem */
-    protected $fileSystem;
     /** @var Slugify */
     private static $slugifier;
 
@@ -53,7 +48,6 @@ class Extension extends SlugifyExtension
 
         $this->builder = $builder;
         $this->config = $this->builder->getConfig();
-        $this->outputPath = $this->config->getOutputPath();
     }
 
     /**
@@ -101,7 +95,9 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Filter by section.
+     * Filters by Section.
+     *
+     * Alias of `filterBy('section', $value)`.
      *
      * @param PagesCollection $pages
      * @param string          $section
@@ -327,12 +323,12 @@ class Extension extends SlugifyExtension
      */
     public function minify(string $path): string
     {
-        $filePath = $this->outputPath.'/'.$path;
+        $filePath = Util::joinFile($this->config->getOutputPath() , $path);
         $fileInfo = new \SplFileInfo($filePath);
         $fileExtension = $fileInfo->getExtension();
         // ie: minify('css/style.min.css')
         $pathMinified = \sprintf('%s.min.%s', substr($path, 0, -strlen(".$fileExtension")), $fileExtension);
-        $filePathMinified = $this->outputPath.'/'.$pathMinified;
+        $filePathMinified = Util::joinFile($this->config->getOutputPath(), $pathMinified);
         if (is_file($filePathMinified)) {
             return $pathMinified;
         }
@@ -345,14 +341,15 @@ class Extension extends SlugifyExtension
                     $minifier = new Minify\JS($filePath);
                     break;
                 default:
-                    throw new Exception(sprintf("File '%s' should be a '.css' or a '.js'!", $path));
+                    throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $path));
             }
+            Util::getFS()->mkdir(dirname($filePathMinified));
             $minifier->minify($filePathMinified);
 
             return $pathMinified;
         }
 
-        throw new Exception(sprintf("File '%s' doesn't exist!", $path));
+        throw new Exception(sprintf('%s() error: "%s" doesn\'t exist', __FUNCTION__, $path));
     }
 
     /**
@@ -384,7 +381,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Compiles style file to CSS.
+     * Compiles a SCSS file to CSS.
      *
      * @param string $path
      *
@@ -394,7 +391,7 @@ class Extension extends SlugifyExtension
      */
     public function toCss(string $path): string
     {
-        $filePath = $this->outputPath.'/'.$path;
+        $filePath = Util::joinFile($this->config->getOutputPath() , $path);
         $subPath = substr($path, 0, strrpos($path, '/'));
 
         if (is_file($filePath)) {
@@ -402,23 +399,23 @@ class Extension extends SlugifyExtension
             switch ($fileExtension) {
                 case 'scss':
                     $scssPhp = new Compiler();
-                    $scssPhp->setImportPaths($this->outputPath.'/'.$subPath);
+                    $scssPhp->setImportPaths(Util::joinFile($this->config->getOutputPath(), $subPath));
                     $targetPath = preg_replace('/scss/m', 'css', $path);
 
                     // compiles if target file doesn't exists
-                    if (!Util::getFS()->exists($this->outputPath.'/'.$targetPath)) {
+                    if (!Util::getFS()->exists(Util::joinFile($this->config->getOutputPath(), $targetPath))) {
                         $scss = file_get_contents($filePath);
                         $css = $scssPhp->compile($scss);
-                        Util::getFS()->dumpFile($this->outputPath.'/'.$targetPath, $css);
+                        Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $targetPath), $css);
                     }
 
                     return $targetPath;
                 default:
-                    throw new Exception(sprintf("File '%s' should be a '.scss'!", $path));
+                    throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $path));
             }
         }
 
-        throw new Exception(sprintf("File '%s' doesn't exist!", $path));
+        throw new Exception(sprintf('%s() error: "%s" doesn\'t exist', __FUNCTION__, $path));
     }
 
     /**
@@ -506,7 +503,7 @@ class Extension extends SlugifyExtension
      */
     public function hashFile(string $path): ?string
     {
-        if (is_file($filePath = $this->outputPath.'/'.$path)) {
+        if (is_file($filePath = Util::joinFile($this->config->getOutputPath(), $path))) {
             $path = $filePath;
         }
 
