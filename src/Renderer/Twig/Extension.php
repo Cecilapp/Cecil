@@ -323,7 +323,7 @@ class Extension extends SlugifyExtension
      */
     public function minify(string $path): string
     {
-        $filePath = Util::joinFile($this->config->getOutputPath() , $path);
+        $filePath = Util::joinFile($this->config->getOutputPath(), $path);
         $fileInfo = new \SplFileInfo($filePath);
         $fileExtension = $fileInfo->getExtension();
         // ie: minify('css/style.min.css')
@@ -391,7 +391,7 @@ class Extension extends SlugifyExtension
      */
     public function toCss(string $path): string
     {
-        $filePath = Util::joinFile($this->config->getOutputPath() , $path);
+        $filePath = Util::joinFile($this->config->getOutputPath(), $path);
         $subPath = substr($path, 0, strrpos($path, '/'));
 
         if (is_file($filePath)) {
