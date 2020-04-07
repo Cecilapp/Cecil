@@ -42,7 +42,7 @@
     "symfony/yaml": "4.4.7",
     "twig/extensions": "1.5.4",
     "twig/twig": "2.12.5",
-    "voku/html-min": "4.3.0",
+    "voku/html-min": "4.4.2",
     "yosymfony/resource-watcher": "2.0.1"
   },
   "require-dev": {
