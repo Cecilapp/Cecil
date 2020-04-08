@@ -43,11 +43,7 @@ class AssetsCopy extends StaticCopy
             ['COPY', 'Copying assets']
         );
 
-        // copying resized images
-        $this->copy(
-            Util::joinFile($this->config->getCachePath(), \Cecil\Assets\Image::CACHE_THUMBS_DIR),
-            \Cecil\Assets\Image::CACHE_THUMBS_PATH
-        );
+        $this->copy(Util::joinFile($this->config->getCachePath(), 'assets'), '');
 
         // deletes cache?
         if ((bool) $this->config->get('cache.enabled') === false) {
