@@ -21,7 +21,7 @@ class Config
 {
     /** @var Data Configuration is a Data object. */
     protected $data;
-    /** @var Config|array Configuration. */
+    /** @var array Configuration. */
     protected $siteConfig;
     /** @var string Source directory. */
     protected $sourceDir;
