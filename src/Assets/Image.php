@@ -34,8 +34,8 @@ class Image
     /** @var string */
     private $destination = null;
 
+    const CACHE_ASSETS_DIR = 'assets';
     const CACHE_THUMBS_PATH = 'images/thumbs';
-    const CACHE_THUMBS_DIR = 'resize/images/thumbs';
 
     public function __construct(Builder $builder)
     {
@@ -68,7 +68,11 @@ class Image
         $this->setSource();
 
         // images cache path
-        $this->cachePath = Util::joinFile($this->config->getCachePath(), self::CACHE_THUMBS_DIR);
+        $this->cachePath = Util::joinFile(
+            $this->config->getCachePath(),
+            self::CACHE_ASSETS_DIR,
+            self::CACHE_THUMBS_PATH
+        );
 
         // is size is already OK?
         list($width, $height) = getimagesize($this->source);
