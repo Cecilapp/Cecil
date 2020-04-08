@@ -22,49 +22,38 @@ class Config
     /** @var Data Configuration is a Data object. */
     protected $data;
     /** @var Config|array Configuration. */
-    protected $localConfig;
+    protected $siteConfig;
     /** @var string Source directory. */
     protected $sourceDir;
     /** @var string Destination directory. */
     protected $destinationDir;
 
     /**
-     * @param Config|array|null $config
+     * @param array|null $config
      */
-    public function __construct($config = null)
+    public function __construct(array $config = null)
     {
-        // default config
+        // load default configuration
         $defaultConfig = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
         if (Plateform::isPhar()) {
             $defaultConfig = Util::joinPath(Plateform::getPharPath(), 'config/default.php');
         }
         $this->data = new Data(include $defaultConfig);
-        // import local config
-        $this->localConfig = $config;
-        $this->import($this->localConfig);
+
+        // import site config
+        $this->siteConfig = $config;
+        $this->importSiteConfig();
     }
 
     /**
-     * Import configuration data into the current configuration.
-     *
-     * @param Config|array|null $config
-     *
-     * @return void
+     * Import site configuration.
      */
-    public function import($config): void
+    protected function importSiteConfig(): void
     {
-        if ($config instanceof self) {
-            $this->data->importData($config->getData());
-        } elseif (is_array($config)) {
-            $this->data->import($config);
-        }
-        // re-import local config
-        if ($config !== $this->localConfig) {
-            $this->import($this->localConfig);
-        }
+        $this->data->import($this->siteConfig);
 
         /**
-         * Apply environment variables.
+         * Overrides configuration with environment variables.
          */
         $data = $this->getData();
         $applyEnv = function ($array) use ($data) {
@@ -86,6 +75,21 @@ class Config
             }
         };
         $applyEnv($data->export());
+    }
+
+    /**
+     * Import (theme) configuration.
+     *
+     * @param array|null $config
+     *
+     * @return void
+     */
+    public function import(array $config): void
+    {
+        $this->data->import($config);
+
+        // re-import site config
+        $this->importSiteConfig();
     }
 
     /**
