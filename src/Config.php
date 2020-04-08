@@ -47,6 +47,8 @@ class Config
 
     /**
      * Import site configuration.
+     *
+     * @return void
      */
     protected function importSiteConfig(): void
     {
