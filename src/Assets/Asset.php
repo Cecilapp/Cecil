@@ -11,7 +11,6 @@
 namespace Cecil\Assets;
 
 use Cecil\Exception\Exception;
-use Cecil\Assets\AbstractAsset;
 use Cecil\Util;
 
 class Asset extends AbstractAsset
