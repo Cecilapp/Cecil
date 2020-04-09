@@ -545,10 +545,8 @@ class Extension extends SlugifyExtension
      *
      * @return string
      */
-    public function asset(string $path): string
+    public function asset(string $path): Asset
     {
-        $asset = (new Asset($this->builder))->load($path);
-
-        return $asset;
+        return (new Asset($this->builder))->getFile($path);
     }
 }

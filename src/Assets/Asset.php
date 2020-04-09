@@ -16,6 +16,7 @@ use Cecil\Util;
 class Asset extends AbstractAsset
 {
     protected $asset = [];
+    protected $fileLoaded = false;
 
     /**
      * Loads a file.
@@ -24,13 +25,14 @@ class Asset extends AbstractAsset
      *
      * @return self
      */
-    public function load(string $path): self
+    public function getFile(string $path): self
     {
         $filePath = Util::joinFile($this->config->getStaticPath(), $path);
 
         if (!Util::getFS()->exists($filePath)) {
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
+        $this->fileLoaded = true;
 
         $fileInfo = new \SplFileInfo($filePath);
 
@@ -47,6 +49,22 @@ class Asset extends AbstractAsset
     {
         return $this->asset['path'];
 
-        //return \sprintf('<link rel="stylesheet" href="%s">', $this->asset['path']);
+
+    }
+
+    public function getHtml(): string
+    {
+        if (!$this->fileLoaded) {
+            throw new Exception(\sprintf('%s() error: you must load a file first.', __FUNCTION__));
+        }
+
+        switch ($this->asset['ext']) {
+            case 'css':
+                return \sprintf('<link rel="stylesheet" href="%s">', $this->asset['path']);
+                break;
+            default:
+                return 'POUET';
+                break;
+        }
     }
 }
