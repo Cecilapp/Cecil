@@ -10,17 +10,14 @@
 
 namespace Cecil\Assets;
 
-use Cecil\Builder;
-use Cecil\Config;
 use Cecil\Exception\Exception;
+use Cecil\Assets\AbstractAsset;
 use Cecil\Util;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as ImageManager;
 
-class Image
+class Image extends AbstractAsset
 {
-    /** @var Config */
-    private $config;
     /** @var string */
     private $path;
     /** @var int */
@@ -34,13 +31,7 @@ class Image
     /** @var string */
     private $destination = null;
 
-    const CACHE_ASSETS_DIR = 'assets';
     const CACHE_THUMBS_PATH = 'images/thumbs';
-
-    public function __construct(Builder $builder)
-    {
-        $this->config = $builder->getConfig();
-    }
 
     /**
      * Resizes an image.
