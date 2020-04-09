@@ -48,8 +48,6 @@ class Asset extends AbstractAsset
     public function __toString(): string
     {
         return $this->asset['path'];
-
-
     }
 
     public function getHtml(): string
