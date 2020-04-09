@@ -23,7 +23,7 @@ abstract class AbstractAsset
     const CACHE_ASSETS_DIR = 'assets';
 
     /**
-     * @var Builder $builder
+     * @var Builder
      */
     public function __construct(Builder $builder)
     {

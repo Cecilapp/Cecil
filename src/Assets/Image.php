@@ -11,7 +11,6 @@
 namespace Cecil\Assets;
 
 use Cecil\Exception\Exception;
-use Cecil\Assets\AbstractAsset;
 use Cecil\Util;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as ImageManager;
