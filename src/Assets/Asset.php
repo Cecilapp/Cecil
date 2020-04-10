@@ -21,7 +21,7 @@ class Asset extends AbstractAsset
     /**
      * Loads a file.
      *
-     * @param string $path
+     * @param string     $path
      * @param array|null $options
      *
      * @return self
@@ -96,7 +96,7 @@ class Asset extends AbstractAsset
                 return \sprintf('<link rel="stylesheet" href="%s">', $this->asset['path']);
                 break;
             case 'js':
-                return \sprintf('<script src="%s"></script>',  $this->asset['path']);
+                return \sprintf('<script src="%s"></script>', $this->asset['path']);
                 break;
             default:
                 throw new Exception(\sprintf('%s() error: available with CSS et JS files only.', __FUNCTION__));
