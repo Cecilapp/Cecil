@@ -86,40 +86,70 @@ abstract class AbstractPostProcess extends AbstractStep
         foreach ($files as $file) {
             $sizeBefore = $file->getSize();
 
-            $hash = hash_file('md5', $file->getPathname());
             $processedFile = Util::joinFile(
                 $this->config->getCachePath(),
                 self::CACHE_FILES,
                 $file->getRelativePathname()
             );
-            $hashFile = Util::joinFile($this->config->getCachePath(), self::CACHE_HASH, $hash);
+            $hash = hash_file('md5', $file->getPathname());
+            $hashFile = Util::joinFile(
+                $this->config->getCachePath(),
+                self::CACHE_HASH,
+                $this->preparesHashFile($file->getRelativePathname()).$hash
+            );
 
             if (!Util::getFS()->exists($processedFile)
-            || hash_file('md5', $file->getPathname()) != $hash) {
+            || !Util::getFS()->exists($hashFile)
+            ) {
                 $count++;
-                $this->processFile($file);
 
+                $this->processFile($file);
+                $postprocessed++;
+                $sizeAfter = $file->getSize();
+
+                $this->removesHashFile($file->getRelativePathname());
                 Util::getFS()->copy($file->getPathname(), $processedFile, true);
                 Util::getFS()->mkdir(Util::joinFile($this->config->getCachePath(), self::CACHE_HASH));
                 Util::getFS()->touch($hashFile);
 
-                $sizeAfter = $file->getSize();
-
-                $message = sprintf(
-                    '%s: %s Ko -> %s Ko',
-                    $file->getRelativePathname(),
-                    ceil($sizeBefore / 1000),
-                    ceil($sizeAfter / 1000)
-                );
-                call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message, $count, $max]);
+                $message = $file->getRelativePathname();
                 if ($sizeAfter < $sizeBefore) {
-                    $postprocessed++;
+                    $message = sprintf(
+                        '%s (%s Ko -> %s Ko)',
+                        $file->getRelativePathname(),
+                        ceil($sizeBefore / 1000),
+                        ceil($sizeAfter / 1000)
+                    );
                 }
+                call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message, $count, $max]);
             }
         }
         if ($postprocessed == 0) {
             $message = 'Nothing to do';
             call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message]);
+        }
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    private function preparesHashFile(string $path)
+    {
+        return str_replace(DIRECTORY_SEPARATOR, '-', $path).'_';
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    private function removesHashFile(string $path)
+    {
+        $pattern = Util::joinFile($this->config->getCachePath(), self::CACHE_HASH, $this->preparesHashFile($path)).'*';
+        foreach (glob($pattern) as $filename) {
+            Util::getFS()->remove($filename);
         }
     }
 

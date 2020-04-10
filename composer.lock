@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d18925fae15e54fefdfba478630989c1",
+    "content-hash": "ededcc8aec74dbc202eb85c5fc8fb942",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -2077,16 +2077,16 @@
         },
         {
             "name": "voku/html-min",
-            "version": "4.4.2",
+            "version": "4.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/HtmlMin.git",
-                "reference": "030b2bf8d208eb970ffac0cbad035d62fcda95ab"
+                "reference": "5f7938bb739a64582bcaf413b23b6a2f16defee9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/030b2bf8d208eb970ffac0cbad035d62fcda95ab",
-                "reference": "030b2bf8d208eb970ffac0cbad035d62fcda95ab",
+                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/5f7938bb739a64582bcaf413b23b6a2f16defee9",
+                "reference": "5f7938bb739a64582bcaf413b23b6a2f16defee9",
                 "shasum": ""
             },
             "require": {
@@ -2136,7 +2136,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-04-05T23:08:12+00:00"
+            "time": "2020-04-06T21:26:16+00:00"
         },
         {
             "name": "voku/simple_html_dom",
@@ -4044,16 +4044,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.3.0",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc"
+                "reference": "bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/9a9981c347c5c49d6dfe5cf826bb882b824080dc",
-                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120",
+                "reference": "bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120",
                 "shasum": ""
             },
             "require": {
@@ -4092,7 +4092,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-11-08T13:50:10+00:00"
+            "time": "2020-04-10T16:34:50+00:00"
         },
         {
             "name": "ocramius/package-versions",
