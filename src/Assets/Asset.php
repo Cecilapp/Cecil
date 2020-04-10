@@ -28,7 +28,7 @@ class Asset extends AbstractAsset
      */
     public function getFile(string $path, array $options = null): self
     {
-        if (false === $filePath = $this->isFile($path)) {
+        if (false === $filePath = $this->getStaticFile($path)) {
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
@@ -64,21 +64,21 @@ class Asset extends AbstractAsset
     }
 
     /**
-     * Checks if a (static) file exists.
+     * Get a static file (in site or theme(s))
+     * if exists or false.
      *
      * @param string $path
      *
-     * @return string
+     * @return string|false
      */
-    public function isFile(string $path): string
+    private function getStaticFile(string $path)
     {
         $filePath = Util::joinFile($this->config->getStaticPath(), $path);
-
         if (Util::getFS()->exists($filePath)) {
             return $filePath;
         }
 
-        // checks each theme
+        // checks in each theme
         foreach ($this->config->getTheme() as $theme) {
             $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
             if (Util::getFS()->exists($filePath)) {
