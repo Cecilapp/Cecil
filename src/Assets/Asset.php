@@ -94,13 +94,10 @@ class Asset extends AbstractAsset
         switch ($this->asset['ext']) {
             case 'css':
                 return \sprintf('<link rel="stylesheet" href="%s">', $this->asset['path']);
-                break;
             case 'js':
                 return \sprintf('<script src="%s"></script>', $this->asset['path']);
-                break;
             default:
                 throw new Exception(\sprintf('%s() error: available with CSS et JS files only.', __FUNCTION__));
-                break;
         }
     }
 
