@@ -47,12 +47,13 @@ jobs:
       after_success:
         - travis_retry composer test-coverage-upload
         - bash <(curl -s https://codecov.io/bash)
+    # deploy cecil.phar
     - stage: deploy
       php: 7.2
       if: tag IS present
       script: composer box
       deploy:
-        # GitHub release
+        # to GitHub release
         - provider: releases
           edge: true
           token: $GH_TOKEN
@@ -61,13 +62,14 @@ jobs:
           on:
             branch: master
             tags: true
-        # dist files
+        # to Cecil's website
         - provider: script
           edge: true
           script: bash scripts/deploy-dist.sh
           on:
             branch: master
             tags: true
+    # deploy (Markdown) documentation
     - stage: deploy docs
       php: 7.2
       if: (NOT type IN (pull_request)) AND (branch = master)
