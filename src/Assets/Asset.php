@@ -28,12 +28,10 @@ class Asset extends AbstractAsset
      */
     public function getFile(string $path, array $options = null): self
     {
-        $filePath = Util::joinFile($this->config->getStaticPath(), $path);
-
-        // checks path
-        if (!Util::getFS()->exists($filePath)) {
+        if (false === $filePath = $this->isFile($path)) {
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
+
         $this->fileLoaded = true;
 
         $baseurl = (string) $this->config->get('baseurl');
@@ -66,6 +64,32 @@ class Asset extends AbstractAsset
     }
 
     /**
+     * Checks if a (static) file exists.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function isFile(string $path): string
+    {
+        $filePath = Util::joinFile($this->config->getStaticPath(), $path);
+
+        if (Util::getFS()->exists($filePath)) {
+            return $filePath;
+        }
+
+        // checks each theme
+        foreach ($this->config->getTheme() as $theme) {
+            $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
+            if (Util::getFS()->exists($filePath)) {
+                return $filePath;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
@@ -74,6 +98,8 @@ class Asset extends AbstractAsset
     }
 
     /**
+     * Returns as HTML tag.
+     *
      * @return string
      */
     public function getHtml(): string
@@ -102,6 +128,8 @@ class Asset extends AbstractAsset
     }
 
     /**
+     * Returns file's content.
+     *
      * @return string
      */
     public function getInline(): string

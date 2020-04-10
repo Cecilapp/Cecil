@@ -2,15 +2,15 @@
 
 {% block head_css %}
     {{ parent() }}
-    {{ asset('css/_style.css', {canonical: true}).html }}
-    <style>{{ asset('css/_style.css').inline }}</style>
+    {{ asset('css/style.css', {canonical: true}).html }}
+    <style>{{ asset('css/style.css').inline }}</style>
 {% endblock head_css %}
 
 {% block content %}
 
-<p>{{ asset('css/_style.css') }}</p>
+<p>{{ asset('css/style.css') }}</p>
 
-<p>{{ asset('css/_style.css')|url({canonical:true}) }}</p>
+<p>{{ asset('css/style.css')|url({canonical:true}) }}</p>
 
 <p>{{ asset('images/cecil-logo.png', {attributs:{title:'title',alt:'alternative'}}).html }}</p>
 
