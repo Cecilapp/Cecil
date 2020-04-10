@@ -541,7 +541,7 @@ class Extension extends SlugifyExtension
     /**
      * Manages assets (css, js, images, etc.).
      *
-     * @param string $path File path (relative from static/ dir).
+     * @param string     $path    File path (relative from static/ dir).
      * @param array|null $options
      *
      * @return string
