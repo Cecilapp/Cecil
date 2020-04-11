@@ -156,11 +156,34 @@ class Config
             $index = $this->getLanguageIndex($language);
             $keyLang = sprintf('languages.%s.config.%s', $index, $key);
             if ($this->data->has($keyLang)) {
-                return $this->data->get($keyLang);
+                return $this->castGetValue($this->data->get($keyLang));
             }
         }
 
-        return $this->data->get($key);
+        return $this->castGetValue($this->data->get($key));
+    }
+
+    /**
+     * Cast value returned by get().
+     *
+     * @param mixed
+     *
+     * @return mixed
+     */
+    private function castGetValue($value)
+    {
+        if (is_string($value)) {
+            switch ($value) {
+                case 'true':
+                    return true;
+                case 'false':
+                    return false;
+                default:
+                    return $value;
+            }
+        }
+
+        return $value;
     }
 
     /**
