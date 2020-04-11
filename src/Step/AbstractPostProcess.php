@@ -111,29 +111,6 @@ abstract class AbstractPostProcess extends AbstractStep
     }
 
     /**
-     * @param string $path
-     *
-     * @return string
-     */
-    private function preparesHashFile(string $path): string
-    {
-        return str_replace(DIRECTORY_SEPARATOR, '-', $path).'_';
-    }
-
-    /**
-     * @param string $path
-     *
-     * @return void
-     */
-    private function removesHashFile(string $path): void
-    {
-        $pattern = Util::joinFile($this->config->getCachePath(), self::CACHE_HASH, $this->preparesHashFile($path)).'*';
-        foreach (glob($pattern) as $filename) {
-            Util::getFS()->remove($filename);
-        }
-    }
-
-    /**
      * Set file processor object.
      *
      * @return void
