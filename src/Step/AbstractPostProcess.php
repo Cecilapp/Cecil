@@ -25,9 +25,6 @@ abstract class AbstractPostProcess extends AbstractStep
     /** @var mixed File processor */
     protected $processor;
 
-    const CACHE_FILES = 'postprocess/files';
-    const CACHE_HASH = 'postprocess/hash';
-
     /**
      * {@inheritdoc}
      */
