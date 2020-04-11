@@ -37,6 +37,14 @@ class Cache
 
         $this->scope = $scope;
         $this->rootPath = $rootPath;
+
+        if ($this->config->get('cache.enabled') === false) {
+            $cacheDir = Util::joinFile($this->config->getCachePath(), $this->scope);
+            if (!empty($cacheDir) && is_dir($cacheDir)) {
+                Util::getFS()->remove($cacheDir);
+            }
+            return;
+        }
     }
 
     /**
@@ -48,6 +56,10 @@ class Cache
      */
     public function isExists(string $file): bool
     {
+        if ($this->config->get('cache.enabled') === false) {
+            return false;
+        }
+
         if (!Util::getFS()->exists($this->getCachePathname($file)) || !Util::getFS()->exists($this->getHashFilePathname($file))) {
             return false;
         }
@@ -77,6 +89,10 @@ class Cache
      */
     public function save(string $file, string $hash = null): void
     {
+        if ($this->config->get('cache.enabled') === false) {
+            return;
+        }
+
         $this->removesOldHashFiles($this->getRelativePathname($file));
         // copy file
         Util::getFS()->copy($file, $this->getCachePathname($file), true);
