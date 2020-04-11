@@ -43,6 +43,7 @@ class Cache
             if (!empty($cacheDir) && is_dir($cacheDir)) {
                 Util::getFS()->remove($cacheDir);
             }
+
             return;
         }
     }
