@@ -50,7 +50,7 @@ class Asset extends AbstractAsset
             $base = '';
         }
 
-        // prepares options
+        // prepares properties
         $fileInfo = new \SplFileInfo($filePath);
         $this->asset['path'] = $base.'/'.ltrim($path, '/');
         $this->asset['ext'] = $fileInfo->getExtension();
