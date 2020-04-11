@@ -104,7 +104,7 @@ abstract class AbstractPostProcess extends AbstractStep
             }
             call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message, $count, $max]);
         }
-        if ($postprocessed == 0) {
+        if ($postprocessed < 1) {
             $message = '> Nothing to do';
             call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message]);
         }
