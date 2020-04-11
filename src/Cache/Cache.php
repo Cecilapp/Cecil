@@ -27,8 +27,8 @@ class Cache
 
     /**
      * @param Builder $builder
-     * @param string $scope
-     * @param string $rootPath
+     * @param string  $scope
+     * @param string  $rootPath
      */
     public function __construct(Builder $builder, string $scope, string $rootPath)
     {
@@ -70,7 +70,7 @@ class Cache
     /**
      * Copying cached file and creates hash file.
      *
-     * @param string $file
+     * @param string      $file
      * @param string|null $hash
      *
      * @return void
@@ -95,6 +95,7 @@ class Cache
     private function getRelativePathname(string $file): string
     {
         $this->relativePath = trim(Util::getFS()->makePathRelative(dirname($file), $this->rootPath), './');
+
         return Util::joinFile($this->relativePath, basename($file));
     }
 
@@ -117,7 +118,7 @@ class Cache
     /**
      * Creates file hash.
      *
-     * @param string $file
+     * @param string      $file
      * @param string|null $hash
      *
      * @return string
@@ -127,6 +128,7 @@ class Cache
         if ($hash === null) {
             $hash = $this->getHash($file);
         }
+
         return Util::joinFile(
             $this->config->getCachePath(),
             Util::joinFile($this->scope, 'hash'),
@@ -145,6 +147,7 @@ class Cache
     {
         return str_replace(DIRECTORY_SEPARATOR, '-', $path).'_';
     }
+
     /**
      * Removes previous hash files.
      *
