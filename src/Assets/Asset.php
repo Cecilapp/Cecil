@@ -10,6 +10,7 @@
 
 namespace Cecil\Assets;
 
+use Cecil\Builder;
 use Cecil\Exception\Exception;
 use Cecil\Util;
 
@@ -21,18 +22,18 @@ class Asset extends AbstractAsset
     /**
      * Loads a file.
      *
+     * @param Builder
      * @param string     $path
      * @param array|null $options
-     *
-     * @return self
      */
-    public function getFile(string $path, array $options = null): self
+    public function __construct(Builder $builder, string $path, array $options = null)
     {
-        if (false === $filePath = $this->getStaticFile($path)) {
+        parent::__construct($builder);
+
+        if (false === $filePath = $this->getFile($path)) {
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
-
-        $this->fileLoaded = true;
+        $fileInfo = new \SplFileInfo($filePath);
 
         $baseurl = (string) $this->config->get('baseurl');
         $base = '';
@@ -41,8 +42,6 @@ class Asset extends AbstractAsset
         $canonical = null;
         $attributs = null;
         extract(is_array($options) ? $options : []);
-
-        // set baseurl
         if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
             $base = rtrim($baseurl, '/');
         }
@@ -51,7 +50,6 @@ class Asset extends AbstractAsset
         }
 
         // prepares properties
-        $fileInfo = new \SplFileInfo($filePath);
         $this->asset['path'] = $base.'/'.ltrim($path, '/');
         $this->asset['ext'] = $fileInfo->getExtension();
         $this->asset['type'] = explode('/', mime_content_type($fileInfo->getPathname()))[0];
@@ -59,19 +57,16 @@ class Asset extends AbstractAsset
             $this->asset['content'] = file_get_contents($fileInfo->getPathname());
         }
         $this->asset['attributs'] = $attributs;
-
-        return $this;
     }
 
     /**
-     * Get a static file (in site or theme(s))
-     * if exists or false.
+     * Get a static file (in site or theme(s)) if exists or false.
      *
      * @param string $path
      *
      * @return string|false
      */
-    private function getStaticFile(string $path)
+    private function getFile(string $path)
     {
         $filePath = Util::joinFile($this->config->getStaticPath(), $path);
         if (Util::getFS()->exists($filePath)) {
@@ -104,10 +99,6 @@ class Asset extends AbstractAsset
      */
     public function getHtml(): string
     {
-        if (!$this->fileLoaded) {
-            throw new Exception(\sprintf('%s() error: you must load a file first.', __FUNCTION__));
-        }
-
         if ($this->asset['type'] == 'image') {
             return \sprintf(
                 '<img src="%s" title="%s" alt="%s">',
@@ -122,9 +113,9 @@ class Asset extends AbstractAsset
                 return \sprintf('<link rel="stylesheet" href="%s">', $this->asset['path']);
             case 'js':
                 return \sprintf('<script src="%s"></script>', $this->asset['path']);
-            default:
-                throw new Exception(\sprintf('%s() error: available with CSS et JS files only.', __FUNCTION__));
         }
+
+        throw new Exception(\sprintf('%s() error: available with CSS, JS and images files only.', __FUNCTION__));
     }
 
     /**
@@ -134,9 +125,6 @@ class Asset extends AbstractAsset
      */
     public function getInline(): string
     {
-        if (!$this->fileLoaded) {
-            throw new Exception(\sprintf('%s() error: you must load a file first.', __FUNCTION__));
-        }
         if (!array_key_exists('content', $this->asset)) {
             throw new Exception(\sprintf('%s() error: available with CSS et JS files only.', __FUNCTION__));
         }

@@ -539,15 +539,15 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Manages assets (css, js, images, etc.).
+     * Manages assets (css, js and images).
      *
      * @param string     $path    File path (relative from static/ dir).
      * @param array|null $options
      *
-     * @return string
+     * @return Asset
      */
     public function asset(string $path, array $options = null): Asset
     {
-        return (new Asset($this->builder))->getFile($path, $options);
+        return new Asset($this->builder, $path, $options);
     }
 }
