@@ -71,12 +71,35 @@ class Config
                 }
                 $sPath = implode('_', $path);
                 if ($getEnv = getenv('CECIL_'.strtoupper($sPath))) {
-                    $data->set(str_replace('_', '.', strtolower($sPath)), $getEnv);
+                    $data->set(str_replace('_', '.', strtolower($sPath)), $this->castSetValue($getEnv));
                 }
                 $iterator->next();
             }
         };
         $applyEnv($data->export());
+    }
+
+    /**
+     * Casts boolean value given to set() as string.
+     *
+     * @param mixed
+     *
+     * @return mixed
+     */
+    private function castSetValue($value)
+    {
+        if (is_string($value)) {
+            switch ($value) {
+                case 'true':
+                    return true;
+                case 'false':
+                    return false;
+                default:
+                    return $value;
+            }
+        }
+
+        return $value;
     }
 
     /**
@@ -156,34 +179,11 @@ class Config
             $index = $this->getLanguageIndex($language);
             $keyLang = sprintf('languages.%s.config.%s', $index, $key);
             if ($this->data->has($keyLang)) {
-                return $this->castGetValue($this->data->get($keyLang));
+                return $this->data->get($keyLang);
             }
         }
 
-        return $this->castGetValue($this->data->get($key));
-    }
-
-    /**
-     * Cast value returned by get().
-     *
-     * @param mixed
-     *
-     * @return mixed
-     */
-    private function castGetValue($value)
-    {
-        if (is_string($value)) {
-            switch ($value) {
-                case 'true':
-                    return true;
-                case 'false':
-                    return false;
-                default:
-                    return $value;
-            }
-        }
-
-        return $value;
+        return $this->data->get($key);
     }
 
     /**
