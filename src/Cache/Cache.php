@@ -48,7 +48,7 @@ class Cache
      */
     public function isExists(string $file): bool
     {
-        if (!Util::getFS()->exists($this->getCachePathname($file)) || !Util::getFS()->exists($this->getHashFile($file))) {
+        if (!Util::getFS()->exists($this->getCachePathname($file)) || !Util::getFS()->exists($this->getHashFilePathname($file))) {
             return false;
         }
 
@@ -77,12 +77,12 @@ class Cache
      */
     public function save(string $file, string $hash = null): void
     {
-        $this->removesHashFile($this->getRelativePathname($file));
-        // file
+        $this->removesOldHashFiles($this->getRelativePathname($file));
+        // copy file
         Util::getFS()->copy($file, $this->getCachePathname($file), true);
-        // hash
+        // creates hash file
         Util::getFS()->mkdir(Util::joinFile($this->config->getCachePath(), Util::joinFile($this->scope, 'hash')));
-        Util::getFS()->touch($this->getHashFile($file, $hash));
+        Util::getFS()->touch($this->getHashFilePathname($file, $hash));
     }
 
     /**
@@ -122,7 +122,7 @@ class Cache
      *
      * @return string
      */
-    private function getHashFile(string $file, string $hash = null): string
+    private function getHashFilePathname(string $file, string $hash = null): string
     {
         if ($hash === null) {
             $hash = $this->getHash($file);
@@ -152,7 +152,7 @@ class Cache
      *
      * @return void
      */
-    private function removesHashFile(string $path): void
+    private function removesOldHashFiles(string $path): void
     {
         $pattern = Util::joinFile($this->config->getCachePath(), Util::joinFile($this->scope, 'hash'), $this->preparesHashFile($path)).'*';
         foreach (glob($pattern) as $filename) {
