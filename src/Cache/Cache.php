@@ -61,7 +61,9 @@ class Cache
             return false;
         }
 
-        if (!Util::getFS()->exists($this->getCachePathname($file)) || !Util::getFS()->exists($this->getHashFilePathname($file))) {
+        if (!Util::getFS()->exists($this->getCachePathname($file))
+        || !Util::getFS()->exists($this->getHashFilePathname($file)))
+        {
             return false;
         }
 
@@ -174,7 +176,11 @@ class Cache
      */
     private function removesOldHashFiles(string $path): void
     {
-        $pattern = Util::joinFile($this->config->getCachePath(), Util::joinFile($this->scope, 'hash'), $this->preparesHashFile($path)).'*';
+        $pattern = Util::joinFile(
+            $this->config->getCachePath(),
+            Util::joinFile($this->scope, 'hash'),
+            $this->preparesHashFile($path)
+        ).'*';
         foreach (glob($pattern) as $filename) {
             Util::getFS()->remove($filename);
         }
