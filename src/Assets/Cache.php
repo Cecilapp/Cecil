@@ -62,8 +62,7 @@ class Cache
         }
 
         if (!Util::getFS()->exists($this->getCachePathname($file))
-        || !Util::getFS()->exists($this->getHashFilePathname($file)))
-        {
+        || !Util::getFS()->exists($this->getHashFilePathname($file))) {
             return false;
         }
 
