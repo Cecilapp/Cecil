@@ -60,31 +60,6 @@ class Asset extends AbstractAsset
     }
 
     /**
-     * Get a static file (in site or theme(s)) if exists or false.
-     *
-     * @param string $path
-     *
-     * @return string|false
-     */
-    private function getFile(string $path)
-    {
-        $filePath = Util::joinFile($this->config->getStaticPath(), $path);
-        if (Util::getFS()->exists($filePath)) {
-            return $filePath;
-        }
-
-        // checks in each theme
-        foreach ($this->config->getTheme() as $theme) {
-            $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
-            if (Util::getFS()->exists($filePath)) {
-                return $filePath;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * @return string
      */
     public function __toString(): string
@@ -115,7 +90,7 @@ class Asset extends AbstractAsset
                 return \sprintf('<script src="%s"></script>', $this->asset['path']);
         }
 
-        throw new Exception(\sprintf('%s() error: available with CSS, JS and images files only.', __FUNCTION__));
+        throw new Exception(\sprintf('%s is available only with CSS, JS and images files.', '.html'));
     }
 
     /**
@@ -126,9 +101,34 @@ class Asset extends AbstractAsset
     public function getInline(): string
     {
         if (!array_key_exists('content', $this->asset)) {
-            throw new Exception(\sprintf('%s() error: available with CSS et JS files only.', __FUNCTION__));
+            throw new Exception(\sprintf('%s is available only with CSS et JS files.', '.inline'));
         }
 
         return $this->asset['content'];
+    }
+
+    /**
+     * Get a static file (in site or theme(s)) if exists or false.
+     *
+     * @param string $path
+     *
+     * @return string|false
+     */
+    private function getFile(string $path)
+    {
+        $filePath = Util::joinFile($this->config->getStaticPath(), $path);
+        if (Util::getFS()->exists($filePath)) {
+            return $filePath;
+        }
+
+        // checks in each theme
+        foreach ($this->config->getTheme() as $theme) {
+            $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
+            if (Util::getFS()->exists($filePath)) {
+                return $filePath;
+            }
+        }
+
+        return false;
     }
 }
