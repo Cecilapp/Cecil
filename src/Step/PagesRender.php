@@ -68,7 +68,6 @@ class PagesRender extends AbstractStep
         /** @var Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-            $formats = ['html'];
             $rendered = [];
 
             // i18n
@@ -135,13 +134,6 @@ class PagesRender extends AbstractStep
                         $layout['scope'],
                         $layout['file'],
                         $e->getLine(),
-                        $page->getId()
-                    ));
-                } catch (\Exception $e) {
-                    throw new Exception(sprintf(
-                        "Error in template \"%s:%s\" for page \"%s\"",
-                        $layout['scope'],
-                        $layout['file'],
                         $page->getId()
                     ));
                 }
