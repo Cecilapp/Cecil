@@ -70,6 +70,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('sortByTitle', [$this, 'sortByTitle']),
             new \Twig\TwigFilter('sortByWeight', [$this, 'sortByWeight']),
             new \Twig\TwigFilter('sortByDate', [$this, 'sortByDate']),
+            new \Twig\TwigFilter('minify', [$this, 'minify']),
             new \Twig\TwigFilter('urlize', [$this, 'slugifyFilter']),
             new \Twig\TwigFilter('minifyCSS', [$this, 'minifyCss']),
             new \Twig\TwigFilter('minifyJS', [$this, 'minifyJs']),
