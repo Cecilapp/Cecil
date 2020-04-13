@@ -146,7 +146,7 @@ class Util
     public static function joinFile(string ...$path): string
     {
         array_walk($path, function (&$value, $key) use (&$path) {
-            $value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
+            $value = str_replace(['\\', '/'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $value);
             $value = rtrim($value, DIRECTORY_SEPARATOR);
             if (empty($value)) {
                 unset($path[$key]);
