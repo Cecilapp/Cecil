@@ -65,7 +65,6 @@ class Asset
             $this->properties['content'] = file_get_contents($fileInfo->getPathname());
         }
         $this->properties['attributs'] = $attributs;
-
     }
 
     /**
