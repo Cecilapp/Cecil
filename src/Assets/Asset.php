@@ -14,10 +14,16 @@ use Cecil\Builder;
 use Cecil\Exception\Exception;
 use Cecil\Util;
 
-class Asset extends AbstractAsset
+class Asset
 {
-    protected $asset = [];
-    protected $fileLoaded = false;
+    /** @var Builder */
+    protected $builder;
+    /** @var Config */
+    protected $config;
+    /** @var array */
+    protected $properties = [];
+
+    const CACHE_ASSETS_DIR = 'assets';
 
     /**
      * Loads a file.
@@ -28,7 +34,8 @@ class Asset extends AbstractAsset
      */
     public function __construct(Builder $builder, string $path, array $options = null)
     {
-        parent::__construct($builder);
+        $this->builder = $builder;
+        $this->config = $builder->getConfig();
 
         if (false === $filePath = $this->getFile($path)) {
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
@@ -41,22 +48,24 @@ class Asset extends AbstractAsset
         // handles options
         $canonical = null;
         $attributs = null;
-        extract(is_array($options) ? $options : []);
+        extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
+
+        // prepares properties
+        $this->properties['path'] = '/'.ltrim($path, '/');
         if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
             $base = rtrim($baseurl, '/');
         }
         if ($canonical === false) {
             $base = '';
         }
-
-        // prepares properties
-        $this->asset['path'] = $base.'/'.ltrim($path, '/');
-        $this->asset['ext'] = $fileInfo->getExtension();
-        $this->asset['type'] = explode('/', mime_content_type($fileInfo->getPathname()))[0];
-        if ($this->asset['type'] == 'text') {
-            $this->asset['content'] = file_get_contents($fileInfo->getPathname());
+        $this->properties['url'] = $base.'/'.ltrim($path, '/');
+        $this->properties['ext'] = $fileInfo->getExtension();
+        $this->properties['type'] = explode('/', mime_content_type($fileInfo->getPathname()))[0];
+        if ($this->properties['type'] == 'text') {
+            $this->properties['content'] = file_get_contents($fileInfo->getPathname());
         }
-        $this->asset['attributs'] = $attributs;
+        $this->properties['attributs'] = $attributs;
+
     }
 
     /**
@@ -64,7 +73,7 @@ class Asset extends AbstractAsset
      */
     public function __toString(): string
     {
-        return $this->asset['path'];
+        return $this->properties['path'];
     }
 
     /**
@@ -74,20 +83,20 @@ class Asset extends AbstractAsset
      */
     public function getHtml(): string
     {
-        if ($this->asset['type'] == 'image') {
+        if ($this->properties['type'] == 'image') {
             return \sprintf(
                 '<img src="%s" title="%s" alt="%s">',
-                $this->asset['path'],
-                $this->asset['attributs']['title'],
-                $this->asset['attributs']['alt']
+                $this->properties['path'],
+                $this->properties['attributs']['title'],
+                $this->properties['attributs']['alt']
             );
         }
 
-        switch ($this->asset['ext']) {
+        switch ($this->properties['ext']) {
             case 'css':
-                return \sprintf('<link rel="stylesheet" href="%s">', $this->asset['path']);
+                return \sprintf('<link rel="stylesheet" href="%s">', $this->properties['path']);
             case 'js':
-                return \sprintf('<script src="%s"></script>', $this->asset['path']);
+                return \sprintf('<script src="%s"></script>', $this->properties['path']);
         }
 
         throw new Exception(\sprintf('%s is available only with CSS, JS and images files.', '.html'));
@@ -100,11 +109,11 @@ class Asset extends AbstractAsset
      */
     public function getInline(): string
     {
-        if (!array_key_exists('content', $this->asset)) {
+        if (!array_key_exists('content', $this->properties)) {
             throw new Exception(\sprintf('%s is available only with CSS et JS files.', '.inline'));
         }
 
-        return $this->asset['content'];
+        return $this->properties['content'];
     }
 
     /**
