@@ -84,6 +84,7 @@ abstract class AbstractPostProcess extends AbstractStep
 
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
+            $count++;
             $sizeBefore = $file->getSize();
 
             $processedFile = Util::joinFile(
@@ -101,8 +102,6 @@ abstract class AbstractPostProcess extends AbstractStep
             if (!Util::getFS()->exists($processedFile)
             || !Util::getFS()->exists($hashFile)
             ) {
-                $count++;
-
                 $this->processFile($file);
                 $postprocessed++;
                 $sizeAfter = $file->getSize();
