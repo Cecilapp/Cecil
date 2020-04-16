@@ -327,6 +327,10 @@ class Config
      */
     public function getCachePath(): string
     {
+        if (empty((string) $this->get('cache.dir'))) {
+            throw new Exception(\sprintf('The cache directory ("%s") is not defined in configuration.', 'cache.dir'));
+        }
+
         if ($this->isCacheDirIsAbsolute()) {
             $cacheDir = Util::joinFile((string) $this->get('cache.dir'));
             $cacheDir = Util::joinFile($cacheDir, 'cecil');
@@ -400,9 +404,8 @@ class Config
             foreach ($themes as $theme) {
                 if (!Util::getFS()->exists($this->getThemeDirPath($theme, 'layouts'))) {
                     throw new Exception(sprintf(
-                        'Theme directory "%s/%s/layouts" not found!',
-                        $this->getThemesPath(),
-                        $theme
+                        'Theme directory "%s" not found!',
+                        Util::joinFile($this->getThemesPath(), $theme, 'layouts')
                     ));
                 }
             }
