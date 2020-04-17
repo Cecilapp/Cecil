@@ -43,6 +43,7 @@ class ShowContent extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $count = 0;
         $contentDir = (string) $this->getBuilder($output)->getConfig()->get('content.dir');
         $dataDir = (string) $this->getBuilder($output)->getConfig()->get('data.dir');
 
@@ -61,13 +62,16 @@ class ShowContent extends Command
 
         try {
             // pages content
-            $output->writeln(sprintf('<info>%s/</info>', $contentDir));
-            $pages = $this->getFilesTree($output, $contentDir);
-            if (!Util\Plateform::isWindows()) {
-                $unicodeTreePrefix($pages);
-            }
-            foreach ($pages as $page) {
-                $output->writeln($page);
+            if (is_dir(Util::joinFile($this->getPath(), $contentDir))) {
+                $output->writeln(sprintf('<info>%s/</info>', $contentDir));
+                $pages = $this->getFilesTree($output, $contentDir);
+                if (!Util\Plateform::isWindows()) {
+                    $unicodeTreePrefix($pages);
+                }
+                foreach ($pages as $page) {
+                    $output->writeln($page);
+                    $count++;
+                }
             }
             // data content
             if (is_dir(Util::joinFile($this->getPath(), $dataDir))) {
@@ -78,10 +82,15 @@ class ShowContent extends Command
                 }
                 foreach ($datas as $data) {
                     $output->writeln($data);
+                    $count++;
                 }
             }
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
+        }
+
+        if ($count < 1) {
+            $output->writeln(sprintf('Nothing in "%s" nor "%s".', $contentDir, $dataDir));
         }
 
         return 0;

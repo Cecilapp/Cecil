@@ -42,6 +42,22 @@ class Command extends BaseCommand
     /**
      * {@inheritdoc}
      */
+    public function run(InputInterface $input, $output)
+    {
+        try {
+            parent::run($input, $output);
+        } catch (\Exception $e) {
+            // custom error message
+            $message[] = sprintf('<error></error>');
+            $message[] = sprintf('<error>  %s</error>', $e->getMessage());
+            $message[] = sprintf('<error></error>');
+            $output->writeln($message, OutputInterface::VERBOSITY_QUIET);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->fs = new Filesystem();
