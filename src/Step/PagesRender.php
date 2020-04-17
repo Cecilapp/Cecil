@@ -129,12 +129,12 @@ class PagesRender extends AbstractStep
                     $rendered[$format]['template']['file'] = $layout['file'];
                 } catch (\Twig\Error\Error $e) {
                     throw new Exception(sprintf(
-                        "%s\nChecks template \"%s:%s\" line %s, used by page \"%s\".",
-                        $e->getMessage(),
+                        'Error in template "%s:%s" line %s, used by page "%s": %s',
                         $layout['scope'],
                         $layout['file'],
                         $e->getLine(),
-                        $page->getId()
+                        $page->getId(),
+                        $e->getMessage()
                     ));
                 }
             }
