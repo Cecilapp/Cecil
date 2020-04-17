@@ -130,7 +130,7 @@ class PagesRender extends AbstractStep
                     $rendered[$format]['template']['file'] = $layout['file'];
                 } catch (\Exception $e) {
                     throw new Exception(sprintf(
-                        "Error in template \"%s:%s\" for page \"%s\":\n%s",
+                        'Error in template "%s:%s" for page "%s": %s',
                         $layout['scope'],
                         $layout['file'],
                         $page->getId(),

@@ -48,9 +48,10 @@ class Command extends BaseCommand
             parent::run($input, $output);
         } catch (\Exception $e) {
             // custom error message
-            $message[] = sprintf('<error></error>');
-            $message[] = sprintf('<error>  %s</error>', $e->getMessage());
-            $message[] = sprintf('<error></error>');
+            $message = [];
+            $message[] = sprintf('<error> </error>');
+            $message[] = sprintf('<error>%s</error>', $e->getMessage());
+            $message[] = sprintf('<error> </error>');
             $output->writeln($message, OutputInterface::VERBOSITY_QUIET);
         }
     }
