@@ -22,33 +22,33 @@
     "issues": "https://github.com/Cecilapp/Cecil/issues"
   },
   "require": {
-    "php": "^7.1.3",
-    "cocur/slugify": "4.0.0",
-    "dflydev/dot-access-data": "2.0.0",
-    "erusev/parsedown-extra": "0.8.1",
+    "php": "^7.1",
+    "cocur/slugify": "^4.0",
+    "dflydev/dot-access-data": "^2.0",
+    "erusev/parsedown-extra": "^0.8",
     "intervention/image": "^2.5",
-    "matthiasmullie/minify": "1.3.63",
-    "myclabs/php-enum": "1.7.6",
-    "padraic/humbug_get_contents": "1.1.2",
-    "padraic/phar-updater": "1.0.6",
-    "scssphp/scssphp": "1.0.9",
-    "spatie/image-optimizer": "1.1.4",
-    "symfony/console": "4.4.7",
-    "symfony/filesystem": "4.4.7",
-    "symfony/finder": "4.4.7",
-    "symfony/process": "4.4.7",
+    "matthiasmullie/minify": "^1.3",
+    "myclabs/php-enum": "^1.7",
+    "padraic/humbug_get_contents": "^1.1",
+    "padraic/phar-updater": "^1.0",
+    "scssphp/scssphp": "^1.0",
+    "spatie/image-optimizer": "^1.1",
+    "symfony/console": "^4.4",
+    "symfony/filesystem": "^4.4",
+    "symfony/finder": "^4.4",
+    "symfony/process": "^4.4",
     "symfony/property-access": "^4.4",
     "symfony/serializer": "^4.4",
-    "symfony/yaml": "4.4.7",
-    "twig/extensions": "1.5.4",
-    "twig/twig": "2.12.5",
-    "voku/html-min": "4.4.3",
-    "yosymfony/resource-watcher": "2.0.1"
+    "symfony/yaml": "^4.4",
+    "twig/extensions": "^1.5",
+    "twig/twig": "^2.12",
+    "voku/html-min": "^4.4",
+    "yosymfony/resource-watcher": "^2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "7.5.17",
-    "phpmd/phpmd": "2.8.2",
-    "humbug/box": "3.7.0"
+    "phpunit/phpunit": "^7.5",
+    "phpmd/phpmd": "^2.8",
+    "humbug/box": "^3.7"
   },
   "autoload": {
     "psr-4": {
@@ -82,11 +82,9 @@
       "php coveralls.phar --version"
     ],
     "test-coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
-    "test-coverage-upload": [
-      "php coveralls.phar -v"
-    ],
-    "post-install-cmd": "cd tests/fixtures/website;composer install;",
-    "post-update-cmd": "cd tests/fixtures/website;composer update;"
+    "test-coverage-upload": "php coveralls.phar -v",
+    "post-install-cmd": "cd ./tests/fixtures/website && composer install",
+    "post-update-cmd": "cd ./tests/fixtures/website && composer update"
   },
   "config": {
     "platform": {
