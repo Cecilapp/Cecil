@@ -112,7 +112,9 @@ class Serve extends Command
                     \pcntl_signal(SIGINT, [$this, 'tearDownServer']);
                     \pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
-                $output->writeln(sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port));
+                $output->writeln(
+                    sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
+                );
                 $process->start();
                 if ($open) {
                     $output->writeln('Opening web browser...');
