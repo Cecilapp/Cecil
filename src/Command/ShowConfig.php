@@ -46,6 +46,7 @@ class ShowConfig extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('<info>Configuration:</info>');
+
         try {
             $output->writeln($this->printArray($this->getBuilder($output)->getConfig()->getAsArray()));
         } catch (\Exception $e) {
