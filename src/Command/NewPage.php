@@ -86,7 +86,7 @@ class NewPage extends Command
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion('Do you want to override it? [y/n]', false);
                 if (!$helper->ask($input, $output, $question)) {
-                    exit(0);
+                    return;
                 }
             }
 
