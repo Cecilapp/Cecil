@@ -74,7 +74,7 @@ class Serve extends Command
             $host,
             $port,
             $this->getPath().'/'.(string) $this->getBuilder()->getConfig()->get('output.dir'),
-             Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
+            Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);
 
@@ -148,8 +148,8 @@ class Serve extends Command
     /**
      * Prepares server's files.
      *
-     * @param string          $host
-     * @param string          $port
+     * @param string $host
+     * @param string $port
      *
      * @throws \Exception
      *
@@ -202,6 +202,7 @@ class Serve extends Command
     {
         $this->output->writeln('');
         $this->output->writeln('<comment>Server stopped.</comment>');
+
         try {
             $this->fs->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
         } catch (IOExceptionInterface $e) {
