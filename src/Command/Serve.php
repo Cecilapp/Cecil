@@ -197,6 +197,7 @@ class Serve extends Command
     {
         $this->output->writeln('');
         $this->output->writeln('<comment>Server stopped.</comment>');
+
         try {
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
         } catch (IOExceptionInterface $e) {
