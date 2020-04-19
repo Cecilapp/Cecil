@@ -49,13 +49,12 @@ class NewSite extends Command
 
         try {
             if ($this->fs->exists(Util::joinFile($this->getPath(), self::CONFIG_FILE)) && !$force) {
+                $output->writeln('<comment>Website already exists.</comment>');
+                // ask to override site
                 $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion(
-                    'Website already exists. Do you want to override it? [y/n]',
-                    false
-                );
+                $question = new ConfirmationQuestion('Do you want to override it? [y/n]', false);
                 if (!$helper->ask($input, $output, $question)) {
-                    exit(0);
+                    return;
                 }
             }
             $root = realpath(Util::joinFile(__DIR__, '/../../'));
