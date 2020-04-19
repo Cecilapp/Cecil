@@ -16,7 +16,6 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -27,6 +26,12 @@ class Command extends BaseCommand
     const CONFIG_FILE = 'config.yml';
     const TMP_DIR = '.cecil';
 
+    /** @var InputInterface */
+    protected $input;
+    /** @var OutputInterface */
+    protected $output;
+    /** @var SymfonyStyle */
+    protected $io;
     /** @var Filesystem */
     protected $fs;
     /** @var string */
@@ -43,25 +48,11 @@ class Command extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function run(InputInterface $input, $output)
-    {
-        if ($output->isDebug()) {
-            parent::run($input, $output);
-        }
-        // simplifying error message
-        try {
-            parent::run($input, $output);
-        } catch (\Exception $e) {
-            $io = new SymfonyStyle($input, $output);
-            $io->error($e->getMessage());
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        $this->input = $input;
+        $this->output = $output;
+        $this->io = new SymfonyStyle($input, $output);
         $this->fs = new Filesystem();
 
         if (!in_array($this->getName(), ['self-update'])) {
@@ -70,21 +61,6 @@ class Command extends BaseCommand
                 $this->path = getcwd();
             }
             if (false === realpath($this->getPath())) {
-                if (!in_array($this->getName(), ['new:site'])) {
-                    $message = sprintf('"%s" is not valid path.', $this->getPath());
-
-                    throw new \InvalidArgumentException($message);
-                }
-                $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion(
-                    sprintf('The provided <path> "%s" doesn\'t exist.
-Do you want to create it? [y/n]', $this->getpath()),
-                    false
-                );
-                if (!$helper->ask($input, $output, $question)) {
-                    return;
-                }
-
                 $this->fs->mkdir($this->getPath());
             }
             $this->path = realpath($this->getPath());
@@ -92,7 +68,7 @@ Do you want to create it? [y/n]', $this->getpath()),
 
             if (!in_array($this->getName(), ['new:site'])) {
                 if (!file_exists($this->configFile)) {
-                    $message = sprintf('Cecil could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
+                    $message = sprintf('Could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
 
                     throw new \InvalidArgumentException($message);
                 }
@@ -103,11 +79,27 @@ Do you want to create it? [y/n]', $this->getpath()),
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        if ($output->isDebug()) {
+            parent::run($input, $output);
+        }
+        // simplifying error message
+        try {
+            parent::run($input, $output);
+        } catch (\Exception $e) {
+            $this->io->error($e->getMessage());
+        }
+    }
+
+    /**
      * Returns the working directory.
      *
      * @return string|null
      */
-    public function getPath(): ?string
+    protected function getPath(): ?string
     {
         return $this->path;
     }
@@ -115,15 +107,12 @@ Do you want to create it? [y/n]', $this->getpath()),
     /**
      * Creates or returns a Builder instance.
      *
-     * @param OutputInterface $output
-     * @param array           $config
+     * @param array $config
      *
      * @return Builder
      */
-    public function getBuilder(
-        OutputInterface $output,
-        array $config = ['debug' => false]
-    ): Builder {
+    protected function getBuilder(array $config = []): Builder
+    {
         if (!file_exists($this->configFile)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
@@ -131,7 +120,7 @@ Do you want to create it? [y/n]', $this->getpath()),
         try {
             $siteConfig = Yaml::parse(file_get_contents($this->configFile));
             $config = array_replace_recursive($siteConfig, $config);
-            $this->builder = (new Builder($config, $this->messageCallback($output)))
+            $this->builder = (new Builder($config, $this->messageCallback()))
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
@@ -146,16 +135,15 @@ Do you want to create it? [y/n]', $this->getpath()),
     /**
      * Creates the Progress bar.
      *
-     * @param OutputInterface $output
-     * @param int             $max
+     * @param int $max
      *
      * @return void
      */
-    protected function createProgressBar(OutputInterface $output, $max): void
+    protected function createProgressBar($max): void
     {
         if ($this->progressBar === null || $max != $this->progressBarMax) {
             $this->progressBarMax = $max;
-            $this->progressBar = new ProgressBar($output, $max);
+            $this->progressBar = new ProgressBar($this->output, $max);
             $this->progressBar->setOverwrite(true);
             $this->progressBar->setFormat(' %percent:3s%% [%bar%] %current%/%max%');
             $this->progressBar->setBarCharacter('#');
@@ -177,65 +165,62 @@ Do you want to create it? [y/n]', $this->getpath()),
     }
 
     /**
-     * Print the Progress Bar.
+     * Prints the Progress Bar.
      *
-     * @param OutputInterface $output
-     * @param int             $itemsCount
-     * @param int             $itemsMax
+     * @param int $itemsCount
+     * @param int $itemsMax
      *
      * @return void
      */
-    protected function printProgressBar(OutputInterface $output, $itemsCount, $itemsMax): void
+    protected function printProgressBar($itemsCount, $itemsMax): void
     {
-        $this->createProgressBar($output, $itemsMax);
+        $this->createProgressBar($itemsMax);
         $this->getProgressBar()->clear();
         $this->getProgressBar()->setProgress($itemsCount);
         $this->getProgressBar()->display();
         if ($itemsCount == $itemsMax) {
             $this->getProgressBar()->finish();
-            $output->writeln('');
+            $this->output->writeln('');
         }
     }
 
     /**
      * Customs messages callback function.
      *
-     * @param OutputInterface $output
-     *
      * @return \Closure
      */
-    public function messageCallback(OutputInterface $output): \Closure
+    public function messageCallback(): \Closure
     {
-        return function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) use ($output) {
+        return function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
             if (strpos($code, '_PROGRESS') !== false) {
-                if ($output->isVerbose()) {
+                if ($this->output->isVerbose()) {
                     if ($itemsCount > 0) {
-                        $output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
+                        $this->output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
 
                         return;
                     }
-                    $output->writeln(" $message");
+                    $this->output->writeln(" $message");
 
                     return;
                 }
                 if (isset($itemsCount) && $itemsMax > 0) {
-                    $this->printProgressBar($output, $itemsCount, $itemsMax);
+                    $this->printProgressBar($itemsCount, $itemsMax);
 
                     return;
                 }
-                $output->writeln(" $message");
+                $this->output->writeln(" $message");
 
                 return;
             } elseif (strpos($code, '_ERROR') !== false) {
-                $output->writeln("<error>$message</error>");
+                $this->output->writeln("<error>$message</error>");
 
                 return;
             } elseif ($code == 'TIME') {
-                $output->writeln("<comment>$message</comment>");
+                $this->output->writeln("<comment>$message</comment>");
 
                 return;
             }
-            $output->writeln("<info>$message</info>");
+            $this->output->writeln("<info>$message</info>");
         };
     }
 }

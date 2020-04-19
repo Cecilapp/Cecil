@@ -10,12 +10,16 @@
 
 namespace Cecil\Command;
 
+use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Builds the website.
+ */
 class Build extends Command
 {
     /**
@@ -25,7 +29,7 @@ class Build extends Command
     {
         $this
             ->setName('build')
-            ->setDescription('Build the website')
+            ->setDescription('Builds the website')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
@@ -42,7 +46,7 @@ class Build extends Command
                     ),
                 ])
             )
-            ->setHelp('Build the website in the output directory.');
+            ->setHelp('Builds the website in the output directory');
     }
 
     /**
@@ -68,7 +72,7 @@ class Build extends Command
         if ($input->getOption('destination')) {
             $config['output']['dir'] = $input->getOption('destination');
             $this->fs->dumpFile(
-                $this->getPath().'/'.self::TMP_DIR.'/output',
+                Util::joinFile($this->getPath(), self::TMP_DIR, 'output'),
                 (string) $input->getOption('destination')
             );
         }
@@ -85,7 +89,7 @@ class Build extends Command
             OutputInterface::VERBOSITY_VERBOSE
         );
 
-        $builder = $this->getBuilder($output, $config);
+        $builder = $this->getBuilder($config);
 
         if ((bool) $this->builder->getConfig()->get('cache.enabled')) {
             $output->writeln(
@@ -95,7 +99,7 @@ class Build extends Command
         }
 
         $builder->build($options);
-        $this->fs->dumpFile($this->getPath().'/'.self::TMP_DIR.'/changes.flag', time());
+        $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
 
         return 0;
     }

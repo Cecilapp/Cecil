@@ -19,6 +19,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Process\Process;
 
+/**
+ * Creates a new page.
+ */
 class NewPage extends Command
 {
     /**
@@ -28,7 +31,7 @@ class NewPage extends Command
     {
         $this
             ->setName('new:page')
-            ->setDescription('Create a new page')
+            ->setDescription('Creates a new page')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('name', InputArgument::REQUIRED, 'New page name'),
@@ -38,7 +41,7 @@ class NewPage extends Command
                     new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Add date (`YYYY-MM-DD`) as a prefix'),
                 ])
             )
-            ->setHelp('Create a new page file (with a default title and the current date).');
+            ->setHelp('Creates a new page file (with a default title and the current date)');
     }
 
     /**
@@ -65,7 +68,7 @@ class NewPage extends Command
             // path
             $fileRelativePath = sprintf(
                 '%s%s%s%s%s.md',
-                (string) $this->getBuilder($output)->getConfig()->get('content.dir'),
+                (string) $this->getBuilder()->getConfig()->get('content.dir'),
                 DIRECTORY_SEPARATOR,
                 empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR,
                 $datePrefix,
@@ -75,11 +78,13 @@ class NewPage extends Command
 
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
+                $output->writeln(sprintf(
+                    '<comment>The page "%s" already exists.</comment>',
+                    $fileRelativePath
+                ));
+                // ask to override file
                 $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion(
-                    sprintf('This page already exists. Do you want to override it? [y/n]', $this->getpath()),
-                    false
-                );
+                $question = new ConfirmationQuestion('Do you want to override it? [y/n]', false);
                 if (!$helper->ask($input, $output, $question)) {
                     return;
                 }
@@ -92,14 +97,14 @@ class NewPage extends Command
                 $this->findModel(sprintf('%s%s', empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR, $filename))
             );
             $this->fs->dumpFile($filePath, $fileContent);
-            $output->writeln(sprintf('File "%s" created.', $fileRelativePath));
+            $output->writeln(sprintf('<info>File "%s" created.</info>', $fileRelativePath));
 
             // open editor?
             if ($open) {
-                if (!$this->hasEditor($output)) {
+                if (!$this->hasEditor()) {
                     $output->writeln('<comment>No editor configured.</comment>');
                 }
-                $this->openEditor($output, $filePath);
+                $this->openEditor($filePath);
             }
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
@@ -115,7 +120,7 @@ class NewPage extends Command
      *
      * @return string
      */
-    protected function findModel(string $name): string
+    private function findModel(string $name): string
     {
         $section = strstr($name, DIRECTORY_SEPARATOR, true);
         if ($section && file_exists($model = Util::joinFile($this->getPath(), 'models', "$section.md"))) {
@@ -139,26 +144,23 @@ EOT;
     /**
      * Editor is configured?
      *
-     * @param OutputInterface $output
-     *
      * @return bool
      */
-    protected function hasEditor(OutputInterface $output): bool
+    protected function hasEditor(): bool
     {
-        return (bool) $this->getBuilder($output)->getConfig()->get('editor');
+        return (bool) $this->getBuilder()->getConfig()->get('editor');
     }
 
     /**
      * Opens the new file in editor (if configured).
      *
-     * @param OutputInterface $output
-     * @param string          $filePath
+     * @param string $filePath
      *
      * @return void
      */
-    protected function openEditor(OutputInterface $output, string $filePath): void
+    protected function openEditor(string $filePath): void
     {
-        if ($editor = (string) $this->getBuilder($output)->getConfig()->get('editor')) {
+        if ($editor = (string) $this->getBuilder()->getConfig()->get('editor')) {
             $command = sprintf('%s "%s"', $editor, $filePath);
             // Typora 4TW!
             if ($editor == 'typora') {

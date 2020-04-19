@@ -10,7 +10,7 @@
 
 namespace Cecil\Command;
 
-use Cecil\Util\Plateform;
+use Cecil\Util;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -25,6 +25,9 @@ use Yosymfony\ResourceWatcher\Crc32ContentHash;
 use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
 
+/**
+ * Starts the built-in server.
+ */
 class Serve extends Command
 {
     /**
@@ -34,7 +37,7 @@ class Serve extends Command
     {
         $this
             ->setName('serve')
-            ->setDescription('Start the built-in server')
+            ->setDescription('Starts the built-in server')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
@@ -51,7 +54,7 @@ class Serve extends Command
                     ),
                 ])
             )
-            ->setHelp('Start the live-reloading-built-in web server.');
+            ->setHelp('Starts the live-reloading-built-in web server');
     }
 
     /**
@@ -65,13 +68,13 @@ class Serve extends Command
         $port = $input->getOption('port') ?? '8000';
         $postprocess = $input->getOption('postprocess');
 
-        $this->setUpServer($output, $host, $port);
+        $this->setUpServer($host, $port);
         $command = sprintf(
             'php -S %s:%d -t %s %s',
             $host,
             $port,
-            $this->getPath().'/'.(string) $this->getBuilder($output)->getConfig()->get('output.dir'),
-            sprintf('%s/%s/router.php', $this->getPath(), self::TMP_DIR)
+            $this->getPath().'/'.(string) $this->getBuilder()->getConfig()->get('output.dir'),
+            Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);
 
@@ -83,7 +86,7 @@ class Serve extends Command
             '--drafts'      => $drafts,
             '--postprocess' => $postprocess,
         ]);
-        $buildCommand->run($buildInput, $output);
+        $buildCommand->run($buildInput, $this->output);
 
         // handles process
         if (!$process->isStarted()) {
@@ -96,29 +99,42 @@ class Serve extends Command
                 ->name('*.css')
                 ->name('*.scss')
                 ->name('*.js')
+                ->name('*.jeg')
+                ->name('*.jpeg')
+                ->name('*.png')
+                ->name('*.gif')
                 ->in($this->getPath())
-                ->exclude($this->getBuilder($output)->getConfig()->get('output.dir'));
+                ->exclude($this->getBuilder()->getConfig()->get('output.dir'));
             $hashContent = new Crc32ContentHash();
             $resourceCache = new ResourceCacheMemory();
             $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
             $resourceWatcher->initialize();
             // starts server
             try {
-                $output->writeln(sprintf('<info>Starting server (http://%s:%d)...</info>', $host, $port));
+                if (function_exists('\pcntl_signal')) {
+                    \pcntl_async_signals(true);
+                    \pcntl_signal(SIGINT, [$this, 'tearDownServer']);
+                    \pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
+                }
+                $output->writeln(
+                    sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
+                );
                 $process->start();
                 if ($open) {
-                    Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
+                    $output->writeln('Opening web browser...');
+                    Util\Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
                     $result = $resourceWatcher->findChanges();
                     if ($result->hasChanges()) {
                         // re-builds
                         $output->writeln('<comment>Changes detected.</comment>');
+                        $output->writeln('');
                         $buildCommand->run($buildInput, $output);
+                        $output->writeln('<info>Server is runnning...</info>');
                     }
                     usleep(1000000); // waits 1s
                 }
-                $output->writeln('<comment>Server stopped...<comment>');
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
 
@@ -130,47 +146,48 @@ class Serve extends Command
     }
 
     /**
-     * @param OutputInterface $output
-     * @param string          $host
-     * @param string          $port
+     * Prepares server's files.
+     *
+     * @param string $host
+     * @param string $port
      *
      * @throws \Exception
      *
      * @return void
      */
-    private function setUpServer(OutputInterface $output, string $host, string $port): void
+    private function setUpServer(string $host, string $port): void
     {
         try {
-            $root = __DIR__.'/../../';
-            if (Plateform::isPhar()) {
-                $root = Plateform::getPharPath().'/';
+            $root = Util::joinFile(__DIR__, '../../');
+            if (Util\Plateform::isPhar()) {
+                $root = Util\Plateform::getPharPath().'/';
             }
             // copying router
             $this->fs->copy(
                 $root.'res/server/router.php',
-                $this->getPath().'/'.self::TMP_DIR.'/router.php',
+                Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
             // copying livereload JS
             $this->fs->copy(
                 $root.'res/server/livereload.js',
-                $this->getPath().'/'.self::TMP_DIR.'/livereload.js',
+                Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js'),
                 true
             );
             // copying baseurl text file
             $this->fs->dumpFile(
-                $this->getPath().'/'.self::TMP_DIR.'/baseurl',
+                Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
                 sprintf(
                     '%s;%s',
-                    (string) $this->getBuilder($output)->getConfig()->get('baseurl'),
+                    (string) $this->getBuilder()->getConfig()->get('baseurl'),
                     sprintf('http://%s:%s/', $host, $port)
                 )
             );
         } catch (IOExceptionInterface $e) {
-            throw new \Exception(sprintf('An error occurred while copying file at "%s"', $e->getPath()));
+            throw new \Exception(sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
         }
-        if (!is_file(sprintf('%s/%s/router.php', $this->getPath(), self::TMP_DIR))) {
-            throw new \Exception(sprintf('Router not found: "./%s/router.php"', self::TMP_DIR));
+        if (!is_file(Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'))) {
+            throw new \Exception(sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
         }
     }
 
@@ -181,12 +198,15 @@ class Serve extends Command
      *
      * @return void
      */
-    public function tearDownServer(): void
+    private function tearDownServer(): void
     {
+        $this->output->writeln('');
+        $this->output->writeln('<comment>Server stopped.</comment>');
+
         try {
-            $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
+            $this->fs->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
         } catch (IOExceptionInterface $e) {
-            throw new \Exception(sprintf($e->getMessage()));
+            throw new \Exception($e->getMessage());
         }
     }
 }
