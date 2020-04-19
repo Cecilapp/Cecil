@@ -86,7 +86,5 @@ class Clean extends Command
         }
 
         $output->writeln('<info>All is clean!</info>');
-
-        return;
     }
 }
