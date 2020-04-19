@@ -126,7 +126,8 @@ class Command extends BaseCommand
      *
      * @return Builder
      */
-    protected function getBuilder(array $config = ['debug' => false]): Builder {
+    protected function getBuilder(array $config = ['debug' => false]): Builder
+    {
         if (!file_exists($this->configFile)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
