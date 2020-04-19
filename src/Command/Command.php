@@ -39,6 +39,8 @@ class Command extends BaseCommand
     protected $progressBar = null;
     /** @var int */
     protected $progressBarMax;
+    /** @var SymfonyStyle */
+    protected $io;
 
     /**
      * {@inheritdoc}
@@ -52,8 +54,7 @@ class Command extends BaseCommand
         try {
             parent::run($input, $output);
         } catch (\Exception $e) {
-            $io = new SymfonyStyle($input, $output);
-            $io->error($e->getMessage());
+            $this->io->error($e->getMessage());
         }
     }
 
@@ -63,6 +64,7 @@ class Command extends BaseCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->fs = new Filesystem();
+        $this->io = new SymfonyStyle($input, $output);
 
         if (!in_array($this->getName(), ['self-update'])) {
             $this->path = (string) $input->getArgument('path');

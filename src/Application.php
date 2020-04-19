@@ -45,6 +45,7 @@ class Application extends BaseApplication
             new Command\Clean(),
             new Command\ShowContent(),
             new Command\ShowConfig(),
+            new Command\ListCommand(),
         ]);
         if (Util\Plateform::isPhar()) {
             $commands[] = new Command\SelfUpdate();

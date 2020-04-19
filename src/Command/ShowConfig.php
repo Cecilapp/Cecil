@@ -15,6 +15,9 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Shows the configuration.
+ */
 class ShowConfig extends Command
 {
     /**
@@ -24,7 +27,7 @@ class ShowConfig extends Command
     {
         $this
             ->setName('show:config')
-            ->setDescription('Show configuration')
+            ->setDescription('Shows the configuration')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument(
@@ -34,7 +37,7 @@ class ShowConfig extends Command
                     ),
                 ])
             )
-            ->setHelp('Show Website configuration.');
+            ->setHelp('Shows the website\'s configuration');
     }
 
     /**
@@ -42,6 +45,7 @@ class ShowConfig extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln('<info>Configuration:</info>');
         try {
             $output->writeln($this->printArray($this->getBuilder($output)->getConfig()->getAsArray()));
         } catch (\Exception $e) {
@@ -66,14 +70,15 @@ class ShowConfig extends Command
         if (is_array($array)) {
             $column += 2;
             foreach ($array as $key => $val) {
-                if (is_array($val)) {
-                    $output .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
-                }
-                if (is_string($val) || is_int($val)) {
-                    $output .= str_repeat(' ', $column)."$key: $val\n";
-                }
-                if (is_bool($val)) {
-                    $output .= str_repeat(' ', $column)."$key: ".($val ? 'true' : 'false')."\n";
+                switch (gettype($val)) {
+                    case 'array':
+                        $output .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
+                        break;
+                    case 'boolean':
+                        $output .= str_repeat(' ', $column)."$key: ".($val ? 'true' : 'false')."\n";
+                        break;
+                    default:
+                        $output .= str_repeat(' ', $column)."$key: $val\n";
                 }
             }
         }

@@ -16,6 +16,9 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Removes generated and temporary files.
+ */
 class Clean extends Command
 {
     /**
@@ -25,13 +28,13 @@ class Clean extends Command
     {
         $this
             ->setName('clean')
-            ->setDescription('Remove the output directory')
+            ->setDescription('Removes generated files')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
-            ->setHelp('Remove the output directory and temporary files.');
+            ->setHelp('Removes generated and temporary files');
     }
 
     /**
@@ -41,44 +44,48 @@ class Clean extends Command
     {
         $doSomething = false;
 
-        // delete output dir
+        // deletes output dir
         $outputDir = (string) $this->getBuilder($output)->getConfig()->get('output.dir');
-        if ($this->fs->exists($this->getPath().'/'.self::TMP_DIR.'/output')) {
-            $outputDir = file_get_contents($this->getPath().'/'.self::TMP_DIR.'/output');
+        if ($this->fs->exists(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'))) {
+            $outputDir = file_get_contents(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'));
         }
-        if ($this->fs->exists($this->getPath().'/'.$outputDir)) {
-            $this->fs->remove($this->getPath().'/'.$outputDir);
-            $output->writeln('Output directory removed.');
+        if ($this->fs->exists(Util::joinFile($this->getPath(), $outputDir))) {
+            $this->fs->remove(Util::joinFile($this->getPath(), $outputDir));
+            $output->writeln('<info>Removing output directory...</info>');
             $output->writeln(
-                sprintf('> %s', Util::joinFile($this->getPath(), $outputDir)),
+                sprintf('<comment>> %s</comment>', Util::joinFile($this->getPath(), $outputDir)),
                 OutputInterface::VERBOSITY_VERBOSE
             );
             $doSomething = true;
         }
-        // delete local server temp files
+        // deletes local server temporary files
         if ($this->fs->exists($this->getPath().'/'.self::TMP_DIR)) {
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
-            $output->writeln('Temporary directory deleted.');
+            $output->writeln('<info>Removing temporary directory...</info>');
             $output->writeln(
-                sprintf('> %s', Util::joinFile($this->getPath(), self::TMP_DIR)),
+                sprintf('<comment>> %s</comment>', Util::joinFile($this->getPath(), self::TMP_DIR)),
                 OutputInterface::VERBOSITY_VERBOSE
             );
             $doSomething = true;
         }
-        // delete cache directory
+        // deletes cache directory
         if ($this->fs->exists($this->builder->getConfig()->getCachePath())) {
             $this->fs->remove($this->builder->getConfig()->getCachePath());
-            $output->writeln('Cache directory deleted.');
+            $output->writeln('<info>Removing cache directory...</info>');
             $output->writeln(
-                sprintf('> %s', $this->builder->getConfig()->getCachePath()),
+                sprintf('<comment>> %s</comment>', $this->builder->getConfig()->getCachePath()),
                 OutputInterface::VERBOSITY_VERBOSE
             );
             $doSomething = true;
         }
 
         if ($doSomething === false) {
-            $output->writeln('Nothing to do.');
+            $this->io->note('Nothing to do.');
+
+            return 0;
         }
+
+        $this->io->success('All is clean!');
 
         return 0;
     }

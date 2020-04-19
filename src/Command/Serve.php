@@ -25,6 +25,9 @@ use Yosymfony\ResourceWatcher\Crc32ContentHash;
 use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
 
+/**
+ * Starts the built-in server
+ */
 class Serve extends Command
 {
     /**
@@ -34,7 +37,7 @@ class Serve extends Command
     {
         $this
             ->setName('serve')
-            ->setDescription('Start the built-in server')
+            ->setDescription('Starts the built-in server')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
@@ -51,7 +54,7 @@ class Serve extends Command
                     ),
                 ])
             )
-            ->setHelp('Start the live-reloading-built-in web server.');
+            ->setHelp('Starts the live-reloading-built-in web server');
     }
 
     /**
@@ -104,9 +107,15 @@ class Serve extends Command
             $resourceWatcher->initialize();
             // starts server
             try {
-                $output->writeln(sprintf('<info>Starting server (http://%s:%d)...</info>', $host, $port));
+                if (function_exists('\pcntl_signal')) {
+                    \pcntl_async_signals(true);
+                    \pcntl_signal(SIGINT, [$this, 'tearDownServer']);
+                    \pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
+                }
+                $output->writeln(sprintf('Starting server at <comment>http://%s:%d</comment>', $host, $port));
                 $process->start();
                 if ($open) {
+                    $output->writeln('Opening web browser...');
                     Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
@@ -114,11 +123,12 @@ class Serve extends Command
                     if ($result->hasChanges()) {
                         // re-builds
                         $output->writeln('<comment>Changes detected.</comment>');
+                        $output->writeln('');
                         $buildCommand->run($buildInput, $output);
+                        $output->writeln('<info>Server is runnning...</info>');
                     }
                     usleep(1000000); // waits 1s
                 }
-                $output->writeln('<comment>Server stopped...<comment>');
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
 
@@ -183,6 +193,7 @@ class Serve extends Command
      */
     public function tearDownServer(): void
     {
+        $this->io->warning('Server stopped.');
         try {
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
         } catch (IOExceptionInterface $e) {
