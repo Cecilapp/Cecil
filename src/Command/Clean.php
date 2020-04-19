@@ -51,7 +51,7 @@ class Clean extends Command
         }
         if ($this->fs->exists(Util::joinFile($this->getPath(), $outputDir))) {
             $this->fs->remove(Util::joinFile($this->getPath(), $outputDir));
-            $output->writeln('<info>Removing output directory...</info>');
+            $output->writeln('Removing output directory...');
             $output->writeln(
                 sprintf('<comment>> %s</comment>', Util::joinFile($this->getPath(), $outputDir)),
                 OutputInterface::VERBOSITY_VERBOSE
@@ -61,7 +61,7 @@ class Clean extends Command
         // deletes local server temporary files
         if ($this->fs->exists($this->getPath().'/'.self::TMP_DIR)) {
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
-            $output->writeln('<info>Removing temporary directory...</info>');
+            $output->writeln('Removing temporary directory...');
             $output->writeln(
                 sprintf('<comment>> %s</comment>', Util::joinFile($this->getPath(), self::TMP_DIR)),
                 OutputInterface::VERBOSITY_VERBOSE
@@ -71,7 +71,7 @@ class Clean extends Command
         // deletes cache directory
         if ($this->fs->exists($this->builder->getConfig()->getCachePath())) {
             $this->fs->remove($this->builder->getConfig()->getCachePath());
-            $output->writeln('<info>Removing cache directory...</info>');
+            $output->writeln('Removing cache directory...');
             $output->writeln(
                 sprintf('<comment>> %s</comment>', $this->builder->getConfig()->getCachePath()),
                 OutputInterface::VERBOSITY_VERBOSE
@@ -80,13 +80,13 @@ class Clean extends Command
         }
 
         if ($doSomething === false) {
-            $this->io->note('Nothing to do.');
+            $output->writeln('<comment>Nothing to do.</comment>');
 
-            return 0;
+            return;
         }
 
-        $this->io->success('All is clean!');
+        $output->writeln('<info>All is clean!</info>');
 
-        return 0;
+        return;
     }
 }
