@@ -16,6 +16,9 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Updates Cecil to the latest version.
+ */
 class SelfUpdate extends Command
 {
     /**
@@ -36,7 +39,7 @@ class SelfUpdate extends Command
                 ])
             )
             ->setHelp('The self-update command checks for a newer version and,
-if found, downloads and installs the latest.');
+if found, downloads and installs the latest');
     }
 
     /**
@@ -55,7 +58,7 @@ if found, downloads and installs the latest.');
         $strategy->setStability('any');
 
         try {
-            $output->writeln('Checks for updates...');
+            $output->writeln('Checking for updates...');
             $result = $updater->update();
             if ($result) {
                 $new = $updater->getNewVersion();
@@ -64,7 +67,7 @@ if found, downloads and installs the latest.');
 
                 return 0;
             }
-            $output->writeln(sprintf('You are already using last version (<comment>%s</comment>).', $version));
+            $output->writeln(sprintf('You are already using the last version (<comment>%s</comment>).', $version));
 
             return 0;
         } catch (\Exception $e) {

@@ -20,6 +20,9 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Shows content.
+ */
 class ShowContent extends Command
 {
     /**
@@ -29,13 +32,13 @@ class ShowContent extends Command
     {
         $this
             ->setName('show:content')
-            ->setDescription('Show content')
+            ->setDescription('Shows content')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
-            ->setHelp('Show content as tree.');
+            ->setHelp('Shows content as tree');
     }
 
     /**
@@ -44,8 +47,8 @@ class ShowContent extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $count = 0;
-        $contentDir = (string) $this->getBuilder($output)->getConfig()->get('content.dir');
-        $dataDir = (string) $this->getBuilder($output)->getConfig()->get('data.dir');
+        $contentDir = (string) $this->getBuilder()->getConfig()->get('content.dir');
+        $dataDir = (string) $this->getBuilder()->getConfig()->get('data.dir');
 
         // formating output
         $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
@@ -64,7 +67,7 @@ class ShowContent extends Command
             // pages content
             if (is_dir(Util::joinFile($this->getPath(), $contentDir))) {
                 $output->writeln(sprintf('<info>%s/</info>', $contentDir));
-                $pages = $this->getFilesTree($output, $contentDir);
+                $pages = $this->getFilesTree($contentDir);
                 if (!Util\Plateform::isWindows()) {
                     $unicodeTreePrefix($pages);
                 }
@@ -76,7 +79,7 @@ class ShowContent extends Command
             // data content
             if (is_dir(Util::joinFile($this->getPath(), $dataDir))) {
                 $output->writeln(sprintf('<info>%s/</info>', $dataDir));
-                $datas = $this->getFilesTree($output, $dataDir);
+                $datas = $this->getFilesTree($dataDir);
                 if (!Util\Plateform::isWindows()) {
                     $unicodeTreePrefix($datas);
                 }
@@ -90,7 +93,7 @@ class ShowContent extends Command
         }
 
         if ($count < 1) {
-            $output->writeln(sprintf('Nothing in "%s" nor "%s".', $contentDir, $dataDir));
+            $output->writeln(sprintf('<comment>Nothing in "%s" nor "%s".</comment>', $contentDir, $dataDir));
         }
 
         return 0;
@@ -99,17 +102,16 @@ class ShowContent extends Command
     /**
      * Returns a console displayable tree of files.
      *
-     * @param OutputInterface $output
-     * @param string          $directory
+     * @param string $directory
      *
      * @throws \Exception
      *
      * @return FilenameRecursiveTreeIterator
      */
-    public function getFilesTree(OutputInterface $output, string $directory): FilenameRecursiveTreeIterator
+    private function getFilesTree(string $directory): FilenameRecursiveTreeIterator
     {
-        $dir = (string) $this->getBuilder($output)->getConfig()->get("$directory.dir");
-        $ext = $this->getBuilder($output)->getConfig()->get("$directory.ext");
+        $dir = (string) $this->getBuilder()->getConfig()->get("$directory.dir");
+        $ext = $this->getBuilder()->getConfig()->get("$directory.ext");
         $path = Util::joinFile($this->getPath(), $dir);
 
         if (!is_dir($path)) {

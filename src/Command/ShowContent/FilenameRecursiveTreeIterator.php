@@ -14,8 +14,6 @@ use RecursiveTreeIterator;
 
 /**
  * Replace Filepath by Filename.
- *
- * Class FilenameRecursiveTreeIterator
  */
 class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
 {

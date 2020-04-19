@@ -45,7 +45,7 @@ class Clean extends Command
         $doSomething = false;
 
         // deletes output dir
-        $outputDir = (string) $this->getBuilder($output)->getConfig()->get('output.dir');
+        $outputDir = (string) $this->getBuilder()->getConfig()->get('output.dir');
         if ($this->fs->exists(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'))) {
             $outputDir = file_get_contents(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'));
         }

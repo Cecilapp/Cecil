@@ -79,18 +79,17 @@ class Command extends BaseCommand
             }
             if (false === realpath($this->getPath())) {
                 if (!in_array($this->getName(), ['new:site'])) {
-                    $message = sprintf('"%s" is not valid path.', $this->getPath());
-
-                    throw new \InvalidArgumentException($message);
+                    throw new \InvalidArgumentException(sprintf('"%s" is not valid path.', $this->getPath()));
                 }
+                $output->writeln(sprintf(
+                    '<comment>The provided <path> "%s" doesn\'t exist.</comment>',
+                    $this->getpath()
+                ));
+                // ask to create path
                 $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion(
-                    sprintf('The provided <path> "%s" doesn\'t exist.
-Do you want to create it? [y/n]', $this->getpath()),
-                    false
-                );
+                $question = new ConfirmationQuestion('Do you want to create it? [y/n]', false);
                 if (!$helper->ask($input, $output, $question)) {
-                    return;
+                    exit(0);
                 }
 
                 $this->fs->mkdir($this->getPath());
@@ -115,7 +114,7 @@ Do you want to create it? [y/n]', $this->getpath()),
      *
      * @return string|null
      */
-    public function getPath(): ?string
+    protected function getPath(): ?string
     {
         return $this->path;
     }
@@ -127,7 +126,7 @@ Do you want to create it? [y/n]', $this->getpath()),
      *
      * @return Builder
      */
-    public function getBuilder(array $config = ['debug' => false]): Builder {
+    protected function getBuilder(array $config = ['debug' => false]): Builder {
         if (!file_exists($this->configFile)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
@@ -150,7 +149,7 @@ Do you want to create it? [y/n]', $this->getpath()),
     /**
      * Creates the Progress bar.
      *
-     * @param int             $max
+     * @param int $max
      *
      * @return void
      */

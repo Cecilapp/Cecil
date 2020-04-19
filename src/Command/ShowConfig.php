@@ -48,7 +48,7 @@ class ShowConfig extends Command
         $output->writeln('<info>Configuration:</info>');
 
         try {
-            $output->writeln($this->printArray($this->getBuilder($output)->getConfig()->getAsArray()));
+            $output->writeln($this->printArray($this->getBuilder()->getConfig()->getAsArray()));
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }

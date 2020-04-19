@@ -13,9 +13,7 @@ namespace Cecil\Command\ShowContent;
 use RecursiveFilterIterator;
 
 /**
- * Filter files by extension type.
- *
- * Class FileExtensionFilter
+ * Filters files by extension type.
  */
 class FileExtensionFilter extends RecursiveFilterIterator
 {

@@ -18,6 +18,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
+/**
+ * Creates a new website.
+ */
 class NewSite extends Command
 {
     /**
@@ -27,14 +30,14 @@ class NewSite extends Command
     {
         $this
             ->setName('new:site')
-            ->setDescription('Create a new website')
+            ->setDescription('Creates a new website')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the directory if already exist'),
                 ])
             )
-            ->setHelp('Create a new website in the current directory, or in <path> if provided.');
+            ->setHelp('Creates a new website in the current directory, or in <path> if provided');
     }
 
     /**
@@ -52,14 +55,14 @@ class NewSite extends Command
                     false
                 );
                 if (!$helper->ask($input, $output, $question)) {
-                    return;
+                    exit(0);
                 }
             }
             $root = realpath(Util::joinFile(__DIR__, '/../../'));
             if (Util\Plateform::isPhar()) {
                 $root = Util\Plateform::getPharPath().'/';
             }
-            $output->writeln('<info>Creating a new website...</info>');
+            $output->writeln('Creating a new website...');
             $this->fs->copy(
                 Util::joinPath($root, 'res/skeleton', self::CONFIG_FILE),
                 Util::joinPath($this->getPath(), self::CONFIG_FILE)
@@ -70,7 +73,7 @@ class NewSite extends Command
                     Util::joinPath($this->getPath(), $value)
                 );
             }
-            $output->writeln('Done!');
+            $output->writeln('<info>Done!</info>');
         } catch (\Exception $e) {
             throw new \Exception(sprintf($e->getMessage()));
         }
