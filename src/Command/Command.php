@@ -89,7 +89,7 @@ class Command extends BaseCommand
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion('Do you want to create it? [y/n]', false);
                 if (!$helper->ask($input, $output, $question)) {
-                    exit(0);
+                    return;
                 }
 
                 $this->fs->mkdir($this->getPath());
@@ -135,7 +135,7 @@ class Command extends BaseCommand
         try {
             $siteConfig = Yaml::parse(file_get_contents($this->configFile));
             $config = array_replace_recursive($siteConfig, $config);
-            $this->builder = (new Builder($config, $this->messageCallback($this->output)))
+            $this->builder = (new Builder($config, $this->messageCallback()))
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
