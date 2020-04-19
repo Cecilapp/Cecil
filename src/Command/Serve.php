@@ -26,7 +26,7 @@ use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
 
 /**
- * Starts the built-in server
+ * Starts the built-in server.
  */
 class Serve extends Command
 {
@@ -194,6 +194,7 @@ class Serve extends Command
     public function tearDownServer(): void
     {
         $this->io->warning('Server stopped.');
+
         try {
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
         } catch (IOExceptionInterface $e) {
