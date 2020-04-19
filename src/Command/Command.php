@@ -127,7 +127,8 @@ Do you want to create it? [y/n]', $this->getpath()),
      *
      * @return Builder
      */
-    public function getBuilder(array $config = ['debug' => false]): Builder {
+    public function getBuilder(array $config = ['debug' => false]): Builder
+    {
         if (!file_exists($this->configFile)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
         }
@@ -150,7 +151,7 @@ Do you want to create it? [y/n]', $this->getpath()),
     /**
      * Creates the Progress bar.
      *
-     * @param int             $max
+     * @param int $max
      *
      * @return void
      */
@@ -182,8 +183,8 @@ Do you want to create it? [y/n]', $this->getpath()),
     /**
      * Print the Progress Bar.
      *
-     * @param int             $itemsCount
-     * @param int             $itemsMax
+     * @param int $itemsCount
+     * @param int $itemsMax
      *
      * @return void
      */
