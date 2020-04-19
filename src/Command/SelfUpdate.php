@@ -25,7 +25,7 @@ class SelfUpdate extends Command
     {
         $this
             ->setName('self-update')
-            ->setDescription('Update Cecil to the latest version')
+            ->setDescription('Updates Cecil to the latest version')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument(
@@ -60,11 +60,11 @@ if found, downloads and installs the latest.');
             if ($result) {
                 $new = $updater->getNewVersion();
                 $old = $updater->getOldVersion();
-                $output->writeln(sprintf('Updated from %s to %s.', $old, $new));
+                $output->writeln(sprintf('Updated from <comment>%s</comment> to <info>%s</info>.', $old, $new));
 
                 return 0;
             }
-            $output->writeln(sprintf('You are already using last version (%s).', $version));
+            $output->writeln(sprintf('You are already using last version (<comment>%s</comment>).', $version));
 
             return 0;
         } catch (\Exception $e) {

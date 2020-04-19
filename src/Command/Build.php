@@ -89,7 +89,7 @@ class Build extends Command
             OutputInterface::VERBOSITY_VERBOSE
         );
 
-        $builder = $this->getBuilder($output, $config);
+        $builder = $this->getBuilder($config);
 
         if ((bool) $this->builder->getConfig()->get('cache.enabled')) {
             $output->writeln(

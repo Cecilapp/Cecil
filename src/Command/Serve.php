@@ -73,7 +73,7 @@ class Serve extends Command
             'php -S %s:%d -t %s %s',
             $host,
             $port,
-            $this->getPath().'/'.(string) $this->getBuilder($output)->getConfig()->get('output.dir'),
+            $this->getPath().'/'.(string) $this->getBuilder()->getConfig()->get('output.dir'),
             sprintf('%s/%s/router.php', $this->getPath(), self::TMP_DIR)
         );
         $process = Process::fromShellCommandline($command);
@@ -86,7 +86,7 @@ class Serve extends Command
             '--drafts'      => $drafts,
             '--postprocess' => $postprocess,
         ]);
-        $buildCommand->run($buildInput, $output);
+        $buildCommand->run($buildInput, $this->output);
 
         // handles process
         if (!$process->isStarted()) {
@@ -100,7 +100,7 @@ class Serve extends Command
                 ->name('*.scss')
                 ->name('*.js')
                 ->in($this->getPath())
-                ->exclude($this->getBuilder($output)->getConfig()->get('output.dir'));
+                ->exclude($this->getBuilder()->getConfig()->get('output.dir'));
             $hashContent = new Crc32ContentHash();
             $resourceCache = new ResourceCacheMemory();
             $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
@@ -112,7 +112,7 @@ class Serve extends Command
                     \pcntl_signal(SIGINT, [$this, 'tearDownServer']);
                     \pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
-                $output->writeln(sprintf('Starting server at <comment>http://%s:%d</comment>', $host, $port));
+                $output->writeln(sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port));
                 $process->start();
                 if ($open) {
                     $output->writeln('Opening web browser...');
@@ -140,6 +140,8 @@ class Serve extends Command
     }
 
     /**
+     * Prepares server's files.
+     *
      * @param OutputInterface $output
      * @param string          $host
      * @param string          $port
@@ -172,7 +174,7 @@ class Serve extends Command
                 $this->getPath().'/'.self::TMP_DIR.'/baseurl',
                 sprintf(
                     '%s;%s',
-                    (string) $this->getBuilder($output)->getConfig()->get('baseurl'),
+                    (string) $this->getBuilder()->getConfig()->get('baseurl'),
                     sprintf('http://%s:%s/', $host, $port)
                 )
             );
@@ -191,10 +193,10 @@ class Serve extends Command
      *
      * @return void
      */
-    public function tearDownServer(): void
+    private function tearDownServer(): void
     {
-        $this->io->warning('Server stopped.');
-
+        $this->output->writeln('');
+        $this->output->writeln('<comment>Server stopped.</comment>');
         try {
             $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
         } catch (IOExceptionInterface $e) {
