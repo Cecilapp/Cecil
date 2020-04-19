@@ -16,7 +16,6 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -49,22 +48,6 @@ class Command extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    public function run(InputInterface $input, OutputInterface $output)
-    {
-        if ($output->isDebug()) {
-            parent::run($input, $output);
-        }
-        // simplifying error message
-        try {
-            parent::run($input, $output);
-        } catch (\Exception $e) {
-            $this->io->error($e->getMessage());
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
@@ -78,20 +61,6 @@ class Command extends BaseCommand
                 $this->path = getcwd();
             }
             if (false === realpath($this->getPath())) {
-                if (!in_array($this->getName(), ['new:site'])) {
-                    throw new \InvalidArgumentException(sprintf('"%s" is not valid path.', $this->getPath()));
-                }
-                $output->writeln(sprintf(
-                    '<comment>The provided <path> "%s" doesn\'t exist.</comment>',
-                    $this->getpath()
-                ));
-                // ask to create path
-                $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion('Do you want to create it? [y/n]', false);
-                if (!$helper->ask($input, $output, $question)) {
-                    return;
-                }
-
                 $this->fs->mkdir($this->getPath());
             }
             $this->path = realpath($this->getPath());
@@ -99,7 +68,7 @@ class Command extends BaseCommand
 
             if (!in_array($this->getName(), ['new:site'])) {
                 if (!file_exists($this->configFile)) {
-                    $message = sprintf('Cecil could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
+                    $message = sprintf('Could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
 
                     throw new \InvalidArgumentException($message);
                 }
@@ -107,6 +76,22 @@ class Command extends BaseCommand
         }
 
         parent::initialize($input, $output);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        if ($output->isDebug()) {
+            parent::run($input, $output);
+        }
+        // simplifying error message
+        try {
+            parent::run($input, $output);
+        } catch (\Exception $e) {
+            $this->io->error($e->getMessage());
+        }
     }
 
     /**
@@ -126,7 +111,7 @@ class Command extends BaseCommand
      *
      * @return Builder
      */
-    protected function getBuilder(array $config = ['debug' => false]): Builder
+    protected function getBuilder(array $config = []): Builder
     {
         if (!file_exists($this->configFile)) {
             throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
@@ -180,7 +165,7 @@ class Command extends BaseCommand
     }
 
     /**
-     * Print the Progress Bar.
+     * Prints the Progress Bar.
      *
      * @param int $itemsCount
      * @param int $itemsMax
