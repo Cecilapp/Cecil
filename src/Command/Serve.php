@@ -10,7 +10,7 @@
 
 namespace Cecil\Command;
 
-use Cecil\Util\Plateform;
+use Cecil\Util;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -68,13 +68,13 @@ class Serve extends Command
         $port = $input->getOption('port') ?? '8000';
         $postprocess = $input->getOption('postprocess');
 
-        $this->setUpServer($output, $host, $port);
+        $this->setUpServer($host, $port);
         $command = sprintf(
             'php -S %s:%d -t %s %s',
             $host,
             $port,
             $this->getPath().'/'.(string) $this->getBuilder()->getConfig()->get('output.dir'),
-            sprintf('%s/%s/router.php', $this->getPath(), self::TMP_DIR)
+             Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);
 
@@ -99,6 +99,10 @@ class Serve extends Command
                 ->name('*.css')
                 ->name('*.scss')
                 ->name('*.js')
+                ->name('*.jeg')
+                ->name('*.jpeg')
+                ->name('*.png')
+                ->name('*.gif')
                 ->in($this->getPath())
                 ->exclude($this->getBuilder()->getConfig()->get('output.dir'));
             $hashContent = new Crc32ContentHash();
@@ -118,7 +122,7 @@ class Serve extends Command
                 $process->start();
                 if ($open) {
                     $output->writeln('Opening web browser...');
-                    Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
+                    Util\Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
                     $result = $resourceWatcher->findChanges();
@@ -144,7 +148,6 @@ class Serve extends Command
     /**
      * Prepares server's files.
      *
-     * @param OutputInterface $output
      * @param string          $host
      * @param string          $port
      *
@@ -152,28 +155,28 @@ class Serve extends Command
      *
      * @return void
      */
-    private function setUpServer(OutputInterface $output, string $host, string $port): void
+    private function setUpServer(string $host, string $port): void
     {
         try {
-            $root = __DIR__.'/../../';
-            if (Plateform::isPhar()) {
-                $root = Plateform::getPharPath().'/';
+            $root = Util::joinFile(__DIR__, '../../');
+            if (Util\Plateform::isPhar()) {
+                $root = Util\Plateform::getPharPath().'/';
             }
             // copying router
             $this->fs->copy(
                 $root.'res/server/router.php',
-                $this->getPath().'/'.self::TMP_DIR.'/router.php',
+                Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
             // copying livereload JS
             $this->fs->copy(
                 $root.'res/server/livereload.js',
-                $this->getPath().'/'.self::TMP_DIR.'/livereload.js',
+                Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js'),
                 true
             );
             // copying baseurl text file
             $this->fs->dumpFile(
-                $this->getPath().'/'.self::TMP_DIR.'/baseurl',
+                Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
                 sprintf(
                     '%s;%s',
                     (string) $this->getBuilder()->getConfig()->get('baseurl'),
@@ -181,10 +184,10 @@ class Serve extends Command
                 )
             );
         } catch (IOExceptionInterface $e) {
-            throw new \Exception(sprintf('An error occurred while copying file at "%s"', $e->getPath()));
+            throw new \Exception(sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
         }
-        if (!is_file(sprintf('%s/%s/router.php', $this->getPath(), self::TMP_DIR))) {
-            throw new \Exception(sprintf('Router not found: "./%s/router.php"', self::TMP_DIR));
+        if (!is_file(Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'))) {
+            throw new \Exception(sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
         }
     }
 
@@ -199,11 +202,10 @@ class Serve extends Command
     {
         $this->output->writeln('');
         $this->output->writeln('<comment>Server stopped.</comment>');
-
         try {
-            $this->fs->remove($this->getPath().'/'.self::TMP_DIR);
+            $this->fs->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
         } catch (IOExceptionInterface $e) {
-            throw new \Exception(sprintf($e->getMessage()));
+            throw new \Exception($e->getMessage());
         }
     }
 }
