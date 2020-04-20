@@ -12,6 +12,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
+use Cecil\Util;
 use Exception;
 
 /**
@@ -31,7 +32,8 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
         /** @var Page $page */
         foreach ($filteredPages as $page) {
             try {
-                $pageContent = @file_get_contents($page->getVariable('external'), false);
+                $pageContent = file_get_contents($page->getVariable('external'), false);
+                $pageContent = Util::fileGetContents($page->getVariable('external'), false);
                 if ($pageContent === false) {
                     throw new Exception(sprintf('Cannot get contents from "%s"', $page->getVariable('external')));
                 }
