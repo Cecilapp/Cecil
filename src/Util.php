@@ -198,4 +198,24 @@ class Util
 
         return substr($string, 0, -2);
     }
+
+    /**
+     * Simplified version file_get_contents() with error handler.
+     *
+     * @param string $filename
+     *
+     * @return string|false
+     */
+    public static function fileGetContents($filename, $use_include_path = false, $context = null, $offset = 0, $maxlen = null)
+    {
+        set_error_handler(
+            function ($severity, $message, $file, $line) {
+                throw new \ErrorException($message, 0, $severity, $file, $line, null);
+            }
+        );
+        $return = file_get_contents($filename, $use_include_path, $context, $offset, $maxlen);
+        restore_error_handler();
+
+        return $return;
+    }
 }
