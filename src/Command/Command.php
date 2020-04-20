@@ -180,10 +180,6 @@ class Command extends BaseCommand
         $this->getProgressBar()->setProgress($itemsCount);
         $this->getProgressBar()->setMessage($message);
         $this->getProgressBar()->display();
-        if ($itemsCount == $itemsMax) {
-            $this->getProgressBar()->finish();
-            $this->output->writeln('');
-        }
     }
 
     /**
@@ -211,18 +207,21 @@ class Command extends BaseCommand
 
                     return;
                 }
-                $output->writeln(" $message");
+                $output->write(" $message");
 
                 return;
             } elseif (strpos($code, '_ERROR') !== false) {
+                $output->writeln('');
                 $output->writeln(" <error>$message</error>");
 
                 return;
             } elseif ($code == 'TIME') {
+                $output->writeln('');
                 $output->writeln("<comment>$message</comment>");
 
                 return;
             }
+            $output->writeln('');
             $output->writeln("<info>$message</info>");
         };
     }
