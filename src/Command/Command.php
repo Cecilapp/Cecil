@@ -218,6 +218,7 @@ class Command extends BaseCommand
 
                         return;
                     }
+
                     return;
                 }
                 $this->output->writeln(" <error>$message</error>", OutputInterface::VERBOSITY_NORMAL);
