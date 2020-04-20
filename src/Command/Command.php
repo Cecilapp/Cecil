@@ -139,13 +139,13 @@ class Command extends BaseCommand
      *
      * @return void
      */
-    protected function createProgressBar($max): void
+    protected function createProgressBar(int $max): void
     {
         if ($this->progressBar === null || $max != $this->progressBarMax) {
             $this->progressBarMax = $max;
             $this->progressBar = new ProgressBar($this->output, $max);
             $this->progressBar->setOverwrite(true);
-            $this->progressBar->setFormat(' %percent:3s%% [%bar%] %current%/%max%');
+            $this->progressBar->setFormat(' %percent:3s%% [%bar%] %current%/%max% %message%');
             $this->progressBar->setBarCharacter('#');
             $this->progressBar->setEmptyBarCharacter(' ');
             $this->progressBar->setProgressCharacter('#');
@@ -169,14 +169,16 @@ class Command extends BaseCommand
      *
      * @param int $itemsCount
      * @param int $itemsMax
+     * @param string $message
      *
      * @return void
      */
-    protected function printProgressBar($itemsCount, $itemsMax): void
+    protected function printProgressBar(int $itemsCount, int $itemsMax, string $message = ''): void
     {
         $this->createProgressBar($itemsMax);
         $this->getProgressBar()->clear();
         $this->getProgressBar()->setProgress($itemsCount);
+        $this->getProgressBar()->setMessage($message);
         $this->getProgressBar()->display();
         if ($itemsCount == $itemsMax) {
             $this->getProgressBar()->finish();
@@ -192,14 +194,15 @@ class Command extends BaseCommand
     public function messageCallback(): \Closure
     {
         return function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
+            $output = $this->output;
             if (strpos($code, '_PROGRESS') !== false) {
-                if ($this->output->isVerbose()) {
+                if ($output->isVerbose()) {
                     if ($itemsCount > 0) {
-                        $this->output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
+                        $output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
 
                         return;
                     }
-                    $this->output->writeln(" $message");
+                    $output->writeln(" $message");
 
                     return;
                 }
@@ -208,28 +211,19 @@ class Command extends BaseCommand
 
                     return;
                 }
-                $this->output->writeln(" $message");
+                $output->writeln(" $message");
 
                 return;
             } elseif (strpos($code, '_ERROR') !== false) {
-                if ($itemsCount > 0) {
-                    if ($this->output->isVerbose()) {
-                        $this->output->writeln(sprintf('<error> (%u/%u) %s</error>', $itemsCount, $itemsMax, $message));
-
-                        return;
-                    }
-
-                    return;
-                }
-                $this->output->writeln(" <error>$message</error>", OutputInterface::VERBOSITY_NORMAL);
+                $output->writeln(" <error>$message</error>");
 
                 return;
             } elseif ($code == 'TIME') {
-                $this->output->writeln("<comment>$message</comment>");
+                $output->writeln("<comment>$message</comment>");
 
                 return;
             }
-            $this->output->writeln("<info>$message</info>");
+            $output->writeln("<info>$message</info>");
         };
     }
 }
