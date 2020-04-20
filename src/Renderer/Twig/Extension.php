@@ -404,7 +404,7 @@ class Extension extends SlugifyExtension
 
                     // compiles if target file doesn't exists
                     if (!Util::getFS()->exists(Util::joinFile($this->config->getOutputPath(), $targetPath))) {
-                        $scss = file_get_contents($filePath);
+                        $scss = Util::fileGetContents($filePath);
                         $css = $scssPhp->compile($scss);
                         Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $targetPath), $css);
                     }

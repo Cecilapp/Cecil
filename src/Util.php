@@ -206,14 +206,18 @@ class Util
      *
      * @return string|false
      */
-    public static function fileGetContents($filename, $use_include_path = false, $context = null, $offset = 0, $maxlen = null)
+    public static function fileGetContents($filename)
     {
         set_error_handler(
             function ($severity, $message, $file, $line) {
                 throw new \ErrorException($message, 0, $severity, $file, $line, null);
             }
         );
-        $return = file_get_contents($filename, $use_include_path, $context, $offset, $maxlen);
+        try {
+            $return = file_get_contents($filename);
+        } catch (\Exception $e) {
+            $return = false;
+        }
         restore_error_handler();
 
         return $return;

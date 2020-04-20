@@ -48,7 +48,7 @@ class ConfigImport extends AbstractStep
                         throw new \ErrorException($message, 0, $severity, $file, $line, null);
                     }
                 );
-                $config = file_get_contents($themeConfigFile);
+                $config = Util::fileGetContents($themeConfigFile);
                 restore_error_handler();
                 $themeConfig = Yaml::parse($config);
                 $this->config->import($themeConfig);

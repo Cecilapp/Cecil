@@ -39,7 +39,7 @@ class PostProcessHtml extends AbstractPostProcess
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file)
     {
-        $html = file_get_contents($file->getPathname());
+        $html = \Cecil\Util::fileGetContents($file->getPathname());
         $minified = $this->processor->minify($html);
         \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
     }

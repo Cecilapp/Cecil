@@ -124,10 +124,10 @@ class NewPage extends Command
     {
         $section = strstr($name, DIRECTORY_SEPARATOR, true);
         if ($section && file_exists($model = Util::joinFile($this->getPath(), 'models', "$section.md"))) {
-            return file_get_contents($model);
+            return Util::fileGetContents($model);
         }
         if (file_exists($model = Util::joinFile($this->getPath(), 'models/default.md'))) {
-            return file_get_contents($model);
+            return Util::fileGetContents($model);
         }
 
         return <<<'EOT'

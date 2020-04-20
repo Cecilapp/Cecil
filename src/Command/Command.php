@@ -118,7 +118,7 @@ class Command extends BaseCommand
         }
 
         try {
-            $siteConfig = Yaml::parse(file_get_contents($this->configFile));
+            $siteConfig = Yaml::parse(Util::fileGetContents($this->configFile));
             $config = array_replace_recursive($siteConfig, $config);
             $this->builder = (new Builder($config, $this->messageCallback()))
                 ->setSourceDir($this->getPath())
