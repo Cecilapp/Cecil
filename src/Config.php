@@ -469,7 +469,7 @@ class Config
     {
         $array = array_column($this->getLanguages(), 'code');
 
-        if (!$index = array_search($code, $array)) {
+        if (false === $index = array_search($code, $array)) {
             throw new Exception(sprintf('The language code "%s" is not defined.', $code));
         }
 
