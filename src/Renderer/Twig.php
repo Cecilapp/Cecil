@@ -32,14 +32,16 @@ class Twig implements RendererInterface
         $loader = new \Twig\Loader\FilesystemLoader($templatesPath);
         // Twig
         $this->twig = new \Twig\Environment($loader, [
-            'debug'            => true,
+            'debug'            => getenv('CECIL_DEBUG') == 'true' ? true : false,
             'strict_variables' => true,
             'autoescape'       => false,
             'cache'            => false,
             'auto_reload'      => true,
         ]);
         // adds extensions
-        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+        if (getenv('CECIL_DEBUG') == 'true') {
+            $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+        }
         $this->twig->addExtension(new TwigExtension($builder));
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // set date format & timezone
