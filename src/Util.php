@@ -213,6 +213,7 @@ class Util
                 throw new \ErrorException($message, 0, $severity, $file, $line, null);
             }
         );
+
         try {
             $return = file_get_contents($filename);
         } catch (\Exception $e) {
