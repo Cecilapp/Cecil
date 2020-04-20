@@ -50,6 +50,7 @@ class PagesConvert extends AbstractStep
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
+
                 try {
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
                 } catch (Exception $e) {
