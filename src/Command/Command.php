@@ -212,7 +212,15 @@ class Command extends BaseCommand
 
                 return;
             } elseif (strpos($code, '_ERROR') !== false) {
-                $this->output->writeln("<error>$message</error>");
+                if ($itemsCount > 0) {
+                    if ($this->output->isVerbose()) {
+                        $this->output->writeln(sprintf('<error> (%u/%u) %s</error>', $itemsCount, $itemsMax, $message));
+
+                        return;
+                    }
+                    return;
+                }
+                $this->output->writeln(" <error>$message</error>", OutputInterface::VERBOSITY_NORMAL);
 
                 return;
             } elseif ($code == 'TIME') {

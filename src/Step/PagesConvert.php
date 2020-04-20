@@ -50,10 +50,15 @@ class PagesConvert extends AbstractStep
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
-                $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
-                if ($convertedPage === false) {
+                try {
+                    $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
+                } catch (Exception $e) {
                     $this->builder->getPages()->remove($page->getId());
                     $countError++;
+
+                    $message = sprintf('%s: unable to convert front matter (%s)', $page->getId(), $e->getMessage());
+                    call_user_func_array($this->builder->getMessageCb(), ['CONVERT_ERROR', $message, $count, $max]);
+
                     continue;
                 }
                 $message = $page->getId();
@@ -84,19 +89,18 @@ class PagesConvert extends AbstractStep
      * @param Page   $page
      * @param string $format
      *
-     * @return Page|bool
+     * @throws Exception
+     *
+     * @return Page
      */
-    public function convertPage(Page $page, $format = 'yaml')
+    public function convertPage(Page $page, $format = 'yaml'): Page
     {
         // converts frontmatter
         if ($page->getFrontmatter()) {
             try {
                 $variables = Converter::convertFrontmatter($page->getFrontmatter(), $format);
-            } catch (Exception $e) {
-                $message = sprintf('Unable to convert front matter of "%s": %s', $page->getId(), $e->getMessage());
-                call_user_func_array($this->builder->getMessageCb(), ['CONVERT_ERROR', $message]);
-
-                return false;
+            } catch (\Exception $e) {
+                throw new Exception($e->getMessage());
             }
             $page->setVariables($variables);
         }
