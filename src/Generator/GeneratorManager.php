@@ -57,6 +57,7 @@ class GeneratorManager extends \SplPriorityQueue
         if ($max > 0) {
             $this->top();
             while ($this->valid()) {
+                $count = $max - $this->key();
                 /** @var AbstractGenerator $generator */
                 $generator = $this->current();
                 /** @var PagesCollection $generatedPages */
@@ -70,7 +71,6 @@ class GeneratorManager extends \SplPriorityQueue
                     }
                 }
                 $message = sprintf('%s: %s', Util::formatClassName($generator), count($generatedPages));
-                $count = $max - $this->key();
                 call_user_func_array($messageCallback, ['GENERATE_PROGRESS', $message, $count, $max]);
                 $this->next();
             }

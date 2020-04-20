@@ -12,6 +12,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
+use Exception;
 
 /**
  * Class Generator\ExternalBody.
@@ -30,15 +31,17 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
         /** @var Page $page */
         foreach ($filteredPages as $page) {
             try {
-                $pageContent = file_get_contents($page->getVariable('external'), false);
+                $pageContent = @file_get_contents($page->getVariable('external'), false);
+                if ($pageContent === false) {
+                    throw new Exception(sprintf('Cannot get contents from "%s"', $page->getVariable('external')));
+                }
                 $html = (new Converter())
                     ->convertBody($pageContent);
                 $page->setBodyHtml($html);
 
                 $this->generatedPages->add($page);
             } catch (\Exception $e) {
-                $error = sprintf('Cannot get contents from "%s"', $page->getVariable('external'));
-                $message = sprintf('Unable to generate "%s": %s', $page->getId(), $error);
+                $message = sprintf('%s: %s', $page->getId(), $e->getMessage());
                 call_user_func_array($this->messageCallback, ['GENERATE_ERROR', $message]);
             }
         }

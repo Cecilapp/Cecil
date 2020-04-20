@@ -9,7 +9,10 @@
  * file that was distributed with this source code.
  */
 
-error_reporting(E_ALL ^ E_NOTICE);
+error_reporting(E_ERROR);
+if (getenv('CECIL_DEBUG') == 'true') {
+    error_reporting(E_ALL ^ E_NOTICE);
+}
 date_default_timezone_set('UTC');
 
 $name       = 'Cecil';

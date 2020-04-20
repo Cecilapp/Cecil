@@ -1,0 +1,16 @@
+title: Cecil test
+
+languages:
+  - code: en
+    name: English
+    locale: en_US
+  - code: fr
+    name: Français
+    locale: fr_FR
+    config:
+      title: Cecil FR
+      description: En français !
+
+generators:
+  99: Cecil\Generator\Test
+  100: Cecil\Generator\TitleReplace
