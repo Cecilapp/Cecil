@@ -167,8 +167,8 @@ class Command extends BaseCommand
     /**
      * Prints the Progress Bar.
      *
-     * @param int $itemsCount
-     * @param int $itemsMax
+     * @param int    $itemsCount
+     * @param int    $itemsMax
      * @param string $message
      *
      * @return void
