@@ -121,10 +121,11 @@ class Command extends BaseCommand
         }
 
         try {
-            $siteConfig = Yaml::parse(Util::fileGetContents($this->configFile));
-            if ($siteConfig === false) {
+            $configContent = Util::fileGetContents($this->configFile);
+            if ($configContent === false) {
                 throw new \Exception('Can\'t read the configuration file.');
             }
+            $siteConfig = Yaml::parse($configContent);
             $config = array_replace_recursive($siteConfig, $config);
             $this->builder = (new Builder($config, $this->messageCallback()))
                 ->setSourceDir($this->getPath())
