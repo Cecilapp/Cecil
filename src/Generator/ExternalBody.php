@@ -43,7 +43,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
                 $this->generatedPages->add($page);
             } catch (\Exception $e) {
                 $message = sprintf('%s: %s', $page->getId(), $e->getMessage());
-                call_user_func_array($this->messageCallback, ['GENERATE_ERROR', $message]);
+                call_user_func_array($this->messageCallback, ['GENERATE_ERROR', $message, -1]);
             }
         }
     }

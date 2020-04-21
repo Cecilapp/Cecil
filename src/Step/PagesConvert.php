@@ -58,7 +58,7 @@ class PagesConvert extends AbstractStep
                     $countError++;
 
                     $message = sprintf('%s: unable to convert front matter (%s)', $page->getId(), $e->getMessage());
-                    call_user_func_array($this->builder->getMessageCb(), ['CONVERT_ERROR', $message]);
+                    call_user_func_array($this->builder->getMessageCb(), ['CONVERT_ERROR', $message, $count, $max]);
 
                     continue;
                 }
@@ -77,7 +77,7 @@ class PagesConvert extends AbstractStep
             }
         }
         if ($countError > 0) {
-            $message = sprintf('Number of errors: %s', $countError);
+            $message = sprintf('Errors: %s', $countError);
             call_user_func_array($this->builder->getMessageCb(), ['CONVERT_ERROR', $message]);
         }
     }

@@ -152,7 +152,7 @@ class Command extends BaseCommand
             $this->progressBarMax = $max;
             $this->progressBar = new ProgressBar($this->output, $max);
             $this->progressBar->setOverwrite(true);
-            $this->progressBar->setFormat(' %percent:3s%% [%bar%] %current%/%max% %message%');
+            $this->progressBar->setFormat(' %percent:3s%% [%bar%] %current%/%max%');
             $this->progressBar->setBarCharacter('#');
             $this->progressBar->setEmptyBarCharacter(' ');
             $this->progressBar->setProgressCharacter('#');
@@ -174,18 +174,16 @@ class Command extends BaseCommand
     /**
      * Prints the Progress Bar.
      *
-     * @param int    $itemsCount
-     * @param int    $itemsMax
-     * @param string $message
+     * @param int $itemsCount
+     * @param int $itemsMax
      *
      * @return void
      */
-    protected function printProgressBar(int $itemsCount, int $itemsMax, string $message = ''): void
+    protected function printProgressBar(int $itemsCount, int $itemsMax): void
     {
         $this->createProgressBar($itemsMax);
         $this->getProgressBar()->clear();
         $this->getProgressBar()->setProgress($itemsCount);
-        $this->getProgressBar()->setMessage($message);
         $this->getProgressBar()->display();
         if ($itemsCount == $itemsMax) {
             $this->getProgressBar()->finish();
@@ -222,7 +220,19 @@ class Command extends BaseCommand
 
                 return;
             } elseif (strpos($code, '_ERROR') !== false) {
-                $output->writeln(" <error>$message</error>");
+                if ($output->isVerbose()) {
+                    if ($itemsCount > 0) {
+                        $output->writeln(" <error>$message</error>");
+
+                        return;
+                    }
+                    $output->writeln(" <error>$message</error>");
+
+                    return;
+                }
+                if ($itemsCount == 0) {
+                    $output->writeln(" <error>$message</error>");
+                }
 
                 return;
             } elseif ($code == 'TIME') {
