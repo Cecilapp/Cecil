@@ -19,9 +19,10 @@ $name       = 'Cecil';
 $version    = '@git_version@';
 $phpVersion = '7.1.0';
 
-// compare PHP version
+// checks PHP minimal version
 if (version_compare(PHP_VERSION, $phpVersion, '<')) {
-    echo "PHP $phpVersion is required (server version: ".PHP_VERSION.PHP_EOL.")";
+    printf('PHP %s is required (server version: %s)%s', $phpVersion, PHP_VERSION, PHP_EOL);
+
     exit(2);
 }
 

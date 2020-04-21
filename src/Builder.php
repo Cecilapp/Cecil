@@ -493,10 +493,11 @@ class Builder
                 if (!file_exists($filePath)) {
                     throw new \Exception(sprintf('%s file doesn\'t exist!', $filePath));
                 }
-                self::$version = trim(file_get_contents($filePath));
-                if (self::$version === false) {
+                $version = Util::fileGetContents($filePath);
+                if ($version === false) {
                     throw new \Exception(sprintf('Can\'t get %s file!', $filePath));
                 }
+                self::$version = trim($version);
             } catch (\Exception $e) {
                 self::$version = self::VERSION;
             }

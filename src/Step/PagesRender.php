@@ -68,7 +68,6 @@ class PagesRender extends AbstractStep
         /** @var Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-            $formats = ['html'];
             $rendered = [];
 
             // i18n
@@ -128,12 +127,20 @@ class PagesRender extends AbstractStep
                     $rendered[$format]['output'] = $output;
                     $rendered[$format]['template']['scope'] = $layout['scope'];
                     $rendered[$format]['template']['file'] = $layout['file'];
+                    // profiler
+                    if (getenv('CECIL_DEBUG') == 'true') {
+                        $dumper = new \Twig\Profiler\Dumper\HtmlDumper();
+                        file_put_contents(
+                            Util::joinFile($this->config->getOutputPath(), '_debug_twig_profile.html'),
+                            $dumper->dump($this->builder->getRenderer()->profile)
+                        );
+                    }
                 } catch (\Twig\Error\Error $e) {
                     throw new Exception(sprintf(
-                        'Template "%s:%s" line %s (for page "%s"): %s',
+                        'Template "%s:%s"%s (for page "%s"): %s',
                         $layout['scope'],
                         $layout['file'],
-                        $e->getTemplateLine(),
+                        $e->getTemplateLine() >= 0 ? sprintf(' line %s', $e->getTemplateLine()) : '',
                         $page->getId(),
                         $e->getMessage()
                     ));

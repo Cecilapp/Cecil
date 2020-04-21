@@ -22,6 +22,8 @@ class Twig implements RendererInterface
     protected $twig;
     /** @var string */
     protected $templatesDir;
+    /** @var \Twig\Profiler\Profile */
+    public $profile;
 
     /**
      * {@inheritdoc}
@@ -32,27 +34,33 @@ class Twig implements RendererInterface
         $loader = new \Twig\Loader\FilesystemLoader($templatesPath);
         // Twig
         $this->twig = new \Twig\Environment($loader, [
-            'debug'            => true,
+            'debug'            => getenv('CECIL_DEBUG') == 'true' ? true : false,
             'strict_variables' => true,
             'autoescape'       => false,
             'cache'            => false,
             'auto_reload'      => true,
         ]);
-        // adds extensions
-        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
-        $this->twig->addExtension(new TwigExtension($builder));
-        $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // set date format & timezone
         $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
             ->setDateFormat($builder->getConfig()->get('date.format'));
         $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
             ->setTimezone($builder->getConfig()->get('date.timezone'));
+        // adds extensions
+        $this->twig->addExtension(new TwigExtension($builder));
+        $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // internationalisation
         if (extension_loaded('intl')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
         }
         if (extension_loaded('gettext')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
+        }
+        if (getenv('CECIL_DEBUG') == 'true') {
+            // dump()
+            $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+            // profiler
+            $this->profile = new \Twig\Profiler\Profile();
+            $this->twig->addExtension(new \Twig\Extension\ProfilerExtension($this->profile));
         }
     }
 

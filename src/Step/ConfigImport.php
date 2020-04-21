@@ -33,7 +33,7 @@ class ConfigImport extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['CONFIG', 'Importing config']);
+        call_user_func_array($this->builder->getMessageCb(), ['CONFIG', 'Importing configuration']);
 
         $themes = array_reverse((array) $this->config->getTheme());
         $count = 0;
@@ -41,15 +41,12 @@ class ConfigImport extends AbstractStep
         foreach ($themes as $theme) {
             $count++;
             $themeConfigFile = $this->config->getThemesPath().'/'.$theme.'/'.self::THEME_CONFIG_FILE;
-            $message = sprintf('"%s": no config file', $theme);
+            $message = sprintf('"%s": no configuration file', $theme);
             if (Util::getFS()->exists($themeConfigFile)) {
-                set_error_handler(
-                    function ($severity, $message, $file, $line) {
-                        throw new \ErrorException($message, 0, $severity, $file, $line, null);
-                    }
-                );
-                $config = file_get_contents($themeConfigFile);
-                restore_error_handler();
+                $config = Util::fileGetContents($themeConfigFile);
+                if ($config === false) {
+                    throw new \Exception('Can\'t read the configuration file.');
+                }
                 $themeConfig = Yaml::parse($config);
                 $this->config->import($themeConfig);
                 $message = sprintf('"%s": imported', $theme);

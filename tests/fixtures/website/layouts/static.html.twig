@@ -22,7 +22,8 @@
 {% endfor %}
 </ul>
 <a name="photo-stream"></a>
-{% for file in site.static if file.ext in ['jpg', 'jpeg', 'png', 'gif'] %}
+{#% for file in site.static if file.ext in ['jpg', 'jpeg', 'png', 'gif'] %#}
+{% for file in site.static|filter(f => f.ext in ['jpg', 'jpeg', 'png', 'gif']) %}
 <figure>
   <img src="{{ url(file.path) }}" alt="{{ file.name }}"/>
 	<figcaption>{{ file.basename|replace({'-':' ','_':' '})|title }}</figcaption>
