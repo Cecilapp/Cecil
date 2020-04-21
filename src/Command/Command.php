@@ -90,6 +90,9 @@ class Command extends BaseCommand
         try {
             parent::run($input, $output);
         } catch (\Exception $e) {
+            if ($this->io === null) {
+                $this->io = new SymfonyStyle($input, $output);
+            }
             $this->io->error($e->getMessage());
         }
     }
