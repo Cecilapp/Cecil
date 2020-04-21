@@ -114,19 +114,22 @@ class Command extends BaseCommand
     protected function getBuilder(array $config = []): Builder
     {
         if (!file_exists($this->configFile)) {
-            throw new \Exception(sprintf('Config file not found in "%s"!', $this->getPath()));
+            throw new \Exception(sprintf('Configuration file not found in "%s"!', $this->getPath()));
         }
 
         try {
             $siteConfig = Yaml::parse(Util::fileGetContents($this->configFile));
+            if ($siteConfig === false) {
+                throw new \Exception('Can\'t read the configuration file.');
+            }
             $config = array_replace_recursive($siteConfig, $config);
             $this->builder = (new Builder($config, $this->messageCallback()))
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
-            throw new \Exception(sprintf('Config file parse error: %s', $e->getMessage()));
+            throw new \Exception(sprintf('Configuration file parse error: %s', $e->getMessage()));
         } catch (\Exception $e) {
-            throw new \Exception(sprintf($e->getMessage()));
+            throw new \Exception($e->getMessage());
         }
 
         return $this->builder;

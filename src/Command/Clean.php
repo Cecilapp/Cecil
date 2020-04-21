@@ -49,7 +49,7 @@ class Clean extends Command
         if ($this->fs->exists(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'))) {
             $outputDir = Util::fileGetContents(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'));
         }
-        if ($this->fs->exists(Util::joinFile($this->getPath(), $outputDir))) {
+        if ($outputDir !== false && $this->fs->exists(Util::joinFile($this->getPath(), $outputDir))) {
             $this->fs->remove(Util::joinFile($this->getPath(), $outputDir));
             $output->writeln('Removing output directory...');
             $output->writeln(

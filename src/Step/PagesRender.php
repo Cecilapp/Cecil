@@ -68,7 +68,6 @@ class PagesRender extends AbstractStep
         /** @var Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-            $formats = ['html'];
             $rendered = [];
 
             // i18n
