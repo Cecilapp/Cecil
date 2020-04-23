@@ -47,7 +47,6 @@ class PagesConvert extends AbstractStep
 
         $max = count($this->builder->getPages());
         $count = 0;
-        $countError = 0;
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
@@ -57,7 +56,6 @@ class PagesConvert extends AbstractStep
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
                 } catch (Exception $e) {
                     $this->builder->getPages()->remove($page->getId());
-                    $countError++;
 
                     $message = sprintf('Unable to convert front matter of page "%s"', $page->getId());
                     $this->builder->getLogger()->error($message);
@@ -79,10 +77,6 @@ class PagesConvert extends AbstractStep
                 }
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
-        }
-        if ($countError > 0) {
-            $message = sprintf('Conversion errors: %s', $countError);
-            $this->builder->getLogger()->error($message);
         }
     }
 
