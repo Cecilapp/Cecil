@@ -76,12 +76,8 @@ class MenusCreate extends AbstractStep
                     if (array_key_exists('enabled', $property) && false === $property['enabled']) {
                         $enabled = false;
                         if (!$menu->has($property['id'])) {
-                            call_user_func_array($this->builder->getMessageCb(), [
-                                'MENU_PROGRESS',
-                                sprintf('%s > %s (disabled)', (string) $menu, $property['id']),
-                                $countConfig,
-                                $totalConfig,
-                            ]);
+                            $message = sprintf('%s > %s (disabled)', (string) $menu, $property['id']);
+                            $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                         }
                     }
                     // is entry already exists?
