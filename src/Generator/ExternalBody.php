@@ -42,7 +42,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
 
                 $this->generatedPages->add($page);
             } catch (\Exception $e) {
-                $message = sprintf('%s: %s', $page->getId(), $e->getMessage());
+                $message = sprintf('%s in page "%s"', $e->getMessage(), $page->getId());
                 $this->builder->getLogger()->error($message);
             }
         }
