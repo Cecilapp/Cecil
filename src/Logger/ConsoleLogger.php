@@ -81,7 +81,10 @@ class ConsoleLogger extends SfConsoleLogger
             if (array_key_exists('progress', $context)) {
                 $pattern = '<%1$s>('.$context['progress'][0].'/'.$context['progress'][1].') %3$s</%1$s>';
             }
-            $output->writeln(sprintf($pattern, $this->formatLevelMap[$level], $level, $this->interpolate($message, $context)), $this->verbosityLevelMap[$level]);
+            $output->writeln(
+                sprintf($pattern, $this->formatLevelMap[$level], $level, $this->interpolate($message, $context)),
+                $this->verbosityLevelMap[$level]
+            );
         }
     }
 
