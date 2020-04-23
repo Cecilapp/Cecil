@@ -53,10 +53,13 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\PostProcessJs',
         'Cecil\Step\PostProcessImages',
     ];
-    /** @var string App version. */
-    protected static $version;
+
     /** @var Config Configuration. */
     protected $config;
+    /** @var LoggerInterface Logger. */
+    protected $logger;
+    /** @var array Build options. */
+    protected $options;
     /** @var Finder Content iterator. */
     protected $content;
     /** @var array Data collection. */
@@ -71,14 +74,10 @@ class Builder implements LoggerAwareInterface
     protected $taxonomies;
     /** @var Renderer\RendererInterface Renderer. */
     protected $renderer;
-    /** @var \Closure Message callback. */
-    protected $messageCallback;
     /** @var GeneratorManager Generators manager. */
     protected $generatorManager;
-    /** @var array Log. */
-    protected $log;
-    /** @var array Options. */
-    protected $options;
+    /** @var string Application version. */
+    protected static $version;
 
     /**
      * @param Config|array|null    $config
@@ -175,32 +174,6 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
-    /**
-     * Returns the logger instance.
-     *
-     * @return LoggerInterface
-     */
-    public function getLogger(): LoggerInterface
-    {
-        return $this->logger;
-    }
-
-    /**
-     * @return array $options Returns build options.
-     */
-    public function getBuildOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
      * Config::setSourceDir() alias.
      *
      * @param string|null $sourceDir
@@ -226,6 +199,32 @@ class Builder implements LoggerAwareInterface
         $this->config->setDestinationDir($destinationDir);
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Returns the logger instance.
+     *
+     * @return LoggerInterface
+     */
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @return array $options Returns build options.
+     */
+    public function getBuildOptions(): array
+    {
+        return $this->options;
     }
 
     /**
@@ -367,7 +366,9 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Return version.
+     * Returns application version.
+     *
+     * See VERSION file at root.
      *
      * @return string
      */
