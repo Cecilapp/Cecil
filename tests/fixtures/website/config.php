@@ -1,4 +1,5 @@
 <?php
+
 return [
     'debug'      => true,
     'title'      => 'Cecil test',
