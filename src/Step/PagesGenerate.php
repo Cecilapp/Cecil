@@ -36,7 +36,7 @@ class PagesGenerate extends AbstractStep
         if ($this->process) {
             $generatorManager = new GeneratorManager();
 
-            call_user_func_array($this->builder->getMessageCb(), ['GENERATE', 'Generating pages']);
+            $this->builder->getLogger()->debug('Generating pages');
 
             // loads local generators
             spl_autoload_register(function ($className) {
@@ -50,7 +50,7 @@ class PagesGenerate extends AbstractStep
             array_walk($generators, function ($generator, $priority) use ($generatorManager) {
                 if (!class_exists($generator)) {
                     $message = sprintf('Unable to load generator "%s"', $generator);
-                    call_user_func_array($this->builder->getMessageCb(), ['GENERATE_ERROR', $message]);
+                    $this->builder->getLogger()->debug($message);
 
                     return;
                 }

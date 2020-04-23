@@ -34,10 +34,7 @@ class ContentLoad extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array(
-            $this->builder->getMessageCb(),
-            ['LOCATE', 'Loading content']
-        );
+        $this->builder->getLogger()->debug('Loading content');
 
         $content = Finder::create()
             ->files()
@@ -51,16 +48,10 @@ class ContentLoad extends AbstractStep
 
         $count = $content->count();
         if ($count === 0) {
-            call_user_func_array(
-                $this->builder->getMessageCb(),
-                ['LOCATE_PROGRESS', 'Nothing to load']
-            );
+            $this->builder->getLogger()->debug('Nothing to load');
 
             return 0;
         }
-        call_user_func_array(
-            $this->builder->getMessageCb(),
-            ['LOCATE_PROGRESS', 'Files loaded', $count, $count]
-        );
+        $this->builder->getLogger()->debug('Files loaded', ['progress' => [$count, $count]]);
     }
 }

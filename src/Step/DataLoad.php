@@ -41,7 +41,7 @@ class DataLoad extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['DATA', 'Loading data']);
+        $this->builder->getLogger()->debug('Loading data');
 
         $files = Finder::create()
             ->files()
@@ -52,7 +52,7 @@ class DataLoad extends AbstractStep
 
         if ($max <= 0) {
             $message = 'No files';
-            call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message]);
+            $this->builder->getLogger()->debug($message);
 
             return;
         }
@@ -109,7 +109,7 @@ class DataLoad extends AbstractStep
             $this->builder->setData($dataArray);
 
             $message = sprintf('%s.%s', Util::joinFile($path), $file->getExtension());
-            call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
+            $this->builder->getLogger()->debug($message, ['progress' => [$count, $count]]);
         }
     }
 

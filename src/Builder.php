@@ -12,13 +12,16 @@ namespace Cecil;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Generator\GeneratorManager;
+use Cecil\Logger\PrintLogger;
 use Cecil\Util\Plateform;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
  * Class Builder.
  */
-class Builder
+class Builder implements LoggerAwareInterface
 {
     const VERSION = '5.x-dev';
     const VERBOSITY_QUIET = -1;
@@ -78,15 +81,35 @@ class Builder
     protected $options;
 
     /**
-     * @param Config|array|null $config
-     * @param \Closure|null     $messageCallback
+     * @param Config|array|null    $config
+     * @param LoggerInterface|null $logger
      */
-    public function __construct($config = null, \Closure $messageCallback = null)
+    public function __construct($config = null, LoggerInterface $logger = null)
     {
-        $this->setConfig($config)
-            ->setSourceDir(null)
-            ->setDestinationDir(null);
-        $this->setMessageCallback($messageCallback);
+        $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
+
+        if ($logger === null) {
+            $logger = new PrintLogger(); // default logger
+        }
+        $this->setLogger($logger);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Returns the logger instance.
+     *
+     * @return LoggerInterface
+     */
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger;
     }
 
     /**
@@ -275,85 +298,6 @@ class Builder
     }
 
     /**
-     * Set log message format by step status (start, progress or error)
-     * in a callback function.
-     *
-     * @param \Closure|null $messageCallback
-     *
-     * @return void
-     */
-    public function setMessageCallback(\Closure $messageCallback = null): void
-    {
-        if ($messageCallback === null) {
-            $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
-                switch ($code) {
-                    case 'CONFIG':
-                    case 'LOCATE':
-                    case 'DATA':
-                    case 'CREATE':
-                    case 'CONVERT':
-                    case 'GENERATE':
-                    case 'MENU':
-                    case 'COPY':
-                    case 'RENDER':
-                    case 'SAVE':
-                    case 'POSTPROCESS':
-                    case 'TIME':
-                    case 'DEFAULT':
-                        $log = sprintf("%s\n", $message);
-                        $this->addLog($log);
-                        break;
-                    case 'CONFIG_PROGRESS':
-                    case 'LOCATE_PROGRESS':
-                    case 'DATA_PROGRESS':
-                    case 'CREATE_PROGRESS':
-                    case 'CONVERT_PROGRESS':
-                    case 'GENERATE_PROGRESS':
-                    case 'MENU_PROGRESS':
-                    case 'COPY_PROGRESS':
-                    case 'RENDER_PROGRESS':
-                    case 'SAVE_PROGRESS':
-                    case 'POSTPROCESS_PROGRESS':
-                    case 'DEFAULT_PROGRESS':
-                        if ($itemsCount > 0) {
-                            $log = sprintf("(%u/%u) %s\n", $itemsCount, $itemsMax, $message);
-                            $this->addLog($log, 1);
-                        } else {
-                            $log = sprintf("%s\n", $message);
-                            $this->addLog($log, 1);
-                        }
-                        break;
-                    case 'CONFIG_ERROR':
-                    case 'LOCATE_ERROR':
-                    case 'DATA_ERROR':
-                    case 'CREATE_ERROR':
-                    case 'CONVERT_ERROR':
-                    case 'GENERATE_ERROR':
-                    case 'MENU_ERROR':
-                    case 'COPY_ERROR':
-                    case 'OPTIMIZE_ERROR':
-                    case 'RENDER_ERROR':
-                    case 'SAVE_ERROR':
-                    case 'POSTPROCESS_ERROR':
-                    case 'DEFAULT_ERROR':
-                        $log = sprintf(">> %s\n", $message);
-                        $this->addLog($log);
-                        break;
-                }
-            };
-        }
-        $this->messageCallback = $messageCallback;
-    }
-
-    /**
-     * @return \Closure Return message callback function.
-     */
-    public function getMessageCb(): \Closure
-    {
-        return $this->messageCallback;
-    }
-
-    /**
      * Set renderer object.
      *
      * @param Renderer\RendererInterface $renderer
@@ -371,56 +315,6 @@ class Builder
     public function getRenderer(): Renderer\RendererInterface
     {
         return $this->renderer;
-    }
-
-    /**
-     * Add log entry.
-     *
-     * @param string $log  Log message.
-     * @param int    $type Verbosity level.
-     *
-     * @return array|null
-     */
-    public function addLog(string $log, int $type = 0): ?array
-    {
-        $this->log[] = [
-            'type' => $type,
-            'log'  => $log,
-        ];
-
-        return $this->getLog($type);
-    }
-
-    /**
-     * @param int $type
-     *
-     * @return array|null Return log array filtered by type.
-     */
-    public function getLog(int $type = 0): ?array
-    {
-        if (is_array($this->log)) {
-            return array_filter($this->log, function ($key) use ($type) {
-                return $key['type'] <= $type;
-            });
-        }
-
-        return null;
-    }
-
-    /**
-     * Print log message.
-     *
-     * @param int $type
-     *
-     * @return void
-     */
-    public function showLog(int $type = 0): void
-    {
-        if ($log = $this->getLog($type)) {
-            foreach ($log as $value) {
-                printf('%s', $value['log']);
-            }
-        }
     }
 
     /**
@@ -444,7 +338,7 @@ class Builder
         $startTime = microtime(true);
         // prepare options
         $this->options = array_merge([
-            'verbosity' => self::VERBOSITY_NORMAL, // -1: quiet, 0: normal, 1: verbose, 2: debug
+            'verbosity' => self::VERBOSITY_NORMAL,
             'drafts'    => false, // build drafts or not
             'dry-run'   => false, // if dry-run is true, generated files are not saved
         ], $options);
@@ -471,7 +365,7 @@ class Builder
             sprintf('Built in %ss', round(microtime(true) - $startTime, 2)),
         ]);
         // show log
-        $this->showLog($this->options['verbosity']);
+        //$this->showLog($this->options['verbosity']);
 
         return $this;
     }
