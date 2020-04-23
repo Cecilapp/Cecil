@@ -16,7 +16,7 @@ use Cecil\Util;
 
 class GeneratorManager extends \SplPriorityQueue
 {
-    /** @var Builder $builder */
+    /** @var Builder */
     protected $builder;
 
     /**
