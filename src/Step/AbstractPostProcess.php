@@ -54,10 +54,7 @@ abstract class AbstractPostProcess extends AbstractStep
     {
         $this->setProcessor();
 
-        call_user_func_array(
-            $this->builder->getMessageCb(),
-            ['POSTPROCESS', sprintf('Post-processing %s', $this->type)]
-        );
+        $this->builder->getLogger()->notice(sprintf('Post-processing %s', $this->type));
 
         $extensions = $this->builder->getConfig()->get(sprintf('postprocess.%s.ext', $this->type));
         if (empty($extensions)) {
@@ -73,8 +70,7 @@ abstract class AbstractPostProcess extends AbstractStep
         $max = count($files);
 
         if ($max <= 0) {
-            $message = 'No files';
-            call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message]);
+            $this->builder->getLogger()->info('No files');
 
             return;
         }
@@ -120,12 +116,11 @@ abstract class AbstractPostProcess extends AbstractStep
                         ceil($sizeAfter / 1000)
                     );
                 }
-                call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message, $count, $max]);
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
         }
         if ($postprocessed == 0) {
-            $message = 'Nothing to do';
-            call_user_func_array($this->builder->getMessageCb(), ['POSTPROCESS_PROGRESS', $message]);
+            $this->builder->getLogger()->info('Nothing to do');
         }
     }
 
