@@ -28,7 +28,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
 
         // identifying sections
         /** @var Page $page */
-        foreach ($this->pagesCollection as $page) {
+        foreach ($this->builder->getPages() as $page) {
             if ($page->getSection()) {
                 // excludes page from section
                 if ($page->getVariable('exclude')) {
@@ -47,8 +47,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
             foreach ($sections as $section => $pagesAsArray) {
                 $pageId = $path = Page::slugify($section);
                 $page = (new Page($pageId))->setVariable('title', ucfirst($section));
-                if ($this->pagesCollection->has($pageId)) {
-                    $page = clone $this->pagesCollection->get($pageId);
+                if ($this->builder->getPages()->has($pageId)) {
+                    $page = clone $this->builder->getPages()->get($pageId);
                 }
                 $pages = new PagesCollection($section, $pagesAsArray);
                 // sorts

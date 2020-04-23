@@ -9,6 +9,7 @@
 namespace Cecil\Test;
 
 use Cecil\Builder;
+use Cecil\Logger\PrintLogger;
 use Cecil\Util;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -134,13 +135,12 @@ class Build extends \PHPUnit\Framework\TestCase
                 'cache' => [
                     'enabled' => true,
                 ],
-            ]
+            ], new PrintLogger(Builder::VERBOSITY_DEBUG)
         )->setSourceDir($this->wsSourceDir)
         ->setDestinationDir($this->wsDestinationDir)
         ->build([
-            'verbosity' => Builder::VERBOSITY_DEBUG,
-            'drafts'    => false,
-            'dry-run'   => false,
+            'drafts'  => false,
+            'dry-run' => false,
         ]);
 
         self::assertTrue(true);

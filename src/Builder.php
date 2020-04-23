@@ -88,28 +88,11 @@ class Builder implements LoggerAwareInterface
     {
         $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
 
+        // default logger
         if ($logger === null) {
-            $logger = new PrintLogger(); // default logger
+            $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
         }
         $this->setLogger($logger);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
-    /**
-     * Returns the logger instance.
-     *
-     * @return LoggerInterface
-     */
-    public function getLogger(): LoggerInterface
-    {
-        return $this->logger;
     }
 
     /**
@@ -122,6 +105,46 @@ class Builder implements LoggerAwareInterface
         $class = new \ReflectionClass(get_called_class());
 
         return $class->newInstanceArgs(func_get_args());
+    }
+
+    /**
+     * Builds a new website.
+     *
+     * @param array $options
+     *
+     * @return self
+     */
+    public function build(array $options): self
+    {
+        // set start script time
+        $startTime = microtime(true);
+        // prepare options
+        $this->options = array_merge([
+            'drafts'  => false, // build drafts or not
+            'dry-run' => false, // if dry-run is true, generated files are not saved
+        ], $options);
+
+        // process each step
+        $steps = [];
+        // init...
+        foreach ($this->steps as $step) {
+            /** @var Step\StepInterface $stepClass */
+            $stepClass = new $step($this);
+            $stepClass->init($this->options);
+            $steps[] = $stepClass;
+        }
+        $this->steps = $steps;
+        // ... and process!
+        foreach ($this->steps as $step) {
+            /** @var Step\StepInterface $step */
+            $step->runProcess();
+        }
+
+        // process duration
+        $message = sprintf('Built in %ss', round(microtime(true) - $startTime, 2));
+        $this->getLogger()->notice($message);
+
+        return $this;
     }
 
     /**
@@ -149,6 +172,32 @@ class Builder implements LoggerAwareInterface
     public function getConfig(): Config
     {
         return $this->config;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Returns the logger instance.
+     *
+     * @return LoggerInterface
+     */
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @return array $options Returns build options.
+     */
+    public function getBuildOptions(): array
+    {
+        return $this->options;
     }
 
     /**
@@ -315,59 +364,6 @@ class Builder implements LoggerAwareInterface
     public function getRenderer(): Renderer\RendererInterface
     {
         return $this->renderer;
-    }
-
-    /**
-     * @return array $options
-     */
-    public function getBuildOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
-     * Builds a new website.
-     *
-     * @param array $options
-     *
-     * @return self
-     */
-    public function build(array $options): self
-    {
-        // set start script time
-        $startTime = microtime(true);
-        // prepare options
-        $this->options = array_merge([
-            'verbosity' => self::VERBOSITY_NORMAL,
-            'drafts'    => false, // build drafts or not
-            'dry-run'   => false, // if dry-run is true, generated files are not saved
-        ], $options);
-
-        // process each step
-        $steps = [];
-        // init...
-        foreach ($this->steps as $step) {
-            /** @var Step\StepInterface $stepClass */
-            $stepClass = new $step($this);
-            $stepClass->init($this->options);
-            $steps[] = $stepClass;
-        }
-        $this->steps = $steps;
-        // ... and process!
-        foreach ($this->steps as $step) {
-            /** @var Step\StepInterface $step */
-            $step->runProcess();
-        }
-
-        // add process duration to log
-        call_user_func_array($this->messageCallback, [
-            'TIME',
-            sprintf('Built in %ss', round(microtime(true) - $startTime, 2)),
-        ]);
-        // show log
-        //$this->showLog($this->options['verbosity']);
-
-        return $this;
     }
 
     /**

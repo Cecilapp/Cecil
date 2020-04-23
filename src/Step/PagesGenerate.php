@@ -11,6 +11,7 @@
 namespace Cecil\Step;
 
 use Cecil\Generator\GeneratorManager;
+use Cecil\Util;
 
 /**
  * Generates virtual pages.
@@ -34,13 +35,13 @@ class PagesGenerate extends AbstractStep
     public function process()
     {
         if ($this->process) {
-            $generatorManager = new GeneratorManager();
+            $generatorManager = new GeneratorManager($this->builder);
 
-            $this->builder->getLogger()->debug('Generating pages');
+            $this->builder->getLogger()->notice('Generating pages');
 
             // loads local generators
             spl_autoload_register(function ($className) {
-                $generatorFile = $this->config->getDestinationDir().'/generators/'.$className.'.php';
+                $generatorFile = Util::joinFile($this->config->getDestinationDir(), 'generators', "$className.php");
                 if (file_exists($generatorFile)) {
                     require $generatorFile;
                 }
@@ -50,14 +51,14 @@ class PagesGenerate extends AbstractStep
             array_walk($generators, function ($generator, $priority) use ($generatorManager) {
                 if (!class_exists($generator)) {
                     $message = sprintf('Unable to load generator "%s"', $generator);
-                    $this->builder->getLogger()->debug($message);
+                    $this->builder->getLogger()->error($message);
 
                     return;
                 }
                 $generatorManager->addGenerator(new $generator($this->builder), $priority);
             });
 
-            $pages = $generatorManager->process($this->builder->getPages(), $this->builder->getMessageCb());
+            $pages = $generatorManager->process($this->builder);
             $this->builder->setPages($pages);
         }
     }

@@ -34,7 +34,7 @@ class ContentLoad extends AbstractStep
      */
     public function process()
     {
-        $this->builder->getLogger()->debug('Loading content');
+        $this->builder->getLogger()->notice('Loading content');
 
         $content = Finder::create()
             ->files()
@@ -48,10 +48,10 @@ class ContentLoad extends AbstractStep
 
         $count = $content->count();
         if ($count === 0) {
-            $this->builder->getLogger()->debug('Nothing to load');
+            $this->builder->getLogger()->info('Nothing to load');
 
             return 0;
         }
-        $this->builder->getLogger()->debug('Files loaded', ['progress' => [$count, $count]]);
+        $this->builder->getLogger()->info('Files loaded', ['progress' => [$count, $count]]);
     }
 }

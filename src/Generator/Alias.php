@@ -23,7 +23,7 @@ class Alias extends AbstractGenerator implements GeneratorInterface
     public function generate(): void
     {
         /** @var Page $page */
-        foreach ($this->pagesCollection as $page) {
+        foreach ($this->builder->getPages() as $page) {
             $aliases = $this->getPageAliases($page);
 
             if (!empty($aliases)) {

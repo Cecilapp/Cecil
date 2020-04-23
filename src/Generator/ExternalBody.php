@@ -25,7 +25,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        $filteredPages = $this->pagesCollection->filter(function (Page $page) {
+        $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return null !== $page->getVariable('external');
         });
 
@@ -43,7 +43,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
                 $this->generatedPages->add($page);
             } catch (\Exception $e) {
                 $message = sprintf('%s: %s', $page->getId(), $e->getMessage());
-                call_user_func_array($this->messageCallback, ['GENERATE_ERROR', $message, -1]);
+                $this->builder->getLogger()->error($message);
             }
         }
     }

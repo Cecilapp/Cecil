@@ -43,7 +43,7 @@ class PagesConvert extends AbstractStep
             $message .= ' (drafts included)';
         }
 
-        $this->builder->getLogger()->debug($message);
+        $this->builder->getLogger()->notice($message);
 
         $max = count($this->builder->getPages());
         $count = 0;
@@ -59,8 +59,10 @@ class PagesConvert extends AbstractStep
                     $this->builder->getPages()->remove($page->getId());
                     $countError++;
 
-                    $message = sprintf('%s: unable to convert front matter (%s)', $page->getId(), $e->getMessage());
-                    $this->builder->getLogger()->debug($message, ['progress' => [$count, $max]]);
+                    $message = sprintf('Unable to convert front matter of page "%s"', $page->getId());
+                    $this->builder->getLogger()->error($message);
+                    $message = sprintf('Page "%s": %s', $page->getId(), $e->getMessage());
+                    $this->builder->getLogger()->debug($message);
 
                     continue;
                 }
@@ -75,12 +77,12 @@ class PagesConvert extends AbstractStep
                     $this->builder->getPages()->remove($page->getId());
                     $message .= ' (not published)';
                 }
-                $this->builder->getLogger()->debug($message, ['progress' => [$count, $max]]);
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
         }
         if ($countError > 0) {
-            $message = sprintf('Errors: %s', $countError);
-            $this->builder->getLogger()->debug($message);
+            $message = sprintf('Conversion errors: %s', $countError);
+            $this->builder->getLogger()->error($message);
         }
     }
 

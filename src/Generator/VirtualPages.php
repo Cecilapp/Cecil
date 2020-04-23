@@ -48,7 +48,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
             $path = Page::slugify($frontmatter['path']);
             $id = !empty($path) ? $path : 'index';
             // aborts if already exists...
-            if ($this->pagesCollection->has($id)) {
+            if ($this->builder->getPages()->has($id)) {
                 continue;
             }
             $page = (new Page($id))

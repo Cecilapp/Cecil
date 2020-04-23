@@ -23,7 +23,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        $subPages = $this->pagesCollection->filter(function (Page $page) {
+        $subPages = $this->builder->getPages()->filter(function (Page $page) {
             return $page->getType() == TYPE::PAGE
                 && $page->getId() != 'index'; // excludes homepage
         });
@@ -33,8 +33,8 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         // creates a new index page...
         $page = (new Page('index'))->setPath('')->setVariable('title', 'Home');
         // ... clones it if already exists
-        if ($this->pagesCollection->has('index')) {
-            $page = clone $this->pagesCollection->get('index');
+        if ($this->builder->getPages()->has('index')) {
+            $page = clone $this->builder->getPages()->get('index');
         }
         /** @var \Cecil\Collection\Page\Page $page */
         $page->setType(Type::HOMEPAGE)

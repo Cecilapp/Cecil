@@ -33,7 +33,7 @@ class ConfigImport extends AbstractStep
      */
     public function process()
     {
-        $this->builder->getLogger()->debug('Importing configuration');
+        $this->builder->getLogger()->notice('Importing configuration');
 
         $themes = array_reverse((array) $this->config->getTheme());
         $count = 0;
@@ -52,7 +52,7 @@ class ConfigImport extends AbstractStep
                 $message = sprintf('"%s": imported', $theme);
             }
 
-            $this->builder->getLogger()->debug($message, ['progress' => [$count, $max]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
     }
 }

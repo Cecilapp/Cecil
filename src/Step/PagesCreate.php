@@ -40,7 +40,7 @@ class PagesCreate extends AbstractStep
             return;
         }
 
-        $this->builder->getLogger()->debug('Creating pages');
+        $this->builder->getLogger()->notice('Creating pages');
 
         $max = count($this->builder->getContent());
         $count = 0;
@@ -53,7 +53,7 @@ class PagesCreate extends AbstractStep
             $this->builder->getPages()->add($page);
 
             $message = $page->getId();
-            $this->builder->getLogger()->debug($message, ['progress' => [$count, $max]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
     }
 }

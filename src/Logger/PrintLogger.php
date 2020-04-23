@@ -17,16 +17,27 @@ use Psr\Log\LogLevel;
 
 class PrintLogger extends AbstractLogger
 {
+    /** @var int */
+    protected $printLevel = null;
+    /** @var array */
     private $verbosityLevelMap = [
         LogLevel::EMERGENCY => Builder::VERBOSITY_NORMAL,
         LogLevel::ALERT     => Builder::VERBOSITY_NORMAL,
         LogLevel::CRITICAL  => Builder::VERBOSITY_NORMAL,
         LogLevel::ERROR     => Builder::VERBOSITY_NORMAL,
         LogLevel::WARNING   => Builder::VERBOSITY_NORMAL,
-        LogLevel::NOTICE    => Builder::VERBOSITY_VERBOSE,
+        LogLevel::NOTICE    => Builder::VERBOSITY_NORMAL,
         LogLevel::INFO      => Builder::VERBOSITY_VERBOSE,
         LogLevel::DEBUG     => Builder::VERBOSITY_DEBUG,
     ];
+
+    /**
+     * @var int $printLevel Print only this maximum level.
+     */
+    public function __construct(int $printLevel = null)
+    {
+        $this->printLevel = $printLevel;
+    }
 
     /**
      * {@inheritdoc}
@@ -37,6 +48,10 @@ class PrintLogger extends AbstractLogger
     {
         if (!isset($this->verbosityLevelMap[$level])) {
             throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
+        }
+
+        if ($this->printLevel !== null && $this->verbosityLevelMap[$level] > $this->printLevel) {
+            return;
         }
 
         if (array_key_exists('progress', $context)) {
@@ -50,7 +65,7 @@ class PrintLogger extends AbstractLogger
             return;
         }
 
-        printf("%s\n", $this->interpolate($message, $context));
+        printf("[%s] %s\n", $level, $this->interpolate($message, $context));
     }
 
     /**

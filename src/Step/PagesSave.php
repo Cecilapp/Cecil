@@ -44,7 +44,7 @@ class PagesSave extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['SAVE', 'Saving pages']);
+        $this->builder->getLogger()->notice('Saving pages');
 
         /** @var Page $page */
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
@@ -76,10 +76,8 @@ class PagesSave extends AbstractStep
                 $message[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
-            call_user_func_array(
-                $this->builder->getMessageCb(),
-                ['SAVE_PROGRESS', implode(', ', $message), $count, $max]
-            );
+            $message = implode(', ', $message);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
     }
 

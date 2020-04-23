@@ -35,7 +35,7 @@ class StaticLoad extends AbstractStep
      */
     public function process()
     {
-        $this->builder->getLogger()->debug('Loading static files');
+        $this->builder->getLogger()->notice('Loading static files');
 
         $files = Finder::create()
             ->files()
@@ -48,7 +48,7 @@ class StaticLoad extends AbstractStep
 
         if ($max <= 0) {
             $message = 'No files';
-            $this->builder->getLogger()->debug($message);
+            $this->builder->getLogger()->info($message);
 
             return;
         }
@@ -67,7 +67,7 @@ class StaticLoad extends AbstractStep
             $count++;
 
             $message = sprintf('%s', $file->getRelativePathname());
-            $this->builder->getLogger()->debug($message, ['progress' => [$count, $max]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
 
         $this->builder->setStatic($staticFiles);
