@@ -20,7 +20,7 @@ class PrintLogger extends AbstractLogger
     /** @var int */
     protected $printLevel = null;
     /** @var array */
-    private $verbosityLevelMap = [
+    protected $verbosityLevelMap = [
         LogLevel::EMERGENCY => Builder::VERBOSITY_NORMAL,
         LogLevel::ALERT     => Builder::VERBOSITY_NORMAL,
         LogLevel::CRITICAL  => Builder::VERBOSITY_NORMAL,
@@ -73,7 +73,7 @@ class PrintLogger extends AbstractLogger
      *
      * @author PHP Framework Interoperability Group
      */
-    private function interpolate(string $message, array $context): string
+    protected function interpolate(string $message, array $context): string
     {
         if (false === strpos($message, '{')) {
             return $message;
