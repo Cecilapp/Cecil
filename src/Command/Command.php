@@ -11,6 +11,7 @@
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -127,7 +128,7 @@ class Command extends BaseCommand
             }
             $siteConfig = Yaml::parse($configContent);
             $config = array_replace_recursive($siteConfig, $config);
-            $this->builder = (new Builder($config, $this->messageCallback()))
+            $this->builder = (new Builder($config, new ConsoleLogger($this->output)))
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
