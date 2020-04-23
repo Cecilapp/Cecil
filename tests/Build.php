@@ -135,7 +135,8 @@ class Build extends \PHPUnit\Framework\TestCase
                 'cache' => [
                     'enabled' => true,
                 ],
-            ], new PrintLogger(Builder::VERBOSITY_DEBUG)
+            ],
+            new PrintLogger(Builder::VERBOSITY_DEBUG)
         )->setSourceDir($this->wsSourceDir)
         ->setDestinationDir($this->wsDestinationDir)
         ->build([

@@ -32,7 +32,7 @@ class PrintLogger extends AbstractLogger
     ];
 
     /**
-     * @var int $printLevel Print only this maximum level.
+     * @var int Print only this maximum level.
      */
     public function __construct(int $printLevel = null)
     {
