@@ -100,6 +100,7 @@ class Build extends Command
 
         $builder->build($options);
         $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+        $output->writeln('Done! 🎉');
 
         return 0;
     }
