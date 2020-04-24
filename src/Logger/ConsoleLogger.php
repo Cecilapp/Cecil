@@ -31,8 +31,8 @@ class ConsoleLogger extends SfConsoleLogger
         LogLevel::CRITICAL  => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::ERROR     => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::WARNING   => OutputInterface::VERBOSITY_NORMAL,
-        LogLevel::NOTICE    => OutputInterface::VERBOSITY_NORMAL,
-        LogLevel::INFO      => OutputInterface::VERBOSITY_VERBOSE,
+        LogLevel::NOTICE    => OutputInterface::VERBOSITY_VERBOSE,
+        LogLevel::INFO      => OutputInterface::VERBOSITY_VERY_VERBOSE,
         LogLevel::DEBUG     => OutputInterface::VERBOSITY_DEBUG,
     ];
     private $formatLevelMap = [
@@ -65,38 +65,49 @@ class ConsoleLogger extends SfConsoleLogger
      */
     public function log($level, $message, array $context = [])
     {
+        $output = $this->output;
+        $outputStyle = new OutputFormatterStyle('white');
+        $output->getFormatter()->setStyle('text', $outputStyle);
+
+        // can use progress bar
+        if ($output->isDecorated()) {
+            array_replace_recursive($this->verbosityLevelMap, [
+                LogLevel::NOTICE    => OutputInterface::VERBOSITY_NORMAL,
+                LogLevel::INFO      => OutputInterface::VERBOSITY_VERBOSE,
+            ]);
+        }
+
         if (!isset($this->verbosityLevelMap[$level])) {
             throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
         }
 
-        $output = $this->output;
-
-        if ($output->getVerbosity() >= $this->verbosityLevelMap[$level]) {
-            $outputStyle = new OutputFormatterStyle('white');
-            $output->getFormatter()->setStyle('text', $outputStyle);
-
+        // steps progress bar
+        if ($output->isDecorated()) {
             if ($output->getVerbosity() == OutputInterface::VERBOSITY_NORMAL && array_key_exists('step', $context)) {
                 $this->printProgressBar($context['step'][0], $context['step'][1]);
 
                 return;
             }
+        }
 
-            $pattern = '<%1$s>%3$s</%1$s>';
-            if (array_key_exists('progress', $context)) {
-                $pattern = '<%1$s>('.$context['progress'][0].'/'.$context['progress'][1].') %3$s</%1$s>';
+        $pattern = '<%1$s>%3$s</%1$s>';
+        if (array_key_exists('progress', $context)) {
+            $pattern = '<%1$s>('.$context['progress'][0].'/'.$context['progress'][1].') %3$s</%1$s>';
 
+            // progress bar
+            if ($output->isDecorated()) {
                 if ($output->getVerbosity() == OutputInterface::VERBOSITY_VERBOSE) {
                     $this->printProgressBar($context['progress'][0], $context['progress'][1]);
 
                     return;
                 }
             }
-
-            $output->writeln(
-                sprintf($pattern, $this->formatLevelMap[$level], $level, $this->interpolate($message, $context)),
-                $this->verbosityLevelMap[$level]
-            );
         }
+
+        $output->writeln(
+            sprintf($pattern, $this->formatLevelMap[$level], $level, $this->interpolate($message, $context)),
+            $this->verbosityLevelMap[$level]
+        );
     }
 
     /**

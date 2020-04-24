@@ -54,7 +54,7 @@ class AssetsCopy extends StaticCopy
         }
 
         if ($this->count === 0) {
-            $this->builder->getLogger()->notice('Nothing to copy');
+            $this->builder->getLogger()->info('Nothing to copy');
 
             return 0;
         }
