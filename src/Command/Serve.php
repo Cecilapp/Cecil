@@ -164,13 +164,13 @@ class Serve extends Command
             }
             // copying router
             $this->fs->copy(
-                $root.'res/server/router.php',
+                $root.'/res/server/router.php',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
             // copying livereload JS
             $this->fs->copy(
-                $root.'res/server/livereload.js',
+                $root.'/res/server/livereload.js',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js'),
                 true
             );
