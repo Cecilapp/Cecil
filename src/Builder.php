@@ -30,7 +30,7 @@ class Builder implements LoggerAwareInterface
     const VERBOSITY_DEBUG = 2;
 
     /**
-     * @var array Steps that are processed by build().
+     * @var array Steps processed by build().
      *
      * @see build()
      */
@@ -127,19 +127,18 @@ class Builder implements LoggerAwareInterface
         $steps = [];
         // init...
         foreach ($this->steps as $step) {
-            /** @var Step\StepInterface $stepClass */
-            $stepClass = new $step($this);
-            $stepClass->init($this->options);
-            $steps[] = $stepClass;
-        }
-        $this->steps = $steps;
-        // ... and process!
-        foreach ($this->steps as $step) {
-            /** @var Step\StepInterface $step */
-            if ($step->canProcess()) {
-                $this->getLogger()->notice($step->getName());
-                $step->process();
+            /** @var Step\StepInterface $stepObject */
+            $stepObject = new $step($this);
+            $stepObject->init($this->options);
+            if ($stepObject->canProcess()) {
+                $steps[] = $stepObject;
             }
+        }
+        // ...and process!
+        foreach ($steps as $step) {
+            /** @var Step\StepInterface $step */
+            $this->getLogger()->notice($step->getName());
+            $step->process();
         }
 
         // process duration
