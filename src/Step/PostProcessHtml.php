@@ -20,6 +20,14 @@ class PostProcessHtml extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Post-processing HTML';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         $this->type = 'html';

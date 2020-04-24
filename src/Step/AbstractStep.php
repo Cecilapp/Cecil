@@ -20,7 +20,7 @@ abstract class AbstractStep implements StepInterface
     /** @var Config */
     protected $config;
     /** @var bool */
-    protected $process = false;
+    protected $canProcess = false;
 
     /**
      * {@inheritdoc}
@@ -36,17 +36,15 @@ abstract class AbstractStep implements StepInterface
      */
     public function init($options)
     {
-        $this->process = true;
+        $this->canProcess = true;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function runProcess()
+    public function canProcess(): bool
     {
-        if ($this->process) {
-            $this->process();
-        }
+        return $this->canProcess;
     }
 
     /**

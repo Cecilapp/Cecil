@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Builds the website.
  */
-class Build extends Command
+class Build extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -100,6 +100,7 @@ class Build extends Command
 
         $builder->build($options);
         $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+        $output->writeln('Done! 🎉');
 
         return 0;
     }

@@ -27,12 +27,20 @@ class DataLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Loading data';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         /** @var \Cecil\Config $config */
         if (is_dir($this->builder->getConfig()->getDataPath()) && $this->config->get('data.load')) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -41,8 +49,6 @@ class DataLoad extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['DATA', 'Loading data']);
-
         $files = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getDataPath())
@@ -52,7 +58,7 @@ class DataLoad extends AbstractStep
 
         if ($max <= 0) {
             $message = 'No files';
-            call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message]);
+            $this->builder->getLogger()->info($message);
 
             return;
         }
@@ -109,7 +115,7 @@ class DataLoad extends AbstractStep
             $this->builder->setData($dataArray);
 
             $message = sprintf('%s.%s', Util::joinFile($path), $file->getExtension());
-            call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $count]]);
         }
     }
 

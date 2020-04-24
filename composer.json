@@ -31,6 +31,7 @@
     "myclabs/php-enum": "^1.7",
     "padraic/humbug_get_contents": "^1.1",
     "padraic/phar-updater": "^1.0",
+    "psr/log": "^1.0",
     "scssphp/scssphp": "^1.0",
     "spatie/image-optimizer": "^1.1",
     "symfony/console": "^4.4",

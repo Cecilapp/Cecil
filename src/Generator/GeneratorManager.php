@@ -10,11 +10,25 @@
 
 namespace Cecil\Generator;
 
+use Cecil\Builder;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
 
 class GeneratorManager extends \SplPriorityQueue
 {
+    /** @var Builder */
+    protected $builder;
+
+    /**
+     * @param Builder $builder
+     *
+     * @return void
+     */
+    public function __construct(Builder $builder)
+    {
+        $this->builder = $builder;
+    }
+
     /**
      * Adds a generator.
      *
@@ -45,13 +59,12 @@ class GeneratorManager extends \SplPriorityQueue
     /**
      * Process each generators.
      *
-     * @param PagesCollection $pagesCollection
-     * @param \Closure        $messageCallback
-     *
      * @return PagesCollection
      */
-    public function process(PagesCollection $pagesCollection, \Closure $messageCallback): PagesCollection
+    public function process(): PagesCollection
     {
+        /** @var PagesCollection $pagesCollection */
+        $pagesCollection = $this->builder->getPages();
         $max = $this->count();
 
         if ($max > 0) {
@@ -61,7 +74,7 @@ class GeneratorManager extends \SplPriorityQueue
                 /** @var AbstractGenerator $generator */
                 $generator = $this->current();
                 /** @var PagesCollection $generatedPages */
-                $generatedPages = $generator->runGenerate($pagesCollection, $messageCallback);
+                $generatedPages = $generator->runGenerate();
                 foreach ($generatedPages as $page) {
                     /** @var \Cecil\Collection\Page\Page $page */
                     if ($pagesCollection->has($page->getId())) {
@@ -71,7 +84,8 @@ class GeneratorManager extends \SplPriorityQueue
                     }
                 }
                 $message = sprintf('%s: %s', Util::formatClassName($generator), count($generatedPages));
-                call_user_func_array($messageCallback, ['GENERATE_PROGRESS', $message, $count, $max]);
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
+
                 $this->next();
             }
         }

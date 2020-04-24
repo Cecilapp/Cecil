@@ -12,13 +12,16 @@ namespace Cecil;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Generator\GeneratorManager;
+use Cecil\Logger\PrintLogger;
 use Cecil\Util\Plateform;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
  * Class Builder.
  */
-class Builder
+class Builder implements LoggerAwareInterface
 {
     const VERSION = '5.x-dev';
     const VERBOSITY_QUIET = -1;
@@ -27,7 +30,7 @@ class Builder
     const VERBOSITY_DEBUG = 2;
 
     /**
-     * @var array Steps that are processed by build().
+     * @var array Steps processed by build().
      *
      * @see build()
      */
@@ -50,10 +53,13 @@ class Builder
         'Cecil\Step\PostProcessJs',
         'Cecil\Step\PostProcessImages',
     ];
-    /** @var string App version. */
-    protected static $version;
+
     /** @var Config Configuration. */
     protected $config;
+    /** @var LoggerInterface Logger. */
+    protected $logger;
+    /** @var array Build options. */
+    protected $options;
     /** @var Finder Content iterator. */
     protected $content;
     /** @var array Data collection. */
@@ -68,25 +74,24 @@ class Builder
     protected $taxonomies;
     /** @var Renderer\RendererInterface Renderer. */
     protected $renderer;
-    /** @var \Closure Message callback. */
-    protected $messageCallback;
     /** @var GeneratorManager Generators manager. */
     protected $generatorManager;
-    /** @var array Log. */
-    protected $log;
-    /** @var array Options. */
-    protected $options;
+    /** @var string Application version. */
+    protected static $version;
 
     /**
-     * @param Config|array|null $config
-     * @param \Closure|null     $messageCallback
+     * @param Config|array|null    $config
+     * @param LoggerInterface|null $logger
      */
-    public function __construct($config = null, \Closure $messageCallback = null)
+    public function __construct($config = null, LoggerInterface $logger = null)
     {
-        $this->setConfig($config)
-            ->setSourceDir(null)
-            ->setDestinationDir(null);
-        $this->setMessageCallback($messageCallback);
+        $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
+
+        // default logger
+        if ($logger === null) {
+            $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
+        }
+        $this->setLogger($logger);
     }
 
     /**
@@ -99,6 +104,51 @@ class Builder
         $class = new \ReflectionClass(get_called_class());
 
         return $class->newInstanceArgs(func_get_args());
+    }
+
+    /**
+     * Builds a new website.
+     *
+     * @param array $options
+     *
+     * @return self
+     */
+    public function build(array $options): self
+    {
+        // set start script time
+        $startTime = microtime(true);
+        // prepare options
+        $this->options = array_merge([
+            'drafts'  => false, // build drafts or not
+            'dry-run' => false, // if dry-run is true, generated files are not saved
+        ], $options);
+
+        // process each step
+        $steps = [];
+        // init...
+        foreach ($this->steps as $step) {
+            /** @var Step\StepInterface $stepObject */
+            $stepObject = new $step($this);
+            $stepObject->init($this->options);
+            if ($stepObject->canProcess()) {
+                $steps[] = $stepObject;
+            }
+        }
+        // ...and process!
+        $stepNumber = 0;
+        $stepsTotal = count($steps);
+        foreach ($steps as $step) {
+            $stepNumber++;
+            /** @var Step\StepInterface $step */
+            $this->getLogger()->notice($step->getName(), ['step' => [$stepNumber, $stepsTotal]]);
+            $step->process();
+        }
+
+        // process duration
+        $message = sprintf('Built in %ss', round(microtime(true) - $startTime, 2));
+        $this->getLogger()->notice($message);
+
+        return $this;
     }
 
     /**
@@ -154,6 +204,32 @@ class Builder
         $this->config->setDestinationDir($destinationDir);
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Returns the logger instance.
+     *
+     * @return LoggerInterface
+     */
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @return array $options Returns build options.
+     */
+    public function getBuildOptions(): array
+    {
+        return $this->options;
     }
 
     /**
@@ -275,85 +351,6 @@ class Builder
     }
 
     /**
-     * Set log message format by step status (start, progress or error)
-     * in a callback function.
-     *
-     * @param \Closure|null $messageCallback
-     *
-     * @return void
-     */
-    public function setMessageCallback(\Closure $messageCallback = null): void
-    {
-        if ($messageCallback === null) {
-            $messageCallback = function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
-                switch ($code) {
-                    case 'CONFIG':
-                    case 'LOCATE':
-                    case 'DATA':
-                    case 'CREATE':
-                    case 'CONVERT':
-                    case 'GENERATE':
-                    case 'MENU':
-                    case 'COPY':
-                    case 'RENDER':
-                    case 'SAVE':
-                    case 'POSTPROCESS':
-                    case 'TIME':
-                    case 'DEFAULT':
-                        $log = sprintf("%s\n", $message);
-                        $this->addLog($log);
-                        break;
-                    case 'CONFIG_PROGRESS':
-                    case 'LOCATE_PROGRESS':
-                    case 'DATA_PROGRESS':
-                    case 'CREATE_PROGRESS':
-                    case 'CONVERT_PROGRESS':
-                    case 'GENERATE_PROGRESS':
-                    case 'MENU_PROGRESS':
-                    case 'COPY_PROGRESS':
-                    case 'RENDER_PROGRESS':
-                    case 'SAVE_PROGRESS':
-                    case 'POSTPROCESS_PROGRESS':
-                    case 'DEFAULT_PROGRESS':
-                        if ($itemsCount > 0) {
-                            $log = sprintf("(%u/%u) %s\n", $itemsCount, $itemsMax, $message);
-                            $this->addLog($log, 1);
-                        } else {
-                            $log = sprintf("%s\n", $message);
-                            $this->addLog($log, 1);
-                        }
-                        break;
-                    case 'CONFIG_ERROR':
-                    case 'LOCATE_ERROR':
-                    case 'DATA_ERROR':
-                    case 'CREATE_ERROR':
-                    case 'CONVERT_ERROR':
-                    case 'GENERATE_ERROR':
-                    case 'MENU_ERROR':
-                    case 'COPY_ERROR':
-                    case 'OPTIMIZE_ERROR':
-                    case 'RENDER_ERROR':
-                    case 'SAVE_ERROR':
-                    case 'POSTPROCESS_ERROR':
-                    case 'DEFAULT_ERROR':
-                        $log = sprintf(">> %s\n", $message);
-                        $this->addLog($log);
-                        break;
-                }
-            };
-        }
-        $this->messageCallback = $messageCallback;
-    }
-
-    /**
-     * @return \Closure Return message callback function.
-     */
-    public function getMessageCb(): \Closure
-    {
-        return $this->messageCallback;
-    }
-
-    /**
      * Set renderer object.
      *
      * @param Renderer\RendererInterface $renderer
@@ -374,110 +371,9 @@ class Builder
     }
 
     /**
-     * Add log entry.
+     * Returns application version.
      *
-     * @param string $log  Log message.
-     * @param int    $type Verbosity level.
-     *
-     * @return array|null
-     */
-    public function addLog(string $log, int $type = 0): ?array
-    {
-        $this->log[] = [
-            'type' => $type,
-            'log'  => $log,
-        ];
-
-        return $this->getLog($type);
-    }
-
-    /**
-     * @param int $type
-     *
-     * @return array|null Return log array filtered by type.
-     */
-    public function getLog(int $type = 0): ?array
-    {
-        if (is_array($this->log)) {
-            return array_filter($this->log, function ($key) use ($type) {
-                return $key['type'] <= $type;
-            });
-        }
-
-        return null;
-    }
-
-    /**
-     * Print log message.
-     *
-     * @param int $type
-     *
-     * @return void
-     */
-    public function showLog(int $type = 0): void
-    {
-        if ($log = $this->getLog($type)) {
-            foreach ($log as $value) {
-                printf('%s', $value['log']);
-            }
-        }
-    }
-
-    /**
-     * @return array $options
-     */
-    public function getBuildOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
-     * Builds a new website.
-     *
-     * @param array $options
-     *
-     * @return self
-     */
-    public function build(array $options): self
-    {
-        // set start script time
-        $startTime = microtime(true);
-        // prepare options
-        $this->options = array_merge([
-            'verbosity' => self::VERBOSITY_NORMAL, // -1: quiet, 0: normal, 1: verbose, 2: debug
-            'drafts'    => false, // build drafts or not
-            'dry-run'   => false, // if dry-run is true, generated files are not saved
-        ], $options);
-
-        // process each step
-        $steps = [];
-        // init...
-        foreach ($this->steps as $step) {
-            /** @var Step\StepInterface $stepClass */
-            $stepClass = new $step($this);
-            $stepClass->init($this->options);
-            $steps[] = $stepClass;
-        }
-        $this->steps = $steps;
-        // ... and process!
-        foreach ($this->steps as $step) {
-            /** @var Step\StepInterface $step */
-            $step->runProcess();
-        }
-
-        // add process duration to log
-        call_user_func_array($this->messageCallback, [
-            'TIME',
-            sprintf('Built in %ss', round(microtime(true) - $startTime, 2)),
-        ]);
-        // show log
-        $this->showLog($this->options['verbosity']);
-
-        return $this;
-    }
-
-    /**
-     * Return version.
+     * See VERSION file at root.
      *
      * @return string
      */

@@ -29,11 +29,19 @@ class TaxonomiesCreate extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Creating taxonomies';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 

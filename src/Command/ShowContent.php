@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Shows content.
  */
-class ShowContent extends Command
+class ShowContent extends AbstractCommand
 {
     /**
      * {@inheritdoc}

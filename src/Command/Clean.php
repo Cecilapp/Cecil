@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Removes generated and temporary files.
  */
-class Clean extends Command
+class Clean extends AbstractCommand
 {
     /**
      * {@inheritdoc}

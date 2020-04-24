@@ -20,6 +20,14 @@ class PostProcessImages extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Post-processing images';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         $this->type = 'images';

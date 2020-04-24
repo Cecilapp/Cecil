@@ -29,7 +29,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
         }
 
         // filters pages: home, sections and terms
-        $filteredPages = $this->pagesCollection->filter(function (Page $page) {
+        $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION, Type::TERM]);
         });
         /** @var Page $page */

@@ -20,6 +20,14 @@ class PostProcessCss extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Post-processing CSS';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         $this->type = 'css';

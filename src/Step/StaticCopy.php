@@ -23,10 +23,18 @@ class StaticCopy extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Copying static';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         if ($options['dry-run']) {
-            $this->process = false;
+            $this->canProcess = false;
 
             return;
         }
@@ -35,7 +43,7 @@ class StaticCopy extends AbstractStep
         Util::getFS()->remove($this->config->getOutputPath());
         Util::getFS()->mkdir($this->config->getOutputPath());
 
-        $this->process = true;
+        $this->canProcess = true;
     }
 
     /**
@@ -43,11 +51,6 @@ class StaticCopy extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array(
-            $this->builder->getMessageCb(),
-            ['COPY', 'Copying static']
-        );
-
         // copying content of '<theme>/static/' dir if exists
         if ($this->config->hasTheme()) {
             $themes = array_reverse($this->config->getTheme());
@@ -62,17 +65,11 @@ class StaticCopy extends AbstractStep
         $this->copy($staticDir, null, $this->config->get('static.exclude'));
 
         if ($this->count === 0) {
-            call_user_func_array(
-                $this->builder->getMessageCb(),
-                ['COPY_PROGRESS', 'Nothing to copy']
-            );
+            $this->builder->getLogger()->info('Nothing to copy');
 
             return 0;
         }
-        call_user_func_array(
-            $this->builder->getMessageCb(),
-            ['COPY_PROGRESS', 'Files copied', $this->count, $this->count]
-        );
+        $this->builder->getLogger()->info('Files copied', ['progress' => [$this->count, $this->count]]);
     }
 
     /**

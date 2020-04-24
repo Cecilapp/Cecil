@@ -21,13 +21,21 @@ class PagesCreate extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Creating pages';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         $this->builder->setPages(new PagesCollection('all-pages'));
 
         if (is_dir($this->builder->getConfig()->getContentPath())) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -39,7 +47,7 @@ class PagesCreate extends AbstractStep
         if (count($this->builder->getContent()) <= 0) {
             return;
         }
-        call_user_func_array($this->builder->getMessageCb(), ['CREATE', 'Creating pages']);
+
         $max = count($this->builder->getContent());
         $count = 0;
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
@@ -49,8 +57,9 @@ class PagesCreate extends AbstractStep
             $page = new Page(Page::createId($file));
             $page->setFile($file)->parse();
             $this->builder->getPages()->add($page);
+
             $message = $page->getId();
-            call_user_func_array($this->builder->getMessageCb(), ['CREATE_PROGRESS', $message, $count, $max]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
     }
 }

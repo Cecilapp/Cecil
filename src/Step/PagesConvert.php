@@ -22,11 +22,19 @@ class PagesConvert extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Converting pages';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -38,14 +46,14 @@ class PagesConvert extends AbstractStep
         if (count($this->builder->getPages()) <= 0) {
             return;
         }
-        $message = 'Converting pages';
+
         if ($this->builder->getBuildOptions()['drafts']) {
-            $message .= ' (drafts included)';
+            $message = 'drafts included';
+            $this->builder->getLogger()->info($message);
         }
-        call_user_func_array($this->builder->getMessageCb(), ['CONVERT', $message]);
+
         $max = count($this->builder->getPages());
         $count = 0;
-        $countError = 0;
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
@@ -55,10 +63,11 @@ class PagesConvert extends AbstractStep
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
                 } catch (Exception $e) {
                     $this->builder->getPages()->remove($page->getId());
-                    $countError++;
 
-                    $message = sprintf('%s: unable to convert front matter (%s)', $page->getId(), $e->getMessage());
-                    call_user_func_array($this->builder->getMessageCb(), ['CONVERT_ERROR', $message, $count, $max]);
+                    $message = sprintf('Unable to convert front matter of page "%s"', $page->getId());
+                    $this->builder->getLogger()->error($message);
+                    $message = sprintf('Page "%s": %s', $page->getId(), $e->getMessage());
+                    $this->builder->getLogger()->debug($message);
 
                     continue;
                 }
@@ -73,12 +82,8 @@ class PagesConvert extends AbstractStep
                     $this->builder->getPages()->remove($page->getId());
                     $message .= ' (not published)';
                 }
-                call_user_func_array($this->builder->getMessageCb(), ['CONVERT_PROGRESS', $message, $count, $max]);
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
-        }
-        if ($countError > 0) {
-            $message = sprintf('Errors: %s', $countError);
-            call_user_func_array($this->builder->getMessageCb(), ['CONVERT_ERROR', $message]);
         }
     }
 

@@ -21,11 +21,19 @@ class ContentLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Loading content';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -34,11 +42,6 @@ class ContentLoad extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array(
-            $this->builder->getMessageCb(),
-            ['LOCATE', 'Loading content']
-        );
-
         $content = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getContentPath())
@@ -51,16 +54,10 @@ class ContentLoad extends AbstractStep
 
         $count = $content->count();
         if ($count === 0) {
-            call_user_func_array(
-                $this->builder->getMessageCb(),
-                ['LOCATE_PROGRESS', 'Nothing to load']
-            );
+            $this->builder->getLogger()->info('Nothing to load');
 
             return 0;
         }
-        call_user_func_array(
-            $this->builder->getMessageCb(),
-            ['LOCATE_PROGRESS', 'Files loaded', $count, $count]
-        );
+        $this->builder->getLogger()->info('Files loaded', ['progress' => [$count, $count]]);
     }
 }

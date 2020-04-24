@@ -21,12 +21,20 @@ class StaticLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Loading static files';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         /** @var \Cecil\Config $config */
         if (is_dir($this->builder->getConfig()->getStaticPath()) && $this->config->get('static.load')) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -35,8 +43,6 @@ class StaticLoad extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['DATA', 'Loading static files']);
-
         $files = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getStaticPath());
@@ -48,7 +54,7 @@ class StaticLoad extends AbstractStep
 
         if ($max <= 0) {
             $message = 'No files';
-            call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message]);
+            $this->builder->getLogger()->info($message);
 
             return;
         }
@@ -67,7 +73,7 @@ class StaticLoad extends AbstractStep
             $count++;
 
             $message = sprintf('%s', $file->getRelativePathname());
-            call_user_func_array($this->builder->getMessageCb(), ['DATA_PROGRESS', $message, $count, $max]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
 
         $this->builder->setStatic($staticFiles);

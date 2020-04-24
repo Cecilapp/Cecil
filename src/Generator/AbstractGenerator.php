@@ -24,11 +24,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     /** @var \Cecil\Config */
     protected $config;
     /** @var PagesCollection */
-    protected $pagesCollection;
-    /** @var PagesCollection */
     protected $generatedPages;
-    /** @var \Closure */
-    protected $messageCallback;
 
     /**
      * {@inheritdoc}
@@ -42,16 +38,10 @@ abstract class AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * @param PagesCollection $pagesCollection
-     * @param \Closure        $messageCallback
-     *
      * @return PagesCollection
      */
-    public function runGenerate(PagesCollection $pagesCollection, \Closure $messageCallback): PagesCollection
+    public function runGenerate(): PagesCollection
     {
-        $this->pagesCollection = $pagesCollection;
-        $this->messageCallback = $messageCallback;
-
         $this->generate();
 
         return $this->generatedPages;

@@ -22,15 +22,23 @@ class AssetsCopy extends StaticCopy
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Copying assets';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         if ($options['dry-run']) {
-            $this->process = false;
+            $this->canProcess = false;
 
             return;
         }
 
-        $this->process = true;
+        $this->canProcess = true;
     }
 
     /**
@@ -38,11 +46,6 @@ class AssetsCopy extends StaticCopy
      */
     public function process()
     {
-        call_user_func_array(
-            $this->builder->getMessageCb(),
-            ['COPY', 'Copying assets']
-        );
-
         $this->copy(Util::joinFile($this->config->getCachePath(), 'assets'), '');
 
         // deletes cache?
@@ -51,16 +54,10 @@ class AssetsCopy extends StaticCopy
         }
 
         if ($this->count === 0) {
-            call_user_func_array(
-                $this->builder->getMessageCb(),
-                ['COPY_PROGRESS', 'Nothing to copy']
-            );
+            $this->builder->getLogger()->notice('Nothing to copy');
 
             return 0;
         }
-        call_user_func_array(
-            $this->builder->getMessageCb(),
-            ['COPY_PROGRESS', 'Files copied', $this->count, $this->count]
-        );
+        $this->builder->getLogger()->info('Files copied', ['progress' => [$this->count, $this->count]]);
     }
 }

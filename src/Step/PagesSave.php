@@ -21,20 +21,28 @@ class PagesSave extends AbstractStep
 {
     /**
      * {@inheritdoc}
+     */
+    public function getName(): string
+    {
+        return 'Saving pages';
+    }
+
+    /**
+     * {@inheritdoc}
      *
      * @throws Exception
      */
     public function init($options)
     {
         if ($options['dry-run']) {
-            $this->process = false;
+            $this->canProcess = false;
 
             return;
         }
 
         Util::getFS()->mkdir($this->config->getOutputPath());
 
-        $this->process = true;
+        $this->canProcess = true;
     }
 
     /**
@@ -44,8 +52,6 @@ class PagesSave extends AbstractStep
      */
     public function process()
     {
-        call_user_func_array($this->builder->getMessageCb(), ['SAVE', 'Saving pages']);
-
         /** @var Page $page */
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return !empty($page->getVariable('rendered'));
@@ -76,10 +82,8 @@ class PagesSave extends AbstractStep
                 $message[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
-            call_user_func_array(
-                $this->builder->getMessageCb(),
-                ['SAVE_PROGRESS', implode(', ', $message), $count, $max]
-            );
+            $message = implode(', ', $message);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
     }
 

@@ -29,6 +29,14 @@ class MenusCreate extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Creating menus';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function process()
     {
         // creates the 'menus' collection with a default 'main' menu
@@ -52,7 +60,8 @@ class MenusCreate extends AbstractStep
          *         enabled: false.
          */
         if ($menusConfig = $this->builder->getConfig()->get('menus')) {
-            call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Creating menus (from config)']);
+            $this->builder->getLogger()->debug('Creating config menus');
+
             $totalConfig = array_sum(array_map('count', $menusConfig));
             $countConfig = 0;
 
@@ -75,37 +84,28 @@ class MenusCreate extends AbstractStep
                     if (array_key_exists('enabled', $property) && false === $property['enabled']) {
                         $enabled = false;
                         if (!$menu->has($property['id'])) {
-                            call_user_func_array($this->builder->getMessageCb(), [
-                                'MENU_PROGRESS',
-                                sprintf('%s > %s (disabled)', (string) $menu, $property['id']),
-                                $countConfig,
-                                $totalConfig,
-                            ]);
+                            $message = sprintf('%s > %s (disabled)', (string) $menu, $property['id']);
+                            $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                         }
                     }
                     // is entry already exists?
                     if ($menu->has($property['id'])) {
                         // removes a disabled entry
                         if (!$enabled) {
-                            call_user_func_array($this->builder->getMessageCb(), [
-                                'MENU_PROGRESS',
-                                sprintf('%s > %s (removed)', $menu, $property['id']),
-                                $countConfig,
-                                $totalConfig,
-                            ]);
                             $menu->remove($property['id']);
+
+                            $message = sprintf('%s > %s (removed)', $menu, $property['id']);
+                            $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
+
                             continue;
                         }
                         // merges properties
                         $updated = true;
                         $current = $menu->get($property['id'])->toArray();
                         $property = array_merge($current, $property);
-                        call_user_func_array($this->builder->getMessageCb(), [
-                            'MENU_PROGRESS',
-                            sprintf('%s > %s (updated)', $menu, $property['id']),
-                            $countConfig,
-                            $totalConfig,
-                        ]);
+
+                        $message = sprintf('%s > %s (updated)', $menu, $property['id']);
+                        $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                     }
                     // adds/replaces entry
                     if ($enabled) {
@@ -114,13 +114,10 @@ class MenusCreate extends AbstractStep
                             ->setUrl($property['url'] ?? '/404')
                             ->setWeight($property['weight'] ?? 0);
                         $menu->add($item);
+
                         if (!$updated) {
-                            call_user_func_array($this->builder->getMessageCb(), [
-                                'MENU_PROGRESS',
-                                sprintf('%s > %s', $menu, $property['id']),
-                                $countConfig,
-                                $totalConfig,
-                            ]);
+                            $message = sprintf('%s > %s', $menu, $property['id']);
+                            $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                         }
                     }
                 }
@@ -147,7 +144,7 @@ class MenusCreate extends AbstractStep
         $total = count($filteredPages);
 
         if ($total > 0) {
-            call_user_func_array($this->builder->getMessageCb(), ['MENU', 'Creating menus (from pages)']);
+            $this->builder->getLogger()->debug('Creating pages menus');
         }
 
         /** @var \Cecil\Collection\Page\Page $page */
@@ -185,12 +182,9 @@ class MenusCreate extends AbstractStep
                     /** @var \Cecil\Collection\Menu\Menu $menu */
                     $menu = $this->menus->get($menuName);
                     $menu->add($item);
-                    call_user_func_array($this->builder->getMessageCb(), [
-                        'MENU_PROGRESS',
-                        sprintf('%s > %s (weight: %s)', $menuName, $page->getId(), $weight ?? 'N/A'),
-                        $count,
-                        $total,
-                    ]);
+
+                    $message = sprintf('%s > %s (weight: %s)', $menuName, $page->getId(), $weight ?? 'N/A');
+                    $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
                 }
                 continue;
             }
@@ -209,12 +203,9 @@ class MenusCreate extends AbstractStep
             /** @var \Cecil\Collection\Menu\Menu $menu */
             $menu = $this->menus->get($page->getVariable('menu'));
             $menu->add($item);
-            call_user_func_array($this->builder->getMessageCb(), [
-                'MENU_PROGRESS',
-                sprintf('%s > %s', $page->getVariable('menu'), $page->getId()),
-                $count,
-                $total,
-            ]);
+
+            $message = sprintf('%s > %s', $page->getVariable('menu'), $page->getId());
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }
 }

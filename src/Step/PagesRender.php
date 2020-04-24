@@ -26,6 +26,14 @@ class PagesRender extends AbstractStep
 {
     /**
      * {@inheritdoc}
+     */
+    public function getName(): string
+    {
+        return 'Rendering pages';
+    }
+
+    /**
+     * {@inheritdoc}
      *
      * @throws Exception
      */
@@ -38,7 +46,7 @@ class PagesRender extends AbstractStep
             ));
         }
 
-        $this->process = true;
+        $this->canProcess = true;
     }
 
     /**
@@ -53,8 +61,6 @@ class PagesRender extends AbstractStep
 
         // adds global variables
         $this->addGlobals();
-
-        call_user_func_array($this->builder->getMessageCb(), ['RENDER', 'Rendering pages']);
 
         // collects published pages
         /** @var Page $page */
@@ -155,7 +161,7 @@ class PagesRender extends AbstractStep
                 ($page->getId() ?: 'index'),
                 Util::combineArrayToString($templates, 'scope', 'file')
             );
-            call_user_func_array($this->builder->getMessageCb(), ['RENDER_PROGRESS', $message, $count, $max]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
     }
 

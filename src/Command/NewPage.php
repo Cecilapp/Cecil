@@ -22,7 +22,7 @@ use Symfony\Component\Process\Process;
 /**
  * Creates a new page.
  */
-class NewPage extends Command
+class NewPage extends AbstractCommand
 {
     /**
      * {@inheritdoc}
