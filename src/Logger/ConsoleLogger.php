@@ -16,6 +16,8 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Logger\ConsoleLogger as SfConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Symfony\Component\Console\Helper\ProgressBar;
+
 class ConsoleLogger extends SfConsoleLogger
 {
     const ERROR = 'error';
@@ -45,6 +47,11 @@ class ConsoleLogger extends SfConsoleLogger
         LogLevel::DEBUG     => self::INFO,
     ];
 
+    /** @var ProgressBar */
+    protected $progressBar = null;
+    /** @var int */
+    private $progressBarMax;
+
     public function __construct(OutputInterface $output, array $verbosityLevelMap = [], array $formatLevelMap = [])
     {
         $this->output = $output;
@@ -68,10 +75,24 @@ class ConsoleLogger extends SfConsoleLogger
         if ($output->getVerbosity() >= $this->verbosityLevelMap[$level]) {
             $outputStyle = new OutputFormatterStyle('white');
             $output->getFormatter()->setStyle('text', $outputStyle);
+
+            if ($output->getVerbosity() == OutputInterface::VERBOSITY_NORMAL && array_key_exists('step', $context)) {
+                $this->printProgressBar($context['step'][0], $context['step'][1]);
+
+                return;
+            }
+
             $pattern = '<%1$s>%3$s</%1$s>';
             if (array_key_exists('progress', $context)) {
                 $pattern = '<%1$s>('.$context['progress'][0].'/'.$context['progress'][1].') %3$s</%1$s>';
+
+                if ($output->getVerbosity() == OutputInterface::VERBOSITY_VERBOSE) {
+                    $this->printProgressBar($context['progress'][0], $context['progress'][1]);
+
+                    return;
+                }
             }
+
             $output->writeln(
                 sprintf($pattern, $this->formatLevelMap[$level], $level, $this->interpolate($message, $context)),
                 $this->verbosityLevelMap[$level]
@@ -104,5 +125,47 @@ class ConsoleLogger extends SfConsoleLogger
         }
 
         return strtr($message, $replacements);
+    }
+
+    /**
+     * Prints the Progress Bar.
+     *
+     * @param int $itemsCount
+     * @param int $itemsMax
+     *
+     * @return void
+     */
+    protected function printProgressBar(int $itemsCount, int $itemsMax): void
+    {
+        $this->createProgressBar($itemsMax);
+        $this->progressBar->clear();
+        $this->progressBar->setProgress($itemsCount);
+        $this->progressBar->display();
+        if ($itemsCount == $itemsMax) {
+            $this->progressBar->finish();
+            $this->output->writeln('');
+        }
+    }
+
+    /**
+     * Creates the Progress bar.
+     *
+     * @param int $max
+     *
+     * @return void
+     */
+    private function createProgressBar(int $max): void
+    {
+        if ($this->progressBar === null || $max != $this->progressBarMax) {
+            $this->progressBarMax = $max;
+            $this->progressBar = new ProgressBar($this->output, $max);
+            $this->progressBar->setOverwrite(true);
+            $this->progressBar->setFormat('%percent:3s%% [%bar%] %current%/%max%');
+            $this->progressBar->setBarCharacter('#');
+            $this->progressBar->setEmptyBarCharacter(' ');
+            $this->progressBar->setProgressCharacter('#');
+            $this->progressBar->setRedrawFrequency(1);
+            $this->progressBar->start();
+        }
     }
 }
