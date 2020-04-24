@@ -13,10 +13,9 @@ namespace Cecil\Logger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Logger\ConsoleLogger as SfConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use Symfony\Component\Console\Helper\ProgressBar;
 
 class ConsoleLogger extends SfConsoleLogger
 {

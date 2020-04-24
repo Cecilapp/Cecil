@@ -14,7 +14,6 @@ use Cecil\Builder;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command as BaseCommand;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
