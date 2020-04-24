@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Updates Cecil to the latest version.
  */
-class SelfUpdate extends Command
+class SelfUpdate extends AbstractCommand
 {
     /**
      * {@inheritdoc}

@@ -21,7 +21,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
-class Command extends BaseCommand
+class AbstractCommand extends BaseCommand
 {
     const CONFIG_FILE = 'config.yml';
     const TMP_DIR = '.cecil';

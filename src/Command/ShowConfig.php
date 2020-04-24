@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Shows the configuration.
  */
-class ShowConfig extends Command
+class ShowConfig extends AbstractCommand
 {
     /**
      * {@inheritdoc}

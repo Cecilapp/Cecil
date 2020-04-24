@@ -28,7 +28,7 @@ use Yosymfony\ResourceWatcher\ResourceWatcher;
 /**
  * Starts the built-in server.
  */
-class Serve extends Command
+class Serve extends AbstractCommand
 {
     /**
      * {@inheritdoc}

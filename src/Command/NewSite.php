@@ -21,7 +21,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * Creates a new website.
  */
-class NewSite extends Command
+class NewSite extends AbstractCommand
 {
     /**
      * {@inheritdoc}

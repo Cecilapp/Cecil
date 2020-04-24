@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Builds the website.
  */
-class Build extends Command
+class Build extends AbstractCommand
 {
     /**
      * {@inheritdoc}
