@@ -100,7 +100,6 @@ class ConsoleLogger extends SfConsoleLogger
                     $this->printProgressBar($context['progress'][0], $context['progress'][1]);
 
                     return;
-
                 }
             }
         }
