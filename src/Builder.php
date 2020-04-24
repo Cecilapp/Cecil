@@ -135,9 +135,12 @@ class Builder implements LoggerAwareInterface
             }
         }
         // ...and process!
+        $stepNumber = 0;
+        $stepsTotal = count($steps);
         foreach ($steps as $step) {
+            $stepNumber++;
             /** @var Step\StepInterface $step */
-            $this->getLogger()->notice($step->getName());
+            $this->getLogger()->notice($step->getName(), ['step' => [$stepNumber, $stepsTotal]]);
             $step->process();
         }
 
