@@ -14,18 +14,17 @@ use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Logger\ConsoleLogger as SfConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConsoleLogger extends SfConsoleLogger
+class ConsoleLogger extends PrintLogger
 {
     const ERROR = 'error';
     const WARNING = 'comment';
     const NOTICE = 'info';
     const INFO = 'text';
 
-    private $output;
-    private $verbosityLevelMap = [
+    protected $output;
+    protected $verbosityLevelMap = [
         LogLevel::EMERGENCY => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::ALERT     => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::CRITICAL  => OutputInterface::VERBOSITY_NORMAL,
@@ -35,7 +34,7 @@ class ConsoleLogger extends SfConsoleLogger
         LogLevel::INFO      => OutputInterface::VERBOSITY_VERY_VERBOSE,
         LogLevel::DEBUG     => OutputInterface::VERBOSITY_DEBUG,
     ];
-    private $formatLevelMap = [
+    protected $formatLevelMap = [
         LogLevel::EMERGENCY => self::ERROR,
         LogLevel::ALERT     => self::ERROR,
         LogLevel::CRITICAL  => self::ERROR,
@@ -108,33 +107,6 @@ class ConsoleLogger extends SfConsoleLogger
             sprintf($pattern, $this->formatLevelMap[$level], $level, $this->interpolate($message, $context)),
             $this->verbosityLevelMap[$level]
         );
-    }
-
-    /**
-     * Interpolates context values into the message placeholders.
-     *
-     * @author PHP Framework Interoperability Group
-     */
-    private function interpolate(string $message, array $context): string
-    {
-        if (false === strpos($message, '{')) {
-            return $message;
-        }
-
-        $replacements = [];
-        foreach ($context as $key => $val) {
-            if (null === $val || is_scalar($val) || (\is_object($val) && method_exists($val, '__toString'))) {
-                $replacements["{{$key}}"] = $val;
-            } elseif ($val instanceof \DateTimeInterface) {
-                $replacements["{{$key}}"] = $val->format(\DateTime::RFC3339);
-            } elseif (\is_object($val)) {
-                $replacements["{{$key}}"] = '[object '.\get_class($val).']';
-            } else {
-                $replacements["{{$key}}"] = '['.\gettype($val).']';
-            }
-        }
-
-        return strtr($message, $replacements);
     }
 
     /**
