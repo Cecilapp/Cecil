@@ -41,10 +41,6 @@ class Command extends BaseCommand
     protected $configFile;
     /** @var Builder */
     protected $builder;
-    /** @var ProgressBar */
-    protected $progressBar = null;
-    /** @var int */
-    protected $progressBarMax;
 
     /**
      * {@inheritdoc}
@@ -138,110 +134,5 @@ class Command extends BaseCommand
         }
 
         return $this->builder;
-    }
-
-    /**
-     * Creates the Progress bar.
-     *
-     * @param int $max
-     *
-     * @return void
-     */
-    protected function createProgressBar(int $max): void
-    {
-        if ($this->progressBar === null || $max != $this->progressBarMax) {
-            $this->progressBarMax = $max;
-            $this->progressBar = new ProgressBar($this->output, $max);
-            $this->progressBar->setOverwrite(true);
-            $this->progressBar->setFormat(' %percent:3s%% [%bar%] %current%/%max%');
-            $this->progressBar->setBarCharacter('#');
-            $this->progressBar->setEmptyBarCharacter(' ');
-            $this->progressBar->setProgressCharacter('#');
-            $this->progressBar->setRedrawFrequency(1);
-            $this->progressBar->start();
-        }
-    }
-
-    /**
-     * Returns the Progress Bar.
-     *
-     * @return ProgressBar
-     */
-    protected function getProgressBar(): ProgressBar
-    {
-        return $this->progressBar;
-    }
-
-    /**
-     * Prints the Progress Bar.
-     *
-     * @param int $itemsCount
-     * @param int $itemsMax
-     *
-     * @return void
-     */
-    protected function printProgressBar(int $itemsCount, int $itemsMax): void
-    {
-        $this->createProgressBar($itemsMax);
-        $this->getProgressBar()->clear();
-        $this->getProgressBar()->setProgress($itemsCount);
-        $this->getProgressBar()->display();
-        if ($itemsCount == $itemsMax) {
-            $this->getProgressBar()->finish();
-            $this->output->writeln('');
-        }
-    }
-
-    /**
-     * Customs messages callback function.
-     *
-     * @return \Closure
-     */
-    public function messageCallback(): \Closure
-    {
-        return function ($code, $message = '', $itemsCount = 0, $itemsMax = 0) {
-            $output = $this->output;
-            if (strpos($code, '_PROGRESS') !== false) {
-                if ($output->isVerbose()) {
-                    if ($itemsCount > 0) {
-                        $output->writeln(sprintf(' (%u/%u) %s', $itemsCount, $itemsMax, $message));
-
-                        return;
-                    }
-                    $output->writeln(" $message");
-
-                    return;
-                }
-                if (isset($itemsCount) && $itemsMax > 0) {
-                    $this->printProgressBar($itemsCount, $itemsMax);
-
-                    return;
-                }
-                $output->writeln(" $message");
-
-                return;
-            } elseif (strpos($code, '_ERROR') !== false) {
-                if ($output->isVerbose()) {
-                    if ($itemsCount > 0) {
-                        $output->writeln(" <error>$message</error>");
-
-                        return;
-                    }
-                    $output->writeln(" <error>$message</error>");
-
-                    return;
-                }
-                if ($itemsCount == 0) {
-                    $output->writeln(" <error>$message</error>");
-                }
-
-                return;
-            } elseif ($code == 'TIME') {
-                $output->writeln("<comment>$message</comment>");
-
-                return;
-            }
-            $output->writeln("<info>$message</info>");
-        };
     }
 }
