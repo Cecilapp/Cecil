@@ -33,17 +33,17 @@ abstract class AbstractPostProcess extends AbstractStep
     public function init($options)
     {
         if ($options['dry-run']) {
-            $this->process = false;
+            $this->canProcess = false;
 
             return;
         }
         if (false === $this->builder->getConfig()->get(sprintf('postprocess.%s.enabled', $this->type))) {
-            $this->process = false;
+            $this->canProcess = false;
 
             return;
         }
         if (true === $this->builder->getConfig()->get('postprocess.enabled')) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -53,8 +53,6 @@ abstract class AbstractPostProcess extends AbstractStep
     public function process()
     {
         $this->setProcessor();
-
-        $this->builder->getLogger()->notice(sprintf('Post-processing %s', $this->type));
 
         $extensions = $this->builder->getConfig()->get(sprintf('postprocess.%s.ext', $this->type));
         if (empty($extensions)) {

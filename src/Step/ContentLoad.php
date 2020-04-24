@@ -21,11 +21,19 @@ class ContentLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Loading content';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -34,8 +42,6 @@ class ContentLoad extends AbstractStep
      */
     public function process()
     {
-        $this->builder->getLogger()->notice('Loading content');
-
         $content = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getContentPath())

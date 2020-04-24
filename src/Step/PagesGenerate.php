@@ -21,11 +21,19 @@ class PagesGenerate extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Generating pages';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         if (count($this->builder->getConfig()->get('generators')) > 0) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -34,32 +42,28 @@ class PagesGenerate extends AbstractStep
      */
     public function process()
     {
-        if ($this->process) {
-            $generatorManager = new GeneratorManager($this->builder);
+        $generatorManager = new GeneratorManager($this->builder);
 
-            $this->builder->getLogger()->notice('Generating pages');
+        // loads local generators
+        spl_autoload_register(function ($className) {
+            $generatorFile = Util::joinFile($this->config->getDestinationDir(), 'generators', "$className.php");
+            if (file_exists($generatorFile)) {
+                require $generatorFile;
+            }
+        });
 
-            // loads local generators
-            spl_autoload_register(function ($className) {
-                $generatorFile = Util::joinFile($this->config->getDestinationDir(), 'generators', "$className.php");
-                if (file_exists($generatorFile)) {
-                    require $generatorFile;
-                }
-            });
+        $generators = (array) $this->builder->getConfig()->get('generators');
+        array_walk($generators, function ($generator, $priority) use ($generatorManager) {
+            if (!class_exists($generator)) {
+                $message = sprintf('Unable to load generator "%s"', $generator);
+                $this->builder->getLogger()->error($message);
 
-            $generators = (array) $this->builder->getConfig()->get('generators');
-            array_walk($generators, function ($generator, $priority) use ($generatorManager) {
-                if (!class_exists($generator)) {
-                    $message = sprintf('Unable to load generator "%s"', $generator);
-                    $this->builder->getLogger()->error($message);
+                return;
+            }
+            $generatorManager->addGenerator(new $generator($this->builder), $priority);
+        });
 
-                    return;
-                }
-                $generatorManager->addGenerator(new $generator($this->builder), $priority);
-            });
-
-            $pages = $generatorManager->process();
-            $this->builder->setPages($pages);
-        }
+        $pages = $generatorManager->process();
+        $this->builder->setPages($pages);
     }
 }

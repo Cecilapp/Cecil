@@ -27,12 +27,20 @@ class DataLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Loading data';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         /** @var \Cecil\Config $config */
         if (is_dir($this->builder->getConfig()->getDataPath()) && $this->config->get('data.load')) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -41,8 +49,6 @@ class DataLoad extends AbstractStep
      */
     public function process()
     {
-        $this->builder->getLogger()->notice('Loading data');
-
         $files = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getDataPath())

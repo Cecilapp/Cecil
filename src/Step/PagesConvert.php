@@ -22,11 +22,19 @@ class PagesConvert extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Converting pages';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -38,12 +46,11 @@ class PagesConvert extends AbstractStep
         if (count($this->builder->getPages()) <= 0) {
             return;
         }
-        $message = 'Converting pages';
-        if ($this->builder->getBuildOptions()['drafts']) {
-            $message .= ' (drafts included)';
-        }
 
-        $this->builder->getLogger()->notice($message);
+        if ($this->builder->getBuildOptions()['drafts']) {
+            $message = 'drafts included';
+            $this->builder->getLogger()->info($message);
+        }
 
         $max = count($this->builder->getPages());
         $count = 0;

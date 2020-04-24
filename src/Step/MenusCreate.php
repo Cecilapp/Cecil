@@ -29,6 +29,14 @@ class MenusCreate extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Creating menus';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function process()
     {
         // creates the 'menus' collection with a default 'main' menu

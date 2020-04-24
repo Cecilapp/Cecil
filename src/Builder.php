@@ -136,7 +136,10 @@ class Builder implements LoggerAwareInterface
         // ... and process!
         foreach ($this->steps as $step) {
             /** @var Step\StepInterface $step */
-            $step->runProcess();
+            if ($step->canProcess()) {
+                $this->getLogger()->notice($step->getName());
+                $step->process();
+            }
         }
 
         // process duration

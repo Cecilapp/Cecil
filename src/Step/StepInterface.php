@@ -22,6 +22,13 @@ interface StepInterface
     public function __construct(Builder $builder);
 
     /**
+     * Returns step name.
+     *
+     * @return string
+     */
+    public function getName(): string;
+
+    /**
      * Checks if the step can be processed.
      *
      * @param array $options
@@ -31,11 +38,11 @@ interface StepInterface
     public function init($options);
 
     /**
-     * Public call to process.
+     * Can step be processed?
      *
-     * @return void
+     * @return bool
      */
-    public function runProcess();
+    public function canProcess(): bool;
 
     /**
      * Process implementation.

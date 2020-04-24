@@ -56,7 +56,8 @@ class PrintLogger extends AbstractLogger
 
         if (array_key_exists('progress', $context)) {
             printf(
-                " (%s/%s) %s\n",
+                "[%s] (%s/%s) %s\n",
+                $level,
                 $context['progress'][0],
                 $context['progress'][1],
                 $this->interpolate($message, $context)

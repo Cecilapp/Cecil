@@ -21,10 +21,18 @@ class ConfigImport extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Importing configuration';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         if ($this->config->hasTheme()) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -33,8 +41,6 @@ class ConfigImport extends AbstractStep
      */
     public function process()
     {
-        $this->builder->getLogger()->notice('Importing configuration');
-
         $themes = array_reverse((array) $this->config->getTheme());
         $count = 0;
         $max = count($themes);

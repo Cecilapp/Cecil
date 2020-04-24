@@ -20,6 +20,14 @@ class PostProcessJs extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Post-processing JS';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         $this->type = 'js';

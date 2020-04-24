@@ -21,12 +21,20 @@ class StaticLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Loading static files';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         /** @var \Cecil\Config $config */
         if (is_dir($this->builder->getConfig()->getStaticPath()) && $this->config->get('static.load')) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -35,8 +43,6 @@ class StaticLoad extends AbstractStep
      */
     public function process()
     {
-        $this->builder->getLogger()->notice('Loading static files');
-
         $files = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getStaticPath());

@@ -22,15 +22,23 @@ class AssetsCopy extends StaticCopy
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Copying assets';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         if ($options['dry-run']) {
-            $this->process = false;
+            $this->canProcess = false;
 
             return;
         }
 
-        $this->process = true;
+        $this->canProcess = true;
     }
 
     /**
@@ -38,8 +46,6 @@ class AssetsCopy extends StaticCopy
      */
     public function process()
     {
-        $this->builder->getLogger()->notice('Copying assets');
-
         $this->copy(Util::joinFile($this->config->getCachePath(), 'assets'), '');
 
         // deletes cache?

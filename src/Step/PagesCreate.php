@@ -21,13 +21,21 @@ class PagesCreate extends AbstractStep
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return 'Creating pages';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
         $this->builder->setPages(new PagesCollection('all-pages'));
 
         if (is_dir($this->builder->getConfig()->getContentPath())) {
-            $this->process = true;
+            $this->canProcess = true;
         }
     }
 
@@ -39,8 +47,6 @@ class PagesCreate extends AbstractStep
         if (count($this->builder->getContent()) <= 0) {
             return;
         }
-
-        $this->builder->getLogger()->notice('Creating pages');
 
         $max = count($this->builder->getContent());
         $count = 0;

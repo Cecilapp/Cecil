@@ -14,7 +14,6 @@ use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Logger\ConsoleLogger as SfConsoleLogger;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ConsoleLogger extends SfConsoleLogger
@@ -65,14 +64,6 @@ class ConsoleLogger extends SfConsoleLogger
         }
 
         $output = $this->output;
-
-        // Write to the error output if necessary and available
-        if (self::ERROR === $this->formatLevelMap[$level]) {
-            if ($this->output instanceof ConsoleOutputInterface) {
-                $output = $output->getErrorOutput();
-            }
-            $this->errored = true;
-        }
 
         if ($output->getVerbosity() >= $this->verbosityLevelMap[$level]) {
             $outputStyle = new OutputFormatterStyle('white');
