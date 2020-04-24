@@ -60,7 +60,7 @@ class MenusCreate extends AbstractStep
          *         enabled: false.
          */
         if ($menusConfig = $this->builder->getConfig()->get('menus')) {
-            $this->builder->getLogger()->notice('Creating config menus');
+            $this->builder->getLogger()->debug('Creating config menus');
 
             $totalConfig = array_sum(array_map('count', $menusConfig));
             $countConfig = 0;
@@ -144,7 +144,7 @@ class MenusCreate extends AbstractStep
         $total = count($filteredPages);
 
         if ($total > 0) {
-            $this->builder->getLogger()->notice('Creating pages menus');
+            $this->builder->getLogger()->debug('Creating pages menus');
         }
 
         /** @var \Cecil\Collection\Page\Page $page */
