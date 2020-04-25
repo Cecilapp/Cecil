@@ -82,9 +82,11 @@ class Clean extends AbstractCommand
         if ($doSomething === false) {
             $output->writeln('<comment>Nothing to do.</comment>');
 
-            return;
+            return 0;
         }
 
         $output->writeln('<info>All is clean!</info>');
+
+        return 0;
     }
 }
