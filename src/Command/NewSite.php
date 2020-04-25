@@ -54,7 +54,7 @@ class NewSite extends AbstractCommand
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion('Do you want to override it? [y/n]', false);
                 if (!$helper->ask($input, $output, $question)) {
-                    return;
+                    return 0;
                 }
             }
             $root = realpath(Util::joinFile(__DIR__, '/../../'));
