@@ -46,7 +46,7 @@ class Config
     }
 
     /**
-     * Import site configuration.
+     * Imports site configuration.
      *
      * @return void
      */
@@ -71,7 +71,7 @@ class Config
                 }
                 $sPath = implode('_', $path);
                 if ($getEnv = getenv('CECIL_'.strtoupper($sPath))) {
-                    $data->set(str_replace('_', '.', strtolower($sPath)), $getEnv);
+                    $data->set(str_replace('_', '.', strtolower($sPath)), $this->castSetValue($getEnv));
                 }
                 $iterator->next();
             }
@@ -80,7 +80,30 @@ class Config
     }
 
     /**
-     * Import (theme) configuration.
+     * Casts boolean value given to set() as string.
+     *
+     * @param mixed
+     *
+     * @return mixed
+     */
+    private function castSetValue($value)
+    {
+        if (is_string($value)) {
+            switch ($value) {
+                case 'true':
+                    return true;
+                case 'false':
+                    return false;
+                default:
+                    return $value;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Imports (theme) configuration.
      *
      * @param array|null $config
      *
@@ -235,7 +258,7 @@ class Config
      */
 
     /**
-     * Return the path of the content directory.
+     * Returns the path of the content directory.
      *
      * @return string
      */
@@ -245,7 +268,7 @@ class Config
     }
 
     /**
-     * Return the path of the data directory.
+     * Returns the path of the data directory.
      *
      * @return string
      */
@@ -255,7 +278,7 @@ class Config
     }
 
     /**
-     * Return the path of templates directory.
+     * Returns the path of templates directory.
      *
      * @return string
      */
@@ -265,7 +288,7 @@ class Config
     }
 
     /**
-     * Return the path of themes directory.
+     * Returns the path of themes directory.
      *
      * @return string
      */
@@ -275,7 +298,7 @@ class Config
     }
 
     /**
-     * Return the path of internal templates directory.
+     * Returns the path of internal templates directory.
      *
      * @return string
      */
@@ -285,7 +308,7 @@ class Config
     }
 
     /**
-     * Return the path of the output directory.
+     * Returns the path of the output directory.
      *
      * @return string
      */
@@ -295,7 +318,7 @@ class Config
     }
 
     /**
-     * Return the path of static files directory.
+     * Returns the path of static files directory.
      *
      * @return string
      */
@@ -321,7 +344,7 @@ class Config
     }
 
     /**
-     * Return cache path.
+     * Returns cache path.
      *
      * @return string
      */
@@ -343,7 +366,7 @@ class Config
     }
 
     /**
-     * Return the property value of an output format.
+     * Returns the property value of an output format.
      *
      * @param string $name
      * @param string $property
@@ -374,7 +397,7 @@ class Config
      */
 
     /**
-     * Return theme(s) as an array.
+     * Returns theme(s) as an array.
      *
      * @return array|null
      */
@@ -417,7 +440,7 @@ class Config
     }
 
     /**
-     * Return the path of a specific theme's directory.
+     * Returns the path of a specific theme's directory.
      * ("layouts" by default).
      *
      * @param string $theme
@@ -435,7 +458,7 @@ class Config
      */
 
     /**
-     * Return an array of available languages.
+     * Returns an array of available languages.
      *
      * @return array
      */
@@ -445,7 +468,7 @@ class Config
     }
 
     /**
-     * Return the default language code (ie: "en", "fr-fr", etc.).
+     * Returns the default language code (ie: "en", "fr-fr", etc.).
      *
      * @return string
      */
@@ -459,7 +482,7 @@ class Config
     }
 
     /**
-     * Return a language code index.
+     * Returns a language code index.
      *
      * @param string $code
      *
@@ -477,7 +500,7 @@ class Config
     }
 
     /**
-     * Return the property value of a (specified or default) language.
+     * Returns the property value of a (specified or default) language.
      *
      * @param string      $property
      * @param string|null $code

@@ -41,6 +41,7 @@ class Build extends \PHPUnit\Framework\TestCase
         putenv('CECIL_DEBUG=true');
         putenv('CECIL_TITLE=Cecil');
         putenv('CECIL_DESCRIPTION=Description (env. variable)');
+        echo "\n";
         Builder::create(
             require($this->config),
             new PrintLogger(Builder::VERBOSITY_DEBUG)

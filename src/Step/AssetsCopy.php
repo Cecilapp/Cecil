@@ -50,7 +50,9 @@ class AssetsCopy extends StaticCopy
 
         // deletes cache?
         if ((bool) $this->config->get('cache.enabled') === false) {
-            Util::getFS()->remove($this->config->getCachePath());
+            if (!empty($this->config->getCachePath()) && is_dir($this->config->getCachePath())) {
+                Util::getFS()->remove($this->config->getCachePath());
+            }
         }
 
         if ($this->count === 0) {
