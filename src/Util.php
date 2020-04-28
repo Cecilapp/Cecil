@@ -70,7 +70,9 @@ class Util
     }
 
     /**
-     * Format a class name.
+     * Formats a class name.
+     *
+     * ie: "Cecil\Step\PostProcessHtml" become "PostProcessHtml"
      *
      * @param \object $class
      * @param array   $options
