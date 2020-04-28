@@ -96,7 +96,6 @@ class ConsoleLogger extends PrintLogger
         // steps prefix
         if (array_key_exists('step', $context)) {
             $prefix = sprintf('%s. ', $this->padPrefix($context['step'][0], $context['step'][1]));
-
         }
 
         // sub steps progress
