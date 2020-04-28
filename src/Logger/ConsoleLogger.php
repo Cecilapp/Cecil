@@ -95,7 +95,7 @@ class ConsoleLogger extends PrintLogger
 
         // steps prefix
         if (array_key_exists('step', $context)) {
-            $prefix = str_pad($context['step'][0], strlen($context['step'][1]), ' ', STR_PAD_LEFT).'. ';
+            $prefix = sprintf('%s. ', $this->padPrefix($context['step'][0], $context['step'][1]));
         }
 
         // sub steps progress
@@ -108,8 +108,12 @@ class ConsoleLogger extends PrintLogger
                     return;
                 }
             }
-
-            $prefix = '('.$context['progress'][0].'/'.$context['progress'][1].') ';
+            // prefix
+            $prefix = sprintf(
+                '[%s/%s] ',
+                $this->padPrefix($context['progress'][0], $context['progress'][1]),
+                $context['progress'][1]
+            );
         }
 
         $output->writeln(
@@ -158,5 +162,18 @@ class ConsoleLogger extends PrintLogger
             $this->progressBar->setRedrawFrequency(1);
             $this->progressBar->start();
         }
+    }
+
+    /**
+     * Prefix padding.
+     *
+     * @param string $prefix
+     * @param string $max
+     *
+     * @return string
+     */
+    private function padPrefix(string $prefix, string $max): string
+    {
+        return str_pad($prefix, strlen($max), ' ', STR_PAD_LEFT);
     }
 }
