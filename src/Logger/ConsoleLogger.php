@@ -68,7 +68,7 @@ class ConsoleLogger extends PrintLogger
         $outputStyle = new OutputFormatterStyle('white');
         $output->getFormatter()->setStyle('text', $outputStyle);
 
-        // can use progress bar
+        // updates the levels mapping if output supports the Progress Bar
         if ($output->isDecorated()) {
             array_replace_recursive($this->verbosityLevelMap, [
                 LogLevel::NOTICE    => OutputInterface::VERBOSITY_NORMAL,
@@ -80,7 +80,7 @@ class ConsoleLogger extends PrintLogger
             throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
         }
 
-        // steps progress bar
+        // steps Progress Bar
         if ($output->isDecorated()) {
             if ($output->getVerbosity() == OutputInterface::VERBOSITY_NORMAL && array_key_exists('step', $context)) {
                 $this->printProgressBar($context['step'][0], $context['step'][1]);
@@ -89,11 +89,18 @@ class ConsoleLogger extends PrintLogger
             }
         }
 
-        $pattern = '<%1$s>%3$s</%1$s>';
-        if (array_key_exists('progress', $context)) {
-            $pattern = '<%1$s>('.$context['progress'][0].'/'.$context['progress'][1].') %3$s</%1$s>';
+        // default pattern: <level>message</level>
+        $pattern = '<%1$s>%2$s%3$s</%1$s>';
+        $prefix = '';
 
-            // progress bar
+        // steps prefix
+        if (array_key_exists('step', $context)) {
+            $prefix = str_pad($context['step'][0], strlen($context['step'][1]), ' ', STR_PAD_LEFT).'. ';
+        }
+
+        // sub steps progress
+        if (array_key_exists('progress', $context)) {
+            // the verbose Progress Bar
             if ($output->isDecorated()) {
                 if ($output->getVerbosity() == OutputInterface::VERBOSITY_VERBOSE) {
                     $this->printProgressBar($context['progress'][0], $context['progress'][1]);
@@ -101,10 +108,12 @@ class ConsoleLogger extends PrintLogger
                     return;
                 }
             }
+
+            $prefix = '('.$context['progress'][0].'/'.$context['progress'][1].') ';
         }
 
         $output->writeln(
-            sprintf($pattern, $this->formatLevelMap[$level], $level, $this->interpolate($message, $context)),
+            sprintf($pattern, $this->formatLevelMap[$level], $prefix, $this->interpolate($message, $context)),
             $this->verbosityLevelMap[$level]
         );
     }
