@@ -91,6 +91,7 @@ class ConsoleLogger extends PrintLogger
 
         // default pattern: <level>message</level>
         $pattern = '<%1$s>%2$s%3$s</%1$s>';
+        $prefix = '';
 
         // steps prefix
         if (array_key_exists('step', $context)) {
