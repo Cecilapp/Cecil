@@ -83,13 +83,11 @@ abstract class AbstractPostProcess extends AbstractStep
             $count++;
             $sizeBefore = $file->getSize();
             $message = $file->getRelativePathname();
-            $fileContent = file_get_contents($file->getPathname());
+            $content = file_get_contents($file->getPathname());
 
-            if (!$cache->hasWithHash($file->getRelativePathname(), $cache->createHash($fileContent))) {
+            if (!$cache->hasWithHash($file->getRelativePathname(), $cache->createHash($content))) {
                 $this->processFile($file);
-                $fileProcessedContent = file_get_contents($file->getPathname());
-                $postprocessed++;
-
+                $postprocessedContent = file_get_contents($file->getPathname());
                 $sizeAfter = $file->getSize();
                 if ($sizeAfter < $sizeBefore) {
                     $message = sprintf(
@@ -99,8 +97,14 @@ abstract class AbstractPostProcess extends AbstractStep
                         ceil($sizeAfter / 1000)
                     );
                 }
+                $postprocessed++;
 
-                $cache->setWithHash($file->getRelativePathname(), $fileProcessedContent, null, $cache->createHash($fileContent));
+                $cache->setWithHash(
+                    $file->getRelativePathname(),
+                    $postprocessedContent,
+                    null,
+                    $cache->createHash($content)
+                );
 
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
