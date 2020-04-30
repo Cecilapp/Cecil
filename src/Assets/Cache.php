@@ -198,9 +198,9 @@ class Cache implements CacheInterface
      */
     private function getRelativePathname(string $key): string
     {
-        $this->relativePath = trim(Util::getFS()->makePathRelative(dirname($key), $this->rootPath), './');
+        $relativePath = trim(Util::getFS()->makePathRelative(dirname($key), $this->rootPath), './');
 
-        return Util::joinFile($this->relativePath, basename($key));
+        return Util::joinFile($relativePath, basename($key));
     }
 
     /**
