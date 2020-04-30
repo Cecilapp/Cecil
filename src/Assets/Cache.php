@@ -57,7 +57,7 @@ class Cache implements CacheInterface
     public function set($key, $value, $ttl = null)
     {
         if ($ttl !== null) {
-            throw new Exception(sprintf('%s\%s not yet implemented.', __CLASS__, __FUNCTION__));
+            throw new Exception(sprintf('%s::%s(%s) not yet implemented.', __CLASS__, __FUNCTION__, 'ttl'));
         }
 
         // dumps value in a file
@@ -93,7 +93,7 @@ class Cache implements CacheInterface
      */
     public function getMultiple($keys, $default = null)
     {
-        throw new Exception(sprintf('%s\%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -101,7 +101,7 @@ class Cache implements CacheInterface
      */
     public function setMultiple($values, $ttl = null)
     {
-        throw new Exception(sprintf('%s\%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -109,7 +109,7 @@ class Cache implements CacheInterface
      */
     public function deleteMultiple($keys)
     {
-        throw new Exception(sprintf('%s\%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -152,7 +152,7 @@ class Cache implements CacheInterface
      *
      * @return string
      */
-    private function createHash(string $value): string
+    public function createHash(string $value): string
     {
         return hash('md5', $value);
     }
@@ -169,7 +169,7 @@ class Cache implements CacheInterface
         return Util::joinFile(
             $this->cacheDir,
             'files',
-            $this->getRelativePathname($key)
+            $key
         );
     }
 
@@ -185,34 +185,20 @@ class Cache implements CacheInterface
         return Util::joinFile(
             $this->cacheDir,
             'hash',
-            $this->preparesHashFile($this->getRelativePathname($key)).$hash
+            $this->preparesHashFile($key).$hash
         );
     }
 
     /**
-     * Returns relative path from the $rootPath.
+     * Prepares hash file.
      *
      * @param string $key
      *
      * @return string
      */
-    private function getRelativePathname(string $key): string
+    private function preparesHashFile(string $key): string
     {
-        $relativePath = trim(Util::getFS()->makePathRelative(dirname($key), $this->rootPath), './');
-
-        return Util::joinFile($relativePath, basename($key));
-    }
-
-    /**
-     * Prepares hash file path.
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    private function preparesHashFile(string $path): string
-    {
-        return str_replace(DIRECTORY_SEPARATOR, '-', $path).'_';
+        return str_replace(DIRECTORY_SEPARATOR, '-', $key).'_';
     }
 
     /**
@@ -224,8 +210,7 @@ class Cache implements CacheInterface
      */
     private function pruneHashFiles(string $key): void
     {
-        $path = $this->getRelativePathname($key);
-        $pattern = Util::joinFile($this->cacheDir, 'hash', $this->preparesHashFile($path)).'*';
+        $pattern = Util::joinFile($this->cacheDir, 'hash', $this->preparesHashFile($key)).'*';
         foreach (glob($pattern) as $filename) {
             Util::getFS()->remove($filename);
         }
