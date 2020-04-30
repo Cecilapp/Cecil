@@ -59,16 +59,18 @@ class Cache implements CacheInterface
         if ($ttl !== null) {
             throw new Exception(sprintf('%s::%s(%s) not yet implemented.', __CLASS__, __FUNCTION__, 'ttl'));
         }
+        try {
+            Util::getFS()->dumpFile($this->getValueFilePathname($key), $value);
+            $this->pruneHashFiles($key);
+            Util::getFS()->mkdir(Util::joinFile($this->cacheDir, 'hash'));
+            Util::getFS()->touch($this->getHashFilePathname($key, $this->createHash($value)));
+        } catch (Exception $e) {
+            $this->builder->getLogger()->warning($e->getMessage());
 
-        // dumps value in a file
-        Util::getFS()->dumpFile($this->getValueFilePathname($key), $value);
+            return false;
+        }
 
-        // prunes hash files
-        $this->pruneHashFiles($key);
-
-        // creates hash file
-        Util::getFS()->mkdir(Util::joinFile($this->cacheDir, 'hash'));
-        Util::getFS()->touch($this->getHashFilePathname($key, $this->createHash($value)));
+        return true;
     }
 
     /**
@@ -76,8 +78,16 @@ class Cache implements CacheInterface
      */
     public function delete($key)
     {
-        Util::getFS()->remove($this->getValueFilePathname($key));
-        $this->pruneHashFiles($key);
+        try {
+            Util::getFS()->remove($this->getValueFilePathname($key));
+            $this->pruneHashFiles($key);
+        } catch (Exception $e) {
+            $this->builder->getLogger()->warning($e->getMessage());
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -85,7 +95,15 @@ class Cache implements CacheInterface
      */
     public function clear()
     {
-        Util::getFS()->remove($this->cacheDir);
+        try {
+            Util::getFS()->remove($this->cacheDir);
+        } catch (Exception $e) {
+            $this->builder->getLogger()->warning($e->getMessage());
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -129,23 +147,6 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Returns true if cache entry exists and hash matches.
-     *
-     * @param string $key
-     * @param string $hash
-     *
-     * @return bool
-     */
-    public function hasHash(string $key, string $hash): bool
-    {
-        if (!$this->has($key) || !Util::getFS()->exists($this->getHashFilePathname($key, $hash))) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Creates the hash (MD5) of a value.
      *
      * @param string $value
@@ -164,7 +165,7 @@ class Cache implements CacheInterface
      *
      * @return string
      */
-    private function getValueFilePathname(string $key): string
+    protected function getValueFilePathname(string $key): string
     {
         return Util::joinFile(
             $this->cacheDir,
@@ -177,15 +178,16 @@ class Cache implements CacheInterface
      * Returns hash file pathname.
      *
      * @param string $key
+     * @param string $hash
      *
      * @return string
      */
-    private function getHashFilePathname(string $key, string $hash): string
+    protected function getHashFilePathname(string $key, string $hash): string
     {
         return Util::joinFile(
             $this->cacheDir,
             'hash',
-            $this->preparesHashFile($key).$hash
+            $this->preparesHashFile($key).trim($hash)
         );
     }
 
@@ -206,13 +208,21 @@ class Cache implements CacheInterface
      *
      * @param string $key
      *
-     * @return void
+     * @return bool
      */
-    private function pruneHashFiles(string $key): void
+    private function pruneHashFiles(string $key): bool
     {
-        $pattern = Util::joinFile($this->cacheDir, 'hash', $this->preparesHashFile($key)).'*';
-        foreach (glob($pattern) as $filename) {
-            Util::getFS()->remove($filename);
+        try {
+            $pattern = Util::joinFile($this->cacheDir, 'hash', $this->preparesHashFile($key)).'*';
+            foreach (glob($pattern) as $filename) {
+                Util::getFS()->remove($filename);
+            }
+        } catch (Exception $e) {
+            $this->builder->getLogger()->warning($e->getMessage());
+
+            return false;
         }
+
+        return true;
     }
 }
