@@ -10,7 +10,6 @@
 
 namespace Cecil\Step;
 
-use Cecil\Assets\Cache;
 use Cecil\Assets\PostProcessCache;
 use Cecil\Exception\Exception;
 use Symfony\Component\Finder\Finder;

@@ -26,11 +26,12 @@ class PostProcessCache extends Cache implements CacheInterface
      *
      * @return bool
      */
-    public function setWithHash($key, $value, $ttl = null, string $hash): bool
+    public function setWithHash($key, $value, $ttl, string $hash): bool
     {
         if ($this->set($key, $value, $ttl) === false) {
             return false;
         }
+
         try {
             Util::getFS()->touch($this->getHashFilePathname($key, $hash));
         } catch (Exception $e) {
