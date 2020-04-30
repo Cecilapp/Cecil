@@ -10,6 +10,7 @@
 
 namespace Cecil\Step;
 
+use Cecil\Assets\Cache;
 use Cecil\Exception\Exception;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
@@ -75,37 +76,21 @@ abstract class AbstractPostProcess extends AbstractStep
 
         $count = 0;
         $postprocessed = 0;
+        $cache = new Cache($this->builder, 'postprocess', $this->config->getOutputPath());
 
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
             $count++;
             $sizeBefore = $file->getSize();
+            $message = $file->getRelativePathname();
+            $fileContent = file_get_contents($file->getPathname());
 
-            $processedFile = Util::joinFile(
-                $this->config->getCachePath(),
-                self::CACHE_FILES,
-                $file->getRelativePathname()
-            );
-            $hash = hash_file('md5', $file->getPathname());
-            $hashFile = Util::joinFile(
-                $this->config->getCachePath(),
-                self::CACHE_HASH,
-                $this->preparesHashFile($file->getRelativePathname()).$hash
-            );
-
-            if (!Util::getFS()->exists($processedFile)
-            || !Util::getFS()->exists($hashFile)
-            ) {
+            if (!$cache->hasHash($file->getRelativePathname(), $cache->createHash($fileContent))) {
                 $this->processFile($file);
+                $fileProcessedContent = file_get_contents($file->getPathname());
                 $postprocessed++;
+
                 $sizeAfter = $file->getSize();
-
-                $this->removesHashFile($file->getRelativePathname());
-                Util::getFS()->copy($file->getPathname(), $processedFile, true);
-                Util::getFS()->mkdir(Util::joinFile($this->config->getCachePath(), self::CACHE_HASH));
-                Util::getFS()->touch($hashFile);
-
-                $message = $file->getRelativePathname();
                 if ($sizeAfter < $sizeBefore) {
                     $message = sprintf(
                         '%s (%s Ko -> %s Ko)',
@@ -114,6 +99,9 @@ abstract class AbstractPostProcess extends AbstractStep
                         ceil($sizeAfter / 1000)
                     );
                 }
+
+                $cache->set($file->getRelativePathname(), $fileProcessedContent);
+
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
         }
