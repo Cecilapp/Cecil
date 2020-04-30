@@ -59,6 +59,7 @@ class Cache implements CacheInterface
         if ($ttl !== null) {
             throw new Exception(sprintf('%s::%s(%s) not yet implemented.', __CLASS__, __FUNCTION__, 'ttl'));
         }
+
         try {
             Util::getFS()->dumpFile($this->getValueFilePathname($key), $value);
             $this->pruneHashFiles($key);
