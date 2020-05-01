@@ -29,11 +29,6 @@ class Image
     private $size;
     /** @var bool */
     private $local = true;
-    /** @var string */
-    private $source;
-
-    //const CACHE_ASSETS_DIR = 'assets';
-    //const CACHE_THUMBS_PATH = 'images/thumbs';
 
     const PREFIX = 'images/thumbs';
 
@@ -89,7 +84,6 @@ class Image
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
-                $mime = $img->mime();
             } catch (NotReadableException $e) {
                 throw new Exception(sprintf('Cannot get image "%s"', $this->path));
             }
@@ -99,6 +93,7 @@ class Image
 
         // return data:image for external image
         if (!$this->local) {
+            $mime = get_headers($source, 1)['Content-Type'];
             return sprintf('data:%s;base64,%s', $mime, base64_encode($image));
         }
 
