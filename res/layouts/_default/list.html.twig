@@ -9,17 +9,18 @@
 {% extends '_default/page.html.twig' %}
 
 {% block content %}
-      <h1 class="page-title">{{ page.title }}</h1>
-      <div class="pages">
-{% for p in pages %}
-        <div class="page">
-          <h2 class="page-title">
-            <a href="{{ url(p) }}">{{ p.title|e }}</a>
-          </h2>
-          <span class="page-date">{{ p.date|date("j M Y") }}</span>
+      <header>
+        <h1>{{ page.title }}</h1>
+        {{ page.content }}
+      </header>
+      <main>
+{% for p in pages.all %}
+        <article>
+          <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
+          <time>{{ p.date|date("j M Y") }}</time>
           {{ p.content|excerptHtml }}
-        </div>
+        </article>
 {% endfor %}
-      </div>
+      </main>
 {% include 'partials/pagination.html.twig' %}
 {% endblock content %}
