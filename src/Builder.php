@@ -47,7 +47,6 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\StaticCopy',
         'Cecil\Step\PagesRender',
         'Cecil\Step\PagesSave',
-        'Cecil\Step\AssetsCopy',
         'Cecil\Step\PostProcessHtml',
         'Cecil\Step\PostProcessCss',
         'Cecil\Step\PostProcessJs',
