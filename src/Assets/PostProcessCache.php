@@ -35,7 +35,7 @@ class PostProcessCache extends Cache implements CacheInterface
         try {
             Util::getFS()->touch($this->getHashFilePathname($key, $hash));
         } catch (Exception $e) {
-            $this->builder->getLogger()->warning($e->getMessage());
+            $this->builder->getLogger()->error($e->getMessage());
 
             return false;
         }
