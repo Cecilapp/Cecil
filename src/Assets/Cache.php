@@ -66,7 +66,7 @@ class Cache implements CacheInterface
             Util::getFS()->mkdir(Util::joinFile($this->cacheDir, 'hash'));
             Util::getFS()->touch($this->getHashFilePathname($key, $this->createHash($value)));
         } catch (Exception $e) {
-            $this->builder->getLogger()->warning($e->getMessage());
+            $this->builder->getLogger()->error($e->getMessage());
 
             return false;
         }
@@ -83,7 +83,7 @@ class Cache implements CacheInterface
             Util::getFS()->remove($this->getValueFilePathname($key));
             $this->pruneHashFiles($key);
         } catch (Exception $e) {
-            $this->builder->getLogger()->warning($e->getMessage());
+            $this->builder->getLogger()->error($e->getMessage());
 
             return false;
         }
@@ -99,7 +99,7 @@ class Cache implements CacheInterface
         try {
             Util::getFS()->remove($this->cacheDir);
         } catch (Exception $e) {
-            $this->builder->getLogger()->warning($e->getMessage());
+            $this->builder->getLogger()->error($e->getMessage());
 
             return false;
         }
@@ -201,7 +201,7 @@ class Cache implements CacheInterface
      */
     private function preparesHashFile(string $key): string
     {
-        return str_replace(DIRECTORY_SEPARATOR, '-', $key).'_';
+        return str_replace(['\\', '/'], ['-', '-'], $key).'_';
     }
 
     /**
@@ -219,7 +219,7 @@ class Cache implements CacheInterface
                 Util::getFS()->remove($filename);
             }
         } catch (Exception $e) {
-            $this->builder->getLogger()->warning($e->getMessage());
+            $this->builder->getLogger()->error($e->getMessage());
 
             return false;
         }
