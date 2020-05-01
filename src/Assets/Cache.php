@@ -87,6 +87,7 @@ class Cache implements CacheInterface
     public function delete($key)
     {
         try {
+            $key = $this->cleanKey($key);
             Util::getFS()->remove($this->getValueFilePathname($key));
             $this->pruneHashFiles($key);
         } catch (Exception $e) {
@@ -147,6 +148,7 @@ class Cache implements CacheInterface
             return false;
         }
 
+        $key = $this->cleanKey($key);
         if (!Util::getFS()->exists($this->getValueFilePathname($key))) {
             return false;
         }
