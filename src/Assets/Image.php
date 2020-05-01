@@ -19,6 +19,8 @@ use Intervention\Image\ImageManagerStatic as ImageManager;
 
 class Image
 {
+    /** @var Builder */
+    private $builder;
     /** @var Config */
     private $config;
     /** @var string */
@@ -27,18 +29,12 @@ class Image
     private $size;
     /** @var bool */
     private $local = true;
-    /** @var string */
-    private $source;
-    /** @var string */
-    private $cachePath;
-    /** @var string */
-    private $destination = null;
 
-    const CACHE_ASSETS_DIR = 'assets';
-    const CACHE_THUMBS_PATH = 'images/thumbs';
+    const PREFIX = 'images/thumbs';
 
     public function __construct(Builder $builder)
     {
+        $this->builder = $builder;
         $this->config = $builder->getConfig();
     }
 
@@ -62,20 +58,13 @@ class Image
             $this->path = $path;
         }
         $this->size = $size;
-        $returnPath = '/'.Util::joinPath(self::CACHE_THUMBS_PATH, $this->size.$this->path);
+        $returnPath = '/'.Util::joinPath(self::PREFIX, $this->size, $this->path);
 
         // source file
-        $this->setSource();
-
-        // images cache path
-        $this->cachePath = Util::joinFile(
-            $this->config->getCachePath(),
-            self::CACHE_ASSETS_DIR,
-            self::CACHE_THUMBS_PATH
-        );
+        $source = $this->getSource();
 
         // is size is already OK?
-        list($width, $height) = getimagesize($this->source);
+        list($width, $height) = getimagesize($source);
         if ($width <= $this->size && $height <= $this->size) {
             return $this->path;
         }
@@ -85,55 +74,57 @@ class Image
             throw new Exception('GD extension is required to use images resize.');
         }
 
-        $this->destination = Util::joinFile($this->cachePath, $this->size.$this->path);
-
-        if (Util::getFS()->exists($this->destination)) {
-            return $returnPath;
+        $cache = new Cache($this->builder, 'assets', $this->config->getStaticPath());
+        $cacheKey = ltrim($this->path, '/');
+        if (!$cache->has($cacheKey)) {
+            // image object
+            try {
+                $img = ImageManager::make($source);
+                $img->resize($this->size, null, function (\Intervention\Image\Constraint $constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            } catch (NotReadableException $e) {
+                throw new Exception(sprintf('Cannot get image "%s"', $this->path));
+            }
+            $cache->set($cacheKey, $img->encode());
         }
-
-        // image object
-        try {
-            $img = ImageManager::make($this->source);
-            $img->resize($this->size, null, function (\Intervention\Image\Constraint $constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        } catch (NotReadableException $e) {
-            throw new Exception(sprintf('Cannot get image "%s"', $this->path));
-        }
+        $image = $cache->get($cacheKey, file_get_contents($source));
 
         // return data:image for external image
         if (!$this->local) {
-            return (string) $img->encode('data-url');
+            $mime = get_headers($source, 1)['Content-Type'];
+
+            return sprintf('data:%s;base64,%s', $mime, base64_encode($image));
         }
 
         // save file
-        Util::getFS()->mkdir(dirname($this->destination));
-        $img->save($this->destination);
+        $targetPathname = Util::joinFile($this->config->getOutputPath(), self::PREFIX, $this->size, $this->path);
+        Util::getFS()->mkdir(dirname($targetPathname));
+        Util::getFS()->dumpFile($targetPathname, $image);
 
         // return new path
         return $returnPath;
     }
 
     /**
-     * Set the source file path.
-     *
-     * @return void
+     * Returns source path.
      */
-    private function setSource(): void
+    private function getSource()
     {
         if ($this->local) {
-            $this->source = $this->config->getStaticPath().$this->path;
-            if (!Util::getFS()->exists($this->source)) {
-                throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $this->source));
+            $source = Util::joinFile($this->config->getStaticPath(), $this->path);
+            if (!Util::getFS()->exists($source)) {
+                throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $source));
             }
 
-            return;
+            return $source;
+        }
+        $source = $this->path;
+        if (!Util::isUrlFileExists($source)) {
+            throw new Exception(sprintf('Can\'t process "%s": remonte file doesn\'t exists.', $source));
         }
 
-        $this->source = $this->path;
-        if (!Util::isUrlFileExists($this->source)) {
-            throw new Exception(sprintf('Can\'t process "%s": remonte file doesn\'t exists.', $this->source));
-        }
+        return $source;
     }
 }

@@ -10,8 +10,8 @@
 
 namespace Cecil\Step;
 
+use Cecil\Assets\PostProcessCache;
 use Cecil\Exception\Exception;
-use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -23,9 +23,6 @@ abstract class AbstractPostProcess extends AbstractStep
     protected $type = 'type';
     /** @var mixed File processor */
     protected $processor;
-
-    const CACHE_FILES = 'postprocess/files';
-    const CACHE_HASH = 'postprocess/hash';
 
     /**
      * {@inheritdoc}
@@ -75,37 +72,19 @@ abstract class AbstractPostProcess extends AbstractStep
 
         $count = 0;
         $postprocessed = 0;
+        $cache = new PostProcessCache($this->builder, 'postprocess', $this->config->getOutputPath());
 
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
             $count++;
             $sizeBefore = $file->getSize();
+            $message = $file->getRelativePathname();
+            $content = file_get_contents($file->getPathname());
 
-            $processedFile = Util::joinFile(
-                $this->config->getCachePath(),
-                self::CACHE_FILES,
-                $file->getRelativePathname()
-            );
-            $hash = hash_file('md5', $file->getPathname());
-            $hashFile = Util::joinFile(
-                $this->config->getCachePath(),
-                self::CACHE_HASH,
-                $this->preparesHashFile($file->getRelativePathname()).$hash
-            );
-
-            if (!Util::getFS()->exists($processedFile)
-            || !Util::getFS()->exists($hashFile)
-            ) {
+            if (!$cache->hasWithHash($file->getRelativePathname(), $cache->createHash($content))) {
                 $this->processFile($file);
-                $postprocessed++;
+                $postprocessedContent = file_get_contents($file->getPathname());
                 $sizeAfter = $file->getSize();
-
-                $this->removesHashFile($file->getRelativePathname());
-                Util::getFS()->copy($file->getPathname(), $processedFile, true);
-                Util::getFS()->mkdir(Util::joinFile($this->config->getCachePath(), self::CACHE_HASH));
-                Util::getFS()->touch($hashFile);
-
-                $message = $file->getRelativePathname();
                 if ($sizeAfter < $sizeBefore) {
                     $message = sprintf(
                         '%s (%s Ko -> %s Ko)',
@@ -114,34 +93,20 @@ abstract class AbstractPostProcess extends AbstractStep
                         ceil($sizeAfter / 1000)
                     );
                 }
+                $postprocessed++;
+
+                $cache->setWithHash(
+                    $file->getRelativePathname(),
+                    $postprocessedContent,
+                    null,
+                    $cache->createHash($content)
+                );
+
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
         }
         if ($postprocessed == 0) {
             $this->builder->getLogger()->info('Nothing to do');
-        }
-    }
-
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
-    private function preparesHashFile(string $path): string
-    {
-        return str_replace(DIRECTORY_SEPARATOR, '-', $path).'_';
-    }
-
-    /**
-     * @param string $path
-     *
-     * @return void
-     */
-    private function removesHashFile(string $path): void
-    {
-        $pattern = Util::joinFile($this->config->getCachePath(), self::CACHE_HASH, $this->preparesHashFile($path)).'*';
-        foreach (glob($pattern) as $filename) {
-            Util::getFS()->remove($filename);
         }
     }
 
