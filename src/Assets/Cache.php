@@ -11,6 +11,7 @@
 namespace Cecil\Assets;
 
 use Cecil\Builder;
+use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Util;
 use Exception;
@@ -48,7 +49,12 @@ class Cache implements CacheInterface
      */
     public function get($key, $default = null)
     {
-        return file_get_contents($this->getValueFilePathname($key)) ?: $default;
+        $key = $this->cleanKey($key);
+        if (Util::getFS()->exists($this->getValueFilePathname($key))) {
+            return file_get_contents($this->getValueFilePathname($key)) ?: $default;
+        }
+
+        return $default;
     }
 
     /**
@@ -61,6 +67,7 @@ class Cache implements CacheInterface
         }
 
         try {
+            $key = $this->cleanKey($key);
             Util::getFS()->dumpFile($this->getValueFilePathname($key), $value);
             $this->pruneHashFiles($key);
             Util::getFS()->mkdir(Util::joinFile($this->cacheDir, 'hash'));
@@ -225,5 +232,20 @@ class Cache implements CacheInterface
         }
 
         return true;
+    }
+
+    /**
+     * $key must be a slug.
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    private function cleanKey(string $key): string
+    {
+        $key = str_replace(['https://', 'http://'], '', $key);
+        $key = Page::slugify($key);
+
+        return $key;
     }
 }
