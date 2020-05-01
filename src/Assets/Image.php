@@ -94,6 +94,7 @@ class Image
         // return data:image for external image
         if (!$this->local) {
             $mime = get_headers($source, 1)['Content-Type'];
+
             return sprintf('data:%s;base64,%s', $mime, base64_encode($image));
         }
 
