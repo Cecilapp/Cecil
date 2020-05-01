@@ -130,9 +130,10 @@ class Util
      */
     public static function joinPath(string ...$path): string
     {
-        array_walk($path, function (&$value) {
+        array_walk($path, function (&$value, $key) {
             $value = str_replace('\\', '/', $value);
             $value = rtrim($value, '/');
+            $value = $key == 0 ? $value : ltrim($value, '/');
         });
 
         return implode('/', $path);
@@ -150,6 +151,7 @@ class Util
         array_walk($path, function (&$value, $key) use (&$path) {
             $value = str_replace(['\\', '/'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $value);
             $value = rtrim($value, DIRECTORY_SEPARATOR);
+            $value = $key == 0 ? $value : ltrim($value, DIRECTORY_SEPARATOR);
             // unset entry with empty value
             if (empty($value)) {
                 unset($path[$key]);
