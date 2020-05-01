@@ -66,17 +66,7 @@ class Image
         $returnPath = '/'.Util::joinPath(self::PREFIX, $this->size, $this->path);
 
         // source file
-        if ($this->local) {
-            $source = Util::joinFile($this->config->getStaticPath(), $this->path);
-            if (!Util::getFS()->exists($source)) {
-                throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $source));
-            }
-        } else {
-            $source = $this->path;
-            if (!Util::isUrlFileExists($source)) {
-                throw new Exception(sprintf('Can\'t process "%s": remonte file doesn\'t exists.', $source));
-            }
-        }
+        $source = $this->getSource();
 
         // is size is already OK?
         list($width, $height) = getimagesize($source);
@@ -119,5 +109,26 @@ class Image
 
         // return new path
         return $returnPath;
+    }
+
+    /**
+     * Returns source path.
+     */
+    private function getSource()
+    {
+        if ($this->local) {
+            $source = Util::joinFile($this->config->getStaticPath(), $this->path);
+            if (!Util::getFS()->exists($source)) {
+                throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $source));
+            }
+
+            return $source;
+        }
+        $source = $this->path;
+        if (!Util::isUrlFileExists($source)) {
+            throw new Exception(sprintf('Can\'t process "%s": remonte file doesn\'t exists.', $source));
+        }
+
+        return $source;
     }
 }
