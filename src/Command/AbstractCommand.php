@@ -61,12 +61,10 @@ class AbstractCommand extends Command
             }
             $this->path = realpath($this->getPath());
             $this->configFile = Util::joinFile($this->getPath(), self::CONFIG_FILE);
-
             if (!in_array($this->getName(), ['new:site'])) {
                 if (!file_exists($this->configFile)) {
                     $message = sprintf('Could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
-
-                    throw new \InvalidArgumentException($message);
+                    $this->getBuilder()->getLogger()->debug($message);
                 }
             }
         }
@@ -112,17 +110,15 @@ class AbstractCommand extends Command
      */
     protected function getBuilder(array $config = []): Builder
     {
-        if (!file_exists($this->configFile)) {
-            throw new \Exception(sprintf('Configuration file not found in "%s"!', $this->getPath()));
-        }
-
         try {
-            $configContent = Util::fileGetContents($this->configFile);
-            if ($configContent === false) {
-                throw new \Exception('Can\'t read the configuration file.');
+            if (file_exists($this->configFile)) {
+                $configContent = Util::fileGetContents($this->configFile);
+                if ($configContent === false) {
+                    throw new \Exception('Can\'t read the configuration file.');
+                }
+                $siteConfig = Yaml::parse($configContent);
+                $config = array_replace_recursive($siteConfig, $config);
             }
-            $siteConfig = Yaml::parse($configContent);
-            $config = array_replace_recursive($siteConfig, $config);
             $this->builder = (new Builder($config, new ConsoleLogger($this->output)))
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());
