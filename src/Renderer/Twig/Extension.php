@@ -330,7 +330,7 @@ class Extension extends SlugifyExtension
 
     /**
      * Minifying an asset (CSS or JS).
-     * ie: minify('css/style.css')
+     * ie: minify('css/style.css').
      *
      * @param string|Asset $asset
      *

@@ -75,7 +75,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Implements \ArrayAccess
+     * Implements \ArrayAccess.
      */
     public function offsetSet($offset, $value)
     {
@@ -85,23 +85,26 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Implements \ArrayAccess
+     * Implements \ArrayAccess.
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->properties[$offset]);
     }
 
     /**
-     * Implements \ArrayAccess
+     * Implements \ArrayAccess.
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->properties[$offset]);
     }
 
     /**
-     * Implements \ArrayAccess
+     * Implements \ArrayAccess.
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return isset($this->properties[$offset]) ? $this->properties[$offset] : null;
     }
 
