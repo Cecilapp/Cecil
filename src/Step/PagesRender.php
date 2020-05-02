@@ -40,10 +40,11 @@ class PagesRender extends AbstractStep
     public function init($options)
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
-            throw new Exception(sprintf(
+            $message = sprintf(
                 "'%s' is not a valid layouts directory",
                 $this->config->getLayoutsPath()
-            ));
+            );
+            $this->builder->getLogger()->debug($message);
         }
 
         $this->canProcess = true;
