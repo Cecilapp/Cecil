@@ -10,6 +10,7 @@
 
 namespace Cecil\Renderer\Twig;
 
+use Cecil\Assets\Asset;
 use Cecil\Assets\Image;
 use Cecil\Builder;
 use Cecil\Collection\CollectionInterface;
@@ -70,6 +71,8 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('sortByWeight', [$this, 'sortByWeight']),
             new \Twig\TwigFilter('sortByDate', [$this, 'sortByDate']),
             new \Twig\TwigFilter('urlize', [$this, 'slugifyFilter']),
+            new \Twig\TwigFilter('url', [$this, 'createUrl']),
+            new \Twig\TwigFilter('minify', [$this, 'minify']),
             new \Twig\TwigFilter('minifyCSS', [$this, 'minifyCss']),
             new \Twig\TwigFilter('minifyJS', [$this, 'minifyJs']),
             new \Twig\TwigFilter('SCSStoCSS', [$this, 'scssToCss']),
@@ -91,6 +94,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFunction('toCSS', [$this, 'toCss']),
             new \Twig\TwigFunction('hash', [$this, 'hashFile']),
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
+            new \Twig\TwigFunction('asset', [$this, 'asset']),
         ];
     }
 
@@ -536,5 +540,18 @@ class Extension extends SlugifyExtension
     public function resize(string $path, int $size): string
     {
         return (new Image($this->builder))->resize($path, $size);
+    }
+
+    /**
+     * Manages assets (css, js and images).
+     *
+     * @param string     $path    File path (relative from static/ dir).
+     * @param array|null $options
+     *
+     * @return Asset
+     */
+    public function asset(string $path, array $options = null): Asset
+    {
+        return new Asset($this->builder, $path, $options);
     }
 }

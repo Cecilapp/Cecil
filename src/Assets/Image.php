@@ -20,9 +20,9 @@ use Intervention\Image\ImageManagerStatic as ImageManager;
 class Image
 {
     /** @var Builder */
-    private $builder;
+    protected $builder;
     /** @var Config */
-    private $config;
+    protected $config;
     /** @var string */
     private $path;
     /** @var int */
@@ -32,6 +32,9 @@ class Image
 
     const PREFIX = 'images/thumbs';
 
+    /**
+     * @param Builder $builder
+     */
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;

@@ -1,0 +1,19 @@
+{% extends 'page.html.twig' %}
+
+{% block head_css %}
+	{{ parent() }}
+	{{ asset('css/style.css', {canonical: true}).html }}
+	<style>{{asset('css/style.css').inline}}</style>
+{% endblock head_css %}
+
+{% block content %}
+
+	<p>{{ asset('css/style.css') }}</p>
+
+	<p>{{ asset('css/style.css')|url({canonical:true}) }}</p>
+
+	<p>{{ asset('images/cecil-logo.png', {attributs:{title:'title',alt:'alternative'}}).html }}</p>
+
+	<p>{{ asset('css/_style.css')|minify }}</p>
+
+{% endblock content %}
