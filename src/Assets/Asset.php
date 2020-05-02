@@ -15,7 +15,7 @@ use Cecil\Config;
 use Cecil\Exception\Exception;
 use Cecil\Util;
 
-class Asset
+class Asset implements \ArrayAccess
 {
     /** @var Builder */
     protected $builder;
@@ -23,8 +23,6 @@ class Asset
     protected $config;
     /** @var array */
     protected $properties = [];
-
-    const CACHE_ASSETS_DIR = 'assets';
 
     /**
      * Loads a file.
@@ -38,32 +36,32 @@ class Asset
         $this->builder = $builder;
         $this->config = $builder->getConfig();
 
-        if (false === $filePath = $this->getFile($path)) {
+        if (false === $filePath = $this->findFile($path)) {
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
-        $fileInfo = new \SplFileInfo($filePath);
-
-        $baseurl = (string) $this->config->get('baseurl');
-        $base = '';
 
         // handles options
         $canonical = null;
         $attributs = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
-
-        // prepares properties
-        $this->properties['path'] = '/'.ltrim($path, '/');
+        // url
+        $baseurl = (string) $this->config->get('baseurl');
+        $base = '';
         if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
             $base = rtrim($baseurl, '/');
         }
         if ($canonical === false) {
             $base = '';
         }
+
+        // prepares properties
+        $this->properties['file'] = $filePath;
+        $this->properties['path'] = '/'.ltrim($path, '/');
         $this->properties['url'] = $base.'/'.ltrim($path, '/');
-        $this->properties['ext'] = $fileInfo->getExtension();
-        $this->properties['type'] = explode('/', mime_content_type($fileInfo->getPathname()))[0];
+        $this->properties['ext'] = pathinfo($filePath, PATHINFO_EXTENSION);
+        $this->properties['type'] = explode('/', mime_content_type($filePath))[0];
         if ($this->properties['type'] == 'text') {
-            $this->properties['content'] = file_get_contents($fileInfo->getPathname());
+            $this->properties['content'] = file_get_contents($filePath);
         }
         $this->properties['attributs'] = $attributs;
     }
@@ -74,6 +72,37 @@ class Asset
     public function __toString(): string
     {
         return $this->properties['path'];
+    }
+
+    /**
+     * Implements \ArrayAccess
+     */
+    public function offsetSet($offset, $value)
+    {
+        if (!is_null($offset)) {
+            $this->properties[$offset] = $value;
+        }
+    }
+
+    /**
+     * Implements \ArrayAccess
+     */
+    public function offsetExists($offset) {
+        return isset($this->properties[$offset]);
+    }
+
+    /**
+     * Implements \ArrayAccess
+     */
+    public function offsetUnset($offset) {
+        unset($this->properties[$offset]);
+    }
+
+    /**
+     * Implements \ArrayAccess
+     */
+    public function offsetGet($offset) {
+        return isset($this->properties[$offset]) ? $this->properties[$offset] : null;
     }
 
     /**
@@ -117,13 +146,13 @@ class Asset
     }
 
     /**
-     * Get a static file (in site or theme(s)) if exists or false.
+     * Try to find a static file (in site or theme(s)) if exists or returns false.
      *
      * @param string $path
      *
      * @return string|false
      */
-    private function getFile(string $path)
+    private function findFile(string $path)
     {
         $filePath = Util::joinFile($this->config->getStaticPath(), $path);
         if (Util::getFS()->exists($filePath)) {

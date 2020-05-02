@@ -26,21 +26,17 @@ class Cache implements CacheInterface
     /** @var string */
     protected $pool;
     /** @var string */
-    protected $rootPath;
-    /** @var string */
     protected $cacheDir;
 
     /**
      * @param Builder $builder
      * @param string  $pool
-     * @param string  $rootPath
      */
-    public function __construct(Builder $builder, string $pool, string $rootPath)
+    public function __construct(Builder $builder, string $pool)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
         $this->pool = $pool;
-        $this->rootPath = $rootPath;
         $this->cacheDir = Util::joinFile($this->config->getCachePath(), $pool);
     }
 

@@ -72,7 +72,7 @@ abstract class AbstractPostProcess extends AbstractStep
 
         $count = 0;
         $postprocessed = 0;
-        $cache = new PostProcessCache($this->builder, 'postprocess', $this->config->getOutputPath());
+        $cache = new PostProcessCache($this->builder, 'postprocess');
 
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
