@@ -2,8 +2,10 @@
 
 {% block head_css %}
 	{{ parent() }}
-	{{ asset('css/style.css', {canonical: true}).html }}
-	<style>{{asset('css/style.css').inline}}</style>
+
+  <style>{{ minify(asset('css/style.css')).inline }}</style>
+  {{ asset('css/style.css', {canonical: true}).html }}
+
 {% endblock head_css %}
 
 {% block content %}
@@ -12,8 +14,12 @@
 
 	<p>{{ asset('css/style.css')|url({canonical:true}) }}</p>
 
-	<p>{{ asset('images/cecil-logo.png', {attributs:{title:'title',alt:'alternative'}}).html }}</p>
+  <p>{{ asset('css/style.css', {canonical: true})['url'] }}</p>
 
-	<p>{{ asset('css/_style.css')|minify }}</p>
+  <p>{{ asset('css/_style.css')|minify }}</p>
+
+  <p>{{ asset('css/style.css')['content'] }}</p>
+
+  <p>{{ asset('images/cecil-logo.png', {attributs:{title:'title',alt:'alternative'}}).html }}</p>
 
 {% endblock content %}
