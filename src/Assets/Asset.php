@@ -22,7 +22,7 @@ class Asset implements \ArrayAccess
     /** @var Config */
     protected $config;
     /** @var array */
-    protected $properties = [];
+    protected $data = [];
 
     /**
      * Loads a file.
@@ -42,7 +42,7 @@ class Asset implements \ArrayAccess
 
         // handles options
         $canonical = null;
-        $attributs = null;
+        $attributs = null; // html attributes
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
         // url
         $baseurl = (string) $this->config->get('baseurl');
@@ -54,17 +54,17 @@ class Asset implements \ArrayAccess
             $base = '';
         }
 
-        // prepares properties
-        $this->properties['file'] = $filePath;
-        $this->properties['path'] = '/'.ltrim($path, '/');
-        $this->properties['url'] = $base.'/'.ltrim($path, '/');
-        $this->properties['ext'] = pathinfo($filePath, PATHINFO_EXTENSION);
-        $this->properties['type'] = explode('/', mime_content_type($filePath))[0];
-        $this->properties['content'] = null;
-        if ($this->properties['type'] == 'text') {
-            $this->properties['content'] = file_get_contents($filePath);
+        // set data
+        $this->data['file'] = $filePath;
+        $this->data['path'] = '/'.ltrim($path, '/');
+        $this->data['url'] = $base.'/'.ltrim($path, '/');
+        $this->data['ext'] = pathinfo($filePath, PATHINFO_EXTENSION);
+        $this->data['type'] = explode('/', mime_content_type($filePath))[0];
+        $this->data['content'] = null;
+        if ($this->data['type'] == 'text') {
+            $this->data['content'] = file_get_contents($filePath);
         }
-        $this->properties['attributs'] = $attributs;
+        $this->data['attributs'] = $attributs;
     }
 
     /**
@@ -72,7 +72,7 @@ class Asset implements \ArrayAccess
      */
     public function __toString(): string
     {
-        return $this->properties['path'];
+        return $this->data['url'];
     }
 
     /**
@@ -81,7 +81,7 @@ class Asset implements \ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (!is_null($offset)) {
-            $this->properties[$offset] = $value;
+            $this->data[$offset] = $value;
         }
     }
 
@@ -90,7 +90,7 @@ class Asset implements \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->properties[$offset]);
+        return isset($this->data[$offset]);
     }
 
     /**
@@ -98,7 +98,7 @@ class Asset implements \ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->properties[$offset]);
+        unset($this->data[$offset]);
     }
 
     /**
@@ -106,7 +106,7 @@ class Asset implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return isset($this->properties[$offset]) ? $this->properties[$offset] : null;
+        return isset($this->data[$offset]) ? $this->data[$offset] : null;
     }
 
     /**
@@ -116,23 +116,23 @@ class Asset implements \ArrayAccess
      */
     public function getHtml(): string
     {
-        if ($this->properties['type'] == 'image') {
-            $title = array_key_exists('title', $this->properties['attributs']) ? $this->properties['attributs']['title'] : null;
-            $alt = array_key_exists('alt', $this->properties['attributs']) ? $this->properties['attributs']['alt'] : null;
+        if ($this->data['type'] == 'image') {
+            $title = array_key_exists('title', $this->data['attributs']) ? $this->data['attributs']['title'] : null;
+            $alt = array_key_exists('alt', $this->data['attributs']) ? $this->data['attributs']['alt'] : null;
 
             return \sprintf(
                 '<img src="%s"%s%s>',
-                $this->properties['path'],
+                $this->data['path'],
                 !is_null($title) ? \sprintf(' title="%s"', $title) : '',
                 !is_null($alt) ? \sprintf(' alt="%s"', $alt) : ''
             );
         }
 
-        switch ($this->properties['ext']) {
+        switch ($this->data['ext']) {
             case 'css':
-                return \sprintf('<link rel="stylesheet" href="%s">', $this->properties['path']);
+                return \sprintf('<link rel="stylesheet" href="%s">', $this->data['path']);
             case 'js':
-                return \sprintf('<script src="%s"></script>', $this->properties['path']);
+                return \sprintf('<script src="%s"></script>', $this->data['path']);
         }
 
         throw new Exception(\sprintf('%s is available only with CSS, JS and images files.', '.html'));
@@ -145,11 +145,11 @@ class Asset implements \ArrayAccess
      */
     public function getInline(): string
     {
-        if (!array_key_exists('content', $this->properties)) {
+        if (is_null($this->data['content'])) {
             throw new Exception(\sprintf('%s is available only with CSS et JS files.', '.inline'));
         }
 
-        return $this->properties['content'];
+        return $this->data['content'];
     }
 
     /**
