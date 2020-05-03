@@ -360,8 +360,7 @@ class Extension extends SlugifyExtension
                 default:
                     throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $asset));
             }
-            $minified = $minifier->minify();
-            $asset['content'] = $minified;
+            $asset['content'] = $minifier->minify();
             $cache->set($cacheKey, $asset['content']);
         }
         $asset['content'] = $cache->get($cacheKey, $asset['content']);
@@ -402,20 +401,18 @@ class Extension extends SlugifyExtension
         $cacheKey = $asset['path'];
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
-            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
-            $scssDir = is_array($this->config->get('assets.sass.dir')) ? $this->config->get('assets.sass.dir') : [];
-            $themes = is_array($this->config->getTheme()) ? $this->config->getTheme() : [];
-            foreach ($scssDir as $value) {
-                $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $value));
-                $scssPhp->addImportPath(Util::joinPath(dirname($asset['file']), $value));
+            $variables = $this->config->get('assets.sass.variables') ?? [];
+            $scssDir = $this->config->get('assets.sass.dir') ?? [];
+            $themes = $this->config->getTheme() ?? [];
+            foreach ($scssDir as $dir) {
+                $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $dir));
+                $scssPhp->addImportPath(Util::joinPath(dirname($asset['file']), $dir));
                 foreach ($themes as $theme) {
-                    $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$value")));
+                    $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
                 }
             }
-            if (is_array($this->config->get('assets.sass.variables'))
-            && !empty($this->config->get('assets.sass.variables'))) {
-                $scssPhp->setVariables($this->config->get('assets.sass.variables'));
-            }
+            $scssPhp->setVariables($variables);
+            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
             $asset['content'] = $scssPhp->compile($asset['content']);
             $cache->set($cacheKey, $asset['content']);
         }
