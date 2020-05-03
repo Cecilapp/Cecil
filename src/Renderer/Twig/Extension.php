@@ -94,6 +94,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFunction('minify', [$this, 'minify']),
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             new \Twig\TwigFunction('toCSS', [$this, 'toCss']),
+            new \Twig\TwigFunction('css', [$this, 'toCss']),
             new \Twig\TwigFunction('hash', [$this, 'hashFile']),
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
             new \Twig\TwigFunction('asset', [$this, 'asset']),
