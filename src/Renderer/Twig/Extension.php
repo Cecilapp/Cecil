@@ -344,38 +344,35 @@ class Extension extends SlugifyExtension
             $asset = new Asset($this->builder, $asset);
         }
 
-        // ie: minify('css/style.min.css')
-        $pathMinified = \sprintf('%s.min.%s', substr($asset['path'], 0, -strlen('.'.$asset['ext'])), $asset['ext']);
-        $filePathMinified = Util::joinFile($this->config->getOutputPath(), $pathMinified);
+        $oldPath = $asset['path'];
+        $asset['path'] = \sprintf('%s.min.%s', substr($asset['path'], 0, -strlen('.'.$asset['ext'])), $asset['ext']);
 
-        if (is_file($asset['file'])) {
-            $cache = new Cache($this->builder, 'assets');
-            $cacheKey = $asset['path'];
-            if (!$cache->has($cacheKey)) {
-                switch ($asset['ext']) {
-                    case 'css':
-                        $minifier = new Minify\CSS($asset['file']);
-                        break;
-                    case 'js':
-                        $minifier = new Minify\JS($asset['file']);
-                        break;
-                    default:
-                        throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $asset));
-                }
-                $minified = $minifier->minify();
-                $asset['content'] = $minified;
-                $cache->set($cacheKey, $asset['content']);
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $asset['path'];
+        if (!$cache->has($cacheKey)) {
+            switch ($asset['ext']) {
+                case 'css':
+                    $minifier = new Minify\CSS($asset['content']);
+                    break;
+                case 'js':
+                    $minifier = new Minify\JS($asset['content']);
+                    break;
+                default:
+                    throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $asset));
             }
-            $asset['content'] = $cache->get($cacheKey, $asset['content']);
-            $asset['path'] = $pathMinified;
-
-            // save?
-            if (!$this->builder->getBuildOptions()['dry-run']) {
-                Util::getFS()->dumpFile($filePathMinified, $asset['content']);
-            }
-
-            return $asset;
+            $minified = $minifier->minify();
+            $asset['content'] = $minified;
+            $cache->set($cacheKey, $asset['content']);
         }
+        $asset['content'] = $cache->get($cacheKey, $asset['content']);
+
+        // save?
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $asset['path']), $asset['content']);
+            Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
+        }
+
+        return $asset;
 
         throw new Exception(sprintf('%s() error: "%s" doesn\'t exist', __FUNCTION__, $asset));
     }
@@ -395,26 +392,44 @@ class Extension extends SlugifyExtension
             $asset = new Asset($this->builder, $asset);
         }
 
-        $subPath = substr($asset['path'], 0, strrpos($asset['path'], '/'));
-
-        if (is_file($asset['file'])) {
-            switch ($asset['ext']) {
-                case 'scss':
-                    $scssPhp = new Compiler();
-                    $scssPhp->setImportPaths(Util::joinFile($this->config->getOutputPath(), $subPath));
-                    $targetPath = preg_replace('/scss/m', 'css', $asset['path']);
-                    $css = $scssPhp->compile($asset['content']);
-
-                    // save?
-                    if (!$this->builder->getBuildOptions()['dry-run']) {
-                        Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $targetPath), $css);
-                    }
-
-                    return $asset;
-                default:
-                    throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $asset));
-            }
+        if ($asset['ext'] != 'scss') {
+            throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $asset));
         }
+
+        $oldPath = $asset['path'];
+        $asset['path'] = preg_replace('/scss/m', 'css', $asset['path']);
+        $asset['ext'] = 'css';
+
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $asset['path'];
+        if (!$cache->has($cacheKey)) {
+            $scssPhp = new Compiler();
+            $scssDir = ['/', '/sass', '/scss'];
+            $themes = array_reverse($this->config->getTheme());
+            foreach ($scssDir as $value) {
+                foreach ($themes as $theme) {
+                    $scssPhp->addImportPath($this->config->getThemeDirPath($theme, 'static/sass'));
+                }
+                $scssPhp->addImportPath(dirname($asset['file']).$value);
+                $scssPhp->addImportPath($this->config->getStaticPath().$value);
+            }
+            $asset['content'] = $scssPhp->compile($asset['content']);
+
+            // DEBUG
+            dd($scssPhp->getParsedFiles());
+
+            $cache->set($cacheKey, $asset['content']);
+        }
+
+        $asset['content'] = $cache->get($cacheKey, $asset['content']);
+
+        // save?
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $asset['path']), $asset['content']);
+            Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
+        }
+
+        return $asset;
 
         throw new Exception(sprintf('%s() error: "%s" doesn\'t exist', __FUNCTION__, $asset));
     }
