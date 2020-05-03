@@ -178,7 +178,6 @@ return [
             'dir'   => ['', 'sass', 'scss'],
             'style' => 'nested', // expanded, nested, compressed, compact, crunched
         ],
-        'minify' => false,
     ],
     'postprocess' => [
         'enabled' => false,
