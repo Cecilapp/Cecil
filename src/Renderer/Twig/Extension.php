@@ -373,14 +373,12 @@ class Extension extends SlugifyExtension
         }
 
         return $asset;
-
-        throw new Exception(sprintf('%s() error: "%s" doesn\'t exist', __FUNCTION__, $asset));
     }
 
     /**
      * Compiles a SCSS asset.
      *
-     * @param string|Asset $path
+     * @param string|Asset $asset
      *
      * @throws Exception
      *
@@ -404,14 +402,19 @@ class Extension extends SlugifyExtension
         $cacheKey = $asset['path'];
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
-            $scssDir = ['', 'sass', 'scss'];
-            $themes = array_reverse($this->config->getTheme());
+            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
+            $scssDir = is_array($this->config->get('assets.sass.dir')) ? $this->config->get('assets.sass.dir') : [];
+            $themes = is_array($this->config->getTheme()) ? $this->config->getTheme() : [];
             foreach ($scssDir as $value) {
                 $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $value));
                 $scssPhp->addImportPath(Util::joinPath(dirname($asset['file']), $value));
                 foreach ($themes as $theme) {
                     $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$value")));
                 }
+            }
+            if (is_array($this->config->get('assets.sass.variables'))
+            && !empty($this->config->get('assets.sass.variables'))) {
+                $scssPhp->setVariables($this->config->get('assets.sass.variables'));
             }
             $asset['content'] = $scssPhp->compile($asset['content']);
             $cache->set($cacheKey, $asset['content']);
@@ -426,8 +429,6 @@ class Extension extends SlugifyExtension
         }
 
         return $asset;
-
-        throw new Exception(sprintf('%s() error: "%s" doesn\'t exist', __FUNCTION__, $asset));
     }
 
     /**
