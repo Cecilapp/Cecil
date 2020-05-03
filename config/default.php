@@ -173,6 +173,13 @@ return [
     'themes' => [
         'dir' => 'themes',
     ],
+    'assets' => [
+        'sass' => [
+            'dir'   => ['', 'sass', 'scss'],
+            'style' => 'nested', // expanded, nested, compressed, compact, crunched
+        ],
+        'minify' => false,
+    ],
     'postprocess' => [
         'enabled' => false,
         'html'    => [
