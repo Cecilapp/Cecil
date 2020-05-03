@@ -413,9 +413,9 @@ class Extension extends SlugifyExtension
                 $scssPhp->addImportPath($this->config->getStaticPath().DIRECTORY_SEPARATOR.$value);
                 $scssPhp->addImportPath(dirname($asset['file']).DIRECTORY_SEPARATOR.$value);
             }
-            $scssPhp->setVariables(array(
+            $scssPhp->setVariables([
                 'backgroundColour' => '"#f3f7fc"',
-            ));
+            ]);
             $asset['content'] = $scssPhp->compile($asset['content']);
 
             $cache->set($cacheKey, $asset['content']);
