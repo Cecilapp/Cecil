@@ -60,6 +60,7 @@ class Asset implements \ArrayAccess
         $this->properties['url'] = $base.'/'.ltrim($path, '/');
         $this->properties['ext'] = pathinfo($filePath, PATHINFO_EXTENSION);
         $this->properties['type'] = explode('/', mime_content_type($filePath))[0];
+        $this->properties['content'] = null;
         if ($this->properties['type'] == 'text') {
             $this->properties['content'] = file_get_contents($filePath);
         }
@@ -116,11 +117,14 @@ class Asset implements \ArrayAccess
     public function getHtml(): string
     {
         if ($this->properties['type'] == 'image') {
+            $title = array_key_exists('title', $this->properties['attributs']) ? $this->properties['attributs']['title'] : null;
+            $alt = array_key_exists('alt', $this->properties['attributs']) ? $this->properties['attributs']['alt'] : null;
+
             return \sprintf(
-                '<img src="%s" title="%s" alt="%s">',
+                '<img src="%s"%s%s>',
                 $this->properties['path'],
-                $this->properties['attributs']['title'],
-                $this->properties['attributs']['alt']
+                !is_null($title) ? \sprintf(' title="%s"', $title) : '',
+                !is_null($alt) ? \sprintf(' alt="%s"', $alt) : ''
             );
         }
 
