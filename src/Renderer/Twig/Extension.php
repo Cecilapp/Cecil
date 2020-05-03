@@ -77,6 +77,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('minifyCSS', [$this, 'minifyCss']),
             new \Twig\TwigFilter('minifyJS', [$this, 'minifyJs']),
             new \Twig\TwigFilter('SCSStoCSS', [$this, 'scssToCss']),
+            new \Twig\TwigFilter('toCSS', [$this, 'scssToCss']),
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
             new \Twig\TwigFilter('excerptHtml', [$this, 'excerptHtml']),
             new \Twig\TwigFilter('resize', [$this, 'resize']),
