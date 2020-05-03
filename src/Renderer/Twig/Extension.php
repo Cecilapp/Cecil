@@ -407,17 +407,13 @@ class Extension extends SlugifyExtension
             $scssDir = ['', 'sass', 'scss'];
             $themes = array_reverse($this->config->getTheme());
             foreach ($scssDir as $value) {
+                $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $value));
+                $scssPhp->addImportPath(Util::joinPath(dirname($asset['file']), $value));
                 foreach ($themes as $theme) {
-                    $scssPhp->addImportPath($this->config->getThemeDirPath($theme, 'static'.DIRECTORY_SEPARATOR.$value));
+                    $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$value")));
                 }
-                $scssPhp->addImportPath($this->config->getStaticPath().DIRECTORY_SEPARATOR.$value);
-                $scssPhp->addImportPath(dirname($asset['file']).DIRECTORY_SEPARATOR.$value);
             }
-            $scssPhp->setVariables(array(
-                'backgroundColour' => '"#f3f7fc"',
-            ));
             $asset['content'] = $scssPhp->compile($asset['content']);
-
             $cache->set($cacheKey, $asset['content']);
         }
 
