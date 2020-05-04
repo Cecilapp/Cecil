@@ -353,7 +353,7 @@ class Extension extends SlugifyExtension
         $asset['path'] = \sprintf('%s.min.%s', substr($asset['path'], 0, -strlen('.'.$asset['ext'])), $asset['ext']);
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = Util::joinPath($asset['path'], $cache->createHash($asset['content']));
+        $cacheKey = $cache->createKeyFromAsset($asset);
         if (!$cache->has($cacheKey)) {
             switch ($asset['ext']) {
                 case 'css':
@@ -403,7 +403,7 @@ class Extension extends SlugifyExtension
         $asset['ext'] = 'css';
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = Util::joinPath($asset['path'], $cache->createHash($asset['content']));
+        $cacheKey = $cache->createKeyFromAsset($asset);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             $variables = $this->config->get('assets.sass.variables') ?? [];
