@@ -190,7 +190,7 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset): string
     {
-        if (!empty($asset['content'])) {
+        if (!is_null($asset['content'])) {
             return \sprintf('%s__%s', $asset['path'], $this->createHash($asset['content']));
         }
 
