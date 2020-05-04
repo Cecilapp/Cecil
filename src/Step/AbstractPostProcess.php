@@ -10,7 +10,7 @@
 
 namespace Cecil\Step;
 
-use Cecil\Assets\PostProcessCache;
+use Cecil\Assets\Cache;
 use Cecil\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 
@@ -72,7 +72,7 @@ abstract class AbstractPostProcess extends AbstractStep
 
         $count = 0;
         $postprocessed = 0;
-        $cache = new PostProcessCache($this->builder, 'postprocess');
+        $cache = new Cache($this->builder, 'postprocess');
 
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
