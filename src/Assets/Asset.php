@@ -49,7 +49,7 @@ class Asset implements \ArrayAccess
         $this->data['path'] = '/'.ltrim($path, '/');
         $this->data['ext'] = pathinfo($filePath, PATHINFO_EXTENSION);
         $this->data['type'] = explode('/', mime_content_type($filePath))[0];
-        $this->data['content'] = null;
+        $this->data['content'] = '';
         if ($this->data['type'] == 'text') {
             $this->data['content'] = file_get_contents($filePath);
         }
