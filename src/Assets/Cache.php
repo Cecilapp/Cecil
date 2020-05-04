@@ -174,11 +174,9 @@ class Cache implements CacheInterface
      */
     public function createKeyFromFile(string $file, string $path): string
     {
-        if (false !== $content = file_get_contents($file)) {
-            return \sprintf('%s__%s', $path, $this->createHash($content));
-        }
+        $content = file_get_contents($file);
 
-        return '';
+        return \sprintf('%s__%s', $path, $content !== false ? $this->createHash($content) : '');
     }
 
     /**
@@ -190,11 +188,7 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset): string
     {
-        if (!is_null($asset['content'])) {
-            return \sprintf('%s__%s', $asset['path'], $this->createHash($asset['content']));
-        }
-
-        return '';
+        return \sprintf('%s__%s', $asset['path'], $this->createHash($asset['content'] ?? ''));
     }
 
     /**
