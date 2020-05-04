@@ -79,9 +79,9 @@ abstract class AbstractPostProcess extends AbstractStep
             $count++;
             $sizeBefore = $file->getSize();
             $message = $file->getRelativePathname();
-            $content = file_get_contents($file->getPathname());
 
-            if (!$cache->hasWithHash($file->getRelativePathname(), $cache->createHash($content))) {
+            $cacheKey = $cache->createKeyFromFile($file->getPathname(), $file->getRelativePathname());
+            if (!$cache->has($cacheKey)) {
                 $this->processFile($file);
                 $postprocessedContent = file_get_contents($file->getPathname());
                 $sizeAfter = $file->getSize();
@@ -94,13 +94,7 @@ abstract class AbstractPostProcess extends AbstractStep
                     );
                 }
                 $postprocessed++;
-
-                $cache->setWithHash(
-                    $file->getRelativePathname(),
-                    $postprocessedContent,
-                    null,
-                    $cache->createHash($content)
-                );
+                $cache->set($cacheKey, $postprocessedContent);
 
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
