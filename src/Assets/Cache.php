@@ -45,6 +45,10 @@ class Cache implements CacheInterface
      */
     public function get($key, $default = null)
     {
+        if ($this->config->get('cache.enabled') === false) {
+            return $default;
+        }
+
         $key = $this->cleanKey($key);
         if (Util::getFS()->exists($this->getValueFilePathname($key))) {
             return file_get_contents($this->getValueFilePathname($key)) ?: $default;
@@ -58,6 +62,10 @@ class Cache implements CacheInterface
      */
     public function set($key, $value, $ttl = null)
     {
+        if ($this->config->get('cache.enabled') === false) {
+            return;
+        }
+
         if ($ttl !== null) {
             throw new Exception(sprintf('%s::%s(%s) not yet implemented.', __CLASS__, __FUNCTION__, 'ttl'));
         }
