@@ -3,7 +3,7 @@
 {% block head_css %}
 	{{ parent() }}
 
-    {{ asset('css/style.css', {canonical: true}).html }}
+    {{ url(asset('css/style.css'),{canonical:true}).html }}
     <style>{{minify(asset('css/style.css')).inline}}</style>
 {% set sass %}
 $primary-color: #ddbd83;
@@ -22,8 +22,6 @@ body {
 	<p>{{ asset('css/style.css') }}</p>
 
 	<p>{{ asset('css/style.css')|url({canonical:true}) }}</p>
-
-  <p>{{ asset('css/style.css', {canonical: true})['url'] }}</p>
 
   <p>{{ asset('css/_style.css')|minify }}</p>
 
