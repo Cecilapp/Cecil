@@ -41,23 +41,12 @@ class Asset implements \ArrayAccess
         }
 
         // handles options
-        $canonical = null;
         $attributs = null; // html attributes
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
-        // url
-        $baseurl = (string) $this->config->get('baseurl');
-        $base = '';
-        if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
-            $base = rtrim($baseurl, '/');
-        }
-        if ($canonical === false) {
-            $base = '';
-        }
 
         // set data
         $this->data['file'] = $filePath;
         $this->data['path'] = '/'.ltrim($path, '/');
-        $this->data['url'] = $base.'/'.ltrim($path, '/');
         $this->data['ext'] = pathinfo($filePath, PATHINFO_EXTENSION);
         $this->data['type'] = explode('/', mime_content_type($filePath))[0];
         $this->data['content'] = null;
@@ -72,7 +61,7 @@ class Asset implements \ArrayAccess
      */
     public function __toString(): string
     {
-        return $this->data['url'];
+        return $this->data['path'];
     }
 
     /**
