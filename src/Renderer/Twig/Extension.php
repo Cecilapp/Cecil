@@ -222,17 +222,17 @@ class Extension extends SlugifyExtension
      * Creates an URL.
      *
      * $options[
-     *     'canonical' => null,
-     *     'addhash'   => true,
+     *     'canonical' => true,
+     *     'addhash'   => false,
      *     'format'    => 'json',
      * ];
      *
-     * @param Page|string|null $value
-     * @param array|bool|null  $options
+     * @param Page|Asset|string|null $value
+     * @param array|null             $options
      *
-     * @return string|null
+     * @return mixed
      */
-    public function createUrl($value = null, $options = null): ?string
+    public function createUrl($value = null, $options = null)
     {
         $baseurl = (string) $this->config->get('baseurl');
         $hash = md5((string) $this->config->get('time'));
@@ -268,13 +268,16 @@ class Extension extends SlugifyExtension
             return $url;
         }
 
-        // value is an external URL
-        if ($value !== null) {
-            if (Util::isExternalUrl($value)) {
-                $url = $value;
-
-                return $url;
+        // value is an Asset object
+        if ($value instanceof Asset) {
+            $url = $value['path'];
+            if ($addhash) {
+                $url .= '?'.$hash;
             }
+            $url = $base.'/'.ltrim($url, '/');
+            $value['path'] = $url;
+
+            return $value;
         }
 
         // value is a string
@@ -350,7 +353,7 @@ class Extension extends SlugifyExtension
         $asset['path'] = \sprintf('%s.min.%s', substr($asset['path'], 0, -strlen('.'.$asset['ext'])), $asset['ext']);
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $asset['path'];
+        $cacheKey = Util::joinPath($asset['path'], $cache->createHash($asset['content']));
         if (!$cache->has($cacheKey)) {
             switch ($asset['ext']) {
                 case 'css':
@@ -400,7 +403,7 @@ class Extension extends SlugifyExtension
         $asset['ext'] = 'css';
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $asset['path'];
+        $cacheKey = Util::joinPath($asset['path'], $cache->createHash($asset['content']));
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             $variables = $this->config->get('assets.sass.variables') ?? [];
@@ -471,9 +474,15 @@ class Extension extends SlugifyExtension
      */
     public function minifyCss(string $value): string
     {
-        $minifier = new Minify\CSS($value);
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createHash($value);
+        if (!$cache->has($cacheKey)) {
+            $minifier = new Minify\CSS($value);
+            $value = $minifier->minify();
+            $cache->set($cacheKey, $value);
+        }
 
-        return $minifier->minify();
+        return $cache->get($cacheKey, $value);
     }
 
     /**
