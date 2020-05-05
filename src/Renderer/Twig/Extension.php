@@ -10,6 +10,8 @@
 
 namespace Cecil\Renderer\Twig;
 
+use Cecil\Assets\Asset;
+use Cecil\Assets\Cache;
 use Cecil\Assets\Image;
 use Cecil\Builder;
 use Cecil\Collection\CollectionInterface;
@@ -70,9 +72,12 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('sortByWeight', [$this, 'sortByWeight']),
             new \Twig\TwigFilter('sortByDate', [$this, 'sortByDate']),
             new \Twig\TwigFilter('urlize', [$this, 'slugifyFilter']),
+            new \Twig\TwigFilter('url', [$this, 'createUrl']),
+            new \Twig\TwigFilter('minify', [$this, 'minify']),
             new \Twig\TwigFilter('minifyCSS', [$this, 'minifyCss']),
             new \Twig\TwigFilter('minifyJS', [$this, 'minifyJs']),
             new \Twig\TwigFilter('SCSStoCSS', [$this, 'scssToCss']),
+            new \Twig\TwigFilter('toCSS', [$this, 'scssToCss']),
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
             new \Twig\TwigFilter('excerptHtml', [$this, 'excerptHtml']),
             new \Twig\TwigFilter('resize', [$this, 'resize']),
@@ -89,8 +94,10 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFunction('minify', [$this, 'minify']),
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             new \Twig\TwigFunction('toCSS', [$this, 'toCss']),
+            new \Twig\TwigFunction('css', [$this, 'toCss']),
             new \Twig\TwigFunction('hash', [$this, 'hashFile']),
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
+            new \Twig\TwigFunction('asset', [$this, 'asset']),
         ];
     }
 
@@ -215,17 +222,17 @@ class Extension extends SlugifyExtension
      * Creates an URL.
      *
      * $options[
-     *     'canonical' => null,
-     *     'addhash'   => true,
+     *     'canonical' => true,
+     *     'addhash'   => false,
      *     'format'    => 'json',
      * ];
      *
-     * @param Page|string|null $value
-     * @param array|bool|null  $options
+     * @param Page|Asset|string|null $value
+     * @param array|null             $options
      *
-     * @return string|null
+     * @return mixed
      */
-    public function createUrl($value = null, $options = null): ?string
+    public function createUrl($value = null, $options = null)
     {
         $baseurl = (string) $this->config->get('baseurl');
         $hash = md5((string) $this->config->get('time'));
@@ -261,13 +268,16 @@ class Extension extends SlugifyExtension
             return $url;
         }
 
-        // value is an external URL
-        if ($value !== null) {
-            if (Util::isExternalUrl($value)) {
-                $url = $value;
-
-                return $url;
+        // value is an Asset object
+        if ($value instanceof Asset) {
+            $url = $value['path'];
+            if ($addhash) {
+                $url .= '?'.$hash;
             }
+            $url = $base.'/'.ltrim($url, '/');
+            $value['path'] = $url;
+
+            return $value;
         }
 
         // value is a string
@@ -311,49 +321,152 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Minifying a CSS or a JS file.
+     * Manages assets (CSS, JS and images).
      *
-     * ie: minify('css/style.css')
+     * @param string     $path    File path (relative from static/ dir).
+     * @param array|null $options
      *
-     * @param string $path
-     *
-     * @throws Exception
-     *
-     * @return string
+     * @return Asset
      */
-    public function minify(string $path): string
+    public function asset(string $path, array $options = null): Asset
     {
-        $filePath = Util::joinFile($this->config->getOutputPath(), $path);
-        $fileInfo = new \SplFileInfo($filePath);
-        $fileExtension = $fileInfo->getExtension();
-        // ie: minify('css/style.min.css')
-        $pathMinified = \sprintf('%s.min.%s', substr($path, 0, -strlen(".$fileExtension")), $fileExtension);
-        $filePathMinified = Util::joinFile($this->config->getOutputPath(), $pathMinified);
-        if (is_file($filePathMinified)) {
-            return $pathMinified;
-        }
-        if (is_file($filePath)) {
-            switch ($fileExtension) {
-                case 'css':
-                    $minifier = new Minify\CSS($filePath);
-                    break;
-                case 'js':
-                    $minifier = new Minify\JS($filePath);
-                    break;
-                default:
-                    throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $path));
-            }
-            Util::getFS()->mkdir(dirname($filePathMinified));
-            $minifier->minify($filePathMinified);
-
-            return $pathMinified;
-        }
-
-        throw new Exception(sprintf('%s() error: "%s" doesn\'t exist', __FUNCTION__, $path));
+        return new Asset($this->builder, $path, $options);
     }
 
     /**
-     * Minifying CSS.
+     * Minifying an asset (CSS or JS).
+     * ie: minify('css/style.css').
+     *
+     * @param string|Asset $asset
+     *
+     * @throws Exception
+     *
+     * @return Asset
+     */
+    public function minify($asset): Asset
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        $oldPath = $asset['path'];
+        $asset['path'] = \sprintf('%s.min.%s', substr($asset['path'], 0, -strlen('.'.$asset['ext'])), $asset['ext']);
+
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($asset);
+        if (!$cache->has($cacheKey)) {
+            switch ($asset['ext']) {
+                case 'css':
+                    $minifier = new Minify\CSS($asset['content']);
+                    break;
+                case 'js':
+                    $minifier = new Minify\JS($asset['content']);
+                    break;
+                default:
+                    throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $asset));
+            }
+            $asset['content'] = $minifier->minify();
+            $cache->set($cacheKey, $asset['content']);
+        }
+        $asset['content'] = $cache->get($cacheKey, $asset['content']);
+
+        // save?
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $asset['path']), $asset['content']);
+            Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
+        }
+
+        return $asset;
+    }
+
+    /**
+     * Compiles a SCSS asset.
+     *
+     * @param string|Asset $asset
+     *
+     * @throws Exception
+     *
+     * @return Asset
+     */
+    public function toCss($asset): Asset
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        if ($asset['ext'] != 'scss') {
+            throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $asset));
+        }
+
+        $oldPath = $asset['path'];
+        $asset['path'] = preg_replace('/scss/m', 'css', $asset['path']);
+        $asset['ext'] = 'css';
+
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($asset);
+        if (!$cache->has($cacheKey)) {
+            $scssPhp = new Compiler();
+            $variables = $this->config->get('assets.sass.variables') ?? [];
+            $scssDir = $this->config->get('assets.sass.dir') ?? [];
+            $themes = $this->config->getTheme() ?? [];
+            foreach ($scssDir as $dir) {
+                $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $dir));
+                $scssPhp->addImportPath(Util::joinPath(dirname($asset['file']), $dir));
+                foreach ($themes as $theme) {
+                    $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
+                }
+            }
+            $scssPhp->setVariables($variables);
+            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
+            $asset['content'] = $scssPhp->compile($asset['content']);
+            $cache->set($cacheKey, $asset['content']);
+        }
+
+        $asset['content'] = $cache->get($cacheKey, $asset['content']);
+
+        // save?
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $asset['path']), $asset['content']);
+            Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
+        }
+
+        return $asset;
+    }
+
+    /**
+     * Resizes an image.
+     *
+     * @param string $path Image path (relative from static/ dir or external).
+     * @param int    $size Image new size (width).
+     *
+     * @return string
+     */
+    public function resize(string $path, int $size): string
+    {
+        return (new Image($this->builder))->resize($path, $size);
+    }
+
+    /**
+     * Hashing an asset with sha384.
+     * Useful for SRI (Subresource Integrity).
+     *
+     * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
+     *
+     * @param string|Asset $path
+     *
+     * @return string|null
+     */
+    public function hashFile($asset): ?string
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return sprintf('sha384-%s', base64_encode(hash('sha384', $asset['content'], true)));
+    }
+
+    /**
+     * Minifying a CSS string.
      *
      * @param string $value
      *
@@ -361,13 +474,19 @@ class Extension extends SlugifyExtension
      */
     public function minifyCss(string $value): string
     {
-        $minifier = new Minify\CSS($value);
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createHash($value);
+        if (!$cache->has($cacheKey)) {
+            $minifier = new Minify\CSS($value);
+            $value = $minifier->minify();
+            $cache->set($cacheKey, $value);
+        }
 
-        return $minifier->minify();
+        return $cache->get($cacheKey, $value);
     }
 
     /**
-     * Minifying JS.
+     * Minifying a JavaScript string.
      *
      * @param string $value
      *
@@ -381,48 +500,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Compiles a SCSS file to CSS.
-     *
-     * @param string $path
-     *
-     * @throws Exception
-     *
-     * @return string
-     */
-    public function toCss(string $path): string
-    {
-        $filePath = Util::joinFile($this->config->getOutputPath(), $path);
-        $subPath = substr($path, 0, strrpos($path, '/'));
-
-        if (is_file($filePath)) {
-            $fileExtension = (new \SplFileInfo($filePath))->getExtension();
-            switch ($fileExtension) {
-                case 'scss':
-                    $scssPhp = new Compiler();
-                    $scssPhp->setImportPaths(Util::joinFile($this->config->getOutputPath(), $subPath));
-                    $targetPath = preg_replace('/scss/m', 'css', $path);
-
-                    // compiles if target file doesn't exists
-                    if (!Util::getFS()->exists(Util::joinFile($this->config->getOutputPath(), $targetPath))) {
-                        $scss = Util::fileGetContents($filePath);
-                        if ($scss === false) {
-                            throw new \Exception();
-                        }
-                        $css = $scssPhp->compile($scss);
-                        Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $targetPath), $css);
-                    }
-
-                    return $targetPath;
-                default:
-                    throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $path));
-            }
-        }
-
-        throw new Exception(sprintf('%s() error: "%s" doesn\'t exist', __FUNCTION__, $path));
-    }
-
-    /**
-     * Compiles SCSS string to CSS.
+     * Compiles a SCSS string.
      *
      * @param string $value
      *
@@ -494,26 +572,6 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Hashing a file with sha384.
-     *
-     * Useful for SRI (Subresource Integrity).
-     *
-     * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
-     *
-     * @param string $path
-     *
-     * @return string|null
-     */
-    public function hashFile(string $path): ?string
-    {
-        if (is_file($filePath = Util::joinFile($this->config->getOutputPath(), $path))) {
-            $path = $filePath;
-        }
-
-        return sprintf('sha384-%s', base64_encode(hash_file('sha384', $path, true)));
-    }
-
-    /**
      * Gets the value of an environment variable.
      *
      * @param string $var
@@ -523,18 +581,5 @@ class Extension extends SlugifyExtension
     public function getEnv(string $var): ?string
     {
         return getenv($var) ?: null;
-    }
-
-    /**
-     * Resizes an image.
-     *
-     * @param string $path Image path (relative from static/ dir or external).
-     * @param int    $size Image new size (width).
-     *
-     * @return string
-     */
-    public function resize(string $path, int $size): string
-    {
-        return (new Image($this->builder))->resize($path, $size);
     }
 }

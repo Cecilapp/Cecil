@@ -1,0 +1,34 @@
+{% extends 'page.html.twig' %}
+
+{% block head_css %}
+	{{ parent() }}
+
+    {{ url(asset('css/style.css'),{canonical:true}).html }}
+    <style>{{minify(asset('css/style.css')).inline}}</style>
+{% set sass %}
+$primary-color: #ddbd83;
+$bg-color: #22427c;
+body {
+  color: $primary-color;
+  background-color: $bg-color
+}
+{% endset %}
+    <style>{{sass|toCSS|minifyCSS}}</style>
+
+{% endblock head_css %}
+
+{% block content %}
+
+	<p>{{ asset('css/style.css') }}</p>
+
+	<p>{{ asset('css/style.css')|url({canonical:true}) }}</p>
+
+  <p>{{ asset('css/_style.css')|minify }}</p>
+
+  <p>{{ asset('css/style.css')['content'] }}</p>
+
+  <p>{{ minify(asset('js/script.js')).inline }}</p>
+
+  <p>{{ asset('images/cecil-logo.png', {attributs:{title:'title',alt:'alternative'}}).html }}</p>
+
+{% endblock content %}

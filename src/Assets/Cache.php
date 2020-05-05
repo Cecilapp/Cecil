@@ -26,21 +26,17 @@ class Cache implements CacheInterface
     /** @var string */
     protected $pool;
     /** @var string */
-    protected $rootPath;
-    /** @var string */
     protected $cacheDir;
 
     /**
      * @param Builder $builder
      * @param string  $pool
-     * @param string  $rootPath
      */
-    public function __construct(Builder $builder, string $pool, string $rootPath)
+    public function __construct(Builder $builder, string $pool)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
         $this->pool = $pool;
-        $this->rootPath = $rootPath;
         $this->cacheDir = Util::joinFile($this->config->getCachePath(), $pool);
     }
 
@@ -49,12 +45,17 @@ class Cache implements CacheInterface
      */
     public function get($key, $default = null)
     {
-        $key = $this->cleanKey($key);
-        if (Util::getFS()->exists($this->getValueFilePathname($key))) {
-            return file_get_contents($this->getValueFilePathname($key)) ?: $default;
+        $key = $this->prepareKey($key);
+
+        try {
+            $data = @unserialize(file_get_contents($this->getFilePathname($key)));
+        } catch (Exception $e) {
+            $this->builder->getLogger()->error($e->getMessage());
+
+            return $default;
         }
 
-        return $default;
+        return $data['value'];
     }
 
     /**
@@ -62,16 +63,15 @@ class Cache implements CacheInterface
      */
     public function set($key, $value, $ttl = null)
     {
-        if ($ttl !== null) {
-            throw new Exception(sprintf('%s::%s(%s) not yet implemented.', __CLASS__, __FUNCTION__, 'ttl'));
-        }
-
         try {
-            $key = $this->cleanKey($key);
-            Util::getFS()->dumpFile($this->getValueFilePathname($key), $value);
-            $this->pruneHashFiles($key);
-            Util::getFS()->mkdir(Util::joinFile($this->cacheDir, 'hash'));
-            Util::getFS()->touch($this->getHashFilePathname($key, $this->createHash($value)));
+            $key = $this->prepareKey($key);
+            $data = serialize([
+                'value'      => $value,
+                'expiration' => time() + $ttl,
+            ]);
+
+            $this->prune($key);
+            Util::getFS()->dumpFile($this->getFilePathname($key), $data);
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -87,9 +87,9 @@ class Cache implements CacheInterface
     public function delete($key)
     {
         try {
-            $key = $this->cleanKey($key);
-            Util::getFS()->remove($this->getValueFilePathname($key));
-            $this->pruneHashFiles($key);
+            $key = $this->prepareKey($key);
+            Util::getFS()->remove($this->getFilePathname($key));
+            $this->prune($key);
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -144,12 +144,8 @@ class Cache implements CacheInterface
      */
     public function has($key)
     {
-        if ($this->config->get('cache.enabled') === false) {
-            return false;
-        }
-
-        $key = $this->cleanKey($key);
-        if (!Util::getFS()->exists($this->getValueFilePathname($key))) {
+        $key = $this->prepareKey($key);
+        if (!Util::getFS()->exists($this->getFilePathname($key))) {
             return false;
         }
 
@@ -157,7 +153,7 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates the hash (MD5) of a value.
+     * Creates a hash (MD5) from a value.
      *
      * @param string $value
      *
@@ -169,61 +165,56 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Returns value file pathname.
+     * Creates a cache key (with hash) from a file.
+     *
+     * @param string $file
+     * @param string $path
+     *
+     * @return string
+     */
+    public function createKeyFromFile(string $file, string $path): string
+    {
+        $content = file_get_contents($file);
+
+        return \sprintf('%s__%s', $path, $content !== false ? $this->createHash($content) : '');
+    }
+
+    /**
+     * Creates a cache key (with hash) from an Asset.
+     *
+     * @param Asset $asset
+     *
+     * @return string
+     */
+    public function createKeyFromAsset(Asset $asset): string
+    {
+        return \sprintf('%s__%s', $asset['path'], $this->createHash($asset['content'] ?? ''));
+    }
+
+    /**
+     * Returns cache file pathname.
      *
      * @param string $key
      *
      * @return string
      */
-    protected function getValueFilePathname(string $key): string
+    private function getFilePathname(string $key): string
     {
-        return Util::joinFile(
-            $this->cacheDir,
-            'files',
-            $key
-        );
+        return Util::joinFile($this->cacheDir, $key);
     }
 
     /**
-     * Returns hash file pathname.
-     *
-     * @param string $key
-     * @param string $hash
-     *
-     * @return string
-     */
-    protected function getHashFilePathname(string $key, string $hash): string
-    {
-        return Util::joinFile(
-            $this->cacheDir,
-            'hash',
-            $this->preparesHashFile($key).trim($hash)
-        );
-    }
-
-    /**
-     * Prepares hash file.
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    private function preparesHashFile(string $key): string
-    {
-        return str_replace(['\\', '/'], ['-', '-'], $key).'_';
-    }
-
-    /**
-     * Removes previous hash files.
+     * Removes previous cache files.
      *
      * @param string $key
      *
      * @return bool
      */
-    private function pruneHashFiles(string $key): bool
+    private function prune(string $key): bool
     {
         try {
-            $pattern = Util::joinFile($this->cacheDir, 'hash', $this->preparesHashFile($key)).'*';
+            $key = $this->prepareKey($key);
+            $pattern = Util::joinFile($this->cacheDir, explode('__', $key)[0]).'*';
             foreach (glob($pattern) as $filename) {
                 Util::getFS()->remove($filename);
             }
@@ -237,16 +228,18 @@ class Cache implements CacheInterface
     }
 
     /**
-     * $key must be a slug.
+     * $key must be a string.
      *
      * @param string $key
      *
      * @return string
      */
-    private function cleanKey(string $key): string
+    private function prepareKey(string $key): string
     {
         $key = str_replace(['https://', 'http://'], '', $key);
         $key = Page::slugify($key);
+        $key = trim($key, '/');
+        $key = str_replace(['\\', '/'], ['-', '-'], $key);
 
         return $key;
     }

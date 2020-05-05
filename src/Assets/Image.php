@@ -20,9 +20,9 @@ use Intervention\Image\ImageManagerStatic as ImageManager;
 class Image
 {
     /** @var Builder */
-    private $builder;
+    protected $builder;
     /** @var Config */
-    private $config;
+    protected $config;
     /** @var string */
     private $path;
     /** @var int */
@@ -32,6 +32,9 @@ class Image
 
     const PREFIX = 'images/thumbs';
 
+    /**
+     * @param Builder $builder
+     */
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
@@ -60,7 +63,7 @@ class Image
         $this->size = $size;
         $returnPath = '/'.Util::joinPath(self::PREFIX, $this->size, $this->path);
 
-        // source file
+        // source file path
         $source = $this->getSource();
 
         // is size is already OK?
@@ -74,10 +77,10 @@ class Image
             throw new Exception('GD extension is required to use images resize.');
         }
 
-        $cache = new Cache($this->builder, 'assets', $this->config->getStaticPath());
-        $cacheKey = ltrim($this->path, '/');
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromFile($source, $returnPath);
         if (!$cache->has($cacheKey)) {
-            // image object
+            // creates an image object
             try {
                 $img = ImageManager::make($source);
                 $img->resize($this->size, null, function (\Intervention\Image\Constraint $constraint) {
@@ -91,7 +94,7 @@ class Image
         }
         $image = $cache->get($cacheKey, file_get_contents($source));
 
-        // return data:image for external image
+        // returns 'data:image' for external image
         if (!$this->local) {
             $mime = get_headers($source, 1)['Content-Type'];
 
@@ -103,7 +106,6 @@ class Image
         Util::getFS()->mkdir(dirname($targetPathname));
         Util::getFS()->dumpFile($targetPathname, $image);
 
-        // return new path
         return $returnPath;
     }
 

@@ -10,7 +10,7 @@
 
 namespace Cecil\Step;
 
-use Cecil\Assets\PostProcessCache;
+use Cecil\Assets\Cache;
 use Cecil\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 
@@ -72,16 +72,16 @@ abstract class AbstractPostProcess extends AbstractStep
 
         $count = 0;
         $postprocessed = 0;
-        $cache = new PostProcessCache($this->builder, 'postprocess', $this->config->getOutputPath());
+        $cache = new Cache($this->builder, 'postprocess');
 
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
             $count++;
             $sizeBefore = $file->getSize();
             $message = $file->getRelativePathname();
-            $content = file_get_contents($file->getPathname());
 
-            if (!$cache->hasWithHash($file->getRelativePathname(), $cache->createHash($content))) {
+            $cacheKey = $cache->createKeyFromFile($file->getPathname(), $file->getRelativePathname());
+            if (!$cache->has($cacheKey)) {
                 $this->processFile($file);
                 $postprocessedContent = file_get_contents($file->getPathname());
                 $sizeAfter = $file->getSize();
@@ -94,13 +94,7 @@ abstract class AbstractPostProcess extends AbstractStep
                     );
                 }
                 $postprocessed++;
-
-                $cache->setWithHash(
-                    $file->getRelativePathname(),
-                    $postprocessedContent,
-                    null,
-                    $cache->createHash($content)
-                );
+                $cache->set($cacheKey, $postprocessedContent);
 
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }

@@ -85,6 +85,9 @@ class PagesSave extends AbstractStep
             $message = implode(', ', $message);
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
+
+        // clear cache
+        $this->clearCache();
     }
 
     /**
@@ -94,12 +97,24 @@ class PagesSave extends AbstractStep
      *
      * @return string
      */
-    protected function cleanPath($pathname): string
+    private function cleanPath($pathname): string
     {
         if (DIRECTORY_SEPARATOR == '\\') {
             $pathname = preg_replace('#\\\\+#', '\\', $pathname);
         }
 
         return preg_replace('#/+#', '/', $pathname);
+    }
+
+    /**
+     * Deletes cache directory.
+     *
+     * @return void
+     */
+    private function clearCache(): void
+    {
+        if ($this->config->get('cache.enabled') === false) {
+            Util::getFS()->remove($this->config->getCachePath());
+        }
     }
 }
