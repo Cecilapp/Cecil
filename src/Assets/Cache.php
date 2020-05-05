@@ -153,19 +153,19 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates a hash (MD5) from a value.
+     * Creates a cache key from a value (MD5 hash).
      *
      * @param string $value
      *
      * @return string
      */
-    public function createHash(string $value): string
+    public function createKeyFromValue(string $value): string
     {
         return hash('md5', $value);
     }
 
     /**
-     * Creates a cache key (with hash) from a file.
+     * Creates a cache key from a file (with MD5 hash).
      *
      * @param string $file
      * @param string $path
@@ -176,11 +176,11 @@ class Cache implements CacheInterface
     {
         $content = file_get_contents($file);
 
-        return \sprintf('%s__%s', $path, $content !== false ? $this->createHash($content) : '');
+        return \sprintf('%s__%s', $path, $content !== false ? $this->createKeyFromValue($content) : '');
     }
 
     /**
-     * Creates a cache key (with hash) from an Asset.
+     * Creates a cache key from an Asset (with MD5 hash).
      *
      * @param Asset $asset
      *
@@ -188,7 +188,7 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset): string
     {
-        return \sprintf('%s__%s', $asset['path'], $this->createHash($asset['content'] ?? ''));
+        return \sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['content'] ?? ''));
     }
 
     /**

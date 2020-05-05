@@ -66,21 +66,36 @@ class Extension extends SlugifyExtension
     public function getFilters()
     {
         return [
-            new \Twig\TwigFilter('filterBySection', [$this, 'filterBySection']),
-            new \Twig\TwigFilter('filterBy', [$this, 'filterBy']),
-            new \Twig\TwigFilter('sortByTitle', [$this, 'sortByTitle']),
-            new \Twig\TwigFilter('sortByWeight', [$this, 'sortByWeight']),
-            new \Twig\TwigFilter('sortByDate', [$this, 'sortByDate']),
-            new \Twig\TwigFilter('urlize', [$this, 'slugifyFilter']),
+            new \Twig\TwigFilter('filter_by', [$this, 'filterBy']),
+            // sort
+            new \Twig\TwigFilter('sort_by_title', [$this, 'sortByTitle']),
+            new \Twig\TwigFilter('sort_by_weight', [$this, 'sortByWeight']),
+            new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
+            // assets
             new \Twig\TwigFilter('url', [$this, 'createUrl']),
             new \Twig\TwigFilter('minify', [$this, 'minify']),
-            new \Twig\TwigFilter('minifyCSS', [$this, 'minifyCss']),
-            new \Twig\TwigFilter('minifyJS', [$this, 'minifyJs']),
-            new \Twig\TwigFilter('SCSStoCSS', [$this, 'scssToCss']),
-            new \Twig\TwigFilter('toCSS', [$this, 'scssToCss']),
-            new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
-            new \Twig\TwigFilter('excerptHtml', [$this, 'excerptHtml']),
+            new \Twig\TwigFilter('to_css', [$this, 'toCss']),
+            new \Twig\TwigFilter('html', [$this, 'createHtmlElement']),
+            new \Twig\TwigFilter('inline', [$this, 'getContent']),
+            new \Twig\TwigFilter('minify_css', [$this, 'minifyCss']),
+            new \Twig\TwigFilter('minify_js', [$this, 'minifyJs']),
+            new \Twig\TwigFilter('scss_to_css', [$this, 'scssToCss']),
+            new \Twig\TwigFilter('sass_to_css', [$this, 'scssToCss']),
             new \Twig\TwigFilter('resize', [$this, 'resize']),
+            // content
+            new \Twig\TwigFilter('slugify', [$this, 'slugifyFilter']),
+            new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
+            new \Twig\TwigFilter('excerpt_html', [$this, 'excerptHtml']),
+            // deprecated
+            new \Twig\TwigFilter('filterBy', [$this, 'filterBy'], ['deprecated' => true, 'alternative' => 'filter_by']),
+            new \Twig\TwigFilter('sortByTitle', [$this, 'sortByTitle'], ['deprecated' => true, 'alternative' => 'sort_by_title']),
+            new \Twig\TwigFilter('sortByWeight', [$this, 'sortByWeight'], ['deprecated' => true, 'alternative' => 'sort_by_weight']),
+            new \Twig\TwigFilter('sortByDate', [$this, 'sortByDate'], ['deprecated' => true, 'alternative' => 'sort_by_date']),
+            new \Twig\TwigFilter('minifyCSS', [$this, 'minifyCss'], ['deprecated' => true, 'alternative' => 'minifyCss']),
+            new \Twig\TwigFilter('minifyJS', [$this, 'minifyJs'], ['deprecated' => true, 'alternative' => 'minifyJs']),
+            new \Twig\TwigFilter('SCSStoCSS', [$this, 'scssToCss'], ['deprecated' => true, 'alternative' => 'scss_to_css']),
+            new \Twig\TwigFilter('excerptHtml', [$this, 'excerptHtml'], ['deprecated' => true, 'alternative' => 'excerpt_html']),
+            new \Twig\TwigFilter('urlize', [$this, 'slugifyFilter'], ['deprecated' => true, 'alternative' => 'slugify']),
         ];
     }
 
@@ -90,14 +105,17 @@ class Extension extends SlugifyExtension
     public function getFunctions()
     {
         return [
+            // assets
             new \Twig\TwigFunction('url', [$this, 'createUrl']),
-            new \Twig\TwigFunction('minify', [$this, 'minify']),
-            new \Twig\TwigFunction('readtime', [$this, 'readtime']),
-            new \Twig\TwigFunction('toCSS', [$this, 'toCss']),
-            new \Twig\TwigFunction('css', [$this, 'toCss']),
-            new \Twig\TwigFunction('hash', [$this, 'hashFile']),
-            new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
             new \Twig\TwigFunction('asset', [$this, 'asset']),
+            new \Twig\TwigFunction('hash', [$this, 'hashFile']),
+            // content
+            new \Twig\TwigFunction('readtime', [$this, 'readtime']),
+            // others
+            new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
+            // deprecated
+            new \Twig\TwigFunction('minify', [$this, 'minify'], ['deprecated' => true, 'alternative' => 'minify filter']),
+            new \Twig\TwigFunction('toCSS', [$this, 'toCss'], ['deprecated' => true, 'alternative' => 'to_css filter']),
         ];
     }
 
@@ -237,6 +255,7 @@ class Extension extends SlugifyExtension
         $baseurl = (string) $this->config->get('baseurl');
         $hash = md5((string) $this->config->get('time'));
         $base = '';
+
         // handles options
         $canonical = null;
         $addhash = false;
@@ -249,6 +268,11 @@ class Extension extends SlugifyExtension
         }
         if ($canonical === false) {
             $base = '';
+        }
+
+        // value is empty: url()
+        if (empty($value) || $value == '/') {
+            return $base.'/';
         }
 
         // value is a Page item
@@ -270,28 +294,28 @@ class Extension extends SlugifyExtension
 
         // value is an Asset object
         if ($value instanceof Asset) {
-            $url = $value['path'];
+            $asset = $value;
+            $url = $asset['path'];
             if ($addhash) {
                 $url .= '?'.$hash;
             }
             $url = $base.'/'.ltrim($url, '/');
-            $value['path'] = $url;
+            $asset['path'] = $url;
 
-            return $value;
+            return $asset;
+        }
+
+        // value is an external URL
+        if (Util::isExternalUrl($value)) {
+            $url = $value;
+
+            return $url;
         }
 
         // value is a string
-        if (!is_null($value)) {
-            // value is an external URL
-            if (Util::isExternalUrl($value)) {
-                $url = $value;
+        $value = Util::joinPath($value);
 
-                return $url;
-            }
-            $value = Util::joinPath($value);
-        }
-
-        // value is a ressource URL (ie: 'path/style.css')
+        // value is (certainly) a path to a ressource (ie: 'path/file.pdf')
         if (false !== strpos($value, '.')) {
             $url = $value;
             if ($addhash) {
@@ -303,18 +327,15 @@ class Extension extends SlugifyExtension
         }
 
         // others cases
-        $url = $base.'/';
-        if (!empty($value) && $value != '/') {
-            $url = $base.'/'.$value;
+        $url = $base.'/'.$value;
 
-            // value is a page ID (ie: 'path/my-page')
-            try {
-                $pageId = $this->slugifyFilter($value);
-                $page = $this->builder->getPages()->get($pageId);
-                $url = $this->createUrl($page, $options);
-            } catch (\DomainException $e) {
-                // nothing to do
-            }
+        // value is a page ID (ie: 'path/my-page')
+        try {
+            $pageId = $this->slugifyFilter($value);
+            $page = $this->builder->getPages()->get($pageId);
+            $url = $this->createUrl($page, $options);
+        } catch (\DomainException $e) {
+            // nothing to do
         }
 
         return $url;
@@ -475,7 +496,7 @@ class Extension extends SlugifyExtension
     public function minifyCss(string $value): string
     {
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createHash($value);
+        $cacheKey = $cache->createKeyFromValue($value);
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\CSS($value);
             $value = $minifier->minify();
@@ -494,9 +515,15 @@ class Extension extends SlugifyExtension
      */
     public function minifyJs(string $value): string
     {
-        $minifier = new Minify\JS($value);
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromValue($value);
+        if (!$cache->has($cacheKey)) {
+            $minifier = new Minify\JS($value);
+            $value = $minifier->minify();
+            $cache->set($cacheKey, $value);
+        }
 
-        return $minifier->minify();
+        return $cache->get($cacheKey, $value);
     }
 
     /**
@@ -508,9 +535,60 @@ class Extension extends SlugifyExtension
      */
     public function scssToCss(string $value): string
     {
-        $scss = new Compiler();
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromValue($value);
+        if (!$cache->has($cacheKey)) {
+            $scss = new Compiler();
+            $value = $scss->compile($value);
+            $cache->set($cacheKey, $value);
+        }
 
-        return $scss->compile($value);
+        return $cache->get($cacheKey, $value);
+    }
+
+    /**
+     * Creates an HTML element from an asset.
+     *
+     * @return string
+     */
+    public function createHtmlElement(Asset $asset): string
+    {
+        if ($asset['type'] == 'image') {
+            $title = array_key_exists('title', $asset['attributs']) ? $asset['attributs']['title'] : null;
+            $alt = array_key_exists('alt', $asset['attributs']) ? $asset['attributs']['alt'] : null;
+
+            return \sprintf(
+                '<img src="%s"%s%s>',
+                $asset['path'],
+                !is_null($title) ? \sprintf(' title="%s"', $title) : '',
+                !is_null($alt) ? \sprintf(' alt="%s"', $alt) : ''
+            );
+        }
+
+        switch ($asset['ext']) {
+            case 'css':
+                return \sprintf('<link rel="stylesheet" href="%s">', $asset['path']);
+            case 'js':
+                return \sprintf('<script src="%s"></script>', $asset['path']);
+        }
+
+        throw new Exception(\sprintf('%s is available with CSS, JS and images files only.', '"html" filter'));
+    }
+
+    /**
+     * Returns the content of an Asset.
+     *
+     * @param Asset $asset
+     *
+     * @return string
+     */
+    public function getContent(Asset $asset): string
+    {
+        if (is_null($asset['content'])) {
+            throw new Exception(\sprintf('%s is available with CSS et JS files only.', '"inline" filter'));
+        }
+
+        return $asset['content'];
     }
 
     /**

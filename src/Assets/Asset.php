@@ -99,49 +99,6 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns as HTML tag.
-     *
-     * @return string
-     */
-    public function getHtml(): string
-    {
-        if ($this->data['type'] == 'image') {
-            $title = array_key_exists('title', $this->data['attributs']) ? $this->data['attributs']['title'] : null;
-            $alt = array_key_exists('alt', $this->data['attributs']) ? $this->data['attributs']['alt'] : null;
-
-            return \sprintf(
-                '<img src="%s"%s%s>',
-                $this->data['path'],
-                !is_null($title) ? \sprintf(' title="%s"', $title) : '',
-                !is_null($alt) ? \sprintf(' alt="%s"', $alt) : ''
-            );
-        }
-
-        switch ($this->data['ext']) {
-            case 'css':
-                return \sprintf('<link rel="stylesheet" href="%s">', $this->data['path']);
-            case 'js':
-                return \sprintf('<script src="%s"></script>', $this->data['path']);
-        }
-
-        throw new Exception(\sprintf('%s is available only with CSS, JS and images files.', '.html'));
-    }
-
-    /**
-     * Returns file's content.
-     *
-     * @return string
-     */
-    public function getInline(): string
-    {
-        if (is_null($this->data['content'])) {
-            throw new Exception(\sprintf('%s is available only with CSS et JS files.', '.inline'));
-        }
-
-        return $this->data['content'];
-    }
-
-    /**
      * Try to find a static file (in site or theme(s)) if exists or returns false.
      *
      * @param string $path

@@ -29,7 +29,7 @@ class ConsoleLogger extends PrintLogger
         LogLevel::ALERT     => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::CRITICAL  => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::ERROR     => OutputInterface::VERBOSITY_NORMAL,
-        LogLevel::WARNING   => OutputInterface::VERBOSITY_NORMAL,
+        LogLevel::WARNING   => OutputInterface::VERBOSITY_VERBOSE,
         LogLevel::NOTICE    => OutputInterface::VERBOSITY_VERBOSE,
         LogLevel::INFO      => OutputInterface::VERBOSITY_VERY_VERBOSE,
         LogLevel::DEBUG     => OutputInterface::VERBOSITY_DEBUG,

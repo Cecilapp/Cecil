@@ -58,7 +58,7 @@ class PagesRender extends AbstractStep
     public function process()
     {
         // prepares renderer
-        $this->builder->setRenderer(new Twig($this->getAllLayoutsPaths(), $this->builder));
+        $this->builder->setRenderer(new Twig($this->builder, $this->getAllLayoutsPaths()));
 
         // adds global variables
         $this->addGlobals();
@@ -129,7 +129,16 @@ class PagesRender extends AbstractStep
                 $layout = Layout::finder($page, $format, $this->config);
                 // renders with Twig
                 try {
+                    $deprecations = [];
+                    set_error_handler(function ($type, $msg) use (&$deprecations) {
+                        if (E_USER_DEPRECATED === $type) {
+                            $deprecations[] = $msg;
+                        }
+                    });
                     $output = $this->builder->getRenderer()->render($layout['file'], ['page' => $page]);
+                    foreach ($deprecations as $value) {
+                        $this->builder->getLogger()->warning($value);
+                    }
                     $output = $this->postProcessOutput($output, $page, $format);
                     $rendered[$format]['output'] = $output;
                     $rendered[$format]['template']['scope'] = $layout['scope'];
