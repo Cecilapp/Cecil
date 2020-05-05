@@ -88,6 +88,8 @@ class AbstractCommand extends Command
                 $this->io = new SymfonyStyle($input, $output);
             }
             $this->io->error($e->getMessage());
+
+            return 1;
         }
     }
 
