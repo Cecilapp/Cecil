@@ -18,7 +18,7 @@
         <article>
           <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
           <time>{{ p.date|date("j M Y") }}</time>
-          {{ p.content|excerptHtml }}
+          {{ p.content|excerpt_html }}
         </article>
 {% endfor %}
       </main>
