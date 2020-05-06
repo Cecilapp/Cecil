@@ -90,7 +90,7 @@ class Image
             } catch (NotReadableException $e) {
                 throw new Exception(sprintf('Cannot get image "%s"', $this->path));
             }
-            $cache->set($cacheKey, $img->encode());
+            $cache->set($cacheKey, (string) $img->encode());
         }
         $image = $cache->get($cacheKey, file_get_contents($source));
 
