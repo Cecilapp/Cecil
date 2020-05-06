@@ -553,7 +553,7 @@ class Extension extends SlugifyExtension
      */
     public function createHtmlElement(Asset $asset): string
     {
-        if ($asset['type'] == 'image') {
+        if ($asset['type'] == 'image' && $asset['attributs'] !== null) {
             $title = array_key_exists('title', $asset['attributs']) ? $asset['attributs']['title'] : null;
             $alt = array_key_exists('alt', $asset['attributs']) ? $asset['attributs']['alt'] : null;
 
