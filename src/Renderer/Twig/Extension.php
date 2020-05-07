@@ -549,13 +549,16 @@ class Extension extends SlugifyExtension
     /**
      * Creates an HTML element from an asset.
      *
+     * @param Asset $asset
+     *
      * @return string
      */
     public function createHtmlElement(Asset $asset): string
     {
-        if ($asset['type'] == 'image' && $asset['attributs'] !== null) {
-            $title = array_key_exists('title', $asset['attributs']) ? $asset['attributs']['title'] : null;
-            $alt = array_key_exists('alt', $asset['attributs']) ? $asset['attributs']['alt'] : null;
+        if ($asset['type'] == 'image') {
+            $attributes = $asset['attributes'] ?? [];
+            $title = array_key_exists('title', $attributes) ? $attributes['title'] : null;
+            $alt = array_key_exists('alt', $attributes) ? $attributes['alt'] : null;
 
             return \sprintf(
                 '<img src="%s"%s%s>',
