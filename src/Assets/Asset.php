@@ -41,7 +41,7 @@ class Asset implements \ArrayAccess
         }
 
         // handles options
-        $attributs = null; // html attributes
+        $attributes = null; // html attributes
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // set data
@@ -53,7 +53,7 @@ class Asset implements \ArrayAccess
         if ($this->data['type'] == 'text') {
             $this->data['content'] = file_get_contents($filePath);
         }
-        $this->data['attributs'] = $attributs;
+        $this->data['attributes'] = $attributes;
     }
 
     /**
