@@ -75,6 +75,7 @@ class Url
         // value is empty (ie: `url()`)
         if (is_null($value) || empty($value) || $value == '/') {
             $this->url = $base.'/';
+
             return;
         }
 
