@@ -237,6 +237,10 @@ class Extension extends SlugifyExtension
      */
     public function createUrl($value = null, $options = null)
     {
+        if ($options !== null && !is_array($options)) {
+            throw new Exception('Options of "url()" must be an array.');
+
+        }
         return new Url($this->builder, $value, $options);
     }
 
@@ -248,8 +252,12 @@ class Extension extends SlugifyExtension
      *
      * @return Asset
      */
-    public function createAsset(string $path, array $options = null): Asset
+    public function createAsset(string $path, $options = null): Asset
     {
+        if ($options !== null && !is_array($options)) {
+            throw new Exception('Options of "asset()" must be an array.');
+
+        }
         return new Asset($this->builder, $path, $options);
     }
 
