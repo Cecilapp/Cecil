@@ -2734,16 +2734,16 @@
         },
         {
             "name": "amphp/sync",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/sync.git",
-                "reference": "512d62e83c8b8d5c848183005c70e70df2bcca55"
+                "reference": "613047ac54c025aa800a9cde5b05c3add7327ed4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/sync/zipball/512d62e83c8b8d5c848183005c70e70df2bcca55",
-                "reference": "512d62e83c8b8d5c848183005c70e70df2bcca55",
+                "url": "https://api.github.com/repos/amphp/sync/zipball/613047ac54c025aa800a9cde5b05c3add7327ed4",
+                "reference": "613047ac54c025aa800a9cde5b05c3add7327ed4",
                 "shasum": ""
             },
             "require": {
@@ -2753,7 +2753,7 @@
             "require-dev": {
                 "amphp/php-cs-fixer-config": "dev-master",
                 "amphp/phpunit-util": "^1.1",
-                "phpunit/phpunit": "^8 || ^7"
+                "phpunit/phpunit": "^9 || ^8 || ^7"
             },
             "type": "library",
             "autoload": {
@@ -2761,7 +2761,8 @@
                     "Amp\\Sync\\": "src"
                 },
                 "files": [
-                    "src/functions.php"
+                    "src/functions.php",
+                    "src/ConcurrentIterator/functions.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2787,7 +2788,7 @@
                 "semaphore",
                 "synchronization"
             ],
-            "time": "2019-11-08T18:42:56+00:00"
+            "time": "2020-05-07T18:57:50+00:00"
         },
         {
             "name": "beberlei/assert",
