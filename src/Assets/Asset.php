@@ -14,6 +14,8 @@ use Cecil\Builder;
 use Cecil\Config;
 use Cecil\Exception\Exception;
 use Cecil\Util;
+use MatthiasMullie\Minify;
+use ScssPhp\ScssPhp\Compiler;
 
 class Asset implements \ArrayAccess
 {
@@ -62,6 +64,101 @@ class Asset implements \ArrayAccess
     public function __toString(): string
     {
         return $this->data['path'];
+    }
+
+    /**
+     * Compiles a SCSS.
+     *
+     * @throws Exception
+     *
+     * @return self
+     */
+    public function compile(): self
+    {
+        if ($this->data['ext'] != 'scss') {
+            throw new Exception(sprintf('Not able to compile "%s"', $this->data['path']));
+        }
+
+        $oldPath = $this->data['path'];
+        $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
+        $this->data['ext'] = 'css';
+
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this);
+        if (!$cache->has($cacheKey)) {
+            $scssPhp = new Compiler();
+            $variables = $this->config->get('assets.sass.variables') ?? [];
+            $scssDir = $this->config->get('assets.sass.dir') ?? [];
+            $themes = $this->config->getTheme() ?? [];
+            foreach ($scssDir as $dir) {
+                $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $dir));
+                $scssPhp->addImportPath(Util::joinPath(dirname($this->data['file']), $dir));
+                foreach ($themes as $theme) {
+                    $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
+                }
+            }
+            $scssPhp->setVariables($variables);
+            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
+            $this->data['content'] = $scssPhp->compile($this->data['content']);
+            $cache->set($cacheKey, $this->data['content']);
+        }
+
+        $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
+
+        // save?
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
+            Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
+        }
+
+        return $this;
+    }
+
+    /**
+     * Minifying a CSS or a JS.
+     *
+     * @throws Exception
+     *
+     * @return self
+     */
+    public function minify(): self
+    {
+        if ($this->data['ext'] == 'scss') {
+            $this->compile();
+        }
+
+        if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
+            throw new Exception(sprintf('Not able to minify "%s"', $this->data['path']));
+        }
+
+        $oldPath = $this->data['path'];
+        $this->data['path'] = \sprintf('%s.min.%s', substr($this->data['path'], 0, -strlen('.'.$this->data['ext'])), $this->data['ext']);
+
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this);
+        if (!$cache->has($cacheKey)) {
+            switch ($this->data['ext']) {
+                case 'css':
+                    $minifier = new Minify\CSS($this->data['content']);
+                    break;
+                case 'js':
+                    $minifier = new Minify\JS($this->data['content']);
+                    break;
+                default:
+                    throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $this->data));
+            }
+            $this->data['content'] = $minifier->minify();
+            $cache->set($cacheKey, $this->data['content']);
+        }
+        $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
+
+        // save?
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
+            Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
+        }
+
+        return $this;
     }
 
     /**
