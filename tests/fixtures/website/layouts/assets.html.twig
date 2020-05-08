@@ -32,8 +32,12 @@ h2 {
 
   <h2>Compile SCSS</h2>
   <p>
-    asset('scss/colors.scss')
+    asset('scss/colors.scss')|to_css
     <pre>{{ asset('scss/colors.scss')|to_css }}</pre>
+  </p>
+  <p>
+    asset('scss/colors.scss')|minify (auto-compile)
+    <pre>{{ asset('scss/colors.scss')|minify }}</pre>
   </p>
 
   <h2>Minify</h2>
