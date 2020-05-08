@@ -72,11 +72,11 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('sort_by_weight', [$this, 'sortByWeight']),
             new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
             // assets
-            new \Twig\TwigFilter('url', [$this, 'createUrl']),
+            new \Twig\TwigFilter('url', [$this, 'url']),
             new \Twig\TwigFilter('minify', [$this, 'minify']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
-            new \Twig\TwigFilter('html', [$this, 'createHtmlElement']),
-            new \Twig\TwigFilter('inline', [$this, 'getContent']),
+            new \Twig\TwigFilter('html', [$this, 'html']),
+            new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('minify_css', [$this, 'minifyCss']),
             new \Twig\TwigFilter('minify_js', [$this, 'minifyJs']),
             new \Twig\TwigFilter('scss_to_css', [$this, 'scssToCss']),
@@ -106,8 +106,8 @@ class Extension extends SlugifyExtension
     {
         return [
             // assets
-            new \Twig\TwigFunction('url', [$this, 'createUrl']),
-            new \Twig\TwigFunction('asset', [$this, 'createAsset']),
+            new \Twig\TwigFunction('url', [$this, 'url']),
+            new \Twig\TwigFunction('asset', [$this, 'asset']),
             new \Twig\TwigFunction('hash', [$this, 'hashFile']),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
@@ -235,12 +235,8 @@ class Extension extends SlugifyExtension
      *
      * @return mixed
      */
-    public function createUrl($value = null, $options = null)
+    public function url($value = null, array $options = null)
     {
-        if ($options !== null && !is_array($options)) {
-            throw new Exception('Options of "url()" must be an array.');
-        }
-
         return new Url($this->builder, $value, $options);
     }
 
@@ -252,12 +248,8 @@ class Extension extends SlugifyExtension
      *
      * @return Asset
      */
-    public function createAsset(string $path, $options = null): Asset
+    public function asset(string $path, array $options = null): Asset
     {
-        if ($options !== null && !is_array($options)) {
-            throw new Exception('Options of "asset()" must be an array.');
-        }
-
         return new Asset($this->builder, $path, $options);
     }
 
@@ -393,7 +385,7 @@ class Extension extends SlugifyExtension
      *
      * @return string
      */
-    public function createHtmlElement(Asset $asset): string
+    public function html(Asset $asset): string
     {
         if ($asset['type'] == 'image') {
             $attributes = $asset['attributes'] ?? [];
@@ -425,7 +417,7 @@ class Extension extends SlugifyExtension
      *
      * @return string
      */
-    public function getContent(Asset $asset): string
+    public function inline(Asset $asset): string
     {
         if (is_null($asset['content'])) {
             throw new Exception(\sprintf('%s is available with CSS et JS files only.', '"inline" filter'));
