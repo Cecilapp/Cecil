@@ -11,8 +11,8 @@
 namespace Cecil\Assets;
 
 use Cecil\Builder;
-use Cecil\Config;
 use Cecil\Collection\Page\Page;
+use Cecil\Config;
 use Cecil\Util;
 use Cocur\Slugify\Slugify;
 
