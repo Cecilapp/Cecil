@@ -27,9 +27,7 @@ class Asset implements \ArrayAccess
     protected $data = [];
 
     /**
-     * Loads a file.
-     *
-     * @param Builder
+     * @param Builder    $builder
      * @param string     $path
      * @param array|null $options
      */
