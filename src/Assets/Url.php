@@ -26,26 +26,27 @@ class Url
     protected $value;
     /** @var array */
     protected $options;
-
     /** @var string */
     protected $baseurl;
     /** @var string */
     protected $version;
-
-    /** @var bool */
-    protected $canonical;
-    /** @var bool */
-    protected $addhash;
-    /** @var string */
-    protected $format;
-
     /** @var Slugify */
     private static $slugifier;
 
     /**
+     * Creates an URL from string, Page or Asset.
+     *
+     * $options[
+     *     'canonical' => true,
+     *     'addhash'   => false,
+     *     'format'    => 'json',
+     * ];
+     *
      * @param Builder $builder
+     * @param Page|Asset|string|null $value
+     * @param array|null             $options
      */
-    public function __construct(Builder $builder, $value, array $options)
+    public function __construct(Builder $builder, $value, array $options = null)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
@@ -55,42 +56,13 @@ class Url
         $this->baseurl = (string) $this->config->get('baseurl');
         $this->version = (string) $this->builder->time;
 
-        switch ($value) {
-            case 'value':
-                // code...
-                break;
-
-            default:
-                // code...
-                break;
-        }
-    }
-
-    /**
-     * Creates an URL.
-     *
-     * $options[
-     *     'canonical' => true,
-     *     'addhash'   => false,
-     *     'format'    => 'json',
-     * ];
-     *
-     * @param Page|Asset|string|null $value
-     * @param array|null             $options
-     *
-     * @return mixed
-     */
-    public function createUrl($value = null, $options = null)
-    {
-        $base = '';
-
         // handles options
         $canonical = null;
         $addhash = false;
         $format = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
-        // canonicalurl?
+        // canonical URL?
         if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
             $base = rtrim($this->baseurl, '/');
         }
@@ -98,95 +70,61 @@ class Url
             $base = '';
         }
 
-        // value is empty: url()
+        // value is empty (ie: `url()`)
         if (empty($value) || $value == '/') {
             return $base.'/';
         }
 
-        // value is a Page item
-        if ($value instanceof Page) {
-            if (!$format) {
-                $format = $value->getVariable('output');
-                if (is_array($value->getVariable('output'))) {
-                    $format = $value->getVariable('output')[0];
-                }
+        // potential page id
+        $pageId = self::$slugifier->slugify((string) $value);
+
+        switch (true) {
+            // Page
+            case $value instanceof Page:
                 if (!$format) {
-                    $format = 'html';
+                    $format = $value->getVariable('output');
+                    if (is_array($value->getVariable('output'))) {
+                        $format = $value->getVariable('output')[0];
+                    }
+                    if (!$format) {
+                        $format = 'html';
+                    }
                 }
-            }
-            $url = $value->getUrl($format, $this->config);
-            $url = $base.'/'.ltrim($url, '/');
+                $url = $value->getUrl($format, $this->config);
+                $url = $base.'/'.ltrim($url, '/');
 
-            return $url;
+                return $url;
+            // Asset
+            case $value instanceof Asset:
+                $asset = $value;
+                $url = $asset['path'];
+                if ($addhash) {
+                    $url .= '?'.$this->version;
+                }
+                $url = $base.'/'.ltrim($url, '/');
+                $asset['path'] = $url;
+
+                return $asset;
+            // External URL
+            case Util::isExternalUrl($value):
+                return $value;
+            // asset as string
+            case false !== strpos($value, '.') ? true : false:
+                $url = $value;
+                if ($addhash) {
+                    $url .= '?'.$this->version;
+                }
+                $url = $base.'/'.ltrim($url, '/');
+
+                return $url;
+            // Page ID as string
+            case $this->builder->getPages()->has($pageId):
+                $page = $this->builder->getPages()->get($pageId);
+                return self::__construct($this->builder, $page, $options);
+            // others cases?
+            default:
+                // others cases
+                $url = $base.'/'.(string) $value;
         }
-
-        // value is an Asset object
-        if ($value instanceof Asset) {
-            $asset = $value;
-            $url = $asset['path'];
-            if ($addhash) {
-                $url .= '?'.$this->version;
-            }
-            $url = $base.'/'.ltrim($url, '/');
-            $asset['path'] = $url;
-
-            return $asset;
-        }
-
-        // value is an external URL
-        if (Util::isExternalUrl($value)) {
-            $url = $value;
-
-            return $url;
-        }
-
-        // value is a string
-        $value = Util::joinPath($value);
-
-        // DEBUG
-        dump($value);
-        dump(strrpos($value, '.'));
-
-        // value is (certainly) a path to a ressource (ie: 'path/file.pdf')
-        if (false !== strpos($value, '.')) {
-            $url = $value;
-            if ($addhash) {
-                $url .= '?'.$this->version;
-            }
-            $url = $base.'/'.ltrim($url, '/');
-
-            return $url;
-        }
-
-        // others cases
-        $url = $base.'/'.$value;
-
-        // value is a page ID (ie: 'path/my-page')
-        try {
-            $pageId = self::$slugifier->slugify($value);
-            $page = $this->builder->getPages()->get($pageId);
-            $url = $this->createUrl($page, $options);
-        } catch (\DomainException $e) {
-            // nothing to do
-        }
-
-        return $url;
-    }
-
-    public function isCanonical(array $options)
-    {
-        if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function extractOptions()
-    {
-        $canonical = null;
-        $addhash = false;
-        $format = null;
-        extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
     }
 }
