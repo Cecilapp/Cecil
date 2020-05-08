@@ -57,6 +57,8 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Returns Asset path.
+     *
      * @return string
      */
     public function __toString(): string
