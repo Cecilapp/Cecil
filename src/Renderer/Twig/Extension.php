@@ -107,7 +107,7 @@ class Extension extends SlugifyExtension
         return [
             // assets
             new \Twig\TwigFunction('url', [$this, 'createUrl']),
-            new \Twig\TwigFunction('asset', [$this, 'asset']),
+            new \Twig\TwigFunction('asset', [$this, 'createAsset']),
             new \Twig\TwigFunction('hash', [$this, 'hashFile']),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
@@ -237,18 +237,18 @@ class Extension extends SlugifyExtension
      */
     public function createUrl($value = null, $options = null)
     {
-        return (new Url($this->builder))->createUrl($value, $options);
+        return new Url($this->builder, $value, $options);
     }
 
     /**
-     * Manages assets (CSS, JS and images).
+     * Creates an asset (CSS, JS, images, etc.).
      *
      * @param string     $path    File path (relative from static/ dir).
      * @param array|null $options
      *
      * @return Asset
      */
-    public function asset(string $path, array $options = null): Asset
+    public function createAsset(string $path, array $options = null): Asset
     {
         return new Asset($this->builder, $path, $options);
     }

@@ -22,18 +22,48 @@ class Url
     protected $builder;
     /** @var Config */
     protected $config;
+    /** @var Page|Asset|string|null */
+    protected $value;
+    /** @var array */
+    protected $options;
+
+    /** @var string */
+    protected $baseurl;
+    /** @var string */
+    protected $version;
+
+    /** @var bool */
+    protected $canonical;
+    /** @var bool */
+    protected $addhash;
+    /** @var string */
+    protected $format;
+
+
     /** @var Slugify */
     private static $slugifier;
 
     /**
      * @param Builder $builder
      */
-    public function __construct(Builder $builder)
+    public function __construct(Builder $builder, $value, array $options)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
         if (!self::$slugifier instanceof Slugify) {
             self::$slugifier = Slugify::create(['regexp' => Page::SLUGIFY_PATTERN]);
+        }
+        $this->baseurl = (string) $this->config->get('baseurl');
+        $this->version = (string) $this->builder->time;
+
+        switch ($value) {
+            case 'value':
+                # code...
+                break;
+
+            default:
+                # code...
+                break;
         }
     }
 
@@ -53,8 +83,6 @@ class Url
      */
     public function createUrl($value = null, $options = null)
     {
-        $baseurl = (string) $this->config->get('baseurl');
-        $hash = $this->builder->time;
         $base = '';
 
         // handles options
@@ -63,9 +91,9 @@ class Url
         $format = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
-        // set baseurl
+        // canonicalurl?
         if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
-            $base = rtrim($baseurl, '/');
+            $base = rtrim($this->baseurl, '/');
         }
         if ($canonical === false) {
             $base = '';
@@ -98,7 +126,7 @@ class Url
             $asset = $value;
             $url = $asset['path'];
             if ($addhash) {
-                $url .= '?'.$hash;
+                $url .= '?'.$this->version;
             }
             $url = $base.'/'.ltrim($url, '/');
             $asset['path'] = $url;
@@ -116,11 +144,15 @@ class Url
         // value is a string
         $value = Util::joinPath($value);
 
+        // DEBUG
+        dump($value);
+        dump(strrpos($value, '.'));
+
         // value is (certainly) a path to a ressource (ie: 'path/file.pdf')
         if (false !== strpos($value, '.')) {
             $url = $value;
             if ($addhash) {
-                $url .= '?'.$hash;
+                $url .= '?'.$this->version;
             }
             $url = $base.'/'.ltrim($url, '/');
 
@@ -140,5 +172,24 @@ class Url
         }
 
         return $url;
+    }
+
+    public function isCanonical(array $options)
+    {
+        if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function extractOptions()
+    {
+        $canonical = null;
+        $addhash = false;
+        $format = null;
+        extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
+
+
     }
 }
