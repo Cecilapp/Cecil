@@ -54,14 +54,14 @@ class Url
     public function createUrl($value = null, $options = null)
     {
         $baseurl = (string) $this->config->get('baseurl');
-        $hash = md5((string) $this->config->get('time'));
+        $hash = $this->builder->time;
         $base = '';
 
         // handles options
         $canonical = null;
         $addhash = false;
         $format = null;
-        extract(is_array($options) ? $options : []);
+        extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // set baseurl
         if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
