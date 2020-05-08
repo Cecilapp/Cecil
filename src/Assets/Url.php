@@ -42,7 +42,7 @@ class Url
      *     'format'    => 'json',
      * ];
      *
-     * @param Builder $builder
+     * @param Builder                $builder
      * @param Page|Asset|string|null $value
      * @param array|null             $options
      */
@@ -120,6 +120,7 @@ class Url
             // Page ID as string
             case $this->builder->getPages()->has($pageId):
                 $page = $this->builder->getPages()->get($pageId);
+
                 return self::__construct($this->builder, $page, $options);
             // others cases?
             default:
