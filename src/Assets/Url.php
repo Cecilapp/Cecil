@@ -39,7 +39,6 @@ class Url
     /** @var string */
     protected $format;
 
-
     /** @var Slugify */
     private static $slugifier;
 
@@ -58,11 +57,11 @@ class Url
 
         switch ($value) {
             case 'value':
-                # code...
+                // code...
                 break;
 
             default:
-                # code...
+                // code...
                 break;
         }
     }
@@ -189,7 +188,5 @@ class Url
         $addhash = false;
         $format = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
-
-
     }
 }
