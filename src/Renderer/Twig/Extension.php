@@ -13,6 +13,7 @@ namespace Cecil\Renderer\Twig;
 use Cecil\Assets\Asset;
 use Cecil\Assets\Cache;
 use Cecil\Assets\Image;
+use Cecil\Assets\Url;
 use Cecil\Builder;
 use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\Page\Collection as PagesCollection;
@@ -252,93 +253,7 @@ class Extension extends SlugifyExtension
      */
     public function createUrl($value = null, $options = null)
     {
-        $baseurl = (string) $this->config->get('baseurl');
-        $hash = md5((string) $this->config->get('time'));
-        $base = '';
-
-        // handles options
-        $canonical = null;
-        $addhash = false;
-        $format = null;
-        extract(is_array($options) ? $options : []);
-
-        // set baseurl
-        if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
-            $base = rtrim($baseurl, '/');
-        }
-        if ($canonical === false) {
-            $base = '';
-        }
-
-        // value is empty: url()
-        if (empty($value) || $value == '/') {
-            return $base.'/';
-        }
-
-        // value is a Page item
-        if ($value instanceof Page) {
-            if (!$format) {
-                $format = $value->getVariable('output');
-                if (is_array($value->getVariable('output'))) {
-                    $format = $value->getVariable('output')[0];
-                }
-                if (!$format) {
-                    $format = 'html';
-                }
-            }
-            $url = $value->getUrl($format, $this->config);
-            $url = $base.'/'.ltrim($url, '/');
-
-            return $url;
-        }
-
-        // value is an Asset object
-        if ($value instanceof Asset) {
-            $asset = $value;
-            $url = $asset['path'];
-            if ($addhash) {
-                $url .= '?'.$hash;
-            }
-            $url = $base.'/'.ltrim($url, '/');
-            $asset['path'] = $url;
-
-            return $asset;
-        }
-
-        // value is an external URL
-        if (Util::isExternalUrl($value)) {
-            $url = $value;
-
-            return $url;
-        }
-
-        // value is a string
-        $value = Util::joinPath($value);
-
-        // value is (certainly) a path to a ressource (ie: 'path/file.pdf')
-        if (false !== strpos($value, '.')) {
-            $url = $value;
-            if ($addhash) {
-                $url .= '?'.$hash;
-            }
-            $url = $base.'/'.ltrim($url, '/');
-
-            return $url;
-        }
-
-        // others cases
-        $url = $base.'/'.$value;
-
-        // value is a page ID (ie: 'path/my-page')
-        try {
-            $pageId = $this->slugifyFilter($value);
-            $page = $this->builder->getPages()->get($pageId);
-            $url = $this->createUrl($page, $options);
-        } catch (\DomainException $e) {
-            // nothing to do
-        }
-
-        return $url;
+        return (new Url($this->builder))->createUrl($value, $options);
     }
 
     /**
