@@ -143,7 +143,7 @@ class Asset implements \ArrayAccess
                     $minifier = new Minify\JS($this->data['content']);
                     break;
                 default:
-                    throw new Exception(sprintf('%s() error: not able to process "%s"', __FUNCTION__, $this->data));
+                    throw new Exception(sprintf('Not able to minify "%s"', $this->data['path']));
             }
             $this->data['content'] = $minifier->minify();
             $cache->set($cacheKey, $this->data['content']);
