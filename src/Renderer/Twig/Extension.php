@@ -239,8 +239,8 @@ class Extension extends SlugifyExtension
     {
         if ($options !== null && !is_array($options)) {
             throw new Exception('Options of "url()" must be an array.');
-
         }
+
         return new Url($this->builder, $value, $options);
     }
 
@@ -256,8 +256,8 @@ class Extension extends SlugifyExtension
     {
         if ($options !== null && !is_array($options)) {
             throw new Exception('Options of "asset()" must be an array.');
-
         }
+
         return new Asset($this->builder, $path, $options);
     }
 
