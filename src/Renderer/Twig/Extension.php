@@ -20,7 +20,6 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Exception\Exception;
-use Cecil\Util;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use MatthiasMullie\Minify;
@@ -118,21 +117,6 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFunction('minify', [$this, 'minify'], ['deprecated' => true, 'alternative' => 'minify filter']),
             new \Twig\TwigFunction('toCSS', [$this, 'toCss'], ['deprecated' => true, 'alternative' => 'to_css filter']),
         ];
-    }
-
-    /**
-     * Filters by Section.
-     *
-     * Alias of `filterBy('section', $value)`.
-     *
-     * @param PagesCollection $pages
-     * @param string          $section
-     *
-     * @return CollectionInterface
-     */
-    public function filterBySection(PagesCollection $pages, string $section): CollectionInterface
-    {
-        return $this->filterBy($pages, 'section', $section);
     }
 
     /**
