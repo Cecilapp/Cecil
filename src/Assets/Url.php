@@ -30,6 +30,8 @@ class Url
     protected $baseurl;
     /** @var string */
     protected $version;
+    /** @var string */
+    protected $url;
     /** @var Slugify */
     private static $slugifier;
 
@@ -71,8 +73,9 @@ class Url
         }
 
         // value is empty (ie: `url()`)
-        if (empty($value) || $value == '/') {
-            return $base.'/';
+        if (is_null($value) || empty($value) || $value == '/') {
+            $this->url = $base.'/';
+            return;
         }
 
         // potential page id
@@ -90,10 +93,8 @@ class Url
                         $format = 'html';
                     }
                 }
-                $url = $value->getUrl($format, $this->config);
-                $url = $base.'/'.ltrim($url, '/');
-
-                return $url;
+                $this->url = $base.'/'.ltrim($value->getUrl($format, $this->config), '/');
+                break;
             // Asset
             case $value instanceof Asset:
                 $asset = $value;
@@ -104,28 +105,49 @@ class Url
                 $url = $base.'/'.ltrim($url, '/');
                 $asset['path'] = $url;
 
-                return $asset;
+                $this->url = (string) $asset;
+                break;
             // External URL
             case Util::isExternalUrl($value):
-                return $value;
+                $this->url = $value;
+                break;
             // asset as string
             case false !== strpos($value, '.') ? true : false:
                 $url = $value;
                 if ($addhash) {
                     $url .= '?'.$this->version;
                 }
-                $url = $base.'/'.ltrim($url, '/');
-
-                return $url;
+                $this->url = $base.'/'.ltrim($url, '/');
+                break;
             // Page ID as string
             case $this->builder->getPages()->has($pageId):
                 $page = $this->builder->getPages()->get($pageId);
-
-                return self::__construct($this->builder, $page, $options);
+                $this->url = new self($this->builder, $page, $options);
+                break;
             // others cases?
             default:
                 // others cases
-                $url = $base.'/'.(string) $value;
+                $this->url = $base.'/'.$value;
         }
+    }
+
+    /**
+     * Returns URL.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * Returns URL.
+     *
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->__toString();
     }
 }
