@@ -30,6 +30,8 @@ class Asset implements \ArrayAccess
     /** @var bool */
     protected $compiled = false;
     /** @var bool */
+    protected $versioned = false;
+    /** @var bool */
     protected $minified = false;
 
     /**
