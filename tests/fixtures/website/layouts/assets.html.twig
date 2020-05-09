@@ -32,6 +32,10 @@ h2 {
 
   <h2>Compile SCSS</h2>
   <p>
+    asset('scss/colors.scss')
+    <pre>{{ asset('scss/colors.scss') }}</pre>
+  </p>
+  <p>
     asset('scss/colors.scss')|to_css
     <pre>{{ asset('scss/colors.scss')|to_css }}</pre>
   </p>
@@ -85,13 +89,20 @@ h2 {
   <h2>Image</h2>
   <p>
     asset('images/cecil-logo.png', {attributs:{title:'the title',alt:'the alternative'}})|html
-    <pre>{{ asset('images/cecil-logo.png', {attributs:{title:'the title',alt:'the alternative'}})|html }}</pre>
+    <pre>
+      {{ asset('images/cecil-logo.png', {attributs:{title:'the title',alt:'the alternative'}})|html }}
+      {{ asset('images/cecil-logo.png', {attributs:{title:'the title',alt:'the alternative'}})|html|e }}
+    </pre>
   </p>
 
   <h2>Versioning </h2>
   <p>
     asset('css/style.css', {version: true})
     <pre>{{ asset('css/style.css', {version: true}) }}</pre>
+  </p>
+  <p>
+    asset('css/style.css', {version: true})|minify
+    <pre>{{ asset('css/style.css', {version: true})|minify }}</pre>
   </p>
 
 {% endblock content %}
