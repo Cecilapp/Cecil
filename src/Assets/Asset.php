@@ -31,6 +31,14 @@ class Asset implements \ArrayAccess
     protected $minified = false;
 
     /**
+     * Creates an Asset from file.
+     *
+     * $options[
+     *     'minify'     => true,
+     *     'version'    => true,
+     *     'attributes' => ['title' => 'Titre'],
+     * ];
+     *
      * @param Builder    $builder
      * @param string     $path
      * @param array|null $options
