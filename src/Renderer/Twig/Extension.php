@@ -370,8 +370,10 @@ class Extension extends SlugifyExtension
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromValue($value);
         if (!$cache->has($cacheKey)) {
-            $scss = new Compiler();
-            $value = $scss->compile($value);
+            $scssPhp = new Compiler();
+            $scssPhp->setVariables($this->config->get('assets.sass.variables') ?? []);
+            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
+            $value = $scssPhp->compile($value);
             $cache->set($cacheKey, $value);
         }
 
