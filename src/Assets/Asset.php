@@ -152,7 +152,7 @@ class Asset implements \ArrayAccess
         $cacheKey = $cache->createKeyFromAsset($this);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
-            $variables = $this->config->get('assets.sass.variables') ?? [];
+            // import
             $scssDir = $this->config->get('assets.sass.dir') ?? [];
             $themes = $this->config->getTheme() ?? [];
             foreach ($scssDir as $dir) {
@@ -162,7 +162,7 @@ class Asset implements \ArrayAccess
                     $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
                 }
             }
-            $scssPhp->setVariables($variables);
+            $scssPhp->setVariables($this->config->get('assets.sass.variables') ?? []);
             $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
             $this->data['content'] = $scssPhp->compile($this->data['content']);
             $cache->set($cacheKey, $this->data['content']);
