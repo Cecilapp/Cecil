@@ -97,7 +97,6 @@ class Asset implements \ArrayAccess
         return $this->data['path'];
     }
 
-
     /**
      * Compiles a SCSS.
      *
