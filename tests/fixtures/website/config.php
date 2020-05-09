@@ -85,7 +85,7 @@ return [
         'exclude' => [
             'test*.txt',
             '/\.php$/',
-            '*.scss'
+            '*.scss',
         ],
         'load' => true,
     ],
