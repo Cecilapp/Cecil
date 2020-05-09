@@ -175,11 +175,19 @@ return [
     ],
     'assets' => [
         'sass' => [
+            'auto'  => true,
+            'style' => 'nested', // 'expanded', 'nested', 'compressed', 'compact', 'crunched'
             'dir'   => ['', 'sass', 'scss'],
-            'style' => 'nested', // expanded, nested, compressed, compact, crunched
+            // 'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
         ],
-        'minify'  => false,
-        'version' => false,
+        'version' => [
+            'auto'     => true,
+            'strategy' => 'buildtime', // 'buildtime' or 'static'
+            'value'    => 'v1', // (if strategy is 'static')
+        ],
+        'minify'  => [
+            'auto' => true,
+        ],
     ],
     'postprocess' => [
         'enabled' => false,
