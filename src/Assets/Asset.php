@@ -25,6 +25,10 @@ class Asset implements \ArrayAccess
     protected $config;
     /** @var array */
     protected $data = [];
+    /** @var bool */
+    protected $compiled = false;
+    /** @var bool */
+    protected $minified = false;
 
     /**
      * @param Builder    $builder
@@ -35,25 +39,49 @@ class Asset implements \ArrayAccess
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
+        $path = '/'.ltrim($path, '/');
 
         if (false === $filePath = $this->findFile($path)) {
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
+        $pathinfo = pathinfo($path);
+        $save = false;
+
         // handles options
-        $attributes = null; // html attributes
+        $minify = (bool) $this->config->get('assets.minify');
+        $version = (bool) $this->config->get('assets.version');
+        $attributes = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // set data
         $this->data['file'] = $filePath;
-        $this->data['path'] = '/'.ltrim($path, '/');
-        $this->data['ext'] = pathinfo($filePath, PATHINFO_EXTENSION);
+        $this->data['path'] = $path;
+        $this->data['ext'] = $pathinfo['extension'];
         $this->data['type'] = explode('/', mime_content_type($filePath))[0];
         $this->data['content'] = '';
-        if ($this->data['type'] == 'text') {
-            $this->data['content'] = file_get_contents($filePath);
-        }
+        $this->data['content'] = file_get_contents($filePath);
         $this->data['attributes'] = $attributes;
+
+        // versionning
+        if ($version) {
+            $this->data['path'] = \sprintf(
+                '%s.%s.%s',
+                Util::joinPath($pathinfo['dirname'], $pathinfo['filename']),
+                $this->builder->time,
+                $pathinfo['extension']
+            );
+            $save = true;
+        }
+
+        // minify
+        if ($minify) {
+            $this->minify();
+        }
+
+        if ($save) {
+            $this->save($oldPath);
+        }
     }
 
     /**
@@ -75,8 +103,12 @@ class Asset implements \ArrayAccess
      */
     public function compile(): self
     {
+        if ($this->compiled) {
+            return $this;
+        }
+
         if ($this->data['ext'] != 'scss') {
-            throw new Exception(sprintf('Not able to compile "%s"', $this->data['path']));
+            return $this;
         }
 
         $oldPath = $this->data['path'];
@@ -105,11 +137,9 @@ class Asset implements \ArrayAccess
 
         $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
 
-        // save?
-        if (!$this->builder->getBuildOptions()['dry-run']) {
-            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
-            Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
-        }
+        $this->save($oldPath);
+
+        $this->compiled = true;
 
         return $this;
     }
@@ -123,12 +153,16 @@ class Asset implements \ArrayAccess
      */
     public function minify(): self
     {
+        if ($this->minified) {
+            return $this;
+        }
+
         if ($this->data['ext'] == 'scss') {
             $this->compile();
         }
 
         if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
-            throw new Exception(sprintf('Not able to minify "%s"', $this->data['path']));
+            return $this;
         }
 
         $oldPath = $this->data['path'];
@@ -152,13 +186,28 @@ class Asset implements \ArrayAccess
         }
         $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
 
-        // save?
-        if (!$this->builder->getBuildOptions()['dry-run']) {
-            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
-            Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
-        }
+        $this->save($oldPath);
+
+        $this->minified = true;
 
         return $this;
+    }
+
+    /**
+     * Save file.
+     *
+     * @param string $oldPath
+     *
+     * @return void
+     */
+    public function save(string $oldPath = null): void
+    {
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
+            if (!empty($oldPath)) {
+                Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
+            }
+        }
     }
 
     /**
