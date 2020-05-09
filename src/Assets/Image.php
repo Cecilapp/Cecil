@@ -102,9 +102,11 @@ class Image
         }
 
         // save file
-        $targetPathname = Util::joinFile($this->config->getOutputPath(), self::PREFIX, $this->size, $this->path);
-        Util::getFS()->mkdir(dirname($targetPathname));
-        Util::getFS()->dumpFile($targetPathname, $image);
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            $targetPathname = Util::joinFile($this->config->getOutputPath(), self::PREFIX, $this->size, $this->path);
+            Util::getFS()->mkdir(dirname($targetPathname));
+            Util::getFS()->dumpFile($targetPathname, $image);
+        }
 
         return $returnPath;
     }
