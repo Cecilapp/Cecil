@@ -98,9 +98,9 @@ return [
     ],
     'assets' => [
         'sass' => [
-            'auto'  => false,
-            'style' => 'expanded',
-            'variables' => ['test' => '#FFF']
+            'auto'      => false,
+            'style'     => 'expanded',
+            'variables' => ['test' => '#FFF'],
         ],
         'version' => [
             'auto'     => false,
