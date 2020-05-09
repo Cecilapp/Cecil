@@ -23,6 +23,8 @@ class Asset implements \ArrayAccess
     protected $builder;
     /** @var Config */
     protected $config;
+    /** @var string[] */
+    protected $pathinfo = [];
     /** @var array */
     protected $data = [];
     /** @var bool */
@@ -53,42 +55,34 @@ class Asset implements \ArrayAccess
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
-        $pathinfo = pathinfo($path);
-        $save = false;
+        $this->pathinfo = pathinfo($path);
 
         // handles options
-        $minify = (bool) $this->config->get('assets.minify');
-        $version = (bool) $this->config->get('assets.version');
+        $minify = (bool) $this->config->get('assets.minify.auto');
+        $version = (bool) $this->config->get('assets.version.auto');
         $attributes = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // set data
         $this->data['file'] = $filePath;
         $this->data['path'] = $path;
-        $this->data['ext'] = $pathinfo['extension'];
+        $this->data['ext'] = $this->pathinfo['extension'];
         $this->data['type'] = explode('/', mime_content_type($filePath))[0];
         $this->data['content'] = '';
         $this->data['content'] = file_get_contents($filePath);
         $this->data['attributes'] = $attributes;
 
+        // compiling
+        if ((bool) $this->config->get('assets.sass.auto')) {
+            $this->compile();
+        }
         // versionning
         if ($version) {
-            $this->data['path'] = \sprintf(
-                '%s.%s.%s',
-                Util::joinPath($pathinfo['dirname'], $pathinfo['filename']),
-                $this->builder->time,
-                $pathinfo['extension']
-            );
-            $save = true;
+            $this->version();
         }
-
-        // minify
+        // minifying
         if ($minify) {
             $this->minify();
-        }
-
-        if ($save) {
-            $this->save($oldPath);
         }
     }
 
@@ -103,9 +97,38 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Compiles a SCSS.
+     * Versions a file.
      *
-     * @throws Exception
+     * @return self
+     */
+    public function version(): self
+    {
+        if ($this->versioned) {
+            return $this;
+        }
+
+        $version = $this->builder->time;
+        if ($this->config->get('assets.version.strategy') == 'static') {
+            $version = $this->config->get('assets.version.value');
+        }
+
+        $previousPath = $this->data['path'];
+        $this->data['path'] = \sprintf(
+            '%s.%s.%s',
+            Util::joinPath($this->pathinfo['dirname'], $this->pathinfo['filename']),
+            $version,
+            $this->pathinfo['extension']
+        );
+
+        $this->save($previousPath);
+
+        $this->versioned = true;
+
+        return $this;
+    }
+
+    /**
+     * Compiles a SCSS.
      *
      * @return self
      */
@@ -119,7 +142,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $oldPath = $this->data['path'];
+        $previousPath = $this->data['path'];
         $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
         $this->data['ext'] = 'css';
 
@@ -145,7 +168,7 @@ class Asset implements \ArrayAccess
 
         $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
 
-        $this->save($oldPath);
+        $this->save($previousPath);
 
         $this->compiled = true;
 
@@ -154,8 +177,6 @@ class Asset implements \ArrayAccess
 
     /**
      * Minifying a CSS or a JS.
-     *
-     * @throws Exception
      *
      * @return self
      */
@@ -173,7 +194,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $oldPath = $this->data['path'];
+        $previousPath = $this->data['path'];
         $this->data['path'] = \sprintf('%s.min.%s', substr($this->data['path'], 0, -strlen('.'.$this->data['ext'])), $this->data['ext']);
 
         $cache = new Cache($this->builder, 'assets');
@@ -194,7 +215,7 @@ class Asset implements \ArrayAccess
         }
         $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
 
-        $this->save($oldPath);
+        $this->save($previousPath);
 
         $this->minified = true;
 
@@ -202,18 +223,18 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Save file.
+     * Saves file (and deletes previous file).
      *
-     * @param string $oldPath
+     * @param string $previousPath
      *
      * @return void
      */
-    public function save(string $oldPath = null): void
+    public function save(string $previousPath = null): void
     {
         if (!$this->builder->getBuildOptions()['dry-run']) {
             Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
-            if (!empty($oldPath)) {
-                Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $oldPath));
+            if (!empty($previousPath)) {
+                Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $previousPath));
             }
         }
     }
