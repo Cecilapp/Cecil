@@ -175,7 +175,7 @@ return [
     ],
     'assets' => [
         'version' => [
-            'auto'     => true,
+            'auto'     => false,
             'strategy' => 'today', // 'today', 'static' or 'buildtime'
             'value'    => 'v1', // (if strategy is 'static')
         ],
