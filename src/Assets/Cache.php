@@ -188,7 +188,7 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset): string
     {
-        return \sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['content'] ?? ''));
+        return \sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['source'] ?? ''));
     }
 
     /**
