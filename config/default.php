@@ -181,8 +181,8 @@ return [
             // 'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
         ],
         'version' => [
-            'auto'     => true,
-            'strategy' => 'buildtime', // 'buildtime' or 'static'
+            'auto'     => false,
+            'strategy' => 'static', // 'buildtime' or 'static'
             'value'    => 'v1', // (if strategy is 'static')
         ],
         'minify'  => [
