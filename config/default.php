@@ -174,16 +174,16 @@ return [
         'dir' => 'themes',
     ],
     'assets' => [
+        'version' => [
+            'auto'     => true,
+            'strategy' => 'today', // 'today', 'static' or 'buildtime'
+            'value'    => 'v1', // (if strategy is 'static')
+        ],
         'sass' => [
             'auto'  => true,
             'style' => 'nested', // 'expanded', 'nested', 'compressed', 'compact', 'crunched'
             'dir'   => ['', 'sass', 'scss'],
             // 'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
-        ],
-        'version' => [
-            'auto'     => false,
-            'strategy' => 'static', // 'buildtime' or 'static'
-            'value'    => 'v1', // (if strategy is 'static')
         ],
         'minify'  => [
             'auto' => true,
