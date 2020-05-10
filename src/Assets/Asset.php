@@ -167,7 +167,7 @@ class Asset implements \ArrayAccess
             $version = $this->config->get('assets.version.value');
         }
 
-        $this->data['path'] = preg_replace("/".$data['ext']."$/m", "$version.".$data['ext'], $this->data['path']);
+        $this->data['path'] = preg_replace('/'.$data['ext'].'$/m', "$version.".$data['ext'], $this->data['path']);
 
         if ($this->exists($this->data['path'])) {
             return $this;
@@ -202,7 +202,7 @@ class Asset implements \ArrayAccess
         }
 
         if (substr($this->data['path'], -7) != 'min.css' && substr($this->data['path'], -6) != 'min.js') {
-            $this->data['path'] = preg_replace("/".$data['ext']."$/m", 'min.'.$data['ext'], $this->data['path']);
+            $this->data['path'] = preg_replace('/'.$data['ext'].'$/m', 'min.'.$data['ext'], $this->data['path']);
             $this->data['ext'] = \sprintf('min.%s', $data['ext']);
         }
 
