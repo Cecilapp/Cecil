@@ -210,7 +210,7 @@ return [
     ],
     'cache' => [
         'dir'     => '.cache',
-        'enabled' => false,
+        'enabled' => true,
     ],
     'generators' => [
         10 => 'Cecil\Generator\DefaultPages',
