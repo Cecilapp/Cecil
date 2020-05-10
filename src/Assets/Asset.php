@@ -23,14 +23,10 @@ class Asset implements \ArrayAccess
     protected $builder;
     /** @var Config */
     protected $config;
-    /** @var string[] */
-    protected $pathinfo = [];
-    /** @var array */
-    protected $data = [];
-    /** @var bool */
-    protected $compiled = false;
     /** @var bool */
     protected $versioned = false;
+    /** @var bool */
+    protected $compiled = false;
     /** @var bool */
     protected $minified = false;
 
@@ -57,7 +53,7 @@ class Asset implements \ArrayAccess
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
-        $this->pathinfo = pathinfo($path);
+        $pathinfo = pathinfo($path);
 
         // handles options
         $minify = (bool) $this->config->get('assets.minify.auto');
@@ -68,18 +64,19 @@ class Asset implements \ArrayAccess
         // set data
         $this->data['file'] = $filePath;
         $this->data['path'] = $path;
-        $this->data['ext'] = $this->pathinfo['extension'];
+        $this->data['ext'] = $pathinfo['extension'];
         $this->data['type'] = explode('/', mime_content_type($filePath))[0];
-        $this->data['content'] = file_get_contents($filePath);
+        $this->data['source'] = file_get_contents($filePath);
+        $this->data['content'] = $this->data['source'];
         $this->data['attributes'] = $attributes;
 
-        // compiling
-        if ((bool) $this->config->get('assets.sass.auto')) {
-            $this->compile();
-        }
         // versionning
         if ($version) {
             $this->version();
+        }
+        // compiling
+        if ((bool) $this->config->get('assets.sass.auto')) {
+            $this->compile();
         }
         // minifying
         if ($minify) {
@@ -98,6 +95,41 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Versions a file.
+     *
+     * @return self
+     */
+    public function version(): self
+    {
+        if ($this->versioned) {
+            return $this;
+        }
+
+        switch ($this->config->get('assets.version.strategy')) {
+            case 'static':
+                $version = $this->config->get('assets.version.value');
+                break;
+            case 'buildtime':
+                $version = $this->builder->time;
+                break;
+            case 'today':
+            default:
+                $version = date('Ymd');
+                break;
+        }
+
+        if ($this->config->get('assets.version.strategy') == 'static') {
+            $version = $this->config->get('assets.version.value');
+        }
+
+        $this->data['path'] = preg_replace('/'.$this->data['ext'].'$/m', "$version.".$this->data['ext'], $this->data['path']);
+
+        $this->versioned = true;
+
+        return $this;
+    }
+
+    /**
      * Compiles a SCSS.
      *
      * @return self
@@ -108,16 +140,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $data = $this->data;
-
-        if ($data['ext'] != 'scss') {
-            return $this;
-        }
-
-        $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
-        $this->data['ext'] = 'css';
-
-        if ($this->exists($this->data['path'])) {
+        if ($this->data['ext'] != 'scss') {
             return $this;
         }
 
@@ -130,52 +153,20 @@ class Asset implements \ArrayAccess
             $themes = $this->config->getTheme() ?? [];
             foreach ($scssDir as $dir) {
                 $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $dir));
-                $scssPhp->addImportPath(Util::joinPath(dirname($data['file']), $dir));
+                $scssPhp->addImportPath(Util::joinPath(dirname($this->data['file']), $dir));
                 foreach ($themes as $theme) {
                     $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
                 }
             }
             $scssPhp->setVariables($this->config->get('assets.sass.variables') ?? []);
             $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
-            $this->data['content'] = $scssPhp->compile($data['content']);
-            $cache->set($cacheKey, $this->data['content']);
+            $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
+            $this->data['ext'] = 'css';
+            $this->data['content'] = $scssPhp->compile($this->data['content']);
+            $this->compiled = true;
+            $cache->set($cacheKey, $this->data);
         }
-        $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
-
-        $this->save();
-
-        $this->compiled = true;
-
-        return $this;
-    }
-
-    /**
-     * Versions a file.
-     *
-     * @return self
-     */
-    public function version(): self
-    {
-        if ($this->versioned) {
-            return $this;
-        }
-
-        $data = $this->data;
-
-        $version = $this->builder->time;
-        if ($this->config->get('assets.version.strategy') == 'static') {
-            $version = $this->config->get('assets.version.value');
-        }
-
-        $this->data['path'] = preg_replace('/'.$data['ext'].'$/m', "$version.".$data['ext'], $this->data['path']);
-
-        if ($this->exists($this->data['path'])) {
-            return $this;
-        }
-
-        $this->save();
-
-        $this->versioned = true;
+        $this->data = $cache->get($cacheKey);
 
         return $this;
     }
@@ -191,46 +182,32 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $data = $this->data;
-
-        if ($data['ext'] == 'scss') {
+        if ($this->data['ext'] == 'scss') {
             $this->compile();
         }
 
-        if ($data['ext'] != 'css' && $data['ext'] != 'js') {
-            return $this;
-        }
-
-        if (substr($this->data['path'], -7) != 'min.css' && substr($this->data['path'], -6) != 'min.js') {
-            $this->data['path'] = preg_replace('/'.$data['ext'].'$/m', 'min.'.$data['ext'], $this->data['path']);
-            $this->data['ext'] = \sprintf('min.%s', $data['ext']);
-        }
-
-        if ($this->exists($this->data['path'])) {
+        if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
             return $this;
         }
 
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($this);
         if (!$cache->has($cacheKey)) {
-            switch ($data['ext']) {
+            switch ($this->data['ext']) {
                 case 'css':
-                    $minifier = new Minify\CSS($data['content']);
+                    $minifier = new Minify\CSS($this->data['content']);
                     break;
                 case 'js':
-                    $minifier = new Minify\JS($data['content']);
+                    $minifier = new Minify\JS($this->data['content']);
                     break;
                 default:
-                    throw new Exception(sprintf('Not able to minify "%s"', $data['path']));
+                    throw new Exception(sprintf('Not able to minify "%s"', $this->data['path']));
             }
             $this->data['content'] = $minifier->minify();
-            $cache->set($cacheKey, $this->data['content']);
+            $this->minified = true;
+            $cache->set($cacheKey, $this->data);
         }
-        $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
-
-        $this->save();
-
-        $this->minified = true;
+        $this->data = $cache->get($cacheKey);
 
         return $this;
     }
@@ -270,6 +247,31 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Saves file.
+     *
+     * @return void
+     */
+    public function save(): void
+    {
+        $file = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
+        if (!$this->builder->getBuildOptions()['dry-run'] && !$this->exists($file)) {
+            Util::getFS()->dumpFile($file, $this->data['content']);
+        }
+    }
+
+    /**
+     * Checks if file is already saved/writen.
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    private function exists(string $path): bool
+    {
+        return is_file(Util::joinFile($this->config->getOutputPath(), $path));
+    }
+
+    /**
      * Try to find a static file (in site or theme(s)) if exists or returns false.
      *
      * @param string $path
@@ -292,29 +294,5 @@ class Asset implements \ArrayAccess
         }
 
         return false;
-    }
-
-    /**
-     * Saves file.
-     *
-     * @return void
-     */
-    private function save(): void
-    {
-        if (!$this->builder->getBuildOptions()['dry-run']) {
-            Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
-        }
-    }
-
-    /**
-     * Checks if file is already saved/writen.
-     *
-     * @param string $path
-     *
-     * @return bool
-     */
-    private function exists(string $path): bool
-    {
-        return is_file(Util::joinFile($this->config->getOutputPath(), $path));
     }
 }
