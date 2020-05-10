@@ -77,13 +77,13 @@ class Asset implements \ArrayAccess
         if ((bool) $this->config->get('assets.sass.auto')) {
             $this->compile();
         }
-        // minifying
-        if ($minify) {
-            $this->minify();
-        }
         // versionning
         if ($version) {
             $this->version();
+        }
+        // minifying
+        if ($minify) {
+            $this->minify();
         }
     }
 
@@ -111,14 +111,14 @@ class Asset implements \ArrayAccess
 
         $data = $this->data;
 
+        if ($data['ext'] != 'scss') {
+            return $this;
+        }
+
         $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
         $this->data['ext'] = 'css';
 
         if ($this->exists($this->data['path'])) {
-            return $this;
-        }
-
-        if ($data['ext'] != 'scss') {
             return $this;
         }
 
@@ -151,6 +151,37 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Versions a file.
+     *
+     * @return self
+     */
+    public function version(): self
+    {
+        if ($this->versioned) {
+            return $this;
+        }
+
+        $data = $this->data;
+
+        $version = $this->builder->time;
+        if ($this->config->get('assets.version.strategy') == 'static') {
+            $version = $this->config->get('assets.version.value');
+        }
+
+        $this->data['path'] = preg_replace("/".$data['ext']."$/m", "$version.".$data['ext'], $this->data['path']);
+
+        if ($this->exists($this->data['path'])) {
+            return $this;
+        }
+
+        $this->save($data['path']);
+
+        $this->versioned = true;
+
+        return $this;
+    }
+
+    /**
      * Minifying a CSS or a JS.
      *
      * @return self
@@ -163,25 +194,20 @@ class Asset implements \ArrayAccess
 
         $data = $this->data;
 
-        // dirname/filename.min.ext
-        // ie: /styles.min.css
-        $this->data['path'] = \sprintf(
-            '%s.%s.%s',
-            Util::joinPath($this->pathinfo['dirname'], $this->pathinfo['filename']),
-            'min',
-            $data['ext']
-        );
-        $this->data['ext'] = \sprintf('min.%s', $data['ext']);
-
-        if ($this->exists($this->data['path'])) {
-            return $this;
-        }
-
         if ($data['ext'] == 'scss') {
             $this->compile();
         }
 
         if ($data['ext'] != 'css' && $data['ext'] != 'js') {
+            return $this;
+        }
+
+        if (substr($this->data['path'], -7) != 'min.css' && substr($this->data['path'], -6) != 'min.js') {
+            $this->data['path'] = preg_replace("/".$data['ext']."$/m", 'min.'.$data['ext'], $this->data['path']);
+            $this->data['ext'] = \sprintf('min.%s', $data['ext']);
+        }
+
+        if ($this->exists($this->data['path'])) {
             return $this;
         }
 
@@ -206,44 +232,6 @@ class Asset implements \ArrayAccess
         $this->save($data['path']);
 
         $this->minified = true;
-
-        return $this;
-    }
-
-    /**
-     * Versions a file.
-     *
-     * @return self
-     */
-    public function version(): self
-    {
-        if ($this->versioned) {
-            return $this;
-        }
-
-        $data = $this->data;
-
-        $version = $this->builder->time;
-        if ($this->config->get('assets.version.strategy') == 'static') {
-            $version = $this->config->get('assets.version.value');
-        }
-
-        // dirname/filename.version.ext
-        // ie: /styles.v1.css
-        $this->data['path'] = \sprintf(
-            '%s.%s.%s',
-            Util::joinPath($this->pathinfo['dirname'], $this->pathinfo['filename']),
-            $version,
-            $this->data['ext']
-        );
-
-        if ($this->exists($this->data['path'])) {
-            return $this;
-        }
-
-        $this->save($data['path']);
-
-        $this->versioned = true;
 
         return $this;
     }
@@ -317,10 +305,11 @@ class Asset implements \ArrayAccess
     private function save(string $previousPath = null): void
     {
         if (!$this->builder->getBuildOptions()['dry-run']) {
+            dump('save', $this->data['path']);
             Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
-            if (!empty($previousPath)) {
+            /*if (!empty($previousPath)) {
                 Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $previousPath));
-            }
+            }*/
         }
     }
 
