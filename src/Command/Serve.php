@@ -86,7 +86,9 @@ class Serve extends AbstractCommand
             '--drafts'      => $drafts,
             '--postprocess' => $postprocess,
         ]);
-        $buildCommand->run($buildInput, $this->output);
+        if ($buildCommand->run($buildInput, $this->output) != 0) {
+            return 1;
+        }
 
         // handles process
         if (!$process->isStarted()) {
