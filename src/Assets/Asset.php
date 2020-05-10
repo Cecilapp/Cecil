@@ -304,7 +304,6 @@ class Asset implements \ArrayAccess
     private function save(string $previousPath = null): void
     {
         if (!$this->builder->getBuildOptions()['dry-run']) {
-            dump('save', $this->data['path']);
             Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
             /*if (!empty($previousPath)) {
                 Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $previousPath));
