@@ -87,6 +87,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
             new \Twig\TwigFilter('excerpt_html', [$this, 'excerptHtml']),
             // deprecated
+            new \Twig\TwigFilter('filterBySection', [$this, 'filterBySection'], ['deprecated' => true, 'alternative' => 'filter_by']),
             new \Twig\TwigFilter('filterBy', [$this, 'filterBy'], ['deprecated' => true, 'alternative' => 'filter_by']),
             new \Twig\TwigFilter('sortByTitle', [$this, 'sortByTitle'], ['deprecated' => true, 'alternative' => 'sort_by_title']),
             new \Twig\TwigFilter('sortByWeight', [$this, 'sortByWeight'], ['deprecated' => true, 'alternative' => 'sort_by_weight']),
@@ -117,6 +118,20 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFunction('minify', [$this, 'minify'], ['deprecated' => true, 'alternative' => 'minify filter']),
             new \Twig\TwigFunction('toCSS', [$this, 'toCss'], ['deprecated' => true, 'alternative' => 'to_css filter']),
         ];
+    }
+
+    /**
+     * Filters by Section.
+     * Alias of `filterBy('section', $value)`.
+     *
+     * @param PagesCollection $pages
+     * @param string          $section
+     *
+     * @return CollectionInterface
+     */
+    public function filterBySection(PagesCollection $pages, string $section): CollectionInterface
+    {
+        return $this->filterBy($pages, 'section', $section);
     }
 
     /**
