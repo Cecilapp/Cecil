@@ -19,6 +19,8 @@ use ScssPhp\ScssPhp\Compiler;
 
 class Asset implements \ArrayAccess
 {
+    const ASSETS_OUTPUT_DIR = '/';
+
     /** @var Builder */
     protected $builder;
     /** @var Config */
@@ -65,7 +67,7 @@ class Asset implements \ArrayAccess
 
         // set data
         $this->data['file'] = $filePath;
-        $this->data['path'] = $path;
+        $this->data['path'] = Util::joinPath(self::ASSETS_OUTPUT_DIR, $path);
         $this->data['ext'] = $pathinfo['extension'];
         $this->data['type'] = explode('/', mime_content_type($filePath))[0];
         $this->data['source'] = file_get_contents($filePath);
@@ -123,8 +125,11 @@ class Asset implements \ArrayAccess
         if ($this->config->get('assets.version.strategy') == 'static') {
             $version = $this->config->get('assets.version.value');
         }
-
-        $this->data['path'] = preg_replace('/'.$this->data['ext'].'$/m', "$version.".$this->data['ext'], $this->data['path']);
+        $this->data['path'] = preg_replace(
+            '/'.$this->data['ext'].'$/m',
+            "$version.".$this->data['ext'],
+            $this->data['path']
+        );
 
         $this->versioned = true;
 
@@ -249,15 +254,34 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Hashing an asset with sha384.
+     * Useful for SRI (Subresource Integrity).
+     *
+     * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
+     *
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return sprintf('sha384-%s', base64_encode(hash('sha384', $this->data['content'], true)));
+    }
+
+    /**
      * Saves file.
+     *
+     * @throws Exception
      *
      * @return void
      */
     public function save(): void
     {
         $file = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
-        if (!$this->builder->getBuildOptions()['dry-run'] && !is_file($file)) {
-            Util::getFS()->dumpFile($file, $this->data['content']);
+        if (!$this->builder->getBuildOptions()['dry-run']/* && !is_file($file)*/) {
+            try {
+                Util::getFS()->dumpFile($file, $this->data['content']);
+            } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
+                throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
+            }
         }
     }
 
