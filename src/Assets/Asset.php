@@ -142,7 +142,7 @@ class Asset implements \ArrayAccess
         }
         $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
 
-        $this->save($data['path']);
+        $this->save();
 
         $this->compiled = true;
 
@@ -173,7 +173,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $this->save($data['path']);
+        $this->save();
 
         $this->versioned = true;
 
@@ -228,7 +228,7 @@ class Asset implements \ArrayAccess
         }
         $this->data['content'] = $cache->get($cacheKey, $this->data['content']);
 
-        $this->save($data['path']);
+        $this->save();
 
         $this->minified = true;
 
@@ -295,19 +295,14 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Saves file (and deletes previous file).
-     *
-     * @param string $previousPath
+     * Saves file.
      *
      * @return void
      */
-    private function save(string $previousPath = null): void
+    private function save(): void
     {
         if (!$this->builder->getBuildOptions()['dry-run']) {
             Util::getFS()->dumpFile(Util::joinFile($this->config->getOutputPath(), $this->data['path']), $this->data['content']);
-            /*if (!empty($previousPath)) {
-                Util::getFS()->remove(Util::joinFile($this->config->getOutputPath(), $previousPath));
-            }*/
         }
     }
 
