@@ -45,9 +45,8 @@ class Cache implements CacheInterface
      */
     public function get($key, $default = null)
     {
-        $key = $this->prepareKey($key);
-
         try {
+            $key = $this->prepareKey($key);
             $data = unserialize(file_get_contents($this->getFilePathname($key)));
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
