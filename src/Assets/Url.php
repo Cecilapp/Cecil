@@ -105,8 +105,9 @@ class Url
                 }
                 $url = $base.'/'.ltrim($url, '/');
                 $asset['path'] = $url;
-
                 $this->url = (string) $asset;
+                /** @var Asset $asset */
+                $asset->save();
                 break;
             // External URL
             case Util::isExternalUrl($value):
