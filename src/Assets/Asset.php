@@ -268,6 +268,7 @@ class Asset implements \ArrayAccess
 
     /**
      * Saves file.
+     * Note: a file from `static/` with the same name will be overridden.
      *
      * @throws Exception
      *
@@ -276,7 +277,7 @@ class Asset implements \ArrayAccess
     public function save(): void
     {
         $file = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
-        if (!$this->builder->getBuildOptions()['dry-run']/* && !is_file($file)*/) {
+        if (!$this->builder->getBuildOptions()['dry-run']) {
             try {
                 Util::getFS()->dumpFile($file, $this->data['content']);
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
