@@ -44,15 +44,17 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\TaxonomiesCreate',
         'Cecil\Step\PagesGenerate',
         'Cecil\Step\MenusCreate',
+        'Cecil\Step\StaticCopy',
         'Cecil\Step\PagesRender',
         'Cecil\Step\PagesSave',
-        'Cecil\Step\StaticCopy',
         'Cecil\Step\PostProcessHtml',
         'Cecil\Step\PostProcessCss',
         'Cecil\Step\PostProcessJs',
         'Cecil\Step\PostProcessImages',
     ];
 
+    /** @var int Build start time. */
+    public $time;
     /** @var Config Configuration. */
     protected $config;
     /** @var LoggerInterface Logger. */
@@ -114,6 +116,7 @@ class Builder implements LoggerAwareInterface
      */
     public function build(array $options): self
     {
+        $this->time = time();
         // set start script time
         $startTime = microtime(true);
         // prepare options

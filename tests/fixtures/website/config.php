@@ -85,6 +85,7 @@ return [
         'exclude' => [
             'test*.txt',
             '/\.php$/',
+            '*.scss',
         ],
         'load' => true,
     ],
@@ -94,5 +95,20 @@ return [
     ],
     'cache' => [
         'enabled' => true,
+    ],
+    'assets' => [
+        'sass' => [
+            'auto'      => false,
+            'style'     => 'expanded',
+            'variables' => ['test' => '#FFF'],
+        ],
+        'version' => [
+            'auto'     => false,
+            'strategy' => 'static',
+            'value'    => 'v1',
+        ],
+        'minify'  => [
+            'auto' => false,
+        ],
     ],
 ];

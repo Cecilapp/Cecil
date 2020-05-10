@@ -28,7 +28,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($templatesPath, Builder $builder)
+    public function __construct(Builder $builder, $templatesPath)
     {
         // load layouts
         $loader = new \Twig\Loader\FilesystemLoader($templatesPath);

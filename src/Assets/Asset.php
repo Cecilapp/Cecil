@@ -14,20 +14,36 @@ use Cecil\Builder;
 use Cecil\Config;
 use Cecil\Exception\Exception;
 use Cecil\Util;
+use MatthiasMullie\Minify;
+use ScssPhp\ScssPhp\Compiler;
 
 class Asset implements \ArrayAccess
 {
+    const ASSETS_OUTPUT_DIR = '/';
+
     /** @var Builder */
     protected $builder;
     /** @var Config */
     protected $config;
+    /** @var bool */
     /** @var array */
     protected $data = [];
+    protected $versioned = false;
+    /** @var bool */
+    protected $compiled = false;
+    /** @var bool */
+    protected $minified = false;
 
     /**
-     * Loads a file.
+     * Creates an Asset from file.
      *
-     * @param Builder
+     * $options[
+     *     'minify'     => true,
+     *     'version'    => true,
+     *     'attributes' => ['title' => 'Titre'],
+     * ];
+     *
+     * @param Builder    $builder
      * @param string     $path
      * @param array|null $options
      */
@@ -35,33 +51,172 @@ class Asset implements \ArrayAccess
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
+        $path = '/'.ltrim($path, '/');
 
         if (false === $filePath = $this->findFile($path)) {
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
+        $pathinfo = pathinfo($path);
+
         // handles options
-        $attributs = null; // html attributes
+        $minify = (bool) $this->config->get('assets.minify.auto');
+        $version = (bool) $this->config->get('assets.version.auto');
+        $attributes = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // set data
         $this->data['file'] = $filePath;
-        $this->data['path'] = '/'.ltrim($path, '/');
-        $this->data['ext'] = pathinfo($filePath, PATHINFO_EXTENSION);
+        $this->data['path'] = Util::joinPath(self::ASSETS_OUTPUT_DIR, $path);
+        $this->data['ext'] = $pathinfo['extension'];
         $this->data['type'] = explode('/', mime_content_type($filePath))[0];
-        $this->data['content'] = '';
-        if ($this->data['type'] == 'text') {
-            $this->data['content'] = file_get_contents($filePath);
+        $this->data['source'] = file_get_contents($filePath);
+        $this->data['content'] = $this->data['source'];
+        $this->data['attributes'] = $attributes;
+
+        // versionning
+        if ($version) {
+            $this->version();
         }
-        $this->data['attributs'] = $attributs;
+        // compiling
+        if ((bool) $this->config->get('assets.sass.auto')) {
+            $this->compile();
+        }
+        // minifying
+        if ($minify) {
+            $this->minify();
+        }
     }
 
     /**
+     * Returns Asset path.
+     *
      * @return string
      */
     public function __toString(): string
     {
         return $this->data['path'];
+    }
+
+    /**
+     * Versions a file.
+     *
+     * @return self
+     */
+    public function version(): self
+    {
+        if ($this->versioned) {
+            return $this;
+        }
+
+        switch ($this->config->get('assets.version.strategy')) {
+            case 'static':
+                $version = $this->config->get('assets.version.value');
+                break;
+            case 'buildtime':
+                $version = $this->builder->time;
+                break;
+            case 'today':
+            default:
+                $version = date('Ymd');
+                break;
+        }
+
+        if ($this->config->get('assets.version.strategy') == 'static') {
+            $version = $this->config->get('assets.version.value');
+        }
+        $this->data['path'] = preg_replace(
+            '/'.$this->data['ext'].'$/m',
+            "$version.".$this->data['ext'],
+            $this->data['path']
+        );
+
+        $this->versioned = true;
+
+        return $this;
+    }
+
+    /**
+     * Compiles a SCSS.
+     *
+     * @return self
+     */
+    public function compile(): self
+    {
+        if ($this->compiled) {
+            return $this;
+        }
+
+        if ($this->data['ext'] != 'scss') {
+            return $this;
+        }
+
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this);
+        if (!$cache->has($cacheKey)) {
+            $scssPhp = new Compiler();
+            // import
+            $scssDir = $this->config->get('assets.sass.dir') ?? [];
+            $themes = $this->config->getTheme() ?? [];
+            foreach ($scssDir as $dir) {
+                $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $dir));
+                $scssPhp->addImportPath(Util::joinPath(dirname($this->data['file']), $dir));
+                foreach ($themes as $theme) {
+                    $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
+                }
+            }
+            $scssPhp->setVariables($this->config->get('assets.sass.variables') ?? []);
+            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
+            $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
+            $this->data['ext'] = 'css';
+            $this->data['content'] = $scssPhp->compile($this->data['content']);
+            $this->compiled = true;
+            $cache->set($cacheKey, $this->data);
+        }
+        $this->data = $cache->get($cacheKey);
+
+        return $this;
+    }
+
+    /**
+     * Minifying a CSS or a JS.
+     *
+     * @return self
+     */
+    public function minify(): self
+    {
+        if ($this->minified) {
+            return $this;
+        }
+
+        if ($this->data['ext'] == 'scss') {
+            $this->compile();
+        }
+
+        if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
+            return $this;
+        }
+
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this);
+        if (!$cache->has($cacheKey)) {
+            switch ($this->data['ext']) {
+                case 'css':
+                    $minifier = new Minify\CSS($this->data['content']);
+                    break;
+                case 'js':
+                    $minifier = new Minify\JS($this->data['content']);
+                    break;
+                default:
+                    throw new Exception(sprintf('Not able to minify "%s"', $this->data['path']));
+            }
+            $this->data['content'] = $minifier->minify();
+            $this->minified = true;
+            $cache->set($cacheKey, $this->data);
+        }
+        $this->data = $cache->get($cacheKey);
+
+        return $this;
     }
 
     /**
@@ -99,46 +254,36 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns as HTML tag.
+     * Hashing an asset with sha384.
+     * Useful for SRI (Subresource Integrity).
+     *
+     * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
      *
      * @return string
      */
-    public function getHtml(): string
+    public function getHash(): string
     {
-        if ($this->data['type'] == 'image') {
-            $title = array_key_exists('title', $this->data['attributs']) ? $this->data['attributs']['title'] : null;
-            $alt = array_key_exists('alt', $this->data['attributs']) ? $this->data['attributs']['alt'] : null;
-
-            return \sprintf(
-                '<img src="%s"%s%s>',
-                $this->data['path'],
-                !is_null($title) ? \sprintf(' title="%s"', $title) : '',
-                !is_null($alt) ? \sprintf(' alt="%s"', $alt) : ''
-            );
-        }
-
-        switch ($this->data['ext']) {
-            case 'css':
-                return \sprintf('<link rel="stylesheet" href="%s">', $this->data['path']);
-            case 'js':
-                return \sprintf('<script src="%s"></script>', $this->data['path']);
-        }
-
-        throw new Exception(\sprintf('%s is available only with CSS, JS and images files.', '.html'));
+        return sprintf('sha384-%s', base64_encode(hash('sha384', $this->data['content'], true)));
     }
 
     /**
-     * Returns file's content.
+     * Saves file.
+     * Note: a file from `static/` with the same name will be overridden.
      *
-     * @return string
+     * @throws Exception
+     *
+     * @return void
      */
-    public function getInline(): string
+    public function save(): void
     {
-        if (is_null($this->data['content'])) {
-            throw new Exception(\sprintf('%s is available only with CSS et JS files.', '.inline'));
+        $file = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            try {
+                Util::getFS()->dumpFile($file, $this->data['content']);
+            } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
+                throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
+            }
         }
-
-        return $this->data['content'];
     }
 
     /**

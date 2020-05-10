@@ -174,9 +174,19 @@ return [
         'dir' => 'themes',
     ],
     'assets' => [
+        'version' => [
+            'auto'     => false,
+            'strategy' => 'today', // 'today', 'static' or 'buildtime'
+            'value'    => 'v1', // (if strategy is 'static')
+        ],
         'sass' => [
+            'auto'  => true,
+            'style' => 'nested', // 'expanded', 'nested', 'compressed', 'compact', 'crunched'
             'dir'   => ['', 'sass', 'scss'],
-            'style' => 'nested', // expanded, nested, compressed, compact, crunched
+            // 'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
+        ],
+        'minify'  => [
+            'auto' => true,
         ],
     ],
     'postprocess' => [
@@ -200,7 +210,7 @@ return [
     ],
     'cache' => [
         'dir'     => '.cache',
-        'enabled' => false,
+        'enabled' => true,
     ],
     'generators' => [
         10 => 'Cecil\Generator\DefaultPages',

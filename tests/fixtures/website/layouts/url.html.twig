@@ -1,0 +1,64 @@
+{% extends '_default/page.html.twig' %}
+{% block content %}
+	{{ page.content }}
+
+  <p>
+    url()
+    <pre>{{ url() }}</pre>
+  </p>
+  <p>
+    url('')
+    <pre>{{ url('') }}</pre>
+  </p>
+  <p>
+    url('/')
+    <pre>{{ url('/') }}</pre>
+  </p>
+
+  <p>
+    url(page)
+    <pre>{{ url(page) }}</pre>
+  </p>
+  <p>
+    url(page, {format:'json'})
+    <pre>{{ url(page, {format:'json'}) }}</pre>
+  </p>
+
+  <p>
+    asset('css/_style.css')|url
+    <pre>{{ asset('css/_style.css')|url }}</pre>
+  </p>
+
+  <p>
+    url('https://cecil.app')
+    <pre>{{ url('https://cecil.app') }}</pre>
+  </p>
+
+  <p>
+    url('css/_style.css', {addhash:true})
+    <pre>{{ url('css/_style.css', {addhash:true}) }}</pre>
+  </p>
+
+  <p>
+    url('test')
+    <pre>{{ url('test') }}</pre>
+  </p>
+
+  <p>
+    url('index')
+    <pre>{{ url('index') }}</pre>
+  </p>
+  <p>
+    url('404')
+    <pre>{{ url('404') }}</pre>
+  </p>
+  <p>
+    url('404', {canonical:true})
+    <pre>{{ url('404', {canonical:true}) }}</pre>
+  </p>
+  <p>
+    url('others/url')
+    <pre>{{ url('others/url') }}</pre>
+  </p>
+
+{% endblock content %}

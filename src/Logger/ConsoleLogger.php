@@ -22,6 +22,7 @@ class ConsoleLogger extends PrintLogger
     const WARNING = 'comment';
     const NOTICE = 'info';
     const INFO = 'text';
+    const DEBUG = 'debug';
 
     protected $output;
     protected $verbosityLevelMap = [
@@ -29,7 +30,7 @@ class ConsoleLogger extends PrintLogger
         LogLevel::ALERT     => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::CRITICAL  => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::ERROR     => OutputInterface::VERBOSITY_NORMAL,
-        LogLevel::WARNING   => OutputInterface::VERBOSITY_NORMAL,
+        LogLevel::WARNING   => OutputInterface::VERBOSITY_VERY_VERBOSE,
         LogLevel::NOTICE    => OutputInterface::VERBOSITY_VERBOSE,
         LogLevel::INFO      => OutputInterface::VERBOSITY_VERY_VERBOSE,
         LogLevel::DEBUG     => OutputInterface::VERBOSITY_DEBUG,
@@ -39,10 +40,10 @@ class ConsoleLogger extends PrintLogger
         LogLevel::ALERT     => self::ERROR,
         LogLevel::CRITICAL  => self::ERROR,
         LogLevel::ERROR     => self::ERROR,
-        LogLevel::WARNING   => self::INFO,
+        LogLevel::WARNING   => self::WARNING,
         LogLevel::NOTICE    => self::NOTICE,
         LogLevel::INFO      => self::INFO,
-        LogLevel::DEBUG     => self::INFO,
+        LogLevel::DEBUG     => self::DEBUG,
     ];
 
     /** @var ProgressBar */
@@ -65,8 +66,8 @@ class ConsoleLogger extends PrintLogger
     public function log($level, $message, array $context = [])
     {
         $output = $this->output;
-        $outputStyle = new OutputFormatterStyle('white');
-        $output->getFormatter()->setStyle('text', $outputStyle);
+        $output->getFormatter()->setStyle('text', new OutputFormatterStyle('white'));
+        $output->getFormatter()->setStyle('debug', new OutputFormatterStyle('blue', 'yellow'));
 
         // updates the levels mapping if output supports the Progress Bar
         if ($output->isDecorated()) {

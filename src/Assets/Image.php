@@ -90,7 +90,7 @@ class Image
             } catch (NotReadableException $e) {
                 throw new Exception(sprintf('Cannot get image "%s"', $this->path));
             }
-            $cache->set($cacheKey, $img->encode());
+            $cache->set($cacheKey, (string) $img->encode());
         }
         $image = $cache->get($cacheKey, file_get_contents($source));
 
@@ -102,9 +102,11 @@ class Image
         }
 
         // save file
-        $targetPathname = Util::joinFile($this->config->getOutputPath(), self::PREFIX, $this->size, $this->path);
-        Util::getFS()->mkdir(dirname($targetPathname));
-        Util::getFS()->dumpFile($targetPathname, $image);
+        if (!$this->builder->getBuildOptions()['dry-run']) {
+            $targetPathname = Util::joinFile($this->config->getOutputPath(), self::PREFIX, $this->size, $this->path);
+            Util::getFS()->mkdir(dirname($targetPathname));
+            Util::getFS()->dumpFile($targetPathname, $image);
+        }
 
         return $returnPath;
     }
