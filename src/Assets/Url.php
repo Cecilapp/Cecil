@@ -103,9 +103,7 @@ class Url
                 if ($addhash) {
                     $url .= '?'.$this->version;
                 }
-                $url = $base.'/'.ltrim($url, '/');
-                $asset['path'] = $url;
-                $this->url = (string) $asset;
+                $this->url = $base.'/'.ltrim($url, '/');
                 /** @var Asset $asset */
                 $asset->save();
                 break;
