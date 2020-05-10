@@ -87,16 +87,56 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
             new \Twig\TwigFilter('excerpt_html', [$this, 'excerptHtml']),
             // deprecated
-            new \Twig\TwigFilter('filterBySection', [$this, 'filterBySection'], ['deprecated' => true, 'alternative' => 'filter_by']),
-            new \Twig\TwigFilter('filterBy', [$this, 'filterBy'], ['deprecated' => true, 'alternative' => 'filter_by']),
-            new \Twig\TwigFilter('sortByTitle', [$this, 'sortByTitle'], ['deprecated' => true, 'alternative' => 'sort_by_title']),
-            new \Twig\TwigFilter('sortByWeight', [$this, 'sortByWeight'], ['deprecated' => true, 'alternative' => 'sort_by_weight']),
-            new \Twig\TwigFilter('sortByDate', [$this, 'sortByDate'], ['deprecated' => true, 'alternative' => 'sort_by_date']),
-            new \Twig\TwigFilter('minifyCSS', [$this, 'minifyCss'], ['deprecated' => true, 'alternative' => 'minifyCss']),
-            new \Twig\TwigFilter('minifyJS', [$this, 'minifyJs'], ['deprecated' => true, 'alternative' => 'minifyJs']),
-            new \Twig\TwigFilter('SCSStoCSS', [$this, 'scssToCss'], ['deprecated' => true, 'alternative' => 'scss_to_css']),
-            new \Twig\TwigFilter('excerptHtml', [$this, 'excerptHtml'], ['deprecated' => true, 'alternative' => 'excerpt_html']),
-            new \Twig\TwigFilter('urlize', [$this, 'slugifyFilter'], ['deprecated' => true, 'alternative' => 'slugify']),
+            new \Twig\TwigFilter(
+                'filterBySection',
+                [$this, 'filterBySection'],
+                ['deprecated' => true, 'alternative' => 'filter_by']
+            ),
+            new \Twig\TwigFilter(
+                'filterBy',
+                [$this, 'filterBy'],
+                ['deprecated' => true, 'alternative' => 'filter_by']
+            ),
+            new \Twig\TwigFilter(
+                'sortByTitle',
+                [$this, 'sortByTitle'],
+                ['deprecated' => true, 'alternative' => 'sort_by_title']
+            ),
+            new \Twig\TwigFilter(
+                'sortByWeight',
+                [$this, 'sortByWeight'],
+                ['deprecated' => true, 'alternative' => 'sort_by_weight']
+            ),
+            new \Twig\TwigFilter(
+                'sortByDate',
+                [$this, 'sortByDate'],
+                ['deprecated' => true, 'alternative' => 'sort_by_date']
+            ),
+            new \Twig\TwigFilter(
+                'minifyCSS',
+                [$this, 'minifyCss'],
+                ['deprecated' => true, 'alternative' => 'minifyCss']
+            ),
+            new \Twig\TwigFilter(
+                'minifyJS',
+                [$this, 'minifyJs'],
+                ['deprecated' => true, 'alternative' => 'minifyJs']
+            ),
+            new \Twig\TwigFilter(
+                'SCSStoCSS',
+                [$this, 'scssToCss'],
+                ['deprecated' => true, 'alternative' => 'scss_to_css']
+            ),
+            new \Twig\TwigFilter(
+                'excerptHtml',
+                [$this, 'excerptHtml'],
+                ['deprecated' => true, 'alternative' => 'excerpt_html']
+            ),
+            new \Twig\TwigFilter(
+                'urlize',
+                [$this, 'slugifyFilter'],
+                ['deprecated' => true, 'alternative' => 'slugify']
+            ),
         ];
     }
 
@@ -109,14 +149,22 @@ class Extension extends SlugifyExtension
             // assets
             new \Twig\TwigFunction('url', [$this, 'url']),
             new \Twig\TwigFunction('asset', [$this, 'asset']),
-            new \Twig\TwigFunction('hash', [$this, 'hashFile']),
+            new \Twig\TwigFunction('hash', [$this, 'hash']),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             // others
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
             // deprecated
-            new \Twig\TwigFunction('minify', [$this, 'minify'], ['deprecated' => true, 'alternative' => 'minify filter']),
-            new \Twig\TwigFunction('toCSS', [$this, 'toCss'], ['deprecated' => true, 'alternative' => 'to_css filter']),
+            new \Twig\TwigFunction(
+                'minify',
+                [$this, 'minify'],
+                ['deprecated' => true, 'alternative' => 'minify filter']
+            ),
+            new \Twig\TwigFunction(
+                'toCSS',
+                [$this, 'toCss'],
+                ['deprecated' => true, 'alternative' => 'to_css filter']
+            ),
         ];
     }
 
@@ -316,21 +364,18 @@ class Extension extends SlugifyExtension
 
     /**
      * Hashing an asset with sha384.
-     * Useful for SRI (Subresource Integrity).
-     *
-     * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
      *
      * @param string|Asset $path
      *
-     * @return string|null
+     * @return string
      */
-    public function hashFile($asset): ?string
+    public function hash($asset): string
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return sprintf('sha384-%s', base64_encode(hash('sha384', $asset['content'], true)));
+        return $asset->getHash();
     }
 
     /**
