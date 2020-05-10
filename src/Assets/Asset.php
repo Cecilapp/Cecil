@@ -256,21 +256,9 @@ class Asset implements \ArrayAccess
     public function save(): void
     {
         $file = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
-        if (!$this->builder->getBuildOptions()['dry-run'] && !$this->exists($file)) {
+        if (!$this->builder->getBuildOptions()['dry-run'] && !is_file($file)) {
             Util::getFS()->dumpFile($file, $this->data['content']);
         }
-    }
-
-    /**
-     * Checks if file is already saved/writen.
-     *
-     * @param string $path
-     *
-     * @return bool
-     */
-    private function exists(string $path): bool
-    {
-        return is_file(Util::joinFile($this->config->getOutputPath(), $path));
     }
 
     /**
