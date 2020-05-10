@@ -24,6 +24,8 @@ class Asset implements \ArrayAccess
     /** @var Config */
     protected $config;
     /** @var bool */
+    /** @var array */
+    protected $data = [];
     protected $versioned = false;
     /** @var bool */
     protected $compiled = false;
