@@ -85,6 +85,7 @@ class Serve extends AbstractCommand
             'path'          => $this->getPath(),
             '--drafts'      => $drafts,
             '--postprocess' => $postprocess,
+            '--no-cache'    => true,
         ]);
         if ($buildCommand->run($buildInput, $this->output) != 0) {
             return 1;
