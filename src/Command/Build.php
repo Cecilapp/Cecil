@@ -44,6 +44,7 @@ class Build extends AbstractCommand
                         'Post-process output (disable with "no")',
                         false
                     ),
+                    new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Clear cache after build'),
                 ])
             )
             ->setHelp('Builds the website in the output directory');
@@ -81,6 +82,9 @@ class Build extends AbstractCommand
         }
         if ($input->getOption('postprocess') == 'no') {
             $config['postprocess']['enabled'] = false;
+        }
+        if ($input->getOption('no-cache')) {
+            $config['cache']['enabled'] = false;
         }
 
         $output->writeln(sprintf('Building website%s...', $messageOpt));
