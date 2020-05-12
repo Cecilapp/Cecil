@@ -371,7 +371,7 @@ class Extension extends SlugifyExtension
      * Hashing an asset with algo (sha384 by default).
      *
      * @param string|Asset $path
-     * @param string $algo
+     * @param string       $algo
      *
      * @return string
      */
