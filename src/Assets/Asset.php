@@ -149,8 +149,12 @@ class Asset implements \ArrayAccess
                     $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
                 }
             }
+            $formatter = \sprintf('ScssPhp\ScssPhp\Formatter\%s', ucfirst((string) $this->config->get('assets.compile.style')));
+            if (!class_exists($formatter)) {
+                throw new Exception(\sprintf('Scss formatter "%s" doesn\'t exists.', $formatter));
+            }
+            $scssPhp->setFormatter($formatter);
             $scssPhp->setVariables($this->config->get('assets.compile.variables') ?? []);
-            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.compile.style')));
             $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
             $this->data['ext'] = 'css';
             $this->data['content'] = $scssPhp->compile($this->data['content']);
