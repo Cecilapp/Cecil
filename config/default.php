@@ -181,7 +181,7 @@ return [
             'auto'   => true,
             'style'  => 'nested', // see https://scssphp.github.io/scssphp/docs/#output-formatting
             'import' => ['', 'sass', 'scss'],
-            // 'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
+            //'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
         ],
         'minify' => [
             'auto' => true,
