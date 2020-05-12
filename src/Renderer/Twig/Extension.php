@@ -460,6 +460,7 @@ class Extension extends SlugifyExtension
      */
     public function html(Asset $asset, array $attributes = null): string
     {
+        $htmlAttributes = '';
         foreach ($attributes as $name => $value) {
             if (!empty($value)) {
                 $htmlAttributes .= \sprintf(' %s="%s"', $name, $value);
