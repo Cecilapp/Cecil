@@ -102,7 +102,7 @@ return [
         ],
         'compile' => [
             'auto'      => true,
-            'style'     => 'expanded',
+            'style'     => 'compressed',
             'variables' => ['test' => '#FFF'],
         ],
         'minify' => [
