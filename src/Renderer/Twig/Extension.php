@@ -149,7 +149,7 @@ class Extension extends SlugifyExtension
             // assets
             new \Twig\TwigFunction('url', [$this, 'url']),
             new \Twig\TwigFunction('asset', [$this, 'asset']),
-            new \Twig\TwigFunction('hash', [$this, 'hash']),
+            new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             // others
@@ -164,6 +164,11 @@ class Extension extends SlugifyExtension
                 'toCSS',
                 [$this, 'toCss'],
                 ['deprecated' => true, 'alternative' => 'to_css filter']
+            ),
+            new \Twig\TwigFunction(
+                'hash',
+                [$this, 'integrity'],
+                ['deprecated' => true, 'alternative' => 'integrity']
             ),
         ];
     }
@@ -363,19 +368,20 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Hashing an asset with sha384.
+     * Hashing an asset with algo (sha384 by default).
      *
      * @param string|Asset $path
+     * @param string       $algo
      *
      * @return string
      */
-    public function hash($asset): string
+    public function integrity($asset, string $algo = 'sha384'): string
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->getHash();
+        return $asset->getIntegrity($algo);
     }
 
     /**
@@ -431,8 +437,15 @@ class Extension extends SlugifyExtension
         $cacheKey = $cache->createKeyFromValue($value);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
-            $scssPhp->setVariables($this->config->get('assets.sass.variables') ?? []);
-            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
+            $formatter = \sprintf(
+                'ScssPhp\ScssPhp\Formatter\%s',
+                ucfirst((string) $this->config->get('assets.compile.style'))
+            );
+            if (!class_exists($formatter)) {
+                throw new Exception(\sprintf('Scss formatter "%s" doesn\'t exists.', $formatter));
+            }
+            $scssPhp->setFormatter($formatter);
+            $scssPhp->setVariables($this->config->get('assets.compile.variables') ?? []);
             $value = $scssPhp->compile($value);
             $cache->set($cacheKey, $value);
         }
@@ -443,30 +456,35 @@ class Extension extends SlugifyExtension
     /**
      * Creates an HTML element from an asset.
      *
-     * @param Asset $asset
+     * @param Asset      $asset
+     * @param array|null $attributes
      *
      * @return string
      */
-    public function html(Asset $asset): string
+    public function html(Asset $asset, array $attributes = null): string
     {
-        if ($asset['type'] == 'image') {
-            $attributes = $asset['attributes'] ?? [];
-            $title = array_key_exists('title', $attributes) ? $attributes['title'] : null;
-            $alt = array_key_exists('alt', $attributes) ? $attributes['alt'] : null;
-
-            return \sprintf(
-                '<img src="%s"%s%s>',
-                $asset['path'],
-                !is_null($title) ? \sprintf(' title="%s"', $title) : '',
-                !is_null($alt) ? \sprintf(' alt="%s"', $alt) : ''
-            );
+        $htmlAttributes = '';
+        foreach ($attributes as $name => $value) {
+            if (!empty($value)) {
+                $htmlAttributes .= \sprintf(' %s="%s"', $name, $value);
+            } else {
+                $htmlAttributes .= \sprintf(' %s', $name);
+            }
         }
 
         switch ($asset['ext']) {
             case 'css':
-                return \sprintf('<link rel="stylesheet" href="%s">', $asset['path']);
+                return \sprintf('<link rel="stylesheet" href="%s"%s>', $asset['path'], $htmlAttributes);
             case 'js':
-                return \sprintf('<script src="%s"></script>', $asset['path']);
+                return \sprintf('<script src="%s"%%s></script>', $asset['path'], $htmlAttributes);
+        }
+
+        if ($asset['type'] == 'image') {
+            return \sprintf(
+                '<img src="%s"%s>',
+                $asset['path'],
+                $htmlAttributes
+            );
         }
 
         throw new Exception(\sprintf('%s is available with CSS, JS and images files only.', '"html" filter'));

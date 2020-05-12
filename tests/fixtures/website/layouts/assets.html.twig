@@ -27,21 +27,23 @@ h2 {
     <pre>{{ asset('css/_style.css') }}</pre>
   </p>
   <p>
-    asset('css/style.css') (from theme/static/)
+    asset('css/style.css') (from <theme>/static/)
     <pre>{{ asset('css/style.css') }}</pre>
   </p>
 
   <h2>Compile SCSS</h2>
   <p>
-    asset('scss/colors.scss')
+    asset('scss/colors.scss')|to_css
+    <pre>{{ asset('scss/colors.scss')|to_css }}</pre>
+    Result with With "compressed" style:
+    <pre>{{ asset('scss/colors.scss')|to_css|inline }}</pre>
+  </p>
+  <p>
+    asset('scss/colors.scss') (if "auto compile" is enabled)
     <pre>{{ asset('scss/colors.scss') }}</pre>
   </p>
   <p>
-    asset('scss/colors.scss')|to_css
-    <pre>{{ asset('scss/colors.scss')|to_css }}</pre>
-  </p>
-  <p>
-    asset('scss/colors.scss')|minify (if scss, compiles before)
+    asset('scss/colors.scss')|minify (in case of a SCSS file: compilation is executed before)
     <pre>{{ asset('scss/colors.scss')|minify }}</pre>
   </p>
 
@@ -61,11 +63,11 @@ h2 {
     <pre>{{ asset('css/style.css')|inline }}</pre>
   </p>
   <p>
-    asset('css/style.css')['content']
+    asset('css/style.css')['content'] (not recommended)
     <pre>{{ asset('css/style.css')['content'] }}</pre>
   </p>
 
-  <h2>Create URL</h2>
+  <h2>Canonical URL</h2>
   <p>
     asset('css/style.css')|url({canonical:true})
     <pre>{{ asset('css/style.css')|url({canonical:true}) }}</pre>
@@ -75,7 +77,7 @@ h2 {
     <pre>{{ url(asset('css/style.css'),{canonical:true}) }}</pre>
   </p>
 
-  <h2>HTML tag</h2>
+  <h2>HTML element</h2>
   <p>
     asset('css/style.css')|html
     <pre>{{ asset('css/style.css')|html|e }}</pre>
@@ -87,23 +89,41 @@ h2 {
     <pre>{{ asset('js/script.js')|minify|inline }}</pre>
   </p>
 
-  <h2>Image</h2>
+  <h2>Fingerprint </h2>
   <p>
-    asset('images/cecil-logo.png', {attributs:{title:'the title',alt:'the alternative'}})|html
-    <pre>
-      {{ asset('images/cecil-logo.png', {attributs:{title:'the title',alt:'the alternative'}})|html }}
-      {{ asset('images/cecil-logo.png', {attributs:{title:'the title',alt:'the alternative'}})|html|e }}
-    </pre>
+    asset('css/style.css',{fingerprint:true})
+    <pre>{{ asset('css/style.css',{fingerprint:true}) }}</pre>
+  </p>
+  <p>
+    asset('css/style.css',{fingerprint:true})|minify
+    <pre>{{ asset('css/style.css',{fingerprint:true})|minify }}</pre>
   </p>
 
-  <h2>Versioning </h2>
+  <h2>Integrity </h2>
   <p>
-    asset('css/style.css', {version: true})
-    <pre>{{ asset('css/style.css', {version: true}) }}</pre>
+    asset('css/style.css').integrity
+    <pre>{{ asset('css/style.css').integrity }}</pre>
   </p>
   <p>
-    asset('css/style.css', {version: true})|minify
-    <pre>{{ asset('css/style.css', {version: true})|minify }}</pre>
+    asset('css/style.css')|minify.integrity
+    <pre>{{ asset('css/style.css').integrity }}</pre>
+  </p>
+  <p>
+    integrity(asset('css/style.css')) (deprecated)
+    <pre>{{ integrity(asset('css/style.css')) }}</pre>
+  </p>
+  <p>
+    integrity('css/style.css') (deprecated)
+    <pre>{{ integrity('css/style.css') }}</pre>
+  </p>
+
+  <h2>Image as HTML element</h2>
+  <p>
+    asset('images/cecil-logo.png')|html({title:'the title',alt:'the alternative',lazyloading:''})
+    <pre>
+      {{ asset('images/cecil-logo.png')|html({title:'the title',alt:'the alternative',lazyloading:''}) }}
+      {{~ asset('images/cecil-logo.png')|html({title:'the title',alt:'the alternative',lazyloading:''})|e }}
+    </pre>
   </p>
 
 {% endblock content %}
