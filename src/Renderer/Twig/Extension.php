@@ -73,10 +73,10 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
             // assets
             new \Twig\TwigFilter('url', [$this, 'url']),
-            new \Twig\TwigFilter('minify', [$this, 'minify']),
-            new \Twig\TwigFilter('to_css', [$this, 'toCss']),
             new \Twig\TwigFilter('html', [$this, 'html']),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
+            new \Twig\TwigFilter('to_css', [$this, 'toCss']),
+            new \Twig\TwigFilter('minify', [$this, 'minify']),
             new \Twig\TwigFilter('minify_css', [$this, 'minifyCss']),
             new \Twig\TwigFilter('minify_js', [$this, 'minifyJs']),
             new \Twig\TwigFilter('scss_to_css', [$this, 'scssToCss']),
