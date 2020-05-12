@@ -454,29 +454,33 @@ class Extension extends SlugifyExtension
      * Creates an HTML element from an asset.
      *
      * @param Asset $asset
+     * @param array|null $attributes
      *
      * @return string
      */
-    public function html(Asset $asset): string
+    public function html(Asset $asset, array $attributes = null): string
     {
-        if ($asset['type'] == 'image') {
-            $attributes = $asset['attributes'] ?? [];
-            $title = array_key_exists('title', $attributes) ? $attributes['title'] : null;
-            $alt = array_key_exists('alt', $attributes) ? $attributes['alt'] : null;
-
-            return \sprintf(
-                '<img src="%s"%s%s>',
-                $asset['path'],
-                !is_null($title) ? \sprintf(' title="%s"', $title) : '',
-                !is_null($alt) ? \sprintf(' alt="%s"', $alt) : ''
-            );
+        foreach ($attributes as $name => $value) {
+            if (!empty($value)) {
+                $htmlAttributes .= \sprintf(' %s="%s"', $name, $value);
+            } else {
+                $htmlAttributes .= \sprintf(' %s', $name);
+            }
         }
 
         switch ($asset['ext']) {
             case 'css':
-                return \sprintf('<link rel="stylesheet" href="%s">', $asset['path']);
+                return \sprintf('<link rel="stylesheet" href="%s"%s>', $asset['path'], $htmlAttributes);
             case 'js':
-                return \sprintf('<script src="%s"></script>', $asset['path']);
+                return \sprintf('<script src="%s"%%s></script>', $asset['path'], $htmlAttributes);
+        }
+
+        if ($asset['type'] == 'image') {
+            return \sprintf(
+                '<img src="%s"%s>',
+                $asset['path'],
+                $htmlAttributes
+            );
         }
 
         throw new Exception(\sprintf('%s is available with CSS, JS and images files only.', '"html" filter'));
