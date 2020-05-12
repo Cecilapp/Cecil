@@ -453,7 +453,7 @@ class Extension extends SlugifyExtension
     /**
      * Creates an HTML element from an asset.
      *
-     * @param Asset $asset
+     * @param Asset      $asset
      * @param array|null $attributes
      *
      * @return string
