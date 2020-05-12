@@ -29,8 +29,6 @@ class Url
     /** @var string */
     protected $baseurl;
     /** @var string */
-    protected $version;
-    /** @var string */
     protected $url;
     /** @var Slugify */
     private static $slugifier;
@@ -40,7 +38,6 @@ class Url
      *
      * $options[
      *     'canonical' => true,
-     *     'addhash'   => false,
      *     'format'    => 'json',
      * ];
      *
@@ -56,11 +53,9 @@ class Url
             self::$slugifier = Slugify::create(['regexp' => Page::SLUGIFY_PATTERN]);
         }
         $this->baseurl = (string) $this->config->get('baseurl');
-        $this->version = (string) $this->builder->time;
 
         // handles options
         $canonical = null;
-        $addhash = false;
         $format = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
@@ -99,11 +94,7 @@ class Url
             // Asset
             case $value instanceof Asset:
                 $asset = $value;
-                $url = $asset['path'];
-                if ($addhash) {
-                    $url .= '?'.$this->version;
-                }
-                $this->url = $base.'/'.ltrim($url, '/');
+                $this->url = $base.'/'.ltrim($asset['path'], '/');
                 /** @var Asset $asset */
                 $asset->save();
                 break;
@@ -113,11 +104,7 @@ class Url
                 break;
             // asset as string
             case false !== strpos($value, '.') ? true : false:
-                $url = $value;
-                if ($addhash) {
-                    $url .= '?'.$this->version;
-                }
-                $this->url = $base.'/'.ltrim($url, '/');
+                $this->url = $base.'/'.ltrim($value, '/');
                 break;
             // Page ID as string
             case $this->builder->getPages()->has($pageId):
