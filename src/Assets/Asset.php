@@ -25,10 +25,10 @@ class Asset implements \ArrayAccess
     protected $builder;
     /** @var Config */
     protected $config;
-    /** @var bool */
     /** @var array */
     protected $data = [];
-    protected $versioned = false;
+    /** @var bool */
+    protected $fingerprinted = false;
     /** @var bool */
     protected $compiled = false;
     /** @var bool */
@@ -38,9 +38,9 @@ class Asset implements \ArrayAccess
      * Creates an Asset from file.
      *
      * $options[
-     *     'minify'     => true,
-     *     'version'    => true,
-     *     'attributes' => ['title' => 'Titre'],
+     *     'fingerprint' => true,
+     *     'minify'      => true,
+     *     'attributes'  => ['title' => 'Titre'],
      * ];
      *
      * @param Builder    $builder
@@ -60,8 +60,8 @@ class Asset implements \ArrayAccess
         $pathinfo = pathinfo($path);
 
         // handles options
+        $fingerprint = (bool) $this->config->get('assets.fingerprint.auto');
         $minify = (bool) $this->config->get('assets.minify.auto');
-        $version = (bool) $this->config->get('assets.version.auto');
         $attributes = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
@@ -74,12 +74,12 @@ class Asset implements \ArrayAccess
         $this->data['content'] = $this->data['source'];
         $this->data['attributes'] = $attributes;
 
-        // versionning
-        if ($version) {
-            $this->version();
+        // fingerprinting
+        if ($fingerprint) {
+            $this->fingerprint();
         }
         // compiling
-        if ((bool) $this->config->get('assets.sass.auto')) {
+        if ((bool) $this->config->get('assets.compile.auto')) {
             $this->compile();
         }
         // minifying
@@ -99,39 +99,24 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Versions a file.
+     * Fingerprints a file.
      *
      * @return self
      */
-    public function version(): self
+    public function fingerprint(): self
     {
-        if ($this->versioned) {
+        if ($this->fingerprinted) {
             return $this;
         }
 
-        switch ($this->config->get('assets.version.strategy')) {
-            case 'static':
-                $version = $this->config->get('assets.version.value');
-                break;
-            case 'buildtime':
-                $version = $this->builder->time;
-                break;
-            case 'today':
-            default:
-                $version = date('Ymd');
-                break;
-        }
-
-        if ($this->config->get('assets.version.strategy') == 'static') {
-            $version = $this->config->get('assets.version.value');
-        }
+        $fingerprint = hash('md5', $this->data['source']);
         $this->data['path'] = preg_replace(
-            '/'.$this->data['ext'].'$/m',
-            "$version.".$this->data['ext'],
+            '/\.'.$this->data['ext'].'$/m',
+            ".$fingerprint.".$this->data['ext'],
             $this->data['path']
         );
 
-        $this->versioned = true;
+        $this->fingerprinted = true;
 
         return $this;
     }
@@ -155,8 +140,7 @@ class Asset implements \ArrayAccess
         $cacheKey = $cache->createKeyFromAsset($this);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
-            // import
-            $scssDir = $this->config->get('assets.sass.dir') ?? [];
+            $scssDir = $this->config->get('assets.compile.import') ?? [];
             $themes = $this->config->getTheme() ?? [];
             foreach ($scssDir as $dir) {
                 $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $dir));
@@ -165,8 +149,8 @@ class Asset implements \ArrayAccess
                     $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
                 }
             }
-            $scssPhp->setVariables($this->config->get('assets.sass.variables') ?? []);
-            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.sass.style')));
+            $scssPhp->setVariables($this->config->get('assets.compile.variables') ?? []);
+            $scssPhp->setFormatter('ScssPhp\ScssPhp\Formatter\\'.ucfirst($this->config->get('assets.compile.style')));
             $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
             $this->data['ext'] = 'css';
             $this->data['content'] = $scssPhp->compile($this->data['content']);
@@ -210,6 +194,11 @@ class Asset implements \ArrayAccess
                 default:
                     throw new Exception(sprintf('Not able to minify "%s"', $this->data['path']));
             }
+            $this->data['path'] = preg_replace(
+                '/\.'.$this->data['ext'].'$/m',
+                '.min.'.$this->data['ext'],
+                $this->data['path']
+            );
             $this->data['content'] = $minifier->minify();
             $this->minified = true;
             $cache->set($cacheKey, $this->data);
@@ -254,16 +243,16 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Hashing an asset with sha384.
-     * Useful for SRI (Subresource Integrity).
+     * Hashing content of an asset with the specified algo, sha384 by default.
+     * Used for SRI (Subresource Integrity).
      *
      * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
      *
      * @return string
      */
-    public function getHash(): string
+    public function getIntegrity(string $algo = 'sha384'): string
     {
-        return sprintf('sha384-%s', base64_encode(hash('sha384', $this->data['content'], true)));
+        return \sprintf('%s-%s', $algo, base64_encode(hash($algo, $this->data['content'], true)));
     }
 
     /**

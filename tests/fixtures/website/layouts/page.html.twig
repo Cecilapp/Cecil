@@ -1,9 +1,7 @@
 {% extends '_default/page.html.twig' %}
 
 {% block head_css %}
-    <link rel="stylesheet"
-      href="{{ url(minify('css/style.css')) }}"
-      integrity="{{ hash(minify('css/style.css')) }}"
-    >
+{% set css = asset('css/style.css',{fingerprint:true})|minify %}
+    <link rel="stylesheet" href="{{ css|url }}" integrity="{{ css.integrity }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 {% endblock head_css %}

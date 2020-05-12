@@ -23,7 +23,7 @@ return [
         'max'  => 5,      // number of pages on each paginated pages
         'path' => 'page', // path to paginated pages. ie: '/blog/page/2/'
     ],
-    'date'   => [
+    'date' => [
         'format'   => 'j F Y', // See https://php.net/manual/function.date.php
         'timezone' => 'Europe/Paris',
     ],
@@ -174,28 +174,26 @@ return [
         'dir' => 'themes',
     ],
     'assets' => [
-        'version' => [
-            'auto'     => false,
-            'strategy' => 'today', // 'today', 'static' or 'buildtime'
-            'value'    => 'v1', // (if strategy is 'static')
+        'fingerprint' => [
+            'auto' => true,
         ],
-        'sass' => [
-            'auto'  => true,
-            'style' => 'nested', // 'expanded', 'nested', 'compressed', 'compact', 'crunched'
-            'dir'   => ['', 'sass', 'scss'],
+        'compile' => [
+            'auto'   => true,
+            'style'  => 'nested', // 'expanded', 'nested', 'compressed', 'compact', 'crunched'
+            'import' => ['', 'sass', 'scss'],
             // 'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
         ],
-        'minify'  => [
+        'minify' => [
             'auto' => true,
         ],
     ],
     'postprocess' => [
         'enabled' => false,
-        'html'    => [
+        'html' => [
             'ext'     => ['html', 'htm'],
             'enabled' => true,
         ],
-        'css'     => [
+        'css' => [
             'ext'     => ['css'],
             'enabled' => true,
         ],

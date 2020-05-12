@@ -97,17 +97,15 @@ return [
         'enabled' => true,
     ],
     'assets' => [
-        'sass' => [
-            'auto'      => false,
+        'fingerprint' => [
+            'auto' => false,
+        ],
+        'compile' => [
+            'auto'      => true,
             'style'     => 'expanded',
             'variables' => ['test' => '#FFF'],
         ],
-        'version' => [
-            'auto'     => false,
-            'strategy' => 'static',
-            'value'    => 'v1',
-        ],
-        'minify'  => [
+        'minify' => [
             'auto' => false,
         ],
     ],

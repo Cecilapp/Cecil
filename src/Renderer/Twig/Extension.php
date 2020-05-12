@@ -149,7 +149,7 @@ class Extension extends SlugifyExtension
             // assets
             new \Twig\TwigFunction('url', [$this, 'url']),
             new \Twig\TwigFunction('asset', [$this, 'asset']),
-            new \Twig\TwigFunction('hash', [$this, 'hash']),
+            new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             // others
@@ -164,6 +164,11 @@ class Extension extends SlugifyExtension
                 'toCSS',
                 [$this, 'toCss'],
                 ['deprecated' => true, 'alternative' => 'to_css filter']
+            ),
+            new \Twig\TwigFunction(
+                'hash',
+                [$this, 'integrity'],
+                ['deprecated' => true, 'alternative' => 'integrity']
             ),
         ];
     }
@@ -363,19 +368,20 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Hashing an asset with sha384.
+     * Hashing an asset with algo (sha384 by default).
      *
      * @param string|Asset $path
+     * @param string $algo
      *
      * @return string
      */
-    public function hash($asset): string
+    public function integrity($asset, string $algo = 'sha384'): string
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->getHash();
+        return $asset->getIntegrity($algo);
     }
 
     /**
