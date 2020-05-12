@@ -35,6 +35,8 @@ h2 {
   <p>
     asset('scss/colors.scss')|to_css
     <pre>{{ asset('scss/colors.scss')|to_css }}</pre>
+    Result with With "compressed" style:
+    <pre>{{ asset('scss/colors.scss')|to_css|inline }}</pre>
   </p>
   <p>
     asset('scss/colors.scss') (if "auto compile" is enabled)
