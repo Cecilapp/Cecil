@@ -189,7 +189,7 @@ return [
     ],
     'postprocess' => [
         'enabled' => false,
-        'html' => [
+        'html'    => [
             'ext'     => ['html', 'htm'],
             'enabled' => true,
         ],
