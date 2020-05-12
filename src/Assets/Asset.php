@@ -38,9 +38,8 @@ class Asset implements \ArrayAccess
      * Creates an Asset from file.
      *
      * $options[
-     *     'fingerprint' => true,
-     *     'minify'      => true,
-     *     'attributes'  => ['title' => 'Titre'],
+     *     'fingerprint' => false,
+     *     'minify'      => false,
      * ];
      *
      * @param Builder    $builder
@@ -58,21 +57,21 @@ class Asset implements \ArrayAccess
         }
 
         $pathinfo = pathinfo($path);
+        $mimetype = mime_content_type($filePath);
 
         // handles options
         $fingerprint = (bool) $this->config->get('assets.fingerprint.auto');
         $minify = (bool) $this->config->get('assets.minify.auto');
-        $attributes = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // set data
         $this->data['file'] = $filePath;
         $this->data['path'] = Util::joinPath(self::ASSETS_OUTPUT_DIR, $path);
         $this->data['ext'] = $pathinfo['extension'];
-        $this->data['type'] = explode('/', mime_content_type($filePath))[0];
+        $this->data['type'] = explode('/', $mimetype)[0];
+        $this->data['subtype'] = $mimetype;
         $this->data['source'] = file_get_contents($filePath);
         $this->data['content'] = $this->data['source'];
-        $this->data['attributes'] = $attributes;
 
         // fingerprinting
         if ($fingerprint) {
