@@ -44,10 +44,10 @@ class PostProcessJs extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function processFile(\Symfony\Component\Finder\SplFileInfo $file)
+    public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
         $minifier = new Minify\JS($file->getPathname());
-        $minified = $minifier->minify();
-        \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
+
+        return $minifier->minify();
     }
 }
