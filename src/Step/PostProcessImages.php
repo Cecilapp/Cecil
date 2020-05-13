@@ -50,6 +50,6 @@ class PostProcessImages extends AbstractPostProcess
         /** @var Optimizer $processor */
         $this->processor->optimize($file->getPathname());
 
-        return $file->getContents($file->getPathname());
+        return $file->getContents();
     }
 }
