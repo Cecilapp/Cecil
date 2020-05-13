@@ -48,6 +48,8 @@ class PostProcessImages extends AbstractPostProcess
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
         /** @var Optimizer $processor */
-        return $file->getContents($this->processor->optimize($file->getPathname()));
+        $this->processor->optimize($file->getPathname());
+
+        return $file->getContents($file->getPathname());
     }
 }
