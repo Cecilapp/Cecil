@@ -12,6 +12,7 @@ namespace Cecil\Step;
 
 use Cecil\Assets\Cache;
 use Cecil\Exception\Exception;
+use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -81,9 +82,9 @@ abstract class AbstractPostProcess extends AbstractStep
             $message = $file->getRelativePathname();
 
             $cacheKey = $cache->createKeyFromFile($file->getPathname(), $file->getRelativePathname());
+            $processed = $cache->get($cacheKey, $file->getContents());
             if (!$cache->has($cacheKey)) {
-                $this->processFile($file);
-                $postprocessedContent = file_get_contents($file->getPathname());
+                $processed = $this->processFile($file);
                 $sizeAfter = $file->getSize();
                 if ($sizeAfter < $sizeBefore) {
                     $message = sprintf(
@@ -94,10 +95,10 @@ abstract class AbstractPostProcess extends AbstractStep
                     );
                 }
                 $postprocessed++;
-                $cache->set($cacheKey, $postprocessedContent);
-
+                $cache->set($cacheKey, $processed);
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
+            Util::getFS()->dumpFile($file->getPathname(), $processed);
         }
         if ($postprocessed == 0) {
             $this->builder->getLogger()->info('Nothing to do');
@@ -116,7 +117,7 @@ abstract class AbstractPostProcess extends AbstractStep
      *
      * @param \Symfony\Component\Finder\SplFileInfo $file
      *
-     * @return void
+     * @return string
      */
-    abstract public function processFile(\Symfony\Component\Finder\SplFileInfo $file);
+    abstract public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string;
 }

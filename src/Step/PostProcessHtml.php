@@ -10,6 +10,7 @@
 
 namespace Cecil\Step;
 
+use Cecil\Util;
 use voku\helper\HtmlMin;
 
 /**
@@ -45,10 +46,9 @@ class PostProcessHtml extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function processFile(\Symfony\Component\Finder\SplFileInfo $file)
+    public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
-        $html = \Cecil\Util::fileGetContents($file->getPathname());
-        $minified = $this->processor->minify($html);
-        \Cecil\Util::getFS()->dumpFile($file->getPathname(), $minified);
+        $html = Util::fileGetContents($file->getPathname());
+        return $this->processor->minify($html);
     }
 }

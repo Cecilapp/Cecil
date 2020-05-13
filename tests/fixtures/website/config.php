@@ -109,4 +109,7 @@ return [
             'auto' => false,
         ],
     ],
+    'postprocess' => [
+        'enabled' => true,
+    ],
 ];
