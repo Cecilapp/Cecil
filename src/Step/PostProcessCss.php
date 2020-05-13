@@ -47,6 +47,7 @@ class PostProcessCss extends AbstractPostProcess
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
         $minifier = new Minify\CSS($file->getPathname());
+
         return $minifier->minify();
     }
 }

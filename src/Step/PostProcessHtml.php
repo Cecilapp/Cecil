@@ -49,6 +49,7 @@ class PostProcessHtml extends AbstractPostProcess
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
         $html = Util::fileGetContents($file->getPathname());
+
         return $this->processor->minify($html);
     }
 }

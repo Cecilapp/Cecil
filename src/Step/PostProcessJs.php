@@ -47,6 +47,7 @@ class PostProcessJs extends AbstractPostProcess
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
         $minifier = new Minify\JS($file->getPathname());
+
         return $minifier->minify();
     }
 }
