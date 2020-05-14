@@ -31,6 +31,7 @@ script: composer test
 jobs:
   fast_finish: true
   allow_failures:
+    - php: 7.4
     - stage: code coverage
   include:
     - script: composer test-build-cli
