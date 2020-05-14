@@ -74,9 +74,6 @@ class Url
             return;
         }
 
-        // potential page id
-        $pageId = self::$slugifier->slugify((string) $value);
-
         switch (true) {
             // Page
             case $value instanceof Page:
@@ -98,23 +95,29 @@ class Url
                 /** @var Asset $asset */
                 $asset->save();
                 break;
-            // External URL
-            case Util::isExternalUrl($value):
-                $this->url = $value;
-                break;
-            // asset as string
-            case false !== strpos($value, '.') ? true : false:
-                $this->url = $base.'/'.ltrim($value, '/');
-                break;
-            // Page ID as string
-            case $this->builder->getPages()->has($pageId):
-                $page = $this->builder->getPages()->get($pageId);
-                $this->url = new self($this->builder, $page, $options);
-                break;
-            // others cases?
-            default:
-                // others cases
-                $this->url = $base.'/'.$value;
+            // string
+            case is_string($value):
+                // potential Page ID
+                $pageId = self::$slugifier->slugify($value);
+                switch (true) {
+                    // External URL
+                    case Util::isExternalUrl($value):
+                        $this->url = $value;
+                        break;
+                    // asset as string
+                    case false !== strpos($value, '.') ? true : false:
+                        $this->url = $base.'/'.ltrim($value, '/');
+                        break;
+                    // Page ID as string
+                    case $this->builder->getPages()->has($pageId):
+                        $page = $this->builder->getPages()->get($pageId);
+                        $this->url = new self($this->builder, $page, $options);
+                        break;
+                    // others cases?
+                    default:
+                        // others cases
+                        $this->url = $base.'/'.$value;
+                }
         }
     }
 
