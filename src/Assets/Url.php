@@ -75,7 +75,10 @@ class Url
         }
 
         // potential page id
-        $pageId = self::$slugifier->slugify((string) $value);
+        $pageId = null;
+        if (is_string($value)) {
+            $pageId = self::$slugifier->slugify($value);
+        }
 
         switch (true) {
             // Page
