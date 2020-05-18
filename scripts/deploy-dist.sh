@@ -26,7 +26,7 @@ git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGE
 
 # prepare dist files
 
-# cd static dir
+# cd static/
 cd $TARGET_REPO/$TARGET_DIST_DIR
 mkdir -p $TARGET_RELEASE_DIR
 # copy dist file
@@ -34,23 +34,21 @@ cp $HOME/$DIST_FILE $TARGET_RELEASE_DIR/$DIST_FILE
 # create SHA1
 cd $TARGET_RELEASE_DIR
 sha1sum $DIST_FILE > $DIST_FILE_SHA1
+# cd static/
 cd ../..
-# create symlinks
-#ln -sf $TARGET_RELEASE_DIR/$DIST_FILE $DIST_FILE
-#ln -sf $TARGET_RELEASE_DIR/$DIST_FILE_SHA1 $DIST_FILE_SHA1
 
 # create VERSION file
 [ -e VERSION ] && rm -- VERSION
 echo $TRAVIS_TAG > VERSION
 
-# prepare redirections (symlinks alternative)
+# prepare redirections
 
 now=$(date +"%Y-%m-%d")
 
-# cd content dir
+# cd content/
 cd ../$TARGET_CONTENT_DIR
 
-# create content files
+# create redirections files
 rm -f $DIST_FILE.md
 cat <<EOT >> $DIST_FILE.md
 ---
@@ -69,6 +67,9 @@ output: sha1
 date: $now
 ---
 EOT
+
+# cd root
+cd ..
 
 # commit
 git add -Af .
