@@ -139,6 +139,8 @@ class Asset implements \ArrayAccess
         $cacheKey = $cache->createKeyFromAsset($this);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
+            // import path
+            $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath()));
             $scssDir = $this->config->get('assets.compile.import') ?? [];
             $themes = $this->config->getTheme() ?? [];
             foreach ($scssDir as $dir) {
@@ -148,6 +150,7 @@ class Asset implements \ArrayAccess
                     $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
                 }
             }
+            // output style
             $formatter = \sprintf(
                 'ScssPhp\ScssPhp\Formatter\%s',
                 ucfirst((string) $this->config->get('assets.compile.style'))
@@ -156,6 +159,7 @@ class Asset implements \ArrayAccess
                 throw new Exception(\sprintf('Scss formatter "%s" doesn\'t exists.', $formatter));
             }
             $scssPhp->setFormatter($formatter);
+            // variables
             $scssPhp->setVariables($this->config->get('assets.compile.variables') ?? []);
             $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
             $this->data['ext'] = 'css';
