@@ -93,19 +93,9 @@ class Serve extends AbstractCommand
 
         // handles process
         if (!$process->isStarted()) {
-            // writes changes cache
+            // set resource watcher
             $finder = new Finder();
             $finder->files()
-                ->name('*.md')
-                ->name('*.twig')
-                ->name('*.yml')
-                ->name('*.css')
-                ->name('*.scss')
-                ->name('*.js')
-                ->name('*.jeg')
-                ->name('*.jpeg')
-                ->name('*.png')
-                ->name('*.gif')
                 ->in($this->getPath())
                 ->exclude($this->getBuilder()->getConfig()->get('output.dir'));
             $hashContent = new Crc32ContentHash();
