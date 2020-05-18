@@ -52,6 +52,7 @@ class Serve extends AbstractCommand
                         'Post-process output (disable with "no")',
                         false
                     ),
+                    new InputOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear cache after build'),
                 ])
             )
             ->setHelp('Starts the live-reloading-built-in web server');
@@ -85,7 +86,6 @@ class Serve extends AbstractCommand
             'path'          => $this->getPath(),
             '--drafts'      => $drafts,
             '--postprocess' => $postprocess,
-            '--no-cache'    => true,
         ]);
         if ($buildCommand->run($buildInput, $this->output) != 0) {
             return 1;
