@@ -175,16 +175,16 @@ return [
     ],
     'assets' => [
         'fingerprint' => [
-            'auto' => true,
+            'enabled' => true,
         ],
         'compile' => [
-            'auto'   => true,
-            'style'  => 'nested', // see https://scssphp.github.io/scssphp/docs/#output-formatting
-            'import' => ['', 'sass', 'scss'],
+            'enabled' => true,
+            'style'   => 'nested', // see https://scssphp.github.io/scssphp/docs/#output-formatting
+            'import'  => ['', 'sass', 'scss'],
             //'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
         ],
         'minify' => [
-            'auto' => true,
+            'enabled' => true,
         ],
     ],
     'postprocess' => [

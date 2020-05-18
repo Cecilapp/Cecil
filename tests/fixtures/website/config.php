@@ -98,15 +98,15 @@ return [
     ],
     'assets' => [
         'fingerprint' => [
-            'auto' => false,
+            'enabled' => false,
         ],
         'compile' => [
-            'auto'      => true,
+            'enabled'   => true,
             'style'     => 'compressed',
             'variables' => ['test' => '#FFF'],
         ],
         'minify' => [
-            'auto' => false,
+            'enabled' => false,
         ],
     ],
     'postprocess' => [

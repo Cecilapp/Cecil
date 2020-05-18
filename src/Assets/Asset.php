@@ -60,8 +60,8 @@ class Asset implements \ArrayAccess
         $mimetype = mime_content_type($filePath);
 
         // handles options
-        $fingerprint = (bool) $this->config->get('assets.fingerprint.auto');
-        $minify = (bool) $this->config->get('assets.minify.auto');
+        $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
+        $minify = (bool) $this->config->get('assets.minify.enabled');
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // set data
@@ -78,7 +78,7 @@ class Asset implements \ArrayAccess
             $this->fingerprint();
         }
         // compiling
-        if ((bool) $this->config->get('assets.compile.auto')) {
+        if ((bool) $this->config->get('assets.compile.enabled')) {
             $this->compile();
         }
         // minifying

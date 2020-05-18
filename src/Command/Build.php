@@ -36,7 +36,7 @@ class Build extends AbstractCommand
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
-                    new InputOption('destination', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
+                    new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
                     new InputOption(
                         'postprocess',
                         null,
@@ -44,7 +44,7 @@ class Build extends AbstractCommand
                         'Post-process output (disable with "no")',
                         false
                     ),
-                    new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Clear cache after build'),
+                    new InputOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear cache after build'),
                 ])
             )
             ->setHelp('Builds the website in the output directory');
@@ -70,11 +70,11 @@ class Build extends AbstractCommand
         if ($input->getOption('baseurl')) {
             $config['baseurl'] = $input->getOption('baseurl');
         }
-        if ($input->getOption('destination')) {
-            $config['output']['dir'] = $input->getOption('destination');
+        if ($input->getOption('output')) {
+            $config['output']['dir'] = $input->getOption('output');
             $this->fs->dumpFile(
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'output'),
-                (string) $input->getOption('destination')
+                (string) $input->getOption('output')
             );
         }
         if ($input->getOption('postprocess') === null) {
@@ -83,7 +83,7 @@ class Build extends AbstractCommand
         if ($input->getOption('postprocess') == 'no') {
             $config['postprocess']['enabled'] = false;
         }
-        if ($input->getOption('no-cache')) {
+        if ($input->getOption('clear-cache')) {
             $config['cache']['enabled'] = false;
         }
 
