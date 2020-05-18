@@ -43,10 +43,6 @@ cd ../..
 [ -e VERSION ] && rm -- VERSION
 echo $TRAVIS_TAG > VERSION
 
-# commit dist files
-git add -Af .
-git commit -m "Travis build $TRAVIS_BUILD_NUMBER: copy ${DIST_FILE}* files"
-
 # prepare redirections (symlinks alternative)
 
 now=$(date +"%Y-%m-%d")
@@ -74,9 +70,9 @@ date: $now
 ---
 EOT
 
-# commit redirections
+# commit
 git add -Af .
-git commit -m "Travis build $TRAVIS_BUILD_NUMBER: create redirections"
+git commit -m "Travis build $TRAVIS_BUILD_NUMBER: deploy ${DIST_FILE} and create redirections"
 
 # push
 git push -fq origin $TARGET_BRANCH > /dev/null
