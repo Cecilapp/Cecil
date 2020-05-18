@@ -191,6 +191,12 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
+        if (substr($this->data['path'], -8) == '.min.css' || substr($this->data['path'], -7) == '.min.js') {
+            $this->minified;
+
+            return $this;
+        }
+
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($this);
         if (!$cache->has($cacheKey)) {
