@@ -96,7 +96,7 @@ class Asset implements \ArrayAccess
                         $this->data['path'] = 'scripts.'.$file['ext'];
                         break;
                     default:
-                        throw new Exception(\sprintf('Asset bundle supports "%s" extensions only.', 'scss, css and js'));
+                        throw new Exception(\sprintf('Asset bundle supports "%s" files only.', 'scss, css and js'));
                         break;
                 }
             }
