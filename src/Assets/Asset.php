@@ -59,7 +59,7 @@ class Asset implements \ArrayAccess
         // load file(s)
         $prevType = '';
         $prevExt = '';
-        foreach($path as $p) {
+        foreach ($path as $p) {
             $file = $this->loadFile($p);
 
             // same type only
