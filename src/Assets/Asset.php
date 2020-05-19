@@ -19,8 +19,6 @@ use ScssPhp\ScssPhp\Compiler;
 
 class Asset implements \ArrayAccess
 {
-    const ASSETS_OUTPUT_DIR = '/';
-
     /** @var Builder */
     protected $builder;
     /** @var Config */
@@ -42,36 +40,67 @@ class Asset implements \ArrayAccess
      *     'minify'      => false,
      * ];
      *
-     * @param Builder    $builder
-     * @param string     $path
-     * @param array|null $options
+     * @param Builder      $builder
+     * @param string|array $path
+     * @param array|null   $options
      */
-    public function __construct(Builder $builder, string $path, array $options = null)
+    public function __construct(Builder $builder, $path, array $options = null)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
-        $path = '/'.ltrim($path, '/');
-
-        if (false === $filePath = $this->findFile($path)) {
-            throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
-        }
-
-        $pathinfo = pathinfo($path);
-        $mimetype = mime_content_type($filePath);
+        $path = is_array($path) ? $path : [$path];
 
         // handles options
         $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
         $minify = (bool) $this->config->get('assets.minify.enabled');
+        $filename = '';
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
-        // set data
-        $this->data['file'] = $filePath;
-        $this->data['path'] = Util::joinPath(self::ASSETS_OUTPUT_DIR, $path);
-        $this->data['ext'] = $pathinfo['extension'];
-        $this->data['type'] = explode('/', $mimetype)[0];
-        $this->data['subtype'] = $mimetype;
-        $this->data['source'] = file_get_contents($filePath);
-        $this->data['content'] = $this->data['source'];
+        // load file(s)
+        $prevType = '';
+        $prevExt = '';
+        foreach($path as $p) {
+            $file = $this->loadFile($p);
+
+            // same type only
+            if (!empty($prevType) && $prevType != $file['type']) {
+                throw new Exception(\sprintf('Asset bundle works only for files with the same type.'));
+            }
+            // same extension only
+            if (!empty($prevExt) && $prevExt != $file['ext']) {
+                throw new Exception(\sprintf('Asset bundle works only for files with the same extension.'));
+            }
+
+            // set data
+            $this->data['file'] = $file['filepath'];
+            $this->data['path'] = $file['path'];
+            $this->data['ext'] = $file['ext'];
+            $this->data['type'] = $file['type'];
+            $this->data['subtype'] = $file['subtype'];
+            $this->data['source'] = $file['content'];
+            $this->data['content'] .= $file['content'];
+
+            $prevType = $file['type'];
+            $prevExt = $file['ext'];
+        }
+        // path to the bundled file
+        if (count($path) > 1) {
+            $this->data['path'] = $filename;
+            if (empty($filename)) {
+                switch ($this->data['ext']) {
+                    case 'scss':
+                    case 'css':
+                        $this->data['path'] = 'styles.'.$file['ext'];
+                        break;
+                    case 'js':
+                        $this->data['path'] = 'scripts.'.$file['ext'];
+                        break;
+                    default:
+                        throw new Exception(\sprintf('Asset bundle supports "%s" extensions only.', 'scss, css and js'));
+                        break;
+                }
+            }
+        }
 
         // fingerprinting
         if ($fingerprint) {
@@ -289,6 +318,36 @@ class Asset implements \ArrayAccess
                 throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
             }
         }
+    }
+
+    /**
+     * Load file data.
+     *
+     * @param string $path
+     *
+     * @return array
+     */
+    private function loadFile(string $path): array
+    {
+        $path = '/'.ltrim($path, '/');
+
+        if (false === $filePath = $this->findFile($path)) {
+            throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
+        }
+
+        $pathinfo = pathinfo($path);
+        $subtype = mime_content_type($filePath);
+        $type = explode('/', $subtype)[0];
+        $content = file_get_contents($filePath);
+
+        $file['filepath'] = $filePath;
+        $file['path'] = $path;
+        $file['ext'] = $pathinfo['extension'];
+        $file['type'] = $type;
+        $file['subtype'] = $subtype;
+        $file['content'] = $content;
+
+        return $file;
     }
 
     /**

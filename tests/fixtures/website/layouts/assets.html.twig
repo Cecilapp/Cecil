@@ -31,6 +31,12 @@ h2 {
     <pre>{{ asset('css/style.css') }}</pre>
   </p>
 
+  <h2>Load & bundle files</h2>
+  <p>
+    asset(['css/poole.css', 'css/syntax.css', 'css/hyde.css'])|url
+    <pre>{{ asset(['css/poole.css', 'css/syntax.css', 'css/hyde.css'],{fingerprint:true, minify:true, filename:'bundle.css'})|url }}</pre>
+  </p>
+
   <h2>Compile SCSS</h2>
   <p>
     asset('scss/colors.scss')|to_css
@@ -73,8 +79,8 @@ h2 {
     <pre>{{ asset('css/style.css')|url({canonical:true}) }}</pre>
   </p>
   <p>
-    url(asset('css/style.css'),{canonical:true}) (deprecated)
-    <pre>{{ url(asset('css/style.css'),{canonical:true}) }}</pre>
+    url(asset('css/style.css'), {canonical:true}) (deprecated)
+    <pre>{{ url(asset('css/style.css'), {canonical:true}) }}</pre>
   </p>
 
   <h2>HTML element</h2>
@@ -91,12 +97,12 @@ h2 {
 
   <h2>Fingerprint </h2>
   <p>
-    asset('css/style.css',{fingerprint:true})
-    <pre>{{ asset('css/style.css',{fingerprint:true}) }}</pre>
+    asset('css/style.css', {fingerprint:true})
+    <pre>{{ asset('css/style.css', {fingerprint:true}) }}</pre>
   </p>
   <p>
-    asset('css/style.css',{fingerprint:true})|minify
-    <pre>{{ asset('css/style.css',{fingerprint:true})|minify }}</pre>
+    asset('css/style.css', {fingerprint:true})|minify
+    <pre>{{ asset('css/style.css', {fingerprint:true})|minify }}</pre>
   </p>
 
   <h2>Integrity </h2>
@@ -119,10 +125,10 @@ h2 {
 
   <h2>Image as HTML element</h2>
   <p>
-    asset('images/cecil-logo.png')|html({title:'the title',alt:'the alternative',lazyloading:''})
+    asset('images/cecil-logo.png')|html({title:'the title', alt:'the alternative', lazyloading:''})
     <pre>
-      {{ asset('images/cecil-logo.png')|html({title:'the title',alt:'the alternative',lazyloading:''}) }}
-      {{~ asset('images/cecil-logo.png')|html({title:'the title',alt:'the alternative',lazyloading:''})|e }}
+      {{ asset('images/cecil-logo.png')|html({title:'the title', alt:'the alternative', lazyloading:''}) }}
+      {{~ asset('images/cecil-logo.png')|html({title:'the title', alt:'the alternative', lazyloading:''})|e }}
     </pre>
   </p>
 

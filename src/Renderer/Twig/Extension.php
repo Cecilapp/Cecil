@@ -311,12 +311,12 @@ class Extension extends SlugifyExtension
     /**
      * Creates an asset (CSS, JS, images, etc.).
      *
-     * @param string     $path    File path (relative from static/ dir).
-     * @param array|null $options
+     * @param string|array $path    File path (relative from static/ dir).
+     * @param array|null   $options
      *
      * @return Asset
      */
-    public function asset(string $path, array $options = null): Asset
+    public function asset($path, array $options = null): Asset
     {
         return new Asset($this->builder, $path, $options);
     }
