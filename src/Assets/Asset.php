@@ -190,7 +190,7 @@ class Asset implements \ArrayAccess
             $scssPhp->setFormatter($formatter);
             // variables
             $scssPhp->setVariables($this->config->get('assets.compile.variables') ?? []);
-            $this->data['path'] = preg_replace('/scss/m', 'css', $this->data['path']);
+            $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
             $this->data['ext'] = 'css';
             $this->data['content'] = $scssPhp->compile($this->data['content']);
             $this->compiled = true;
