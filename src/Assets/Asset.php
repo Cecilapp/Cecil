@@ -329,6 +329,7 @@ class Asset implements \ArrayAccess
      */
     private function loadFile(string $path): array
     {
+        $file = [];
         $path = '/'.ltrim($path, '/');
 
         if (false === $filePath = $this->findFile($path)) {
