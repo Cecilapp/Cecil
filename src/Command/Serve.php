@@ -41,6 +41,7 @@ class Serve extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Specific configuration file ("config.yml")'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
@@ -81,12 +82,18 @@ class Serve extends AbstractCommand
 
         // (re)builds before serve
         $buildCommand = $this->getApplication()->find('build');
-        $buildInput = new ArrayInput([
+        $buildImputArray = [
             'command'       => 'build',
             'path'          => $this->getPath(),
             '--drafts'      => $drafts,
             '--postprocess' => $postprocess,
-        ]);
+        ];
+        if ($this->getConfigFile() !== null) {
+            $buildImputArray = array_merge($buildImputArray, [
+                '--config' => $this->getConfigFile()
+            ]);
+        }
+        $buildInput = new ArrayInput($buildImputArray);
         if ($buildCommand->run($buildInput, $this->output) != 0) {
             return 1;
         }
@@ -97,7 +104,10 @@ class Serve extends AbstractCommand
             $finder = new Finder();
             $finder->files()
                 ->in($this->getPath())
-                ->exclude($this->getBuilder()->getConfig()->get('output.dir'));
+                ->exclude($this->getBuilder()->getConfig()->getOutputPath());
+            if (file_exists(Util::joinFile($this->getPath(), '.gitignore'))) {
+                $finder->ignoreVCSIgnored(true);
+            }
             $hashContent = new Crc32ContentHash();
             $resourceCache = new ResourceCacheMemory();
             $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);

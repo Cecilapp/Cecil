@@ -19,7 +19,7 @@ define('DEBUG', false);
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $ext = pathinfo($path, PATHINFO_EXTENSION);
 
-// watcher, called by livereload.js
+// watcher (called by livereload.js)
 if ($path == '/watcher') {
     header("Content-Type: text/event-stream\n\n");
     header('Cache-Control: no-cache');
@@ -32,14 +32,17 @@ if ($path == '/watcher') {
     echo "\n\n";
     exit();
 }
+
+// pathname of a file
+// ie: /css/style.css
+$pathname = $path;
+// pathname of an HTML page
 // ie: /blog/post-1/ -> /blog/post-1/index.html
-//if (empty($ext)) {
 if (substr($path, -1) == '/') {
     $pathname = rtrim($path, '/').'/'.DIRECTORY_INDEX;
-// ie: /css/style.css
-} else {
-    $pathname = $path;
 }
+
+// HTTP response: 200
 if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
     $ext = pathinfo($pathname, PATHINFO_EXTENSION);
     $mimeshtml = ['xhtml+xml', 'html'];
@@ -103,5 +106,12 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
 
     return false;
 }
+
+// HTTP response: 404
 http_response_code(404);
+if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].'/404.html')) {
+    echo file_get_contents($filename);
+
+    return true;
+}
 echo '404, page not found';

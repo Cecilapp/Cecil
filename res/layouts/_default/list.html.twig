@@ -9,11 +9,13 @@
 {% extends '_default/page.html.twig' %}
 
 {% block content %}
+{% if page.title != 'index' %}
       <header>
         <h1>{{ page.title }}</h1>
-        {{ page.content }}
       </header>
+{% endif %}
       <main>
+        {{ page.content }}
 {% for p in pages.all %}
         <article>
           <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>

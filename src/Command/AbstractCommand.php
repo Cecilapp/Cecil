@@ -52,7 +52,8 @@ class AbstractCommand extends Command
         $this->fs = new Filesystem();
 
         if (!in_array($this->getName(), ['self-update'])) {
-            $this->path = (string) $input->getArgument('path');
+            // working directory
+            $this->path = $input->getArgument('path');
             if (null === $this->getPath()) {
                 $this->path = getcwd();
             }
@@ -60,11 +61,18 @@ class AbstractCommand extends Command
                 $this->fs->mkdir($this->getPath());
             }
             $this->path = realpath($this->getPath());
-            $this->configFile = Util::joinFile($this->getPath(), self::CONFIG_FILE);
+            // config file
+            $this->configFile = $input->getOption('config');
+            if (null === $this->getConfigFile()) {
+                $this->configFile = Util::joinFile($this->getPath(), self::CONFIG_FILE);
+            }
+            $this->configFile = realpath($this->getConfigFile());
+            // checks config file
             if (!in_array($this->getName(), ['new:site'])) {
-                if (!file_exists($this->configFile)) {
-                    $message = sprintf('Could not find "%s" file in "%s"', self::CONFIG_FILE, $this->getPath());
-                    $this->getBuilder()->getLogger()->debug($message);
+                if (false === $this->configFile) {
+                    $message = sprintf('Could not find "%s": uses default configuration.', $input->getOption('config'));
+                    $this->getBuilder()->getLogger()->warning($message);
+                    $this->configFile = null;
                 }
             }
         }
@@ -104,6 +112,16 @@ class AbstractCommand extends Command
     }
 
     /**
+     * Returns the config file path.
+     *
+     * @return string|null
+     */
+    protected function getConfigFile(): ?string
+    {
+        return $this->configFile;
+    }
+
+    /**
      * Creates or returns a Builder instance.
      *
      * @param array $config
@@ -113,8 +131,8 @@ class AbstractCommand extends Command
     protected function getBuilder(array $config = []): Builder
     {
         try {
-            if (file_exists($this->configFile)) {
-                $configContent = Util::fileGetContents($this->configFile);
+            if (is_file($this->getConfigFile())) {
+                $configContent = Util::fileGetContents($this->getConfigFile());
                 if ($configContent === false) {
                     throw new \Exception('Can\'t read the configuration file.');
                 }
