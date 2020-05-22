@@ -99,7 +99,7 @@ class StaticCopy extends AbstractStep
             $this->count += $finder->count();
             Util::getFS()->mirror(
                 $from,
-                Util::joinFile($this->config->getOutputPath(), $to),
+                Util::joinFile($this->config->getOutputPath(), $to ?? ''),
                 $finder,
                 ['override' => true]
             );
