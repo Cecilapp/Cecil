@@ -33,7 +33,7 @@ class Build extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Specific configuration file ("config.yml")'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Specific configuration file'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),

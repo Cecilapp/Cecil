@@ -41,7 +41,7 @@ class Serve extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Specific configuration file ("config.yml")'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Specific configuration file'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
