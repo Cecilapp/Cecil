@@ -90,7 +90,7 @@ class Serve extends AbstractCommand
         ];
         if ($this->getConfigFile() !== null) {
             $buildImputArray = array_merge($buildImputArray, [
-                '--config' => $this->getConfigFile()
+                '--config' => $this->getConfigFile(),
             ]);
         }
         $buildInput = new ArrayInput($buildImputArray);
