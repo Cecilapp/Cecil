@@ -69,7 +69,10 @@ class AbstractCommand extends Command
                 }
                 // checks config file
                 if (false === $this->configFile) {
-                    $message = sprintf('Could not find "%s": uses default configuration.', $input->getOption('config'));
+                    $message = sprintf(
+                        'Could not find "%s": uses default configuration.',
+                        (string) $input->getOption('config')
+                    );
                     $this->getBuilder()->getLogger()->warning($message);
                     $this->configFile = null;
                 }
