@@ -53,22 +53,21 @@ class AbstractCommand extends Command
 
         if (!in_array($this->getName(), ['self-update'])) {
             // working directory
-            $this->path = $input->getArgument('path');
-            if (null === $this->getPath()) {
-                $this->path = getcwd();
+            $this->path = getcwd();
+            if ($input->getArgument('path') !== null) {
+                $this->path = (string) $input->getArgument('path');
             }
-            if (false === realpath($this->getPath())) {
+            if (realpath($this->getPath()) === false) {
                 $this->fs->mkdir($this->getPath());
             }
             $this->path = realpath($this->getPath());
             // config file
-            $this->configFile = $input->getOption('config');
-            if (null === $this->getConfigFile()) {
-                $this->configFile = Util::joinFile($this->getPath(), self::CONFIG_FILE);
-            }
-            $this->configFile = realpath($this->getConfigFile());
-            // checks config file
             if (!in_array($this->getName(), ['new:site'])) {
+                $this->configFile = Util::joinFile($this->getPath(), self::CONFIG_FILE);
+                if ($input->getOption('config') !== null) {
+                    $this->configFile = realpath((string) $input->getOption('config'));
+                }
+                // checks config file
                 if (false === $this->configFile) {
                     $message = sprintf('Could not find "%s": uses default configuration.', $input->getOption('config'));
                     $this->getBuilder()->getLogger()->warning($message);
