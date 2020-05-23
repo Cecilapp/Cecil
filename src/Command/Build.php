@@ -79,6 +79,9 @@ class Build extends AbstractCommand
         if ($input->getOption('clear-cache')) {
             $config['cache']['enabled'] = false;
         }
+
+        $builder = $this->getBuilder($config);
+
         if ($input->getOption('drafts')) {
             $options['drafts'] = true;
             $messageOpt .= ' with drafts';
@@ -106,7 +109,6 @@ class Build extends AbstractCommand
             );
         }
 
-        $builder = $this->getBuilder($config);
         $builder->build($options);
         $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
         $output->writeln('Done! 🎉');
