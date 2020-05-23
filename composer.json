@@ -81,8 +81,8 @@
   "prefer-stable": true,
   "scripts": {
     "test": "phpunit -c ./",
-    "test-cli": "cd bin && mkdir skeleton && php cecil new:site skeleton && php cecil build -v skeleton && rm -rf skeleton",
-    "test-build-cli": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton && php cecil.phar show:content skeleton && php cecil.phar build -vvv skeleton && rm -rf skeleton",
+    "test-cli": "cd bin && mkdir skeleton && php cecil new:site skeleton && php cecil build skeleton -vvv && rm -rf skeleton",
+    "test-build-cli": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton -vvv && php cecil.phar show:content skeleton && php cecil.phar build skeleton -vvv && rm -rf skeleton",
     "box": "box compile",
     "build": "@box",
     "test-coverage-install": [
