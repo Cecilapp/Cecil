@@ -33,6 +33,7 @@ class Build extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
@@ -59,14 +60,6 @@ class Build extends AbstractCommand
         $options = [];
         $messageOpt = '';
 
-        if ($input->getOption('drafts')) {
-            $options['drafts'] = true;
-            $messageOpt .= ' with drafts';
-        }
-        if ($input->getOption('dry-run')) {
-            $options['dry-run'] = true;
-            $messageOpt .= ' (dry-run)';
-        }
         if ($input->getOption('baseurl')) {
             $config['baseurl'] = $input->getOption('baseurl');
         }
@@ -87,14 +80,28 @@ class Build extends AbstractCommand
             $config['cache']['enabled'] = false;
         }
 
+        $builder = $this->getBuilder($config);
+
+        if ($input->getOption('drafts')) {
+            $options['drafts'] = true;
+            $messageOpt .= ' with drafts';
+        }
+        if ($input->getOption('dry-run')) {
+            $options['dry-run'] = true;
+            $messageOpt .= ' (dry-run)';
+        }
+
         $output->writeln(sprintf('Building website%s...', $messageOpt));
         $output->writeln(
             sprintf('<comment>Path: %s</comment>', $this->getPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
-
-        $builder = $this->getBuilder($config);
-
+        if ($this->getConfigFile() !== null) {
+            $output->writeln(
+                sprintf('<comment>Config: %s</comment>', $this->getConfigFile()),
+                OutputInterface::VERBOSITY_VERBOSE
+            );
+        }
         if ((bool) $this->builder->getConfig()->get('cache.enabled')) {
             $output->writeln(
                 sprintf('<comment>Cache: %s</comment>', $this->builder->getConfig()->getCachePath()),

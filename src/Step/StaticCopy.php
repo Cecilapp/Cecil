@@ -55,14 +55,20 @@ class StaticCopy extends AbstractStep
         if ($this->config->hasTheme()) {
             $themes = array_reverse($this->config->getTheme());
             foreach ($themes as $theme) {
-                $themeStaticDir = $this->config->getThemeDirPath($theme, 'static');
-                $this->copy($themeStaticDir, null, $this->config->get('static.exclude'));
+                $this->copy(
+                    $this->config->getThemeDirPath($theme, 'static'),
+                    null,
+                    $this->config->get('static.exclude')
+                );
             }
         }
 
         // copying content of 'static/' dir if exists
-        $staticDir = $this->builder->getConfig()->getStaticPath();
-        $this->copy($staticDir, null, $this->config->get('static.exclude'));
+        $this->copy(
+            $this->builder->getConfig()->getStaticPath(),
+            $this->config->get('static.target'),
+            $this->config->get('static.exclude')
+        );
 
         if ($this->count === 0) {
             $this->builder->getLogger()->info('Nothing to copy');
@@ -84,15 +90,16 @@ class StaticCopy extends AbstractStep
     protected function copy(string $from, string $to = null, array $exclude = null): bool
     {
         if (Util::getFS()->exists($from)) {
-            $finder = new Finder();
-            $finder->files()->in($from);
+            $finder = Finder::create()
+                ->files()
+                ->in($from);
             if (is_array($exclude)) {
                 $finder->notName($exclude);
             }
             $this->count += $finder->count();
             Util::getFS()->mirror(
                 $from,
-                $this->config->getOutputPath().(isset($to) ? '/'.$to : ''),
+                Util::joinFile($this->config->getOutputPath(), $to ?? ''),
                 $finder,
                 ['override' => true]
             );

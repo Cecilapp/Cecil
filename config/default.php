@@ -10,11 +10,11 @@
 
 // Website default configuration
 return [
-    'title'        => 'My Website',
-    'baseline'     => 'My amazing static website!',
+    'title'        => '',
+    'baseline'     => '',
     'baseurl'      => 'http://localhost:8000/',
     'canonicalurl' => false,   // if true 'url()' function preprends URL wirh 'baseurl'
-    'description'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'description'  => '',
     'taxonomies'   => [        // default taxonomies
         'tags'       => 'tag', // can be disabled with 'disabled' value
         'categories' => 'category',
@@ -160,8 +160,9 @@ return [
     ],
     // static files
     'static' => [
-        'dir'  => 'static',
-        'load' => false, // enables `site.static` collection
+        'dir'    => 'static',
+        'target' => '',
+        'load'   => false, // enables `site.static` collection
     ],
     // templates
     'layouts' => [

@@ -96,6 +96,11 @@ class Page extends Item
         $relativepath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.'.$file->getExtension())));
 
+        // case of "README" -> index
+        if (strtolower($basename) == 'readme') {
+            $basename = 'index';
+        }
+
         // case of section's index: "section/index" -> "section"
         if (!empty($relativepath) && $basename == 'index') {
             return $relativepath;
@@ -122,6 +127,10 @@ class Page extends Item
         $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.'.$fileExtension);
+        // case of "README" -> index
+        if (strtolower($fileName) == 'readme') {
+            $fileName = 'index';
+        }
         /*
          * Set protected variables
          */
