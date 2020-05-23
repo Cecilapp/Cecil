@@ -60,14 +60,6 @@ class Build extends AbstractCommand
         $options = [];
         $messageOpt = '';
 
-        if ($input->getOption('drafts')) {
-            $options['drafts'] = true;
-            $messageOpt .= ' with drafts';
-        }
-        if ($input->getOption('dry-run')) {
-            $options['dry-run'] = true;
-            $messageOpt .= ' (dry-run)';
-        }
         if ($input->getOption('baseurl')) {
             $config['baseurl'] = $input->getOption('baseurl');
         }
@@ -87,6 +79,14 @@ class Build extends AbstractCommand
         if ($input->getOption('clear-cache')) {
             $config['cache']['enabled'] = false;
         }
+        if ($input->getOption('drafts')) {
+            $options['drafts'] = true;
+            $messageOpt .= ' with drafts';
+        }
+        if ($input->getOption('dry-run')) {
+            $options['dry-run'] = true;
+            $messageOpt .= ' (dry-run)';
+        }
 
         $output->writeln(sprintf('Building website%s...', $messageOpt));
         $output->writeln(
@@ -99,9 +99,6 @@ class Build extends AbstractCommand
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
-
-        $builder = $this->getBuilder($config);
-
         if ((bool) $this->builder->getConfig()->get('cache.enabled')) {
             $output->writeln(
                 sprintf('<comment>Cache: %s</comment>', $this->builder->getConfig()->getCachePath()),
@@ -109,6 +106,7 @@ class Build extends AbstractCommand
             );
         }
 
+        $builder = $this->getBuilder($config);
         $builder->build($options);
         $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
         $output->writeln('Done! 🎉');
