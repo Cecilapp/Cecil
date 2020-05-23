@@ -63,17 +63,13 @@ class AbstractCommand extends Command
             $this->path = realpath($this->getPath());
             // config file
             if (!in_array($this->getName(), ['new:site'])) {
-                $this->configFile = Util::joinFile($this->getPath(), self::CONFIG_FILE);
-                if ($input->getOption('config') !== null) {
+                $this->configFile = realpath(Util::joinFile($this->getPath(), self::CONFIG_FILE));
+                if ($input->hasOption('config') && $input->getOption('config') !== null) {
                     $this->configFile = realpath((string) $input->getOption('config'));
                 }
                 // checks config file
-                if (false === $this->configFile) {
-                    $message = sprintf(
-                        'Could not find "%s": uses default configuration.',
-                        (string) $input->getOption('config')
-                    );
-                    $this->getBuilder()->getLogger()->warning($message);
+                if ($this->getConfigFile() === false) {
+                    $this->getBuilder()->getLogger()->warning('Could not find configuration file: uses default.');
                     $this->configFile = null;
                 }
             }
