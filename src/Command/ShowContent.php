@@ -18,6 +18,7 @@ use RecursiveTreeIterator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -36,6 +37,7 @@ class ShowContent extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
                 ])
             )
             ->setHelp('Shows content as tree');
@@ -67,7 +69,7 @@ class ShowContent extends AbstractCommand
             // pages content
             if (is_dir(Util::joinFile($this->getPath(), $contentDir))) {
                 $output->writeln(sprintf('<info>%s/</info>', $contentDir));
-                $pages = $this->getFilesTree($contentDir);
+                $pages = $this->getFilesTree('content');
                 if (!Util\Plateform::isWindows()) {
                     $unicodeTreePrefix($pages);
                 }
@@ -79,7 +81,7 @@ class ShowContent extends AbstractCommand
             // data content
             if (is_dir(Util::joinFile($this->getPath(), $dataDir))) {
                 $output->writeln(sprintf('<info>%s/</info>', $dataDir));
-                $datas = $this->getFilesTree($dataDir);
+                $datas = $this->getFilesTree('data');
                 if (!Util\Plateform::isWindows()) {
                     $unicodeTreePrefix($datas);
                 }

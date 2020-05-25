@@ -19,10 +19,12 @@ class FileExtensionFilter extends RecursiveFilterIterator
 {
     /** @var array */
     protected $allowedExt = ['md', 'markdown'];
+    /** @var array */
+    protected $excludedDir = ['.git', '.cecil', '.cache', '_site'];
 
     /**
      * @param \RecursiveIterator $iterator
-     * @param mixed              $ext
+     * @param string|array       $ext
      */
     public function __construct(\RecursiveIterator $iter, $ext = '')
     {
@@ -40,9 +42,13 @@ class FileExtensionFilter extends RecursiveFilterIterator
      */
     public function accept(): bool
     {
+        /** @var \SplFileInfo $file */
         $file = $this->current();
         if ($file->isFile()) {
             return in_array($file->getExtension(), $this->allowedExt);
+        }
+        if ($file->isDir()) {
+            return !in_array($file->getBasename(), $this->excludedDir);
         }
 
         return true;

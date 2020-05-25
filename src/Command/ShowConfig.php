@@ -13,6 +13,7 @@ namespace Cecil\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -30,11 +31,8 @@ class ShowConfig extends AbstractCommand
             ->setDescription('Shows the configuration')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument(
-                        'path',
-                        InputArgument::OPTIONAL,
-                        'If specified, use the given path as working directory'
-                    ),
+                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
                 ])
             )
             ->setHelp('Shows the website\'s configuration');

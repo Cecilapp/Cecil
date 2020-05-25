@@ -85,7 +85,7 @@ class Page extends Item
     }
 
     /**
-     * Creates the ID from the file.
+     * Creates the ID from the file path.
      *
      * @param SplFileInfo $file
      *
@@ -95,12 +95,8 @@ class Page extends Item
     {
         $relativepath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.'.$file->getExtension())));
-
         // case of "README" -> index
-        if (strtolower($basename) == 'readme') {
-            $basename = 'index';
-        }
-
+        $basename = str_ireplace('readme', 'index', $basename);
         // case of section's index: "section/index" -> "section"
         if (!empty($relativepath) && $basename == 'index') {
             return $relativepath;
@@ -128,9 +124,7 @@ class Page extends Item
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.'.$fileExtension);
         // case of "README" -> index
-        if (strtolower($fileName) == 'readme') {
-            $fileName = 'index';
-        }
+        $fileName = str_ireplace('readme', 'index', $fileName);
         /*
          * Set protected variables
          */
