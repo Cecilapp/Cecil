@@ -10,19 +10,19 @@
 
 {% block content %}
 {% if page.title != 'index' %}
-      <header>
-        <h1>{{ page.title }}</h1>
-      </header>
+    <header>
+      <h1>{{ page.title }}</h1>
+    </header>
 {% endif %}
-      <main>
-        {{ page.content }}
+    <main>
+      {{ page.content }}
 {% for p in pages.all %}
-        <article>
-          <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
-          <time>{{ p.date|date("j M Y") }}</time>
-          {{ p.content|excerpt_html }}
-        </article>
+      <article>
+        <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
+        <time>{{ p.date|date("j M Y") }}</time>
+        {{ p.content|excerpt_html }}
+      </article>
 {% endfor %}
-      </main>
+    </main>
 {% include 'partials/pagination.html.twig' %}
 {% endblock content %}
