@@ -40,8 +40,18 @@ class Parsedown extends ParsedownExtra
             return null;
         }
 
-        // sets lazy loading attribute
-        $image['element']['attributes']['loading'] = 'lazy';
+        $path = Util::joinFile($this->builder->getConfig()->getStaticTargetPath(), ltrim($image['element']['attributes']['src']));
+        if (Util::isExternalUrl($image['element']['attributes']['src'])) {
+            $path = $image['element']['attributes']['src'];
+        }
+        $width = $height = null;
+        list($width, $height, $type) = getimagesize($path);
+
+        // sets default attributes
+        $image['element']['attributes']['width'] = $width;
+        if ($type !== null) {
+            $image['element']['attributes']['loading'] = 'lazy';
+        }
 
         // captures query string.
         // ie: "?resize=300&responsive"
@@ -53,15 +63,19 @@ class Parsedown extends ParsedownExtra
         // cleans URL
         $image['element']['attributes']['src'] = strtok($image['element']['attributes']['src'], '?');
 
+        $path = Util::joinFile($this->builder->getConfig()->getStaticTargetPath(), ltrim($image['element']['attributes']['src']));
+        if (Util::isExternalUrl($image['element']['attributes']['src'])) {
+            $path = $image['element']['attributes']['src'];
+        }
+        $width = $height = null;
+        list($width, $height, $type) = getimagesize($path);
+
         /**
          * Should be responsive?
          */
         $responsive = false;
-        $width = null;
         if (array_key_exists('responsive', $result) && !Util::isExternalUrl($image['element']['attributes']['src'])) {
             $responsive = true;
-            $path = $this->builder->getConfig()->getStaticPath().'/'.ltrim($image['element']['attributes']['src'], '/');
-            list($width) = getimagesize($path);
             // process
             $steps = 5;
             $wMin = 320;
@@ -88,9 +102,13 @@ class Parsedown extends ParsedownExtra
         if (array_key_exists('resize', $result)) {
             $size = (int) $result['resize'];
             $width = $size;
-            $image['element']['attributes']['width'] = $width;
+
             $image['element']['attributes']['src'] = (new Image($this->builder))
                 ->resize($image['element']['attributes']['src'], $size);
+
+            $path = Util::joinPath($this->builder->getConfig()->getOutputPath(), ltrim($image['element']['attributes']['src']));
+            list($width) = getimagesize($path);
+            $image['element']['attributes']['width'] = $width;
         }
 
         // if responsive: set 'sizes' attribute
