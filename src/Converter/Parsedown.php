@@ -40,7 +40,10 @@ class Parsedown extends ParsedownExtra
             return null;
         }
 
-        $path = Util::joinFile($this->builder->getConfig()->getStaticTargetPath(), ltrim($image['element']['attributes']['src']));
+        $path = Util::joinFile(
+            $this->builder->getConfig()->getStaticTargetPath(),
+            ltrim($image['element']['attributes']['src'])
+        );
         if (Util::isExternalUrl($image['element']['attributes']['src'])) {
             $path = $image['element']['attributes']['src'];
         }
@@ -63,7 +66,10 @@ class Parsedown extends ParsedownExtra
         // cleans URL
         $image['element']['attributes']['src'] = strtok($image['element']['attributes']['src'], '?');
 
-        $path = Util::joinFile($this->builder->getConfig()->getStaticTargetPath(), ltrim($image['element']['attributes']['src']));
+        $path = Util::joinFile(
+            $this->builder->getConfig()->getStaticTargetPath(),
+            ltrim($image['element']['attributes']['src'])
+        );
         if (Util::isExternalUrl($image['element']['attributes']['src'])) {
             $path = $image['element']['attributes']['src'];
         }
@@ -106,7 +112,10 @@ class Parsedown extends ParsedownExtra
             $image['element']['attributes']['src'] = (new Image($this->builder))
                 ->resize($image['element']['attributes']['src'], $size);
 
-            $path = Util::joinPath($this->builder->getConfig()->getOutputPath(), ltrim($image['element']['attributes']['src']));
+            $path = Util::joinPath(
+                $this->builder->getConfig()->getOutputPath(),
+                ltrim($image['element']['attributes']['src'])
+            );
             list($width) = getimagesize($path);
             $image['element']['attributes']['width'] = $width;
         }
