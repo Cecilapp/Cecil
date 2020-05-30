@@ -20,11 +20,19 @@ jobs:
           sudo docker-php-ext-install -j$(nproc) iconv mcrypt gd zip pdo_mysql pdo_sqlite
           sudo rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     - checkout
+    - restore_cache:
+        keys:
+          - composer-{{ checksum "composer.lock" }}
+          - composer- # fallback
     - run:
         name: Install PHP dependencies
         command: |
           sudo composer self-update
           composer install -n --prefer-source
+    - save_cache:
+        key: composer-{{ checksum "composer.lock" }}
+        paths:
+          - ./vendor
     - run:
         name: Run tests
         command: |
