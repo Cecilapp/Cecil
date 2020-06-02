@@ -385,7 +385,7 @@ class Page extends Item
      */
     public function getSection(): ?string
     {
-        return $this->section;
+        return !empty($this->section) ? $this->section : null;
     }
 
     /**
