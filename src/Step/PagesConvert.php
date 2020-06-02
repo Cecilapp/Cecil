@@ -75,16 +75,16 @@ class PagesConvert extends AbstractStep
                  * Apply a custom path to pages of a specified section.
                  *
                  * ie:
-                 * sections:
-                 * - name: Blog
+                 * paths:
+                 * - section: Blog
                  *   path: :section/:year/:month/:day/:slug
                  */
-                if (is_array($this->config->get('sections'))) {
-                    foreach ($this->config->get('sections') as $section) {
-                        if (array_key_exists('name', $section)) {
+                if (is_array($this->config->get('paths'))) {
+                    foreach ($this->config->get('paths') as $entry) {
+                        if (array_key_exists('section', $entry)) {
                             /** @var Page $page */
-                            if ($page->getSection() == Page::slugify($section['name'])) {
-                                if (array_key_exists('path', $section)) {
+                            if ($page->getSection() == Page::slugify($entry['section'])) {
+                                if (array_key_exists('path', $entry)) {
                                     $path = str_replace(
                                         [
                                             ':year',
@@ -100,7 +100,7 @@ class PagesConvert extends AbstractStep
                                             $page->getSection(),
                                             $page->getSlug(),
                                         ],
-                                        $section['path']
+                                        $entry['path']
                                     );
                                     $page->setPath($path);
                                 }
