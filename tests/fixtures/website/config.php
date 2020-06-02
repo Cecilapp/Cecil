@@ -115,7 +115,7 @@ return [
     'sections' => [
         [
             'name' => 'Blog',
-            'path' => ':section/:year/:month/:day/:title',
+            'path' => ':section/:year/:month/:day/:slug',
         ],
     ],
 ];
