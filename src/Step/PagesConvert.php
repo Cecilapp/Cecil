@@ -77,8 +77,8 @@ class PagesConvert extends AbstractStep
                  *
                  * ie:
                  * sections:
-                 * - name: thesection
-                 *   path: newpath/:slug
+                 * - name: Blog
+                 *   path: :section/:year/:month/:day/:title
                  */
                 if (is_array($this->config->get('sections'))) {
                     foreach ($this->config->get('sections') as $section) {
@@ -86,9 +86,6 @@ class PagesConvert extends AbstractStep
                             /** @var Page $page */
                             if ($page->getSection() == Page::slugify($section['name'])) {
                                 if (array_key_exists('path', $section)) {
-
-                                    var_dump($page->getVariables());
-
                                     $path = str_replace(
                                         [
                                             ':year',
