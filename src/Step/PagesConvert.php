@@ -78,7 +78,7 @@ class PagesConvert extends AbstractStep
                  * ie:
                  * sections:
                  * - name: Blog
-                 *   path: :section/:year/:month/:day/:title
+                 *   path: :section/:year/:month/:day/:slug
                  */
                 if (is_array($this->config->get('sections'))) {
                     foreach ($this->config->get('sections') as $section) {
@@ -92,7 +92,6 @@ class PagesConvert extends AbstractStep
                                             ':month',
                                             ':day',
                                             ':section',
-                                            ':title',
                                             ':slug',
                                         ],
                                         [
@@ -100,7 +99,6 @@ class PagesConvert extends AbstractStep
                                             $page->getVariable('date')->format('m'),
                                             $page->getVariable('date')->format('d'),
                                             $page->getSection(),
-                                            $page->getSlug(),
                                             $page->getSlug(),
                                         ],
                                         $section['path']
