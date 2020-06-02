@@ -112,4 +112,10 @@ return [
     'postprocess' => [
         'enabled' => true,
     ],
+    'sections' => [
+        [
+            'name' => 'Blog',
+            'path' => ':section/:year/:month/:day/:title',
+        ],
+    ],
 ];

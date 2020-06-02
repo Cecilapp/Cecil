@@ -71,6 +71,50 @@ class PagesConvert extends AbstractStep
 
                     continue;
                 }
+
+                /**
+                 * Apply a specific path to pages of a section.
+                 *
+                 * ie:
+                 * sections:
+                 * - name: thesection
+                 *   path: newpath/:slug
+                 */
+                if (is_array($this->config->get('sections'))) {
+                    foreach ($this->config->get('sections') as $section) {
+                        if (array_key_exists('name', $section)) {
+                            /** @var Page $page */
+                            if ($page->getSection() == Page::slugify($section['name'])) {
+                                if (array_key_exists('path', $section)) {
+
+                                    var_dump($page->getVariables());
+
+                                    $path = str_replace(
+                                        [
+                                            ':year',
+                                            ':month',
+                                            ':day',
+                                            ':section',
+                                            ':title',
+                                            ':slug',
+                                        ],
+                                        [
+                                            $page->getVariable('date')->format('Y'),
+                                            $page->getVariable('date')->format('m'),
+                                            $page->getVariable('date')->format('d'),
+                                            $page->getSection(),
+                                            $page->getSlug(),
+                                            $page->getSlug(),
+                                        ],
+                                        $section['path']
+                                    );
+                                    $page->setPath($path);
+                                }
+                            }
+                        }
+                    }
+                }
+
                 $message = $page->getId();
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
