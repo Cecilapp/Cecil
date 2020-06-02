@@ -48,8 +48,7 @@ class PagesConvert extends AbstractStep
         }
 
         if ($this->builder->getBuildOptions()['drafts']) {
-            $message = 'drafts included';
-            $this->builder->getLogger()->info($message);
+            $this->builder->getLogger()->info('Drafts included');
         }
 
         $max = count($this->builder->getPages());
@@ -63,17 +62,17 @@ class PagesConvert extends AbstractStep
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
                 } catch (Exception $e) {
                     $this->builder->getPages()->remove($page->getId());
-
-                    $message = sprintf('Unable to convert front matter of page "%s"', $page->getId());
-                    $this->builder->getLogger()->error($message);
-                    $message = sprintf('Page "%s": %s', $page->getId(), $e->getMessage());
-                    $this->builder->getLogger()->debug($message);
-
+                    $this->builder->getLogger()->error(
+                        sprintf('Unable to convert front matter of page "%s"', $page->getId())
+                    );
+                    $this->builder->getLogger()->debug(
+                        sprintf('Page "%s": %s', $page->getId(), $e->getMessage())
+                    );
                     continue;
                 }
 
                 /**
-                 * Apply a specific path to pages of a section.
+                 * Apply a custom path to pages of a specified section.
                  *
                  * ie:
                  * sections:
