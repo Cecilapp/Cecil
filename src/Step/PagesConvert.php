@@ -48,8 +48,7 @@ class PagesConvert extends AbstractStep
         }
 
         if ($this->builder->getBuildOptions()['drafts']) {
-            $message = 'drafts included';
-            $this->builder->getLogger()->info($message);
+            $this->builder->getLogger()->info('Drafts included');
         }
 
         $max = count($this->builder->getPages());
@@ -63,14 +62,53 @@ class PagesConvert extends AbstractStep
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
                 } catch (Exception $e) {
                     $this->builder->getPages()->remove($page->getId());
-
-                    $message = sprintf('Unable to convert front matter of page "%s"', $page->getId());
-                    $this->builder->getLogger()->error($message);
-                    $message = sprintf('Page "%s": %s', $page->getId(), $e->getMessage());
-                    $this->builder->getLogger()->debug($message);
-
+                    $this->builder->getLogger()->error(
+                        sprintf('Unable to convert front matter of page "%s"', $page->getId())
+                    );
+                    $this->builder->getLogger()->debug(
+                        sprintf('Page "%s": %s', $page->getId(), $e->getMessage())
+                    );
                     continue;
                 }
+
+                /**
+                 * Apply a custom path to pages of a specified section.
+                 *
+                 * ie:
+                 * paths:
+                 * - section: Blog
+                 *   path: :section/:year/:month/:day/:slug
+                 */
+                if (is_array($this->config->get('paths'))) {
+                    foreach ($this->config->get('paths') as $entry) {
+                        if (array_key_exists('section', $entry)) {
+                            /** @var Page $page */
+                            if ($page->getSection() == Page::slugify($entry['section'])) {
+                                if (array_key_exists('path', $entry)) {
+                                    $path = str_replace(
+                                        [
+                                            ':year',
+                                            ':month',
+                                            ':day',
+                                            ':section',
+                                            ':slug',
+                                        ],
+                                        [
+                                            $page->getVariable('date')->format('Y'),
+                                            $page->getVariable('date')->format('m'),
+                                            $page->getVariable('date')->format('d'),
+                                            $page->getSection(),
+                                            $page->getSlug(),
+                                        ],
+                                        $entry['path']
+                                    );
+                                    $page->setPath($path);
+                                }
+                            }
+                        }
+                    }
+                }
+
                 $message = $page->getId();
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
