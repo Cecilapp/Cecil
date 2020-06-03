@@ -4,7 +4,7 @@
     "KevinGH\\Box\\Compactor\\Json",
     "KevinGH\\Box\\Compactor\\Php"
   ],
-  "directories": ["config", "src", "res"],
+  "directories": ["config", "src", "resources"],
   "files": ["LICENSE", "VERSION"],
   "finder": [
     {
