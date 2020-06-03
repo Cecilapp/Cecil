@@ -61,7 +61,7 @@ class Layout
                     }
                 }
             }
-            // is it in res/layouts/ dir?
+            // is it in resources/layouts/ dir?
             if (Util::getFS()->exists(Util::joinPath($config->getInternalLayoutsPath(), $layout))) {
                 return [
                     'scope' => 'cecil',

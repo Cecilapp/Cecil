@@ -63,12 +63,12 @@ class NewSite extends AbstractCommand
             }
             $output->writeln('Creating a new website...');
             $this->fs->copy(
-                Util::joinPath($root, 'res/skeleton', self::CONFIG_FILE),
+                Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE),
                 Util::joinPath($this->getPath(), self::CONFIG_FILE)
             );
             foreach (['content', 'layouts', 'static'] as $value) {
                 $this->fs->mirror(
-                    Util::joinPath($root, 'res/skeleton', $value),
+                    Util::joinPath($root, 'resources/skeleton', $value),
                     Util::joinPath($this->getPath(), $value)
                 );
             }

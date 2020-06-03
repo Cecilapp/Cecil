@@ -195,7 +195,7 @@ class PagesRender extends AbstractStep
                 $paths[] = $this->config->getThemeDirPath($theme);
             }
         }
-        // res/layouts/
+        // resources/layouts/
         if (is_dir($this->config->getInternalLayoutsPath())) {
             $paths[] = $this->config->getInternalLayoutsPath();
         }
