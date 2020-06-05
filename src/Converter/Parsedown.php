@@ -74,7 +74,6 @@ class Parsedown extends ParsedownExtra
         if (Util::isExternalUrl($image['element']['attributes']['src'])) {
             $path = $image['element']['attributes']['src'];
         }
-        $width = null;
         list($width) = getimagesize($path);
 
         /**
