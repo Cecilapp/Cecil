@@ -109,9 +109,4 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
 
 // HTTP response: 404
 http_response_code(404);
-if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].'/404.html')) {
-    echo file_get_contents($filename);
-
-    return true;
-}
 echo '404, page not found';
