@@ -47,8 +47,9 @@ class Parsedown extends ParsedownExtra
         if (Util::isExternalUrl($image['element']['attributes']['src'])) {
             $path = $image['element']['attributes']['src'];
         }
-        $width = $height = null;
-        list($width, $height, $type) = getimagesize($this->removeQuery($path));
+        $size = getimagesize($this->removeQuery($path));
+        $width = $size[0];
+        $type = $size[2];
 
         // sets default attributes
         $image['element']['attributes']['width'] = $width;
@@ -73,8 +74,8 @@ class Parsedown extends ParsedownExtra
         if (Util::isExternalUrl($image['element']['attributes']['src'])) {
             $path = $image['element']['attributes']['src'];
         }
-        $width = $height = null;
-        list($width, $height, $type) = getimagesize($path);
+        $width = null;
+        list($width) = getimagesize($path);
 
         /**
          * Should be responsive?
