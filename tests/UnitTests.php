@@ -112,8 +112,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
     {
         $page = new Page($this->file);
         $page->parse();
-        $html = (new Converter())
-            ->convertBody($page->getBody());
+        $html = (New Converter($this->builder))->convertBody($page->getBody());
         $this->assertSame('<p>Content of page 1.</p>', $html);
     }
 

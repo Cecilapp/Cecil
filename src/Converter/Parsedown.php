@@ -23,7 +23,7 @@ class Parsedown extends ParsedownExtra
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $builder = null)
+    public function __construct(Builder $builder)
     {
         parent::__construct();
         $this->builder = $builder;
@@ -48,7 +48,7 @@ class Parsedown extends ParsedownExtra
             $path = $image['element']['attributes']['src'];
         }
         $width = $height = null;
-        list($width, $height, $type) = getimagesize($path);
+        list($width, $height, $type) = getimagesize($this->removeQuery($path));
 
         // sets default attributes
         $image['element']['attributes']['width'] = $width;
@@ -64,7 +64,7 @@ class Parsedown extends ParsedownExtra
         }
         parse_str($query, $result);
         // cleans URL
-        $image['element']['attributes']['src'] = strtok($image['element']['attributes']['src'], '?');
+        $image['element']['attributes']['src'] = $this->removeQuery($image['element']['attributes']['src']);
 
         $path = Util::joinFile(
             $this->builder->getConfig()->getStaticTargetPath(),
@@ -109,13 +109,20 @@ class Parsedown extends ParsedownExtra
             $size = (int) $result['resize'];
             $width = $size;
 
-            $image['element']['attributes']['src'] = (new Image($this->builder))
+            $imageResized = (new Image($this->builder))
                 ->resize($image['element']['attributes']['src'], $size);
+
+            if (Util::isExternalUrl($image['element']['attributes']['src'])) {
+                return $image;
+            }
+
+            $image['element']['attributes']['src'] = $imageResized;
 
             $path = Util::joinPath(
                 $this->builder->getConfig()->getOutputPath(),
                 ltrim($image['element']['attributes']['src'])
             );
+
             list($width) = getimagesize($path);
             $image['element']['attributes']['width'] = $width;
         }
@@ -134,5 +141,10 @@ class Parsedown extends ParsedownExtra
         }
 
         return $image;
+    }
+
+    private function removeQuery(string $path): string
+    {
+        return strtok($path, '?');
     }
 }
