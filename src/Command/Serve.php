@@ -167,13 +167,13 @@ class Serve extends AbstractCommand
             }
             // copying router
             $this->fs->copy(
-                $root.'/res/server/router.php',
+                $root.'/resources/server/router.php',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
             // copying livereload JS
             $this->fs->copy(
-                $root.'/res/server/livereload.js',
+                $root.'/resources/server/livereload.js',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js'),
                 true
             );

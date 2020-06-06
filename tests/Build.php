@@ -48,7 +48,7 @@ class Build extends \PHPUnit\Framework\TestCase
         )->setSourceDir($this->wsSourceDir)
         ->setDestinationDir($this->wsDestinationDir)
         ->build([
-            'drafts'  => false,
+            'drafts'  => true,
             'dry-run' => false,
         ]);
 

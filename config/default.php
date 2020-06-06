@@ -168,7 +168,7 @@ return [
     'layouts' => [
         'dir'      => 'layouts',
         'internal' => [
-            'dir' => 'res/layouts',
+            'dir' => 'resources/layouts',
         ],
     ],
     'themes' => [

@@ -314,29 +314,28 @@ class Page extends Item
     {
         $path = self::slugify(PrefixSuffix::sub($path));
 
-        // special case: homepage
+        // case of homepage
         if ($path == 'index') {
             $this->path = '';
 
             return $this;
         }
 
-        // special case: custom section index (ie: content/section/index.md)
+        // case of custom sections' index (ie: content/section/index.md)
         if (substr($path, -6) == '/index') {
             $path = substr($path, 0, strlen($path) - 6);
         }
         $this->path = $path;
 
-        // explode path by slash
+        // case of root pages
         $lastslash = strrpos($this->path, '/');
         if ($lastslash === false) {
-            $this->section = null;
-            $this->folder = null;
             $this->slug = $this->path;
 
             return $this;
         }
-        if (!$this->virtual) {
+
+        if (!$this->virtual && $this->getSection() === null) {
             $this->section = explode('/', $this->path)[0];
         }
         $this->folder = substr($this->path, 0, $lastslash);
@@ -386,7 +385,7 @@ class Page extends Item
      */
     public function getSection(): ?string
     {
-        return $this->section;
+        return !empty($this->section) ? $this->section : null;
     }
 
     /**
