@@ -9,7 +9,7 @@
 {% set first = pages|first %}
 {% set title = site.title ~ ' - ' ~ page.title %}
 {% set date = first.date|default(site.time) %}
-{% set lang = site.lang|default('en')|slice(0, 2)|lower -%}
+{% set lang = site.language|default('en') -%}
 
 {% if page.type == 'homepage' %}
 {% set title = site.title %}
