@@ -108,12 +108,6 @@ class Parsedown extends ParsedownExtra
             }
 
             $image['element']['attributes']['src'] = $imageResized;
-
-            $path = Util::joinPath(
-                $this->builder->getConfig()->getOutputPath(),
-                ltrim($image['element']['attributes']['src'])
-            );
-
             $image['element']['attributes']['width'] = $width;
         }
 
