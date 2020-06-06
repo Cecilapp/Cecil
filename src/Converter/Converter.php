@@ -20,10 +20,21 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Converter implements ConverterInterface
 {
+    /** @var Builder */
+    protected $builder;
+
+    /**
+     * @param Builder $builder
+     */
+    public function __construct(Builder $builder)
+    {
+        $this->builder = $builder;
+    }
+
     /**
      * {@inheritdoc}
      */
-    public static function convertFrontmatter(string $string, string $type = 'yaml'): array
+    public function convertFrontmatter(string $string, string $type = 'yaml'): array
     {
         switch ($type) {
             case 'ini':
@@ -51,9 +62,9 @@ class Converter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public static function convertBody(string $string, Builder $builder = null): string
+    public function convertBody(string $string): string
     {
-        $parsedown = new Parsedown($builder);
+        $parsedown = new Parsedown($this->builder);
 
         return $parsedown->text($string);
     }

@@ -10,8 +10,6 @@
 
 namespace Cecil\Converter;
 
-use Cecil\Builder;
-
 /**
  * Interface ConverterInterface.
  */
@@ -25,15 +23,14 @@ interface ConverterInterface
      *
      * @return array
      */
-    public static function convertFrontmatter(string $string, string $type): array;
+    public function convertFrontmatter(string $string, string $type): array;
 
     /**
      * Converts body.
      *
-     * @param string       $string
-     * @param Builder|null $builder
+     * @param string $string
      *
      * @return string
      */
-    public static function convertBody(string $string, Builder $builder = null): string;
+    public function convertBody(string $string): string;
 }

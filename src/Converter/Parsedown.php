@@ -23,7 +23,7 @@ class Parsedown extends ParsedownExtra
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $builder = null)
+    public function __construct(Builder $builder)
     {
         parent::__construct();
         $this->builder = $builder;
@@ -40,8 +40,22 @@ class Parsedown extends ParsedownExtra
             return null;
         }
 
-        // sets lazy loading attribute
-        $image['element']['attributes']['loading'] = 'lazy';
+        $path = Util::joinFile(
+            $this->builder->getConfig()->getStaticTargetPath(),
+            ltrim($this->removeQuery($image['element']['attributes']['src']))
+        );
+        if (Util::isExternalUrl($image['element']['attributes']['src'])) {
+            $path = $this->removeQuery($image['element']['attributes']['src']);
+        }
+        $size = getimagesize($path);
+        $width = $size[0];
+        $type = $size[2];
+
+        // sets default attributes
+        $image['element']['attributes']['width'] = $width;
+        if ($type !== null) {
+            $image['element']['attributes']['loading'] = 'lazy';
+        }
 
         // captures query string.
         // ie: "?resize=300&responsive"
@@ -51,17 +65,14 @@ class Parsedown extends ParsedownExtra
         }
         parse_str($query, $result);
         // cleans URL
-        $image['element']['attributes']['src'] = strtok($image['element']['attributes']['src'], '?');
+        $image['element']['attributes']['src'] = $this->removeQuery($image['element']['attributes']['src']);
 
         /**
          * Should be responsive?
          */
         $responsive = false;
-        $width = null;
         if (array_key_exists('responsive', $result) && !Util::isExternalUrl($image['element']['attributes']['src'])) {
             $responsive = true;
-            $path = $this->builder->getConfig()->getStaticPath().'/'.ltrim($image['element']['attributes']['src'], '/');
-            list($width) = getimagesize($path);
             // process
             $steps = 5;
             $wMin = 320;
@@ -88,9 +99,16 @@ class Parsedown extends ParsedownExtra
         if (array_key_exists('resize', $result)) {
             $size = (int) $result['resize'];
             $width = $size;
-            $image['element']['attributes']['width'] = $width;
-            $image['element']['attributes']['src'] = (new Image($this->builder))
+
+            $imageResized = (new Image($this->builder))
                 ->resize($image['element']['attributes']['src'], $size);
+
+            if (Util::isExternalUrl($image['element']['attributes']['src'])) {
+                return $image;
+            }
+
+            $image['element']['attributes']['src'] = $imageResized;
+            $image['element']['attributes']['width'] = $width;
         }
 
         // if responsive: set 'sizes' attribute
@@ -107,5 +125,10 @@ class Parsedown extends ParsedownExtra
         }
 
         return $image;
+    }
+
+    private function removeQuery(string $path): string
+    {
+        return strtok($path, '?');
     }
 }

@@ -142,7 +142,7 @@ class PagesConvert extends AbstractStep
         // converts frontmatter
         if ($page->getFrontmatter()) {
             try {
-                $variables = Converter::convertFrontmatter($page->getFrontmatter(), $format);
+                $variables = (new Converter($this->builder))->convertFrontmatter($page->getFrontmatter(), $format);
             } catch (\Exception $e) {
                 throw new Exception($e->getMessage());
             }
@@ -150,7 +150,7 @@ class PagesConvert extends AbstractStep
         }
 
         // converts body
-        $html = Converter::convertBody($page->getBody(), $this->builder);
+        $html = (new Converter($this->builder))->convertBody($page->getBody());
         $page->setBodyHtml($html);
 
         return $page;
