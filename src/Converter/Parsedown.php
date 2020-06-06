@@ -42,12 +42,12 @@ class Parsedown extends ParsedownExtra
 
         $path = Util::joinFile(
             $this->builder->getConfig()->getStaticTargetPath(),
-            ltrim($image['element']['attributes']['src'])
+            ltrim($this->removeQuery($image['element']['attributes']['src']))
         );
         if (Util::isExternalUrl($image['element']['attributes']['src'])) {
-            $path = $image['element']['attributes']['src'];
+            $path = $this->removeQuery($image['element']['attributes']['src']);
         }
-        $size = getimagesize($this->removeQuery($path));
+        $size = getimagesize($path);
         $width = $size[0];
         $type = $size[2];
 
@@ -66,10 +66,6 @@ class Parsedown extends ParsedownExtra
         parse_str($query, $result);
         // cleans URL
         $image['element']['attributes']['src'] = $this->removeQuery($image['element']['attributes']['src']);
-
-        if (Util::isExternalUrl($image['element']['attributes']['src'])) {
-            $path = $image['element']['attributes']['src'];
-        }
 
         /**
          * Should be responsive?
