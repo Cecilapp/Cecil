@@ -63,7 +63,7 @@ class PagesConvert extends AbstractStep
                 } catch (Exception $e) {
                     $this->builder->getPages()->remove($page->getId());
                     $this->builder->getLogger()->error(
-                        sprintf('Unable to convert front matter of page "%s"', $page->getId())
+                        sprintf('Unable to convert page "%s"', $page->getId())
                     );
                     $this->builder->getLogger()->debug(
                         sprintf('Page "%s": %s', $page->getId(), $e->getMessage())

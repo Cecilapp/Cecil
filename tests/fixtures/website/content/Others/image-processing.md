@@ -1,6 +1,7 @@
 ---
 title: 'Image processing'
 typora-root-url: ../../static
+date: 2020/06/08
 ---
 <!-- break -->
 ## Resize
