@@ -42,14 +42,13 @@ class Image
     }
 
     /**
-     * Resizes an image.
+     * Loads an image from its file path.
      *
      * @param string $path Image path (relative from static/ dir or external).
-     * @param int    $size Image new size (width).
      *
-     * @return string Path to the image thumbnail
+     * @return self
      */
-    public function resize(string $path, int $size): string
+    public function load(string $path): self
     {
         // is not a local image?
         if (Util::isExternalUrl($path)) {
@@ -60,8 +59,24 @@ class Image
         if (!$this->local) {
             $this->path = $path;
         }
+
+        return $this;
+    }
+
+    /**
+     * Resizes an image.
+     *
+     * @param int $size Image new size (width).
+     *
+     * @return string Path to the image thumbnail
+     */
+    public function resize(int $size): string
+    {
+        if ($this->path === null) {
+            throw new Exception('Image must be loaded before resize.');
+        }
+
         $this->size = $size;
-        $returnPath = '/'.Util::joinPath(self::PREFIX, $this->size, $this->path);
 
         // source file path
         $source = $this->getSource();
@@ -78,6 +93,7 @@ class Image
         }
 
         $cache = new Cache($this->builder, 'assets');
+        $returnPath = '/'.Util::joinPath(self::PREFIX, $this->size, $this->path);
         $cacheKey = $cache->createKeyFromFile($source, $returnPath);
         if (!$cache->has($cacheKey)) {
             // creates an image object

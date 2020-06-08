@@ -40,13 +40,23 @@ class Parsedown extends ParsedownExtra
             return null;
         }
 
-        $path = Util::joinFile(
-            $this->builder->getConfig()->getStaticTargetPath(),
-            ltrim($this->removeQuery($image['element']['attributes']['src']))
-        );
+        // fetch image path
         if (Util::isExternalUrl($image['element']['attributes']['src'])) {
             $path = $this->removeQuery($image['element']['attributes']['src']);
+            if (!Util::isUrlFileExists($path)) {
+                return $image;
+            }
+        } else {
+            $path = Util::joinFile(
+                $this->builder->getConfig()->getStaticTargetPath(),
+                ltrim($this->removeQuery($image['element']['attributes']['src']))
+            );
+            if (!is_file($path)) {
+                return $image;
+            }
         }
+
+        // fetch image properties
         $size = getimagesize($path);
         $width = $size[0];
         $type = $size[2];
@@ -83,7 +93,9 @@ class Parsedown extends ParsedownExtra
             $srcset = '';
             for ($i = 1; $i <= $steps; $i++) {
                 $w = (int) ceil($wMin + ($wMax - $wMin) / $steps * $i);
-                $img = (new Image($this->builder))->resize($image['element']['attributes']['src'], $w);
+                $img = (new Image($this->builder))
+                    ->load($image['element']['attributes']['src'])
+                    ->resize($w);
                 $srcset .= sprintf('%s %sw', $img, $w);
                 if ($i < $steps) {
                     $srcset .= ', ';
@@ -101,14 +113,15 @@ class Parsedown extends ParsedownExtra
             $width = $size;
 
             $imageResized = (new Image($this->builder))
-                ->resize($image['element']['attributes']['src'], $size);
+                ->load($image['element']['attributes']['src'])
+                ->resize($size);
+
+            $image['element']['attributes']['src'] = $imageResized;
+            $image['element']['attributes']['width'] = $width;
 
             if (Util::isExternalUrl($image['element']['attributes']['src'])) {
                 return $image;
             }
-
-            $image['element']['attributes']['src'] = $imageResized;
-            $image['element']['attributes']['width'] = $width;
         }
 
         // if responsive: set 'sizes' attribute

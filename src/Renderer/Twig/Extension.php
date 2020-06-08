@@ -364,7 +364,9 @@ class Extension extends SlugifyExtension
      */
     public function resize(string $path, int $size): string
     {
-        return (new Image($this->builder))->resize($path, $size);
+        return (new Image($this->builder))
+            ->load($path)
+            ->resize($size);
     }
 
     /**
