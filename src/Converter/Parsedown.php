@@ -41,19 +41,15 @@ class Parsedown extends ParsedownExtra
         }
 
         // fetch image path
+        $path = Util::joinFile(
+            $this->builder->getConfig()->getStaticTargetPath(),
+            ltrim($this->removeQuery($image['element']['attributes']['src']))
+        );
         if (Util::isExternalUrl($image['element']['attributes']['src'])) {
             $path = $this->removeQuery($image['element']['attributes']['src']);
-            if (!Util::isUrlFileExists($path)) {
-                return $image;
-            }
-        } else {
-            $path = Util::joinFile(
-                $this->builder->getConfig()->getStaticTargetPath(),
-                ltrim($this->removeQuery($image['element']['attributes']['src']))
-            );
-            if (!is_file($path)) {
-                return $image;
-            }
+        }
+        if (!is_file($path) && !Util::isUrlFileExists($path)) {
+            return $image;
         }
 
         // fetch image properties
