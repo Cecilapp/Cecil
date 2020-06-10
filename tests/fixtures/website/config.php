@@ -120,11 +120,11 @@ return [
     ],
     'podcast' => [
         'author' => 'Cecil',
-        'owner' => [
+        'owner'  => [
             'name'  => 'Cecil',
             'email' => 'contact@cecil.app',
         ],
-        'image' => '/images/cecil-logo.png',
+        'image'      => '/images/cecil-logo.png',
         'categories' => [
             'Society & Culture',
             'History',
