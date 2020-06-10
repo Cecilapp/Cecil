@@ -1,0 +1,54 @@
+{% extends 'feed.twig' %}
+
+{% block feed %}
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+ xmlns:content="http://purl.org/rss/1.0/modules/content/"
+ xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+ xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0"
+>
+  <channel>
+    <title>{{ title }}</title>
+    <description><![CDATA[{{ site.description }}]]></description>
+    <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
+    <link>{{ url(page, {canonical:true}) }}</link>
+    <language>{{ site.language|default('en') }}</language>
+{% if site.copyright is defined %}
+    <copyright>{{ site.copyright }}</copyright>
+{% endif %}
+{# podcast #}
+    <googleplay:author>{{ site.podcast.author }}</googleplay:author>
+    <itunes:author>{{ site.podcast.author }}</itunes:author>
+    <itunes:type>{{ site.podcast.type|default('episodic') }}</itunes:type>
+    <googleplay:email>{{ site.podcast.owner.email }}</googleplay:email>
+    <itunes:owner>
+      <itunes:name>{{ site.podcast.owner.name }}</itunes:name>
+      <itunes:email>{{ site.podcast.owner.email }}</itunes:email>
+    </itunes:owner>
+    <googleplay:image href="{{ url(site.podcast.image,{canonical:true}) }}" />
+    <itunes:image href="{{ url(site.podcast.image,{canonical:true}) }}" />
+{% for category in site.podcast.categories %}{# https://help.apple.com/itc/podcasts_connect/#/itc9267a2f12 #}
+    <itunes:category text="{{ category|e }}" />
+{% endfor %}
+    <itunes:explicit>{{ site.podcast.explicit|default('false') }}</itunes:explicit>
+{# /podcast #}
+{% for item in pages|sort_by_date %}
+{% set file = asset(item.episode.file) %}
+    <item>
+      <guid>{{ url(file, {canonical:true}) }}</guid>
+      <title>{{ item.title }}</title>
+      <description><![CDATA[{{ item.content }}]]></description>
+      <pubDate>{{ item.date|date('c') }}</pubDate>
+      <link>{{ url(item, {canonical:true}) }}</link>
+{# episode #}
+      <enclosure url="{{ url(file, {canonical:true}) }}" length="{{ file.size }}" type="{{ file.subtype }}" />
+      <googleplay:explicit>{{ item.episode.explicit|default('no')|capitalize }}</googleplay:explicit>
+      <itunes:explicit>{{ item.episode.explicit|default('no')|lower }}</itunes:explicit>
+      <googleplay:block>{{ item.episode.block|default('no') }}</googleplay:block>
+      <itunes:block>{{ item.episode.block|default('no') }}</itunes:block>
+{# /episode #}
+    </item>
+{% endfor %}
+  </channel>
+</rss>
+{% endblock feed %}

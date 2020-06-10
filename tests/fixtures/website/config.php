@@ -118,4 +118,16 @@ return [
             'path'    => ':section/:year/:month/:day/:slug',
         ],
     ],
+    'podcast' => [
+        'author' => 'Cecil',
+        'owner' => [
+            'name'  => 'Cecil',
+            'email' => 'contact@cecil.app',
+        ],
+        'image' => '/images/cecil-logo.png',
+        'categories' => [
+            'Society & Culture',
+            'History',
+        ],
+    ],
 ];
