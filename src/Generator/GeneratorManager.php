@@ -77,10 +77,10 @@ class GeneratorManager extends \SplPriorityQueue
                 $generatedPages = $generator->runGenerate();
                 foreach ($generatedPages as $page) {
                     /** @var \Cecil\Collection\Page\Page $page */
-                    if ($pagesCollection->has($page->getId())) {
-                        $pagesCollection->replace($page->getId(), $page);
-                    } else {
+                    try {
                         $pagesCollection->add($page);
+                    } catch (\Exception $e) {
+                        $pagesCollection->replace($page->getId(), $page);
                     }
                 }
                 $message = sprintf('%s: %s', Util::formatClassName($generator), count($generatedPages));
