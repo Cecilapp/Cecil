@@ -77,6 +77,7 @@ class Asset implements \ArrayAccess
             $this->data['ext'] = $file['ext'];
             $this->data['type'] = $file['type'];
             $this->data['subtype'] = $file['subtype'];
+            $this->data['size'] = $file['size'];
             $this->data['source'] = $file['content'];
             $this->data['content'] .= $file['content'];
 
@@ -337,8 +338,7 @@ class Asset implements \ArrayAccess
         }
 
         $pathinfo = pathinfo($path);
-        $subtype = mime_content_type($filePath);
-        $type = explode('/', $subtype)[0];
+        list($type, $subtype) = Util::getMimeType($filePath);
         $content = file_get_contents($filePath);
 
         $file['filepath'] = $filePath;
@@ -346,6 +346,7 @@ class Asset implements \ArrayAccess
         $file['ext'] = $pathinfo['extension'];
         $file['type'] = $type;
         $file['subtype'] = $subtype;
+        $file['size'] = filesize($filePath);
         $file['content'] = $content;
 
         return $file;

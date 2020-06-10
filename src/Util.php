@@ -231,4 +231,26 @@ class Util
 
         return $return;
     }
+
+    /**
+     * Returns MIME content type and subtype of a file.
+     *
+     * ie: ['text', 'text/plain']
+     *
+     * @param string $filename
+     *
+     * @return string[]
+     */
+    public static function getMimeType(string $filename): array
+    {
+        if (false === $subtype = mime_content_type($filename)) {
+            throw new \Exception(sprintf('Can\'t get MIME content type of "%s"', $filename));
+        }
+        $type = explode('/', $subtype)[0];
+
+        return [
+            $type,
+            $subtype,
+        ];
+    }
 }
