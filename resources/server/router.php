@@ -107,7 +107,7 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
 
     // audio file headers
     if (in_array($mimeSubtype, $mimesAudio)) {
-        header("Content-Type: $mimetype");
+        header("Content-Type: $mimeType");
         header('Cache-Control: no-cache');
         header('Content-Transfer-Encoding: binary');
         header('Content-Length: '.filesize($filename));
