@@ -45,24 +45,25 @@ if (substr($path, -1) == '/') {
 // HTTP response: 200
 if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
     $ext = pathinfo($pathname, PATHINFO_EXTENSION);
-    $mimeshtml = ['xhtml+xml', 'html'];
-    $mimestxt = ['json', 'xml', 'css', 'csv', 'javascript', 'plain', 'text'];
+    $mimesHtml = ['xhtml+xml', 'html'];
+    $mimesText = ['json', 'xml', 'css', 'csv', 'javascript', 'plain', 'text'];
+    $mimesAudio = ['mpeg', 'x-m4a'];
 
     // get file mime type
     if (!extension_loaded('fileinfo')) {
         http_response_code(500);
         echo "The extension 'fileinfo' must be enabled in your 'php.ini' file!";
-    }
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mimetype = finfo_file($finfo, $filename);
-    $mime = explode('/', $mimetype)[1];
-    finfo_close($finfo);
 
-    // manipulate html and plain text file content for local serve
-    if (in_array($mime, $mimeshtml) || in_array($mime, $mimestxt)) {
+        return true;
+    }
+    $mimeType = mime_content_type($filename);
+    $mimeSubtype = explode('/', $mimeType)[1];
+
+    // manipulate HTML (and plain text) file content
+    if (in_array($mimeSubtype, $mimesHtml) || in_array($mimeSubtype, $mimesText)) {
         $content = file_get_contents($filename);
         // html only
-        if (in_array($mime, $mimeshtml)) {
+        if (in_array($mimeSubtype, $mimesHtml)) {
             // inject live reload script
             if (file_exists(__DIR__.'/livereload.js')) {
                 $script = file_get_contents(__DIR__.'/livereload.js');
@@ -96,10 +97,22 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
                 header('Content-Type: image/svg+xml');
                 break;
             default:
-                header('Content-Type: '.$mimetype);
+                header('Content-Type: '.$mimeType);
                 break;
         }
         echo $content;
+
+        return true;
+    }
+
+    // audio file headers
+    if (in_array($mimeSubtype, $mimesAudio)) {
+        header("Content-Type: $mimeType");
+        header('Cache-Control: no-cache');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: '.filesize($filename));
+        header('Accept-Ranges: bytes');
+        echo file_get_contents($filename);
 
         return true;
     }
