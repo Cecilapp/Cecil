@@ -44,18 +44,12 @@ if (substr($path, -1) == '/') {
 
 // HTTP response: 200
 if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
-    $ext = pathinfo($pathname, PATHINFO_EXTENSION);
     $mimesHtml = ['xhtml+xml', 'html'];
+    $extHtml = ['htm', 'html'];
     $mimesText = ['json', 'xml', 'css', 'csv', 'javascript', 'plain', 'text'];
     $mimesAudio = ['mpeg', 'x-m4a'];
 
-    // get file mime type
-    if (!extension_loaded('fileinfo')) {
-        http_response_code(500);
-        echo "The extension 'fileinfo' must be enabled in your 'php.ini' file!";
-
-        return true;
-    }
+    $ext = pathinfo($pathname, PATHINFO_EXTENSION);
     $mimeType = mime_content_type($filename);
     $mimeSubtype = explode('/', $mimeType)[1];
 
@@ -63,7 +57,7 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
     if (in_array($mimeSubtype, $mimesHtml) || in_array($mimeSubtype, $mimesText)) {
         $content = file_get_contents($filename);
         // html only
-        if (in_array($mimeSubtype, $mimesHtml)) {
+        if (in_array($mimeSubtype, $mimesHtml) && in_array($ext, $extHtml)) {
             // inject live reload script
             if (file_exists(__DIR__.'/livereload.js')) {
                 $script = file_get_contents(__DIR__.'/livereload.js');
