@@ -13,6 +13,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
+use Cecil\Exception\Exception;
 
 /**
  * Class Generator\Section.
@@ -56,12 +57,17 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 /** @var \Cecil\Collection\Page\Page $page */
                 if ($page->getVariable('sortby')) {
                     $sortMethod = sprintf('sortBy%s', ucfirst($page->getVariable('sortby')));
-                    if (method_exists($pages, $sortMethod)) {
-                        $pages = $pages->$sortMethod();
+                    if (!method_exists($pages, $sortMethod)) {
+                        throw new Exception(sprintf(
+                            'In page "%s" the value "%s" is not valid for "sortby" variable.',
+                            $page->getId(),
+                            $page->getVariable('sortby')
+                        ));
                     }
+                    $pages = $pages->$sortMethod();
                 }
                 // adds navigation links
-                $this->addNavigationLinks($pages);
+                $this->addNavigationLinks($pages, $page->getVariable('sortby'));
                 // creates page for each section
                 $page->setPath($path)
                     ->setType(Type::SECTION)
@@ -83,12 +89,16 @@ class Section extends AbstractGenerator implements GeneratorInterface
      * Adds navigation (next and prev) to section sub pages.
      *
      * @param PagesCollection $pages
+     * @param string $sort
      *
      * @return void
      */
-    protected function addNavigationLinks(PagesCollection $pages): void
+    protected function addNavigationLinks(PagesCollection $pages, string $sort = null): void
     {
         $pagesAsArray = $pages->toArray();
+        if ($sort === null || $sort == 'date') {
+            $pagesAsArray = array_reverse($pagesAsArray);
+        }
         if (count($pagesAsArray) > 1) {
             foreach ($pagesAsArray as $position => $page) {
                 switch ($position) {
