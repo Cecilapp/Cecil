@@ -1061,7 +1061,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -1152,7 +1152,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -1219,7 +1219,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -1283,7 +1283,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -1346,7 +1346,7 @@
         },
         {
             "name": "symfony/inflector",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",
@@ -1711,7 +1711,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -1774,7 +1774,7 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
@@ -1855,16 +1855,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "f2d82706d488b87e67050b03a9ae54194b129024"
+                "reference": "a91ceee34fc690a824770085192ffdeaa4476a8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/f2d82706d488b87e67050b03a9ae54194b129024",
-                "reference": "f2d82706d488b87e67050b03a9ae54194b129024",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/a91ceee34fc690a824770085192ffdeaa4476a8c",
+                "reference": "a91ceee34fc690a824770085192ffdeaa4476a8c",
                 "shasum": ""
             },
             "require": {
@@ -1947,7 +1947,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-30T20:06:45+00:00"
+            "time": "2020-06-01T17:29:37+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -2009,7 +2009,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -4390,16 +4390,16 @@
         },
         {
             "name": "opis/closure",
-            "version": "3.5.4",
+            "version": "3.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "1d0deef692f66dae5d70663caee2867d0971306b"
+                "reference": "dec9fc5ecfca93f45cd6121f8e6f14457dff372c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/1d0deef692f66dae5d70663caee2867d0971306b",
-                "reference": "1d0deef692f66dae5d70663caee2867d0971306b",
+                "url": "https://api.github.com/repos/opis/closure/zipball/dec9fc5ecfca93f45cd6121f8e6f14457dff372c",
+                "reference": "dec9fc5ecfca93f45cd6121f8e6f14457dff372c",
                 "shasum": ""
             },
             "require": {
@@ -4447,7 +4447,7 @@
                 "serialization",
                 "serialize"
             ],
-            "time": "2020-06-07T11:41:29+00:00"
+            "time": "2020-06-17T14:59:55+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -4695,16 +4695,16 @@
         },
         {
             "name": "pdepend/pdepend",
-            "version": "2.7.1",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "daba1cf0a6edaf172fa02a17807ae29f4c1c7471"
+                "reference": "c64472f8e76ca858c79ad9a4cf1e2734b3f8cc38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/daba1cf0a6edaf172fa02a17807ae29f4c1c7471",
-                "reference": "daba1cf0a6edaf172fa02a17807ae29f4c1c7471",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/c64472f8e76ca858c79ad9a4cf1e2734b3f8cc38",
+                "reference": "c64472f8e76ca858c79ad9a4cf1e2734b3f8cc38",
                 "shasum": ""
             },
             "require": {
@@ -4738,7 +4738,13 @@
                 "BSD-3-Clause"
             ],
             "description": "Official version of pdepend to be handled with Composer",
-            "time": "2020-02-08T12:06:13+00:00"
+            "funding": [
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/pdepend/pdepend",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-06-20T10:53:13+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -6299,7 +6305,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -6377,16 +6383,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "6a2cecd7011aec38b5fb2270abf0de120e7679b1"
+                "reference": "a37cc0a90fec178768aa5048fea9251efde591c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/6a2cecd7011aec38b5fb2270abf0de120e7679b1",
-                "reference": "6a2cecd7011aec38b5fb2270abf0de120e7679b1",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/a37cc0a90fec178768aa5048fea9251efde591c5",
+                "reference": "a37cc0a90fec178768aa5048fea9251efde591c5",
                 "shasum": ""
             },
             "require": {
@@ -6460,7 +6466,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-30T20:06:45+00:00"
+            "time": "2020-06-12T07:37:04+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
@@ -6533,7 +6539,7 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.4.9",
+            "version": "v4.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
@@ -6710,16 +6716,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6"
+                "reference": "9dc4f203e36f2b486149058bade43c851dd97451"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
-                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/9dc4f203e36f2b486149058bade43c851dd97451",
+                "reference": "9dc4f203e36f2b486149058bade43c851dd97451",
                 "shasum": ""
             },
             "require": {
@@ -6727,6 +6733,7 @@
                 "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
+                "phpstan/phpstan": "<0.12.20",
                 "vimeo/psalm": "<3.9.1"
             },
             "require-dev": {
@@ -6754,7 +6761,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2020-04-18T12:12:48+00:00"
+            "time": "2020-06-16T10:16:42+00:00"
         },
         {
             "name": "webmozart/path-util",

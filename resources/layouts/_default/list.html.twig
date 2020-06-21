@@ -16,7 +16,7 @@
 {% endif %}
     <main>
       {{ page.content }}
-{% for p in pages.all %}
+{% for p in pages %}
       <article>
         <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
         <time>{{ p.date|date("j M Y") }}</time>
