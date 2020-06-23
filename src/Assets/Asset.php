@@ -16,6 +16,7 @@ use Cecil\Exception\Exception;
 use Cecil\Util;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use wapmorgan\Mp3Info\Mp3Info;
 
 class Asset implements \ArrayAccess
 {
@@ -299,6 +300,68 @@ class Asset implements \ArrayAccess
     public function getIntegrity(string $algo = 'sha384'): string
     {
         return \sprintf('%s-%s', $algo, base64_encode(hash($algo, $this->data['content'], true)));
+    }
+
+    /**
+     * Returns the width of an image.
+     *
+     * @return false|int
+     */
+    public function getWidth()
+    {
+        if (false === $size = $this->getImageSize()) {
+            return false;
+        }
+
+
+        return $size[0];
+    }
+
+    /**
+     * Returns the height of an image.
+     *
+     * @return false|int
+     */
+    public function getHeight()
+    {
+        if (false === $size = $this->getImageSize()) {
+            return false;
+        }
+
+
+        return $size[1];
+    }
+
+    /**
+     * Returns image size infos.
+     *
+     * See getimagesizefromstring()
+     *
+     * @return false|array
+     */
+    private function getImageSize()
+    {
+        if (!$this->data['type'] == 'image') {
+            return false;
+        }
+
+        if (false === $size = getimagesizefromstring($this->data['content'])) {
+            return false;
+        }
+
+        return $size;
+    }
+
+    /**
+     * Returns MPF3 file infos.
+     *
+     * see wapmorgan\Mp3Info\Mp3Info
+     *
+     * @return Mp3Info
+     */
+    public function getAudio(): Mp3Info
+    {
+        return new Mp3Info($this->data['file']);
     }
 
     /**

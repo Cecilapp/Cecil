@@ -45,6 +45,7 @@
     "twig/extensions": "^1.5",
     "twig/twig": "^2.12",
     "voku/html-min": "^4.4",
+    "wapmorgan/mp3info": "^0.0",
     "yosymfony/resource-watcher": "^2.0"
   },
   "repositories": [
