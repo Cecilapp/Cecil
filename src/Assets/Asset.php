@@ -331,29 +331,9 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns image size infos.
-     *
-     * See getimagesizefromstring()
-     *
-     * @return false|array
-     */
-    private function getImageSize()
-    {
-        if (!$this->data['type'] == 'image') {
-            return false;
-        }
-
-        if (false === $size = getimagesizefromstring($this->data['content'])) {
-            return false;
-        }
-
-        return $size;
-    }
-
-    /**
      * Returns MPF3 file infos.
      *
-     * see wapmorgan\Mp3Info\Mp3Info
+     * @see https://github.com/wapmorgan/Mp3Info
      *
      * @return Mp3Info
      */
@@ -436,5 +416,25 @@ class Asset implements \ArrayAccess
         }
 
         return false;
+    }
+
+    /**
+     * Returns image size informations.
+     *
+     * See https://www.php.net/manual/function.getimagesize.php
+     *
+     * @return false|array
+     */
+    private function getImageSize()
+    {
+        if (!$this->data['type'] == 'image') {
+            return false;
+        }
+
+        if (false === $size = getimagesizefromstring($this->data['content'])) {
+            return false;
+        }
+
+        return $size;
     }
 }
