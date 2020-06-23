@@ -16,6 +16,7 @@ use Cecil\Exception\Exception;
 use Cecil\Util;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use wapmorgan\Mp3Info\Mp3Info;
 
 class Asset implements \ArrayAccess
 {
@@ -302,6 +303,46 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Returns the width of an image.
+     *
+     * @return false|int
+     */
+    public function getWidth()
+    {
+        if (false === $size = $this->getImageSize()) {
+            return false;
+        }
+
+        return $size[0];
+    }
+
+    /**
+     * Returns the height of an image.
+     *
+     * @return false|int
+     */
+    public function getHeight()
+    {
+        if (false === $size = $this->getImageSize()) {
+            return false;
+        }
+
+        return $size[1];
+    }
+
+    /**
+     * Returns MPF3 file infos.
+     *
+     * @see https://github.com/wapmorgan/Mp3Info
+     *
+     * @return Mp3Info
+     */
+    public function getAudio(): Mp3Info
+    {
+        return new Mp3Info($this->data['file']);
+    }
+
+    /**
      * Saves file.
      * Note: a file from `static/` with the same name will be overridden.
      *
@@ -375,5 +416,25 @@ class Asset implements \ArrayAccess
         }
 
         return false;
+    }
+
+    /**
+     * Returns image size informations.
+     *
+     * See https://www.php.net/manual/function.getimagesize.php
+     *
+     * @return false|array
+     */
+    private function getImageSize()
+    {
+        if (!$this->data['type'] == 'image') {
+            return false;
+        }
+
+        if (false === $size = getimagesizefromstring($this->data['content'])) {
+            return false;
+        }
+
+        return $size;
     }
 }
