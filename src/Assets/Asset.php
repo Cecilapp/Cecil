@@ -313,7 +313,6 @@ class Asset implements \ArrayAccess
             return false;
         }
 
-
         return $size[0];
     }
 
@@ -327,7 +326,6 @@ class Asset implements \ArrayAccess
         if (false === $size = $this->getImageSize()) {
             return false;
         }
-
 
         return $size[1];
     }
