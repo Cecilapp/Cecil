@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "651abf7c1bbdab064c85f18646041207",
+    "content-hash": "b9f2bdb7cda550e224c11fa6ea6c5ac9",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -2403,16 +2403,16 @@
         },
         {
             "name": "yosymfony/resource-watcher",
-            "version": "v2.0.1",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yosymfony/resource-watcher.git",
-                "reference": "a8c34f704e6bd4f786c97f3c0ba65bd86cb2bd73"
+                "reference": "2f197cee0231c06db865d4ad2d8d7cd3faead2f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yosymfony/resource-watcher/zipball/a8c34f704e6bd4f786c97f3c0ba65bd86cb2bd73",
-                "reference": "a8c34f704e6bd4f786c97f3c0ba65bd86cb2bd73",
+                "url": "https://api.github.com/repos/yosymfony/resource-watcher/zipball/2f197cee0231c06db865d4ad2d8d7cd3faead2f8",
+                "reference": "2f197cee0231c06db865d4ad2d8d7cd3faead2f8",
                 "shasum": ""
             },
             "require": {
@@ -2426,7 +2426,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -2452,7 +2452,7 @@
                 "symfony",
                 "watcher"
             ],
-            "time": "2020-01-04T15:36:55+00:00"
+            "time": "2020-06-10T14:58:36+00:00"
         }
     ],
     "packages-dev": [
