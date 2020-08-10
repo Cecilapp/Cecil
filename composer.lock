@@ -1152,20 +1152,20 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v4.4.10",
+            "version": "v4.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "afc26133a6fbdd4f8842e38893e0ee4685c7c94b"
+                "reference": "bf17dc9f6ce144e41f786c32435feea4d8e11dcc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/afc26133a6fbdd4f8842e38893e0ee4685c7c94b",
-                "reference": "afc26133a6fbdd4f8842e38893e0ee4685c7c94b",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/bf17dc9f6ce144e41f786c32435feea4d8e11dcc",
+                "reference": "bf17dc9f6ce144e41f786c32435feea4d8e11dcc",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3"
+                "php": ">=7.1.3"
             },
             "type": "library",
             "extra": {
@@ -1215,7 +1215,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-27T16:54:36+00:00"
+            "time": "2020-07-05T09:39:30+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -2218,22 +2218,22 @@
         },
         {
             "name": "voku/html-min",
-            "version": "4.4.3",
+            "version": "4.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/HtmlMin.git",
-                "reference": "5f7938bb739a64582bcaf413b23b6a2f16defee9"
+                "reference": "25af335ef41c0d43789f9f0deaa512044040aadc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/5f7938bb739a64582bcaf413b23b6a2f16defee9",
-                "reference": "5f7938bb739a64582bcaf413b23b6a2f16defee9",
+                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/25af335ef41c0d43789f9f0deaa512044040aadc",
+                "reference": "25af335ef41c0d43789f9f0deaa512044040aadc",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "php": ">=7.0.0",
-                "voku/simple_html_dom": "~4.7.16"
+                "voku/simple_html_dom": "~4.7.20"
             },
             "require-dev": {
                 "phpunit/phpunit": "~6.0 || ~7.0"
@@ -2277,20 +2277,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-04-06T21:26:16+00:00"
+            "time": "2020-08-08T20:32:00+00:00"
         },
         {
             "name": "voku/simple_html_dom",
-            "version": "4.7.17",
+            "version": "4.7.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/simple_html_dom.git",
-                "reference": "804aca422f1fe0104b1320ca09fd06cd0062782c"
+                "reference": "eb8cc890864920b716ade6c5a8713cd4110bd744"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/simple_html_dom/zipball/804aca422f1fe0104b1320ca09fd06cd0062782c",
-                "reference": "804aca422f1fe0104b1320ca09fd06cd0062782c",
+                "url": "https://api.github.com/repos/voku/simple_html_dom/zipball/eb8cc890864920b716ade6c5a8713cd4110bd744",
+                "reference": "eb8cc890864920b716ade6c5a8713cd4110bd744",
                 "shasum": ""
             },
             "require": {
@@ -2354,7 +2354,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-09T21:20:43+00:00"
+            "time": "2020-08-06T23:16:40+00:00"
         },
         {
             "name": "wapmorgan/mp3info",
