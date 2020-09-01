@@ -118,7 +118,7 @@ class Image
                     'verify_peer_name' => false,
                 ],
             ]);
-            $mime = get_headers($source, 1, isset($context) ? $context : null)['Content-Type'];
+            $mime = get_headers($source, 1, is_resource($context) ? $context : null)['Content-Type'];
 
             return sprintf('data:%s;base64,%s', $mime, base64_encode($image));
         }
