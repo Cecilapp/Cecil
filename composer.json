@@ -33,7 +33,7 @@
     "padraic/phar-updater": "^1.0",
     "psr/log": "^1.0",
     "psr/simple-cache": "^1.0",
-    "scssphp/scssphp": "^1.0",
+    "scssphp/scssphp": "^1.2",
     "spatie/image-optimizer": "^1.1",
     "symfony/console": "^4.4",
     "symfony/filesystem": "^4.4",
@@ -43,7 +43,7 @@
     "symfony/serializer": "^4.4",
     "symfony/yaml": "^4.4",
     "twig/extensions": "^1.5",
-    "twig/twig": "^2.12",
+    "twig/twig": "^2.13",
     "voku/html-min": "^4.4",
     "wapmorgan/mp3info": "^0.0",
     "yosymfony/resource-watcher": "^2.0"
@@ -56,7 +56,7 @@
   ],
   "require-dev": {
     "humbug/box": "3.7.4.x-dev",
-    "phpmd/phpmd": "^2.8",
+    "phpmd/phpmd": "^2.9",
     "phpunit/phpunit": "^7.5",
     "symfony/var-dumper": "^4.4"
   },
