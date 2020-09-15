@@ -19,6 +19,7 @@ use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
+use Cecil\Converter\Parsedown;
 use Cecil\Exception\Exception;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
@@ -74,6 +75,7 @@ class Extension extends SlugifyExtension
             // assets
             new \Twig\TwigFilter('url', [$this, 'url']),
             new \Twig\TwigFilter('html', [$this, 'html']),
+            new \Twig\TwigFilter('markdown', [$this, 'markdown']),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
             new \Twig\TwigFilter('minify', [$this, 'minify']),
@@ -546,6 +548,24 @@ class Extension extends SlugifyExtension
         }
 
         return trim($matches[1]);
+    }
+
+    /**
+     * Converts a Markdown string to HTML.
+     *
+     * @param string|null $string
+     *
+     * @return string|null
+     */
+    public function markdown(string $string): ?string
+    {
+        try {
+            $parsedown = new Parsedown($this->builder);
+        } catch (\Exception $e) {
+            throw new Exception('"markdown" filter can not convert supplied Markdown.');
+        }
+
+        return $parsedown->text($string);
     }
 
     /**
