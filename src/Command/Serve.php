@@ -21,6 +21,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Yosymfony\ResourceWatcher\Crc32ContentHash;
 use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
@@ -71,8 +72,13 @@ class Serve extends AbstractCommand
         $postprocess = $input->getOption('postprocess');
 
         $this->setUpServer($host, $port);
+
+        $phpFinder = new PhpExecutableFinder();
+        $php = $phpFinder->find();
+
         $command = sprintf(
-            'php -S %s:%d -t %s %s',
+            '%s -S %s:%d -t %s %s',
+            $php,
             $host,
             $port,
             $this->getPath().'/'.(string) $this->getBuilder()->getConfig()->get('output.dir'),
