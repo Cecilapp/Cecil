@@ -11,7 +11,6 @@
 namespace Cecil\Command;
 
 use Cecil\Util;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,8 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 use Yosymfony\ResourceWatcher\Crc32ContentHash;
 use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
@@ -86,21 +85,44 @@ class Serve extends AbstractCommand
         );
         $process = Process::fromShellCommandline($command);
 
-        // (re)builds before serve
-        $buildCommand = $this->getApplication()->find('build');
-        $buildImputArray = [
-            'command'       => 'build',
-            'path'          => $this->getPath(),
-            '--drafts'      => $drafts,
-            '--postprocess' => $postprocess,
+        $buildProcessArguments = [
+            $php,
+            $_SERVER['argv'][0],
         ];
-        if ($this->getConfigFile() !== null) {
-            $buildImputArray = array_merge($buildImputArray, [
-                '--config' => $this->getConfigFile(),
-            ]);
+
+        $buildProcessArguments[] = 'build';
+
+        $buildProcessArguments[] = '--clear-cache';
+
+        $verbose = $input->getOption('verbose');
+        if ($verbose) {
+            $buildProcessArguments[] = '-'.str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
         }
-        $buildInput = new ArrayInput($buildImputArray);
-        if ($buildCommand->run($buildInput, $this->output) != 0) {
+        if ($drafts) {
+            $buildProcessArguments[] = '--drafts';
+            $buildProcessArguments[] = $drafts;
+        }
+        if ($postprocess) {
+            $buildProcessArguments[] = '--postprocess';
+            $buildProcessArguments[] = $postprocess;
+        }
+        if ($this->getConfigFile() !== null) {
+            $buildProcessArguments[] = '--config';
+            $buildProcessArguments[] = $this->getConfigFile();
+        }
+
+        $buildProcess = new Process($buildProcessArguments, $this->getPath());
+        $buildProcess->setTty(true);
+        $buildProcess->setPty(true);
+
+        $processOutputCallback = function ($type, $data) use ($output) {
+            $output->write($data, false, OutputInterface::OUTPUT_RAW);
+        };
+
+        // (re)builds before serve
+        $buildProcess->run($processOutputCallback);
+        $ret = $buildProcess->getExitCode();
+        if ($ret != 0) {
             return 1;
         }
 
@@ -118,6 +140,7 @@ class Serve extends AbstractCommand
             $resourceCache = new ResourceCacheMemory();
             $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
             $resourceWatcher->initialize();
+
             // starts server
             try {
                 if (function_exists('\pcntl_signal')) {
@@ -139,8 +162,11 @@ class Serve extends AbstractCommand
                         // re-builds
                         $output->writeln('<comment>Changes detected.</comment>');
                         $output->writeln('');
-                        $buildCommand->run($buildInput, $output);
+
+                        $buildProcess->run($processOutputCallback);
+
                         $output->writeln('<info>Server is runnning...</info>');
+                        $resourceWatcher->rebuild();
                     }
                     usleep(1000000); // waits 1s
                 }
