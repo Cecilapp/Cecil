@@ -1,0 +1,14 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+
+{% set md = '**This is bold text.**' %}
+{{ md|markdown_to_html }}
+
+{{ '_This is italic text._'|markdown_to_html }}
+
+{% apply markdown_to_html %}
+[This a link to arnaudligny.fr](https://arnaudligny.fr)
+{% endapply %}
+
+{% endblock %}
