@@ -76,7 +76,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('url', [$this, 'url']),
             new \Twig\TwigFilter('html', [$this, 'html']),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
-            new \Twig\TwigFilter('markdown_to_html', [$this, 'markdown_to_html']),
+            new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
             new \Twig\TwigFilter('minify', [$this, 'minify']),
             new \Twig\TwigFilter('minify_css', [$this, 'minifyCss']),
@@ -557,7 +557,7 @@ class Extension extends SlugifyExtension
      *
      * @return string|null
      */
-    public function markdown_to_html(string $markdown): ?string
+    public function markdownToHtml(string $markdown): ?string
     {
         try {
             $parsedown = new Parsedown($this->builder);
