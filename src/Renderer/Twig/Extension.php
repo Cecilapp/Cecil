@@ -75,8 +75,8 @@ class Extension extends SlugifyExtension
             // assets
             new \Twig\TwigFilter('url', [$this, 'url']),
             new \Twig\TwigFilter('html', [$this, 'html']),
-            new \Twig\TwigFilter('markdown', [$this, 'markdown']),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
+            new \Twig\TwigFilter('markdown_to_html', [$this, 'markdown_to_html']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
             new \Twig\TwigFilter('minify', [$this, 'minify']),
             new \Twig\TwigFilter('minify_css', [$this, 'minifyCss']),
@@ -553,19 +553,20 @@ class Extension extends SlugifyExtension
     /**
      * Converts a Markdown string to HTML.
      *
-     * @param string|null $string
+     * @param string|null $markdown
      *
      * @return string|null
      */
-    public function markdown(string $string): ?string
+    public function markdown_to_html(string $markdown): ?string
     {
         try {
             $parsedown = new Parsedown($this->builder);
+            $html = $parsedown->text($markdown);
         } catch (\Exception $e) {
             throw new Exception('"markdown" filter can not convert supplied Markdown.');
         }
 
-        return $parsedown->text($string);
+        return $html;
     }
 
     /**
