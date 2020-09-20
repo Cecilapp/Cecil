@@ -11,6 +11,7 @@
 namespace Cecil\Command;
 
 use Cecil\Util;
+use Cecil\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -74,6 +75,9 @@ class Serve extends AbstractCommand
 
         $phpFinder = new PhpExecutableFinder();
         $php = $phpFinder->find();
+        if ($php === false) {
+            throw new Exception('Can\'t find a local PHP executable.');
+        }
 
         $command = sprintf(
             '%s -S %s:%d -t %s %s',
@@ -111,9 +115,9 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = $this->getConfigFile();
         }
 
-        $buildProcess = new Process($buildProcessArguments, $this->getPath());
-        $buildProcess->setTty(true);
-        $buildProcess->setPty(true);
+        $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
+        $buildProcess->setTty(Process::isTtySupported());
+        $buildProcess->setPty(Process::isPtySupported());
 
         $processOutputCallback = function ($type, $data) use ($output) {
             $output->write($data, false, OutputInterface::OUTPUT_RAW);
@@ -122,7 +126,7 @@ class Serve extends AbstractCommand
         // (re)builds before serve
         $buildProcess->run($processOutputCallback);
         $ret = $buildProcess->getExitCode();
-        if ($ret != 0) {
+        if ($ret !== 0) {
             return 1;
         }
 
