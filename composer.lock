@@ -1877,16 +1877,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v4.4.13",
+            "version": "v4.4.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "f8e1211fdd045d22bba98054fd7969bec955810a"
+                "reference": "c4bc95bf668be70d57eec904ac222fb4b694e73e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/f8e1211fdd045d22bba98054fd7969bec955810a",
-                "reference": "f8e1211fdd045d22bba98054fd7969bec955810a",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/c4bc95bf668be70d57eec904ac222fb4b694e73e",
+                "reference": "c4bc95bf668be70d57eec904ac222fb4b694e73e",
                 "shasum": ""
             },
             "require": {
@@ -1969,7 +1969,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-31T16:04:23+00:00"
+            "time": "2020-09-02T16:08:58+00:00"
         },
         {
             "name": "symfony/service-contracts",
