@@ -10,6 +10,7 @@
 
 namespace Cecil\Command;
 
+use Cecil\Exception\Exception;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -74,6 +75,9 @@ class Serve extends AbstractCommand
 
         $phpFinder = new PhpExecutableFinder();
         $php = $phpFinder->find();
+        if ($php === false) {
+            throw new Exception('Can\'t find a local PHP executable.');
+        }
 
         $command = sprintf(
             '%s -S %s:%d -t %s %s',
