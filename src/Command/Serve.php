@@ -115,7 +115,7 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = $this->getConfigFile();
         }
 
-        $buildProcess = new Process($buildProcessArguments, $this->getPath());
+        $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
 
