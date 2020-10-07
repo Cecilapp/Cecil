@@ -116,8 +116,8 @@ class Serve extends AbstractCommand
         }
 
         $buildProcess = new Process($buildProcessArguments, $this->getPath());
-        $buildProcess->setTty(true);
-        $buildProcess->setPty(true);
+        $buildProcess->setTty(Process::isTtySupported());
+        $buildProcess->setPty(Process::isPtySupported());
 
         $processOutputCallback = function ($type, $data) use ($output) {
             $output->write($data, false, OutputInterface::OUTPUT_RAW);
