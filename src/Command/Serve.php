@@ -126,7 +126,7 @@ class Serve extends AbstractCommand
         // (re)builds before serve
         $buildProcess->run($processOutputCallback);
         $ret = $buildProcess->getExitCode();
-        if ($ret != 0) {
+        if ($ret !== 0) {
             return 1;
         }
 
