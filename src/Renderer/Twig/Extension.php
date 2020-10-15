@@ -244,10 +244,10 @@ class Extension extends SlugifyExtension
     {
         $callback = function ($a, $b) {
             if (!isset($a['weight'])) {
-                return 1;
+                $a['weight'] = 0;
             }
             if (!isset($b['weight'])) {
-                return -1;
+                $a['weight'] = 0;
             }
             if ($a['weight'] == $b['weight']) {
                 return 0;
