@@ -1,4 +1,6 @@
-# ![Cecil logo](https://avatars2.githubusercontent.com/u/45047331?s=50 "Logo created by Cécile Ricordeau") Cecil
+# Cecil
+
+![Cecil logo](https://cecil.app/images/cecil-logo-netlify-cms.png "Logo created by Cécile Ricordeau")
 
 > Your content driven static site generator.
 
@@ -21,7 +23,7 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
 
-[![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://app.forestry.io/quick-start?repo=cecilapp/the-butler) [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/the-butler&stack=cms) [![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/Cecilapp/the-butler)
+[![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/) [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/the-butler&stack=cms) [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/Cecilapp/the-butler)
 
 ## Features
 
