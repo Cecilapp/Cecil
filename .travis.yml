@@ -19,7 +19,7 @@ stages:
   - code coverage
 
 before_install:
-  - composer self-update
+  - composer self-update --1
   - if [[ $TEST_COVERAGE != true ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
 
 install:
