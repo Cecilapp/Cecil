@@ -8,7 +8,7 @@
 {# description #}
 {% set description = page.description|default(site.description)|e %}
 {# keywords #}
-{% set keywords = page.keywords|default(site.keywords)|e %}
+{% set keywords = page.tags|default([])|merge(site.keywords|default([]))|e %}
 {# author #}
 {% set author = page.author|default(site.author)|e %}
 {% if author.firstname is defined and author.lastname is defined %}
@@ -31,6 +31,11 @@
   'url': url(page, {canonical:true}),
   'image': image|default(),
 } %}
+{# hack #}
+{% if page.section == 'blog' %}
+{% set opengraph = opengraph|merge({'type': 'article'}) %}
+{% endif %}
+{# /hack #}
 {% if page.opengraph is defined or site.opengraph is defined %}
 {% set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
 {% endif %}
