@@ -34,7 +34,26 @@
 {% if page.opengraph is defined or site.opengraph is defined %}
 {% set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
 {% endif %}
-{# template #}
+{# Facebook #}
+{% set facebook = {
+  'id': '',
+  'firstname': author.firstname|default(''),
+  'lastname': author.lastname|default(''),
+  'username': '',
+} %}
+{% if page.facebook is defined or site.social.facebook is defined %}
+{% set facebook = facebook|merge(page.facebook|default(site.social.facebook)) %}
+{% endif %}
+{# Twitter #}
+{% set twitter = {
+  'site': '',
+  'creator': '',
+} %}
+{% if page.twitter is defined or site.social.twitter is defined %}
+{% set twitter = twitter|merge(page.twitter|default(site.social.twitter)) %}
+{% endif %}
+
+{#- template #}
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
     <meta name="keywords" content="{{ keywords|join(', ') }}" />
@@ -50,11 +69,34 @@
     <meta property="og:title" content="{{ block('title') }}" />
     <meta property="og:description" content="{{ block('description') }}" />
     <meta property="og:url" content="{{ url(page.url, {canonical:true}) }}" />
-{% if opengraph.image is not empty %}
+{% if opengraph.image %}
     <meta property="og:image" content="{{ url(opengraph.image, {canonical:true}) }}" />
+    <meta property="og:image:type" content="{{ asset(opengraph.image).subtype }}" />
+    <meta property="og:image:width" content="{{ asset(opengraph.image).width }}" />
+    <meta property="og:image:height" content="{{ asset(opengraph.image).height }}" />
 {% endif %}
 {# template: Facebook #}
-    <meta property="fb:profile_id" content="516589570" />
-    <meta property="profile:first_name" content="Arnaud" />
-    <meta property="profile:last_name" content="Ligny" />
-    <meta property="profile:username" content="Narno" />
+{% if facebook.id %}
+    <meta property="fb:profile_id" content="{{ facebook.id }}" />
+{% endif %}
+{% if facebook.firstname %}
+    <meta property="profile:first_name" content="{{ facebook.firstname }}" />
+{% endif %}
+{% if facebook.lastname %}
+    <meta property="profile:last_name" content="{{ facebook.lastname }}" />
+{% endif %}
+{% if facebook.username %}
+    <meta property="profile:username" content="{{ facebook.username }}" />
+{% endif %}
+{# template: Twitter #}
+{% if opengraph.image and asset(opengraph.image).width > 500 %}
+    <meta name="twitter:card" content="summary_large_image"/>
+{% else %}
+    <meta name="twitter:card" content="summary"/>
+{% endif %}
+{% if twitter.site %}
+    <meta name="twitter:site" content="@{{ twitter.site }}"/>
+{% endif %}
+{% if twitter.creator %}
+    <meta name="twitter:creator" content="@{{ twitter.creator }}"/>
+{% endif %}
