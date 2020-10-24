@@ -95,7 +95,7 @@ class AbstractCommand extends Command
             }
             $this->io->error($e->getMessage());
 
-            return 1;
+            exit(1);
         }
     }
 
