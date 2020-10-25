@@ -11,7 +11,7 @@
 {% set keywords = page.tags|default([])|merge(site.keywords|default([]))|e %}
 {# author #}
 {% set author = page.author|default(site.author)|e %}
-{% if author.firstname is defined and author.lastname is defined %}
+{% set author = page.author|default(site.author|default(''))|e %}
 {% set author = author.firstname|e ~ ' ' ~ author.lastname|e %}
 {% endif %}
 {# image #}
