@@ -99,7 +99,6 @@ class Asset implements \ArrayAccess
                         break;
                     default:
                         throw new Exception(\sprintf('Asset bundle supports "%s" files only.', 'scss, css and js'));
-                        break;
                 }
             }
         }
