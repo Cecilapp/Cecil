@@ -291,7 +291,7 @@ class PagesRender extends AbstractStep
                 // add generator meta
                 if (!preg_match('/<meta name="generator".*/i', $rendered)) {
                     $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
-                    $rendered = preg_replace('/(<\/head>)/i', "\t$meta\n  $1", $rendered);
+                    $rendered = preg_replace('/(<\/head>)/i', "\n    $meta\n  $1", $rendered);
                 }
                 // replace excerpt or break tag by HTML anchor
                 // https://regex101.com/r/Xl7d5I/3
