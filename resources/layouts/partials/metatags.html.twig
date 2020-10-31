@@ -63,7 +63,7 @@
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
     <meta name="keywords" content="{{ keywords|join(', ') }}" />
 {% if author is defined %}
-    <meta name="author" content="{{ author|e }}">
+    <meta name="author" content="{{ author|e }}" />
 {% endif %}
 {# template: alternates #}
 {% include 'partials/alternates.html.twig' %}
@@ -95,13 +95,13 @@
 {% endif %}
 {# template: Twitter #}
 {% if opengraph.image and asset(opengraph.image).width > 500 %}
-    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:card" content="summary_large_image" />
 {% else %}
-    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:card" content="summary" />
 {% endif %}
 {% if twitter.site %}
-    <meta name="twitter:site" content="@{{ twitter.site }}"/>
+    <meta name="twitter:site" content="@{{ twitter.site }}" />
 {% endif %}
 {% if twitter.creator %}
-    <meta name="twitter:creator" content="@{{ twitter.creator }}"/>
+    <meta name="twitter:creator" content="@{{ twitter.creator }}" />
 {% endif %}
