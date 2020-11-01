@@ -62,46 +62,46 @@
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
     <meta name="keywords" content="{{ keywords|join(', ') }}" />
-{% if author is defined %}
+{%- if author is defined ~%}
     <meta name="author" content="{{ author|e }}" />
-{% endif %}
-{# template: alternates #}
-{% include 'partials/alternates.html.twig' %}
-{# template: open graph #}
+{%- endif ~%}
+{#- template: alternates ~#}
+{%- include 'partials/alternates.html.twig' ~%}
+{#- template: open graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}" />
     <meta property="og:site_name" content="{{ opengraph.site_name }}" />
     <meta property="og:type" content="{{ opengraph.type }}" />
     <meta property="og:title" content="{{ block('title') }}" />
     <meta property="og:description" content="{{ block('description') }}" />
     <meta property="og:url" content="{{ url(page.url, {canonical:true}) }}" />
-{% if opengraph.image %}
+{%- if opengraph.image ~%}
     <meta property="og:image" content="{{ asset(opengraph.image)|url({canonical:true}) }}" />
     <meta property="og:image:type" content="{{ asset(opengraph.image).subtype }}" />
     <meta property="og:image:width" content="{{ asset(opengraph.image).width }}" />
     <meta property="og:image:height" content="{{ asset(opengraph.image).height }}" />
-{% endif %}
-{# template: Facebook #}
-{% if facebook.id %}
+{%- endif -%}
+{#- template: Facebook -#}
+{%- if facebook.id ~%}
     <meta property="fb:profile_id" content="{{ facebook.id }}" />
-{% endif %}
-{% if facebook.firstname %}
+{%- endif -%}
+{%- if facebook.firstname ~%}
     <meta property="profile:first_name" content="{{ facebook.firstname }}" />
-{% endif %}
-{% if facebook.lastname %}
+{%- endif -%}
+{%- if facebook.lastname ~%}
     <meta property="profile:last_name" content="{{ facebook.lastname }}" />
-{% endif %}
-{% if facebook.username %}
+{%- endif -%}
+{%- if facebook.username ~%}
     <meta property="profile:username" content="{{ facebook.username }}" />
-{% endif %}
-{# template: Twitter #}
-{% if opengraph.image and asset(opengraph.image).width > 500 %}
+{%- endif ~%}
+{#- template: Twitter -#}
+{%- if opengraph.image and asset(opengraph.image).width > 500 ~%}
     <meta name="twitter:card" content="summary_large_image" />
-{% else %}
+{%- else ~%}
     <meta name="twitter:card" content="summary" />
-{% endif %}
-{% if twitter.site %}
+{%- endif -%}
+{%- if twitter.site ~%}
     <meta name="twitter:site" content="@{{ twitter.site }}" />
-{% endif %}
-{% if twitter.creator %}
+{%- endif -%}
+{%- if twitter.creator ~%}
     <meta name="twitter:creator" content="@{{ twitter.creator }}" />
-{% endif %}
+{%- endif %}
