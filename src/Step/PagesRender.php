@@ -288,10 +288,12 @@ class PagesRender extends AbstractStep
     {
         switch ($format) {
             case 'html':
-                // add generator meta
+                // add generator meta tag
                 if (!preg_match('/<meta name="generator".*/i', $rendered)) {
                     $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
-                    $rendered = preg_replace('/(<\/head>)/i', "\n    $meta\n  $1", $rendered);
+                    $rendered = preg_replace_callback('/([[:blank:]]+)(<\/head>)/i', function($matches) use ($meta) {
+                        return str_repeat($matches[1], 2).$meta."\n".$matches[1].$matches[2];
+                    }, $rendered);
                 }
                 // replace excerpt or break tag by HTML anchor
                 // https://regex101.com/r/Xl7d5I/3
