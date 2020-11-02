@@ -61,8 +61,10 @@
 {#- template #}
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
+{%- if keywords ~%}
     <meta name="keywords" content="{{ keywords|join(', ') }}" />
-{%- if author is defined ~%}
+{%- endif ~%}
+{%- if author ~%}
     <meta name="author" content="{{ author|e }}" />
 {%- endif ~%}
 {#- template: alternates ~#}
