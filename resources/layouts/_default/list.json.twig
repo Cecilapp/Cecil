@@ -3,6 +3,7 @@
 {% set items = page.pages %}
 {% endif %}
 {% if page.pagination.pages is defined %}
+{% set pagination = page.pagination %}
 {% set items = page.pagination.pages %}
 {% endif %}
 
