@@ -23,7 +23,7 @@ jobs:
     - restore_cache:
         keys:
           - composer-{{ checksum "composer.lock" }}
-          - composer- # fallback
+          #- composer- # fallback
     - run:
         name: Install PHP dependencies
         command: |
