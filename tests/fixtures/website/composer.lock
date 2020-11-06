@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "69336c2c3cf5812e0234968e0becb747",
+    "content-hash": "f8d5c8c88b85c1a123cb188c1594393f",
     "packages": [
         {
             "name": "cecil/theme-hyde",
-            "version": "1.18.0",
+            "version": "1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/theme-hyde.git",
-                "reference": "4a37ae184417d23aefed1aba844362d7fe4a14d1"
+                "reference": "f1bb26188830b9315b8b0c994595184b3a4da003"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/4a37ae184417d23aefed1aba844362d7fe4a14d1",
-                "reference": "4a37ae184417d23aefed1aba844362d7fe4a14d1",
+                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/f1bb26188830b9315b8b0c994595184b3a4da003",
+                "reference": "f1bb26188830b9315b8b0c994595184b3a4da003",
                 "shasum": ""
             },
             "require": {
-                "cecil/theme-installer": "^1.3"
+                "cecil/theme-installer": "^1.4"
             },
             "type": "cecil-theme",
             "extra": {
@@ -40,30 +40,37 @@
                 "cecil",
                 "theme"
             ],
+            "support": {
+                "issues": "https://github.com/Cecilapp/theme-hyde/issues",
+                "source": "https://github.com/Cecilapp/theme-hyde/tree/1.18.1"
+            },
             "funding": [
                 {
                     "url": "https://www.paypal.me/narno",
                     "type": "custom"
                 }
             ],
-            "time": "2020-10-25T13:42:50+00:00"
+            "time": "2020-11-06T12:11:35+00:00"
         },
         {
             "name": "cecil/theme-installer",
-            "version": "1.3.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/theme-installer.git",
-                "reference": "53f9557922f30cba89a91fcab18700394eb52de3"
+                "reference": "6c7d1423f7ecb54b81a36b4432c6304d2d193e37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/theme-installer/zipball/53f9557922f30cba89a91fcab18700394eb52de3",
-                "reference": "53f9557922f30cba89a91fcab18700394eb52de3",
+                "url": "https://api.github.com/repos/Cecilapp/theme-installer/zipball/6c7d1423f7ecb54b81a36b4432c6304d2d193e37",
+                "reference": "6c7d1423f7ecb54b81a36b4432c6304d2d193e37",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0"
+                "composer-plugin-api": ">=1.0"
+            },
+            "require-dev": {
+                "composer/composer": ">=1.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -95,7 +102,17 @@
                 "installer",
                 "themes"
             ],
-            "time": "2018-11-21T14:35:40+00:00"
+            "support": {
+                "issues": "https://github.com/Cecilapp/theme-installer/issues",
+                "source": "https://github.com/Cecilapp/theme-installer/tree/1.4.2"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/narno",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-11-06T11:57:35+00:00"
         }
     ],
     "packages-dev": [],
@@ -106,5 +123,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

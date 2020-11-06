@@ -23,12 +23,11 @@ jobs:
     - restore_cache:
         keys:
           - composer-{{ checksum "composer.lock" }}
-          - composer- # fallback
+          #- composer- # fallback
     - run:
         name: Install PHP dependencies
         command: |
           sudo composer self-update
-          sudo composer self-update --1
           composer install -n --prefer-source
     - save_cache:
         key: composer-{{ checksum "composer.lock" }}
