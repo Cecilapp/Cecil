@@ -330,7 +330,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns MPF3 file infos.
+     * Returns MP3 file infos.
      *
      * @see https://github.com/wapmorgan/Mp3Info
      *
