@@ -180,7 +180,7 @@ return [
         ],
         'compile' => [
             'enabled' => true,
-            'style'   => 'nested', // see https://scssphp.github.io/scssphp/docs/#output-formatting
+            'style'   => 'compressed', // 'expanded' or 'compressed', see https://scssphp.github.io/scssphp/docs/#output-formatting
             'import'  => ['sass', 'scss'],
             //'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
         ],

@@ -181,16 +181,15 @@ class Asset implements \ArrayAccess
                 }
             }
             // output style
-            $formatter = \sprintf(
-                'ScssPhp\ScssPhp\Formatter\%s',
-                ucfirst((string) $this->config->get('assets.compile.style'))
-            );
-            if (!class_exists($formatter)) {
-                throw new Exception(\sprintf('Scss formatter "%s" doesn\'t exists.', $formatter));
+            $availableOutputStyles = ['expanded', 'compressed'];
+            $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
+            if (!in_array($outputStyle, $availableOutputStyles)) {
+                throw new Exception(\sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
             }
-            $scssPhp->setFormatter($formatter);
+            $scssPhp->setOutputStyle($outputStyle);
             // variables
             $scssPhp->setVariables($this->config->get('assets.compile.variables') ?? []);
+            // update data
             $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
             $this->data['ext'] = 'css';
             $this->data['content'] = $scssPhp->compile($this->data['content']);

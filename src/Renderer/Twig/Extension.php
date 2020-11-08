@@ -441,14 +441,12 @@ class Extension extends SlugifyExtension
         $cacheKey = $cache->createKeyFromValue($value);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
-            $formatter = \sprintf(
-                'ScssPhp\ScssPhp\Formatter\%s',
-                ucfirst((string) $this->config->get('assets.compile.style'))
-            );
-            if (!class_exists($formatter)) {
-                throw new Exception(\sprintf('Scss formatter "%s" doesn\'t exists.', $formatter));
+            $availableOutputStyles = ['expanded', 'compressed'];
+            $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
+            if (!in_array($outputStyle, $availableOutputStyles)) {
+                throw new Exception(\sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
             }
-            $scssPhp->setFormatter($formatter);
+            $scssPhp->setOutputStyle($outputStyle);
             $scssPhp->setVariables($this->config->get('assets.compile.variables') ?? []);
             $value = $scssPhp->compile($value);
             $cache->set($cacheKey, $value);
