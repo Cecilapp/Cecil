@@ -441,9 +441,9 @@ class Extension extends SlugifyExtension
         $cacheKey = $cache->createKeyFromValue($value);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
-            $availableOutputStyles = ['expanded', 'compressed'];
+            $outputStyles = ['expanded', 'compressed'];
             $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
-            if (!in_array($outputStyle, $availableOutputStyles)) {
+            if (!in_array($outputStyle, $outputStyles)) {
                 throw new Exception(\sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
             }
             $scssPhp->setOutputStyle($outputStyle);
