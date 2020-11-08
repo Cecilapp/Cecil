@@ -148,7 +148,7 @@ class Image
         }
         $source = $this->path;
         if (!Util::isUrlFileExists($source)) {
-            throw new Exception(sprintf('Can\'t process "%s": remonte file doesn\'t exists.', $source));
+            throw new Exception(sprintf('Can\'t process "%s": remote file doesn\'t exists.', $source));
         }
 
         return $source;
