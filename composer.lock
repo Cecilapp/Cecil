@@ -1021,16 +1021,16 @@
         },
         {
             "name": "scssphp/scssphp",
-            "version": "1.3",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scssphp/scssphp.git",
-                "reference": "261cd018025d5790e135a1e5b694d6af186e6bca"
+                "reference": "f7c9088320e218ca42e4ef0074259a1ba24ec93a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/261cd018025d5790e135a1e5b694d6af186e6bca",
-                "reference": "261cd018025d5790e135a1e5b694d6af186e6bca",
+                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/f7c9088320e218ca42e4ef0074259a1ba24ec93a",
+                "reference": "f7c9088320e218ca42e4ef0074259a1ba24ec93a",
                 "shasum": ""
             },
             "require": {
@@ -1040,8 +1040,9 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.3 || ^9.4",
-                "sass/sass-spec": "2020.08.10",
+                "sass/sass-spec": "2020.10.29",
                 "squizlabs/php_codesniffer": "~3.5",
+                "symfony/phpunit-bridge": "^5.1",
                 "twbs/bootstrap": "~4.3",
                 "zurb/foundation": "~6.5"
             },
@@ -1081,9 +1082,9 @@
             ],
             "support": {
                 "issues": "https://github.com/scssphp/scssphp/issues",
-                "source": "https://github.com/scssphp/scssphp/tree/1.3"
+                "source": "https://github.com/scssphp/scssphp/tree/v1.4.0"
             },
-            "time": "2020-10-29T11:09:57+00:00"
+            "time": "2020-11-07T20:53:41+00:00"
         },
         {
             "name": "spatie/image-optimizer",
@@ -4810,16 +4811,16 @@
         },
         {
             "name": "opis/closure",
-            "version": "3.6.0",
+            "version": "3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "c547f8262a5fa9ff507bd06cc394067b83a75085"
+                "reference": "943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/c547f8262a5fa9ff507bd06cc394067b83a75085",
-                "reference": "c547f8262a5fa9ff507bd06cc394067b83a75085",
+                "url": "https://api.github.com/repos/opis/closure/zipball/943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5",
+                "reference": "943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5",
                 "shasum": ""
             },
             "require": {
@@ -4869,9 +4870,9 @@
             ],
             "support": {
                 "issues": "https://github.com/opis/closure/issues",
-                "source": "https://github.com/opis/closure/tree/3.6.0"
+                "source": "https://github.com/opis/closure/tree/3.6.1"
             },
-            "time": "2020-10-11T21:42:15+00:00"
+            "time": "2020-11-07T02:01:34+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
