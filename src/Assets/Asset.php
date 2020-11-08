@@ -63,13 +63,13 @@ class Asset implements \ArrayAccess
         foreach ($path as $p) {
             $file = $this->loadFile($p);
 
-            // same type only
-            if (!empty($prevType) && $prevType != $file['type']) {
-                throw new Exception(\sprintf('Asset bundle works only for files with the same type.'));
+            // bundle: same type only
+            if (!empty($prevType) && $file['type'] != $prevType) {
+                throw new Exception(\sprintf('Asset bundle works only with files with the same type (%s != %s).', $file['type'], $prevType));
             }
-            // same extension only
-            if (!empty($prevExt) && $prevExt != $file['ext']) {
-                throw new Exception(\sprintf('Asset bundle works only for files with the same extension.'));
+            // bundle: same extension only
+            if (!empty($prevExt) && $file['ext'] != $prevExt) {
+                throw new Exception(\sprintf('Asset bundle works only with files with the same extension (%s != %s).', $file['ext'], $prevExt));
             }
 
             // set data
@@ -85,7 +85,7 @@ class Asset implements \ArrayAccess
             $prevType = $file['type'];
             $prevExt = $file['ext'];
         }
-        // path to the bundled file
+        // bunde: define path
         if (count($path) > 1) {
             $this->data['path'] = $filename;
             if (empty($filename)) {
