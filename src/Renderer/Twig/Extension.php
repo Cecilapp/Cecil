@@ -272,12 +272,12 @@ class Extension extends SlugifyExtension
     public function sortByDate(\Traversable $collection): array
     {
         $callback = function ($a, $b) {
-            if (!isset($a['date'])) {
+            /*if (!isset($a['date'])) {
                 return -1;
             }
             if (!isset($b['date'])) {
                 return 1;
-            }
+            }*/
             if ($a['date'] == $b['date']) {
                 return 0;
             }
