@@ -64,12 +64,12 @@ class Entry extends Item
      *
      * @return int|null
      */
-    public function getWeight(): ?int
+    /*public function getWeight(): ?int
     {
         if ($this->offsetExists('weight')) {
             return $this->offsetGet('weight');
         }
 
         return null;
-    }
+    }*/
 }
