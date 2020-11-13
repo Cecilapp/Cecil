@@ -180,9 +180,9 @@ return [
         ],
         'compile' => [
             'enabled' => true,
-            'style'   => 'compressed', // 'expanded' or 'compressed', see https://scssphp.github.io/scssphp/docs/#output-formatting
+            'style'   => 'compressed', // 'expanded' or 'compressed',
             'import'  => ['sass', 'scss'],
-            //'variables' => ['var' => 'value'] // see https://scssphp.github.io/scssphp/docs/#preset-variables
+            //'variables' => ['var' => 'value']
         ],
         'minify' => [
             'enabled' => true,

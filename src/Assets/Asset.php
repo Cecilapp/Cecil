@@ -65,11 +65,19 @@ class Asset implements \ArrayAccess
 
             // bundle: same type only
             if (!empty($prevType) && $file['type'] != $prevType) {
-                throw new Exception(\sprintf('Asset bundle works only with files with the same type (%s != %s).', $file['type'], $prevType));
+                throw new Exception(\sprintf(
+                    'Asset bundle works only with files with the same type (%s != %s).',
+                    $file['type'],
+                    $prevType)
+                );
             }
             // bundle: same extension only
             if (!empty($prevExt) && $file['ext'] != $prevExt) {
-                throw new Exception(\sprintf('Asset bundle works only with files with the same extension (%s != %s).', $file['ext'], $prevExt));
+                throw new Exception(\sprintf(
+                    'Asset bundle works only with files with the same extension (%s != %s).',
+                    $file['ext'],
+                    $prevExt)
+                );
             }
 
             // set data
