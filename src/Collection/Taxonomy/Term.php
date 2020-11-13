@@ -46,19 +46,13 @@ class Term extends CecilCollection implements ItemInterface
     }
 
     /**
-     * Sorts terms by date.
+     * Sorts terms by date: the most recent first.
      *
      * @return self
      */
     public function sortByDate(): self
     {
         return $this->usort(function ($a, $b) {
-            /*if (!isset($a['date'])) {
-                return -1;
-            }
-            if (!isset($b['date'])) {
-                return 1;
-            }*/
             if ($a['date'] == $b['date']) {
                 return 0;
             }
