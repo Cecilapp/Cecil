@@ -263,7 +263,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Sorts by date.
+     * Sorts by date: the most recent first.
      *
      * @param \Traversable $collection
      *
@@ -272,12 +272,6 @@ class Extension extends SlugifyExtension
     public function sortByDate(\Traversable $collection): array
     {
         $callback = function ($a, $b) {
-            /*if (!isset($a['date'])) {
-                return -1;
-            }
-            if (!isset($b['date'])) {
-                return 1;
-            }*/
             if ($a['date'] == $b['date']) {
                 return 0;
             }
