@@ -1,47 +1,35 @@
-{% set title = page.title ~ ' &middot; ' ~ site.title %}
-{% if page.type == 'homepage' %}
-{% set title = site.title ~ ' &middot; ' ~ site.baseline %}
-{% endif %}
 <!DOCTYPE html>
 <html lang="{{ site.language|default('en') }}">
   <head>
-{% block head %}
+    {%- block head ~%}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ site.title }}</title>
-    <meta property="og:title" content="{{ site.title }}" />
-    <meta property="og:locale" content="{{ site.language.locale|default('en') }}" />
-    <meta name="description" content="{{ site.description }}" />
-    <meta property="og:description" content="{{ site.description }}" />
-    <link rel="canonical" href="{{ url(page, {canonical:true}) }}" />
-    <meta property="og:url" content="{{ url(page, {canonical:true}) }}" />
-    <meta property="og:site_name" content="{{ site.title }}" />
+    {%~ include 'partials/metatags.html.twig' with {'page':page,'site':site} only ~%}
     <link rel="stylesheet" href="{{ url(toCSS('style.scss')) }}">
-{% include 'partials/alternates.html.twig' %}
-{% endblock head %}
+    {%- endblock head ~%}
   </head>
   <body>
     <div class="container-lg px-3 my-5 markdown-body">
-{% if page.id == 'index' %}
+      {%- if page.id == 'index' ~%}
       <h1>{{ site.title }}</h1>
-{% else %}
+      {%- else ~%}
       <h1><a href="{{ url('/', {canonical:true}) }}">{{ site.title }}</a></h1>
-{% endif %}
-{% block content %}
+      {%- endif ~%}
+      {%- block content ~%}
       {{ page.content }}
-{% endblock content %}
+      {%- endblock content ~%}
       <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
-{% if site.menus.main is defined %}
-{% for entry in site.menus.main|sortByWeight %}
+        {%- if site.menus.main is defined ~%}
+        {%- for entry in site.menus.main|sort_by_weight ~%}
         <a class="{% if url(page) == url(entry.url) %} selected{% endif %}" href="{{ url(entry.url) }}">{{ entry.name }}</a>
-        {%- if not loop.last %} - {% endif %}
-{% endfor %}
-{% endif %}
+        {%- if not loop.last %} - {% endif ~%}
+        {%- endfor ~%}
+        {%- endif ~%}
       </div>
     </div>
     <script src="{{ url('/anchor.js') }}"></script>
     <script>anchors.add();</script>
-{% include 'partials/googleanalytics.js.twig' %}
+    {%~ include 'partials/googleanalytics.js.twig' with {'site':site} only ~%}
   </body>
 </html>
