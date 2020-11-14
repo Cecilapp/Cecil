@@ -58,18 +58,4 @@ class Entry extends Item
 
         return $this;
     }
-
-    /**
-     * Get menu entry weight.
-     *
-     * @return int|null
-     */
-    public function getWeight(): ?int
-    {
-        if ($this->offsetExists('weight')) {
-            return $this->offsetGet('weight');
-        }
-
-        return null;
-    }
 }

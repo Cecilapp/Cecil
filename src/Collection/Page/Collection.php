@@ -41,12 +41,6 @@ class Collection extends CecilCollection
     public function sortByDate(): self
     {
         return $this->usort(function ($a, $b) {
-            if (!isset($a['date'])) {
-                return -1;
-            }
-            if (!isset($b['date'])) {
-                return 1;
-            }
             if ($a['date'] == $b['date']) {
                 return 0;
             }
@@ -75,12 +69,6 @@ class Collection extends CecilCollection
     public function sortByWeight(): self
     {
         return $this->usort(function ($a, $b) {
-            if (!isset($a['weight'])) {
-                return 1;
-            }
-            if (!isset($b['weight'])) {
-                return -1;
-            }
             if ($a['weight'] == $b['weight']) {
                 return 0;
             }

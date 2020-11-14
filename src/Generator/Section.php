@@ -59,7 +59,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $sortMethod = sprintf('sortBy%s', ucfirst($page->getVariable('sortby')));
                     if (!method_exists($pages, $sortMethod)) {
                         throw new Exception(sprintf(
-                            'In page "%s" the value "%s" is not valid for "sortby" variable.',
+                            'In "%s" section "%s" is not a valid value for "sortby" variable.',
                             $page->getId(),
                             $page->getVariable('sortby')
                         ));

@@ -4,7 +4,7 @@
 
 All pages:
 <ul>
-{% for item in site.pages|sortByTitle %}
+{% for item in site.pages|sort_by_title %}
 {% include 'includes/page_li.html.twig' %}
 {% endfor %}
 </ul>
