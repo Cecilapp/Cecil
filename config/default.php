@@ -97,10 +97,10 @@ return [
         ],
         'pagetypeformats' => [
             'page'       => ['html'],
-            'homepage'   => ['html', 'atom', 'rss'],
-            'section'    => ['html', 'atom', 'rss'],
+            'homepage'   => ['html', 'atom'],
+            'section'    => ['html', 'atom'],
             'vocabulary' => ['html'],
-            'term'       => ['html', 'atom', 'rss'],
+            'term'       => ['html', 'atom'],
         ],
     ],
     'language'  => 'en',
