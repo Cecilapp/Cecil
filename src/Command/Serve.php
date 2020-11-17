@@ -105,7 +105,7 @@ class Serve extends AbstractCommand
         if ($drafts) {
             $buildProcessArguments[] = '--drafts';
         }
-        if ($postprocess === NULL) {
+        if ($postprocess === null) {
             $buildProcessArguments[] = '--postprocess';
         }
         if (!empty($postprocess)) {
