@@ -70,25 +70,25 @@ class ConsoleLogger extends PrintLogger
         $output->getFormatter()->setStyle('debug', new OutputFormatterStyle('blue', 'yellow'));
 
         // updates the levels mapping if output supports the Progress Bar
-        if ($output->isDecorated()) {
+        /* if ($output->isDecorated()) {
             array_replace_recursive($this->verbosityLevelMap, [
                 LogLevel::NOTICE    => OutputInterface::VERBOSITY_NORMAL,
                 LogLevel::INFO      => OutputInterface::VERBOSITY_VERBOSE,
             ]);
-        }
+        } */
 
         if (!isset($this->verbosityLevelMap[$level])) {
             throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
         }
 
         // steps Progress Bar
-        if ($output->isDecorated()) {
+        /* if ($output->isDecorated()) {
             if ($output->getVerbosity() == OutputInterface::VERBOSITY_NORMAL && array_key_exists('step', $context)) {
                 $this->printProgressBar($context['step'][0], $context['step'][1]);
 
                 return;
             }
-        }
+        } */
 
         // default pattern: <level>message</level>
         $pattern = '<%1$s>%2$s%3$s</%1$s>';
@@ -102,13 +102,13 @@ class ConsoleLogger extends PrintLogger
         // sub steps progress
         if (array_key_exists('progress', $context)) {
             // the verbose Progress Bar
-            if ($output->isDecorated()) {
+            /* if ($output->isDecorated()) {
                 if ($output->getVerbosity() == OutputInterface::VERBOSITY_VERBOSE) {
                     $this->printProgressBar($context['progress'][0], $context['progress'][1]);
 
                     return;
                 }
-            }
+            } */
             // prefix
             $prefix = sprintf(
                 '[%s/%s] ',
