@@ -104,9 +104,11 @@ class Serve extends AbstractCommand
         }
         if ($drafts) {
             $buildProcessArguments[] = '--drafts';
-            $buildProcessArguments[] = $drafts;
         }
-        if ($postprocess) {
+        if ($postprocess === NULL) {
+            $buildProcessArguments[] = '--postprocess';
+        }
+        if (!empty($postprocess)) {
             $buildProcessArguments[] = '--postprocess';
             $buildProcessArguments[] = $postprocess;
         }
@@ -116,6 +118,12 @@ class Serve extends AbstractCommand
         }
 
         $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
+
+        if (getenv('CECIL_DEBUG') == 'true') {
+            $helper = $this->getHelper('process');
+            $helper->run($output, $buildProcess);
+        }
+
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
 
