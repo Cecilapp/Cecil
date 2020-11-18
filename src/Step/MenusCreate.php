@@ -15,6 +15,7 @@ use Cecil\Collection\Menu\Entry;
 use Cecil\Collection\Menu\Menu;
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
+use Cecil\Logger\PrintLogger;
 
 /**
  * Creates menus collection.
@@ -171,7 +172,11 @@ class MenusCreate extends AbstractStep
                     }
                     if (!is_string($menuName)) {
                         $this->builder->getLogger()->error(
-                            sprintf('Menu name of page "%s" must be string, not "%s"', $page->getId(), str_replace(["\n", ' '], '', var_export($menuName, true))),
+                            sprintf(
+                                'Menu name of page "%s" must be string, not "%s"',
+                                $page->getId(),
+                                PrintLogger::format($menuName)
+                            ),
                             ['progress' => [$count, $total]]
                         );
                         continue;
