@@ -169,6 +169,13 @@ class MenusCreate extends AbstractStep
                         $menuName = $value;
                         $property = null;
                     }
+                    if (!is_string($menuName)) {
+                        $this->builder->getLogger()->error(
+                            sprintf('Menu name of page "%s" must be string, not "%s"', $page->getId(), str_replace(["\n", " "], '', var_export($menuName, true))),
+                            ['progress' => [$count, $total]]
+                        );
+                        continue;
+                    }
                     $item = (new Entry($page->getId()))
                         ->setName($page->getVariable('title'))
                         ->setUrl($page->getId());
