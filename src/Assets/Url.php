@@ -105,7 +105,7 @@ class Url
                         $this->url = $value;
                         break;
                     // asset as string
-                    case false !== strpos($value, '.') ? true : false:
+                    case false !== strpos($value, '.') ? true : false :
                         $this->url = $base.'/'.ltrim($value, '/');
                         break;
                     // Page ID as string
