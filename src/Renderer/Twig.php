@@ -33,13 +33,20 @@ class Twig implements RendererInterface
         // load layouts
         $loader = new \Twig\Loader\FilesystemLoader($templatesPath);
         // Twig
-        $this->twig = new \Twig\Environment($loader, [
+        $loaderOptions = [
             'debug'            => getenv('CECIL_DEBUG') == 'true' ? true : false,
             'strict_variables' => true,
             'autoescape'       => false,
             'cache'            => false,
             'auto_reload'      => true,
-        ]);
+        ];
+        // Trying to optimize Twig rendering time
+        $performance = true;
+        $cachePath = \Cecil\Util::joinFile($builder->getConfig()->getCachePath(), 'templates');
+        if ($performance) {
+            $loaderOptions = array_replace($loaderOptions, ['cache' => $cachePath]);
+        }
+        $this->twig = new \Twig\Environment($loader, $loaderOptions);
         // set date format & timezone
         $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
             ->setDateFormat($builder->getConfig()->get('date.format'));
