@@ -1,6 +1,6 @@
 {%- if page.alternates is defined -%}
 {%- if title is not defined %}{% set title = page.title %}{% endif -%}
 {%- for alternate in page.alternates ~%}
-    <link rel="{{ alternate.rel }}" type="{{ alternate.type }}" title="{{ title|trim }}{% if alternate.format != 'html' %} ({{ alternate.title }}){% endif %}" href="{{ url(page, {canonical: true, format: alternate.format}) }}">
+    <link rel="{{ alternate.rel }}" type="{{ alternate.type }}" title="{{ title|trim }}{% if alternate.format != 'html' %} ({{ alternate.title }}){% endif %}" href="{{ url(page, {canonical: true, format: alternate.format}) }}" />
 {%- endfor -%}
 {%- endif -%}

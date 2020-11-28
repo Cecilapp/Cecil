@@ -52,6 +52,7 @@ class Asset implements \ArrayAccess
         $path = is_array($path) ? $path : [$path];
 
         // handles options
+        $ignore_missing = false;
         $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
         $minify = (bool) $this->config->get('assets.minify.enabled');
         $filename = '';
@@ -61,7 +62,10 @@ class Asset implements \ArrayAccess
         $prevType = '';
         $prevExt = '';
         foreach ($path as $p) {
-            $file = $this->loadFile($p);
+            $file = $this->loadFile($p, $ignore_missing);
+            if (empty($file)) {
+                continue;
+            }
 
             // bundle: same type only
             if (!empty($prevType) && $file['type'] != $prevType) {
@@ -364,15 +368,19 @@ class Asset implements \ArrayAccess
      * Load file data.
      *
      * @param string $path
+     * @param bool $ignore_missing
      *
      * @return array
      */
-    private function loadFile(string $path): array
+    private function loadFile(string $path, bool $ignore_missing): array
     {
         $file = [];
         $path = '/'.ltrim($path, '/');
 
         if (false === $filePath = $this->findFile($path)) {
+            if ($ignore_missing) {
+                return [];
+            }
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
