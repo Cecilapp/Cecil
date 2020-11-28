@@ -128,7 +128,7 @@ class Asset implements \ArrayAccess
      */
     public function __toString(): string
     {
-        return $this->data['path'] ?: '';
+        return is_null($this->data['path']) ? '' : $this->data['path'];
     }
 
     /**
