@@ -17,6 +17,13 @@
 {% if author.firstname is defined and author.lastname is defined %}
 {% set author = author.firstname|e ~ ' ' ~ author.lastname|e %}
 {% endif %}
+{# favicon #}
+{% set favicon = asset('favicon.png',{'ignore_missing':true}) %}
+{% if favicon is not empty %}
+{% set favicon_url = favicon|url %}
+{% set favicon_subtype = favicon.subtype %}
+{% set favicon_sizes = favicon.width ~ 'x' ~ favicon.height %}
+{% endif %}
 {# image #}
 {% if site.image is defined %}
 {% set image = site.image %}
@@ -69,6 +76,11 @@
 {%- endif ~%}
 {%- if author ~%}
     <meta name="author" content="{{ author|e }}" />
+{%- endif ~%}
+{%- if favicon is not empty ~%}
+    <link rel="icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
+    <link rel="shortcut icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
+    <link rel="apple-touch-icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
 {%- endif ~%}
 {#- template: alternates ~#}
 {%- include 'partials/alternates.html.twig' with {'title':title,'page':page} only ~%}
