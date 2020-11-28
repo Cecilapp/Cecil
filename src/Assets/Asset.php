@@ -368,7 +368,7 @@ class Asset implements \ArrayAccess
      * Load file data.
      *
      * @param string $path
-     * @param bool $ignore_missing
+     * @param bool   $ignore_missing
      *
      * @return array
      */
@@ -381,6 +381,7 @@ class Asset implements \ArrayAccess
             if ($ignore_missing) {
                 return [];
             }
+
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
