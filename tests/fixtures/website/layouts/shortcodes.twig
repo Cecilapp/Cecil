@@ -1,0 +1,10 @@
+{% extends 'macros.twig' %}
+
+{% block macros %}
+
+{# the "foo" shortcode #}
+{% macro foo(bar = 'bar') %}
+<strong>{{ bar }}</strong>
+{% endmacro %}
+
+{% endblock %}

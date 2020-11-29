@@ -1,2 +1,2 @@
-{% set macros = "{% import 'macros.twig' as macro %}" %}
-{{ include(template_from_string(macros ~ page.content)) }}
+{% set shortcodes = "{% import 'shortcodes.twig' as shortcode %}" %}
+{{ include(template_from_string(shortcodes ~ page.content)) }}
