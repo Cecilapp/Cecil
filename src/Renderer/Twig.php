@@ -41,7 +41,7 @@ class Twig implements RendererInterface
             'cache'            => false,
         ];
         // use Twig cache?
-        if ($builder->getConfig()->get('cache.templates.enabled'))  {
+        if ($builder->getConfig()->get('cache.templates.enabled')) {
             $templatesCachePath = \Cecil\Util::joinFile(
                 $builder->getConfig()->getCachePath(),
                 $builder->getConfig()->get('cache.templates.dir')
