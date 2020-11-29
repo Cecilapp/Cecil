@@ -63,7 +63,10 @@ class Asset implements \ArrayAccess
         $prevExt = '';
         foreach ($path as $p) {
             $file = $this->loadFile($p, $ignore_missing);
-            if (empty($file)) {
+            if ($file['missing']) {
+                $this->data['path'] = '';
+                $this->builder->getLogger()->warning(sprintf('Asset file "%s" doesn\'t exist.', $p));
+
                 continue;
             }
 
@@ -128,7 +131,7 @@ class Asset implements \ArrayAccess
      */
     public function __toString(): string
     {
-        return is_null($this->data['path']) ? '' : $this->data['path'];
+        return $this->data['path'];
     }
 
     /**
@@ -372,14 +375,16 @@ class Asset implements \ArrayAccess
      *
      * @return array
      */
-    private function loadFile(string $path, bool $ignore_missing): array
+    private function loadFile(string $path, bool $ignore_missing = false): array
     {
         $file = [];
         $path = '/'.ltrim($path, '/');
 
         if (false === $filePath = $this->findFile($path)) {
             if ($ignore_missing) {
-                return [];
+                $file['missing'] = true;
+
+                return $file;
             }
 
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
