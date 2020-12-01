@@ -77,6 +77,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('html', [$this, 'html']),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
+            new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
             new \Twig\TwigFilter('minify', [$this, 'minify']),
             new \Twig\TwigFilter('minify_css', [$this, 'minifyCss']),
@@ -555,10 +556,28 @@ class Extension extends SlugifyExtension
             $parsedown = new Parsedown($this->builder);
             $html = $parsedown->text($markdown);
         } catch (\Exception $e) {
-            throw new Exception('"markdown" filter can not convert supplied Markdown.');
+            throw new Exception('"markdown_to_html" filter can not convert supplied Markdown.');
         }
 
         return $html;
+    }
+
+    /**
+     * Converts a JSON string to an Array.
+     *
+     * @param string|null $json
+     *
+     * @return array|null
+     */
+    public function jsonDecode(string $json): ?array
+    {
+        try {
+            $array = json_decode($json, true);
+        } catch (\Exception $e) {
+            throw new Exception('"json_decode" filter can not parse supplied JSON.');
+        }
+
+        return $array;
     }
 
     /**
