@@ -563,7 +563,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Converts a JSON string to an Array.
+     * Converts a JSON string to an array.
      *
      * @param string|null $json
      *
@@ -573,6 +573,9 @@ class Extension extends SlugifyExtension
     {
         try {
             $array = json_decode($json, true);
+            if ($array === null && json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception('Error');
+            }
         } catch (\Exception $e) {
             throw new Exception('"json_decode" filter can not parse supplied JSON.');
         }
