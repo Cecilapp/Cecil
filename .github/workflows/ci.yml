@@ -26,12 +26,12 @@ jobs:
         run: composer install --no-progress --prefer-source
       - name: Run build test
         run: vendor/bin/phpunit
-  job_2:
+  deploy:
+    runs-on: ubuntu-latest
     name: Deploy
-    needs: job_1
-    runs-on: windows-latest
+    needs: build
     steps:
-      - name: Download math result for job 1
-      uses: actions/download-artifact@v1
-      with:
-        name: xxx
+      - name: Download result for job 1
+        uses: actions/download-artifact@v1
+        with:
+          name: xxx
