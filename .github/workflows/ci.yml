@@ -32,12 +32,12 @@ jobs:
         run: composer install --no-progress --prefer-source
       - name: Run build test
         run: vendor/bin/phpunit
-  deploy:
-    runs-on: ubuntu-latest
-    name: Deploy
-    needs: build
-    steps:
-      - name: Download result for job 1
-        uses: actions/download-artifact@v1
-        with:
-          name: xxx
+#  deploy:
+#    runs-on: ubuntu-latest
+#    name: Deploy
+#    needs: build
+#    steps:
+#      - name: Download result for job 1
+#        uses: actions/download-artifact@v1
+#        with:
+#          name: xxx
