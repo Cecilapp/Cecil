@@ -24,5 +24,14 @@ jobs:
           key: composer-${{ hashFiles('**/composer.json') }}
       - name: Install dependencies
         run: composer install --no-progress --prefer-source
-      - name: Run tests
+      - name: Run build test
         run: vendor/bin/phpunit
+  job_2:
+    name: Deploy
+    needs: job_1
+    runs-on: windows-latest
+    steps:
+      - name: Download math result for job 1
+      uses: actions/download-artifact@v1
+      with:
+        name: xxx
