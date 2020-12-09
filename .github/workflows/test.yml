@@ -36,7 +36,7 @@ jobs:
       with:
         path: |
           vendor
-          themes
+          tests/fixtures/website/themes
         key: ${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-${{ matrix.php-versions }}-
