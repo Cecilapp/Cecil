@@ -16,3 +16,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 2
+
+    - name: Publish files
+      run: sh ./scripts/deploy-docs.sh
