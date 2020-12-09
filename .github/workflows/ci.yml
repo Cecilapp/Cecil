@@ -1,9 +1,12 @@
 name: CI
+
 on:
   pull_request:
   push:
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     strategy:
@@ -15,27 +18,38 @@ jobs:
         - php-versions: '8.0'
           experimental: true
     name: PHP ${{ matrix.php-versions }}
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
+
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+
       - name: Cache Composer packages
-        uses: actions/cache@v2
         id: composer-cache
+        uses: actions/cache@v2
         with:
           path: vendor
-          key: composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
       - name: Install dependencies
-        run: composer install --no-progress --prefer-source
-      - name: Run build test
-        run: vendor/bin/phpunit
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run test suite
+        run: composer run-script test
+#
 #  deploy:
+#
 #    runs-on: ubuntu-latest
 #    name: Deploy
 #    needs: build
+#
 #    steps:
 #      - name: Download result for job 1
 #        uses: actions/download-artifact@v1
