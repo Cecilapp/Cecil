@@ -37,7 +37,9 @@ jobs:
         id: composer-cache
         uses: actions/cache@v2
         with:
-          path: vendor
+          path: |
+            vendor
+            themes
           key: ${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-${{ matrix.php-versions }}-
