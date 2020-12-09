@@ -2,9 +2,9 @@ name: 'Deploy Docs'
 
 on:
   push:
-    branches: [ $default-branch ]
-    paths-:
-    - 'docs/**'
+    #branches: [ $default-branch ]
+    #paths-:
+    #- 'docs/**'
 
 jobs:
   deploy:
