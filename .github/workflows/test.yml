@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
         php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
         experimental: [false]
         include:
