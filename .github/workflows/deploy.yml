@@ -3,7 +3,7 @@ name: 'Test & deploy'
 on:
   release:
     types:
-      - created
+      - published
 
 jobs:
   test:
