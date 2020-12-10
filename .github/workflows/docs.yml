@@ -18,5 +18,5 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Publish files
+    - name: Push files
       run: sh ./scripts/deploy-docs.sh
