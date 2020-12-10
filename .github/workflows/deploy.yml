@@ -89,5 +89,5 @@ jobs:
     needs: test_and_build
 
     steps:
-      - name: to do
-        run: echo "to do"
+      - name: Push files
+        run: ./scripts/deploy-dist.sh
