@@ -59,11 +59,11 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress
 
-    - name: Run test suite
+    - name: Run build test
       if: ${{ matrix.php-versions != env.PHP_VERSION }}
       run: composer run-script test
 
-    - name: Run test suite with coverage
+    - name: Run build test with coverage
       if: ${{ matrix.php-versions == env.PHP_VERSION && matrix.os == env.OS }}
       run: composer run-script test-coverage
 
