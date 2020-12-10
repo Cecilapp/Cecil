@@ -26,7 +26,7 @@ jobs:
         experimental: [false]
         include:
         - php-versions: '8.1'
-          os: 'ubuntu-latest'
+          os: [ubuntu-latest, windows-latest, macos-latest]
           experimental: true
 
     steps:
