@@ -87,12 +87,12 @@
     "box": "box compile",
     "build": "@box",
     "test-coverage-install": [
-      "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar -O coveralls.phar",
+      "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/latest/download/php-coveralls.phar -O coveralls.phar",
       "chmod +x coveralls.phar",
       "php coveralls.phar --version"
     ],
     "test-coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
-    "test-coverage-upload": "php coveralls.phar -v",
+    "test-coverage-upload": "php coveralls.phar",
     "post-install-cmd": "cd ./tests/fixtures/website && composer install",
     "post-update-cmd": "cd ./tests/fixtures/website && composer update"
   },
