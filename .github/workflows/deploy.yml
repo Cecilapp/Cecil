@@ -1,0 +1,58 @@
+name: 'Test & deploy'
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php-versions }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+
+    - name: Install PHP
+      if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION || matrix.os != env.COVERAGE_OS }}
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: mbstring, intl, gettext, fileinfo
+        coverage: none
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          vendor
+          tests/fixtures/website/themes
+        key: composer-${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          composer-${{ runner.os }}-php-${{ matrix.php-versions }}-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run build test
+      if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION || matrix.os != env.COVERAGE_OS }}
+      run: composer run-script test
+
+  deploy:
+    name: Deploy cecil.phar
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: Validate composer.json|.lock
+      run: composer validate
