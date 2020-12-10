@@ -67,7 +67,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: cecil.phar
-        path: dist/cecil.phar
+        path: cecil.phar
 
     - name: Get release
       id: release
@@ -81,6 +81,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: dist/cecil.phar #${{ steps.download.outputs.download-path }}
+        asset_path: cecil.phar #${{ steps.download.outputs.download-path }}
         asset_name: cecil.phar
         asset_content_type: application/octet-stream
