@@ -2,6 +2,7 @@ name: 'Test build(s)'
 
 env:
   PHP_VERSION: '7.4'
+  OS: 'ubuntu-latest'
 
 on:
   push:
@@ -63,11 +64,11 @@ jobs:
       run: composer run-script test
 
     - name: Run test suite with coverage
-      if: ${{ matrix.php-versions == env.PHP_VERSION }}
+      if: ${{ matrix.php-versions == env.PHP_VERSION && matrix.os == env.OS }}
       run: composer run-script test-coverage
 
     - name: Upload coverage results to Coveralls
-      if: ${{ matrix.php-versions == env.PHP_VERSION }}
+      if: ${{ matrix.php-versions == env.PHP_VERSION && matrix.os == env.OS }}
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
