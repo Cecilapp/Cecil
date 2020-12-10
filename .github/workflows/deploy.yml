@@ -21,7 +21,7 @@ jobs:
     - name: Install PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: $PHP_VERSION
+        php-version: ${{ env.PHP_VERSION }}
         extensions: mbstring, intl, gettext, fileinfo
         coverage: none
 
@@ -35,9 +35,9 @@ jobs:
         path: |
           vendor
           tests/fixtures/website/themes
-        key: composer-ubuntu-latest-php-PHP_VERSION-${{ hashFiles('**/composer.lock') }}
+        key: composer-ubuntu-latest-php-${{ env.PHP_VERSION }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          composer-ubuntu-latest-php-PHP_VERSION-
+          composer-ubuntu-latest-php-${{ env.PHP_VERSION }}-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
@@ -46,7 +46,7 @@ jobs:
     - name: Run build test
       run: composer run-script test
 
-    - name: Install Box and build PHAR file
+    - name: Build PHAR file
       run: composer run-script box
 
     - name: Upload cecil.phar
@@ -54,6 +54,7 @@ jobs:
       with:
         name: cecil.phar
         path: dist/cecil.phar
+        if-no-files-found: error
 
   deploy:
     name: Deploy cecil.phar
@@ -62,6 +63,7 @@ jobs:
 
     steps:
     - name: Download cecil.phar
+      id: download
       uses: actions/download-artifact@v2
       with:
         name: cecil.phar
@@ -79,6 +81,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: dist/cecil.phar
+        asset_path: ${{ steps.download.outputs.download-path }}
         asset_name: cecil.phar
         asset_content_type: application/octet-stream
