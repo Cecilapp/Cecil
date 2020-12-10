@@ -14,9 +14,6 @@ on:
 jobs:
   test:
 
-    name: PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
-    runs-on: ${{ matrix.operating-system }}
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
@@ -26,7 +23,9 @@ jobs:
         include:
         - php-versions: '8.1'
           experimental: true
-
+    name: PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.operating-system }}
+    continue-on-error: ${{ matrix.experimental }}
 
     steps:
     - name: Checkout source code
