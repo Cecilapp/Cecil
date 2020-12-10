@@ -1,8 +1,8 @@
 name: 'Test build(s)'
 
 env:
-  PHP_VERSION: '7.4'
-  OS: 'ubuntu-latest'
+  COVERAGE_PHP_VERSION: '7.4'
+  COVERAGE_OS: 'ubuntu-latest'
 
 on:
   push:
@@ -60,15 +60,15 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run build test
-      if: ${{ matrix.php-versions != env.PHP_VERSION }}
+      if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION && matrix.os != env.COVERAGE_OS }}
       run: composer run-script test
 
     - name: Run build test with coverage
-      if: ${{ matrix.php-versions == env.PHP_VERSION && matrix.os == env.OS }}
+      if: ${{ matrix.php-versions == env.COVERAGE_PHP_VERSION && matrix.os == env.COVERAGE_OS }}
       run: composer run-script test-coverage
 
     - name: Upload coverage results to Coveralls
-      if: ${{ matrix.php-versions == env.PHP_VERSION && matrix.os == env.OS }}
+      if: ${{ matrix.php-versions == env.COVERAGE_PHP_VERSION && matrix.os == env.COVERAGE_OS }}
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
