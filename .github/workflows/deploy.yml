@@ -1,4 +1,4 @@
-name: 'Build PHAR & deploy'
+name: 'Release cecil.phar & deploy'
 
 env:
   PHP_VERSION: '7.4'
@@ -56,8 +56,8 @@ jobs:
         path: dist/cecil.phar
         if-no-files-found: error
 
-  deploy:
-    name: Deploy cecil.phar
+  deploy_to_github:
+    name: Deploy cecil.phar to GitHub
     runs-on: ubuntu-latest
     needs: test_and_build
 
@@ -82,3 +82,12 @@ jobs:
         asset_path: cecil.phar
         asset_name: cecil.phar
         asset_content_type: application/octet-stream
+
+  deploy_to_website:
+    name: Deploy cecil.phar to website
+    runs-on: ubuntu-latest
+    needs: test_and_build
+
+    steps:
+      - name: to do
+        run: echo "to do"
