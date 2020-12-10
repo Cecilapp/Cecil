@@ -82,17 +82,17 @@
   "prefer-stable": true,
   "scripts": {
     "test": "phpunit -c ./",
+    "test-coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
     "test-cli": "cd bin && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",
-    "test-build-cli": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
+    "test-cli-box": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
     "box": "box compile",
     "build": "@box",
-    "test-coverage-install": [
+    "coverage-install": [
       "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/latest/download/php-coveralls.phar -O coveralls.phar",
       "chmod +x coveralls.phar",
       "php coveralls.phar --version"
     ],
-    "test-coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
-    "test-coverage-upload": "php coveralls.phar -v",
+    "coverage-upload": "php coveralls.phar -v",
     "post-install-cmd": "cd ./tests/fixtures/website && composer install",
     "post-update-cmd": "cd ./tests/fixtures/website && composer update"
   },

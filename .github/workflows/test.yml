@@ -72,7 +72,5 @@ jobs:
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        #composer global require php-coveralls/php-coveralls
-        #php-coveralls --coverage_clover=build/logs/clover.xml -v
-        composer run-script test-coverage-install
-        composer run-script test-coverage-upload
+        composer run-script coverage-install
+        composer run-script coverage-upload
