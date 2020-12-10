@@ -2,7 +2,11 @@ name: 'Test build(s)'
 
 on:
   push:
+    paths-ignore:
+    - 'docs/**'
   pull_request:
+    branches-ignore:
+    - $default-branch
 
 jobs:
   build:
