@@ -12,8 +12,10 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        #os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
+        #php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        php-versions: ['7.3']
 
     steps:
     - name: Checkout source code
@@ -28,6 +30,9 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: mbstring, intl, gettext, fileinfo
         coverage: none
+
+    - name: Validate composer.json|.lock
+      run: composer validate
 
     - name: Cache Composer packages
       id: composer-cache
@@ -54,5 +59,7 @@ jobs:
     needs: test
 
     steps:
-    - name: Validate composer.json|.lock
-      run: composer validate
+    - name: Install Box and build PHAR file
+      run: |
+        composer install --prefer-dist --no-progress
+        composer run-script box
