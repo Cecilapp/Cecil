@@ -80,7 +80,9 @@ jobs:
 
     - name: Run build test
       if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION || matrix.os != env.COVERAGE_OS }}
-      run: composer run-script test
+      run: |
+        composer run-script test
+        composer run-script test-phar
 
     - name: Run build test with coverage
       if: ${{ matrix.php-versions == env.COVERAGE_PHP_VERSION && matrix.os == env.COVERAGE_OS }}

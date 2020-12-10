@@ -83,8 +83,8 @@
   "scripts": {
     "test": "phpunit -c ./",
     "test-coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
-    "test-cli": "cd bin && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",
-    "test-cli-box": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
+    "test-bin": "cd bin && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",
+    "test-phar": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
     "box": "box compile",
     "build": "@box",
     "coverage-install": [
