@@ -1,4 +1,7 @@
-name: 'Test & deploy'
+name: 'Build PHAR & deploy'
+
+env:
+  PHP_VERSION: '7.4'
 
 on:
   release:
@@ -6,17 +9,9 @@ on:
       - published
 
 jobs:
-  test:
-    name: PHP ${{ matrix.php-versions }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        #os: [ubuntu-latest, windows-latest, macos-latest]
-        os: [ubuntu-latest]
-        #php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
-        php-versions: ['7.3']
-
+  test_and_build:
+    name: Build cecil.phar
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
@@ -24,14 +19,13 @@ jobs:
         fetch-depth: 1
 
     - name: Install PHP
-      if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION || matrix.os != env.COVERAGE_OS }}
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: $PHP_VERSION
         extensions: mbstring, intl, gettext, fileinfo
         coverage: none
 
-    - name: Validate composer.json|.lock
+    - name: Validate composer.json
       run: composer validate
 
     - name: Cache Composer packages
@@ -41,25 +35,50 @@ jobs:
         path: |
           vendor
           tests/fixtures/website/themes
-        key: composer-${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+        key: composer-ubuntu-latest-php-PHP_VERSION-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          composer-${{ runner.os }}-php-${{ matrix.php-versions }}-
+          composer-ubuntu-latest-php-PHP_VERSION-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress
 
     - name: Run build test
-      if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION || matrix.os != env.COVERAGE_OS }}
       run: composer run-script test
+
+    - name: Install Box and build PHAR file
+      run: composer run-script box
+
+    - name: Upload cecil.phar
+      uses: actions/upload-artifact@v2
+      with:
+        name: cecil.phar
+        path: dist/cecil.phar
 
   deploy:
     name: Deploy cecil.phar
     runs-on: ubuntu-latest
-    needs: test
+    needs: test_and_build
 
     steps:
-    - name: Install Box and build PHAR file
-      run: |
-        composer install --prefer-dist --no-progress
-        composer run-script box
+    - name: Download cecil.phar
+      uses: actions/download-artifact@v2
+      with:
+        name: cecil.phar
+        path: dist/cecil.phar
+
+    - name: Get release
+      id: release
+      uses: bruceadams/get-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Add cecil.phar to release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: dist/cecil.phar
+        asset_name: cecil.phar
+        asset_content_type: application/octet-stream
