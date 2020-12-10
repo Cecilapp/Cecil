@@ -33,7 +33,7 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v2
       with:
-        fetch-depth: 2
+        fetch-depth: 1
 
     - name: Install PHP
       if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION || matrix.os != env.COVERAGE_OS }}
