@@ -57,7 +57,8 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, intl, gettext, fileinfo, opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
+        extensions: mbstring, intl, gettext, fileinfo
+        ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
         coverage: none
 
     - name: Cache Composer packages
