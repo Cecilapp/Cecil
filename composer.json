@@ -92,7 +92,7 @@
       "php coveralls.phar --version"
     ],
     "test-coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
-    "test-coverage-upload": "php coveralls.phar",
+    "test-coverage-upload": "php coveralls.phar -v",
     "post-install-cmd": "cd ./tests/fixtures/website && composer install",
     "post-update-cmd": "cd ./tests/fixtures/website && composer update"
   },
