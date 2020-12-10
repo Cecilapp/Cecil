@@ -60,7 +60,7 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run build test
-      if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION && matrix.os != env.COVERAGE_OS }}
+      if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION || matrix.os != env.COVERAGE_OS }}
       run: composer run-script test
 
     - name: Run build test with coverage
