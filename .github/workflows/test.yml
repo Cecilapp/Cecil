@@ -1,5 +1,8 @@
 name: 'Test build(s)'
 
+env:
+  PHP_VERSION: '7.4'
+
 on:
   push:
     branches:
@@ -11,17 +14,19 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    name: PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.operating-system }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.1', '7.2', '7.3', '7.4']
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
         experimental: [false]
         include:
-        - php-versions: '8.0'
+        - php-versions: '8.1'
           experimental: true
-    name: PHP ${{ matrix.php-versions }}
+
 
     steps:
     - name: Checkout source code
@@ -33,6 +38,9 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
+        extensions: mbstring, intl
+        ini-values: post_max_size=256M, max_execution_time=180
+        coverage: xdebug
 
     - name: Cache Composer packages
       id: composer-cache
@@ -41,24 +49,24 @@ jobs:
         path: |
           vendor
           tests/fixtures/website/themes
-        key: ${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-composer-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-php-${{ matrix.php-versions }}-
+          ${{ runner.os }}-composer-php-${{ matrix.php-versions }}-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Run test suite
-      if: ${{ matrix.php-versions != '7.2' }}
+      if: ${{ matrix.php-versions != $PHP_VERSION }}
       run: composer run-script test
 
-    - name: Run test with code coverage
-      if: ${{ matrix.php-versions == '7.2' }}
+    - name: Run test suite with coverage
+      if: ${{ matrix.php-versions == $PHP_VERSION }}
       run: composer run-script test-coverage
 
     - name: Upload coverage results to Coveralls
-      if: ${{ matrix.php-versions == '7.2' }}
+      if: ${{ matrix.php-versions == $PHP_VERSION }}
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
