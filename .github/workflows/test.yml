@@ -39,7 +39,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, intl
+        extensions: mbstring, intl, fileinfo
         ini-values: post_max_size=256M, max_execution_time=180
         coverage: xdebug
 
@@ -50,13 +50,13 @@ jobs:
         path: |
           vendor
           tests/fixtures/website/themes
-        key: ${{ runner.os }}-composer-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+        key: composer-${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-composer-php-${{ matrix.php-versions }}-
+          composer-${{ runner.os }}-php-${{ matrix.php-versions }}-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
       if: ${{ matrix.php-versions != env.PHP_VERSION }}
