@@ -13,11 +13,12 @@ HOME="${GITHUB_WORKSPACE}/HOME"
 #BUILD_NUMBER=$TRAVIS_BUILD_NUMBER
 BUILD_NUMBER=$GITHUB_RUN_NUMBER
 
+mkdir $HOME
+
 echo "Starting to update documentation to ${TARGET_REPO}..."
 cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR
 
 # clone target repo
-mkdir $HOME
 cd $HOME
 git config --global user.name "${USER_NAME}"
 git config --global user.email "${USER_EMAIL}"
