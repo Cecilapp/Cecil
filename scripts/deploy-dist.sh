@@ -24,7 +24,7 @@ cp dist/$DIST_FILE $HOME/$DIST_FILE
 cd $HOME
 git config --global user.name "${USER_NAME}"
 git config --global user.email "${USER_EMAIL}"
-git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
+git clone --quiet --branch=$TARGET_BRANCH https://${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 
 # prepare dist files
 
