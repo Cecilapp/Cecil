@@ -98,6 +98,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cecil.phar
+          path: dist
 
       - name: Push files
         run: sh ./scripts/deploy-dist.sh
