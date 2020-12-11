@@ -102,3 +102,5 @@ jobs:
 
       - name: Push files
         run: bash ./scripts/deploy-dist.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
