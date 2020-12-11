@@ -1,4 +1,4 @@
-name: 'Release cecil.phar & deploy'
+name: 'Release cecil.phar'
 
 env:
   PHP_VERSION: '7.4'
