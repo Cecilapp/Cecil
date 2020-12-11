@@ -100,4 +100,4 @@ jobs:
           name: cecil.phar
 
       - name: Push files
-        run: ./scripts/deploy-dist.sh
+        run: sh ./scripts/deploy-dist.sh
