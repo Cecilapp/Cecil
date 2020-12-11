@@ -18,4 +18,4 @@ jobs:
         fetch-depth: 1
 
     - name: Push files
-      run: sh ./scripts/deploy-docs.sh
+      run: bash ./scripts/deploy-docs.sh
