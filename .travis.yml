@@ -25,7 +25,7 @@ before_install:
 
 install:
   - travis_retry composer install -n --prefer-source
-  - if [[ $TEST_COVERAGE == true ]]; then travis_retry composer test-coverage-install || return 0 ; fi
+  - if [[ $TEST_COVERAGE == true ]]; then travis_retry composer coverage-install || return 0 ; fi
 
 script: composer test
 
@@ -36,7 +36,7 @@ jobs:
     - php: 8.0
     - stage: code coverage
   include:
-    - script: composer test-build-cli
+    - script: composer test-phar
       name: "Build phar and run it"
       php: 7.2
     - stage: code coverage
@@ -49,7 +49,7 @@ jobs:
       script:
         - travis_retry composer test-coverage
       after_success:
-        - travis_retry composer test-coverage-upload
+        - travis_retry composer coverage-upload
         - bash <(curl -s https://codecov.io/bash)
     # deploy cecil.phar
     - stage: deploy

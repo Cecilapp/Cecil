@@ -1,0 +1,21 @@
+name: 'Deploy documentation'
+
+on:
+  push:
+    branches:
+    - $default-branch
+    paths:
+    - 'docs/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Push files
+      run: sh ./scripts/deploy-docs.sh

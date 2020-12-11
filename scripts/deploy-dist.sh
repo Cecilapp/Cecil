@@ -13,6 +13,11 @@ TARGET_CONTENT_DIR="content"
 
 if [ ! -n "$TRAVIS_TAG" ]; then
   TARGET_RELEASE_DIR="download/$TRAVIS_BRANCH"
+
+  if [ ! -n "$TRAVIS_BRANCH" ]; then
+    TARGET_RELEASE_DIR=$(echo $GITHUB_REF | cut -d'/' -f 3)
+  fi
+
 fi
 
 echo "Starting deploy of dist files..."
