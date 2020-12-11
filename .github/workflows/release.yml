@@ -46,10 +46,12 @@ jobs:
     - name: Run build test
       run: composer run-script test
 
-    - name: Build PHAR file
+    - name: Build cecil.phar
       run: composer run-script box
 
-    - name: Test PHAR
+    - name: Test cecil.phar
+      env:
+        CECIL_DEBUG: 'true'
       run: |
         cd dist
         php cecil.phar build ../tests/fixtures/website
