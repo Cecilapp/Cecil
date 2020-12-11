@@ -101,4 +101,4 @@ jobs:
           path: dist
 
       - name: Push files
-        run: sh ./scripts/deploy-dist.sh
+        run: bash ./scripts/deploy-dist.sh
