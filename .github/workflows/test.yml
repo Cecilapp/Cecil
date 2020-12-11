@@ -7,9 +7,9 @@ env:
 on:
   push:
     branches:
-    - $default-branch
+      - $default-branch
     paths-ignore:
-    - 'docs/**'
+      - 'docs/**'
   pull_request:
 
 jobs:

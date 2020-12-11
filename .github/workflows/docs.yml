@@ -3,9 +3,9 @@ name: 'Deploy documentation'
 on:
   push:
     branches:
-    - $default-branch
+      - $default-branch
     paths:
-    - 'docs/**'
+      - 'docs/**'
 
 jobs:
   deploy:
