@@ -10,12 +10,10 @@ TARGET_DOCS_DIR="content/documentation"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
-#BUILD_NUMBER=$TRAVIS_BUILD_NUMBER
 BUILD_NUMBER=$GITHUB_RUN_NUMBER
 
-mkdir $HOME
-
 echo "Starting to update documentation to ${TARGET_REPO}..."
+mkdir $HOME
 cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR
 
 # clone target repo
