@@ -7,7 +7,7 @@ env:
 on:
   push:
     branches:
-      - $default-branch
+      - master #$default-branch
     paths-ignore:
       - 'docs/**'
   pull_request:
