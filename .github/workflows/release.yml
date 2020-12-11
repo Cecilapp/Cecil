@@ -50,11 +50,22 @@ jobs:
       run: composer run-script box
 
     - name: Test cecil.phar
+      run: |
+        cd dist
+        mkdir skeleton
+        php cecil.phar new:site skeleton -f
+        php cecil.phar build skeleton
+        php cecil.phar show:content skeleton
+
+    - name: Test cecil.phar (verbose)
       env:
         CECIL_DEBUG: 'true'
       run: |
         cd dist
-        php cecil.phar build ../tests/fixtures/website
+        mkdir skeleton
+        php cecil.phar new:site skeleton -f
+        php cecil.phar build skeleton -vvv
+        php cecil.phar show:content skeleton
 
     - name: Upload cecil.phar
       uses: actions/upload-artifact@v2
