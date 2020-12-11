@@ -3,7 +3,7 @@ name: 'Deploy documentation'
 on:
   push:
     branches:
-      - $default-branch
+      - master #$default-branch
     paths:
       - 'docs/**'
 
