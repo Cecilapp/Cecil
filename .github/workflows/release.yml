@@ -49,6 +49,11 @@ jobs:
     - name: Build PHAR file
       run: composer run-script box
 
+    - name: Test PHAR
+      run: |
+        cd dist
+        php cecil.phar build ../tests/fixtures/website
+
     - name: Upload cecil.phar
       uses: actions/upload-artifact@v2
       with:
