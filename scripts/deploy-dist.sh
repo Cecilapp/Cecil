@@ -3,30 +3,27 @@ set -e
 
 # Deploy dist file to website
 
+REF=$(echo $GITHUB_REF | cut -d'/' -f 3)
 TARGET_REPO="Cecilapp/cecil.app"
 TARGET_BRANCH="master"
-TARGET_RELEASE_DIR="download/$TRAVIS_TAG"
+TARGET_RELEASE_DIR="download/$REF"
 TARGET_DIST_DIR="static"
 DIST_FILE="cecil.phar"
 DIST_FILE_SHA1="cecil.phar.sha1"
 TARGET_CONTENT_DIR="content"
-
-if [ ! -n "$TRAVIS_TAG" ]; then
-  TARGET_RELEASE_DIR="download/$TRAVIS_BRANCH"
-
-  if [ ! -n "$TRAVIS_BRANCH" ]; then
-    TARGET_RELEASE_DIR=$(echo $GITHUB_REF | cut -d'/' -f 3)
-  fi
-
-fi
+USER_NAME=$GITHUB_ACTOR
+USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
+HOME="${GITHUB_WORKSPACE}/HOME"
+BUILD_NUMBER=$GITHUB_RUN_NUMBER
 
 echo "Starting deploy of dist files..."
+mkdir $HOME
 cp dist/$DIST_FILE $HOME/$DIST_FILE
 
 # clone target repo
 cd $HOME
-git config --global user.name "Travis"
-git config --global user.email "contact@travis-ci.org"
+git config --global user.name "${USER_NAME}"
+git config --global user.email "${USER_EMAIL}"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 
 # prepare dist files
@@ -44,7 +41,7 @@ cd ../..
 
 # create VERSION file
 [ -e VERSION ] && rm -- VERSION
-echo $TRAVIS_TAG > VERSION
+echo $REF > VERSION
 
 # prepare redirections
 
@@ -78,7 +75,7 @@ cd ..
 
 # commit
 git add -Af .
-git commit -m "Travis build $TRAVIS_BUILD_NUMBER: deploy ${DIST_FILE} and create redirections"
+git commit -m "Build $BUILD_NUMBER: deploy ${DIST_FILE} and create redirections"
 
 # push
 git push -fq origin $TARGET_BRANCH > /dev/null
