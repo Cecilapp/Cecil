@@ -89,18 +89,18 @@ jobs:
     needs: test_and_build
 
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+    - name: Checkout source code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
 
-      - name: Download cecil.phar
-        uses: actions/download-artifact@v2
-        with:
-          name: cecil.phar
-          path: dist
+    - name: Download cecil.phar
+      uses: actions/download-artifact@v2
+      with:
+        name: cecil.phar
+        path: dist
 
-      - name: Push files
-        run: bash ./scripts/deploy-dist.sh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Push files
+      run: bash ./scripts/deploy-dist.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}

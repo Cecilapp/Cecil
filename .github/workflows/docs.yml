@@ -20,4 +20,4 @@ jobs:
     - name: Push files
       run: bash ./scripts/deploy-docs.sh
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
