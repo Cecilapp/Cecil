@@ -82,7 +82,7 @@ class Util
     public static function formatClassName($class, array $options = []): string
     {
         $lowercase = false;
-        extract($options);
+        extract($options, EXTR_IF_EXISTS);
 
         $className = substr(strrchr(get_class($class), '\\'), 1);
         if ($lowercase) {

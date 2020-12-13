@@ -31,9 +31,6 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
         if (!$pagesConfig) {
             return;
         }
-        if (!is_array($pagesConfig)) {
-            throw new Exception(sprintf('Config key "%s" is not set.', $this->configKey));
-        }
 
         foreach ($pagesConfig as $frontmatter) {
             if (isset($frontmatter['published']) && $frontmatter['published'] === false) {
