@@ -13,6 +13,9 @@ jobs:
     name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (coverage=${{ matrix.coverage }}, experimental=${{ matrix.experimental }})'
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
+    env:
+      extensions: mbstring, intl, gettext, fileinfo
+      key: cache-ext-${{ hashFiles('**/.github/workflows/test.yml')
 
     strategy:
       fail-fast: false
@@ -42,12 +45,27 @@ jobs:
       with:
         fetch-depth: 1
 
+    - name: Setup cache extensions
+      id: extcache
+      uses: shivammathur/cache-extensions@v1
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: ${{ env.extensions }}
+        key: ${{ env.key }}
+
+    - name: Cache extensions
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.extcache.outputs.dir }}
+        key: ${{ steps.extcache.outputs.key }}
+        restore-keys: ${{ steps.extcache.outputs.key }}
+
     - name: Install PHP
       if: ${{ !matrix.coverage && !matrix.experimental }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
-        extensions: mbstring, intl, gettext, fileinfo
+        extensions: ${{ env.extensions }}
         coverage: none
 
     - name: Install PHP (coverage)
@@ -55,7 +73,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
-        extensions: mbstring, intl, gettext, fileinfo
+        extensions: ${{ env.extensions }}
         coverage: xdebug
 
     - name: Install PHP (JIT)
@@ -63,7 +81,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
-        extensions: mbstring, intl, gettext, fileinfo
+        extensions: ${{ env.extensions }}
         ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
         coverage: none
 
