@@ -32,6 +32,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                 $plural = $vocabulary->getId();
                 $singular = $this->config->get("taxonomies.$plural");
                 if (count($vocabulary) > 0) {
+                    $date = date('Y-m-d');
                     /*
                      * Creates $plural/$term pages (list of pages)
                      * ie: /tags/tag-1/

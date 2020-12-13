@@ -62,23 +62,21 @@ class ShowConfig extends AbstractCommand
      *
      * @return string
      */
-    private function printArray($array, $column = -2): string
+    private function printArray(array $array, int $column = -2): string
     {
         $output = '';
 
-        if (is_array($array)) {
-            $column += 2;
-            foreach ($array as $key => $val) {
-                switch (gettype($val)) {
-                    case 'array':
-                        $output .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
-                        break;
-                    case 'boolean':
-                        $output .= str_repeat(' ', $column)."$key: ".($val ? 'true' : 'false')."\n";
-                        break;
-                    default:
-                        $output .= str_repeat(' ', $column)."$key: $val\n";
-                }
+        $column += 2;
+        foreach ($array as $key => $val) {
+            switch (gettype($val)) {
+                case 'array':
+                    $output .= str_repeat(' ', $column)."$key:\n".$this->printArray($val, $column);
+                    break;
+                case 'boolean':
+                    $output .= str_repeat(' ', $column)."$key: ".($val ? 'true' : 'false')."\n";
+                    break;
+                default:
+                    $output .= str_repeat(' ', $column)."$key: $val\n";
             }
         }
 
