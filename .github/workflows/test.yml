@@ -24,12 +24,16 @@ jobs:
         exclude:
         - os: 'ubuntu-latest'
           php: '7.4'
+          coverage: false
+          experimental: false
         include:
         - os: 'ubuntu-latest'
           php: '7.4'
           coverage: true
+          experimental: false
         - os: 'ubuntu-latest'
           php: '8.1'
+          coverage: false
           experimental: true
 
     steps:
