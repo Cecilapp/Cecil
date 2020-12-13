@@ -19,3 +19,10 @@ build:
       tests:
         override:
           - php-scrutinizer-run
+    coverage:
+      tests:
+        override:
+          - command: phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml
+            coverage:
+              file: build/logs/clover.xml
+              format: clover
