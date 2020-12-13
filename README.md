@@ -28,12 +28,12 @@ Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentati
 
 ## Features
 
-- No server, no database, no dependency: performance and security
-- Content is stored in flat files, written in [Markdown](https://daringfireball.net/projects/markdown/) with [YAML front matter](https://cecil.app/documentation/content/#front-matter)
-- Powered by [Twig](https://twig.symfony.com/doc/templates.html), a flexible template engine, with [theme](https://github.com/Cecilapp/theme-hyde) support
-- Pagination, taxonomies, RSS, redirections, etc. are generated automatically
-- [Download](https://cecil.app/download/) just one file and run it
-- Easy to deploy
+  - No server, no database, no dependency: performance and security
+  - Content is stored in flat files, written in [Markdown](https://daringfireball.net/projects/markdown/) with [YAML front matter](https://cecil.app/documentation/content/#front-matter)
+  - Powered by [Twig](https://twig.symfony.com/doc/templates.html), a flexible template engine, with [theme](https://github.com/Cecilapp/theme-hyde) support
+  - Pagination, taxonomies, RSS, redirections, etc. are generated automatically
+  - [Download](https://cecil.app/download/) just one file and run it
+  - Easy to deploy
 
 ## Installation
 
@@ -54,9 +54,9 @@ chmod +x /usr/local/bin/cecil
 
 ## Usage
 
-- Get help: `cecil help`
-- Create new website: `cecil new:site`
-- Build and serve it: `cecil serve`
+  - Get help: `cecil help`
+  - Create new website: `cecil new:site`
+  - Build and serve it: `cecil serve`
 
 ## License
 
