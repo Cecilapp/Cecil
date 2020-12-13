@@ -10,7 +10,6 @@
 
 namespace Cecil\Step;
 
-use Cecil\Exception\Exception;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
@@ -50,9 +49,6 @@ class ContentLoad extends AbstractStep
             ->sortByName(true);
         if (file_exists(Util::joinFile($this->builder->getConfig()->getContentPath(), '.gitignore'))) {
             $content->ignoreVCSIgnored(true);
-        }
-        if (!$content instanceof Finder) {
-            throw new Exception(sprintf('%s result must be an instance of Finder.', __CLASS__));
         }
         $this->builder->setContent($content);
 
