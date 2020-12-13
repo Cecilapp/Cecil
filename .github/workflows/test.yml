@@ -15,7 +15,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     env:
       extensions: mbstring, intl, gettext, fileinfo
-      key: cache-ext-v1
+      ext-cache-key: cache-ext-v1
 
     strategy:
       fail-fast: false
@@ -51,7 +51,7 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
         extensions: ${{ env.extensions }}
-        key: ${{ env.key }}
+        key: ${{ env.ext-cache-key }}
 
     - name: Cache extensions
       uses: actions/cache@v2
