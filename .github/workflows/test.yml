@@ -21,17 +21,13 @@ jobs:
         php: ['7.1', '7.2', '7.3', '7.4', '8.0']
         coverage: [false]
         experimental: [false]
-
         exclude:
         - os: 'ubuntu-latest'
           php: '7.4'
-
         include:
         - os: 'ubuntu-latest'
           php: '7.4'
           coverage: true
-
-        include:
         - os: 'ubuntu-latest'
           php: '8.1'
           experimental: true
