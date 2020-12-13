@@ -1,20 +1,16 @@
 name: 'Test'
 
-env:
-  COVERAGE_PHP_VERSION: '7.4'
-  COVERAGE_OS: 'ubuntu-latest'
-
 on:
   push:
     branches:
-      - master #$default-branch
+      - master
     paths-ignore:
       - 'docs/**'
   pull_request:
 
 jobs:
   test:
-    name: PHP ${{ matrix.php-versions }} on ${{ matrix.os }}
+    name: PHP ${{ matrix.php }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
 
@@ -22,11 +18,22 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        php: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        coverage: [false]
         experimental: [false]
+
+        exclude:
+        - os: 'ubuntu-latest'
+          php: '7.4'
+
         include:
         - os: 'ubuntu-latest'
-          php-versions: '8.1'
+          php: '7.4'
+          coverage: true
+
+        include:
+        - os: 'ubuntu-latest'
+          php: '8.1'
           experimental: true
 
     steps:
@@ -36,18 +43,18 @@ jobs:
         fetch-depth: 1
 
     - name: Install PHP
-      if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION || matrix.os != env.COVERAGE_OS }}
+      if: ${{ !matrix.experimental }}
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: ${{ matrix.php }}
         extensions: mbstring, intl, gettext, fileinfo
         coverage: none
 
     - name: Install PHP (coverage)
-      if: ${{ matrix.php-versions == env.COVERAGE_PHP_VERSION && matrix.os == env.COVERAGE_OS }}
+      if: ${{ matrix.coverage }}
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: ${{ matrix.php }}
         extensions: mbstring, intl, gettext, fileinfo
         coverage: xdebug
 
@@ -55,7 +62,7 @@ jobs:
       if: ${{ matrix.experimental }}
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: ${{ matrix.php }}
         extensions: mbstring, intl, gettext, fileinfo
         ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
         coverage: none
@@ -70,26 +77,25 @@ jobs:
         path: |
           vendor
           tests/fixtures/website/themes
-        key: composer-${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+        key: composer-${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          composer-${{ runner.os }}-php-${{ matrix.php-versions }}-
+          composer-${{ runner.os }}-php-${{ matrix.php }}-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress
 
     - name: Run build test
-      if: ${{ matrix.php-versions != env.COVERAGE_PHP_VERSION || matrix.os != env.COVERAGE_OS }}
       run: |
         composer run-script test
         composer run-script test-phar
 
-    - name: Run build test with coverage
-      if: ${{ matrix.php-versions == env.COVERAGE_PHP_VERSION && matrix.os == env.COVERAGE_OS }}
+    - name: Run build test (coverage)
+      if: ${{ matrix.coverage }}
       run: composer run-script test-coverage
 
     - name: Upload coverage results to Coveralls
-      if: ${{ matrix.php-versions == env.COVERAGE_PHP_VERSION && matrix.os == env.COVERAGE_OS }}
+      if: ${{ matrix.coverage }}
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
