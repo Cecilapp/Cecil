@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c:${{ matrix.coverage }}, e:${{ matrix.experimental }})'
+    name: 'PHP ${{ matrix.php }}, ${{ matrix.os }}, c:${{ matrix.coverage }}, e:${{ matrix.experimental }}'
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
 
