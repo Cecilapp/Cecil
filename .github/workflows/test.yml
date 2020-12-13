@@ -15,7 +15,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     env:
       extensions: mbstring, intl, gettext, fileinfo
-      key: cache-ext-${{ hashFiles('**/.github/workflows/test.yml')
+      key: cache-ext-${{ hashFiles('**/.github/workflows/test.yml') }}
 
     strategy:
       fail-fast: false
