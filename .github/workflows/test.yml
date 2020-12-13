@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    name: PHP ${{ matrix.php }} on ${{ matrix.os }} (coverage=${{ matrix.coverage }} | experimental=${{ matrix.experimental }})
+    name: PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }} | e=${{ matrix.experimental }})
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
 
@@ -43,7 +43,7 @@ jobs:
         fetch-depth: 1
 
     - name: Install PHP
-      if: ${{ !matrix.experimental }}
+      if: ${{ !matrix.coverage && !matrix.experimental }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -51,7 +51,7 @@ jobs:
         coverage: none
 
     - name: Install PHP (coverage)
-      if: ${{ matrix.coverage }}
+      if: ${{ matrix.coverage && !matrix.experimental }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -59,7 +59,7 @@ jobs:
         coverage: xdebug
 
     - name: Install PHP (JIT)
-      if: ${{ matrix.experimental }}
+      if: ${{ !matrix.coverage && matrix.experimental }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -91,11 +91,11 @@ jobs:
         composer run-script test-phar
 
     - name: Run build test (coverage)
-      if: ${{ matrix.coverage }}
+      if: ${{ matrix.coverage && !matrix.experimental }}
       run: composer run-script test-coverage
 
     - name: Upload coverage results to Coveralls
-      if: ${{ matrix.coverage }}
+      if: ${{ matrix.coverage && !matrix.experimental }}
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
