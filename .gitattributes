@@ -3,7 +3,6 @@
 dist/ export-ignore
 scripts/ export-ignore
 tests/ export-ignore
-codecov.yml
 phpunit.xml.dist export-ignore
 
 # Auto detect text files and perform LF normalization
