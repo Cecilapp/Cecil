@@ -86,6 +86,7 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run build test
+      if: ${{ !matrix.coverage && !matrix.experimental }}
       run: |
         composer run-script test
         composer run-script test-phar
