@@ -7,14 +7,14 @@ filter:
     - 'vendor/*'
 
 tools:
-  php_cs_fixer: true
   php_analyzer: true
-  php_mess_detector: true
   php_changetracking: true
+  #php_code_coverage: false
   php_code_sniffer: true
+  php_cs_fixer: true
+  php_mess_detector: true
   php_pdepend: true
   sensiolabs_security_checker: true
-  php_code_coverage: false
 
 build:
   environment:
@@ -22,7 +22,7 @@ build:
   nodes:
     analysis:
       requires:
-        - is_pull_request: false
+        - is_pull_request: false # pushes/tags/manual
       tests:
         override:
           - php-scrutinizer-run
