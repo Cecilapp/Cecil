@@ -22,7 +22,6 @@ build:
   nodes:
     analysis:
       requires:
-        - branch: master
         - is_pull_request: true
       tests:
         override:
