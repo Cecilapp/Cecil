@@ -29,7 +29,6 @@ build:
     coverage:
       requires:
         - branch: master
-        - analysis
       tests:
         override:
           - command: ./vendor/bin/phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml
