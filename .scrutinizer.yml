@@ -22,7 +22,7 @@ build:
   nodes:
     analysis:
       requires:
-        - is_pull_request: true
+        - is_pull_request: false
       tests:
         override:
           - php-scrutinizer-run
