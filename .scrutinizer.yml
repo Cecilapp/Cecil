@@ -1,15 +1,15 @@
 filter:
   excluded_paths:
-    - 'dist/*'
-    - 'resources/*'
-    - 'tests/*'
+  - 'dist/*'
+  - 'resources/*'
+  - 'tests/*'
   dependency_paths:
-    - 'vendor/*'
+  - 'vendor/*'
 
 tools:
   php_analyzer: true
   php_changetracking: true
-  #php_code_coverage: false
+  php_code_coverage: false
   php_code_sniffer: true
   php_cs_fixer: true
   php_mess_detector: true
@@ -22,16 +22,16 @@ build:
   nodes:
     analysis:
       requires:
-        - is_pull_request: false # pushes/tags/manual
+      - is_pull_request: false # pushes/tags/manual
       tests:
         override:
-          - php-scrutinizer-run
+        - php-scrutinizer-run
     coverage:
       requires:
-        - branch: master
+      - branch: master
       tests:
         override:
-          - command: ./vendor/bin/phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml
-            coverage:
-              file: build/logs/clover.xml
-              format: clover
+        - command: ./vendor/bin/phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml
+          coverage:
+            file: build/logs/clover.xml
+            format: clover
