@@ -1,7 +1,10 @@
 filter:
   excluded_paths:
-    - 'vendor/*'
+    - 'dist/*'
+    - 'resources/*'
     - 'tests/*'
+  dependency_paths:
+    - 'vendor/*'
 
 tools:
   php_cs_fixer: true
@@ -14,12 +17,20 @@ tools:
   php_code_coverage: false
 
 build:
+  environment:
+    timezone: 'Europe/Paris'
   nodes:
     analysis:
+      requires:
+        - branch: master
+        - is_pull_request: true
       tests:
         override:
           - php-scrutinizer-run
     coverage:
+      requires:
+        - branch: master
+        - analysis
       tests:
         override:
           - command: ./vendor/bin/phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml
