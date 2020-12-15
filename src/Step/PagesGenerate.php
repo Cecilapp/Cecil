@@ -46,7 +46,7 @@ class PagesGenerate extends AbstractStep
 
         // loads local generators
         spl_autoload_register(function ($className) {
-            $generatorFile = Util::joinFile($this->config->getDestinationDir(), 'generators', "$className.php");
+            $generatorFile = Util::joinFile($this->config->getSourceDir(), 'generators', "$className.php");
             if (file_exists($generatorFile)) {
                 require $generatorFile;
             }
