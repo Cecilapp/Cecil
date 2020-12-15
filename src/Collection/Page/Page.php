@@ -43,6 +43,8 @@ class Page extends Item
     protected $frontmatter;
     /** @var string Body before conversion. */
     protected $body;
+    /** @var array Front matter variables. */
+    protected $fmVariables = [];
     /** @var string Body after Markdown conversion. */
     protected $html;
     /** @var Slugify */
