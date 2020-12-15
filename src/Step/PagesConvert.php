@@ -146,6 +146,7 @@ class PagesConvert extends AbstractStep
             } catch (\Exception $e) {
                 throw new Exception($e->getMessage());
             }
+            $page->setFmVariables($variables);
             $page->setVariables($variables);
         }
 
