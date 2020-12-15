@@ -7,6 +7,7 @@
   'date': item.date|date('c')|json_encode(),
   'updated': item.updated|date('c')|json_encode(),
 } %}
+{% set attributes = attributes|merge(item.fmvariables) %}
     {
       "type": {{ type }},
       "id": {{ id }}
