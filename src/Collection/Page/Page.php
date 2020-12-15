@@ -630,4 +630,28 @@ class Page extends Item
 
         return $this;
     }
+
+    /**
+     * Set front matter (only) variables.
+     *
+     * @param array $variables
+     *
+     * @return self
+     */
+    public function setFmVariables(array $variables): self
+    {
+        $this->fmVariables = $variables;
+
+        return $this;
+    }
+
+    /**
+     * Get front matter variables.
+     *
+     * @return array
+     */
+    public function getFmVariables(): array
+    {
+        return $this->fmVariables;
+    }
 }
