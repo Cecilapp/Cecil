@@ -138,7 +138,7 @@ class Page extends Item
          */
         $this->setVariables([
             'title'    => PrefixSuffix::sub($fileName),
-            'date'     => (new \DateTime())->setTimestamp($this->file->getCTime()),
+            'date'     => (new \DateTime())->setTimestamp(Util\Plateform::isWindows() ? $this->file->getCTime() : $this->file->getMTime()),
             'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
