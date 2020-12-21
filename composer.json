@@ -57,6 +57,7 @@
   "require-dev": {
     "humbug/box": "3.7.4.x-dev",
     "phpmd/phpmd": "^2.9",
+    "phpstan/phpstan": "^0.12",
     "phpunit/phpunit": "^7.5",
     "symfony/var-dumper": "^4.4"
   },
@@ -81,6 +82,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
+    "analyse": "phpstan analyse src --level=2 --memory-limit 1G",
     "test": "phpunit -c ./",
     "test-coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
     "test-bin": "cd bin && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",

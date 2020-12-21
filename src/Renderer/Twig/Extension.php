@@ -473,7 +473,7 @@ class Extension extends SlugifyExtension
             case 'css':
                 return \sprintf('<link rel="stylesheet" href="%s"%s>', $asset['path'], $htmlAttributes);
             case 'js':
-                return \sprintf('<script src="%s"%%s></script>', $asset['path'], $htmlAttributes);
+                return \sprintf('<script src="%s"%s></script>', $asset['path'], $htmlAttributes);
         }
 
         if ($asset['type'] == 'image') {

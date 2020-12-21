@@ -64,9 +64,7 @@ class Util
             return (new \DateTime())->setTimestamp($date);
         }
         // string (ie: '01/01/2019', 'today')
-        if (is_string($date)) {
-            return new \DateTime($date);
-        }
+        return new \DateTime($date);
     }
 
     /**
@@ -74,8 +72,8 @@ class Util
      *
      * ie: "Cecil\Step\PostProcessHtml" become "PostProcessHtml"
      *
-     * @param \object $class
-     * @param array   $options
+     * @param Object $class
+     * @param array  $options
      *
      * @return string
      */

@@ -59,6 +59,7 @@ class Asset implements \ArrayAccess
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // load file(s)
+        $file = [];
         $prevType = '';
         $prevExt = '';
         foreach ($path as $p) {

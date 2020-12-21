@@ -55,6 +55,8 @@ class Language
         if ($this->hasProperty('name')) {
             return $this->config->getLanguageProperty('name', $this->language);
         }
+
+        return null;
     }
 
     /**
@@ -65,6 +67,8 @@ class Language
         if ($this->hasProperty('locale')) {
             return $this->config->getLanguageProperty('locale', $this->language);
         }
+
+        return null;
     }
 
     /**

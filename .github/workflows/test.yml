@@ -104,6 +104,11 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress
 
+    - name: Run analyse
+      #if: ${{ !matrix.coverage }}
+      run: |
+        composer run-script analyse
+
     - name: Run build test
       if: ${{ !matrix.coverage }}
       run: |

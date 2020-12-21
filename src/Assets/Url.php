@@ -60,6 +60,7 @@ class Url
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // canonical URL?
+        $base = '';
         if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
             $base = rtrim($this->baseurl, '/');
         }

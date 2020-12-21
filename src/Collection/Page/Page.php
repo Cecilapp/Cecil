@@ -535,14 +535,14 @@ class Page extends Item
     /**
      * Set a variable.
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed $value
      *
      * @throws \Exception
      *
      * @return self
      */
-    public function setVariable($name, $value): self
+    public function setVariable(string $name, $value): self
     {
         if (is_bool($value)) {
             $value = $value ?: 0;
