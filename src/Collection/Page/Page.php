@@ -536,7 +536,7 @@ class Page extends Item
      * Set a variable.
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @throws \Exception
      *

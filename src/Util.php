@@ -72,7 +72,7 @@ class Util
      *
      * ie: "Cecil\Step\PostProcessHtml" become "PostProcessHtml"
      *
-     * @param Object $class
+     * @param object $class
      * @param array  $options
      *
      * @return string
