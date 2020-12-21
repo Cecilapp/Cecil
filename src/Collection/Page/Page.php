@@ -555,7 +555,7 @@ class Page extends Item
                     throw new \Exception(sprintf(
                         'Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"',
                         $this->getId(),
-                        $value
+                        (string) $value
                     ));
                 }
                 $this->offsetSet('date', $date);
@@ -573,7 +573,7 @@ class Page extends Item
                         '"%s" variable should be "%s" (not "%s") in "%s"',
                         $name,
                         $slugify,
-                        $value,
+                        (string) $value,
                         $this->getId()
                     ));
                 }
