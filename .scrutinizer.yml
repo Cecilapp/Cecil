@@ -22,7 +22,7 @@ build:
   nodes:
     analysis:
       requires:
-      - is_pull_request: false # pushes/tags/manual
+      - is_pull_request: true
       tests:
         override:
         - php-scrutinizer-run
