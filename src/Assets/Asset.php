@@ -66,7 +66,7 @@ class Asset implements \ArrayAccess
             $file = $this->loadFile($p, $ignore_missing);
             if ($file['missing']) {
                 $this->data['path'] = '';
-                $this->builder->getLogger()->warning(sprintf('Asset file "%s" doesn\'t exist.', $p));
+                $this->builder->getLogger()->debug(sprintf('Asset file "%s" doesn\'t exist.', $p));
 
                 continue;
             }
