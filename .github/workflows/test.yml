@@ -107,7 +107,6 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run analyse
-      #if: ${{ !matrix.coverage }}
       run: |
         composer run-script analyse
 
@@ -118,11 +117,11 @@ jobs:
         composer run-script test-phar
 
     - name: Run build test (coverage)
-      if: ${{ matrix.coverage && !matrix.experimental && github.ref == 'refs/heads/master' }}
+      if: ${{ matrix.coverage && !matrix.experimental }}
       run: composer run-script test-coverage
 
     - name: Upload coverage results to Coveralls
-      if: ${{ matrix.coverage && !matrix.experimental && github.ref == 'refs/heads/master' }}
+      if: ${{ matrix.coverage && !matrix.experimental }}
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
