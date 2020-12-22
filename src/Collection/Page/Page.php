@@ -567,7 +567,7 @@ class Page extends Item
                 break;
             case 'path':
             case 'slug':
-                $slugify = self::slugify($value);
+                $slugify = self::slugify((string) $value);
                 if ($value != $slugify) {
                     throw new \Exception(sprintf(
                         '"%s" variable should be "%s" (not "%s") in "%s"',
