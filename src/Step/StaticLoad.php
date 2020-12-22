@@ -10,7 +10,7 @@
 
 namespace Cecil\Step;
 
-use cecil\Util;
+use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**

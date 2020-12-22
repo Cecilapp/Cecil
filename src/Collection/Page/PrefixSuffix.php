@@ -69,7 +69,7 @@ class PrefixSuffix
      * @param string $string
      * @param string $type
      *
-     * @return string[]|null
+     * @return string|null
      */
     protected static function get(string $string, string $type): ?string
     {

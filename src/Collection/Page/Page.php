@@ -535,14 +535,14 @@ class Page extends Item
     /**
      * Set a variable.
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed  $value
      *
      * @throws \Exception
      *
      * @return self
      */
-    public function setVariable($name, $value): self
+    public function setVariable(string $name, $value): self
     {
         if (is_bool($value)) {
             $value = $value ?: 0;
@@ -555,7 +555,7 @@ class Page extends Item
                     throw new \Exception(sprintf(
                         'Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"',
                         $this->getId(),
-                        $value
+                        (string) $value
                     ));
                 }
                 $this->offsetSet('date', $date);
@@ -567,13 +567,13 @@ class Page extends Item
                 break;
             case 'path':
             case 'slug':
-                $slugify = self::slugify($value);
+                $slugify = self::slugify((string) $value);
                 if ($value != $slugify) {
                     throw new \Exception(sprintf(
                         '"%s" variable should be "%s" (not "%s") in "%s"',
                         $name,
                         $slugify,
-                        $value,
+                        (string) $value,
                         $this->getId()
                     ));
                 }

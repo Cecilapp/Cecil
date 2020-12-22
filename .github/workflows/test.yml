@@ -7,6 +7,8 @@ on:
     paths-ignore:
       - 'docs/**'
   pull_request:
+    paths-ignore:
+      - 'docs/**'
 
 jobs:
   test:
@@ -103,6 +105,10 @@ jobs:
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress
+
+    - name: Run analyse
+      run: |
+        composer run-script analyse
 
     - name: Run build test
       if: ${{ !matrix.coverage }}
