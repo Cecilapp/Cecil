@@ -95,30 +95,32 @@ jobs:
           vendor
           tests/fixtures/website/themes
         key: composer-${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          composer-${{ runner.os }}-php-${{ matrix.php }}-
+        restore-keys: composer-${{ runner.os }}-php-${{ matrix.php }}-
 
     - name: Validate composer.json
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer validate
+      run: |
+        composer validate --ansi
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress
+      run: |
+        composer install --prefer-dist --no-progress --ansi
 
     - name: Run analyse
       run: |
-        composer run-script analyse
+        composer run-script analyse --ansi
 
     - name: Run build test
       if: ${{ !matrix.coverage }}
       run: |
-        composer run-script test
-        composer run-script test-phar
+        composer run-script test --ansi
+        composer run-script test-phar --ansi
 
     - name: Run build test (coverage)
       if: ${{ matrix.coverage && !matrix.experimental }}
-      run: composer run-script test-coverage
+      run: |
+        composer run-script test-coverage --ansi
 
     - name: Upload coverage results to Coveralls
       if: ${{ matrix.coverage && !matrix.experimental }}
