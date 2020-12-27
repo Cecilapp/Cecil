@@ -100,27 +100,27 @@ jobs:
     - name: Validate composer.json
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
-        composer validate --ansi
+        composer validate
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
-        composer install --prefer-dist --no-progress --ansi
+        composer install --prefer-dist --no-progress
 
     - name: Run analyse
       run: |
-        composer run-script analyse --ansi
+        composer run-script analyse
 
     - name: Run build test
       if: ${{ !matrix.coverage }}
       run: |
-        composer run-script test --ansi
-        composer run-script test-phar --ansi
+        composer run-script test
+        composer run-script test-phar
 
     - name: Run build test (coverage)
       if: ${{ matrix.coverage && !matrix.experimental }}
       run: |
-        composer run-script test-coverage --ansi
+        composer run-script test-coverage
 
     - name: Upload coverage results to Coveralls
       if: ${{ matrix.coverage && !matrix.experimental }}
