@@ -24,7 +24,7 @@
   "require": {
     "php": ">=7.1",
     "cocur/slugify": "^4.0",
-    "dflydev/dot-access-data": "^2.0",
+    "dflydev/dot-access-data": "^2.0 || ^3.0",
     "erusev/parsedown-extra": "^0.8",
     "intervention/image": "^2.5",
     "matthiasmullie/minify": "^1.3",
