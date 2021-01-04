@@ -166,7 +166,7 @@ class Config
     }
 
     /**
-     * Get the value of a configuration's key'.
+     * Get the value of a configuration's key.
      *
      * @param string      $key
      * @param string|null $language
@@ -183,7 +183,11 @@ class Config
             }
         }
 
-        return $this->data->get($key);
+        if ($this->data->has($key)) {
+            return $this->data->get($key);
+        }
+
+        return null;
     }
 
     /**
