@@ -57,7 +57,7 @@ class StaticCopy extends AbstractStep
             foreach ($themes as $theme) {
                 $this->copy(
                     $this->config->getThemeDirPath($theme, 'static'),
-                    null,
+                    $this->config->get('static.target'),
                     $this->config->get('static.exclude')
                 );
             }
