@@ -94,6 +94,7 @@ class StaticCopy extends AbstractStep
                 ->files()
                 ->in($from);
             if (is_array($exclude)) {
+                $finder->notPath($exclude);
                 $finder->notName($exclude);
             }
             $this->count += $finder->count();
