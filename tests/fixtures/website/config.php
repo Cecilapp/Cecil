@@ -86,6 +86,7 @@ return [
             'test*.txt',
             '/\.php$/',
             '*.scss',
+            'path',
         ],
         'load' => true,
     ],
