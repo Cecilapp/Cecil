@@ -482,16 +482,16 @@
         },
         {
             "name": "matthiasmullie/minify",
-            "version": "1.3.65",
+            "version": "1.3.66",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matthiasmullie/minify.git",
-                "reference": "227f19062451c55a797e0cc667ef983834e6580c"
+                "reference": "45fd3b0f1dfa2c965857c6d4a470bea52adc31a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthiasmullie/minify/zipball/227f19062451c55a797e0cc667ef983834e6580c",
-                "reference": "227f19062451c55a797e0cc667ef983834e6580c",
+                "url": "https://api.github.com/repos/matthiasmullie/minify/zipball/45fd3b0f1dfa2c965857c6d4a470bea52adc31a6",
+                "reference": "45fd3b0f1dfa2c965857c6d4a470bea52adc31a6",
                 "shasum": ""
             },
             "require": {
@@ -501,8 +501,8 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "~2.0",
-                "matthiasmullie/scrapbook": "~1.0",
-                "phpunit/phpunit": "~4.8"
+                "matthiasmullie/scrapbook": "dev-master",
+                "phpunit/phpunit": ">=4.8"
             },
             "suggest": {
                 "psr/cache-implementation": "Cache implementation to use with Minify::cache"
@@ -540,7 +540,7 @@
             ],
             "support": {
                 "issues": "https://github.com/matthiasmullie/minify/issues",
-                "source": "https://github.com/matthiasmullie/minify/tree/1.3.65"
+                "source": "https://github.com/matthiasmullie/minify/tree/1.3.66"
             },
             "funding": [
                 {
@@ -556,7 +556,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-27T21:43:29+00:00"
+            "time": "2021-01-06T15:18:10+00:00"
         },
         {
             "name": "matthiasmullie/path-converter",
