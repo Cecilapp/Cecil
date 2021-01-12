@@ -19,6 +19,8 @@ tools:
 build:
   environment:
     timezone: 'Europe/Paris'
+    php:
+      version: 7.1
   nodes:
     analysis:
       requires:
