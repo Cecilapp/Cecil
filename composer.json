@@ -83,22 +83,34 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "analyse": "phpstan analyse src --memory-limit 1G --level=1 --no-progress --error-format=github",
-    "cs": "phpcs",
+    "code:analyse": "phpstan analyse src --memory-limit 1G --level=1 --no-progress --error-format=github",
+    "code:style": "phpcs",
     "test": "phpunit -c ./",
-    "test-coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
-    "test-bin": "cd bin && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",
-    "test-phar": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
-    "box": "box compile",
-    "build": "@box",
-    "coverage-install": [
+    "test:coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
+    "test:coverage:install": [
       "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/latest/download/php-coveralls.phar -O coveralls.phar",
       "chmod +x coveralls.phar",
       "php coveralls.phar --version"
     ],
-    "coverage-upload": "php coveralls.phar -v",
+    "test:coverage:upload": "php coveralls.phar -v",
+    "test:bin": "cd bin && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",
+    "test:phar": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
+    "build": "box compile",
+    "box": "@build",
     "post-install-cmd": "cd ./tests/fixtures/website && composer install",
     "post-update-cmd": "cd ./tests/fixtures/website && composer update"
+  },
+  "scripts-descriptions": {
+    "code:analyse": "Analyses code with PHPStan (PHP Static Analysis Tool).",
+    "code:style": "Corrects coding standard violations with PHP_CodeSniffer",
+    "test": "Runs functional tests suite.",
+    "test:coverage": "Runs functional tests suite with code coverage.",
+    "test:coverage:install": "Installs the php-coveralls binary.",
+    "test:coverage:upload": "Uploads tests coverage results.",
+    "test:bin": "Runs the binary to create a new skeleton site.",
+    "test:phar": "Builds the PHAR file and trys to create a new skeleton site.",
+    "build": "Builds the PHAR file.",
+    "box": "Alias of build."
   },
   "config": {
     "platform": {

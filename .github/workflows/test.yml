@@ -109,23 +109,23 @@ jobs:
 
     - name: Run analyse
       run: |
-        composer run-script analyse
+        composer run-script code:analyse
 
     - name: Run build test
       if: ${{ !matrix.coverage }}
       run: |
         composer run-script test
-        composer run-script test-phar
+        composer run-script test:phar
 
     - name: Run build test (coverage)
       if: ${{ matrix.coverage && !matrix.experimental }}
       run: |
-        composer run-script test-coverage
+        composer run-script test:coverage
 
     - name: Upload coverage results to Coveralls
       if: ${{ matrix.coverage && !matrix.experimental }}
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        composer run-script coverage-install
-        composer run-script coverage-upload
+        composer run-script test:coverage:install
+        composer run-script test:coverage:upload
