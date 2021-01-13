@@ -1,0 +1,20 @@
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "composer"
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+    assignees:
+      - "Narno"
+    commit-message:
+      prefix: "deps prod"
+      prefix-development: "deps dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+    rebase-strategy: "auto"
+    reviewers:
+      - "Narno"
+    versioning-strategy: lockfile-only
