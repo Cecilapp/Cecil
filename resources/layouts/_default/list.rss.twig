@@ -4,14 +4,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
   <channel>
-    <title>{{ title }}</title>
+    <title>{{ title|e }}</title>
     <description><![CDATA[{{ site.description }}]]></description>
     <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
     <link>{{ url(page, {canonical:true}) }}</link>
     {%- for p in pages|sort_by_date ~%}
     <item>
       <guid>{{ url(p, {canonical:true}) }}</guid>
-      <title>{{ p.title }}</title>
+      <title>{{ p.title|e }}</title>
       <description><![CDATA[{{ p.content }}]]></description>
       <pubDate>{{ p.date|date('c') }}</pubDate>
       <link>{{ url(p, {canonical:true}) }}</link>
