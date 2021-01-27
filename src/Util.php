@@ -122,7 +122,7 @@ class Util
     /**
      * Converts an array of strings into a path.
      *
-     * @param string $path
+     * @param string[] $path
      *
      * @return string
      */
@@ -140,7 +140,7 @@ class Util
     /**
      * Converts an array of strings into a system path.
      *
-     * @param string $path
+     * @param string[] $path
      *
      * @return string
      */
