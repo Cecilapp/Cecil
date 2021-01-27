@@ -102,7 +102,7 @@ class Url
                 $pageId = self::$slugifier->slugify($value);
                 switch (true) {
                     // External URL
-                    case Util::isExternalUrl($value):
+                    case Util::isUrl($value):
                         $this->url = $value;
                         break;
                     // asset as string

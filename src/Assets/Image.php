@@ -51,7 +51,7 @@ class Image
     public function load(string $path): self
     {
         // is not a local image?
-        if (Util::isExternalUrl($path)) {
+        if (Util::isUrl($path)) {
             $this->local = false;
         }
 
@@ -147,7 +147,7 @@ class Image
             return $source;
         }
         $source = $this->path;
-        if (!Util::isUrlFileExists($source)) {
+        if (!Util::isRemoteFileExists($source)) {
             throw new Exception(sprintf('Can\'t process "%s": remote file doesn\'t exists.', $source));
         }
 

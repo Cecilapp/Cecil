@@ -45,10 +45,10 @@ class Parsedown extends ParsedownExtra
             $this->builder->getConfig()->getStaticTargetPath(),
             ltrim($this->removeQuery($image['element']['attributes']['src']))
         );
-        if (Util::isExternalUrl($image['element']['attributes']['src'])) {
+        if (Util::isUrl($image['element']['attributes']['src'])) {
             $path = $this->removeQuery($image['element']['attributes']['src']);
         }
-        if (!is_file($path) && !Util::isUrlFileExists($path)) {
+        if (!is_file($path) && !Util::isRemoteFileExists($path)) {
             return $image;
         }
 
@@ -77,7 +77,7 @@ class Parsedown extends ParsedownExtra
          * Should be responsive?
          */
         $responsive = false;
-        if (array_key_exists('responsive', $result) && !Util::isExternalUrl($image['element']['attributes']['src'])) {
+        if (array_key_exists('responsive', $result) && !Util::isUrl($image['element']['attributes']['src'])) {
             $responsive = true;
             // process
             $steps = 5;
@@ -115,7 +115,7 @@ class Parsedown extends ParsedownExtra
             $image['element']['attributes']['src'] = $imageResized;
             $image['element']['attributes']['width'] = $width;
 
-            if (Util::isExternalUrl($image['element']['attributes']['src'])) {
+            if (Util::isUrl($image['element']['attributes']['src'])) {
                 return $image;
             }
         }

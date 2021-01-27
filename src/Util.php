@@ -18,7 +18,7 @@ class Util
     protected static $fs;
 
     /**
-     * Return a Symfony\Component\Filesystem instance.
+     * Returns a Symfony\Component\Filesystem instance.
      *
      * @return Filesystem
      */
@@ -91,25 +91,25 @@ class Util
     }
 
     /**
-     * Test if a string is an external URL or not.
+     * Tests if a string is an URL.
      *
      * @param string $url
      *
      * @return bool
      */
-    public static function isExternalUrl(string $url): bool
+    public static function isUrl(string $url): bool
     {
         return (bool) preg_match('~^(?:f|ht)tps?://~i', $url);
     }
 
     /**
-     * Test if a remote file exists or not.
+     * Tests if a remote file exists.
      *
      * @param string $remoteFile
      *
      * @return bool
      */
-    public static function isUrlFileExists(string $remoteFile): bool
+    public static function isRemoteFileExists(string $remoteFile): bool
     {
         $handle = @fopen($remoteFile, 'r');
         if (is_resource($handle)) {
@@ -162,7 +162,7 @@ class Util
     /**
      * Converts an array to a string.
      *
-     * ie: [0 => 'A', 1 => B] become "0:A, 1:B"
+     * ie: [0 => 'A', 1 => 'B'] become '0:A, 1:B'
      *
      * @param array  $array
      * @param string $separator Separtor between the key and the value in the result string
@@ -206,7 +206,7 @@ class Util
     }
 
     /**
-     * Simplified version file_get_contents() with error handler.
+     * file_get_contents() function with error handler.
      *
      * @param string $filename
      *
