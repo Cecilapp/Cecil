@@ -250,7 +250,7 @@ class Util
         if (false === $subtype = mime_content_type($path)) {
             throw new \Exception(sprintf('Can\'t get MIME content type of "%s"', $path));
         }
-        if (is_resource($stream)) {
+        if ($stream && is_resource($stream)) {
             fclose($stream);
         }
         $type = explode('/', $subtype)[0];
