@@ -235,14 +235,23 @@ class Util
      *
      * ie: ['text', 'text/plain']
      *
-     * @param string $filename
+     * @param string $path
      *
      * @return string[]
      */
-    public static function getMimeType(string $filename): array
+    public static function getMimeType(string $path): array
     {
-        if (false === $subtype = mime_content_type($filename)) {
-            throw new \Exception(sprintf('Can\'t get MIME content type of "%s"', $filename));
+        if (Util::isUrl($path)) {
+            if ($stream = fopen($path, 'r')) {
+                $path = $stream;
+            }
+        }
+
+        if (false === $subtype = mime_content_type($path)) {
+            throw new \Exception(sprintf('Can\'t get MIME content type of "%s"', $path));
+        }
+        if (is_resource($stream)) {
+            fclose($stream);
         }
         $type = explode('/', $subtype)[0];
 

@@ -371,33 +371,39 @@ class Asset implements \ArrayAccess
     /**
      * Load file data.
      *
-     * @param string $path
-     * @param bool   $ignore_missing
+     * @param string $path           Relative path or URL.
+     * @param bool   $ignore_missing Don't throw an exception is file is missing.
      *
      * @return array
      */
     private function loadFile(string $path, bool $ignore_missing = false): array
     {
         $file = [];
-        $path = '/'.ltrim($path, '/');
 
-        if (false === $filePath = $this->findFile($path)) {
-            if ($ignore_missing) {
-                $file['missing'] = true;
+        if (Util::isUrl($path)) {
+            $filePath = $path;
+            $path = parse_url($path, PHP_URL_PATH);
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
+        } else {
+            $path = '/'.ltrim($path, '/');
+            if (false === $filePath = $this->findFile($path)) {
+                if ($ignore_missing) {
+                    $file['missing'] = true;
 
-                return $file;
+                    return $file;
+                }
+
+                throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
             }
-
-            throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
         }
 
-        $pathinfo = pathinfo($path);
         list($type, $subtype) = Util::getMimeType($filePath);
         $content = file_get_contents($filePath);
 
         $file['filepath'] = $filePath;
         $file['path'] = $path;
-        $file['ext'] = $pathinfo['extension'];
+        $file['ext'] = $extension;
         $file['type'] = $type;
         $file['subtype'] = $subtype;
         $file['size'] = filesize($filePath);

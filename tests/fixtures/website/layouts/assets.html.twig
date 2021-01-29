@@ -132,6 +132,15 @@ h2 {
     </pre>
   </p>
 
+  <h2>Remote image</h2>
+  <p>
+    asset('https://www.google.fr/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png')
+    <pre>
+      {{ asset('https://www.google.fr/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png')|url }}
+      {{ asset('https://www.google.fr/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png')|html }}
+    </pre>
+  </p>
+
   <h2>Asset with a wrong path and ignore directive</h2>
   <p>
     asset('asssset.css',{ignore_missing:true}))
