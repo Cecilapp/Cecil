@@ -413,7 +413,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Try to find a static file (in site or theme(s)) if exists or returns false.
+     * Try to find a static file or returns false.
      *
      * @param string $path
      *
@@ -421,12 +421,17 @@ class Asset implements \ArrayAccess
      */
     private function findFile(string $path)
     {
+        if (Util::isUrl($path)) {
+            //
+        }
+
+        // find in static/
         $filePath = Util::joinFile($this->config->getStaticPath(), $path);
         if (Util::getFS()->exists($filePath)) {
             return $filePath;
         }
 
-        // checks in each theme
+        // find in themes/<theme>/static/
         foreach ($this->config->getTheme() as $theme) {
             $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
             if (Util::getFS()->exists($filePath)) {
