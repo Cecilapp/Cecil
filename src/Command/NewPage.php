@@ -133,7 +133,7 @@ class NewPage extends AbstractCommand
         return <<<'EOT'
 ---
 title: "%title%"
-date: %date%"
+date: %date%
 draft: true
 ---
 _Your content here_
