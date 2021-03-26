@@ -334,16 +334,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.7.0",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3"
+                "reference": "35ea11d335fd638b5882ff1725228b3d35496ab1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/53330f47520498c0ae1f61f7e2c90f55690c06a3",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/35ea11d335fd638b5882ff1725228b3d35496ab1",
+                "reference": "35ea11d335fd638b5882ff1725228b3d35496ab1",
                 "shasum": ""
             },
             "require": {
@@ -403,9 +403,9 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.7.0"
+                "source": "https://github.com/guzzle/psr7/tree/1.8.1"
             },
-            "time": "2020-09-30T07:37:11+00:00"
+            "time": "2021-03-21T16:25:00+00:00"
         },
         {
             "name": "intervention/image",
@@ -3355,16 +3355,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.4.5",
+            "version": "1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "f28d44c286812c714741478d968104c5e604a1d4"
+                "reference": "f27e06cd9675801df441b3656569b328e04aa37c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/f28d44c286812c714741478d968104c5e604a1d4",
-                "reference": "f28d44c286812c714741478d968104c5e604a1d4",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/f27e06cd9675801df441b3656569b328e04aa37c",
+                "reference": "f27e06cd9675801df441b3656569b328e04aa37c",
                 "shasum": ""
             },
             "require": {
@@ -3372,7 +3372,8 @@
                 "psr/log": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || 6.5 - 8"
+                "phpstan/phpstan": "^0.12.55",
+                "symfony/phpunit-bridge": "^4.2 || ^5"
             },
             "type": "library",
             "autoload": {
@@ -3398,7 +3399,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/xdebug-handler/issues",
-                "source": "https://github.com/composer/xdebug-handler/tree/1.4.5"
+                "source": "https://github.com/composer/xdebug-handler/tree/1.4.6"
             },
             "funding": [
                 {
@@ -3414,7 +3415,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-13T08:04:11+00:00"
+            "time": "2021-03-25T17:01:18+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -5173,16 +5174,16 @@
         },
         {
             "name": "pdepend/pdepend",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "c64472f8e76ca858c79ad9a4cf1e2734b3f8cc38"
+                "reference": "b6452ce4b570f540be3a4f46276dd8d8f4fa5ead"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/c64472f8e76ca858c79ad9a4cf1e2734b3f8cc38",
-                "reference": "c64472f8e76ca858c79ad9a4cf1e2734b3f8cc38",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/b6452ce4b570f540be3a4f46276dd8d8f4fa5ead",
+                "reference": "b6452ce4b570f540be3a4f46276dd8d8f4fa5ead",
                 "shasum": ""
             },
             "require": {
@@ -5192,9 +5193,9 @@
                 "symfony/filesystem": "^2.3.0|^3|^4|^5"
             },
             "require-dev": {
-                "easy-doc/easy-doc": "0.0.0 || ^1.2.3",
+                "easy-doc/easy-doc": "0.0.0|^1.2.3",
                 "gregwar/rst": "^1.0",
-                "phpunit/phpunit": "^4.8.35|^5.7",
+                "phpunit/phpunit": "^4.8.36|^5.7.27",
                 "squizlabs/php_codesniffer": "^2.0.0"
             },
             "bin": [
@@ -5218,7 +5219,7 @@
             "description": "Official version of pdepend to be handled with Composer",
             "support": {
                 "issues": "https://github.com/pdepend/pdepend/issues",
-                "source": "https://github.com/pdepend/pdepend/tree/master"
+                "source": "https://github.com/pdepend/pdepend/tree/2.9.0"
             },
             "funding": [
                 {
@@ -5226,7 +5227,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-20T10:53:13+00:00"
+            "time": "2021-03-11T09:20:40+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -5764,16 +5765,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.80",
+            "version": "0.12.82",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "c6a1b17f22ecf708d434d6bee05092647ec7e686"
+                "reference": "3920f0fb0aff39263d3a4cb0bca120a67a1a6a11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c6a1b17f22ecf708d434d6bee05092647ec7e686",
-                "reference": "c6a1b17f22ecf708d434d6bee05092647ec7e686",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3920f0fb0aff39263d3a4cb0bca120a67a1a6a11",
+                "reference": "3920f0fb0aff39263d3a4cb0bca120a67a1a6a11",
                 "shasum": ""
             },
             "require": {
@@ -5804,7 +5805,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.80"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.82"
             },
             "funding": [
                 {
@@ -5820,7 +5821,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-28T20:22:43+00:00"
+            "time": "2021-03-19T06:08:17+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
