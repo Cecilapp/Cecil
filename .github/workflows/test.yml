@@ -36,10 +36,10 @@ jobs:
           php: '7.4'
           coverage: true
           experimental: false
-        - os: 'ubuntu-latest'
-          php: '8.1'
-          coverage: false
-          experimental: true
+        #- os: 'ubuntu-latest'
+        #  php: '8.1'
+        #  coverage: false
+        #  experimental: true
 
     steps:
     - name: Checkout source code
