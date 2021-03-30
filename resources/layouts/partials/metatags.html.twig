@@ -88,16 +88,17 @@
     <meta property="og:locale" content="{{ opengraph.locale }}" />
     <meta property="og:site_name" content="{{ opengraph.site_name }}" />
     <meta property="og:type" content="{{ opengraph.type }}" />
-    <meta property="og:title" content="{{ block('title') }}" />
-    <meta property="og:description" content="{{ block('description') }}" />
+    <meta property="og:title" content="{{ opengraph.title }}" />
+    <meta property="og:description" content="{{ opengraph.description }}" />
     <meta property="og:url" content="{{ url(page.url, {canonical:true}) }}" />
 {%- if opengraph.image ~%}
     <meta property="og:image" content="{{ asset(opengraph.image)|url({canonical:true}) }}" />
     <meta property="og:image:type" content="{{ asset(opengraph.image).subtype }}" />
     <meta property="og:image:width" content="{{ asset(opengraph.image).width }}" />
     <meta property="og:image:height" content="{{ asset(opengraph.image).height }}" />
+    <meta property="og:image:alt" content="" />
 {%- endif -%}
-{#- template: Facebook -#}
+{#- template: Facebook ~#}
 {%- if facebook.id ~%}
     <meta property="fb:profile_id" content="{{ facebook.id }}" />
 {%- endif -%}
@@ -110,9 +111,13 @@
 {%- if facebook.username ~%}
     <meta property="profile:username" content="{{ facebook.username }}" />
 {%- endif ~%}
-{#- template: Twitter -#}
+{#- template: Twitter ~#}
+    <meta name="twitter:title" content="{{ opengraph.title }}" />
+    <meta name="twitter:description" content="{{ opengraph.description }}" />
 {%- if opengraph.image and asset(opengraph.image).width > 500 ~%}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="{{ asset(opengraph.image)|url({canonical:true}) }}" />
+    <meta name="twitter:image:alt" content="" />
 {%- else ~%}
     <meta name="twitter:card" content="summary" />
 {%- endif -%}
