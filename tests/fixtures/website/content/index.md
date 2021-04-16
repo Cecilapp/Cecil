@@ -1,3 +1,3 @@
 ---
-title: Accueil ! \o/
+title: Home! \o/
 ---
