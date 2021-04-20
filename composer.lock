@@ -3149,21 +3149,20 @@
         },
         {
             "name": "beberlei/assert",
-            "version": "v3.3.0",
+            "version": "v3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beberlei/assert.git",
-                "reference": "5367e3895976b49704ae671f75bc5f0ba1b986ab"
+                "reference": "5e721d7e937ca3ba2cdec1e1adf195f9e5188372"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beberlei/assert/zipball/5367e3895976b49704ae671f75bc5f0ba1b986ab",
-                "reference": "5367e3895976b49704ae671f75bc5f0ba1b986ab",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/5e721d7e937ca3ba2cdec1e1adf195f9e5188372",
+                "reference": "5e721d7e937ca3ba2cdec1e1adf195f9e5188372",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
-                "ext-intl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-simplexml": "*",
@@ -3174,6 +3173,9 @@
                 "phpstan/phpstan": "*",
                 "phpunit/phpunit": ">=6.0.0",
                 "yoast/phpunit-polyfills": "^0.1.0"
+            },
+            "suggest": {
+                "ext-intl": "Needed to allow Assertion::count(), Assertion::isCountable(), Assertion::minCount(), and Assertion::maxCount() to operate on ResourceBundles"
             },
             "type": "library",
             "autoload": {
@@ -3208,9 +3210,9 @@
             ],
             "support": {
                 "issues": "https://github.com/beberlei/assert/issues",
-                "source": "https://github.com/beberlei/assert/tree/v3.3.0"
+                "source": "https://github.com/beberlei/assert/tree/v3.3.1"
             },
-            "time": "2020-11-13T20:02:54+00:00"
+            "time": "2021-04-18T20:11:03+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",
@@ -5100,16 +5102,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.14.0",
+            "version": "v1.15.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "a1cfe0b21faf9c0b61ac0c6188c4af7fd6fd0db3"
+                "reference": "8a93bfe047c7f699f819459de8ddda144cd636a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/a1cfe0b21faf9c0b61ac0c6188c4af7fd6fd0db3",
-                "reference": "a1cfe0b21faf9c0b61ac0c6188c4af7fd6fd0db3",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/8a93bfe047c7f699f819459de8ddda144cd636a4",
+                "reference": "8a93bfe047c7f699f819459de8ddda144cd636a4",
                 "shasum": ""
             },
             "require": {
@@ -5180,22 +5182,22 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/v1.14.0"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v1.15.4"
             },
-            "time": "2020-12-03T16:26:19+00:00"
+            "time": "2021-04-17T09:00:05+00:00"
         },
         {
             "name": "pdepend/pdepend",
-            "version": "2.9.0",
+            "version": "2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "b6452ce4b570f540be3a4f46276dd8d8f4fa5ead"
+                "reference": "1632f0cee84512ffd6dde71e58536b3b06528c41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/b6452ce4b570f540be3a4f46276dd8d8f4fa5ead",
-                "reference": "b6452ce4b570f540be3a4f46276dd8d8f4fa5ead",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/1632f0cee84512ffd6dde71e58536b3b06528c41",
+                "reference": "1632f0cee84512ffd6dde71e58536b3b06528c41",
                 "shasum": ""
             },
             "require": {
@@ -5231,7 +5233,7 @@
             "description": "Official version of pdepend to be handled with Composer",
             "support": {
                 "issues": "https://github.com/pdepend/pdepend/issues",
-                "source": "https://github.com/pdepend/pdepend/tree/2.9.0"
+                "source": "https://github.com/pdepend/pdepend/tree/2.9.1"
             },
             "funding": [
                 {
@@ -5239,7 +5241,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-11T09:20:40+00:00"
+            "time": "2021-04-15T21:36:28+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -5777,16 +5779,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.83",
+            "version": "0.12.84",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "4a967cec6efb46b500dd6d768657336a3ffe699f"
+                "reference": "9c43f15da8798c8f30a4b099e6a94530a558cfd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4a967cec6efb46b500dd6d768657336a3ffe699f",
-                "reference": "4a967cec6efb46b500dd6d768657336a3ffe699f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9c43f15da8798c8f30a4b099e6a94530a558cfd5",
+                "reference": "9c43f15da8798c8f30a4b099e6a94530a558cfd5",
                 "shasum": ""
             },
             "require": {
@@ -5817,7 +5819,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.83"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.84"
             },
             "funding": [
                 {
@@ -5833,7 +5835,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-03T15:35:45+00:00"
+            "time": "2021-04-19T17:10:54+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
