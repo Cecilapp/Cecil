@@ -84,7 +84,7 @@
   "prefer-stable": true,
   "scripts": {
     "code:analyse": "phpstan analyse src --memory-limit 1G --level=1 --no-progress --error-format=github",
-    "code:style": "phpcs",
+    "code:style": "phpcs ./src/ --standard=PSR2 -n",
     "test": "phpunit -c ./",
     "test:coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
     "test:coverage:install": [
