@@ -112,13 +112,17 @@ class Image
 
         // returns 'data:image' for external image
         if (!$this->local) {
+            $mime = 'image';
             $context = stream_context_create([
                 'ssl' => [
                     'verify_peer'      => false,
                     'verify_peer_name' => false,
                 ],
             ]);
-            $mime = get_headers($source, 1, is_resource($context) ? $context : null)['Content-Type'];
+            $headers = get_headers($source, 1, is_resource($context) ? $context : null);
+            if (array_key_exists('Content-Type', $headers)) {
+                $mime = $headers['Content-Type'];
+            }
 
             return sprintf('data:%s;base64,%s', $mime, base64_encode($image));
         }
