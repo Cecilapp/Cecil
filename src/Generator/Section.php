@@ -56,7 +56,11 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 if ($page->hasVariable('cascade')) {
                     $cascade = $page->getVariable('cascade');
                     $pages->map(function (Page $page) use ($cascade) {
-                        $page->setVariables($cascade);
+                        foreach ($cascade as $key => $value) {
+                            if (!$page->hasVariable($key)) {
+                                $page->setVariable($key, $value);
+                            }
+                        }
                     });
                 }
                 // sorts
