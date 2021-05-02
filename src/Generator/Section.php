@@ -77,7 +77,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $pages = $pages->$sortMethod();
                 }
                 // adds navigation links
-                $this->addNavigationLinks($pages, $page->getVariable('sortby'));
+                $this->addNavigationLinks($pages, $page->getVariable('sortby'), $page->getVariable('circular'));
                 // creates page for each section
                 $page->setPath($path)
                     ->setType(Type::SECTION)
@@ -100,20 +100,31 @@ class Section extends AbstractGenerator implements GeneratorInterface
      *
      * @param PagesCollection $pages
      * @param string          $sort
+     * @param bool            $circular
      *
      * @return void
      */
-    protected function addNavigationLinks(PagesCollection $pages, string $sort = null): void
+    protected function addNavigationLinks(PagesCollection $pages, string $sort = null, $circular = false): void
     {
         $pagesAsArray = $pages->toArray();
         if ($sort === null || $sort == 'date') {
             $pagesAsArray = array_reverse($pagesAsArray);
         }
-        if (count($pagesAsArray) > 1) {
+        $count = count($pagesAsArray);
+        if ($count > 1) {
             foreach ($pagesAsArray as $position => $page) {
                 switch ($position) {
                     // first
                     case 0:
+                        if ($circular) {
+                            $page->setVariables([
+                                'prev' => [
+                                    'id'    => $pagesAsArray[$count - 1]->getId(),
+                                    'path'  => $pagesAsArray[$count - 1]->getPath(),
+                                    'title' => $pagesAsArray[$count - 1]->getVariable('title'),
+                                ],
+                            ]);
+                        }
                         $page->setVariables([
                             'next' => [
                                 'id'    => $pagesAsArray[$position + 1]->getId(),
@@ -123,7 +134,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ]);
                         break;
                     // last
-                    case count($pagesAsArray) - 1:
+                    case $count - 1:
                         $page->setVariables([
                             'prev' => [
                                 'id'    => $pagesAsArray[$position - 1]->getId(),
@@ -131,6 +142,15 @@ class Section extends AbstractGenerator implements GeneratorInterface
                                 'title' => $pagesAsArray[$position - 1]->getVariable('title'),
                             ],
                         ]);
+                        if ($circular) {
+                            $page->setVariables([
+                                'next' => [
+                                    'id'    => $pagesAsArray[0]->getId(),
+                                    'path'  => $pagesAsArray[0]->getPath(),
+                                    'title' => $pagesAsArray[0]->getVariable('title'),
+                                ],
+                            ]);
+                        }
                         break;
                     default:
                         $page->setVariables([
