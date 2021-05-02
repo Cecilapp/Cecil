@@ -1,0 +1,4 @@
+---
+cascade:
+  title: Inherited title
+---

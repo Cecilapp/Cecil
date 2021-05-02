@@ -52,9 +52,15 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $page = clone $this->builder->getPages()->get($pageId);
                 }
                 $pages = new PagesCollection($section, $pagesAsArray);
+                // cascade
+                if ($page->hasVariable('cascade')) {
+                    $cascade = $page->getVariable('cascade');
+                    $pages->map(function (Page $page) use ($cascade) {
+                        $page->setVariables($cascade);
+                    });
+                }
                 // sorts
                 $pages = $pages->sortByDate();
-                /** @var \Cecil\Collection\Page\Page $page */
                 if ($page->getVariable('sortby')) {
                     $sortMethod = sprintf('sortBy%s', ucfirst($page->getVariable('sortby')));
                     if (!method_exists($pages, $sortMethod)) {
