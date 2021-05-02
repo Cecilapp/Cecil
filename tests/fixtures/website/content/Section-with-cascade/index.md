@@ -1,4 +1,4 @@
 ---
 cascade:
-  title: Inherited title
+  test: Inherited value
 ---
