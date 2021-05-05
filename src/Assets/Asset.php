@@ -433,6 +433,7 @@ class Asset implements \ArrayAccess
                 }
                 $cache->set($cacheKey, file_get_contents($path));
             }
+
             return $cache->getFilePathname($cacheKey);
         }
 
