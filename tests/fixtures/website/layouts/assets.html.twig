@@ -127,16 +127,24 @@ h2 {
   <p>
     asset('images/cecil-logo.png')|html({title:'the title', alt:'the alternative', lazyloading:''})
     <pre>
-      {{ asset('images/cecil-logo.png')|html({title:'the title', alt:'the alternative', lazyloading:''}) }}
-      {{~ asset('images/cecil-logo.png')|html({title:'the title', alt:'the alternative', lazyloading:''})|e }}
+      {{- asset('images/cecil-logo.png')|html({title:'the title', alt:'the alternative', lazyloading:''}) }}
+      {{~ asset('images/cecil-logo.png')|html({title:'the title', alt:'the alternative', lazyloading:''})|e -}}
     </pre>
   </p>
 
   <h2>Asset with a wrong path and ignore directive</h2>
   <p>
     asset('asssset.css',{ignore_missing:true}))
+    <pre>{{ asset('asssset.css',{ignore_missing:true}) }}</pre>
+  </p>
+
+  <h2>Remote asset file</h2>
+  <p>
+    asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js'))
     <pre>
-      {{ asset('asssset.css',{ignore_missing:true}) }}
+      {{- asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url }}
+      {{~ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['file'] }}
+      {{~ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['ext'] -}}
     </pre>
   </p>
 

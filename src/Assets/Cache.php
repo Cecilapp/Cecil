@@ -174,8 +174,9 @@ class Cache implements CacheInterface
     public function createKeyFromFile(string $file, string $path): string
     {
         $content = file_get_contents($file);
+        $key = $this->prepareKey(\sprintf('%s__%s', $path, $content !== false ? $this->createKeyFromValue($content) : ''));
 
-        return \sprintf('%s__%s', $path, $content !== false ? $this->createKeyFromValue($content) : '');
+        return $key;
     }
 
     /**
@@ -187,7 +188,9 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset): string
     {
-        return \sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['source'] ?? ''));
+        $key = $this->prepareKey(\sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['source'] ?? '')));
+
+        return $key;
     }
 
     /**
@@ -197,7 +200,7 @@ class Cache implements CacheInterface
      *
      * @return string
      */
-    private function getFilePathname(string $key): string
+    public function getFilePathname(string $key): string
     {
         return Util::joinFile($this->cacheDir, $key);
     }
