@@ -66,7 +66,6 @@ class Asset implements \ArrayAccess
             $file = $this->loadFile($p, $ignore_missing);
             if ($file['missing']) {
                 $this->data['path'] = '';
-                //$this->builder->getLogger()->debug(sprintf('Asset file "%s" doesn\'t exist.', $p));
 
                 continue;
             }
@@ -372,7 +371,7 @@ class Asset implements \ArrayAccess
      * Load file data.
      *
      * @param string $path           Relative path or URL.
-     * @param bool   $ignore_missing Don't throw an exception is file is missing.
+     * @param bool   $ignore_missing Don't throw an exception if file is missing.
      *
      * @return array
      */
@@ -411,10 +410,10 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Try to find a file:
-     *   1. remote (if $ath is a valid URL)
+     * Try to find the file:
+     *   1. remote (if $path is a valid URL)
      *   2. in static/
-     *   3. in theme/static/
+     *   3. in themes/<theme>/static/
      * Returns local file path or false if file don't exists.
      *
      * @param string $path
@@ -423,7 +422,7 @@ class Asset implements \ArrayAccess
      */
     private function findFile(string $path)
     {
-        // remote file? returns cached file path.
+        // in case of remote file then returns cached file path
         if (Util::isUrl($path)) {
             $cache = new Cache($this->builder, 'assets/remote');
             $cacheKey = $cache->createKeyFromFile($path, parse_url($path, PHP_URL_HOST).parse_url($path, PHP_URL_PATH));
@@ -443,7 +442,7 @@ class Asset implements \ArrayAccess
             return $filePath;
         }
 
-        // checks in each theme/static/
+        // checks in each themes/<theme>/static/
         foreach ($this->config->getTheme() as $theme) {
             $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
             if (Util::getFS()->exists($filePath)) {
