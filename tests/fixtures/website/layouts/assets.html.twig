@@ -140,12 +140,12 @@ h2 {
 
   <h2>Remote asset file</h2>
   <p>
-    asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js'))
-    <pre>
-      {{- asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url }}
-      {{~ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['file'] }}
-      {{~ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['ext'] -}}
-    </pre>
+    asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url)
+    <pre>{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url }}</pre>
+    asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['file'])
+    <pre>{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['file'] }}</pre>
+    asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['ext']
+    <pre>{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['ext'] }}</pre>
   </p>
 
 {% endblock content %}
