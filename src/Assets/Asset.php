@@ -34,11 +34,13 @@ class Asset implements \ArrayAccess
     protected $minified = false;
 
     /**
-     * Creates an Asset from file.
+     * Creates an Asset from file(s) path.
      *
      * $options[
-     *     'fingerprint' => false,
-     *     'minify'      => false,
+     *     'fingerprint'    => true,
+     *     'minify'         => true,
+     *     'filename'       => '', // bundle
+     *     'ignore_missing' => false,
      * ];
      *
      * @param Builder      $builder
@@ -52,13 +54,13 @@ class Asset implements \ArrayAccess
         $path = is_array($path) ? $path : [$path];
 
         // handles options
-        $ignore_missing = false;
         $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
         $minify = (bool) $this->config->get('assets.minify.enabled');
         $filename = '';
+        $ignore_missing = false;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
-        // load file(s)
+        // loads file(s)
         $file = [];
         $prevType = '';
         $prevExt = '';
@@ -92,7 +94,7 @@ class Asset implements \ArrayAccess
             $prevType = $file['type'];
             $prevExt = $file['ext'];
         }
-        // bunde: define path
+        // bundle: define path
         if (count($path) > 1) {
             $this->data['path'] = $filename;
             if (empty($filename)) {
@@ -125,7 +127,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns Asset path.
+     * Returns path.
      *
      * @return string
      */

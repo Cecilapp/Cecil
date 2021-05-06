@@ -451,7 +451,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Creates an HTML element from an asset.
+     * Returns the HTML version of an asset.
      *
      * @param Asset      $asset
      * @param array|null $attributes
@@ -488,7 +488,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Returns the content of an Asset.
+     * Returns the content of an asset.
      *
      * @param Asset $asset
      *
