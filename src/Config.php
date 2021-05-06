@@ -386,6 +386,16 @@ class Config
     }
 
     /**
+     * Returns assets remote path.
+     *
+     * @return string
+     */
+    public function getAssetsRemotePath(): string
+    {
+        return Util::joinFile($this->getDestinationDir(), (string) $this->get('assets.remote.dir'));
+    }
+
+    /**
      * Returns the property value of an output format.
      *
      * @param string $name

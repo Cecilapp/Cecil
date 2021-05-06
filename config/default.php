@@ -187,6 +187,9 @@ return [
         'minify' => [
             'enabled' => true,
         ],
+        'remote' => [
+            'dir' => '.assets',
+        ],
     ],
     'postprocess' => [
         'enabled' => false,
