@@ -371,7 +371,7 @@ class Asset implements \ArrayAccess
      * Load file data.
      *
      * @param string $path           Relative path or URL.
-     * @param bool   $ignore_missing Don't throw an exception if file is missing.
+     * @param bool   $ignore_missing Don't throw exception if file is missing.
      *
      * @return array
      */
