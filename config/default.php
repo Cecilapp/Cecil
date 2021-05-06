@@ -187,9 +187,6 @@ return [
         'minify' => [
             'enabled' => true,
         ],
-        'remote' => [
-            'dir' => '.assets',
-        ],
     ],
     'postprocess' => [
         'enabled' => false,
@@ -216,6 +213,9 @@ return [
         'templates' => [
             'dir'     => 'templates',
             'enabled' => true,
+        ],
+        'assets' => [
+            'dir' => 'assets/remote',
         ],
     ],
     'generators' => [

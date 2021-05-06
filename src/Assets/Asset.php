@@ -424,9 +424,9 @@ class Asset implements \ArrayAccess
     {
         // in case of remote file then returns cached file path
         if (Util::isUrl($path)) {
-            $cache = new Cache($this->builder, 'assets/remote');
+            $cache = new Cache($this->builder, 'assets');
             $relativePath = parse_url($path, PHP_URL_HOST).parse_url($path, PHP_URL_PATH);
-            $filePath = Util::joinFile($this->config->getAssetsRemotePath(), $relativePath);
+            $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
             $cacheKey = $cache->createKeyFromFile($path, $relativePath);
             if (!$cache->has($cacheKey)) {
                 if (!Util::isRemoteFileExists($path)) {

@@ -78,16 +78,6 @@ class Clean extends AbstractCommand
             );
             $doSomething = true;
         }
-        // deletes remote assets directory
-        if ($this->fs->exists($this->builder->getConfig()->getAssetsRemotePath())) {
-            $this->fs->remove($this->builder->getConfig()->getAssetsRemotePath());
-            $output->writeln('Removing remote assets directory...');
-            $output->writeln(
-                sprintf('<comment>> %s</comment>', $this->builder->getConfig()->getAssetsRemotePath()),
-                OutputInterface::VERBOSITY_VERBOSE
-            );
-            $doSomething = true;
-        }
 
         if ($doSomething === false) {
             $output->writeln('<comment>Nothing to do.</comment>');
