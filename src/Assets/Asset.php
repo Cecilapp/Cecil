@@ -66,7 +66,6 @@ class Asset implements \ArrayAccess
             $file = $this->loadFile($p, $ignore_missing);
             if ($file['missing']) {
                 $this->data['path'] = '';
-                $this->builder->getLogger()->debug(sprintf('Asset file "%s" doesn\'t exist.', $p));
 
                 continue;
             }
@@ -371,15 +370,14 @@ class Asset implements \ArrayAccess
     /**
      * Load file data.
      *
-     * @param string $path
-     * @param bool   $ignore_missing
+     * @param string $path           Relative path or URL.
+     * @param bool   $ignore_missing Don't throw exception if file is missing.
      *
      * @return array
      */
     private function loadFile(string $path, bool $ignore_missing = false): array
     {
         $file = [];
-        $path = '/'.ltrim($path, '/');
 
         if (false === $filePath = $this->findFile($path)) {
             if ($ignore_missing) {
@@ -390,6 +388,11 @@ class Asset implements \ArrayAccess
 
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
+
+        if (Util::isUrl($path)) {
+            $path = Util::joinPath('assets', parse_url($path, PHP_URL_HOST), parse_url($path, PHP_URL_PATH));
+        }
+        $path = '/'.ltrim($path, '/');
 
         $pathinfo = pathinfo($path);
         list($type, $subtype) = Util::getMimeType($filePath);
@@ -407,7 +410,11 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Try to find a static file (in site or theme(s)) if exists or returns false.
+     * Try to find the file:
+     *   1. remote (if $path is a valid URL)
+     *   2. in static/
+     *   3. in themes/<theme>/static/
+     * Returns local file path or false if file don't exists.
      *
      * @param string $path
      *
@@ -415,12 +422,30 @@ class Asset implements \ArrayAccess
      */
     private function findFile(string $path)
     {
+        // in case of remote file then returns cached file path
+        if (Util::isUrl($path)) {
+            $cache = new Cache($this->builder, 'assets');
+            $relativePath = parse_url($path, PHP_URL_HOST).parse_url($path, PHP_URL_PATH);
+            $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
+            $cacheKey = $cache->createKeyFromFile($path, $relativePath);
+            if (!$cache->has($cacheKey)) {
+                if (!Util::isRemoteFileExists($path)) {
+                    return false;
+                }
+                $cache->set($cacheKey, file_get_contents($path));
+            }
+            Util::getFS()->dumpFile($filePath, $cache->get($cacheKey));
+
+            return $filePath;
+        }
+
+        // checks in static/
         $filePath = Util::joinFile($this->config->getStaticPath(), $path);
         if (Util::getFS()->exists($filePath)) {
             return $filePath;
         }
 
-        // checks in each theme
+        // checks in each themes/<theme>/static/
         foreach ($this->config->getTheme() as $theme) {
             $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
             if (Util::getFS()->exists($filePath)) {

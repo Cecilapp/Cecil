@@ -164,18 +164,19 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates a cache key from a file (with MD5 hash).
+     * Creates a cache key from a file path (with MD5 hash).
      *
-     * @param string $file
      * @param string $path
+     * @param string $relativePath
      *
      * @return string
      */
-    public function createKeyFromFile(string $file, string $path): string
+    public function createKeyFromFile(string $path, string $relativePath): string
     {
-        $content = file_get_contents($file);
+        $content = file_get_contents($path);
+        $key = $this->prepareKey(\sprintf('%s__%s', $relativePath, $content !== false ? $this->createKeyFromValue($content) : ''));
 
-        return \sprintf('%s__%s', $path, $content !== false ? $this->createKeyFromValue($content) : '');
+        return $key;
     }
 
     /**
@@ -187,11 +188,13 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset): string
     {
-        return \sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['source'] ?? ''));
+        $key = $this->prepareKey(\sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['source'] ?? '')));
+
+        return $key;
     }
 
     /**
-     * Returns cache file pathname.
+     * Returns cache file pathname from key.
      *
      * @param string $key
      *

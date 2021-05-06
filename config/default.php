@@ -214,6 +214,9 @@ return [
             'dir'     => 'templates',
             'enabled' => true,
         ],
+        'assets' => [
+            'dir' => 'assets/remote',
+        ],
     ],
     'generators' => [
         10 => 'Cecil\Generator\DefaultPages',
