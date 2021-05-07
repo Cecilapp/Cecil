@@ -14,6 +14,9 @@ body {
 h2 {
   color: $primary-color;
 }
+pre {
+  background-color: black;
+}
 {% endset %}
     <style>{{ sass|scss_to_css|minify_css }}</style>
 
@@ -27,7 +30,7 @@ h2 {
     <pre>{{ asset('css/_style.css') }}</pre>
   </p>
   <p>
-    asset('css/style.css') (from <theme>/static/)
+    asset('css/style.css') (from themes/[theme]/static/)
     <pre>{{ asset('css/style.css') }}</pre>
   </p>
 
@@ -41,7 +44,7 @@ h2 {
   <p>
     asset('scss/colors.scss')|to_css
     <pre>{{ asset('scss/colors.scss')|to_css }}</pre>
-    Result with With "compressed" style:
+    Result with "compressed" style:
     <pre>{{ asset('scss/colors.scss')|to_css|inline }}</pre>
   </p>
   <p>
@@ -69,7 +72,11 @@ h2 {
     <pre>{{ asset('css/style.css')|inline }}</pre>
   </p>
   <p>
-    asset('css/style.css')['content'] (not recommended)
+    asset('css/style.css').content (attribute access)
+    <pre>{{ asset('css/style.css')['content'] }}</pre>
+  </p>
+  <p>
+    asset('css/style.css')['content'] (array access, not recommended)
     <pre>{{ asset('css/style.css')['content'] }}</pre>
   </p>
 
@@ -138,13 +145,13 @@ h2 {
     <pre>{{ asset('asssset.css',{ignore_missing:true}) }}</pre>
   </p>
 
-  <h2>Remote asset file</h2>
+  <h2>Remote (URL)</h2>
   <p>
     asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url)
     <pre>{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url }}</pre>
-    asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['file'])
+    asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file)
     <pre>{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['file'] }}</pre>
-    asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['ext']
+    asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext
     <pre>{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['ext'] }}</pre>
   </p>
 
