@@ -58,6 +58,10 @@ chmod +x /usr/local/bin/cecil
 - Create new website: `cecil new:site`
 - Build and serve it: `cecil serve`
 
+## Contributing
+
+See [Contributing](CONTRIBUTING.md).
+
 ## License
 
 Cecil is a free software distributed under the terms of the MIT license.
