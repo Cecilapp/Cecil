@@ -64,8 +64,8 @@ See [Contributing](CONTRIBUTING.md).
 
 ## Sponsors
 
-[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=150 "Aperture Lab")](https://aperturelab.fr)  
-[![studio cecillie](https://raw.githubusercontent.com/cecillie/eshop/main/static/images/cecillie-logo-300x150.png "studio cecillie")](https://studio.cecillie.fr)
+[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100 "Aperture Lab")](https://aperturelab.fr)  
+[![studio cecillie](https://raw.githubusercontent.com/cecillie/eshop/main/static/images/cecillie_signature.png "studio cecillie")](https://studio.cecillie.fr)
 
 ## License
 
