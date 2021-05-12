@@ -108,7 +108,7 @@ class Image
             }
             $cache->set($cacheKey, (string) $img->encode());
         }
-        $image = $cache->get($cacheKey, file_get_contents($source));
+        $image = $cache->get($cacheKey, Util::fileGetContents($source));
 
         // returns 'data:image' for external image
         if (!$this->local) {

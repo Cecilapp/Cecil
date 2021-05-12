@@ -403,7 +403,7 @@ class Asset implements \ArrayAccess
 
         $pathinfo = pathinfo($path);
         list($type, $subtype) = Util::getMimeType($filePath);
-        $content = file_get_contents($filePath);
+        $content = Util::fileGetContents($filePath);
 
         $file['filepath'] = $filePath;
         $file['path'] = $path;
@@ -431,16 +431,17 @@ class Asset implements \ArrayAccess
     {
         // in case of remote file: save it and returns cached file path
         if (Util::isUrl($path)) {
+            $url = $path;
             $cache = new Cache($this->builder, 'assets');
-            $relativePath = parse_url($path, PHP_URL_HOST).parse_url($path, PHP_URL_PATH);
+            $relativePath = parse_url($url, PHP_URL_HOST).parse_url($url, PHP_URL_PATH);
             $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
-            $cacheKey = $cache->createKeyFromFile($path, $relativePath);
+            $cacheKey = $cache->createKeyFromFile($url, $relativePath);
             if (!$cache->has($cacheKey) || !file_exists($filePath)) {
-                if (!Util::isRemoteFileExists($path)) {
+                if (!Util::isRemoteFileExists($url)) {
                     return false;
                 }
+                $cache->set($cacheKey, Util::fileGetContents($url));
                 Util::getFS()->dumpFile($filePath, $cache->get($cacheKey));
-                $cache->set($cacheKey, file_get_contents($path));
             }
 
             return $filePath;
