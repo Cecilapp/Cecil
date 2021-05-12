@@ -437,10 +437,10 @@ class Asset implements \ArrayAccess
             $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
             $cacheKey = $cache->createKeyFromFile($url, $relativePath);
             if (!$cache->has($cacheKey) || !file_exists($filePath)) {
-                if (!Util::isRemoteFileExists($url)) {
+                if (!Util::isRemoteFileExists($url) || false === $content = Util::fileGetContents($url)) {
                     return false;
                 }
-                $cache->set($cacheKey, Util::fileGetContents($url));
+                $cache->set($cacheKey, $content);
                 Util::getFS()->dumpFile($filePath, $cache->get($cacheKey));
             }
 
