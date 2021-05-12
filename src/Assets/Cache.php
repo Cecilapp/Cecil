@@ -47,7 +47,7 @@ class Cache implements CacheInterface
     {
         try {
             $key = $this->prepareKey($key);
-            $data = unserialize(file_get_contents($this->getFilePathname($key)));
+            $data = unserialize(Util::fileGetContents($this->getFilePathname($key)));
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -173,7 +173,7 @@ class Cache implements CacheInterface
      */
     public function createKeyFromFile(string $path, string $relativePath): string
     {
-        $content = file_get_contents($path);
+        $content = Util::fileGetContents($path);
         $key = $this->prepareKey(\sprintf('%s__%s', $relativePath, $content !== false ? $this->createKeyFromValue($content) : ''));
 
         return $key;

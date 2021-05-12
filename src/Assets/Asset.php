@@ -403,7 +403,7 @@ class Asset implements \ArrayAccess
 
         $pathinfo = pathinfo($path);
         list($type, $subtype) = Util::getMimeType($filePath);
-        $content = file_get_contents($filePath);
+        $content = Util::fileGetContents($filePath);
 
         $file['filepath'] = $filePath;
         $file['path'] = $path;
@@ -439,8 +439,8 @@ class Asset implements \ArrayAccess
                 if (!Util::isRemoteFileExists($path)) {
                     return false;
                 }
+                $cache->set($cacheKey, Util::fileGetContents($path));
                 Util::getFS()->dumpFile($filePath, $cache->get($cacheKey));
-                $cache->set($cacheKey, file_get_contents($path));
             }
 
             return $filePath;
