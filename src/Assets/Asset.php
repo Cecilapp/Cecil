@@ -39,7 +39,7 @@ class Asset implements \ArrayAccess
      * $options[
      *     'fingerprint'    => true,
      *     'minify'         => true,
-     *     'filename'       => '', // bundle
+     *     'filename'       => '',
      *     'ignore_missing' => false,
      * ];
      *
@@ -90,6 +90,11 @@ class Asset implements \ArrayAccess
             $this->data['size'] = $file['size'];
             $this->data['source'] = $file['content'];
             $this->data['content'] .= $file['content'];
+
+            // filename
+            if (!empty($filename)) {
+                $this->data['path'] = $filename;
+            }
 
             $prevType = $file['type'];
             $prevExt = $file['ext'];
