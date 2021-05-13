@@ -437,8 +437,14 @@ class Asset implements \ArrayAccess
             $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
             $cacheKey = $cache->createKeyFromFile($url, $relativePath);
             if (!$cache->has($cacheKey) || !file_exists($filePath)) {
-                if (!Util::isRemoteFileExists($url) || false === $content = Util::fileGetContents($url)) {
+                if (!Util::isRemoteFileExists($url)) {
                     return false;
+                }
+                if (false === $content = Util::fileGetContents($url)) {
+                    return false;
+                }
+                if (strlen($content) <= 1) {
+                    throw new Exception(sprintf('Asset at "%s" is empty.', $url));
                 }
                 $cache->set($cacheKey, $content);
                 Util::getFS()->dumpFile($filePath, $cache->get($cacheKey));
