@@ -79,7 +79,7 @@ class File
     }
 
     /**
-     * Determines if data is file path
+     * Determines if data is file path.
      *
      * @param mixed $data
      *

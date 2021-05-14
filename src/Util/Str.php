@@ -58,7 +58,7 @@ class Str
         return substr($string, 0, -2);
     }
 
-     /**
+    /**
      * Determines if data is binary.
      *
      * @param mixed $data
@@ -69,6 +69,7 @@ class Str
     {
         if (is_string($data)) {
             $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);
+
             return $mime != 'application/x-empty';
         }
 
