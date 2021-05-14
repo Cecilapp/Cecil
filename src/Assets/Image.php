@@ -51,7 +51,7 @@ class Image
     public function load(string $path): self
     {
         // is not a local image?
-        if (Util::isUrl($path)) {
+        if (Util\Url::isUrl($path)) {
             $this->local = false;
         }
 
@@ -108,7 +108,7 @@ class Image
             }
             $cache->set($cacheKey, (string) $img->encode());
         }
-        $image = $cache->get($cacheKey, Util::fileGetContents($source));
+        $image = $cache->get($cacheKey, Util\File::fileGetContents($source));
 
         // returns 'data:image' for external image
         if (!$this->local) {
@@ -130,8 +130,8 @@ class Image
         // save file
         if (!$this->builder->getBuildOptions()['dry-run']) {
             $targetPathname = Util::joinFile($this->config->getOutputPath(), self::PREFIX, $this->size, $this->path);
-            Util::getFS()->mkdir(dirname($targetPathname));
-            Util::getFS()->dumpFile($targetPathname, $image);
+            Util\File::getFS()->mkdir(dirname($targetPathname));
+            Util\File::getFS()->dumpFile($targetPathname, $image);
         }
 
         return $returnPath;
@@ -144,14 +144,14 @@ class Image
     {
         if ($this->local) {
             $source = Util::joinFile($this->config->getStaticPath(), $this->path);
-            if (!Util::getFS()->exists($source)) {
+            if (!Util\File::getFS()->exists($source)) {
                 throw new Exception(sprintf('Can\'t process "%s": file doesn\'t exists.', $source));
             }
 
             return $source;
         }
         $source = $this->path;
-        if (!Util::isRemoteFileExists($source)) {
+        if (!Util\Url::isRemoteFileExists($source)) {
             throw new Exception(sprintf('Can\'t process "%s": remote file doesn\'t exists.', $source));
         }
 

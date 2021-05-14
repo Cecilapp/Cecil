@@ -130,7 +130,7 @@ class AbstractCommand extends Command
     {
         try {
             if (is_file($this->getConfigFile())) {
-                $configContent = Util::fileGetContents($this->getConfigFile());
+                $configContent = Util\File::fileGetContents($this->getConfigFile());
                 if ($configContent === false) {
                     throw new \Exception('Can\'t read the configuration file.');
                 }

@@ -388,7 +388,7 @@ class Builder implements LoggerAwareInterface
                 if (!file_exists($filePath)) {
                     throw new \Exception(sprintf('%s file doesn\'t exist!', $filePath));
                 }
-                $version = Util::fileGetContents($filePath);
+                $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
                     throw new \Exception(sprintf('Can\'t get %s file!', $filePath));
                 }

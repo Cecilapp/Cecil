@@ -48,8 +48,8 @@ class ConfigImport extends AbstractStep
             $count++;
             $themeConfigFile = $this->config->getThemesPath().'/'.$theme.'/'.self::THEME_CONFIG_FILE;
             $message = sprintf('"%s": no configuration file', $theme);
-            if (Util::getFS()->exists($themeConfigFile)) {
-                $config = Util::fileGetContents($themeConfigFile);
+            if (Util\File::getFS()->exists($themeConfigFile)) {
+                $config = Util\File::fileGetContents($themeConfigFile);
                 if ($config === false) {
                     throw new \Exception('Can\'t read the configuration file.');
                 }

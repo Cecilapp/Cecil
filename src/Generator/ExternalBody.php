@@ -32,7 +32,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
         /** @var Page $page */
         foreach ($filteredPages as $page) {
             try {
-                $pageContent = Util::fileGetContents($page->getVariable('external'));
+                $pageContent = Util\File::fileGetContents($page->getVariable('external'));
                 if ($pageContent === false) {
                     throw new Exception(sprintf('Cannot get contents from "%s"', $page->getVariable('external')));
                 }

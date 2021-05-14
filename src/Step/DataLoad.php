@@ -99,7 +99,7 @@ class DataLoad extends AbstractStep
             }
 
             $basename = $file->getBasename('.'.$file->getExtension());
-            $subpath = \Cecil\Util::getFS()->makePathRelative(
+            $subpath = \Cecil\Util\File::getFS()->makePathRelative(
                 $file->getPath(),
                 $this->builder->getConfig()->getDataPath()
             );

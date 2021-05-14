@@ -168,7 +168,7 @@ class PagesRender extends AbstractStep
             $message = sprintf(
                 '%s [%s]',
                 ($page->getId() ?: 'index'),
-                Util::combineArrayToString($templates, 'scope', 'file')
+                Util\Str::combineArrayToString($templates, 'scope', 'file')
             );
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
