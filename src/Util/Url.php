@@ -10,8 +10,6 @@
 
 namespace Cecil\Util;
 
-use Symfony\Component\Filesystem\Filesystem;
-
 class Url
 {
     /**
