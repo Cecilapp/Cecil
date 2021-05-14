@@ -40,7 +40,7 @@ class PagesSave extends AbstractStep
             return;
         }
 
-        Util::getFS()->mkdir($this->config->getOutputPath());
+        Util\File::getFS()->mkdir($this->config->getOutputPath());
 
         $this->canProcess = true;
     }
@@ -74,7 +74,7 @@ class PagesSave extends AbstractStep
                 $pathname = $this->cleanPath(Util::joinFile($this->config->getOutputPath(), $pathname));
 
                 try {
-                    Util::getFS()->dumpFile($pathname, $rendered['output']);
+                    Util\File::getFS()->dumpFile($pathname, $rendered['output']);
                 } catch (\Exception $e) {
                     throw new Exception($e->getMessage());
                 }
@@ -114,7 +114,7 @@ class PagesSave extends AbstractStep
     private function clearCache(): void
     {
         if ($this->config->get('cache.enabled') === false) {
-            Util::getFS()->remove($this->config->getCachePath());
+            Util\File::getFS()->remove($this->config->getCachePath());
         }
     }
 }

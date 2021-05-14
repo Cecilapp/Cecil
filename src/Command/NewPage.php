@@ -124,10 +124,10 @@ class NewPage extends AbstractCommand
     {
         $section = strstr($name, DIRECTORY_SEPARATOR, true);
         if ($section && file_exists($model = Util::joinFile($this->getPath(), 'models', "$section.md"))) {
-            return Util::fileGetContents($model);
+            return Util\File::fileGetContents($model);
         }
         if (file_exists($model = Util::joinFile($this->getPath(), 'models/default.md'))) {
-            return Util::fileGetContents($model);
+            return Util\File::fileGetContents($model);
         }
 
         return <<<'EOT'

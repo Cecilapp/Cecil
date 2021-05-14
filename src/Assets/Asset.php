@@ -367,7 +367,7 @@ class Asset implements \ArrayAccess
         $file = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
         if (!$this->builder->getBuildOptions()['dry-run']) {
             try {
-                Util::getFS()->dumpFile($file, $this->data['content']);
+                Util\File::getFS()->dumpFile($file, $this->data['content']);
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
             }
@@ -396,14 +396,14 @@ class Asset implements \ArrayAccess
             throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
-        if (Util::isUrl($path)) {
+        if (Util\Url::isUrl($path)) {
             $path = Util::joinPath('assets', parse_url($path, PHP_URL_HOST), parse_url($path, PHP_URL_PATH));
         }
         $path = '/'.ltrim($path, '/');
 
         $pathinfo = pathinfo($path);
-        list($type, $subtype) = Util::getMimeType($filePath);
-        $content = Util::fileGetContents($filePath);
+        list($type, $subtype) = Util\File::getMimeType($filePath);
+        $content = Util\File::fileGetContents($filePath);
 
         $file['filepath'] = $filePath;
         $file['path'] = $path;
@@ -430,24 +430,24 @@ class Asset implements \ArrayAccess
     private function findFile(string $path)
     {
         // in case of remote file: save it and returns cached file path
-        if (Util::isUrl($path)) {
+        if (Util\Url::isUrl($path)) {
             $url = $path;
             $cache = new Cache($this->builder, 'assets');
             $relativePath = parse_url($url, PHP_URL_HOST).parse_url($url, PHP_URL_PATH);
             $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
             $cacheKey = $cache->createKeyFromFile($url, $relativePath);
             if (!$cache->has($cacheKey) || !file_exists($filePath)) {
-                if (!Util::isRemoteFileExists($url)) {
+                if (!Util\Url::isRemoteFileExists($url)) {
                     return false;
                 }
-                if (false === $content = Util::fileGetContents($url)) {
+                if (false === $content = Util\File::fileGetContents($url)) {
                     return false;
                 }
                 if (strlen($content) <= 1) {
                     throw new Exception(sprintf('Asset at "%s" is empty.', $url));
                 }
                 $cache->set($cacheKey, $content);
-                Util::getFS()->dumpFile($filePath, $cache->get($cacheKey));
+                Util\File::getFS()->dumpFile($filePath, $cache->get($cacheKey));
             }
 
             return $filePath;
@@ -455,14 +455,14 @@ class Asset implements \ArrayAccess
 
         // checks in static/
         $filePath = Util::joinFile($this->config->getStaticPath(), $path);
-        if (Util::getFS()->exists($filePath)) {
+        if (Util\File::getFS()->exists($filePath)) {
             return $filePath;
         }
 
         // checks in each themes/<theme>/static/
         foreach ($this->config->getTheme() as $theme) {
             $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
-            if (Util::getFS()->exists($filePath)) {
+            if (Util\File::getFS()->exists($filePath)) {
                 return $filePath;
             }
         }

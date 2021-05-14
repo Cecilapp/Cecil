@@ -10,63 +10,8 @@
 
 namespace Cecil;
 
-use Symfony\Component\Filesystem\Filesystem;
-
 class Util
 {
-    /** @var Filesystem */
-    protected static $fs;
-
-    /**
-     * Returns a Symfony\Component\Filesystem instance.
-     *
-     * @return Filesystem
-     */
-    public static function getFS(): Filesystem
-    {
-        if (!self::$fs instanceof Filesystem) {
-            self::$fs = new Filesystem();
-        }
-
-        return self::$fs;
-    }
-
-    /**
-     * Checks if a date is valid.
-     *
-     * @param string $date
-     * @param string $format
-     *
-     * @return bool
-     */
-    public static function isDateValid(string $date, string $format = 'Y-m-d'): bool
-    {
-        $d = \DateTime::createFromFormat($format, $date);
-
-        return $d && $d->format($format) === $date;
-    }
-
-    /**
-     * Date to DateTime.
-     *
-     * @param mixed $date
-     *
-     * @return \DateTime
-     */
-    public static function dateToDatetime($date): \DateTime
-    {
-        // DateTime
-        if ($date instanceof \DateTime) {
-            return $date;
-        }
-        // timestamp or 'AAAA-MM-DD'
-        if (is_numeric($date)) {
-            return (new \DateTime())->setTimestamp($date);
-        }
-        // string (ie: '01/01/2019', 'today')
-        return new \DateTime($date);
-    }
-
     /**
      * Formats a class name.
      *
@@ -88,35 +33,6 @@ class Util
         }
 
         return $className;
-    }
-
-    /**
-     * Tests if a string is an URL.
-     *
-     * @param string $url
-     *
-     * @return bool
-     */
-    public static function isUrl(string $url): bool
-    {
-        return (bool) preg_match('~^(?:f|ht)tps?://~i', $url);
-    }
-
-    /**
-     * Tests if a remote file exists.
-     *
-     * @param string $remoteFile
-     *
-     * @return bool
-     */
-    public static function isRemoteFileExists(string $remoteFile): bool
-    {
-        $handle = @fopen($remoteFile, 'r');
-        if (is_resource($handle)) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -157,98 +73,5 @@ class Util
         });
 
         return implode(DIRECTORY_SEPARATOR, $path);
-    }
-
-    /**
-     * Converts an array to a string.
-     *
-     * ie: [0 => 'A', 1 => 'B'] become '0:A, 1:B'
-     *
-     * @param array  $array
-     * @param string $separator Separtor between the key and the value in the result string
-     *
-     * @return string
-     */
-    public static function arrayToString(array $array, string $separator = ':'): string
-    {
-        $string = '';
-
-        foreach ($array as $key => $value) {
-            $string .= sprintf('%s%s%s, ', $key, $separator, $value);
-        }
-
-        return substr($string, 0, -2);
-    }
-
-    /**
-     * Combines an array into a string.
-     *
-     * @param array  $array
-     * @param string $keyToKey   The key that become the key of the new array
-     * @param string $keyToValue The key that become the value of the new array
-     * @param string $separator  The separtor between the key and the value in the result string
-     *
-     * @return string
-     */
-    public static function combineArrayToString(
-        array $array,
-        string $keyToKey,
-        string $keyToValue,
-        string $separator = ':'
-    ): string {
-        $string = '';
-
-        foreach ($array as $subArray) {
-            $string .= sprintf('%s%s%s, ', $subArray[$keyToKey], $separator, $subArray[$keyToValue]);
-        }
-
-        return substr($string, 0, -2);
-    }
-
-    /**
-     * file_get_contents() function with error handler.
-     *
-     * @param string $filename
-     *
-     * @return string|false
-     */
-    public static function fileGetContents($filename)
-    {
-        set_error_handler(
-            function ($severity, $message, $file, $line) {
-                throw new \ErrorException($message, 0, $severity, $file, $line, null);
-            }
-        );
-
-        try {
-            $return = file_get_contents($filename);
-        } catch (\Exception $e) {
-            $return = false;
-        }
-        restore_error_handler();
-
-        return $return;
-    }
-
-    /**
-     * Returns MIME content type and subtype of a file.
-     *
-     * ie: ['text', 'text/plain']
-     *
-     * @param string $filename
-     *
-     * @return string[]
-     */
-    public static function getMimeType(string $filename): array
-    {
-        if (false === $subtype = mime_content_type($filename)) {
-            throw new \Exception(sprintf('Can\'t get MIME content type of "%s"', $filename));
-        }
-        $type = explode('/', $subtype)[0];
-
-        return [
-            $type,
-            $subtype,
-        ];
     }
 }

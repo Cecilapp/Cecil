@@ -377,7 +377,7 @@ class Config
         if ($this->isCacheDirIsAbsolute()) {
             $cacheDir = Util::joinFile((string) $this->get('cache.dir'));
             $cacheDir = Util::joinFile($cacheDir, 'cecil');
-            Util::getFS()->mkdir($cacheDir);
+            Util\File::getFS()->mkdir($cacheDir);
 
             return $cacheDir;
         }
@@ -455,7 +455,7 @@ class Config
     {
         if ($themes = $this->getTheme()) {
             foreach ($themes as $theme) {
-                if (!Util::getFS()->exists($this->getThemeDirPath($theme, 'layouts'))) {
+                if (!Util\File::getFS()->exists($this->getThemeDirPath($theme, 'layouts'))) {
                     throw new Exception(sprintf(
                         'Theme directory "%s" not found!',
                         Util::joinFile($this->getThemesPath(), $theme, 'layouts')

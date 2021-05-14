@@ -150,7 +150,7 @@ class Page extends Item
             $prefix = PrefixSuffix::getPrefix($fileName);
             if ($prefix !== null) {
                 // prefix is a valid date?
-                if (Util::isDateValid($prefix)) {
+                if (Util\Date::isDateValid($prefix)) {
                     $this->setVariable('date', (string) $prefix);
                 } else {
                     // prefix is an integer: used for sorting
@@ -550,7 +550,7 @@ class Page extends Item
         switch ($name) {
             case 'date':
                 try {
-                    $date = Util::dateToDatetime($value);
+                    $date = Util\Date::dateToDatetime($value);
                 } catch (\Exception $e) {
                     throw new \Exception(sprintf(
                         'Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"',

@@ -98,7 +98,7 @@ abstract class AbstractPostProcess extends AbstractStep
                 $cache->set($cacheKey, $processed);
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
-            Util::getFS()->dumpFile($file->getPathname(), $processed);
+            Util\File::getFS()->dumpFile($file->getPathname(), $processed);
         }
         if ($postprocessed == 0) {
             $this->builder->getLogger()->info('Nothing to do');

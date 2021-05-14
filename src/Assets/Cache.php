@@ -47,7 +47,7 @@ class Cache implements CacheInterface
     {
         try {
             $key = $this->prepareKey($key);
-            $data = unserialize(Util::fileGetContents($this->getFilePathname($key)));
+            $data = unserialize(Util\File::fileGetContents($this->getFilePathname($key)));
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -70,7 +70,7 @@ class Cache implements CacheInterface
             ]);
 
             $this->prune($key);
-            Util::getFS()->dumpFile($this->getFilePathname($key), $data);
+            Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -87,7 +87,7 @@ class Cache implements CacheInterface
     {
         try {
             $key = $this->prepareKey($key);
-            Util::getFS()->remove($this->getFilePathname($key));
+            Util\File::getFS()->remove($this->getFilePathname($key));
             $this->prune($key);
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
@@ -104,7 +104,7 @@ class Cache implements CacheInterface
     public function clear()
     {
         try {
-            Util::getFS()->remove($this->cacheDir);
+            Util\File::getFS()->remove($this->cacheDir);
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -144,7 +144,7 @@ class Cache implements CacheInterface
     public function has($key)
     {
         $key = $this->prepareKey($key);
-        if (!Util::getFS()->exists($this->getFilePathname($key))) {
+        if (!Util\File::getFS()->exists($this->getFilePathname($key))) {
             return false;
         }
 
@@ -173,7 +173,7 @@ class Cache implements CacheInterface
      */
     public function createKeyFromFile(string $path, string $relativePath): string
     {
-        $content = Util::fileGetContents($path);
+        $content = Util\File::fileGetContents($path);
         $key = $this->prepareKey(\sprintf('%s__%s', $relativePath, $content !== false ? $this->createKeyFromValue($content) : ''));
 
         return $key;
@@ -218,7 +218,7 @@ class Cache implements CacheInterface
             $key = $this->prepareKey($key);
             $pattern = Util::joinFile($this->cacheDir, explode('__', $key)[0]).'*';
             foreach (glob($pattern) as $filename) {
-                Util::getFS()->remove($filename);
+                Util\File::getFS()->remove($filename);
             }
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());

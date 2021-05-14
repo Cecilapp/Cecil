@@ -40,8 +40,8 @@ class StaticCopy extends AbstractStep
         }
 
         // reset output directory
-        Util::getFS()->remove($this->config->getOutputPath());
-        Util::getFS()->mkdir($this->config->getOutputPath());
+        Util\File::getFS()->remove($this->config->getOutputPath());
+        Util\File::getFS()->mkdir($this->config->getOutputPath());
 
         $this->canProcess = true;
     }
@@ -89,7 +89,7 @@ class StaticCopy extends AbstractStep
      */
     protected function copy(string $from, string $to = null, array $exclude = null): bool
     {
-        if (Util::getFS()->exists($from)) {
+        if (Util\File::getFS()->exists($from)) {
             $finder = Finder::create()
                 ->files()
                 ->in($from);
@@ -98,7 +98,7 @@ class StaticCopy extends AbstractStep
                 $finder->notName($exclude);
             }
             $this->count += $finder->count();
-            Util::getFS()->mirror(
+            Util\File::getFS()->mirror(
                 $from,
                 Util::joinFile($this->config->getOutputPath(), $to ?? ''),
                 $finder,
