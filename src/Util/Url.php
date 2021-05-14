@@ -13,15 +13,16 @@ namespace Cecil\Util;
 class Url
 {
     /**
-     * Tests if a string is an URL.
+     * Tests if data is a valid URL.
      *
-     * @param string $url
+     * @param mixed $data
      *
      * @return bool
      */
-    public static function isUrl(string $url): bool
+    public static function isUrl($data): bool
     {
-        return (bool) preg_match('~^(?:f|ht)tps?://~i', $url);
+        //return (bool) preg_match('~^(?:f|ht)tps?://~i', $data);
+        return (bool) filter_var($data, FILTER_VALIDATE_URL);
     }
 
     /**

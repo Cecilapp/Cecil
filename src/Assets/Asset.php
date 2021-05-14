@@ -34,7 +34,7 @@ class Asset implements \ArrayAccess
     protected $minified = false;
 
     /**
-     * Creates an Asset from file(s) path.
+     * Creates an Asset from a source.
      *
      * $options[
      *     'fingerprint'    => true,
@@ -43,15 +43,15 @@ class Asset implements \ArrayAccess
      *     'ignore_missing' => false,
      * ];
      *
-     * @param Builder      $builder
-     * @param string|array $path
-     * @param array|null   $options
+     * @param Builder    $builder
+     * @param mixed      $source
+     * @param array|null $options
      */
-    public function __construct(Builder $builder, $path, array $options = null)
+    public function __construct(Builder $builder, $source, array $options = null)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
-        $path = is_array($path) ? $path : [$path];
+        $source = is_array($source) ? $source : [$source];
 
         // handles options
         $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
@@ -60,7 +60,19 @@ class Asset implements \ArrayAccess
         $ignore_missing = false;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
-        // loads file(s)
+        // determines source type
+        switch (true) {
+            case Util\Str::isBinary():
+                //return $this->initFromBinary($this->data);
+            case Util\Url::isUrl():
+                //return $this->initFromUrl($this->data);
+            case Util\File::isFilePath():
+                //return $this->initFromPath($this->data);
+            default:
+                throw new Exception('Asset source not readable');
+        }
+
+        // loads
         $file = [];
         $prevType = '';
         $prevExt = '';

@@ -77,4 +77,24 @@ class File
             $subtype,
         ];
     }
+
+    /**
+     * Determines if data is file path
+     *
+     * @param mixed $data
+     *
+     * @return bool
+     */
+    public static function isFilePath($data): bool
+    {
+        if (is_string($data)) {
+            try {
+                return is_file($data);
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
+
+        return false;
+    }
 }
