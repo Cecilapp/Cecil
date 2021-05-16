@@ -60,28 +60,26 @@ class Asset implements \ArrayAccess
         $ignore_missing = false;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
-        // determines source type
-        switch (true) {
-            case Util\Str::isBinary():
-                //return $this->initFromBinary($this->data);
-            case Util\Url::isUrl():
-                //return $this->initFromUrl($this->data);
-            case Util\File::isFilePath():
-                //return $this->initFromPath($this->data);
-            default:
-                throw new Exception('Asset source not readable');
-        }
-
         // loads
         $file = [];
         $prevType = '';
         $prevExt = '';
-        foreach ($path as $p) {
-            $file = $this->loadFile($p, $ignore_missing);
-            if ($file['missing']) {
-                $this->data['path'] = '';
+        foreach ($source as $s) {
+            // determines source type
+            switch (true) {
+                case Util\Str::isBinary():
+                    //return $this->initFromBinary($this->data);
+                case Util\Url::isUrl():
+                    //return $this->initFromUrl($this->data);
+                case Util\File::isFilePath():
+                    $file = $this->loadFile($s, $ignore_missing);
+                    if ($file['missing']) {
+                        $this->data['path'] = '';
 
-                continue;
+                        continue;
+                    }
+                default:
+                    throw new Exception('Asset source not readable');
             }
 
             // bundle: same type only
@@ -112,7 +110,7 @@ class Asset implements \ArrayAccess
             $prevExt = $file['ext'];
         }
         // bundle: define path
-        if (count($path) > 1) {
+        if (count($source) > 1) {
             $this->data['path'] = $filename;
             if (empty($filename)) {
                 switch ($this->data['ext']) {
@@ -333,6 +331,9 @@ class Asset implements \ArrayAccess
      */
     public function getWidth()
     {
+        if ($this->data['type'] != 'image') {
+            throw new Exception(\sprintf('Can\'t get width of a non image asset ("%s")', $this->data['path']));
+        }
         if (false === $size = $this->getImageSize()) {
             return false;
         }
@@ -347,6 +348,9 @@ class Asset implements \ArrayAccess
      */
     public function getHeight()
     {
+        if ($this->data['type'] != 'image') {
+            throw new Exception(\sprintf('Can\'t get height of a non image asset ("%s")', $this->data['path']));
+        }
         if (false === $size = $this->getImageSize()) {
             return false;
         }
@@ -363,6 +367,10 @@ class Asset implements \ArrayAccess
      */
     public function getAudio(): Mp3Info
     {
+        if ($this->data['subtype'] != 'audio/mpeg') {
+            throw new Exception(\sprintf('Can\'t get audio infos of a non MP3 asset ("%s")', $this->data['path']));
+        }
+
         return new Mp3Info($this->data['file']);
     }
 
