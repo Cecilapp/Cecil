@@ -153,9 +153,9 @@ class PagesRender extends AbstractStep
                     }
                 } catch (\Twig\Error\Error $e) {
                     throw new Exception(sprintf(
-                        'Template "%s"%s (for page "%s"): %s',
+                        'Template %s%s (page: %s): %s',
                         $e->getSourceContext()->getPath(),
-                        $e->getTemplateLine() >= 0 ? sprintf(' line %s', $e->getTemplateLine()) : '',
+                        $e->getTemplateLine() >= 0 ? sprintf(':%s', $e->getTemplateLine()) : '',
                         $page->getId(),
                         $e->getMessage()
                     ));
