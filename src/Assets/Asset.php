@@ -76,7 +76,7 @@ class Asset implements \ArrayAccess
                     if ($file['missing']) {
                         $this->data['path'] = '';
 
-                        continue;
+                        break;
                     }
                 default:
                     throw new Exception('Asset source not readable');
