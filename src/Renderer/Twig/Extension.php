@@ -455,10 +455,15 @@ class Extension extends SlugifyExtension
      *
      * @param Asset      $asset
      * @param array|null $attributes
+     * @param array|null $options
+     *
+     * $options[
+     *     'preload' => true,
+     * ];
      *
      * @return string
      */
-    public function html(Asset $asset, array $attributes = null): string
+    public function html(Asset $asset, array $attributes = null, array $options = null): string
     {
         $htmlAttributes = '';
         foreach ($attributes as $name => $value) {
@@ -471,6 +476,14 @@ class Extension extends SlugifyExtension
 
         switch ($asset['ext']) {
             case 'css':
+                if ($options['preload']) {
+                    return \sprintf(
+                        '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s>
+                         <noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
+                         $asset['path'],
+                         $htmlAttributes
+                    );
+                }
                 return \sprintf('<link rel="stylesheet" href="%s"%s>', $asset['path'], $htmlAttributes);
             case 'js':
                 return \sprintf('<script src="%s"%s></script>', $asset['path'], $htmlAttributes);
