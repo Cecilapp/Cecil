@@ -1055,16 +1055,16 @@
         },
         {
             "name": "scssphp/scssphp",
-            "version": "v1.5.1",
+            "version": "v1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scssphp/scssphp.git",
-                "reference": "fc275168bc43de68b82e81e95d8456567e86654f"
+                "reference": "6fe16f169f55f5e793474fb210aac0a4481619e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/fc275168bc43de68b82e81e95d8456567e86654f",
-                "reference": "fc275168bc43de68b82e81e95d8456567e86654f",
+                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/6fe16f169f55f5e793474fb210aac0a4481619e5",
+                "reference": "6fe16f169f55f5e793474fb210aac0a4481619e5",
                 "shasum": ""
             },
             "require": {
@@ -1079,6 +1079,7 @@
                 "squizlabs/php_codesniffer": "~3.5",
                 "symfony/phpunit-bridge": "^5.1",
                 "twbs/bootstrap": "~5.0",
+                "twbs/bootstrap4": "4.6.0",
                 "zurb/foundation": "~6.5"
             },
             "suggest": {
@@ -1121,9 +1122,9 @@
             ],
             "support": {
                 "issues": "https://github.com/scssphp/scssphp/issues",
-                "source": "https://github.com/scssphp/scssphp/tree/v1.5.1"
+                "source": "https://github.com/scssphp/scssphp/tree/v1.5.2"
             },
-            "time": "2021-05-17T08:29:29+00:00"
+            "time": "2021-05-18T00:05:58+00:00"
         },
         {
             "name": "spatie/image-optimizer",
