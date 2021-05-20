@@ -1989,16 +1989,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v4.4.22",
+            "version": "v4.4.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "9db284ce4b1194797ad2ac6ad5406c5b416a9bb4"
+                "reference": "c9c90ead6a87d5bc76a8c8dc49e6aeceea414707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/9db284ce4b1194797ad2ac6ad5406c5b416a9bb4",
-                "reference": "9db284ce4b1194797ad2ac6ad5406c5b416a9bb4",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/c9c90ead6a87d5bc76a8c8dc49e6aeceea414707",
+                "reference": "c9c90ead6a87d5bc76a8c8dc49e6aeceea414707",
                 "shasum": ""
             },
             "require": {
@@ -2015,7 +2015,6 @@
             },
             "require-dev": {
                 "doctrine/annotations": "^1.10.4",
-                "doctrine/cache": "~1.0",
                 "phpdocumentor/reflection-docblock": "^3.2|^4.0|^5.0",
                 "symfony/cache": "^3.4|^4.0|^5.0",
                 "symfony/config": "^3.4|^4.0|^5.0",
@@ -2029,8 +2028,7 @@
                 "symfony/yaml": "^3.4|^4.0|^5.0"
             },
             "suggest": {
-                "doctrine/annotations": "For using the annotation mapping. You will also need doctrine/cache.",
-                "doctrine/cache": "For using the default cached annotation reader and metadata cache.",
+                "doctrine/annotations": "For using the annotation mapping.",
                 "psr/cache-implementation": "For using the metadata cache.",
                 "symfony/config": "For using the XML mapping loader.",
                 "symfony/http-foundation": "For using a MIME type guesser within the DataUriNormalizer.",
@@ -2064,7 +2062,7 @@
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/serializer/tree/v4.4.22"
+                "source": "https://github.com/symfony/serializer/tree/v4.4.24"
             },
             "funding": [
                 {
@@ -2080,7 +2078,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-13T06:32:41+00:00"
+            "time": "2021-05-16T21:41:25+00:00"
         },
         {
             "name": "symfony/service-contracts",
