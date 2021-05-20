@@ -32,6 +32,8 @@ class Asset implements \ArrayAccess
     protected $compiled = false;
     /** @var bool */
     protected $minified = false;
+    /** @var bool */
+    protected $ignore_missing = false;
 
     /**
      * Creates an Asset from file(s) path.
@@ -59,6 +61,7 @@ class Asset implements \ArrayAccess
         $filename = '';
         $ignore_missing = false;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
+        $this->ignore_missing = $ignore_missing;
 
         // loads file(s)
         $file = [];
@@ -369,7 +372,9 @@ class Asset implements \ArrayAccess
             try {
                 Util\File::getFS()->dumpFile($file, $this->data['content']);
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
-                throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
+                if (!$this->ignore_missing) {
+                    throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
+                }
             }
         }
     }
