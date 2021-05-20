@@ -23,13 +23,14 @@ build:
       version: 7.1
   nodes:
     analysis:
-      requires:
-      - is_pull_request: true
+      #requires:
+      #- is_pull_request: true
       tests:
         override:
         - php-scrutinizer-run
     coverage:
       requires:
+      - node: analysis
       - branch: master
       tests:
         override:
