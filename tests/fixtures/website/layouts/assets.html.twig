@@ -156,12 +156,13 @@ pre {
 
   <h2>Remote (URL)</h2>
   <p>
+{% set snipcart = asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js',{ignore_missing:true}) %}
     <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url)</pre>
-    <blockquote>{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url }}</blockquote>
+    <blockquote>{{ snipcart|url }}</blockquote>
     <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file)</pre>
-    <blockquote>{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['file'] }}</blockquote>
+    <blockquote>{{ snipcart['file'] }}</blockquote>
     <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext</pre>
-    <blockquote>{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')['ext'] }}</blockquote>
+    <blockquote>{{ snipcart['ext'] }}</blockquote>
   </p>
 
   <h2>Preload CSS</h2>
