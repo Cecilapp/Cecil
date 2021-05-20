@@ -160,9 +160,9 @@ pre {
     <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url)</pre>
     <blockquote>{{ snipcart|url }}</blockquote>
     <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file)</pre>
-    <blockquote>{{ snipcart['file'] }}</blockquote>
+    <blockquote>{% if snipcart.file is defined %}{{ snipcart.file }}{% endif %}</blockquote>
     <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext</pre>
-    <blockquote>{{ snipcart['ext'] }}</blockquote>
+    <blockquote>{% if snipcart.ext is defined %}{{ snipcart.ext }}{% endif %}</blockquote>
   </p>
 
   <h2>Preload CSS</h2>
