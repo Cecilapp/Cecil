@@ -180,7 +180,7 @@ return [
         ],
         'compile' => [
             'enabled' => true,
-            'style'   => 'compressed', // 'expanded' or 'compressed',
+            'style'   => 'expanded', // 'expanded' or 'compressed',
             'import'  => ['sass', 'scss'],
             //'variables' => ['var' => 'value']
         ],

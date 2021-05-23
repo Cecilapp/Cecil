@@ -141,6 +141,8 @@ class Asset implements \ArrayAccess
      */
     public function __toString(): string
     {
+        $this->save();
+
         return $this->data['path'];
     }
 
