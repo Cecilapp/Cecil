@@ -103,7 +103,7 @@ return [
         ],
         'compile' => [
             'enabled'   => true,
-            'style'     => 'compressed',
+            'style'     => 'expanded',
             'variables' => ['test' => '#FFF'],
         ],
         'minify' => [
