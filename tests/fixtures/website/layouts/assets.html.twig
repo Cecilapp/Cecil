@@ -167,7 +167,7 @@ pre {
 
   <h2>Preload CSS</h2>
   <p>
-    <pre>asset('css/style.css')|html({test:'test'},{preload:true})</pre>
-    <blockquote>{{ asset('css/style.css')|html({test:'test'},{preload:true})|e }}</blockquote>
+    <pre>asset('css/styleA.css')|html({test:'test'},{preload:true,canonical:true})</pre>
+    <blockquote>{{ asset('css/styleA.css')|html({test:'test'},{preload:true,canonical:true})|e }}</blockquote>
   </p>
 {% endblock content %}
