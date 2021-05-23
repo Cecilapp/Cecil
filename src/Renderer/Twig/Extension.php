@@ -78,6 +78,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
             new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
+            new \Twig\TwigFilter('fingerprint', [$this, 'fingerprint']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
             new \Twig\TwigFilter('minify', [$this, 'minify']),
             new \Twig\TwigFilter('minify_css', [$this, 'minifyCss']),
@@ -319,8 +320,23 @@ class Extension extends SlugifyExtension
     }
 
     /**
+     * Fingerprinting an asset.
+     *
+     * @param string|Asset $asset
+     *
+     * @return Asset
+     */
+    public function fingerprint($asset): Asset
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return $asset->fingerprint();
+    }
+
+    /**
      * Minifying an asset (CSS or JS).
-     * ie: minify('css/style.css').
      *
      * @param string|Asset $asset
      *
