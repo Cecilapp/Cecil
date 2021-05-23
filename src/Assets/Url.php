@@ -93,8 +93,6 @@ class Url
             case $value instanceof Asset:
                 $asset = $value;
                 $this->url = $base.'/'.ltrim($asset['path'], '/');
-                /** @var Asset $asset */
-                $asset->save();
                 break;
             // string
             case is_string($value):

@@ -45,8 +45,8 @@ pre {
 
   <h2>Bundle files</h2>
   <p>
-    <pre>asset(['css/poole.css', 'css/syntax.css', 'css/hyde.css'])|url</pre>
-    <blockquote>{{ asset(['css/poole.css', 'css/syntax.css', 'css/hyde.css'], {fingerprint:true, minify:true, filename:'bundle.css'})|url }}</blockquote>
+    <pre>asset(['css/poole.css', 'css/syntax.css', 'css/hyde.css'])</pre>
+    <blockquote>{{ asset(['css/poole.css', 'css/syntax.css', 'css/hyde.css'], {fingerprint:true, minify:true, filename:'bundle.css'}) }}</blockquote>
   </p>
 
   <h2>Canonical URL</h2>
@@ -157,8 +157,8 @@ pre {
   <h2>Remote (URL)</h2>
   <p>
 {% set snipcart = asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js',{ignore_missing:true}) %}
-    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')|url)</pre>
-    <blockquote>{{ snipcart|url }}</blockquote>
+    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js'))</pre>
+    <blockquote>{{ snipcart }}</blockquote>
     <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file)</pre>
     <blockquote>{% if snipcart.file is defined %}{{ snipcart.file }}{% endif %}</blockquote>
     <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext</pre>
