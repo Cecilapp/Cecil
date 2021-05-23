@@ -480,20 +480,20 @@ class Extension extends SlugifyExtension
                     return \sprintf(
                         '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s>
                          <noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
-                        $asset['path'],
+                        $this->url($asset['path'], $options),
                         $htmlAttributes
                     );
                 }
 
-                return \sprintf('<link rel="stylesheet" href="%s"%s>', $asset['path'], $htmlAttributes);
+                return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($asset['path'], $options), $htmlAttributes);
             case 'js':
-                return \sprintf('<script src="%s"%s></script>', $asset['path'], $htmlAttributes);
+                return \sprintf('<script src="%s"%s></script>', $this->url($asset['path'], $options), $htmlAttributes);
         }
 
         if ($asset['type'] == 'image') {
             return \sprintf(
                 '<img src="%s"%s>',
-                $asset['path'],
+                $this->url($asset['path'], $options),
                 $htmlAttributes
             );
         }
