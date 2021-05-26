@@ -320,19 +320,19 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Fingerprinting an asset.
+     * Compiles a SCSS asset.
      *
      * @param string|Asset $asset
      *
      * @return Asset
      */
-    public function fingerprint($asset): Asset
+    public function toCss($asset): Asset
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->fingerprint();
+        return $asset->compile();
     }
 
     /**
@@ -352,19 +352,19 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Compiles a SCSS asset.
+     * Fingerprinting an asset.
      *
      * @param string|Asset $asset
      *
      * @return Asset
      */
-    public function toCss($asset): Asset
+    public function fingerprint($asset): Asset
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->compile();
+        return $asset->fingerprint();
     }
 
     /**
