@@ -175,16 +175,16 @@ return [
         'dir' => 'themes',
     ],
     'assets' => [
-        'fingerprint' => [
-            'enabled' => true,
-        ],
         'compile' => [
             'enabled' => true,
             'style'   => 'expanded', // 'expanded' or 'compressed',
-            'import'  => ['sass', 'scss'],
+            'import'  => ['sass', 'scss', 'node_modules'],
             //'variables' => ['var' => 'value']
         ],
         'minify' => [
+            'enabled' => true,
+        ],
+        'fingerprint' => [
             'enabled' => true,
         ],
     ],
