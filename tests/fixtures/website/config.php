@@ -98,15 +98,15 @@ return [
         'enabled' => true,
     ],
     'assets' => [
-        'fingerprint' => [
-            'enabled' => false,
-        ],
         'compile' => [
             'enabled'   => true,
             'style'     => 'expanded',
             'variables' => ['test' => '#FFF'],
         ],
         'minify' => [
+            'enabled' => false,
+        ],
+        'fingerprint' => [
             'enabled' => false,
         ],
     ],
