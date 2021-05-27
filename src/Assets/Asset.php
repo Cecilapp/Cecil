@@ -96,7 +96,7 @@ class Asset implements \ArrayAccess
 
             // filename
             if (!empty($filename)) {
-                $this->data['path'] = $filename;
+                $this->data['path'] = '/'.ltrim($filename, '/');
             }
 
             $prevType = $file['type'];
@@ -104,15 +104,15 @@ class Asset implements \ArrayAccess
         }
         // bundle: define path
         if (count($path) > 1) {
-            $this->data['path'] = $filename;
+            $this->data['path'] = '/'.ltrim($filename, '/');
             if (empty($filename)) {
                 switch ($this->data['ext']) {
                     case 'scss':
                     case 'css':
-                        $this->data['path'] = 'styles.'.$file['ext'];
+                        $this->data['path'] = '/styles.'.$file['ext'];
                         break;
                     case 'js':
-                        $this->data['path'] = 'scripts.'.$file['ext'];
+                        $this->data['path'] = '/scripts.'.$file['ext'];
                         break;
                     default:
                         throw new Exception(\sprintf('Asset bundle supports "%s" files only.', 'scss, css and js'));
