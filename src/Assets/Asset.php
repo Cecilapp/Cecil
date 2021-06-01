@@ -103,7 +103,6 @@ class Asset implements \ArrayAccess
             }
             // bundle: define path
             if (count($paths) > 1) {
-                //$this->data['path'] = '/'.ltrim($filename, '/');
                 if (empty($filename)) {
                     switch ($this->data['ext']) {
                         case 'scss':
