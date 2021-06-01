@@ -68,16 +68,16 @@ class Asset implements \ArrayAccess
         $cacheKey = implode('_', $paths);
         if (!$cache->has($cacheKey)) {
             $file = [];
-            for ($i=0; $i < count($paths); $i++) {
+            for ($i = 0; $i < count($paths); $i++) {
                 // loads file(s)
                 $file[$i] = $this->loadFile($paths[$i], $ignore_missing);
                 // bundle: same type/ext only
                 if ($i > 0) {
-                    if ($file[$i]['type'] != $file[$i-1]['type']) {
-                        throw new Exception(\sprintf('Asset bundle type error (%s != %s).', $file[$i]['type'], $file[$i-1]['type']));
+                    if ($file[$i]['type'] != $file[$i - 1]['type']) {
+                        throw new Exception(\sprintf('Asset bundle type error (%s != %s).', $file[$i]['type'], $file[$i - 1]['type']));
                     }
-                    if ($file[$i]['ext'] != $file[$i-1]['ext']) {
-                        throw new Exception(\sprintf('Asset bundle extension error (%s != %s).', $file[$i]['ext'], $file[$i-1]['ext']));
+                    if ($file[$i]['ext'] != $file[$i - 1]['ext']) {
+                        throw new Exception(\sprintf('Asset bundle extension error (%s != %s).', $file[$i]['ext'], $file[$i - 1]['ext']));
                     }
                 }
                 // missing allowed = empty path
