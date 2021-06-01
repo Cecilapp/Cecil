@@ -63,12 +63,13 @@ class Asset implements \ArrayAccess
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
         $this->ignore_missing = $ignore_missing;
 
-        // fill data
+        // fill data array with file(s) informations
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = implode('_', $paths);
         if (!$cache->has($cacheKey)) {
             $file = [];
-            for ($i = 0; $i < count($paths); $i++) {
+            $pathsCount = count($paths);
+            for ($i = 0; $i < $pathsCount; $i++) {
                 // loads file(s)
                 $file[$i] = $this->loadFile($paths[$i], $ignore_missing);
                 // bundle: same type/ext only
@@ -102,7 +103,7 @@ class Asset implements \ArrayAccess
                 $this->data['content'] .= $file[$i]['content'];
             }
             // bundle: define path
-            if (count($paths) > 1) {
+            if ($pathsCount > 1) {
                 if (empty($filename)) {
                     switch ($this->data['ext']) {
                         case 'scss':
