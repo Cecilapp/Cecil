@@ -188,9 +188,12 @@ class Cache implements CacheInterface
      *
      * @return string $path + '__' + MD5 hash
      */
-    public function createKeyFromAsset(Asset $asset): string
+    public function createKeyFromAsset(Asset $asset, $state = null): string
     {
-        $key = $this->prepareKey(\sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['source'] ?? '')));
+        if (!in_array($state, [null, 'compiled', 'minified'])) {
+            throw new Exception('Wrong state used in asset cache key');
+        }
+        $key = $this->prepareKey(\sprintf('%s%s__%s', $asset['filename'], ".$state" ?? '', $this->createKeyFromValue($asset['source'] ?? '')));
 
         return $key;
     }

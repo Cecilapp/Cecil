@@ -90,6 +90,7 @@ class Asset implements \ArrayAccess
                 // set data
                 if ($i == 0) {
                     $this->data['file'] = $file[$i]['filepath']; // should be an array of files in case of bundle?
+                    $this->data['filename'] = $file[$i]['path'];
                     $this->data['path'] = $file[$i]['path'];
                     if (!empty($filename)) {
                         $this->data['path'] = '/'.ltrim($filename, '/');
@@ -187,7 +188,7 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this);
+        $cacheKey = $cache->createKeyFromAsset($this, 'compiled');
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             // import path
@@ -248,7 +249,7 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this);
+        $cacheKey = $cache->createKeyFromAsset($this, 'minified');
         if (!$cache->has($cacheKey)) {
             switch ($this->data['ext']) {
                 case 'css':
@@ -441,11 +442,9 @@ class Asset implements \ArrayAccess
         // in case of remote file: save it and returns cached file path
         if (Util\Url::isUrl($path)) {
             $url = $path;
-            $cache = new Cache($this->builder, 'assets');
             $relativePath = parse_url($url, PHP_URL_HOST).parse_url($url, PHP_URL_PATH);
             $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
-            $cacheKey = $cache->createKeyFromPath($url, $relativePath);
-            if (!$cache->has($cacheKey) || !file_exists($filePath)) {
+            if (!file_exists($filePath)) {
                 if (!Util\Url::isRemoteFileExists($url)) {
                     return false;
                 }
@@ -455,8 +454,7 @@ class Asset implements \ArrayAccess
                 if (strlen($content) <= 1) {
                     throw new Exception(sprintf('Asset at "%s" is empty.', $url));
                 }
-                $cache->set($cacheKey, $content);
-                Util\File::getFS()->dumpFile($filePath, $cache->get($cacheKey));
+                Util\File::getFS()->dumpFile($filePath, $content);
             }
 
             return $filePath;
