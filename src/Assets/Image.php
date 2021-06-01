@@ -94,7 +94,7 @@ class Image
 
         $cache = new Cache($this->builder, 'assets');
         $returnPath = '/'.Util::joinPath(self::PREFIX, $this->size, $this->path);
-        $cacheKey = $cache->createKeyFromFile($source, $returnPath);
+        $cacheKey = $cache->createKeyFromPath($source, $returnPath);
         if (!$cache->has($cacheKey)) {
             // creates an image object
             try {

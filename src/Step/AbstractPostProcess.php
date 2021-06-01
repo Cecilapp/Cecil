@@ -81,7 +81,7 @@ abstract class AbstractPostProcess extends AbstractStep
             $sizeBefore = $file->getSize();
             $message = $file->getRelativePathname();
 
-            $cacheKey = $cache->createKeyFromFile($file->getPathname(), $file->getRelativePathname());
+            $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
             $processed = $cache->get($cacheKey, $file->getContents());
             if (!$cache->has($cacheKey)) {
                 $processed = $this->processFile($file);
