@@ -186,7 +186,7 @@ class Cache implements CacheInterface
      *
      * @param Asset $asset
      *
-     * @return string $path + '__' + MD5 hash
+     * @return string $path + '.$state' + '__' + MD5 hash
      */
     public function createKeyFromAsset(Asset $asset, $state = null): string
     {
