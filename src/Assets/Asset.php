@@ -89,7 +89,7 @@ class Asset implements \ArrayAccess
                 }
                 // set data
                 if ($i == 0) {
-                    $this->data['file'] = $file[$i]['filepath']; // @todo: should be an array in case of bundle?
+                    $this->data['file'] = $file[$i]['filepath']; // should be an array of files in case of bundle?
                     $this->data['path'] = $file[$i]['path'];
                     if (!empty($filename)) {
                         $this->data['path'] = '/'.ltrim($filename, '/');
