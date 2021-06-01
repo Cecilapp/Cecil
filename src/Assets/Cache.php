@@ -152,11 +152,11 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates a cache key from a value (MD5 hash).
+     * Creates a cache key from a value.
      *
      * @param string $value
      *
-     * @return string
+     * @return string MD5 hash
      */
     public function createKeyFromValue(string $value): string
     {
@@ -164,31 +164,33 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates a cache key from a file path (with MD5 hash).
+     * Creates a cache key from a path.
      *
      * @param string $path
      * @param string $relativePath
      *
-     * @return string
+     * @return string $relativePath + '__' + MD5 hash
      */
-    public function createKeyFromFile(string $path, string $relativePath): string
+    public function createKeyFromPath(string $path, string $relativePath): string
     {
-        $content = Util\File::fileGetContents($path);
-        $key = $this->prepareKey(\sprintf('%s__%s', $relativePath, $content !== false ? $this->createKeyFromValue($content) : ''));
+        if (false === $content = Util\File::fileGetContents($path)) {
+            throw new Exception(sprintf('Can\'t create cache key for "%s"', $path));
+        }
+        $key = $this->prepareKey(\sprintf('%s__%s', $relativePath, $this->createKeyFromValue($content)));
 
         return $key;
     }
 
     /**
-     * Creates a cache key from an Asset (with MD5 hash).
+     * Creates a cache key from an Asset.
      *
      * @param Asset $asset
      *
-     * @return string
+     * @return string $path + '__' + MD5 hash
      */
     public function createKeyFromAsset(Asset $asset): string
     {
-        $key = $this->prepareKey(\sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['source'] ?? '')));
+        $key = $this->prepareKey(\sprintf('%s__%s', $asset['path'], $this->createKeyFromValue($asset['source'])));
 
         return $key;
     }

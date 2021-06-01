@@ -46,14 +46,14 @@ class Asset implements \ArrayAccess
      * ];
      *
      * @param Builder      $builder
-     * @param string|array $path
+     * @param string|array $paths
      * @param array|null   $options
      */
-    public function __construct(Builder $builder, $path, array $options = null)
+    public function __construct(Builder $builder, $paths, array $options = null)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
-        $path = is_array($path) ? $path : [$path];
+        $paths = is_array($paths) ? $paths : [$paths];
 
         // handles options
         $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
@@ -63,62 +63,64 @@ class Asset implements \ArrayAccess
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
         $this->ignore_missing = $ignore_missing;
 
-        // loads file(s)
-        $file = [];
-        $prevType = '';
-        $prevExt = '';
-        foreach ($path as $p) {
-            $file = $this->loadFile($p, $ignore_missing);
-            if ($file['missing']) {
-                $this->data['path'] = '';
+        // fill data
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = implode('_', $paths);
+        if (!$cache->has($cacheKey)) {
+            $file = [];
+            for ($i=0; $i < count($paths); $i++) {
+                // loads file(s)
+                $file[$i] = $this->loadFile($paths[$i], $ignore_missing);
+                // bundle: same type/ext only
+                if ($i > 0) {
+                    if ($file[$i]['type'] != $file[$i-1]['type']) {
+                        throw new Exception(\sprintf('Asset bundle type error (%s != %s).', $file[$i]['type'], $file[$i-1]['type']));
+                    }
+                    if ($file[$i]['ext'] != $file[$i-1]['ext']) {
+                        throw new Exception(\sprintf('Asset bundle extension error (%s != %s).', $file[$i]['ext'], $file[$i-1]['ext']));
+                    }
+                }
+                // missing allowed = empty path
+                if ($file[$i]['missing']) {
+                    $this->data['path'] = '';
 
-                continue;
+                    continue;
+                }
+                // set data
+                if ($i == 0) {
+                    $this->data['file'] = $file[$i]['filepath']; // @todo: should be an array in case of bundle?
+                    $this->data['path'] = $file[$i]['path'];
+                    if (!empty($filename)) {
+                        $this->data['path'] = '/'.ltrim($filename, '/');
+                    }
+                    $this->data['ext'] = $file[$i]['ext'];
+                    $this->data['type'] = $file[$i]['type'];
+                    $this->data['subtype'] = $file[$i]['subtype'];
+                }
+                $this->data['size'] += $file[$i]['size'];
+                $this->data['source'] .= $file[$i]['content'];
+                $this->data['content'] .= $file[$i]['content'];
             }
-
-            // bundle: same type only
-            if (!empty($prevType) && $file['type'] != $prevType) {
-                throw new Exception(\sprintf('Asset bundle type error (%s != %s).', $file['type'], $prevType));
-            }
-            // bundle: same extension only
-            if (!empty($prevExt) && $file['ext'] != $prevExt) {
-                throw new Exception(\sprintf('Asset bundle extension error (%s != %s).', $file['ext'], $prevExt));
-            }
-
-            // set data
-            $this->data['file'] = $file['filepath'];
-            $this->data['path'] = $file['path'];
-            $this->data['ext'] = $file['ext'];
-            $this->data['type'] = $file['type'];
-            $this->data['subtype'] = $file['subtype'];
-            $this->data['size'] = $file['size'];
-            $this->data['source'] = $file['content'];
-            $this->data['content'] .= $file['content'];
-
-            // filename
-            if (!empty($filename)) {
-                $this->data['path'] = '/'.ltrim($filename, '/');
-            }
-
-            $prevType = $file['type'];
-            $prevExt = $file['ext'];
-        }
-        // bundle: define path
-        if (count($path) > 1) {
-            $this->data['path'] = '/'.ltrim($filename, '/');
-            if (empty($filename)) {
-                switch ($this->data['ext']) {
-                    case 'scss':
-                    case 'css':
-                        $this->data['path'] = '/styles.'.$file['ext'];
-                        break;
-                    case 'js':
-                        $this->data['path'] = '/scripts.'.$file['ext'];
-                        break;
-                    default:
-                        throw new Exception(\sprintf('Asset bundle supports "%s" files only.', 'scss, css and js'));
+            // bundle: define path
+            if (count($paths) > 1) {
+                //$this->data['path'] = '/'.ltrim($filename, '/');
+                if (empty($filename)) {
+                    switch ($this->data['ext']) {
+                        case 'scss':
+                        case 'css':
+                            $this->data['path'] = '/styles.'.$file[0]['ext'];
+                            break;
+                        case 'js':
+                            $this->data['path'] = '/scripts.'.$file[0]['ext'];
+                            break;
+                        default:
+                            throw new Exception(\sprintf('Asset bundle supports "%s" files only.', 'scss, css and js'));
+                    }
                 }
             }
+            $cache->set($cacheKey, $this->data);
         }
+        $this->data = $cache->get($cacheKey);
 
         // fingerprinting
         if ($fingerprint) {
@@ -442,7 +444,7 @@ class Asset implements \ArrayAccess
             $cache = new Cache($this->builder, 'assets');
             $relativePath = parse_url($url, PHP_URL_HOST).parse_url($url, PHP_URL_PATH);
             $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
-            $cacheKey = $cache->createKeyFromFile($url, $relativePath);
+            $cacheKey = $cache->createKeyFromPath($url, $relativePath);
             if (!$cache->has($cacheKey) || !file_exists($filePath)) {
                 if (!Util\Url::isRemoteFileExists($url)) {
                     return false;
