@@ -408,8 +408,8 @@ class Extension extends SlugifyExtension
      */
     public function minifyCss(string $value): string
     {
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromValue($value);
+        $cache = new Cache($this->builder);
+        $cacheKey = $cache->createKeyFromString($value);
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\CSS($value);
             $value = $minifier->minify();
@@ -428,8 +428,8 @@ class Extension extends SlugifyExtension
      */
     public function minifyJs(string $value): string
     {
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromValue($value);
+        $cache = new Cache($this->builder);
+        $cacheKey = $cache->createKeyFromString($value);
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\JS($value);
             $value = $minifier->minify();
@@ -448,8 +448,8 @@ class Extension extends SlugifyExtension
      */
     public function scssToCss(string $value): string
     {
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromValue($value);
+        $cache = new Cache($this->builder);
+        $cacheKey = $cache->createKeyFromString($value);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             $outputStyles = ['expanded', 'compressed'];
