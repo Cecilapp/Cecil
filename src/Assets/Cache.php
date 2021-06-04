@@ -184,7 +184,7 @@ class Cache implements CacheInterface
     /**
      * Creates key from an Asset source.
      *
-     * @param Asset $asset
+     * @param Asset  $asset
      * @param string $state 'compiled' or 'minified'
      *
      * @return string $path + '.$state' + '__' + MD5 hash
