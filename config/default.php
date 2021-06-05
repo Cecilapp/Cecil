@@ -160,9 +160,10 @@ return [
     ],
     // static files
     'static' => [
-        'dir'    => 'static',
-        'target' => '',
-        'load'   => false, // enables `site.static` collection
+        'dir'     => 'static',
+        'target'  => '',
+        'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'],
+        'load'    => false, // enables `site.static` collection
     ],
     // templates
     'layouts' => [
