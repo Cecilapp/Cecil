@@ -144,7 +144,11 @@ class Asset implements \ArrayAccess
      */
     public function __toString(): string
     {
-        $this->save();
+        try {
+            $this->save();
+        } catch (Exception $e) {
+            $this->builder->getLogger()->error($e->getMessage());
+        }
 
         return $this->data['path'];
     }
@@ -364,7 +368,7 @@ class Asset implements \ArrayAccess
 
     /**
      * Saves file.
-     * Note: a file from `static/` with the same name will be overridden.
+     * Note: a file from `static/` with the same name will NOT be overridden.
      *
      * @throws Exception
      *
@@ -372,10 +376,13 @@ class Asset implements \ArrayAccess
      */
     public function save(): void
     {
-        $file = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
-        if (!$this->builder->getBuildOptions()['dry-run']) {
+        $filepath = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
+        if (!$this->builder->getBuildOptions()['dry-run']
+            && !Util\File::getFS()->exists($filepath)
+        ) {
             try {
-                Util\File::getFS()->dumpFile($file, $this->data['content']);
+                Util\File::getFS()->dumpFile($filepath, $this->data['content']);
+                $this->builder->getLogger()->debug(sprintf('Save asset "%s"', $this->data['path']));
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 if (!$this->ignore_missing) {
                     throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
