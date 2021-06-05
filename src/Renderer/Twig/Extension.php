@@ -458,8 +458,12 @@ class Extension extends SlugifyExtension
                 throw new Exception(\sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
             }
             $scssPhp->setOutputStyle($outputStyle);
-            $scssPhp->setVariables($this->config->get('assets.compile.variables') ?? []);
-            $value = $scssPhp->compile($value);
+            $variables = $this->config->get('assets.compile.variables') ?? [];
+            if (!empty($variables)) {
+                $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
+                $scssPhp->replaceVariables($variables);
+            }
+            $value = $scssPhp->compileString($value)->getCss();
             $cache->set($cacheKey, $value);
         }
 

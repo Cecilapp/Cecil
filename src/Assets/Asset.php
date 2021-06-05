@@ -214,11 +214,15 @@ class Asset implements \ArrayAccess
             }
             $scssPhp->setOutputStyle($outputStyle);
             // variables
-            $scssPhp->setVariables($this->config->get('assets.compile.variables') ?? []);
+            $variables = $this->config->get('assets.compile.variables') ?? [];
+            if (!empty($variables)) {
+                $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
+                $scssPhp->replaceVariables($variables);
+            }
             // update data
             $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
             $this->data['ext'] = 'css';
-            $this->data['content'] = $scssPhp->compile($this->data['content']);
+            $this->data['content'] = $scssPhp->compileString($this->data['content'])->getCss();
             $this->compiled = true;
             $cache->set($cacheKey, $this->data);
         }
