@@ -85,6 +85,7 @@ class AbstractCommand extends Command
     {
         if ($output->isDebug()) {
             putenv('CECIL_DEBUG=true');
+
             return parent::run($input, $output);
         }
         // simplified error message
