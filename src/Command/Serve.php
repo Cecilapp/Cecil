@@ -120,8 +120,7 @@ class Serve extends AbstractCommand
         $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
 
         if (getenv('CECIL_DEBUG') == 'true') {
-            $helper = $this->getHelper('process');
-            $helper->run($output, $buildProcess);
+            $output->writeln(sprintf('<info>RUN: %s</info>', implode(' ', $buildProcessArguments)));
         }
 
         $buildProcess->setTty(Process::isTtySupported());

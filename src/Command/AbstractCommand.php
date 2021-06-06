@@ -84,11 +84,12 @@ class AbstractCommand extends Command
     public function run(InputInterface $input, OutputInterface $output)
     {
         if ($output->isDebug()) {
-            parent::run($input, $output);
+            putenv('CECIL_DEBUG=true');
+            return parent::run($input, $output);
         }
-        // simplifying error message
+        // simplified error message
         try {
-            parent::run($input, $output);
+            return parent::run($input, $output);
         } catch (\Exception $e) {
             if ($this->io === null) {
                 $this->io = new SymfonyStyle($input, $output);
