@@ -162,7 +162,7 @@ return [
     'static' => [
         'dir'     => 'static',
         'target'  => '',
-        #'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'],
+        //'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'],
         'load'    => false, // enables `site.static` collection
     ],
     // templates
