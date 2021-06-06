@@ -219,6 +219,24 @@ class Asset implements \ArrayAccess
                 $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
                 $scssPhp->replaceVariables($variables);
             }
+
+            // Source map
+            $scssPhp->setSourceMap(Compiler::SOURCE_MAP_INLINE);
+
+            $staticPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR.'static'.DIRECTORY_SEPARATOR );
+            $mapBasePath = substr($this->data['file'], 0, $staticPos+8);
+            $mapBasePath = str_replace(DIRECTORY_SEPARATOR, "/", $mapBasePath);
+
+            //throw new Exception($mapBasePath);
+
+            $scssPhp->setSourceMapOptions([
+                //'sourceMapBasepath' => 'E:/Git/github.com/Narno/arnaudligny.fr/themes/garth/static/',
+                //'sourceMapBasepath' => $mapBasePath,
+                'sourceRoot' => '/',
+            ]);
+
+            //throw new Exception($this->data['file']);
+
             // update data
             $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
             $this->data['ext'] = 'css';
