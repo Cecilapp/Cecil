@@ -223,9 +223,9 @@ class Asset implements \ArrayAccess
             // Source map
             $scssPhp->setSourceMap(Compiler::SOURCE_MAP_INLINE);
 
-            $staticPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR.'static'.DIRECTORY_SEPARATOR );
-            $mapBasePath = substr($this->data['file'], 0, $staticPos+8);
-            $mapBasePath = str_replace(DIRECTORY_SEPARATOR, "/", $mapBasePath);
+            $staticPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR.'static'.DIRECTORY_SEPARATOR);
+            $mapBasePath = substr($this->data['file'], 0, $staticPos + 8);
+            $mapBasePath = str_replace(DIRECTORY_SEPARATOR, '/', $mapBasePath);
 
             //throw new Exception($mapBasePath);
 
