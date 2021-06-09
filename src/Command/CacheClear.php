@@ -10,7 +10,6 @@
 
 namespace Cecil\Command;
 
-use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;

@@ -54,7 +54,7 @@ class Clear extends AbstractCommand
     }
 
     /**
-     * Deletes output directory
+     * Deletes output directory.
      *
      * @param OutputInterface $output
      */
@@ -81,7 +81,7 @@ class Clear extends AbstractCommand
     }
 
     /**
-     * Deletes local server temporary files
+     * Deletes local server temporary files.
      *
      * @param OutputInterface $output
      */
