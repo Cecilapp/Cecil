@@ -48,7 +48,7 @@ class Clear extends AbstractCommand
 
         // deletes cache
         $command = $this->getApplication()->find('cache:clear');
-        $returnCode = $command->run($input, $output);
+        $command->run($input, $output);
 
         return 0;
     }
