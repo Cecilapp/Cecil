@@ -34,7 +34,7 @@ class Twig implements RendererInterface
         $loader = new \Twig\Loader\FilesystemLoader($templatesPath);
         // default options
         $loaderOptions = [
-            'debug'            => getenv('CECIL_DEBUG') == 'true' ? true : false,
+            'debug'            => $builder->isDebug(),
             'strict_variables' => true,
             'autoescape'       => false,
             'auto_reload'      => true,
@@ -65,7 +65,7 @@ class Twig implements RendererInterface
         if (extension_loaded('gettext')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
         }
-        if (getenv('CECIL_DEBUG') == 'true') {
+        if ($builder->isDebug()) {
             // dump()
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
             // profiler

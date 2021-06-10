@@ -144,7 +144,7 @@ class PagesRender extends AbstractStep
                     $rendered[$format]['template']['scope'] = $layout['scope'];
                     $rendered[$format]['template']['file'] = $layout['file'];
                     // profiler
-                    if (getenv('CECIL_DEBUG') == 'true') {
+                    if ($this->builder->isDebug()) {
                         $dumper = new \Twig\Profiler\Dumper\HtmlDumper();
                         file_put_contents(
                             Util::joinFile($this->config->getOutputPath(), '_debug_twig_profile.html'),

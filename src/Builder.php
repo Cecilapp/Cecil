@@ -57,6 +57,8 @@ class Builder implements LoggerAwareInterface
     protected $config;
     /** @var LoggerInterface Logger. */
     protected $logger;
+    /** @var bool Debug mode. */
+    protected $debug = false;
     /** @var array Build options. */
     protected $options;
     /** @var Finder Content iterator. */
@@ -91,6 +93,11 @@ class Builder implements LoggerAwareInterface
             $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
         }
         $this->setLogger($logger);
+
+        // debug mode?
+        if (getenv('CECIL_DEBUG') == 'true' || (bool) $this->getConfig()->get('debug')) {
+            $this->debug = true;
+        }
     }
 
     /**
@@ -221,6 +228,16 @@ class Builder implements LoggerAwareInterface
     public function getLogger(): LoggerInterface
     {
         return $this->logger;
+    }
+
+    /**
+     * Returns debug mode state.
+     *
+     * @return bool
+     */
+    public function isDebug(): bool
+    {
+        return $this->debug;
     }
 
     /**
