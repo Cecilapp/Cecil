@@ -375,8 +375,7 @@ class Config
         }
 
         if ($this->isCacheDirIsAbsolute()) {
-            $cacheDir = Util::joinFile((string) $this->get('cache.dir'));
-            $cacheDir = Util::joinFile($cacheDir, 'cecil');
+            $cacheDir = Util::joinFile((string) $this->get('cache.dir'), 'cecil');
             Util\File::getFS()->mkdir($cacheDir);
 
             return $cacheDir;
