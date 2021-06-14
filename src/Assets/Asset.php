@@ -208,7 +208,7 @@ class Asset implements \ArrayAccess
             }
             // source map
             if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
-                $importDir = array();
+                $importDir = [];
                 $staticDir = (string) $this->config->get('static.dir');
                 $staticDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR.$staticDir.DIRECTORY_SEPARATOR);
                 $fileRelPath = substr($this->data['file'], $staticDirPos + 8);
