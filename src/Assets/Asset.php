@@ -220,7 +220,7 @@ class Asset implements \ArrayAccess
                 $scssPhp->setSourceMap(Compiler::SOURCE_MAP_INLINE);
                 $scssPhp->setSourceMapOptions([
                     'sourceMapBasepath' => Util::joinPath($this->config->getOutputPath()),
-                    'sourceRoot' => '/',
+                    'sourceRoot'        => '/',
                 ]);
             }
             // output style
