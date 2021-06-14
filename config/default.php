@@ -177,9 +177,10 @@ return [
     ],
     'assets' => [
         'compile' => [
-            'enabled' => true,
-            'style'   => 'expanded', // 'expanded' or 'compressed',
-            'import'  => ['sass', 'scss', 'node_modules'],
+            'enabled'   => true,
+            'style'     => 'expanded', // 'expanded' or 'compressed',
+            'import'    => ['sass', 'scss', 'node_modules'],
+            'sourcemap' => true, // works in debug mode only
             //'variables' => ['var' => 'value']
         ],
         'minify' => [

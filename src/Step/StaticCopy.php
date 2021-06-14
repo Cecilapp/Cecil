@@ -65,7 +65,7 @@ class StaticCopy extends AbstractStep
 
         // copying content of 'static/' dir if exists
         $this->copy(
-            $this->builder->getConfig()->getStaticPath(),
+            $this->config->getStaticPath(),
             $this->config->get('static.target'),
             $this->config->get('static.exclude')
         );
@@ -93,7 +93,9 @@ class StaticCopy extends AbstractStep
             $finder = Finder::create()
                 ->files()
                 ->in($from);
-            if (is_array($exclude)) {
+            // do not apply exclude in debug mode (for source map)
+            if ((!$this->builder->isDebug() || false === (bool) $this->config->get('assets.compile.sourcemap'))
+            && is_array($exclude)) {
                 $finder->notPath($exclude);
                 $finder->notName($exclude);
             }

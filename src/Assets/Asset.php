@@ -206,6 +206,24 @@ class Asset implements \ArrayAccess
                     $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
                 }
             }
+            // source map
+            if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+                $importDir = [];
+                $staticDir = (string) $this->config->get('static.dir');
+                $staticDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR.$staticDir.DIRECTORY_SEPARATOR);
+                $fileRelPath = substr($this->data['file'], $staticDirPos + 8);
+                $filePath = Util::joinFile($this->config->getOutputPath(), $this->config->get('static.target') ?? '', $fileRelPath);
+                $importDir[] = dirname($filePath);
+                foreach ($scssDir as $dir) {
+                    $importDir[] = Util::joinFile($this->config->getOutputPath(), $this->config->get('static.target') ?? '', $dir);
+                }
+                $scssPhp->setImportPaths(array_unique($importDir));
+                $scssPhp->setSourceMap(Compiler::SOURCE_MAP_INLINE);
+                $scssPhp->setSourceMapOptions([
+                    'sourceMapBasepath' => Util::joinPath($this->config->getOutputPath()),
+                    'sourceRoot'        => '/',
+                ]);
+            }
             // output style
             $outputStyles = ['expanded', 'compressed'];
             $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
@@ -238,6 +256,11 @@ class Asset implements \ArrayAccess
      */
     public function minify(): self
     {
+        // disable minify for sourcemap
+        if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+            return $this;
+        }
+
         if ($this->minified) {
             return $this;
         }
