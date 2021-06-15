@@ -46,14 +46,15 @@ class File
                 throw new \ErrorException($message, 0, $severity, $file, $line, null);
             }
         );
+
         try {
             if ($userAgent) {
                 $options = [
                     'http' => [
-                        'method' => 'GET',
-                        'header' => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.47 Safari/537.36',
+                        'method'          => 'GET',
+                        'header'          => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.47 Safari/537.36',
                         'follow_location' => true,
-                    ]
+                    ],
                 ];
                 $context = stream_context_create($options);
 
