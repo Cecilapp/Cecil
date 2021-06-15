@@ -11,6 +11,7 @@
 namespace Cecil\Assets;
 
 use Cecil\Builder;
+use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Exception\Exception;
 use Cecil\Util;
@@ -441,7 +442,17 @@ class Asset implements \ArrayAccess
         }
 
         if (Util\Url::isUrl($path)) {
-            $path = Util::joinPath('assets', parse_url($path, PHP_URL_HOST), parse_url($path, PHP_URL_PATH));
+            $urlHost = parse_url($path, PHP_URL_HOST);
+            $urlPath = parse_url($path, PHP_URL_PATH);
+            $urlQuery = parse_url($path, PHP_URL_QUERY);
+            $path = Util::joinPath('assets', $urlHost, $urlPath);
+            if (!empty($urlQuery)) {
+                $path = Util::joinPath($path, Page::slugify($urlQuery));
+                // Google Fonts hack
+                if (strpos($urlPath, '/css') !== false) {
+                    $path .= '.css';
+                }
+            }
         }
         $path = '/'.ltrim($path, '/');
 
@@ -476,13 +487,13 @@ class Asset implements \ArrayAccess
         // in case of remote file: save it and returns cached file path
         if (Util\Url::isUrl($path)) {
             $url = $path;
-            $relativePath = parse_url($url, PHP_URL_HOST).parse_url($url, PHP_URL_PATH);
+            $relativePath = Page::slugify(sprintf('%s%s-%s', parse_url($url, PHP_URL_HOST), parse_url($url, PHP_URL_PATH), parse_url($url, PHP_URL_QUERY)));
             $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
             if (!file_exists($filePath)) {
                 if (!Util\Url::isRemoteFileExists($url)) {
                     return false;
                 }
-                if (false === $content = Util\File::fileGetContents($url)) {
+                if (false === $content = Util\File::fileGetContents($url, true)) {
                     return false;
                 }
                 if (strlen($content) <= 1) {

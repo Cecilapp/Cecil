@@ -35,10 +35,11 @@ class File
      * file_get_contents() function with error handler.
      *
      * @param string $filename
+     * @param bool   $userAgent
      *
      * @return string|false
      */
-    public static function fileGetContents($filename)
+    public static function fileGetContents($filename, $userAgent = false)
     {
         set_error_handler(
             function ($severity, $message, $file, $line) {
@@ -47,13 +48,24 @@ class File
         );
 
         try {
-            $return = file_get_contents($filename);
-        } catch (\Exception $e) {
-            $return = false;
-        }
-        restore_error_handler();
+            if ($userAgent) {
+                $options = [
+                    'http' => [
+                        'method'          => 'GET',
+                        'header'          => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.47 Safari/537.36',
+                        'follow_location' => true,
+                    ],
+                ];
 
-        return $return;
+                return file_get_contents($filename, false, stream_context_create($options));
+            }
+
+            return file_get_contents($filename);
+        } catch (\Exception $e) {
+            return false;
+        } finally {
+            restore_error_handler();
+        }
     }
 
     /**
