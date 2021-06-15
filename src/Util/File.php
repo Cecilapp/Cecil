@@ -56,7 +56,6 @@ class File
                         'follow_location' => true,
                     ],
                 ];
-                $context = stream_context_create($options);
 
                 return file_get_contents($filename, false, stream_context_create($options));
             }
