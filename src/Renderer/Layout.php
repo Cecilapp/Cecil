@@ -21,6 +21,8 @@ use Cecil\Util;
  */
 class Layout
 {
+    const EXT = 'twig';
+
     /**
      * Layout files finder.
      *
@@ -70,7 +72,7 @@ class Layout
             }
         }
 
-        throw new Exception(sprintf("Layout '%s' not found for page '%s'!", $layout, $page->getId()));
+        throw new Exception(sprintf('Layout "%s" not found (page: %s).', $layout, $page->getId()));
     }
 
     /**
@@ -85,89 +87,91 @@ class Layout
      */
     protected static function fallback(Page $page, string $format): array
     {
-        // remove redundant '.twig' extension
-        $layout = str_replace('.twig', '', $page->getVariable('layout'));
+        $ext = self::EXT;
+
+        // remove potential redundant extension
+        $layout = str_replace(".$ext", '', $page->getVariable('layout'));
 
         switch ($page->getType()) {
             case PageType::HOMEPAGE:
-                // "$layout.$format.twig",
+                // "$layout.$format.$ext",
                 $layouts = [
-                    "index.$format.twig",
-                    "_default/list.$format.twig",
-                    "_default/page.$format.twig",
+                    "index.$format.$ext",
+                    "_default/list.$format.$ext",
+                    "_default/page.$format.$ext",
                 ];
                 if ($page->getVariable('layout')) {
                     $layouts = array_merge(
-                        [sprintf('%s.%s.twig', $layout, $format)],
+                        [sprintf('%s.%s.%s', $layout, $format, $ext)],
                         $layouts
                     );
                 }
                 break;
             case PageType::SECTION:
                 $layouts = [
-                    // "section/$section.$format.twig",
-                    "_default/section.$format.twig",
-                    "_default/list.$format.twig",
+                    // "section/$section.$format.$ext",
+                    "_default/section.$format.$ext",
+                    "_default/list.$format.$ext",
                 ];
                 if ($page->getPath()) {
                     $section = explode('/', $page->getPath())[0];
                     $layouts = array_merge(
-                        [sprintf('section/%s.%s.twig', $section, $format)],
+                        [sprintf('section/%s.%s.%s', $section, $format, $ext)],
                         $layouts
                     );
                 }
                 break;
             case PageType::VOCABULARY:
                 $layouts = [
-                    // "taxonomy/$plural.$format.twig", // ie: taxonomy/tags.html.twig
-                    "_default/vocabulary.$format.twig", // ie: _default/vocabulary.html.twig
+                    // "taxonomy/$plural.$format.$ext", // ie: taxonomy/tags.html.twig
+                    "_default/vocabulary.$format.$ext", // ie: _default/vocabulary.html.twig
                 ];
                 if ($page->getVariable('plural')) {
                     $layouts = array_merge(
-                        [sprintf('taxonomy/%s.%s.twig', $page->getVariable('plural'), $format)],
+                        [sprintf('taxonomy/%s.%s.%s', $page->getVariable('plural'), $format, $ext)],
                         $layouts
                     );
                 }
                 break;
             case PageType::TERM:
                 $layouts = [
-                    // "taxonomy/$term.$format.twig", // ie: taxonomy/velo.html.twig
-                    "_default/term.$format.twig",     // ie: _default/term.html.twig
-                    "_default/list.$format.twig",     // ie: _default/list.html.twig
+                    // "taxonomy/$term.$format.$ext", // ie: taxonomy/velo.html.twig
+                    "_default/term.$format.$ext",     // ie: _default/term.html.twig
+                    "_default/list.$format.$ext",     // ie: _default/list.html.twig
                 ];
                 if ($page->getVariable('term')) {
                     $layouts = array_merge(
-                        [sprintf('taxonomy/%s.%s.twig', $page->getVariable('term'), $format)],
+                        [sprintf('taxonomy/%s.%s.%s', $page->getVariable('term'), $format, $ext)],
                         $layouts
                     );
                 }
                 break;
             default:
                 $layouts = [
-                    // "$section/$layout.$format.twig",
-                    // "$layout.$format.twig",
-                    // "$section/page.$format.twig",
-                    // "page.$format.twig",
-                    "_default/page.$format.twig",
+                    // "$section/$layout.$format.$ext",
+                    // "$layout.$format.$ext",
+                    // "$section/page.$format.$ext",
+                    // "page.$format.$ext",
+                    "_default/page.$format.$ext",
                 ];
                 $layouts = array_merge(
-                    ["page.$format.twig"],
+                    ["page.$format.$ext"],
                     $layouts
                 );
                 if ($page->getSection()) {
                     $layouts = array_merge(
-                        [sprintf('%s/page.%s.twig', $page->getSection(), $format)],
+                        [sprintf('%s/page.%s.%s', $page->getSection(), $format, $ext)],
                         $layouts
                     );
                 }
                 if ($page->getVariable('layout')) {
                     $layouts = array_merge(
-                        [sprintf('%s.%s.twig', $layout, $format)],
+                        [sprintf('%s.%s.%s', $layout, $format, $ext)],
                         $layouts
                     );
                     if ($page->getSection()) {
                         $layouts = array_merge(
-                            [sprintf('%s/%s.%s.twig', $page->getSection(), $layout, $format)],
+                            [sprintf('%s/%s.%s.%s', $page->getSection(), $layout, $format, $ext)],
                             $layouts
                         );
                     }
