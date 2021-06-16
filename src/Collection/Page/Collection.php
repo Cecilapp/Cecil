@@ -25,7 +25,7 @@ class Collection extends CecilCollection
     public function all(): self
     {
         $filteredPages = $this->filter(function (Page $page) {
-            if ($page->isVirtual() === false) {
+            if ($page->isVirtual() === false && $page->getVariable('exclude') !== true) {
                 return true;
             }
         });
