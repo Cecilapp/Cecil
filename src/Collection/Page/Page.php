@@ -125,8 +125,12 @@ class Page extends Item
         $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.'.$fileExtension);
-        // case of "README" -> index
+        // case of "README" -> "index"
         $fileName = str_ireplace('readme', 'index', $fileName);
+        // case of "index"
+        if ($fileName == 'index') {
+            $this->setType(Type::HOMEPAGE);
+        }
         /*
          * Set protected variables
          */

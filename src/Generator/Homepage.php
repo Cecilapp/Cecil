@@ -25,7 +25,6 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
     {
         $subPages = $this->builder->getPages()->filter(function (Page $page) {
             return $page->getType() == TYPE::PAGE
-                && $page->getId() != 'index' // excludes homepage
                 && $page->isVirtual() === false // excludes virtual pages
                 && $page->getVariable('exclude') !== true;
         });
