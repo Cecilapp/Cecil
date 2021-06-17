@@ -123,6 +123,7 @@ return [
             'layout'    => '404',
             'uglyurl'   => true,
             'published' => true,
+            'exclude'   => true,
         ],
         'robots' => [
             'path'      => 'robots',
@@ -130,6 +131,7 @@ return [
             'layout'    => 'robots',
             'output'    => 'txt',
             'published' => true,
+            'exclude'   => true,
         ],
         'sitemap' => [
             'path'       => 'sitemap',
@@ -139,6 +141,7 @@ return [
             'changefreq' => 'monthly',
             'priority'   => '0.5',
             'published'  => true,
+            'exclude'    => true,
         ],
     ],
     // Markdown files

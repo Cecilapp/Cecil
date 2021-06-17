@@ -4,7 +4,7 @@
 {% set pages = page.pages %}
 {% endif -%}
 
-{% set pages = pages|filter(p => p.virtual == false and p.id not in ['404', 'robots', 'sitemap']) -%}
+{% set pages = pages|filter(p => p.virtual == false and p.exclude|default(false) != true) -%}
 
 {% set first = pages|first %}
 {% set title = site.title ~ ' - ' ~ page.title %}
