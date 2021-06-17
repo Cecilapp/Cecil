@@ -27,8 +27,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             return $page->getType() == TYPE::PAGE
                 && $page->getId() != 'index' // excludes homepage
                 && $page->isVirtual() === false // excludes virtual pages
-                && $page->getVariable('exclude') !== true
-            ;
+                && $page->getVariable('exclude') !== true;
         });
         /** @var \Cecil\Collection\Page\Collection $subPages */
         $pages = $subPages->sortByDate();
