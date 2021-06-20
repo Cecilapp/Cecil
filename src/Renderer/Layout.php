@@ -109,6 +109,7 @@ class Layout
                 break;
             case PageType::SECTION:
                 $layouts = [
+                    // "$section/list.$format.$ext",
                     // "section/$section.$format.$ext",
                     "_default/section.$format.$ext",
                     "_default/list.$format.$ext",
@@ -117,6 +118,10 @@ class Layout
                     $section = explode('/', $page->getPath())[0];
                     $layouts = array_merge(
                         [sprintf('section/%s.%s.%s', $section, $format, $ext)],
+                        $layouts
+                    );
+                    $layouts = array_merge(
+                        [sprintf('%s/list.%s.%s', $section, $format, $ext)],
                         $layouts
                     );
                 }
