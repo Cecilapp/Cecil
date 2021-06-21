@@ -94,9 +94,11 @@ class Layout
 
         switch ($page->getType()) {
             case PageType::HOMEPAGE:
-                // "$layout.$format.$ext",
                 $layouts = [
+                    // "$layout.$format.$ext",
                     "index.$format.$ext",
+                    "list.$format.$ext",
+                    "_default/index.$format.$ext",
                     "_default/list.$format.$ext",
                     "_default/page.$format.$ext",
                 ];
