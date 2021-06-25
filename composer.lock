@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6cf91ce561a87868382c415e388f8b14",
+    "content-hash": "ecc21e0b9ccf01fc0523417a955d82cb",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -406,6 +406,60 @@
                 "source": "https://github.com/guzzle/psr7/tree/1.8.2"
             },
             "time": "2021-04-26T09:17:50+00:00"
+        },
+        {
+            "name": "hoegh/parsedown-toc",
+            "version": "1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BenjaminHoegh/parsedownToc.git",
+                "reference": "0b69a8388c7a35acf17b4dbc45cbe06f50db721a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BenjaminHoegh/parsedownToc/zipball/0b69a8388c7a35acf17b4dbc45cbe06f50db721a",
+                "reference": "0b69a8388c7a35acf17b4dbc45cbe06f50db721a",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "^1.7",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "ParsedownToc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "BenjaminHoegh",
+                    "homepage": "https://github.com/BenjaminHoegh/",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Table of Contents Extension for Parsedown.",
+            "homepage": "https://github.com/BenjaminHoegh/parsedownToc/",
+            "keywords": [
+                "extension",
+                "markdown",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/BenjaminHoegh/parsedownToc/issues",
+                "source": "https://github.com/BenjaminHoegh/parsedownToc/tree/master"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/BenjaminHoegh",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-08-19T14:45:43+00:00"
         },
         {
             "name": "intervention/image",
@@ -6952,7 +7006,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-11-30T07:30:19+00:00"
         },
         {
