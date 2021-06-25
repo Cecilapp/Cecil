@@ -20,7 +20,7 @@ class Parsedown extends \ParsedownToC
     private $builder;
 
     /** @var array */
-    private $options;
+    protected $options;
 
     /**
      * {@inheritdoc}
