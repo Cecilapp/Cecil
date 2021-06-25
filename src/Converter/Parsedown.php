@@ -18,8 +18,7 @@ class Parsedown extends \ParsedownToC
 {
     /** @var Builder */
     private $builder;
-
-    /** @var array */
+    /** @var array hack ParsedownToc */
     protected $options;
 
     /**
@@ -27,41 +26,32 @@ class Parsedown extends \ParsedownToC
      */
     public function __construct(Builder $builder)
     {
-        parent::__construct(['selectors' => ['h2', 'h3']]);
         $this->builder = $builder;
+        parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
     }
 
-    // hack ParsedownToc
+    /**
+     * {@inheritdoc}
+     *
+     * hack ParsedownToc
+     */
     protected function blockHeader($Line)
     {
         $text = '';
-
-        // Use parent blockHeader method to process the $Line to $Block
         $Block = \ParsedownExtra::blockHeader($Line);
 
         if (!empty($Block)) {
-            // Get the text of the heading
-            //if (isset($Block['element']['handler']['argument'])) {
-            //    $text = $Block['element']['handler']['argument'];
-            //}
             if (isset($Block['element']['text'])) {
                 $text = $Block['element']['text'];
             }
 
-            // Get the heading level. Levels are h1, h2, ..., h6
             $level = $Block['element']['name'];
 
-            // Get the anchor of the heading to link from the ToC list
             $id = isset($Block['element']['attributes']['id']) ?
                 $Block['element']['attributes']['id'] : $this->createAnchorID($text);
-
-            // Set attributes to head tags
             $Block['element']['attributes']['id'] = $id;
 
-            // Check if level are defined as a selector
             if (in_array($level, $this->options['selectors'])) {
-
-                // Add/stores the heading element info to the ToC list
                 $this->setContentsList([
                     'text'  => $text,
                     'id'    => $id,
