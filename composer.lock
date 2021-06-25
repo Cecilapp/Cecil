@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "26ec407cd97d3ddb7429ac169a1cac19",
+    "content-hash": "3288e1a042fc2c2aada511663111acd3",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -409,15 +409,15 @@
         },
         {
             "name": "hoegh/parsedown-toc",
-            "version": "dev-master",
+            "version": "1.4.0.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/BenjaminHoegh/parsedownToc.git",
+                "url": "https://github.com/Cecilapp/parsedownToc.git",
                 "reference": "126d334a0dce8e89cd4707a63ecd4074e8e7ecaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenjaminHoegh/parsedownToc/zipball/126d334a0dce8e89cd4707a63ecd4074e8e7ecaa",
+                "url": "https://api.github.com/repos/Cecilapp/parsedownToc/zipball/126d334a0dce8e89cd4707a63ecd4074e8e7ecaa",
                 "reference": "126d334a0dce8e89cd4707a63ecd4074e8e7ecaa",
                 "shasum": ""
             },
@@ -425,14 +425,19 @@
                 "erusev/parsedown": "^1.7",
                 "php": ">=7.1.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
                     "ParsedownToc.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "archive": {
+                "exclude": [
+                    "/test",
+                    "/.travis.yml",
+                    "/.nova"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -451,13 +456,12 @@
                 "parser"
             ],
             "support": {
-                "issues": "https://github.com/BenjaminHoegh/parsedownToc/issues",
-                "source": "https://github.com/BenjaminHoegh/parsedownToc/tree/master"
+                "source": "https://github.com/Cecilapp/parsedownToc/tree/master"
             },
             "funding": [
                 {
-                    "url": "https://paypal.me/BenjaminHoegh",
-                    "type": "custom"
+                    "type": "custom",
+                    "url": "https://paypal.me/BenjaminHoegh"
                 }
             ],
             "time": "2021-06-09T16:02:45+00:00"
