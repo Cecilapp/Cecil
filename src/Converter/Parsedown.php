@@ -19,6 +19,9 @@ class Parsedown extends \ParsedownToC
     /** @var Builder */
     private $builder;
 
+    /** @var array */
+    private $options;
+
     /**
      * {@inheritdoc}
      */
