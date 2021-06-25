@@ -18,8 +18,6 @@ class Parsedown extends \ParsedownToC
 {
     /** @var Builder */
     private $builder;
-    /** @var array hack ParsedownToc */
-    protected $options;
 
     /**
      * {@inheritdoc}
@@ -28,39 +26,6 @@ class Parsedown extends \ParsedownToC
     {
         $this->builder = $builder;
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * hack ParsedownToc
-     */
-    protected function blockHeader($Line)
-    {
-        $text = '';
-        $Block = \ParsedownExtra::blockHeader($Line);
-
-        if (!empty($Block)) {
-            if (isset($Block['element']['text'])) {
-                $text = $Block['element']['text'];
-            }
-
-            $level = $Block['element']['name'];
-
-            $id = isset($Block['element']['attributes']['id']) ?
-                $Block['element']['attributes']['id'] : $this->createAnchorID($text);
-            $Block['element']['attributes']['id'] = $id;
-
-            if (in_array($level, $this->options['selectors'])) {
-                $this->setContentsList([
-                    'text'  => $text,
-                    'id'    => $id,
-                    'level' => $level,
-                ]);
-            }
-
-            return $Block;
-        }
     }
 
     /**
