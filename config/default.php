@@ -154,7 +154,7 @@ return [
     ],
     'body' => [
         'format' => 'md',
-        'toc'    => ['h1', 'h2', 'h3'],
+        'toc'    => ['h2', 'h3'],
     ],
     // data files
     'data' => [
