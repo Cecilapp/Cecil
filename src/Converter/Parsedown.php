@@ -48,7 +48,6 @@ class Parsedown extends \ParsedownToC
             // Get the heading level. Levels are h1, h2, ..., h6
             $level = $Block['element']['name'];
 
-
             // Get the anchor of the heading to link from the ToC list
             $id = isset($Block['element']['attributes']['id']) ?
                 $Block['element']['attributes']['id'] : $this->createAnchorID($text);
@@ -60,11 +59,11 @@ class Parsedown extends \ParsedownToC
             if (in_array($level, $this->options['selectors'])) {
 
                 // Add/stores the heading element info to the ToC list
-                $this->setContentsList(array(
+                $this->setContentsList([
                     'text'  => $text,
                     'id'    => $id,
-                    'level' => $level
-                ));
+                    'level' => $level,
+                ]);
             }
 
             return $Block;
