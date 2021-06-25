@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6cf91ce561a87868382c415e388f8b14",
+    "content-hash": "3288e1a042fc2c2aada511663111acd3",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -406,6 +406,65 @@
                 "source": "https://github.com/guzzle/psr7/tree/1.8.2"
             },
             "time": "2021-04-26T09:17:50+00:00"
+        },
+        {
+            "name": "hoegh/parsedown-toc",
+            "version": "1.4.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Cecilapp/parsedownToc.git",
+                "reference": "126d334a0dce8e89cd4707a63ecd4074e8e7ecaa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Cecilapp/parsedownToc/zipball/126d334a0dce8e89cd4707a63ecd4074e8e7ecaa",
+                "reference": "126d334a0dce8e89cd4707a63ecd4074e8e7ecaa",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "^1.7",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "ParsedownToc.php"
+                ]
+            },
+            "archive": {
+                "exclude": [
+                    "/test",
+                    "/.travis.yml",
+                    "/.nova"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "BenjaminHoegh",
+                    "homepage": "https://github.com/BenjaminHoegh/",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Table of Contents Extension for Parsedown.",
+            "homepage": "https://github.com/BenjaminHoegh/parsedownToc/",
+            "keywords": [
+                "extension",
+                "markdown",
+                "parser"
+            ],
+            "support": {
+                "source": "https://github.com/Cecilapp/parsedownToc/tree/master"
+            },
+            "funding": [
+                {
+                    "type": "custom",
+                    "url": "https://paypal.me/BenjaminHoegh"
+                }
+            ],
+            "time": "2021-06-09T16:02:45+00:00"
         },
         {
             "name": "intervention/image",
@@ -6952,7 +7011,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-11-30T07:30:19+00:00"
         },
         {
@@ -7728,6 +7786,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "hoegh/parsedown-toc": 20,
         "humbug/box": 20
     },
     "prefer-stable": true,

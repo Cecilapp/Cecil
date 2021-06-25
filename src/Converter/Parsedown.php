@@ -13,9 +13,8 @@ namespace Cecil\Converter;
 use Cecil\Assets\Image;
 use Cecil\Builder;
 use Cecil\Util;
-use ParsedownExtra;
 
-class Parsedown extends ParsedownExtra
+class Parsedown extends \ParsedownToC
 {
     /** @var Builder */
     private $builder;
@@ -25,8 +24,8 @@ class Parsedown extends ParsedownExtra
      */
     public function __construct(Builder $builder)
     {
-        parent::__construct();
         $this->builder = $builder;
+        parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
     }
 
     /**
