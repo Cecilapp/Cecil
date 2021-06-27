@@ -88,12 +88,12 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "code:analyse": "phpstan analyse src --memory-limit 1G --level=1 --no-progress --error-format=github",
+    "code:analyse": "phpstan analyse src --memory-limit=1G --level=1 --no-progress --error-format=github",
     "code:style": "phpcs ./src/ --standard=PSR2 -n",
     "test": "@test:integration",
-    "test:unit": "phpunit -c ./ --testsuite UnitTests",
-    "test:integration": "phpunit -c ./ --testsuite IntegrationTests",
-    "test:coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
+    "test:unit": "phpunit -c ./ --testsuite=UnitTests",
+    "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
+    "test:coverage": "phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml",
     "test:coverage:install": [
       "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/latest/download/php-coveralls.phar -O coveralls.phar",
       "chmod +x coveralls.phar",
