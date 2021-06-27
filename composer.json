@@ -90,7 +90,9 @@
   "scripts": {
     "code:analyse": "phpstan analyse src --memory-limit 1G --level=1 --no-progress --error-format=github",
     "code:style": "phpcs ./src/ --standard=PSR2 -n",
-    "test": "phpunit -c ./",
+    "test": "@test:integration",
+    "test:unit": "phpunit -c ./ --testsuite UnitTests",
+    "test:integration": "phpunit -c ./ --testsuite IntegrationTests",
     "test:coverage": "phpunit -c ./ --coverage-text --coverage-clover build/logs/clover.xml",
     "test:coverage:install": [
       "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/latest/download/php-coveralls.phar -O coveralls.phar",
@@ -108,7 +110,9 @@
   "scripts-descriptions": {
     "code:analyse": "Analyses code with PHPStan (PHP Static Analysis Tool).",
     "code:style": "Corrects coding standard violations with PHP_CodeSniffer",
-    "test": "Runs functional tests suite.",
+    "test": "Runs tests suite.",
+    "test:unit": "Runs unit tests suite.",
+    "test:integration": "Runs integration tests suite.",
     "test:coverage": "Runs functional tests suite with code coverage.",
     "test:coverage:install": "Installs the php-coveralls binary.",
     "test:coverage:upload": "Uploads tests coverage results.",
