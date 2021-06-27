@@ -3,3 +3,6 @@ contact_links:
   - name: Cecil documentation
     url: https://cecil.app/documentation/
     about: Please read the documentation before submitting a bug or a feature request.
+  - name: Cecil community support
+    url: https://github.com/Cecilapp/Cecil/discussions
+    about: Please ask and answer questions here.
