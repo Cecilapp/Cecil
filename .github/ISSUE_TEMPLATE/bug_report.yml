@@ -21,14 +21,14 @@ body:
     attributes:
       label: Version
       description: What version of Cecil are you running?
-      placeholder: Example: 5.55.0
+      placeholder: "Example: 5.55.0"
     validations:
       required: true
   - type: textarea
   attributes:
     label: Operating System
     description: What operating system are you using?
-    placeholder: Example: macOS Big Sur
+    placeholder: "Example: macOS Big Sur"
   validations:
   - type: textarea
     id: logs
