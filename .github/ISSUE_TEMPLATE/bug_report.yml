@@ -19,20 +19,19 @@ body:
   - type: input
     id: version
     attributes:
-      label: Version
-      description: What version of Cecil are you running?
+      label: "Version"
+      description: "What version of Cecil are you running?"
       placeholder: "Example: 5.55.0"
     validations:
       required: true
   - type: textarea
-  attributes:
-    label: Operating System
-    description: What operating system are you using?
-    placeholder: "Example: macOS Big Sur"
-  validations:
+    attributes:
+      label: "Operating System"
+      description: "What operating system are you using?"
+      placeholder: "Example: macOS Big Sur"
   - type: textarea
     id: logs
     attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      label: "Relevant log output"
+      description: "Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks."
       render: shell
