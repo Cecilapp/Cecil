@@ -37,7 +37,7 @@ jobs:
         name: Run tests
         command: |
           mkdir -p ~/phpunit
-          vendor/bin/phpunit --log-junit ~/phpunit/junit.xml
+          vendor/bin/phpunit --testsuite IntegrationTests --log-junit ~/phpunit/junit.xml
         when: always
     - store_test_results:
         path: ~/phpunit
