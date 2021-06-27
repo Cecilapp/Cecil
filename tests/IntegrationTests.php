@@ -13,7 +13,7 @@ use Cecil\Logger\PrintLogger;
 use Cecil\Util;
 use Symfony\Component\Filesystem\Filesystem;
 
-class Build extends \PHPUnit\Framework\TestCase
+class IntegrationTests extends \PHPUnit\Framework\TestCase
 {
     protected $wsSourceDir;
     protected $config;
