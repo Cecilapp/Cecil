@@ -43,15 +43,15 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         $pages = $term->sortByDate();
                         $date = $pages->first()->getVariable('date');
                         $page = (new Page($pageId))
-                            ->setVariable('title', $term->getName());
+                            ->setVariable('title', $term->getName())
+                            ->setPath($path)
+                            ->setVariable('date', $date);
                         if ($this->builder->getPages()->has($pageId)) {
                             $page = clone $this->builder->getPages()->get($pageId);
                         }
                         /** @var Page $page */
                         $page
                             ->setType(Type::TERM)
-                            ->setPath($path)
-                            ->setVariable('date', $date)
                             ->setVariable('term', $term->getId())
                             ->setVariable('plural', $plural)
                             ->setVariable('singular', $singular)
