@@ -76,8 +76,6 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('url', [$this, 'url']),
             new \Twig\TwigFilter('html', [$this, 'html']),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
-            new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
-            new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
             new \Twig\TwigFilter('fingerprint', [$this, 'fingerprint']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
             new \Twig\TwigFilter('minify', [$this, 'minify']),
@@ -90,6 +88,9 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('slugify', [$this, 'slugifyFilter']),
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
             new \Twig\TwigFilter('excerpt_html', [$this, 'excerptHtml']),
+            new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
+            new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
+            new \Twig\TwigFilter('preg_split', [$this, 'pregSplit']),
             // deprecated
             new \Twig\TwigFilter(
                 'filterBySection',
@@ -612,6 +613,29 @@ class Extension extends SlugifyExtension
             }
         } catch (\Exception $e) {
             throw new Exception('"json_decode" filter can not parse supplied JSON.');
+        }
+
+        return $array;
+    }
+
+    /**
+     * Split a string into an array using a regular expression.
+     *
+     * @param string|null $value
+     * @param string      $pattern
+     * @param int         $limit
+     *
+     * @return array|null
+     */
+    public function pregSplit(string $value, string $pattern, int $limit = 0): ?array
+    {
+        try {
+            $array = preg_split($pattern, $value, $limit);
+            if ($array === false) {
+                throw new \Exception('Error');
+            }
+        } catch (\Exception $e) {
+            throw new Exception('"preg_split" filter can not split supplied string.');
         }
 
         return $array;
