@@ -622,8 +622,8 @@ class Extension extends SlugifyExtension
      * Split a string into an array using a regular expression.
      *
      * @param string|null $value
-     * @param string $pattern
-     * @param int $limit
+     * @param string      $pattern
+     * @param int         $limit
      *
      * @return array|null
      */
