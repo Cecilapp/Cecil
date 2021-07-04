@@ -117,7 +117,6 @@ class PagesConvert extends AbstractStep
                 if ($page->getVariable('published')) {
                     $this->builder->getPages()->replace($page->getId(), $convertedPage);
                 } else {
-                    $this->builder->getPages()->remove($page->getId());
                     $message .= ' (not published)';
                 }
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
