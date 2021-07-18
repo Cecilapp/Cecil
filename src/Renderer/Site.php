@@ -97,15 +97,13 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Returns all pages, filtered by published status.
+     * Returns all pages.
      *
      * @return \Cecil\Collection\Page\Collection
      */
     public function getPages(): \Cecil\Collection\Page\Collection
     {
-        return $this->builder->getPages()->filter(function (Page $page) {
-            return $page->getVariable('published');
-        });
+        return $this->builder->getPages();
     }
 
     /**

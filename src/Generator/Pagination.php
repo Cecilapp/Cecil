@@ -39,7 +39,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             $paginationPath = $this->config->get('pagination.path');
             // global page config
             $path = $page->getPath();
-            $pages = $page->getVariable('pages');
+            $pages = $page->getVariable('pages')->filter(function (Page $page) {
+                return $page->getVariable('published');
+            });
             // no sub-pages?
             if ($pages === null) {
                 continue;
