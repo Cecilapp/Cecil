@@ -135,12 +135,9 @@ class MenusCreate extends AbstractStep
     {
         $count = 0;
 
-        $filteredPages = $this->builder->getPages()
-            ->filter(function (Page $page) {
-                if ($page->getVariable('menu')) {
-                    return true;
-                }
-            });
+        $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
+            return $page->hasVariable('menu') && $page->getVariable('published');
+        });
 
         $total = count($filteredPages);
 

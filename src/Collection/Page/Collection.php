@@ -18,14 +18,16 @@ use Cecil\Collection\Collection as CecilCollection;
 class Collection extends CecilCollection
 {
     /**
-     * Returns all non virtual pages.
+     * Returns all "viewable" pages.
      *
      * @return self
      */
     public function all(): self
     {
         $filteredPages = $this->filter(function (Page $page) {
-            if ($page->isVirtual() === false && $page->getVariable('exclude') !== true) {
+            if ($page->isVirtual() === false
+                && $page->getVariable('published') === true
+                && $page->getVariable('exclude') !== true) {
                 return true;
             }
         });

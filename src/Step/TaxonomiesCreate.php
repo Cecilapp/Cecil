@@ -95,7 +95,9 @@ class TaxonomiesCreate extends AbstractStep
     protected function collectTermsFromPages()
     {
         /** @var Page $page */
-        $pages = $this->builder->getPages()->sortByDate();
+        $pages = $this->builder->getPages()->filter(function (Page $page) {
+            return $page->getVariable('published');
+        })->sortByDate();
         foreach ($pages as $page) {
             // ie: tags
             foreach ($this->vocabCollection as $vocabulary) {

@@ -40,11 +40,11 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             // global page config
             $path = $page->getPath();
             $pages = $page->getVariable('pages');
+            $sortby = $page->getVariable('sortby');
             // no sub-pages?
             if ($pages === null) {
                 continue;
             }
-            $sortby = $page->getVariable('sortby');
             // pagination page config
             $pagePagination = $page->getVariable('pagination');
             if ($pagePagination) {
@@ -58,6 +58,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $paginationPath = $pagePagination['path'];
                 }
             }
+            $pages = $pages->filter(function (Page $page) {
+                return $page->getVariable('published');
+            });
             $pagesTotal = count($pages);
             // abords pagination?
             if ($pagesTotal <= $paginationPerPage) {
