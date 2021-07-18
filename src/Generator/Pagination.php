@@ -110,8 +110,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         ->setVirtual(true)
                         ->setPath($currentPath)
                         ->unVariable('menu')
-                        //->unVariable('alias')
-                        //->unVariable('aliases') // backward compatibility
+                        ->unVariable('alias')
+                        ->unVariable('aliases') // backward compatibility
                         ->setVariable('paginated', true);
                 }
                 // updates 'pagination' variable
