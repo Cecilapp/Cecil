@@ -31,8 +31,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if ($page->getSection()) {
-                // excludes page from section
-                if ($page->getVariable('exclude')) {
+                // excludes page from its section?
+                if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
                     $alteredPage = clone $page;
                     $alteredPage->setSection('');
                     $this->builder->getPages()->replace($page->getId(), $alteredPage);

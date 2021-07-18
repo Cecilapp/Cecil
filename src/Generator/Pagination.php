@@ -58,6 +58,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $paginationPath = $pagePagination['path'];
                 }
             }
+            $pages = $pages->filter(function (Page $page) {
+                return $page->getVariable('published');
+            });
             $pagesTotal = count($pages);
             // abords pagination?
             if ($pagesTotal <= $paginationPerPage) {
