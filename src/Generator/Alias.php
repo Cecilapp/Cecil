@@ -55,11 +55,11 @@ class Alias extends AbstractGenerator implements GeneratorInterface
     {
         $aliases = [];
 
-        if ($page->hasVariable('aliases')) { // backward compatibility
-            $aliases = $page->getVariable('aliases');
-        }
         if ($page->hasVariable('alias')) {
             $aliases = $page->getVariable('alias');
+        }
+        if ($page->hasVariable('aliases')) { // backward compatibility
+            $aliases = $page->getVariable('aliases');
         }
         if (!is_array($aliases)) {
             $aliases = [$aliases];
