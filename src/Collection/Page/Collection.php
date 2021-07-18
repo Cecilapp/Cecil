@@ -27,8 +27,7 @@ class Collection extends CecilCollection
         $filteredPages = $this->filter(function (Page $page) {
             if ($page->isVirtual() === false
                 && $page->getVariable('published') === true
-                && $page->getVariable('exclude') !== true)
-            {
+                && $page->getVariable('exclude') !== true) {
                 return true;
             }
         });
