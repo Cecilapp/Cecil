@@ -11,7 +11,6 @@
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
-use Cecil\Collection\Page\Page;
 
 /**
  * Class Site.
