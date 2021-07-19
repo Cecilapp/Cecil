@@ -1,10 +1,8 @@
 {% set pages = site.pages.all -%}
 
 {% if page.pages is defined %}
-{% set pages = page.pages %}
+{% set pages = page.pages.all %}
 {% endif -%}
-
-{% set pages = pages|filter(p => p.virtual == false and p.exclude|default(false) != true) -%}
 
 {% set first = pages|first %}
 {% set title = site.title ~ ' - ' ~ page.title %}

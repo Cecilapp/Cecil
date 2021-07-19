@@ -10,7 +10,7 @@
 
 namespace Cecil\Collection\Taxonomy;
 
-use Cecil\Collection\Collection as CecilCollection;
+use Cecil\Collection\Page\Collection as CecilCollection;
 use Cecil\Collection\ItemInterface;
 
 /**
@@ -43,21 +43,5 @@ class Term extends CecilCollection implements ItemInterface
     public function getName(): ?string
     {
         return $this->name;
-    }
-
-    /**
-     * Sorts terms by date: the most recent first.
-     *
-     * @return self
-     */
-    public function sortByDate(): self
-    {
-        return $this->usort(function ($a, $b) {
-            if ($a['date'] == $b['date']) {
-                return 0;
-            }
-
-            return ($a['date'] > $b['date']) ? -1 : 1;
-        });
     }
 }
