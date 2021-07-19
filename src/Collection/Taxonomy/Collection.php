@@ -11,7 +11,6 @@
 namespace Cecil\Collection\Taxonomy;
 
 use Cecil\Collection\Collection as CecilCollection;
-use Cecil\Collection\ItemInterface;
 
 /**
  * Class Collection.
