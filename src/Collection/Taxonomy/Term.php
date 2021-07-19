@@ -10,8 +10,8 @@
 
 namespace Cecil\Collection\Taxonomy;
 
-use Cecil\Collection\Page\Collection as CecilCollection;
 use Cecil\Collection\ItemInterface;
+use Cecil\Collection\Page\Collection as CecilCollection;
 
 /**
  * Class Term.
