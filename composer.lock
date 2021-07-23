@@ -468,16 +468,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "2.6.0",
+            "version": "2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "a2d7238069bb01322f9c2a661449955434fec9c6"
+                "reference": "0925f10b259679b5d8ca58f3a2add9255ffcda45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/a2d7238069bb01322f9c2a661449955434fec9c6",
-                "reference": "a2d7238069bb01322f9c2a661449955434fec9c6",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/0925f10b259679b5d8ca58f3a2add9255ffcda45",
+                "reference": "0925f10b259679b5d8ca58f3a2add9255ffcda45",
                 "shasum": ""
             },
             "require": {
@@ -536,7 +536,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Intervention/image/issues",
-                "source": "https://github.com/Intervention/image/tree/2.6.0"
+                "source": "https://github.com/Intervention/image/tree/2.6.1"
             },
             "funding": [
                 {
@@ -548,7 +548,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-07-06T13:35:54+00:00"
+            "time": "2021-07-22T14:31:53+00:00"
         },
         {
             "name": "matthiasmullie/minify",
