@@ -103,6 +103,22 @@ jobs:
         asset_name: cecil.phar
         asset_content_type: application/octet-stream
 
+    - name: Generate changelog
+      id: changelog
+      uses: jaywcjlove/changelog-generator@v1.4.2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update release
+      id: update_release
+      uses: tubone24/update_release@v1.2.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        body: |
+          ${{ steps.changelog.outputs.compareurl }}
+          ${{ steps.changelog.outputs.changelog }}
+
   deploy_to_website:
     name: Deploy cecil.phar to website
     runs-on: ubuntu-latest
