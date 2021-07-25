@@ -35,7 +35,7 @@ class ShowConfig extends AbstractCommand
                     new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
                 ])
             )
-            ->setHelp('Shows the website\'s configuration');
+            ->setHelp('Shows the website\'s configuration in YAML format');
     }
 
     /**

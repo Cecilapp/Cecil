@@ -18,10 +18,11 @@ use Symfony\Component\Console\Application as BaseApplication;
 class Application extends BaseApplication
 {
     private static $banner = '  ____          _ _
- / ___|___  ___(_) | Your content driven
-| |   / _ \/ __| | | static site generator.
+ / ___|___  ___(_) |
+| |   / _ \/ __| | | Your content driven static site generator.
 | |__|  __/ (__| | |
  \____\___|\___|_|_| by Arnaud Ligny
+
 ';
 
     /**

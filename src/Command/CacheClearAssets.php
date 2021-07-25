@@ -34,7 +34,7 @@ class CacheClearAssets extends AbstractCommand
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
-            ->setHelp('Remove cacheds assets files');
+            ->setHelp('Remove cached assets files');
     }
 
     /**

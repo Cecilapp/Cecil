@@ -27,7 +27,7 @@ class CacheClear extends AbstractCommand
     {
         $this
             ->setName('cache:clear')
-            ->setDescription('Removes cache')
+            ->setDescription('Removes all caches')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
