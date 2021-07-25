@@ -12,6 +12,8 @@ jobs:
   test_and_build:
     name: Build cecil.phar
     runs-on: ubuntu-latest
+    outputs:
+      previous_release: ${{ steps.previous_release.outputs.tag }}
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
@@ -76,6 +78,11 @@ jobs:
         path: dist/cecil.phar
         if-no-files-found: error
 
+    - name: Get previous release
+      id: previous_release
+      run: |
+        echo ::set-output name=tag::$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1  --max-count=1`)
+
   deploy_to_github:
     name: Deploy cecil.phar to GitHub
     runs-on: ubuntu-latest
@@ -103,16 +110,11 @@ jobs:
         asset_name: cecil.phar
         asset_content_type: application/octet-stream
 
-    - name: Get previous release
-      id: previous_release
-      run: |
-        echo ::set-output name=tag::$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1  --max-count=1`)
-
     - name: Generate changelog
       id: changelog
       uses: jaywcjlove/changelog-generator@v1.4.2
       with:
-        base-ref: ${{ steps.previous_release.outputs.tag }}
+        base-ref: ${{ needs.test_and_build.outputs.previous_release }}
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Update release
