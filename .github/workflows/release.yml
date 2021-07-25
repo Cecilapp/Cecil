@@ -125,8 +125,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         body: |
-          ${{ steps.changelog.outputs.compareurl }}
           ${{ steps.changelog.outputs.changelog }}
+
+          ${{ steps.changelog.outputs.compareurl }}
 
   deploy_to_website:
     name: Deploy cecil.phar to website
