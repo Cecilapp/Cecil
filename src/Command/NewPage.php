@@ -41,7 +41,7 @@ class NewPage extends AbstractCommand
                     new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Add date (`YYYY-MM-DD`) as a prefix'),
                 ])
             )
-            ->setHelp('Creates a new page file (with a default title and the current date)');
+            ->setHelp('Creates a new page file (with filename as title and the current date)');
     }
 
     /**

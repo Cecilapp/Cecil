@@ -40,7 +40,7 @@ class ShowContent extends AbstractCommand
                     new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
                 ])
             )
-            ->setHelp('Shows content as tree');
+            ->setHelp('Shows the website\'s content as a tree');
     }
 
     /**
