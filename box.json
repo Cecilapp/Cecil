@@ -4,13 +4,9 @@
     "KevinGH\\Box\\Compactor\\Json",
     "KevinGH\\Box\\Compactor\\Php"
   ],
-  "directories": ["config", "src", "resources"],
-  "files": ["LICENSE"],
   "finder": [
     {
       "name": [
-        "LICENSE*",
-        "License*",
         "*.php",
         "*.xml",
         "*.xsd",
@@ -19,11 +15,13 @@
         "*.json",
         "*.txt",
         "*.twig",
+        "LICENSE*",
+        "License*",
         "VERSION"
       ],
-      "notName": ["composer.json"],
+      "notName": ["composer.json", "box.json"],
       "exclude": ["phpunit", "Tests", "tests"],
-      "in": ["vendor"]
+      "in": ["."]
     }
   ],
   "git-version": "git_version",
