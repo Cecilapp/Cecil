@@ -5,7 +5,7 @@
     "KevinGH\\Box\\Compactor\\Php"
   ],
   "directories": ["config", "src", "resources"],
-  "files": ["LICENSE", "VERSION"],
+  "files": ["LICENSE"],
   "finder": [
     {
       "name": [
