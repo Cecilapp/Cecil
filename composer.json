@@ -96,8 +96,8 @@
       "php coveralls.phar --version"
     ],
     "test:coverage:upload": "php coveralls.phar -v",
-    "test:bin": "cd bin && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",
-    "test:phar": "box compile && cd dist && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
+    "test:bin": "cd bin && php cecil --version && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",
+    "test:phar": "box compile && cd dist && php cecil.phar --version && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
     "build": "box compile",
     "box": "@build",
     "post-install-cmd": "cd ./tests/fixtures/website && composer install",
