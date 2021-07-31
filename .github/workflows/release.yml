@@ -51,7 +51,7 @@ jobs:
 
     - name: Write version
       run: |
-        ${GITHUB_REF#refs/tags/} > VERSION
+        echo "${GITHUB_REF#refs/tags/}" > VERSION
 
     - name: Build cecil.phar
       run: composer run-script box
