@@ -126,7 +126,6 @@ jobs:
       with:
         body: |
           ${{ steps.changelog.outputs.changelog }}
-
           ${{ steps.changelog.outputs.compareurl }}
 
   deploy_to_website:
