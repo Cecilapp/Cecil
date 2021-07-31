@@ -61,7 +61,7 @@ jobs:
         php cecil.phar show:content skeleton
         rm -rf skeleton
 
-    - name: Test cecil.phar (verbose)
+    - name: Test cecil.phar (debug on)
       env:
         CECIL_DEBUG: 'true'
       run: |
