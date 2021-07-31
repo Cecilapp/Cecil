@@ -91,6 +91,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
             new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
             new \Twig\TwigFilter('preg_split', [$this, 'pregSplit']),
+            new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
             // deprecated
             new \Twig\TwigFilter(
                 'filterBySection',
@@ -639,6 +640,29 @@ class Extension extends SlugifyExtension
         }
 
         return $array;
+    }
+
+    /**
+     * Perform a regular expression match and return the group for all matches.
+     *
+     * @param string|null $value
+     * @param string      $pattern
+     * @param int         $group
+     *
+     * @return array|null
+     */
+    public function pregMatchAll(string $value, string $pattern, int $group = 0): ?array
+    {
+        try {
+            $array = preg_match_all($pattern, $value, $matches, PREG_PATTERN_ORDER);
+            if ($array === false) {
+                throw new \Exception('Error');
+            }
+        } catch (\Exception $e) {
+            throw new Exception('"preg_match_all" filter can not match in supplied string.');
+        }
+
+        return $matches[$group];
     }
 
     /**
