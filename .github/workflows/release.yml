@@ -116,7 +116,7 @@ jobs:
       with:
         base-ref: ${{ needs.test_and_build.outputs.previous_release }}
         token: ${{ secrets.GITHUB_TOKEN }}
-        filter: (^[U|u]pdate|^Merge)
+        filter: (^[U|u]pdate|Merge)
 
     - name: Update release
       id: update_release
