@@ -7,5 +7,4 @@ Note we have a [code of conduct](https://github.com/Cecilapp/Cecil/blob/master/C
 ## Pull Request Process
 
 1. Ensure dependecies are updated. Run `composer update`
-2. Increase the version numbers in `VERSION` file to the new version that this Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org)
-3. You may request the main reviewer to merge the Pull Reuest for you
+2. You may request the main reviewer to merge the Pull Reuest for you
