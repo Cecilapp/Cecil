@@ -14,11 +14,17 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       previous_release: ${{ steps.previous_release.outputs.tag }}
+
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
+    - name: Get previous release
+      id: previous_release
+      run: |
+        echo ::set-output name=tag::$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1  --max-count=1`)
 
     - name: Install PHP
       uses: shivammathur/setup-php@v2
@@ -81,11 +87,6 @@ jobs:
         name: cecil.phar
         path: dist/cecil.phar
         if-no-files-found: error
-
-    - name: Get previous release
-      id: previous_release
-      run: |
-        echo ::set-output name=tag::$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1  --max-count=1`)
 
   deploy_to_github:
     name: Deploy cecil.phar to GitHub
