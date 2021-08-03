@@ -2,8 +2,8 @@
 {% if title is not defined %}
   {%- set title_divider = page.metatags.title.divider|default(site.metatags.title.divider|default(' &middot; ')) %}
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
-  {%- set pagination_shownumber = page.metatags.pagination.shownumber|default(site.metatags.pagination.shownumber|default(true)) %}
-  {%- set pagination_label = page.metatags.pagination.label|default(site.metatags.pagination.label|default('Page %s')) %}
+  {%- set title_pagination_shownumber = page.metatags.title.pagination.shownumber|default(site.metatags.title.pagination.shownumber|default(true)) %}
+  {%- set title_pagination_label = page.metatags.title.pagination.label|default(site.metatags.title.pagination.label|default('Page %s')) %}
   {%- set title = page.title|e ~ title_divider ~ site.title|e %}
   {%- if title_only %}
     {%- set title = page.title|e %}
@@ -15,10 +15,10 @@
     {%- endif %}
   {%- endif %}
   {%- if page.pagination.current|default(0) > 1 %}
-    {%- if pagination_shownumber %}
-      {%- set title = page.title|e ~ title_divider ~ pagination_label|format(page.pagination.current) ~ title_divider ~ site.title|e %}
+    {%- if title_pagination_shownumber %}
+      {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.pagination.current) ~ title_divider ~ site.title|e %}
       {%- if title_only %}
-        {%- set title = page.title|e ~ title_divider ~ pagination_label|format(page.pagination.current) %}
+        {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.pagination.current) %}
       {%- endif %}
     {%- endif %}
   {%- endif %}
@@ -48,12 +48,7 @@
   {%- set favicon_sizes = favicon.width ~ 'x' ~ favicon.height %}
 {% endif %}
 {# image #}
-{% if site.image is defined %}
-  {%- set image = site.image %}
-{% endif %}
-{% if page.image is defined %}
-  {%- set image = page.image %}
-{% endif %}
+{%- set image = page.image|default(site.image|default()) %}
 {# open graph #}
 {% set opengraph = {
   'locale': site.language.locale,
@@ -62,7 +57,7 @@
   'title': block('title'),
   'description': block('description'),
   'url': url(page, {canonical:true}),
-  'image': image|default(),
+  'image': image,
 } %}
 {# hack #}
 {% if page.section == 'blog' %}
