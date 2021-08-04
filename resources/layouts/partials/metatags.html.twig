@@ -137,7 +137,7 @@
 {%- if opengraph.image and asset(opengraph.image).width > 500 ~%}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="{{ asset(opengraph.image)|url({canonical:true}) }}" />
-    <meta name="twitter:image:alt" content="" />
+    <meta name="twitter:image:alt" content="{{ opengraph.title }}" />
 {%- else ~%}
     <meta name="twitter:card" content="summary" />
 {%- endif -%}
