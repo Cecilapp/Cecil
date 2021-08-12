@@ -2594,16 +2594,16 @@
         },
         {
             "name": "wapmorgan/mp3info",
-            "version": "0.0.5",
+            "version": "0.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wapmorgan/Mp3Info.git",
-                "reference": "0dc3d62d155d6b7c25bc0568fd8a93924449020c"
+                "reference": "b53a5e936851921dc2b88238b39a5bcc0ace4866"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wapmorgan/Mp3Info/zipball/0dc3d62d155d6b7c25bc0568fd8a93924449020c",
-                "reference": "0dc3d62d155d6b7c25bc0568fd8a93924449020c",
+                "url": "https://api.github.com/repos/wapmorgan/Mp3Info/zipball/b53a5e936851921dc2b88238b39a5bcc0ace4866",
+                "reference": "b53a5e936851921dc2b88238b39a5bcc0ace4866",
                 "shasum": ""
             },
             "require": {
@@ -2637,9 +2637,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wapmorgan/Mp3Info/issues",
-                "source": "https://github.com/wapmorgan/Mp3Info/tree/0.0.5"
+                "source": "https://github.com/wapmorgan/Mp3Info/tree/0.0.7"
             },
-            "time": "2019-12-03T00:57:48+00:00"
+            "time": "2021-08-12T00:38:40+00:00"
         },
         {
             "name": "yosymfony/resource-watcher",
