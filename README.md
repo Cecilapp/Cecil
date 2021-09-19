@@ -7,6 +7,7 @@
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
 [![Test](https://github.com/Cecilapp/Cecil/workflows/Test/badge.svg)](https://github.com/Cecilapp/Cecil/actions?query=workflow%3ATest)
 [![Release cecil.phar](https://github.com/Cecilapp/Cecil/workflows/Release%20cecil.phar/badge.svg)](https://github.com/Cecilapp/Cecil/actions?query=workflow%3A%22Release+cecil.phar%22)
+[![Documentation](https://github.com/Cecilapp/Cecil/actions/workflows/docs.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/docs.yml)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/07232d3c7ff34f3da5abdac8f3ad2cee)](https://www.codacy.com/gh/Cecilapp/Cecil/dashboard)
