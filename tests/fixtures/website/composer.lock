@@ -54,16 +54,16 @@
         },
         {
             "name": "cecil/theme-installer",
-            "version": "1.4.3",
+            "version": "1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/theme-installer.git",
-                "reference": "20038a142b0e201f23bc4a5a3b97b6149d599178"
+                "reference": "4c6fa8b98b4d8d62bf7a39de4c56956e6568d382"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/theme-installer/zipball/20038a142b0e201f23bc4a5a3b97b6149d599178",
-                "reference": "20038a142b0e201f23bc4a5a3b97b6149d599178",
+                "url": "https://api.github.com/repos/Cecilapp/theme-installer/zipball/4c6fa8b98b4d8d62bf7a39de4c56956e6568d382",
+                "reference": "4c6fa8b98b4d8d62bf7a39de4c56956e6568d382",
                 "shasum": ""
             },
             "require": {
@@ -96,7 +96,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Installer for Cecil themes",
+            "description": "Installer for Cecil's themes",
             "keywords": [
                 "cecil",
                 "installer",
@@ -104,7 +104,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Cecilapp/theme-installer/issues",
-                "source": "https://github.com/Cecilapp/theme-installer/tree/1.4.3"
+                "source": "https://github.com/Cecilapp/theme-installer/tree/1.4.4"
             },
             "funding": [
                 {
@@ -114,9 +114,13 @@
                 {
                     "url": "https://github.com/Narno",
                     "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/cecil",
+                    "type": "open_collective"
                 }
             ],
-            "time": "2021-04-29T23:05:14+00:00"
+            "time": "2021-10-05T21:47:38+00:00"
         }
     ],
     "packages-dev": [],
