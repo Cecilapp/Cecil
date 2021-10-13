@@ -1,0 +1,65 @@
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "{{ site.title }}",
+          "description": "{{ site.description }}",
+          {%- if site.image is defined ~%}
+          "image": [
+            "{{ url(site.image,{canonical:true}) }}"
+          ],
+          {%- endif ~%}
+          "url": "{{ url('/', {canonical:true}) }}"
+        }
+        {%- if page.type == 'section' or page.section is not empty -%}
+        ,{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{{ page.section|capitalize }}",
+            "item": "{{ url(page.section,{canonical:true}) }}"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{{ page.title|e }}",
+            "item": "{{ url(page,{canonical:true}) }}"
+          }]
+        }
+        {%- if page.section == 'blog' -%}
+        ,{
+          "@context": "https://schema.org",
+          "@type": "NewsArticle",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ url(page) }}"
+          },
+          "headline": "{{ page.title|e }}",
+          {%- if page.image is defined ~%}
+          "image": [
+            "{{ url(page.image,{canonical:true}) }}"
+          ],
+          {%- endif ~%}
+          "datePublished": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          "dateModified": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          "author": {
+            "@type": "Person",
+            "name": "{{ author }}"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "{{ site.title }}",
+            {%- if favicon_url is not empty ~%}
+            "logo": {
+              "@type": "ImageObject",
+              "url": "{{ favicon_url }}"
+            }
+            {%- endif ~%}
+          }
+        }
+        {%- endif ~%}
+        {%- endif ~%}
+      ]
+    </script>
