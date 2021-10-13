@@ -43,7 +43,7 @@
 {# favicon #}
 {% set favicon = asset('favicon.png',{'ignore_missing':true}) %}
 {% if favicon is not empty %}
-  {%- set favicon_url = favicon|url %}
+  {%- set favicon_url = favicon|url({canonical:true}) %}
   {%- set favicon_subtype = favicon.subtype %}
   {%- set favicon_sizes = favicon.width ~ 'x' ~ favicon.height %}
 {% endif %}
