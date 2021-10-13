@@ -131,4 +131,7 @@ return [
             'History',
         ],
     ],
+    'metatags' => [
+        'jsonld' => true,
+    ]
 ];
