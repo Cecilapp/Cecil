@@ -50,8 +50,8 @@
           },
           "publisher": {
             "@type": "Organization",
-            "name": "{{ site.title }}",
-            {%- if favicon_url is not empty ~%}
+            "name": "{{ site.title }}"
+            {%- if favicon_url is not empty ~%},
             "logo": {
               "@type": "ImageObject",
               "url": "{{ favicon_url }}"
