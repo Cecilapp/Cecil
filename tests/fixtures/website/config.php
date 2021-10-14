@@ -132,6 +132,9 @@ return [
         ],
     ],
     'metatags' => [
-        'jsonld' => true,
+        'jsonld' => [
+            'enabled'  => true,
+            'articles' => 'blog',
+        ]
     ],
 ];

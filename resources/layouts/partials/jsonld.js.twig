@@ -28,7 +28,7 @@
             "item": "{{ url(page,{canonical:true}) }}"
           }]
         }
-        {%- if page.section == 'blog' -%}
+        {%- if page.section == site.metatags.jsonld.articles|default('blog') -%}
         ,{
           "@context": "https://schema.org",
           "@type": "NewsArticle",
