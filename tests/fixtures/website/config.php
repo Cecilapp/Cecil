@@ -135,6 +135,6 @@ return [
         'jsonld' => [
             'enabled'  => true,
             'articles' => 'blog',
-        ]
+        ],
     ],
 ];
