@@ -29,11 +29,11 @@
 {% set keywords = page.tags|default([])|merge(site.keywords|default([]))|e %}
 {# author #}
 {% set author = page.author|default(site.author|default(''))|e %}
-{% if author.name is defined %}
-  {%- set author = author.name|e %}
+{% if author is not iterable %}
+  {%- set author = {'name':author} %}
 {% endif %}
 {% if author.firstname is defined and author.lastname is defined %}
-  {%- set author = author.firstname|e ~ ' ' ~ author.lastname|e %}
+  {%- set author = author|merge({'name': author.firstname|e ~ ' ' ~ author.lastname|e}) %}
 {% endif %}
 {# robots #}
 {% set robots = page.metatags.robots|default(site.metatags.robots|default('index,follow')) %}
@@ -59,11 +59,9 @@
   'url': url(page, {canonical:true}),
   'image': image,
 } %}
-{# hack #}
-{% if page.section == 'blog' %}
+{% if page.section == site.metatags.articles|default('blog') %}
   {%- set opengraph = opengraph|merge({'type': 'article'}) %}
 {% endif %}
-{# /hack #}
 {% if page.opengraph is defined or site.opengraph is defined %}
   {%- set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
 {% endif %}
@@ -93,7 +91,7 @@
     <meta name="keywords" content="{{ keywords|join(', ') }}" />
 {%- endif ~%}
 {%- if author ~%}
-    <meta name="author" content="{{ author|e }}" />
+    <meta name="author" content="{{ author.name|e }}" />
 {%- endif ~%}
     <meta name="robots" content="{{ robots }}" />
 {#- template: favicon ~#}
@@ -102,6 +100,24 @@
     <link rel="shortcut icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
     <link rel="apple-touch-icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
 {%- endif ~%}
+{#- template: prev/next ~#}
+{%- if page.prev.path is defined ~%}
+    <link rel="prev" href="{{ url(page.prev.path,{'canonical':true}) }}">
+{%- endif -%}
+{%- if page.next.path is defined ~%}
+    <link rel="next" href="{{ url(page.next.path,{'canonical':true}) }}">
+{%- endif -%}
+{#- template: pagination ~#}
+{%- if page.pagination.pages is defined ~%}
+    <link rel="first" href="{{ url(page.pagination.links.first,{'canonical':true}) }}">
+    {%- if page.pagination.links.prev is defined ~%}
+    <link rel="prev" href="{{ url(page.pagination.links.prev,{'canonical':true}) }}">
+    {%- endif ~%}
+    {%- if page.pagination.links.next is defined ~%}
+    <link rel="next" href="{{ url(page.pagination.links.next,{'canonical':true}) }}">
+    {%- endif ~%}
+    <link rel="last" href="{{ url(page.pagination.links.last,{'canonical':true}) }}">
+{%- endif -%}
 {#- template: alternates ~#}
 {%- include 'partials/alternates.html.twig' with {'title':title,'page':page} only ~%}
 {#- template: Open Graph ~#}

@@ -1,16 +1,23 @@
-    <script type="application/ld+json">{% apply minify_js %}
+    <script type="application/ld+json">
       [
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "{{ site.title }}",
           "description": "{{ site.description }}",
+          "url": "{{ url('/', {canonical:true}) }}",
           {%- if site.image is defined ~%}
-          "image": [
-            "{{ url(site.image,{canonical:true}) }}"
-          ],
+          "image": ["{{ url(site.image,{canonical:true}) }}"]
           {%- endif ~%}
-          "url": "{{ url('/', {canonical:true}) }}"
+          {%- if site.social is defined ~%},
+          "sameAs": [
+            {%- for social in site.social ~%}
+              {%- if social.url is defined ~%}
+            "{{ social.url }}"{% if not loop.last %},{% endif %}
+              {%- endif ~%}
+            {%- endfor ~%}
+          ]
+          {%- endif ~%}
         }
         {%- if page.type == 'section' or page.section is not empty -%}
         ,{
@@ -28,13 +35,13 @@
             "item": "{{ url(page,{canonical:true}) }}"
           }]
         }
-        {%- if page.section == site.metatags.jsonld.articles|default('blog') -%}
+        {%- if page.section == site.metatags.articles|default('blog') -%}
         ,{
           "@context": "https://schema.org",
           "@type": "NewsArticle",
           "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "{{ url(page) }}"
+            "@id": "{{ url(page,{canonical:true}) }}"
           },
           "headline": "{{ page.title|e }}",
           {%- if page.image is defined ~%}
@@ -46,7 +53,10 @@
           "dateModified": "{{ page.date|date('Y-m-dTH:i:sP') }}",
           "author": {
             "@type": "Person",
-            "name": "{{ author }}"
+            "name": "{{ author.name }}"
+            {%- if author.url|default('') is not empty ~%}
+            "url": "{{ author.url }}"
+            {%- endif ~%}
           },
           "publisher": {
             "@type": "Organization",
@@ -62,4 +72,4 @@
         {%- endif ~%}
         {%- endif ~%}
       ]
-    {% endapply %}</script>
+    </script>
