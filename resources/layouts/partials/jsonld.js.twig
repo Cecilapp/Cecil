@@ -1,3 +1,5 @@
+{% if page.metatags.jsonld|default(site.metatags.jsonld|default(false)) %}
+    <!-- Structured data -->
     <script type="application/ld+json">{% apply minify_js %}
       [
         {
@@ -19,7 +21,7 @@
           ]
           {%- endif ~%}
         }
-        {%- if page.type == 'section' or page.section is not empty -%}
+        {%- if page.section is not empty -%}
         ,{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -73,3 +75,4 @@
         {%- endif ~%}
       ]
     {% endapply %}</script>
+{%- endif %}

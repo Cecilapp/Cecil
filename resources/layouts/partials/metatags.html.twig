@@ -164,6 +164,4 @@
     <meta name="twitter:creator" content="@{{ twitter.creator }}" />
 {%- endif ~%}
 {#- template: json-ld ~#}
-{%- if page.metatags.jsonld|default(site.metatags.jsonld|default(false)) ~%}
 {%~ include 'partials/jsonld.js.twig' with {'author':author,'favicon_url':favicon_url|default('')} %}
-{%- endif %}
