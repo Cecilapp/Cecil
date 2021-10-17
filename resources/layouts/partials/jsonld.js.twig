@@ -54,7 +54,7 @@
           "author": {
             "@type": "Person",
             "name": "{{ author.name }}"
-            {%- if author.url|default('') is not empty ~%}
+            {%- if author.url|default('') is not empty ~%},
             "url": "{{ author.url }}"
             {%- endif ~%}
           },
