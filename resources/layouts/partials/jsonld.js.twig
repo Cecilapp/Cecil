@@ -8,7 +8,8 @@
           "url": "{{ url('/', {canonical:true}) }}",
           {%- if site.image is defined ~%}
           "image": ["{{ url(site.image,{canonical:true}) }}"]
-          {%- endif ~%},
+          {%- endif ~%}
+          {%- if site.social is defined ~%},
           "sameAs": [
             {%- for social in site.social ~%}
               {%- if social.url is defined ~%}
@@ -16,6 +17,7 @@
               {%- endif ~%}
             {%- endfor ~%}
           ]
+          {%- endif ~%}
         }
         {%- if page.type == 'section' or page.section is not empty -%}
         ,{
