@@ -410,6 +410,10 @@ class Extension extends SlugifyExtension
      */
     public function minifyCss(string $value): string
     {
+        if ($this->builder->isDebug()) {
+            return $value;
+        }
+
         $cache = new Cache($this->builder);
         $cacheKey = $cache->createKeyFromString($value);
         if (!$cache->has($cacheKey)) {
@@ -430,6 +434,10 @@ class Extension extends SlugifyExtension
      */
     public function minifyJs(string $value): string
     {
+        if ($this->builder->isDebug()) {
+            return $value;
+        }
+
         $cache = new Cache($this->builder);
         $cacheKey = $cache->createKeyFromString($value);
         if (!$cache->has($cacheKey)) {
