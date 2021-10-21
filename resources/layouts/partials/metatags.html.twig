@@ -25,7 +25,7 @@
 {% endif %}
 {# description #}
 {% set description = page.description|default(site.description)|e %}
-{# keywords #}
+{# keywords / tags #}
 {% set keywords = page.tags|default([])|merge(site.keywords|default([]))|e %}
 {# author #}
 {% set author = page.author|default(site.author|default(''))|e %}
@@ -72,16 +72,16 @@
   'lastname': author.lastname|default(''),
   'username': '',
 } %}
-{% if page.facebook is defined or site.social.facebook is defined %}
-  {%- set facebook = facebook|merge(page.facebook|default(site.social.facebook)) %}
+{% if page.social.facebook is defined or site.social.facebook is defined %}
+  {%- set facebook = facebook|merge(page.social.facebook|default(site.social.facebook)) %}
 {% endif %}
 {# Twitter #}
 {% set twitter = {
   'site': '',
   'creator': '',
 } %}
-{% if page.twitter is defined or site.social.twitter is defined %}
-  {%- set twitter = twitter|merge(page.twitter|default(site.social.twitter)) %}
+{% if page.social.twitter is defined or site.social.twitter is defined %}
+  {%- set twitter = twitter|merge(page.social.twitter|default(site.social.twitter)) %}
 {% endif %}
 
 {#- template ~#}
