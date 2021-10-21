@@ -41,11 +41,25 @@
   {%- set robots = 'noindex,follow' %}
 {% endif %}
 {# favicon #}
-{% set favicon = asset('favicon.png',{'ignore_missing':true}) %}
-{% if favicon is not empty %}
-  {%- set favicon_url = favicon|url({canonical:true}) %}
-  {%- set favicon_subtype = favicon.subtype %}
-  {%- set favicon_sizes = favicon.width ~ 'x' ~ favicon.height %}
+{% set favicon_asset = asset('favicon.png',{'ignore_missing':true}) %}
+
+{% set test = favicon_asset|resize(180) %}
+
+{% set favicon_variants = {
+    'generic': {32, 57, 76, 96, 128, 192, 228},
+    'android': {196},
+    'ios': {120, 152, 180},
+  } %}
+{% for favicon_variant in favicon_variants %}
+	//
+{% endfor %}
+
+{% if favicon_asset is not empty %}
+  {%- set favicon = {
+    'url': favicon_asset|url({canonical:true}),
+    'subtype': favicon_asset.subtype,
+    'sizes': favicon_asset.width ~ 'x' ~ favicon_asset.height
+  } %}
 {% endif %}
 {# image #}
 {%- set image = page.image|default(site.image|default()) %}
@@ -96,9 +110,9 @@
     <meta name="robots" content="{{ robots }}" />
 {#- template: favicon ~#}
 {%- if favicon is not empty ~%}
-    <link rel="icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
-    <link rel="shortcut icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
-    <link rel="apple-touch-icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
+    <link rel="icon" href="{{ favicon['url'] }}" type="{{ favicon['subtype'] }}" sizes="{{ favicon['sizes'] }}" />
+    <link rel="shortcut icon" href="{{ favicon['url'] }}" type="{{ favicon['subtype'] }}" sizes="{{ favicon['sizes'] }}" />
+    <link rel="apple-touch-icon" href="{{ favicon['url'] }}" type="{{ favicon['subtype'] }}" sizes="{{ favicon['sizes'] }}" />
 {%- endif ~%}
 {#- template: prev/next ~#}
 {%- if page.prev.path is defined ~%}
