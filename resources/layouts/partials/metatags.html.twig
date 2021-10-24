@@ -41,17 +41,24 @@
   {%- set robots = 'noindex,follow' %}
 {% endif %}
 {# favicon #}
-{% set favicon_asset = asset('favicon.png',{'ignore_missing':true}) %}
+{% set favicon_asset = asset('favicon.png',{ignore_missing:true,fingerprint:false}) %}
 
 {% set test = favicon_asset|resize(180) %}
 
 {% set favicon_variants = {
-    'generic': {32, 57, 76, 96, 128, 192, 228},
-    'android': {196},
-    'ios': {120, 152, 180},
-  } %}
+  generic: [32, 57, 76, 96, 128, 192, 228],
+  android: [196],
+  ios: [120, 152, 180],
+} %}
+
+<pre>
+{{ dump(favicon_variants) }}
+</pre>
+
 {% for favicon_variant in favicon_variants %}
-	//
+
+{{ favicon_variant|join(', ') }}
+
 {% endfor %}
 
 {% if favicon_asset is not empty %}
