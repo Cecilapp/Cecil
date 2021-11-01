@@ -127,8 +127,8 @@ class Page extends Item
         $fileName = $this->file->getBasename('.'.$fileExtension);
         // case of "README" -> "index"
         $fileName = str_ireplace('readme', 'index', $fileName);
-        // case of "index"
-        if ($fileName == 'index') {
+        // case of "index" = home page
+        if (PrefixSuffix::sub($fileName) == 'index') {
             $this->setType(Type::HOMEPAGE);
         }
         /*
@@ -468,7 +468,7 @@ class Page extends Item
             $subpath = \sprintf('/%s', ltrim($subpath, '/'));
         }
         if ($suffix) {
-            $suffix = \sprintf('/%s', ltrim($suffix, '/'));
+            $suffix = \sprintf('%s%s', empty($path)?'':'/', ltrim($suffix, '/'));
         }
         if ($extension) {
             $extension = \sprintf('.%s', $extension);
