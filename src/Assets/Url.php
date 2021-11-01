@@ -57,6 +57,7 @@ class Url
         // handles options
         $canonical = null;
         $format = null;
+        $lang = $this->config->getLanguageDefault();
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // canonical URL?
@@ -66,6 +67,11 @@ class Url
         }
         if ($canonical === false) {
             $base = '';
+        }
+
+        // specific language?
+        if ($lang !== $this->config->getLanguageDefault()) {
+            $value = sprintf('%s/%s/', $lang, $value);
         }
 
         // value is empty (ie: `url()`)
@@ -103,14 +109,14 @@ class Url
                     case Util\Url::isUrl($value):
                         $this->url = $value;
                         break;
-                    // asset as string
-                    case false !== strpos($value, '.') ? true : false:
-                        $this->url = $base.'/'.ltrim($value, '/');
-                        break;
                     // Page ID as string
                     case $this->builder->getPages()->has($pageId):
                         $page = $this->builder->getPages()->get($pageId);
                         $this->url = new self($this->builder, $page, $options);
+                        break;
+                    // asset as string
+                    case false !== strpos($value, '.') ? true : false:
+                        $this->url = $base.'/'.ltrim($value, '/');
                         break;
                     // others cases?
                     default:
