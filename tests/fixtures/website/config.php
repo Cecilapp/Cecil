@@ -62,7 +62,7 @@ return [
             'config' => [
                 'title'       => 'Cecil FR',
                 'description' => 'En français !',
-                'menus' => [
+                'menus'       => [
                     'main' => [
                         [
                             'id'     => 'menu-fr',
