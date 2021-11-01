@@ -62,6 +62,15 @@ return [
             'config' => [
                 'title'       => 'Cecil FR',
                 'description' => 'En français !',
+                'menus' => [
+                    'main' => [
+                        [
+                            'id'     => 'menu-fr',
+                            'name'   => 'Menu en français',
+                            'url'    => 'https://arnaudligny.fr',
+                        ],
+                    ],
+                ],
             ],
         ],
     ],

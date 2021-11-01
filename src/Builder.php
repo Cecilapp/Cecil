@@ -69,7 +69,7 @@ class Builder implements LoggerAwareInterface
     protected $static = [];
     /** @var PagesCollection Pages collection. */
     protected $pages;
-    /** @var Collection\Menu\Collection Menus collection. */
+    /** @var array Menus collection. */
     protected $menus;
     /** @var Collection\Taxonomy\Collection Taxonomies collection. */
     protected $taxonomies;
@@ -329,21 +329,27 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @param Collection\Menu\Collection $menus
+     * @param array $menus
      *
      * @return void
      */
-    public function setMenus(Collection\Menu\Collection $menus): void
+    public function setMenus(array $menus): void
     {
         $this->menus = $menus;
     }
 
     /**
+     * @param string|null $language
+     *
      * @return Collection\Menu\Collection
      */
-    public function getMenus(): Collection\Menu\Collection
+    public function getMenus(string $language = null): Collection\Menu\Collection
     {
-        return $this->menus;
+        if ($language === null) {
+            $language = $this->config->getLanguageDefault();
+        }
+
+        return $this->menus[$language];
     }
 
     /**
