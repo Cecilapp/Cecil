@@ -468,7 +468,7 @@ class Page extends Item
             $subpath = \sprintf('/%s', ltrim($subpath, '/'));
         }
         if ($suffix) {
-            $suffix = \sprintf('%s%s', empty($path)?'':'/', ltrim($suffix, '/'));
+            $suffix = \sprintf('%s%s', empty($path) ? '' : '/', ltrim($suffix, '/'));
         }
         if ($extension) {
             $extension = \sprintf('.%s', $extension);
