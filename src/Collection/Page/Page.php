@@ -128,7 +128,7 @@ class Page extends Item
         // case of "README" -> "index"
         $fileName = str_ireplace('readme', 'index', $fileName);
         // case of "index" = home page
-        if (PrefixSuffix::sub($fileName) == 'index') {
+        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
             $this->setType(Type::HOMEPAGE);
         }
         /*
@@ -162,7 +162,7 @@ class Page extends Item
                 }
             }
         }
-        // is file has a suffix?
+        // is file has a language suffix?
         if (PrefixSuffix::hasSuffix($fileName)) {
             $this->setVariable('language', PrefixSuffix::getSuffix($fileName));
         }
