@@ -71,7 +71,7 @@ class Url
 
         // specific language?
         if ($lang !== $this->config->getLanguageDefault()) {
-            $value = sprintf('%s/%s/', $lang, $value);
+            $value = sprintf('%s/%s', $lang, $value);
         }
 
         // value is empty (ie: `url()`)
