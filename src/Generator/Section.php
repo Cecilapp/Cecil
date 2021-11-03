@@ -38,59 +38,68 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $this->builder->getPages()->replace($page->getId(), $alteredPage);
                     continue;
                 }
-                $sections[$page->getSection()][] = $page;
+                $sections[$page->getSection()][$page->getVariable('language')??$this->config->getLanguageDefault()][] = $page;
             }
         }
 
         // adds section to pages collection
         if (count($sections) > 0) {
             $menuWeight = 100;
-            foreach ($sections as $section => $pagesAsArray) {
-                $pageId = $path = Page::slugify($section);
-                $page = (new Page($pageId))->setVariable('title', ucfirst($section));
-                if ($this->builder->getPages()->has($pageId)) {
-                    $page = clone $this->builder->getPages()->get($pageId);
-                }
-                $pages = new PagesCollection($section, $pagesAsArray);
-                // cascade
-                if ($page->hasVariable('cascade')) {
-                    $cascade = $page->getVariable('cascade');
-                    $pages->map(function (Page $page) use ($cascade) {
-                        foreach ($cascade as $key => $value) {
-                            if (!$page->hasVariable($key)) {
-                                $page->setVariable($key, $value);
-                            }
-                        }
-                    });
-                }
-                // sorts
-                $pages = $pages->sortByDate();
-                if ($page->getVariable('sortby')) {
-                    $sortMethod = sprintf('sortBy%s', ucfirst($page->getVariable('sortby')));
-                    if (!method_exists($pages, $sortMethod)) {
-                        throw new Exception(sprintf(
-                            'In "%s" section "%s" is not a valid value for "sortby" variable.',
-                            $page->getId(),
-                            $page->getVariable('sortby')
-                        ));
+
+            foreach ($sections as $section => $languages) {
+                foreach ($languages as $lang => $pagesAsArray) {
+                    $pageId = $path = Page::slugify($section);
+                    if ($lang != $this->config->getLanguageDefault()) {
+                        $pageId = sprintf('%s.%s', Page::slugify($section), $lang);
                     }
-                    $pages = $pages->$sortMethod();
+                    $page = (new Page($pageId))->setVariable('title', ucfirst($section));
+                    if ($this->builder->getPages()->has($pageId)) {
+                        $page = clone $this->builder->getPages()->get($pageId);
+                    }
+                    $pages = new PagesCollection($section, $pagesAsArray);
+                    // cascade
+                    if ($page->hasVariable('cascade')) {
+                        $cascade = $page->getVariable('cascade');
+                        $pages->map(function (Page $page) use ($cascade) {
+                            foreach ($cascade as $key => $value) {
+                                if (!$page->hasVariable($key)) {
+                                    $page->setVariable($key, $value);
+                                }
+                            }
+                        });
+                    }
+                    // sorts
+                    $pages = $pages->sortByDate();
+                    if ($page->getVariable('sortby')) {
+                        $sortMethod = sprintf('sortBy%s', ucfirst($page->getVariable('sortby')));
+                        if (!method_exists($pages, $sortMethod)) {
+                            throw new Exception(sprintf(
+                                'In "%s" section "%s" is not a valid value for "sortby" variable.',
+                                $page->getId(),
+                                $page->getVariable('sortby')
+                            ));
+                        }
+                        $pages = $pages->$sortMethod();
+                    }
+                    // adds navigation links
+                    $this->addNavigationLinks($pages, $page->getVariable('sortby'), $page->getVariable('circular'));
+                    // creates page for each section
+                    $page->setPath($path)
+                        ->setType(Type::SECTION)
+                        ->setVariable('pages', $pages)
+                        ->setVariable('date', $pages->first()->getVariable('date'));
+                    if ($lang != $this->config->getLanguageDefault()) {
+                        $page->setVariable('language', $lang);
+                    }
+                    // default menu
+                    if (!$page->getVariable('menu')) {
+                        $page->setVariable('menu', [
+                            'main' => ['weight' => $menuWeight],
+                        ]);
+                    }
+                    $this->generatedPages->add($page);
+                    $menuWeight += 10;
                 }
-                // adds navigation links
-                $this->addNavigationLinks($pages, $page->getVariable('sortby'), $page->getVariable('circular'));
-                // creates page for each section
-                $page->setPath($path)
-                    ->setType(Type::SECTION)
-                    ->setVariable('pages', $pages)
-                    ->setVariable('date', $pages->first()->getVariable('date'));
-                // default menu
-                if (!$page->getVariable('menu')) {
-                    $page->setVariable('menu', [
-                        'main' => ['weight' => $menuWeight],
-                    ]);
-                }
-                $this->generatedPages->add($page);
-                $menuWeight += 10;
             }
         }
     }
