@@ -43,6 +43,7 @@ class Site implements \ArrayAccess
     {
         // special cases
         switch ($offset) {
+            case 'home':
             case 'menus':
                 return true;
         }
@@ -61,6 +62,8 @@ class Site implements \ArrayAccess
     {
         // special cases
         switch ($offset) {
+            case 'home':
+                return 'index';
             case 'menus':
                 return $this->builder->getMenus();
             case 'taxonomies':
