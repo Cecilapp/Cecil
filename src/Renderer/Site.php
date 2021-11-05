@@ -77,7 +77,7 @@ class Site implements \ArrayAccess
         }
         if ($offset == 'home') {
             if (count($this->builder->getConfig()->getLanguages()) > 1
-                && $this->language != $this->builder->getConfig()->getLanguageDefault) {
+                && $this->language != $this->builder->getConfig()->getLanguageDefault()) {
                 return sprintf('index.%s', $this->language);
             }
 
