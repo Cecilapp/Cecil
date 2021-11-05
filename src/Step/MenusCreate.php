@@ -191,6 +191,14 @@ class MenusCreate extends AbstractStep
                         $weight = $property['weight'];
                         $item->setWeight($property['weight']);
                     }
+                    // checks if page's language exists
+                    if (!array_key_exists($lang, $this->menus)) {
+                        if ($lang === null) {
+                            throw new Exception('The default language is not correctly defined in config.');
+                        }
+                        throw new Exception(sprintf('Language "%s" is not defined in config.', $lang));
+                    }
+                    // add Menu if not exists
                     if (!$this->menus[$lang]->has($menuName)) {
                         $this->menus[$lang]->add(new Menu($menuName));
                     }
