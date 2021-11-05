@@ -473,7 +473,7 @@ class Page extends Item
         if ($extension) {
             $extension = \sprintf('.%s', $extension);
         }
-        if ($language !== null) {
+        if (!is_null($language)) {
             $language = \sprintf('%s/', $language);
         }
         // homepage special case: path = 'index'
@@ -487,7 +487,7 @@ class Page extends Item
     /**
      * Returns the public URL.
      *
-     * @param string      $format
+     * @param string      $format Output format (ie: html, amp, json, etc.)
      * @param Config|null $config
      *
      * @return string
