@@ -38,7 +38,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $this->builder->getPages()->replace($page->getId(), $alteredPage);
                     continue;
                 }
-                $sections[$page->getSection()][$page->getVariable('language') ?? $this->config->getLanguageDefault()][] = $page;
+                $sections[$page->getSection()][$page->getVariable('language')][] = $page;
             }
         }
 
@@ -49,7 +49,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
             foreach ($sections as $section => $languages) {
                 foreach ($languages as $lang => $pagesAsArray) {
                     $pageId = $path = Page::slugify($section);
-                    if ($lang != $this->config->getLanguageDefault()) {
+                    if ($lang != null) {
                         $pageId = sprintf('%s.%s', Page::slugify($section), $lang);
                     }
                     $page = (new Page($pageId))->setVariable('title', ucfirst($section));
@@ -58,6 +58,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     }
                     $pages = new PagesCollection($section, $pagesAsArray);
                     // cascade
+                    /** @var \Cecil\Collection\Page\Page $page */
                     if ($page->hasVariable('cascade')) {
                         $cascade = $page->getVariable('cascade');
                         $pages->map(function (Page $page) use ($cascade) {
@@ -88,7 +89,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setType(Type::SECTION)
                         ->setVariable('pages', $pages)
                         ->setVariable('date', $pages->first()->getVariable('date'));
-                    if ($lang != $this->config->getLanguageDefault()) {
+                    if ($lang != null) {
                         $page->setVariable('language', $lang);
                     }
                     // default menu
