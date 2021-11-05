@@ -63,7 +63,7 @@ class Site implements \ArrayAccess
         // special cases
         switch ($offset) {
             case 'menus':
-                return $this->builder->getMenus($this->language);
+                return $this->builder->getMenus($this->language == $this->builder->getConfig()->getLanguageDefault() ? null : $this->language);
             case 'taxonomies':
                 return $this->builder->getTaxonomies();
             case 'language':

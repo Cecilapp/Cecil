@@ -345,10 +345,6 @@ class Builder implements LoggerAwareInterface
      */
     public function getMenus(string $language = null): Collection\Menu\Collection
     {
-        if ($language === null) {
-            $language = $this->config->getLanguageDefault();
-        }
-
         return $this->menus[$language];
     }
 

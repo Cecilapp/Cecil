@@ -40,10 +40,11 @@ class MenusCreate extends AbstractStep
      */
     public function process()
     {
-        foreach ($this->config->getLanguages() as $lang) {
-            // creates a 'menus' collection for each language, with a default 'main' menu
-            $this->menus[$lang['code']] = new MenusCollection('menus');
-            $this->menus[$lang['code']]->add(new Menu('main'));
+        // creates a 'menus' collection for each language, with a default 'main' menu
+        foreach ($this->config->getLanguages() as $language) {
+            $lang = $language['code'] == $this->config->getLanguageDefault() ? null : $language['code'];
+            $this->menus[$lang] = new MenusCollection('menus');
+            $this->menus[$lang]->add(new Menu('main'));
         }
 
         // collects 'menu' entries from pages
@@ -61,19 +62,20 @@ class MenusCreate extends AbstractStep
          *       - id: about
          *         enabled: false.
          */
-        foreach ($this->config->getLanguages() as $lang) {
-            if ($menusConfig = $this->builder->getConfig()->get('menus', $lang['code'], false)) {
+        foreach ($this->config->getLanguages() as $language) {
+            if ($menusConfig = $this->builder->getConfig()->get('menus', $language['code'], false)) {
                 $this->builder->getLogger()->debug('Creating config menus');
 
                 $totalConfig = array_sum(array_map('count', $menusConfig));
                 $countConfig = 0;
+                $lang = $language['code'] == $this->config->getLanguageDefault() ? null : $language['code'];
 
                 foreach ($menusConfig as $menuConfig => $entry) {
-                    if (!$this->menus[$lang['code']]->has($menuConfig)) {
-                        $this->menus[$lang['code']]->add(new Menu($menuConfig));
+                    if (!$this->menus[$lang]->has($menuConfig)) {
+                        $this->menus[$lang]->add(new Menu($menuConfig));
                     }
                     /** @var \Cecil\Collection\Menu\Menu $menu */
-                    $menu = $this->menus[$lang['code']]->get($menuConfig);
+                    $menu = $this->menus[$lang]->get($menuConfig);
                     foreach ($entry as $key => $property) {
                         $countConfig++;
                         $enabled = true;
@@ -152,9 +154,6 @@ class MenusCreate extends AbstractStep
         foreach ($filteredPages as $page) {
             $count++;
             $lang = $page->getVariable('language');
-            if (!$page->hasVariable('language')) {
-                $lang = $this->config->getLanguageDefault();
-            }
             /**
              * Array case.
              *
