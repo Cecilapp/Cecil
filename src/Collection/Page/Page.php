@@ -176,7 +176,8 @@ class Page extends Item
         if (PrefixSuffix::hasSuffix($fileName)) {
             $this->setVariable('language', PrefixSuffix::getSuffix($fileName));
         }
-        $this->setVariable('langref', PrefixSuffix::sub($fileName));
+        // set reference between translations
+        $this->setVariable('langref', $this->getPath());
 
         return $this;
     }
