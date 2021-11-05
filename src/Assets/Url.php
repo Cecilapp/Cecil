@@ -69,7 +69,7 @@ class Url
             $base = '';
         }
 
-        // specific language?
+        // prefix with a specific language?
         if ($lang !== $this->config->getLanguageDefault()) {
             $value = sprintf('%s/%s', $lang, $value);
         }
