@@ -43,6 +43,7 @@ class Site implements \ArrayAccess
     {
         // special cases
         switch ($offset) {
+            case 'home':
             case 'menus':
                 return true;
         }
@@ -61,6 +62,8 @@ class Site implements \ArrayAccess
     {
         // special cases
         switch ($offset) {
+            case 'home':
+                return 'index';
             case 'menus':
                 return $this->builder->getMenus();
             case 'taxonomies':
@@ -102,7 +105,13 @@ class Site implements \ArrayAccess
      */
     public function getPages(): \Cecil\Collection\Page\Collection
     {
-        return $this->builder->getPages();
+        return $this->builder->getPages()->filter(function ($page) {
+            if ($this->language != $this->builder->getConfig()->getLanguageDefault()) {
+                return $page->getVariable('language') == $this->language;
+            }
+
+            return is_null($page->getVariable('language'));
+        });
     }
 
     /**
