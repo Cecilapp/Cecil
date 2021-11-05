@@ -1,0 +1,3 @@
+{% for lang in site.languages|filter(lang => lang['code'] != site.language) %}
+<a href="{{ url(page.path, {lang:lang.code}) }}">{{ lang.name }}</a>{% if not loop.last %}, {% endif %}
+{% endfor %}
