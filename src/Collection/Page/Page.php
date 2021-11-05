@@ -108,6 +108,16 @@ class Page extends Item
     }
 
     /**
+     * Returns the Id of a page withour language suffix.
+     *
+     * @return string
+     */
+    public function getIdWithoutLang(): string
+    {
+        return PrefixSuffix::sub($this->getId());
+    }
+
+    /**
      * Set file.
      *
      * @param SplFileInfo $file

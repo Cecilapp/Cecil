@@ -184,7 +184,7 @@ class MenusCreate extends AbstractStep
                         );
                         continue;
                     }
-                    $item = (new Entry($page->getId()))
+                    $item = (new Entry($page->getIdWithoutLang()))
                         ->setName($page->getVariable('title'))
                         ->setUrl($page->getId());
                     if (array_key_exists('weight', (array) $property)) {
