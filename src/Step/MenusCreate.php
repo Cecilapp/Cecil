@@ -196,6 +196,7 @@ class MenusCreate extends AbstractStep
                         if ($lang === null) {
                             throw new Exception('The default language is not correctly defined in config.');
                         }
+
                         throw new Exception(sprintf('Language "%s" is not defined in config.', $lang));
                     }
                     // add Menu if not exists
