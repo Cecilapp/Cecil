@@ -105,7 +105,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Returns all pages.
+     * Returns all pages, by language.
      *
      * @return \Cecil\Collection\Page\Collection
      */
@@ -118,6 +118,16 @@ class Site implements \ArrayAccess
 
             return is_null($page->getVariable('language'));
         });
+    }
+
+    /**
+     * Returns all pages, with translations.
+     *
+     * @return \Cecil\Collection\Page\Collection
+     */
+    public function getPagesIntl(): \Cecil\Collection\Page\Collection
+    {
+        return $this->builder->getPages();
     }
 
     /**
