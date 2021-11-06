@@ -108,6 +108,16 @@ class Page extends Item
     }
 
     /**
+     * Returns the Id of a page withour language suffix.
+     *
+     * @return string
+     */
+    public function getIdWithoutLang(): string
+    {
+        return PrefixSuffix::sub($this->getId());
+    }
+
+    /**
      * Set file.
      *
      * @param SplFileInfo $file
@@ -127,8 +137,8 @@ class Page extends Item
         $fileName = $this->file->getBasename('.'.$fileExtension);
         // case of "README" -> "index"
         $fileName = str_ireplace('readme', 'index', $fileName);
-        // case of "index"
-        if ($fileName == 'index') {
+        // case of "index" = home page
+        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
             $this->setType(Type::HOMEPAGE);
         }
         /*
@@ -162,11 +172,12 @@ class Page extends Item
                 }
             }
         }
-        // is file has a suffix?
+        // is file has a language suffix?
         if (PrefixSuffix::hasSuffix($fileName)) {
             $this->setVariable('language', PrefixSuffix::getSuffix($fileName));
         }
-        $this->setVariable('langref', PrefixSuffix::sub($fileName));
+        // set reference between translations
+        $this->setVariable('langref', $this->getPath());
 
         return $this;
     }
@@ -468,12 +479,12 @@ class Page extends Item
             $subpath = \sprintf('/%s', ltrim($subpath, '/'));
         }
         if ($suffix) {
-            $suffix = \sprintf('/%s', ltrim($suffix, '/'));
+            $suffix = \sprintf('%s%s', empty($path) ? '' : '/', ltrim($suffix, '/'));
         }
         if ($extension) {
             $extension = \sprintf('.%s', $extension);
         }
-        if ($language !== null) {
+        if (!is_null($language)) {
             $language = \sprintf('%s/', $language);
         }
         // homepage special case: path = 'index'
@@ -487,7 +498,7 @@ class Page extends Item
     /**
      * Returns the public URL.
      *
-     * @param string      $format
+     * @param string      $format Output format (ie: html, amp, json, etc.)
      * @param Config|null $config
      *
      * @return string

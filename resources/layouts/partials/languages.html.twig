@@ -1,0 +1,3 @@
+{% for lang in site.languages|filter(l => l['code'] != site.language)|sort((a, b) => a.weight|default(a.code) <=> b.weight|default(b.code)) %}
+<a href="{{ url(page.path, {lang:lang.code}) }}">{{ lang.name }}</a>{% if not loop.last %}, {% endif %}
+{% endfor %}

@@ -62,10 +62,8 @@ class Site implements \ArrayAccess
     {
         // special cases
         switch ($offset) {
-            case 'home':
-                return 'index';
             case 'menus':
-                return $this->builder->getMenus();
+                return $this->builder->getMenus($this->language == $this->builder->getConfig()->getLanguageDefault() ? null : $this->language);
             case 'taxonomies':
                 return $this->builder->getTaxonomies();
             case 'language':
@@ -74,6 +72,8 @@ class Site implements \ArrayAccess
                 return $this->builder->getData();
             case 'static':
                 return $this->builder->getStatic();
+            case 'home':
+                return $this->language !== null ? sprintf('index.%s', $this->language) : 'index';
         }
 
         return $this->builder->getConfig()->get($offset, $this->language);
@@ -99,7 +99,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Returns all pages.
+     * Returns all pages, by language.
      *
      * @return \Cecil\Collection\Page\Collection
      */
@@ -112,6 +112,16 @@ class Site implements \ArrayAccess
 
             return is_null($page->getVariable('language'));
         });
+    }
+
+    /**
+     * Returns all pages, with translations.
+     *
+     * @return \Cecil\Collection\Page\Collection
+     */
+    public function getPagesIntl(): \Cecil\Collection\Page\Collection
+    {
+        return $this->builder->getPages();
     }
 
     /**

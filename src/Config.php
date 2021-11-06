@@ -170,16 +170,20 @@ class Config
      *
      * @param string      $key
      * @param string|null $language
+     * @param bool        $fallback
      *
      * @return mixed|null
      */
-    public function get(string $key, string $language = null)
+    public function get(string $key, string $language = null, bool $fallback = true)
     {
         if ($language !== null) {
             $index = $this->getLanguageIndex($language);
             $keyLang = sprintf('languages.%s.config.%s', $index, $key);
             if ($this->data->has($keyLang)) {
                 return $this->data->get($keyLang);
+            }
+            if ($language !== $this->getLanguageDefault() && $fallback === false) {
+                return null;
             }
         }
 
