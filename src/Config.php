@@ -499,15 +499,16 @@ class Config
      */
     public function getLanguages(): array
     {
-        if ($this->languages) {
+        if ($this->languages !== null) {
             return $this->languages;
         }
 
-        if (!is_int(array_search($this->getLanguageDefault(), array_column($this->get('languages'), 'code')))) {
+        if (is_array($this->get('languages')) && !is_int(array_search($this->getLanguageDefault(), array_column($this->get('languages'), 'code')))) {
             throw new Exception(sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
         }
+        $this->languages = $this->get('languages');
 
-        return $this->get('languages');
+        return $this->languages;
     }
 
     /**

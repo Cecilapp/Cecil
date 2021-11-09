@@ -47,15 +47,11 @@ class Page
     public function getOutputFile(PageItem $page, string $format): string
     {
         $path = $page->getPath();
-        $subpath = '';
-        $suffix = '/index';
-        $extension = 'html';
-        $uglyurl = (bool) $page->getVariable('uglyurl');
-        $language = $page->getVariable('language');
-        // site config
         $subpath = (string) $this->config->getOutputFormatProperty($format, 'subpath');
         $suffix = (string) $this->config->getOutputFormatProperty($format, 'suffix');
         $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
+        $uglyurl = (bool) $page->getVariable('uglyurl');
+        $language = $page->getVariable('language');
         // if ugly URL: not suffix
         if ($uglyurl) {
             $suffix = '';
