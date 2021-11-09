@@ -22,7 +22,7 @@ class Page
     protected $config;
 
     /**
-     * @param Config   $config
+     * @param Config $config
      */
     public function __construct(Config $config)
     {
@@ -40,7 +40,7 @@ class Page
      * - l10n: language + path + suffix + extension (ie: fr/blog/page/index.html)
      *
      * @param PageItem $page
-     * @param string $format Output format (ie: html, amp, json, etc.)
+     * @param string   $format Output format (ie: html, amp, json, etc.)
      *
      * @return string
      */
@@ -80,7 +80,7 @@ class Page
      * Returns the public URL.
      *
      * @param PageItem $page
-     * @param string $format Output format (ie: html, amp, json, etc.)
+     * @param string   $format Output format (ie: html, amp, json, etc.)
      *
      * @return string
      */
