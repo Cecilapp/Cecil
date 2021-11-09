@@ -58,7 +58,7 @@ class Page
         $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
         // if ugly URL: not suffix
         if ($uglyurl) {
-            $suffix = null;
+            $suffix = '';
         }
         // add extension
         if ($extension) {
@@ -69,7 +69,7 @@ class Page
             $path = 'index';
         }
         // do not prefix URL for default language
-        if ($language == $this->config->getLanguageDefault()) {
+        if ($language == $this->config->getLanguageDefault() || $language === null) {
             $language = '';
         }
 
