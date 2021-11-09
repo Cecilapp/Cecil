@@ -339,11 +339,13 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @param string|null $language
+     * Returns all menus, for a language.
+     *
+     * @param string $language
      *
      * @return Collection\Menu\Collection
      */
-    public function getMenus(string $language = null): Collection\Menu\Collection
+    public function getMenus(string $language): Collection\Menu\Collection
     {
         return $this->menus[$language];
     }

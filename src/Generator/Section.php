@@ -38,7 +38,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $this->builder->getPages()->replace($page->getId(), $alteredPage);
                     continue;
                 }
-                $sections[$page->getSection()][$page->getVariable('language')][] = $page;
+                $sections[$page->getSection()][$page->getVariable('language') ?? $this->config->getLanguageDefault()][] = $page;
             }
         }
 
@@ -47,10 +47,10 @@ class Section extends AbstractGenerator implements GeneratorInterface
             $menuWeight = 100;
 
             foreach ($sections as $section => $languages) {
-                foreach ($languages as $lang => $pagesAsArray) {
+                foreach ($languages as $language => $pagesAsArray) {
                     $pageId = $path = Page::slugify($section);
-                    if ($lang != null) {
-                        $pageId = sprintf('%s.%s', Page::slugify($section), $lang);
+                    if ($language != $this->config->getLanguageDefault()) {
+                        $pageId = sprintf('%s.%s', $pageId, $language);
                     }
                     $page = (new Page($pageId))->setVariable('title', ucfirst($section));
                     if ($this->builder->getPages()->has($pageId)) {
@@ -88,10 +88,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $page->setPath($path)
                         ->setType(Type::SECTION)
                         ->setVariable('pages', $pages)
-                        ->setVariable('date', $pages->first()->getVariable('date'));
-                    if ($lang != null) {
-                        $page->setVariable('language', $lang);
-                    }
+                        ->setVariable('date', $pages->first()->getVariable('date'))
+                        ->setVariable('language', $language);
                     // default menu
                     if (!$page->getVariable('menu')) {
                         $page->setVariable('menu', [

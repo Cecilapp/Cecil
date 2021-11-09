@@ -56,6 +56,10 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                             ->setVariable('plural', $plural)
                             ->setVariable('singular', $singular)
                             ->setVariable('pages', $pages);
+                        // set default language
+                        if (!$page->getVariable('language')) {
+                            $page->setVariable('language', $this->config->getLanguageDefault());
+                        }
                         $this->generatedPages->add($page);
                     }
                     /*

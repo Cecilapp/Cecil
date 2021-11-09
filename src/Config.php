@@ -27,6 +27,8 @@ class Config
     protected $sourceDir;
     /** @var string Destination directory. */
     protected $destinationDir;
+    /** @var array Languages. */
+    protected $languages = null;
 
     /**
      * @param array|null $config
@@ -497,7 +499,16 @@ class Config
      */
     public function getLanguages(): array
     {
-        return $this->get('languages');
+        if ($this->languages !== null) {
+            return $this->languages;
+        }
+
+        if (is_array($this->get('languages')) && !is_int(array_search($this->getLanguageDefault(), array_column($this->get('languages'), 'code')))) {
+            throw new Exception(sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
+        }
+        $this->languages = $this->get('languages');
+
+        return $this->languages;
     }
 
     /**
@@ -508,7 +519,7 @@ class Config
     public function getLanguageDefault(): string
     {
         if (!$this->get('language')) {
-            throw new Exception('There is no default "language" in configuration.');
+            throw new Exception('There is no default "language" key in configuration.');
         }
 
         return $this->get('language');

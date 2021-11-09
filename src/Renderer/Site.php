@@ -19,16 +19,19 @@ class Site implements \ArrayAccess
 {
     /** @var Builder Builder object. */
     protected $builder;
+    /** @var \Cecil\Config */
+    protected $config;
     /** @var string Current language. */
     protected $language;
 
     /**
-     * @param Builder     $builder
-     * @param string|null $language
+     * @param Builder $builder
+     * @param string  $language
      */
-    public function __construct(Builder $builder, string $language = null)
+    public function __construct(Builder $builder, string $language)
     {
         $this->builder = $builder;
+        $this->config = $this->builder->getConfig();
         $this->language = $language;
     }
 
@@ -48,7 +51,7 @@ class Site implements \ArrayAccess
                 return true;
         }
 
-        return $this->builder->getConfig()->has($offset);
+        return $this->config->has($offset);
     }
 
     /**
@@ -63,20 +66,20 @@ class Site implements \ArrayAccess
         // special cases
         switch ($offset) {
             case 'menus':
-                return $this->builder->getMenus($this->language == $this->builder->getConfig()->getLanguageDefault() ? null : $this->language);
+                return $this->builder->getMenus($this->language);
             case 'taxonomies':
                 return $this->builder->getTaxonomies();
             case 'language':
-                return new Language($this->builder->getConfig(), $this->language);
+                return new Language($this->config, $this->language);
             case 'data':
                 return $this->builder->getData();
             case 'static':
                 return $this->builder->getStatic();
             case 'home':
-                return $this->language !== null ? sprintf('index.%s', $this->language) : 'index';
+                return $this->language !== $this->config->getLanguageDefault() ? sprintf('index.%s', $this->language) : 'index';
         }
 
-        return $this->builder->getConfig()->get($offset, $this->language);
+        return $this->config->get($offset, $this->language);
     }
 
     /**
@@ -106,11 +109,12 @@ class Site implements \ArrayAccess
     public function getPages(): \Cecil\Collection\Page\Collection
     {
         return $this->builder->getPages()->filter(function ($page) {
-            if ($this->language != $this->builder->getConfig()->getLanguageDefault()) {
-                return $page->getVariable('language') == $this->language;
+            // We should fix case of virtual pages without language
+            if ($page->getVariable('language') === null && $this->language === $this->config->getLanguageDefault()) {
+                return true;
             }
 
-            return is_null($page->getVariable('language'));
+            return $page->getVariable('language') == $this->language;
         });
     }
 

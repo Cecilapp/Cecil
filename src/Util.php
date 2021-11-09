@@ -44,6 +44,9 @@ class Util
      */
     public static function joinPath(string ...$path): string
     {
+        $path = array_filter($path, function ($path) {
+            return !empty($path) && !is_null($path);
+        });
         array_walk($path, function (&$value, $key) {
             $value = str_replace('\\', '/', $value);
             $value = rtrim($value, '/');

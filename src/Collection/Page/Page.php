@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Item;
-use Cecil\Config;
 use Cecil\Util;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
@@ -108,7 +107,7 @@ class Page extends Item
     }
 
     /**
-     * Returns the Id of a page withour language suffix.
+     * Returns the ID of a page without language suffix.
      *
      * @return string
      */
@@ -437,82 +436,6 @@ class Page extends Item
     public function getContent(): ?string
     {
         return $this->getBodyHtml();
-    }
-
-    /**
-     * Returns the path to the output (rendered) file.
-     *
-     * Use cases:
-     * - default: path + suffix + extension (ie: blog/post-1/index.html)
-     * - subpath: path + subpath + suffix + extension (ie: blog/post-1/amp/index.html)
-     * - ugly: path + extension (ie: 404.html, sitemap.xml, robots.txt)
-     * - path only (ie: _redirects)
-     * - i18n: language + path + suffix + extension (ie: fr/blog/page/index.html)
-     *
-     * @param string      $format
-     * @param Config|null $config
-     *
-     * @return string
-     */
-    public function getOutputFile(string $format, Config $config = null): string
-    {
-        $path = $this->getPath();
-        $subpath = '';
-        $suffix = '/index';
-        $extension = 'html';
-        $uglyurl = (bool) $this->getVariable('uglyurl');
-        $language = $this->getVariable('language');
-
-        // site config
-        if ($config) {
-            $subpath = (string) $config->getOutputFormatProperty($format, 'subpath');
-            $suffix = (string) $config->getOutputFormatProperty($format, 'suffix');
-            $extension = (string) $config->getOutputFormatProperty($format, 'extension');
-        }
-
-        // if ugly URL: not suffix
-        if ($uglyurl) {
-            $suffix = null;
-        }
-        // formatting strings
-        if ($subpath) {
-            $subpath = \sprintf('/%s', ltrim($subpath, '/'));
-        }
-        if ($suffix) {
-            $suffix = \sprintf('%s%s', empty($path) ? '' : '/', ltrim($suffix, '/'));
-        }
-        if ($extension) {
-            $extension = \sprintf('.%s', $extension);
-        }
-        if (!is_null($language)) {
-            $language = \sprintf('%s/', $language);
-        }
-        // homepage special case: path = 'index'
-        if (empty($path) && empty($suffix)) {
-            $path = 'index';
-        }
-
-        return $language.$path.$subpath.$suffix.$extension;
-    }
-
-    /**
-     * Returns the public URL.
-     *
-     * @param string      $format Output format (ie: html, amp, json, etc.)
-     * @param Config|null $config
-     *
-     * @return string
-     */
-    public function getUrl(string $format = 'html', Config $config = null): string
-    {
-        $uglyurl = $this->getVariable('uglyurl') ? true : false;
-        $output = $this->getOutputFile($format, $config);
-
-        if (!$uglyurl) {
-            $output = str_replace('index.html', '', $output);
-        }
-
-        return $output;
     }
 
     /*

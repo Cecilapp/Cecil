@@ -13,6 +13,7 @@ namespace Cecil\Assets;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
+use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Util;
 use Cocur\Slugify\Slugify;
 
@@ -93,7 +94,7 @@ class Url
                         $format = 'html';
                     }
                 }
-                $this->url = $base.'/'.ltrim($value->getUrl($format, $this->config), '/');
+                $this->url = $base.'/'.ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
                 break;
             // Asset
             case $value instanceof Asset:
