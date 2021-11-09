@@ -16,6 +16,7 @@ use Cecil\Collection\Menu\Menu;
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 use Cecil\Logger\PrintLogger;
+use Cecil\Renderer\Page as PageRenderer;
 
 /**
  * Creates menus collection.
@@ -42,9 +43,8 @@ class MenusCreate extends AbstractStep
     {
         // creates a 'menus' collection for each language, with a default 'main' menu
         foreach ($this->config->getLanguages() as $language) {
-            $lang = $language['code'] == $this->config->getLanguageDefault() ? null : $language['code'];
-            $this->menus[$lang] = new MenusCollection('menus');
-            $this->menus[$lang]->add(new Menu('main'));
+            $this->menus[$language['code']] = new MenusCollection('menus');
+            $this->menus[$language['code']]->add(new Menu('main'));
         }
 
         // collects 'menu' entries from pages
@@ -63,19 +63,18 @@ class MenusCreate extends AbstractStep
          *         enabled: false.
          */
         foreach ($this->config->getLanguages() as $language) {
-            if ($menusConfig = $this->builder->getConfig()->get('menus', $language['code'], false)) {
+            if ($menusConfig = $this->config->get('menus', $language['code'], false)) {
                 $this->builder->getLogger()->debug('Creating config menus');
 
                 $totalConfig = array_sum(array_map('count', $menusConfig));
                 $countConfig = 0;
-                $lang = $language['code'] == $this->config->getLanguageDefault() ? null : $language['code'];
 
                 foreach ($menusConfig as $menuConfig => $entry) {
-                    if (!$this->menus[$lang]->has($menuConfig)) {
-                        $this->menus[$lang]->add(new Menu($menuConfig));
+                    if (!$this->menus[$language['code']]->has($menuConfig)) {
+                        $this->menus[$language['code']]->add(new Menu($menuConfig));
                     }
                     /** @var \Cecil\Collection\Menu\Menu $menu */
-                    $menu = $this->menus[$lang]->get($menuConfig);
+                    $menu = $this->menus[$language['code']]->get($menuConfig);
                     foreach ($entry as $key => $property) {
                         $countConfig++;
                         $enabled = true;
@@ -153,7 +152,7 @@ class MenusCreate extends AbstractStep
         /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-            $lang = $page->getVariable('language');
+            $language = $page->getVariable('language') ?? $this->config->getLanguageDefault();
             /**
              * Array case.
              *
@@ -191,20 +190,12 @@ class MenusCreate extends AbstractStep
                         $weight = $property['weight'];
                         $item->setWeight($property['weight']);
                     }
-                    // checks if page's language exists
-                    if (!array_key_exists($lang, $this->menus)) {
-                        if ($lang === null) {
-                            throw new Exception('The default language is not correctly defined in config.');
-                        }
-
-                        throw new Exception(sprintf('Language "%s" is not defined in config.', $lang));
-                    }
                     // add Menu if not exists
-                    if (!$this->menus[$lang]->has($menuName)) {
-                        $this->menus[$lang]->add(new Menu($menuName));
+                    if (!$this->menus[$language]->has($menuName)) {
+                        $this->menus[$language]->add(new Menu($menuName));
                     }
                     /** @var \Cecil\Collection\Menu\Menu $menu */
-                    $menu = $this->menus[$lang]->get($menuName);
+                    $menu = $this->menus[$language]->get($menuName);
                     $menu->add($item);
 
                     $message = sprintf('%s > %s (weight: %s)', $menuName, $page->getId(), $weight ?? 'N/A');
@@ -220,12 +211,12 @@ class MenusCreate extends AbstractStep
              */
             $item = (new Entry($page->getId()))
                 ->setName($page->getVariable('title'))
-                ->setUrl($page->getUrl());
-            if (!$this->menus[$lang]->has($page->getVariable('menu'))) {
-                $this->menus[$lang]->add(new Menu($page->getVariable('menu')));
+                ->setUrl((new PageRenderer($this->config))->getUrl($page));
+            if (!$this->menus[$language]->has($page->getVariable('menu'))) {
+                $this->menus[$language]->add(new Menu($page->getVariable('menu')));
             }
             /** @var \Cecil\Collection\Menu\Menu $menu */
-            $menu = $this->menus[$lang]->get($page->getVariable('menu'));
+            $menu = $this->menus[$language]->get($page->getVariable('menu'));
             $menu->add($item);
 
             $message = sprintf('%s > %s', $page->getVariable('menu'), $page->getId());

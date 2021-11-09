@@ -126,7 +126,7 @@
     <meta property="og:type" content="{{ opengraph.type }}" />
     <meta property="og:title" content="{{ opengraph.title }}" />
     <meta property="og:description" content="{{ opengraph.description }}" />
-    <meta property="og:url" content="{{ url(page.url, {canonical:true}) }}" />
+    <meta property="og:url" content="{{ url(page, {canonical:true}) }}" />
 {%- if opengraph.image ~%}
     <meta property="og:image" content="{{ asset(opengraph.image)|url({canonical:true}) }}" />
     <meta property="og:image:type" content="{{ asset(opengraph.image).subtype }}" />

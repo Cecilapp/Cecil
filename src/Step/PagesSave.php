@@ -12,6 +12,7 @@ namespace Cecil\Step;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
+use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Util;
 
 /**
@@ -64,7 +65,7 @@ class PagesSave extends AbstractStep
             $message = [];
 
             foreach ($page->getVariable('rendered') as $format => $rendered) {
-                if (false === $pathname = $page->getOutputFile($format, $this->config)) {
+                if (false === $pathname = (new PageRenderer($this->config))->getOutputFile($page, $format)) {
                     throw new Exception(sprintf(
                         "Can't get pathname of page '%s' (format: '%s')",
                         $page->getId(),

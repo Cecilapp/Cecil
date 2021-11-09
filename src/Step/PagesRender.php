@@ -77,9 +77,9 @@ class PagesRender extends AbstractStep
             $count++;
             $rendered = [];
 
-            // i18n
-            $pageLang = $page->getVariable('language');
-            $locale = $this->config->getLanguageProperty('locale', $pageLang);
+            // l10n
+            $language = $page->getVariable('language') ?? $this->config->getLanguageDefault();
+            $locale = $this->config->getLanguageProperty('locale', $language);
             // the PHP Intl extension is needed to use localized date
             if (extension_loaded('intl')) {
                 \Locale::setDefault($locale);
@@ -95,7 +95,7 @@ class PagesRender extends AbstractStep
             }
 
             // global site variables
-            $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $pageLang));
+            $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $language));
 
             // get Page's output formats
             $formats = $this->getOutputFormats($page);

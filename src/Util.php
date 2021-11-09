@@ -38,12 +38,15 @@ class Util
     /**
      * Converts an array of strings into a path.
      *
-     * @param string[] $path
+     * @param string[]|null $path
      *
      * @return string
      */
-    public static function joinPath(string ...$path): string
+    public static function joinPath(...$path): string
     {
+        $path = array_filter($path, function ($path) {
+            return !empty($path) && !is_null($path);
+        });
         array_walk($path, function (&$value, $key) {
             $value = str_replace('\\', '/', $value);
             $value = rtrim($value, '/');
