@@ -23,9 +23,7 @@ use Cecil\Renderer\Page as PageRenderer;
  */
 class MenusCreate extends AbstractStep
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $menus;
 
     /**
@@ -51,7 +49,7 @@ class MenusCreate extends AbstractStep
         $this->collectPages();
 
         /**
-         * Removing/adding/replacing menus entries from config
+         * Removing/adding/replacing menus entries from config.
          * ie:
          *   menus:
          *     main:
@@ -64,12 +62,14 @@ class MenusCreate extends AbstractStep
          */
         foreach ($this->config->getLanguages() as $language) {
             if ($menusConfig = $this->config->get('menus', $language['code'], false)) {
-                $this->builder->getLogger()->debug('Creating config menus');
+                $this->builder->getLogger()->debug('Creating menus from config');
 
                 $totalConfig = array_sum(array_map('count', $menusConfig));
                 $countConfig = 0;
+                $suffix = $language['code'] !== $this->config->getLanguageDefault() ? '.'.$language['code'] : '';
 
                 foreach ($menusConfig as $menuConfig => $entry) {
+                    // add Menu if not exists
                     if (!$this->menus[$language['code']]->has($menuConfig)) {
                         $this->menus[$language['code']]->add(new Menu($menuConfig));
                     }
@@ -82,13 +82,13 @@ class MenusCreate extends AbstractStep
 
                         // ID is required
                         if (!array_key_exists('id', $property)) {
-                            throw new Exception(sprintf('"id" is required for menu entry "%s"', $key));
+                            throw new Exception(sprintf('"id" is required for entry at position %s in "%s" menu', $key, $menu));
                         }
                         // enabled?
                         if (array_key_exists('enabled', $property) && false === $property['enabled']) {
                             $enabled = false;
                             if (!$menu->has($property['id'])) {
-                                $message = sprintf('%s > %s (disabled)', (string) $menu, $property['id']);
+                                $message = sprintf('%s > %s%s (disabled)', (string) $menu, $property['id'], $suffix);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                             }
                         }
@@ -98,9 +98,8 @@ class MenusCreate extends AbstractStep
                             if (!$enabled) {
                                 $menu->remove($property['id']);
 
-                                $message = sprintf('%s > %s (removed)', $menu, $property['id']);
+                                $message = sprintf('%s > %s%s (removed)', (string) $menu, $property['id'], $suffix);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
-
                                 continue;
                             }
                             // merges properties
@@ -108,7 +107,7 @@ class MenusCreate extends AbstractStep
                             $current = $menu->get($property['id'])->toArray();
                             $property = array_merge($current, $property);
 
-                            $message = sprintf('%s > %s (updated)', $menu, $property['id']);
+                            $message = sprintf('%s > %s%s (updated)', (string) $menu, $property['id'], $suffix);
                             $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                         }
                         // adds/replaces entry
@@ -120,7 +119,7 @@ class MenusCreate extends AbstractStep
                             $menu->add($item);
 
                             if (!$updated) {
-                                $message = sprintf('%s > %s', $menu, $property['id']);
+                                $message = sprintf('%s > %s%s', (string) $menu, $property['id'], $suffix);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                             }
                         }
@@ -137,16 +136,15 @@ class MenusCreate extends AbstractStep
      */
     protected function collectPages()
     {
-        $count = 0;
-
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return $page->hasVariable('menu') && $page->getVariable('published');
         });
 
         $total = count($filteredPages);
+        $count = 0;
 
         if ($total > 0) {
-            $this->builder->getLogger()->debug('Creating pages menus');
+            $this->builder->getLogger()->debug('Creating menus from pages');
         }
 
         /** @var \Cecil\Collection\Page\Page $page */
@@ -157,11 +155,11 @@ class MenusCreate extends AbstractStep
              * Array case.
              *
              * ie 1:
+             *   menu: [main, navigation]
+             * ie 2:
              *   menu:
              *     main:
              *       weight: 999
-             * ie 2:
-             *   menu: [main, navigation]
              */
             if (is_array($page->getVariable('menu'))) {
                 foreach ($page->getVariable('menu') as $key => $value) {
@@ -175,7 +173,7 @@ class MenusCreate extends AbstractStep
                     if (!is_string($menuName)) {
                         $this->builder->getLogger()->error(
                             sprintf(
-                                'Menu name of page "%s" must be string, not "%s"',
+                                'Menu\'s name of page "%s" must be a string, not "%s"',
                                 $page->getId(),
                                 PrintLogger::format($menuName)
                             ),
@@ -185,7 +183,7 @@ class MenusCreate extends AbstractStep
                     }
                     $item = (new Entry($page->getIdWithoutLang()))
                         ->setName($page->getVariable('title'))
-                        ->setUrl($page->getId());
+                        ->setUrl((new PageRenderer($this->config))->getUrl($page));
                     if (array_key_exists('weight', (array) $property)) {
                         $weight = $property['weight'];
                         $item->setWeight($property['weight']);
@@ -209,9 +207,10 @@ class MenusCreate extends AbstractStep
              * ie:
              *   menu: main
              */
-            $item = (new Entry($page->getId()))
+            $item = (new Entry($page->getIdWithoutLang()))
                 ->setName($page->getVariable('title'))
                 ->setUrl((new PageRenderer($this->config))->getUrl($page));
+            // add Menu if not exists
             if (!$this->menus[$language]->has($page->getVariable('menu'))) {
                 $this->menus[$language]->add(new Menu($page->getVariable('menu')));
             }
