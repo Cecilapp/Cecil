@@ -58,7 +58,7 @@ class MenusCreate extends AbstractStep
          *         url: https://example.com
          *         weight: 999
          *       - id: about
-         *         enabled: false
+         *         enabled: false.
          */
         foreach ($this->config->getLanguages() as $language) {
             if ($menusConfig = $this->config->get('menus', $language['code'], false)) {
@@ -66,7 +66,7 @@ class MenusCreate extends AbstractStep
 
                 $totalConfig = array_sum(array_map('count', $menusConfig));
                 $countConfig = 0;
-                $suffix = $language['code'] !== $this->config->getLanguageDefault() ? "." . $language['code'] : '';
+                $suffix = $language['code'] !== $this->config->getLanguageDefault() ? '.'.$language['code'] : '';
 
                 foreach ($menusConfig as $menuConfig => $entry) {
                     // add Menu if not exists
