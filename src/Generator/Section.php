@@ -97,8 +97,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ]);
                     }
                     $this->generatedPages->add($page);
-                    $menuWeight += 10;
                 }
+                $menuWeight += 10;
             }
         }
     }
