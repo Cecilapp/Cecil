@@ -120,6 +120,8 @@
 {%- endif -%}
 {#- template: alternates ~#}
 {%- include 'partials/alternates.html.twig' with {'title':title,'page':page} only ~%}
+{#- template: alternates languages ~#}
+{%- include 'partials/alternateslang.html.twig' with {'page':page} only ~%}
 {#- template: Open Graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}" />
     <meta property="og:site_name" content="{{ opengraph.site_name }}" />
