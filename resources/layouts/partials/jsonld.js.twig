@@ -1,5 +1,4 @@
 {% if page.metatags.jsonld|default(site.metatags.jsonld|default(false)) %}
-    <!-- Structured data -->
     <script type="application/ld+json">{% apply minify_js %}
       [
         {
