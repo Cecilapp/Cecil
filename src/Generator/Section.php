@@ -89,7 +89,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setType(Type::SECTION)
                         ->setVariable('pages', $pages)
                         ->setVariable('date', $pages->first()->getVariable('date'))
-                        ->setVariable('language', $language);
+                        ->setVariable('language', $language)
+                        ->setVariable('langref', $path);
                     // default menu
                     if (!$page->getVariable('menu')) {
                         $page->setVariable('menu', [

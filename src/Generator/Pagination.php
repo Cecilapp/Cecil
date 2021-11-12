@@ -115,6 +115,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         ->unVariable('menu')
                         ->unVariable('alias')
                         ->unVariable('aliases') // backward compatibility
+                        ->unVariable('langref')
                         ->setVariable('paginated', true);
                 }
                 // updates 'pagination' variable
