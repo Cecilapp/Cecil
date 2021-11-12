@@ -31,6 +31,9 @@ class Language
     {
         $this->config = $config;
         $this->language = $language;
+        if ($language === null) {
+            $this->language = $this->config->getLanguageDefault();
+        }
     }
 
     /**
@@ -40,18 +43,17 @@ class Language
      */
     public function __toString()
     {
-        if ($this->language) {
-            return $this->language;
-        }
-
-        return $this->config->getLanguageDefault();
+        return $this->language;
     }
 
     /**
-     * @return string|null
+     * Returns the name of the current or of the given language code.
      */
-    public function getName(): ?string
+    public function getName(?string $language = null): ?string
     {
+        if ($language !== null) {
+            $this->language = $language;
+        }
         if ($this->hasProperty('name')) {
             return $this->config->getLanguageProperty('name', $this->language);
         }
@@ -60,10 +62,13 @@ class Language
     }
 
     /**
-     * @return string|null
+     * Returns the locale of the current or of the given language code.
      */
-    public function getLocale(): ?string
+    public function getLocale(?string $language = null): ?string
     {
+        if ($language !== null) {
+            $this->language = $language;
+        }
         if ($this->hasProperty('locale')) {
             return $this->config->getLanguageProperty('locale', $this->language);
         }
@@ -72,15 +77,15 @@ class Language
     }
 
     /**
-     * @return int
+     * Returns the weight of the current or of the given language code.
      */
-    public function getWeight(): int
+    public function getWeight(?string $language = null): int
     {
-        if ($this->language) {
-            return $this->config->getLanguageIndex($this->language);
+        if ($language !== null) {
+            $this->language = $language;
         }
 
-        return 0;
+        return $this->config->getLanguageIndex($this->language);
     }
 
     /**

@@ -122,6 +122,8 @@ class PagesRender extends AbstractStep
 
             // get and set alternates links
             $page->setVariable('alternates', $this->getAlternates($formats));
+            // get and set translations
+            $page->setVariable('translations', $this->getTranslations($page));
 
             // renders each output format
             foreach ($formats as $format) {
@@ -273,6 +275,23 @@ class PagesRender extends AbstractStep
         }
 
         return $alternates;
+    }
+
+    /**
+     * Returns the collection of translated pages for a given page.
+     */
+    protected function getTranslations(Page $refPage): \Cecil\Collection\Page\Collection
+    {
+        /** @var Page $page */
+        $filteredPages = $this->builder->getPages()->filter(function (Page $page) use ($refPage) {
+            return $page->getId() !== $refPage->getId()
+                && $page->getVariable('langref') == $refPage->getVariable('langref')
+                && $page->getType() == $refPage->getType()
+                && !empty($page->getVariable('published'))
+                && !$page->getVariable('paginated');
+        });
+
+        return $filteredPages;
     }
 
     /**
