@@ -58,7 +58,6 @@ class Url
         // handles options
         $canonical = null;
         $format = null;
-        $lang = $this->config->getLanguageDefault();
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // canonical URL?
@@ -68,11 +67,6 @@ class Url
         }
         if ($canonical === false) {
             $base = '';
-        }
-
-        // prefix path with a specific language?
-        if ($lang != $this->config->getLanguageDefault()) {
-            $value = sprintf('%s/%s%s', $lang, $value, !empty($value) ? '/' : '');
         }
 
         // value is empty (ie: `url()`)

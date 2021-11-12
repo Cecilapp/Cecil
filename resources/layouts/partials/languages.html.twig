@@ -1,3 +1,8 @@
-{% for lang in site.languages|filter(l => l['code'] != site.language)|sort((a, b) => a.code <=> b.code) %}
-<a href="{{ url(page.path, {lang:lang.code}) }}">{{ lang.name }}</a>{% if not loop.last %}, {% endif %}
-{% endfor %}
+{# Language switcher #}
+{% if page.translations is defined %}
+  {%- for p in page.translations ~%}
+    {%- if p.language is defined ~%}
+<a href="{{ url(p) }}">{{ site.language.name(p.language) }}</a>{% if not loop.last %}, {% endif %}
+    {%- endif ~%}
+  {%- endfor ~%}
+{% endif %}
