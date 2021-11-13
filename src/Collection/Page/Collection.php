@@ -19,14 +19,13 @@ class Collection extends CecilCollection
 {
     /**
      * Returns all "viewable" pages.
-     *
-     * @return self
      */
     public function all(): self
     {
         $filteredPages = $this->filter(function (Page $page) {
             if ($page->isVirtual() === false
                 && $page->getVariable('published') === true
+                && $page->getVariable('redirect') === null
                 && $page->getVariable('exclude') !== true) {
                 return true;
             }
