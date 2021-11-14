@@ -97,7 +97,7 @@ class Page extends Item
         $relativepath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.'.$file->getExtension())));
         // case of "README" -> index
-        $basename = str_ireplace('readme', 'index', $basename);
+        $basename = (string) str_ireplace('readme', 'index', $basename);
         // case of section's index: "section/index" -> "section"
         if (!empty($relativepath) && PrefixSuffix::sub($basename) == 'index') {
             // case of a localized section
