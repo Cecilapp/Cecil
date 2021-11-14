@@ -69,7 +69,7 @@ class Page
     /**
      * Returns the public URL.
      *
-     * @param string  $format Output format (ie: html, amp, json, etc.)
+     * @param string $format Output format (ie: html, amp, json, etc.)
      */
     public function getUrl(PageItem $page, string $format = 'html'): string
     {

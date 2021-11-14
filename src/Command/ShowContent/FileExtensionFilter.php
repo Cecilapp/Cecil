@@ -39,7 +39,7 @@ class FileExtensionFilter extends RecursiveFilterIterator
     }
 
     /**
-     * Valid file
+     * Valid file.
      */
     public function accept(): bool
     {
