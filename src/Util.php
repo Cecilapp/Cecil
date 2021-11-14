@@ -16,8 +16,10 @@ class Util
      * Formats a class name.
      *
      * ie: "Cecil\Step\PostProcessHtml" become "PostProcessHtml"
+     *
+     * @param object $class
      */
-    public static function formatClassName(object $class, array $options = []): string
+    public static function formatClassName($class, array $options = []): string
     {
         $lowercase = false;
         extract($options, EXTR_IF_EXISTS);
