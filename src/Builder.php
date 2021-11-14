@@ -31,8 +31,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * @var array Steps processed by build().
-     *
-     * @see build()
      */
     protected $steps = [
         'Cecil\Step\ConfigImport',
@@ -55,28 +53,40 @@ class Builder implements LoggerAwareInterface
 
     /** @var Config Configuration. */
     protected $config;
+
     /** @var LoggerInterface Logger. */
     protected $logger;
+
     /** @var bool Debug mode. */
     protected $debug = false;
+
     /** @var array Build options. */
     protected $options;
+
     /** @var Finder Content iterator. */
     protected $content;
+
     /** @var array Data collection. */
     protected $data = [];
+
     /** @var array Static files collection. */
     protected $static = [];
+
     /** @var PagesCollection Pages collection. */
     protected $pages;
+
     /** @var array Menus collection. */
     protected $menus;
+
     /** @var Collection\Taxonomy\Collection Taxonomies collection. */
     protected $taxonomies;
+
     /** @var Renderer\RendererInterface Renderer. */
     protected $renderer;
+
     /** @var GeneratorManager Generators manager. */
     protected $generatorManager;
+
     /** @var string Application version. */
     protected static $version;
 
@@ -102,8 +112,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Creates a new Builder instance.
-     *
-     * @return Builder
      */
     public static function create(): self
     {
@@ -114,10 +122,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Builds a new website.
-     *
-     * @param array $options
-     *
-     * @return self
      */
     public function build(array $options): self
     {
@@ -161,8 +165,6 @@ class Builder implements LoggerAwareInterface
      * Set configuration.
      *
      * @param Config|array|null $config
-     *
-     * @return self
      */
     public function setConfig($config): self
     {
@@ -177,7 +179,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return Config
+     * Returns configuration.
      */
     public function getConfig(): Config
     {
@@ -186,10 +188,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Config::setSourceDir() alias.
-     *
-     * @param string|null $sourceDir
-     *
-     * @return self
      */
     public function setSourceDir(string $sourceDir = null): self
     {
@@ -200,10 +198,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Config::setDestinationDir() alias.
-     *
-     * @param string|null $destinationDir
-     *
-     * @return self
      */
     public function setDestinationDir(string $destinationDir = null): self
     {
@@ -222,8 +216,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns the logger instance.
-     *
-     * @return LoggerInterface
      */
     public function getLogger(): LoggerInterface
     {
@@ -232,8 +224,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns debug mode state.
-     *
-     * @return bool
      */
     public function isDebug(): bool
     {
@@ -241,7 +231,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return array $options Returns build options.
+     * Returns build options.
      */
     public function getBuildOptions(): array
     {
@@ -250,10 +240,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set collected content.
-     *
-     * @param Finder $content
-     *
-     * @return void
      */
     public function setContent(Finder $content): void
     {
@@ -261,7 +247,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return Finder|null
+     * Returns content.
      */
     public function getContent(): ?Finder
     {
@@ -270,10 +256,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set collected data.
-     *
-     * @param array $data
-     *
-     * @return void
      */
     public function setData(array $data): void
     {
@@ -281,7 +263,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return array
+     * Returns data collection.
      */
     public function getData(): array
     {
@@ -290,10 +272,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set collected static files.
-     *
-     * @param array $static
-     *
-     * @return void
      */
     public function setStatic(array $static): void
     {
@@ -301,7 +279,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return array Static files collection.
+     * Returns static files collection.
      */
     public function getStatic(): array
     {
@@ -309,11 +287,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Set/update Pages colelction.
-     *
-     * @param PagesCollection $pages
-     *
-     * @return void
+     * Set/update Pages collection.
      */
     public function setPages(PagesCollection $pages): void
     {
@@ -321,7 +295,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return PagesCollection
+     * Returns pages collection.
      */
     public function getPages(): PagesCollection
     {
@@ -329,9 +303,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @param array $menus
-     *
-     * @return void
+     * Set menus collection.
      */
     public function setMenus(array $menus): void
     {
@@ -340,10 +312,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns all menus, for a language.
-     *
-     * @param string $language
-     *
-     * @return Collection\Menu\Collection
      */
     public function getMenus(string $language): Collection\Menu\Collection
     {
@@ -352,10 +320,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set taxonomies collection.
-     *
-     * @param Collection\Taxonomy\Collection $taxonomies
-     *
-     * @return void
      */
     public function setTaxonomies(Collection\Taxonomy\Collection $taxonomies): void
     {
@@ -363,7 +327,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return Collection\Taxonomy\Collection|null
+     * Returns taxonomies collection.
      */
     public function getTaxonomies(): ?Collection\Taxonomy\Collection
     {
@@ -372,10 +336,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set renderer object.
-     *
-     * @param Renderer\RendererInterface $renderer
-     *
-     * @return void
      */
     public function setRenderer(Renderer\RendererInterface $renderer): void
     {
@@ -383,7 +343,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * @return Renderer\RendererInterface
+     * Returns Renderer object.
      */
     public function getRenderer(): Renderer\RendererInterface
     {
@@ -392,10 +352,6 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns application version.
-     *
-     * See VERSION file at root.
-     *
-     * @return string
      */
     public static function getVersion(): string
     {

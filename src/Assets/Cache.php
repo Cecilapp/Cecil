@@ -21,17 +21,16 @@ class Cache implements CacheInterface
 {
     /** @var Builder */
     protected $builder;
+
     /** @var Config */
     protected $config;
+
     /** @var string */
     protected $pool;
+
     /** @var string */
     protected $cacheDir;
 
-    /**
-     * @param Builder $builder
-     * @param string  $pool
-     */
     public function __construct(Builder $builder, string $pool = '')
     {
         $this->builder = $builder;
@@ -153,10 +152,6 @@ class Cache implements CacheInterface
 
     /**
      * Creates key with the hash of a string.
-     *
-     * @param string $value
-     *
-     * @return string MD5 hash
      */
     public function createKeyFromString(string $value): string
     {
@@ -165,11 +160,7 @@ class Cache implements CacheInterface
 
     /**
      * Creates key from a path.
-     *
-     * @param string $path
-     * @param string $relativePath
-     *
-     * @return string $relativePath + '__' + MD5 hash
+     * Returns $relativePath + '__' + MD5 hash
      */
     public function createKeyFromPath(string $path, string $relativePath): string
     {
@@ -183,11 +174,8 @@ class Cache implements CacheInterface
 
     /**
      * Creates key from an Asset source.
-     *
-     * @param Asset  $asset
-     * @param string $state 'compiled' or 'minified'
-     *
-     * @return string $path + '.$state' + '__' + MD5 hash
+     * $state = 'compiled' or 'minified'
+     * Returns '.$state' + '__' + MD5 hash
      */
     public function createKeyFromAsset(Asset $asset, $state = null): string
     {
@@ -201,10 +189,6 @@ class Cache implements CacheInterface
 
     /**
      * Returns cache file pathname from key.
-     *
-     * @param string $key
-     *
-     * @return string
      */
     private function getFilePathname(string $key): string
     {
@@ -213,10 +197,6 @@ class Cache implements CacheInterface
 
     /**
      * Removes previous cache files.
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     private function prune(string $key): bool
     {
@@ -237,10 +217,6 @@ class Cache implements CacheInterface
 
     /**
      * $key must be a string.
-     *
-     * @param string $key
-     *
-     * @return string
      */
     private function prepareKey(string $key): string
     {

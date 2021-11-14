@@ -21,16 +21,22 @@ class Url
 {
     /** @var Builder */
     protected $builder;
+
     /** @var Config */
     protected $config;
+
     /** @var Page|Asset|string|null */
     protected $value;
+
     /** @var array */
     protected $options;
+
     /** @var string */
     protected $baseurl;
+
     /** @var string */
     protected $url;
+
     /** @var Slugify */
     private static $slugifier;
 
@@ -123,8 +129,6 @@ class Url
 
     /**
      * Returns URL.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -133,8 +137,6 @@ class Url
 
     /**
      * Returns URL.
-     *
-     * @return string
      */
     public function getUrl(): string
     {
