@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-{% for page in site.pages.all|sort_by_date %}
+{% for page in site.pages.showable|sort_by_date %}
   <url>
     <loc>{{ url(page, {canonical:true}) }}</loc>
     <lastmod>{{ page.date|date('Y-m-d') }}</lastmod>

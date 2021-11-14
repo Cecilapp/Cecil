@@ -1,7 +1,7 @@
-{% set pages = site.pages.all -%}
+{% set pages = site.pages.showable -%}
 
 {% if page.pages is defined %}
-{% set pages = page.pages.all %}
+  {%- set pages = page.pages.showable -%}
 {% endif -%}
 
 {% set first = pages|first %}
@@ -10,7 +10,7 @@
 {% set lang = site.language|default('en') -%}
 
 {% if page.type == 'homepage' %}
-{% set title = site.title %}
+  {%- set title = site.title -%}
 {% endif -%}
 
 {% block feed %}{% endblock %}

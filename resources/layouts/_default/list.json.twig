@@ -1,10 +1,10 @@
-{% set items = site.pages.all %}
+{% set items = site.pages.showable %}
 {% if page.pages is defined %}
-{% set items = page.pages %}
+  {%- set items = page.pages -%}
 {% endif %}
 {% if page.pagination.pages is defined %}
-{% set pagination = page.pagination %}
-{% set items = page.pagination.pages %}
+  {%- set pagination = page.pagination -%}
+  {%- set items = page.pagination.pages -%}
 {% endif %}
 
 {% extends '_default/page.json.twig' %}
