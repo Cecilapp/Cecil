@@ -18,9 +18,9 @@ use Cecil\Collection\Collection as CecilCollection;
 class Collection extends CecilCollection
 {
     /**
-     * Returns all "viewable" pages.
+     * Returns all "showable" pages.
      */
-    public function all(): self
+    public function showable(): self
     {
         $filteredPages = $this->filter(function (Page $page) {
             if ($page->isVirtual() === false
@@ -32,6 +32,14 @@ class Collection extends CecilCollection
         });
 
         return $filteredPages;
+    }
+
+    /**
+     * Alias of showable().
+     */
+    public function all(): self
+    {
+        return $this->showable();
     }
 
     /**
