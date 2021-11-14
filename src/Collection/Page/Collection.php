@@ -23,8 +23,8 @@ class Collection extends CecilCollection
     public function showable(): self
     {
         $filteredPages = $this->filter(function (Page $page) {
-            if ($page->isVirtual() === false
-                && $page->getVariable('published') === true
+            if ($page->getVariable('published') === true
+                && $page->isVirtual() === false
                 && $page->getVariable('redirect') === null
                 && $page->getVariable('exclude') !== true) {
                 return true;
