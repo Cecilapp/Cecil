@@ -19,6 +19,7 @@ class FileExtensionFilter extends RecursiveFilterIterator
 {
     /** @var array */
     protected $allowedExt = ['md', 'markdown'];
+
     /** @var array */
     protected $excludedDir = ['.git', '.cecil', '.cache', '_site'];
 
@@ -38,7 +39,7 @@ class FileExtensionFilter extends RecursiveFilterIterator
     }
 
     /**
-     * @return bool
+     * Valid file
      */
     public function accept(): bool
     {

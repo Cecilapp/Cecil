@@ -135,6 +135,9 @@ class Parsedown extends \ParsedownToC
         return $image;
     }
 
+    /**
+     * Removes query string from URL.
+     */
     private function removeQuery(string $path): string
     {
         return strtok($path, '?');

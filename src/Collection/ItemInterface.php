@@ -17,24 +17,16 @@ interface ItemInterface extends BaseInterface, \ArrayAccess
 {
     /**
      * Set the item's identifier.
-     *
-     * @param string $id
-     *
-     * @return self
      */
     public function setId(string $id): BaseInterface;
 
     /**
      * Returns the item's identifier.
-     *
-     * @return string
      */
     public function getId(): string;
 
     /**
      * Returns collection as array.
-     *
-     * @return array
      */
     public function toArray(): array;
 }

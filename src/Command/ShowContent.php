@@ -104,11 +104,7 @@ class ShowContent extends AbstractCommand
     /**
      * Returns a console displayable tree of files.
      *
-     * @param string $directory
-     *
      * @throws \Exception
-     *
-     * @return FilenameRecursiveTreeIterator
      */
     private function getFilesTree(string $directory): FilenameRecursiveTreeIterator
     {

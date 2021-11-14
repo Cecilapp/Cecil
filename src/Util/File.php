@@ -19,8 +19,6 @@ class File
 
     /**
      * Returns a Symfony\Component\Filesystem instance.
-     *
-     * @return Filesystem
      */
     public static function getFS(): Filesystem
     {
@@ -34,12 +32,9 @@ class File
     /**
      * file_get_contents() function with error handler.
      *
-     * @param string $filename
-     * @param bool   $userAgent
-     *
      * @return string|false
      */
-    public static function fileGetContents($filename, $userAgent = false)
+    public static function fileGetContents(string $filename, bool $userAgent = false)
     {
         set_error_handler(
             function ($severity, $message, $file, $line) {
@@ -72,10 +67,6 @@ class File
      * Returns MIME content type and subtype of a file.
      *
      * ie: ['text', 'text/plain']
-     *
-     * @param string $filename
-     *
-     * @return string[]
      */
     public static function getMimeType(string $filename): array
     {

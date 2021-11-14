@@ -23,10 +23,6 @@ class Term extends CecilCollection implements ItemInterface
 
     /**
      * Set term's name.
-     *
-     * @param string $value
-     *
-     * @return self
      */
     public function setName(string $value): self
     {
@@ -37,8 +33,6 @@ class Term extends CecilCollection implements ItemInterface
 
     /**
      * Get term's name.
-     *
-     * @return string|null
      */
     public function getName(): ?string
     {

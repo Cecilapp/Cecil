@@ -194,12 +194,7 @@ class Serve extends AbstractCommand
     /**
      * Prepares server's files.
      *
-     * @param string $host
-     * @param string $port
-     *
      * @throws \Exception
-     *
-     * @return void
      */
     private function setUpServer(string $host, string $port): void
     {
@@ -241,8 +236,6 @@ class Serve extends AbstractCommand
      * Removes temporary directory.
      *
      * @throws \Exception
-     *
-     * @return void
      */
     private function tearDownServer(): void
     {

@@ -17,17 +17,11 @@ interface BaseInterface
 {
     /**
      * Set the unique identifier.
-     *
-     * @param string $id
-     *
-     * @return self
      */
     public function setId(string $id): self;
 
     /**
      * Return the unique identifier.
-     *
-     * @return string
      */
     public function getId(): string;
 }

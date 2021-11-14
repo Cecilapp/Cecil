@@ -26,32 +26,40 @@ class Page extends Item
 
     /** @var bool True if page is not created from a Markdown file. */
     protected $virtual;
+
     /** @var SplFileInfo */
     protected $file;
+
     /** @var string Homepage, Page, Section, etc. */
     protected $type;
+
     /** @var string */
     protected $folder;
+
     /** @var string */
     protected $slug;
-    /** @var string folder + slug */
+
+    /** @var string folder + slug. */
     protected $path;
+
     /** @var string */
     protected $section;
+
     /** @var string */
     protected $frontmatter;
+
     /** @var string Body before conversion. */
     protected $body;
+
     /** @var array Front matter before conversion. */
     protected $fmVariables = [];
+
     /** @var string Body after Markdown conversion. */
     protected $html;
+
     /** @var Slugify */
     private static $slugifier;
 
-    /**
-     * @param string $id
-     */
     public function __construct(string $id)
     {
         parent::__construct($id);
@@ -71,10 +79,6 @@ class Page extends Item
 
     /**
      * Turns a path (string) into a slug (URI).
-     *
-     * @param string $path
-     *
-     * @return string
      */
     public static function slugify(string $path): string
     {
@@ -87,10 +91,6 @@ class Page extends Item
 
     /**
      * Creates the ID from the file path.
-     *
-     * @param SplFileInfo $file
-     *
-     * @return string
      */
     public static function createId(SplFileInfo $file): string
     {
@@ -108,8 +108,6 @@ class Page extends Item
 
     /**
      * Returns the ID of a page without language suffix.
-     *
-     * @return string
      */
     public function getIdWithoutLang(): string
     {
@@ -118,10 +116,6 @@ class Page extends Item
 
     /**
      * Set file.
-     *
-     * @param SplFileInfo $file
-     *
-     * @return self
      */
     public function setFile(SplFileInfo $file): self
     {
@@ -183,8 +177,6 @@ class Page extends Item
 
     /**
      * Parse file content.
-     *
-     * @return self
      */
     public function parse(): self
     {
@@ -198,8 +190,6 @@ class Page extends Item
 
     /**
      * Get frontmatter.
-     *
-     * @return string|null
      */
     public function getFrontmatter(): ?string
     {
@@ -208,8 +198,6 @@ class Page extends Item
 
     /**
      * Get body as raw.
-     *
-     * @return string
      */
     public function getBody(): ?string
     {
@@ -218,10 +206,6 @@ class Page extends Item
 
     /**
      * Set virtual status.
-     *
-     * @param bool $virtual
-     *
-     * @return self
      */
     public function setVirtual(bool $virtual): self
     {
@@ -232,8 +216,6 @@ class Page extends Item
 
     /**
      * Is current page is virtual?
-     *
-     * @return bool
      */
     public function isVirtual(): bool
     {
@@ -242,10 +224,6 @@ class Page extends Item
 
     /**
      * Set page type.
-     *
-     * @param string $type
-     *
-     * @return self
      */
     public function setType(string $type): self
     {
@@ -256,8 +234,6 @@ class Page extends Item
 
     /**
      * Get page type.
-     *
-     * @return string
      */
     public function getType(): string
     {
@@ -266,10 +242,6 @@ class Page extends Item
 
     /**
      * Set path without slug.
-     *
-     * @param string $folder
-     *
-     * @return self
      */
     public function setFolder(string $folder): self
     {
@@ -280,8 +252,6 @@ class Page extends Item
 
     /**
      * Get path without slug.
-     *
-     * @return string|null
      */
     public function getFolder(): ?string
     {
@@ -290,10 +260,6 @@ class Page extends Item
 
     /**
      * Set slug.
-     *
-     * @param string $slug
-     *
-     * @return self
      */
     public function setSlug(string $slug): self
     {
@@ -311,8 +277,6 @@ class Page extends Item
 
     /**
      * Get slug.
-     *
-     * @return string
      */
     public function getSlug(): string
     {
@@ -321,10 +285,6 @@ class Page extends Item
 
     /**
      * Set path.
-     *
-     * @param string $path
-     *
-     * @return self
      */
     public function setPath(string $path): self
     {
@@ -362,8 +322,6 @@ class Page extends Item
 
     /**
      * Get path.
-     *
-     * @return string|null
      */
     public function getPath(): ?string
     {
@@ -372,8 +330,6 @@ class Page extends Item
 
     /**
      * @see getPath()
-     *
-     * @return string|null
      */
     public function getPathname(): ?string
     {
@@ -382,10 +338,6 @@ class Page extends Item
 
     /**
      * Set section.
-     *
-     * @param string $section
-     *
-     * @return self
      */
     public function setSection(string $section): self
     {
@@ -396,8 +348,6 @@ class Page extends Item
 
     /**
      * Get section.
-     *
-     * @return string|null
      */
     public function getSection(): ?string
     {
@@ -406,10 +356,6 @@ class Page extends Item
 
     /**
      * Set body as HTML.
-     *
-     * @param string $html
-     *
-     * @return self
      */
     public function setBodyHtml(string $html): self
     {
@@ -420,8 +366,6 @@ class Page extends Item
 
     /**
      * Get body as HTML.
-     *
-     * @return string|null
      */
     public function getBodyHtml(): ?string
     {
@@ -430,8 +374,6 @@ class Page extends Item
 
     /**
      * @see getBodyHtml()
-     *
-     * @return string|null
      */
     public function getContent(): ?string
     {
@@ -445,11 +387,7 @@ class Page extends Item
     /**
      * Set an array as variables.
      *
-     * @param array $variables
-     *
      * @throws \Exception
-     *
-     * @return self
      */
     public function setVariables(array $variables): self
     {
@@ -462,8 +400,6 @@ class Page extends Item
 
     /**
      * Get all variables.
-     *
-     * @return array
      */
     public function getVariables(): array
     {
@@ -477,8 +413,6 @@ class Page extends Item
      * @param mixed  $value
      *
      * @throws \Exception
-     *
-     * @return self
      */
     public function setVariable(string $name, $value): self
     {
@@ -529,10 +463,6 @@ class Page extends Item
 
     /**
      * Is variable exists?
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function hasVariable(string $name): bool
     {
@@ -541,8 +471,6 @@ class Page extends Item
 
     /**
      * Get a variable.
-     *
-     * @param string $name
      *
      * @return mixed|null
      */
@@ -555,10 +483,6 @@ class Page extends Item
 
     /**
      * Unset a variable.
-     *
-     * @param string $name
-     *
-     * @return self
      */
     public function unVariable(string $name): self
     {
@@ -571,10 +495,6 @@ class Page extends Item
 
     /**
      * Set front matter (only) variables.
-     *
-     * @param array $variables
-     *
-     * @return self
      */
     public function setFmVariables(array $variables): self
     {
@@ -585,8 +505,6 @@ class Page extends Item
 
     /**
      * Get front matter variables.
-     *
-     * @return array
      */
     public function getFmVariables(): array
     {

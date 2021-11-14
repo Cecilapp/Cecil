@@ -17,13 +17,10 @@ class Collection implements CollectionInterface
 {
     /** @var string Collection's identifier. */
     protected $id;
+
     /** @var array Collection's items. */
     protected $items = [];
 
-    /**
-     * @param string $id
-     * @param array  $items
-     */
     public function __construct(string $id, array $items = [])
     {
         $this->setId($id);
@@ -50,10 +47,6 @@ class Collection implements CollectionInterface
 
     /**
      * Search an item by ID.
-     *
-     * @param string $id
-     *
-     * @return array|null
      */
     protected function searchItem(string $id): ?array
     {

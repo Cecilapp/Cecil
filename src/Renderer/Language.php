@@ -20,13 +20,10 @@ class Language
 {
     /** @var Config */
     protected $config;
+
     /** @var string Current language. */
     protected $language;
 
-    /**
-     * @param Config      $config
-     * @param string|null $language
-     */
     public function __construct(Config $config, string $language = null)
     {
         $this->config = $config;
@@ -89,7 +86,7 @@ class Language
     }
 
     /**
-     * @return bool
+     * Checks if the given property exists for the current language.
      */
     private function hasProperty(string $property): bool
     {

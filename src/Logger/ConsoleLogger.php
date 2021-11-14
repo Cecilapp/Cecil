@@ -24,6 +24,7 @@ class ConsoleLogger extends PrintLogger
     const DEBUG = 'debug';
 
     protected $output;
+
     protected $verbosityLevelMap = [
         LogLevel::EMERGENCY => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::ALERT     => OutputInterface::VERBOSITY_NORMAL,
@@ -34,6 +35,7 @@ class ConsoleLogger extends PrintLogger
         LogLevel::INFO      => OutputInterface::VERBOSITY_VERY_VERBOSE,
         LogLevel::DEBUG     => OutputInterface::VERBOSITY_DEBUG,
     ];
+
     protected $formatLevelMap = [
         LogLevel::EMERGENCY => self::ERROR,
         LogLevel::ALERT     => self::ERROR,
@@ -94,11 +96,6 @@ class ConsoleLogger extends PrintLogger
 
     /**
      * Prefix padding.
-     *
-     * @param string $prefix
-     * @param string $max
-     *
-     * @return string
      */
     private function padPrefix(string $prefix, string $max): string
     {

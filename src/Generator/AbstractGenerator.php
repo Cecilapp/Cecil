@@ -21,8 +21,10 @@ abstract class AbstractGenerator implements GeneratorInterface
 {
     /** @var Builder */
     protected $builder;
+
     /** @var \Cecil\Config */
     protected $config;
+
     /** @var PagesCollection */
     protected $generatedPages;
 
@@ -38,7 +40,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * @return PagesCollection
+     * Run the `generate` method of the generator and returns pages.
      */
     public function runGenerate(): PagesCollection
     {

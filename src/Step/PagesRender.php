@@ -178,8 +178,6 @@ class PagesRender extends AbstractStep
 
     /**
      * Returns an array of layouts directories.
-     *
-     * @return array
      */
     protected function getAllLayoutsPaths(): array
     {
@@ -218,10 +216,6 @@ class PagesRender extends AbstractStep
 
     /**
      * Get available output formats.
-     *
-     * @param Page $page
-     *
-     * @return array
      */
     protected function getOutputFormats(Page $page): array
     {
@@ -253,10 +247,6 @@ class PagesRender extends AbstractStep
 
     /**
      * Get alternates.
-     *
-     * @param array $formats
-     *
-     * @return array
      */
     protected function getAlternates(array $formats): array
     {
@@ -296,12 +286,6 @@ class PagesRender extends AbstractStep
 
     /**
      * Apply post rendering on output.
-     *
-     * @param string $rendered
-     * @param Page   $page
-     * @param string $format
-     *
-     * @return string
      */
     private function postProcessOutput(string $rendered, Page $page, string $format): string
     {

@@ -20,8 +20,10 @@ class Twig implements RendererInterface
 {
     /** @var \Twig\Environment */
     protected $twig;
+
     /** @var string */
     protected $templatesDir;
+
     /** @var \Twig\Profiler\Profile */
     public $profile;
 

@@ -21,9 +21,6 @@ class Page
     /** @var Config */
     protected $config;
 
-    /**
-     * @param Config $config
-     */
     public function __construct(Config $config)
     {
         $this->config = $config;
@@ -39,10 +36,7 @@ class Page
      * - path only (ie: _redirects)
      * - l10n: language + path + suffix + extension (ie: fr/blog/page/index.html)
      *
-     * @param PageItem $page
-     * @param string   $format Output format (ie: html, amp, json, etc.)
-     *
-     * @return string
+     * @param string $format Output format (ie: html, amp, json, etc.)
      */
     public function getOutputFile(PageItem $page, string $format): string
     {
@@ -75,10 +69,7 @@ class Page
     /**
      * Returns the public URL.
      *
-     * @param PageItem $page
-     * @param string   $format Output format (ie: html, amp, json, etc.)
-     *
-     * @return string
+     * @param string  $format Output format (ie: html, amp, json, etc.)
      */
     public function getUrl(PageItem $page, string $format = 'html'): string
     {

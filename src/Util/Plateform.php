@@ -17,12 +17,11 @@ class Plateform
     const OS_LINUX = 3;
     const OS_OSX = 4;
 
+    /** @var string */
     protected static $pharPath;
 
     /**
      * Running from Phar or not?
-     *
-     * @return bool
      */
     public static function isPhar(): bool
     {
@@ -37,8 +36,6 @@ class Plateform
 
     /**
      * Returns the full path on disk to the currently executing Phar archive.
-     *
-     * @return string
      */
     public static function getPharPath(): string
     {
@@ -51,8 +48,6 @@ class Plateform
 
     /**
      * Whether the host machine is running a Windows OS.
-     *
-     * @return bool
      */
     public static function isWindows(): bool
     {
@@ -61,12 +56,8 @@ class Plateform
 
     /**
      * Opens a URL in the system default browser.
-     *
-     * @param string $url
-     *
-     * @return void
      */
-    public static function openBrowser($url): void
+    public static function openBrowser(string $url): void
     {
         if (self::isWindows()) {
             passthru('start "web" explorer "'.$url.'"');
@@ -84,8 +75,6 @@ class Plateform
 
     /**
      * Search for system OS in PHP_OS constant.
-     *
-     * @return int
      */
     public static function getOS(): int
     {

@@ -26,13 +26,7 @@ class Layout
     /**
      * Layout files finder.
      *
-     * @param Page   $page
-     * @param string $format
-     * @param Config $config
-     *
      * @throws Exception
-     *
-     * @return array
      */
     public static function finder(Page $page, string $format, Config $config): array
     {
@@ -77,11 +71,6 @@ class Layout
 
     /**
      * Layout fall-back.
-     *
-     * @param Page   $page
-     * @param string $format
-     *
-     * @return string[]
      *
      * @see finder()
      */

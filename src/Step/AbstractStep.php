@@ -17,8 +17,10 @@ abstract class AbstractStep implements StepInterface
 {
     /** @var Builder */
     protected $builder;
+
     /** @var Config */
     protected $config;
+
     /** @var bool */
     protected $canProcess = false;
 

@@ -18,28 +18,17 @@ use Cecil\Builder;
 interface RendererInterface
 {
     /**
-     * @param Builder      $buider
      * @param string|array $templatesPath
      */
     public function __construct(Builder $buider, $templatesPath);
 
     /**
      * Adds a global variable.
-     *
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @return void
      */
     public function addGlobal(string $name, $value): void;
 
     /**
      * Rendering.
-     *
-     * @param string $template
-     * @param array  $variables
-     *
-     * @return string
      */
     public function render(string $template, array $variables): string;
 }

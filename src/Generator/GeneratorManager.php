@@ -31,11 +31,6 @@ class GeneratorManager extends \SplPriorityQueue
 
     /**
      * Adds a generator.
-     *
-     * @param GeneratorInterface $generator
-     * @param int                $priority
-     *
-     * @return self
      */
     public function addGenerator(GeneratorInterface $generator, int $priority = 1): self
     {
@@ -57,9 +52,7 @@ class GeneratorManager extends \SplPriorityQueue
     }
 
     /**
-     * Process each generators.
-     *
-     * @return PagesCollection
+     * Process each generator.
      */
     public function process(): PagesCollection
     {

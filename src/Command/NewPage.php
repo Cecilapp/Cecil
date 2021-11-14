@@ -115,10 +115,6 @@ class NewPage extends AbstractCommand
 
     /**
      * Finds the page model and returns its content.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     private function findModel(string $name): string
     {
@@ -143,8 +139,6 @@ EOT;
 
     /**
      * Editor is configured?
-     *
-     * @return bool
      */
     protected function hasEditor(): bool
     {
@@ -153,10 +147,6 @@ EOT;
 
     /**
      * Opens the new file in editor (if configured).
-     *
-     * @param string $filePath
-     *
-     * @return void
      */
     protected function openEditor(string $filePath): void
     {

@@ -23,9 +23,6 @@ class Converter implements ConverterInterface
     /** @var Builder */
     protected $builder;
 
-    /**
-     * @param Builder $builder
-     */
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;

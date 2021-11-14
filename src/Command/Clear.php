@@ -55,8 +55,6 @@ class Clear extends AbstractCommand
 
     /**
      * Deletes output directory.
-     *
-     * @param OutputInterface $output
      */
     private function removeOutputDir(OutputInterface $output): void
     {
@@ -82,8 +80,6 @@ class Clear extends AbstractCommand
 
     /**
      * Deletes local server temporary files.
-     *
-     * @param OutputInterface $output
      */
     private function removeTmpDir(OutputInterface $output): void
     {

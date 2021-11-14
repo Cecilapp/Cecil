@@ -17,20 +17,11 @@ interface ConverterInterface
 {
     /**
      * Converts frontmatter.
-     *
-     * @param string $string
-     * @param string $type
-     *
-     * @return array
      */
     public function convertFrontmatter(string $string, string $type): array;
 
     /**
      * Converts body.
-     *
-     * @param string $string
-     *
-     * @return string
      */
     public function convertBody(string $string): string;
 }

@@ -93,12 +93,8 @@ class PagesSave extends AbstractStep
 
     /**
      * Removes unnecessary directory separators.
-     *
-     * @param string $pathname
-     *
-     * @return string
      */
-    private function cleanPath($pathname): string
+    private function cleanPath(string $pathname): string
     {
         if (DIRECTORY_SEPARATOR == '\\') {
             $pathname = preg_replace('#\\\\+#', '\\', $pathname);
@@ -109,8 +105,6 @@ class PagesSave extends AbstractStep
 
     /**
      * Deletes cache directory.
-     *
-     * @return void
      */
     private function clearCache(): void
     {
