@@ -99,7 +99,12 @@ class Page extends Item
         // case of "README" -> index
         $basename = str_ireplace('readme', 'index', $basename);
         // case of section's index: "section/index" -> "section"
-        if (!empty($relativepath) && $basename == 'index') {
+        if (!empty($relativepath) && PrefixSuffix::sub($basename) == 'index') {
+            // case of a localized section
+            if (PrefixSuffix::hasSuffix($basename)) {
+                return $relativepath.'.'.PrefixSuffix::getSuffix($basename);
+            }
+
             return $relativepath;
         }
 
