@@ -160,7 +160,7 @@ class Cache implements CacheInterface
 
     /**
      * Creates key from a path.
-     * Returns $relativePath + '__' + MD5 hash
+     * Returns $relativePath + '__' + MD5 hash.
      */
     public function createKeyFromPath(string $path, string $relativePath): string
     {
@@ -175,7 +175,7 @@ class Cache implements CacheInterface
     /**
      * Creates key from an Asset source.
      * $state = 'compiled' or 'minified'
-     * Returns '.$state' + '__' + MD5 hash
+     * Returns '.$state' + '__' + MD5 hash.
      */
     public function createKeyFromAsset(Asset $asset, $state = null): string
     {
