@@ -1,9 +1,9 @@
-{% set pages = site.pages.all %}
+{% set pages = site.pages.showable %}
 {% if page.pages is defined %}
-{% set pages = page.pages %}
+  {%- set pages = page.pages -%}
 {% endif %}
 {% if page.pagination.pages is defined %}
-{% set pages = page.pagination.pages %}
+  {%- set pages = page.pagination.pages -%}
 {% endif %}
 
 {% extends '_default/page.html.twig' %}
@@ -24,5 +24,5 @@
       </article>
       {%- endfor ~%}
     </main>
-    {%~ include 'partials/pagination.html.twig' with {'page':page} only ~%}
+    {%~ include 'partials/pagination.html.twig' with {'page': page} only ~%}
 {% endblock content %}

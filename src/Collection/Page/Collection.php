@@ -18,13 +18,13 @@ use Cecil\Collection\Collection as CecilCollection;
 class Collection extends CecilCollection
 {
     /**
-     * Returns all "viewable" pages.
+     * Returns all "showable" pages.
      */
-    public function all(): self
+    public function showable(): self
     {
         $filteredPages = $this->filter(function (Page $page) {
-            if ($page->isVirtual() === false
-                && $page->getVariable('published') === true
+            if ($page->getVariable('published') === true
+                && $page->isVirtual() === false
                 && $page->getVariable('redirect') === null
                 && $page->getVariable('exclude') !== true) {
                 return true;
@@ -32,6 +32,14 @@ class Collection extends CecilCollection
         });
 
         return $filteredPages;
+    }
+
+    /**
+     * Alias of showable().
+     */
+    public function all(): self
+    {
+        return $this->showable();
     }
 
     /**
