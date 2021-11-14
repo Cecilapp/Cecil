@@ -21,20 +21,21 @@ class Image
 {
     /** @var Builder */
     protected $builder;
+
     /** @var Config */
     protected $config;
+
     /** @var string */
     private $path;
+
     /** @var int */
     private $size;
+
     /** @var bool */
     private $local = true;
 
     const PREFIX = 'images/thumbs';
 
-    /**
-     * @param Builder $builder
-     */
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
@@ -42,11 +43,7 @@ class Image
     }
 
     /**
-     * Loads an image from its file path.
-     *
-     * @param string $path Image path (relative from static/ dir or external).
-     *
-     * @return self
+     * Loads an image from its file path (relative from static/ dir or external).
      */
     public function load(string $path): self
     {
@@ -65,10 +62,7 @@ class Image
 
     /**
      * Resizes an image.
-     *
-     * @param int $size Image new size (width).
-     *
-     * @return string Path to the image thumbnail
+     * Returns path to the image thumbnail.
      */
     public function resize(int $size): string
     {
@@ -140,7 +134,7 @@ class Image
     /**
      * Returns source path.
      */
-    private function getSource()
+    private function getSource(): string
     {
         if ($this->local) {
             $source = Util::joinFile($this->config->getStaticPath(), $this->path);

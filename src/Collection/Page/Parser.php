@@ -19,16 +19,16 @@ class Parser
 {
     // https://regex101.com/r/xH7cL3/2
     const PATTERN = '^\s*(?:<!--|---|\+\+\+){1}[\n\r\s]*(.*?)[\n\r\s]*(?:-->|---|\+\+\+){1}[\s\n\r]*(.*)$';
+
     /** @var SplFileInfo */
     protected $file;
+
     /** @var string */
     protected $frontmatter;
+
     /** @var string */
     protected $body;
 
-    /**
-     * @param SplFileInfo $file
-     */
     public function __construct(SplFileInfo $file)
     {
         $this->file = $file;
@@ -45,8 +45,6 @@ class Parser
      * Lorem Ipsum.
      *
      * @throws \RuntimeException
-     *
-     * @return self
      */
     public function parse(): self
     {
@@ -74,8 +72,6 @@ class Parser
 
     /**
      * Get frontmatter.
-     *
-     * @return string|null
      */
     public function getFrontmatter(): ?string
     {
@@ -84,8 +80,6 @@ class Parser
 
     /**
      * Get body.
-     *
-     * @return string
      */
     public function getBody(): string
     {

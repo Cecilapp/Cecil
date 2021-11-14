@@ -19,10 +19,6 @@ class Entry extends Item
 {
     /**
      * Set the menu entry name.
-     *
-     * @param string $value
-     *
-     * @return self
      */
     public function setName(string $value): self
     {
@@ -33,10 +29,6 @@ class Entry extends Item
 
     /**
      * Set the menu entry URL.
-     *
-     * @param string $value
-     *
-     * @return self
      */
     public function setUrl(string $value = null): self
     {
@@ -47,10 +39,6 @@ class Entry extends Item
 
     /**
      * Set menu entry weight.
-     *
-     * @param string $value
-     *
-     * @return self
      */
     public function setWeight(string $value): self
     {
@@ -61,8 +49,6 @@ class Entry extends Item
 
     /**
      * Get menu entry weight.
-     *
-     * @return int|null
      */
     public function getWeight(): ?int
     {

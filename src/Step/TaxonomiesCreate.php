@@ -21,9 +21,7 @@ use Cecil\Exception\Exception;
  */
 class TaxonomiesCreate extends AbstractStep
 {
-    /**
-     * @var VocabulariesCollection
-     */
+    /** @var VocabulariesCollection */
     protected $vocabCollection;
 
     /**
@@ -63,7 +61,7 @@ class TaxonomiesCreate extends AbstractStep
     /**
      * Creates a collection from the vocabularies configuration.
      */
-    protected function createVocabulariesCollection()
+    protected function createVocabulariesCollection(): void
     {
         // creates an empty a vocabularies collection
         $this->vocabCollection = new VocabulariesCollection('taxonomies');
@@ -92,7 +90,7 @@ class TaxonomiesCreate extends AbstractStep
     /**
      * Collects vocabularies/terms from pages frontmatter.
      */
-    protected function collectTermsFromPages()
+    protected function collectTermsFromPages(): void
     {
         /** @var Page $page */
         $pages = $this->builder->getPages()->filter(function (Page $page) {

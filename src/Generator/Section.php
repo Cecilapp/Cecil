@@ -106,12 +106,6 @@ class Section extends AbstractGenerator implements GeneratorInterface
 
     /**
      * Adds navigation (next and prev) to section sub pages.
-     *
-     * @param PagesCollection $pages
-     * @param string          $sort
-     * @param bool            $circular
-     *
-     * @return void
      */
     protected function addNavigationLinks(PagesCollection $pages, string $sort = null, $circular = false): void
     {

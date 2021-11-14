@@ -133,12 +133,7 @@ class PagesConvert extends AbstractStep
      * - Yaml frontmatter to PHP array
      * - Markdown body to HTML.
      *
-     * @param Page   $page
-     * @param string $format
-     *
      * @throws Exception
-     *
-     * @return Page
      */
     public function convertPage(Page $page, $format = 'yaml'): Page
     {

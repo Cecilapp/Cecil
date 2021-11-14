@@ -134,7 +134,7 @@ class MenusCreate extends AbstractStep
     /**
      * Collects pages with a menu variable.
      */
-    protected function collectPages()
+    protected function collectPages(): void
     {
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return $page->hasVariable('menu') && $page->getVariable('published');

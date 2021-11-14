@@ -19,6 +19,7 @@ class PrintLogger extends AbstractLogger
 {
     /** @var int */
     protected $printLevel = null;
+
     /** @var array */
     protected $verbosityLevelMap = [
         LogLevel::EMERGENCY => Builder::VERBOSITY_NORMAL,
@@ -32,7 +33,7 @@ class PrintLogger extends AbstractLogger
     ];
 
     /**
-     * @var int Print only this maximum level.
+     * Print only this maximum level.
      */
     public function __construct(int $printLevel = null)
     {
@@ -98,12 +99,8 @@ class PrintLogger extends AbstractLogger
 
     /**
      * Format expression to string.
-     *
-     * @param string $expression
-     *
-     * @return string
      */
-    public static function format($expression): string
+    public static function format(string $expression): string
     {
         return str_replace(["\n", ' '], '', var_export($expression, true));
     }

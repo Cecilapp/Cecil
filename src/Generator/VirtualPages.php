@@ -67,10 +67,6 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
 
     /**
      * Collects virtual pages configuration.
-     *
-     * @param string $configKey
-     *
-     * @return array|null
      */
     private function collectPagesFromConfig(string $configKey): ?array
     {

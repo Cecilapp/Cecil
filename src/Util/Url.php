@@ -14,10 +14,6 @@ class Url
 {
     /**
      * Tests if a string is an URL.
-     *
-     * @param string $url
-     *
-     * @return bool
      */
     public static function isUrl(string $url): bool
     {
@@ -26,10 +22,6 @@ class Url
 
     /**
      * Tests if a remote file exists.
-     *
-     * @param string $remoteFile
-     *
-     * @return bool
      */
     public static function isRemoteFileExists(string $remoteFile): bool
     {

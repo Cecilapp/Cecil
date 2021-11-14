@@ -23,16 +23,22 @@ class Asset implements \ArrayAccess
 {
     /** @var Builder */
     protected $builder;
+
     /** @var Config */
     protected $config;
+
     /** @var array */
     protected $data = [];
+
     /** @var bool */
     protected $fingerprinted = false;
+
     /** @var bool */
     protected $compiled = false;
+
     /** @var bool */
     protected $minified = false;
+
     /** @var bool */
     protected $ignore_missing = false;
 
@@ -140,8 +146,6 @@ class Asset implements \ArrayAccess
 
     /**
      * Returns path.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -156,8 +160,6 @@ class Asset implements \ArrayAccess
 
     /**
      * Fingerprints a file.
-     *
-     * @return self
      */
     public function fingerprint(): self
     {
@@ -179,8 +181,6 @@ class Asset implements \ArrayAccess
 
     /**
      * Compiles a SCSS.
-     *
-     * @return self
      */
     public function compile(): self
     {
@@ -252,8 +252,6 @@ class Asset implements \ArrayAccess
 
     /**
      * Minifying a CSS or a JS.
-     *
-     * @return self
      */
     public function minify(): self
     {
@@ -346,8 +344,6 @@ class Asset implements \ArrayAccess
      * Used for SRI (Subresource Integrity).
      *
      * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
-     *
-     * @return string
      */
     public function getIntegrity(string $algo = 'sha384'): string
     {
@@ -386,8 +382,6 @@ class Asset implements \ArrayAccess
      * Returns MP3 file infos.
      *
      * @see https://github.com/wapmorgan/Mp3Info
-     *
-     * @return Mp3Info
      */
     public function getAudio(): Mp3Info
     {
@@ -399,8 +393,6 @@ class Asset implements \ArrayAccess
      * Note: a file from `static/` with the same name will NOT be overridden.
      *
      * @throws Exception
-     *
-     * @return void
      */
     public function save(): void
     {
@@ -421,11 +413,6 @@ class Asset implements \ArrayAccess
 
     /**
      * Load file data.
-     *
-     * @param string $path           Relative path or URL.
-     * @param bool   $ignore_missing Don't throw exception if file is missing.
-     *
-     * @return array
      */
     private function loadFile(string $path, bool $ignore_missing = false): array
     {
@@ -478,8 +465,6 @@ class Asset implements \ArrayAccess
      *   3. in themes/<theme>/static/
      * Returns local file path or false if file don't exists.
      *
-     * @param string $path
-     *
      * @return string|false
      */
     private function findFile(string $path)
@@ -525,7 +510,7 @@ class Asset implements \ArrayAccess
     /**
      * Returns image size informations.
      *
-     * See https://www.php.net/manual/function.getimagesize.php
+     * @see https://www.php.net/manual/function.getimagesize.php
      *
      * @return false|array
      */

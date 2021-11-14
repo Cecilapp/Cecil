@@ -19,15 +19,13 @@ class Site implements \ArrayAccess
 {
     /** @var Builder Builder object. */
     protected $builder;
+
     /** @var \Cecil\Config */
     protected $config;
+
     /** @var string Current language. */
     protected $language;
 
-    /**
-     * @param Builder $builder
-     * @param string  $language
-     */
     public function __construct(Builder $builder, string $language)
     {
         $this->builder = $builder;
@@ -103,8 +101,6 @@ class Site implements \ArrayAccess
 
     /**
      * Returns all pages, in the current language.
-     *
-     * @return \Cecil\Collection\Page\Collection
      */
     public function getPages(): \Cecil\Collection\Page\Collection
     {
@@ -120,8 +116,6 @@ class Site implements \ArrayAccess
 
     /**
      * Returns all pages, regardless of their translation.
-     *
-     * @return \Cecil\Collection\Page\Collection
      */
     public function getAllPages(): \Cecil\Collection\Page\Collection
     {
@@ -138,8 +132,6 @@ class Site implements \ArrayAccess
 
     /**
      * Return current time.
-     *
-     * @return int
      */
     public function getTime(): int
     {

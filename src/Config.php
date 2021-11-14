@@ -21,12 +21,16 @@ class Config
 {
     /** @var Data Configuration is a Data object. */
     protected $data;
+
     /** @var array Configuration. */
     protected $siteConfig;
+
     /** @var string Source directory. */
     protected $sourceDir;
+
     /** @var string Destination directory. */
     protected $destinationDir;
+
     /** @var array Languages. */
     protected $languages = null;
 
@@ -49,8 +53,6 @@ class Config
 
     /**
      * Imports site configuration.
-     *
-     * @return void
      */
     protected function importSiteConfig(): void
     {
@@ -83,10 +85,6 @@ class Config
 
     /**
      * Casts boolean value given to set() as string.
-     *
-     * @param mixed
-     *
-     * @return mixed
      */
     private function castSetValue($value)
     {
@@ -108,8 +106,6 @@ class Config
      * Imports (theme) configuration.
      *
      * @param array|null $config
-     *
-     * @return void
      */
     public function import(array $config): void
     {
@@ -121,10 +117,6 @@ class Config
 
     /**
      * Set a Data object as configuration.
-     *
-     * @param Data $data
-     *
-     * @return self
      */
     protected function setData(Data $data): self
     {
@@ -137,8 +129,6 @@ class Config
 
     /**
      * Get configuration as a Data object.
-     *
-     * @return Data
      */
     public function getData(): Data
     {
@@ -147,8 +137,6 @@ class Config
 
     /**
      * Get configuration as an array.
-     *
-     * @return array
      */
     public function getAsArray(): array
     {
@@ -156,11 +144,7 @@ class Config
     }
 
     /**
-     * Is configuration's key' exists?
-     *
-     * @param string $key
-     *
-     * @return bool
+     * Is configuration's key exists?
      */
     public function has(string $key): bool
     {
@@ -169,10 +153,6 @@ class Config
 
     /**
      * Get the value of a configuration's key.
-     *
-     * @param string      $key
-     * @param string|null $language
-     * @param bool        $fallback
      *
      * @return mixed|null
      */
@@ -199,11 +179,7 @@ class Config
     /**
      * Set the source directory.
      *
-     * @param string|null $sourceDir
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return self
      */
     public function setSourceDir(string $sourceDir = null): self
     {
@@ -220,8 +196,6 @@ class Config
 
     /**
      * Get the source directory.
-     *
-     * @return string
      */
     public function getSourceDir(): string
     {
@@ -231,11 +205,7 @@ class Config
     /**
      * Set the destination directory.
      *
-     * @param string|null $destinationDir
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return self
      */
     public function setDestinationDir(string $destinationDir = null): self
     {
@@ -255,8 +225,6 @@ class Config
 
     /**
      * Get the destination directory.
-     *
-     * @return string
      */
     public function getDestinationDir(): string
     {
@@ -269,8 +237,6 @@ class Config
 
     /**
      * Returns the path of the content directory.
-     *
-     * @return string
      */
     public function getContentPath(): string
     {
@@ -279,8 +245,6 @@ class Config
 
     /**
      * Returns the path of the data directory.
-     *
-     * @return string
      */
     public function getDataPath(): string
     {
@@ -289,8 +253,6 @@ class Config
 
     /**
      * Returns the path of templates directory.
-     *
-     * @return string
      */
     public function getLayoutsPath(): string
     {
@@ -299,8 +261,6 @@ class Config
 
     /**
      * Returns the path of themes directory.
-     *
-     * @return string
      */
     public function getThemesPath(): string
     {
@@ -309,8 +269,6 @@ class Config
 
     /**
      * Returns the path of internal templates directory.
-     *
-     * @return string
      */
     public function getInternalLayoutsPath(): string
     {
@@ -319,8 +277,6 @@ class Config
 
     /**
      * Returns the path of the output directory.
-     *
-     * @return string
      */
     public function getOutputPath(): string
     {
@@ -329,8 +285,6 @@ class Config
 
     /**
      * Returns the path of static files directory.
-     *
-     * @return string
      */
     public function getStaticPath(): string
     {
@@ -339,8 +293,6 @@ class Config
 
     /**
      * Returns the path of static files directory, with a target.
-     *
-     * @return string
      */
     public function getStaticTargetPath(): string
     {
@@ -356,8 +308,6 @@ class Config
     /**
      * Is cache dir is absolute to system files
      * or relative to project destination?
-     *
-     * @return bool
      */
     public function isCacheDirIsAbsolute(): bool
     {
@@ -371,8 +321,6 @@ class Config
 
     /**
      * Returns cache path.
-     *
-     * @return string
      */
     public function getCachePath(): string
     {
@@ -392,8 +340,6 @@ class Config
 
     /**
      * Returns cache path of remote assets.
-     *
-     * @return string
      */
     public function getCacheAssetsPath(): string
     {
@@ -402,9 +348,6 @@ class Config
 
     /**
      * Returns the property value of an output format.
-     *
-     * @param string $name
-     * @param string $property
      *
      * @return string|array|null
      */
@@ -433,8 +376,6 @@ class Config
 
     /**
      * Returns theme(s) as an array.
-     *
-     * @return array|null
      */
     public function getTheme(): ?array
     {
@@ -453,8 +394,6 @@ class Config
      * Has a (valid) theme(s)?
      *
      * @throws Exception
-     *
-     * @return bool
      */
     public function hasTheme(): bool
     {
@@ -477,11 +416,6 @@ class Config
     /**
      * Returns the path of a specific theme's directory.
      * ("layouts" by default).
-     *
-     * @param string $theme
-     * @param string $dir
-     *
-     * @return string
      */
     public function getThemeDirPath(string $theme, string $dir = 'layouts'): string
     {
@@ -494,8 +428,6 @@ class Config
 
     /**
      * Returns an array of available languages.
-     *
-     * @return array
      */
     public function getLanguages(): array
     {
@@ -513,8 +445,6 @@ class Config
 
     /**
      * Returns the default language code (ie: "en", "fr-fr", etc.).
-     *
-     * @return string
      */
     public function getLanguageDefault(): string
     {
@@ -527,10 +457,6 @@ class Config
 
     /**
      * Returns a language code index.
-     *
-     * @param string $code
-     *
-     * @return int
      */
     public function getLanguageIndex(string $code): int
     {
@@ -545,11 +471,6 @@ class Config
 
     /**
      * Returns the property value of a (specified or default) language.
-     *
-     * @param string      $property
-     * @param string|null $code
-     *
-     * @return string|null
      */
     public function getLanguageProperty(string $property, string $code = null): ?string
     {

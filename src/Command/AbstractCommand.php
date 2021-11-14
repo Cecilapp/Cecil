@@ -28,16 +28,22 @@ class AbstractCommand extends Command
 
     /** @var InputInterface */
     protected $input;
+
     /** @var OutputInterface */
     protected $output;
+
     /** @var SymfonyStyle */
     protected $io;
+
     /** @var Filesystem */
     protected $fs;
+
     /** @var string */
     protected $path;
+
     /** @var string */
     protected $configFile;
+
     /** @var Builder */
     protected $builder;
 
@@ -103,8 +109,6 @@ class AbstractCommand extends Command
 
     /**
      * Returns the working directory.
-     *
-     * @return string|null
      */
     protected function getPath(): ?string
     {
@@ -113,8 +117,6 @@ class AbstractCommand extends Command
 
     /**
      * Returns the config file path.
-     *
-     * @return string|null
      */
     protected function getConfigFile(): ?string
     {
@@ -123,10 +125,6 @@ class AbstractCommand extends Command
 
     /**
      * Creates or returns a Builder instance.
-     *
-     * @param array $config
-     *
-     * @return Builder
      */
     protected function getBuilder(array $config = []): Builder
     {

@@ -56,11 +56,6 @@ class ShowConfig extends AbstractCommand
 
     /**
      * Prints an array in console.
-     *
-     * @param array $array
-     * @param int   $column
-     *
-     * @return string
      */
     private function printArray(array $array, int $column = -2): string
     {

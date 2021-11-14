@@ -33,14 +33,13 @@ class Extension extends SlugifyExtension
 {
     /** @var Builder */
     protected $builder;
+
     /** @var Config */
     protected $config;
+
     /** @var Slugify */
     private static $slugifier;
 
-    /**
-     * @param Builder $builder
-     */
     public function __construct(Builder $builder)
     {
         if (!self::$slugifier instanceof Slugify) {
@@ -182,11 +181,6 @@ class Extension extends SlugifyExtension
     /**
      * Filters by Section.
      * Alias of `filterBy('section', $value)`.
-     *
-     * @param PagesCollection $pages
-     * @param string          $section
-     *
-     * @return CollectionInterface
      */
     public function filterBySection(PagesCollection $pages, string $section): CollectionInterface
     {
@@ -195,12 +189,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Filters by variable's name/value.
-     *
-     * @param PagesCollection $pages
-     * @param string          $variable
-     * @param string          $value
-     *
-     * @return CollectionInterface
      */
     public function filterBy(PagesCollection $pages, string $variable, string $value): CollectionInterface
     {
@@ -224,10 +212,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Sorts by title.
-     *
-     * @param \Traversable $collection
-     *
-     * @return array
      */
     public function sortByTitle(\Traversable $collection): array
     {
@@ -239,10 +223,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Sorts by weight.
-     *
-     * @param \Traversable $collection
-     *
-     * @return array
      */
     public function sortByWeight(\Traversable $collection): array
     {
@@ -268,10 +248,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Sorts by date: the most recent first.
-     *
-     * @param \Traversable $collection
-     *
-     * @return array
      */
     public function sortByDate(\Traversable $collection): array
     {
@@ -371,11 +347,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Resizes an image.
-     *
-     * @param string $path Image path (relative from static/ dir or external).
-     * @param int    $size Image new size (width).
-     *
-     * @return string
      */
     public function resize(string $path, int $size): string
     {
@@ -403,10 +374,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Minifying a CSS string.
-     *
-     * @param string $value
-     *
-     * @return string
      */
     public function minifyCss(string $value): string
     {
@@ -427,10 +394,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Minifying a JavaScript string.
-     *
-     * @param string $value
-     *
-     * @return string
      */
     public function minifyJs(string $value): string
     {
@@ -451,10 +414,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Compiles a SCSS string.
-     *
-     * @param string $value
-     *
-     * @return string
      */
     public function scssToCss(string $value): string
     {
@@ -483,15 +442,9 @@ class Extension extends SlugifyExtension
     /**
      * Returns the HTML version of an asset.
      *
-     * @param Asset      $asset
-     * @param array|null $attributes
-     * @param array|null $options
-     *
      * $options[
      *     'preload' => true,
      * ];
-     *
-     * @return string
      */
     public function html(Asset $asset, array $attributes = null, array $options = null): string
     {
@@ -533,10 +486,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Returns the content of an asset.
-     *
-     * @param Asset $asset
-     *
-     * @return string
      */
     public function inline(Asset $asset): string
     {
@@ -549,12 +498,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Reads $length first characters of a string and adds a suffix.
-     *
-     * @param string|null $string
-     * @param int         $length
-     * @param string      $suffix
-     *
-     * @return string|null
      */
     public function excerpt(string $string = null, int $length = 450, string $suffix = ' …'): ?string
     {
@@ -570,10 +513,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Reads characters before '<!-- excerpt|break -->'.
-     *
-     * @param string|null $string
-     *
-     * @return string|null
      */
     public function excerptHtml(string $string = null): ?string
     {
@@ -589,10 +528,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Converts a Markdown string to HTML.
-     *
-     * @param string|null $markdown
-     *
-     * @return string|null
      */
     public function markdownToHtml(string $markdown): ?string
     {
@@ -608,10 +543,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Converts a JSON string to an array.
-     *
-     * @param string|null $json
-     *
-     * @return array|null
      */
     public function jsonDecode(string $json): ?array
     {
@@ -629,12 +560,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Split a string into an array using a regular expression.
-     *
-     * @param string|null $value
-     * @param string      $pattern
-     * @param int         $limit
-     *
-     * @return array|null
      */
     public function pregSplit(string $value, string $pattern, int $limit = 0): ?array
     {
@@ -652,12 +577,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Perform a regular expression match and return the group for all matches.
-     *
-     * @param string|null $value
-     * @param string      $pattern
-     * @param int         $group
-     *
-     * @return array|null
      */
     public function pregMatchAll(string $value, string $pattern, int $group = 0): ?array
     {
@@ -675,10 +594,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Calculates estimated time to read a text.
-     *
-     * @param string|null $text
-     *
-     * @return string
      */
     public function readtime(string $text = null): string
     {
@@ -693,10 +608,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Gets the value of an environment variable.
-     *
-     * @param string $var
-     *
-     * @return string|null
      */
     public function getEnv(string $var): ?string
     {

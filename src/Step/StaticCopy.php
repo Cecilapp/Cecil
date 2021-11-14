@@ -80,12 +80,6 @@ class StaticCopy extends AbstractStep
 
     /**
      * Copying (mirror) files.
-     *
-     * @param string      $from
-     * @param string|null $to
-     * @param array|null  $exclude
-     *
-     * @return bool
      */
     protected function copy(string $from, string $to = null, array $exclude = null): bool
     {

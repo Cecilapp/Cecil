@@ -44,8 +44,6 @@ class Collection extends CecilCollection
 
     /**
      * Sorts pages by date: the most recent first.
-     *
-     * @return self
      */
     public function sortByDate(): self
     {
@@ -60,8 +58,6 @@ class Collection extends CecilCollection
 
     /**
      * Sorts pages by title (natural sort).
-     *
-     * @return self
      */
     public function sortByTitle(): self
     {
@@ -72,8 +68,6 @@ class Collection extends CecilCollection
 
     /**
      * Sorts by weight (the heaviest first).
-     *
-     * @return self
      */
     public function sortByWeight(): self
     {

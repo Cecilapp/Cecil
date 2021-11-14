@@ -18,9 +18,6 @@ class Util
      * ie: "Cecil\Step\PostProcessHtml" become "PostProcessHtml"
      *
      * @param object $class
-     * @param array  $options
-     *
-     * @return string
      */
     public static function formatClassName($class, array $options = []): string
     {
@@ -37,10 +34,6 @@ class Util
 
     /**
      * Converts an array of strings into a path.
-     *
-     * @param string[] $path
-     *
-     * @return string
      */
     public static function joinPath(string ...$path): string
     {
@@ -58,10 +51,6 @@ class Util
 
     /**
      * Converts an array of strings into a system path.
-     *
-     * @param string[] $path
-     *
-     * @return string
      */
     public static function joinFile(string ...$path): string
     {

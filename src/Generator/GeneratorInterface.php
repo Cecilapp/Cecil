@@ -17,13 +17,11 @@ interface GeneratorInterface
 {
     /**
      * Gives the Builder to the object.
-     *
-     * @param \Cecil\Builder $builder
      */
     public function __construct(\Cecil\Builder $builder);
 
     /**
-     * Creates page and adds it to collection.
+     * Creates pages and adds it to collection.
      *
      * Use `$this->generatedPages->add($page);`
      */

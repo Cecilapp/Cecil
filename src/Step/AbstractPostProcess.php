@@ -22,6 +22,7 @@ abstract class AbstractPostProcess extends AbstractStep
 {
     /** @var string File type (ie: 'css') */
     protected $type = 'type';
+
     /** @var mixed File processor */
     protected $processor;
 
@@ -114,10 +115,6 @@ abstract class AbstractPostProcess extends AbstractStep
 
     /**
      * Process a file.
-     *
-     * @param \Symfony\Component\Finder\SplFileInfo $file
-     *
-     * @return string
      */
     abstract public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string;
 }

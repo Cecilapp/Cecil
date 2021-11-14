@@ -15,23 +15,12 @@ namespace Cecil\Collection;
  */
 class Item implements ItemInterface
 {
-    /**
-     * Item's identifier.
-     *
-     * @var string
-     */
+    /** @var string Item's identifier. */
     protected $id;
 
-    /**
-     * Item's properties.
-     *
-     * @var array
-     */
+    /** @var array Item's properties. */
     protected $properties = [];
 
-    /**
-     * @param string $id
-     */
     public function __construct(string $id)
     {
         $this->setId($id);

@@ -16,11 +16,6 @@ class Str
      * Converts an array to a string.
      *
      * ie: [0 => 'A', 1 => 'B'] become '0:A, 1:B'
-     *
-     * @param array  $array
-     * @param string $separator Separtor between the key and the value in the result string
-     *
-     * @return string
      */
     public static function arrayToString(array $array, string $separator = ':'): string
     {
@@ -36,12 +31,9 @@ class Str
     /**
      * Combines an array into a string.
      *
-     * @param array  $array
      * @param string $keyToKey   The key that become the key of the new array
      * @param string $keyToValue The key that become the value of the new array
      * @param string $separator  The separtor between the key and the value in the result string
-     *
-     * @return string
      */
     public static function combineArrayToString(
         array $array,

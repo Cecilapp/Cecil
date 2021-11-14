@@ -14,11 +14,6 @@ class Date
 {
     /**
      * Checks if a date is valid.
-     *
-     * @param string $date
-     * @param string $format
-     *
-     * @return bool
      */
     public static function isDateValid(string $date, string $format = 'Y-m-d'): bool
     {
@@ -31,8 +26,6 @@ class Date
      * Date to DateTime.
      *
      * @param mixed $date
-     *
-     * @return \DateTime
      */
     public static function dateToDatetime($date): \DateTime
     {
