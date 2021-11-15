@@ -358,7 +358,7 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 The filename can contain a _prefix_ to define _Page_’s `date` or `weight` (used by `sortby`).
 
 The prefix is not included in the _Pages_’s `title` variable.  
-Available prefix separator are `-`, `_` and `.`.
+Available prefix separator are `-`, `_` ~~and `.`~~.
 
 #### date
 
@@ -378,7 +378,7 @@ The _weight prefix_ is used to set the _Page_’s sort order, and must be a vali
 
 _Example:_
 
-In `1.The first project.md`:
+In `1-The first project.md`:
 
 - the prefix is `1`
 - the _Page_’s `weight` is `1`
