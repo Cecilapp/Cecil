@@ -43,7 +43,7 @@ baseurl: http://localhost:8000/
 
 ### canonicalurl
 
-If set to `true` the [`url()`](3.Templates.md#url) function will return the absolute URL (`false` by default).
+If set to `true` the [`url()`](3-Templates.md#url) function will return the absolute URL (`false` by default).
 
 ### description
 
@@ -291,7 +291,7 @@ Main language (`en` by default).
 
 ### languages
 
-List of available languages, used for [content](2.Content.md#multilingual) and [templates](3.Templates.md#localization) localization.
+List of available languages, used for [content](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
 
 Required keys:
 
@@ -318,7 +318,7 @@ languages:
 
 ### paths
 
-Define a custom [`path`](2.Content.md#variables) for all pages of a _Section_.
+Define a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
 
 _Example:_
 
@@ -442,7 +442,7 @@ Where static files and assets (CSS, images, PDF, etc.) are stored and copied.
 - `dir`: files directory (`static` by default)
 - `target`: target directory (empty by default)
 - `exclude`: list of excluded files (accepts globs, strings and regexes)
-- `load`: boolean (`false` by default, used by [`site.static`](3.Templates.md#site-static))
+- `load`: boolean (`false` by default, used by [`site.static`](3-Templates.md#site-static))
 
 _Example:_
 

@@ -142,7 +142,7 @@ You can retrieve `name`, `locale` and `weight` of a language different of the cu
 
 #### site.static
 
-The static files collection can be accessed via `site.static` (if [*static load*](4.configuration.md#static) is enabled).
+The static files collection can be accessed via `site.static` (if [*static load*](4-configuration.md#static) is enabled).
 
 Each file exposes the following properties:
 
@@ -281,7 +281,7 @@ Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL 
 | filename       | File to save content.                               | string  |         |
 | ignore_missing | Ignore if file don't exists.                        | boolean | `false` |
 
-See [assets configuration](4.Configuration.md#assets) to define the global behavior.
+See [assets configuration](4-Configuration.md#assets) to define the global behavior.
 
 Uses [filters](#filters) to manipulate assets:
 
@@ -851,10 +851,10 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 :   A simple pagination component for list templates with "Older" and "Newer" links.
 
 [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   All metatags in one component: title, description, canonical, open-graph, twitter card, etc. See [configuration](4.Configuration.md#metatags).
+:   All metatags in one component: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
 
 [`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
-:   Google Analytics traking script. See [configuration](4.Configuration.md#googleanalytics).
+:   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).
 
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   Switcher between [languages](4.Configuration.md#languages).
+:   Switcher between [languages](4-Configuration.md#languages).

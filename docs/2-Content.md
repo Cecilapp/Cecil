@@ -38,9 +38,9 @@ Your content should be organized in a manner that reflects the rendered website.
 
 Each folder in the root of `content/` is called a **_Section_** (ie: « Blog », « Project », etc.)
 
-Files in `static/` are copied as is in the root of the built website (ie: `static/images/logo.png` -> `images/logo.png`) or manipulated by [`asset()`](3.Templates.md#asset)
+Files in `static/` are copied as is in the root of the built website (ie: `static/images/logo.png` -> `images/logo.png`) or manipulated by [`asset()`](3-Templates.md#asset)
 
-Content of files in `data/` are exposed in [templates](3.Templates.md) with [`{{ site.data }}`](3.Templates.md#site-data)
+Content of files in `data/` are exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
 
 ### Built website tree
 
@@ -184,7 +184,7 @@ Predefined variables.
 | Variable    | Description             | Default value                                                            |
 | ----------- | ----------------------- | ------------------------------------------------------------------------ |
 | `title`     | Title                   | File name without extension (ie: `Post 1`).                              |
-| `layout`    | Layout                  | See [_Templates Lookup rules_](3.Templates.md#lookup-rules) (ie: `404`). |
+| `layout`    | Layout                  | See [_Templates Lookup rules_](3-Templates.md#lookup-rules) (ie: `404`). |
 | `date`      | Date (ie: `2019/04/15`) | File creation date (PHP _DateTime_ object).                              |
 | `updated`   | Date of modification    | File modification date (PHP _DateTime_ object).                          |
 | `section`   | Section                 | Page's _Section_ (ie: `blog`).                                           |
@@ -208,7 +208,7 @@ menu: navigation
 
 A same _Page_ could be added to severals menus, and the position of each entry could be defined with the `weight` key (the lightest first).
 
-See [_Menus configuration_](4.Configuration.md#menus) for details.
+See [_Menus configuration_](4-Configuration.md#menus) for details.
 
 _Examples:_
 
@@ -230,7 +230,7 @@ menu:
 
 ### Taxonomy
 
-Taxonomies are declared in the [_Configuration_](4.Configuration.md#taxonomies).
+Taxonomies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
 Each page can contain severals terms (ie: `Tag 1`) of each taxonomies’ vocabulary (ie: `tags`).
 
@@ -268,7 +268,7 @@ sortby: title
 
 #### pagination
 
-Global [pagination configuration](4.Configuration.md#pagination) can be overridden for a *Section*.
+Global [pagination configuration](4-Configuration.md#pagination) can be overridden for a *Section*.
 
 _Example:_
 
@@ -297,7 +297,7 @@ cascade:
 
 #### circular
 
-Set `circular` to `true` to enable circular pagination with [_page.<prev/next>_](3.Templates.md#page-prev-next).
+Set `circular` to `true` to enable circular pagination with [_page.<prev/next>_](3-Templates.md#page-prev-next).
 
 ```yaml
 ---
@@ -386,7 +386,7 @@ In `1-The first project.md`:
 
 ## Multilingual
 
-If your content is available in multiple [languages](4.Configuration.md#languages) there is 2 ways to define it:
+If your content is available in multiple [languages](4-Configuration.md#languages) there is 2 ways to define it:
 
 ### Language in the file name
 
@@ -412,7 +412,7 @@ language: fr
 
 ## Dynamic content
 
-You can use [variables](3.Templates.md#variables) and shortcodes in the body content.
+You can use [variables](3-Templates.md#variables) and shortcodes in the body content.
 
 To be able to use variables and shortcodes you must include a specific template instead of `{{ page.content }}`:
 
