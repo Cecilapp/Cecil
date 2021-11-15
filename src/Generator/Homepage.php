@@ -43,10 +43,6 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         if ($pages->first()) {
             $page->setVariable('date', $pages->first()->getVariable('date'));
         }
-        // set default language
-        if (!$page->getVariable('language')) {
-            $page->setVariable('language', $this->config->getLanguageDefault());
-        }
         // default menu
         if (!$page->getVariable('menu')) {
             $page->setVariable('menu', [
