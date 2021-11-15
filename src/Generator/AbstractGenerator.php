@@ -46,6 +46,12 @@ abstract class AbstractGenerator implements GeneratorInterface
     {
         $this->generate();
 
+        $this->generatedPages->map(function (\Cecil\Collection\Page\Page $page) {
+            if (!$page->hasVariable('language')) {
+                $page->setVariable('language', $this->config->getLanguageDefault());
+            }
+        });
+
         return $this->generatedPages;
     }
 }

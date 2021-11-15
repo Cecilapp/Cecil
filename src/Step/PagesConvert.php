@@ -61,7 +61,7 @@ class PagesConvert extends AbstractStep
                 try {
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
                     // set default language
-                    if (empty($convertedPage->hasVariable('language'))) {
+                    if (!$convertedPage->hasVariable('language')) {
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
                 } catch (Exception $e) {
