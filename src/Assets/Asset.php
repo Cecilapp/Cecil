@@ -75,8 +75,19 @@ class Asset implements \ArrayAccess
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = sprintf('%s.ser', implode('_', $paths));
         if (!$cache->has($cacheKey)) {
-            $file = [];
             $pathsCount = count($paths);
+            $this->data = [
+                'file'     => '',
+                'filename' => '',
+                'path'     => '',
+                'ext'      => '',
+                'type'     => '',
+                'subtype'  => '',
+                'size'     => 0,
+                'source'   => '',
+                'content'  => '',
+            ];
+            $file = [];
             for ($i = 0; $i < $pathsCount; $i++) {
                 // loads file(s)
                 $file[$i] = $this->loadFile($paths[$i], $ignore_missing);
@@ -311,19 +322,42 @@ class Asset implements \ArrayAccess
      */
     public function resize(int $size): self
     {
-        $dest = 'assets';
-        $quality = 90;
-
-        $img = ImageManager::make($this->data['source']);
-        $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-
-        $this->data['path'] = '/'.\Cecil\Util::joinPath($dest, (string) $size, $this->data['path']);
-        $this->data['content'] = (string) $img->encode($this->data['ext'], $quality);
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this, $size);
+        if (!$cache->has($cacheKey)) {
+            if ($this->data['type'] !== 'image') {
+                throw new Exception(sprintf('Not able to resize "%s"', $this->data['path']));
+            }
+            if (!extension_loaded('gd')) {
+                throw new Exception('GD extension is required to use images resize.');
+            }
+            if ($this->getWidth() <= $size && $this->getHeight() <= $size) {
+                return $this;
+            }
+            $img = ImageManager::make($this->data['source']);
+            $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $this->data['path'] = '/' . Util::joinPath($this->config->get('assets.target'), (string) $size, $this->data['path']);
+            $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
+            $cache->set($cacheKey, $this->data);
+        }
+        $this->data = $cache->get($cacheKey);
 
         return $this;
+    }
+
+    /**
+     * Returns the data URL of an image.
+     */
+    public function dataurl(): string
+    {
+        if ($this->data['type'] !== 'image') {
+            throw new Exception(sprintf('Can\'t get data URL of "%s"', $this->data['path']));
+        }
+
+        return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
     }
 
     /**
@@ -453,7 +487,7 @@ class Asset implements \ArrayAccess
             $urlHost = parse_url($path, PHP_URL_HOST);
             $urlPath = parse_url($path, PHP_URL_PATH);
             $urlQuery = parse_url($path, PHP_URL_QUERY);
-            $path = Util::joinPath('assets', $urlHost, $urlPath);
+            $path = Util::joinPath($this->config->get('assets.target'), $urlHost, $urlPath);
             if (!empty($urlQuery)) {
                 $path = Util::joinPath($path, Page::slugify($urlQuery));
                 // Google Fonts hack
@@ -475,6 +509,7 @@ class Asset implements \ArrayAccess
         $file['subtype'] = $subtype;
         $file['size'] = filesize($filePath);
         $file['content'] = $content;
+        $file['missing'] = false;
 
         return $file;
     }
