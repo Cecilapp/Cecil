@@ -33,20 +33,15 @@ class Parsedown extends \ParsedownToC
     protected function inlineImage($excerpt)
     {
         $image = parent::inlineImage($excerpt);
-
         if (!isset($image)) {
             return null;
         }
-
         $asset = new Asset($this->builder, ltrim($this->removeQuery($image['element']['attributes']['src'])));
-
         // fetch image properties
         $width = $asset->getWidth();
-
         // sets default attributes
         $image['element']['attributes']['width'] = $width;
         $image['element']['attributes']['loading'] = 'lazy';
-
         // captures query string.
         // ie: "?resize=300&responsive"
         $query = parse_url($image['element']['attributes']['src'], PHP_URL_QUERY);
@@ -56,14 +51,10 @@ class Parsedown extends \ParsedownToC
         parse_str($query, $result);
         // cleans URL
         $image['element']['attributes']['src'] = $this->removeQuery($image['element']['attributes']['src']);
-
         /**
          * Should be responsive?
          */
-        $responsive = false;
         if (array_key_exists('responsive', $result)) {
-            $responsive = true;
-            // process
             $steps = 5;
             $wMin = 320;
             $wMax = 2560;
@@ -82,26 +73,17 @@ class Parsedown extends \ParsedownToC
             }
             // ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w"
             $image['element']['attributes']['srcset'] = $srcset;
+            $image['element']['attributes']['sizes'] = '100vw';
         }
-
         /**
          * Should be resized?
          */
         if (array_key_exists('resize', $result)) {
             $width = (int) $result['resize'];
-
             $imageResized = $asset->resize($width);
-
             $image['element']['attributes']['src'] = $imageResized;
             $image['element']['attributes']['width'] = $width;
         }
-
-        // if responsive: set 'sizes' attribute
-        if ($responsive) {
-            // sizes="(max-width: 2800px) 100vw, 2800px"
-            $image['element']['attributes']['sizes'] = sprintf('(max-width: %spx) 100vw, %spx', $width, $width);
-        }
-
         // set 'class' attribute
         if (array_key_exists('class', $result)) {
             $class = $result['class'];
