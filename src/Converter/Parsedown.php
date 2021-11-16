@@ -87,10 +87,9 @@ class Parsedown extends \ParsedownToC
          * Should be resized?
          */
         if (array_key_exists('resize', $result)) {
-            $size = (int) $result['resize'];
-            $width = $size;
+            $width = (int) $result['resize'];
 
-            $imageResized = $asset->resize($size);
+            $imageResized = $asset->resize($width);
 
             $image['element']['attributes']['src'] = $imageResized;
             $image['element']['attributes']['width'] = $width;
