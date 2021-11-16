@@ -206,7 +206,7 @@ class Cache implements CacheInterface
     }
 
     /**
-     * $key must be a string.
+     * $key must be a valid string.
      */
     private function prepareKey(string $key): string
     {
