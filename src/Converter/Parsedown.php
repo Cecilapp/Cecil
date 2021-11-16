@@ -73,7 +73,8 @@ class Parsedown extends \ParsedownToC
             $srcset = '';
             for ($i = 1; $i <= $steps; $i++) {
                 $w = (int) ceil($wMin + ($wMax - $wMin) / $steps * $i);
-                $img = $asset->resize($w);
+                $a = new Asset($this->builder, ltrim($this->removeQuery($image['element']['attributes']['src'])));
+                $img = $a->resize($w);
                 $srcset .= sprintf('%s %sw', $img, $w);
                 if ($i < $steps) {
                     $srcset .= ', ';
