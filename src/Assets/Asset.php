@@ -331,9 +331,6 @@ class Asset implements \ArrayAccess
             if (!extension_loaded('gd')) {
                 throw new Exception('GD extension is required to use images resize.');
             }
-            if ($this->getWidth() <= $size && $this->getHeight() <= $size) {
-                return $this;
-            }
             $img = ImageManager::make($this->data['source']);
             $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
                 $constraint->aspectRatio();
