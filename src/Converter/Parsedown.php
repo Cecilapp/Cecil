@@ -54,7 +54,7 @@ class Parsedown extends \ParsedownToC
         /**
          * Should be responsive?
          */
-        if (array_key_exists('responsive', $result)) {
+        if (array_key_exists('responsive', $result) || $this->builder->getConfig()->get('assets.images.responsive')) {
             $steps = 5;
             $wMin = 320;
             $wMax = 2560;

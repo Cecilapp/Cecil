@@ -336,7 +336,7 @@ class Asset implements \ArrayAccess
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
-            $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), (string) $size, $this->data['path']);
+            $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path']);
             $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
             $cache->set($cacheKey, $this->data);
         }
