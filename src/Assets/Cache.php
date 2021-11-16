@@ -165,6 +165,7 @@ class Cache implements CacheInterface
         if (false === $content = Util\File::fileGetContents($path)) {
             throw new Exception(sprintf('Can\'t create cache key for "%s"', $path));
         }
+
         return $this->prepareKey(\sprintf('%s__%s.ser', $relativePath, $this->createKeyFromString($content)));
     }
 
