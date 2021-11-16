@@ -15,12 +15,10 @@ use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Exception\Exception;
 use Cecil\Util;
+use Intervention\Image\ImageManagerStatic as ImageManager;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
 use wapmorgan\Mp3Info\Mp3Info;
-
-use Intervention\Image\Exception\NotReadableException;
-use Intervention\Image\ImageManagerStatic as ImageManager;
 
 class Asset implements \ArrayAccess
 {
