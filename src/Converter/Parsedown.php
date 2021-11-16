@@ -10,9 +10,8 @@
 
 namespace Cecil\Converter;
 
-use Cecil\Assets\Image;
+use Cecil\Assets\Asset;
 use Cecil\Builder;
-use Cecil\Util;
 
 class Parsedown extends \ParsedownToC
 {
@@ -34,34 +33,15 @@ class Parsedown extends \ParsedownToC
     protected function inlineImage($excerpt)
     {
         $image = parent::inlineImage($excerpt);
-
         if (!isset($image)) {
             return null;
         }
-
-        // fetch image path
-        $path = Util::joinFile(
-            $this->builder->getConfig()->getStaticTargetPath(),
-            ltrim($this->removeQuery($image['element']['attributes']['src']))
-        );
-        if (Util\Url::isUrl($image['element']['attributes']['src'])) {
-            $path = $this->removeQuery($image['element']['attributes']['src']);
-        }
-        if (!is_file($path) && !Util\Url::isRemoteFileExists($path)) {
-            return $image;
-        }
-
+        $asset = new Asset($this->builder, ltrim($this->removeQuery($image['element']['attributes']['src'])));
         // fetch image properties
-        $size = getimagesize($path);
-        $width = $size[0];
-        $type = $size[2];
-
+        $width = $asset->getWidth();
         // sets default attributes
         $image['element']['attributes']['width'] = $width;
-        if ($type !== null) {
-            $image['element']['attributes']['loading'] = 'lazy';
-        }
-
+        $image['element']['attributes']['loading'] = 'lazy';
         // captures query string.
         // ie: "?resize=300&responsive"
         $query = parse_url($image['element']['attributes']['src'], PHP_URL_QUERY);
@@ -71,14 +51,10 @@ class Parsedown extends \ParsedownToC
         parse_str($query, $result);
         // cleans URL
         $image['element']['attributes']['src'] = $this->removeQuery($image['element']['attributes']['src']);
-
         /**
          * Should be responsive?
          */
-        $responsive = false;
-        if (array_key_exists('responsive', $result) && !Util\Url::isUrl($image['element']['attributes']['src'])) {
-            $responsive = true;
-            // process
+        if (array_key_exists('responsive', $result) || $this->builder->getConfig()->get('assets.images.responsive')) {
             $steps = 5;
             $wMin = 320;
             $wMax = 2560;
@@ -88,43 +64,26 @@ class Parsedown extends \ParsedownToC
             $srcset = '';
             for ($i = 1; $i <= $steps; $i++) {
                 $w = (int) ceil($wMin + ($wMax - $wMin) / $steps * $i);
-                $img = (new Image($this->builder))
-                    ->load($image['element']['attributes']['src'])
-                    ->resize($w);
+                $a = new Asset($this->builder, ltrim($this->removeQuery($image['element']['attributes']['src'])));
+                $img = $a->resize($w);
                 $srcset .= sprintf('%s %sw', $img, $w);
                 if ($i < $steps) {
                     $srcset .= ', ';
                 }
             }
-            // ie: srcset="/img-480.jpg 480w, img-800.jpg 800w"
+            // ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w"
             $image['element']['attributes']['srcset'] = $srcset;
+            $image['element']['attributes']['sizes'] = '100vw';
         }
-
         /**
          * Should be resized?
          */
         if (array_key_exists('resize', $result)) {
-            $size = (int) $result['resize'];
-            $width = $size;
-
-            $imageResized = (new Image($this->builder))
-                ->load($image['element']['attributes']['src'])
-                ->resize($size);
-
+            $width = (int) $result['resize'];
+            $imageResized = $asset->resize($width);
             $image['element']['attributes']['src'] = $imageResized;
             $image['element']['attributes']['width'] = $width;
-
-            if (Util\Url::isUrl($image['element']['attributes']['src'])) {
-                return $image;
-            }
         }
-
-        // if responsive: set 'sizes' attribute
-        if ($responsive) {
-            // sizes="(max-width: 2800px) 100vw, 2800px"
-            $image['element']['attributes']['sizes'] = sprintf('(max-width: %spx) 100vw, %spx', $width, $width);
-        }
-
         // set 'class' attribute
         if (array_key_exists('class', $result)) {
             $class = $result['class'];

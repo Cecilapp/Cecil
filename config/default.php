@@ -195,6 +195,11 @@ return [
         'fingerprint' => [
             'enabled' => true,
         ],
+        'target' => 'assets',
+        'images' => [
+            'quality'    => 90,
+            'responsive' => true,
+        ],
     ],
     'postprocess' => [
         'enabled' => false,

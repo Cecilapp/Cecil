@@ -12,7 +12,6 @@ namespace Cecil\Renderer\Twig;
 
 use Cecil\Assets\Asset;
 use Cecil\Assets\Cache;
-use Cecil\Assets\Image;
 use Cecil\Assets\Url;
 use Cecil\Builder;
 use Cecil\Collection\CollectionInterface;
@@ -83,6 +82,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('scss_to_css', [$this, 'scssToCss']),
             new \Twig\TwigFilter('sass_to_css', [$this, 'scssToCss']),
             new \Twig\TwigFilter('resize', [$this, 'resize']),
+            new \Twig\TwigFilter('dataurl', [$this, 'dataurl']),
             // content
             new \Twig\TwigFilter('slugify', [$this, 'slugifyFilter']),
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
@@ -347,12 +347,34 @@ class Extension extends SlugifyExtension
 
     /**
      * Resizes an image.
+     *
+     * @param string|Asset $asset
+     *
+     * @return Asset
      */
-    public function resize(string $path, int $size): string
+    public function resize($asset, int $size): Asset
     {
-        return (new Image($this->builder))
-            ->load($path)
-            ->resize($size);
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return $asset->resize($size);
+    }
+
+    /**
+     * Returns the data URL of an image.
+     *
+     * @param string|Asset $asset
+     *
+     * @return string
+     */
+    public function dataurl($asset): string
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return $asset->dataurl();
     }
 
     /**

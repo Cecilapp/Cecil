@@ -483,6 +483,10 @@ assets:
     import: [sass, scss]
   minify:
     enabled: true
+  target: assets
+  images:
+    quality: 90
+    responsive: true
 ```
 
 - `fingerprint`: Adds the file fingerprint in the filename
@@ -492,6 +496,10 @@ assets:
   - `sourcemap`: Enables sourcemap output (if [debug mode](#debug) is enabled)
   - `variables`: Array of preset variables (see [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#preset-variables))
 - `minify`: Compresses file content (Available for file with a `text/css` or `text/javascript` MIME Type)
+- `target`: Target directory of remote and resized assets (`assets` by default)
+- `images`: Options for images
+  - `quality`: Image quality (`90` by default)
+  - `responsive`: Enables responsive images in user content (`true` by default)
 
 ### postprocess
 

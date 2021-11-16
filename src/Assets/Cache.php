@@ -67,7 +67,6 @@ class Cache implements CacheInterface
                 'value'      => $value,
                 'expiration' => time() + $ttl,
             ]);
-
             $this->prune($key);
             Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
         } catch (Exception $e) {
@@ -151,7 +150,7 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key with the hash of a string.
+     * Creates key with the MD5 hash of a string.
      */
     public function createKeyFromString(string $value): string
     {
@@ -159,32 +158,23 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key from a path.
-     * Returns $relativePath + '__' + MD5 hash.
+     * Creates key from a file: $relativePath + '__' + MD5 hash.
      */
     public function createKeyFromPath(string $path, string $relativePath): string
     {
         if (false === $content = Util\File::fileGetContents($path)) {
             throw new Exception(sprintf('Can\'t create cache key for "%s"', $path));
         }
-        $key = $this->prepareKey(\sprintf('%s__%s.ser', $relativePath, $this->createKeyFromString($content)));
 
-        return $key;
+        return $this->prepareKey(\sprintf('%s__%s.ser', $relativePath, $this->createKeyFromString($content)));
     }
 
     /**
-     * Creates key from an Asset source.
-     * $state = 'compiled' or 'minified'
-     * Returns '.$state' + '__' + MD5 hash.
+     * Creates key from an Asset source: 'filename.$state' + '__' + MD5 hash.
      */
-    public function createKeyFromAsset(Asset $asset, $state = null): string
+    public function createKeyFromAsset(Asset $asset, string $state = null): string
     {
-        if (!in_array($state, [null, 'compiled', 'minified'])) {
-            throw new Exception('Wrong state used in asset cache key');
-        }
-        $key = $this->prepareKey(\sprintf('%s%s__%s.ser', $asset['filename'], ".$state" ?? '', $this->createKeyFromString($asset['source'] ?? '')));
-
-        return $key;
+        return $this->prepareKey(\sprintf('%s%s__%s.ser', $asset['filename'], ".$state" ?? '', $this->createKeyFromString($asset['source'] ?? '')));
     }
 
     /**
@@ -216,7 +206,7 @@ class Cache implements CacheInterface
     }
 
     /**
-     * $key must be a string.
+     * $key must be a valid string.
      */
     private function prepareKey(string $key): string
     {
