@@ -79,7 +79,7 @@ class Parsedown extends \ParsedownToC
                     $srcset .= ', ';
                 }
             }
-            // ie: srcset="/img-480.jpg 480w, img-800.jpg 800w"
+            // ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w"
             $image['element']['attributes']['srcset'] = $srcset;
         }
 
