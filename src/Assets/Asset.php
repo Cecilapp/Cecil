@@ -19,6 +19,9 @@ use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
 use wapmorgan\Mp3Info\Mp3Info;
 
+use Intervention\Image\Exception\NotReadableException;
+use Intervention\Image\ImageManagerStatic as ImageManager;
+
 class Asset implements \ArrayAccess
 {
     /** @var Builder */
@@ -301,6 +304,26 @@ class Asset implements \ArrayAccess
             $cache->set($cacheKey, $this->data);
         }
         $this->data = $cache->get($cacheKey);
+
+        return $this;
+    }
+
+    /**
+     * Resizes an image.
+     */
+    public function resize(int $size): self
+    {
+        $dest = 'assets';
+        $quality = 90;
+
+        $img = ImageManager::make($this->data['source']);
+        $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        $this->data['path'] = '/'.\Cecil\Util::joinPath($dest, (string) $size, $this->data['path']);
+        $this->data['content'] = (string) $img->encode($this->data['ext'], $quality);
 
         return $this;
     }

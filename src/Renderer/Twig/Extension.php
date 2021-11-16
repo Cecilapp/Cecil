@@ -348,11 +348,27 @@ class Extension extends SlugifyExtension
     /**
      * Resizes an image.
      */
-    public function resize(string $path, int $size): string
+    /*public function resize(string $path, int $size): string
     {
         return (new Image($this->builder))
             ->load($path)
             ->resize($size);
+    }*/
+
+    /**
+     * Resizes an image.
+     *
+     * @param string|Asset $asset
+     *
+     * @return Asset
+     */
+    public function resize($asset, int $size): Asset
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return $asset->resize($size);
     }
 
     /**
