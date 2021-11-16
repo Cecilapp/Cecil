@@ -339,7 +339,7 @@ class Asset implements \ArrayAccess
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
-            $this->data['path'] = '/'.Util::joinPath($this->config->get('assets.target'), (string) $size, $this->data['path']);
+            $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), (string) $size, $this->data['path']);
             $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
             $cache->set($cacheKey, $this->data);
         }
@@ -487,7 +487,7 @@ class Asset implements \ArrayAccess
             $urlHost = parse_url($path, PHP_URL_HOST);
             $urlPath = parse_url($path, PHP_URL_PATH);
             $urlQuery = parse_url($path, PHP_URL_QUERY);
-            $path = Util::joinPath($this->config->get('assets.target'), $urlHost, $urlPath);
+            $path = Util::joinPath((string) $this->config->get('assets.target'), $urlHost, $urlPath);
             if (!empty($urlQuery)) {
                 $path = Util::joinPath($path, Page::slugify($urlQuery));
                 // Google Fonts hack
