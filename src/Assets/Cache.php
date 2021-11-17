@@ -46,7 +46,10 @@ class Cache implements CacheInterface
     {
         try {
             $key = $this->prepareKey($key);
-            $data = unserialize(Util\File::fileGetContents($this->getFilePathname($key)));
+            if (false === $content = Util\File::fileGetContents($this->getFilePathname($key))) {
+                return $default;
+            }
+            $data = unserialize($content);
         } catch (Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 

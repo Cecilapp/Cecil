@@ -134,7 +134,7 @@ class Page extends Item
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.'.$fileExtension);
         // case of "README" -> "index"
-        $fileName = str_ireplace('readme', 'index', $fileName);
+        $fileName = (string) str_ireplace('readme', 'index', $fileName);
         // case of "index" = home page
         if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
             $this->setType(Type::HOMEPAGE);

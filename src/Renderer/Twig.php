@@ -46,7 +46,7 @@ class Twig implements RendererInterface
         if ($builder->getConfig()->get('cache.templates.enabled')) {
             $templatesCachePath = \Cecil\Util::joinFile(
                 $builder->getConfig()->getCachePath(),
-                $builder->getConfig()->get('cache.templates.dir')
+                (string) $builder->getConfig()->get('cache.templates.dir')
             );
             $loaderOptions = array_replace($loaderOptions, ['cache' => $templatesCachePath]);
         }
