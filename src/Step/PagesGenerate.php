@@ -32,7 +32,7 @@ class PagesGenerate extends AbstractStep
     public function init($options)
     {
         /** @var \Cecil\Builder $builder */
-        if (count($this->builder->getConfig()->get('generators')) > 0) {
+        if (count((array) $this->builder->getConfig()->get('generators')) > 0) {
             $this->canProcess = true;
         }
     }

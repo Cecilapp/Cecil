@@ -536,7 +536,7 @@ class Extension extends SlugifyExtension
     /**
      * Reads characters before '<!-- excerpt|break -->'.
      */
-    public function excerptHtml(string $string = null): ?string
+    public function excerptHtml(string $string): string
     {
         // https://regex101.com/r/Xl7d5I/3
         $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
@@ -617,7 +617,7 @@ class Extension extends SlugifyExtension
     /**
      * Calculates estimated time to read a text.
      */
-    public function readtime(string $text = null): string
+    public function readtime(string $text): string
     {
         $words = str_word_count(strip_tags($text));
         $min = floor($words / 200);

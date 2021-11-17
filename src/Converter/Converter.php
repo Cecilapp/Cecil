@@ -36,7 +36,7 @@ class Converter implements ConverterInterface
         switch ($type) {
             case 'ini':
                 $result = parse_ini_string($string);
-                if (!$result) {
+                if ($result === false) {
                     throw new Exception('Can\'t parse INI front matter');
                 }
 
