@@ -58,7 +58,7 @@ class PostProcessImages extends AbstractPostProcess
      */
     public function encode(string $content = null): ?string
     {
-        return base64_encode($content);
+        return base64_encode((string) $content);
     }
 
     /**
@@ -66,6 +66,6 @@ class PostProcessImages extends AbstractPostProcess
      */
     public function decode(string $content = null): ?string
     {
-        return base64_decode($content);
+        return base64_decode((string) $content);
     }
 }
