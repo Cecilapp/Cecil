@@ -38,7 +38,7 @@ class PostProcessHtml extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function setProcessor()
+    public function setProcessor(): void
     {
         $this->processor = new HtmlMin();
     }
@@ -51,5 +51,21 @@ class PostProcessHtml extends AbstractPostProcess
         $html = Util\File::fileGetContents($file->getPathname());
 
         return $this->processor->minify($html);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function encode(string $content = null): ?string
+    {
+        return json_encode($content);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function decode(string $content = null): ?string
+    {
+        return json_decode((string) $content);
     }
 }

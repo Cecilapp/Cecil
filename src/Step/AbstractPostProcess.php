@@ -21,7 +21,7 @@ use Symfony\Component\Finder\Finder;
 abstract class AbstractPostProcess extends AbstractStep
 {
     /** @var string File type (ie: 'css') */
-    protected $type = 'type';
+    protected $type;
 
     /** @var mixed File processor */
     protected $processor;
@@ -83,7 +83,6 @@ abstract class AbstractPostProcess extends AbstractStep
             $message = $file->getRelativePathname();
 
             $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
-            $processed = $cache->get($cacheKey, $file->getContents());
             if (!$cache->has($cacheKey)) {
                 $processed = $this->processFile($file);
                 $sizeAfter = $file->getSize();
@@ -96,9 +95,12 @@ abstract class AbstractPostProcess extends AbstractStep
                     );
                 }
                 $postprocessed++;
+                $processed = $this->encode($processed);
                 $cache->set($cacheKey, $processed);
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
+            $processed = $cache->get($cacheKey);
+            $processed = $this->decode($processed);
             Util\File::getFS()->dumpFile($file->getPathname(), $processed);
         }
         if ($postprocessed == 0) {
@@ -108,13 +110,27 @@ abstract class AbstractPostProcess extends AbstractStep
 
     /**
      * Set file processor object.
-     *
-     * @return void
      */
-    abstract public function setProcessor();
+    abstract public function setProcessor(): void;
 
     /**
      * Process a file.
      */
     abstract public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string;
+
+    /**
+     * Encode file content.
+     */
+    public function encode(string $content = null): ?string
+    {
+        return $content;
+    }
+
+    /**
+     * Decode file content.
+     */
+    public function decode(string $content = null): ?string
+    {
+        return $content;
+    }
 }
