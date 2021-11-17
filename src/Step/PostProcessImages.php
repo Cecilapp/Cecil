@@ -37,7 +37,7 @@ class PostProcessImages extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function setProcessor()
+    public function setProcessor(): void
     {
         $this->processor = Optimizer::create();
     }
@@ -51,5 +51,21 @@ class PostProcessImages extends AbstractPostProcess
         $this->processor->optimize($file->getPathname());
 
         return $file->getContents();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function encode(string $content): string
+    {
+        return base64_encode($content);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function decode(string $content): string
+    {
+        return base64_decode($content);
     }
 }

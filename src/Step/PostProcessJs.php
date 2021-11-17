@@ -37,7 +37,7 @@ class PostProcessJs extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function setProcessor()
+    public function setProcessor(): void
     {
     }
 
