@@ -56,7 +56,7 @@ class PostProcessImages extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function encode(string $content): string
+    public function encode(string $content = null): ?string
     {
         return base64_encode($content);
     }
@@ -64,7 +64,7 @@ class PostProcessImages extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function decode(string $content): string
+    public function decode(string $content = null): ?string
     {
         return base64_decode($content);
     }

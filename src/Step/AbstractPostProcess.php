@@ -121,7 +121,7 @@ abstract class AbstractPostProcess extends AbstractStep
     /**
      * Encode file content.
      */
-    public function encode(string $content): string
+    public function encode(string $content = null): ?string
     {
         return $content;
     }
@@ -129,7 +129,7 @@ abstract class AbstractPostProcess extends AbstractStep
     /**
      * Decode file content.
      */
-    public function decode(string $content): string
+    public function decode(string $content = null): ?string
     {
         return $content;
     }
