@@ -66,6 +66,6 @@ class PostProcessHtml extends AbstractPostProcess
      */
     public function decode(string $content = null): ?string
     {
-        return json_decode($content);
+        return json_decode((string) $content);
     }
 }
