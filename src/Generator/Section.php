@@ -82,8 +82,10 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         }
                         $pages = $pages->$sortMethod();
                     }
-                    // adds navigation links
-                    $this->addNavigationLinks($pages, $page->getVariable('sortby'), $page->getVariable('circular'));
+                    // adds navigation links (excludes taxonomy pages)
+                    if (!in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
+                        $this->addNavigationLinks($pages, $page->getVariable('sortby'), $page->getVariable('circular'));
+                    }
                     // creates page for each section
                     $page->setPath($path)
                         ->setType(Type::SECTION)
