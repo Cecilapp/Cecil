@@ -148,8 +148,8 @@ return [
     ],
     // Markdown files
     'content' => [
-        'dir' => 'content',
-        'ext' => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
+        'dir'    => 'content',
+        'ext'    => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
         'images' => [
             'lazy' => [
                 'enabled' => true,

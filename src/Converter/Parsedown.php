@@ -92,7 +92,7 @@ class Parsedown extends \ParsedownToC
      */
     protected function parseAttributeData($attributeString)
     {
-        $Data = array();
+        $Data = [];
 
         $attributes = preg_split('/[ ]+/', $attributeString, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -113,7 +113,7 @@ class Parsedown extends \ParsedownToC
             $Data['class'] = implode(' ', $classes);
         }
         if (isset($HtmlAtt)) {
-            foreach($HtmlAtt as $a => $v) {
+            foreach ($HtmlAtt as $a => $v) {
                 $Data[$a] = trim($v, '"');
             }
         }

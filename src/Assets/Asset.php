@@ -331,6 +331,7 @@ class Asset implements \ArrayAccess
             if (!extension_loaded('gd')) {
                 throw new Exception('GD extension is required to use images resize.');
             }
+
             try {
                 $img = ImageManager::make($this->data['source']);
                 $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
@@ -341,7 +342,6 @@ class Asset implements \ArrayAccess
                 throw new Exception(sprintf('Not able to resize image "%s": ', $this->data['path'], $e->getMessage()));
             }
             $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path']);
-
 
             try {
                 $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
