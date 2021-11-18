@@ -150,6 +150,25 @@ return [
     'content' => [
         'dir' => 'content',
         'ext' => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
+        'images' => [
+            'lazy' => [
+                'enabled' => true,
+            ],
+            'resize' => [
+                'enabled' => true,
+            ],
+            'responsive' => [
+                'enabled' => true,
+                'width'   => [
+                    'steps' => 5,
+                    'min'   => 320,
+                    'max'   => 2560,
+                ],
+                'sizes' => [
+                    'default' => '100vw',
+                ],
+            ],
+        ],
     ],
     'frontmatter' => [
         'format' => 'yaml',
@@ -198,7 +217,6 @@ return [
         'target' => 'assets',
         'images' => [
             'quality'    => 90,
-            'responsive' => true,
         ],
     ],
     'postprocess' => [
