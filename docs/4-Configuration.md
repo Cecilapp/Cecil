@@ -442,7 +442,7 @@ body:
         default: '100vw' # Default sizes
 ```
 
-> See [body’s content](2-Content.md#body) for more informations.
+See [Content > Page > Body](2-Content.md#body) documentation for more information.
 
 ### data
 
