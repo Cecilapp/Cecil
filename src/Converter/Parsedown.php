@@ -38,8 +38,11 @@ class Parsedown extends \ParsedownToC
         }
         $image['element']['attributes']['src'] = $imageSource = trim($this->removeQuery($image['element']['attributes']['src']));
         $asset = new Asset($this->builder, $imageSource);
-        $image['element']['attributes']['src'] = $asset;
         $width = $asset->getWidth();
+        if ($width === false) {
+            return $image;
+        }
+        $image['element']['attributes']['src'] = $asset;
         /**
          * Should be lazy loaded?
          */
@@ -83,7 +86,7 @@ class Parsedown extends \ParsedownToC
                     break;
                 }
                 $a = new Asset($this->builder, $imageSource);
-                $img = $a->resize($w);
+                $img = $a->resize(intval($w));
                 $srcset .= sprintf('%s %sw', $img, $w);
                 if ($i < $steps) {
                     $srcset .= ', ';
