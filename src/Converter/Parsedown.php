@@ -49,12 +49,18 @@ class Parsedown extends \ParsedownToC
         /**
          * Should be resized?
          */
+        $imageResized = null;
         if ($image['element']['attributes']['width'] !== null
             && (int) $image['element']['attributes']['width'] < $width
             && $this->builder->getConfig()->get('content.images.resize.enabled')
         ) {
             $width = (int) $image['element']['attributes']['width'];
-            $imageResized = $asset->resize($width);
+            try {
+                $imageResized = $asset->resize($width);
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->debug($e->getMessage());
+                return $image;
+            }
             $image['element']['attributes']['src'] = $imageResized;
         }
         // set width
@@ -119,7 +125,7 @@ class Parsedown extends \ParsedownToC
         if (isset($classes)) {
             $Data['class'] = implode(' ', $classes);
         }
-        if (isset($HtmlAtt)) {
+        if (!empty($HtmlAtt)) {
             foreach ($HtmlAtt as $a => $v) {
                 $Data[$a] = trim($v, '"');
             }
