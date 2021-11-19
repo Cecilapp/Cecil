@@ -155,10 +155,10 @@ return [
                 'enabled' => true,
             ],
             'resize' => [
-                'enabled' => true,
+                'enabled' => false,
             ],
             'responsive' => [
-                'enabled' => true,
+                'enabled' => false,
                 'width'   => [
                     'steps'  => 5,
                     'min'    => 320,
