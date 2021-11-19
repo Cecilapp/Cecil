@@ -127,7 +127,7 @@ Each image in the *body* can be resized by setting a smaller width than the orig
 
 Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/images/img.jpg`.
 
-This feature requires [GD extension](https://www.php.net/manual/fr/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
+This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
 
 _Example:_
 
