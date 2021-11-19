@@ -421,13 +421,13 @@ content:
     lazy:
       enabled: true      # Enable lazy loading
     resize:
-      enabled: true      # Enable image resizing by using 'width' extra attribute
+      enabled: true      # Enable image resizing by using the `width` extra attribute
     responsive:
       enabled: true      # Enable responsive images
-      width:             # 'srcset' range
-        steps: 5
-        min: 320
-        max: 1280
+      width:             # `srcset` range
+        steps: 5         # Number of steps from `min` to `max`
+        min: 320         # Minimum width
+        max: 1280        # Maximum width
       sizes:
         default: '100vw' # Default sizes
 ```
