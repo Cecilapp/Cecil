@@ -90,7 +90,7 @@ class Parsedown extends \ParsedownToC
                 }
             }
             $imageDefault = $imageResized??$asset;
-            $srcset .= sprintf(',%s %sw', $imageDefault, $width);
+            $srcset .= sprintf('%s %sw', $imageDefault, $width);
             // ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w"
             $image['element']['attributes']['srcset'] = $srcset;
             $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('content.images.responsive.sizes.default');
