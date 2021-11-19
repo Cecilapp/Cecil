@@ -442,6 +442,8 @@ body:
         default: '100vw' # Default sizes
 ```
 
+> See [body’s content](2-Content.md#body) for more informations.
+
 ### data
 
 Where data files are stored.

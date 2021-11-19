@@ -123,7 +123,7 @@ _Cecil_ provides some extra features to enhance your content, like image lazy lo
 
 ##### Resize
 
-Each image in the *body* can be resized by setting a smaller width than the original image with the extra attribute `{width=X}` and if the [`resize` option of the converter](4-Documentation.md#body) is enabled.
+Each image in the *body* can be resized by setting a smaller width than the original image with the extra attribute `{width=X}` and if the [`resize` option of the converter](4-Configuration.md#body) is enabled.
 
 Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/images/img.jpg`.
 
@@ -137,7 +137,7 @@ _Example:_
 
 ##### Responsive
 
-If the [`responsive` option of the converter](4-Documentation.md#body) is enabled, then all images in the *body* will be automatically _responsived_.
+If the [`responsive` option of the converter](4-Configuration.md#body) is enabled, then all images in the *body* will be automatically _responsived_.
 
 _Example:_
 
