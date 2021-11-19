@@ -160,9 +160,9 @@ return [
             'responsive' => [
                 'enabled' => true,
                 'width'   => [
-                    'steps' => 5,
-                    'min'   => 320,
-                    'max'   => 2560,
+                    'steps'  => 5,
+                    'min'    => 320,
+                    'max'    => 1280,
                 ],
                 'sizes' => [
                     'default' => '100vw',
