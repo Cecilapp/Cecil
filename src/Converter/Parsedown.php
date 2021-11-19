@@ -16,11 +16,11 @@ use Cecil\Builder;
 class Parsedown extends \ParsedownToC
 {
     /** @var Builder */
-    private $builder;
+    protected $builder;
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
+    protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
+
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
@@ -36,62 +36,105 @@ class Parsedown extends \ParsedownToC
         if (!isset($image)) {
             return null;
         }
-        $asset = new Asset($this->builder, ltrim($this->removeQuery($image['element']['attributes']['src'])));
-        // fetch image properties
+        $image['element']['attributes']['src'] = $imageSource = trim($this->removeQuery($image['element']['attributes']['src']));
+        $asset = new Asset($this->builder, $imageSource);
         $width = $asset->getWidth();
-        // sets default attributes
-        $image['element']['attributes']['width'] = $width;
-        $image['element']['attributes']['loading'] = 'lazy';
-        // captures query string.
-        // ie: "?resize=300&responsive"
-        $query = parse_url($image['element']['attributes']['src'], PHP_URL_QUERY);
-        if ($query === null) {
+        if ($width === false) {
             return $image;
         }
-        parse_str($query, $result);
-        // cleans URL
-        $image['element']['attributes']['src'] = $this->removeQuery($image['element']['attributes']['src']);
+        $image['element']['attributes']['src'] = $asset;
+        /**
+         * Should be lazy loaded?
+         */
+        if ($this->builder->getConfig()->get('content.images.lazy.enabled')) {
+            $image['element']['attributes']['loading'] = 'lazy';
+        }
+        /**
+         * Should be resized?
+         */
+        $imageResized = null;
+        if (array_key_exists('width', $image['element']['attributes'])
+            && (int) $image['element']['attributes']['width'] < $width
+            && $this->builder->getConfig()->get('content.images.resize.enabled')
+        ) {
+            $width = (int) $image['element']['attributes']['width'];
+
+            try {
+                $imageResized = $asset->resize($width);
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->debug($e->getMessage());
+
+                return $image;
+            }
+            $image['element']['attributes']['src'] = $imageResized;
+        }
+        // set width
+        if (!array_key_exists('width', $image['element']['attributes'])) {
+            $image['element']['attributes']['width'] = $width;
+        }
         /**
          * Should be responsive?
          */
-        if (array_key_exists('responsive', $result) || $this->builder->getConfig()->get('assets.images.responsive')) {
-            $steps = 5;
-            $wMin = 320;
-            $wMax = 2560;
-            if ($width < $wMax) {
-                $wMax = $width;
-            }
+        if ($this->builder->getConfig()->get('content.images.responsive.enabled')) {
+            $steps = $this->builder->getConfig()->get('content.images.responsive.width.steps');
+            $wMin = $this->builder->getConfig()->get('content.images.responsive.width.min');
+            $wMax = $this->builder->getConfig()->get('content.images.responsive.width.max');
             $srcset = '';
             for ($i = 1; $i <= $steps; $i++) {
-                $w = (int) ceil($wMin + ($wMax - $wMin) / $steps * $i);
-                $a = new Asset($this->builder, ltrim($this->removeQuery($image['element']['attributes']['src'])));
-                $img = $a->resize($w);
+                $w = ceil($wMin * $i);
+                if ($w > $width || $w > $wMax) {
+                    break;
+                }
+                $a = new Asset($this->builder, $imageSource);
+                $img = $a->resize(intval($w));
                 $srcset .= sprintf('%s %sw', $img, $w);
                 if ($i < $steps) {
                     $srcset .= ', ';
                 }
             }
+            $imageDefault = $imageResized ?? $asset;
+            $srcset .= sprintf('%s %sw', $imageDefault, $width);
             // ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w"
             $image['element']['attributes']['srcset'] = $srcset;
-            $image['element']['attributes']['sizes'] = '100vw';
-        }
-        /**
-         * Should be resized?
-         */
-        if (array_key_exists('resize', $result)) {
-            $width = (int) $result['resize'];
-            $imageResized = $asset->resize($width);
-            $image['element']['attributes']['src'] = $imageResized;
-            $image['element']['attributes']['width'] = $width;
-        }
-        // set 'class' attribute
-        if (array_key_exists('class', $result)) {
-            $class = $result['class'];
-            $class = strtr($class, ',', ' ');
-            $image['element']['attributes']['class'] = $class;
+            $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('content.images.responsive.sizes.default');
         }
 
         return $image;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function parseAttributeData($attributeString)
+    {
+        $attributes = preg_split('/[ ]+/', $attributeString, -1, PREG_SPLIT_NO_EMPTY);
+        $Data = [];
+        $HtmlAtt = [];
+
+        foreach ($attributes as $attribute) {
+            switch ($attribute[0]) {
+                case '#': // ID
+                    $Data['id'] = substr($attribute, 1);
+                    break;
+                case '.': // Classes
+                    $classes[] = substr($attribute, 1);
+                    break;
+                default:  // Attributes
+                    parse_str($attribute, $parsed);
+                    $HtmlAtt = array_merge($HtmlAtt, $parsed);
+            }
+        }
+
+        if (isset($classes)) {
+            $Data['class'] = implode(' ', $classes);
+        }
+        if (!empty($HtmlAtt)) {
+            foreach ($HtmlAtt as $a => $v) {
+                $Data[$a] = trim($v, '"');
+            }
+        }
+
+        return $Data;
     }
 
     /**

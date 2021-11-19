@@ -70,7 +70,7 @@ class PagesConvert extends AbstractStep
                         sprintf('Unable to convert page "%s"', $page->getId())
                     );
                     $this->builder->getLogger()->debug(
-                        sprintf('Page "%s": %s', $page->getId(), $e->getMessage())
+                        sprintf('%s: %s', $page->getId(), $e->getMessage())
                     );
                     continue;
                 }
@@ -137,10 +137,11 @@ class PagesConvert extends AbstractStep
      */
     public function convertPage(Page $page, $format = 'yaml'): Page
     {
+        $converter = new Converter($this->builder);
         // converts frontmatter
         if ($page->getFrontmatter()) {
             try {
-                $variables = (new Converter($this->builder))->convertFrontmatter($page->getFrontmatter(), $format);
+                $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
             } catch (\Exception $e) {
                 throw new Exception($e->getMessage());
             }
@@ -149,7 +150,7 @@ class PagesConvert extends AbstractStep
         }
 
         // converts body
-        $html = (new Converter($this->builder))->convertBody($page->getBody());
+        $html = $converter->convertBody($page->getBody());
         $page->setBodyHtml($html);
 
         return $page;

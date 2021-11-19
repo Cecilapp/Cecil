@@ -146,4 +146,14 @@ return [
             'articles' => 'blog',
         ],
     ],
+    'content' => [
+        'images' => [
+            'resize' => [
+                'enabled' => true,
+            ],
+            'responsive' => [
+                'enabled' => true,
+            ],
+        ],
+    ],
 ];

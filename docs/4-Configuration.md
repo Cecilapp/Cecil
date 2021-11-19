@@ -413,6 +413,46 @@ Where content files are stored.
 
 > Supported format: Markdown and plain text files.
 
+#### Images in Markdown configuration
+
+```yaml
+content:
+  images:
+    lazy:
+      enabled: true      # Enable lazy loading
+    resize:
+      enabled: false     # Enable image resizing by using the `width` extra attribute
+    responsive:
+      enabled: false     # Enable responsive images
+      width:             # `srcset` range
+        steps: 5         # Number of steps from `min` to `max`
+        min: 320         # Minimum width
+        max: 1280        # Maximum width
+      sizes:
+        default: '100vw' # Default sizes
+```
+
+*Example:*
+
+```markdown
+![Alternative description](/images/img.jpg){width="800"}
+```
+
+Will be converted to:
+
+```html
+<img src="/assets/thumbnails/800/images/img.jpg"
+  alt="Alternative description"
+  title="Alternative description"
+  width="800"
+  loading="lazy"
+  srcset="/assets/thumbnails/320/images/img.jpg 320w,
+          /assets/thumbnails/640/images/img.jpg 640w
+          /assets/thumbnails/800/images/img.jpg 800w"
+  sizes="100vw"
+>
+```
+
 ### frontmatter
 
 Pages’ variables format.
@@ -486,7 +526,6 @@ assets:
   target: assets
   images:
     quality: 90
-    responsive: true
 ```
 
 - `fingerprint`: Adds the file fingerprint in the filename
@@ -498,8 +537,7 @@ assets:
 - `minify`: Compresses file content (Available for file with a `text/css` or `text/javascript` MIME Type)
 - `target`: Target directory of remote and resized assets (`assets` by default)
 - `images`: Options for images
-  - `quality`: Image quality (`90` by default)
-  - `responsive`: Enables responsive images in user content (`true` by default)
+  - `quality`: Image quality after resize (`90` by default)
 
 ### postprocess
 

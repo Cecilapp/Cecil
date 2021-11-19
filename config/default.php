@@ -148,8 +148,27 @@ return [
     ],
     // Markdown files
     'content' => [
-        'dir' => 'content',
-        'ext' => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
+        'dir'    => 'content',
+        'ext'    => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
+        'images' => [
+            'lazy' => [
+                'enabled' => true,
+            ],
+            'resize' => [
+                'enabled' => false,
+            ],
+            'responsive' => [
+                'enabled' => false,
+                'width'   => [
+                    'steps'  => 5,
+                    'min'    => 320,
+                    'max'    => 1280,
+                ],
+                'sizes' => [
+                    'default' => '100vw',
+                ],
+            ],
+        ],
     ],
     'frontmatter' => [
         'format' => 'yaml',
@@ -198,7 +217,6 @@ return [
         'target' => 'assets',
         'images' => [
             'quality'    => 90,
-            'responsive' => true,
         ],
     ],
     'postprocess' => [

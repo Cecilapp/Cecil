@@ -331,13 +331,24 @@ class Asset implements \ArrayAccess
             if (!extension_loaded('gd')) {
                 throw new Exception('GD extension is required to use images resize.');
             }
-            $img = ImageManager::make($this->data['source']);
-            $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
+
+            try {
+                $img = ImageManager::make($this->data['source']);
+                $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            } catch (\Exception $e) {
+                throw new Exception(sprintf('Not able to resize image "%s": %s', $this->data['path'], $e->getMessage()));
+            }
             $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path']);
-            $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
+
+            try {
+                $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
+            } catch (\Exception $e) {
+                throw new Exception(sprintf('Not able to encode image "%s": %s', $this->data['path'], $e->getMessage()));
+            }
+
             $cache->set($cacheKey, $this->data);
         }
         $this->data = $cache->get($cacheKey);
