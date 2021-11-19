@@ -442,27 +442,6 @@ body:
         default: '100vw' # Default sizes
 ```
 
-*Image example:*
-
-```markdown
-![Alternative description](/images/img.jpg){width="800"}
-```
-
-If all images converter’s options are enabled this Markdown image will be converted to:
-
-```html
-<img src="/assets/thumbnails/800/images/img.jpg"
-  alt="Alternative description"
-  title="Alternative description"
-  width="800"
-  loading="lazy"
-  srcset="/assets/thumbnails/320/images/img.jpg 320w,
-          /assets/thumbnails/640/images/img.jpg 640w
-          /assets/thumbnails/800/images/img.jpg 800w"
-  sizes="100vw"
->
-```
-
 ### data
 
 Where data files are stored.

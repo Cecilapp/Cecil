@@ -104,26 +104,63 @@ customvar: "Value of customvar"
 
 ### Body
 
-*Body* is the main content of the page, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/) or in plain text.
+*Body* is the main content of the page, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in **[Markdown Extra](https://michelf.ca/projects/php-markdown/extra/)** or in plain text.
 
 _Example:_
 
-```yaml
----
-title: "The title"
-date: 2019-02-21
-tags: [tag 1, tag 2]
-customvar: "Value of customvar"
----
+```markdown
 # Lorem ipsum
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Lorem ipsum dolor [sit amet](https://example.com), consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+![Alternative description](/images/img.jpg)
+```
+
+#### Images
+
+##### Resize
+
+Each image in the *body* can be resized by setting a smaller width than the original image with the extra attribute `{width=X}` and if the [`resize` option of the converter](4-Documentation.md#body) is enabled.
+
+Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/images/img.jpg`.
+
+This feature requires [GD extension](https://www.php.net/manual/fr/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
+
+_Example:_
+
+```markdown
+![Alternative description](/images/img.jpg 'Title'){width="800"}
+```
+
+##### Responsive
+
+If the [`responsive` option of the converter](4-Documentation.md#body) is enabled, then all images in the *body* will be automatically _responsived_.
+
+_Example:_
+
+```markdown
+![Alternative description](/images/img.jpg 'Title'){width="800"}
+```
+
+If `lazy`, `resize` and `responsive` options of the converter are enabled, then this Markdown line will be converted to:
+
+```html
+<img src="/assets/thumbnails/800/images/img.jpg"
+  alt="Alternative description"
+  title="Title"
+  width="800"
+  loading="lazy"
+  srcset="/assets/thumbnails/320/images/img.jpg 320w,
+          /assets/thumbnails/640/images/img.jpg 640w
+          /assets/thumbnails/800/images/img.jpg 800w"
+  sizes="100vw"
+>
 ```
 
 #### Excerpt
 
-An excerpt can be defined in *body* with one of those following tags: `excerpt` or `break`.
+An excerpt can be defined in the *body* with one of those following tags: `excerpt` or `break`.
 
 _Example:_
 
@@ -131,46 +168,6 @@ _Example:_
 Introduction.
 <!-- excerpt -->
 Main content.
-```
-
-#### Images
-
-##### Resize
-
-> Experimental
-
-Images in the *body* can be resized with the following syntax: `?resize=300`.
-
-Ratio is preserved, the original file is not altered and the resized version is stored in `/images/thumbs/<resize>/image.ext`.
-
-This feature requires [GD extension](https://www.php.net/manual/fr/book.image.php) (otherwise it only add a `width` HTML attribute).
-
-_Example:_
-
-```markdown
-![Alt](/cecil-logo.png?resize=300 'Title')
-```
-
-##### Responsive
-
-> Experimental
-
-Images in the *body* can be "responsived" with the following syntax: `?responsive`.
-
-_Example:_
-
-```markdown
-![Alt](/cecil-logo-1000.png?responsive 'Title')
-```
-
-```markdown
-<img src="/cecil-logo-1000.png" alt="Alt" title="Title"
-  srcset="/images/thumbs/456/cecil-logo-1000.png 456w,
-          /images/thumbs/592/cecil-logo-1000.png 592w,
-          /images/thumbs/728/cecil-logo-1000.png 728w,
-          /images/thumbs/864/cecil-logo-1000.png 864w,
-          /cecil-logo-1000.png 1000w"
-   sizes="(max-width: 1000px) 100vw, 1000px">
 ```
 
 ## Variables
