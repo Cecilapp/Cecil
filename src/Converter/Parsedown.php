@@ -107,20 +107,21 @@ class Parsedown extends \ParsedownToC
      */
     protected function parseAttributeData($attributeString)
     {
-        $Data = [];
-
         $attributes = preg_split('/[ ]+/', $attributeString, -1, PREG_SPLIT_NO_EMPTY);
-
+        $Data = [];
         $HtmlAtt = [];
 
         foreach ($attributes as $attribute) {
-            if ($attribute[0] === '#') {
-                $Data['id'] = substr($attribute, 1);
-            } elseif ($attribute[0] === '.') {
-                $classes[] = substr($attribute, 1);
-            } else {
-                parse_str($attribute, $parsed);
-                $HtmlAtt = array_merge($HtmlAtt, $parsed);
+            switch ($attribute[0]) {
+                case '#': // ID
+                    $Data['id'] = substr($attribute, 1);
+                    break;
+                case '.': // Classes
+                    $classes[] = substr($attribute, 1);
+                    break;
+                default:  // Attributes
+                    parse_str($attribute, $parsed);
+                    $HtmlAtt = array_merge($HtmlAtt, $parsed);
             }
         }
 
