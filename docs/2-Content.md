@@ -117,6 +117,8 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 ![Alternative description](/images/img.jpg)
 ```
 
+_Cecil_ provides some extra features to enhance your content, like image lazy loading, resizing and responsive.  See below for more details.
+
 #### Images
 
 ##### Resize
