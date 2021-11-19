@@ -39,8 +39,8 @@ class Parsedown extends \ParsedownToC
         $image['element']['attributes']['src'] = $imageSource = trim($this->removeQuery($image['element']['attributes']['src']));
         $asset = new Asset($this->builder, $imageSource);
         $image['element']['attributes']['src'] = $asset;
-        if ($asset->getWidth() !== false) {
-            $width = $asset->getWidth();
+        if ($width = $asset->getWidth() !== false) {
+            return $image;
         }
         /**
          * Should be lazy loaded?
@@ -122,7 +122,7 @@ class Parsedown extends \ParsedownToC
         if (isset($classes)) {
             $Data['class'] = implode(' ', $classes);
         }
-        if (isset($HtmlAtt)) {
+        if (!empty($HtmlAtt)) {
             foreach ($HtmlAtt as $a => $v) {
                 $Data[$a] = trim($v, '"');
             }
