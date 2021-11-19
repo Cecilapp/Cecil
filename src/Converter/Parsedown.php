@@ -55,10 +55,12 @@ class Parsedown extends \ParsedownToC
             && $this->builder->getConfig()->get('content.images.resize.enabled')
         ) {
             $width = (int) $image['element']['attributes']['width'];
+
             try {
                 $imageResized = $asset->resize($width);
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
+
                 return $image;
             }
             $image['element']['attributes']['src'] = $imageResized;
