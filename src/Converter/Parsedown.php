@@ -39,9 +39,7 @@ class Parsedown extends \ParsedownToC
         $image['element']['attributes']['src'] = $imageSource = trim($this->removeQuery($image['element']['attributes']['src']));
         $asset = new Asset($this->builder, $imageSource);
         $image['element']['attributes']['src'] = $asset;
-        if ($asset->getWidth() !== false) {
-            $width = $asset->getWidth();
-        }
+        $width = $asset->getWidth();
         /**
          * Should be lazy loaded?
          */
@@ -51,7 +49,6 @@ class Parsedown extends \ParsedownToC
         /**
          * Should be resized?
          */
-        $imageResized = null;
         if ($image['element']['attributes']['width'] !== null
             && (int) $image['element']['attributes']['width'] < $width
             && $this->builder->getConfig()->get('content.images.resize.enabled')
@@ -78,13 +75,13 @@ class Parsedown extends \ParsedownToC
                     break;
                 }
                 $a = new Asset($this->builder, $imageSource);
-                $img = $a->resize((int) $w);
+                $img = $a->resize($w);
                 $srcset .= sprintf('%s %sw', $img, $w);
                 if ($i < $steps) {
                     $srcset .= ', ';
                 }
             }
-            if ($imageResized !== null) {
+            if ($imageResized) {
                 $srcset .= sprintf(',%s %sw', $imageResized, $width);
             } else {
                 $srcset .= sprintf(',%s %sw', $asset, $width);
