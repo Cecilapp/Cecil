@@ -46,7 +46,7 @@ class Parsedown extends \ParsedownToC
         /**
          * Should be lazy loaded?
          */
-        if ($this->builder->getConfig()->get('content.images.lazy.enabled')) {
+        if ($this->builder->getConfig()->get('body.images.lazy.enabled')) {
             $image['element']['attributes']['loading'] = 'lazy';
         }
         /**
@@ -55,7 +55,7 @@ class Parsedown extends \ParsedownToC
         $imageResized = null;
         if (array_key_exists('width', $image['element']['attributes'])
             && (int) $image['element']['attributes']['width'] < $width
-            && $this->builder->getConfig()->get('content.images.resize.enabled')
+            && $this->builder->getConfig()->get('body.images.resize.enabled')
         ) {
             $width = (int) $image['element']['attributes']['width'];
 
@@ -75,10 +75,10 @@ class Parsedown extends \ParsedownToC
         /**
          * Should be responsive?
          */
-        if ($this->builder->getConfig()->get('content.images.responsive.enabled')) {
-            $steps = $this->builder->getConfig()->get('content.images.responsive.width.steps');
-            $wMin = $this->builder->getConfig()->get('content.images.responsive.width.min');
-            $wMax = $this->builder->getConfig()->get('content.images.responsive.width.max');
+        if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
+            $steps = $this->builder->getConfig()->get('body.images.responsive.width.steps');
+            $wMin = $this->builder->getConfig()->get('body.images.responsive.width.min');
+            $wMax = $this->builder->getConfig()->get('body.images.responsive.width.max');
             $srcset = '';
             for ($i = 1; $i <= $steps; $i++) {
                 $w = ceil($wMin * $i);
@@ -96,7 +96,7 @@ class Parsedown extends \ParsedownToC
             $srcset .= sprintf('%s %sw', $imageDefault, $width);
             // ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w"
             $image['element']['attributes']['srcset'] = $srcset;
-            $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('content.images.responsive.sizes.default');
+            $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('body.images.responsive.sizes.default');
         }
 
         return $image;

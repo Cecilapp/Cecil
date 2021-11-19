@@ -413,32 +413,42 @@ Where content files are stored.
 
 > Supported format: Markdown and plain text files.
 
-#### Images in Markdown configuration
+### frontmatter
+
+Pages’ variables format.
+
+- `format`: front matter format (`yaml` by default)
+
+### body
+
+Pages’ content format and converter’s options.
 
 ```yaml
-content:
-  images:
+body:
+  format: md             # Page body format (only Markdown is supported)
+  toc: [h2, h3]          # Headers used to build the table of contents
+  images:                # How to handle images
     lazy:
-      enabled: true      # Enable lazy loading
+      enabled: true      # Enable lazy loading (`true` by default)
     resize:
-      enabled: false     # Enable image resizing by using the `width` extra attribute
+      enabled: false     # Enable image resizing by using the `width` extra attribute (`false` by default)
     responsive:
-      enabled: false     # Enable responsive images
+      enabled: false     # Enable responsive images (`false` by default)
       width:             # `srcset` range
-        steps: 5         # Number of steps from `min` to `max`
-        min: 320         # Minimum width
-        max: 1280        # Maximum width
+        steps: 5           # Number of steps from `min` to `max`
+        min: 320           # Minimum width
+        max: 1280          # Maximum width
       sizes:
         default: '100vw' # Default sizes
 ```
 
-*Example:*
+*Image example:*
 
 ```markdown
 ![Alternative description](/images/img.jpg){width="800"}
 ```
 
-Will be converted to:
+If all images converter’s options are enabled this Markdown image will be converted to:
 
 ```html
 <img src="/assets/thumbnails/800/images/img.jpg"
@@ -452,18 +462,6 @@ Will be converted to:
   sizes="100vw"
 >
 ```
-
-### frontmatter
-
-Pages’ variables format.
-
-- `format`: front matter format (`yaml` by default)
-
-### body
-
-Pages’ content format.
-
-- `format`: page body format (`md`, for Markdown, by default)
 
 ### data
 

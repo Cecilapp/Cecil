@@ -150,6 +150,13 @@ return [
     'content' => [
         'dir'    => 'content',
         'ext'    => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
+    ],
+    'frontmatter' => [
+        'format' => 'yaml',
+    ],
+    'body' => [
+        'format' => 'md',
+        'toc'    => ['h2', 'h3'],
         'images' => [
             'lazy' => [
                 'enabled' => true,
@@ -160,22 +167,15 @@ return [
             'responsive' => [
                 'enabled' => false,
                 'width'   => [
-                    'steps'  => 5,
-                    'min'    => 320,
-                    'max'    => 1280,
+                    'steps' => 5,
+                    'min'   => 320,
+                    'max'   => 1280,
                 ],
                 'sizes' => [
                     'default' => '100vw',
                 ],
             ],
         ],
-    ],
-    'frontmatter' => [
-        'format' => 'yaml',
-    ],
-    'body' => [
-        'format' => 'md',
-        'toc'    => ['h2', 'h3'],
     ],
     // data files
     'data' => [

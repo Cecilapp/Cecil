@@ -146,7 +146,7 @@ return [
             'articles' => 'blog',
         ],
     ],
-    'content' => [
+    'body' => [
         'images' => [
             'resize' => [
                 'enabled' => true,
