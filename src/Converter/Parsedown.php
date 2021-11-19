@@ -36,7 +36,7 @@ class Parsedown extends \ParsedownToC
         if (!isset($image)) {
             return null;
         }
-        $image['element']['attributes']['src'] = trim($this->removeQuery($image['element']['attributes']['src']));
+        $image['element']['attributes']['src'] = $imageSource = trim($this->removeQuery($image['element']['attributes']['src']));
         $asset = new Asset($this->builder, $image['element']['attributes']['src']);
         $width = $asset->getWidth();
         /**
@@ -44,30 +44,6 @@ class Parsedown extends \ParsedownToC
          */
         if ($this->builder->getConfig()->get('content.images.lazy.enabled')) {
             $image['element']['attributes']['loading'] = 'lazy';
-        }
-        /**
-         * Should be responsive?
-         */
-        if ($this->builder->getConfig()->get('content.images.responsive.enabled')) {
-            $steps = $this->builder->getConfig()->get('content.images.responsive.width.steps');
-            $wMin = $this->builder->getConfig()->get('content.images.responsive.width.min');
-            $wMax = $this->builder->getConfig()->get('content.images.responsive.width.max');
-            if ($width < $wMax) {
-                $wMax = $width;
-            }
-            $srcset = '';
-            for ($i = 1; $i <= $steps; $i++) {
-                $w = (int) ceil($wMin + ($wMax - $wMin) / $steps * $i);
-                $a = new Asset($this->builder, $image['element']['attributes']['src']);
-                $img = $a->resize($w);
-                $srcset .= sprintf('%s %sw', $img, $w);
-                if ($i < $steps) {
-                    $srcset .= ', ';
-                }
-            }
-            // ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w"
-            $image['element']['attributes']['srcset'] = $srcset;
-            $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('content.images.responsive.sizes.default');
         }
         /**
          * Should be resized?
@@ -82,6 +58,35 @@ class Parsedown extends \ParsedownToC
         }
         if ($image['element']['attributes']['width'] === null) {
             $image['element']['attributes']['width'] = $width;
+        }
+        /**
+         * Should be responsive?
+         */
+        if ($this->builder->getConfig()->get('content.images.responsive.enabled')) {
+            $steps = $this->builder->getConfig()->get('content.images.responsive.width.steps');
+            $wMin = $this->builder->getConfig()->get('content.images.responsive.width.min');
+            $wMax = $this->builder->getConfig()->get('content.images.responsive.width.max');
+            $srcset = '';
+            for ($i = 1; $i <= $steps; $i++) {
+                $w = ceil($wMin * $i);
+                if ($w > $width || $w > $wMax) {
+                    break;
+                }
+                $a = new Asset($this->builder, $imageSource);
+                $img = $a->resize($w);
+                $srcset .= sprintf('%s %sw', $img, $w);
+                if ($i < $steps) {
+                    $srcset .= ', ';
+                }
+            }
+            if ($imageResized) {
+                $srcset .= sprintf(',%s %sw', $imageResized, $width);
+            } else {
+                $srcset .= sprintf(',%s %sw', $imageSource, $width);
+            }
+            // ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w"
+            $image['element']['attributes']['srcset'] = $srcset;
+            $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('content.images.responsive.sizes.default');
         }
 
         return $image;
