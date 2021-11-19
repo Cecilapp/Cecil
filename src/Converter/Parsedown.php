@@ -50,7 +50,7 @@ class Parsedown extends \ParsedownToC
          * Should be resized?
          */
         $imageResized = null;
-        if ($image['element']['attributes']['width'] !== null
+        if (array_key_exists('width', $image['element']['attributes'])
             && (int) $image['element']['attributes']['width'] < $width
             && $this->builder->getConfig()->get('content.images.resize.enabled')
         ) {
@@ -64,7 +64,7 @@ class Parsedown extends \ParsedownToC
             $image['element']['attributes']['src'] = $imageResized;
         }
         // set width
-        if ($image['element']['attributes']['width'] === null) {
+        if (!array_key_exists('width', $image['element']['attributes'])) {
             $image['element']['attributes']['width'] = $width;
         }
         /**
