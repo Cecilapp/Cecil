@@ -172,6 +172,10 @@ Introduction.
 Main content.
 ```
 
+#### Table of contents
+
+You can add a table of contents to your page with the following Markdown syntax: `[toc]`.
+
 ## Variables
 
 The front matter can contains custom variables or override predefined variables.
