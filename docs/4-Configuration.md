@@ -421,15 +421,36 @@ content:
     lazy:
       enabled: true      # Enable lazy loading
     resize:
-      enabled: true      # Enable image resizing by using the `width` extra attribute
+      enabled: false     # Enable image resizing by using the `width` extra attribute
     responsive:
-      enabled: true      # Enable responsive images
+      enabled: false     # Enable responsive images
       width:             # `srcset` range
         steps: 5         # Number of steps from `min` to `max`
         min: 320         # Minimum width
         max: 1280        # Maximum width
       sizes:
         default: '100vw' # Default sizes
+```
+
+*Example:*
+
+```markdown
+![Alternative description](/images/img.jpg){width="800"}
+```
+
+Will be converted to:
+
+```html
+<img src="/assets/thumbnails/800/images/img.jpg"
+  alt="Alternative description"
+  title="Alternative description"
+  width="800"
+  loading="lazy"
+  srcset="/assets/thumbnails/320/images/img.jpg 320w,
+          /assets/thumbnails/640/images/img.jpg 640w
+          /assets/thumbnails/800/images/img.jpg 800w"
+  sizes="100vw"
+>
 ```
 
 ### frontmatter
