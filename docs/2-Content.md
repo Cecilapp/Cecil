@@ -190,7 +190,7 @@ The front matter can contains custom variables or override predefined variables.
 
 ### Predefined
 
-Predefined variables.
+All predefined variables are editable except `section`.
 
 | Variable    | Description       | Default value                                      | Example       |
 | ----------- | ----------------- | -------------------------------------------------- | ------------- |
@@ -203,6 +203,8 @@ Predefined variables.
 | `slug`      | Slug              | Page's _slug_.                                     | `post-1`      |
 | `published` | Published or not  | `false`.                                           | `true`        |
 | `draft`     | Published or not  | `true`.                                            | `false`       |
+
+All variables are editable except `section`.
 
 ### menu
 
