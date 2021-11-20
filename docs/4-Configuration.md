@@ -1,11 +1,12 @@
 <!--
-description: "Configure a website."
+description: "Configure your website."
 date: 2021-05-07
+updated: 2021-11-19
 -->
 
 # Configuration
 
-The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `config.yml`, stored at the root:
+The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file (named `config.yml` by default) stored at the root:
 
 ```plaintext
 <mywebsite>
@@ -18,7 +19,6 @@ _Example:_
 title: "Cecil"
 baseline: "Your content driven static site generator."
 baseurl: https://cecil.local/
-description: "Cecil is a CLI application that merges plain text files (written in Markdown), images and Twig templates to generate a static website."
 ```
 
 ## Variables
@@ -72,12 +72,12 @@ taxonomies:
 
 Each menu entry should have the following properties:
 
-- `id`: unique identifier
+- `id`: unique identifier (required)
 - `name`: name used in templates
 - `url`: relative or absolute URL
 - `weight`: used to sort entries (lighter first)
 
-A default `main` menu is created and contains the home page and sections entries.
+By default a `main` menu is created and contains the home page and sections entries.
 
 _Example:_
 
@@ -92,7 +92,7 @@ menus:
 
 #### Overrides entry properties
 
-A page menu entry can be overridden: use the page index `id`.
+A page menu entry can be overridden: use the _Page_ ID as `id`.
 
 _Example:_
 

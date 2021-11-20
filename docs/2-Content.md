@@ -1,13 +1,14 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
+updated: 2021-11-19
 -->
 
 # Content
 
 There is 3 kinds of content in Cecil:
 
-1. **Pages** ([Markdown](https://daringfireball.net/projects/markdown/) files in `content/`)
+1. **_Pages_** ([Markdown](https://daringfireball.net/projects/markdown/) files in `content/`)
 2. **Static files** (images, CSS, PDF, etc. in `static/`)
 3. **Data files** (custom variables collections in `data/`)
 
@@ -36,11 +37,11 @@ Your content should be organized in a manner that reflects the rendered website.
       └─ gallery-1.json
 ```
 
-Each folder in the root of `content/` is called a **_Section_** (ie: « Blog », « Project », etc.)
+Each folder in the root of `content/` is called a **_Section_** (ie: “Blog“, “Project“, etc.).
 
-Files in `static/` are copied as is in the root of the built website (ie: `static/images/logo.png` -> `images/logo.png`) or manipulated by [`asset()`](3-Templates.md#asset)
+Files in `static/` are copied as is in the root of the built website (ie: `static/images/logo.png` -> `images/logo.png`) and can be manipulated by the [`asset()`](3-Templates.md#asset) function.
 
-Content of files in `data/` are exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
+Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data).
 
 ### Built website tree
 
@@ -62,11 +63,11 @@ Content of files in `data/` are exposed in [templates](3-Templates.md) with [`{{
          └─ style.css
 ```
 
-By default each page is generated as `filename-slugified/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.
+By default each _Page_ is generated as `filename-slugified/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.
 
-To get an “ugly” URL, use `uglyurl: true` in front matter (ie: `404.html` instead of `404/index.html`).
+To get an “ugly” URL (`404.html` instead of `404/`), set `uglyurl: true` in front matter.
 
-You can override _Section_’s default variables by creating an `index.md` file in the _Section_’s directory (ie: `blog/index.md`).
+You can override _Section_’s default variables by creating ana file `index.md` in its directory (ie: `blog/index.md`).
 
 ### File VS URL structure
 
@@ -82,11 +83,11 @@ URL:
 
 ## Page anatomy
 
-Your page are composed with a front matter (“meta datas”) and a body (main content).
+A _Page_ is a file made up of a **front matter** and a **body**.
 
 ### Front matter
 
-The *front matter* is the way to store variables in a _Page_, in _key/value_ format.
+The *front matter* is used to store variables in a _Page_, in _key/value_ format.
 
 It must be the first thing in the file and must be a valid [YAML](https://en.wikipedia.org/wiki/YAML).  
 Separators must be `---`, `<!-- -->` or `+++`.
@@ -104,20 +105,28 @@ customvar: "Value of customvar"
 
 ### Body
 
-*Body* is the main content of the page, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in **[Markdown Extra](https://michelf.ca/projects/php-markdown/extra/)** or in plain text.
+*Body* is the main content of a _Page_, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in **[Markdown Extra](https://michelf.ca/projects/php-markdown/extra/)** or in plain text.
+
+_Cecil_ provides extra features to enhance your content (Images lazy load, resize, responsive, excerpt, table of contents).  
+See below for more details.
 
 _Example:_
 
 ```markdown
-# Lorem ipsum
+# Header
+
+[toc]
+
+## Header 1
 
 Lorem ipsum dolor [sit amet](https://example.com), consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+<!-- excerpt -->
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-![Alternative description](/images/img.jpg)
-```
+## Header 2
 
-_Cecil_ provides some extra features to enhance your content, like image lazy loading, resizing and responsive.  See below for more details.
+![Alternative description](/images/img.jpg 'Title'){width=800}
+```
 
 #### Images
 
@@ -125,14 +134,13 @@ _Cecil_ provides some extra features to enhance your content, like image lazy lo
 
 Each image in the *body* can be resized by setting a smaller width than the original image with the extra attribute `{width=X}` and if the [`resize` option of the converter](4-Configuration.md#body) is enabled.
 
-Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/images/img.jpg`.
-
+Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/images/img.jpg`.  
 This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
 
 _Example:_
 
 ```markdown
-![Alternative description](/images/img.jpg 'Title'){width="800"}
+![Alternative description](/images/img.jpg 'Title'){width=800}
 ```
 
 ##### Responsive
@@ -142,7 +150,7 @@ If the [`responsive` option of the converter](4-Configuration.md#body) is enable
 _Example:_
 
 ```markdown
-![Alternative description](/images/img.jpg 'Title'){width="800"}
+![Alternative description](/images/img.jpg 'Title'){width=800}
 ```
 
 If `lazy`, `resize` and `responsive` options of the converter are enabled, then this Markdown line will be converted to:
@@ -154,7 +162,7 @@ If `lazy`, `resize` and `responsive` options of the converter are enabled, then 
   width="800"
   loading="lazy"
   srcset="/assets/thumbnails/320/images/img.jpg 320w,
-          /assets/thumbnails/640/images/img.jpg 640w
+          /assets/thumbnails/640/images/img.jpg 640w,
           /assets/thumbnails/800/images/img.jpg 800w"
   sizes="100vw"
 >
@@ -174,7 +182,7 @@ Main content.
 
 #### Table of contents
 
-You can add a table of contents to your page with the following Markdown syntax: `[toc]`.
+You can add a table of contents to a _Page_ with the following Markdown syntax: `[toc]`.
 
 ## Variables
 
@@ -184,36 +192,33 @@ The front matter can contains custom variables or override predefined variables.
 
 Predefined variables.
 
-| Variable    | Description             | Default value                                                            |
-| ----------- | ----------------------- | ------------------------------------------------------------------------ |
-| `title`     | Title                   | File name without extension (ie: `Post 1`).                              |
-| `layout`    | Layout                  | See [_Templates Lookup rules_](3-Templates.md#lookup-rules) (ie: `404`). |
-| `date`      | Date (ie: `2019/04/15`) | File creation date (PHP _DateTime_ object).                              |
-| `updated`   | Date of modification    | File modification date (PHP _DateTime_ object).                          |
-| `section`   | Section                 | Page's _Section_ (ie: `blog`).                                           |
-| `path`      | Path                    | Page's _path_ (ie: `blog/post-1`).                                       |
-| `slug`      | Slug                    | Page's _slug_ (ie: `post-1`).                                            |
-| `published` | Draft or published?     | `true`.                                                                  |
-| `draft`     | Draft or published?     | `false`.                                                                 |
-| `output`    | Rendered format         | `html`.                                                                  |
+| Variable    | Description       | Default value                                      | Example       |
+| ----------- | ----------------- | -------------------------------------------------- | ------------- |
+| `title`     | Title             | File name without extension.                       | `Post 1`      |
+| `layout`    | Template          | See [_Lookup rules_](3-Templates.md#lookup-rules). | `404`         |
+| `date`      | Creation date     | File creation date (PHP _DateTime_ object).        | `2019/04/15`  |
+| `updated`   | Modification date | File modification date (PHP _DateTime_ object).    | `2021/11/19`  |
+| `section`   | Section           | Page's _Section_.                                  | `blog`        |
+| `path`      | Path              | Page's _path_.                                     | `blog/post-1` |
+| `slug`      | Slug              | Page's _slug_.                                     | `post-1`      |
+| `published` | Published or not  | `false`.                                           | `true`        |
+| `draft`     | Published or not  | `true`.                                            | `false`       |
 
 ### menu
 
-A _Page_ can be added to a menu, as an entry.
+A _Page_ can be added to a menu.
 
-In the following example, the menu is `navigation`:
+A same _Page_ could be added to severals menus, and the position of each entry can be defined with the `weight` key (the lightest first).
+
+See [_Menus configuration_](4-Configuration.md#menus) for details.
+
+_Examples:_
 
 ```yaml
 ---
 menu: navigation
 ---
 ```
-
-A same _Page_ could be added to severals menus, and the position of each entry could be defined with the `weight` key (the lightest first).
-
-See [_Menus configuration_](4-Configuration.md#menus) for details.
-
-_Examples:_
 
 ```yaml
 ---
@@ -235,21 +240,19 @@ menu:
 
 Taxonomies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
-Each page can contain severals terms (ie: `Tag 1`) of each taxonomies’ vocabulary (ie: `tags`).
+Each _Page_ can contain severals terms (ie: `Tag 1`) of each taxonomies’ vocabulary (ie: `tags`).
 
 _Example:_
 
 ```yaml
 ---
-tags:
-  - "Tag 1"
-  - "Tag 2"
+tags: ["Tag 1", "Tag 2"]
 ---
 ```
 
 ### Section
 
-Dedicated variables can be used in a custom _Section_ (ie: `blog/index.md`).
+Some dedicated variables can be used in a custom _Section_ (ie: `blog/index.md`).
 
 #### sortby
 
@@ -285,9 +288,8 @@ pagination:
 
 #### cascade
 
-Any values in `cascade` variable will be merged into front matter of all sub pages.
-
-Note: existing sub pages variables are not overridden.
+Any values in `cascade` will be merged into the front matter of all _sub pages_.  
+Existing variables are not overridden.
 
 _Example:_
 
@@ -302,6 +304,8 @@ cascade:
 
 Set `circular` to `true` to enable circular pagination with [_page.<prev/next>_](3-Templates.md#page-prev-next).
 
+_Example:_
+
 ```yaml
 ---
 circular: true
@@ -310,7 +314,9 @@ circular: true
 
 ### exclude
 
-Set `exclude` to `true` to hide the page from list pages (like _Home page_, _Section_, _Sitemap_, etc.).
+Set `exclude` to `true` to hide the _Page_ from lists (like _Home page_, _Section_, _Sitemap_, etc.).
+
+_Example:_
 
 ```yaml
 ---
@@ -318,13 +324,15 @@ exclude: true
 ---
 ```
 
-`exclude` is different from [`published`](#predefined): an excluded page is published but hidden from the section pages’ list.
+`exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_.
 
 ### redirect
 
 As indicated by its name, the `redirect` variable is used to redirect a page to a dedicated URL.
 
-The default template is [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig).
+It use the template [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig).
+
+_Example:_
 
 ```yaml
 ---
@@ -334,9 +342,9 @@ redirect: "https://arnaudligny.fr/"
 
 ### alias
 
-`alias` is used to create a redirection to the current page.
+`alias` is used to create redirections to the current page.
 
-In the following example `contact/` redirects to `about/`:
+_Example:_
 
 ```yaml
 ---
@@ -346,9 +354,13 @@ alias:
 ---
 ```
 
+In the previous example `contact/` redirects to `about/`.
+
 ### external
 
-A page with an `external` variable try to fetch the content of the pointed resource.
+A _Page_ with an `external` variable try to fetch the content of the pointed resource.
+
+_Example:_
 
 ```yaml
 ---
@@ -358,34 +370,34 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 
 ### File prefix
 
-The filename can contain a _prefix_ to define _Page_’s `date` or `weight` (used by `sortby`).
+The filename can contain a prefix to define `date` or `weight` (used by `sortby`) of the _Page_.
 
-The prefix is not included in the _Pages_’s `title` variable.  
+The prefix is not included in the `title` of the _Page_.  
 Available prefix separator are `-`, `_` ~~and `.`~~.
 
 #### date
 
-The _date prefix_ is used to set the _Page_’s creation date, and must be a valid date format (`YYYY-MM-DD`).
+The _date prefix_ is used to set the creation date of the _Page_, and must be a valid date format (`YYYY-MM-DD`).
 
 _Example:_
 
-In `2019-04-23-A blog post.md`:
+In `2019-04-23-My blog post.md`:
 
 - the prefix is `2019-04-23`
-- the _Page_’s `date` is `2019-04-23`
-- the _Page_’s `title` is `A blog post`
+- the `date` of the _Page_ is `2019-04-23`
+- the `title` of the _Page_ is `My blog post`
 
 #### weight
 
-The _weight prefix_ is used to set the _Page_’s sort order, and must be a valid integer value.
+The _weight prefix_ is used to set the sort order of the _Page_, and must be a valid integer value.
 
 _Example:_
 
 In `1-The first project.md`:
 
 - the prefix is `1`
-- the _Page_’s `weight` is `1`
-- the _Page_’s `title` is `The first project`
+- the `weight` of the _Page_ is `1`
+- the `title` of the _Page_ is `The first project`
 
 ## Multilingual
 
@@ -417,7 +429,7 @@ language: fr
 
 You can use [variables](3-Templates.md#variables) and shortcodes in the body content.
 
-To be able to use variables and shortcodes you must include a specific template instead of `{{ page.content }}`:
+To do this you must include a specific template instead of `{{ page.content }}`:
 
 ```twig
 {% include page.content_template %}

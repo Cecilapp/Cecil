@@ -1,12 +1,13 @@
 <!--
-description: "Works with templates and use variables."
+description: "Working with templates and use variables."
 date: 2021-05-07
+updated: 2021-11-19
 alias: documentation/layouts
 -->
 
 # Templates
 
-Cecil use [Twig](https://twig.symfony.com) as template engine, so refer to the [official documentation](https://twig.symfony.com/doc/templates.html) for basic usage.
+Cecil use [Twig](https://twig.symfony.com) as template engine, so refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** for basic usage.
 
 ## Example
 
@@ -37,11 +38,9 @@ Templates files are stored in `layouts/`.
 
 ## Lookup rules
 
-Cecil searches for the best layout to use, for a given page, in a defined order.
+Cecil searches for the best layout to use, for a given _Page_, in a defined order.
 
-In most of cases **you don’t need to specify the template** in layout variable: Cecil selects the most appropriate template for you.
-
-_Vocabulary:_
+In most of cases **you don’t need to specify the template** in the `layout` variable: Cecil selects the most appropriate template for you.
 
 - `<format>`: output format (ie: `html`)
 - `<layout>`: value of variable `layout` set in front matter (ie: `layout: post`)
@@ -84,7 +83,7 @@ _Vocabulary:_
 
 ## Variables
 
-You can use variables from different scopes (site, page, etc.) in templates.
+You can use variables from different scopes (`site`, `page`, etc.) in templates.
 
 ### site
 
@@ -94,11 +93,11 @@ Contains all variables from the configuration file (`config.yml`) and some built
 
 _Example:_
 
-```ymal
+```yaml
 title: "My amazing website!"
 ```
 
-Is printed in a template through:
+Is printed in a template via:
 
 ```twig
 {{ site.title }}
@@ -117,12 +116,12 @@ Is printed in a template through:
 
 #### site.menus
 
-Loop on `site.menus.<key>` to get each entry of the `<key>` menu collection (ie: `main`).
+Loop on `site.menus.<menu>` to get each entry of the `<menu>` collection (ie: `main`).
 
 | Variable         | Description                                      |
 | ---------------- | ------------------------------------------------ |
 | `<entry>.name`   | Menu entry name.                                 |
-| `<entry>.url`    | Menu entry URL (relative or absolute).           |
+| `<entry>.url`    | Menu entry URL.                                  |
 | `<entry>.weight` | Menu entry weight (useful to sort menu entries). |
 
 #### site.language
@@ -136,9 +135,7 @@ Informations about the current language.
 | `site.language.locale` | Language [locale code](configuration/locale-codes.md) (ie: `en_EN`). |
 | `site.language.weight` | Language position in the `languages` list.                   |
 
-**Note:**
-
-You can retrieve `name`, `locale` and `weight` of a language different of the current one by passing its code as a parameter, ie: `site.language.name('fr')`.
+You can retrieve `name`, `locale` and `weight` of a language different from the current one by passing its code as a parameter, ie: `site.language.name('fr')`.
 
 #### site.static
 
@@ -164,7 +161,7 @@ _Examples:_
 
 ### page
 
-Contains variables of the current _Page_ **and** those set in the front matter.
+Contains variables of the _Page_ **and** those set in the front matter.
 
 | Variable              | Description                                           | Example                    |
 | --------------------- | ----------------------------------------------------- | -------------------------- |
@@ -179,7 +176,7 @@ Contains variables of the current _Page_ **and** those set in the front matter.
 | `page.slug`           | File name (_slugified_).                              | `post-1`                   |
 | `page.tags`           | Array of _tags_.                                      | `[Tag 1, Tag 2]`           |
 | `page.categories`     | Array of _categories_.                                | `[Category 1, Category 2]` |
-| `page.pages`          | Collection of all subpages.                           | _Collection_               |
+| `page.pages`          | Collection of all sub pages.                          | _Collection_               |
 | `page.pages.showable` | `page.pages` with "showable" pages only.              | _Collection_               |
 | `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term` | `page`                     |
 | `page.filepath`       | File system path.                                     | `Blog/Post 1.md`           |
@@ -197,14 +194,14 @@ Navigation between pages of a _Section_.
 
 #### page.pagination
 
-Pagination for homepage, section pages, and taxonomies.
+Pagination is avaialable for homepage, sections, and taxonomies.
 
 | Variable                      | Description                 |
 | ----------------------------- | --------------------------- |
 | `page.pagination.pages`       | Paginated pages collection. |
 | `page.pagination.totalpages`  | Paginated total pages.      |
 | `page.pagination.current`     | Number of the current page. |
-| `page.pagination.count`       | Number of the last page.    |
+| `page.pagination.count`       | Number of pages.            |
 | `page.pagination.links.self`  | Path of the current page.   |
 | `page.pagination.links.first` | Path of the first page.     |
 | `page.pagination.links.prev`  | Path of the previous page.  |
@@ -217,11 +214,11 @@ Variables available in _vocabulary_ and _term_ layouts.
 
 ##### Vocabulary
 
-| Variable        | Description                      |
-| --------------- | -------------------------------- |
-| `page.plural`   | Vocabulary name (plural form).   |
-| `page.singular` | Vocabulary name (singular form). |
-| `page.terms`    | List of terms (_Collection_).    |
+| Variable        | Description                       |
+| --------------- | --------------------------------- |
+| `page.plural`   | Vocabulary name in plural form.   |
+| `page.singular` | Vocabulary name in singular form. |
+| `page.terms`    | List of terms (_Collection_).     |
 
 ##### Term
 
@@ -234,13 +231,14 @@ Variables available in _vocabulary_ and _term_ layouts.
 
 | Variable          | Description                                         |
 | ----------------- | --------------------------------------------------- |
-| `cecil.url`       | URL to the official website.                        |
+| `cecil.url`       | URL of the official website.                        |
 | `cecil.version`   | Cecil current version.                              |
 | `cecil.poweredby` | Print `Cecil v%s` with `%s` is the current version. |
 
 ## Functions
 
-Functions can be called to generate content. Functions are called by their name followed by parentheses (`()`) and may have arguments.
+Functions can be called to generate content.  
+Functions are called by their name followed by parentheses and may have arguments.
 
 ### url
 
@@ -255,7 +253,7 @@ Turns a _Page_, a _Page_ ID or a relative path into an URL.
 | canonical | Prefixes with `baseurl`.                 | boolean | `false` |
 | format    | Defines Page output format (ie: `json`). | string  | `html`  |
 
-Note: Prefer the [`url` filter](#url-1) for assets.
+For assets prefer the [`url` filter](#url-1).
 
 _Examples:_
 
@@ -277,23 +275,18 @@ Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL 
 | Option         | Description                                         | Type    | Default |
 | -------------- | --------------------------------------------------- | ------- | ------- |
 | fingerprint    | Add the file content finger print to the file name. | boolean | `true`  |
-| minify         | Compress file content (CSS and JavaScript).         | boolean | `true`  |
-| filename       | File to save content.                               | string  |         |
-| ignore_missing | Ignore if file don't exists.                        | boolean | `false` |
+| minify         | Compress file content (CSS or JavaScript).          | boolean | `true`  |
+| filename       | File where to save content.                         | string  |         |
+| ignore_missing | Do not stop build if file don't exists.             | boolean | `false` |
 
-See [assets configuration](4-Configuration.md#assets) to define the global behavior.
-
-Uses [filters](#filters) to manipulate assets:
-
-```twig
-{{ asset('styles.scss')|html }}
-{{ asset('styles.scss')|inline }}
-```
+See [assets configuration](4-Configuration.md#assets) to define the global behavior.  
+Uses [filters](#filters) to manipulate assets.
 
 _Examples:_
 
 ```twig
 {{ asset('styles.css')|minify }}
+{{ asset('styles.scss')|inline }}
 {{ asset('scripts.js',{minify:false}) }}
 {{ asset('image.png',{fingerprint:false}) }}
 {{ asset(['poole.css','hyde.css'],{filename:styles.css}) }}
@@ -651,7 +644,7 @@ _Examples:_
 
 ### minify_css
 
-Minifying CSS.
+Minifying a CSS string.
 
 ```twig
 {{ variable|minify_css }}
@@ -683,7 +676,7 @@ _Examples:_
 
 ### minify_js
 
-Minifying JavaScript.
+Minifying a JavaScript string.
 
 ```twig
 {{ variable|minify_js }}
@@ -713,7 +706,7 @@ _Examples:_
 
 ### scss_to_css
 
-Compiles a [Sass](https://sass-lang.com) (to CSS).
+Compiles a [Sass](https://sass-lang.com) string (to CSS).
 
 ```twig
 {{ variable|scss_to_css }}
@@ -749,13 +742,11 @@ _Examples:_
 
 Resizes an image to a specified with.
 
-> *Experimental*
-
 ```twig
 {{ <image_path>|resize(integer) }}
 ```
 
-Ratio is preserved, the original file is not altered and the resized version is stored in `/images/thumbs/<resize>/image.ext`.
+Ratio is preserved, the original file is not altered and the resized version is stored in `/assets/thumbnails/<integer>/images/image.jpg`.
 
 _Example:_
 

@@ -1,6 +1,7 @@
 <!--
-description: "Create a new static site and preview it locally."
+description: "Create a new site and preview it locally."
 date: 2020-12-19
+updated: 2021-11-19
 menu: home
 -->
 

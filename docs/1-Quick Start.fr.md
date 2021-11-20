@@ -1,7 +1,8 @@
 <!--
 title: Démarrage rapide
-description: "Créer un nouveau site statique et le prévisualiser localement."
+description: "Créez un nouveau site et prévisualiser le localement."
 date: 2021-11-03
+updated: 2021-11-19
 slug: demarrage-rapide
 menu: home
 -->
