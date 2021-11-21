@@ -56,7 +56,9 @@ class PagesCreate extends AbstractStep
             /** @var Page $page */
             $page = new Page(Page::createId($file));
             $page->setFile($file)->parse();
-            $this->builder->getPages()->add($page);
+            if (in_array($page->getVariable('language') ?? $this->config->getLanguageDefault(), array_column($this->config->getLanguages(), 'code'))) {
+                $this->builder->getPages()->add($page);
+            }
 
             $message = $page->getId();
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
