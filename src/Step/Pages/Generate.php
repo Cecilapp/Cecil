@@ -8,15 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\Pages;
 
 use Cecil\Generator\GeneratorManager;
 use Cecil\Util;
+use Cecil\Step\AbstractStep;
 
 /**
  * Generates virtual pages.
  */
-class PagesGenerate extends AbstractStep
+class Generate extends AbstractStep
 {
     /**
      * {@inheritdoc}

@@ -8,10 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\PostProcess;
 
 use Cecil\Assets\Cache;
 use Cecil\Exception\Exception;
+use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 

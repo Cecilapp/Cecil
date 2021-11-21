@@ -8,16 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
 use Cecil\Exception\Exception;
+use Cecil\Step\AbstractStep;
 
 /**
  * Converts content of all pages.
  */
-class PagesConvert extends AbstractStep
+class Convert extends AbstractStep
 {
     /**
      * {@inheritdoc}
