@@ -137,7 +137,9 @@ class MenusCreate extends AbstractStep
     protected function collectPages(): void
     {
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
-            return $page->hasVariable('menu') && $page->getVariable('published');
+            return $page->hasVariable('menu')
+                && $page->getVariable('published')
+                && in_array($page->getVariable('language') ?? $this->config->getLanguageDefault(), array_column($this->config->getLanguages(), 'code'));
         });
 
         $total = count($filteredPages);
