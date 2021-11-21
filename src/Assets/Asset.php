@@ -62,6 +62,11 @@ class Asset implements \ArrayAccess
         $this->builder = $builder;
         $this->config = $builder->getConfig();
         $paths = is_array($paths) ? $paths : [$paths];
+        array_walk($paths, function ($path) {
+            if (empty($path)) {
+                throw new Exception('The path parameter of "asset() can\'t be empty."');
+            }
+        });
 
         // handles options
         $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
