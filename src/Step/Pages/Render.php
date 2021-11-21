@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\Pages;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
@@ -17,12 +17,13 @@ use Cecil\Exception\Exception;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
+use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
  * Pages rendering.
  */
-class PagesRender extends AbstractStep
+class Render extends AbstractStep
 {
     /**
      * {@inheritdoc}

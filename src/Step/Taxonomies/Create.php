@@ -8,18 +8,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\Taxonomies;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Taxonomy\Collection as VocabulariesCollection;
 use Cecil\Collection\Taxonomy\Term as Term;
 use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
 use Cecil\Exception\Exception;
+use Cecil\Step\AbstractStep;
 
 /**
  * Creates taxonomies collection.
  */
-class TaxonomiesCreate extends AbstractStep
+class Create extends AbstractStep
 {
     /** @var VocabulariesCollection */
     protected $vocabCollection;

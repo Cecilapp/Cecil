@@ -8,17 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 use Cecil\Renderer\Page as PageRenderer;
+use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
  * Pages saving.
  */
-class PagesSave extends AbstractStep
+class Save extends AbstractStep
 {
     /**
      * {@inheritdoc}

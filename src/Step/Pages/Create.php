@@ -8,15 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Step\AbstractStep;
 
 /**
  * Creates Pages collection from content iterator.
  */
-class PagesCreate extends AbstractStep
+class Create extends AbstractStep
 {
     /**
      * {@inheritdoc}
