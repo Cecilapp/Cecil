@@ -57,8 +57,10 @@
   'title': block('title'),
   'description': block('description'),
   'url': url(page, {canonical:true}),
-  'image': image,
 } %}
+{% if image %}
+  {%- set opengraph = opengraph|merge({'image': asset(image)|resize(1200)}) %}
+{% endif %}
 {% if page.section == site.metatags.articles|default('blog') %}
   {%- set opengraph = opengraph|merge({'type': 'article'}) %}
 {% endif %}
@@ -129,11 +131,11 @@
     <meta property="og:title" content="{{ opengraph.title }}" />
     <meta property="og:description" content="{{ opengraph.description }}" />
     <meta property="og:url" content="{{ url(page, {canonical:true}) }}" />
-{%- if opengraph.image ~%}
-    <meta property="og:image" content="{{ asset(opengraph.image)|url({canonical:true}) }}" />
-    <meta property="og:image:type" content="{{ asset(opengraph.image).subtype }}" />
-    <meta property="og:image:width" content="{{ asset(opengraph.image).width }}" />
-    <meta property="og:image:height" content="{{ asset(opengraph.image).height }}" />
+{%- if opengraph.image is defined ~%}
+    <meta property="og:image" content="{{ opengraph.image|url({canonical:true}) }}" />
+    <meta property="og:image:type" content="{{ opengraph.image.subtype }}" />
+    <meta property="og:image:width" content="{{ opengraph.image.width }}" />
+    <meta property="og:image:height" content="{{ opengraph.image.height }}" />
     <meta property="og:image:alt" content="{{ opengraph.title }}" />
 {%- endif -%}
 {#- template: Facebook ~#}
@@ -152,9 +154,9 @@
 {#- template: Twitter ~#}
     <meta name="twitter:title" content="{{ opengraph.title }}" />
     <meta name="twitter:description" content="{{ opengraph.description }}" />
-{%- if opengraph.image and asset(opengraph.image).width > 500 ~%}
+{%- if opengraph.image is defined and opengraph.image.width > 500 ~%}
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="{{ asset(opengraph.image)|url({canonical:true}) }}" />
+    <meta name="twitter:image" content="{{ opengraph.image|url({canonical:true}) }}" />
     <meta name="twitter:image:alt" content="{{ opengraph.title }}" />
 {%- else ~%}
     <meta name="twitter:card" content="summary" />
