@@ -8,15 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\StaticFiles;
 
+use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
  * Loads static files.
  */
-class StaticLoad extends AbstractStep
+class Load extends AbstractStep
 {
     /**
      * {@inheritdoc}

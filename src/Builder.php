@@ -33,22 +33,22 @@ class Builder implements LoggerAwareInterface
      * @var array Steps processed by build().
      */
     protected $steps = [
-        'Cecil\Step\ConfigImport',
-        'Cecil\Step\ContentLoad',
-        'Cecil\Step\DataLoad',
-        'Cecil\Step\StaticLoad',
-        'Cecil\Step\PagesCreate',
-        'Cecil\Step\PagesConvert',
-        'Cecil\Step\TaxonomiesCreate',
-        'Cecil\Step\PagesGenerate',
-        'Cecil\Step\MenusCreate',
-        'Cecil\Step\StaticCopy',
-        'Cecil\Step\PagesRender',
-        'Cecil\Step\PagesSave',
-        'Cecil\Step\PostProcessHtml',
-        'Cecil\Step\PostProcessCss',
-        'Cecil\Step\PostProcessJs',
-        'Cecil\Step\PostProcessImages',
+        'Cecil\Step\Config\Import',
+        'Cecil\Step\Content\Load',
+        'Cecil\Step\Content\DataLoad',
+        'Cecil\Step\StaticFiles\Load',
+        'Cecil\Step\Pages\Create',
+        'Cecil\Step\Pages\Convert',
+        'Cecil\Step\Taxonomies\Create',
+        'Cecil\Step\Pages\Generate',
+        'Cecil\Step\Menus\Create',
+        'Cecil\Step\StaticFiles\Copy',
+        'Cecil\Step\Pages\Render',
+        'Cecil\Step\Pages\Save',
+        'Cecil\Step\PostProcess\Html',
+        'Cecil\Step\PostProcess\Css',
+        'Cecil\Step\PostProcess\Js',
+        'Cecil\Step\PostProcess\Images',
     ];
 
     /** @var Config Configuration. */

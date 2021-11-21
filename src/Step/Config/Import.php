@@ -6,15 +6,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\Config;
 
+use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Imports (themes) configuration.
  */
-class ConfigImport extends AbstractStep
+class Import extends AbstractStep
 {
     const THEME_CONFIG_FILE = 'config.yml';
 

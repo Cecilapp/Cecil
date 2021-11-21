@@ -8,8 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\Content;
 
+use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\Menus;
 
 use Cecil\Collection\Menu\Collection as MenusCollection;
 use Cecil\Collection\Menu\Entry;
@@ -17,11 +17,12 @@ use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 use Cecil\Logger\PrintLogger;
 use Cecil\Renderer\Page as PageRenderer;
+use Cecil\Step\AbstractStep;
 
 /**
  * Creates menus collection.
  */
-class MenusCreate extends AbstractStep
+class Create extends AbstractStep
 {
     /** @var array */
     protected $menus;

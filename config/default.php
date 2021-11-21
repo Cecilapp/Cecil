@@ -31,65 +31,65 @@ return [
         'dir'      => '_site',
         'formats'  => [
             // ie: blog/post-1/index.html
-            1000 => [
+            -1 => [
                 'name'      => 'html',
                 'mediatype' => 'text/html',
-                'suffix'    => '/index',
+                'suffix'    => 'index',
                 'extension' => 'html',
             ],
             // ie: blog/atom.xml
-            1001 => [
+            -2 => [
                 'name'      => 'atom',
                 'mediatype' => 'application/atom+xml',
-                'suffix'    => '/atom',
+                'suffix'    => 'atom',
                 'extension' => 'xml',
                 'exclude'   => ['redirect', 'paginated'],
             ],
             // ie: blog/rss.xml
-            1002 => [
+            -3 => [
                 'name'      => 'rss',
                 'mediatype' => 'application/rss+xml',
-                'suffix'    => '/rss',
+                'suffix'    => 'rss',
                 'extension' => 'xml',
                 'exclude'   => ['redirect', 'paginated'],
             ],
             // ie: blog/post-1.json
-            1003 => [
+            -4 => [
                 'name'      => 'json',
                 'mediatype' => 'application/json',
                 'extension' => 'json',
                 'exclude'   => ['redirect'],
             ],
             // ie: blog/post-1.xml
-            1004 => [
+            -5 => [
                 'name'      => 'xml',
                 'mediatype' => 'application/xml',
                 'extension' => 'xml',
                 'exclude'   => ['redirect'],
             ],
             // ie: robots.txt
-            1005 => [
+            -6 => [
                 'name'      => 'txt',
                 'mediatype' => 'text/plain',
                 'extension' => 'txt',
                 'exclude'   => ['redirect'],
             ],
             // ie: blog/post-1/amp/index.html
-            1006 => [
+            -7 => [
                 'name'      => 'amp',
                 'mediatype' => 'text/html',
-                'subpath'   => '/amp',
-                'suffix'    => '/index',
+                'subpath'   => 'amp',
+                'suffix'    => 'index',
                 'extension' => 'html',
             ],
             // ie: sw.js
-            1007 => [
+            -8 => [
                 'name'      => 'js',
                 'mediatype' => 'application/javascript',
                 'extension' => 'js',
             ],
             // ie: manifest.webmanifest
-            1008 => [
+            -9 => [
                 'name'      => 'webmanifest',
                 'mediatype' => 'application/manifest+json',
                 'extension' => 'webmanifest',

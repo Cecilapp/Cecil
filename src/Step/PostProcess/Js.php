@@ -8,21 +8,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step;
+namespace Cecil\Step\PostProcess;
 
 use MatthiasMullie\Minify;
 
 /**
- * Post process CSS files.
+ * Post process JS files.
  */
-class PostProcessCss extends AbstractPostProcess
+class Js extends AbstractPostProcess
 {
     /**
      * {@inheritdoc}
      */
     public function getName(): string
     {
-        return 'Post-processing CSS';
+        return 'Post-processing JS';
     }
 
     /**
@@ -30,7 +30,7 @@ class PostProcessCss extends AbstractPostProcess
      */
     public function init($options)
     {
-        $this->type = 'css';
+        $this->type = 'js';
         parent::init($options);
     }
 
@@ -46,7 +46,7 @@ class PostProcessCss extends AbstractPostProcess
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
-        $minifier = new Minify\CSS($file->getPathname());
+        $minifier = new Minify\JS($file->getPathname());
 
         return $minifier->minify();
     }
