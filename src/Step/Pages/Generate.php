@@ -11,8 +11,8 @@
 namespace Cecil\Step\Pages;
 
 use Cecil\Generator\GeneratorManager;
-use Cecil\Util;
 use Cecil\Step\AbstractStep;
+use Cecil\Util;
 
 /**
  * Generates virtual pages.
