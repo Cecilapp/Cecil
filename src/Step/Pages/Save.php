@@ -13,8 +13,8 @@ namespace Cecil\Step\Pages;
 use Cecil\Collection\Page\Page;
 use Cecil\Exception\Exception;
 use Cecil\Renderer\Page as PageRenderer;
-use Cecil\Util;
 use Cecil\Step\AbstractStep;
+use Cecil\Util;
 
 /**
  * Pages saving.
