@@ -197,9 +197,7 @@ social:
     username: 'username'
 ```
 
-> Cecil search for a `favicon.png` file at root of `static` directory.
-
-#### Default configuration
+#### metatags configuration
 
 ```yaml
 metatags:
