@@ -1,13 +1,12 @@
 name: 'Update CHANGELOG'
 
-#on:
-#  release:
-#    types:
-#      - published
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types:
+      - closed
+  release:
+    types:
+      - published
 
 jobs:
   generate_changelog:
@@ -33,5 +32,5 @@ jobs:
       run: |
         git config --global user.name 'Arnaud Ligny'
         git config --global user.email 'arnaudligny@users.noreply.github.com'
-        git commit -am "Generated changelog"
+        git commit -am "Update CHANGELOG"
         git push
