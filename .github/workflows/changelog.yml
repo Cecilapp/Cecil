@@ -17,6 +17,8 @@ jobs:
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: Install Node
       uses: actions/setup-node@v2
