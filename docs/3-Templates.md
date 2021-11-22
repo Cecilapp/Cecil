@@ -743,7 +743,8 @@ _Examples:_
 Resizes an image to a specified with.
 
 ```twig
-{{ <image_path>|resize(integer) }}
+{{ asset(image_path)|resize(integer) }}
+{{ <image_path>|resize(integer) }} {# deprecated #}
 ```
 
 Ratio is preserved, the original file is not altered and the resized version is stored in `/assets/thumbnails/<integer>/images/image.jpg`.
@@ -751,7 +752,7 @@ Ratio is preserved, the original file is not altered and the resized version is 
 _Example:_
 
 ```twig
-{{ page.image|resize(300) }}
+{{ asset(page.image)|resize(300) }}
 ```
 
 ## Localization
