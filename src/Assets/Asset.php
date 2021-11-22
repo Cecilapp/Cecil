@@ -67,6 +67,18 @@ class Asset implements \ArrayAccess
                 throw new Exception('The path parameter of "asset() can\'t be empty."');
             }
         });
+        $this->data = [
+            'file'           => '',
+            'filename'       => '',
+            'path_source'    => '',
+            'path'           => '',
+            'ext'            => '',
+            'type'           => '',
+            'subtype'        => '',
+            'size'           => 0,
+            'content_source' => '',
+            'content'        => '',
+        ];
 
         // handles options
         $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
@@ -81,17 +93,6 @@ class Asset implements \ArrayAccess
         $cacheKey = sprintf('%s.ser', implode('_', $paths));
         if (!$cache->has($cacheKey)) {
             $pathsCount = count($paths);
-            $this->data = [
-                'file'     => '',
-                'filename' => '',
-                'path'     => '',
-                'ext'      => '',
-                'type'     => '',
-                'subtype'  => '',
-                'size'     => 0,
-                'source'   => '',
-                'content'  => '',
-            ];
             $file = [];
             for ($i = 0; $i < $pathsCount; $i++) {
                 // loads file(s)
@@ -115,6 +116,7 @@ class Asset implements \ArrayAccess
                 if ($i == 0) {
                     $this->data['file'] = $file[$i]['filepath']; // should be an array of files in case of bundle?
                     $this->data['filename'] = $file[$i]['path'];
+                    $this->data['path_source'] = $file[$i]['path'];
                     $this->data['path'] = $file[$i]['path'];
                     if (!empty($filename)) {
                         $this->data['path'] = '/'.ltrim($filename, '/');
@@ -124,7 +126,7 @@ class Asset implements \ArrayAccess
                     $this->data['subtype'] = $file[$i]['subtype'];
                 }
                 $this->data['size'] += $file[$i]['size'];
-                $this->data['source'] .= $file[$i]['content'];
+                $this->data['content_source'] .= $file[$i]['content'];
                 $this->data['content'] .= $file[$i]['content'];
             }
             // bundle: define path
@@ -184,7 +186,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $fingerprint = hash('md5', $this->data['source']);
+        $fingerprint = hash('md5', $this->data['content_source']);
         $this->data['path'] = preg_replace(
             '/\.'.$this->data['ext'].'$/m',
             ".$fingerprint.".$this->data['ext'],
@@ -338,7 +340,7 @@ class Asset implements \ArrayAccess
             }
 
             try {
-                $img = ImageManager::make($this->data['source']);
+                $img = ImageManager::make($this->data['content_source']);
                 $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
@@ -346,7 +348,7 @@ class Asset implements \ArrayAccess
             } catch (\Exception $e) {
                 throw new Exception(sprintf('Not able to resize image "%s": %s', $this->data['path'], $e->getMessage()));
             }
-            $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path']);
+            $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path_source']);
 
             try {
                 $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));

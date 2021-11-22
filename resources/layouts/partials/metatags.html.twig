@@ -48,6 +48,7 @@
     'apple-touch-icon': [120, 152, 180],
   } -%}
   {%- set favicon_variants = site.metatags.favicon.sizes|default(favicon_defaults) -%}
+  {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'),{'ignore_missing':true}) -%}
 {% endif %}
 {# image #}
 {%- set image = page.image|default(site.image|default()) %}
@@ -99,10 +100,9 @@
 {%- endif ~%}
     <meta name="robots" content="{{ robots }}" />
 {#- template: favicon ~#}
-{%- if favicon_variants is defined and asset(site.metatags.favicon.image|default('favicon.png'),{'ignore_missing':true}) is not empty ~%}
+{%- if favicon_variants is defined and favicon_asset is not empty ~%}
   {%- for favicon_variant, favicon_sizes in favicon_variants -%}
-    {%- for size in favicon_sizes -%}
-      {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'),{'ignore_missing':true}) ~%}
+    {%- for size in favicon_sizes ~%}
     <link rel="{{ favicon_variant }}" sizes="{{ size }}" href="{{ favicon_asset|resize(size)|url({canonical:true}) }}" type="{{ favicon_asset.subtype }}" />
     {%- endfor -%}
   {%- endfor -%}
