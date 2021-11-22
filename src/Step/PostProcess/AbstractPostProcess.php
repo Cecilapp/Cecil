@@ -86,7 +86,7 @@ abstract class AbstractPostProcess extends AbstractStep
             $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
             if (!$cache->has($cacheKey)) {
                 $processed = $this->processFile($file);
-                $sizeAfter = $file->getSize();
+                $sizeAfter = strlen($processed);
                 if ($sizeAfter < $sizeBefore) {
                     $message = sprintf(
                         '%s (%s Ko -> %s Ko)',
@@ -95,13 +95,12 @@ abstract class AbstractPostProcess extends AbstractStep
                         ceil($sizeAfter / 1000)
                     );
                 }
+                $cache->set($cacheKey, $this->encode($processed));
                 $postprocessed++;
-                $processed = $this->encode($processed);
-                $cache->set($cacheKey, $processed);
+
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
-            $processed = $cache->get($cacheKey);
-            $processed = $this->decode($processed);
+            $processed = $this->decode($cache->get($cacheKey));
             Util\File::getFS()->dumpFile($file->getPathname(), $processed);
         }
         if ($postprocessed == 0) {
