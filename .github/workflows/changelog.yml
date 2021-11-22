@@ -28,8 +28,8 @@ jobs:
       run: auto-changelog
 
     - name: Commit changelog
-        run: |
-          git config --global user.name 'Arnaud Ligny'
-          git config --global user.email 'arnaudligny@users.noreply.github.com'
-          git commit -am "Generated changelog"
-          git push
+      run: |
+        git config --global user.name 'Arnaud Ligny'
+        git config --global user.email 'arnaudligny@users.noreply.github.com'
+        git commit -am "Generated changelog"
+        git push
