@@ -41,11 +41,13 @@
   {%- set robots = 'noindex,follow' %}
 {% endif %}
 {# favicon #}
-{% set favicon = asset('favicon.png',{'ignore_missing':true}) %}
-{% if favicon is not empty %}
-  {%- set favicon_url = favicon|url({canonical:true}) %}
-  {%- set favicon_subtype = favicon.subtype %}
-  {%- set favicon_sizes = favicon.width ~ 'x' ~ favicon.height %}
+{% if site.metatags.favicon.enabled|default(true) %}
+  {%- set favicon_defaults = {
+    'icon': [32, 57, 76, 96, 128, 192, 228],
+    'shortcut icon': [196],
+    'apple-touch-icon': [120, 152, 180],
+  } -%}
+  {%- set favicon_variants = site.metatags.favicon.sizes|default(favicon_defaults) -%}
 {% endif %}
 {# image #}
 {%- set image = page.image|default(site.image|default()) %}
@@ -86,7 +88,7 @@
   {%- set twitter = twitter|merge(page.social.twitter|default(site.social.twitter)) %}
 {% endif %}
 
-{#- template ~#}
+    {#- template #}
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
 {%- if keywords ~%}
@@ -97,10 +99,13 @@
 {%- endif ~%}
     <meta name="robots" content="{{ robots }}" />
 {#- template: favicon ~#}
-{%- if favicon is not empty ~%}
-    <link rel="icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
-    <link rel="shortcut icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
-    <link rel="apple-touch-icon" href="{{ favicon_url }}" type="{{ favicon_subtype }}" sizes="{{ favicon_sizes }}" />
+{%- if favicon_variants is defined and asset(site.metatags.favicon.image|default('favicon.png'),{'ignore_missing':true}) is not empty ~%}
+  {%- for favicon_variant, favicon_sizes in favicon_variants -%}
+    {%- for size in favicon_sizes -%}
+      {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'),{'ignore_missing':true}) ~%}
+    <link rel="{{ favicon_variant }}" sizes="{{ size }}" href="{{ favicon_asset|resize(size)|url({canonical:true}) }}" type="{{ favicon_asset.subtype }}" />
+    {%- endfor -%}
+  {%- endfor -%}
 {%- endif ~%}
 {#- template: prev/next ~#}
 {%- if page.prev.path is defined ~%}
