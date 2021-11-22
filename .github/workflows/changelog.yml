@@ -26,7 +26,7 @@ jobs:
       run: npm install -g auto-changelog
 
     - name: Run auto-changelog
-      run: auto-changelog
+      run: auto-changelog --ignore-commit-pattern "^[Uu]pdate.*"
 
     - name: Commit changelog
       run: |
