@@ -199,7 +199,7 @@ social:
 
 > Cecil search for a `favicon.png` file at root of `static` directory.
 
-Default configuration:
+#### Default configuration
 
 ```yaml
 metatags:
@@ -213,6 +213,13 @@ metatags:
   articles: 'blog'        # Articles' section
   jsonld:
     enabled: true         # Inject JSON-LD meta tags
+  favicon:
+    enabled: true         # Inject favicon
+    image: 'favicon.png'
+    sizes:
+      - 'icon': [32, 57, 76, 96, 128, 192, 228]
+      - 'shortcut icon': [196]
+      - 'apple-touch-icon': [120, 152, 180]
 ```
 
 ### googleanalytics
