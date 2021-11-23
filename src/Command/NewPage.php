@@ -118,11 +118,8 @@ class NewPage extends AbstractCommand
      */
     private function findModel(string $name): string
     {
-        $section = strstr($name, DIRECTORY_SEPARATOR, true);
-        if ($section && file_exists($model = Util::joinFile($this->getPath(), 'models', "$section.md"))) {
-            return Util\File::fileGetContents($model);
-        }
-        if (file_exists($model = Util::joinFile($this->getPath(), 'models/default.md'))) {
+        $name = !empty(strstr($name, DIRECTORY_SEPARATOR, true)) ?: 'default';
+        if (file_exists($model = Util::joinFile($this->getPath(), 'models', "$name.md"))) {
             return Util\File::fileGetContents($model);
         }
 
