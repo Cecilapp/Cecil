@@ -1956,16 +1956,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.4.34",
+            "version": "v4.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "a8d1a7b6f9ab04e45b08ef634125ac6d1deef813"
+                "reference": "c2098705326addae6e6742151dfade47ac71da1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/a8d1a7b6f9ab04e45b08ef634125ac6d1deef813",
-                "reference": "a8d1a7b6f9ab04e45b08ef634125ac6d1deef813",
+                "url": "https://api.github.com/repos/symfony/process/zipball/c2098705326addae6e6742151dfade47ac71da1b",
+                "reference": "c2098705326addae6e6742151dfade47ac71da1b",
                 "shasum": ""
             },
             "require": {
@@ -1998,7 +1998,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v4.4.34"
+                "source": "https://github.com/symfony/process/tree/v4.4.35"
             },
             "funding": [
                 {
@@ -2014,7 +2014,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-16T10:35:10+00:00"
+            "time": "2021-11-22T22:36:24+00:00"
         },
         {
             "name": "symfony/property-access",
