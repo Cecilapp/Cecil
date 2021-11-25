@@ -4,9 +4,9 @@ on:
   pull_request:
     types:
       - closed
-  release:
-    types:
-      - published
+  #release:
+  #  types:
+  #    - published
 
 jobs:
   generate_changelog:
