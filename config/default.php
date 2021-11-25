@@ -201,23 +201,25 @@ return [
         'dir' => 'themes',
     ],
     'assets' => [
-        'compile' => [
+        'compile' => [ // Compile Saas
             'enabled'   => true,
             'style'     => 'expanded', // 'expanded' or 'compressed',
             'import'    => ['sass', 'scss', 'node_modules'],
             'sourcemap' => true, // works in debug mode only
             //'variables' => ['var' => 'value']
         ],
-        'minify' => [
+        'minify' => [ // Minify CSS and JS
             'enabled' => true,
         ],
-        'fingerprint' => [
+        'fingerprint' => [ // Add fingerprint
             'enabled' => true,
         ],
-        'target' => 'assets',    // target directory of remote and resized assets
+        'target' => 'assets', // target directory of remote and resized assets
         'images' => [
-            'quality'  => 90,    // quality of a resized JPEG image
-            'optimize' => false, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
+            'optimize' => [
+                'enabled' => true, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
+            ],
+            'quality' => 85, // quality of a resized JPEG image
         ],
     ],
     'postprocess' => [
