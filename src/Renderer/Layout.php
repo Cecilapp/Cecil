@@ -100,6 +100,7 @@ class Layout
                 break;
             case PageType::SECTION:
                 $layouts = [
+                    // "$layout.$format.$ext",
                     // "$section/list.$format.$ext",
                     // "section/$section.$format.$ext",
                     "_default/section.$format.$ext",
@@ -113,6 +114,12 @@ class Layout
                     );
                     $layouts = array_merge(
                         [sprintf('%s/list.%s.%s', $section, $format, $ext)],
+                        $layouts
+                    );
+                }
+                if ($page->getVariable('layout')) {
+                    $layouts = array_merge(
+                        [sprintf('%s.%s.%s', $layout, $format, $ext)],
                         $layouts
                     );
                 }
