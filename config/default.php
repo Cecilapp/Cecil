@@ -214,9 +214,10 @@ return [
         'fingerprint' => [
             'enabled' => true,
         ],
-        'target' => 'assets',
+        'target' => 'assets',    // target directory of remote and resized assets
         'images' => [
-            'quality'    => 90,
+            'quality'  => 90,    // quality of a resized jpeg image
+            'optimize' => false, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
         ],
     ],
     'postprocess' => [

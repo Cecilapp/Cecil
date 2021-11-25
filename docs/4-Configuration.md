@@ -510,6 +510,7 @@ assets:
   target: assets
   images:
     quality: 90
+    optimize: false
 ```
 
 - `fingerprint`: Adds the file fingerprint in the filename
@@ -521,7 +522,8 @@ assets:
 - `minify`: Compresses file content (Available for file with a `text/css` or `text/javascript` MIME Type)
 - `target`: Target directory of remote and resized assets (`assets` by default)
 - `images`: Options for images
-  - `quality`: Image quality after resize (`90` by default)
+  - `quality`: JPEG image quality after resize (`90` by default)
+  - `optimize`: Optimizes images with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
 
 ### postprocess
 

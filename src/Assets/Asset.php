@@ -18,6 +18,7 @@ use Cecil\Util;
 use Intervention\Image\ImageManagerStatic as ImageManager;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use Spatie\ImageOptimizer\OptimizerChainFactory as Optimizer;
 use wapmorgan\Mp3Info\Mp3Info;
 
 class Asset implements \ArrayAccess
@@ -467,12 +468,24 @@ class Asset implements \ArrayAccess
     public function save(): void
     {
         $filepath = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
-        if (!$this->builder->getBuildOptions()['dry-run']
-            && !Util\File::getFS()->exists($filepath)
-        ) {
+        if (!$this->builder->getBuildOptions()['dry-run'] && !Util\File::getFS()->exists($filepath)) {
             try {
+                $message = \sprintf('Save asset "%s"', $this->data['path']);
                 Util\File::getFS()->dumpFile($filepath, $this->data['content']);
-                $this->builder->getLogger()->debug(sprintf('Save asset "%s"', $this->data['path']));
+                if ($this->data['type'] == 'image' && $this->config->get('assets.images.optimize')) {
+                    $sizeBefore = filesize($filepath);
+                    Optimizer::create()->optimize($filepath);
+                    $sizeAfter = filesize($filepath);
+                    if ($sizeAfter < $sizeBefore) {
+                        $message = \sprintf(
+                            '%s (%s Ko -> %s Ko)',
+                            $message,
+                            ceil($sizeBefore / 1000),
+                            ceil($sizeAfter / 1000)
+                        );
+                    }
+                }
+                $this->builder->getLogger()->debug($message);
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 if (!$this->ignore_missing) {
                     throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
