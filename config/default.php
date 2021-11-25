@@ -216,7 +216,7 @@ return [
         ],
         'target' => 'assets',    // target directory of remote and resized assets
         'images' => [
-            'quality'  => 90,    // quality of a resized jpeg image
+            'quality'  => 90,    // quality of a resized JPEG image
             'optimize' => false, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
         ],
     ],
