@@ -363,7 +363,7 @@ class Asset implements \ArrayAccess
                 );
             }
             $this->data['content'] = Util\File::fileGetContents(Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
-            Util\File::getFS()->remove(Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
+            Util\File::getFS()->remove(Util::joinFile($this->config->getCachePath(), 'tmp'));
             $this->optimized = true;
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Optimize asset "%s"', $message));
