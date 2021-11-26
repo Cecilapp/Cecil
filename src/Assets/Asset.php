@@ -352,7 +352,11 @@ class Asset implements \ArrayAccess
             $message = $this->data['file'];
             $sizeBefore = filesize($this->data['file']);
             Util\File::getFS()->copy($this->data['file'], Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
-            Optimizer::create()->optimize($this->data['file'], Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
+            //Optimizer::create()->optimize($this->data['file'], Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
+            Image::optimizer($this->config->get('assets.images.quality'))->optimize(
+                $this->data['file'],
+                Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename'])
+            );
             $sizeAfter = filesize(Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
             if ($sizeAfter < $sizeBefore) {
                 $message = \sprintf(
@@ -366,7 +370,7 @@ class Asset implements \ArrayAccess
             Util\File::getFS()->remove(Util::joinFile($this->config->getCachePath(), 'tmp'));
             $this->optimized = true;
             $cache->set($cacheKey, $this->data);
-            $this->builder->getLogger()->debug(\sprintf('Optimize asset "%s"', $message));
+            $this->builder->getLogger()->debug(\sprintf('Optimize "%s"', $message));
         }
         $this->data = $cache->get($cacheKey);
 
@@ -520,19 +524,6 @@ class Asset implements \ArrayAccess
             try {
                 $message = \sprintf('Save asset "%s"', $this->data['path']);
                 Util\File::getFS()->dumpFile($filepath, $this->data['content']);
-                /*if ($this->data['type'] == 'image' && $this->config->get('assets.images.optimize')) {
-                    $sizeBefore = filesize($filepath);
-                    Optimizer::create()->optimize($filepath);
-                    $sizeAfter = filesize($filepath);
-                    if ($sizeAfter < $sizeBefore) {
-                        $message = \sprintf(
-                            '%s (%s Ko -> %s Ko)',
-                            $message,
-                            ceil($sizeBefore / 1000),
-                            ceil($sizeAfter / 1000)
-                        );
-                    }
-                }*/
                 $this->builder->getLogger()->debug($message);
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 if (!$this->ignore_missing) {

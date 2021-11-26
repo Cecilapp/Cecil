@@ -10,7 +10,7 @@
 
 namespace Cecil\Step\PostProcess;
 
-use Spatie\ImageOptimizer\OptimizerChainFactory as Optimizer;
+use Cecil\Assets\Image;
 
 /**
  * Post process image files.
@@ -39,7 +39,7 @@ class Images extends AbstractPostProcess
      */
     public function setProcessor(): void
     {
-        $this->processor = Optimizer::create();
+        $this->processor = Image::optimizer($this->config->get('assets.images.quality'));
     }
 
     /**
@@ -47,7 +47,6 @@ class Images extends AbstractPostProcess
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
-        /** @var Optimizer $processor */
         $this->processor->optimize($file->getPathname());
 
         return $file->getContents();
