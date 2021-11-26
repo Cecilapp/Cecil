@@ -39,7 +39,7 @@ class Images extends AbstractPostProcess
      */
     public function setProcessor(): void
     {
-        $this->processor = Image::optimizer($this->config->get('assets.images.quality'));
+        $this->processor = Image::optimizer($this->config->get('assets.images.quality') ?? 85);
     }
 
     /**
