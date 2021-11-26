@@ -32,6 +32,9 @@ class Asset implements \ArrayAccess
     protected $data = [];
 
     /** @var bool */
+    protected $optimized = false;
+
+    /** @var bool */
     protected $fingerprinted = false;
 
     /** @var bool */
@@ -81,6 +84,7 @@ class Asset implements \ArrayAccess
         ];
 
         // handles options
+        $optimize = (bool) $this->config->get('assets.images.optimize.enabled');
         $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
         $minify = (bool) $this->config->get('assets.minify.enabled');
         $filename = '';
@@ -149,6 +153,10 @@ class Asset implements \ArrayAccess
         }
         $this->data = $cache->get($cacheKey);
 
+        // optimizing
+        if ($optimize) {
+            $this->optimize();
+        }
         // fingerprinting
         if ($fingerprint) {
             $this->fingerprint();
@@ -325,6 +333,49 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Optimizing an image.
+     */
+    public function optimize(): self
+    {
+        if ($this->optimized) {
+            return $this;
+        }
+
+        if ($this->data['type'] != 'image') {
+            return $this;
+        }
+
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this, 'optimized');
+        if (!$cache->has($cacheKey)) {
+            $message = $this->data['file'];
+            $sizeBefore = filesize($this->data['file']);
+            Util\File::getFS()->copy($this->data['file'], Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
+            Image::optimizer($this->config->get('assets.images.quality') ?? 85)->optimize(
+                $this->data['file'],
+                Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename'])
+            );
+            $sizeAfter = filesize(Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
+            if ($sizeAfter < $sizeBefore) {
+                $message = \sprintf(
+                    '%s (%s Ko -> %s Ko)',
+                    $message,
+                    ceil($sizeBefore / 1000),
+                    ceil($sizeAfter / 1000)
+                );
+            }
+            $this->data['content'] = Util\File::fileGetContents(Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
+            Util\File::getFS()->remove(Util::joinFile($this->config->getCachePath(), 'tmp'));
+            $this->optimized = true;
+            $cache->set($cacheKey, $this->data);
+            $this->builder->getLogger()->debug(\sprintf('Optimize "%s"', $message));
+        }
+        $this->data = $cache->get($cacheKey);
+
+        return $this;
+    }
+
+    /**
      * Resizes an image.
      */
     public function resize(int $size): self
@@ -467,12 +518,10 @@ class Asset implements \ArrayAccess
     public function save(): void
     {
         $filepath = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
-        if (!$this->builder->getBuildOptions()['dry-run']
-            && !Util\File::getFS()->exists($filepath)
-        ) {
+        if (!$this->builder->getBuildOptions()['dry-run'] && !Util\File::getFS()->exists($filepath)) {
             try {
                 Util\File::getFS()->dumpFile($filepath, $this->data['content']);
-                $this->builder->getLogger()->debug(sprintf('Save asset "%s"', $this->data['path']));
+                $this->builder->getLogger()->debug(\sprintf('Save asset "%s"', $this->data['path']));
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 if (!$this->ignore_missing) {
                     throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
