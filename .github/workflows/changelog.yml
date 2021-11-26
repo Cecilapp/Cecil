@@ -1,12 +1,9 @@
 name: 'Update CHANGELOG'
 
 on:
-  pull_request:
-    types:
-      - closed
-  #release:
-  #  types:
-  #    - published
+  push:
+    branches:
+      - master
 
 jobs:
   generate_changelog:
