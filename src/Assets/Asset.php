@@ -18,7 +18,6 @@ use Cecil\Util;
 use Intervention\Image\ImageManagerStatic as ImageManager;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
-use Spatie\ImageOptimizer\OptimizerChainFactory as Optimizer;
 use wapmorgan\Mp3Info\Mp3Info;
 
 class Asset implements \ArrayAccess

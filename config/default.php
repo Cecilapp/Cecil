@@ -219,7 +219,7 @@ return [
             'optimize' => [
                 'enabled' => true, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
             ],
-            'quality' => 85, // quality of a resized JPEG image
+            'quality' => 85, // quality of optimized JPEG and PNG, and resized JPEG
         ],
     ],
     'postprocess' => [
