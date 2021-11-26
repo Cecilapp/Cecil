@@ -520,9 +520,8 @@ class Asset implements \ArrayAccess
         $filepath = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
         if (!$this->builder->getBuildOptions()['dry-run'] && !Util\File::getFS()->exists($filepath)) {
             try {
-                $message = \sprintf('Save asset "%s"', $this->data['path']);
                 Util\File::getFS()->dumpFile($filepath, $this->data['content']);
-                $this->builder->getLogger()->debug($message);
+                $this->builder->getLogger()->debug(\sprintf('Save asset "%s"', $this->data['path']));
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 if (!$this->ignore_missing) {
                     throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
