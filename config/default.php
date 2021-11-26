@@ -217,7 +217,7 @@ return [
         'target' => 'assets', // target directory of remote and resized assets
         'images' => [
             'optimize' => [
-                'enabled' => true, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
+                'enabled' => false, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
             ],
             'quality' => 85, // quality of optimized JPEG and PNG, and resized JPEG
         ],
