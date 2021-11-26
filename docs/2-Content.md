@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2021-11-19
+updated: 2021-11-26
 -->
 
 # Content
@@ -186,11 +186,11 @@ You can add a table of contents to a _Page_ with the following Markdown syntax: 
 
 ## Variables
 
-The front matter can contains custom variables or override predefined variables.
+The front matter can contains custom variables applied to the current _Page_.
 
 ### Predefined
 
-All predefined variables are editable except `section`.
+All the predefined variables can be overridden except `section`.
 
 | Variable    | Description       | Default value                                      | Example       |
 | ----------- | ----------------- | -------------------------------------------------- | ------------- |
@@ -203,8 +203,6 @@ All predefined variables are editable except `section`.
 | `slug`      | Slug              | Page's _slug_.                                     | `post-1`      |
 | `published` | Published or not  | `false`.                                           | `true`        |
 | `draft`     | Published or not  | `true`.                                            | `false`       |
-
-All variables are editable except `section`.
 
 ### menu
 

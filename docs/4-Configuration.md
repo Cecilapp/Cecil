@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2021-11-19
+updated: 2021-11-26
 -->
 
 # Configuration
@@ -70,12 +70,16 @@ taxonomies:
 
 ### menus
 
-Each menu entry should have the following properties:
+A menu is made up of a unique name and entry’s properties:
 
-- `id`: unique identifier (required)
-- `name`: name used in templates
-- `url`: relative or absolute URL
-- `weight`: used to sort entries (lighter first)
+```yaml
+menus:
+  <name>:
+    - id: <unique_id> # unique identifier (required)
+      name: "<name>"  # name used in templates
+      url: <url>      # relative or absolute URL
+      weight: <XX>    # used to sort entries (lighter first)
+```
 
 By default a `main` menu is created and contains the home page and sections entries.
 
@@ -90,7 +94,7 @@ menus:
       weight: 99
 ```
 
-#### Overrides entry properties
+#### Override entry properties
 
 A page menu entry can be overridden: use the _Page_ ID as `id`.
 
@@ -121,15 +125,18 @@ menus:
 
 Pagination is available for list pages (if _type_ is `homepage`, `section` or `term`):
 
-- `max`: number of pages by paginated page (`5` by default)
-- `path`: path to paginated page (`page` by default)
+```yaml
+pagination:
+  max: 10      # maximum number of entries per page (`5` by default)
+  path: 'page' # path to the paginated page (`page` by default)
+```
 
 _Example:_
 
 ```yaml
 pagination:
   max: 10
-  path: "page"
+  path: 'p'
 ```
 
 #### Disable pagination
@@ -147,22 +154,40 @@ pagination:
 
 Date format and timezone:
 
+```yaml
+date:
+  format: '<format>'     # date format (`%j %F-%Y` by default)
+  timezone: '<timezone>' # date timezone (`Europe/Paris` by default)
+```
+
 - `format`: [PHP date](https://php.net/date) format specifier
-- `timezone`: date [timezone](https://php.net/timezones)
+- `timezone`: see [timezones](https://php.net/timezones)
 
 _Example:_
 
 ```yaml
 date:
-  format: "j F Y"
-  timezone: "Europe/Paris"
+  format: 'Y-m-d'
+  timezone: 'UTC'
 ```
 
 ### theme
 
 The theme name (sub-directory of `themes`) or an array of themes.
 
-_Example:_
+```yaml
+theme:
+  - <theme1> # theme name
+  - <theme2>
+```
+
+The first theme overrides the others, and so on.
+
+_Examples:_
+
+```yaml
+theme: hyde
+```
 
 ```yaml
 theme:
@@ -174,16 +199,20 @@ See [officials themes](https://github.com/Cecilapp?q=theme).
 
 ### metatags
 
-[_Meta tags_](https://wikipedia.org/wiki/Meta_element) (for SEO) can be injected automatically in the `<head>` by including the [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig) template.
+[_Meta tags_](https://wikipedia.org/wiki/Meta_element) (for SEO) can be injected automatically in the `<head>` by including the [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig) template:
+
+```twig
+{{ include('partials/metatags.html.twig') }}
+```
 
 *[SEO]: Search Engine Optimization
 
-Cecil uses data from page's front matter to feed meta tags and from `config`:
+Cecil uses data from pages front matter and fallbacks to the configuration to feed meta tags:
 
 ```yaml
 title: 'Site / Page title'
 description: 'Site / Page description'
-keywords: ['keyword1', 'keyword2'] # Use `tags` in case of a Page
+keywords: ['keyword1', 'keyword2'] # use `tags` in case of a Page
 author: 'Author name'
 image: 'image.jpg'
 social:
@@ -197,27 +226,33 @@ social:
     username: 'username'
 ```
 
+The title can be overridden:
+
+```twig
+{{ include('partials/metatags.html.twig', {title: 'Custom title'}) }}
+```
+
 #### metatags configuration
 
 ```yaml
 metatags:
   title:
-    divider: ' &middot; ' # String between page title and site title
-    only: false           # Display page title only
+    divider: ' &middot; ' # string between page title and site title
+    only: false           # display page title only
     pagination:
-      shownumber: true    # Display page number in title
-      label: 'Page %s'    # How to display page number
-  robots: 'index,follow'  # Web crawlers directives
-  articles: 'blog'        # Articles' section
+      shownumber: true    # display page number in title
+      label: 'Page %s'    # how to display page number
+  robots: 'index,follow'  # web crawlers directives
+  articles: 'blog'        # articles' section
   jsonld:
-    enabled: true         # Inject JSON-LD meta tags
+    enabled: true         # inject JSON-LD meta tags
   favicon:
-    enabled: true         # Inject favicon
-    image: 'favicon.png'
+    enabled: true         # inject favicon
+    image: 'favicon.png'  # path to favicon image
     sizes:
-      - 'icon': [32, 57, 76, 96, 128, 192, 228]
-      - 'shortcut icon': [196]
-      - 'apple-touch-icon': [120, 152, 180]
+      - 'icon': [32, 57, 76, 96, 128, 192, 228] # web browsers
+      - 'shortcut icon': [196]                  # Adnroid
+      - 'apple-touch-icon': [120, 152, 180]     # iOS
 ```
 
 ### googleanalytics
@@ -250,22 +285,42 @@ Defines where and how files are generated.
 
 #### dir
 
-Directory where rendered pages’ files are saved (`_site` by default).
+Directory where rendered pages’ files are saved.
+
+```yaml
+output:
+  dir: _site # `_site` by default
+```
 
 #### formats
 
 List of output formats.
 
-- `name`: name of the format (ie: `html`)
-- `mediatype`: [media type](https://en.m.wikipedia.org/wiki/Media_type) (formerly known as _MIME type_)
-- `subpath`: sub path (ie: `/amp` in `path/amp/index.html`)
-- `suffix`: file name (ie: `/index` in `path/index.html`)
-- `extension`: file extension (ie: `html` in `path/index.html`)
-- `exclude`: don’t apply this format to pages identified by specific variables, as array (ie: `[redirect]`)
+```yaml
+output:
+  formats:
+    <name>:
+      name: <name>              # name of the format (ie: `html`)
+      mediatype: '<media type>' # media type (MIME). ie: 'text/html'
+      subpath: <sub path>       # sub path (ie: `/amp` in `path/amp/index.html`)
+      suffix: '<suffix>'        # file name (ie: `/index` in `path/index.html`)
+      extension: '<extension>'  # file extension (ie: `html` in `path/index.html`)
+      exclude: ['<variable>']   # don’t apply this format to pages identified by listed variables (ie: `[redirect]`)
+```
 
 #### pagetypeformats
 
 Array of generated output formats for each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
+
+```yaml
+output:
+  pagetypeformats:
+    page: [<format>]
+    homepage: [<format>]
+    section: [<format>]
+    vocabulary: [<format>]
+    term: [<format>]
+```
 
 _Example:_
 
@@ -274,13 +329,13 @@ output:
   dir: _site
   formats:
     - name: html
-      mediatype: "text/html"
-      suffix: "/index"
-      extension: "html"
+      mediatype: 'text/html'
+      suffix: 'index'
+      extension: 'html'
     - name: rss
-      mediatype: "application/rss+xml"
-      suffix: "/rss"
-      extension: "xml"
+      mediatype: 'application/rss+xml'
+      suffix: 'rss'
+      extension: 'xml'
       exclude: [redirect, paginated]
   pagetypeformats:
     page: [html]
@@ -292,19 +347,26 @@ output:
 
 ### language
 
-Main language (`en` by default).
+Main language, defined by its code.
+
+```yaml
+language: en # `en` by default
+```
 
 ### languages
 
 List of available languages, used for [content](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
 
-Required keys:
+```yaml
+languages:
+  - code: <code>     # language unique code
+    name: <name>     # human readable name of the language
+    locale: <locale> # locale code of the language
+```
 
-- `code`: language unique code
-- `name`: human readable name of the language
-- `locale`: [locale code](configuration/locale-codes.md) of the language
+See the list of [locales code](configuration/locale-codes.md).
 
-To localize configuration variables you must store them under a `config` key.
+To localize configuration variables you must store them under the `config` key.
 
 _Example:_
 
@@ -325,6 +387,20 @@ languages:
 
 Define a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
 
+```yaml
+paths:
+  - section: <section’s name>
+    path: <path of pages, with palceholders>
+```
+
+#### Placeholders
+
+- `:year`
+- `:month`
+- `:day`
+- `:section`
+- `:slug`
+
 _Example:_
 
 ```yaml
@@ -333,19 +409,9 @@ paths:
     path: :section/:year/:month/:day/:slug
 ```
 
-#### Available placeholders
-
-- `:year`
-- `:month`
-- `:day`
-- `:section`
-- `:slug`
-
 ### debug
 
 Enables the _debug mode_, used to display debug information like Twig dump, Twig profiler, SCSS sourcemap, etc.
-
-_Example:_
 
 ```yaml
 debug: true
@@ -364,6 +430,7 @@ The local website configuration file (`config.yml`) overrides the [default confi
 
 Default pages are pages created automatically by Cecil, from built-in templates:
 
+- *index.html* (home page)
 - *404.html*
 - *robots.txt*
 - *sitemaps.xml*
@@ -413,16 +480,24 @@ Each one can be:
 
 Where content files are stored.
 
-- `dir`: pages directory (`content` by default)
-- `ext`: array of files extensions
+```yaml
+content:
+  dir: content                                     # pages directory
+  ext: [md, markdown, mdown, mkdn, mkd, text, txt] # array of files extensions.
+```
 
-> Supported format: Markdown and plain text files.
+Supported format: Markdown and plain text files.
 
 ### frontmatter
 
 Pages’ variables format.
 
-- `format`: front matter format (`yaml` by default)
+```yaml
+frontmatter:
+  format: yaml # front matter format (`yaml` by default)
+```
+
+Supported format: YAML.
 
 ### body
 
@@ -430,21 +505,21 @@ Pages’ content format and converter’s options.
 
 ```yaml
 body:
-  format: md             # Page body format (only Markdown is supported)
-  toc: [h2, h3]          # Headers used to build the table of contents
-  images:                # How to handle images
+  format: md             # page body format (only Markdown is supported)
+  toc: [h2, h3]          # headers used to build the table of contents
+  images:                # how to handle images
     lazy:
-      enabled: true      # Enable lazy loading (`true` by default)
+      enabled: true      # enable lazy loading (`true` by default)
     resize:
-      enabled: false     # Enable image resizing by using the `width` extra attribute (`false` by default)
+      enabled: false     # enable image resizing by using the `width` extra attribute (`false` by default)
     responsive:
-      enabled: false     # Enable responsive images (`false` by default)
+      enabled: false     # enable responsive images (`false` by default)
       width:             # `srcset` range
-        steps: 5           # Number of steps from `min` to `max`
-        min: 320           # Minimum width
-        max: 1280          # Maximum width
+        steps: 5           # number of steps from `min` to `max`
+        min: 320           # minimum width
+        max: 1280          # maximum width
       sizes:
-        default: '100vw' # Default sizes
+        default: '100vw' # default sizes
 ```
 
 See [Content > Page > Body](2-Content.md#body) documentation for more information.
@@ -453,20 +528,26 @@ See [Content > Page > Body](2-Content.md#body) documentation for more informatio
 
 Where data files are stored.
 
-- `dir`: data directory (`data` by default)
-- `ext`: array of files extensions
-- `load`: boolean (`true` by default)
+```yaml
+data:
+  dir: data                        # data directory
+  ext: [yaml, yml, json, xml, csv] # array of files extensions.
+  load: true                       # enables `site.data` collection
+```
 
-> Supported format: YAML, JSON, XML and CSV.
+Supported formats: YAML, JSON, XML and CSV.
 
 ### static
 
 Where static files and assets (CSS, images, PDF, etc.) are stored and copied.
 
-- `dir`: files directory (`static` by default)
-- `target`: target directory (empty by default)
-- `exclude`: list of excluded files (accepts globs, strings and regexes)
-- `load`: boolean (`false` by default, used by [`site.static`](3-Templates.md#site-static))
+```yaml
+static:
+  dir: static # files directory
+  target: ''  # target directory
+  exclude: [sass, scss, '*.scss', 'package*.json', 'node_modules'] # list of excluded files (accepts globs, strings and regexes)
+  load: false # enables `site.static` collection (`false` by default)
+```
 
 _Example:_
 
@@ -485,13 +566,19 @@ static:
 
 Where templates files are stored.
 
-- `dir`: layouts directory (`layouts` by default)
+```yaml
+layouts:
+  dir: layouts # layouts directory
+```
 
 ### themes
 
 Where themes are stored.
 
-- `dir`: themes directory (`themes` by default)
+```yaml
+themes:
+  dir: themes # themes directory
+```
 
 ### assets
 
@@ -500,31 +587,28 @@ Assets handling options.
 ```yml
 assets:
   fingerprint:
-    enabled: true
+    enabled: true        # enable fingerprinting
   compile:
-    enabled: true
-    style: nested
-    import: [sass, scss]
+    enabled: true        # enable asset compilation
+    style: nested        # style of compilation
+    import: [sass, scss] # list of imported paths
+    sourcemap: false     # enable sourcemap
+    variables: []        # list of preset variables
   minify:
-    enabled: true
-  target: assets
+    enabled: true        # enable asset minification
+  target: assets         # where remote and resized assets are saved
   images:
     optimize:
-      enabled: false
-    quality: 85
+      enabled: false     # enables images optimization (with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle)
+    quality: 85          # JPEG and PNG image quality after optimization or resize
 ```
 
-- `fingerprint`: Adds the file fingerprint in the filename
-- `compile`: Compiles a SCSS with the given
-  - `style`: Output formatter’s name (see [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting))
-  - `import`: Array of imported path
-  - `sourcemap`: Enables sourcemap output (if [debug mode](#debug) is enabled)
-  - `variables`: Array of preset variables (see [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#preset-variables))
-- `minify`: Compresses file content (Available for file with a `text/css` or `text/javascript` MIME Type)
-- `target`: Target directory of remote and resized assets (`assets` by default)
-- `images`: Options for images
-  - `optimize`: Optimizes images with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle (`false` by default)
-  - `quality`: JPEG and PNG image quality after optimization or resize (`85` by default)
+Notes:
+
+- See [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting) for details about `style` compilation
+- `minify` is available for file with a `text/css` or `text/javascript` MIME Type)
+- Enables sourcemap output requires [debug mode](#debug) is enabled
+- See [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#preset-variables) for details about `variables`
 
 ### postprocess
 
@@ -534,35 +618,35 @@ Files optimizations (post process) options.
 postprocess:
   enabled: false
   html:
-    ext: [html, htm]
+    ext: [html, htm] # list of files extensions
+    enabled: true    # enable HTML post processing
   css:
-    ext: [css]
+    ext: [css]       # list of files extensions
+    enabled: true    # enable CSS post processing
   js:
-    ext: [js]
+    ext: [js]        # list of files extensions
+    enabled: true    # enable JS post processing
   images:
-    ext: [jpeg, jpg, png, gif, webp, svg]
+    ext: [jpeg, jpg, png, gif, webp, svg] # list of files extensions
+    enabled: true                         # enable images post processing
 ```
 
-Images compressor will use these binaries if they are present on your system:
-
-- [JpegOptim](http://freecode.com/projects/jpegoptim)
-- [Optipng](http://optipng.sourceforge.net/)
-- [Pngquant 2](https://pngquant.org/)
-- [SVGO](https://github.com/svg/svgo)
-- [Gifsicle](http://www.lcdf.org/gifsicle/)
-- [cwebp](https://developers.google.com/speed/webp/docs/precompiled)
+Images compressor will use these binaries if they are present on your system: [JpegOptim](http://freecode.com/projects/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/).
 
 ### cache
 
 Cache options.
 
-- `dir`: cache directory (`.cache` by default)
-- `enabled`: boolean (`false` by default)
-- `templates`: Twig cache
-  - `dir`: the subdirectory of `.cache` where templates cache is stored (default: `templates`)
-  - `enabled`: `true` or `false` (default: `true`)
-- `assets`: assets cache
-  - `dir`: the subdirectory of remote assets cache
+```yaml
+cache:
+  dir: '.cache' # cache directory
+  enabled: true # enable cache
+  templates:    # Twig cache
+      dir: templates
+      enabled: true
+  assets:
+    dir: 'assets/remote' # the subdirectory of remote assets cache
+```
 
 ### generators
 

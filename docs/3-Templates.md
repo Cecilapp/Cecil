@@ -1,13 +1,13 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2021-11-19
+updated: 2021-11-26
 alias: documentation/layouts
 -->
 
 # Templates
 
-Cecil use [Twig](https://twig.symfony.com) as template engine, so refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** for basic usage.
+Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use it.
 
 ## Example
 
@@ -42,6 +42,8 @@ Cecil searches for the best layout to use, for a given _Page_, in a defined orde
 
 In most of cases **you don’t need to specify the template** in the `layout` variable: Cecil selects the most appropriate template for you.
 
+**Lexique:**
+
 - `<format>`: output format (ie: `html`)
 - `<layout>`: value of variable `layout` set in front matter (ie: `layout: post`)
 - `<section>`: page’s *Section* (ie: `blog`)
@@ -65,10 +67,11 @@ In most of cases **you don’t need to specify the template** in the `layout` va
 
 ### _section_
 
-1. `<section>/list.<format>.twig`
-2. `section/<section>.<format>.twig`
-3. `_default/section.<format>.twig`
-4. `_default/list.<format>.twig`
+1. `<layout>.<format>.twig`
+2. `<section>/list.<format>.twig`
+3. `section/<section>.<format>.twig`
+4. `_default/section.<format>.twig`
+5. `_default/list.<format>.twig`
 
 ### _vocabulary_
 
@@ -89,15 +92,13 @@ You can use variables from different scopes (`site`, `page`, etc.) in templates.
 
 Contains all variables from the configuration file (`config.yml`) and some built-in variables.
 
-#### Configuration variables
-
 _Example:_
 
 ```yaml
 title: "My amazing website!"
 ```
 
-Is printed in a template via:
+Can be displayed in a template with:
 
 ```twig
 {{ site.title }}
@@ -110,6 +111,7 @@ Is printed in a template via:
 | `site.home`           | ID of the home page.                                  |
 | `site.pages`          | Collection of pages, in the current language.         |
 | `site.pages.showable` | `site.pages` with "showable" pages only (published, not virtual/redirect/excluded). |
+| `site.pages.all`      | Alias of `site.pages.showable`. Deprecated.           |
 | `site.allpages`       | Collection of pages, regardless of their translation. |
 | `site.taxonomies`     | Collection of vocabularies.                           |
 | `site.time`           | [*Timestamp*](https://wikipedia.org/wiki/Unix_time) of the last generation. |
@@ -184,7 +186,7 @@ Contains variables of the _Page_ **and** those set in the front matter.
 
 #### page.<prev/next>
 
-Navigation between pages of a _Section_.
+Navigation between pages in a same _Section_.
 
 | Variable                 | Description                                           |
 | ------------------------ | ----------------------------------------------------- |
@@ -753,6 +755,14 @@ _Example:_
 
 ```twig
 {{ asset(page.image)|resize(300) }}
+```
+
+### dataurl
+
+Returns the [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) of an image.
+
+```twig
+{{ asset(image_path)|dataurl }}
 ```
 
 ## Localization
