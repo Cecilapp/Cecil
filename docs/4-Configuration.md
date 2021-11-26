@@ -27,13 +27,25 @@ baseurl: https://cecil.local/
 
 Main title of the site.
 
+```yaml
+title: "<title>"
+```
+
 ### baseline
 
 Short description (~ 20 characters).
 
+```yaml
+baseline: "<baseline>"
+```
+
 ### baseurl
 
 The base URL. Must end with a trailing slash (`/`).
+
+```yaml
+baseurl: "<baseurl>"
+```
 
 _Example:_
 
@@ -45,13 +57,26 @@ baseurl: http://localhost:8000/
 
 If set to `true` the [`url()`](3-Templates.md#url) function will return the absolute URL (`false` by default).
 
+```yaml
+canonicalurl: false
+```
+
 ### description
 
 Site description (~ 250 characters).
 
+```yaml
+description: <description>
+```
+
 ### taxonomies
 
 List of vocabularies, paired by plural and singular value.
+
+```yaml
+taxonomies:
+  <plural>: <singular>
+```
 
 _Example:_
 
