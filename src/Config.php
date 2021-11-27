@@ -441,7 +441,7 @@ class Config
             throw new Exception(sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
         }
 
-        $languages = array_filter($languages, function($language) {
+        $languages = array_filter($languages, function ($language) {
             return !array_keys($language, 'enabled') || $language['enabled'] !== false;
         });
 
