@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 {# Disallow #}
 {# redirects #}
-{% for redirect in site.pages|filter(p => p.redirect is defined and p.type == 'page') %}
+{% for redirect in site.allpages|filter(p => p.redirect is defined and p.type == 'page') %}
 Disallow: {{ url(redirect, {canonical: false}) }}
 {% endfor %}
 {# 404 #}
