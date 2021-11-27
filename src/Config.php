@@ -442,7 +442,7 @@ class Config
         }
 
         $languages = array_filter($languages, function($language) {
-            return $language['enabled'] !== false;
+            return !array_keys($language, 'enabled') || $language['enabled'] !== false;
         });
 
         $this->languages = $languages;
