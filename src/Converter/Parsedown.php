@@ -72,6 +72,10 @@ class Parsedown extends \ParsedownToC
         if (!array_key_exists('width', $image['element']['attributes'])) {
             $image['element']['attributes']['width'] = $width;
         }
+        // set height
+        if (!array_key_exists('height', $image['element']['attributes'])) {
+            $image['element']['attributes']['height'] = $asset->getHeight();
+        }
         /**
          * Should be responsive?
          */
