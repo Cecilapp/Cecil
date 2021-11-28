@@ -100,7 +100,7 @@ taxonomies:
   <plural>: <singular>
 ```
 
-_Example:_
+_Default taxonomies:_
 
 ```yaml
 taxonomies:
