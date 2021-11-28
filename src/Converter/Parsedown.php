@@ -21,9 +21,15 @@ class Parsedown extends \ParsedownToC
     /** {@inheritdoc} */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
+    /** Regex to verify there is an image in <figure> block */
+    private $MarkdownImageRegex = "~^!\[.*?\]\(.*?\)~";
+
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
+        if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+            $this->BlockTypes['!'][] = 'Figure';
+        }
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
     }
 
@@ -139,6 +145,40 @@ class Parsedown extends \ParsedownToC
         }
 
         return $Data;
+    }
+
+    /**
+     * Add caption to <figure> block
+     */
+    protected function blockFigure($Line)
+    {
+        if (1 !== preg_match($this->MarkdownImageRegex, $Line['text'])) {
+            return;
+        }
+
+        $InlineImage = $this->inlineImage($Line);
+        if (!isset($InlineImage) || empty($InlineImage['element']['attributes']['title'])) {
+            return;
+        }
+
+        $FigureBlock = [
+            'element' => [
+                'name' => 'figure',
+                'handler' => 'elements',
+                'text' => [
+                    $InlineImage['element']
+                ]
+            ],
+        ];
+        $InlineFigcaption = [
+            'element' => [
+                'name' => 'figcaption',
+                'text' => $InlineImage['element']['attributes']['title']
+            ],
+        ];
+        $FigureBlock['element']['text'][] = $InlineFigcaption['element'];
+
+        return $FigureBlock;
     }
 
     /**

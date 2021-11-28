@@ -161,6 +161,9 @@ return [
             'lazy' => [
                 'enabled' => true,
             ],
+            'caption' => [
+                'enabled' => false,
+            ],
             'resize' => [
                 'enabled' => false,
             ],

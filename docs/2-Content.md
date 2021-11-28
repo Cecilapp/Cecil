@@ -107,7 +107,7 @@ customvar: "Value of customvar"
 
 *Body* is the main content of a _Page_, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in **[Markdown Extra](https://michelf.ca/projects/php-markdown/extra/)** or in plain text.
 
-_Cecil_ provides extra features to enhance your content (Images lazy load, resize, responsive, excerpt, table of contents).  
+_Cecil_ provides extra features to enhance your content (image caption, image lazy loading, image resizing, responsive image, text excerpt, table of contents).  
 See below for more details.
 
 _Example:_
@@ -125,22 +125,44 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 
 ## Header 2
 
-![Alternative description](/images/img.jpg 'Title'){width=800}
+![Description](/image.jpg 'Title')
 ```
 
 #### Images
+
+##### Lazy loading
+
+By default Cecil apply the attribute `loading="lazy"` on each images.  
+So you can disable it [in configuration](4-Configuration.md#body).
+
+##### Caption
+
+You can autommatically add a caption (`figcaption`) to an image by adding a title.
+
+```markdown
+![Description](/images/img.jpg 'Title')
+```
+
+Is converted to :
+
+```html
+<figure>
+  <img src="/image.jpg" alt="Description" title="Title">
+  <figcaption>Title</figcaption>
+</figure>
+```
 
 ##### Resize
 
 Each image in the *body* can be resized by setting a smaller width than the original image with the extra attribute `{width=X}` and if the [`resize` option of the converter](4-Configuration.md#body) is enabled.
 
-Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/images/img.jpg`.  
+Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.  
 This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
 
 _Example:_
 
 ```markdown
-![Alternative description](/images/img.jpg 'Title'){width=800}
+![Description](/image.jpg 'Title'){width=800}
 ```
 
 ##### Responsive
@@ -150,20 +172,21 @@ If the [`responsive` option of the converter](4-Configuration.md#body) is enable
 _Example:_
 
 ```markdown
-![Alternative description](/images/img.jpg 'Title'){width=800}
+![Description](/image.jpg 'Title'){width=800}
 ```
 
-If `lazy`, `resize` and `responsive` options of the converter are enabled, then this Markdown line will be converted to:
+If `lazy`, `resize` and `responsive` options are enabled, then this Markdown line will be converted to:
 
 ```html
-<img src="/assets/thumbnails/800/images/img.jpg"
-  alt="Alternative description"
+<img src="/assets/thumbnails/800/image.jpg"
+  alt="Description"
   title="Title"
   width="800"
+  height="600"
   loading="lazy"
-  srcset="/assets/thumbnails/320/images/img.jpg 320w,
-          /assets/thumbnails/640/images/img.jpg 640w,
-          /assets/thumbnails/800/images/img.jpg 800w"
+  srcset="/assets/thumbnails/320/image.jpg 320w,
+          /assets/thumbnails/640/image.jpg 640w,
+          /assets/thumbnails/800/image.jpg 800w"
   sizes="100vw"
 >
 ```

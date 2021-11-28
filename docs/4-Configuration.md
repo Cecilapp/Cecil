@@ -535,6 +535,8 @@ body:
   images:                # how to handle images
     lazy:
       enabled: true      # enable lazy loading (`true` by default)
+    caption:
+      enabled: true      # add <figcaption> to images with a title (`false` by default)
     resize:
       enabled: false     # enable image resizing by using the `width` extra attribute (`false` by default)
     responsive:
