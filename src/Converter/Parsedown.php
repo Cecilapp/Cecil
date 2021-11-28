@@ -44,8 +44,7 @@ class Parsedown extends \ParsedownToC
         }
         $image['element']['attributes']['src'] = $imageSource = trim($this->removeQuery($image['element']['attributes']['src']));
         $asset = new Asset($this->builder, $imageSource);
-        $width = $asset->getWidth();
-        if ($width === false) {
+        if (false === $width = $asset->getWidth()) {
             return $image;
         }
         $image['element']['attributes']['src'] = $asset;
@@ -58,7 +57,7 @@ class Parsedown extends \ParsedownToC
         /**
          * Should be resized?
          */
-        $imageResized = null;
+        $assetResized = null;
         if (array_key_exists('width', $image['element']['attributes'])
             && (int) $image['element']['attributes']['width'] < $width
             && $this->builder->getConfig()->get('body.images.resize.enabled')
@@ -66,13 +65,13 @@ class Parsedown extends \ParsedownToC
             $width = (int) $image['element']['attributes']['width'];
 
             try {
-                $imageResized = $asset->resize($width);
+                $assetResized = $asset->resize($width);
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
                 return $image;
             }
-            $image['element']['attributes']['src'] = $imageResized;
+            $image['element']['attributes']['src'] = $assetResized;
         }
         // set width
         if (!array_key_exists('width', $image['element']['attributes'])) {
@@ -86,30 +85,42 @@ class Parsedown extends \ParsedownToC
          * Should be responsive?
          */
         if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
-            $steps = $this->builder->getConfig()->get('body.images.responsive.width.steps');
-            $wMin = $this->builder->getConfig()->get('body.images.responsive.width.min');
-            $wMax = $this->builder->getConfig()->get('body.images.responsive.width.max');
-            $srcset = '';
-            for ($i = 1; $i <= $steps; $i++) {
-                $w = ceil($wMin * $i);
-                if ($w > $width || $w > $wMax) {
-                    break;
-                }
-                $a = new Asset($this->builder, $imageSource);
-                $img = $a->resize(intval($w));
-                $srcset .= sprintf('%s %sw', $img, $w);
-                if ($i < $steps) {
-                    $srcset .= ', ';
-                }
+            if ($srcset = $this->getSrcset($asset, $width, $assetResized)) {
+                $image['element']['attributes']['srcset'] = $srcset;
+                $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('body.images.responsive.sizes.default');
             }
-            $imageDefault = $imageResized ?? $asset;
-            $srcset .= sprintf('%s %sw', $imageDefault, $width);
-            // ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w"
-            $image['element']['attributes']['srcset'] = $srcset;
-            $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('body.images.responsive.sizes.default');
         }
 
         return $image;
+    }
+
+    /**
+     * Build the `srcset` attribute for responsive images.
+     * ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w".
+     */
+    private function getSrcset(Asset $asset, int $width, Asset $assetResized = null): string
+    {
+        $srcset = '';
+        $a = clone $asset;
+        $steps = $this->builder->getConfig()->get('body.images.responsive.width.steps');
+        $wMin = $this->builder->getConfig()->get('body.images.responsive.width.min');
+        $wMax = $this->builder->getConfig()->get('body.images.responsive.width.max');
+        for ($i = 1; $i <= $steps; $i++) {
+            $w = ceil($wMin * $i);
+            if ($w > $width || $w > $wMax) {
+                break;
+            }
+            $img = $a->resize(intval($w));
+            $srcset .= sprintf('%s %sw', $img, $w);
+            if ($i < $steps) {
+                $srcset .= ', ';
+            }
+        }
+        if (!empty($srcset)) {
+            $srcset .= sprintf('%s %sw', $assetResized ?? $asset, $width);
+        }
+
+        return $srcset;
     }
 
     /**

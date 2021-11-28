@@ -381,7 +381,7 @@ class Asset implements \ArrayAccess
     public function resize(int $size): self
     {
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, $size);
+        $cacheKey = $cache->createKeyFromAsset($this, "{$size}x");
         if (!$cache->has($cacheKey)) {
             if ($this->data['type'] !== 'image') {
                 throw new Exception(sprintf('Not able to resize "%s"', $this->data['path']));
