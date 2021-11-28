@@ -135,19 +135,29 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 By default Cecil apply the attribute `loading="lazy"` on each images.  
 So you can disable it [in configuration](4-Configuration.md#body).
 
+```markdown
+![](/image.jpg)
+```
+
+Is converted to :
+
+```html
+<img src="/image.jpg" loading="lazy">
+```
+
 ##### Caption
 
 You can autommatically add a caption (`figcaption`) to an image by adding a title.
 
 ```markdown
-![Description](/images/img.jpg 'Title')
+![](/images/img.jpg 'Title')
 ```
 
 Is converted to :
 
 ```html
 <figure>
-  <img src="/image.jpg" alt="Description" title="Title">
+  <img src="/image.jpg" title="Title">
   <figcaption>Title</figcaption>
 </figure>
 ```
@@ -159,31 +169,28 @@ Each image in the *body* can be resized by setting a smaller width than the orig
 Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.  
 This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
 
-_Example:_
-
 ```markdown
-![Description](/image.jpg 'Title'){width=800}
+![](/image.jpg){width=800}
+```
+
+Is converted to :
+
+```html
+<img src="/assets/thumbnails/800/image.jpg" width="800" height="600">
 ```
 
 ##### Responsive
 
 If the [`responsive` option of the converter](4-Configuration.md#body) is enabled, then all images in the *body* will be automatically _responsived_.
 
-_Example:_
-
 ```markdown
-![Description](/image.jpg 'Title'){width=800}
+![](/image.jpg){width=800}
 ```
 
-If `lazy`, `resize` and `responsive` options are enabled, then this Markdown line will be converted to:
+If `resize` and `responsive` options are enabled, then this Markdown line will be converted to:
 
 ```html
-<img src="/assets/thumbnails/800/image.jpg"
-  alt="Description"
-  title="Title"
-  width="800"
-  height="600"
-  loading="lazy"
+<img src="/assets/thumbnails/800/image.jpg" width="800" height="600"
   srcset="/assets/thumbnails/320/image.jpg 320w,
           /assets/thumbnails/640/image.jpg 640w,
           /assets/thumbnails/800/image.jpg 800w"
@@ -205,7 +212,11 @@ Main content.
 
 #### Table of contents
 
-You can add a table of contents to a _Page_ with the following Markdown syntax: `[toc]`.
+You can add a table of contents with the following Markdown syntax:
+
+```markdown
+[toc]
+```
 
 ## Variables
 
