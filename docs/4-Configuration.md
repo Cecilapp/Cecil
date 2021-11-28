@@ -19,6 +19,7 @@ _Example:_
 title: "Cecil"
 baseline: "Your content driven static site generator."
 baseurl: https://cecil.local/
+language: en
 ```
 
 ## Variables
@@ -67,6 +68,27 @@ Site description (~ 250 characters).
 
 ```yaml
 description: <description>
+```
+
+### date
+
+Date format and timezone:
+
+```yaml
+date:
+  format: '<format>'     # date format (`j F Y` by default)
+  timezone: '<timezone>' # date timezone (`Europe/Paris` by default)
+```
+
+- `format`: [PHP date](https://php.net/date) format specifier
+- `timezone`: see [timezones](https://php.net/timezones)
+
+_Example:_
+
+```yaml
+date:
+  format: 'Y-m-d'
+  timezone: 'UTC'
 ```
 
 ### taxonomies
@@ -146,82 +168,6 @@ menus:
       enabled: false
 ```
 
-### pagination
-
-Pagination is available for list pages (if _type_ is `homepage`, `section` or `term`):
-
-```yaml
-pagination:
-  max: 10      # maximum number of entries per page (`5` by default)
-  path: 'page' # path to the paginated page (`page` by default)
-```
-
-_Example:_
-
-```yaml
-pagination:
-  max: 10
-  path: 'p'
-```
-
-#### Disable pagination
-
-Pagination can be disabled with `enabled: false`.
-
-_Example:_
-
-```yaml
-pagination:
-  enabled: false
-```
-
-### date
-
-Date format and timezone:
-
-```yaml
-date:
-  format: '<format>'     # date format (`%j %F-%Y` by default)
-  timezone: '<timezone>' # date timezone (`Europe/Paris` by default)
-```
-
-- `format`: [PHP date](https://php.net/date) format specifier
-- `timezone`: see [timezones](https://php.net/timezones)
-
-_Example:_
-
-```yaml
-date:
-  format: 'Y-m-d'
-  timezone: 'UTC'
-```
-
-### theme
-
-The theme name (sub-directory of `themes`) or an array of themes.
-
-```yaml
-theme:
-  - <theme1> # theme name
-  - <theme2>
-```
-
-The first theme overrides the others, and so on.
-
-_Examples:_
-
-```yaml
-theme: hyde
-```
-
-```yaml
-theme:
-  - serviceworker
-  - hyde
-```
-
-See [officials themes](https://github.com/Cecilapp?q=theme).
-
 ### metatags
 
 [_Meta tags_](https://wikipedia.org/wiki/Meta_element) (for SEO) can be injected automatically in the `<head>` by including the [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig) template:
@@ -278,6 +224,97 @@ metatags:
       - 'icon': [32, 57, 76, 96, 128, 192, 228] # web browsers
       - 'shortcut icon': [196]                  # Adnroid
       - 'apple-touch-icon': [120, 152, 180]     # iOS
+```
+
+### theme
+
+The theme name or an array of themes name.
+
+```yaml
+theme:
+  - <theme1> # theme name
+  - <theme2>
+```
+
+The first theme overrides the others, and so on.
+
+_Examples:_
+
+```yaml
+theme: hyde
+```
+
+```yaml
+theme:
+  - serviceworker
+  - hyde
+```
+
+See [officials themes](https://github.com/Cecilapp?q=theme).
+
+### pagination
+
+Pagination is available for list pages (if _type_ is `homepage`, `section` or `term`):
+
+```yaml
+pagination:
+  max: 10      # maximum number of entries per page (`5` by default)
+  path: 'page' # path to the paginated page (`page` by default)
+```
+
+_Example:_
+
+```yaml
+pagination:
+  max: 5
+  path: 'p'
+```
+
+#### Disable pagination
+
+Pagination can be disabled:
+
+```yaml
+pagination:
+  enabled: false
+```
+
+### language
+
+Main language, defined by its code.
+
+```yaml
+language: en # `en` by default
+```
+
+### languages
+
+List of available languages, used for [content](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
+
+```yaml
+languages:
+  - code: <code>     # language unique code
+    name: <name>     # human readable name of the language
+    locale: <locale> # locale code of the language
+```
+
+See the list of [locales code](configuration/locale-codes.md).
+
+To localize configuration variables you must store them under the `config` key.
+
+_Example:_
+
+```yaml
+title: 'Cecil in english'
+languages:
+  - code: en
+    name: English
+    locale: en_US
+  - code: fr
+    name: Français
+    locale: fr_FR
+    config:
+      title: 'Cecil en français'
 ```
 
 ### googleanalytics
@@ -368,44 +405,6 @@ output:
     section: [html, rss]
     vocabulary: [html]
     term: [html, rss]
-```
-
-### language
-
-Main language, defined by its code.
-
-```yaml
-language: en # `en` by default
-```
-
-### languages
-
-List of available languages, used for [content](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
-
-```yaml
-languages:
-  - code: <code>     # language unique code
-    name: <name>     # human readable name of the language
-    locale: <locale> # locale code of the language
-```
-
-See the list of [locales code](configuration/locale-codes.md).
-
-To localize configuration variables you must store them under the `config` key.
-
-_Example:_
-
-```yaml
-title: 'Cecil in english'
-languages:
-  - code: en
-    name: English
-    locale: en_US
-  - code: fr
-    name: Français
-    locale: fr_FR
-    config:
-      title: 'Cecil en français'
 ```
 
 ### paths
@@ -566,7 +565,7 @@ Supported formats: YAML, JSON, XML and CSV.
 
 ### static
 
-Where static files and assets (CSS, images, PDF, etc.) are stored and copied.
+Where static files and assets (CSS, images, PDF, etc.) are stored.
 
 ```yaml
 static:
