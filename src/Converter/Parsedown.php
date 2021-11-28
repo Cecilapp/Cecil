@@ -64,7 +64,7 @@ class Parsedown extends \ParsedownToC
         ) {
             $width = (int) $image['element']['attributes']['width'];
             try {
-                $assetResized = (new Asset($this->builder, $imageSource))->resize($width);
+                $assetResized = $asset->resize($width);
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
@@ -84,7 +84,7 @@ class Parsedown extends \ParsedownToC
          * Should be responsive?
          */
         if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
-            if ($srcset = $this->getSrcset($imageSource, $width, $asset, $assetResized)) {
+            if ($srcset = $this->getSrcset($asset, $width, $assetResized)) {
                 $image['element']['attributes']['srcset'] = $srcset;
                 $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('body.images.responsive.sizes.default');
             }
@@ -97,9 +97,10 @@ class Parsedown extends \ParsedownToC
      * Build the `srcset` attribute for responsive images.
      * ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w".
      */
-    private function getSrcset(string $imageSource, int $width, Asset $asset, Asset $assetResized = null): string
+    private function getSrcset(Asset $asset, int $width, Asset $assetResized = null): string
     {
         $srcset = '';
+        $a = clone $asset;
         $steps = $this->builder->getConfig()->get('body.images.responsive.width.steps');
         $wMin = $this->builder->getConfig()->get('body.images.responsive.width.min');
         $wMax = $this->builder->getConfig()->get('body.images.responsive.width.max');
@@ -108,7 +109,7 @@ class Parsedown extends \ParsedownToC
             if ($w > $width || $w > $wMax) {
                 break;
             }
-            $img = (new Asset($this->builder, $imageSource))->resize(intval($w));
+            $img = $a->resize(intval($w));
             $srcset .= sprintf('%s %sw', $img, $w);
             if ($i < $steps) {
                 $srcset .= ', ';
