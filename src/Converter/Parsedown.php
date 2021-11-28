@@ -148,7 +148,7 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * Add caption to <figure> block
+     * Add caption to <figure> block.
      */
     protected function blockFigure($Line)
     {
@@ -163,17 +163,17 @@ class Parsedown extends \ParsedownToC
 
         $FigureBlock = [
             'element' => [
-                'name' => 'figure',
+                'name'    => 'figure',
                 'handler' => 'elements',
-                'text' => [
-                    $InlineImage['element']
-                ]
+                'text'    => [
+                    $InlineImage['element'],
+                ],
             ],
         ];
         $InlineFigcaption = [
             'element' => [
                 'name' => 'figcaption',
-                'text' => $InlineImage['element']['attributes']['title']
+                'text' => $InlineImage['element']['attributes']['title'],
             ],
         ];
         $FigureBlock['element']['text'][] = $InlineFigcaption['element'];
