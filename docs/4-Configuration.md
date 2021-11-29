@@ -567,7 +567,7 @@ body:
 
 See _[Content > Page > Body](2-Content.md#body)_ documentation to know how those options impacts your content.
 
-Images are turned into assets, so see the [assets section](#assets) for more information images transformations.
+Images are turned into assets, so see the [assets section](#assets) for more information about images transformations.
 
 ### data
 
