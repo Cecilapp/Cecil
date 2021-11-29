@@ -380,6 +380,10 @@ class Asset implements \ArrayAccess
      */
     public function resize(int $size): self
     {
+        if ($size >= $this->getWidth()) {
+            return $this;
+        }
+
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($this, "{$size}x");
         if (!$cache->has($cacheKey)) {

@@ -155,28 +155,20 @@ return [
         'format' => 'yaml',
     ],
     'body' => [
-        'format' => 'md',
-        'toc'    => ['h2', 'h3'],
+        'format' => 'md',         // only Markdown is supported
+        'toc'    => ['h2', 'h3'], // list of headers to include in Table of contents
         'images' => [
             'lazy' => [
-                'enabled' => true,
+                'enabled' => true,  // lazy load images
             ],
             'caption' => [
-                'enabled' => false,
+                'enabled' => false, // adds <figcaption> based on image title
             ],
             'resize' => [
-                'enabled' => false,
+                'enabled' => false, // resizes images with a `with` attribute
             ],
             'responsive' => [
-                'enabled' => false,
-                'width'   => [
-                    'steps' => 5,
-                    'min'   => 320,
-                    'max'   => 1280,
-                ],
-                'sizes' => [
-                    'default' => '100vw',
-                ],
+                'enabled' => false, // creates responsive images
             ],
         ],
     ],
@@ -204,14 +196,14 @@ return [
         'dir' => 'themes',
     ],
     'assets' => [
-        'compile' => [ // Compile Saas
+        'compile' => [     // Compile Saas
             'enabled'   => true,
             'style'     => 'expanded', // 'expanded' or 'compressed',
             'import'    => ['sass', 'scss', 'node_modules'],
             'sourcemap' => true, // works in debug mode only
             //'variables' => ['var' => 'value']
         ],
-        'minify' => [ // Minify CSS and JS
+        'minify' => [      // Minify CSS and JS
             'enabled' => true,
         ],
         'fingerprint' => [ // Add fingerprint
@@ -222,7 +214,18 @@ return [
             'optimize' => [
                 'enabled' => false, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
             ],
-            'quality' => 85, // quality of optimized JPEG and PNG, and resized JPEG
+            'quality'    => 85,     // quality of optimized JPEG and PNG, and resized JPEG
+            'responsive' => [
+                'enabled' => false, // creates responsive images with `html` filter
+                'width'   => [
+                    'steps' => 5,     // number of steps between each responsives images
+                    'min'   => 320,   // minimum width
+                    'max'   => 1280,  // maximum width
+                ],
+                'sizes' => [
+                    'default' => '100vw', // default sizes
+                ],
+            ],
         ],
     ],
     'postprocess' => [

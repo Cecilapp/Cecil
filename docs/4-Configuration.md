@@ -561,17 +561,11 @@ body:
       enabled: true      # add <figcaption> to images with a title (`false` by default)
     resize:
       enabled: false     # enable image resizing by using the `width` extra attribute (`false` by default)
-    responsive:
-      enabled: false     # enable responsive images (`false` by default)
-      width:             # `srcset` range
-        steps: 5           # number of steps from `min` to `max`
-        min: 320           # minimum width
-        max: 1280          # maximum width
-      sizes:
-        default: '100vw' # default sizes
 ```
 
-See [Content > Page > Body](2-Content.md#body) documentation for more information.
+See _[Content > Page > Body](2-Content.md#body)_ documentation to know how those options impacts your content.
+
+Images are turned into assets, so see the [assets section](#assets) for more information images transformations.
 
 ### data
 
@@ -650,6 +644,14 @@ assets:
     optimize:
       enabled: false     # enables images optimization (with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle)
     quality: 85          # JPEG and PNG image quality after optimization or resize
+    responsive:          # used by `html` filter
+      enabled: false     # enable responsive images (`false` by default)
+      width:             # `srcset` range
+        steps: 5           # number of steps from `min` to `max`
+        min: 320           # minimum width
+        max: 1280          # maximum width
+      sizes:
+        default: '100vw' # default sizes
 ```
 
 Notes:

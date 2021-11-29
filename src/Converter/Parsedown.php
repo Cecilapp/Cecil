@@ -11,6 +11,7 @@
 namespace Cecil\Converter;
 
 use Cecil\Assets\Asset;
+use Cecil\Assets\Image;
 use Cecil\Builder;
 
 class Parsedown extends \ParsedownToC
@@ -42,8 +43,11 @@ class Parsedown extends \ParsedownToC
         if (!isset($image)) {
             return null;
         }
-        $image['element']['attributes']['src'] = $imageSource = trim($this->removeQuery($image['element']['attributes']['src']));
-        $asset = new Asset($this->builder, $imageSource);
+        // clean source path / URL
+        $image['element']['attributes']['src'] = trim($this->removeQuery($image['element']['attributes']['src']));
+        // create asset
+        $asset = new Asset($this->builder, $image['element']['attributes']['src']);
+        // is asset is valid? (if yes get width)
         if (false === $width = $asset->getWidth()) {
             return $image;
         }
@@ -85,42 +89,18 @@ class Parsedown extends \ParsedownToC
          * Should be responsive?
          */
         if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
-            if ($srcset = $this->getSrcset($asset, $width, $assetResized)) {
+            if ($srcset = Image::getSrcset(
+                $assetResized ?? $asset,
+                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
+                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
+                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
+            )) {
                 $image['element']['attributes']['srcset'] = $srcset;
-                $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('body.images.responsive.sizes.default');
+                $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
             }
         }
 
         return $image;
-    }
-
-    /**
-     * Build the `srcset` attribute for responsive images.
-     * ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w".
-     */
-    private function getSrcset(Asset $asset, int $width, Asset $assetResized = null): string
-    {
-        $srcset = '';
-        $a = clone $asset;
-        $steps = $this->builder->getConfig()->get('body.images.responsive.width.steps');
-        $wMin = $this->builder->getConfig()->get('body.images.responsive.width.min');
-        $wMax = $this->builder->getConfig()->get('body.images.responsive.width.max');
-        for ($i = 1; $i <= $steps; $i++) {
-            $w = ceil($wMin * $i);
-            if ($w > $width || $w > $wMax) {
-                break;
-            }
-            $img = $a->resize(intval($w));
-            $srcset .= sprintf('%s %sw', $img, $w);
-            if ($i < $steps) {
-                $srcset .= ', ';
-            }
-        }
-        if (!empty($srcset)) {
-            $srcset .= sprintf('%s %sw', $assetResized ?? $asset, $width);
-        }
-
-        return $srcset;
     }
 
     /**

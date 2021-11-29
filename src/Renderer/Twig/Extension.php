@@ -12,6 +12,7 @@ namespace Cecil\Renderer\Twig;
 
 use Cecil\Assets\Asset;
 use Cecil\Assets\Cache;
+use Cecil\Assets\Image;
 use Cecil\Assets\Url;
 use Cecil\Builder;
 use Cecil\Collection\CollectionInterface;
@@ -465,23 +466,28 @@ class Extension extends SlugifyExtension
      * Returns the HTML version of an asset.
      *
      * $options[
-     *     'preload' => true,
+     *     'preload'    => false,
+     *     'responsive' => false,
      * ];
      */
-    public function html(Asset $asset, array $attributes = null, array $options = null): string
+    public function html(Asset $asset, array $attributes = [], array $options = []): string
     {
         $htmlAttributes = '';
+        $preload = false;
+        $responsive = $this->builder->getConfig()->get('assets.images.responsive.enabled') ?? false;
+        extract($options, EXTR_IF_EXISTS);
+
         foreach ($attributes as $name => $value) {
-            if (!empty($value)) {
-                $htmlAttributes .= \sprintf(' %s="%s"', $name, $value);
-            } else {
-                $htmlAttributes .= \sprintf(' %s', $name);
+            $attribute = \sprintf(' %s="%s"', $name, $value);
+            if (empty($value)) {
+                $attribute = \sprintf(' %s', $name);
             }
+            $htmlAttributes .= $attribute;
         }
 
         switch ($asset['ext']) {
             case 'css':
-                if ($options['preload']) {
+                if ($preload) {
                     return \sprintf(
                         '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s>
                          <noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
@@ -496,8 +502,18 @@ class Extension extends SlugifyExtension
         }
 
         if ($asset['type'] == 'image') {
+            if ($responsive && $srcset = Image::getSrcset(
+                $asset,
+                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
+                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
+                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
+            )) {
+                $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
+                $htmlAttributes .= \sprintf(' sizes="%s"', $this->builder->getConfig()->get('assets.images.responsive.sizes.default') ?? '100vw');
+            }
+
             return \sprintf(
-                '<img src="%s"%s>',
+                '<img src="%s" width="'.($asset->getWidth() ?: 0).'" height="'.($asset->getHeight() ?: 0).'"%s>',
                 $this->url($asset['path'], $options),
                 $htmlAttributes
             );
