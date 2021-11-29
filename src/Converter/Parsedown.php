@@ -91,12 +91,12 @@ class Parsedown extends \ParsedownToC
         if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
             if ($srcset = Image::getSrcset(
                 $assetResized ?? $asset,
-                $this->builder->getConfig()->get('body.images.responsive.width.steps') ?? 5,
-                $this->builder->getConfig()->get('body.images.responsive.width.min') ?? 320,
-                $this->builder->getConfig()->get('body.images.responsive.width.max') ?? 1280
+                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
+                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
+                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
             )) {
                 $image['element']['attributes']['srcset'] = $srcset;
-                $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('body.images.responsive.sizes.default');
+                $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
             }
         }
 
