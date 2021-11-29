@@ -173,7 +173,14 @@ menus:
 [_Meta tags_](https://wikipedia.org/wiki/Meta_element) (for SEO) can be injected automatically in the `<head>` by including the [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig) template:
 
 ```twig
-{{ include('partials/metatags.html.twig') }}
+<html lang="{{ site.language }}">
+  <head>
+    <meta charset="utf-8">
+    {%~ include 'partials/metatags.html.twig' ~%}
+    [... other head elements ...]
+  </head>
+  [...]
+</html>
 ```
 
 *[SEO]: Search Engine Optimization
@@ -242,6 +249,44 @@ metatags:
       - 'apple-touch-icon': [120, 152, 180]     # iOS
 ```
 
+### language
+
+Main language, defined by its code.
+
+```yaml
+language: en # `en` by default
+```
+
+### languages
+
+List of available languages, used for [content](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
+
+```yaml
+languages:
+  - code: <code>     # language unique code
+    name: <name>     # human readable name of the language
+    locale: <locale> # locale code of the language
+```
+
+See the list of [locales code](configuration/locale-codes.md).
+
+To localize configuration variables you must store them under the `config` key.
+
+_Example:_
+
+```yaml
+title: 'Cecil in english'
+languages:
+  - code: en
+    name: English
+    locale: en_US
+  - code: fr
+    name: Français
+    locale: fr_FR
+    config:
+      title: 'Cecil en français'
+```
+
 ### theme
 
 The theme name or an array of themes name.
@@ -293,44 +338,6 @@ Pagination can be disabled:
 ```yaml
 pagination:
   enabled: false
-```
-
-### language
-
-Main language, defined by its code.
-
-```yaml
-language: en # `en` by default
-```
-
-### languages
-
-List of available languages, used for [content](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
-
-```yaml
-languages:
-  - code: <code>     # language unique code
-    name: <name>     # human readable name of the language
-    locale: <locale> # locale code of the language
-```
-
-See the list of [locales code](configuration/locale-codes.md).
-
-To localize configuration variables you must store them under the `config` key.
-
-_Example:_
-
-```yaml
-title: 'Cecil in english'
-languages:
-  - code: en
-    name: English
-    locale: en_US
-  - code: fr
-    name: Français
-    locale: fr_FR
-    config:
-      title: 'Cecil en français'
 ```
 
 ### googleanalytics
