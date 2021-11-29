@@ -12,6 +12,7 @@ namespace Cecil\Renderer\Twig;
 
 use Cecil\Assets\Asset;
 use Cecil\Assets\Cache;
+use Cecil\Assets\Image;
 use Cecil\Assets\Url;
 use Cecil\Builder;
 use Cecil\Collection\CollectionInterface;
@@ -465,7 +466,8 @@ class Extension extends SlugifyExtension
      * Returns the HTML version of an asset.
      *
      * $options[
-     *     'preload' => true,
+     *     'preload'    => false,
+     *     'responsive' => false,
      * ];
      */
     public function html(Asset $asset, array $attributes = null, array $options = null): string
@@ -496,8 +498,20 @@ class Extension extends SlugifyExtension
         }
 
         if ($asset['type'] == 'image') {
+            if ($options['responsive']) {
+                if ($srcset = Image::getSrcset(
+                    $asset,
+                    $this->builder->getConfig()->get('body.images.responsive.width.steps') ?? 5,
+                    $this->builder->getConfig()->get('body.images.responsive.width.min') ?? 320,
+                    $this->builder->getConfig()->get('body.images.responsive.width.max') ?? 1280
+                )) {
+                    $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
+                    $htmlAttributes .= \sprintf(' sizes="%s"', '100vw');
+                }
+            }
+
             return \sprintf(
-                '<img src="%s"%s>',
+                '<img src="%s" width="'. $asset->getWidth() .'" height="'. $asset->getHeight() .'"%s>',
                 $this->url($asset['path'], $options),
                 $htmlAttributes
             );

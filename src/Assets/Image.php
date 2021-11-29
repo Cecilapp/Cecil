@@ -48,4 +48,31 @@ class Image
                 '-O3',
             ]));
     }
+
+    /**
+     * Build the `srcset` attribute for responsive images.
+     * ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w".
+     */
+    public static function getSrcset(Asset $asset, int $steps, int $wMin, int $wMax): string
+    {
+        $srcset = '';
+        for ($i = 1; $i <= $steps; $i++) {
+            $w = ceil($wMin * $i);
+            if ($w > $asset->getWidth() || $w > $wMax) {
+                break;
+            }
+            $a = clone $asset;
+            $img = $a->resize(intval($w));
+            $srcset .= sprintf('%s %sw', $img, $w);
+            if ($i < $steps) {
+                $srcset .= ', ';
+            }
+        }
+        // add reference image
+        if (!empty($srcset)) {
+            $srcset .= sprintf('%s %sw', $asset, $asset->getWidth());
+        }
+
+        return $srcset;
+    }
 }
