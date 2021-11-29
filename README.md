@@ -29,11 +29,11 @@ Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentati
 
 ## Features
 
-- No server, no database, no dependency: performance and security
-- Content is stored in flat files, written in [Markdown](https://daringfireball.net/projects/markdown/) with [YAML front matter](https://cecil.app/documentation/content/#front-matter)
-- Powered by [Twig](https://twig.symfony.com/doc/templates.html), a flexible template engine, with [theme](https://github.com/Cecilapp/theme-hyde) support
-- Pagination, taxonomies, RSS, redirections, etc. are generated automatically
-- [Download](https://cecil.app/download/) just one file and run it
+- No database, no server, no dependency: performance and security
+- Your content is stored in [Markdown](https://daringfireball.net/projects/markdown/) flat files with a [YAML front matter](https://cecil.app/documentation/content/#front-matter)
+- Powered by [Twig](https://twig.symfony.com/doc/templates.html), a flexible template engine, with [themes](https://cecil.app/themes) support
+- Pagination, sitemap, redirections, robots.txt, taxonomies, RSS are generated automatically
+- [Download](https://cecil.app/download/) one file and run it
 - Easy to deploy
 
 ## Installation
