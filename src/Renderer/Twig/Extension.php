@@ -470,7 +470,7 @@ class Extension extends SlugifyExtension
      *     'responsive' => false,
      * ];
      */
-    public function html(Asset $asset, array $attributes = null, array $options = null): string
+    public function html(Asset $asset, array $attributes = [], array $options = []): string
     {
         $htmlAttributes = '';
         $preload = false;
