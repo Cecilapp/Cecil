@@ -168,15 +168,7 @@ return [
                 'enabled' => false, // resizes images with a `with` attribute
             ],
             'responsive' => [
-                'enabled' => false, // create responsive images
-                'width'   => [
-                    'steps' => 5,    // number of steps between each responsives images
-                    'min'   => 320,  // minimum width
-                    'max'   => 1280, // maximum width
-                ],
-                'sizes' => [
-                    'default' => '100vw', // default sizes
-                ],
+                'enabled' => false, // creates responsive images
             ],
         ],
     ],
@@ -222,13 +214,13 @@ return [
             'optimize' => [
                 'enabled' => false, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
             ],
-            'quality'    => 85,        // quality of optimized JPEG and PNG, and resized JPEG
+            'quality'    => 85,     // quality of optimized JPEG and PNG, and resized JPEG
             'responsive' => [
-                'enabled' => false,  // create responsive images
+                'enabled' => false, // creates responsive images with `html` filter
                 'width'   => [
-                    'steps' => 5,    // number of steps between each responsives images
-                    'min'   => 320,  // minimum width
-                    'max'   => 1280, // maximum width
+                    'steps' => 5,     // number of steps between each responsives images
+                    'min'   => 320,   // minimum width
+                    'max'   => 1280,  // maximum width
                 ],
                 'sizes' => [
                     'default' => '100vw', // default sizes
