@@ -650,6 +650,14 @@ assets:
     optimize:
       enabled: false     # enables images optimization (with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle)
     quality: 85          # JPEG and PNG image quality after optimization or resize
+    responsive:          # used by `html` filter
+      enabled: false     # enable responsive images (`false` by default)
+      width:             # `srcset` range
+        steps: 5           # number of steps from `min` to `max`
+        min: 320           # minimum width
+        max: 1280          # maximum width
+      sizes:
+        default: '100vw' # default sizes
 ```
 
 Notes:
