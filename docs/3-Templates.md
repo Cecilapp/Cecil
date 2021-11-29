@@ -247,7 +247,7 @@ Functions are called by their name followed by parentheses and may have argument
 Turns a _Page_, a _Page_ ID or a relative path into an URL.
 
 ```twig
-{{ url(Page|page-id|path,{options}) }}
+{{ url(Page|page-id|path, {options}) }}
 ```
 
 | Option    | Description                              | Type    | Default |
@@ -271,7 +271,7 @@ _Examples:_
 Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL or an array of files path (bundle).
 
 ```twig
-{{ asset(path|url|[paths],{options}) }}
+{{ asset(path|url|[paths], {options}) }}
 ```
 
 | Option         | Description                                         | Type    | Default |
@@ -289,9 +289,9 @@ _Examples:_
 ```twig
 {{ asset('styles.css')|minify }}
 {{ asset('styles.scss')|inline }}
-{{ asset('scripts.js',{minify:false}) }}
-{{ asset('image.png',{fingerprint:false}) }}
-{{ asset(['poole.css','hyde.css'],{filename:styles.css}) }}
+{{ asset('scripts.js', {minify: false}) }}
+{{ asset('image.png', {fingerprint: false}) }}
+{{ asset(['poole.css', 'hyde.css'], {filename: styles.css}) }}
 {{ asset('https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js') }}
 ```
 
@@ -364,11 +364,11 @@ _Example:_
 
 ## Sorts
 
-Sorting collections.
+Sorting collections (Pages, Menus, Taxonomies).
 
 ### sort_by_title
 
-Sorts a pages collection by title (with [natural sort](https://en.wikipedia.org/wiki/Natural_sort_order)).
+Sorts a collection by title (with [natural sort](https://en.wikipedia.org/wiki/Natural_sort_order)).
 
 ```twig
 {{ <collection>|sort_by_title }}
@@ -376,7 +376,7 @@ Sorts a pages collection by title (with [natural sort](https://en.wikipedia.org/
 
 ### sort_by_date
 
-Sorts a pages collection by date (most recent first).
+Sorts a collection by date (most recent first).
 
 ```twig
 {{ <collection>|sort_by_date }}
@@ -384,7 +384,7 @@ Sorts a pages collection by date (most recent first).
 
 ### sort_by_weight
 
-Sorts a pages or menu collection by weight (lighter first).
+Sorts a collection by weight (lighter first).
 
 ```twig
 {{ <collection>|sort_by_weight }}
@@ -402,7 +402,17 @@ _Example:_
 
 ## Filters
 
-Filtering collections.
+Filters allow you to modify a variable’s data before you use it:
+
+```twig
+{{ page.title|capitalize }}
+```
+
+You can chain filters to perform severals alterations at once:
+
+```twig
+{{ page.title|truncate(25)|capitalize }}
+```
 
 ### filter_by
 
@@ -445,8 +455,8 @@ _Examples:_
 
 ```twig
 {{ page|url }}
-{{ asset('styles.css')|url({canonical:true}) }}
-{{ page|url({format:json}) }}
+{{ asset('styles.css')|url({canonical: true}) }}
+{{ page|url({format: json}) }}
 ```
 
 ### markdown_to_html
@@ -487,7 +497,7 @@ Converts a JSON string to an array.
 _Example:_
 
 ```twig
-{% set json = '{"foo":"bar"}' %}
+{% set json = '{"foo": "bar"}' %}
 {% set array = json|json_decode %}
 {{ array.foo }}
 ```
@@ -505,7 +515,7 @@ Converts a string to a slug.
 Truncates a string and appends suffix.
 
 ```twig
-{{ string|excerpt(integer,suffix) }}
+{{ string|excerpt(integer, suffix) }}
 ```
 
 | Option | Description                                | Type    | Default |
@@ -517,7 +527,7 @@ _Examples:_
 
 ```twig
 {{ variable|excerpt }}
-{{ variable|excerpt(250,'...') }}
+{{ variable|excerpt(250, '...') }}
 ```
 
 ### excerpt_html
@@ -526,34 +536,6 @@ Reads characters before `<!-- excerpt -->` or `<!-- break -->`.
 
 ```twig
 {{ string|excerpt_html }}
-```
-
-### preg_split
-
-Split a string into an array using a regular expression.
-
-```twig
-{{ string|preg_split(pattern, limit) }}
-```
-
-_Example:_
-
-```twig
-{% set headers = page.content|preg_split('/<h3[^>]*>/') %}
-```
-
-### preg_match_all
-
-Perform a regular expression match and return the group for all matches.
-
-```twig
-{{ string|preg_match_all(pattern, group) }}
-```
-
-_Example:_
-
-```twig
-{% set tags = page.content|preg_match_all('/<[^>]+>(.*)<\\/[^>]+>/') %}
 ```
 
 ### to_css
@@ -603,45 +585,6 @@ _Examples:_
 {{ asset('styles.css')|minify }}
 {{ 'styles.css'|minify }} {# deprecated #}
 {{ asset('scripts.js')|minify }}
-```
-
-### inline
-
-Outputs the content of an _Asset_.
-
-```twig
-{{ asset(path)|inline }}
-```
-
-_Example:_
-
-```twig
-{{ asset('styles.css')|inline }}
-```
-
-### html
-
-Turns an asset into an HTML element.
-
-```twig
-{{ asset(path)|html({attributes, options}) }}
-```
-
-| Option     | Description                                     | Type  | Default |
-| ---------- | ----------------------------------------------- | ----- | ------- |
-| attributes | Adds `name="value"` couple to the HTML element. | array |         |
-| options    | Rendering format. Preload: `{preload:true}`.    | array |         |
-
-Available for CSS, JavaScript and image file.
-
-_Examples:_
-
-```twig
-{{ asset('image.png')|html({title:'Title',alt:'Alternative'}) }}
-```
-
-```twig
-{{ asset('styles.css')|html({},{preload:true}) }}
 ```
 
 ### minify_css
@@ -763,6 +706,77 @@ Returns the [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTT
 
 ```twig
 {{ asset(image_path)|dataurl }}
+```
+
+### inline
+
+Outputs the content of an _Asset_.
+
+```twig
+{{ asset(path)|inline }}
+```
+
+_Example:_
+
+```twig
+{{ asset('styles.css')|inline }}
+```
+
+### html
+
+Turns an asset into an HTML element.
+
+```twig
+{{ asset(path)|html({attributes, options}) }}
+```
+
+| Option     | Description                                     | Type  | Default |
+| ---------- | ----------------------------------------------- | ----- | ------- |
+| attributes | Adds `name="value"` couple to the HTML element. | array |         |
+| options    | `{preload: true}`: prelaods CSS, `{responsive: true}`: creates responsives images | array |         |
+
+Available for CSS, JavaScript and image file.
+
+_Examples:_
+
+```twig
+{{ asset('styles.css')|html({}, {preload:true}) }}
+```
+
+```twig
+{{ asset('image.png')|html({title:'Title', alt:'Alternative'}) }}
+```
+
+```twig
+{{ asset('image.png')|html({}, {responsive: true}) }}
+```
+
+### preg_split
+
+Split a string into an array using a regular expression.
+
+```twig
+{{ string|preg_split(pattern, limit) }}
+```
+
+_Example:_
+
+```twig
+{% set headers = page.content|preg_split('/<h3[^>]*>/') %}
+```
+
+### preg_match_all
+
+Perform a regular expression match and return the group for all matches.
+
+```twig
+{{ string|preg_match_all(pattern, group) }}
+```
+
+_Example:_
+
+```twig
+{% set tags = page.content|preg_match_all('/<[^>]+>(.*)<\\/[^>]+>/') %}
 ```
 
 ## Localization
