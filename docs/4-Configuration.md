@@ -183,7 +183,7 @@ Cecil uses data from pages front matter and fallbacks to the configuration to fe
 ```yaml
 title: 'Site / Page title'
 description: 'Site / Page description'
-keywords: ['keyword1', 'keyword2'] # use `tags` in case of a Page
+keywords: ['keyword1', 'keyword2'] # use `tags` in page front matter
 author: 'Author name'
 image: 'image.jpg'
 social:
