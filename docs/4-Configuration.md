@@ -188,9 +188,9 @@ menus:
 This template adds the following meta tags to your site:
 
 - Page title with site title or site title with site baseline
-- Page description
+- Page description or site description
 - Page tags or site keywords
-- Page author
+- Page author or site author
 - Search engine crawler directives
 - Favicon links
 - Previous and next page links
@@ -232,16 +232,16 @@ The title can be overridden:
 metatags:
   title:                  # title options
     divider: ' &middot; '   # string between page title and site title
-    only: false             # display page title only (`false` by default)
+    only: false             # displays page title only (`false` by default)
     pagination:
-      shownumber: true      # display page number in title (`true` by default)
+      shownumber: true      # displays page number in title (`true` by default)
       label: 'Page %s'      # how to display page number (`Page %s` by default)
   robots: 'index,follow'  # web crawlers directives (`index,follow` by default)
   articles: 'blog'        # articles' section (`blog` by default)
   jsonld:
-    enabled: true         # inject JSON-LD meta tags (`false` by default)
+    enabled: true         # injects JSON-LD meta tags (`false` by default)
   favicon:
-    enabled: true         # inject favicon (`true` by default)
+    enabled: true         # injects favicon (`true` by default)
     image: 'favicon.png'  # path to favicon image
     sizes:
       - 'icon': [32, 57, 76, 96, 128, 192, 228] # web browsers
@@ -556,11 +556,13 @@ body:
   toc: [h2, h3]          # headers used to build the table of contents
   images:                # how to handle images
     lazy:
-      enabled: true      # enable lazy loading (`true` by default)
+      enabled: true      # enables lazy loading (`true` by default)
     caption:
-      enabled: true      # add <figcaption> to images with a title (`false` by default)
+      enabled: true      # adds <figcaption> to images with a title (`false` by default)
     resize:
-      enabled: false     # enable image resizing by using the `width` extra attribute (`false` by default)
+      enabled: false     # enables image resizing by using the `width` extra attribute (`false` by default)
+    responsive:
+      enabled: false     # creates responsive images (`false` by default)
 ```
 
 See _[Content > Page > Body](2-Content.md#body)_ documentation to know how those options impacts your content.
@@ -630,22 +632,22 @@ Assets handling options.
 ```yml
 assets:
   fingerprint:
-    enabled: true        # enable fingerprinting
+    enabled: true        # enables fingerprinting
   compile:
-    enabled: true        # enable asset compilation
+    enabled: true        # enables asset compilation
     style: nested        # style of compilation
     import: [sass, scss] # list of imported paths
-    sourcemap: false     # enable sourcemap
+    sourcemap: false     # enables sourcemap
     variables: []        # list of preset variables
   minify:
-    enabled: true        # enable asset minification
+    enabled: true        # enables asset minification
   target: assets         # where remote and resized assets are saved
   images:
     optimize:
       enabled: false     # enables images optimization (with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle)
     quality: 85          # JPEG and PNG image quality after optimization or resize
     responsive:          # used by `html` filter
-      enabled: false     # enable responsive images (`false` by default)
+      enabled: false     # enables responsive images (`false` by default)
       width:             # `srcset` range
         steps: 5           # number of steps from `min` to `max`
         min: 320           # minimum width
@@ -670,16 +672,16 @@ postprocess:
   enabled: false
   html:
     ext: [html, htm] # list of files extensions
-    enabled: true    # enable HTML post processing
+    enabled: true    # enables HTML post processing
   css:
     ext: [css]       # list of files extensions
-    enabled: true    # enable CSS post processing
+    enabled: true    # enables CSS post processing
   js:
     ext: [js]        # list of files extensions
-    enabled: true    # enable JS post processing
+    enabled: true    # enables JS post processing
   images:
     ext: [jpeg, jpg, png, gif, webp, svg] # list of files extensions
-    enabled: true                         # enable images post processing
+    enabled: true                         # enables images post processing
 ```
 
 Images compressor will use these binaries if they are present on your system: [JpegOptim](http://freecode.com/projects/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/).
@@ -691,7 +693,7 @@ Cache options.
 ```yaml
 cache:
   dir: '.cache' # cache directory
-  enabled: true # enable cache
+  enabled: true # enables cache
   templates:    # Twig cache
       dir: templates
       enabled: true
