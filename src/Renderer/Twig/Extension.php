@@ -515,7 +515,7 @@ class Extension extends SlugifyExtension
             }
 
             return \sprintf(
-                '<img src="%s" width="'. $asset->getWidth() .'" height="'. $asset->getHeight() .'"%s>',
+                '<img src="%s" width="'.$asset->getWidth().'" height="'.$asset->getHeight().'"%s>',
                 $this->url($asset['path'], $options),
                 $htmlAttributes
             );
