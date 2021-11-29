@@ -473,6 +473,10 @@ class Extension extends SlugifyExtension
     public function html(Asset $asset, array $attributes = null, array $options = null): string
     {
         $htmlAttributes = '';
+        $preload = false;
+        $responsive = $this->builder->getConfig()->get('assets.images.responsive.enabled') ?? false;
+        extract($options, EXTR_IF_EXISTS);
+
         foreach ($attributes as $name => $value) {
             if (!empty($value)) {
                 $htmlAttributes .= \sprintf(' %s="%s"', $name, $value);
@@ -483,7 +487,7 @@ class Extension extends SlugifyExtension
 
         switch ($asset['ext']) {
             case 'css':
-                if ($options['preload']) {
+                if ($preload) {
                     return \sprintf(
                         '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s>
                          <noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
@@ -498,15 +502,15 @@ class Extension extends SlugifyExtension
         }
 
         if ($asset['type'] == 'image') {
-            if ($options['responsive']) {
+            if ($responsive) {
                 if ($srcset = Image::getSrcset(
                     $asset,
-                    $this->builder->getConfig()->get('body.images.responsive.width.steps') ?? 5,
-                    $this->builder->getConfig()->get('body.images.responsive.width.min') ?? 320,
-                    $this->builder->getConfig()->get('body.images.responsive.width.max') ?? 1280
+                    $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
+                    $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
+                    $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
                 )) {
                     $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                    $htmlAttributes .= \sprintf(' sizes="%s"', '100vw');
+                    $htmlAttributes .= \sprintf(' sizes="%s"', $this->builder->getConfig()->get('assets.images.responsive.sizes.default') ?? '100vw');
                 }
             }
 
