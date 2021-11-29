@@ -178,6 +178,22 @@ menus:
 
 *[SEO]: Search Engine Optimization
 
+This template adds the following meta tags to your site:
+
+- Page title, with site title or baseline appended
+- Page description
+- Page keywords
+- Page author
+- Search engine crawler directives
+- Favicon links
+- Previous / Next page links
+- Pagination links
+- Canonical URL
+- Link to alternates formats (ie: RSS feed)
+- Open Graph
+- Twitter Card
+- JSON-LD site and post metadata
+
 Cecil uses data from pages front matter and fallbacks to the configuration to feed meta tags:
 
 ```yaml
