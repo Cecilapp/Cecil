@@ -180,25 +180,25 @@ menus:
 
 This template adds the following meta tags to your site:
 
-- Page title, with site title or baseline appended
+- Page title with site title or site title with site baseline
 - Page description
-- Page keywords
+- Page tags or site keywords
 - Page author
 - Search engine crawler directives
 - Favicon links
-- Previous / Next page links
-- Pagination links
+- Previous and next page links
+- Pagination links (first, previous, next, last)
 - Canonical URL
-- Link to alternates formats (ie: RSS feed)
+- Links to alternates formats (ie: RSS feed)
 - Open Graph
 - Twitter Card
-- JSON-LD site and post metadata
+- JSON-LD site and article metadata
 
-Cecil uses data from pages front matter and fallbacks to the configuration to feed meta tags:
+Cecil uses page front matter and fallbacks to the site configuration to feed meta tags:
 
 ```yaml
-title: 'Site / Page title'
-description: 'Site / Page description'
+title: 'Page or site title'
+description: 'Page or site description'
 keywords: ['keyword1', 'keyword2'] # use `tags` in page front matter
 author: 'Author name'
 image: 'image.jpg'
@@ -223,18 +223,18 @@ The title can be overridden:
 
 ```yaml
 metatags:
-  title:
-    divider: ' &middot; ' # string between page title and site title
-    only: false           # display page title only
+  title:                  # title options
+    divider: ' &middot; '   # string between page title and site title
+    only: false             # display page title only (`false` by default)
     pagination:
-      shownumber: true    # display page number in title
-      label: 'Page %s'    # how to display page number
-  robots: 'index,follow'  # web crawlers directives
-  articles: 'blog'        # articles' section
+      shownumber: true      # display page number in title (`true` by default)
+      label: 'Page %s'      # how to display page number (`Page %s` by default)
+  robots: 'index,follow'  # web crawlers directives (`index,follow` by default)
+  articles: 'blog'        # articles' section (`blog` by default)
   jsonld:
-    enabled: true         # inject JSON-LD meta tags
+    enabled: true         # inject JSON-LD meta tags (`false` by default)
   favicon:
-    enabled: true         # inject favicon
+    enabled: true         # inject favicon (`true` by default)
     image: 'favicon.png'  # path to favicon image
     sizes:
       - 'icon': [32, 57, 76, 96, 128, 192, 228] # web browsers
