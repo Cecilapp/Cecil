@@ -478,11 +478,11 @@ class Extension extends SlugifyExtension
         extract($options, EXTR_IF_EXISTS);
 
         foreach ($attributes as $name => $value) {
-            if (!empty($value)) {
-                $htmlAttributes .= \sprintf(' %s="%s"', $name, $value);
-            } else {
-                $htmlAttributes .= \sprintf(' %s', $name);
+            $attribute = \sprintf(' %s="%s"', $name, $value);
+            if (empty($value)) {
+                $attribute = \sprintf(' %s', $name);
             }
+            $htmlAttributes .= $attribute;
         }
 
         switch ($asset['ext']) {
@@ -502,16 +502,14 @@ class Extension extends SlugifyExtension
         }
 
         if ($asset['type'] == 'image') {
-            if ($responsive) {
-                if ($srcset = Image::getSrcset(
-                    $asset,
-                    $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
-                    $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
-                    $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
-                )) {
-                    $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                    $htmlAttributes .= \sprintf(' sizes="%s"', $this->builder->getConfig()->get('assets.images.responsive.sizes.default') ?? '100vw');
-                }
+            if ($responsive && $srcset = Image::getSrcset(
+                $asset,
+                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
+                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
+                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
+            )) {
+                $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
+                $htmlAttributes .= \sprintf(' sizes="%s"', $this->builder->getConfig()->get('assets.images.responsive.sizes.default') ?? '100vw');
             }
 
             return \sprintf(
