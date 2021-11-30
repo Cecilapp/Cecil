@@ -71,7 +71,7 @@ class Image
         }
         // add reference image
         if (!empty($srcset)) {
-            $srcset .= sprintf('%s %sw', $asset, $asset->getWidth());
+            $srcset .= sprintf('%s %sw', (string) $asset, $asset->getWidth());
         }
 
         return $srcset;
