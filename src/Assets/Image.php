@@ -10,6 +10,7 @@
 
 namespace Cecil\Assets;
 
+use Intervention\Image\ImageManagerStatic as ImageManager;
 use Spatie\ImageOptimizer\OptimizerChain;
 use Spatie\ImageOptimizer\Optimizers\Gifsicle;
 use Spatie\ImageOptimizer\Optimizers\Jpegoptim;
@@ -74,5 +75,20 @@ class Image
         }
 
         return $srcset;
+    }
+
+    /**
+     * Converts an asset image to WebP.
+     */
+    public static function convertTopWebp(Asset $asset, int $quality): Asset
+    {
+        $assetWebp = clone $asset;
+        $format = 'webp';
+        $image = ImageManager::make($assetWebp['content_source']);
+        $assetWebp['content'] = (string) $image->encode($format, $quality);
+        $assetWebp['path'] = preg_replace('/\.' . $asset['ext'] . '$/m', ".$format", $asset['path']);
+        $assetWebp['ext'] = $format;
+
+        return $assetWebp;
     }
 }

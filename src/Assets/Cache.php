@@ -177,7 +177,7 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset, string $state = null): string
     {
-        return $this->prepareKey(\sprintf('%s%s__%s.ser', $asset['filename'], ".$state" ?? '', $this->createKeyFromString($asset['content_source'] ?? '')));
+        return $this->prepareKey(\sprintf('%s%s%s__%s.ser', $asset['filename'], ".{$asset['ext']}", ".$state" ?? '', $this->createKeyFromString($asset['content_source'] ?? '')));
     }
 
     /**

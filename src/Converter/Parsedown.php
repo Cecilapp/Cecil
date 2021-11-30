@@ -29,7 +29,7 @@ class Parsedown extends \ParsedownToC
     {
         $this->builder = $builder;
         if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
-            $this->BlockTypes['!'][] = 'Figure';
+            $this->BlockTypes['!'][] = 'Image';
         }
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
     }
@@ -139,37 +139,95 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * Add caption to <figure> block.
+     * Enhanced image block with <figure>/<figcaption>.
      */
-    protected function blockFigure($Line)
+    protected function blockImage($Line)
     {
         if (1 !== preg_match($this->MarkdownImageRegex, $Line['text'])) {
             return;
         }
 
         $InlineImage = $this->inlineImage($Line);
-        if (!isset($InlineImage) || empty($InlineImage['element']['attributes']['title'])) {
+        if (!isset($InlineImage)) {
             return;
         }
 
-        $FigureBlock = [
-            'element' => [
-                'name'    => 'figure',
-                'handler' => 'elements',
-                'text'    => [
-                    $InlineImage['element'],
-                ],
-            ],
-        ];
-        $InlineFigcaption = [
-            'element' => [
-                'name' => 'figcaption',
-                'text' => $InlineImage['element']['attributes']['title'],
-            ],
-        ];
-        $FigureBlock['element']['text'][] = $InlineFigcaption['element'];
+        $block = $InlineImage;
 
-        return $FigureBlock;
+        /*
+        <figure>
+            <picture>
+                <source type="image/webp"
+                    srcset="..."
+                    sizes="..."
+                >
+                <img src="..."
+                    srcset="..."
+                    sizes="..."
+                >
+            </picture>
+            <figcaption>...</figcaption>
+        </figure>
+        */
+
+        // creates a <picture> element with <source> and <img> elements
+        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false) {
+            $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality'));
+            $srcset = Image::getSrcset(
+                $assetWebp,
+                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
+                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
+                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
+            );
+            if (empty($srcset)) {
+                $srcset = (string) $assetWebp;
+            }
+            $PictureBlock = [
+                'element' => [
+                    'name'    => 'picture',
+                    'handler' => 'elements',
+                    'text'    => [
+                        $InlineImage['element'],
+                    ],
+                ],
+            ];
+            $source = [
+                'element' => [
+                    'name'       => 'source',
+                    'attributes' => [
+                        'type'   => 'image/webp',
+                        'srcset' => $srcset,
+                        'sizes'  => $this->builder->getConfig()->get('assets.images.responsive.sizes.default'),
+                    ],
+                ],
+            ];
+            $PictureBlock['element']['text'][] = $source['element'];
+            $block = $PictureBlock;
+        }
+
+        // put <img> or <picture> in a <figure> element if there is a title
+        if (!empty($InlineImage['element']['attributes']['title'])) {
+            $FigureBlock = [
+                'element' => [
+                    'name'    => 'figure',
+                    'handler' => 'elements',
+                    'text'    => [
+                        $block['element'],
+                    ],
+                ],
+            ];
+            $InlineFigcaption = [
+                'element' => [
+                    'name' => 'figcaption',
+                    'text' => $InlineImage['element']['attributes']['title'],
+                ],
+            ];
+            $FigureBlock['element']['text'][] = $InlineFigcaption['element'];
+
+            return $FigureBlock;
+        }
+
+        return $block;
     }
 
     /**
