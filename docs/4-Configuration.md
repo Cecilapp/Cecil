@@ -563,6 +563,8 @@ body:
       enabled: false     # enables image resizing by using the `width` extra attribute (`false` by default)
     responsive:
       enabled: false     # creates responsive images (`false` by default)
+    webp:
+      enabled: false     # creates webp images (`false` by default)
 ```
 
 See _[Content > Page > Body](2-Content.md#body)_ documentation to know how those options impacts your content.

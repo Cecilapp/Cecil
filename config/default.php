@@ -170,6 +170,9 @@ return [
             'responsive' => [
                 'enabled' => false, // creates responsive images
             ],
+            'webp' => [
+                'enabled' => false, // creates a WebP version of images
+            ],
         ],
     ],
     // data files

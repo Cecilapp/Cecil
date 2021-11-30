@@ -403,7 +403,7 @@ class Asset implements \ArrayAccess
             } catch (\Exception $e) {
                 throw new Exception(sprintf('Not able to resize image "%s": %s', $this->data['path'], $e->getMessage()));
             }
-            $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path_source']);
+            $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path']);
 
             try {
                 $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
