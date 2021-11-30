@@ -172,7 +172,7 @@ class Parsedown extends \ParsedownToC
 
         // creates a <picture> element with <source> and <img> elements
         if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false) {
-            $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality'));
+            $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 85);
             $srcset = Image::getSrcset(
                 $assetWebp,
                 $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
