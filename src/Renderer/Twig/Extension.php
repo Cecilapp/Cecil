@@ -474,7 +474,8 @@ class Extension extends SlugifyExtension
     {
         $htmlAttributes = '';
         $preload = false;
-        $responsive = $this->builder->getConfig()->get('assets.images.responsive.enabled') ?? false;
+        $responsive = $this->config->get('assets.images.responsive.enabled') ?? false;
+        $webp = $this->config->get('assets.images.webp.enabled') ?? false;
         extract($options, EXTR_IF_EXISTS);
 
         foreach ($attributes as $name => $value) {
@@ -504,19 +505,38 @@ class Extension extends SlugifyExtension
         if ($asset['type'] == 'image') {
             if ($responsive && $srcset = Image::getSrcset(
                 $asset,
-                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
-                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
-                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
+                $this->config->get('assets.images.responsive.width.steps') ?? 5,
+                $this->config->get('assets.images.responsive.width.min') ?? 320,
+                $this->config->get('assets.images.responsive.width.max') ?? 1280
             )) {
                 $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                $htmlAttributes .= \sprintf(' sizes="%s"', $this->builder->getConfig()->get('assets.images.responsive.sizes.default') ?? '100vw');
+                $htmlAttributes .= \sprintf(' sizes="%s"', $this->config->get('assets.images.responsive.sizes.default') ?? '100vw');
             }
 
-            return \sprintf(
+            $img = \sprintf(
                 '<img src="%s" width="'.($asset->getWidth() ?: 0).'" height="'.($asset->getHeight() ?: 0).'"%s>',
                 $this->url($asset['path'], $options),
                 $htmlAttributes
             );
+
+            if ($webp) {
+                $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 85);
+                $srcset = Image::getSrcset(
+                    $assetWebp,
+                    $this->config->get('assets.images.responsive.width.steps') ?? 5,
+                    $this->config->get('assets.images.responsive.width.min') ?? 320,
+                    $this->config->get('assets.images.responsive.width.max') ?? 1280
+                ) ?: (string) $assetWebp;
+                $source = \sprintf(
+                    '<source type="image/webp" srcset="%s" sizes="%s">',
+                    $srcset,
+                    $this->config->get('assets.images.responsive.sizes.default') ?? '100vw'
+                );
+
+                return \sprintf("<picture>\n  %s\n  %s\n</picture>", $source, $img);
+            }
+
+            return $img;
         }
 
         throw new Exception(\sprintf('%s is available with CSS, JS and images files only.', '"html" filter'));

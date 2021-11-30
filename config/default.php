@@ -229,6 +229,9 @@ return [
                     'default' => '100vw', // default sizes
                 ],
             ],
+            'webp' => [
+                'enabled' => false, // creates a WebP version of images with `html` filter
+            ],
         ],
     ],
     'postprocess' => [
