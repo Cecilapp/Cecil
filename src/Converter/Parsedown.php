@@ -186,9 +186,6 @@ class Parsedown extends \ParsedownToC
                 'element' => [
                     'name'    => 'picture',
                     'handler' => 'elements',
-                    'text'    => [
-                        $InlineImage['element'],
-                    ],
                 ],
             ];
             $source = [
@@ -202,6 +199,7 @@ class Parsedown extends \ParsedownToC
                 ],
             ];
             $PictureBlock['element']['text'][] = $source['element'];
+            $PictureBlock['element']['text'][] = $InlineImage['element'];
             $block = $PictureBlock;
         }
 
