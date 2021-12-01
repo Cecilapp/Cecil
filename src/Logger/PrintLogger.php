@@ -55,7 +55,7 @@ class PrintLogger extends AbstractLogger
             return;
         }
 
-        if (array_key_exists('progress', $context)) {
+        if (isset($context['progress'])) {
             printf(
                 "[%s] (%s/%s) %s\n",
                 $level,

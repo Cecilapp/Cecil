@@ -363,11 +363,7 @@ class Config
             ));
         }
 
-        if (!array_key_exists($name, $properties)) {
-            return null;
-        }
-
-        return $properties[$name];
+        return isset($properties[$name]) ?: null;
     }
 
     /**
@@ -442,7 +438,7 @@ class Config
         }
 
         $languages = array_filter($languages, function ($language) {
-            return !(array_key_exists('enabled', $language) && $language['enabled'] === false);
+            return !(isset($language['enabled']) && $language['enabled'] === false);
         });
 
         $this->languages = $languages;

@@ -74,12 +74,12 @@ class ConsoleLogger extends PrintLogger
         $prefix = '';
 
         // steps prefix
-        if (array_key_exists('step', $context)) {
+        if (isset($context['step'])) {
             $prefix = sprintf('%s. ', $this->padPrefix($context['step'][0], $context['step'][1]));
         }
 
         // sub steps progress
-        if (array_key_exists('progress', $context)) {
+        if (isset($context['progress'])) {
             // prefix
             $prefix = sprintf(
                 '[%s/%s] ',
