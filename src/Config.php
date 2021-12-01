@@ -363,7 +363,7 @@ class Config
             ));
         }
 
-        return isset($properties[$name]) ?: null;
+        return $properties[$name] ?? null;
     }
 
     /**
