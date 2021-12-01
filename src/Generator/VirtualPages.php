@@ -36,7 +36,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
             if (isset($frontmatter['published']) && $frontmatter['published'] === false) {
                 continue;
             }
-            if (!array_key_exists('path', $frontmatter)) {
+            if (!isset($frontmatter['path'])) {
                 throw new Exception(sprintf(
                     'Each pages in "%s" config\'s section must have a "path".',
                     $this->configKey

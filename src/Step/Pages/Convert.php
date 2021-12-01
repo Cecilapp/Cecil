@@ -86,10 +86,10 @@ class Convert extends AbstractStep
                  */
                 if (is_array($this->config->get('paths'))) {
                     foreach ($this->config->get('paths') as $entry) {
-                        if (array_key_exists('section', $entry)) {
+                        if (isset($entry['section'])) {
                             /** @var Page $page */
                             if ($page->getSection() == Page::slugify($entry['section'])) {
-                                if (array_key_exists('path', $entry)) {
+                                if (isset($entry['path'])) {
                                     $path = str_replace(
                                         [
                                             ':year',

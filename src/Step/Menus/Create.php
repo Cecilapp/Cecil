@@ -82,11 +82,11 @@ class Create extends AbstractStep
                         $updated = false;
 
                         // ID is required
-                        if (!array_key_exists('id', $property)) {
+                        if (!isset($property['id'])) {
                             throw new Exception(sprintf('"id" is required for entry at position %s in "%s" menu', $key, $menu));
                         }
                         // enabled?
-                        if (array_key_exists('enabled', $property) && false === $property['enabled']) {
+                        if (isset($property['enabled']) && false === $property['enabled']) {
                             $enabled = false;
                             if (!$menu->has($property['id'])) {
                                 $message = sprintf('%s > %s%s (disabled)', (string) $menu, $property['id'], $suffix);
@@ -187,7 +187,7 @@ class Create extends AbstractStep
                     $item = (new Entry($page->getIdWithoutLang()))
                         ->setName($page->getVariable('title'))
                         ->setUrl((new PageRenderer($this->config))->getUrl($page));
-                    if (array_key_exists('weight', (array) $property)) {
+                    if (isset($property['weight'])) {
                         $weight = $property['weight'];
                         $item->setWeight($property['weight']);
                     }
