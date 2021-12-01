@@ -306,6 +306,14 @@ class Config
     }
 
     /**
+     * Returns the path of assets files directory.
+     */
+    public function getAssetsPath(): string
+    {
+        return Util::joinFile($this->getSourceDir(), (string) $this->get('assets.dir'));
+    }
+
+    /**
      * Is cache dir is absolute to system files
      * or relative to project destination?
      */

@@ -614,6 +614,20 @@ class Asset implements \ArrayAccess
             return $filePath;
         }
 
+        // checks in assets/
+        $filePath = Util::joinFile($this->config->getAssetsPath(), $path);
+        if (Util\File::getFS()->exists($filePath)) {
+            return $filePath;
+        }
+
+        // checks in each themes/<theme>/assets/
+        foreach ($this->config->getTheme() as $theme) {
+            $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $path);
+            if (Util\File::getFS()->exists($filePath)) {
+                return $filePath;
+            }
+        }
+
         // checks in static/
         $filePath = Util::joinFile($this->config->getStaticPath(), $path);
         if (Util\File::getFS()->exists($filePath)) {
