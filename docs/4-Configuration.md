@@ -637,28 +637,28 @@ Assets handling options.
 assets:
   dir: assets            # files directory
   fingerprint:
-    enabled: true        # enables fingerprinting
+    enabled: true        # enables fingerprinting (`true` by default)
   compile:
-    enabled: true        # enables asset compilation
-    style: nested        # style of compilation
-    import: [sass, scss] # list of imported paths
-    sourcemap: false     # enables sourcemap
-    variables: []        # list of preset variables
+    enabled: true        # enables asset compilation (`true` by default)
+    style: expanded      # style of compilation (`expanded` or `compressed`. `expanded` by default)
+    import: [sass, scss] # list of imported paths (`[sass, scss, node_modules]` by default)
+    sourcemap: false     # enables sourcemap (`false` by default)
+    variables: []        # list of preset variables (empty by default)
   minify:
-    enabled: true        # enables asset minification
+    enabled: true        # enables asset minification (`true` by default)
   target: assets         # where remote and resized assets are saved
   images:
     optimize:
       enabled: false     # enables images optimization (with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle)
-    quality: 85          # JPEG and PNG image quality after optimization or resize
+    quality: 85          # JPEG and PNG image quality after optimization or resize (`85` by default)
     responsive:
       enabled: false     # creates responsive images with `html` filter (`false` by default)
       width:             # `srcset` range
-        steps: 5           # number of steps from `min` to `max`
-        min: 320           # minimum width
-        max: 1280          # maximum width
+        steps: 5           # number of steps from `min` to `max` (`5` by default)
+        min: 320           # minimum width (`320` by default)
+        max: 1280          # maximum width (`1280` by default)
       sizes:
-        default: '100vw' # default sizes
+        default: '100vw' # `sizes`attribute (`100vw` by default)
     webp:
       enabled: false     # creates a WebP version of images with `html` filter (`false` by default)
 ```
