@@ -150,9 +150,11 @@ class Convert extends AbstractStep
             $page->setVariables($variables);
         }
 
-        // converts body
-        $html = $converter->convertBody($page->getBody());
-        $page->setBodyHtml($html);
+        // converts body only if page is published
+        if ($page->getVariable('published')) {
+            $html = $converter->convertBody($page->getBody());
+            $page->setBodyHtml($html);
+        }
 
         return $page;
     }
