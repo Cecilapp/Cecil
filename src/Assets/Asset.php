@@ -223,27 +223,31 @@ class Asset implements \ArrayAccess
         $cacheKey = $cache->createKeyFromAsset($this, 'compiled');
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
-            // import path
-            $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath()));
+            $importDir = [];
+            $importDir[] = Util::joinPath($this->config->getStaticPath());
+            $importDir[] = Util::joinPath($this->config->getAssetsPath());
             $scssDir = $this->config->get('assets.compile.import') ?? [];
             $themes = $this->config->getTheme() ?? [];
             foreach ($scssDir as $dir) {
-                $scssPhp->addImportPath(Util::joinPath($this->config->getStaticPath(), $dir));
-                $scssPhp->addImportPath(Util::joinPath(dirname($this->data['file']), $dir));
+                $importDir[] = Util::joinPath($this->config->getStaticPath(), $dir);
+                $importDir[] = Util::joinPath($this->config->getAssetsPath(), $dir);
+                $importDir[] = Util::joinPath(dirname($this->data['file']), $dir);
                 foreach ($themes as $theme) {
-                    $scssPhp->addImportPath(Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir")));
+                    $importDir[] = Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir"));
+                    $importDir[] = Util::joinPath($this->config->getThemeDirPath($theme, "assets/$dir"));
                 }
             }
+            $scssPhp->setImportPaths(array_unique($importDir));
             // source map
             if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
                 $importDir = [];
-                $staticDir = (string) $this->config->get('static.dir');
-                $staticDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR.$staticDir.DIRECTORY_SEPARATOR);
-                $fileRelPath = substr($this->data['file'], $staticDirPos + 8);
-                $filePath = Util::joinFile($this->config->getOutputPath(), $this->config->get('static.target') ?? '', $fileRelPath);
+                $assetDir = (string) $this->config->get('assets.dir');
+                $assetDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR.$assetDir.DIRECTORY_SEPARATOR);
+                $fileRelPath = substr($this->data['file'], $assetDirPos + 8);
+                $filePath = Util::joinFile($this->config->getOutputPath(), $fileRelPath);
                 $importDir[] = dirname($filePath);
                 foreach ($scssDir as $dir) {
-                    $importDir[] = Util::joinFile($this->config->getOutputPath(), $this->config->get('static.target') ?? '', $dir);
+                    $importDir[] = Util::joinFile($this->config->getOutputPath(), $dir);
                 }
                 $scssPhp->setImportPaths(array_unique($importDir));
                 $scssPhp->setSourceMap(Compiler::SOURCE_MAP_INLINE);
@@ -282,7 +286,7 @@ class Asset implements \ArrayAccess
      */
     public function minify(): self
     {
-        // disable minify for sourcemap
+        // disable minify to preserve inline source map
         if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
             return $this;
         }
@@ -612,6 +616,20 @@ class Asset implements \ArrayAccess
             }
 
             return $filePath;
+        }
+
+        // checks in assets/
+        $filePath = Util::joinFile($this->config->getAssetsPath(), $path);
+        if (Util\File::getFS()->exists($filePath)) {
+            return $filePath;
+        }
+
+        // checks in each themes/<theme>/assets/
+        foreach ($this->config->getTheme() as $theme) {
+            $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $path);
+            if (Util\File::getFS()->exists($filePath)) {
+                return $filePath;
+            }
         }
 
         // checks in static/

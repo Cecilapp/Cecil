@@ -199,6 +199,7 @@ return [
         'dir' => 'themes',
     ],
     'assets' => [
+        'dir'     => 'assets',
         'compile' => [     // Compile Saas
             'enabled'   => true,
             'style'     => 'expanded', // 'expanded' or 'compressed',
