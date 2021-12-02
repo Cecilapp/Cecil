@@ -204,7 +204,7 @@ return [
             'enabled'   => true,
             'style'     => 'expanded', // 'expanded' or 'compressed',
             'import'    => ['sass', 'scss', 'node_modules'],
-            'sourcemap' => true, // works in debug mode only
+            'sourcemap' => false, // works in debug mode only
             //'variables' => ['var' => 'value']
         ],
         'minify' => [      // Minify CSS and JS
