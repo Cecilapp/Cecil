@@ -33,6 +33,8 @@ class Convert extends AbstractStep
      */
     public function init($options)
     {
+        parent::init($options);
+
         /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
             $this->canProcess = true;
@@ -150,9 +152,11 @@ class Convert extends AbstractStep
             $page->setVariables($variables);
         }
 
-        // converts body
-        $html = $converter->convertBody($page->getBody());
-        $page->setBodyHtml($html);
+        // converts body only if page is published
+        if ($page->getVariable('published') || $this->options['drafts']) {
+            $html = $converter->convertBody($page->getBody());
+            $page->setBodyHtml($html);
+        }
 
         return $page;
     }
