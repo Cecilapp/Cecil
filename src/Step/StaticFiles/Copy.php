@@ -71,6 +71,23 @@ class Copy extends AbstractStep
             $this->config->get('static.exclude')
         );
 
+        // copying assets in debug mode (for source maps)
+        if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+            // copying content of '<theme>/assets/' dir if exists
+            if ($this->config->hasTheme()) {
+                $themes = array_reverse($this->config->getTheme());
+                foreach ($themes as $theme) {
+                    $this->copy(
+                        $this->config->getThemeDirPath($theme, 'assets')
+                    );
+                }
+            }
+            // copying content of 'assets/' dir if exists
+            $this->copy(
+                $this->config->getAssetsPath()
+            );
+        }
+
         if ($this->count === 0) {
             $this->builder->getLogger()->info('Nothing to copy');
 
@@ -88,9 +105,7 @@ class Copy extends AbstractStep
             $finder = Finder::create()
                 ->files()
                 ->in($from);
-            // do not apply exclude in debug mode (for source map)
-            if ((!$this->builder->isDebug() || false === (bool) $this->config->get('assets.compile.sourcemap'))
-            && is_array($exclude)) {
+            if (is_array($exclude)) {
                 $finder->notPath($exclude);
                 $finder->notName($exclude);
             }
