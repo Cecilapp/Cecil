@@ -596,6 +596,8 @@ static:
   load: false # enables `site.static` collection (`false` by default)
 ```
 
+**You should** put your assets files, used by [`asset()`](3-Templates.md#asset), in [`assets` directory](4-Configuration.md#assets) to avoid unnecessary files copy.
+
 _Example:_
 
 ```yaml
@@ -633,6 +635,7 @@ Assets handling options.
 
 ```yml
 assets:
+  dir: assets            # files directory
   fingerprint:
     enabled: true        # enables fingerprinting
   compile:
