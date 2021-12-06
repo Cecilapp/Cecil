@@ -70,6 +70,8 @@ class Serve extends AbstractCommand
         $host = $input->getOption('host') ?? 'localhost';
         $port = $input->getOption('port') ?? '8000';
         $postprocess = $input->getOption('postprocess');
+        $clearcache = $input->getOption('clear-cache');
+        $verbose = $input->getOption('verbose');
 
         $this->setUpServer($host, $port);
 
@@ -93,14 +95,10 @@ class Serve extends AbstractCommand
             $php,
             $_SERVER['argv'][0],
         ];
-
         $buildProcessArguments[] = 'build';
-
-        $buildProcessArguments[] = '--clear-cache';
-
-        $verbose = $input->getOption('verbose');
-        if ($verbose) {
-            $buildProcessArguments[] = '-'.str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
+        if ($this->getConfigFile() !== null) {
+            $buildProcessArguments[] = '--config';
+            $buildProcessArguments[] = $this->getConfigFile();
         }
         if ($drafts) {
             $buildProcessArguments[] = '--drafts';
@@ -112,9 +110,11 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = '--postprocess';
             $buildProcessArguments[] = $postprocess;
         }
-        if ($this->getConfigFile() !== null) {
-            $buildProcessArguments[] = '--config';
-            $buildProcessArguments[] = $this->getConfigFile();
+        if ($clearcache) {
+            $buildProcessArguments[] = '--clear-cache';
+        }
+        if ($verbose) {
+            $buildProcessArguments[] = '-' . str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
         }
 
         $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
