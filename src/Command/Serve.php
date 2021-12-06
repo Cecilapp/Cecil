@@ -42,7 +42,7 @@ class Serve extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file(s) (comma-separated)'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
@@ -96,9 +96,9 @@ class Serve extends AbstractCommand
             $_SERVER['argv'][0],
         ];
         $buildProcessArguments[] = 'build';
-        if ($this->getConfigFile() !== null) {
+        if (!empty($this->getConfigFiles())) {
             $buildProcessArguments[] = '--config';
-            $buildProcessArguments[] = $this->getConfigFile();
+            $buildProcessArguments[] = implode(',', $this->getConfigFiles());
         }
         if ($drafts) {
             $buildProcessArguments[] = '--drafts';

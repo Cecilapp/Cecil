@@ -41,8 +41,8 @@ class AbstractCommand extends Command
     /** @var string */
     protected $path;
 
-    /** @var string */
-    protected $configFile;
+    /** @var array */
+    protected $configFiles;
 
     /** @var Builder */
     protected $builder;
@@ -67,16 +67,25 @@ class AbstractCommand extends Command
                 $this->fs->mkdir($this->getPath());
             }
             $this->path = realpath($this->getPath());
-            // config file
+            // config file(s)
             if (!in_array($this->getName(), ['new:site'])) {
-                $this->configFile = realpath(Util::joinFile($this->getPath(), self::CONFIG_FILE));
+                // default
+                $this->configFiles[self::CONFIG_FILE] = realpath(Util::joinFile($this->getPath(), self::CONFIG_FILE));
+                // from --config=<file>
                 if ($input->hasOption('config') && $input->getOption('config') !== null) {
-                    $this->configFile = realpath((string) $input->getOption('config'));
+                    foreach (explode(',', (string) $input->getOption('config')) as $configFile) {
+                        $this->configFiles[$configFile] = realpath($configFile);
+                        if (!Util\File::getFS()->isAbsolutePath($configFile)) {
+                            $this->configFiles[$configFile] = realpath(Util::joinFile($this->getPath(), $configFile));
+                        }
+                    }
                 }
-                // checks config file
-                if ($this->getConfigFile() === false) {
-                    $this->getBuilder()->getLogger()->warning('Could not find configuration file: uses default.');
-                    $this->configFile = null;
+                // checks file(s)
+                foreach ($this->configFiles as $fileName => $filePath) {
+                    if (!file_exists($filePath)) {
+                        $this->getBuilder()->getLogger()->error(\sprintf('Could not find configuration file "%s": uses default/others.', $fileName));
+                        unset($this->configFiles[$fileName]);
+                    }
                 }
             }
         }
@@ -116,11 +125,11 @@ class AbstractCommand extends Command
     }
 
     /**
-     * Returns the config file path.
+     * Returns config file(s) path.
      */
-    protected function getConfigFile(): ?string
+    protected function getConfigFiles(): array
     {
-        return $this->configFile;
+        return array_unique($this->configFiles);
     }
 
     /**
@@ -129,14 +138,18 @@ class AbstractCommand extends Command
     protected function getBuilder(array $config = []): Builder
     {
         try {
-            if (is_file($this->getConfigFile())) {
-                $configContent = Util\File::fileGetContents($this->getConfigFile());
-                if ($configContent === false) {
-                    throw new \Exception('Can\'t read the configuration file.');
+            $siteConfig = [];
+            foreach ($this->getConfigFiles() as $fileName => $filePath) {
+                if (is_file($filePath)) {
+                    $configContent = Util\File::fileGetContents($filePath);
+                    if ($configContent === false) {
+                        throw new \Exception(\sprintf('Can\'t read configuration file "%s".', $fileName));
+                    }
+                    $siteConfig = array_replace_recursive($siteConfig, Yaml::parse($configContent));
                 }
-                $siteConfig = Yaml::parse($configContent);
-                $config = array_replace_recursive($siteConfig, $config);
             }
+            $config = array_replace_recursive($siteConfig, $config);
+
             $this->builder = (new Builder($config, new ConsoleLogger($this->output)))
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());

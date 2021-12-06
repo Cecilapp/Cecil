@@ -33,7 +33,7 @@ class Build extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file(s) (comma-separated)'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
@@ -96,9 +96,9 @@ class Build extends AbstractCommand
             sprintf('<comment>Path: %s</comment>', $this->getPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
-        if ($this->getConfigFile() !== null) {
+        if (!empty($this->getConfigFiles())) {
             $output->writeln(
-                sprintf('<comment>Config: %s</comment>', $this->getConfigFile()),
+                sprintf('<comment>Config: %s</comment>', implode(',', $this->getConfigFiles())),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
