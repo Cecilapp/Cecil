@@ -96,9 +96,9 @@ class Build extends AbstractCommand
             sprintf('<comment>Path: %s</comment>', $this->getPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
-        if ($this->getConfigFile() !== null) {
+        if (!empty($this->getConfigFiles())) {
             $output->writeln(
-                sprintf('<comment>Config: %s</comment>', $this->getConfigFile()),
+                sprintf('<comment>Config: %s</comment>', implode(',', $this->getConfigFiles())),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }

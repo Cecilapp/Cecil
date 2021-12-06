@@ -96,9 +96,9 @@ class Serve extends AbstractCommand
             $_SERVER['argv'][0],
         ];
         $buildProcessArguments[] = 'build';
-        if ($this->getConfigFile() !== null) {
+        if (!empty($this->getConfigFiles())) {
             $buildProcessArguments[] = '--config';
-            $buildProcessArguments[] = $this->getConfigFile();
+            $buildProcessArguments[] = implode(',', $this->getConfigFiles());
         }
         if ($drafts) {
             $buildProcessArguments[] = '--drafts';
