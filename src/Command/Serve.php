@@ -114,7 +114,7 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = '--clear-cache';
         }
         if ($verbose) {
-            $buildProcessArguments[] = '-' . str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
+            $buildProcessArguments[] = '-'.str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
         }
 
         $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
