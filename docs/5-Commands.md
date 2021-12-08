@@ -1,6 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
+updated: 2021-12-08
 -->
 
 # Commands
@@ -14,14 +15,14 @@ Available commands:
   help                   Display help for a command
   self-update            Updates Cecil to the latest version
   serve                  Starts the built-in server
-cache
-  cache:clear            Removes cache
+ cache
+  cache:clear            Removes all caches
   cache:clear:assets     Removes assets cache
   cache:clear:templates  Removes templates cache
-new
+ new
   new:page               Creates a new page
   new:site               Creates a new website
-show
+ show
   show:config            Shows the configuration
   show:content           Shows content
 ```
@@ -30,10 +31,10 @@ show
 
 ### new:site
 
-Creates a blank new site.
+Creates a new skeleton site.
 
 ```plaintext
-Description:
+escription:
   Creates a new website
 
 Usage:
@@ -84,7 +85,7 @@ Options:
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
-  Creates a new page file (with a default title and the current date)
+  Creates a new page file (with filename as title and the current date)
 ```
 
 Use `editor` configuration key to define your default editor (ie: `editor: typora`).
@@ -104,7 +105,7 @@ Arguments:
   path                             Use the given path as working directory
 
 Options:
-  -c, --config=CONFIG              Set the path to the config file
+  -c, --config=CONFIG              Set the path to the config file(s) (comma-separated)
   -d, --drafts                     Include drafts
       --dry-run                    Build without saving
       --baseurl=BASEURL            Set the base URL
@@ -125,7 +126,7 @@ Help:
 
 ### serve
 
-Build and serve the site locally.
+Builds and serves the site locally.
 
 ```plaintext
 Description:
@@ -138,7 +139,7 @@ Arguments:
   path                             Use the given path as working directory
 
 Options:
-  -c, --config=CONFIG              Set the path to the config file
+  -c, --config=CONFIG              Set the path to the config file(s) (comma-separated)
   -d, --drafts                     Include drafts
   -o, --open                       Open browser automatically
       --host=HOST                  Server host
