@@ -1,5 +1,10 @@
 {
   "require": {
     "cecil/theme-hyde": "^1.18"
+  },
+  "config": {
+    "allow-plugins": {
+      "cecil/theme-installer": true
+    }
   }
 }
