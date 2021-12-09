@@ -14,6 +14,7 @@ use Humbug\SelfUpdate\Updater;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -29,15 +30,11 @@ class SelfUpdate extends AbstractCommand
         $this
             ->setName('self-update')
             ->setDescription('Updates Cecil to the latest version')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument(
-                        'path',
-                        InputArgument::OPTIONAL,
-                        'If specified, use the given path as working directory'
-                    ),
-                ])
-            )
+            ->setDefinition(new InputDefinition([
+                new InputOption('rollback', null, InputOption::VALUE_NONE, 'Revert to an older installation'),
+                new InputOption('stable', null, InputOption::VALUE_NONE, 'Force an update to the last stable version'),
+                new InputOption('preview', null, InputOption::VALUE_NONE, 'Force an update to the last unstable version'),
+            ]))
             ->setHelp('The self-update command checks for a newer version and,
 if found, downloads and installs the latest');
     }
@@ -50,13 +47,32 @@ if found, downloads and installs the latest');
         $version = $this->getApplication()->getVersion();
 
         $updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
+
+        // rollback
+        if ($input->getOption('rollback')) {
+            try {
+                $result = $updater->rollback();
+                if (!$result) {
+                    $output->writeln('Rollback failed.');
+
+                    return 1;
+                }
+                $output->writeln('Rollback done.');
+
+                return 0;
+            } catch (\Exception $e) {
+                $output->writeln($e->getMessage());
+
+                return 1;
+            }
+        }
+
         /** @var \Humbug\SelfUpdate\Strategy\GithubStrategy $strategy */
         $strategy = $updater->getStrategy();
         $strategy->setPackageName('cecil/cecil');
         $strategy->setPharName('cecil.phar');
         $strategy->setCurrentLocalVersion($version);
-        $strategy->setStability('any');
-
+        $strategy->setStability($input->getOption('preview') ? 'preview' : 'stable');
         try {
             $output->writeln('Checking for updates...');
             $result = $updater->update();
@@ -71,7 +87,7 @@ if found, downloads and installs the latest');
 
             return 0;
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            $output->writeln($e->getMessage());
 
             return 1;
         }
