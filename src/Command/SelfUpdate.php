@@ -11,7 +11,6 @@
 namespace Cecil\Command;
 
 use Humbug\SelfUpdate\Updater;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -73,6 +72,7 @@ if found, downloads and installs the latest');
         $strategy->setPharName('cecil.phar');
         $strategy->setCurrentLocalVersion($version);
         $strategy->setStability($input->getOption('preview') ? 'preview' : 'stable');
+
         try {
             $output->writeln('Checking for updates...');
             $result = $updater->update();
