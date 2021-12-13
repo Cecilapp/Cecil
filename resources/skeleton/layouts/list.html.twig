@@ -5,5 +5,5 @@
         <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
         {{ p.content|excerpt_html }}
         {%- endfor ~%}
-        {%~ include 'partials/pagination.html.twig' with {'page':page} only ~%}
+        {%~ include 'partials/pagination.html.twig' with {'page': page} only ~%}
 {% endblock content %}

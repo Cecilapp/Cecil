@@ -7,14 +7,14 @@
     <title>{{ title|e }}</title>
     <description><![CDATA[{{ site.description }}]]></description>
     <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
-    <link>{{ url(page, {canonical:true}) }}</link>
+    <link>{{ url(page, {canonical: true}) }}</link>
     {%- for p in pages|sort_by_date ~%}
     <item>
-      <guid>{{ url(p, {canonical:true}) }}</guid>
+      <guid>{{ url(p, {canonical: true}) }}</guid>
       <title>{{ p.title|e }}</title>
       <description><![CDATA[{{ p.content }}]]></description>
       <pubDate>{{ p.date|date('c') }}</pubDate>
-      <link>{{ url(p, {canonical:true}) }}</link>
+      <link>{{ url(p, {canonical: true}) }}</link>
     </item>
     {%- endfor ~%}
   </channel>

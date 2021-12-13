@@ -7,7 +7,7 @@ Disallow: {{ url(redirect, {canonical: false}) }}
 {% endfor %}
 {# 404 #}
 {% if site.pages.404 is defined %}
-Disallow: {{ url(site.pages.404, {canonical:false}) }}
+Disallow: {{ url(site.pages.404, {canonical: false}) }}
   {%- if site.pages.404.translations > 0 ~%}
     {%- for translation in site.pages.404.translations ~%}
 Disallow: {{ url(translation, {canonical: false}) }}
