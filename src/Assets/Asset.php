@@ -570,7 +570,7 @@ class Asset implements \ArrayAccess
             }
         }
         if ($force_slash) {
-            $path = '/' . ltrim($path, '/');
+            $path = '/'.ltrim($path, '/');
         }
 
         $pathinfo = pathinfo($path);
