@@ -127,7 +127,7 @@ class NewPage extends AbstractCommand
 ---
 title: "%title%"
 date: %date%
-draft: true
+published: true
 ---
 _Your content here_
 
