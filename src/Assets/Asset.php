@@ -89,6 +89,7 @@ class Asset implements \ArrayAccess
         $minify = (bool) $this->config->get('assets.minify.enabled');
         $filename = '';
         $ignore_missing = false;
+        $force_slash = true;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
         $this->ignore_missing = $ignore_missing;
 
@@ -100,7 +101,7 @@ class Asset implements \ArrayAccess
             $file = [];
             for ($i = 0; $i < $pathsCount; $i++) {
                 // loads file(s)
-                $file[$i] = $this->loadFile($paths[$i], $ignore_missing);
+                $file[$i] = $this->loadFile($paths[$i], $ignore_missing, $force_slash);
                 // bundle: same type/ext only
                 if ($i > 0) {
                     if ($file[$i]['type'] != $file[$i - 1]['type']) {
@@ -541,7 +542,7 @@ class Asset implements \ArrayAccess
     /**
      * Load file data.
      */
-    private function loadFile(string $path, bool $ignore_missing = false): array
+    private function loadFile(string $path, bool $ignore_missing = false, bool $force_slash = true): array
     {
         $file = [];
 
@@ -568,7 +569,9 @@ class Asset implements \ArrayAccess
                 }
             }
         }
-        $path = '/'.ltrim($path, '/');
+        if ($force_slash) {
+            $path = '/' . ltrim($path, '/');
+        }
 
         $pathinfo = pathinfo($path);
         list($type, $subtype) = Util\File::getMimeType($filePath);

@@ -46,7 +46,7 @@ class Parsedown extends \ParsedownToC
         // clean source path / URL
         $image['element']['attributes']['src'] = trim($this->removeQuery($image['element']['attributes']['src']));
         // create asset
-        $asset = new Asset($this->builder, $image['element']['attributes']['src']);
+        $asset = new Asset($this->builder, $image['element']['attributes']['src'], ['force_slash' => false]);
         // is asset is valid? (if yes get width)
         if (false === $width = $asset->getWidth()) {
             return $image;
