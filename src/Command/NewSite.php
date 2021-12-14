@@ -66,7 +66,7 @@ class NewSite extends AbstractCommand
                 Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE),
                 Util::joinPath($this->getPath(), self::CONFIG_FILE)
             );
-            foreach (['content', 'layouts', 'static'] as $value) {
+            foreach (['content', 'layouts', 'static', 'assets'] as $value) {
                 $this->fs->mirror(
                     Util::joinPath($root, 'resources/skeleton', $value),
                     Util::joinPath($this->getPath(), $value)
