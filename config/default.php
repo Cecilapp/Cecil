@@ -10,11 +10,11 @@
 
 // Website default configuration
 return [
-    'title'        => '',
-    'baseline'     => '',
+    'title'        => 'Site title',
+    'baseline'     => 'Site baseline',
     'baseurl'      => 'http://localhost:8000/',
     'canonicalurl' => false,   // if true 'url()' function preprends URL wirh 'baseurl'
-    'description'  => '',
+    'description'  => 'Site description',
     'taxonomies'   => [        // default taxonomies
         'tags'       => 'tag', // can be disabled with 'disabled' value
         'categories' => 'category',
