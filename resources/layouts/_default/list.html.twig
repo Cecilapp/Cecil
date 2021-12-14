@@ -9,12 +9,6 @@
 {% extends '_default/page.html.twig' %}
 
 {% block content %}
-    {%- if page.title != 'index' ~%}
-    <header>
-      <h1>{{ page.title }}</h1>
-    </header>
-    {%- endif ~%}
-    <main>
       {{ page.content }}
       {%- for p in pages ~%}
       <article>
@@ -23,6 +17,5 @@
         {{ p.content|excerpt_html }}
       </article>
       {%- endfor ~%}
-    </main>
     {%~ include 'partials/pagination.html.twig' with {'page': page} only ~%}
 {% endblock content %}
