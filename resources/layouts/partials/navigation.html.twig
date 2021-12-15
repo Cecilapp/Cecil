@@ -1,6 +1,7 @@
+{% set menu = menu|default('main') %}
       <nav>
         <ul>
-          {%- for item in site.menus.main|sort_by_weight ~%}
+          {%- for item in attribute(site.menus, menu)|sort_by_weight ~%}
           <li>
             <a href="{{ url(item.url) }}">{{ item.name }}</a>
           </li>
