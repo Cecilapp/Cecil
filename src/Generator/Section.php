@@ -31,11 +31,11 @@ class Section extends AbstractGenerator implements GeneratorInterface
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if ($page->getSection()) {
-
-                dump([
-                    'ID     ' => $page->getId(),
-                    'Section' => $page->getSection(),
-                    'Folder ' => $page->getFolder()]
+                dump(
+                    [
+                        'ID     ' => $page->getId(),
+                        'Section' => $page->getSection(),
+                        'Folder ' => $page->getFolder(), ]
                 );
 
                 if ($page->getFolder() != $page->getSection()
