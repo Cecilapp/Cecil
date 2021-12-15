@@ -28,14 +28,14 @@ class Collection extends CecilCollection
     }
 
     /**
-     * Checks if menu item exists.
+     * Checks if menu exists.
      */
-    public function __isset(string $name): bool
+    public function __isset(string $id): bool
     {
-        if ($this->has($name)) {
+        if ($this->has($id)) {
             return true;
         }
 
-        throw new \Exception(\sprintf('Menu "%s" not found', $name));
+        throw new \Exception(\sprintf('Menu "%s" not found', $id));
     }
 }
