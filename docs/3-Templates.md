@@ -874,3 +874,6 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
 :   Switcher between [languages](4-Configuration.md#languages).
+
+[`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
+:   Menu navigation.
