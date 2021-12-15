@@ -26,4 +26,16 @@ class Collection extends CecilCollection
     {
         return parent::get($id);
     }
+
+    /**
+     * Checks if menu exists.
+     */
+    public function __isset(string $id): bool
+    {
+        if ($this->has($id)) {
+            return true;
+        }
+
+        throw new \Exception(\sprintf('Menu "%s" not found', $id));
+    }
 }
