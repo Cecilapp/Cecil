@@ -289,38 +289,37 @@ class Page extends Item
     }
 
     /**
-     * Set path.
+     * Set path (and section).
      */
     public function setPath(string $path): self
     {
-        $path = self::slugify(PrefixSuffix::sub($path));
+        $this->path = self::slugify(PrefixSuffix::sub($path));
 
-        // case of homepage
-        if ($path == 'index') {
+        // case of homepage (ie: content/index.md)
+        if ($this->path == 'index') {
             $this->path = '';
 
             return $this;
         }
 
-        // case of custom sections' index (ie: content/section/index.md)
-        if (substr($path, -6) == '/index') {
-            $path = substr($path, 0, strlen($path) - 6);
+        // case of custom sections, with `index.md` (ie: content/section/index.md)
+        if (substr($this->path, -6) == '/index') {
+            $this->path = substr($this->path, 0, strlen($this->path) - 6);
         }
-        $this->path = $path;
 
-        // case of root pages
-        $lastslash = strrpos($this->path, '/');
-        if ($lastslash === false) {
+        // case of root pages (ie: content/about.md)
+        $lastSlashPos = strrpos($this->path, '/');
+        if ($lastSlashPos === false) {
             $this->slug = $this->path;
 
             return $this;
         }
 
-        if (!$this->virtual && $this->getSection() === null) {
+        if ($this->getSection() === null && !$this->virtual) {
             $this->section = explode('/', $this->path)[0];
         }
-        $this->folder = substr($this->path, 0, $lastslash);
-        $this->slug = substr($this->path, -(strlen($this->path) - $lastslash - 1));
+        $this->folder = substr($this->path, 0, $lastSlashPos);
+        $this->slug = substr($this->path, -(strlen($this->path) - $lastSlashPos - 1));
 
         return $this;
     }

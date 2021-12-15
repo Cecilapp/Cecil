@@ -27,10 +27,24 @@ class Section extends AbstractGenerator implements GeneratorInterface
     {
         $sections = [];
 
-        // identifying sections
+        // feeds sections array: [<section>][<language>] = <page>
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if ($page->getSection()) {
+
+                dump([
+                    'ID     ' => $page->getId(),
+                    'Section' => $page->getSection(),
+                    'Folder ' => $page->getFolder()]
+                );
+
+                if ($page->getFolder() != $page->getSection()
+                    && $this->builder->getPages()->has($page->getFolder())
+                ) {
+                    dump($this->builder->getPages()->get($page->getFolder())->getId());
+                    dump($this->builder->getPages()->get($page->getFolder())->getType());
+                }
+
                 // excludes page from its section?
                 if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
                     $alteredPage = clone $page;
@@ -42,7 +56,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
             }
         }
 
-        // adds section to pages collection
+        //dump(array_slice($sections, 0, 1));
+
+        // adds each section to pages collection
         if (count($sections) > 0) {
             $menuWeight = 100;
 
@@ -53,6 +69,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $pageId = sprintf('%s.%s', $pageId, $language);
                     }
                     $page = (new Page($pageId))->setVariable('title', ucfirst($section));
+                    // clones if exists
                     if ($this->builder->getPages()->has($pageId)) {
                         $page = clone $this->builder->getPages()->get($pageId);
                     }
