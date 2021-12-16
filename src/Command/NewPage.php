@@ -59,7 +59,7 @@ class NewPage extends AbstractCommand
             $dirname = trim($nameParts['dirname'], '.');
             $filename = $nameParts['filename'];
             $date = date('Y-m-d');
-            $title = $filename;
+            $title = ucfirst($filename);
             // has date prefix?
             $datePrefix = '';
             if ($prefix) {

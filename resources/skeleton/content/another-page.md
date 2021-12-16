@@ -2,7 +2,7 @@
 title: "Another page"
 menu:
   main:
-    weight: 1
+    weight: 999
 ---
 ## Welcome to another page
 
