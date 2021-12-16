@@ -459,13 +459,14 @@
         max-width: 100%;
       }
 
-      /* custom nav */
+      /* nav */
       nav ul {
-        padding-left: 0;
+        padding: 0;
+        margin: 0;
       }
       nav li {
         display: inline-block;
-        margin-right: .5rem;
+        margin: 0 .5rem 0 0;
       }
       nav a {
         text-decoration: none;
@@ -473,7 +474,13 @@
       nav a:hover {
         text-decoration: underline;
       }
-      /* fix image */
+      /* footer */
+      footer {
+        border-top: 1px solid var(--nc-bg-3);
+        padding-top: 1rem;
+        margin-top: 2rem;
+      }
+      /* image */
       img {
         height: auto;
       }
@@ -493,8 +500,7 @@
       {%- endblock content ~%}
     <main>
     <footer>
-      <hr>
-      <p>Powered by <a href="{{ cecil.url }}">Cecil</a></p>
+      <small>Powered by <a href="{{ cecil.url }}">Cecil</a> &amp; <a href="https://newcss.net">new.css</a></small>
     </footer>
     {%~ include 'partials/googleanalytics.js.twig' with {'site': site} only ~%}
   </body>
