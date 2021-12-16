@@ -39,18 +39,16 @@ else
 fi
 php cecil.phar --version
 
-echo "Started Cecil build"
-if [[ $CECIL_ENV != "production" ]]; then
-  php cecil.phar build -vv --baseurl=$DEPLOY_PRIME_URL --drafts
+if [[ $CECIL_ENV == "production" ]]; then
+  php cecil.phar build -v --baseurl=$URL
 else
-  php cecil.phar build -v --baseurl=$URL --postprocess
+  php cecil.phar build -vv --baseurl=$DEPLOY_PRIME_URL --drafts
 fi
 
 # build success? can deploy?
-if [ $? = 0 ]; then
-  exit 0
-fi
-echo "Build fail."; exit 1
+if [ $? = 0 ]; then echo "Finished Cecil build"; exit 0; fi
+
+echo "Interrupted Cecil build"; exit 1
 ```
 
 [Official documentation](https://www.netlify.com/docs/continuous-deployment/)
