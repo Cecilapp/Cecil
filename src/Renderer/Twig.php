@@ -63,6 +63,15 @@ class Twig implements RendererInterface
         // internationalisation
         if (extension_loaded('intl')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
+            $this->twig->registerUndefinedFilterCallback(function ($name) {
+                switch ($name) {
+                    case 'localizeddate':
+                        return new \Twig\TwigFilter($name, 'date');
+                        break;
+                }
+
+                return false;
+            });
         }
         if (extension_loaded('gettext')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
