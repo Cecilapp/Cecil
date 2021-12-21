@@ -75,6 +75,8 @@ class Site implements \ArrayAccess
 
     /**
      * Implements ArrayAccess.
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function offsetSet($offset, $value): void
     {
@@ -82,6 +84,8 @@ class Site implements \ArrayAccess
 
     /**
      * Implements ArrayAccess.
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function offsetUnset($offset): void
     {
