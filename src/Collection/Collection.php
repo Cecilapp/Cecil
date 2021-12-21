@@ -258,7 +258,7 @@ class Collection implements CollectionInterface
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return $this->has($offset);
     }
@@ -270,7 +270,7 @@ class Collection implements CollectionInterface
      *
      * @return CollectionInterface|ItemInterface|null
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->get($offset);
     }
@@ -280,24 +280,18 @@ class Collection implements CollectionInterface
      *
      * @param mixed         $offset
      * @param ItemInterface $value
-     *
-     * @return CollectionInterface|ItemInterface|null
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
-        return $this->add($value);
+        $this->add($value);
     }
 
     /**
      * Implements ArrayAccess.
-     *
-     * @param string $offset
-     *
-     * @return CollectionInterface|null
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
-        return $this->remove($offset);
+        $this->remove($offset);
     }
 
     /**

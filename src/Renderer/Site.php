@@ -41,7 +41,7 @@ class Site implements \ArrayAccess
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         // special cases
         switch ($offset) {
@@ -60,7 +60,7 @@ class Site implements \ArrayAccess
      *
      * @return mixed|null
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         // special cases
         switch ($offset) {
@@ -87,16 +87,14 @@ class Site implements \ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
     }
 
     /**
      * Implements ArrayAccess.
-     *
-     * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
     }
 

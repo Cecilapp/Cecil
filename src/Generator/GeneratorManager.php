@@ -42,7 +42,7 @@ class GeneratorManager extends \SplPriorityQueue
     /**
      * {@inheritdoc}
      */
-    public function compare($priority1, $priority2)
+    public function compare(mixed $priority1, mixed $priority2): int
     {
         if ($priority1 === $priority2) {
             return 0;

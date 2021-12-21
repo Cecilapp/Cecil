@@ -438,7 +438,7 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (!is_null($offset)) {
             $this->data[$offset] = $value;
@@ -448,7 +448,7 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->data[$offset]);
     }
@@ -456,7 +456,7 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->data[$offset]);
     }
@@ -464,7 +464,7 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return isset($this->data[$offset]) ? $this->data[$offset] : null;
     }

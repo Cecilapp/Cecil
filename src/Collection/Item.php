@@ -51,7 +51,7 @@ class Item implements ItemInterface
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->properties);
     }
@@ -63,7 +63,7 @@ class Item implements ItemInterface
      *
      * @return mixed|null
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->properties[$offset];
     }
@@ -74,17 +74,15 @@ class Item implements ItemInterface
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->properties[$offset] = $value;
     }
 
     /**
      * Implements ArrayAccess.
-     *
-     * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->properties[$offset]);
     }

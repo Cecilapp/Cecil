@@ -62,10 +62,10 @@ class Twig implements RendererInterface
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // internationalisation
         if (extension_loaded('intl')) {
-            $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
+            $this->twig->addExtension(new \Twig\Extensions\IntlExtension());
         }
         if (extension_loaded('gettext')) {
-            $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
+            $this->twig->addExtension(new \Twig\Extensions\I18nExtension());
         }
         if ($builder->isDebug()) {
             // dump()
