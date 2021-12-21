@@ -269,6 +269,8 @@ class Collection implements CollectionInterface
 
     /**
      * Implements ArrayAccess.
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function offsetSet($offset, $value): void
     {
