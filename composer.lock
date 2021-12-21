@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec9b763832e08bc42bf55d122d2bfa87",
+    "content-hash": "afa36233fa37c9cdd14cd7df91dfb44f",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -1445,20 +1445,21 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v6.0.1",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "ede53cafe1784b9131a48774b54f281d5d003f65"
+                "reference": "44b933f98bb4b5220d10bed9ce5662f8c2d13dcc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/ede53cafe1784b9131a48774b54f281d5d003f65",
-                "reference": "ede53cafe1784b9131a48774b54f281d5d003f65",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/44b933f98bb4b5220d10bed9ce5662f8c2d13dcc",
+                "reference": "44b933f98bb4b5220d10bed9ce5662f8c2d13dcc",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0.2"
+                "php": ">=7.2.5",
+                "symfony/polyfill-php80": "^1.16"
             },
             "type": "library",
             "autoload": {
@@ -1490,7 +1491,7 @@
             "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/css-selector/tree/v6.0.1"
+                "source": "https://github.com/symfony/css-selector/tree/v5.4.0"
             },
             "funding": [
                 {
@@ -1506,7 +1507,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-08T15:13:44+00:00"
+            "time": "2021-09-09T08:06:01+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2580,33 +2581,34 @@
         },
         {
             "name": "symfony/string",
-            "version": "v6.0.1",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "0cfed595758ec6e0a25591bdc8ca733c1896af32"
+                "reference": "9ffaaba53c61ba75a3c7a3a779051d1e9ec4fd2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/0cfed595758ec6e0a25591bdc8ca733c1896af32",
-                "reference": "0cfed595758ec6e0a25591bdc8ca733c1896af32",
+                "url": "https://api.github.com/repos/symfony/string/zipball/9ffaaba53c61ba75a3c7a3a779051d1e9ec4fd2d",
+                "reference": "9ffaaba53c61ba75a3c7a3a779051d1e9ec4fd2d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0.2",
+                "php": ">=7.2.5",
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-intl-grapheme": "~1.0",
                 "symfony/polyfill-intl-normalizer": "~1.0",
-                "symfony/polyfill-mbstring": "~1.0"
+                "symfony/polyfill-mbstring": "~1.0",
+                "symfony/polyfill-php80": "~1.15"
             },
             "conflict": {
-                "symfony/translation-contracts": "<2.0"
+                "symfony/translation-contracts": ">=3.0"
             },
             "require-dev": {
-                "symfony/error-handler": "^5.4|^6.0",
-                "symfony/http-client": "^5.4|^6.0",
-                "symfony/translation-contracts": "^2.0|^3.0",
-                "symfony/var-exporter": "^5.4|^6.0"
+                "symfony/error-handler": "^4.4|^5.0|^6.0",
+                "symfony/http-client": "^4.4|^5.0|^6.0",
+                "symfony/translation-contracts": "^1.1|^2",
+                "symfony/var-exporter": "^4.4|^5.0|^6.0"
             },
             "type": "library",
             "autoload": {
@@ -2645,7 +2647,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v6.0.1"
+                "source": "https://github.com/symfony/string/tree/v5.4.0"
             },
             "funding": [
                 {
@@ -2661,7 +2663,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-08T15:13:44+00:00"
+            "time": "2021-11-24T10:02:00+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -7528,5 +7530,8 @@
         "php": ">=7.3"
     },
     "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.4.27"
+    },
     "plugin-api-version": "2.1.0"
 }

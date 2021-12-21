@@ -122,6 +122,9 @@
     "box": "Alias of build."
   },
   "config": {
+    "platform": {
+      "php": "7.4.27"
+    },
     "sort-packages": true,
     "allow-plugins": {
       "composer/package-versions-deprecated": true
