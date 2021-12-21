@@ -2,7 +2,7 @@
   "name": "cecil/cecil",
   "description": "Your content driven static site generator.",
   "keywords": [
-    "static-site-generator",
+    "static site generator",
     "markdown",
     "twig"
   ],
