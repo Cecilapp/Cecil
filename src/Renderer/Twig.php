@@ -63,9 +63,11 @@ class Twig implements RendererInterface
         // internationalisation
         if (extension_loaded('intl')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_Intl());
+            $builder->getLogger()->debug('Intl extension is loaded');
         }
         if (extension_loaded('gettext')) {
             $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
+            $builder->getLogger()->debug('Gettext extension is loaded');
         }
         if ($builder->isDebug()) {
             // dump()
