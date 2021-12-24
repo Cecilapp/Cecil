@@ -92,6 +92,7 @@ class Render extends AbstractStep
                 putenv("LC_ALL=$locale");
                 putenv("LANGUAGE=$locale");
                 setlocale(LC_ALL, "$locale.UTF-8");
+                textdomain($domain);
                 bindtextdomain($domain, $localePath);
             }
 
