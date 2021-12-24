@@ -36,12 +36,8 @@ class Site implements \ArrayAccess
 
     /**
      * Implement ArrayAccess.
-     *
-     * @param mixed $offset
-     *
-     * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         // special cases
         switch ($offset) {
@@ -55,10 +51,6 @@ class Site implements \ArrayAccess
 
     /**
      * Implements ArrayAccess.
-     *
-     * @param mixed $offset
-     *
-     * @return mixed|null
      */
     public function offsetGet($offset)
     {
@@ -84,19 +76,18 @@ class Site implements \ArrayAccess
     /**
      * Implements ArrayAccess.
      *
-     * @param mixed $offset
-     * @param mixed $value
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
     }
 
     /**
      * Implements ArrayAccess.
      *
-     * @param mixed $offset
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
     }
 

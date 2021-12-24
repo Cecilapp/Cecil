@@ -123,7 +123,7 @@ class Asset implements \ArrayAccess
                     $this->data['filename'] = $file[$i]['path'];
                     $this->data['path_source'] = $file[$i]['path'];
                     $this->data['path'] = $file[$i]['path'];
-                    if (!empty($filename)) {
+                    if (!empty($filename)) { /** @phpstan-ignore-line */
                         $this->data['path'] = '/'.ltrim($filename, '/');
                     }
                     $this->data['ext'] = $file[$i]['ext'];
@@ -136,7 +136,7 @@ class Asset implements \ArrayAccess
             }
             // bundle: define path
             if ($pathsCount > 1) {
-                if (empty($filename)) {
+                if (empty($filename)) { /** @phpstan-ignore-line */
                     switch ($this->data['ext']) {
                         case 'scss':
                         case 'css':
@@ -438,7 +438,7 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (!is_null($offset)) {
             $this->data[$offset] = $value;
@@ -448,7 +448,7 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
     }
@@ -456,7 +456,7 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->data[$offset]);
     }

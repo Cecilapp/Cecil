@@ -253,22 +253,14 @@ class Collection implements CollectionInterface
 
     /**
      * Implements ArrayAccess.
-     *
-     * @param string $offset
-     *
-     * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->has($offset);
     }
 
     /**
      * Implements ArrayAccess.
-     *
-     * @param string $offset
-     *
-     * @return CollectionInterface|ItemInterface|null
      */
     public function offsetGet($offset)
     {
@@ -278,26 +270,19 @@ class Collection implements CollectionInterface
     /**
      * Implements ArrayAccess.
      *
-     * @param mixed         $offset
-     * @param ItemInterface $value
-     *
-     * @return CollectionInterface|ItemInterface|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        return $this->add($value);
+        $this->add($value);
     }
 
     /**
      * Implements ArrayAccess.
-     *
-     * @param string $offset
-     *
-     * @return CollectionInterface|null
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
-        return $this->remove($offset);
+        $this->remove($offset);
     }
 
     /**
