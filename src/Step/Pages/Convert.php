@@ -70,10 +70,7 @@ class Convert extends AbstractStep
                 } catch (Exception $e) {
                     $this->builder->getPages()->remove($page->getId());
                     $this->builder->getLogger()->error(
-                        sprintf('Unable to convert page "%s"', $page->getId())
-                    );
-                    $this->builder->getLogger()->debug(
-                        sprintf('%s: %s', $page->getId(), $e->getMessage())
+                        sprintf('Unable to convert page "%s": %s', $page->getId(), $e->getMessage())
                     );
                     continue;
                 }

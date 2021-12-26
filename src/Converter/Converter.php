@@ -44,6 +44,7 @@ class Converter implements ConverterInterface
             case 'yaml':
             default:
                 try {
+                    $string = addcslashes($string, '\\');
                     $result = Yaml::parse((string) $string);
                     if (!is_array($result)) {
                         throw new Exception('Parse result of YAML front matter is not an array');
