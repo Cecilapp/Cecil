@@ -30,6 +30,7 @@ fi
 if [ "$RENDER" = "true" ]; then
   RUNNING_ON="Render"
 fi
+echo "Running on ${RUNNING_ON}"
 case $RUNNING_ON in
   "Netlify")
     if [ "$CONTEXT" = "production" ]; then
