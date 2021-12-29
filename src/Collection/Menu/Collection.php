@@ -36,6 +36,6 @@ class Collection extends CecilCollection
             return true;
         }
 
-        throw new \Exception(\sprintf('Menu "%s" not found', $id));
+        return false;
     }
 }
