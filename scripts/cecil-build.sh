@@ -64,6 +64,7 @@ case $RUNNING_ON in
     fi
     ;;
   "Render")
+    CONTEXT="production"
     URL=$RENDER_EXTERNAL_URL
     if [ "IS_PULL_REQUEST" = "true" ]; then
       CONTEXT="preview"
