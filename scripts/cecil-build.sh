@@ -59,7 +59,7 @@ case $RUNNING_ON in
     fi
     ;;
   "CFPages")
-    if [ "CF_PAGES_BRANCH" = "master" | "CF_PAGES_BRANCH" = "main" ]; then
+    if [ "$CF_PAGES_BRANCH" = "master" | "$CF_PAGES_BRANCH" = "main" ]; then
       CONTEXT="production"
     fi
     ;;
