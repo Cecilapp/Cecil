@@ -1,16 +1,19 @@
 #!/bin/bash
 
 # This script build a Cecil website (locally, on Netlify / Vercel / Cloudflare Pages / Render).
+# It is intended to be used on CI / CD.
+export PHP_MIN_VERSION="7.4"
 
 # Default variables
-export PHP_REQUIRED_VERSION="7.4"
 if [ -z "${PHP_VERSION}" ]; then
   export PHP_VERSION="7.4"
 fi
-if [ -z "${INSTALL_OPTIM}" ]; then
-  export INSTALL_OPTIM="false"
+if [ -z "${CECIL_INSTALL_OPTIM}" ]; then
+  export CECIL_INSTALL_OPTIM="false"
 fi
-CMD_OPTIONS=""
+if [ -z "${CECIL_CMD_OPTIONS}" ]; then
+  export CECIL_CMD_OPTIONS=""
+fi
 
 # Running on
 RUNNING_ON=""
@@ -42,7 +45,7 @@ case $RUNNING_ON in
     yum install -y gettext
     echo "Installing PHP extensions..."
     yum install -y php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick}
-    if [ "$INSTALL_OPTIM" = "true" ]; then
+    if [ "$CECIL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
       yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
       yum install -y jpegoptim
@@ -77,9 +80,9 @@ if [ $PHP_IS_INSTALLED -ne 0 ]; then
 else
   php -r 'echo "PHP ".PHP_VERSION." is already installed.".PHP_EOL;'
 fi
-PHP_OK=$(php -r 'echo (bool) version_compare(phpversion(), getenv("PHP_REQUIRED_VERSION"), ">=");')
+PHP_OK=$(php -r 'echo (bool) version_compare(phpversion(), getenv("PHP_MIN_VERSION"), ">=");')
 if [ "$PHP_OK" != "1" ]; then
-  echo "PHP version is not compatible. Please install PHP ${PHP_REQUIRED_VERSION} or higher."
+  echo "PHP version is not compatible. Please install PHP ${PHP_MIN_VERSION} or higher."
   exit 1;
 fi
 
@@ -118,16 +121,16 @@ fi
 
 # Options
 if [ -z "${URL}" ]; then
-  CMD_OPTIONS="${CMD_OPTIONS} --baseurl=${URL}"
+  CECIL_CMD_OPTIONS="${CECIL_CMD_OPTIONS} --baseurl=${URL}"
 fi
 if [ "$CONTEXT" = "production" ]; then
-  CMD_OPTIONS=" -v ${CMD_OPTIONS} --postprocess"
+  CECIL_CMD_OPTIONS=" -v ${CECIL_CMD_OPTIONS} --postprocess"
 else
-  CMD_OPTIONS=" -vv ${CMD_OPTIONS} --drafts"
+  CECIL_CMD_OPTIONS=" -vv ${CECIL_CMD_OPTIONS} --drafts"
 fi
 
 # Run build
-$CECIL_CMD build$CMD_OPTIONS
+$CECIL_CMD build$CECIL_CMD_OPTIONS
 BUILD_SUCCESS=$?
 
 # Build success? Can deploy?
