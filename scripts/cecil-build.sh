@@ -60,14 +60,14 @@ case $RUNNING_ON in
     fi
     ;;
   "CFPages")
-    if [ "$CF_PAGES_BRANCH" = "master" | "$CF_PAGES_BRANCH" = "main" ]; then
+    if [ "$CF_PAGES_BRANCH" = "master" ] || [ "$CF_PAGES_BRANCH" = "main" ]; then
       CONTEXT="production"
     fi
     ;;
   "Render")
     CONTEXT="production"
     URL=$RENDER_EXTERNAL_URL
-    if [ "IS_PULL_REQUEST" = "true" ]; then
+    if [ "$IS_PULL_REQUEST" = "true" ]; then
       CONTEXT="preview"
     fi
     ;;
