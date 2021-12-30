@@ -18,7 +18,11 @@ _netlify.toml_:
 [build]
   publish = "_site"
   command = "curl -sSOL https://cecil.app/build.sh && bash ./build.sh"
+
 [build.environment]
+  PHP_VERSION = "7.4"
+
+[context.production.environment]
   CECIL_ENV = "production"
 
 [context.deploy-preview.environment]
