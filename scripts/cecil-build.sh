@@ -16,7 +16,7 @@ if [ -z "${CECIL_CMD_OPTIONS}" ]; then
 fi
 
 # Running on
-RUNNING_ON=""
+RUNNING_ON="unknown"
 URL=""
 if [ "$NETLIFY" = "true" ]; then
   RUNNING_ON="Netlify"
