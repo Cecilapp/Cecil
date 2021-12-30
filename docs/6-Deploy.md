@@ -79,13 +79,24 @@ services:
 
 ## [Cloudflare Pages](https://pages.cloudflare.com)
 
-**Build configurations:**
+Build configurations:
 
 - Framework preset: `None`
 - Build command: `curl -sSOL https://cecil.app/build.sh && bash ./build.sh`
 - Build output directory: `_site`
 
 [Official documentation](https://developers.cloudflare.com/pages/)
+
+## [Surge](https://surge.sh)
+
+Terminal:
+
+```bash
+npm install -g surge
+surge _site/
+```
+
+[Official documentation](https://surge.sh/help/)
 
 ## [GitHub Pages](https://pages.github.com)
 
