@@ -9,7 +9,7 @@ updated: 2021-11-26
 There is 3 kinds of content in Cecil:
 
 1. **_Pages_** ([Markdown](https://daringfireball.net/projects/markdown/) files in `content/`)
-2. **Static files** (images, CSS, PDF, etc. in `static/`)
+2. **Static files** (images, PDF, etc. in `static/`)
 3. **Data files** (custom variables collections in `data/`)
 
 ## Files organization
@@ -28,20 +28,18 @@ Your content should be organized in a manner that reflects the rendered website.
 |  |  └─ project-1.md
 |  └─ about.md           <- Page in the root
 ├─ static
-|  ├─ logo.png           <- Static file
-|  └─ css
-|     └─ style.scss
+|  └─ logo.png           <- Static file
+├─ assets
+|  └─ styles.scss        <- Asset file
 └─ data
-   ├─ authors.yml        <- Data collection
-   └─ galleries
-      └─ gallery-1.json
+   └─ authors.yml        <- Data collection
 ```
 
-Each folder in the root of `content/` is called a **_Section_** (ie: “Blog“, “Project“, etc.).
-
-Files in `static/` are copied as is in the root of the built website (ie: `static/images/logo.png` -> `images/logo.png`) and can be manipulated by the [`asset()`](3-Templates.md#asset) function.
-
-Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data).
+- Each folder in the root of `content/` is called a **_Section_** (ie: “Blog“, “Project“, etc.)
+- You can override _Section_’s default variables by creating ana file `index.md` in its directory (ie: `blog/index.md`)
+- Files in `static/` are copied as is in the root of the built website (ie: `static/images/logo.png` -> `images/logo.png`)
+- Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function
+- Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
 
 ### Built website tree
 
@@ -57,17 +55,11 @@ Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ 
    |  ├─ index.html            <- Generated list of projects
    |  └─ project-1/index.html
    ├─ about/index.html
-   └─ static/
-      ├─ logo.png
-      └─ css
-         └─ style.css
+   ├─ logo.png
+   └─ styles.css
 ```
 
-By default each _Page_ is generated as `filename-slugified/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.
-
-To get an “ugly” URL (`404.html` instead of `404/`), set `uglyurl: true` in front matter.
-
-You can override _Section_’s default variables by creating ana file `index.md` in its directory (ie: `blog/index.md`).
+By default each _Page_ is generated as `filename-slugified/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`. To get an “ugly” URL (`404.html` instead of `404/`), set `uglyurl: true` in front matter.
 
 ### File VS URL structure
 
