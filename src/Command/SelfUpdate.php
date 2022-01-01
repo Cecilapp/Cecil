@@ -72,6 +72,7 @@ if found, downloads and installs the latest');
         $strategy->setPharName('cecil.phar');
         $strategy->setCurrentLocalVersion($version);
         $strategy->setStability($input->getOption('preview') ? 'unstable' : 'stable');
+        $updater->setStrategyObject($strategy);
 
         try {
             $output->writeln('Checking for updates...');
