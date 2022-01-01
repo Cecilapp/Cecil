@@ -50,7 +50,7 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
     $mimesAudio = ['mpeg', 'x-m4a'];
 
     $ext = pathinfo($pathname, PATHINFO_EXTENSION);
-    $mimeType = mime_content_type($filename);
+    $mimeType = \mime_content_type($filename);
     $mimeSubtype = explode('/', $mimeType)[1];
 
     // manipulate HTML (and plain text) file content

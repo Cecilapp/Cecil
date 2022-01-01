@@ -464,6 +464,7 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->data[$offset]) ? $this->data[$offset] : null;

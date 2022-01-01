@@ -35,7 +35,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implement ArrayAccess.
+     * Implement \ArrayAcces.
      */
     public function offsetExists($offset): bool
     {
@@ -50,8 +50,9 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         // special cases
@@ -74,7 +75,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -83,7 +84,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
