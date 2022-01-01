@@ -45,7 +45,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      */
     public function offsetExists($offset): bool
     {
@@ -53,15 +53,16 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->properties[$offset];
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      */
     public function offsetSet($offset, $value): void
     {
@@ -69,7 +70,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      */
     public function offsetUnset($offset): void
     {

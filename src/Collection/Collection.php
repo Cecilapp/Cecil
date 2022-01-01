@@ -252,7 +252,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      */
     public function offsetExists($offset): bool
     {
@@ -260,15 +260,16 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset);
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -278,7 +279,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAcces.
      */
     public function offsetUnset($offset): void
     {

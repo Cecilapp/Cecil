@@ -70,7 +70,7 @@ class File
      */
     public static function getMimeType(string $filename): array
     {
-        if (false === $subtype = mime_content_type($filename)) {
+        if (false === $subtype = \mime_content_type($filename)) {
             throw new \Exception(sprintf('Can\'t get MIME content type of "%s"', $filename));
         }
         $type = explode('/', $subtype)[0];
