@@ -18,7 +18,7 @@ use Psr\Log\LogLevel;
 class PrintLogger extends AbstractLogger
 {
     /** @var int */
-    protected $printLevel = null;
+    protected $printLevelMax = null;
 
     /** @var array */
     protected $verbosityLevelMap = [
@@ -33,11 +33,11 @@ class PrintLogger extends AbstractLogger
     ];
 
     /**
-     * Print only this maximum level.
+     * Print only the $printLevelMax.
      */
-    public function __construct(int $printLevel = null)
+    public function __construct(int $printLevelMax = null)
     {
-        $this->printLevel = $printLevel;
+        $this->printLevelMax = $printLevelMax;
     }
 
     /**
@@ -51,7 +51,7 @@ class PrintLogger extends AbstractLogger
             throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
         }
 
-        if ($this->printLevel !== null && $this->verbosityLevelMap[$level] > $this->printLevel) {
+        if ($this->printLevelMax !== null && $this->verbosityLevelMap[$level] > $this->printLevelMax) {
             return;
         }
 
