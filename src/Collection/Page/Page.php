@@ -181,6 +181,18 @@ class Page extends Item
     }
 
     /**
+     * Returns file real path.
+     */
+    public function getFilePath(): ?string
+    {
+        if ($this->file instanceof SplFileInfo) {
+            return $this->file->getRealPath();
+        }
+
+        return null;
+    }
+
+    /**
      * Parse file content.
      */
     public function parse(): self
