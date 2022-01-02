@@ -81,7 +81,7 @@ abstract class AbstractPostProcess extends AbstractStep
         foreach ($files as $file) {
             $count++;
             $sizeBefore = $file->getSize();
-            $message = $file->getRelativePathname();
+            $message = sprintf('File "%s" post-processed', $file->getRelativePathname());
 
             $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
             if (!$cache->has($cacheKey)) {
@@ -89,7 +89,7 @@ abstract class AbstractPostProcess extends AbstractStep
                 $sizeAfter = strlen($processed);
                 if ($sizeAfter < $sizeBefore) {
                     $message = sprintf(
-                        '%s (%s Ko -> %s Ko)',
+                        'File "%s" compressed (%s Ko -> %s Ko)',
                         $file->getRelativePathname(),
                         ceil($sizeBefore / 1000),
                         ceil($sizeAfter / 1000)

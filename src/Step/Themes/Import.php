@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step\Config;
+namespace Cecil\Step\Themes;
 
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
@@ -24,7 +24,7 @@ class Import extends AbstractStep
      */
     public function getName(): string
     {
-        return 'Importing configuration';
+        return 'Importing themes configuration';
     }
 
     /**
@@ -56,7 +56,7 @@ class Import extends AbstractStep
                 }
                 $themeConfig = Yaml::parse($config);
                 $this->config->import($themeConfig);
-                $message = sprintf('"%s": imported', $theme);
+                $message = sprintf('Theme "%s" imported', $theme);
             }
 
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);

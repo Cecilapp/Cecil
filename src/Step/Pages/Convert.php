@@ -51,7 +51,7 @@ class Convert extends AbstractStep
         }
 
         if ($this->builder->getBuildOptions()['drafts']) {
-            $this->builder->getLogger()->info('Drafts included');
+            $this->builder->getLogger()->notice('Converting drafts pages');
         }
 
         $max = count($this->builder->getPages());
@@ -113,7 +113,7 @@ class Convert extends AbstractStep
                     }
                 }
 
-                $message = $page->getId();
+                $message = sprintf('Page "%s" converted', $page->getId());
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
                     $page->setVariable('published', true);

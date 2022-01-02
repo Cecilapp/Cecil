@@ -63,7 +63,7 @@ class Save extends AbstractStep
         $count = 0;
         foreach ($filteredPages as $page) {
             $count++;
-            $message = [];
+            $files = [];
 
             foreach ($page->getVariable('rendered') as $format => $rendered) {
                 if (false === $pathname = (new PageRenderer($this->config))->getOutputFile($page, $format)) {
@@ -81,10 +81,10 @@ class Save extends AbstractStep
                     throw new Exception($e->getMessage());
                 }
 
-                $message[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
+                $files[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
-            $message = implode(', ', $message);
+            $message = sprintf('File(s) "%s" saved', implode(', ', $files));
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
 

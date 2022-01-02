@@ -34,14 +34,14 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
             try {
                 $pageContent = Util\File::fileGetContents($page->getVariable('external'));
                 if ($pageContent === false) {
-                    throw new Exception(sprintf('Cannot get contents from "%s"', $page->getVariable('external')));
+                    throw new Exception(sprintf('Cannot get contents from "%s".', $page->getVariable('external')));
                 }
                 $html = (new Converter($this->builder))->convertBody($pageContent);
                 $page->setBodyHtml($html);
 
                 $this->generatedPages->add($page);
             } catch (\Exception $e) {
-                $message = sprintf('%s in page "%s"', $e->getMessage(), $page->getId());
+                $message = sprintf('Error in page "%s": %s', $page->getId(), $e->getMessage());
                 $this->builder->getLogger()->error($message);
             }
         }

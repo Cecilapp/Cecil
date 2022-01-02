@@ -76,7 +76,7 @@ class GeneratorManager extends \SplPriorityQueue
                         $pagesCollection->replace($page->getId(), $page);
                     }
                 }
-                $message = sprintf('%s: %s', Util::formatClassName($generator), count($generatedPages));
+                $message = sprintf('%s "%s" pages generated', count($generatedPages), Util::formatClassName($generator));
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
 
                 $this->next();
