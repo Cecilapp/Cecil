@@ -63,8 +63,6 @@ class Create extends AbstractStep
          */
         foreach ($this->config->getLanguages() as $language) {
             if ($menusConfig = $this->config->get('menus', $language['code'], false)) {
-                $this->builder->getLogger()->debug('Creating menus from config');
-
                 $totalConfig = array_sum(array_map('count', $menusConfig));
                 $countConfig = 0;
                 $suffix = $language['code'] !== $this->config->getLanguageDefault() ? '.'.$language['code'] : '';
@@ -145,11 +143,6 @@ class Create extends AbstractStep
 
         $total = count($filteredPages);
         $count = 0;
-
-        if ($total > 0) {
-            $this->builder->getLogger()->debug('Creating menus from pages');
-        }
-
         /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
