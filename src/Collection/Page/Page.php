@@ -181,6 +181,14 @@ class Page extends Item
     }
 
     /**
+     * Returns file real path.
+     */
+    public function getFilePath(): ?string
+    {
+        return $this->file->getRealPath() === false ? null : $this->file->getRealPath();
+    }
+
+    /**
      * Parse file content.
      */
     public function parse(): self
