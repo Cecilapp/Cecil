@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. Dates are d
 
 #### [Unreleased](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.4...HEAD)
 
+- fix: log error message [`#1274`](https://github.com/Cecilapp/Cecil/pull/1274)
 - fix: log messages [`#1273`](https://github.com/Cecilapp/Cecil/pull/1273)
 
 #### [6.0.0-beta.4](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.3...6.0.0-beta.4)
