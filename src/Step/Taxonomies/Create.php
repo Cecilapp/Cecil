@@ -51,9 +51,9 @@ class Create extends AbstractStep
     {
         if ($this->config->get('taxonomies')) {
             $this->createVocabulariesCollection();
-            $this->builder->getLogger()->info('Vocabularies', ['progress' => [1, 2]]);
+            $this->builder->getLogger()->info('Vocabularies collection created', ['progress' => [1, 2]]);
             $this->collectTermsFromPages();
-            $this->builder->getLogger()->info('Terms', ['progress' => [2, 2]]);
+            $this->builder->getLogger()->info('Terms collection created', ['progress' => [2, 2]]);
         }
 
         $this->builder->setTaxonomies($this->vocabCollection);

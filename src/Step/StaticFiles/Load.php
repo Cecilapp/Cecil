@@ -73,7 +73,7 @@ class Load extends AbstractStep
             $staticFiles[$count]['ext'] = $file->getExtension();
             $count++;
 
-            $message = sprintf('%s', $file->getRelativePathname());
+            $message = sprintf('%s loaded', $file->getRelativePathname());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
 

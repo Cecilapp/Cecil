@@ -55,10 +55,12 @@ class PrintLogger extends AbstractLogger
             return;
         }
 
+        $levelPrefix = $level != LogLevel::INFO ? ucfirst($level).': ' : '';
+
         if (isset($context['progress'])) {
             printf(
-                "[%s] (%s/%s) %s\n",
-                $level,
+                "%s(%s/%s) %s\n",
+                $levelPrefix,
                 $context['progress'][0],
                 $context['progress'][1],
                 $this->interpolate($message, $context)
@@ -67,7 +69,7 @@ class PrintLogger extends AbstractLogger
             return;
         }
 
-        printf("[%s] %s\n", $level, $this->interpolate($message, $context));
+        printf("%s%s\n", $levelPrefix, $this->interpolate($message, $context));
     }
 
     /**
