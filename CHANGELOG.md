@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - fix: log error message [`#1274`](https://github.com/Cecilapp/Cecil/pull/1274)
 - fix: log messages [`#1273`](https://github.com/Cecilapp/Cecil/pull/1273)
+- chore: clean code [`9f686a9`](https://github.com/Cecilapp/Cecil/commit/9f686a92da9a6053738114e926f6fb1200d1aa5d)
 
 #### [6.0.0-beta.4](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.3...6.0.0-beta.4)
 
