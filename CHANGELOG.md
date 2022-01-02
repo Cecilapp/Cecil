@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### [Unreleased](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.3...HEAD)
+#### [Unreleased](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.4...HEAD)
+
+- fix: log messages [`#1273`](https://github.com/Cecilapp/Cecil/pull/1273)
+
+#### [6.0.0-beta.4](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.3...6.0.0-beta.4)
+
+> 1 January 2022
 
 - fix: self-update strategy [`#1272`](https://github.com/Cecilapp/Cecil/pull/1272)
 - fix: checks if Twig menu is defined [`#1265`](https://github.com/Cecilapp/Cecil/pull/1265)
@@ -28,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.79.12...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.79.13...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -40,6 +46,16 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.79.13](https://github.com/Cecilapp/Cecil/compare/5.79.12...5.79.13)
+
+> 1 January 2022
+
+- fix: self-update strategy [`#1272`](https://github.com/Cecilapp/Cecil/pull/1272)
+- docs: update deploy recipes [`b6bd0be`](https://github.com/Cecilapp/Cecil/commit/b6bd0bea6172417cc266067eb5d265b86dfec7fb)
+- Create cecil-build.sh [`4e58773`](https://github.com/Cecilapp/Cecil/commit/4e58773cf325fc9fa01eff40abcd8be95ab34b90)
+- doc: add Surge to deploy recipes [`41df0e7`](https://github.com/Cecilapp/Cecil/commit/41df0e709763108df974b1f49b2310b5492f21bf)
+- docs: fix deploy Netlify recipe [`bada0f5`](https://github.com/Cecilapp/Cecil/commit/bada0f511eae3b209bf754f84ac7e2a451ce2f02)
 
 #### [5.79.12](https://github.com/Cecilapp/Cecil/compare/5.79.11...5.79.12)
 
