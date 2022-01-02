@@ -185,11 +185,7 @@ class Page extends Item
      */
     public function getFilePath(): ?string
     {
-        if ($this->file instanceof SplFileInfo) {
-            return $this->file->getRealPath();
-        }
-
-        return null;
+        return $this->file->getRealPath() === false ? null : $this->file->getRealPath();
     }
 
     /**
