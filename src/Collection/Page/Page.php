@@ -438,11 +438,7 @@ class Page extends Item
                 try {
                     $date = Util\Date::dateToDatetime($value);
                 } catch (\Exception $e) {
-                    throw new RuntimeException(sprintf(
-                        'Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"',
-                        $this->getId(),
-                        (string) $value
-                    ));
+                    throw new RuntimeException(\sprintf('Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"', $this->getId(), (string) $value));
                 }
                 $this->offsetSet('date', $date);
                 break;
@@ -455,13 +451,7 @@ class Page extends Item
             case 'slug':
                 $slugify = self::slugify((string) $value);
                 if ($value != $slugify) {
-                    throw new RuntimeException(sprintf(
-                        '"%s" variable should be "%s" (not "%s") in "%s"',
-                        $name,
-                        $slugify,
-                        (string) $value,
-                        $this->getId()
-                    ));
+                    throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s"', $name, $slugify, (string) $value, $this->getId()));
                 }
                 /** @see setPath() */
                 /** @see setSlug() */

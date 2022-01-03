@@ -71,7 +71,7 @@ class ShowContent extends AbstractCommand
         try {
             // pages content
             if (is_dir(Util::joinFile($this->getPath(), $contentDir))) {
-                $output->writeln(sprintf('<info>%s/</info>', $contentDir));
+                $output->writeln(\sprintf('<info>%s/</info>', $contentDir));
                 $pages = $this->getFilesTree('content');
                 if (!Util\Plateform::isWindows()) {
                     $unicodeTreePrefix($pages);
@@ -83,7 +83,7 @@ class ShowContent extends AbstractCommand
             }
             // data content
             if (is_dir(Util::joinFile($this->getPath(), $dataDir))) {
-                $output->writeln(sprintf('<info>%s/</info>', $dataDir));
+                $output->writeln(\sprintf('<info>%s/</info>', $dataDir));
                 $datas = $this->getFilesTree('data');
                 if (!Util\Plateform::isWindows()) {
                     $unicodeTreePrefix($datas);
@@ -94,11 +94,11 @@ class ShowContent extends AbstractCommand
                 }
             }
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf($e->getMessage()));
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
         if ($count < 1) {
-            $output->writeln(sprintf('<comment>Nothing in "%s" nor "%s".</comment>', $contentDir, $dataDir));
+            $output->writeln(\sprintf('<comment>Nothing in "%s" nor "%s".</comment>', $contentDir, $dataDir));
         }
 
         return 0;
@@ -116,7 +116,7 @@ class ShowContent extends AbstractCommand
         $path = Util::joinFile($this->getPath(), $dir);
 
         if (!is_dir($path)) {
-            throw new RuntimeException(sprintf('Invalid directory: %s.', $path));
+            throw new RuntimeException(\sprintf('Invalid directory: %s.', $path));
         }
 
         $dirIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);

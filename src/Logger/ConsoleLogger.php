@@ -66,7 +66,7 @@ class ConsoleLogger extends PrintLogger
         $output->getFormatter()->setStyle('debug', new OutputFormatterStyle('blue', 'yellow'));
 
         if (!isset($this->verbosityLevelMap[$level])) {
-            throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
+            throw new InvalidArgumentException(\sprintf('The log level "%s" does not exist.', $level));
         }
 
         // default pattern: <level>message</level>

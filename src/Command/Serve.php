@@ -122,7 +122,7 @@ class Serve extends AbstractCommand
         $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
 
         if ($this->getBuilder()->isDebug()) {
-            $output->writeln(sprintf('<comment>Process: %s</comment>', implode(' ', $buildProcessArguments)));
+            $output->writeln(\sprintf('<comment>Process: %s</comment>', implode(' ', $buildProcessArguments)));
         }
 
         $buildProcess->setTty(Process::isTtySupported());
@@ -167,7 +167,7 @@ class Serve extends AbstractCommand
                 $process->start();
                 if ($open) {
                     $output->writeln('Opening web browser...');
-                    Util\Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
+                    Util\Plateform::openBrowser(\sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
                     $result = $resourceWatcher->findChanges();
@@ -186,7 +186,7 @@ class Serve extends AbstractCommand
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
 
-                throw new RuntimeException(sprintf($e->getMessage()));
+                throw new RuntimeException(\sprintf($e->getMessage()));
             }
         }
 
@@ -227,10 +227,10 @@ class Serve extends AbstractCommand
                 )
             );
         } catch (IOExceptionInterface $e) {
-            throw new RuntimeException(sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
+            throw new RuntimeException(\sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
         }
         if (!is_file(Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'))) {
-            throw new RuntimeException(sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
+            throw new RuntimeException(\sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
         }
     }
 

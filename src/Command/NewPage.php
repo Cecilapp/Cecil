@@ -81,7 +81,7 @@ class NewPage extends AbstractCommand
 
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
-                $output->writeln(sprintf(
+                $output->writeln(\sprintf(
                     '<comment>The page "%s" already exists.</comment>',
                     $fileRelativePath
                 ));
@@ -97,10 +97,10 @@ class NewPage extends AbstractCommand
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],
-                $this->findModel(sprintf('%s%s', empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR, $filename))
+                $this->findModel(\sprintf('%s%s', empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR, $filename))
             );
             $this->fs->dumpFile($filePath, $fileContent);
-            $output->writeln(sprintf('<info>File "%s" created.</info>', $fileRelativePath));
+            $output->writeln(\sprintf('<info>File "%s" created.</info>', $fileRelativePath));
 
             // open editor?
             if ($open) {
@@ -110,7 +110,7 @@ class NewPage extends AbstractCommand
                 $this->openEditor($filePath);
             }
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf($e->getMessage()));
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
         return 0;
@@ -163,7 +163,7 @@ EOT;
             $process = Process::fromShellCommandline($command);
             $process->run();
             if (!$process->isSuccessful()) {
-                throw new RuntimeException(sprintf('Can\'t run "%s".', $command));
+                throw new RuntimeException(\sprintf('Can\'t run "%s".', $command));
             }
         }
     }

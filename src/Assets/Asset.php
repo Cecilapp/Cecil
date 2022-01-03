@@ -329,7 +329,7 @@ class Asset implements \ArrayAccess
                     $minifier = new Minify\JS($this->data['content']);
                     break;
                 default:
-                    throw new RuntimeException(sprintf('Not able to minify "%s"', $this->data['path']));
+                    throw new RuntimeException(\sprintf('Not able to minify "%s"', $this->data['path']));
             }
             $this->data['path'] = preg_replace(
                 '/\.'.$this->data['ext'].'$/m',
@@ -403,7 +403,7 @@ class Asset implements \ArrayAccess
         $cacheKey = $cache->createKeyFromAsset($this, "{$size}x");
         if (!$cache->has($cacheKey)) {
             if ($this->data['type'] !== 'image') {
-                throw new RuntimeException(sprintf('Not able to resize "%s"', $this->data['path']));
+                throw new RuntimeException(\sprintf('Not able to resize "%s"', $this->data['path']));
             }
             if (!extension_loaded('gd')) {
                 throw new RuntimeException('GD extension is required to use images resize.');
@@ -416,14 +416,14 @@ class Asset implements \ArrayAccess
                     $constraint->upsize();
                 });
             } catch (\Exception $e) {
-                throw new RuntimeException(sprintf('Not able to resize image "%s": %s', $this->data['path'], $e->getMessage()));
+                throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $this->data['path'], $e->getMessage()));
             }
             $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path']);
 
             try {
                 $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
             } catch (\Exception $e) {
-                throw new RuntimeException(sprintf('Not able to encode image "%s": %s', $this->data['path'], $e->getMessage()));
+                throw new RuntimeException(\sprintf('Not able to encode image "%s": %s', $this->data['path'], $e->getMessage()));
             }
 
             $cache->set($cacheKey, $this->data);
@@ -441,7 +441,7 @@ class Asset implements \ArrayAccess
     public function dataurl(): string
     {
         if ($this->data['type'] !== 'image') {
-            throw new RuntimeException(sprintf('Can\'t get data URL of "%s"', $this->data['path']));
+            throw new RuntimeException(\sprintf('Can\'t get data URL of "%s"', $this->data['path']));
         }
 
         return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
@@ -567,7 +567,7 @@ class Asset implements \ArrayAccess
                 return $file;
             }
 
-            throw new RuntimeException(sprintf('Asset file "%s" doesn\'t exist.', $path));
+            throw new RuntimeException(\sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
         if (Util\Url::isUrl($path)) {
@@ -619,7 +619,7 @@ class Asset implements \ArrayAccess
         // in case of remote file: save it and returns cached file path
         if (Util\Url::isUrl($path)) {
             $url = $path;
-            $relativePath = Page::slugify(sprintf('%s%s-%s', parse_url($url, PHP_URL_HOST), parse_url($url, PHP_URL_PATH), parse_url($url, PHP_URL_QUERY)));
+            $relativePath = Page::slugify(\sprintf('%s%s-%s', parse_url($url, PHP_URL_HOST), parse_url($url, PHP_URL_PATH), parse_url($url, PHP_URL_QUERY)));
             $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
             if (!file_exists($filePath)) {
                 if (!Util\Url::isRemoteFileExists($url)) {
@@ -629,7 +629,7 @@ class Asset implements \ArrayAccess
                     return false;
                 }
                 if (strlen($content) <= 1) {
-                    throw new RuntimeException(sprintf('Asset at "%s" is empty.', $url));
+                    throw new RuntimeException(\sprintf('Asset at "%s" is empty.', $url));
                 }
                 Util\File::getFS()->dumpFile($filePath, $content);
             }

@@ -83,7 +83,7 @@ class Create extends AbstractStep
 
                         // ID is required
                         if (!isset($property['id'])) {
-                            throw new RuntimeException(sprintf('"id" is required for entry at position %s in "%s" menu', $key, $menu));
+                            throw new RuntimeException(\sprintf('"id" is required for entry at position %s in "%s" menu', $key, $menu));
                         }
                         // enabled?
                         if (isset($property['enabled']) && false === $property['enabled']) {

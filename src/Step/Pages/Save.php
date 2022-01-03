@@ -65,11 +65,7 @@ class Save extends AbstractStep
 
             foreach ($page->getVariable('rendered') as $format => $rendered) {
                 if (false === $pathname = (new PageRenderer($this->config))->getOutputFile($page, $format)) {
-                    throw new RuntimeException(sprintf(
-                        "Can't get pathname of page '%s' (format: '%s')",
-                        $page->getId(),
-                        $format
-                    ));
+                    throw new RuntimeException(\sprintf("Can't get pathname of page '%s' (format: '%s')", $page->getId(), $format));
                 }
                 $pathname = $this->cleanPath(Util::joinFile($this->config->getOutputPath(), $pathname));
 

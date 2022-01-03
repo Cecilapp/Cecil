@@ -37,7 +37,7 @@ abstract class AbstractPostProcess extends AbstractStep
 
             return;
         }
-        if (false === $this->builder->getConfig()->get(sprintf('postprocess.%s.enabled', $this->type))) {
+        if (false === $this->builder->getConfig()->get(\sprintf('postprocess.%s.enabled', $this->type))) {
             $this->canProcess = false;
 
             return;
@@ -56,9 +56,9 @@ abstract class AbstractPostProcess extends AbstractStep
     {
         $this->setProcessor();
 
-        $extensions = $this->builder->getConfig()->get(sprintf('postprocess.%s.ext', $this->type));
+        $extensions = $this->builder->getConfig()->get(\sprintf('postprocess.%s.ext', $this->type));
         if (empty($extensions)) {
-            throw new RuntimeException(sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
+            throw new RuntimeException(\sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
         }
 
         $files = Finder::create()

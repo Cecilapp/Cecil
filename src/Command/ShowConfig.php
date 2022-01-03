@@ -51,7 +51,7 @@ class ShowConfig extends AbstractCommand
         try {
             $output->writeln($this->printArray($this->getBuilder()->getConfig()->getAsArray()));
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf($e->getMessage()));
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
         return 0;

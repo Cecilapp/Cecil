@@ -128,7 +128,7 @@ class Cache implements CacheInterface
      */
     public function getMultiple($keys, $default = null)
     {
-        throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new \Exception(\sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -136,7 +136,7 @@ class Cache implements CacheInterface
      */
     public function setMultiple($values, $ttl = null)
     {
-        throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new \Exception(\sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -144,7 +144,7 @@ class Cache implements CacheInterface
      */
     public function deleteMultiple($keys)
     {
-        throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new \Exception(\sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -176,7 +176,7 @@ class Cache implements CacheInterface
     public function createKeyFromPath(string $path, string $relativePath): string
     {
         if (false === $content = Util\File::fileGetContents($path)) {
-            throw new RuntimeException(sprintf('Can\'t create cache key for "%s"', $path));
+            throw new RuntimeException(\sprintf('Can\'t create cache key for "%s"', $path));
         }
 
         return $this->prepareKey(\sprintf('%s__%s.ser', $relativePath, $this->createKeyFromString($content)));
