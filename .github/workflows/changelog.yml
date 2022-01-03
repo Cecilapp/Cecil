@@ -3,7 +3,7 @@ name: 'Update CHANGELOG'
 on:
   push:
     branches:
-      - '5'
+      - master
     paths-ignore:
       - 'docs/**'
       - '.github/**'
