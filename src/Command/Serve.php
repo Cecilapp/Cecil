@@ -10,7 +10,6 @@
 
 namespace Cecil\Command;
 
-use Cecil\Exception\Exception;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
