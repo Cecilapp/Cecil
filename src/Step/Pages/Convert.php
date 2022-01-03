@@ -12,7 +12,7 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 
 /**
@@ -67,7 +67,7 @@ class Convert extends AbstractStep
                     if (!$convertedPage->hasVariable('language')) {
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->builder->getPages()->remove($page->getId());
                     $this->builder->getLogger()->error(
                         sprintf('Unable to convert "%s": %s', $page->getFilePath(), $e->getMessage())
@@ -133,7 +133,7 @@ class Convert extends AbstractStep
      * - Yaml frontmatter to PHP array
      * - Markdown body to HTML.
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function convertPage(Page $page, $format = 'yaml'): Page
     {
@@ -143,7 +143,7 @@ class Convert extends AbstractStep
             try {
                 $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
             } catch (\Exception $e) {
-                throw new Exception($e->getMessage());
+                throw new RuntimeException($e->getMessage());
             }
             $page->setFmVariables($variables);
             $page->setVariables($variables);

@@ -8,6 +8,7 @@
 
 namespace Cecil\Step\Themes;
 
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Yaml\Yaml;
@@ -39,6 +40,8 @@ class Import extends AbstractStep
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function process()
     {
@@ -52,7 +55,7 @@ class Import extends AbstractStep
             if (Util\File::getFS()->exists($themeConfigFile)) {
                 $config = Util\File::fileGetContents($themeConfigFile);
                 if ($config === false) {
-                    throw new \Exception('Can\'t read the configuration file.');
+                    throw new RuntimeException('Can\'t read the configuration file.');
                 }
                 $themeConfig = Yaml::parse($config);
                 $this->config->import($themeConfig);

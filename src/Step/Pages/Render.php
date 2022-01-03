@@ -13,7 +13,7 @@ namespace Cecil\Step\Pages;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\PrefixSuffix;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
@@ -35,16 +35,11 @@ class Render extends AbstractStep
 
     /**
      * {@inheritdoc}
-     *
-     * @throws Exception
      */
     public function init($options)
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
-            $message = sprintf(
-                "'%s' is not a valid layouts directory",
-                $this->config->getLayoutsPath()
-            );
+            $message = sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
             $this->builder->getLogger()->debug($message);
         }
 
@@ -54,7 +49,7 @@ class Render extends AbstractStep
     /**
      * {@inheritdoc}
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function process()
     {
@@ -156,7 +151,7 @@ class Render extends AbstractStep
                         );
                     }
                 } catch (\Twig\Error\Error $e) {
-                    throw new Exception(sprintf(
+                    throw new RuntimeException(sprintf(
                         'Template %s%s (page: %s): %s',
                         $e->getSourceContext()->getPath(),
                         $e->getTemplateLine() >= 0 ? sprintf(':%s', $e->getTemplateLine()) : '',
@@ -218,6 +213,8 @@ class Render extends AbstractStep
 
     /**
      * Get available output formats.
+     *
+     * @throws RuntimeException
      */
     protected function getOutputFormats(Page $page): array
     {
@@ -227,7 +224,7 @@ class Render extends AbstractStep
         $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
 
         if (empty($formats)) {
-            throw new Exception('Configuration key "pagetypeformats" can\'t be empty.');
+            throw new RuntimeException('Configuration key "pagetypeformats" can\'t be empty.');
         }
 
         if (!\is_array($formats)) {

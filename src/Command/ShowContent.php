@@ -12,6 +12,7 @@ namespace Cecil\Command;
 
 use Cecil\Command\ShowContent\FileExtensionFilter;
 use Cecil\Command\ShowContent\FilenameRecursiveTreeIterator;
+use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
@@ -45,6 +46,8 @@ class ShowContent extends AbstractCommand
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -91,7 +94,7 @@ class ShowContent extends AbstractCommand
                 }
             }
         } catch (\Exception $e) {
-            throw new \Exception(sprintf($e->getMessage()));
+            throw new RuntimeException(sprintf($e->getMessage()));
         }
 
         if ($count < 1) {
@@ -104,7 +107,7 @@ class ShowContent extends AbstractCommand
     /**
      * Returns a console displayable tree of files.
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
     private function getFilesTree(string $directory): FilenameRecursiveTreeIterator
     {
@@ -113,7 +116,7 @@ class ShowContent extends AbstractCommand
         $path = Util::joinFile($this->getPath(), $dir);
 
         if (!is_dir($path)) {
-            throw new \Exception(sprintf('Invalid directory: %s.', $path));
+            throw new RuntimeException(sprintf('Invalid directory: %s.', $path));
         }
 
         $dirIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);

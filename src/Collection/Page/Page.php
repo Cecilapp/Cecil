@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Item;
+use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
@@ -400,7 +401,7 @@ class Page extends Item
     /**
      * Set an array as variables.
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
     public function setVariables(array $variables): self
     {
@@ -425,7 +426,7 @@ class Page extends Item
      * @param string $name
      * @param mixed  $value
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
     public function setVariable(string $name, $value): self
     {
@@ -437,7 +438,7 @@ class Page extends Item
                 try {
                     $date = Util\Date::dateToDatetime($value);
                 } catch (\Exception $e) {
-                    throw new \Exception(sprintf(
+                    throw new RuntimeException(sprintf(
                         'Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"',
                         $this->getId(),
                         (string) $value
@@ -454,7 +455,7 @@ class Page extends Item
             case 'slug':
                 $slugify = self::slugify((string) $value);
                 if ($value != $slugify) {
-                    throw new \Exception(sprintf(
+                    throw new RuntimeException(sprintf(
                         '"%s" variable should be "%s" (not "%s") in "%s"',
                         $name,
                         $slugify,

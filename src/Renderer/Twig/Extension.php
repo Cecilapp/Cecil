@@ -20,7 +20,7 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Converter\Parsedown;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use MatthiasMullie\Minify;
@@ -447,7 +447,7 @@ class Extension extends SlugifyExtension
             $outputStyles = ['expanded', 'compressed'];
             $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
             if (!in_array($outputStyle, $outputStyles)) {
-                throw new Exception(\sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
+                throw new RuntimeException(\sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
             }
             $scssPhp->setOutputStyle($outputStyle);
             $variables = $this->config->get('assets.compile.variables') ?? [];
@@ -469,6 +469,8 @@ class Extension extends SlugifyExtension
      *     'preload'    => false,
      *     'responsive' => false,
      * ];
+     *
+     * @throws RuntimeException
      */
     public function html(Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -539,16 +541,18 @@ class Extension extends SlugifyExtension
             return $img;
         }
 
-        throw new Exception(\sprintf('%s is available with CSS, JS and images files only.', '"html" filter'));
+        throw new RuntimeException(\sprintf('%s is available with CSS, JS and images files only.', '"html" filter'));
     }
 
     /**
      * Returns the content of an asset.
+     *
+     * @throws RuntimeException
      */
     public function inline(Asset $asset): string
     {
         if (is_null($asset['content'])) {
-            throw new Exception(\sprintf('%s is available with CSS et JS files only.', '"inline" filter'));
+            throw new RuntimeException(\sprintf('%s is available with CSS et JS files only.', '"inline" filter'));
         }
 
         return $asset['content'];
@@ -586,6 +590,8 @@ class Extension extends SlugifyExtension
 
     /**
      * Converts a Markdown string to HTML.
+     *
+     * @throws RuntimeException
      */
     public function markdownToHtml(string $markdown): ?string
     {
@@ -593,7 +599,7 @@ class Extension extends SlugifyExtension
             $parsedown = new Parsedown($this->builder);
             $html = $parsedown->text($markdown);
         } catch (\Exception $e) {
-            throw new Exception('"markdown_to_html" filter can not convert supplied Markdown.');
+            throw new RuntimeException('"markdown_to_html" filter can not convert supplied Markdown.');
         }
 
         return $html;
@@ -601,16 +607,18 @@ class Extension extends SlugifyExtension
 
     /**
      * Converts a JSON string to an array.
+     *
+     * @throws RuntimeException
      */
     public function jsonDecode(string $json): ?array
     {
         try {
             $array = json_decode($json, true);
             if ($array === null && json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception('Error');
+                throw new RuntimeException('JSON error.');
             }
         } catch (\Exception $e) {
-            throw new Exception('"json_decode" filter can not parse supplied JSON.');
+            throw new RuntimeException('"json_decode" filter can not parse supplied JSON.');
         }
 
         return $array;
@@ -618,16 +626,18 @@ class Extension extends SlugifyExtension
 
     /**
      * Split a string into an array using a regular expression.
+     *
+     * @throws RuntimeException
      */
     public function pregSplit(string $value, string $pattern, int $limit = 0): ?array
     {
         try {
             $array = preg_split($pattern, $value, $limit);
             if ($array === false) {
-                throw new \Exception('Error');
+                throw new RuntimeException('PREG split error.');
             }
         } catch (\Exception $e) {
-            throw new Exception('"preg_split" filter can not split supplied string.');
+            throw new RuntimeException('"preg_split" filter can not split supplied string.');
         }
 
         return $array;
@@ -635,16 +645,18 @@ class Extension extends SlugifyExtension
 
     /**
      * Perform a regular expression match and return the group for all matches.
+     *
+     * @throws RuntimeException
      */
     public function pregMatchAll(string $value, string $pattern, int $group = 0): ?array
     {
         try {
             $array = preg_match_all($pattern, $value, $matches, PREG_PATTERN_ORDER);
             if ($array === false) {
-                throw new \Exception('Error');
+                throw new RuntimeException('PREG match all error.');
             }
         } catch (\Exception $e) {
-            throw new Exception('"preg_match_all" filter can not match in supplied string.');
+            throw new RuntimeException('"preg_match_all" filter can not match in supplied string.');
         }
 
         return $matches[$group];

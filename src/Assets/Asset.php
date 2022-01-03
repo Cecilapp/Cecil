@@ -13,7 +13,7 @@ namespace Cecil\Assets;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Intervention\Image\ImageManagerStatic as ImageManager;
 use MatthiasMullie\Minify;
@@ -59,6 +59,8 @@ class Asset implements \ArrayAccess
      * @param Builder      $builder
      * @param string|array $paths
      * @param array|null   $options
+     *
+     * @throws RuntimeException
      */
     public function __construct(Builder $builder, $paths, array $options = null)
     {
@@ -67,7 +69,7 @@ class Asset implements \ArrayAccess
         $paths = is_array($paths) ? $paths : [$paths];
         array_walk($paths, function ($path) {
             if (empty($path)) {
-                throw new Exception('The path parameter of "asset() can\'t be empty."');
+                throw new RuntimeException('The path parameter of "asset() can\'t be empty."');
             }
         });
         $this->data = [
@@ -105,10 +107,10 @@ class Asset implements \ArrayAccess
                 // bundle: same type/ext only
                 if ($i > 0) {
                     if ($file[$i]['type'] != $file[$i - 1]['type']) {
-                        throw new Exception(\sprintf('Asset bundle type error (%s != %s).', $file[$i]['type'], $file[$i - 1]['type']));
+                        throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $file[$i]['type'], $file[$i - 1]['type']));
                     }
                     if ($file[$i]['ext'] != $file[$i - 1]['ext']) {
-                        throw new Exception(\sprintf('Asset bundle extension error (%s != %s).', $file[$i]['ext'], $file[$i - 1]['ext']));
+                        throw new RuntimeException(\sprintf('Asset bundle extension error (%s != %s).', $file[$i]['ext'], $file[$i - 1]['ext']));
                     }
                 }
                 // missing allowed = empty path
@@ -146,7 +148,7 @@ class Asset implements \ArrayAccess
                             $this->data['path'] = '/scripts.'.$file[0]['ext'];
                             break;
                         default:
-                            throw new Exception(\sprintf('Asset bundle supports "%s" files only.', 'scss, css and js'));
+                            throw new RuntimeException(\sprintf('Asset bundle supports "%s" files only.', 'scss, css and js'));
                     }
                 }
             }
@@ -174,12 +176,14 @@ class Asset implements \ArrayAccess
 
     /**
      * Returns path.
+     *
+     * @throws RuntimeException
      */
     public function __toString(): string
     {
         try {
             $this->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
         }
 
@@ -209,6 +213,8 @@ class Asset implements \ArrayAccess
 
     /**
      * Compiles a SCSS.
+     *
+     * @throws RuntimeException
      */
     public function compile(): self
     {
@@ -261,7 +267,7 @@ class Asset implements \ArrayAccess
             $outputStyles = ['expanded', 'compressed'];
             $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
             if (!in_array($outputStyle, $outputStyles)) {
-                throw new Exception(\sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
+                throw new RuntimeException(\sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
             }
             $scssPhp->setOutputStyle($outputStyle);
             // variables
@@ -284,6 +290,8 @@ class Asset implements \ArrayAccess
 
     /**
      * Minifying a CSS or a JS.
+     *
+     * @throws RuntimeException
      */
     public function minify(): self
     {
@@ -321,7 +329,7 @@ class Asset implements \ArrayAccess
                     $minifier = new Minify\JS($this->data['content']);
                     break;
                 default:
-                    throw new Exception(sprintf('Not able to minify "%s"', $this->data['path']));
+                    throw new RuntimeException(sprintf('Not able to minify "%s"', $this->data['path']));
             }
             $this->data['path'] = preg_replace(
                 '/\.'.$this->data['ext'].'$/m',
@@ -353,7 +361,7 @@ class Asset implements \ArrayAccess
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($this, 'optimized');
         if (!$cache->has($cacheKey)) {
-            $message = $this->data['file'];
+            $message = $this->data['path'];
             $sizeBefore = filesize($this->data['file']);
             Util\File::getFS()->copy($this->data['file'], Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
             Image::optimizer($this->config->get('assets.images.quality') ?? 85)->optimize(
@@ -373,7 +381,7 @@ class Asset implements \ArrayAccess
             Util\File::getFS()->remove(Util::joinFile($this->config->getCachePath(), 'tmp'));
             $this->optimized = true;
             $cache->set($cacheKey, $this->data);
-            $this->builder->getLogger()->debug(\sprintf('Optimize "%s"', $message));
+            $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $message));
         }
         $this->data = $cache->get($cacheKey);
 
@@ -382,6 +390,8 @@ class Asset implements \ArrayAccess
 
     /**
      * Resizes an image.
+     *
+     * @throws RuntimeException
      */
     public function resize(int $size): self
     {
@@ -393,10 +403,10 @@ class Asset implements \ArrayAccess
         $cacheKey = $cache->createKeyFromAsset($this, "{$size}x");
         if (!$cache->has($cacheKey)) {
             if ($this->data['type'] !== 'image') {
-                throw new Exception(sprintf('Not able to resize "%s"', $this->data['path']));
+                throw new RuntimeException(sprintf('Not able to resize "%s"', $this->data['path']));
             }
             if (!extension_loaded('gd')) {
-                throw new Exception('GD extension is required to use images resize.');
+                throw new RuntimeException('GD extension is required to use images resize.');
             }
 
             try {
@@ -406,14 +416,14 @@ class Asset implements \ArrayAccess
                     $constraint->upsize();
                 });
             } catch (\Exception $e) {
-                throw new Exception(sprintf('Not able to resize image "%s": %s', $this->data['path'], $e->getMessage()));
+                throw new RuntimeException(sprintf('Not able to resize image "%s": %s', $this->data['path'], $e->getMessage()));
             }
             $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path']);
 
             try {
                 $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
             } catch (\Exception $e) {
-                throw new Exception(sprintf('Not able to encode image "%s": %s', $this->data['path'], $e->getMessage()));
+                throw new RuntimeException(sprintf('Not able to encode image "%s": %s', $this->data['path'], $e->getMessage()));
             }
 
             $cache->set($cacheKey, $this->data);
@@ -425,11 +435,13 @@ class Asset implements \ArrayAccess
 
     /**
      * Returns the data URL of an image.
+     *
+     * @throws RuntimeException
      */
     public function dataurl(): string
     {
         if ($this->data['type'] !== 'image') {
-            throw new Exception(sprintf('Can\'t get data URL of "%s"', $this->data['path']));
+            throw new RuntimeException(sprintf('Can\'t get data URL of "%s"', $this->data['path']));
         }
 
         return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
@@ -522,7 +534,7 @@ class Asset implements \ArrayAccess
      * Saves file.
      * Note: a file from `static/` with the same name will NOT be overridden.
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function save(): void
     {
@@ -530,10 +542,10 @@ class Asset implements \ArrayAccess
         if (!$this->builder->getBuildOptions()['dry-run'] && !Util\File::getFS()->exists($filepath)) {
             try {
                 Util\File::getFS()->dumpFile($filepath, $this->data['content']);
-                $this->builder->getLogger()->debug(\sprintf('Save asset "%s"', $this->data['path']));
+                $this->builder->getLogger()->debug(\sprintf('Asset "%s" saved', $this->data['path']));
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 if (!$this->ignore_missing) {
-                    throw new Exception(\sprintf('Can\'t save asset "%s"', $this->data['path']));
+                    throw new RuntimeException(\sprintf('Can\'t save asset "%s".', $filepath));
                 }
             }
         }
@@ -541,6 +553,8 @@ class Asset implements \ArrayAccess
 
     /**
      * Load file data.
+     *
+     * @throws RuntimeException
      */
     private function loadFile(string $path, bool $ignore_missing = false, bool $force_slash = true): array
     {
@@ -553,7 +567,7 @@ class Asset implements \ArrayAccess
                 return $file;
             }
 
-            throw new Exception(sprintf('Asset file "%s" doesn\'t exist.', $path));
+            throw new RuntimeException(sprintf('Asset file "%s" doesn\'t exist.', $path));
         }
 
         if (Util\Url::isUrl($path)) {
@@ -579,7 +593,7 @@ class Asset implements \ArrayAccess
 
         $file['filepath'] = $filePath;
         $file['path'] = $path;
-        $file['ext'] = $pathinfo['extension'];
+        $file['ext'] = $pathinfo['extension'] ?? '';
         $file['type'] = $type;
         $file['subtype'] = $subtype;
         $file['size'] = filesize($filePath);
@@ -595,6 +609,8 @@ class Asset implements \ArrayAccess
      *   2. in static/
      *   3. in themes/<theme>/static/
      * Returns local file path or false if file don't exists.
+     *
+     * @throws RuntimeException
      *
      * @return string|false
      */
@@ -613,7 +629,7 @@ class Asset implements \ArrayAccess
                     return false;
                 }
                 if (strlen($content) <= 1) {
-                    throw new Exception(sprintf('Asset at "%s" is empty.', $url));
+                    throw new RuntimeException(sprintf('Asset at "%s" is empty.', $url));
                 }
                 Util\File::getFS()->dumpFile($filePath, $content);
             }

@@ -11,7 +11,7 @@
 namespace Cecil\Converter;
 
 use Cecil\Builder;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -30,6 +30,8 @@ class Converter implements ConverterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function convertFrontmatter(string $string, string $type = 'yaml'): array
     {
@@ -37,7 +39,7 @@ class Converter implements ConverterInterface
             case 'ini':
                 $result = parse_ini_string($string);
                 if ($result === false) {
-                    throw new Exception('Can\'t parse INI front matter.');
+                    throw new RuntimeException('Can\'t parse INI front matter.');
                 }
 
                 return $result;
@@ -48,7 +50,7 @@ class Converter implements ConverterInterface
 
                     return $result;
                 } catch (ParseException $e) {
-                    throw new Exception($e->getMessage());
+                    throw new RuntimeException($e->getMessage());
                 }
         }
     }
@@ -61,7 +63,7 @@ class Converter implements ConverterInterface
         try {
             $parsedown = new Parsedown($this->builder);
         } catch (\Exception $e) {
-            throw new Exception('Can\'t convert Markdown.');
+            throw new RuntimeException('Can\'t convert Markdown.');
         }
 
         return $parsedown->text($string);

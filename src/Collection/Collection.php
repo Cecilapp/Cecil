@@ -70,6 +70,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function add(ItemInterface $item): CollectionInterface
     {
@@ -87,6 +89,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function replace(string $id, ItemInterface $item): CollectionInterface
     {
@@ -104,6 +108,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function remove(string $id): CollectionInterface
     {
@@ -121,6 +127,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function get(string $id): ItemInterface
     {
@@ -137,6 +145,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function getPosition(string $id): int
     {

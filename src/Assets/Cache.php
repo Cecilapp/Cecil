@@ -13,8 +13,8 @@ namespace Cecil\Assets;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
+use Cecil\Exception\RuntimeException;
 use Cecil\Util;
-use Exception;
 use Psr\SimpleCache\CacheInterface;
 
 class Cache implements CacheInterface
@@ -41,6 +41,8 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function get($key, $default = null)
     {
@@ -50,7 +52,7 @@ class Cache implements CacheInterface
                 return $default;
             }
             $data = unserialize($content);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
             return $default;
@@ -61,6 +63,8 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function set($key, $value, $ttl = null)
     {
@@ -72,7 +76,7 @@ class Cache implements CacheInterface
             ]);
             $this->prune($key);
             Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
             return false;
@@ -83,6 +87,8 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function delete($key)
     {
@@ -90,7 +96,7 @@ class Cache implements CacheInterface
             $key = $this->prepareKey($key);
             Util\File::getFS()->remove($this->getFilePathname($key));
             $this->prune($key);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
             return false;
@@ -101,12 +107,14 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function clear()
     {
         try {
             Util\File::getFS()->remove($this->cacheDir);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
             return false;
@@ -120,7 +128,7 @@ class Cache implements CacheInterface
      */
     public function getMultiple($keys, $default = null)
     {
-        throw new Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -128,7 +136,7 @@ class Cache implements CacheInterface
      */
     public function setMultiple($values, $ttl = null)
     {
-        throw new Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -136,7 +144,7 @@ class Cache implements CacheInterface
      */
     public function deleteMultiple($keys)
     {
-        throw new Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -162,11 +170,13 @@ class Cache implements CacheInterface
 
     /**
      * Creates key from a file: $relativePath + '__' + MD5 hash.
+     *
+     * @throws RuntimeException
      */
     public function createKeyFromPath(string $path, string $relativePath): string
     {
         if (false === $content = Util\File::fileGetContents($path)) {
-            throw new Exception(sprintf('Can\'t create cache key for "%s"', $path));
+            throw new RuntimeException(sprintf('Can\'t create cache key for "%s"', $path));
         }
 
         return $this->prepareKey(\sprintf('%s__%s.ser', $relativePath, $this->createKeyFromString($content)));
@@ -190,6 +200,8 @@ class Cache implements CacheInterface
 
     /**
      * Removes previous cache files.
+     *
+     * @throws RuntimeException
      */
     private function prune(string $key): bool
     {
@@ -199,7 +211,7 @@ class Cache implements CacheInterface
             foreach (glob($pattern) as $filename) {
                 Util\File::getFS()->remove($filename);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
             return false;

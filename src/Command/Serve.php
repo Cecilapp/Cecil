@@ -11,6 +11,7 @@
 namespace Cecil\Command;
 
 use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -62,6 +63,8 @@ class Serve extends AbstractCommand
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -78,7 +81,7 @@ class Serve extends AbstractCommand
         $phpFinder = new PhpExecutableFinder();
         $php = $phpFinder->find();
         if ($php === false) {
-            throw new Exception('Can\'t find a local PHP executable.');
+            throw new RuntimeException('Can\'t find a local PHP executable.');
         }
 
         $command = sprintf(
@@ -184,7 +187,7 @@ class Serve extends AbstractCommand
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
 
-                throw new \Exception(sprintf($e->getMessage()));
+                throw new RuntimeException(sprintf($e->getMessage()));
             }
         }
 
@@ -194,7 +197,7 @@ class Serve extends AbstractCommand
     /**
      * Prepares server's files.
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
     private function setUpServer(string $host, string $port): void
     {
@@ -225,17 +228,17 @@ class Serve extends AbstractCommand
                 )
             );
         } catch (IOExceptionInterface $e) {
-            throw new \Exception(sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
+            throw new RuntimeException(sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
         }
         if (!is_file(Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'))) {
-            throw new \Exception(sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
+            throw new RuntimeException(sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
         }
     }
 
     /**
      * Removes temporary directory.
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
     private function tearDownServer(): void
     {
@@ -245,7 +248,7 @@ class Serve extends AbstractCommand
         try {
             $this->fs->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
         } catch (IOExceptionInterface $e) {
-            throw new \Exception($e->getMessage());
+            throw new RuntimeException($e->getMessage());
         }
     }
 }

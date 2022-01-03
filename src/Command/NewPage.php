@@ -11,6 +11,7 @@
 namespace Cecil\Command;
 
 use Cecil\Util;
+use Cecil\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,6 +47,8 @@ class NewPage extends AbstractCommand
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -107,7 +110,7 @@ class NewPage extends AbstractCommand
                 $this->openEditor($filePath);
             }
         } catch (\Exception $e) {
-            throw new \Exception(sprintf($e->getMessage()));
+            throw new RuntimeException(sprintf($e->getMessage()));
         }
 
         return 0;
@@ -144,6 +147,8 @@ EOT;
 
     /**
      * Opens the new file in editor (if configured).
+     *
+     * @throws RuntimeException
      */
     protected function openEditor(string $filePath): void
     {
@@ -158,7 +163,7 @@ EOT;
             $process = Process::fromShellCommandline($command);
             $process->run();
             if (!$process->isSuccessful()) {
-                throw new \Exception(sprintf('Can\'t run "%s".', $command));
+                throw new RuntimeException(sprintf('Can\'t run "%s".', $command));
             }
         }
     }

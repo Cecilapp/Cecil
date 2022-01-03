@@ -72,7 +72,7 @@ class GeneratorManager extends \SplPriorityQueue
                     /** @var \Cecil\Collection\Page\Page $page */
                     try {
                         $pagesCollection->add($page);
-                    } catch (\Exception $e) {
+                    } catch (\DomainException $e) {
                         $pagesCollection->replace($page->getId(), $page);
                     }
                 }

@@ -12,7 +12,7 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 
 /**
  * Class Generator\VirtualPages.
@@ -37,10 +37,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             if (!isset($frontmatter['path'])) {
-                throw new Exception(sprintf(
-                    'Each pages in "%s" config\'s section must have a "path".',
-                    $this->configKey
-                ));
+                throw new RuntimeException(sprintf('Each pages in "%s" config\'s section must have a "path".', $this->configKey));
             }
             $path = Page::slugify($frontmatter['path']);
             foreach ($this->config->getLanguages() as $language) {

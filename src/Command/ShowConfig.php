@@ -10,6 +10,7 @@
 
 namespace Cecil\Command;
 
+use Cecil\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,6 +41,8 @@ class ShowConfig extends AbstractCommand
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,7 +51,7 @@ class ShowConfig extends AbstractCommand
         try {
             $output->writeln($this->printArray($this->getBuilder()->getConfig()->getAsArray()));
         } catch (\Exception $e) {
-            throw new \Exception(sprintf($e->getMessage()));
+            throw new RuntimeException(sprintf($e->getMessage()));
         }
 
         return 0;

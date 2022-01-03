@@ -13,7 +13,7 @@ namespace Cecil\Renderer;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type as PageType;
 use Cecil\Config;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
 /**
@@ -26,7 +26,7 @@ class Layout
     /**
      * Layout files finder.
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
     public static function finder(Page $page, string $format, Config $config): array
     {
@@ -66,7 +66,7 @@ class Layout
             }
         }
 
-        throw new Exception(sprintf('Layout "%s" not found (page: %s).', $layout, $page->getId()));
+        throw new RuntimeException(sprintf('Layout "%s" not found (page: %s).', $layout, $page->getId()));
     }
 
     /**

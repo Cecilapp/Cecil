@@ -14,7 +14,6 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
-use Cecil\Exception\Exception;
 
 /**
  * Class Generator\Taxonomy.
@@ -74,7 +73,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     // adds page only if a template exist
                     try {
                         $this->generatedPages->add($page);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         printf("%s\n", $e->getMessage());
                         unset($page); // do not adds page
                     }

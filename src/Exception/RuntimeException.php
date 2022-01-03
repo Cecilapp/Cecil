@@ -10,6 +10,6 @@
 
 namespace Cecil\Exception;
 
-class Exception extends \Exception implements ExceptionInterface
+class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }
