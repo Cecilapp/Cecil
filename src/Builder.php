@@ -11,6 +11,7 @@
 namespace Cecil;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
+use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
 use Cecil\Util\Plateform;
@@ -352,6 +353,8 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns application version.
+     *
+     * @throws RuntimeException
      */
     public static function getVersion(): string
     {
@@ -363,11 +366,11 @@ class Builder implements LoggerAwareInterface
 
             try {
                 if (!file_exists($filePath)) {
-                    throw new \Exception(sprintf('%s file doesn\'t exist!', $filePath));
+                    throw new RuntimeException(\sprintf('%s file doesn\'t exist!', $filePath));
                 }
                 $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
-                    throw new \Exception(sprintf('Can\'t get %s file!', $filePath));
+                    throw new RuntimeException(\sprintf('Can\'t get %s file!', $filePath));
                 }
                 self::$version = trim($version);
             } catch (\Exception $e) {

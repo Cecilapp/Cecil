@@ -14,7 +14,7 @@ use Cecil\Collection\Menu\Collection as MenusCollection;
 use Cecil\Collection\Menu\Entry;
 use Cecil\Collection\Menu\Menu;
 use Cecil\Collection\Page\Page;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Logger\PrintLogger;
 use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Step\AbstractStep;
@@ -37,6 +37,8 @@ class Create extends AbstractStep
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function process()
     {
@@ -81,7 +83,7 @@ class Create extends AbstractStep
 
                         // ID is required
                         if (!isset($property['id'])) {
-                            throw new Exception(sprintf('"id" is required for entry at position %s in "%s" menu', $key, $menu));
+                            throw new RuntimeException(\sprintf('"id" is required for entry at position %s in "%s" menu', $key, $menu));
                         }
                         // enabled?
                         if (isset($property['enabled']) && false === $property['enabled']) {

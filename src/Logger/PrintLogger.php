@@ -48,7 +48,7 @@ class PrintLogger extends AbstractLogger
     public function log($level, $message, array $context = [])
     {
         if (!isset($this->verbosityLevelMap[$level])) {
-            throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
+            throw new InvalidArgumentException(\sprintf('The log level "%s" does not exist.', $level));
         }
 
         if ($this->printLevelMax !== null && $this->verbosityLevelMap[$level] > $this->printLevelMax) {

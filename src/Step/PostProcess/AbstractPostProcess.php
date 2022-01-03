@@ -11,7 +11,7 @@
 namespace Cecil\Step\PostProcess;
 
 use Cecil\Assets\Cache;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
@@ -37,7 +37,7 @@ abstract class AbstractPostProcess extends AbstractStep
 
             return;
         }
-        if (false === $this->builder->getConfig()->get(sprintf('postprocess.%s.enabled', $this->type))) {
+        if (false === $this->builder->getConfig()->get(\sprintf('postprocess.%s.enabled', $this->type))) {
             $this->canProcess = false;
 
             return;
@@ -49,14 +49,16 @@ abstract class AbstractPostProcess extends AbstractStep
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function process()
     {
         $this->setProcessor();
 
-        $extensions = $this->builder->getConfig()->get(sprintf('postprocess.%s.ext', $this->type));
+        $extensions = $this->builder->getConfig()->get(\sprintf('postprocess.%s.ext', $this->type));
         if (empty($extensions)) {
-            throw new Exception(sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
+            throw new RuntimeException(\sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
         }
 
         $files = Finder::create()

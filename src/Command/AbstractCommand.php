@@ -11,6 +11,7 @@
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
@@ -134,6 +135,8 @@ class AbstractCommand extends Command
 
     /**
      * Creates or returns a Builder instance.
+     *
+     * @throws RuntimeException
      */
     protected function getBuilder(array $config = []): Builder
     {
@@ -143,7 +146,7 @@ class AbstractCommand extends Command
                 if (is_file($filePath)) {
                     $configContent = Util\File::fileGetContents($filePath);
                     if ($configContent === false) {
-                        throw new \Exception(\sprintf('Can\'t read configuration file "%s".', $fileName));
+                        throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
                     }
                     $siteConfig = array_replace_recursive($siteConfig, Yaml::parse($configContent));
                 }
@@ -154,9 +157,9 @@ class AbstractCommand extends Command
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
-            throw new \Exception(sprintf('Configuration file parse error: %s', $e->getMessage()));
+            throw new RuntimeException(\sprintf('Configuration file parse error: %s', $e->getMessage()));
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            throw new RuntimeException($e->getMessage());
         }
 
         return $this->builder;

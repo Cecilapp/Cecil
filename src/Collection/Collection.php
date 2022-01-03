@@ -70,15 +70,13 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function add(ItemInterface $item): CollectionInterface
     {
         if ($this->has($item->getId())) {
-            throw new \DomainException(sprintf(
-                'Failed adding "%s" in "%s" collection: item already exists.',
-                $item->getId(),
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed adding "%s" in "%s" collection: item already exists.', $item->getId(), $this->getId()));
         }
         $this->items[] = $item;
 
@@ -87,15 +85,13 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function replace(string $id, ItemInterface $item): CollectionInterface
     {
         if (!$this->has($id)) {
-            throw new \DomainException(sprintf(
-                'Failed replacing "%s" in "%s" collection: item does not exist.',
-                $item->getId(),
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $item->getId(), $this->getId()));
         }
         $this->items[$this->getPosition($id)] = $item;
 
@@ -104,15 +100,13 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function remove(string $id): CollectionInterface
     {
         if (!$this->has($id)) {
-            throw new \DomainException(sprintf(
-                'Failed removing "%s" in "%s" collection: item does not exist.',
-                $id,
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
         unset($this->items[$this->getPosition($id)]);
 
@@ -121,15 +115,13 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function get(string $id): ItemInterface
     {
         if (!$this->has($id)) {
-            throw new \DomainException(sprintf(
-                'Failed getting "%s" in "%s" collection: item does not exist.',
-                $id,
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
         return $this->items[$this->getPosition($id)];
@@ -137,17 +129,15 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function getPosition(string $id): int
     {
         $result = $this->searchItem($id);
         $position = key($result);
         if (!is_int($position)) {
-            throw new \DomainException(sprintf(
-                'Failed getting position of "%s" in "%s" collection: item does not exist.',
-                $id,
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed getting position of "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
         return $position;
@@ -258,6 +248,7 @@ class Collection implements CollectionInterface
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return $this->has($offset);
@@ -270,6 +261,7 @@ class Collection implements CollectionInterface
      *
      * @return CollectionInterface|ItemInterface|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset);
@@ -283,6 +275,7 @@ class Collection implements CollectionInterface
      *
      * @return CollectionInterface|ItemInterface|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         return $this->add($value);
@@ -295,6 +288,7 @@ class Collection implements CollectionInterface
      *
      * @return CollectionInterface|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         return $this->remove($offset);
