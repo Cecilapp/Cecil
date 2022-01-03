@@ -248,6 +248,7 @@ class Collection implements CollectionInterface
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return $this->has($offset);
@@ -260,6 +261,7 @@ class Collection implements CollectionInterface
      *
      * @return CollectionInterface|ItemInterface|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset);
@@ -273,6 +275,7 @@ class Collection implements CollectionInterface
      *
      * @return CollectionInterface|ItemInterface|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         return $this->add($value);
@@ -285,6 +288,7 @@ class Collection implements CollectionInterface
      *
      * @return CollectionInterface|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         return $this->remove($offset);
