@@ -60,11 +60,7 @@ class Converter implements ConverterInterface
      */
     public function convertBody(string $string): string
     {
-        try {
-            $parsedown = new Parsedown($this->builder);
-        } catch (\Exception $e) {
-            throw new RuntimeException('Can\'t convert Markdown.');
-        }
+        $parsedown = new Parsedown($this->builder);
 
         return $parsedown->text($string);
     }
