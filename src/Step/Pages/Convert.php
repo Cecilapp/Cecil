@@ -60,7 +60,6 @@ class Convert extends AbstractStep
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
-                $convertError = false;
 
                 try {
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
@@ -70,16 +69,12 @@ class Convert extends AbstractStep
                     }
                 } catch (RuntimeException $e) {
                     $this->builder->getLogger()->error(sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
-                    $convertError = true;
+                    $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
                     $this->builder->getLogger()->error(sprintf('Unable to convert %s: %s', $page->getFilePath(), $e->getMessage()));
-                    $convertError = true;
+                    $this->builder->getPages()->remove($page->getId());
                     continue;
-                } finally {
-                    if ($convertError) {
-                        $this->builder->getPages()->remove($page->getId());
-                    }
                 }
 
                 /**
