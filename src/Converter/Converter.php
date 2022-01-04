@@ -50,6 +50,8 @@ class Converter implements ConverterInterface
 
                     return $result;
                 } catch (ParseException $e) {
+                    throw new RuntimeException($e->getMessage(), $e->getParsedFile(), $e->getParsedLine());
+                } catch (\Exception $e) {
                     throw new RuntimeException($e->getMessage());
                 }
         }

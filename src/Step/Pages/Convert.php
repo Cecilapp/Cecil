@@ -60,6 +60,7 @@ class Convert extends AbstractStep
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
+                $convertError = false;
 
                 try {
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
@@ -67,12 +68,18 @@ class Convert extends AbstractStep
                     if (!$convertedPage->hasVariable('language')) {
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
-                } catch (\Exception $e) {
-                    $this->builder->getPages()->remove($page->getId());
-                    $this->builder->getLogger()->error(
-                        sprintf('Unable to convert "%s": %s', $page->getFilePath(), $e->getMessage())
-                    );
+                } catch (RuntimeException $e) {
+                    $this->builder->getLogger()->error(sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
+                    $convertError = true;
                     continue;
+                } catch (\Exception $e) {
+                    $this->builder->getLogger()->error(sprintf('Unable to convert %s: %s', $page->getFilePath(), $e->getMessage()));
+                    $convertError = true;
+                    continue;
+                } finally {
+                    if ($convertError) {
+                        $this->builder->getPages()->remove($page->getId());
+                    }
                 }
 
                 /**
@@ -142,8 +149,8 @@ class Convert extends AbstractStep
         if ($page->getFrontmatter()) {
             try {
                 $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
-            } catch (\Exception $e) {
-                throw new RuntimeException($e->getMessage());
+            } catch (RuntimeException $e) {
+                throw new RuntimeException($e->getMessage(), $page->getFilePath(), $e->getPageLine());
             }
             $page->setFmVariables($variables);
             $page->setVariables($variables);
