@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: enhances Exceptions [`#1276`](https://github.com/Cecilapp/Cecil/pull/1276)
 - fix: log error message [`#1274`](https://github.com/Cecilapp/Cecil/pull/1274)
 - fix: log messages [`#1273`](https://github.com/Cecilapp/Cecil/pull/1273)
+- chore: clean exception messages [`ac9db94`](https://github.com/Cecilapp/Cecil/commit/ac9db945d246c5b91b61155f9f7b642a38c7b85f)
 - chore: clean code [`9f686a9`](https://github.com/Cecilapp/Cecil/commit/9f686a92da9a6053738114e926f6fb1200d1aa5d)
 - chore: add required extensions to Composer file [`71b0577`](https://github.com/Cecilapp/Cecil/commit/71b0577890ff3b25a7c7815e34faadb1985be59a)
 - chore: clean code [`ce9d221`](https://github.com/Cecilapp/Cecil/commit/ce9d221e3d54079ff66ab1010c2ff9b02afde5ff)
