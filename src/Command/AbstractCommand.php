@@ -157,7 +157,7 @@ class AbstractCommand extends Command
                 ->setSourceDir($this->getPath())
                 ->setDestinationDir($this->getPath());
         } catch (ParseException $e) {
-            throw new RuntimeException(\sprintf('Configuration file parse error: %s', $e->getMessage()));
+            throw new RuntimeException(\sprintf('Configuration parsing error: %s', $e->getMessage()));
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
