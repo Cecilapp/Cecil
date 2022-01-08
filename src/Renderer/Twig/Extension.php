@@ -575,14 +575,25 @@ class Extension extends SlugifyExtension
 
     /**
      * Reads characters before '<!-- excerpt|break -->'.
+     * Options:
+     *  - separator: string to use as separator
+     *  - capture: string to capture, 'before' (default) or 'after'.
      */
-    public function excerptHtml(string $string): string
+    public function excerptHtml(string $string, array $options = []): string
     {
-        // https://regex101.com/r/Xl7d5I/3
-        $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
+        $separator = 'excerpt|break';
+        $capture = 'before';
+        extract($options, EXTR_IF_EXISTS);
+
+        // https://regex101.com/r/n9TWHF/1
+        $pattern = '(.*)<!--[[:blank:]]?('.$separator.')[[:blank:]]?-->(.*)';
         preg_match('/'.$pattern.'/is', $string, $matches);
+
         if (empty($matches)) {
             return $string;
+        }
+        if ($capture == 'after') {
+            return trim($matches[3]);
         }
 
         return trim($matches[1]);
