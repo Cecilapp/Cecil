@@ -577,7 +577,7 @@ class Extension extends SlugifyExtension
      * Reads characters before '<!-- excerpt|break -->'.
      * Options:
      *  - separator: string to use as separator
-     *  - capture: string to capture, 'before' (default) or 'after'
+     *  - capture: string to capture, 'before' (default) or 'after'.
      */
     public function excerptHtml(string $string, array $options = []): string
     {
