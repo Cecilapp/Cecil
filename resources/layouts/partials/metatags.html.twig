@@ -98,12 +98,14 @@
 {%- endif ~%}
     <meta name="robots" content="{{ robots }}" />
 {#- template: favicon ~#}
-{%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
-  {%- for size in favicon_sizes ~%}
-    {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'),{'ignore_missing':true}) ~%}
-    <link rel="{{ favicon_variant }}" sizes="{{ size }}" href="{{ favicon_asset|resize(size)|url({canonical:true}) }}" type="{{ favicon_asset.subtype }}" />
+{%- if site.metatags.favicon.enabled|default(true) and asset(site.metatags.favicon.image|default('favicon.png'),{'ignore_missing':true}) is not empty ~%}
+  {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
+    {%- for size in favicon_sizes ~%}
+      {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'),{'ignore_missing':true}) ~%}
+      <link rel="{{ favicon_variant }}" sizes="{{ size }}" href="{{ favicon_asset|resize(size)|url({canonical:true}) }}" type="{{ favicon_asset.subtype }}" />
+    {%- endfor -%}
   {%- endfor -%}
-{%- endfor -%}
+{%- endif ~%}
 {#- template: prev/next ~#}
 {%- if page.prev.path is defined ~%}
     <link rel="prev" href="{{ url(page.prev.path,{'canonical':true}) }}">
