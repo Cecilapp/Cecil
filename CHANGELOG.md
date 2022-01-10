@@ -30,7 +30,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.80.1...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.81.0...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -42,6 +42,17 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.81.0](https://github.com/Cecilapp/Cecil/compare/5.80.1...5.81.0)
+
+> 8 January 2022
+
+- feature: add options to excerpt filter [`#1280`](https://github.com/Cecilapp/Cecil/pull/1280)
+- chore: update deps [`7e856fd`](https://github.com/Cecilapp/Cecil/commit/7e856fd39e123c19da4e4a8d1ca8c4e6f93a15a1)
+- fix: fix deploy scripts [`0024b77`](https://github.com/Cecilapp/Cecil/commit/0024b77297d80482163fc95963b2581e29b07dbd)
+- docs: update deploy doc [`f9adfea`](https://github.com/Cecilapp/Cecil/commit/f9adfea68c3c0ac9fbc72a67efd3d2ac4a967615)
+- chore: update error message [`149009d`](https://github.com/Cecilapp/Cecil/commit/149009d867ef0dccb4f12516d1bb77524f8aa667)
+- chore: compress GIF demo [`85bedf4`](https://github.com/Cecilapp/Cecil/commit/85bedf42f2b3420d6009251e040df551ff9285bd)
 
 #### [5.80.1](https://github.com/Cecilapp/Cecil/compare/5.80.0...5.80.1)
 
