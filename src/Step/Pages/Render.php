@@ -151,9 +151,10 @@ class Render extends AbstractStep
                         );
                     }
                 } catch (\Twig\Error\Error $e) {
+                    $template = !empty($e->getSourceContext()->getPath()) ? $e->getSourceContext()->getPath() : $e->getSourceContext()->getName();
                     throw new RuntimeException(\sprintf(
                         'Template "%s%s" (page: %s): %s',
-                        $e->getSourceContext()->getPath(),
+                        $template,
                         $e->getTemplateLine() >= 0 ? sprintf(':%s', $e->getTemplateLine()) : '',
                         $page->getId(),
                         $e->getMessage()
