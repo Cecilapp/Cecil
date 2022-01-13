@@ -91,7 +91,7 @@ class Layout
                     "_default/list.$format.$ext",
                     "_default/page.$format.$ext",
                 ];
-                if ($page->getVariable('layout')) {
+                if ($page->hasVariable('layout')) {
                     $layouts = array_merge(
                         [sprintf('%s.%s.%s', $layout, $format, $ext)],
                         $layouts
@@ -117,7 +117,7 @@ class Layout
                         $layouts
                     );
                 }
-                if ($page->getVariable('layout')) {
+                if ($page->hasVariable('layout')) {
                     $layouts = array_merge(
                         [sprintf('%s.%s.%s', $layout, $format, $ext)],
                         $layouts
@@ -129,7 +129,7 @@ class Layout
                     // "taxonomy/$plural.$format.$ext", // ie: taxonomy/tags.html.twig
                     "_default/vocabulary.$format.$ext", // ie: _default/vocabulary.html.twig
                 ];
-                if ($page->getVariable('plural')) {
+                if ($page->hasVariable('plural')) {
                     $layouts = array_merge(
                         [sprintf('taxonomy/%s.%s.%s', $page->getVariable('plural'), $format, $ext)],
                         $layouts
@@ -142,7 +142,7 @@ class Layout
                     "_default/term.$format.$ext",     // ie: _default/term.html.twig
                     "_default/list.$format.$ext",     // ie: _default/list.html.twig
                 ];
-                if ($page->getVariable('term')) {
+                if ($page->hasVariable('term')) {
                     $layouts = array_merge(
                         [sprintf('taxonomy/%s.%s.%s', $page->getVariable('term'), $format, $ext)],
                         $layouts
@@ -167,7 +167,7 @@ class Layout
                         $layouts
                     );
                 }
-                if ($page->getVariable('layout')) {
+                if ($page->hasVariable('layout')) {
                     $layouts = array_merge(
                         [sprintf('%s.%s.%s', $layout, $format, $ext)],
                         $layouts

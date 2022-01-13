@@ -102,7 +102,7 @@ class PrintLogger extends AbstractLogger
     /**
      * Format expression to string.
      */
-    public static function format(string $expression): string
+    public static function format($expression): string
     {
         return str_replace(["\n", ' '], '', var_export($expression, true));
     }
