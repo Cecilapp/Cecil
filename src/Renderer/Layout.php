@@ -78,10 +78,8 @@ class Layout
     {
         $ext = self::EXT;
 
-        if ($page->hasVariable('layout')) {
-            // remove potential redundant extension
-            $layout = str_replace(".$ext", '', $page->getVariable('layout'));
-        }
+        // remove potential redundant extension
+        $layout = str_replace(".$ext", '', $page->getVariable('layout'));
 
         switch ($page->getType()) {
             case PageType::HOMEPAGE:
