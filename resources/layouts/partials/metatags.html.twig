@@ -49,7 +49,9 @@
   } -%}
 {% endif %}
 {# image #}
+{% if image is not defined or image is empty %}
 {%- set image = page.image|default(site.image|default()) %}
+{% endif %}
 {# open graph #}
 {% set opengraph = {
   'locale': site.language.locale,
