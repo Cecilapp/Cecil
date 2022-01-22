@@ -143,13 +143,10 @@ class AbstractCommand extends Command
         try {
             $siteConfig = [];
             foreach ($this->getConfigFiles() as $fileName => $filePath) {
-                if (is_file($filePath)) {
-                    $configContent = Util\File::fileGetContents($filePath);
-                    if ($configContent === false) {
-                        throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
-                    }
-                    $siteConfig = array_replace_recursive($siteConfig, Yaml::parse($configContent));
+                 if (false === $configContent = Util\File::fileGetContents($filePath)) {
+                    throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
                 }
+                $siteConfig = array_replace_recursive($siteConfig, Yaml::parse($configContent));
             }
             $config = array_replace_recursive($siteConfig, $config);
 

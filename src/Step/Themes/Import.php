@@ -53,8 +53,7 @@ class Import extends AbstractStep
             $themeConfigFile = $this->config->getThemesPath().'/'.$theme.'/'.self::THEME_CONFIG_FILE;
             $message = sprintf('"%s": no configuration file', $theme);
             if (Util\File::getFS()->exists($themeConfigFile)) {
-                $config = Util\File::fileGetContents($themeConfigFile);
-                if ($config === false) {
+                if (false === $config = Util\File::fileGetContents($themeConfigFile)) {
                     throw new RuntimeException('Can\'t read the configuration file.');
                 }
                 $themeConfig = Yaml::parse($config);
