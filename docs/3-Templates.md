@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2021-11-26
+updated: 2022-01-30
 alias: documentation/layouts
 -->
 
@@ -781,7 +781,7 @@ _Example:_
 
 ## Localization
 
-Cecil support **text translation** and **date localization** through [*Twig Extensions*](https://twig-extensions.readthedocs.io).
+Cecil support **text translation** and **date localization** through [*Twig Extensions*](https://github.com/Cecilapp/Twig-extensions).
 
 ### Text translation
 
@@ -820,7 +820,7 @@ Translation files (`.mo`) must be stored in the right directory of your project:
 
 I recommends [*Poedit Pro*](https://poedit.net/pro) to easily translate your templates.
 
-[*Gettext PHP extension*](https://www.php.net/gettext) is required. See the [i18n Extension documentation](https://twig-extensions.readthedocs.io/en/latest/i18n.html).
+[*Gettext PHP extension*](https://www.php.net/gettext) is required. See the [i18n Extension documentation](https://github.com/Cecilapp/Twig-extensions/blob/1.5.4/doc/i18n.md).
 
 ### Date localization
 
@@ -830,7 +830,7 @@ Uses the `localizeddate` filter to localize a date in templates.
 {{ page.date|localizeddate('long', 'none') }}
 ```
 
-[*Intl PHP extension*](https://www.php.net/manual/book.intl.php) is required. See the [Intl Extension documentation](https://twig-extensions.readthedocs.io/en/latest/intl.html).
+[*Intl PHP extension*](https://www.php.net/manual/book.intl.php) is required. See the [Intl Extension documentation](https://github.com/Cecilapp/Twig-extensions/blob/1.5.4/doc/intl.md).
 
 ## Built-in templates
 
