@@ -2428,12 +2428,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/Twig-extensions.git",
-                "reference": "45c8d77dba043d830bc6517e2405e765956dd7c8"
+                "reference": "a0bb572337b7ebbe7b253d39cda3005802cc1344"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/Twig-extensions/zipball/45c8d77dba043d830bc6517e2405e765956dd7c8",
-                "reference": "45c8d77dba043d830bc6517e2405e765956dd7c8",
+                "url": "https://api.github.com/repos/Cecilapp/Twig-extensions/zipball/a0bb572337b7ebbe7b253d39cda3005802cc1344",
+                "reference": "a0bb572337b7ebbe7b253d39cda3005802cc1344",
                 "shasum": ""
             },
             "require": {
@@ -2496,7 +2496,7 @@
                     "url": "https://www.paypal.me/narno"
                 }
             ],
-            "time": "2021-12-21T11:13:28+00:00"
+            "time": "2022-01-30T00:30:25+00:00"
         },
         {
             "name": "twig/twig",
