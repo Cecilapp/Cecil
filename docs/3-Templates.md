@@ -785,7 +785,7 @@ Cecil support **text translation** and **date localization** through [*Twig Exte
 
 ### Text translation
 
-Uses the `trans` tag or filter to translate a text in templates.
+Uses the `trans` tag to translate a text in templates.
 
 ```twig
 {% trans "Publication date:" %}
@@ -797,11 +797,45 @@ Uses the `trans` tag or filter to translate a text in templates.
 
 ```twig
 {% trans %}
+  Hello World!
+{% endtrans %}
+```
+
+In a translatable string, you can embed variables:
+
+```twig
+{% trans %}
+    Hello {{ name }}!
+{% endtrans %}
+```
+
+To pluralize a translatable string, use the `plural` block:
+
+```twig
+{% trans %}
     Hey {{ name }}, I have one apple.
 {% plural apple_count %}
     Hey {{ name }}, I have {{ count }} apples.
 {% endtrans %}
 ```
+
+The `plural` tag should provide the `count` used to select the right string. Within the translatable string, the special `count` variable always contain the count value (here the value of `apple_count`).
+
+To add notes for translators, use the `notes` block:
+
+```twig
+{% trans %}
+    Hey {{ name }}, I have one apple.
+{% plural apple_count %}
+    Hey {{ name }}, I have {{ count }} apples.
+{% notes %}
+    This is shown in the user menu. This string should be shorter than 30 chars
+{% endtrans %}
+```
+
+You can use `notes` with or without `plural`.
+
+Within an expression or in a tag, you can use the `trans` filter to translate simple strings or variables:
 
 ```twig
 {{ variable|default(default_value|trans) }}
