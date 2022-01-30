@@ -805,7 +805,7 @@ In a translatable string, you can embed variables:
 
 ```twig
 {% trans %}
-    Hello {{ name }}!
+  Hello {{ name }}!
 {% endtrans %}
 ```
 
@@ -813,9 +813,9 @@ To pluralize a translatable string, use the `plural` block:
 
 ```twig
 {% trans %}
-    Hey {{ name }}, I have one apple.
+  Hey {{ name }}, I have one apple.
 {% plural apple_count %}
-    Hey {{ name }}, I have {{ count }} apples.
+  Hey {{ name }}, I have {{ count }} apples.
 {% endtrans %}
 ```
 
@@ -825,11 +825,11 @@ To add notes for translators, use the `notes` block:
 
 ```twig
 {% trans %}
-    Hey {{ name }}, I have one apple.
+  Hey {{ name }}, I have one apple.
 {% plural apple_count %}
-    Hey {{ name }}, I have {{ count }} apples.
+  Hey {{ name }}, I have {{ count }} apples.
 {% notes %}
-    This is shown in the user menu. This string should be shorter than 30 chars
+  This is shown in the user menu. This string should be shorter than 30 chars
 {% endtrans %}
 ```
 
