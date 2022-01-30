@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf9b074bed334567ea14795a61a05a8c",
+    "content-hash": "e3466757763a6398f7638710d7080bed",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -2424,43 +2424,47 @@
         },
         {
             "name": "twig/extensions",
-            "version": "v1.5.4",
+            "version": "1.5.4.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twigphp/Twig-extensions.git",
-                "reference": "57873c8b0c1be51caa47df2cdb824490beb16202"
+                "url": "https://github.com/Cecilapp/Twig-extensions.git",
+                "reference": "45c8d77dba043d830bc6517e2405e765956dd7c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/57873c8b0c1be51caa47df2cdb824490beb16202",
-                "reference": "57873c8b0c1be51caa47df2cdb824490beb16202",
+                "url": "https://api.github.com/repos/Cecilapp/Twig-extensions/zipball/45c8d77dba043d830bc6517e2405e765956dd7c8",
+                "reference": "45c8d77dba043d830bc6517e2405e765956dd7c8",
                 "shasum": ""
             },
             "require": {
-                "twig/twig": "^1.27|^2.0"
+                "php": ">=7.1.3",
+                "symfony/polyfill-mbstring": "^1.10",
+                "twig/twig": "^2.10 | ^3.0"
             },
             "require-dev": {
-                "symfony/phpunit-bridge": "^3.4",
-                "symfony/translation": "^2.7|^3.4"
+                "symfony/phpunit-bridge": "^4.2|^5.0",
+                "symfony/translation": "^3.4|^4.2|^5.0"
             },
             "suggest": {
                 "symfony/translation": "Allow the time_diff output to be translated"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Twig_Extensions_": "lib/"
-                },
                 "psr-4": {
                     "Twig\\Extensions\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Twig\\Tests\\Extensions\\": "test/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -2476,11 +2480,23 @@
                 "text"
             ],
             "support": {
-                "issues": "https://github.com/twigphp/Twig-extensions/issues",
-                "source": "https://github.com/twigphp/Twig-extensions/tree/master"
+                "source": "https://github.com/Cecilapp/Twig-extensions/tree/1.5.4"
             },
-            "abandoned": true,
-            "time": "2018-12-05T18:34:18+00:00"
+            "funding": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/ArnaudLigny"
+                },
+                {
+                    "type": "open_collective",
+                    "url": "https://opencollective.com/cecil"
+                },
+                {
+                    "type": "custom",
+                    "url": "https://www.paypal.me/narno"
+                }
+            ],
+            "time": "2021-12-21T11:13:28+00:00"
         },
         {
             "name": "twig/twig",
@@ -7863,6 +7879,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "twig/extensions": 20,
         "humbug/box": 20
     },
     "prefer-stable": true,

@@ -46,7 +46,7 @@
     "symfony/property-access": "^4.4",
     "symfony/serializer": "^4.4",
     "symfony/yaml": "^4.4",
-    "twig/extensions": "^1.5",
+    "twig/extensions": "1.5.4.x-dev",
     "twig/twig": "^2.13",
     "voku/html-min": "^4.4",
     "wapmorgan/mp3info": "^0.0",
@@ -56,6 +56,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/Cecilapp/box"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/Cecilapp/Twig-extensions"
     }
   ],
   "require-dev": {
