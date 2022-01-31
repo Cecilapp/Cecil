@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/7.5/phpunit.xsd"
-    backupGlobals="false"
-    colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    bootstrap="./vendor/autoload.php"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+  backupGlobals="false"
+  colors="true"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  bootstrap="./vendor/autoload.php"
 >
-    <php>
-        <ini name="error_reporting" value="-1" />
-        <ini name="date.timezone" value="Europe/Paris" />
-    </php>
-    <testsuites>
-        <testsuite name="UnitTests">
-            <file>./tests/UnitTests.php</file>
-        </testsuite>
-        <testsuite name="IntegrationTests">
-            <file>./tests/IntegrationTests.php</file>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-            <exclude>
-                <directory>./tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <directory>./tests</directory>
+      <directory>./vendor</directory>
+    </exclude>
+  </coverage>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="date.timezone" value="Europe/Paris"/>
+  </php>
+  <testsuites>
+    <testsuite name="UnitTests">
+      <file>./tests/UnitTests.php</file>
+    </testsuite>
+    <testsuite name="IntegrationTests">
+      <file>./tests/IntegrationTests.php</file>
+    </testsuite>
+  </testsuites>
 </phpunit>

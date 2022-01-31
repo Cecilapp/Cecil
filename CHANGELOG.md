@@ -6,18 +6,7 @@ All notable changes to this project will be documented in this file. Dates are d
 
 > 1 January 2022
 
-- fix: self-update strategy [`#1272`](https://github.com/Cecilapp/Cecil/pull/1272)
-- fix: checks if Twig menu is defined [`#1265`](https://github.com/Cecilapp/Cecil/pull/1265)
-- fix: YAML converter error handling [`#1264`](https://github.com/Cecilapp/Cecil/pull/1264)
-- docs: update deploy recipes [`b6bd0be`](https://github.com/Cecilapp/Cecil/commit/b6bd0bea6172417cc266067eb5d265b86dfec7fb)
-- Create cecil-build.sh [`4e58773`](https://github.com/Cecilapp/Cecil/commit/4e58773cf325fc9fa01eff40abcd8be95ab34b90)
-- doc: add Surge to deploy recipes [`41df0e7`](https://github.com/Cecilapp/Cecil/commit/41df0e709763108df974b1f49b2310b5492f21bf)
-- docs: fix deploy Netlify recipe [`bada0f5`](https://github.com/Cecilapp/Cecil/commit/bada0f511eae3b209bf754f84ac7e2a451ce2f02)
-- fix: remove addcslashes [`48a3969`](https://github.com/Cecilapp/Cecil/commit/48a39698d1bc7d6004d576c9f75c471a58b715a4)
-
-#### [6.0.0-beta.3](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.2...6.0.0-beta.3)
-
-> 1 January 2022
+#### [Unreleased](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.2...HEAD)
 
 - PHP 8.1 compatibility [`#1271`](https://github.com/Cecilapp/Cecil/pull/1271)
 

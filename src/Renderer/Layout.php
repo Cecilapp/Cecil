@@ -77,9 +77,12 @@ class Layout
     protected static function fallback(Page $page, string $format): array
     {
         $ext = self::EXT;
+        $layout = null;
 
         // remove potential redundant extension
-        $layout = str_replace(".$ext", '', $page->getVariable('layout'));
+        if ($page->hasVariable('layout')) {
+            $layout = str_replace(".$ext", '', $page->getVariable('layout'));
+        }
 
         switch ($page->getType()) {
             case PageType::HOMEPAGE:

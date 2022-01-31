@@ -20,14 +20,14 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
     protected $wsDestinationDir;
     const DEBUG = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->wsSourceDir = Util::joinFile(__DIR__, 'fixtures/website');
         $this->config = Util::joinFile($this->wsSourceDir, 'config.php');
         $this->wsDestinationDir = $this->wsSourceDir;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $fs = new Filesystem();
         if (!self::DEBUG) {
