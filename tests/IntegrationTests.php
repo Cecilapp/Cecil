@@ -44,7 +44,7 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         echo "\n";
         Builder::create(
             require($this->config),
-            new PrintLogger(Builder::VERBOSITY_DEBUG)
+            new PrintLogger()
         )->setSourceDir($this->wsSourceDir)
         ->setDestinationDir($this->wsDestinationDir)
         ->build([

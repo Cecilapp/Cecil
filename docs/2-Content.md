@@ -276,82 +276,6 @@ tags: ["Tag 1", "Tag 2"]
 ---
 ```
 
-### Section
-
-Some dedicated variables can be used in a custom _Section_ (ie: `blog/index.md`).
-
-#### sortby
-
-The order of *Pages* can be changed for a *Section*.
-
-Available values are:
-
-- `date`: more recent first
-- `title`: alphabetic order
-- `weight`: lightest first
-
-_Example:_
-
-```yaml
----
-sortby: title
----
-```
-
-#### pagination
-
-Global [pagination configuration](4-Configuration.md#pagination) can be overridden for a *Section*.
-
-_Example:_
-
-```yaml
----
-pagination:
-  max: 2
-  path: "p"
----
-```
-
-#### cascade
-
-Any values in `cascade` will be merged into the front matter of all _sub pages_.  
-Existing variables are not overridden.
-
-_Example:_
-
-```yaml
----
-cascade:
-  banner: image.jpg
----
-```
-
-#### circular
-
-Set `circular` to `true` to enable circular pagination with [_page.<prev/next>_](3-Templates.md#page-prev-next).
-
-_Example:_
-
-```yaml
----
-circular: true
----
-```
-
-### exclude
-
-Set `exclude` to `true` to hide the _Page_ from lists (like _Home page_, _Section_, _Sitemap_, etc.).
-
-_Example:_
-
-```yaml
----
-exclude: true
----
-```
-
-`exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_.
-
 ### redirect
 
 As indicated by its name, the `redirect` variable is used to redirect a page to a dedicated URL.
@@ -424,6 +348,90 @@ In `1-The first project.md`:
 - the prefix is `1`
 - the `weight` of the _Page_ is `1`
 - the `title` of the _Page_ is `The first project`
+
+### Section
+
+Some dedicated variables can be used in a custom _Section_ (ie: `blog/index.md`).
+
+#### sortby
+
+The order of *Pages* can be changed for a *Section*.
+
+Available values are:
+
+- `date`: more recent first
+- `title`: alphabetic order
+- `weight`: lightest first
+
+_Example:_
+
+```yaml
+---
+sortby: title
+---
+```
+
+#### pagination
+
+Global [pagination configuration](4-Configuration.md#pagination) can be overridden for a *Section*.
+
+_Example:_
+
+```yaml
+---
+pagination:
+  max: 2
+  path: "p"
+---
+```
+
+#### cascade
+
+Any values in `cascade` will be merged into the front matter of all _sub pages_.  
+Existing variables are not overridden.
+
+_Example:_
+
+```yaml
+---
+cascade:
+  banner: image.jpg
+---
+```
+
+#### circular
+
+Set `circular` to `true` to enable circular pagination with [_page.<prev/next>_](3-Templates.md#page-prev-next).
+
+_Example:_
+
+```yaml
+---
+circular: true
+---
+```
+
+### Home page
+
+Home page support `sortby` and `pagination` configuration.
+
+#### pagesfrom
+
+Set `pagesfrom` to a valid section to use pages collection from a section.
+
+### exclude
+
+Set `exclude` to `true` to hide the _Page_ from lists (like _Home page_, _Section_, _Sitemap_, etc.).
+
+_Example:_
+
+```yaml
+---
+exclude: true
+---
+```
+
+`exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_.
 
 ## Multilingual
 

@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2021-11-26
+updated: 2022-01-30
 alias: documentation/layouts
 -->
 
@@ -781,11 +781,11 @@ _Example:_
 
 ## Localization
 
-Cecil support **text translation** and **date localization** through [*Twig Extensions*](https://twig-extensions.readthedocs.io).
+Cecil support **text translation** and **date localization** through [*Twig Extensions*](https://github.com/Cecilapp/Twig-extensions).
 
 ### Text translation
 
-Uses the `trans` tag or filter to translate a text in templates.
+Uses the `trans` tag to translate a text in templates.
 
 ```twig
 {% trans "Publication date:" %}
@@ -797,11 +797,45 @@ Uses the `trans` tag or filter to translate a text in templates.
 
 ```twig
 {% trans %}
-    Hey {{ name }}, I have one apple.
-{% plural apple_count %}
-    Hey {{ name }}, I have {{ count }} apples.
+  Hello World!
 {% endtrans %}
 ```
+
+In a translatable string, you can embed variables:
+
+```twig
+{% trans %}
+  Hello {{ name }}!
+{% endtrans %}
+```
+
+To pluralize a translatable string, use the `plural` block:
+
+```twig
+{% trans %}
+  Hey {{ name }}, I have one apple.
+{% plural apple_count %}
+  Hey {{ name }}, I have {{ count }} apples.
+{% endtrans %}
+```
+
+The `plural` tag should provide the `count` used to select the right string. Within the translatable string, the special `count` variable always contain the count value (here the value of `apple_count`).
+
+To add notes for translators, use the `notes` block:
+
+```twig
+{% trans %}
+  Hey {{ name }}, I have one apple.
+{% plural apple_count %}
+  Hey {{ name }}, I have {{ count }} apples.
+{% notes %}
+  This is shown in the user menu. This string should be shorter than 30 chars
+{% endtrans %}
+```
+
+You can use `notes` with or without `plural`.
+
+Within an expression or in a tag, you can use the `trans` filter to translate simple strings or variables:
 
 ```twig
 {{ variable|default(default_value|trans) }}
@@ -820,7 +854,7 @@ Translation files (`.mo`) must be stored in the right directory of your project:
 
 I recommends [*Poedit Pro*](https://poedit.net/pro) to easily translate your templates.
 
-[*Gettext PHP extension*](https://www.php.net/gettext) is required. See the [i18n Extension documentation](https://twig-extensions.readthedocs.io/en/latest/i18n.html).
+[*Gettext PHP extension*](https://www.php.net/gettext) is required. See the [i18n Extension documentation](https://github.com/Cecilapp/Twig-extensions/blob/1.5.4/doc/i18n.md).
 
 ### Date localization
 
@@ -830,7 +864,7 @@ Uses the `localizeddate` filter to localize a date in templates.
 {{ page.date|localizeddate('long', 'none') }}
 ```
 
-[*Intl PHP extension*](https://www.php.net/manual/book.intl.php) is required. See the [Intl Extension documentation](https://twig-extensions.readthedocs.io/en/latest/intl.html).
+[*Intl PHP extension*](https://www.php.net/manual/book.intl.php) is required. See the [Intl Extension documentation](https://github.com/Cecilapp/Twig-extensions/blob/1.5.4/doc/intl.md).
 
 ## Built-in templates
 

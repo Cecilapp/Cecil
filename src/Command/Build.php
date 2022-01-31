@@ -91,7 +91,7 @@ class Build extends AbstractCommand
             $messageOpt .= ' (dry-run)';
         }
 
-        $output->writeln(sprintf('Building website%s...', $messageOpt));
+        $output->writeln(\sprintf('Building website%s...', $messageOpt));
         $output->writeln(
             sprintf('<comment>Path: %s</comment>', $this->getPath()),
             OutputInterface::VERBOSITY_VERBOSE

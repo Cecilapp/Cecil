@@ -11,7 +11,7 @@
 namespace Cecil\Converter;
 
 use Cecil\Builder;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -30,6 +30,8 @@ class Converter implements ConverterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function convertFrontmatter(string $string, string $type = 'yaml'): array
     {
@@ -37,21 +39,20 @@ class Converter implements ConverterInterface
             case 'ini':
                 $result = parse_ini_string($string);
                 if ($result === false) {
-                    throw new Exception('Can\'t parse INI front matter');
+                    throw new RuntimeException('Can\'t parse INI front matter.');
                 }
 
                 return $result;
             case 'yaml':
             default:
                 try {
-                    $result = Yaml::parse((string) $string);
-                    if (!is_array($result)) {
-                        throw new Exception('Parse result of YAML front matter is not an array');
-                    }
+                    $result = Yaml::parse((string) $string) ?? [];
 
                     return $result;
                 } catch (ParseException $e) {
-                    throw new Exception($e->getMessage());
+                    throw new RuntimeException($e->getMessage(), $e->getParsedFile(), $e->getParsedLine());
+                } catch (\Exception $e) {
+                    throw new RuntimeException($e->getMessage());
                 }
         }
     }
@@ -61,11 +62,7 @@ class Converter implements ConverterInterface
      */
     public function convertBody(string $string): string
     {
-        try {
-            $parsedown = new Parsedown($this->builder);
-        } catch (\Exception $e) {
-            throw new Exception('Can\'t convert Markdown.');
-        }
+        $parsedown = new Parsedown($this->builder);
 
         return $parsedown->text($string);
     }

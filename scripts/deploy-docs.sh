@@ -4,7 +4,7 @@ set -e
 # Deploy documentation files to website
 
 SOURCE_DOCS_DIR="docs"
-TARGET_REPO="Cecilapp/cecil.app"
+TARGET_REPO="Cecilapp/website"
 TARGET_BRANCH="master"
 TARGET_DOCS_DIR="content/documentation"
 USER_NAME=$GITHUB_ACTOR

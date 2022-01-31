@@ -2,7 +2,9 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### [Unreleased](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.3...HEAD)
+#### [6.0.0-beta.4](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.3...6.0.0-beta.4)
+
+> 1 January 2022
 
 #### [Unreleased](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.2...HEAD)
 
@@ -17,7 +19,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.79.12...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.83.0...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -29,6 +31,92 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.83.0](https://github.com/Cecilapp/Cecil/compare/5.82.0...5.83.0)
+
+> 22 January 2022
+
+- Apply fixes from StyleCI [`#1285`](https://github.com/Cecilapp/Cecil/pull/1285)
+- chore: update deps [`d7bc48f`](https://github.com/Cecilapp/Cecil/commit/d7bc48f6b51613d27427713c0c2e24db3011dd53)
+- chore: update deps [`946cf4b`](https://github.com/Cecilapp/Cecil/commit/946cf4bd60adb3ca5dfc53027d75431c31c8fb5a)
+- chore: clean code [`a1f8dbd`](https://github.com/Cecilapp/Cecil/commit/a1f8dbd4c368ae3b57f00539ef5b7b6462cb5440)
+- feature: support custom image in metatags partial template [`e241d8c`](https://github.com/Cecilapp/Cecil/commit/e241d8cd3df43ce5cd63d8af34895be46f427a7f)
+
+#### [5.82.0](https://github.com/Cecilapp/Cecil/compare/5.81.4...5.82.0)
+
+> 13 January 2022
+
+- feature: pagesfrom in home page [`1e7144d`](https://github.com/Cecilapp/Cecil/commit/1e7144d2d50b28574f8fc6b4f6be53b3048d455b)
+
+#### [5.81.4](https://github.com/Cecilapp/Cecil/compare/5.81.3...5.81.4)
+
+> 13 January 2022
+
+- fix: print logger formatter should support mixed [`#1284`](https://github.com/Cecilapp/Cecil/pull/1284)
+
+#### [5.81.3](https://github.com/Cecilapp/Cecil/compare/5.81.2...5.81.3)
+
+> 11 January 2022
+
+- fix: metatags template [`6845455`](https://github.com/Cecilapp/Cecil/commit/684545556a3cfa0a535d47b41cd70ab561593113)
+
+#### [5.81.2](https://github.com/Cecilapp/Cecil/compare/5.81.1...5.81.2)
+
+> 10 January 2022
+
+- fix: create favicon sizes if png exists [`9ba1e2a`](https://github.com/Cecilapp/Cecil/commit/9ba1e2a0328507105d112c62a79a98a23aa795e3)
+
+#### [5.81.1](https://github.com/Cecilapp/Cecil/compare/5.81.0...5.81.1)
+
+> 10 January 2022
+
+- fix: resize favicons [`#1281`](https://github.com/Cecilapp/Cecil/pull/1281)
+
+#### [5.81.0](https://github.com/Cecilapp/Cecil/compare/5.80.1...5.81.0)
+
+> 8 January 2022
+
+- feature: add options to excerpt filter [`#1280`](https://github.com/Cecilapp/Cecil/pull/1280)
+- chore: update deps [`7e856fd`](https://github.com/Cecilapp/Cecil/commit/7e856fd39e123c19da4e4a8d1ca8c4e6f93a15a1)
+- fix: fix deploy scripts [`0024b77`](https://github.com/Cecilapp/Cecil/commit/0024b77297d80482163fc95963b2581e29b07dbd)
+- docs: update deploy doc [`f9adfea`](https://github.com/Cecilapp/Cecil/commit/f9adfea68c3c0ac9fbc72a67efd3d2ac4a967615)
+- chore: update error message [`149009d`](https://github.com/Cecilapp/Cecil/commit/149009d867ef0dccb4f12516d1bb77524f8aa667)
+- chore: compress GIF demo [`85bedf4`](https://github.com/Cecilapp/Cecil/commit/85bedf42f2b3420d6009251e040df551ff9285bd)
+
+#### [5.80.1](https://github.com/Cecilapp/Cecil/compare/5.80.0...5.80.1)
+
+> 4 January 2022
+
+- chore: clean exception messages [`ac9db94`](https://github.com/Cecilapp/Cecil/commit/ac9db945d246c5b91b61155f9f7b642a38c7b85f)
+- fix: minor code fix [`f76ada2`](https://github.com/Cecilapp/Cecil/commit/f76ada216d3837f4524fe078397221bdbb212711)
+- chore: clean code [`ce9d221`](https://github.com/Cecilapp/Cecil/commit/ce9d221e3d54079ff66ab1010c2ff9b02afde5ff)
+- chore: clean Exception message [`b206cf9`](https://github.com/Cecilapp/Cecil/commit/b206cf9d1f5d41e1a455f9ce6c4f94f12b400e12)
+
+#### [5.80.0](https://github.com/Cecilapp/Cecil/compare/5.79.14...5.80.0)
+
+> 3 January 2022
+
+- chore: add required extensions to Composer file [`71b0577`](https://github.com/Cecilapp/Cecil/commit/71b0577890ff3b25a7c7815e34faadb1985be59a)
+- fix: files EOL [`b75816c`](https://github.com/Cecilapp/Cecil/commit/b75816c32166632ec5811e2f17b4e28b49405e13)
+
+#### [5.79.14](https://github.com/Cecilapp/Cecil/compare/5.79.13...5.79.14)
+
+> 3 January 2022
+
+- chore: enhances Exceptions [`#1276`](https://github.com/Cecilapp/Cecil/pull/1276)
+- fix: log error message [`#1274`](https://github.com/Cecilapp/Cecil/pull/1274)
+- fix: log messages [`#1273`](https://github.com/Cecilapp/Cecil/pull/1273)
+- chore: clean code [`9f686a9`](https://github.com/Cecilapp/Cecil/commit/9f686a92da9a6053738114e926f6fb1200d1aa5d)
+
+#### [5.79.13](https://github.com/Cecilapp/Cecil/compare/5.79.12...5.79.13)
+
+> 1 January 2022
+
+- fix: self-update strategy [`#1272`](https://github.com/Cecilapp/Cecil/pull/1272)
+- docs: update deploy recipes [`b6bd0be`](https://github.com/Cecilapp/Cecil/commit/b6bd0bea6172417cc266067eb5d265b86dfec7fb)
+- Create cecil-build.sh [`4e58773`](https://github.com/Cecilapp/Cecil/commit/4e58773cf325fc9fa01eff40abcd8be95ab34b90)
+- doc: add Surge to deploy recipes [`41df0e7`](https://github.com/Cecilapp/Cecil/commit/41df0e709763108df974b1f49b2310b5492f21bf)
+- docs: fix deploy Netlify recipe [`bada0f5`](https://github.com/Cecilapp/Cecil/commit/bada0f511eae3b209bf754f84ac7e2a451ce2f02)
 
 #### [5.79.12](https://github.com/Cecilapp/Cecil/compare/5.79.11...5.79.12)
 

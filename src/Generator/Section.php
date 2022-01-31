@@ -13,7 +13,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 
 /**
  * Class Generator\Section.
@@ -74,11 +74,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     if ($page->hasVariable('sortby')) {
                         $sortMethod = sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
                         if (!method_exists($pages, $sortMethod)) {
-                            throw new Exception(sprintf(
-                                'In "%s" section "%s" is not a valid value for "sortby" variable.',
-                                $page->getId(),
-                                $page->getVariable('sortby')
-                            ));
+                            throw new RuntimeException(\sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
                         }
                         $pages = $pages->$sortMethod();
                     }

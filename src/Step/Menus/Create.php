@@ -14,7 +14,7 @@ use Cecil\Collection\Menu\Collection as MenusCollection;
 use Cecil\Collection\Menu\Entry;
 use Cecil\Collection\Menu\Menu;
 use Cecil\Collection\Page\Page;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Logger\PrintLogger;
 use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Step\AbstractStep;
@@ -37,6 +37,8 @@ class Create extends AbstractStep
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function process()
     {
@@ -63,8 +65,6 @@ class Create extends AbstractStep
          */
         foreach ($this->config->getLanguages() as $language) {
             if ($menusConfig = $this->config->get('menus', $language['code'], false)) {
-                $this->builder->getLogger()->debug('Creating menus from config');
-
                 $totalConfig = array_sum(array_map('count', $menusConfig));
                 $countConfig = 0;
                 $suffix = $language['code'] !== $this->config->getLanguageDefault() ? '.'.$language['code'] : '';
@@ -83,13 +83,13 @@ class Create extends AbstractStep
 
                         // ID is required
                         if (!isset($property['id'])) {
-                            throw new Exception(sprintf('"id" is required for entry at position %s in "%s" menu', $key, $menu));
+                            throw new RuntimeException(\sprintf('"id" is required for entry at position %s in "%s" menu', $key, $menu));
                         }
                         // enabled?
                         if (isset($property['enabled']) && false === $property['enabled']) {
                             $enabled = false;
                             if (!$menu->has($property['id'])) {
-                                $message = sprintf('%s > %s%s (disabled)', (string) $menu, $property['id'], $suffix);
+                                $message = sprintf('Config menu entry "%s > %s%s" disabled', (string) $menu, $property['id'], $suffix);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                             }
                         }
@@ -99,7 +99,7 @@ class Create extends AbstractStep
                             if (!$enabled) {
                                 $menu->remove($property['id']);
 
-                                $message = sprintf('%s > %s%s (removed)', (string) $menu, $property['id'], $suffix);
+                                $message = sprintf('Config menu entry "%s > %s%s" removed', (string) $menu, $property['id'], $suffix);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                                 continue;
                             }
@@ -108,7 +108,7 @@ class Create extends AbstractStep
                             $current = $menu->get($property['id'])->toArray();
                             $property = array_merge($current, $property);
 
-                            $message = sprintf('%s > %s%s (updated)', (string) $menu, $property['id'], $suffix);
+                            $message = sprintf('Config menu entry "%s > %s%s" updated', (string) $menu, $property['id'], $suffix);
                             $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                         }
                         // adds/replaces entry
@@ -120,7 +120,7 @@ class Create extends AbstractStep
                             $menu->add($item);
 
                             if (!$updated) {
-                                $message = sprintf('%s > %s%s', (string) $menu, $property['id'], $suffix);
+                                $message = sprintf('Config menu entry "%s > %s%s" created', (string) $menu, $property['id'], $suffix);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                             }
                         }
@@ -145,11 +145,6 @@ class Create extends AbstractStep
 
         $total = count($filteredPages);
         $count = 0;
-
-        if ($total > 0) {
-            $this->builder->getLogger()->debug('Creating menus from pages');
-        }
-
         /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
@@ -199,7 +194,7 @@ class Create extends AbstractStep
                     $menu = $this->menus[$language]->get($menuName);
                     $menu->add($item);
 
-                    $message = sprintf('%s > %s (weight: %s)', $menuName, $page->getId(), $weight ?? 'N/A');
+                    $message = sprintf('Page menu entry "%s > %s" created (weight: %s)', $menuName, $page->getId(), $weight ?? 'N/A');
                     $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
                 }
                 continue;
@@ -221,7 +216,7 @@ class Create extends AbstractStep
             $menu = $this->menus[$language]->get($page->getVariable('menu'));
             $menu->add($item);
 
-            $message = sprintf('%s > %s', $page->getVariable('menu'), $page->getId());
+            $message = sprintf('Page menu entry "%s > %s" created', $page->getVariable('menu'), $page->getId());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

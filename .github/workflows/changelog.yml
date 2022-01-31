@@ -3,7 +3,7 @@ name: 'Update CHANGELOG'
 on:
   push:
     branches:
-      - '5'
+      - master
     paths-ignore:
       - 'docs/**'
       - '.github/**'
@@ -32,5 +32,9 @@ jobs:
       run: |
         git config --global user.name 'Arnaud Ligny'
         git config --global user.email 'arnaudligny@users.noreply.github.com'
-        git commit -am "Update CHANGELOG"
-        git push origin 5
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "Nothing to do"
+        else
+          git commit -am "Update CHANGELOG"
+          git push origin master
+        fi

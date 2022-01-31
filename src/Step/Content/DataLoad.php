@@ -115,7 +115,7 @@ class DataLoad extends AbstractStep
             );
             $this->builder->setData($dataArray);
 
-            $message = sprintf('%s.%s', Util::joinFile($path), $file->getExtension());
+            $message = sprintf('File "%s.%s" loaded', Util::joinFile($path), $file->getExtension());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $count]]);
         }
     }

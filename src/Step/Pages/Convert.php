@@ -12,7 +12,7 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 
 /**
@@ -51,7 +51,7 @@ class Convert extends AbstractStep
         }
 
         if ($this->builder->getBuildOptions()['drafts']) {
-            $this->builder->getLogger()->info('Drafts included');
+            $this->builder->getLogger()->notice('Converting drafts pages');
         }
 
         $max = count($this->builder->getPages());
@@ -67,11 +67,13 @@ class Convert extends AbstractStep
                     if (!$convertedPage->hasVariable('language')) {
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
-                } catch (Exception $e) {
+                } catch (RuntimeException $e) {
+                    $this->builder->getLogger()->error(sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
-                    $this->builder->getLogger()->error(
-                        sprintf('Unable to convert page "%s": %s', $page->getId(), $e->getMessage())
-                    );
+                    continue;
+                } catch (\Exception $e) {
+                    $this->builder->getLogger()->error(sprintf('Unable to convert %s: %s', $page->getFilePath(), $e->getMessage()));
+                    $this->builder->getPages()->remove($page->getId());
                     continue;
                 }
 
@@ -113,7 +115,7 @@ class Convert extends AbstractStep
                     }
                 }
 
-                $message = $page->getId();
+                $message = sprintf('Page "%s" converted', $page->getId());
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
                     $page->setVariable('published', true);
@@ -133,7 +135,7 @@ class Convert extends AbstractStep
      * - Yaml frontmatter to PHP array
      * - Markdown body to HTML.
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function convertPage(Page $page, $format = 'yaml'): Page
     {
@@ -142,8 +144,8 @@ class Convert extends AbstractStep
         if ($page->getFrontmatter()) {
             try {
                 $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
-            } catch (\Exception $e) {
-                throw new Exception($e->getMessage());
+            } catch (RuntimeException $e) {
+                throw new RuntimeException($e->getMessage(), $page->getFilePath(), $e->getPageLine());
             }
             $page->setFmVariables($variables);
             $page->setVariables($variables);

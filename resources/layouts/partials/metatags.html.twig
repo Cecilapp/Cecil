@@ -30,7 +30,7 @@
 {# author #}
 {% set author = page.author|default(site.author|default(''))|e %}
 {% if author is not iterable %}
-  {%- set author = {'name':author} %}
+  {%- set author = {'name': author} %}
 {% endif %}
 {% if author.firstname is defined and author.lastname is defined %}
   {%- set author = author|merge({'name': author.firstname|e ~ ' ' ~ author.lastname|e}) %}
@@ -47,11 +47,11 @@
     'shortcut icon': [196],
     'apple-touch-icon': [120, 152, 180],
   } -%}
-  {%- set favicon_variants = site.metatags.favicon.sizes|default(favicon_defaults) -%}
-  {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'),{'ignore_missing':true}) -%}
 {% endif %}
 {# image #}
+{% if image is not defined or image is empty %}
 {%- set image = page.image|default(site.image|default()) %}
+{% endif %}
 {# open graph #}
 {% set opengraph = {
   'locale': site.language.locale,
@@ -59,7 +59,7 @@
   'type': 'website',
   'title': block('title'),
   'description': block('description'),
-  'url': url(page, {canonical:true}),
+  'url': url(page, {canonical: true}),
 } %}
 {% if image %}
   {%- set opengraph = opengraph|merge({'image': asset(image)|resize(1200)}) %}
@@ -100,44 +100,45 @@
 {%- endif ~%}
     <meta name="robots" content="{{ robots }}" />
 {#- template: favicon ~#}
-{%- if favicon_variants is defined and favicon_asset is not empty ~%}
-  {%- for favicon_variant, favicon_sizes in favicon_variants -%}
+{%- if site.metatags.favicon.enabled|default(true) and asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) is not empty ~%}
+  {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
     {%- for size in favicon_sizes ~%}
-    <link rel="{{ favicon_variant }}" sizes="{{ size }}" href="{{ favicon_asset|resize(size)|url({canonical:true}) }}" type="{{ favicon_asset.subtype }}" />
+      {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) ~%}
+    <link rel="{{ favicon_variant }}" sizes="{{ size }}" href="{{ favicon_asset|resize(size)|url({canonical: true}) }}" type="{{ favicon_asset.subtype }}" />
     {%- endfor -%}
   {%- endfor -%}
 {%- endif ~%}
 {#- template: prev/next ~#}
 {%- if page.prev.path is defined ~%}
-    <link rel="prev" href="{{ url(page.prev.path,{'canonical':true}) }}">
+    <link rel="prev" href="{{ url(page.prev.path, {'canonical': true}) }}">
 {%- endif -%}
 {%- if page.next.path is defined ~%}
-    <link rel="next" href="{{ url(page.next.path,{'canonical':true}) }}">
+    <link rel="next" href="{{ url(page.next.path, {'canonical': true}) }}">
 {%- endif -%}
 {#- template: pagination ~#}
 {%- if page.pagination.pages is defined ~%}
-    <link rel="first" href="{{ url(page.pagination.links.first,{'canonical':true}) }}">
+    <link rel="first" href="{{ url(page.pagination.links.first, {'canonical': true}) }}">
     {%- if page.pagination.links.prev is defined ~%}
-    <link rel="prev" href="{{ url(page.pagination.links.prev,{'canonical':true}) }}">
+    <link rel="prev" href="{{ url(page.pagination.links.prev, {'canonical': true}) }}">
     {%- endif ~%}
     {%- if page.pagination.links.next is defined ~%}
-    <link rel="next" href="{{ url(page.pagination.links.next,{'canonical':true}) }}">
+    <link rel="next" href="{{ url(page.pagination.links.next, {'canonical': true}) }}">
     {%- endif ~%}
-    <link rel="last" href="{{ url(page.pagination.links.last,{'canonical':true}) }}">
+    <link rel="last" href="{{ url(page.pagination.links.last, {'canonical': true}) }}">
 {%- endif -%}
 {#- template: alternates ~#}
-{%- include 'partials/alternates.html.twig' with {'title':title,'page':page} only ~%}
+{%- include 'partials/alternates.html.twig' with {'title': title, 'page': page} only ~%}
 {#- template: alternates languages ~#}
-{%- include 'partials/alternateslang.html.twig' with {'page':page} only ~%}
+{%- include 'partials/alternateslang.html.twig' with {'page': page} only ~%}
 {#- template: Open Graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}" />
     <meta property="og:site_name" content="{{ opengraph.site_name }}" />
     <meta property="og:type" content="{{ opengraph.type }}" />
     <meta property="og:title" content="{{ opengraph.title }}" />
     <meta property="og:description" content="{{ opengraph.description }}" />
-    <meta property="og:url" content="{{ url(page, {canonical:true}) }}" />
+    <meta property="og:url" content="{{ url(page, {canonical: true}) }}" />
 {%- if opengraph.image is defined ~%}
-    <meta property="og:image" content="{{ opengraph.image|url({canonical:true}) }}" />
+    <meta property="og:image" content="{{ opengraph.image|url({canonical: true}) }}" />
     <meta property="og:image:type" content="{{ opengraph.image.subtype }}" />
     <meta property="og:image:width" content="{{ opengraph.image.width }}" />
     <meta property="og:image:height" content="{{ opengraph.image.height }}" />
@@ -161,7 +162,7 @@
     <meta name="twitter:description" content="{{ opengraph.description }}" />
 {%- if opengraph.image is defined and opengraph.image.width > 500 ~%}
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="{{ opengraph.image|url({canonical:true}) }}" />
+    <meta name="twitter:image" content="{{ opengraph.image|url({canonical: true}) }}" />
     <meta name="twitter:image:alt" content="{{ opengraph.title }}" />
 {%- else ~%}
     <meta name="twitter:card" content="summary" />
@@ -173,4 +174,4 @@
     <meta name="twitter:creator" content="@{{ twitter.creator }}" />
 {%- endif ~%}
 {#- template: json-ld ~#}
-{%~ include 'partials/jsonld.js.twig' with {'author':author,'favicon_url':favicon_url|default('')} %}
+{%~ include 'partials/jsonld.js.twig' with {'author': author, 'favicon_url': favicon_url|default('')} %}

@@ -6,8 +6,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step\Config;
+namespace Cecil\Step\Themes;
 
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Yaml\Yaml;
@@ -24,7 +25,7 @@ class Import extends AbstractStep
      */
     public function getName(): string
     {
-        return 'Importing configuration';
+        return 'Importing themes configuration';
     }
 
     /**
@@ -39,6 +40,8 @@ class Import extends AbstractStep
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     public function process()
     {
@@ -50,13 +53,12 @@ class Import extends AbstractStep
             $themeConfigFile = $this->config->getThemesPath().'/'.$theme.'/'.self::THEME_CONFIG_FILE;
             $message = sprintf('"%s": no configuration file', $theme);
             if (Util\File::getFS()->exists($themeConfigFile)) {
-                $config = Util\File::fileGetContents($themeConfigFile);
-                if ($config === false) {
-                    throw new \Exception('Can\'t read the configuration file.');
+                if (false === $config = Util\File::fileGetContents($themeConfigFile)) {
+                    throw new RuntimeException('Can\'t read the configuration file.');
                 }
                 $themeConfig = Yaml::parse($config);
                 $this->config->import($themeConfig);
-                $message = sprintf('"%s": imported', $theme);
+                $message = sprintf('Theme "%s" imported', $theme);
             }
 
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);

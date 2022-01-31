@@ -11,7 +11,7 @@
 namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Page;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
@@ -31,8 +31,6 @@ class Save extends AbstractStep
 
     /**
      * {@inheritdoc}
-     *
-     * @throws Exception
      */
     public function init($options)
     {
@@ -50,7 +48,7 @@ class Save extends AbstractStep
     /**
      * {@inheritdoc}
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function process()
     {
@@ -63,28 +61,24 @@ class Save extends AbstractStep
         $count = 0;
         foreach ($filteredPages as $page) {
             $count++;
-            $message = [];
+            $files = [];
 
             foreach ($page->getVariable('rendered') as $format => $rendered) {
                 if (false === $pathname = (new PageRenderer($this->config))->getOutputFile($page, $format)) {
-                    throw new Exception(sprintf(
-                        "Can't get pathname of page '%s' (format: '%s')",
-                        $page->getId(),
-                        $format
-                    ));
+                    throw new RuntimeException(\sprintf("Can't get pathname of page '%s' (format: '%s')", $page->getId(), $format));
                 }
                 $pathname = $this->cleanPath(Util::joinFile($this->config->getOutputPath(), $pathname));
 
                 try {
                     Util\File::getFS()->dumpFile($pathname, $rendered['output']);
-                } catch (\Exception $e) {
-                    throw new Exception($e->getMessage());
+                } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
+                    throw new RuntimeException($e->getMessage());
                 }
 
-                $message[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
+                $files[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
-            $message = implode(', ', $message);
+            $message = sprintf('File(s) "%s" saved', implode(', ', $files));
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
 

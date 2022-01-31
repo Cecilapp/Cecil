@@ -80,11 +80,11 @@ if found, downloads and installs the latest');
             if ($result) {
                 $new = $updater->getNewVersion();
                 $old = $updater->getOldVersion();
-                $output->writeln(sprintf('Updated from <comment>%s</comment> to <info>%s</info>.', $old, $new));
+                $output->writeln(\sprintf('Updated from <comment>%s</comment> to <info>%s</info>.', $old, $new));
 
                 return 0;
             }
-            $output->writeln(sprintf('You are already using the last version (<comment>%s</comment>).', $version));
+            $output->writeln(\sprintf('You are already using the last version (<comment>%s</comment>).', $version));
 
             return 0;
         } catch (\Exception $e) {

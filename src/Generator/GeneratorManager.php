@@ -72,11 +72,11 @@ class GeneratorManager extends \SplPriorityQueue
                     /** @var \Cecil\Collection\Page\Page $page */
                     try {
                         $pagesCollection->add($page);
-                    } catch (\Exception $e) {
+                    } catch (\DomainException $e) {
                         $pagesCollection->replace($page->getId(), $page);
                     }
                 }
-                $message = sprintf('%s: %s', Util::formatClassName($generator), count($generatedPages));
+                $message = sprintf('%s "%s" pages generated', count($generatedPages), Util::formatClassName($generator));
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
 
                 $this->next();

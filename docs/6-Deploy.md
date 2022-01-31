@@ -27,9 +27,6 @@ _netlify.toml_:
 
 [context.deploy-preview.environment]
   CECIL_ENV = "preview"
-
-[context.branch-deploy.environment]
-  CECIL_ENV = "branch"
 ```
 
 [Official documentation](https://www.netlify.com/docs/continuous-deployment/)

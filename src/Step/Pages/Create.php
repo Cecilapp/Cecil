@@ -61,7 +61,7 @@ class Create extends AbstractStep
                 $this->builder->getPages()->add($page);
             }
 
-            $message = $page->getId();
+            $message = sprintf('Page "%s" created', $page->getId());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
     }

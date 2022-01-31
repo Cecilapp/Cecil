@@ -54,16 +54,16 @@
         },
         {
             "name": "cecil/theme-installer",
-            "version": "1.4.4",
+            "version": "1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/theme-installer.git",
-                "reference": "4c6fa8b98b4d8d62bf7a39de4c56956e6568d382"
+                "reference": "12b1d72ff38e1199eaca34877a64008b6a65e393"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/theme-installer/zipball/4c6fa8b98b4d8d62bf7a39de4c56956e6568d382",
-                "reference": "4c6fa8b98b4d8d62bf7a39de4c56956e6568d382",
+                "url": "https://api.github.com/repos/Cecilapp/theme-installer/zipball/12b1d72ff38e1199eaca34877a64008b6a65e393",
+                "reference": "12b1d72ff38e1199eaca34877a64008b6a65e393",
                 "shasum": ""
             },
             "require": {
@@ -91,7 +91,7 @@
             "authors": [
                 {
                     "name": "Arnaud Ligny",
-                    "email": "arnaud@ligny.org",
+                    "email": "arnaud@ligny.fr",
                     "homepage": "https://arnaudligny.fr",
                     "role": "Developer"
                 }
@@ -104,7 +104,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Cecilapp/theme-installer/issues",
-                "source": "https://github.com/Cecilapp/theme-installer/tree/1.4.4"
+                "source": "https://github.com/Cecilapp/theme-installer/tree/1.4.5"
             },
             "funding": [
                 {
@@ -112,7 +112,7 @@
                     "type": "custom"
                 },
                 {
-                    "url": "https://github.com/Narno",
+                    "url": "https://github.com/ArnaudLigny",
                     "type": "github"
                 },
                 {
@@ -120,7 +120,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-10-05T21:47:38+00:00"
+            "time": "2022-01-06T10:54:26+00:00"
         }
     ],
     "packages-dev": [],

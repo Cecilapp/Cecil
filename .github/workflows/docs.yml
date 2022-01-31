@@ -3,7 +3,6 @@ name: 'Deploy documentation'
 on:
   push:
     branches:
-      - '5'
       - master
     paths:
       - 'docs/**'

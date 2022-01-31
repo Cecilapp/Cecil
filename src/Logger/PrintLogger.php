@@ -18,7 +18,7 @@ use Psr\Log\LogLevel;
 class PrintLogger extends AbstractLogger
 {
     /** @var int */
-    protected $printLevel = null;
+    protected $printLevelMax = null;
 
     /** @var array */
     protected $verbosityLevelMap = [
@@ -33,11 +33,11 @@ class PrintLogger extends AbstractLogger
     ];
 
     /**
-     * Print only this maximum level.
+     * Print only the $printLevelMax.
      */
-    public function __construct(int $printLevel = null)
+    public function __construct(int $printLevelMax = null)
     {
-        $this->printLevel = $printLevel;
+        $this->printLevelMax = $printLevelMax;
     }
 
     /**
@@ -48,26 +48,28 @@ class PrintLogger extends AbstractLogger
     public function log($level, $message, array $context = [])
     {
         if (!isset($this->verbosityLevelMap[$level])) {
-            throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
+            throw new InvalidArgumentException(\sprintf('The log level "%s" does not exist.', $level));
         }
 
-        if ($this->printLevel !== null && $this->verbosityLevelMap[$level] > $this->printLevel) {
+        if ($this->printLevelMax !== null && $this->verbosityLevelMap[$level] > $this->printLevelMax) {
             return;
         }
 
+        $level = $level != LogLevel::INFO ? "[$level] " : '';
+
         if (isset($context['progress'])) {
             printf(
-                "[%s] (%s/%s) %s\n",
+                "%s%s (%s/%s)\n",
                 $level,
+                $this->interpolate($message, $context),
                 $context['progress'][0],
-                $context['progress'][1],
-                $this->interpolate($message, $context)
+                $context['progress'][1]
             );
 
             return;
         }
 
-        printf("[%s] %s\n", $level, $this->interpolate($message, $context));
+        printf("%s%s\n", $level, $this->interpolate($message, $context));
     }
 
     /**
@@ -100,7 +102,7 @@ class PrintLogger extends AbstractLogger
     /**
      * Format expression to string.
      */
-    public static function format(string $expression): string
+    public static function format($expression): string
     {
         return str_replace(["\n", ' '], '', var_export($expression, true));
     }

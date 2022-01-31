@@ -14,7 +14,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Taxonomy\Collection as VocabulariesCollection;
 use Cecil\Collection\Taxonomy\Term as Term;
 use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 
 /**
@@ -51,9 +51,9 @@ class Create extends AbstractStep
     {
         if ($this->config->get('taxonomies')) {
             $this->createVocabulariesCollection();
-            $this->builder->getLogger()->info('Vocabularies', ['progress' => [1, 2]]);
+            $this->builder->getLogger()->info('Vocabularies collection created', ['progress' => [1, 2]]);
             $this->collectTermsFromPages();
-            $this->builder->getLogger()->info('Terms', ['progress' => [2, 2]]);
+            $this->builder->getLogger()->info('Terms collection created', ['progress' => [2, 2]]);
         }
 
         $this->builder->setTaxonomies($this->vocabCollection);
@@ -113,7 +113,7 @@ class Create extends AbstractStep
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
                         if (null === $termName) {
-                            throw new Exception(\sprintf(
+                            throw new RuntimeException(\sprintf(
                                 'Taxonomy "%s" of "%s" can\'t be empty.',
                                 $plural,
                                 $page->getId()

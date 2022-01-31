@@ -89,10 +89,10 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 );
                 $alteredPage = clone $page;
                 // first page
-                $firstPath = Page::slugify(sprintf('%s', $path));
+                $firstPath = Page::slugify(\sprintf('%s', $path));
                 if ($i == 0) {
                     // ie: blog + blog/page/1 (alias)
-                    $pageId = Page::slugify(sprintf('%s', $path));
+                    $pageId = Page::slugify(\sprintf('%s', $path));
                     // homepage special case
                     if ($path == '') {
                         $pageId = 'index';
@@ -106,7 +106,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         ]);
                 } else {
                     // ie: blog/page/2
-                    $pageId = Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $i + 1));
+                    $pageId = Page::slugify(\sprintf('%s/%s/%s', $path, $paginationPath, $i + 1));
                     $currentPath = $pageId;
                     $alteredPage
                         ->setId($pageId)
@@ -132,7 +132,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $pagination['links'] += ['prev' => Page::slugify($path ?: 'index')];
                 }
                 if ($i > 1) {
-                    $pagination['links'] += ['prev' => Page::slugify(sprintf(
+                    $pagination['links'] += ['prev' => Page::slugify(\sprintf(
                         '%s/%s/%s',
                         $path,
                         $paginationPath,
@@ -140,14 +140,14 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     ))];
                 }
                 if ($i < $paginationPagesCount - 1) {
-                    $pagination['links'] += ['next' => Page::slugify(sprintf(
+                    $pagination['links'] += ['next' => Page::slugify(\sprintf(
                         '%s/%s/%s',
                         $path,
                         $paginationPath,
                         $i + 2
                     ))];
                 }
-                $pagination['links'] += ['last' => Page::slugify(sprintf(
+                $pagination['links'] += ['last' => Page::slugify(\sprintf(
                     '%s/%s/%s',
                     $path,
                     $paginationPath,

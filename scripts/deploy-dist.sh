@@ -4,7 +4,7 @@ set -e
 # Deploy dist file to website
 
 REF=$(echo $GITHUB_REF | cut -d'/' -f 3)
-TARGET_REPO="Cecilapp/cecil.app"
+TARGET_REPO="Cecilapp/website"
 TARGET_BRANCH="master"
 TARGET_RELEASE_DIR="download/$REF"
 TARGET_DIST_DIR="static"

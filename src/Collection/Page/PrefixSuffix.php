@@ -10,8 +10,6 @@
 
 namespace Cecil\Collection\Page;
 
-use Cecil\Exception\Exception;
-
 /**
  * Class PrefixSuffix.
  */
@@ -121,7 +119,7 @@ class PrefixSuffix
     /**
      * Returns expreg pattern by $type.
      *
-     * @throws Exception
+     * @throws \InvalidArgumentException
      */
     protected static function getPattern(string $type): string
     {
@@ -131,7 +129,7 @@ class PrefixSuffix
             case 'suffix':
                 return self::SUFFIX_PATTERN;
             default:
-                throw new Exception(\sprintf('%s must be "prefix" or "suffix"', $type));
+                throw new \InvalidArgumentException('Argument must be "prefix" or "suffix"');
         }
     }
 }
