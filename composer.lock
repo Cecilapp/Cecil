@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3466757763a6398f7638710d7080bed",
+    "content-hash": "4718bb6eaf2a946f908d004cb58c6932",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -495,6 +495,56 @@
                 }
             ],
             "time": "2021-10-05T13:56:00+00:00"
+        },
+        {
+            "name": "indiehd/filename-sanitizer",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/indiehd/filename-sanitizer.git",
+                "reference": "e3e3dd75ba318792bda2d167b823133c5def773e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/indiehd/filename-sanitizer/zipball/e3e3dd75ba318792bda2d167b823133c5def773e",
+                "reference": "e3e3dd75ba318792bda2d167b823133c5def773e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpro/grumphp": "^0.14.3",
+                "phpunit/phpunit": "^7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IndieHD\\FilenameSanitizer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "indieHD, LLC",
+                    "email": "webmaster@indiehd.com",
+                    "homepage": "https://indiehd.com"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/indiehd/filename-sanitizer/graphs/contributors"
+                }
+            ],
+            "description": "A lightweight library for sanitizing strings to be used as filenames.",
+            "support": {
+                "issues": "https://github.com/indiehd/filename-sanitizer/issues",
+                "source": "https://github.com/indiehd/filename-sanitizer/tree/master"
+            },
+            "time": "2019-02-07T14:37:30+00:00"
         },
         {
             "name": "intervention/image",
@@ -7886,9 +7936,9 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.1",
-        "ext-mbstring": "*",
         "ext-fileinfo": "*",
-        "ext-gd": "*"
+        "ext-gd": "*",
+        "ext-mbstring": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
