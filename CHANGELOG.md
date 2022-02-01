@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.0.0-beta.5](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.4...6.0.0-beta.5)
+
+> 31 January 2022
+
 #### [6.0.0-beta.4](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.3...6.0.0-beta.4)
 
 > 1 January 2022
