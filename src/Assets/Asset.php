@@ -586,6 +586,7 @@ class Asset implements \ArrayAccess
                     $path .= '.css';
                 }
             }
+            $force_slash = true;
         }
         if ($force_slash) {
             $path = '/'.ltrim($path, '/');
