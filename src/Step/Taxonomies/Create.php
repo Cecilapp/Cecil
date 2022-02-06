@@ -12,8 +12,8 @@ namespace Cecil\Step\Taxonomies;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Taxonomy\Collection as VocabulariesCollection;
-use Cecil\Collection\Taxonomy\Term as Term;
-use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
+use Cecil\Collection\Taxonomy\Term;
+use Cecil\Collection\Taxonomy\Vocabulary;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 
