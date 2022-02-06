@@ -13,7 +13,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
+use Cecil\Collection\Taxonomy\Vocabulary;
 
 /**
  * Class Generator\Taxonomy.
