@@ -1,8 +1,8 @@
-{# Language switcher #}
-{% if page.translations|length >= 1 %}
-  {%- for p in page.translations ~%}
-    {%- if p.language is defined ~%}
+{#- Language switcher -#}
+{%- if page.translations|length >= 1 -%}
+  {%- for p in page.translations -%}
+    {%- if p.language is defined -%}
 <a href="{{ url(p) }}">{{ site.language.name(p.language) }}</a>{% if not loop.last %}, {% endif %}
-    {%- endif ~%}
-  {%- endfor ~%}
-{% endif %}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
