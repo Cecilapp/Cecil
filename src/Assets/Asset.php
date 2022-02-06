@@ -579,9 +579,7 @@ class Asset implements \ArrayAccess
             $urlPath = parse_url($path, PHP_URL_PATH);
             $urlQuery = parse_url($path, PHP_URL_QUERY);
             $path = Util::joinPath((string) $this->config->get('assets.target'), $urlHost, $urlPath);
-            $sanitizer = new \IndieHD\FilenameSanitizer\FilenameSanitizer($path);
-            $sanitizer->stripIllegalFilesystemCharacters();
-            $path = $sanitizer->getFilename();
+            $path = $this->sanitize($path);
             if (!empty($urlQuery)) {
                 $path = Util::joinPath($path, Page::slugify($urlQuery));
                 // Google Fonts hack
@@ -694,5 +692,13 @@ class Asset implements \ArrayAccess
         }
 
         return $size;
+    }
+
+    /**
+     * Replaces some characters by '_'.
+     */
+    private function sanitize(string $string): string
+    {
+        return str_replace(['<', '>', ':', '"', '\\', '|', '?', '*'], '_', $string);
     }
 }
