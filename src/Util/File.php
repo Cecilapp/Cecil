@@ -38,7 +38,7 @@ class File
     public static function fileGetContents(string $filename, bool $userAgent = false)
     {
         if (empty($filename)) {
-           return false;
+            return false;
         }
 
         set_error_handler(
