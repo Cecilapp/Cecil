@@ -37,6 +37,10 @@ class File
      */
     public static function fileGetContents(string $filename, bool $userAgent = false)
     {
+        if (empty($filename)) {
+           return false;
+        }
+
         set_error_handler(
             function ($severity, $message, $file, $line) {
                 throw new \ErrorException($message, 0, $severity, $file, $line, null);
