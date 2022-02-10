@@ -62,7 +62,12 @@
   'url': url(page, {canonical: true}),
 } %}
 {% if image %}
-  {%- set opengraph = opengraph|merge({'image': asset(image)|resize(1200)}) %}
+  {% if image is not asset %}
+    {% set image_asset = asset(image) %}
+  {% else %}
+    {% set image_asset = image %}
+  {% endif %}
+  {%- set opengraph = opengraph|merge({'image': image_asset|resize(1200)}) %}
 {% endif %}
 {% if page.section == site.metatags.articles|default('blog') %}
   {%- set opengraph = opengraph|merge({'type': 'article'}) %}
