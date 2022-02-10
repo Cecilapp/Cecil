@@ -180,6 +180,16 @@ class Extension extends SlugifyExtension
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getTests()
+    {
+        return [
+            new \Twig\TwigTest('asset', [$this, 'isAsset']),
+        ];
+    }
+
+    /**
      * Filters by Section.
      * Alias of `filterBy('section', $value)`.
      */
@@ -693,5 +703,13 @@ class Extension extends SlugifyExtension
     public function getEnv(string $var): ?string
     {
         return getenv($var) ?: null;
+    }
+
+    /**
+     * Tests if a variable is an Asset.
+     */
+    public function isAsset($variable): bool
+    {
+        return $variable instanceof Asset;
     }
 }
