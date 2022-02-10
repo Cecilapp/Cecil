@@ -710,6 +710,6 @@ class Extension extends SlugifyExtension
      */
     public function isAsset($variable): bool
     {
-        return ($variable instanceof Asset);
+        return $variable instanceof Asset;
     }
 }
