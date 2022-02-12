@@ -6,9 +6,9 @@
           "@type": "WebSite",
           "name": "{{ site.title }}",
           "description": "{{ site.description }}",
-          "url": "{{ url('/', {canonical:true}) }}",
+          "url": "{{ url('/', {canonical: true}) }}",
           {%- if site.image is defined ~%}
-          "image": ["{{ url(site.image,{canonical:true}) }}"]
+          "image": ["{{ url(site.image, {canonical: true}) }}"]
           {%- endif ~%}
           {%- if site.social is defined ~%},
           "sameAs": [
@@ -28,30 +28,31 @@
             "@type": "ListItem",
             "position": 1,
             "name": "{{ page.section|capitalize }}",
-            "item": "{{ url(page.section,{canonical:true}) }}"
+            "item": "{{ url(page.section, {canonical: true}) }}"
           },{
             "@type": "ListItem",
             "position": 2,
             "name": "{{ page.title|e }}",
-            "item": "{{ url(page,{canonical:true}) }}"
+            "item": "{{ url(page, {canonical: true}) }}"
           }]
         }
-        {%- if page.section == site.metatags.articles|default('blog') -%}
+          {%- if page.section == site.metatags.articles|default('blog') -%}
         ,{
           "@context": "https://schema.org",
           "@type": "NewsArticle",
           "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "{{ url(page,{canonical:true}) }}"
+            "@id": "{{ url(page, {canonical: true}) }}"
           },
           "headline": "{{ page.title|e }}",
           {%- if page.image is defined ~%}
           "image": [
-            "{{ url(page.image,{canonical:true}) }}"
+            "{{ url(page.image, {canonical: true}) }}"
           ],
           {%- endif ~%}
           "datePublished": "{{ page.date|date('Y-m-dTH:i:sP') }}",
           "dateModified": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          {%- if author.name|default('') is not empty ~%}
           "author": {
             "@type": "Person",
             "name": "{{ author.name }}"
@@ -59,6 +60,7 @@
             "url": "{{ author.url }}"
             {%- endif ~%}
           },
+          {%- endif ~%}
           "publisher": {
             "@type": "Organization",
             "name": "{{ site.title }}"
@@ -70,7 +72,7 @@
             {%- endif ~%}
           }
         }
-        {%- endif ~%}
+          {%- endif ~%}
         {%- endif ~%}
       ]
     {% endapply %}</script>
