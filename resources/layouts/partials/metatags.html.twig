@@ -29,11 +29,13 @@
 {% set keywords = page.tags|default([])|merge(site.keywords|default([]))|e %}
 {# author #}
 {% set author = page.author|default(site.author|default(''))|e %}
-{% if author is not iterable %}
-  {%- set author = {'name': author} %}
-{% endif %}
-{% if author.firstname is defined and author.lastname is defined %}
-  {%- set author = author|merge({'name': author.firstname|e ~ ' ' ~ author.lastname|e}) %}
+{% if author %}
+  {%- if author is not iterable %}
+    {%- set author = {'name': author} %}
+  {%- endif %}
+  {%- if author.firstname is defined and author.lastname is defined %}
+    {%- set author = author|merge({'name': author.firstname|e ~ ' ' ~ author.lastname|e}) %}
+  {%- endif %}
 {% endif %}
 {# robots #}
 {% set robots = page.metatags.robots|default(site.metatags.robots|default('index,follow')) %}
@@ -50,7 +52,7 @@
 {% endif %}
 {# image #}
 {% if image is not defined or image is empty %}
-{%- set image = page.image|default(site.image|default()) %}
+  {%- set image = page.image|default(site.image|default()) %}
 {% endif %}
 {# open graph #}
 {% set opengraph = {
@@ -62,11 +64,11 @@
   'url': url(page, {canonical: true}),
 } %}
 {% if image %}
-  {% if image is not asset %}
-    {% set image_asset = asset(image) %}
-  {% else %}
-    {% set image_asset = image %}
-  {% endif %}
+  {%- if image is not asset %}
+    {%- set image_asset = asset(image) %}
+  {%- else %}
+    {%- set image_asset = image %}
+  {%- endif %}
   {%- set opengraph = opengraph|merge({'image': image_asset|resize(1200)}) %}
 {% endif %}
 {% if page.section == site.metatags.articles|default('blog') %}
