@@ -101,7 +101,7 @@ class Image
         // * a static 4-byte sequence (\x00\x21\xF9\x04)
         // * 4 variable bytes
         // * a static 2-byte sequence (\x00\x2C)
-        $count = preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', $asset['content_source'], $matches);
+        $count = preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', $asset['content_source']);
 
         return $count > 1;
     }
