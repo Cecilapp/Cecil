@@ -52,6 +52,7 @@ All notable changes to this project will be documented in this file. Dates are d
 > 13 February 2022
 
 - fix: remove spaces before title in metatags template [`f24446d`](https://github.com/Cecilapp/Cecil/commit/f24446d5d88f406a25a2e088e98a92be0199eef7)
+- fix: test if author exists in jsonld template [`179853d`](https://github.com/Cecilapp/Cecil/commit/179853d07839a60dcbd647dfbf4a82b1511f5694)
 
 #### [5.83.6](https://github.com/Cecilapp/Cecil/compare/5.83.5...5.83.6)
 
