@@ -97,27 +97,12 @@ class Image
      */
     public static function isAnimatedGif(Asset $asset): bool
     {
-        $offset = 0;
-        $frames = 0;
+        // an animated gif contains multiple "frames", with each frame having a header made up of:
+        // * a static 4-byte sequence (\x00\x21\xF9\x04)
+        // * 4 variable bytes
+        // * a static 2-byte sequence (\x00\x2C)
+        $count = preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', $asset['content_source'], $matches);
 
-        while ($frames < 2) {
-            $where1 = strpos($asset['content_source'], "\x00\x21\xF9\x04", $offset);
-            if ($where1 === false) {
-                break;
-            } else {
-                $offset = $where1 + 1;
-                $where2 = strpos($asset['content_source'], "\x00\x2C", $offset);
-                if ($where2 === false) {
-                    break;
-                } else {
-                    if ($where1 + 8 == $where2) {
-                        $frames++;
-                    }
-                    $offset = $where2 + 1;
-                }
-            }
-        }
-
-        return $frames > 1;
+        return $count > 1;
     }
 }
