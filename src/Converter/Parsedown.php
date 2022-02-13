@@ -171,7 +171,7 @@ class Parsedown extends \ParsedownToC
         */
 
         // creates a <picture> element with <source> and <img> elements
-        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false) {
+        if (($this->builder->getConfig()->get('body.images.webp.enabled') ?? false) && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
             $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 85);
             $srcset = Image::getSrcset(
                 $assetWebp,

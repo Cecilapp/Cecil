@@ -531,7 +531,7 @@ class Extension extends SlugifyExtension
                 $htmlAttributes
             );
 
-            if ($webp) {
+            if ($webp && !Image::isAnimatedGif($asset)) {
                 $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 85);
                 $srcset = Image::getSrcset(
                     $assetWebp,
