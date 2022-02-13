@@ -91,4 +91,33 @@ class Image
 
         return $assetWebp;
     }
+
+    /**
+     * Tests if an asset is an animated gif.
+     */
+    public static function isAnimatedGif(Asset $asset): bool
+    {
+        $offset = 0;
+        $frames = 0;
+
+        while ($frames < 2) {
+            $where1 = strpos($asset['content_source'], "\x00\x21\xF9\x04", $offset);
+            if ($where1 === false) {
+                break;
+            } else {
+                $offset = $where1 + 1;
+                $where2 = strpos($asset['content_source'], "\x00\x2C", $offset);
+                if ($where2 === false) {
+                    break;
+                } else {
+                    if ($where1 + 8 == $where2) {
+                        $frames++;
+                    }
+                    $offset = $where2 + 1;
+                }
+            }
+        }
+
+        return $frames > 1;
+    }
 }
