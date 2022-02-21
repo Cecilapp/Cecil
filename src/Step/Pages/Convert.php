@@ -25,6 +25,10 @@ class Convert extends AbstractStep
      */
     public function getName(): string
     {
+        if ($this->builder->getBuildOptions()['drafts']) {
+            return 'Converting pages (drafts included)';
+        }
+
         return 'Converting pages';
     }
 
@@ -48,10 +52,6 @@ class Convert extends AbstractStep
     {
         if (count($this->builder->getPages()) <= 0) {
             return;
-        }
-
-        if ($this->builder->getBuildOptions()['drafts']) {
-            $this->builder->getLogger()->notice('Converting drafts pages');
         }
 
         $max = count($this->builder->getPages());
