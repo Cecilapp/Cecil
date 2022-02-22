@@ -25,17 +25,17 @@ class RuntimeException extends \RuntimeException implements ExceptionInterface
         parent::__construct($message, 0, $previous);
     }
 
-    public function getPageFile()
+    public function getPageFile(): ?string
     {
         return $this->pageFile;
     }
 
-    public function getPageLine()
+    public function getPageLine(): ?int
     {
         return $this->pageLine;
     }
 
-    public function getPageCol()
+    public function getPageCol(): ?int
     {
         return $this->pageCol;
     }

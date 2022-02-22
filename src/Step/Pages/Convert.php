@@ -72,7 +72,7 @@ class Convert extends AbstractStep
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
-                    $this->builder->getLogger()->error(sprintf('Unable to convert %s: %s', $page->getFilePath(), $e->getMessage()));
+                    $this->builder->getLogger()->error(sprintf('Unable to convert "%s": %s', $page->getFilePath(), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 }
@@ -153,7 +153,11 @@ class Convert extends AbstractStep
 
         // converts body only if page is published
         if ($page->getVariable('published') || $this->options['drafts']) {
-            $html = $converter->convertBody($page->getBody());
+            try {
+                $html = $converter->convertBody($page->getBody());
+            } catch (RuntimeException $e) {
+                throw new \Exception($e->getMessage());
+            }
             $page->setBodyHtml($html);
         }
 
