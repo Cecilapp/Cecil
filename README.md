@@ -1,8 +1,6 @@
-# Cecil
+[![Cecil's logo, created by Cécile Ricordeau](https://cecil.app/images/cecil-logo-netlify-cms.png)](https://cecil.app)
 
-![Cecil logo](https://cecil.app/images/cecil-logo-netlify-cms.png "Logo created by Cécile Ricordeau")
-
-> Your content driven static site generator.
+Cecil, your content driven static site generator.
 
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
 [![Latest Preview Version](https://poser.pugx.org/cecil/cecil/v/unstable)](https://github.com/Cecilapp/Cecil/releases)
