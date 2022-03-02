@@ -1,7 +1,7 @@
 <!--
 description: "Create a new site and preview it locally."
 date: 2020-12-19
-updated: 2021-11-19
+updated: 2022-03-02
 menu: home
 -->
 
@@ -11,9 +11,13 @@ Cecil is a CLI application, powered by [PHP](https://www.php.net), that merge pl
 
 ## Create a blog
 
-If you want to create a no-hassle blog, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you!
+If you want to create a no-hassle blog, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you.
 
-Click on the button below and let [Forestry CMS](https://forestry.io) guide you.
+The easiest way to deploy and manage your blog is certainly with [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org).
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/the-butler&stack=cms "Deploy to Netlify")
+
+Or click on the button below and let [Forestry CMS](https://forestry.io) guide you.
 
 [![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/)
 
