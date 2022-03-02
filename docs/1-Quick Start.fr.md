@@ -15,9 +15,13 @@ Cecil est une application en ligne de commande, propulsée par [PHP](https://www
 
 Si vous souhaiter créer un blog sans vous casser la tête, le [starter blog](https://github.com/Cecilapp/the-butler#readme) est fait pou vous !
 
-Cliquez sur le bouton ci-dessous et laisser [Forestry CMS](https://forestry.io) vous guider.
+Le moyen le plus simple de déployer et de gérer votre blog est certainement avec [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org).
 
-[![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/)
+[![Déployer sur Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/ "Déployer sur Netlify")
+
+Ou cliquez sur le bouton ci-dessous et laisser [Forestry CMS](https://forestry.io) vous guider.
+
+[![Importer ce project dans Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/)
 
 ----
 
