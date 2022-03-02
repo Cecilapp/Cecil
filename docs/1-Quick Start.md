@@ -15,7 +15,7 @@ If you want to create a no-hassle blog, the [starter blog](https://github.com/Ce
 
 The easiest way to deploy and manage your blog is certainly with [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org).
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Cecilapp/the-butler&stack=cms "Deploy to Netlify")
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/ "Deploy to Netlify")
 
 Or click on the button below and let [Forestry CMS](https://forestry.io) guide you.
 
