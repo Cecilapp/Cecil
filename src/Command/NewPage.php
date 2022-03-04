@@ -129,7 +129,7 @@ class NewPage extends AbstractCommand
         if (file_exists($model = Util::joinFile($this->getPath(), 'models', "$name.md"))) {
             return [
                 'name'    => $name,
-                'content' => Util\File::fileGetContents($model)
+                'content' => Util\File::fileGetContents($model),
             ];
         }
 
@@ -145,7 +145,7 @@ EOT;
 
         return [
             'name'    => 'cecil',
-            'content' => $content
+            'content' => $content,
         ];
     }
 
