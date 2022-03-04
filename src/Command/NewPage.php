@@ -39,7 +39,7 @@ class NewPage extends AbstractCommand
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
-                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Add date (`YYYY-MM-DD`) as a prefix'),
+                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
                 ])
             )
             ->setHelp('Creates a new page file (with filename as title and the current date)');
@@ -82,7 +82,7 @@ class NewPage extends AbstractCommand
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
                 $output->writeln(\sprintf(
-                    '<comment>The page "%s" already exists.</comment>',
+                    '<comment>The file "%s" already exists.</comment>',
                     $fileRelativePath
                 ));
                 // ask to override file
@@ -94,19 +94,23 @@ class NewPage extends AbstractCommand
             }
 
             // creates a new file
+            $model = $this->findModel(\sprintf('%s%s', empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR, $filename));
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],
-                $this->findModel(\sprintf('%s%s', empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR, $filename))
+                $model['content']
             );
             $this->fs->dumpFile($filePath, $fileContent);
-            $output->writeln(\sprintf('<info>File "%s" created.</info>', $fileRelativePath));
+            $output->writeln(\sprintf('<info>File "%s" created (with model "%s").</info>', $fileRelativePath, $model['name']));
 
             // open editor?
             if ($open) {
                 if (!$this->hasEditor()) {
                     $output->writeln('<comment>No editor configured.</comment>');
+
+                    return 0;
                 }
+                $output->writeln(\sprintf('<info>Opening file with %s...</info>', (string) $this->getBuilder()->getConfig()->get('editor')));
                 $this->openEditor($filePath);
             }
         } catch (\Exception $e) {
@@ -117,16 +121,19 @@ class NewPage extends AbstractCommand
     }
 
     /**
-     * Finds the page model and returns its content.
+     * Finds the page model and returns its [name, content].
      */
-    private function findModel(string $name): string
+    private function findModel(string $name): array
     {
-        $name = !empty(strstr($name, DIRECTORY_SEPARATOR, true)) ?: 'default';
+        $name = strstr($name, DIRECTORY_SEPARATOR, true) ?: 'default';
         if (file_exists($model = Util::joinFile($this->getPath(), 'models', "$name.md"))) {
-            return Util\File::fileGetContents($model);
+            return [
+                'name'    => $name,
+                'content' => Util\File::fileGetContents($model),
+            ];
         }
 
-        return <<<'EOT'
+        $content = <<<'EOT'
 ---
 title: "%title%"
 date: %date%
@@ -135,6 +142,11 @@ published: true
 _Your content here_
 
 EOT;
+
+        return [
+            'name'    => 'cecil',
+            'content' => $content,
+        ];
     }
 
     /**
@@ -142,7 +154,7 @@ EOT;
      */
     protected function hasEditor(): bool
     {
-        return (bool) $this->getBuilder()->getConfig()->get('editor');
+        return $this->getBuilder()->getConfig()->has('editor');
     }
 
     /**
@@ -153,12 +165,18 @@ EOT;
     protected function openEditor(string $filePath): void
     {
         if ($editor = (string) $this->getBuilder()->getConfig()->get('editor')) {
-            $command = sprintf('%s "%s"', $editor, $filePath);
-            // Typora 4TW!
-            if ($editor == 'typora') {
-                if (Util\Plateform::getOS() == Util\Plateform::OS_OSX) {
-                    $command = sprintf('open -a typora "%s"', $filePath);
-                }
+            switch (Util\Plateform::getOS()) {
+                case Util\Plateform::OS_WIN:
+                    $command = sprintf('start /B "" %s "%s"', $editor, $filePath);
+                    break;
+
+                default:
+                    $command = sprintf('%s "%s"', $editor, $filePath);
+                    break;
+            }
+            // Typora on macOS
+            if ($editor == 'typora' && Util\Plateform::getOS() == Util\Plateform::OS_OSX) {
+                $command = sprintf('open -a typora "%s"', $filePath);
             }
             $process = Process::fromShellCommandline($command);
             $process->run();

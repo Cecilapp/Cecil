@@ -88,7 +88,21 @@ Help:
   Creates a new page file (with filename as title and the current date)
 ```
 
-Use `editor` configuration key to define your default editor (ie: `editor: typora`).
+#### Page’s models
+
+You can define your own models for your new pages in the `models` directory:
+
+1. The name must be based on the section’s name (ie: `blog.md`)
+2. The default model must be named `default.md` (for root pages or pages’s section without model)
+
+Two dynamic variables are available:
+
+1. `%title%`: the file’s name
+2. `%date%`: the curent date
+
+#### Open with your editor
+
+With the `--open` option, the editor will be opened automatically. So use `editor` key in your configuration file to define the default editor (ie: `editor: typora`).
 
 ### build
 
