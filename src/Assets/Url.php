@@ -116,7 +116,7 @@ class Url
                         $this->url = new self($this->builder, $page, $options);
                         break;
                     // asset as string
-                    case false !== strpos($value, '.') ? true : false:
+                    case false !== $dotPos = strrpos($value, '.') && (strlen($value) - $dotPos == 3 || strlen($value) - $dotPos == 4) ? true : false:
                         $this->url = $base.'/'.ltrim($value, '/');
                         break;
                     // others cases?
