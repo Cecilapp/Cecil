@@ -453,7 +453,7 @@ _Example:_
 ```yaml
 paths:
   - section: Blog
-    path: :section/:year/:month/:day/:slug
+    path: :section/:year/:month/:day/:slug/
 ```
 
 ### debug
