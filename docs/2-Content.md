@@ -79,7 +79,7 @@ A _Page_ is a file made up of a **front matter** and a **body**.
 
 ### Front matter
 
-The *front matter* is used to store variables in a _Page_, in _key/value_ format.
+The _front matter_ is used to store variables in a _Page_, in _key/value_ format.
 
 It must be the first thing in the file and must be a valid [YAML](https://en.wikipedia.org/wiki/YAML).  
 Separators must be `---`, `<!-- -->` or `+++`.
@@ -97,7 +97,7 @@ customvar: "Value of customvar"
 
 ### Body
 
-*Body* is the main content of a _Page_, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in **[Markdown Extra](https://michelf.ca/projects/php-markdown/extra/)** or in plain text.
+_Body_ is the main content of a _Page_, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in **[Markdown Extra](https://michelf.ca/projects/php-markdown/extra/)** or in plain text.
 
 _Cecil_ provides extra features to enhance your content (image caption, image lazy loading, image resizing, responsive image, text excerpt, table of contents).  
 See below for more details.
@@ -156,7 +156,7 @@ Is converted to :
 
 ##### Resize
 
-Each image in the *body* can be resized by setting a smaller width than the original image with the extra attribute `{width=X}` and if the [`resize` option of the converter](4-Configuration.md#body) is enabled.
+Each image in the _body_ can be resized by setting a smaller width than the original image with the extra attribute `{width=X}` and if the [`resize` option of the converter](4-Configuration.md#body) is enabled.
 
 Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.  
 This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
@@ -173,7 +173,7 @@ Is converted to :
 
 ##### Responsive
 
-If the [`responsive` option of the converter](4-Configuration.md#body) is enabled, then all images in the *body* will be automatically _responsived_.
+If the [`responsive` option of the converter](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically _responsived_.
 
 ```markdown
 ![](/image.jpg){width=800}
@@ -192,7 +192,7 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
 
 #### Excerpt
 
-An excerpt can be defined in the *body* with one of those following tags: `excerpt` or `break`.
+An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
 
 _Example:_
 
@@ -355,7 +355,7 @@ Some dedicated variables can be used in a custom _Section_ (ie: `blog/index.md`)
 
 #### sortby
 
-The order of *Pages* can be changed for a *Section*.
+The order of _Pages_ can be changed for a _Section_.
 
 Available values are:
 
@@ -373,7 +373,7 @@ sortby: title
 
 #### pagination
 
-Global [pagination configuration](4-Configuration.md#pagination) can be overridden for a *Section*.
+Global [pagination configuration](4-Configuration.md#pagination) can be overridden for a _Section_.
 
 _Example:_
 
@@ -469,7 +469,7 @@ To do this you must include a specific template instead of `{{ page.content }}`:
 {% include page.content_template %}
 ```
 
-> *Experimental*
+> _Experimental_
 
 ### Display variables
 

@@ -477,10 +477,10 @@ The local website configuration file (`config.yml`) overrides the [default confi
 
 Default pages are pages created automatically by Cecil, from built-in templates:
 
-- *index.html* (home page)
-- *404.html*
-- *robots.txt*
-- *sitemaps.xml*
+- _index.html_ (home page)
+- _404.html_
+- _robots.txt_
+- _sitemaps.xml_
 
 The structure is almost identical of [`virtualpages`](#virtualpages), except the named key:
 

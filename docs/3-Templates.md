@@ -46,7 +46,7 @@ In most of cases **you don’t need to specify the template** in the `layout` va
 
 - `<format>`: output format (ie: `html`)
 - `<layout>`: value of variable `layout` set in front matter (ie: `layout: post`)
-- `<section>`: page’s *Section* (ie: `blog`)
+- `<section>`: page’s _Section_ (ie: `blog`)
 
 ### _homepage_
 
@@ -114,7 +114,7 @@ Can be displayed in a template with:
 | `site.pages.all`      | Alias of `site.pages.showable`. Deprecated.           |
 | `site.allpages`       | Collection of pages, regardless of their translation. |
 | `site.taxonomies`     | Collection of vocabularies.                           |
-| `site.time`           | [*Timestamp*](https://wikipedia.org/wiki/Unix_time) of the last generation. |
+| `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 
 #### site.menus
 
@@ -146,8 +146,8 @@ The static files collection can be accessed via `site.static` (if [*static load*
 Each file exposes the following properties:
 
 - `path`: relative path (ie: `/images/img-1.jpg`)
-- `date`: creation date (*timestamp*)
-- `updated`: modification date (*timestamp*)
+- `date`: creation date (_timestamp_)
+- `updated`: modification date (_timestamp_)
 - `name`: name (ie: `img-1.jpg`)
 - `basename`: name without extension (ie: `img-1`)
 - `ext`: extension (ie: `jpg`)
@@ -532,7 +532,7 @@ _Examples:_
 
 ### excerpt_html
 
-Reads characters before `<!-- excerpt -->` or `<!-- break -->`.
+Reads characters before `<!-- excerpt -->` or `<!-- break -->` tag.
 
 ```twig
 {{ string|excerpt_html }}
@@ -781,7 +781,7 @@ _Example:_
 
 ## Localization
 
-Cecil support **text translation** and **date localization** through [*Twig Extensions*](https://github.com/Cecilapp/Twig-extensions).
+Cecil support **text translation** and **date localization** through [_Twig Extensions_](https://github.com/Cecilapp/Twig-extensions).
 
 ### Text translation
 
@@ -852,9 +852,9 @@ Translation files (`.mo`) must be stored in the right directory of your project:
          └─ messages.mo  <- Compiled translation file
 ```
 
-I recommends [*Poedit Pro*](https://poedit.net/pro) to easily translate your templates.
+I recommends [_Poedit Pro_](https://poedit.net/pro) to easily translate your templates.
 
-[*Gettext PHP extension*](https://www.php.net/gettext) is required. See the [i18n Extension documentation](https://github.com/Cecilapp/Twig-extensions/blob/1.5.4/doc/i18n.md).
+[_Gettext PHP extension_](https://www.php.net/gettext) is required. See the [i18n Extension documentation](https://github.com/Cecilapp/Twig-extensions/blob/1.5.4/doc/i18n.md).
 
 ### Date localization
 
@@ -864,7 +864,7 @@ Uses the `localizeddate` filter to localize a date in templates.
 {{ page.date|localizeddate('long', 'none') }}
 ```
 
-[*Intl PHP extension*](https://www.php.net/manual/book.intl.php) is required. See the [Intl Extension documentation](https://github.com/Cecilapp/Twig-extensions/blob/1.5.4/doc/intl.md).
+[_Intl PHP extension_](https://www.php.net/manual/book.intl.php) is required. See the [Intl Extension documentation](https://github.com/Cecilapp/Twig-extensions/blob/1.5.4/doc/intl.md).
 
 ## Built-in templates
 
