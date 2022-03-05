@@ -155,23 +155,23 @@ return [
         'format' => 'yaml',
     ],
     'body' => [
-        'format' => 'md',         // only Markdown is supported
-        'toc'    => ['h2', 'h3'], // list of headers to include in Table of contents
+        'format' => 'md',         // page body format (only Markdown is supported)
+        'toc'    => ['h2', 'h3'], // headers used to build the table of contents
         'images' => [
             'lazy' => [
-                'enabled' => true,  // lazy load images
+                'enabled' => true,  // enables lazy loading (`true` by default)
             ],
             'caption' => [
-                'enabled' => false, // adds <figcaption> based on image title
+                'enabled' => false, // adds <figcaption> to images with a title (`false` by default)
             ],
             'resize' => [
-                'enabled' => false, // resizes images with a `with` attribute
+                'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
             ],
             'responsive' => [
-                'enabled' => false, // creates responsive images
+                'enabled' => false, // creates responsive images (`false` by default)
             ],
             'webp' => [
-                'enabled' => false, // creates a WebP version of images
+                'enabled' => false, // creates WebP images (`false` by default)
             ],
         ],
     ],
@@ -216,22 +216,22 @@ return [
         'target' => 'assets', // target directory of remote and resized assets
         'images' => [
             'optimize' => [
-                'enabled' => false, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
+                'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
             ],
-            'quality'    => 85,     // quality of optimized JPEG and PNG, and resized JPEG
+            'quality'    => 85,     // JPEG and PNG image quality after optimization or resize (`85` by default)
             'responsive' => [
-                'enabled' => false, // creates responsive images with `html` filter
+                'enabled' => false, // creates responsive images with `html` filter (`false` by default)
                 'width'   => [
-                    'steps' => 5,     // number of steps between each responsives images
-                    'min'   => 320,   // minimum width
-                    'max'   => 1280,  // maximum width
+                    'steps' => 5,     // number of steps from `min` to `max` (`5` by default)
+                    'min'   => 320,   // minimum width (`320` by default)
+                    'max'   => 1280,  // maximum width (`1280` by default)
                 ],
                 'sizes' => [
-                    'default' => '100vw', // default sizes
+                    'default' => '100vw', // `sizes` attribute (`100vw` by default)
                 ],
             ],
             'webp' => [
-                'enabled' => false, // creates a WebP version of images with `html` filter
+                'enabled' => false, // creates a WebP version of images with `html` filter (`false` by default)
             ],
         ],
     ],

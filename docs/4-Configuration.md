@@ -564,7 +564,7 @@ body:
     responsive:
       enabled: false     # creates responsive images (`false` by default)
     webp:
-      enabled: false     # creates webp images (`false` by default)
+      enabled: false     # creates WebP images (`false` by default)
 ```
 
 See _[Content > Page > Body](2-Content.md#body)_ documentation to know how those options impacts your content.
@@ -649,7 +649,7 @@ assets:
   target: assets         # where remote and resized assets are saved
   images:
     optimize:
-      enabled: false     # enables images optimization (with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle)
+      enabled: false     # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
     quality: 85          # JPEG and PNG image quality after optimization or resize (`85` by default)
     responsive:
       enabled: false     # creates responsive images with `html` filter (`false` by default)
@@ -658,7 +658,7 @@ assets:
         min: 320           # minimum width (`320` by default)
         max: 1280          # maximum width (`1280` by default)
       sizes:
-        default: '100vw' # `sizes`attribute (`100vw` by default)
+        default: '100vw' # `sizes` attribute (`100vw` by default)
     webp:
       enabled: false     # creates a WebP version of images with `html` filter (`false` by default)
 ```
