@@ -548,6 +548,7 @@ _Examples:_
 ```twig
 {{ variable|excerpt_html }}
 {{ variable|excerpt_html('excerpt|break', 'before') }}
+```
 
 ### to_css
 
