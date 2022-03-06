@@ -84,7 +84,7 @@ class Image
     {
         $assetWebp = clone $asset;
         $format = 'webp';
-        $image = ImageManager::make($assetWebp['content_source']);
+        $image = ImageManager::make($assetWebp['content']);
         $assetWebp['content'] = (string) $image->encode($format, $quality);
         $assetWebp['path'] = preg_replace('/\.'.$asset['ext'].'$/m', ".$format", $asset['path']);
         $assetWebp['ext'] = $format;
