@@ -52,7 +52,7 @@ class OpenWith extends AbstractCommand
                 return 0;
             }
             $output->writeln(\sprintf('<info>Opening content directory with %s...</info>', (string) $this->getBuilder()->getConfig()->get('editor')));
-            $this->openEditor(Util::joinFile($this->getPath(), $this->getBuilder()->getConfig()->get('content.dir')));
+            $this->openEditor((string) Util::joinFile($this->getPath(), $this->getBuilder()->getConfig()->get('content.dir')));
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));
         }
