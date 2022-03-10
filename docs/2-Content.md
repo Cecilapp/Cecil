@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2021-11-26
+updated: 2022-03-10
 -->
 
 # Content
@@ -79,7 +79,7 @@ A _Page_ is a file made up of a **front matter** and a **body**.
 
 ### Front matter
 
-The _front matter_ is used to store variables in a _Page_, in _key/value_ format.
+The _front matter_ is used to store [variables](#variables) in a _Page_, in _key/value_ format.
 
 It must be the first thing in the file and must be a valid [YAML](https://en.wikipedia.org/wiki/YAML).  
 Separators must be `---`, `<!-- -->` or `+++`.
