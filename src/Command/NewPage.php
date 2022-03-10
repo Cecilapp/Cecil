@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Process\Process;
 
 /**
  * Creates a new page.
@@ -147,42 +146,5 @@ EOT;
             'name'    => 'cecil',
             'content' => $content,
         ];
-    }
-
-    /**
-     * Editor is configured?
-     */
-    protected function hasEditor(): bool
-    {
-        return $this->getBuilder()->getConfig()->has('editor');
-    }
-
-    /**
-     * Opens the new file in editor (if configured).
-     *
-     * @throws RuntimeException
-     */
-    protected function openEditor(string $filePath): void
-    {
-        if ($editor = (string) $this->getBuilder()->getConfig()->get('editor')) {
-            switch (Util\Plateform::getOS()) {
-                case Util\Plateform::OS_WIN:
-                    $command = sprintf('start /B "" %s "%s"', $editor, $filePath);
-                    break;
-
-                default:
-                    $command = sprintf('%s "%s"', $editor, $filePath);
-                    break;
-            }
-            // Typora on macOS
-            if ($editor == 'typora' && Util\Plateform::getOS() == Util\Plateform::OS_OSX) {
-                $command = sprintf('open -a typora "%s"', $filePath);
-            }
-            $process = Process::fromShellCommandline($command);
-            $process->run();
-            if (!$process->isSuccessful()) {
-                throw new RuntimeException(\sprintf('Can\'t run "%s".', $command));
-            }
-        }
     }
 }

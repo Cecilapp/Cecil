@@ -41,6 +41,7 @@ class Application extends BaseApplication
         $commands = array_merge(parent::getDefaultCommands(), [
             new Command\NewSite(),
             new Command\NewPage(),
+            new Command\OpenWith(),
             new Command\Build(),
             new Command\Serve(),
             new Command\Clear(),
