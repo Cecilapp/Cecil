@@ -32,7 +32,7 @@ class OpenWith extends AbstractCommand
             ->setDescription('Open content with the editor')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory')
+                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
             ->setHelp('Open content directory with the editor defined in the configuration file.)');
