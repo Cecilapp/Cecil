@@ -24,7 +24,7 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button)](https://cecil.app/hosting/vercel/deploy/) [![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button "Deploy with Vercel")](https://cecil.app/hosting/vercel/deploy/) [![Import to Forestry](https://assets.forestry.io/import-to-forestryK.svg "Import to Forestry")](https://cecil.app/cms/forestry/import/)
 
 ## Features
 
@@ -64,7 +64,7 @@ See [Contributing](CONTRIBUTING.md).
 
 ## Sponsors
 
-[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100 "Aperture Lab")](https://aperturelab.fr) [![studio cecillie](https://raw.githubusercontent.com/cecillie/eshop/main/static/images/cecillie_signature.png "studio cecillie")](https://studio.cecillie.fr)
+[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100 "Aperture Lab")](https://aperturelab.fr) [![studio cecillie](https://raw.githubusercontent.com/cecillie/eshop/main/static/images/cecillie_signature.png "studio cecillie")](https://studio.cecillie.fr) [![Powered by Vercel](https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg "Powered by Vercel")](https://vercel.com/?utm_source=cecilapp&utm_campaign=oss)
 
 ## License
 
