@@ -85,8 +85,8 @@ class AbstractCommand extends Command
                 // checks file(s)
                 foreach ($this->configFiles as $fileName => $filePath) {
                     if (!file_exists($filePath)) {
-                        $this->getBuilder()->getLogger()->error(\sprintf('Could not find configuration file "%s": uses default/others.', $fileName));
                         unset($this->configFiles[$fileName]);
+                        $this->getBuilder()->getLogger()->error(\sprintf('Could not find configuration file "%s".', $fileName));
                     }
                 }
             }
