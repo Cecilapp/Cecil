@@ -35,6 +35,7 @@ class Build extends AbstractCommand
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
+                    new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                     new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
@@ -59,10 +60,7 @@ class Build extends AbstractCommand
         }
         if ($input->getOption('output')) {
             $config['output']['dir'] = $input->getOption('output');
-            $this->fs->dumpFile(
-                Util::joinFile($this->getPath(), self::TMP_DIR, 'output'),
-                (string) $input->getOption('output')
-            );
+            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'), (string) $input->getOption('output'));
         }
         if ($input->getOption('postprocess') === null) {
             $config['postprocess']['enabled'] = true;
@@ -83,6 +81,9 @@ class Build extends AbstractCommand
         if ($input->getOption('dry-run')) {
             $options['dry-run'] = true;
             $messageOpt .= ' (dry-run)';
+        }
+        if ($input->getOption('page')) {
+            $options['page'] = $input->getOption('page');
         }
 
         $output->writeln(\sprintf('Building website%s...', $messageOpt));

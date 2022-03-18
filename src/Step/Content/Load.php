@@ -19,6 +19,9 @@ use Symfony\Component\Finder\Finder;
  */
 class Load extends AbstractStep
 {
+    /** @var string */
+    protected $page;
+
     /**
      * {@inheritdoc}
      */
@@ -36,6 +39,7 @@ class Load extends AbstractStep
         if (is_dir($this->builder->getConfig()->getContentPath())) {
             $this->canProcess = true;
         }
+        $this->page = $options['page'];
     }
 
     /**
@@ -43,11 +47,18 @@ class Load extends AbstractStep
      */
     public function process()
     {
+        $namePattern = '/\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/';
         $content = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getContentPath())
-            ->name('/\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/')
             ->sortByName(true);
+        if ($this->page) {
+            if (!util\File::getFS()->exists(Util::joinFile($this->builder->getConfig()->getContentPath(), $this->page))) {
+                $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
+            }
+            $namePattern = $this->page;
+        }
+        $content->name('index.md')->name($namePattern);
         if (file_exists(Util::joinFile($this->builder->getConfig()->getContentPath(), '.gitignore'))) {
             $content->ignoreVCSIgnored(true);
         }
