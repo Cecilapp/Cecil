@@ -44,6 +44,7 @@ class Serve extends AbstractCommand
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
+                    new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
@@ -68,6 +69,7 @@ class Serve extends AbstractCommand
         $postprocess = $input->getOption('postprocess');
         $clearcache = $input->getOption('clear-cache');
         $verbose = $input->getOption('verbose');
+        $page = $input->getOption('page');
 
         $this->setUpServer($host, $port);
 
@@ -111,6 +113,10 @@ class Serve extends AbstractCommand
         }
         if ($verbose) {
             $buildProcessArguments[] = '-'.str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
+        }
+        if (!empty($page)) {
+            $buildProcessArguments[] = '--page';
+            $buildProcessArguments[] = $page;
         }
 
         $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
