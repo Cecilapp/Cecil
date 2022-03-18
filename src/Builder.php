@@ -132,6 +132,7 @@ class Builder implements LoggerAwareInterface
         $this->options = array_merge([
             'drafts'  => false, // build drafts or not
             'dry-run' => false, // if dry-run is true, generated files are not saved
+            'page'    => '',    // specific page to build
         ], $options);
 
         // process each step
