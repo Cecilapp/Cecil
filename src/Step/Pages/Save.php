@@ -34,6 +34,9 @@ class Save extends AbstractStep
      */
     public function init($options)
     {
+        // clear cache?
+        $this->clearCache();
+
         if ($options['dry-run']) {
             $this->canProcess = false;
 
@@ -81,9 +84,6 @@ class Save extends AbstractStep
             $message = sprintf('File(s) "%s" saved', implode(', ', $files));
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
-
-        // clear cache
-        $this->clearCache();
     }
 
     /**
