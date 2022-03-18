@@ -134,6 +134,9 @@ class Serve extends AbstractCommand
 
         // (re)builds before serve
         $buildProcess->run($processOutputCallback);
+        if ($buildProcess->isSuccessful()) {
+            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+        }
         if ($buildProcess->getExitCode() !== 0) {
             return 1;
         }
