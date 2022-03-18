@@ -180,7 +180,6 @@ class Serve extends AbstractCommand
                         }
 
                         $output->writeln('<info>Server is runnning...</info>');
-                        $resourceWatcher->rebuild(); // rebuilds wtacher cache in case of new files
                     }
                 }
             } catch (ProcessFailedException $e) {
