@@ -1,6 +1,5 @@
 
-    <!-- Cecil: live reload script -->
-    <script>
+      // Cecil's live reload script
       var evtSource = new EventSource('/watcher');
       evtSource.addEventListener('reload', function(e) {
         let lastChange = e.data;
@@ -12,5 +11,3 @@
           location.reload(true);
         }
       }, false);
-    </script>
-    <!-- /Cecil -->

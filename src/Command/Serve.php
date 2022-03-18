@@ -134,8 +134,7 @@ class Serve extends AbstractCommand
 
         // (re)builds before serve
         $buildProcess->run($processOutputCallback);
-        $ret = $buildProcess->getExitCode();
-        if ($ret !== 0) {
+        if ($buildProcess->getExitCode() !== 0) {
             return 1;
         }
 
@@ -170,18 +169,18 @@ class Serve extends AbstractCommand
                     Util\Plateform::openBrowser(\sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
-                    $result = $resourceWatcher->findChanges();
-                    if ($result->hasChanges()) {
+                    if ($resourceWatcher->findChanges()->hasChanges()) {
                         // re-builds
                         $output->writeln('<comment>Changes detected.</comment>');
                         $output->writeln('');
 
                         $buildProcess->run($processOutputCallback);
+                        if ($buildProcess->isSuccessful()) {
+                            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+                        }
 
                         $output->writeln('<info>Server is runnning...</info>');
-                        $resourceWatcher->rebuild();
                     }
-                    usleep(1000000); // waits 1s
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();

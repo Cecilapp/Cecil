@@ -27,9 +27,9 @@ if ($path == '/watcher') {
     $flagFile = $_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/changes.flag';
     if (file_exists($flagFile)) {
         echo "event: reload\n";
-        printf('data: %s', file_get_contents($flagFile));
+        printf("data: %s\n\n", file_get_contents($flagFile));
+        unlink($flagFile);
     }
-    echo "\n\n";
     exit();
 }
 
@@ -61,7 +61,7 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
             // inject live reload script
             if (file_exists(__DIR__.'/livereload.js')) {
                 $script = file_get_contents(__DIR__.'/livereload.js');
-                $content = str_ireplace('</body>', "$script\n  </body>", $content);
+                $content = str_ireplace('</body>', "<script>$script</script>\n  </body>", $content);
                 if (stristr($content, '</body>') === false) {
                     $content .= "\n$script";
                 }
