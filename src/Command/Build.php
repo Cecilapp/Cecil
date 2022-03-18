@@ -60,10 +60,7 @@ class Build extends AbstractCommand
         }
         if ($input->getOption('output')) {
             $config['output']['dir'] = $input->getOption('output');
-            $this->fs->dumpFile(
-                Util::joinFile($this->getPath(), self::TMP_DIR, 'output'),
-                (string) $input->getOption('output')
-            );
+            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'), (string) $input->getOption('output'));
         }
         if ($input->getOption('postprocess') === null) {
             $config['postprocess']['enabled'] = true;
