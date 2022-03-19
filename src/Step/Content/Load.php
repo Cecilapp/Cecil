@@ -56,9 +56,11 @@ class Load extends AbstractStep
             if (!util\File::getFS()->exists(Util::joinFile($this->builder->getConfig()->getContentPath(), $this->page))) {
                 $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
             }
-            $namePattern = $this->page;
+            $content->path('.')->path(dirname($this->page));
+            $content->name('/index\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/');
+            $namePattern = basename($this->page);
         }
-        $content->name('index.md')->name($namePattern);
+        $content->name($namePattern);
         if (file_exists(Util::joinFile($this->builder->getConfig()->getContentPath(), '.gitignore'))) {
             $content->ignoreVCSIgnored(true);
         }
