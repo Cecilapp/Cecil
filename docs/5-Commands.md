@@ -92,7 +92,7 @@ Help:
 
 You can define your own models for your new pages in the `models` directory:
 
-1. The name must be based on the section’s name (ie: `blog.md`)
+1. The name must be based on the section’s name (e.g.: `blog.md`)
 2. The default model must be named `default.md` (for root pages or pages’s section without model)
 
 Two dynamic variables are available:
@@ -102,7 +102,7 @@ Two dynamic variables are available:
 
 #### Open with your editor
 
-With the `--open` option, the editor will be opened automatically. So use `editor` key in your configuration file to define the default editor (ie: `editor: typora`).
+With the `--open` option, the editor will be opened automatically. So use `editor` key in your configuration file to define the default editor (e.g.: `editor: typora`).
 
 ### build
 

@@ -196,7 +196,7 @@ This template adds the following meta tags to your site:
 - Previous and next page links
 - Pagination links (first, previous, next, last)
 - Canonical URL
-- Links to alternates formats (ie: RSS feed)
+- Links to alternates formats (e.g.: RSS feed)
 - Open Graph
 - Twitter Card
 - JSON-LD site and article metadata
@@ -385,12 +385,12 @@ List of output formats.
 output:
   formats:
     <name>:
-      name: <name>              # name of the format (ie: `html`)
+      name: <name>              # name of the format (e.g.: `html`)
       mediatype: '<media type>' # media type (MIME). ie: 'text/html'
-      subpath: <sub path>       # sub path (ie: `/amp` in `path/amp/index.html`)
-      suffix: '<suffix>'        # file name (ie: `/index` in `path/index.html`)
-      extension: '<extension>'  # file extension (ie: `html` in `path/index.html`)
-      exclude: ['<variable>']   # don’t apply this format to pages identified by listed variables (ie: `[redirect]`)
+      subpath: <sub path>       # sub path (e.g.: `/amp` in `path/amp/index.html`)
+      suffix: '<suffix>'        # file name (e.g.: `/index` in `path/index.html`)
+      extension: '<extension>'  # file extension (e.g.: `html` in `path/index.html`)
+      exclude: ['<variable>']   # don’t apply this format to pages identified by listed variables (e.g.: `[redirect]`)
 ```
 
 #### pagetypeformats

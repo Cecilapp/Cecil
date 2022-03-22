@@ -35,9 +35,9 @@ Your content should be organized in a manner that reflects the rendered website.
    └─ authors.yml        <- Data collection
 ```
 
-- Each folder in the root of `content/` is called a **_Section_** (ie: “Blog“, “Project“, etc.)
-- You can override _Section_’s default variables by creating ana file `index.md` in its directory (ie: `blog/index.md`)
-- Files in `static/` are copied as is in the root of the built website (ie: `static/images/logo.png` -> `images/logo.png`)
+- Each folder in the root of `content/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
+- You can override _Section_’s default variables by creating ana file `index.md` in its directory (e.g.: `blog/index.md`)
+- Files in `static/` are copied as is in the root of the built website (e.g.: `static/images/logo.png` -> `images/logo.png`)
 - Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function
 - Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
 
@@ -266,7 +266,7 @@ menu:
 
 Taxonomies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
-Each _Page_ can contain severals terms (ie: `Tag 1`) of each taxonomies’ vocabulary (ie: `tags`).
+Each _Page_ can contain severals terms (e.g.: `Tag 1`) of each taxonomies’ vocabulary (e.g.: `tags`).
 
 _Example:_
 
@@ -351,7 +351,7 @@ In `1-The first project.md`:
 
 ### Section
 
-Some dedicated variables can be used in a custom _Section_ (ie: `blog/index.md`).
+Some dedicated variables can be used in a custom _Section_ (e.g.: `blog/index.md`).
 
 #### sortby
 

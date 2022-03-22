@@ -44,9 +44,9 @@ In most of cases **you don’t need to specify the template** in the `layout` va
 
 **Lexique:**
 
-- `<format>`: output format (ie: `html`)
-- `<layout>`: value of variable `layout` set in front matter (ie: `layout: post`)
-- `<section>`: page’s _Section_ (ie: `blog`)
+- `<format>`: output format (e.g.: `html`)
+- `<layout>`: value of variable `layout` set in front matter (e.g.: `layout: post`)
+- `<section>`: page’s _Section_ (e.g.: `blog`)
 
 ### _homepage_
 
@@ -116,12 +116,12 @@ Can be displayed in a template with:
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 
 <div markdown="1" class="tips">
-You can get any page with `site.pages['id']` where `id` is the _ID_ of a page (ie: `index` for home page).
+You can get any page with `site.pages['id']` where `id` is the _ID_ of a page (e.g.: `index` for home page).
 </div>
 
 #### site.menus
 
-Loop on `site.menus.<menu>` to get each entry of the `<menu>` collection (ie: `main`).
+Loop on `site.menus.<menu>` to get each entry of the `<menu>` collection (e.g.: `main`).
 
 | Variable         | Description                                      |
 | ---------------- | ------------------------------------------------ |
@@ -135,9 +135,9 @@ Informations about the current language.
 
 | Variable               | Description                                                  |
 | ---------------------- | ------------------------------------------------------------ |
-| `site.language`        | Language code (ie: `en`).                                    |
-| `site.language.name`   | Language name (ie: `English`).                               |
-| `site.language.locale` | Language [locale code](configuration/locale-codes.md) (ie: `en_EN`). |
+| `site.language`        | Language code (e.g.: `en`).                                    |
+| `site.language.name`   | Language name (e.g.: `English`).                               |
+| `site.language.locale` | Language [locale code](configuration/locale-codes.md) (e.g.: `en_EN`). |
 | `site.language.weight` | Language position in the `languages` list.                   |
 
 You can retrieve `name`, `locale` and `weight` of a language different from the current one by passing its code as a parameter, ie: `site.language.name('fr')`.
@@ -148,12 +148,12 @@ The static files collection can be accessed via `site.static` (if [*static load*
 
 Each file exposes the following properties:
 
-- `path`: relative path (ie: `/images/img-1.jpg`)
+- `path`: relative path (e.g.: `/images/img-1.jpg`)
 - `date`: creation date (_timestamp_)
 - `updated`: modification date (_timestamp_)
-- `name`: name (ie: `img-1.jpg`)
-- `basename`: name without extension (ie: `img-1`)
-- `ext`: extension (ie: `jpg`)
+- `name`: name (e.g.: `img-1.jpg`)
+- `basename`: name without extension (e.g.: `img-1`)
+- `ext`: extension (e.g.: `jpg`)
 
 #### site.data
 
@@ -193,9 +193,9 @@ Navigation between pages in a same _Section_.
 
 | Variable                 | Description                                           |
 | ------------------------ | ----------------------------------------------------- |
-| `page.<prev/next>.id`    | ID of the previous / next page (ie: `blog/post-2`).   |
-| `page.<prev/next>.path`  | Path of the previous / next page (ie: `blog/post-2`). |
-| `page.<prev/next>.title` | Title of the previous / next page (ie: `Post 2`).     |
+| `page.<prev/next>.id`    | ID of the previous / next page (e.g.: `blog/post-2`).   |
+| `page.<prev/next>.path`  | Path of the previous / next page (e.g.: `blog/post-2`). |
+| `page.<prev/next>.title` | Title of the previous / next page (e.g.: `Post 2`).     |
 
 #### page.pagination
 
@@ -256,7 +256,7 @@ Turns a _Page_, a _Page_ ID or a relative path into an URL.
 | Option    | Description                              | Type    | Default |
 | --------- | ---------------------------------------- | ------- | ------- |
 | canonical | Prefixes with `baseurl`.                 | boolean | `false` |
-| format    | Defines Page output format (ie: `json`). | string  | `html`  |
+| format    | Defines Page output format (e.g.: `json`). | string  | `html`  |
 
 For assets prefer the [`url` filter](#url-1).
 
@@ -303,8 +303,8 @@ _Examples:_
 - `file`: filesystem path
 - `path`: relative path
 - `ext`: extension
-- `type`: media type (ie: `image`)
-- `subtype`: media sub type (ie: `image/jpeg`)
+- `type`: media type (e.g.: `image`)
+- `subtype`: media sub type (e.g.: `image/jpeg`)
 - `size`: size in octets
 - `source`: content before compiling and/or minifying
 - `content`: file content
@@ -452,7 +452,7 @@ Turns a Page, an Asset or a path into an URL.
 | Option    | Description                              | Type    | Default |
 | --------- | ---------------------------------------- | ------- | ------- |
 | canonical | Prefixes with `baseurl`.                 | boolean | `false` |
-| format    | Defines Page output format (ie: `json`). | string  | `html`  |
+| format    | Defines Page output format (e.g.: `json`). | string  | `html`  |
 
 _Examples:_
 
