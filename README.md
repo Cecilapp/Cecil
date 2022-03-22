@@ -64,7 +64,7 @@ See [Contributing](CONTRIBUTING.md).
 
 ## Sponsors
 
-[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100 "Aperture Lab")](https://aperturelab.fr) [![studio cecillie](https://raw.githubusercontent.com/cecillie/eshop/main/static/images/cecillie_signature.png "studio cecillie")](https://studio.cecillie.fr) [![Powered by Vercel](https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg "Powered by Vercel")](https://vercel.com/?utm_source=cecilapp&utm_campaign=oss)
+[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr) [![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie.png)](https://studio.cecillie.fr#gh-light-mode-only)[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie-dark.png)](https://studio.cecillie.fr#gh-dark-mode-only) [![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify.png)](https://www.netlify.com#gh-light-mode-only)[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify-dark.png)](https://www.netlify.com#gh-dark-mode-only) [![Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel.png)](https://vercel.com/?utm_source=cecilapp&utm_campaign=oss#gh-light-mode-only)[![ Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel-dark.png)](https://vercel.com/?utm_source=cecilapp&utm_campaign=oss#gh-dark-mode-only)
 
 ## License
 
