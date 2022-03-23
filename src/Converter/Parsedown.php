@@ -261,7 +261,7 @@ class Parsedown extends \ParsedownToC
         if (isset($block['complete'])) {
             return;
         }
-        if (preg_match('/:::/', $line['text'], $matches)) {
+        if (preg_match('/:::/', $line['text'])) {
             $block['complete'] = true;
 
             return $block;
