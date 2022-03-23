@@ -115,8 +115,8 @@ Can be displayed in a template with:
 | `site.taxonomies`     | Collection of vocabularies.                           |
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 
-<div markdown="1" class="tips">
-**Note :** You can get any page with `site.pages['id']` where `id` is the _ID_ of a page (e.g.: `index` for home page).
+<div markdown="1" class="note note-tip">
+**Tip:** You can get any page with `site.pages['id']` where `id` is the _ID_ of a page (e.g.: `index` for home page).
 </div>
 
 #### site.menus
