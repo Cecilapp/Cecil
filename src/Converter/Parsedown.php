@@ -244,10 +244,10 @@ class Parsedown extends \ParsedownToC
     {
         if (preg_match('/:::(.*)/', $block['text'], $matches)) {
             return [
-                'char' => ':',
+                'char'    => ':',
                 'element' => [
-                    'name' => 'div',
-                    'text' => '',
+                    'name'       => 'div',
+                    'text'       => '',
                     'attributes' => [
                         'class' => "note note-{$matches[1]}",
                     ],
@@ -255,6 +255,7 @@ class Parsedown extends \ParsedownToC
             ];
         }
     }
+
     protected function blockNoteContinue($line, $block)
     {
         if (isset($block['complete'])) {
@@ -265,10 +266,11 @@ class Parsedown extends \ParsedownToC
 
             return $block;
         }
-        $block['element']['text'] .= $line['text'] . "\n";
+        $block['element']['text'] .= $line['text']."\n";
 
         return $block;
     }
+
     protected function blockNoteComplete($block)
     {
         $block['element']['rawHtml'] = $this->text($block['element']['text']);
