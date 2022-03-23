@@ -31,6 +31,9 @@ class Parsedown extends \ParsedownToC
         if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
             $this->BlockTypes['!'][] = 'Image';
         }
+        if ($this->builder->getConfig()->get('body.notes.enabled')) {
+            $this->BlockTypes[':'][] = 'Note';
+        }
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
     }
 
@@ -224,6 +227,52 @@ class Parsedown extends \ParsedownToC
 
             return $FigureBlock;
         }
+
+        return $block;
+    }
+
+    /**
+     * Note block-level markup.
+     *
+     * :::tip
+     * **Tip:** Advice here.
+     * :::
+     *
+     * Code inspired by https://github.com/sixlive/parsedown-alert from TJ Miller (@sixlive).
+     */
+    protected function blockNote($block)
+    {
+        if (preg_match('/:::(.*)/', $block['text'], $matches)) {
+            return [
+                'char' => ':',
+                'element' => [
+                    'name' => 'div',
+                    'text' => '',
+                    'attributes' => [
+                        'class' => "note note-{$matches[1]}",
+                    ],
+                ],
+            ];
+        }
+    }
+    protected function blockNoteContinue($line, $block)
+    {
+        if (isset($block['complete'])) {
+            return;
+        }
+        if (preg_match('/:::/', $line['text'], $matches)) {
+            $block['complete'] = true;
+
+            return $block;
+        }
+        $block['element']['text'] .= $line['text'] . "\n";
+
+        return $block;
+    }
+    protected function blockNoteComplete($block)
+    {
+        $block['element']['rawHtml'] = $this->text($block['element']['text']);
+        unset($block['element']['text']);
 
         return $block;
     }

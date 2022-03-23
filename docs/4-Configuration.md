@@ -565,6 +565,8 @@ body:
       enabled: false     # creates responsive images (`false` by default)
     webp:
       enabled: false     # creates WebP images (`false` by default)
+  notes:
+    enabled: false       # enables Notes blocks (`false` by default)
 ```
 
 See _[Content > Page > Body](2-Content.md#body)_ documentation to know how those options impacts your content.

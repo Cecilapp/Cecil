@@ -99,7 +99,7 @@ customvar: "Value of customvar"
 
 _Body_ is the main content of a _Page_, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in **[Markdown Extra](https://michelf.ca/projects/php-markdown/extra/)** or in plain text.
 
-_Cecil_ provides extra features to enhance your content (image caption, image lazy loading, image resizing, responsive image, text excerpt, table of contents).  
+Also Cecil provides **extra features** to enhance your content: table of contents, text excerpt, image manipulation (caption, lazy loading, resizing, responsive) and notes).  
 See below for more details.
 
 _Example:_
@@ -118,6 +118,12 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 ## Sub-Header 2
 
 ![Description](/image.jpg 'Title')
+
+## Sub-Header 3
+
+:::tip
+**Tip**: Advice here.
+:::
 ```
 
 #### Table of contents
@@ -209,6 +215,30 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
   sizes="100vw"
 >
 ```
+
+#### Notes
+
+Create a _Note_ block (info, tips, important, etc.).
+
+```markdown
+:::tip
+**Tip:** Advice here.
+:::
+```
+
+Is converted to:
+
+```html
+<div class="note note-tip">
+  <p>
+    <strong>Tip:</strong> Advice here.
+  </p>
+</div>
+```
+
+:::info
+**Info:** To enable _Notes_ converting the [`body.notes.enabled` option](4-Configuration.md#body) must be set to `true` in the config file.
+:::
 
 ## Variables
 
