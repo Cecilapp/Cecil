@@ -13,6 +13,7 @@ Available commands:
   build                  Builds the website
   clear                  [clean] Removes generated files
   help                   Display help for a command
+  open                   Open content with the editor
   self-update            Updates Cecil to the latest version
   serve                  Starts the built-in server
  cache
@@ -121,6 +122,7 @@ Arguments:
 Options:
   -c, --config=CONFIG              Set the path to the config file(s) (comma-separated)
   -d, --drafts                     Include drafts
+  -p, --page=PAGE                  Build a specific page
       --dry-run                    Build without saving
       --baseurl=BASEURL            Set the base URL
       --output=OUTPUT              Set the output directory
@@ -155,6 +157,7 @@ Arguments:
 Options:
   -c, --config=CONFIG              Set the path to the config file(s) (comma-separated)
   -d, --drafts                     Include drafts
+  -p, --page=PAGE                  Build a specific page
   -o, --open                       Open browser automatically
       --host=HOST                  Server host
       --port=PORT                  Server port

@@ -120,6 +120,26 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 ![Description](/image.jpg 'Title')
 ```
 
+#### Table of contents
+
+You can add a table of contents with the following Markdown syntax:
+
+```markdown
+[toc]
+```
+
+#### Excerpt
+
+An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
+
+_Example:_
+
+```html
+Introduction.
+<!-- excerpt -->
+Main content.
+```
+
 #### Images
 
 ##### Lazy loading
@@ -188,26 +208,6 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
           /assets/thumbnails/800/image.jpg 800w"
   sizes="100vw"
 >
-```
-
-#### Excerpt
-
-An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
-
-_Example:_
-
-```html
-Introduction.
-<!-- excerpt -->
-Main content.
-```
-
-#### Table of contents
-
-You can add a table of contents with the following Markdown syntax:
-
-```markdown
-[toc]
 ```
 
 ## Variables
