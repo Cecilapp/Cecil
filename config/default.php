@@ -174,6 +174,9 @@ return [
                 'enabled' => false, // creates WebP images (`false` by default)
             ],
         ],
+        'notes' => [
+            'enabled' => false,  // enables Notes blocks (`false` by default)
+        ],
     ],
     // data files
     'data' => [
