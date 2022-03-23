@@ -109,13 +109,13 @@ _Example:_
 
 [toc]
 
-## Header 1
+## Sub-Header 1
 
 Lorem ipsum dolor [sit amet](https://example.com), consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 <!-- excerpt -->
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-## Header 2
+## Sub-Header 2
 
 ![Description](/image.jpg 'Title')
 ```
@@ -151,7 +151,7 @@ So you can disable it [in configuration](4-Configuration.md#body).
 ![](/image.jpg)
 ```
 
-Is converted to :
+Is converted to:
 
 ```html
 <img src="/image.jpg" loading="lazy">
@@ -165,7 +165,7 @@ You can autommatically add a caption (`figcaption`) to an image by adding a titl
 ![](/images/img.jpg 'Title')
 ```
 
-Is converted to :
+Is converted to:
 
 ```html
 <figure>
@@ -185,7 +185,7 @@ This feature requires [GD extension](https://www.php.net/manual/book.image.php) 
 ![](/image.jpg){width=800}
 ```
 
-Is converted to :
+Is converted to:
 
 ```html
 <img src="/assets/thumbnails/800/image.jpg" width="800" height="600">
