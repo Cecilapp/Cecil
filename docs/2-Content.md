@@ -237,7 +237,7 @@ Is converted to:
 ```
 
 :::info
-**Info:** To enable _Notes_ converting the [`body.notes.enabled` option](4-Configuration.md#body) must be set to `true` in the config file.
+**Info:** To enable _Notes_ you must set [body.notes.enabled](4-Configuration.md#body) option to `true` in the config file.
 :::
 
 ## Variables
