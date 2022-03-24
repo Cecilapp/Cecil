@@ -748,9 +748,9 @@ Turns an asset into an HTML element.
 | Option     | Description                                     | Type  | Default |
 | ---------- | ----------------------------------------------- | ----- | ------- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |         |
-| options    | `{preload: true}`: prelaods CSS<br>`{responsive: true}`: creates responsives images | array |         |
+| options    | `{preload: true}`: preloads CSS<br>`{responsive: true}`: creates responsives images | array |         |
 
-Available for CSS, JavaScript and image file.
+Available for CSS, JavaScript and image files.
 
 _Examples:_
 
