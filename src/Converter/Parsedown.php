@@ -32,7 +32,7 @@ class Parsedown extends \ParsedownToC
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
-        $this->highlighter = new Highlighter;
+        $this->highlighter = new Highlighter();
         if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
             $this->BlockTypes['!'][] = 'Image';
         }
