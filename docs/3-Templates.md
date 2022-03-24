@@ -755,15 +755,15 @@ Available for CSS, JavaScript and image files.
 _Examples:_
 
 ```twig
-{{ asset('styles.css')|html({}, {preload:true}) }}
+{{ asset('image.png')|html({alt: 'Description'}) }}
 ```
 
 ```twig
-{{ asset('image.png')|html({title:'Title', alt:'Alternative'}) }}
+{{ asset('styles.css')|html({}, {preload: true}) }}
 ```
 
 ```twig
-{{ asset('image.png')|html({}, {responsive: true}) }}
+{{ asset('image.png')|html({alt: 'Description', loading: 'lazy'}, {responsive: true}) }}
 ```
 
 ### preg_split
