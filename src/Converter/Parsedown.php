@@ -13,6 +13,7 @@ namespace Cecil\Converter;
 use Cecil\Assets\Asset;
 use Cecil\Assets\Image;
 use Cecil\Builder;
+use Highlight\Highlighter;
 
 class Parsedown extends \ParsedownToC
 {
@@ -23,11 +24,15 @@ class Parsedown extends \ParsedownToC
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
     /** Regex to verify there is an image in <figure> block */
-    private $MarkdownImageRegex = "~^!\[.*?\]\(.*?\)~";
+    protected $MarkdownImageRegex = "~^!\[.*?\]\(.*?\)~";
+
+    /** @var Highlighter */
+    protected $highlighter;
 
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
+        $this->highlighter = new Highlighter;
         if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
             $this->BlockTypes['!'][] = 'Image';
         }
@@ -275,6 +280,31 @@ class Parsedown extends \ParsedownToC
     {
         $block['element']['rawHtml'] = $this->text($block['element']['text']);
         unset($block['element']['text']);
+
+        return $block;
+    }
+
+    /**
+     * Apply Highlight to code blocks.
+     */
+    protected function blockFencedCodeComplete($block)
+    {
+        $this->builder->getLogger()->error($block['element']['element']['attributes'] ?? 'pouet');
+
+        if (!isset($block['element']['element']['attributes'])) {
+            //return $block;
+        }
+
+        $code = $block['element']['element']['text'];
+        $languageClass = $block['element']['element']['attributes']['class'];
+        $language = explode('-', $languageClass);
+        $highlighted = $this->highlighter->highlight($language[1], $code);
+        $block['element']['element']['attributes']['class'] = vsprintf('%s hljs %s', [
+            $languageClass,
+            $highlighted->language,
+        ]);
+        $block['element']['element']['rawHtml'] = $highlighted->value;
+        unset($block['element']['element']['text']);
 
         return $block;
     }
