@@ -246,7 +246,7 @@ class Parsedown extends \ParsedownToC
             return [
                 'char'    => ':',
                 'element' => [
-                    'name'       => 'div',
+                    'name'       => 'aside',
                     'text'       => '',
                     'attributes' => [
                         'class' => "note note-{$matches[1]}",
