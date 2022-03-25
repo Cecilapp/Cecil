@@ -235,7 +235,7 @@ class Parsedown extends \ParsedownToC
      * Note block-level markup.
      *
      * :::tip
-     * **Tip:** Advice here.
+     * **Tip:** This is an advice.
      * :::
      *
      * Code inspired by https://github.com/sixlive/parsedown-alert from TJ Miller (@sixlive).
