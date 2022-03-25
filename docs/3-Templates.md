@@ -116,7 +116,8 @@ Can be displayed in a template with:
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 
 :::tip
-**Tip:** You can get any page with `site.pages['id']` where `id` is the _ID_ of a page (e.g.: `index` for home page).
+**Tip**  
+You can get any page with `site.pages['id']` where `id` is the _ID_ of a page (e.g.: `index` for home page).
 :::
 
 #### site.menus

@@ -122,7 +122,8 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 ## Sub-Header 3
 
 :::tip
-**Tip**: Advice here.
+**Tip**  
+This is an advice.
 :::
 ```
 
@@ -222,7 +223,8 @@ Create a _Note_ block (info, tips, important, etc.).
 
 ```markdown
 :::tip
-**Tip:** Advice here.
+**Tip**  
+This is an advice.
 :::
 ```
 
@@ -237,7 +239,8 @@ Is converted to:
 ```
 
 :::info
-**Info:** To enable _Notes_ you must set [body.notes.enabled](4-Configuration.md#body) option to `true` in the config file.
+**Information**  
+To enable _Notes_ you must set [body.notes.enabled](4-Configuration.md#body) option to `true` in the config file.
 :::
 
 ## Variables
