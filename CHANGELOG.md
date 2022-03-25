@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.87.0...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.88.0...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,16 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.88.0](https://github.com/Cecilapp/Cecil/compare/5.87.0...5.88.0)
+
+> 25 March 2022
+
+- feat: get SVG width and height [`#1331`](https://github.com/Cecilapp/Cecil/pull/1331)
+- chore: update deps [`177eed5`](https://github.com/Cecilapp/Cecil/commit/177eed5d89fb635a16d165f2a55190cae6090e5a)
+- docs: update html filter [`322fea3`](https://github.com/Cecilapp/Cecil/commit/322fea3d5b149d9d217517390b6e81c35150974f)
+- docs: minor fix [`a73d575`](https://github.com/Cecilapp/Cecil/commit/a73d5752774c5ba3c6440cc15141a880bb1f802e)
+- docs: temp fix HTML minify [`5d6a48a`](https://github.com/Cecilapp/Cecil/commit/5d6a48a22546f63ebbc8e039b201bffb6eaa555b)
 
 #### [5.87.0](https://github.com/Cecilapp/Cecil/compare/5.86.2...5.87.0)
 
