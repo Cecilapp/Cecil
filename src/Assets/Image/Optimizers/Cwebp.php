@@ -2,8 +2,8 @@
 
 namespace Cecil\Assets\Image\Optimizers;
 
-use Spatie\ImageOptimizer\Optimizers\BaseOptimizer;
 use Spatie\ImageOptimizer\Image;
+use Spatie\ImageOptimizer\Optimizers\BaseOptimizer;
 
 class Cwebp extends BaseOptimizer
 {
