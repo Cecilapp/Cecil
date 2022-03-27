@@ -10,6 +10,7 @@
 
 namespace Cecil\Assets;
 
+use Cecil\Assets\Image\Optimizers\Cwebp;
 use Intervention\Image\ImageManagerStatic as ImageManager;
 use Spatie\ImageOptimizer\OptimizerChain;
 use Spatie\ImageOptimizer\Optimizers\Gifsicle;
@@ -47,6 +48,12 @@ class Image
             ->addOptimizer(new Gifsicle([
                 '-b',
                 '-O3',
+            ]))
+            ->addOptimizer(new Cwebp([
+                '-m 6',
+                '-pass 10',
+                '-mt',
+                '-q 80',
             ]));
     }
 
