@@ -34,7 +34,7 @@ class ShowContent extends AbstractCommand
     {
         $this
             ->setName('show:content')
-            ->setDescription('Shows content')
+            ->setDescription('Shows content as tree')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),

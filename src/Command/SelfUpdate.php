@@ -34,8 +34,7 @@ class SelfUpdate extends AbstractCommand
                 new InputOption('stable', null, InputOption::VALUE_NONE, 'Force an update to the last stable version'),
                 new InputOption('preview', null, InputOption::VALUE_NONE, 'Force an update to the last unstable version'),
             ]))
-            ->setHelp('The self-update command checks for a newer version and,
-if found, downloads and installs the latest');
+            ->setHelp('The self-update command checks for a newer version and, if found, downloads and installs the latest');
     }
 
     /**

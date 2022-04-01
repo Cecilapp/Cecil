@@ -35,7 +35,7 @@ class Clear extends AbstractCommand
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
-            ->setHelp('Removes generated and temporary files');
+            ->setHelp('Removes generated, temporary and cache files');
     }
 
     /**

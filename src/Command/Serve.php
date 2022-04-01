@@ -45,7 +45,7 @@ class Serve extends AbstractCommand
                     new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
-                    new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open browser automatically'),
+                    new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
                     new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),

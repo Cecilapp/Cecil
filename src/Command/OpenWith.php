@@ -29,13 +29,13 @@ class OpenWith extends AbstractCommand
     {
         $this
             ->setName('open')
-            ->setDescription('Open content with the editor')
+            ->setDescription('Open content directory with the editor')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
-            ->setHelp('Open content with the editor defined in the configuration file.');
+            ->setHelp('Open content directory with the editor defined in the configuration file.');
     }
 
     /**
