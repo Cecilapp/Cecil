@@ -2,7 +2,7 @@
 {% if title is not defined or title is empty %}
   {%- set title_divider = page.metatags.title.divider|default(site.metatags.title.divider|default(' &middot; ')) %}
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
-  {%- set title_pagination_shownumber = page.metatags.title.pagination.shownumber|default(site.metatags.title.pagination.shownumber|default(true)) %}
+  {%- set title_pagination_shownumber = page.metatags.title.pagination.shownumber|default(site.metatags.title.pagination.shownumber ?? true) %}
   {%- set title_pagination_label = page.metatags.title.pagination.label|default(site.metatags.title.pagination.label|default('Page %s')) %}
   {%- set title = page.title|e ~ title_divider ~ site.title|e %}
   {%- if title_only %}
@@ -43,7 +43,7 @@
   {%- set robots = 'noindex,follow' %}
 {% endif %}
 {# favicon #}
-{% if site.metatags.favicon.enabled|default(true) %}
+{% if site.metatags.favicon.enabled ?? true %}
   {%- set favicon_defaults = {
     'icon': [32, 57, 76, 96, 128, 192, 228],
     'shortcut icon': [196],
@@ -107,7 +107,7 @@
 {%- endif ~%}
     <meta name="robots" content="{{ robots }}" />
 {#- template: favicon ~#}
-{%- if site.metatags.favicon.enabled|default(true) and asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) is not empty ~%}
+{%- if site.metatags.favicon.enabled ?? true and asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) is not empty ~%}
   {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
     {%- for size in favicon_sizes ~%}
       {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) ~%}
