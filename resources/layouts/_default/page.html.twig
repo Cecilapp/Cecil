@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ site.language }}">
   <head>
     {%- block head ~%}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {%~ include 'partials/metatags.html.twig' with {'page': page, 'site': site} only ~%}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {%~ include 'partials/metatags.html.twig' with {page, site} only ~%}
     <style>{% apply minify_css %}
       /* source: https://github.com/xz/new.css/blob/80e7107b491b1062193331ae93ff3670c6a2398d/new.css */
       :root {
