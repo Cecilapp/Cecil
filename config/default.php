@@ -164,6 +164,9 @@ return [
             'caption' => [
                 'enabled' => false, // adds <figcaption> to images with a title (`false` by default)
             ],
+            'remote' => [
+                'enabled' => true,  // enables remote image handling (`true` by default)
+            ],
             'resize' => [
                 'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
             ],
