@@ -559,6 +559,8 @@ body:
       enabled: true      # enables lazy loading (`true` by default)
     caption:
       enabled: true      # adds <figcaption> to images with a title (`false` by default)
+    remote:
+      enabled: true      # enables remote image handling (`true` by default)
     resize:
       enabled: false     # enables image resizing by using the `width` extra attribute (`false` by default)
     responsive:

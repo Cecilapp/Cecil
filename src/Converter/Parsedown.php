@@ -48,6 +48,14 @@ class Parsedown extends \ParsedownToC
         }
         // clean source path / URL
         $image['element']['attributes']['src'] = trim($this->removeQuery($image['element']['attributes']['src']));
+        // should be lazy loaded?
+        if ($this->builder->getConfig()->get('body.images.lazy.enabled')) {
+            $image['element']['attributes']['loading'] = 'lazy';
+        }
+        // disable image handling
+        if (!$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
+            return $image;
+        }
         // create asset
         $asset = new Asset($this->builder, $image['element']['attributes']['src'], ['force_slash' => false]);
         // is asset is valid? (if yes get width)
@@ -55,12 +63,6 @@ class Parsedown extends \ParsedownToC
             return $image;
         }
         $image['element']['attributes']['src'] = $asset;
-        /**
-         * Should be lazy loaded?
-         */
-        if ($this->builder->getConfig()->get('body.images.lazy.enabled')) {
-            $image['element']['attributes']['loading'] = 'lazy';
-        }
         /**
          * Should be resized?
          */
@@ -173,15 +175,18 @@ class Parsedown extends \ParsedownToC
         </figure>
         */
 
-        // creates a <picture> element with <source> and <img> elements
-        if (($this->builder->getConfig()->get('body.images.webp.enabled') ?? false) && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
+        // creates a <picture> element with a <source> (WebP) and an <img> element
+        if (($this->builder->getConfig()->get('body.images.remote.enabled') ?? true) && ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false) && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
             $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 85);
-            $srcset = Image::getSrcset(
-                $assetWebp,
-                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
-                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
-                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
-            );
+            $srcset = '';
+            if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
+                $srcset = Image::getSrcset(
+                    $assetWebp,
+                    $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
+                    $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
+                    $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
+                );
+            }
             if (empty($srcset)) {
                 $srcset = (string) $assetWebp;
             }
@@ -206,7 +211,7 @@ class Parsedown extends \ParsedownToC
             $block = $PictureBlock;
         }
 
-        // put <img> or <picture> in a <figure> element if there is a title
+        // put <img> (or <picture>) in a <figure> element if there is a title (<figcaption>)
         if (!empty($InlineImage['element']['attributes']['title'])) {
             $FigureBlock = [
                 'element' => [
