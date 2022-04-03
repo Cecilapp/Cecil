@@ -1,7 +1,7 @@
 {
   "output": "CHANGELOG.md",
   "template": "compact",
-  "unreleased": false,
+  "unreleased": true,
   "commitLimit": false,
   "hideCredit": true
 }
