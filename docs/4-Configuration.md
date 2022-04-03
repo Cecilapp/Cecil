@@ -586,7 +586,7 @@ To know how those options impacts your content see _[Content > Page > Body](2-Co
 
 :::info
 
-**Info:** Remote images are downloaded and converted into an _Asset_ to be manipulated. You can disable this behavior by setting the option `body.images.remote.enabled` to `false`. 
+**Info:** Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
 :::
 
 ### data
