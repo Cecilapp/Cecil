@@ -1,6 +1,7 @@
 {% if page.metatags.jsonld|default(site.metatags.jsonld|default(false)) %}
     <script type="application/ld+json">{% apply minify_js %}
       [
+        {#- WebSite ~#}
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
@@ -20,7 +21,26 @@
           ]
           {%- endif ~%}
         }
-        {%- if page.section is not empty -%}
+        {#- SiteNavigationElement ~#}
+        {%- if site.menus.main is defined -%}
+        ,{
+          "@context":"http://schema.org",
+          "@type":"ItemList",
+          "itemListElement":[
+            {%- for menu in site.menus.main|sort_by_weight ~%}
+            {
+              "@type": "SiteNavigationElement",
+              "position": {{ loop.index }},
+              "name": "{{ menu.name }}",
+              "description": "{{ menu.id }}",
+              "url":"{{ url(menu.url, {canonical: true}) }}"
+            }{%- if not loop.last %},{% endif -%}
+            {%~ endfor ~%}
+          ]
+        }
+        {%- endif ~%}
+        {#- BreadcrumbList ~#}
+        {%- if page.section -%}
         ,{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -36,6 +56,7 @@
             "item": "{{ url(page, {canonical: true}) }}"
           }]
         }
+          {#- NewsArticle ~#}
           {%- if page.section == site.metatags.articles|default('blog') -%}
         ,{
           "@context": "https://schema.org",
