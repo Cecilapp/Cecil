@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.90.0...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.91.0...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,15 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.91.0](https://github.com/Cecilapp/Cecil/compare/5.90.0...5.91.0)
+
+> 3 April 2022
+
+- docs: minor updates [`fdbfe96`](https://github.com/Cecilapp/Cecil/commit/fdbfe96ca43790ce3b80a17a657bd928245a30b7)
+- docs: update configuration doc [`293ca21`](https://github.com/Cecilapp/Cecil/commit/293ca213c486ced8cbbd15038583b4a51785ed3f)
+- feat: support of SiteNavigationElement (JSON-LD) [`d8b5202`](https://github.com/Cecilapp/Cecil/commit/d8b5202eb5e0505d6a8cc8dc87d1234da266577a)
+- docs: fix body configuration [`bbb7843`](https://github.com/Cecilapp/Cecil/commit/bbb7843ef435b040d5ce4e150ef406e1f3b64461)
 
 #### [5.90.0](https://github.com/Cecilapp/Cecil/compare/5.89.1...5.90.0)
 
