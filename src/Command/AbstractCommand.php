@@ -176,9 +176,13 @@ class AbstractCommand extends Command
      *
      * @throws RuntimeException
      */
-    protected function openEditor(string $path): void
+    protected function openEditor(string $path, string $editor = null): void
     {
-        if ($editor = (string) $this->getBuilder()->getConfig()->get('editor')) {
+        if ($editor === null) {
+            $editor = (string) $this->getBuilder()->getConfig()->get('editor');
+        }
+
+        if ($editor) {
             switch (Util\Plateform::getOS()) {
                 case Util\Plateform::OS_WIN:
                     $command = sprintf('start /B "" %s "%s"', $editor, $path);
