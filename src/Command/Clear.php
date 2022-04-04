@@ -29,7 +29,6 @@ class Clear extends AbstractCommand
         $this
             ->setName('clear')
             ->setDescription('Removes generated files')
-            ->setAliases(['clean'])
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
