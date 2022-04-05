@@ -170,26 +170,21 @@ class AbstractCommand extends Command
      */
     protected function openEditor(string $path, string $editor): void
     {
-        if ($editor === null) {
-            $editor = (string) $this->getBuilder()->getConfig()->get('editor');
+        switch (Util\Plateform::getOS()) {
+            case Util\Plateform::OS_WIN:
+                $command = sprintf('start /B "" %s "%s"', $editor, $path);
+                break;
+            default:
+                $command = sprintf('%s "%s"', $editor, $path);
         }
-        if ($editor) {
-            switch (Util\Plateform::getOS()) {
-                case Util\Plateform::OS_WIN:
-                    $command = sprintf('start /B "" %s "%s"', $editor, $path);
-                    break;
-                default:
-                    $command = sprintf('%s "%s"', $editor, $path);
-            }
-            // Typora on macOS
-            if ($editor == 'typora' && Util\Plateform::getOS() == Util\Plateform::OS_OSX) {
-                $command = sprintf('open -a typora "%s"', $path);
-            }
-            $process = Process::fromShellCommandline($command);
-            $process->run();
-            if (!$process->isSuccessful()) {
-                throw new RuntimeException(\sprintf('Can\'t use "%s" editor.', $editor));
-            }
+        // Typora on macOS
+        if ($editor == 'typora' && Util\Plateform::getOS() == Util\Plateform::OS_OSX) {
+            $command = sprintf('open -a typora "%s"', $path);
+        }
+        $process = Process::fromShellCommandline($command);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException(\sprintf('Can\'t use "%s" editor.', $editor));
         }
     }
 }
