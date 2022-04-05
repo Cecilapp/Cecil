@@ -112,7 +112,7 @@ class ShowContent extends AbstractCommand
     private function getFilesTree(string $directory): FilenameRecursiveTreeIterator
     {
         $dir = (string) $this->getBuilder()->getConfig()->get("$directory.dir");
-        $ext = $this->getBuilder()->getConfig()->get("$directory.ext");
+        $ext = (string) $this->getBuilder()->getConfig()->get("$directory.ext");
         $path = Util::joinFile($this->getPath(), $dir);
 
         if (!is_dir($path)) {
