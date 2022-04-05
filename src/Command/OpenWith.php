@@ -15,6 +15,7 @@ use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -33,6 +34,7 @@ class OpenWith extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use'),
                 ])
             )
             ->setHelp('Open content directory with the editor defined in the configuration file.');
@@ -46,13 +48,16 @@ class OpenWith extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            if (!$this->hasEditor()) {
-                $output->writeln('<comment>No editor configured.</comment>');
+            if (null === $editor = $input->getOption('editor')) {
+                if (!$this->getBuilder()->getConfig()->has('editor')) {
+                    $output->writeln('<comment>No editor configured.</comment>');
 
-                return 0;
+                    return 0;
+                }
+                $editor = $this->getBuilder()->getConfig()->get('editor');
             }
-            $output->writeln(\sprintf('<info>Opening content directory with %s...</info>', (string) $this->getBuilder()->getConfig()->get('editor')));
-            $this->openEditor((string) Util::joinFile($this->getPath(), $this->getBuilder()->getConfig()->get('content.dir')));
+            $output->writeln(\sprintf('<info>Opening content directory with %s...</info>', ucfirst($editor)));
+            $this->openEditor((string) Util::joinFile($this->getPath(), $this->getBuilder()->getConfig()->get('content.dir')), $editor);
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));
         }
