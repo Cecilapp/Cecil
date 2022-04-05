@@ -104,13 +104,13 @@ class NewPage extends AbstractCommand
 
             // open editor?
             if ($open) {
-                if (!$this->hasEditor()) {
+                if (!$this->getBuilder()->getConfig()->has('editor')) {
                     $output->writeln('<comment>No editor configured.</comment>');
 
                     return 0;
                 }
-                $output->writeln(\sprintf('<info>Opening file with %s...</info>', (string) $this->getBuilder()->getConfig()->get('editor')));
-                $this->openEditor($filePath);
+                $output->writeln(\sprintf('<info>Opening file with %s...</info>', ucfirst((string) $this->getBuilder()->getConfig()->get('editor'))));
+                $this->openEditor($filePath, (string) $this->getBuilder()->getConfig()->get('editor'));
             }
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));

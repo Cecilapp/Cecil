@@ -49,7 +49,7 @@ class OpenWith extends AbstractCommand
     {
         try {
             if (null === $editor = $input->getOption('editor')) {
-                if (!$this->hasEditor()) {
+                if (!$this->getBuilder()->getConfig()->has('editor')) {
                     $output->writeln('<comment>No editor configured.</comment>');
 
                     return 0;

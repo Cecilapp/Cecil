@@ -164,24 +164,15 @@ class AbstractCommand extends Command
     }
 
     /**
-     * Editor is configured?
-     */
-    protected function hasEditor(): bool
-    {
-        return $this->getBuilder()->getConfig()->has('editor');
-    }
-
-    /**
-     * Opens with editor (if configured).
+     * Opens path with editor.
      *
      * @throws RuntimeException
      */
-    protected function openEditor(string $path, string $editor = null): void
+    protected function openEditor(string $path, string $editor): void
     {
         if ($editor === null) {
             $editor = (string) $this->getBuilder()->getConfig()->get('editor');
         }
-
         if ($editor) {
             switch (Util\Plateform::getOS()) {
                 case Util\Plateform::OS_WIN:
