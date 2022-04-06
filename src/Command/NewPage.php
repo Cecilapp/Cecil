@@ -36,9 +36,10 @@ class NewPage extends AbstractCommand
                 new InputDefinition([
                     new InputArgument('name', InputArgument::REQUIRED, 'New page name'),
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
-                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
+                    new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use with open option'),
                 ])
             )
             ->setHelp('Creates a new page file (with filename as title)');
@@ -104,13 +105,16 @@ class NewPage extends AbstractCommand
 
             // open editor?
             if ($open) {
-                if (!$this->getBuilder()->getConfig()->has('editor')) {
-                    $output->writeln('<comment>No editor configured.</comment>');
+                if (null === $editor = $input->getOption('editor')) {
+                    if (!$this->getBuilder()->getConfig()->has('editor')) {
+                        $output->writeln('<comment>No editor configured.</comment>');
 
-                    return 0;
+                        return 0;
+                    }
+                    $editor = (string) $this->getBuilder()->getConfig()->get('editor');
                 }
-                $output->writeln(\sprintf('<info>Opening file with %s...</info>', ucfirst((string) $this->getBuilder()->getConfig()->get('editor'))));
-                $this->openEditor($filePath, (string) $this->getBuilder()->getConfig()->get('editor'));
+                $output->writeln(\sprintf('<info>Opening file with %s...</info>', ucfirst($editor)));
+                $this->openEditor($filePath, $editor);
             }
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));
