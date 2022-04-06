@@ -64,7 +64,7 @@ class NewSite extends AbstractCommand
             // define root path
             $root = realpath(Util::joinFile(__DIR__, '/../../'));
             if (Util\Plateform::isPhar()) {
-                $root = Util\Plateform::getPharPath() . '/';
+                $root = Util\Plateform::getPharPath().'/';
             }
             // ask for basic configuration
             $output->writeln('Creating a new website...');
@@ -75,9 +75,9 @@ class NewSite extends AbstractCommand
             // rewrite config file?
             $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE));
             $config = array_replace_recursive($config, [
-                'title' => $title,
-                'baseline' => $baseline,
-                'baseurl' => $baseurl,
+                'title'       => $title,
+                'baseline'    => $baseline,
+                'baseurl'     => $baseurl,
                 'description' => $description,
             ]);
             $configYaml = Yaml::dump($config);
