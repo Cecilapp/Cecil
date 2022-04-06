@@ -174,12 +174,14 @@ class AbstractCommand extends Command
             case Util\Plateform::OS_WIN:
                 $command = sprintf('start /B "" %s "%s"', $editor, $path);
                 break;
+            case Util\Plateform::OS_OSX:
+                // Typora on macOS
+                if ($editor == 'typora') {
+                    $command = sprintf('open -a typora "%s"', $path);
+                }
+                break;
             default:
                 $command = sprintf('%s "%s"', $editor, $path);
-        }
-        // Typora on macOS
-        if ($editor == 'typora' && Util\Plateform::getOS() == Util\Plateform::OS_OSX) {
-            $command = sprintf('open -a typora "%s"', $path);
         }
         $process = Process::fromShellCommandline($command);
         $process->run();
