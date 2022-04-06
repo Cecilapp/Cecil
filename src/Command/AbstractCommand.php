@@ -170,6 +170,7 @@ class AbstractCommand extends Command
      */
     protected function openEditor(string $path, string $editor): void
     {
+        $command = sprintf('%s "%s"', $editor, $path);
         switch (Util\Plateform::getOS()) {
             case Util\Plateform::OS_WIN:
                 $command = sprintf('start /B "" %s "%s"', $editor, $path);
@@ -180,8 +181,6 @@ class AbstractCommand extends Command
                     $command = sprintf('open -a typora "%s"', $path);
                 }
                 break;
-            default:
-                $command = sprintf('%s "%s"', $editor, $path);
         }
         $process = Process::fromShellCommandline($command);
         $process->run();
