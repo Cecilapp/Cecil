@@ -719,7 +719,7 @@ class Asset implements \ArrayAccess
     /**
      * Returns SVG attributes.
      *
-     * @return SimpleXMLElement|false
+     * @return \SimpleXMLElement|false
      */
     private function getSvgAttributes()
     {
