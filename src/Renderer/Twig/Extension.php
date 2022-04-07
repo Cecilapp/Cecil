@@ -538,7 +538,7 @@ class Extension extends SlugifyExtension
 
             // WebP transformation?
             if ($webp && !Image::isAnimatedGif($asset)) {
-                $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 85);
+                $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 75);
                 // <source>
                 $source = \sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
                 // responsive

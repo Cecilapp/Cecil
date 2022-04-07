@@ -364,7 +364,7 @@ class Asset implements \ArrayAccess
             $message = $this->data['path'];
             $sizeBefore = filesize($this->data['file']);
             Util\File::getFS()->copy($this->data['file'], Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
-            Image::optimizer($this->config->get('assets.images.quality') ?? 85)->optimize(
+            Image::optimizer($this->config->get('assets.images.quality') ?? 75)->optimize(
                 $this->data['file'],
                 Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename'])
             );
