@@ -503,7 +503,7 @@ class Asset implements \ArrayAccess
      */
     public function getWidth()
     {
-        if ($this->data['subtype'] == 'image/svg' || $this->data['extension'] == 'svg') {
+        if ($this->isSVG()) {
             return $this->getSvgAttributes()->width;
         }
         if (false === $size = $this->getImageSize()) {
@@ -520,7 +520,7 @@ class Asset implements \ArrayAccess
      */
     public function getHeight()
     {
-        if ($this->data['subtype'] == 'image/svg' || $this->data['extension'] == 'svg') {
+        if ($this->isSVG()) {
             return $this->getSvgAttributes()->height;
         }
         if (false === $size = $this->getImageSize()) {
@@ -705,13 +705,23 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Returns true if asset is a SVG.
+     */
+    private function isSVG(): bool
+    {
+        return $this->data['subtype'] == 'image/svg' || $this->data['extension'] == 'svg';
+    }
+
+    /**
      * Returns SVG attributes.
      *
-     * @return object
+     * @return object|false
      */
     private function getSvgAttributes()
     {
-        $xml = simplexml_load_string($this->data['content_source']);
+        if (false === $xml = simplexml_load_string($this->data['content_source'])) {
+            return false;
+        }
 
         return $xml->attributes();
     }
