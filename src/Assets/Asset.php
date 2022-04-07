@@ -497,9 +497,9 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns the width of an image.
+     * Returns the width of an image/SVG.
      *
-     * @return false|int
+     * @return int|false
      */
     public function getWidth()
     {
@@ -514,9 +514,9 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns the height of an image.
+     * Returns the height of an image/SVG.
      *
-     * @return false|int
+     * @return int|false
      */
     public function getHeight()
     {
@@ -685,7 +685,7 @@ class Asset implements \ArrayAccess
      *
      * @see https://www.php.net/manual/function.getimagesize.php
      *
-     * @return false|array
+     * @return array|false
      */
     private function getImageSize()
     {
