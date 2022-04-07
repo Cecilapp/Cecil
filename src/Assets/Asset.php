@@ -499,12 +499,14 @@ class Asset implements \ArrayAccess
     /**
      * Returns the width of an image/SVG.
      *
-     * @return int|false
+     * @throws RuntimeException
+     *
+     * @return int
      */
     public function getWidth()
     {
-        if ($this->isSVG()) {
-            return $this->getSvgAttributes()->width;
+        if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
+            return (int) $svg->width;
         }
         if (false === $size = $this->getImageSize()) {
             throw new RuntimeException(\sprintf('Not able to get width of "%s"', $this->data['path']));
@@ -516,12 +518,14 @@ class Asset implements \ArrayAccess
     /**
      * Returns the height of an image/SVG.
      *
-     * @return int|false
+     * @throws RuntimeException
+     *
+     * @return int
      */
     public function getHeight()
     {
-        if ($this->isSVG()) {
-            return $this->getSvgAttributes()->height;
+        if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
+            return (int) $svg->height;
         }
         if (false === $size = $this->getImageSize()) {
             throw new RuntimeException(\sprintf('Not able to get height of "%s"', $this->data['path']));
