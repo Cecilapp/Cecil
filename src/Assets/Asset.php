@@ -500,10 +500,8 @@ class Asset implements \ArrayAccess
      * Returns the width of an image/SVG.
      *
      * @throws RuntimeException
-     *
-     * @return int
      */
-    public function getWidth()
+    public function getWidth(): int
     {
         if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
             return (int) $svg->width;
@@ -519,10 +517,8 @@ class Asset implements \ArrayAccess
      * Returns the height of an image/SVG.
      *
      * @throws RuntimeException
-     *
-     * @return int
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
             return (int) $svg->height;
