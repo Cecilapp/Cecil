@@ -507,7 +507,7 @@ class Asset implements \ArrayAccess
             return $this->getSvgAttributes()->width;
         }
         if (false === $size = $this->getImageSize()) {
-            return false;
+            throw new RuntimeException(\sprintf('Not able to get width of "%s"', $this->data['path']));
         }
 
         return $size[0];
@@ -524,7 +524,7 @@ class Asset implements \ArrayAccess
             return $this->getSvgAttributes()->height;
         }
         if (false === $size = $this->getImageSize()) {
-            return false;
+            throw new RuntimeException(\sprintf('Not able to get height of "%s"', $this->data['path']));
         }
 
         return $size[1];
