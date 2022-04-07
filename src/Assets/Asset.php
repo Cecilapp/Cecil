@@ -537,6 +537,10 @@ class Asset implements \ArrayAccess
      */
     public function getAudio(): Mp3Info
     {
+        if ($this->data['type'] !== 'audio') {
+            throw new RuntimeException(\sprintf('Not able to get audio infos of "%s"', $this->data['path']));
+        }
+
         return new Mp3Info($this->data['file']);
     }
 
