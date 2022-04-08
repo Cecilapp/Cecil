@@ -58,10 +58,8 @@ class Parsedown extends \ParsedownToC
         }
         // create asset
         $asset = new Asset($this->builder, $image['element']['attributes']['src'], ['force_slash' => false]);
-        // is asset is valid? (if yes get width)
-        if (false === $width = $asset->getWidth()) {
-            return $image;
-        }
+        // get width
+        $width = $asset->getWidth();
         $image['element']['attributes']['src'] = $asset;
         /**
          * Should be resized?
@@ -177,7 +175,7 @@ class Parsedown extends \ParsedownToC
 
         // creates a <picture> element with a <source> (WebP) and an <img> element
         if (($this->builder->getConfig()->get('body.images.remote.enabled') ?? true) && ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false) && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-            $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 85);
+            $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 75);
             $srcset = '';
             if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
                 $srcset = Image::getSrcset(
