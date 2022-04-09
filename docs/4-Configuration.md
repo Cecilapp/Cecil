@@ -361,7 +361,7 @@ pagination:
 googleanalytics: UA-XXXXX
 ```
 
-Used by the built-in component template [`googleanalytics.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig).
+Used by the built-in partial template [`googleanalytics.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig).
 
 ### virtualpages
 

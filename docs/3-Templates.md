@@ -910,13 +910,13 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 [`sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/sitemap.xml.twig)
 :   The `sitemap.xml` template: list all pages sorted by date.
 
-### Component templates
+### Partial templates
 
 [`partials/pagination.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/pagination.html.twig)
-:   A simple pagination component for list templates with "Older" and "Newer" links.
+:   A simple pagination for list templates with "Older" and "Newer" links.
 
 [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   All metatags in one component: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
+:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
 
 [`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
 :   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).
