@@ -103,6 +103,9 @@ class Asset implements \ArrayAccess
             $file = [];
             for ($i = 0; $i < $pathsCount; $i++) {
                 // loads file(s)
+                if (!$paths[$i]) {
+                    throw new RuntimeException('The path parameter of asset() can\'t be empty.');
+                }
                 $file[$i] = $this->loadFile($paths[$i], $ignore_missing, $force_slash);
                 // bundle: same type/ext only
                 if ($i > 0) {
