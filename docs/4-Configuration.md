@@ -670,7 +670,7 @@ assets:
   images:
     optimize:
       enabled: false     # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
-    quality: 85          # JPEG and PNG image quality after optimization or resize (`85` by default)
+    quality: 75          # image quality after optimization or resize (`75` by default)
     responsive:
       enabled: false     # creates responsive images with `html` filter (`false` by default)
       width:             # `srcset` range
