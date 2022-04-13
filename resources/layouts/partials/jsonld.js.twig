@@ -1,5 +1,5 @@
 {% if page.metatags.jsonld|default(site.metatags.jsonld|default(false)) %}
-    <script type="application/ld+json">{% apply minify_js %}
+    <script type="application/ld+json">{%- apply minify_js ~%}
       [
         {#- WebSite ~#}
         {
@@ -27,13 +27,13 @@
           "@context":"http://schema.org",
           "@type":"ItemList",
           "itemListElement":[
-            {%- for menu in site.menus.main|sort_by_weight ~%}
+            {%- for item in site.menus.main|filter(i => i.id != site.home)|sort_by_weight ~%}
             {
               "@type": "SiteNavigationElement",
               "position": {{ loop.index }},
-              "name": "{{ menu.name }}",
-              "description": "{{ menu.id }}",
-              "url":"{{ url(menu.url, {canonical: true}) }}"
+              "name": "{{ site.pages[item.id].title|default(item.name) }}",
+              "description": "{{ site.pages[item.id].description|default('') }}",
+              "url":"{{ url(item.url, {canonical: true}) }}"
             }{%- if not loop.last %},{% endif -%}
             {%~ endfor ~%}
           ]
