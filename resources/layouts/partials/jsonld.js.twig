@@ -31,7 +31,7 @@
             {
               "@type": "SiteNavigationElement",
               "position": {{ loop.index }},
-              "name": "{{ item.name }}",
+              "name": "{{ site.pages[item.id].title|default(item.name) }}",
               "description": "{{ site.pages[item.id].description|default('') }}",
               "url":"{{ url(item.url, {canonical: true}) }}"
             }{%- if not loop.last %},{% endif -%}
