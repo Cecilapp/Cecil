@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.92.0...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.92.1...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,26 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.92.1](https://github.com/Cecilapp/Cecil/compare/5.92.0...5.92.1)
+
+> 13 April 2022
+
+- fix: Structured data navigation item description [`#1354`](https://github.com/Cecilapp/Cecil/pull/1354)
+- fix: asset path should not be empty [`#1353`](https://github.com/Cecilapp/Cecil/pull/1353)
+- fix: WebP optimization quality [`#1352`](https://github.com/Cecilapp/Cecil/pull/1352)
+- fix: load SVG asset returns false if error [`1a38420`](https://github.com/Cecilapp/Cecil/commit/1a3842004049d2b81954aeb8b42f31f7ad471dbb)
+- chore: clean code [`a2af5a2`](https://github.com/Cecilapp/Cecil/commit/a2af5a22f9dfa3561989e51d4e0869a83a133d02)
+- chore: update deps [`24b3482`](https://github.com/Cecilapp/Cecil/commit/24b348282c0662b0ce142a55f6e2d866f1b5e063)
+- chore: clean code [`1cadfdb`](https://github.com/Cecilapp/Cecil/commit/1cadfdb61731fd1a2b3511860f3738f5cc5f0882)
+- docs: should not use "component" term [`7161b53`](https://github.com/Cecilapp/Cecil/commit/7161b538a6e01c7967d662e7e44ffff7a84fc998)
+- chore: clean code [`42d2ac1`](https://github.com/Cecilapp/Cecil/commit/42d2ac175cfcb7eca0c82eb0eeede7a2a3c59b18)
+- fix: throw exception if cant get asset with/height [`ea0a398`](https://github.com/Cecilapp/Cecil/commit/ea0a3989a11643140b8ed8ba85a6f30f00d3066d)
+- fix: check if asset is of type audio [`f311ab8`](https://github.com/Cecilapp/Cecil/commit/f311ab85fd93f47d1722e26c68381c20b842a0e7)
+- docs: fix default image quality (75) [`a096b58`](https://github.com/Cecilapp/Cecil/commit/a096b5846631d050971a24d43ae04a43249046f9)
+- chore: clean code [`851057a`](https://github.com/Cecilapp/Cecil/commit/851057ac3b0558d52974365958d56bc84c333c7f)
+- chore: clean code [`5970a06`](https://github.com/Cecilapp/Cecil/commit/5970a062e2f4eb5f92b4393b1ca585d1875fa83b)
+- chore: clean code [`8b12b4f`](https://github.com/Cecilapp/Cecil/commit/8b12b4fd8ed84e3b48dd96eeea259624f5ad19a4)
 
 #### [5.92.0](https://github.com/Cecilapp/Cecil/compare/5.91.0...5.92.0)
 
