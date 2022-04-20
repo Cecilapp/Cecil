@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-01-30
+updated: 2022-04-20
 alias: documentation/layouts
 -->
 
@@ -745,25 +745,31 @@ Turns an asset into an HTML element.
 {{ asset(path)|html({attributes, options}) }}
 ```
 
+:::info
+**Note:** Available for images, CSS and JavaScript. The `attributes` and `options` parameters are optional.
+:::
+
 | Option     | Description                                     | Type  | Default |
 | ---------- | ----------------------------------------------- | ----- | ------- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |         |
-| options    | `{preload: true}`: preloads CSS<br>`{responsive: true}`: creates responsives images | array |         |
-
-Available for CSS, JavaScript and image files.
+| options    | `{responsive: true}`: creates responsives images.<br>`{webp: true}`: creates WebP versions of the image.<br>`{preload: true}`: preloads CSS. | array |         |
 
 _Examples:_
 
 ```twig
-{{ asset('image.png')|html({alt: 'Description'}) }}
+{{ asset('image.png')|html }}
 ```
 
 ```twig
-{{ asset('styles.css')|html({}, {preload: true}) }}
+{{ asset('image.jpg')|html({alt: 'Description', loading: 'lazy'}, {responsive: true, webp: true}) }}
 ```
 
 ```twig
-{{ asset('image.png')|html({alt: 'Description', loading: 'lazy'}, {responsive: true}) }}
+{{ asset('styles.css')|html({media: print}) }}
+```
+
+```twig
+{{ asset('styles.css')|html({title: 'Main theme'}, {preload: true}) }}
 ```
 
 ### preg_split
