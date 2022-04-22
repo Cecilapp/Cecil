@@ -499,6 +499,8 @@ class Extension extends SlugifyExtension
             $htmlAttributes .= $attribute;
         }
 
+        $asset->save();
+
         /* CSS or JavaScript */
         switch ($asset['ext']) {
             case 'css':
@@ -529,7 +531,6 @@ class Extension extends SlugifyExtension
             }
 
             // <img>
-            $asset->save();
             $img = \sprintf(
                 '<img src="%s" width="'.($asset->getWidth() ?: 0).'" height="'.($asset->getHeight() ?: 0).'"%s>',
                 $this->url($asset['path'], $options),
