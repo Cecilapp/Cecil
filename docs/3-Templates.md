@@ -800,6 +800,14 @@ _Example:_
 {% set tags = page.content|preg_match_all('/<[^>]+>(.*)<\\/[^>]+>/') %}
 ```
 
+### hex_to_rgb
+
+Converts a hexadecimal color to RGB.
+
+```twig
+{{ color|hex_to_rgb }}
+```
+
 ## Localization
 
 Cecil support **text translation** and **date localization** through [_Twig Extensions_](https://github.com/Cecilapp/Twig-extensions).
