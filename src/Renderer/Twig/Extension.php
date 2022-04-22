@@ -504,8 +504,7 @@ class Extension extends SlugifyExtension
             case 'css':
                 if ($preload) {
                     return \sprintf(
-                        '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s>
-                         <noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
+                        '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
                         $this->url($asset['path'], $options),
                         $htmlAttributes
                     );
