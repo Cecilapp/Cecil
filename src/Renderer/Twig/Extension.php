@@ -736,14 +736,15 @@ class Extension extends SlugifyExtension
         }
         $hex = ltrim($variable, '#');
         if (strlen($hex) == 3) {
-            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
         }
         $c = hexdec($hex);
-        return array(
-            'red' => $c >> 16 & 0xff,
-            'green' => $c >> 8 & 0xff,
-            'blue' => $c & 0xff,
-        );
+
+        return [
+            'red'   => $c >> 16 & 0xFF,
+            'green' => $c >> 8 & 0xFF,
+            'blue'  => $c & 0xFF,
+        ];
     }
 
     /**
