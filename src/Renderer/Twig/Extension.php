@@ -92,6 +92,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
             new \Twig\TwigFilter('preg_split', [$this, 'pregSplit']),
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
+            new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             // deprecated
             new \Twig\TwigFilter(
                 'filterBySection',
@@ -723,5 +724,40 @@ class Extension extends SlugifyExtension
     public function isAsset($variable): bool
     {
         return $variable instanceof Asset;
+    }
+
+    /**
+     * Converts an hexadecimal color to RGB.
+     */
+    public function hexToRgb($variable): array
+    {
+        if (!self::isHex($variable)) {
+            throw new RuntimeException(\sprintf('"%s" is not a valid hexadecimal value.', $variable));
+        }
+        $hex = ltrim($variable, '#');
+        if (strlen($hex) == 3) {
+            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+        }
+        $c = hexdec($hex);
+
+        return [
+            'red'   => $c >> 16 & 0xFF,
+            'green' => $c >> 8 & 0xFF,
+            'blue'  => $c & 0xFF,
+        ];
+    }
+
+    /**
+     * Is a hexadecimal color is valid?
+     */
+    private static function isHex(string $hex): bool
+    {
+        $valid = is_string($hex);
+        $hex = ltrim($hex, '#');
+        $length = strlen($hex);
+        $valid = $valid && ($length === 3 || $length === 6);
+        $valid = $valid && ctype_xdigit($hex);
+
+        return $valid;
     }
 }
