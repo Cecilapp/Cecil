@@ -11,7 +11,7 @@
 // Website default configuration
 return [
     'title'        => 'Site title',
-    'baseline'     => 'Site baseline',
+    //'baseline'     => 'Site baseline',
     'baseurl'      => 'http://localhost:8000/',
     'canonicalurl' => false,   // if true 'url()' function preprends URL wirh 'baseurl'
     'description'  => 'Site description',
