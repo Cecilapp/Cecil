@@ -52,11 +52,14 @@ class Twig implements RendererInterface
         }
         // create the Twig instance
         $this->twig = new \Twig\Environment($loader, $loaderOptions);
-        // set date format & timezone
+        // set date format
         $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
             ->setDateFormat($builder->getConfig()->get('date.format'));
-        $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
-            ->setTimezone($builder->getConfig()->get('date.timezone'));
+        // set timezone
+        if ($builder->getConfig()->has('date.timezone')) {
+            $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
+                ->setTimezone($builder->getConfig()->get('date.timezone'));
+        }
         // adds extensions
         $this->twig->addExtension(new TwigExtension($builder));
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());

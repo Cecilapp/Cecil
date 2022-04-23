@@ -25,7 +25,7 @@ return [
     ],
     'date' => [
         'format'   => 'j F Y', // See https://php.net/manual/function.date.php
-        'timezone' => 'Europe/Paris',
+        //'timezone' => 'Europe/Paris',
     ],
     'output' => [
         'dir'      => '_site',
