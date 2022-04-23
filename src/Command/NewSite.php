@@ -69,9 +69,9 @@ class NewSite extends AbstractCommand
             // ask for basic configuration
             $output->writeln('Creating a new website...');
             $title = $helper->ask($input, $output, new Question('- title: ', 'Cecil'));
-            $baseline = $helper->ask($input, $output, new Question('- baseline (~ 20 characters): ', 'Short description (~ 20 characters)'));
-            $baseurl = $helper->ask($input, $output, new Question('- baseurl (e.g.: https://cecil.local/): ', 'https://cecil.local/'));
-            $description = $helper->ask($input, $output, new Question('- description (~ 250 characters): ', 'Full description (~ 250 characters)'));
+            $baseline = $helper->ask($input, $output, new Question('- baseline (~ 20 characters): ', ''));
+            $baseurl = $helper->ask($input, $output, new Question('- baseurl (e.g.: https://cecil.app/): ', 'http://localhost:8000/'));
+            $description = $helper->ask($input, $output, new Question('- description (~ 250 characters): ', 'Site description'));
             // rewrite config file?
             $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE));
             $config = array_replace_recursive($config, [

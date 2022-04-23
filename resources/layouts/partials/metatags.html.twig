@@ -9,8 +9,8 @@
     {%- set title = page.title|e %}
   {%- endif %}
   {%- if page.type == 'homepage' %}
-    {%- set title = site.title|e ~ title_divider ~ site.baseline|default(site.description)|e %}
-    {%- if title_only %}
+    {%- set title = site.title|e ~ title_divider ~ site.baseline|default('')|e %}
+    {%- if title_only or site.baseline|default('') is empty %}
       {%- set title = site.title|e %}
     {%- endif %}
   {%- endif %}
