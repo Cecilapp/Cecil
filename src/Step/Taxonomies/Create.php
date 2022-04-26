@@ -38,8 +38,7 @@ class Create extends AbstractStep
      */
     public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
-        if (is_dir($this->builder->getConfig()->getContentPath())) {
+        if (is_dir($this->builder->getConfig()->getContentPath()) && $this->hasTaxonomies()) {
             $this->canProcess = true;
         }
     }
@@ -133,5 +132,20 @@ class Create extends AbstractStep
                 }
             }
         }
+    }
+
+    /**
+     * Checks if there is enabled taxonomies in config.
+     */
+    private function hasTaxonomies(): bool
+    {
+        $taxonomiesCount = 0;
+        foreach (array_keys((array) $this->config->get('taxonomies')) as $vocabulary) {
+            if ($this->config->get("taxonomies.$vocabulary") != 'disabled') {
+                $taxonomiesCount++;
+            }
+        }
+
+        return $taxonomiesCount > 0;
     }
 }
