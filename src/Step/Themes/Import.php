@@ -31,7 +31,7 @@ class Import extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         if ($this->config->hasTheme()) {
             $this->canProcess = true;
@@ -43,7 +43,7 @@ class Import extends AbstractStep
      *
      * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         $themes = array_reverse((array) $this->config->getTheme());
         $count = 0;

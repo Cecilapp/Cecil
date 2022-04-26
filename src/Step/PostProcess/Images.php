@@ -28,7 +28,7 @@ class Images extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         $this->type = 'images';
         parent::init($options);

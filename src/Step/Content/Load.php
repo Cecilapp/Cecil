@@ -33,7 +33,7 @@ class Load extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
@@ -45,7 +45,7 @@ class Load extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $namePattern = '/\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/';
         $content = Finder::create()
@@ -70,7 +70,7 @@ class Load extends AbstractStep
         if ($count === 0) {
             $this->builder->getLogger()->info('Nothing to load');
 
-            return 0;
+            return;
         }
         $this->builder->getLogger()->info('Files loaded', ['progress' => [$count, $count]]);
     }

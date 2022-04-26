@@ -36,7 +36,7 @@ class Render extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
             $message = sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
@@ -51,7 +51,7 @@ class Render extends AbstractStep
      *
      * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         // prepares renderer
         $this->builder->setRenderer(new Twig($this->builder, $this->getAllLayoutsPaths()));

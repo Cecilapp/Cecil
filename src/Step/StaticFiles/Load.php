@@ -30,7 +30,7 @@ class Load extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         /** @var \Cecil\Builder $builder */
         /** @var \Cecil\Config $config */
@@ -42,7 +42,7 @@ class Load extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $files = Finder::create()
             ->files()

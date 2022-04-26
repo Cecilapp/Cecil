@@ -40,7 +40,7 @@ class Create extends AbstractStep
      *
      * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         // creates a 'menus' collection for each language, with a default 'main' menu
         foreach ($this->config->getLanguages() as $language) {

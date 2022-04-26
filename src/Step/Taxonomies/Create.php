@@ -36,7 +36,7 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
@@ -47,7 +47,7 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         if ($this->config->get('taxonomies')) {
             $this->createVocabulariesCollection();

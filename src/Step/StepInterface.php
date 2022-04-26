@@ -16,38 +16,26 @@ interface StepInterface
 {
     /**
      * StepInterface constructor.
-     *
-     * @param Builder $builder
      */
     public function __construct(Builder $builder);
 
     /**
-     * Returns step name.
-     *
-     * @return string
+     * Returns the step name.
      */
     public function getName(): string;
 
     /**
      * Checks if the step can be processed.
-     *
-     * @param array $options
-     *
-     * @return void
      */
-    public function init($options);
+    public function init(array $options): void;
 
     /**
      * Can step be processed?
-     *
-     * @return bool
      */
     public function canProcess(): bool;
 
     /**
      * Process implementation.
-     *
-     * @return void
      */
-    public function process();
+    public function process(): void;
 }

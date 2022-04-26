@@ -36,7 +36,7 @@ class DataLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init($options): void
     {
         /** @var \Cecil\Builder $builder */
         /** @var \Cecil\Config $config */
@@ -48,7 +48,7 @@ class DataLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $files = Finder::create()
             ->files()

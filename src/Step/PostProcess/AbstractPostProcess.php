@@ -30,7 +30,7 @@ abstract class AbstractPostProcess extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         if ($options['dry-run']) {
             $this->canProcess = false;
@@ -52,7 +52,7 @@ abstract class AbstractPostProcess extends AbstractStep
      *
      * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         $this->setProcessor();
 

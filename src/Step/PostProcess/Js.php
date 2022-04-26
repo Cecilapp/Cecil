@@ -28,7 +28,7 @@ class Js extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         $this->type = 'js';
         parent::init($options);

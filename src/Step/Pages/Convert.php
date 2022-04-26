@@ -35,7 +35,7 @@ class Convert extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         parent::init($options);
 
@@ -48,7 +48,7 @@ class Convert extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         if (count($this->builder->getPages()) <= 0) {
             return;

@@ -30,7 +30,7 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         /** @var \Cecil\Builder $builder */
         $this->builder->setPages(new PagesCollection('all-pages'));
@@ -43,7 +43,7 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         if (count($this->builder->getContent()) <= 0) {
             return;

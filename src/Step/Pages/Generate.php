@@ -30,7 +30,7 @@ class Generate extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         /** @var \Cecil\Builder $builder */
         if (count((array) $this->builder->getConfig()->get('generators')) > 0) {
@@ -41,7 +41,7 @@ class Generate extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $generatorManager = new GeneratorManager($this->builder);
 

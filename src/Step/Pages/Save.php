@@ -32,7 +32,7 @@ class Save extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         // clear cache?
         $this->clearCache();
@@ -53,7 +53,7 @@ class Save extends AbstractStep
      *
      * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         /** @var Page $page */
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
