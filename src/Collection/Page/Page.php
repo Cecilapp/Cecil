@@ -431,19 +431,45 @@ class Page extends Item
     public function setVariable(string $name, $value): self
     {
         switch ($name) {
+            /**
+             * date: 2012-10-08.
+             */
             case 'date':
                 try {
                     $date = Util\Date::dateToDatetime($value);
                 } catch (\Exception $e) {
-                    throw new RuntimeException(\sprintf('Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"', $this->getId(), (string) $value));
+                    throw new RuntimeException(\sprintf('Expected date format for "date" in "%s" must be "YYYY-MM-DD" instead of "%s"', $this->getId(), (string) $value));
                 }
                 $this->offsetSet('date', $date);
                 break;
+            /**
+             * schedule:
+             *   publish: 2012-10-08
+             *   expiry: 2012-10-09.
+             */
+            case 'schedule':
+                $this->offsetSet('published', false);
+                if (is_array($value)) {
+                    if (array_key_exists('publish', $value) && Util\Date::dateToDatetime($value['publish']) <= Util\Date::dateToDatetime('now')) {
+                        $this->offsetSet('published', true);
+                    }
+                    if (array_key_exists('expiry', $value) && Util\Date::dateToDatetime($value['expiry']) >= Util\Date::dateToDatetime('now')) {
+                        $this->offsetSet('published', true);
+                    }
+                }
+                break;
+            /**
+             * draft: true.
+             */
             case 'draft':
                 if ($value === true) {
                     $this->offsetSet('published', 0);
                 }
                 break;
+            /**
+             * path: about/about
+             * slug: about.
+             */
             case 'path':
             case 'slug':
                 $slugify = self::slugify((string) $value);
