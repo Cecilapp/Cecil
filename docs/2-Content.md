@@ -356,6 +356,26 @@ tags: ["Tag 1", "Tag 2"]
 ---
 ```
 
+### Schedule
+
+Schedules pages’ publication.
+
+_Example:_
+
+The page will be published if current date is >= 2023-02-07:
+
+```yaml
+schedule:
+  publish: 2023-02-07
+```
+
+This page is published if current date is <= 2022-04-28:
+
+```yaml
+schedule:
+  expiry: 2022-04-28
+```
+
 ### redirect
 
 As indicated by its name, the `redirect` variable is used to redirect a page to a dedicated URL.
