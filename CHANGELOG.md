@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.93.2...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.93.3...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,15 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.93.3](https://github.com/Cecilapp/Cecil/compare/5.93.2...5.93.3)
+
+> 26 April 2022
+
+- chore: clean code [`d18aa7f`](https://github.com/Cecilapp/Cecil/commit/d18aa7f2fa422ea26900e0297a98d1833a3131ac)
+- chore: update deps [`2311d94`](https://github.com/Cecilapp/Cecil/commit/2311d9483f1e8aa5ab35b0da55b4608eef6060b8)
+- fix: run taxonomies step only if necessary [`41bd97e`](https://github.com/Cecilapp/Cecil/commit/41bd97ef2bb3ab62b4ed1f720e8797f077c39263)
+- chore: clean code [`63ecba7`](https://github.com/Cecilapp/Cecil/commit/63ecba7996adc5b81727edea7b777aa10e844557)
 
 #### [5.93.2](https://github.com/Cecilapp/Cecil/compare/5.93.1...5.93.2)
 
