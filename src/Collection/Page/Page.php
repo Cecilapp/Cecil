@@ -545,7 +545,7 @@ class Page extends Item
     }
 
     /**
-     * Filter 'true', 'false' 'on', 'off', 'yes', 'no' to boolean.
+     * Filter 'true', 'false', 'on', 'off', 'yes', 'no' to boolean.
      */
     private function filterBool(&$value)
     {
