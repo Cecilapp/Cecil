@@ -435,7 +435,7 @@ class Page extends Item
         }
         switch ($name) {
             /**
-             * date: 2012-10-08
+             * date: 2012-10-08.
              */
             case 'date':
                 try {
@@ -448,7 +448,7 @@ class Page extends Item
             /**
              * schedule:
              *   publish: 2012-10-08
-             *   expiry: 2012-10-09
+             *   expiry: 2012-10-09.
              */
             case 'schedule':
                 $this->offsetSet('published', false);
@@ -462,7 +462,7 @@ class Page extends Item
                 }
                 break;
             /**
-             * draft: true
+             * draft: true.
              */
             case 'draft':
                 if ($value === true) {
@@ -471,7 +471,7 @@ class Page extends Item
                 break;
             /**
              * path: about/about
-             * slug: about
+             * slug: about.
              */
             case 'path':
             case 'slug':
