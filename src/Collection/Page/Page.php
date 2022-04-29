@@ -430,6 +430,12 @@ class Page extends Item
      */
     public function setVariable(string $name, $value): self
     {
+        // cast some strings to boolean
+        $this->filterBool($value);
+        if (is_array($value)) {
+            array_walk_recursive($value, [$this, 'filterBool']);
+        }
+        // behavior for specific named variables
         switch ($name) {
             /**
              * date: 2012-10-08.
@@ -482,27 +488,10 @@ class Page extends Item
                 $this->$method($value);
                 break;
             default:
-                //$value = $this->filterBool($value);
-                if (is_array($value)) {
-                    array_walk_recursive($value, [$this, 'filterBool']);
-                }
                 $this->offsetSet($name, $value);
         }
 
         return $this;
-    }
-
-    /**
-     * Cast TRUE, FALSE, 'true', 'false', 1, 0, '1', '0', 'on', 'off', 'yes', 'no' to boolean.
-     */
-    private function filterBool(&$value)
-    {
-        if (is_object($value)) {
-            return $value;
-        }
-        $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-        return $bool === null ? $value : (int) $bool;
     }
 
     /**
@@ -553,5 +542,20 @@ class Page extends Item
     public function getFmVariables(): array
     {
         return $this->fmVariables;
+    }
+
+    /**
+     * Filter 'true', 'false' 'on', 'off', 'yes', 'no' to boolean.
+     */
+    private function filterBool(&$value)
+    {
+        if (is_string($value)) {
+            if (in_array($value, ['true', 'on', 'yes'])) {
+                $value = true;
+            }
+            if (in_array($value, ['false', 'off', 'no'])) {
+                $value = false;
+            }
+        }
     }
 }
