@@ -430,9 +430,6 @@ class Page extends Item
      */
     public function setVariable(string $name, $value): self
     {
-        if (is_bool($value)) {
-            $value = $value ?: 0;
-        }
         switch ($name) {
             case 'date':
                 try {
@@ -444,7 +441,7 @@ class Page extends Item
                 break;
             case 'draft':
                 if ($value === true) {
-                    $this->offsetSet('published', false);
+                    $this->offsetSet('published', 0);
                 }
                 break;
             case 'path':
@@ -459,10 +456,27 @@ class Page extends Item
                 $this->$method($value);
                 break;
             default:
+                //$value = $this->filterBool($value);
+                if (is_array($value)) {
+                    array_walk_recursive($value, [$this, 'filterBool']);
+                }
                 $this->offsetSet($name, $value);
         }
 
         return $this;
+    }
+
+    /**
+     * Cast TRUE, FALSE, 'true', 'false', 1, 0, '1', '0', 'on', 'off', 'yes', 'no' to boolean.
+     */
+    private function filterBool(&$value)
+    {
+        if (is_object($value)) {
+            return $value;
+        }
+        $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        return $bool === null ? $value : (int) $bool;
     }
 
     /**
