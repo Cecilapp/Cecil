@@ -430,9 +430,12 @@ class Page extends Item
      */
     public function setVariable(string $name, $value): self
     {
-        if (is_bool($value)) {
-            $value = $value ?: 0;
+        // cast some strings to boolean
+        $this->filterBool($value);
+        if (is_array($value)) {
+            array_walk_recursive($value, [$this, 'filterBool']);
         }
+        // behavior for specific named variables
         switch ($name) {
             /**
              * date: 2012-10-08.
@@ -466,7 +469,7 @@ class Page extends Item
              */
             case 'draft':
                 if ($value === true) {
-                    $this->offsetSet('published', false);
+                    $this->offsetSet('published', 0);
                 }
                 break;
             /**
@@ -539,5 +542,20 @@ class Page extends Item
     public function getFmVariables(): array
     {
         return $this->fmVariables;
+    }
+
+    /**
+     * Filter 'true', 'false', 'on', 'off', 'yes', 'no' to boolean.
+     */
+    private function filterBool(&$value)
+    {
+        if (is_string($value)) {
+            if (in_array($value, ['true', 'on', 'yes'])) {
+                $value = true;
+            }
+            if (in_array($value, ['false', 'off', 'no'])) {
+                $value = false;
+            }
+        }
     }
 }
