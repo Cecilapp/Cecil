@@ -32,9 +32,6 @@ class Asset implements \ArrayAccess
     protected $data = [];
 
     /** @var bool */
-    protected $optimized = false;
-
-    /** @var bool */
     protected $fingerprinted = false;
 
     /** @var bool */
@@ -42,6 +39,10 @@ class Asset implements \ArrayAccess
 
     /** @var bool */
     protected $minified = false;
+
+    /** @var bool */
+    protected $optimize = false;
+    protected $optimized = false;
 
     /** @var bool */
     protected $ignore_missing = false;
@@ -86,9 +87,9 @@ class Asset implements \ArrayAccess
         ];
 
         // handles options
-        $optimize = (bool) $this->config->get('assets.images.optimize.enabled');
         $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
         $minify = (bool) $this->config->get('assets.minify.enabled');
+        $optimize = (bool) $this->config->get('assets.images.optimize.enabled');
         $filename = '';
         $ignore_missing = false;
         $force_slash = true;
@@ -159,10 +160,6 @@ class Asset implements \ArrayAccess
         }
         $this->data = $cache->get($cacheKey);
 
-        // optimizing
-        if ($optimize) {
-            $this->optimize();
-        }
         // fingerprinting
         if ($fingerprint) {
             $this->fingerprint();
@@ -174,6 +171,10 @@ class Asset implements \ArrayAccess
         // minifying
         if ($minify) {
             $this->minify();
+        }
+        // optimizing
+        if ($optimize) {
+            $this->optimize = true;
         }
     }
 
@@ -351,7 +352,7 @@ class Asset implements \ArrayAccess
     /**
      * Optimizing an image.
      */
-    public function optimize(): self
+    public function optimize(string $filepath): self
     {
         if ($this->optimized) {
             return $this;
@@ -365,13 +366,9 @@ class Asset implements \ArrayAccess
         $cacheKey = $cache->createKeyFromAsset($this, 'optimized');
         if (!$cache->has($cacheKey)) {
             $message = $this->data['path'];
-            $sizeBefore = filesize($this->data['file']);
-            Util\File::getFS()->copy($this->data['file'], Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
-            Image::optimizer($this->config->get('assets.images.quality') ?? 75)->optimize(
-                $this->data['file'],
-                Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename'])
-            );
-            $sizeAfter = filesize(Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
+            $sizeBefore = filesize($filepath);
+            Image::optimizer($this->config->get('assets.images.quality') ?? 75)->optimize($filepath);
+            $sizeAfter = filesize($filepath);
             if ($sizeAfter < $sizeBefore) {
                 $message = \sprintf(
                     '%s (%s Ko -> %s Ko)',
@@ -380,11 +377,10 @@ class Asset implements \ArrayAccess
                     ceil($sizeAfter / 1000)
                 );
             }
-            $this->data['content'] = Util\File::fileGetContents(Util::joinFile($this->config->getCachePath(), 'tmp', $this->data['filename']));
-            Util\File::getFS()->remove(Util::joinFile($this->config->getCachePath(), 'tmp'));
+            $this->data['content'] = Util\File::fileGetContents($filepath);
             $this->optimized = true;
             $cache->set($cacheKey, $this->data);
-            $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $message));
+            $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
 
@@ -560,6 +556,9 @@ class Asset implements \ArrayAccess
             try {
                 Util\File::getFS()->dumpFile($filepath, $this->data['content']);
                 $this->builder->getLogger()->debug(\sprintf('Asset "%s" saved', $this->data['path']));
+                if ($this->optimize) {
+                    $this->optimize($filepath);
+                }
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 if (!$this->ignore_missing) {
                     throw new RuntimeException(\sprintf('Can\'t save asset "%s".', $filepath));
