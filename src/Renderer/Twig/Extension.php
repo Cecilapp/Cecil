@@ -520,11 +520,9 @@ class Extension extends SlugifyExtension
         /* Image */
         if ($asset['type'] == 'image') {
             // responsive
-            if ($responsive && $srcset = Image::getSrcset(
+            if ($responsive && $srcset = Image::buildSrcset(
                 $asset,
-                $this->config->get('assets.images.responsive.width.steps') ?? 5,
-                $this->config->get('assets.images.responsive.width.min') ?? 320,
-                $this->config->get('assets.images.responsive.width.max') ?? 1280
+                $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
             )) {
                 $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
                 $htmlAttributes .= \sprintf(' sizes="%s"', $this->config->get('assets.images.responsive.sizes.default') ?? '100vw');
@@ -544,11 +542,9 @@ class Extension extends SlugifyExtension
                 $source = \sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
                 // responsive
                 if ($responsive) {
-                    $srcset = Image::getSrcset(
+                    $srcset = Image::buildSrcset(
                         $assetWebp,
-                        $this->config->get('assets.images.responsive.width.steps') ?? 5,
-                        $this->config->get('assets.images.responsive.width.min') ?? 320,
-                        $this->config->get('assets.images.responsive.width.max') ?? 1280
+                        $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
                     ) ?: (string) $assetWebp;
                     // <source>
                     $source = \sprintf(
