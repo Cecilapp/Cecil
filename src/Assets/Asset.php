@@ -380,7 +380,7 @@ class Asset implements \ArrayAccess
             $this->data['content'] = Util\File::fileGetContents($filepath);
             $this->optimized = true;
             $cache->set($cacheKey, $this->data);
-            $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $this->data['path']));
+            $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $message));
         }
         $this->data = $cache->get($cacheKey);
 
