@@ -227,12 +227,8 @@ return [
             'quality'    => 75,     // Image quality after optimization or resize (`75` by default)
             'responsive' => [
                 'enabled' => false, // creates responsive images with `html` filter (`false` by default)
-                'width'   => [
-                    'steps' => 5,     // number of steps from `min` to `max` (`5` by default)
-                    'min'   => 320,   // minimum width (`320` by default)
-                    'max'   => 1280,  // maximum width (`1280` by default)
-                ],
-                'sizes' => [
+                'widths'  => [480, 640, 768, 1024, 1366, 1600, 1920],
+                'sizes'   => [
                     'default' => '100vw', // `sizes` attribute (`100vw` by default)
                 ],
             ],

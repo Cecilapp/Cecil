@@ -92,11 +92,9 @@ class Parsedown extends \ParsedownToC
          * Should be responsive?
          */
         if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
-            if ($srcset = Image::getSrcset(
+            if ($srcset = Image::buildSrcset(
                 $assetResized ?? $asset,
-                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
-                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
-                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
+                $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
             )) {
                 $image['element']['attributes']['srcset'] = $srcset;
                 $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
@@ -178,11 +176,9 @@ class Parsedown extends \ParsedownToC
             $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 75);
             $srcset = '';
             if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
-                $srcset = Image::getSrcset(
+                $srcset = Image::buildSrcset(
                     $assetWebp,
-                    $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
-                    $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
-                    $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
+                    $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
                 );
             }
             if (empty($srcset)) {
