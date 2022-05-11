@@ -354,9 +354,9 @@ class Asset implements \ArrayAccess
      */
     public function optimize(string $filepath): self
     {
-        if ($this->optimized) {
+        /*if ($this->optimized) {
             return $this;
-        }
+        }*/
 
         if ($this->data['type'] != 'image') {
             return $this;
