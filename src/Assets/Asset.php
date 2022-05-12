@@ -398,38 +398,40 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
+        $assetResized = clone $this;
+
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, "{$size}x");
+        $cacheKey = $cache->createKeyFromAsset($assetResized, "{$size}x");
         if (!$cache->has($cacheKey)) {
-            if ($this->data['type'] !== 'image') {
-                throw new RuntimeException(\sprintf('Not able to resize "%s"', $this->data['path']));
+            if ($assetResized->data['type'] !== 'image') {
+                throw new RuntimeException(\sprintf('Not able to resize "%s"', $assetResized->data['path']));
             }
             if (!extension_loaded('gd')) {
                 throw new RuntimeException('GD extension is required to use images resize.');
             }
 
             try {
-                $img = ImageManager::make($this->data['content_source']);
+                $img = ImageManager::make($assetResized->data['content_source']);
                 $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             } catch (\Exception $e) {
-                throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $this->data['path'], $e->getMessage()));
+                throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }
-            $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path']);
+            $assetResized->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $assetResized->data['path']);
 
             try {
-                $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
+                $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $this->config->get('assets.images.quality'));
             } catch (\Exception $e) {
-                throw new RuntimeException(\sprintf('Not able to encode image "%s": %s', $this->data['path'], $e->getMessage()));
+                throw new RuntimeException(\sprintf('Not able to encode image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }
 
-            $cache->set($cacheKey, $this->data);
+            $cache->set($cacheKey, $assetResized->data);
         }
-        $this->data = $cache->get($cacheKey);
+        $assetResized->data = $cache->get($cacheKey);
 
-        return $this;
+        return $assetResized;
     }
 
     /**

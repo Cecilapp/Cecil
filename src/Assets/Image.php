@@ -65,13 +65,11 @@ class Image
     {
         $srcset = '';
         foreach ($widths as $width) {
-            if ($width > $asset->getWidth() || $width > max($widths)) {
+            if ($asset->getWidth() < $width) {
                 break;
             }
-            $a = clone $asset;
-            $img = $a->resize($width);
+            $img = $asset->resize($width);
             $srcset .= sprintf('%s %sw, ', $img, $width);
-            unset($a);
         }
         rtrim($srcset, ', ');
         // add reference image
