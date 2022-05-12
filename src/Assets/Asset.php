@@ -29,7 +29,7 @@ class Asset implements \ArrayAccess
     protected $config;
 
     /** @var array */
-    public $data = [];
+    protected $data = [];
 
     /** @var bool */
     protected $fingerprinted = false;
