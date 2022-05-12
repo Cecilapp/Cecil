@@ -81,7 +81,7 @@ class Image
 
         dump($img->data['path']);
         dump($asset->data['path']);
-        die();
+        exit();
 
         return $srcset;
     }
