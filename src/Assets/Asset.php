@@ -29,7 +29,7 @@ class Asset implements \ArrayAccess
     protected $config;
 
     /** @var array */
-    protected $data = [];
+    public $data = [];
 
     /** @var bool */
     protected $fingerprinted = false;
@@ -387,6 +387,15 @@ class Asset implements \ArrayAccess
         return $this;
     }
 
+    /*public function __clone()
+    {
+        foreach (get_object_vars($this) as $property => $value) {
+            if (is_object($property)) {
+                $this->$property = clone $this->$property;
+            }
+        }
+    }*/
+
     /**
      * Resizes an image.
      *
@@ -398,38 +407,40 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
+        $clone = clone $this;
+
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, "{$size}x");
+        $cacheKey = $cache->createKeyFromAsset($clone, "{$size}x");
         if (!$cache->has($cacheKey)) {
-            if ($this->data['type'] !== 'image') {
-                throw new RuntimeException(\sprintf('Not able to resize "%s"', $this->data['path']));
+            if ($clone->data['type'] !== 'image') {
+                throw new RuntimeException(\sprintf('Not able to resize "%s"', $clone->data['path']));
             }
             if (!extension_loaded('gd')) {
                 throw new RuntimeException('GD extension is required to use images resize.');
             }
 
             try {
-                $img = ImageManager::make($this->data['content_source']);
+                $img = ImageManager::make($clone->data['content_source']);
                 $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             } catch (\Exception $e) {
-                throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $this->data['path'], $e->getMessage()));
+                throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $clone->data['path'], $e->getMessage()));
             }
-            $this->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $this->data['path']);
+            $clone->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $clone->data['path']);
 
             try {
-                $this->data['content'] = (string) $img->encode($this->data['ext'], $this->config->get('assets.images.quality'));
+                $clone->data['content'] = (string) $img->encode($clone->data['ext'], $this->config->get('assets.images.quality'));
             } catch (\Exception $e) {
-                throw new RuntimeException(\sprintf('Not able to encode image "%s": %s', $this->data['path'], $e->getMessage()));
+                throw new RuntimeException(\sprintf('Not able to encode image "%s": %s', $clone->data['path'], $e->getMessage()));
             }
 
-            $cache->set($cacheKey, $this->data);
+            $cache->set($cacheKey, $clone->data);
         }
-        $this->data = $cache->get($cacheKey);
+        $clone->data = $cache->get($cacheKey);
 
-        return $this;
+        return $clone;
     }
 
     /**

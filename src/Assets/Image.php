@@ -63,21 +63,25 @@ class Image
      */
     public static function buildSrcset(Asset $asset, array $widths): string
     {
+        dump($asset->data['path']);
+
         $srcset = '';
         foreach ($widths as $width) {
-            if ($width > $asset->getWidth() || $width > max($widths)) {
+            if ($asset->getWidth() < $width) {
                 break;
             }
-            $a = clone $asset;
-            $img = $a->resize($width);
+            $img = $asset->resize($width);
             $srcset .= sprintf('%s %sw, ', $img, $width);
-            unset($a);
         }
         rtrim($srcset, ', ');
         // add reference image
         if (!empty($srcset)) {
             $srcset .= sprintf('%s %sw', (string) $asset, $asset->getWidth());
         }
+
+        dump($img->data['path']);
+        dump($asset->data['path']);
+        die();
 
         return $srcset;
     }
