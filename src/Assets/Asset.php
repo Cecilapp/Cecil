@@ -387,15 +387,6 @@ class Asset implements \ArrayAccess
         return $this;
     }
 
-    /*public function __clone()
-    {
-        foreach (get_object_vars($this) as $property => $value) {
-            if (is_object($property)) {
-                $this->$property = clone $this->$property;
-            }
-        }
-    }*/
-
     /**
      * Resizes an image.
      *
