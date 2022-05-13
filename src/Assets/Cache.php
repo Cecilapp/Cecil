@@ -177,9 +177,11 @@ class Cache implements CacheInterface
     /**
      * Creates key from an Asset source: 'filename_ext_$tag' + '__' + MD5 hash.
      */
-    public function createKeyFromAsset(Asset $asset, string $tag = null): string
+    public function createKeyFromAsset(Asset $asset, array $tags = null): string
     {
-        return $this->prepareKey(\sprintf('%s%s%s__%s', $asset['filename'], "_{$asset['ext']}", $tag ? "_$tag" : '', $this->createKeyFromString($asset['content_source'] ?? '')));
+        $tags = implode('_', $tags);
+
+        return $this->prepareKey(\sprintf('%s%s%s__%s', $asset['filename'], "_{$asset['ext']}", $tags ? "_$tags" : '', $this->createKeyFromString($asset['content_source'] ?? '')));
     }
 
     /**
