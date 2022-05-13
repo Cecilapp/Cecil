@@ -74,16 +74,16 @@ class Asset implements \ArrayAccess
             }
         });
         $this->data = [
-            'file'           => '',
-            'filename'       => '',
-            'path_source'    => '',
-            'path'           => '',
-            'ext'            => '',
-            'type'           => '',
-            'subtype'        => '',
-            'size'           => 0,
-            'content_source' => '',
-            'content'        => '',
+            'file'           => '', // absolute file path
+            'filename'       => '', // filename
+            'path_source'    => '', // public path to the file, before transformations
+            'path'           => '', // public path to the file, after transformations
+            'ext'            => '', // file extension
+            'type'           => '', // file type (e.g.: image, audio, video, etc.)
+            'subtype'        => '', // file media type (e.g.: image/png, audio/mp3, etc.)
+            'size'           => 0,  // file size (in bytes)
+            'content_source' => '', // file content, before transformations
+            'content'        => '', // file content, after transformations
         ];
 
         // handles options
