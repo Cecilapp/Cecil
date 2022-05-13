@@ -115,7 +115,7 @@ class Convert extends AbstractStep
                     }
                 }
 
-                $message = sprintf('Page "%s" converted', $page->getId());
+                $message = \sprintf('Page "%s" converted', $page->getId());
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
                     $page->setVariable('published', true);

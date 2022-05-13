@@ -170,15 +170,15 @@ class AbstractCommand extends Command
      */
     protected function openEditor(string $path, string $editor): void
     {
-        $command = sprintf('%s "%s"', $editor, $path);
+        $command = \sprintf('%s "%s"', $editor, $path);
         switch (Util\Plateform::getOS()) {
             case Util\Plateform::OS_WIN:
-                $command = sprintf('start /B "" %s "%s"', $editor, $path);
+                $command = \sprintf('start /B "" %s "%s"', $editor, $path);
                 break;
             case Util\Plateform::OS_OSX:
                 // Typora on macOS
                 if ($editor == 'typora') {
-                    $command = sprintf('open -a typora "%s"', $path);
+                    $command = \sprintf('open -a typora "%s"', $path);
                 }
                 break;
         }

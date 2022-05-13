@@ -79,7 +79,7 @@ class Serve extends AbstractCommand
             throw new RuntimeException('Can\'t find a local PHP executable.');
         }
 
-        $command = sprintf(
+        $command = \sprintf(
             '%s -S %s:%d -t %s %s',
             $php,
             $host,
@@ -164,7 +164,7 @@ class Serve extends AbstractCommand
                     \pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
                 $output->writeln(
-                    sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
+                    \sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
                 );
                 $process->start();
                 if ($open) {
@@ -222,10 +222,10 @@ class Serve extends AbstractCommand
             // copying baseurl text file
             $this->fs->dumpFile(
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
-                sprintf(
+                \sprintf(
                     '%s;%s',
                     (string) $this->getBuilder()->getConfig()->get('baseurl'),
-                    sprintf('http://%s:%s/', $host, $port)
+                    \sprintf('http://%s:%s/', $host, $port)
                 )
             );
         } catch (IOExceptionInterface $e) {

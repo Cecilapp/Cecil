@@ -69,12 +69,12 @@ class Image
                 break;
             }
             $img = $asset->resize($width);
-            $srcset .= sprintf('%s %sw, ', $img, $width);
+            $srcset .= \sprintf('%s %sw, ', $img, $width);
         }
         rtrim($srcset, ', ');
         // add reference image
         if (!empty($srcset)) {
-            $srcset .= sprintf('%s %sw', (string) $asset, $asset->getWidth());
+            $srcset .= \sprintf('%s %sw', (string) $asset, $asset->getWidth());
         }
 
         return $srcset;

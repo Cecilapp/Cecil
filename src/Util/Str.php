@@ -22,7 +22,7 @@ class Str
         $string = '';
 
         foreach ($array as $key => $value) {
-            $string .= sprintf('%s%s%s, ', $key, $separator, $value);
+            $string .= \sprintf('%s%s%s, ', $key, $separator, $value);
         }
 
         return substr($string, 0, -2);
@@ -44,7 +44,7 @@ class Str
         $string = '';
 
         foreach ($array as $subArray) {
-            $string .= sprintf('%s%s%s, ', $subArray[$keyToKey], $separator, $subArray[$keyToValue]);
+            $string .= \sprintf('%s%s%s, ', $subArray[$keyToKey], $separator, $subArray[$keyToValue]);
         }
 
         return substr($string, 0, -2);

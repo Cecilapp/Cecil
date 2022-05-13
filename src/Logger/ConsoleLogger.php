@@ -75,13 +75,13 @@ class ConsoleLogger extends PrintLogger
 
         // steps prefix
         if (isset($context['step'])) {
-            $prefix = sprintf('%s. ', $this->padPrefix($context['step'][0], $context['step'][1]));
+            $prefix = \sprintf('%s. ', $this->padPrefix($context['step'][0], $context['step'][1]));
         }
 
         // sub steps progress
         if (isset($context['progress'])) {
             // prefix
-            $prefix = sprintf(
+            $prefix = \sprintf(
                 '[%s/%s] ',
                 $this->padPrefix($context['progress'][0], $context['progress'][1]),
                 $context['progress'][1]
@@ -89,7 +89,7 @@ class ConsoleLogger extends PrintLogger
         }
 
         $output->writeln(
-            sprintf($pattern, $this->formatLevelMap[$level], $prefix, $this->interpolate($message, $context)),
+            \sprintf($pattern, $this->formatLevelMap[$level], $prefix, $this->interpolate($message, $context)),
             $this->verbosityLevelMap[$level]
         );
     }

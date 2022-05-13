@@ -89,7 +89,7 @@ class Create extends AbstractStep
                         if (isset($property['enabled']) && false === $property['enabled']) {
                             $enabled = false;
                             if (!$menu->has($property['id'])) {
-                                $message = sprintf('Config menu entry "%s > %s%s" disabled', (string) $menu, $property['id'], $suffix);
+                                $message = \sprintf('Config menu entry "%s > %s%s" disabled', (string) $menu, $property['id'], $suffix);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                             }
                         }
@@ -99,7 +99,7 @@ class Create extends AbstractStep
                             if (!$enabled) {
                                 $menu->remove($property['id']);
 
-                                $message = sprintf('Config menu entry "%s > %s%s" removed', (string) $menu, $property['id'], $suffix);
+                                $message = \sprintf('Config menu entry "%s > %s%s" removed', (string) $menu, $property['id'], $suffix);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                                 continue;
                             }
@@ -108,7 +108,7 @@ class Create extends AbstractStep
                             $current = $menu->get($property['id'])->toArray();
                             $property = array_merge($current, $property);
 
-                            $message = sprintf('Config menu entry "%s > %s%s" updated', (string) $menu, $property['id'], $suffix);
+                            $message = \sprintf('Config menu entry "%s > %s%s" updated', (string) $menu, $property['id'], $suffix);
                             $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                         }
                         // adds/replaces entry
@@ -120,7 +120,7 @@ class Create extends AbstractStep
                             $menu->add($item);
 
                             if (!$updated) {
-                                $message = sprintf('Config menu entry "%s > %s%s" created', (string) $menu, $property['id'], $suffix);
+                                $message = \sprintf('Config menu entry "%s > %s%s" created', (string) $menu, $property['id'], $suffix);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                             }
                         }
@@ -170,7 +170,7 @@ class Create extends AbstractStep
                     }
                     if (!is_string($menuName)) {
                         $this->builder->getLogger()->error(
-                            sprintf(
+                            \sprintf(
                                 'Menu\'s name of page "%s" must be a string, not "%s"',
                                 $page->getId(),
                                 PrintLogger::format($menuName)
@@ -194,7 +194,7 @@ class Create extends AbstractStep
                     $menu = $this->menus[$language]->get($menuName);
                     $menu->add($item);
 
-                    $message = sprintf('Page menu entry "%s > %s" created (weight: %s)', $menuName, $page->getId(), $weight ?? 'N/A');
+                    $message = \sprintf('Page menu entry "%s > %s" created (weight: %s)', $menuName, $page->getId(), $weight ?? 'N/A');
                     $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
                 }
                 continue;
@@ -216,7 +216,7 @@ class Create extends AbstractStep
             $menu = $this->menus[$language]->get($page->getVariable('menu'));
             $menu->add($item);
 
-            $message = sprintf('Page menu entry "%s > %s" created', $page->getVariable('menu'), $page->getId());
+            $message = \sprintf('Page menu entry "%s > %s" created', $page->getVariable('menu'), $page->getId());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

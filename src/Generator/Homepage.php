@@ -45,7 +45,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         /** @var \Cecil\Collection\Page\Page $page */
         $pages = $subPages->sortByDate();
         if ($page->hasVariable('sortby')) {
-            $sortMethod = sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
+            $sortMethod = \sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
             if (!method_exists($pages, $sortMethod)) {
                 throw new RuntimeException(\sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
             }

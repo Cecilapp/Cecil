@@ -48,7 +48,7 @@ class CacheClear extends AbstractCommand
         }
         $output->writeln('Removing cache directory...');
         $output->writeln(
-            sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCachePath()),
+            \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCachePath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         $this->fs->remove($this->getBuilder()->getConfig()->getCachePath());

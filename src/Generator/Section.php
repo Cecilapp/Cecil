@@ -50,7 +50,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 foreach ($languages as $language => $pagesAsArray) {
                     $pageId = $path = Page::slugify($section);
                     if ($language != $this->config->getLanguageDefault()) {
-                        $pageId = sprintf('%s.%s', $pageId, $language);
+                        $pageId = \sprintf('%s.%s', $pageId, $language);
                     }
                     $page = (new Page($pageId))->setVariable('title', ucfirst($section));
                     if ($this->builder->getPages()->has($pageId)) {
@@ -72,7 +72,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // sorts
                     $pages = $pages->sortByDate();
                     if ($page->hasVariable('sortby')) {
-                        $sortMethod = sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
+                        $sortMethod = \sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
                         if (!method_exists($pages, $sortMethod)) {
                             throw new RuntimeException(\sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
                         }

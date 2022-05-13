@@ -39,7 +39,7 @@ class Render extends AbstractStep
     public function init(array $options): void
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
-            $message = sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
+            $message = \sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
             $this->builder->getLogger()->debug($message);
         }
 
@@ -156,7 +156,7 @@ class Render extends AbstractStep
                     throw new RuntimeException(\sprintf(
                         'Template "%s%s" (page: %s): %s',
                         $template,
-                        $e->getTemplateLine() >= 0 ? sprintf(':%s', $e->getTemplateLine()) : '',
+                        $e->getTemplateLine() >= 0 ? \sprintf(':%s', $e->getTemplateLine()) : '',
                         $page->getId(),
                         $e->getMessage()
                     ));
@@ -166,7 +166,7 @@ class Render extends AbstractStep
             $this->builder->getPages()->replace($page->getId(), $page);
 
             $templates = array_column($rendered, 'template');
-            $message = sprintf(
+            $message = \sprintf(
                 'Page "%s" rendered with template(s) "%s"',
                 ($page->getId() ?: 'index'),
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
@@ -207,9 +207,9 @@ class Render extends AbstractStep
     protected function addGlobals()
     {
         $this->builder->getRenderer()->addGlobal('cecil', [
-            'url'       => sprintf('https://cecil.app/#%s', Builder::getVersion()),
+            'url'       => \sprintf('https://cecil.app/#%s', Builder::getVersion()),
             'version'   => Builder::getVersion(),
-            'poweredby' => sprintf('Cecil v%s', Builder::getVersion()),
+            'poweredby' => \sprintf('Cecil v%s', Builder::getVersion()),
         ]);
     }
 

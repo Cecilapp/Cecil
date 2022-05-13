@@ -41,7 +41,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
 
                 $this->generatedPages->add($page);
             } catch (\Exception $e) {
-                $message = sprintf('Error in "%s": %s', $page->getFilePath(), $e->getMessage());
+                $message = \sprintf('Error in "%s": %s', $page->getFilePath(), $e->getMessage());
                 $this->builder->getLogger()->error($message);
             }
         }

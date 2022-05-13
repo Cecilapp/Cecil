@@ -66,10 +66,10 @@ class NewPage extends AbstractCommand
             // has date prefix?
             $datePrefix = '';
             if ($prefix) {
-                $datePrefix = sprintf('%s-', $date);
+                $datePrefix = \sprintf('%s-', $date);
             }
             // path
-            $fileRelativePath = sprintf(
+            $fileRelativePath = \sprintf(
                 '%s%s%s%s%s.md',
                 (string) $this->getBuilder()->getConfig()->get('content.dir'),
                 DIRECTORY_SEPARATOR,

@@ -198,7 +198,7 @@ class Collection implements CollectionInterface
      */
     public function toJson(): string
     {
-        return sprintf("%s\n", json_encode($this->items));
+        return \sprintf("%s\n", json_encode($this->items));
     }
 
     /**

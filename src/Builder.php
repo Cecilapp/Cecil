@@ -157,7 +157,7 @@ class Builder implements LoggerAwareInterface
         }
 
         // process duration
-        $message = sprintf('Built in %ss', round(microtime(true) - $startTime, 2));
+        $message = \sprintf('Built in %ss', round(microtime(true) - $startTime, 2));
         $this->getLogger()->notice($message);
 
         return $this;

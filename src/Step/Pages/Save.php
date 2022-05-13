@@ -81,7 +81,7 @@ class Save extends AbstractStep
                 $files[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
-            $message = sprintf('File(s) "%s" saved', implode(', ', $files));
+            $message = \sprintf('File(s) "%s" saved', implode(', ', $files));
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
     }

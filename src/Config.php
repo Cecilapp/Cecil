@@ -160,7 +160,7 @@ class Config
     {
         if ($language !== null) {
             $index = $this->getLanguageIndex($language);
-            $keyLang = sprintf('languages.%s.config.%s', $index, $key);
+            $keyLang = \sprintf('languages.%s.config.%s', $index, $key);
             if ($this->data->has($keyLang)) {
                 return $this->data->get($keyLang);
             }

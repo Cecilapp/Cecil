@@ -75,7 +75,7 @@ class Site implements \ArrayAccess
             case 'static':
                 return $this->builder->getStatic();
             case 'home':
-                return $this->language !== $this->config->getLanguageDefault() ? sprintf('index.%s', $this->language) : 'index';
+                return $this->language !== $this->config->getLanguageDefault() ? \sprintf('index.%s', $this->language) : 'index';
         }
 
         return $this->config->get($offset, $this->language);
