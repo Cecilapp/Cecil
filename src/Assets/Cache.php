@@ -179,7 +179,7 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset, array $tags = null): string
     {
-        $tags = implode('_', $tags);
+        $tags = implode('_', $tags ?? []);
 
         return $this->prepareKey(\sprintf('%s%s%s__%s', $asset['filename'], "_{$asset['ext']}", $tags ? "_$tags" : '', $this->createKeyFromString($asset['content_source'] ?? '')));
     }
