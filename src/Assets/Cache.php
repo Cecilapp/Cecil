@@ -41,8 +41,6 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws RuntimeException
      */
     public function get($key, $default = null)
     {
@@ -63,8 +61,6 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws RuntimeException
      */
     public function set($key, $value, $ttl = null)
     {
@@ -87,8 +83,6 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws RuntimeException
      */
     public function delete($key)
     {
@@ -107,8 +101,6 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws RuntimeException
      */
     public function clear()
     {
@@ -200,8 +192,6 @@ class Cache implements CacheInterface
 
     /**
      * Removes previous cache files.
-     *
-     * @throws RuntimeException
      */
     private function prune(string $key): bool
     {
