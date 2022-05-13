@@ -84,6 +84,7 @@ class Asset implements \ArrayAccess
             'size'           => 0,  // file size (in bytes)
             'content_source' => '', // file content, before transformations
             'content'        => '', // file content, after transformations
+            'width'          => 0,  // width (in pixels) in case of an image
         ];
 
         // handles options
@@ -231,7 +232,7 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, 'compiled');
+        $cacheKey = $cache->createKeyFromAsset($this, ['compiled']);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             $importDir = [];
@@ -323,7 +324,7 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, 'minified');
+        $cacheKey = $cache->createKeyFromAsset($this, ['minified']);
         if (!$cache->has($cacheKey)) {
             switch ($this->data['ext']) {
                 case 'css':
@@ -354,16 +355,16 @@ class Asset implements \ArrayAccess
      */
     public function optimize(string $filepath): self
     {
-        /*if ($this->optimized) {
-            return $this;
-        }*/
-
         if ($this->data['type'] != 'image') {
             return $this;
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, 'optimized');
+        $tags = ['optimized'];
+        if ($this->data['width']) {
+            array_unshift($tags, "{$this->data['width']}x");
+        }
+        $cacheKey = $cache->createKeyFromAsset($this, $tags);
         if (!$cache->has($cacheKey)) {
             $message = $this->data['path'];
             $sizeBefore = filesize($filepath);
@@ -378,30 +379,31 @@ class Asset implements \ArrayAccess
                 );
             }
             $this->data['content'] = Util\File::fileGetContents($filepath);
-            $this->optimized = true;
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $message));
         }
         $this->data = $cache->get($cacheKey);
+        $this->optimized = true;
 
         return $this;
     }
 
     /**
-     * Resizes an image.
+     * Resizes an image with a new $width.
      *
      * @throws RuntimeException
      */
-    public function resize(int $size): self
+    public function resize(int $width): self
     {
-        if ($size >= $this->getWidth()) {
+        if ($width >= $this->getWidth()) {
             return $this;
         }
 
         $assetResized = clone $this;
+        $assetResized->data['width'] = $width;
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($assetResized, "{$size}x");
+        $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x"]);
         if (!$cache->has($cacheKey)) {
             if ($assetResized->data['type'] !== 'image') {
                 throw new RuntimeException(\sprintf('Not able to resize "%s"', $assetResized->data['path']));
@@ -412,14 +414,14 @@ class Asset implements \ArrayAccess
 
             try {
                 $img = ImageManager::make($assetResized->data['content_source']);
-                $img->resize($size, null, function (\Intervention\Image\Constraint $constraint) {
+                $img->resize($width, null, function (\Intervention\Image\Constraint $constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             } catch (\Exception $e) {
                 throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }
-            $assetResized->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $size, $assetResized->data['path']);
+            $assetResized->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $width, $assetResized->data['path']);
 
             try {
                 $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $this->config->get('assets.images.quality'));
