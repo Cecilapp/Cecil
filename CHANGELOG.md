@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.96.2...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.96.3...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,17 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.96.3](https://github.com/Cecilapp/Cecil/compare/5.96.2...5.96.3)
+
+> 13 May 2022
+
+- fix: asset images optimization [`#1375`](https://github.com/Cecilapp/Cecil/pull/1375)
+- chore: sprintf() -&gt; \sprintf() [`1db773b`](https://github.com/Cecilapp/Cecil/commit/1db773bd23e9f2e2f1e9ebfd91aca89810afd69e)
+- chore: code comments [`5de2d85`](https://github.com/Cecilapp/Cecil/commit/5de2d854742f4a48016afb31669452f374d38eaa)
+- chore: clean code [`afc93a9`](https://github.com/Cecilapp/Cecil/commit/afc93a95025acf5448e7f7cfada65fc096e6c141)
+- fix: cache files extension (.ser) [`c7d5d08`](https://github.com/Cecilapp/Cecil/commit/c7d5d083f0062c97a0369e27704f77accdb302a8)
+- chore: clean code [`8fbbd78`](https://github.com/Cecilapp/Cecil/commit/8fbbd780b4a7b3f1c334cfe034a415c6cd721bfe)
 
 #### [5.96.2](https://github.com/Cecilapp/Cecil/compare/5.96.1...5.96.2)
 
