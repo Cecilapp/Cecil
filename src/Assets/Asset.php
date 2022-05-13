@@ -98,7 +98,7 @@ class Asset implements \ArrayAccess
 
         // fill data array with file(s) informations
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = sprintf('%s.ser', implode('_', $paths));
+        $cacheKey = \sprintf('%s', implode('_', $paths));
         if (!$cache->has($cacheKey)) {
             $pathsCount = count($paths);
             $file = [];
