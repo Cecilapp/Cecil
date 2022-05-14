@@ -83,13 +83,14 @@ class Render extends AbstractStep
             }
             // the PHP Gettext extension is needed to use translation
             if (extension_loaded('gettext')) {
-                $localePath = realpath(Util::joinFile($this->config->getSourceDir(), 'locale'));
                 $domain = 'messages';
                 putenv("LC_ALL=$locale");
                 putenv("LANGUAGE=$locale");
                 setlocale(LC_ALL, "$locale.UTF-8");
                 textdomain($domain);
-                bindtextdomain($domain, $localePath);
+                if ($localePath = realpath(Util::joinFile($this->config->getSourceDir(), 'locale'))) {
+                    bindtextdomain($domain, $localePath);
+                }
             }
 
             // global site variables
