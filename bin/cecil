@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of Cecil.
@@ -50,7 +50,7 @@ use Cecil\Application;
 use Cecil\Builder;
 
 if (function_exists('ini_set')) {
-    @ini_set('display_errors', 1);
+    @ini_set('display_errors', '1');
 
     $memoryInBytes = function ($value) {
         $unit = strtolower(substr($value, -1, 1));

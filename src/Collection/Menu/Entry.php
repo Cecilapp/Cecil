@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of Cecil.
@@ -41,7 +41,7 @@ class Entry extends Item
     /**
      * Set menu entry weight.
      */
-    public function setWeight(string $value): self
+    public function setWeight(int $value): self
     {
         $this->offsetSet('weight', $value);
 

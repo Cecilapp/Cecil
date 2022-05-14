@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of Cecil.
@@ -252,7 +252,7 @@ class Collection implements CollectionInterface
     #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
-        return $this->has($offset);
+        return $this->has((string) $offset);
     }
 
     /**
@@ -265,7 +265,7 @@ class Collection implements CollectionInterface
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        return $this->get($offset);
+        return $this->get((string) $offset);
     }
 
     /**

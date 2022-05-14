@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of Cecil.
@@ -76,7 +76,7 @@ class ConsoleLogger extends PrintLogger
 
         // steps prefix
         if (isset($context['step'])) {
-            $prefix = \sprintf('%s. ', $this->padPrefix($context['step'][0], $context['step'][1]));
+            $prefix = \sprintf('%s. ', $this->padPrefix((string) $context['step'][0], (string) $context['step'][1]));
         }
 
         // sub steps progress
@@ -84,7 +84,7 @@ class ConsoleLogger extends PrintLogger
             // prefix
             $prefix = \sprintf(
                 '[%s/%s] ',
-                $this->padPrefix($context['progress'][0], $context['progress'][1]),
+                $this->padPrefix((string) $context['progress'][0], (string) $context['progress'][1]),
                 $context['progress'][1]
             );
         }
