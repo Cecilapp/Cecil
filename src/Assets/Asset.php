@@ -716,7 +716,7 @@ class Asset implements \ArrayAccess
      */
     private function isSVG(): bool
     {
-        return $this->data['subtype'] == 'image/svg' || $this->data['extension'] == 'svg';
+        return in_array($this->data['subtype'], ['image/svg', 'image/svg+xml']) || $this->data['ext'] == 'svg';
     }
 
     /**
