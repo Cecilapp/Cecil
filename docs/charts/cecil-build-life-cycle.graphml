@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:java="http://www.yworks.com/xml/yfiles-common/1.0/java" xmlns:sys="http://www.yworks.com/xml/yfiles-common/markup/primitives/2.0" xmlns:x="http://www.yworks.com/xml/yfiles-common/markup/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xmlns:yed="http://www.yworks.com/xml/yed/3" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd">
-  <!--Created by yEd 3.20.1-->
+  <!--Created by yEd 3.22-->
   <key attr.name="Description" attr.type="string" for="graph" id="d0"/>
   <key for="port" id="d1" yfiles.type="portgraphics"/>
   <key for="port" id="d2" yfiles.type="portgeometry"/>
@@ -20,7 +20,7 @@
           <y:Geometry height="48.0" width="74.0" x="79.99999999999999" y="-28.983153329362494"/>
           <y:Fill color="#FFFFFF" color2="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="29.353515625" x="22.3232421875" xml:space="preserve" y="7.298828125">Start
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="32.658203125" x="20.6708984375" xml:space="preserve" y="7.298828125">Start
 build<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
@@ -34,7 +34,7 @@ build<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
           <y:Geometry height="40.0" width="80.0" x="76.99999999999999" y="177.10394140187532"/>
           <y:Fill color="#FFFFFF" color2="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="26.681640625" x="26.6591796875" xml:space="preserve" y="3.298828125">Init
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="28.673828125" x="25.6630859375" xml:space="preserve" y="3.298828125">Init
 step<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
@@ -48,7 +48,7 @@ step<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Model
           <y:Geometry height="40.0" width="80.0" x="379.99999999999994" y="177.10394140187532"/>
           <y:Fill color="#FFFFFF" color2="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="47.34765625" x="16.326171875" xml:space="preserve" y="3.298828125">Process
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="50.69921875" x="14.650390625" xml:space="preserve" y="3.298828125">Process
 step<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
@@ -104,8 +104,8 @@ time<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Model
           <y:Geometry height="56.0" width="99.0" x="67.49999999999997" y="70.06039403625641"/>
           <y:Fill color="#FFFFFF" color2="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="32.681640625" x="33.1591796875" xml:space="preserve" y="11.298828125">Any
-steps<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="39.35546875" x="29.822265625" xml:space="preserve" y="11.298828125">Any
+steps?<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
           </y:StyleProperties>
@@ -118,7 +118,7 @@ steps<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
           <y:Geometry height="40.0" width="80.0" x="379.9999999999999" y="464.1474887674942"/>
           <y:Fill color="#FFFFFF" color2="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="25.3515625" x="27.32421875" xml:space="preserve" y="10.6494140625">End<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="26.6640625" x="26.66796875" xml:space="preserve" y="10.6494140625">End<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
           </y:StyleProperties>
@@ -173,15 +173,15 @@ valid steps<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="697.8094936699649" width="331.25" x="516.25" y="-32.983153329362494"/>
+              <y:Geometry height="697.8094936699649" width="310.75" x="516.25" y="-32.983153329362494"/>
               <y:Fill color="#FFFFFF" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.37646484375" horizontalTextPosition="center" iconTextGap="4" modelName="eight_pos" modelPosition="n" textColor="#000000" verticalTextPosition="bottom" visible="true" width="331.25" x="0.0" xml:space="preserve" y="-22.37646484375">Steps</y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.37646484375" horizontalTextPosition="center" iconTextGap="4" modelName="eight_pos" modelPosition="n" textColor="#000000" verticalTextPosition="bottom" visible="true" width="310.75" x="0.0" xml:space="preserve" y="-22.37646484375">Steps</y:NodeLabel>
               <y:Shape type="rectangle"/>
               <y:DropShadow color="#D2D2D2" offsetX="4" offsetY="4"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="0" bottomF="0.0" left="13" leftF="13.0" right="9" rightF="9.25" top="16" topF="15.635304207489696"/>
+              <y:BorderInsets bottom="4" bottomF="4.0" left="13" leftF="13.0" right="0" rightF="0.0" top="20" topF="19.635304207489696"/>
             </y:GroupNode>
             <y:GroupNode>
               <y:Geometry height="65.0" width="133.0" x="516.25" y="-32.983153329362494"/>
@@ -232,7 +232,7 @@ process<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mo
               <y:Geometry height="40.0" width="80.0" x="544.25" y="354.0870947312376"/>
               <y:Fill color="#FFFFFF" color2="#C0C0C0" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="54.033203125" x="12.9833984375" xml:space="preserve" y="3.298828125">Generate
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="56.025390625" x="11.9873046875" xml:space="preserve" y="3.298828125">Generate
 pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
@@ -382,10 +382,10 @@ pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
         <node id="n11::n13">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="400.43494385311055"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="404.43494385311055"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="132.73046875" x="18.134765625" xml:space="preserve" y="7.298828125">Create menus collection
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="3.298828125">Create menus collection
 from Config and Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -397,10 +397,10 @@ from Config and Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:La
         <node id="n11::n14">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="551.4784912187295"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="555.4784912187295"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="122.072265625" x="23.4638671875" xml:space="preserve" y="7.298828125">Save Pages collection
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="3.298828125">Save Pages collection
 as files in _site<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -412,10 +412,10 @@ as files in _site<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelM
         <node id="n11::n15">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="450.7827929749835"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="454.7827929749835"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="123.37890625" x="22.810546875" xml:space="preserve" y="7.298828125">Copy files from
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="3.298828125">Copy files from
 static directory to _site<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -427,10 +427,10 @@ static directory to _site<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></
         <node id="n11::n16">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="249.39139648749176"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="253.39139648749176"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="154.052734375" x="7.4736328125" xml:space="preserve" y="7.298828125">Convert front matter in array
+              <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="154.052734375" x="1.8486328125" xml:space="preserve" y="3.298828125">Convert front matter in array
 and Markdown in HTML<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -442,10 +442,10 @@ and Markdown in HTML<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:Lab
         <node id="n11::n17">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="501.1306420968565"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="505.1306420968565"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="105.390625" x="31.8046875" xml:space="preserve" y="7.298828125">Render Pages with
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="3.298828125">Render Pages with
 Twig templates<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -457,10 +457,10 @@ Twig templates<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelMode
         <node id="n11::n18">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="350.0870947312376"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="354.0870947312376"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="140.083984375" x="14.4580078125" xml:space="preserve" y="7.298828125">Generate non-files Pages
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="3.298828125">Generate non-files Pages
 (see Generators)<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -472,13 +472,12 @@ Twig templates<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelMode
         <node id="n11::n19">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="601.8263403406024"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="605.8263403406024"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="118.708984375" x="25.1455078125" xml:space="preserve" y="14.6494140625">Compress saved files<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="10.6494140625">Compress saved files<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
-                <y:Property class="java.lang.Byte" name="LAYER_STYLE_PROPERTY_KEY" value="1"/>
               </y:StyleProperties>
             </y:GenericNode>
           </data>
@@ -486,10 +485,10 @@ Twig templates<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelMode
         <node id="n11::n20">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="98.34784912187305"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="102.34784912187305"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="60.009765625" x="54.4951171875" xml:space="preserve" y="7.298828125">Load files
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="3.298828125">Load files
 in memory<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -501,10 +500,10 @@ in memory<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:
         <node id="n11::n21">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="-2.347849121872798"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="1.6521508781272018"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="92.037109375" x="38.4814453125" xml:space="preserve" y="7.298828125">Import config file
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="3.298828125">Import config file
 of each theme<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -516,10 +515,10 @@ of each theme<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel
         <node id="n11::n22">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="299.73924560936473"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="303.73924560936473"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="132.05078125" x="18.474609375" xml:space="preserve" y="7.298828125">Create collection
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="3.298828125">Create collection
 from taxonomies entries<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -531,10 +530,10 @@ from taxonomies entries<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:
         <node id="n11::n23">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.annotation">
-              <y:Geometry height="48.0" width="169.0" x="654.25" y="199.0435473656189"/>
-              <y:Fill color="#FFFF99" transparent="false"/>
+              <y:Geometry height="40.0" width="157.75" x="654.25" y="203.0435473656189"/>
+              <y:Fill hasColor="false" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="97.380859375" x="35.8095703125" xml:space="preserve" y="7.298828125">Create Page item
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.75" x="0.0" xml:space="preserve" y="3.298828125">Create Page item
 from file<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
               <y:StyleProperties>
                 <y:Property class="java.lang.Byte" name="com.yworks.flowchart.style.orientation" value="0"/>
@@ -878,12 +877,11 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
       </data>
     </edge>
     <edge id="e13" source="n2" target="n11">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="-118.81765210374465">
-            <y:Point x="489.49999999999994" y="197.10394140187532"/>
-            <y:Point x="489.49999999999994" y="197.10394140187532"/>
+            <y:Point x="501.375" y="197.10394140187532"/>
+            <y:Point x="501.375" y="197.10394140187532"/>
           </y:Path>
           <y:LineStyle color="#000000" type="dashed" width="1.0"/>
           <y:Arrows source="none" target="none"/>
@@ -892,12 +890,11 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
       </data>
     </edge>
     <edge id="e14" source="n11::n18" target="n12">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="84.48706054687489" sy="0.0" tx="0.0" ty="-11.052842109834444">
-            <y:Point x="870.875" y="374.0870947312376"/>
-            <y:Point x="870.875" y="200.17305315203959"/>
+          <y:Path sx="78.86292190100323" sy="0.0" tx="0.0" ty="-11.052842109834444">
+            <y:Point x="873.21875" y="374.0870947312376"/>
+            <y:Point x="873.21875" y="200.17305315203959"/>
           </y:Path>
           <y:LineStyle color="#000000" type="dashed" width="1.0"/>
           <y:Arrows source="none" target="none"/>
@@ -908,7 +905,7 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n11::e0" source="n11::n0" target="n11::n22">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.818181818181813" tx="-74.4375" ty="-1.818181818181818"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -918,7 +915,7 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n11::e1" source="n11::n1" target="n11::n19">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.8181818181818699" tx="-74.4375" ty="-1.8181818181818181"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -928,7 +925,7 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n11::e2" source="n11::n2" target="n11::n18">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.818181818181813" tx="-74.4375" ty="-1.8181818181818181"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -938,7 +935,7 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n11::e3" source="n11::n3" target="n11::n15">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.818181818181813" tx="-74.4375" ty="-1.818181818181818"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -948,7 +945,7 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n11::e4" source="n11::n4" target="n11::n14">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.8181818181818699" tx="-74.4375" ty="-1.8181818181818181"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -958,7 +955,7 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n11::e5" source="n11::n5" target="n11::n17">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.8181818181818699" tx="-74.4375" ty="-1.818181818181818"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -968,7 +965,7 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n11::e6" source="n11::n6" target="n11::n13">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.818181818181813" tx="-74.4375" ty="-1.8181818181818181"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -991,7 +988,7 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n11::e8" source="n11::n8" target="n11::n21">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.8181818181818166" tx="-74.4375" ty="-1.8181818181818181"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -1001,27 +998,17 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n11::e9" source="n11::n9" target="n11::n23">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.818181818181813" tx="-74.4375" ty="-1.8181818181818181"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n11::e10" source="n11::n10" target="n11::n20">
+    <edge id="n11::e10" source="n11::n11" target="n11::n20">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="none"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="n11::e11" source="n11::n11" target="n11::n20">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="-51.583333333333485" ty="0.0">
+          <y:Path sx="0.0" sy="0.0" tx="-48.149531558185544" ty="0.0">
             <y:Point x="639.25" y="172.69569824374597"/>
             <y:Point x="639.25" y="122.34784912187305"/>
           </y:Path>
@@ -1031,10 +1018,10 @@ Pages<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n11::e12" source="n11::n12" target="n11::n16">
+    <edge id="n11::e11" source="n11::n12" target="n11::n16">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="37.21875" sy="-1.818181818181813" tx="-74.4375" ty="-1.8181818181818181"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
