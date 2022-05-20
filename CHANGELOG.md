@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.96.3...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.96.4...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,21 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.96.4](https://github.com/Cecilapp/Cecil/compare/5.96.3...5.96.4)
+
+> 16 May 2022
+
+- Apply fixes from StyleCI [`#1377`](https://github.com/Cecilapp/Cecil/pull/1377)
+- Apply fixes from StyleCI [`#1376`](https://github.com/Cecilapp/Cecil/pull/1376)
+- chore: update comments [`f5395c4`](https://github.com/Cecilapp/Cecil/commit/f5395c4a3f17c19f8a65ee940756fefec452ea64)
+- chore: code strict_types [`2af3b9e`](https://github.com/Cecilapp/Cecil/commit/2af3b9e05e5dd70e19271f14916191cb9d43bfb9)
+- chore: update deps [`d6c3093`](https://github.com/Cecilapp/Cecil/commit/d6c309338d27b9bdd0e3e55d6e6c8b3451c9cef3)
+- fix: locale path binding [`ae0e748`](https://github.com/Cecilapp/Cecil/commit/ae0e7487dbcf4b2d186736fd0d4a0b64607a8dcf)
+- fix: Variable $layout might not be defined [`17027f2`](https://github.com/Cecilapp/Cecil/commit/17027f2fbfd3b175678690fc0f6a321b1a188da0)
+- fix: Layout str_replace() on PHP 8 [`2895f3e`](https://github.com/Cecilapp/Cecil/commit/2895f3e172a551e74aab8a85ed8ac6ad2b6e3017)
+- fix: SVG detection [`258ecc6`](https://github.com/Cecilapp/Cecil/commit/258ecc6203021ccf9c706e3bbb4177ab06474b80)
+- chore: clean code [`a0afe1f`](https://github.com/Cecilapp/Cecil/commit/a0afe1f1cc8a52170fd4a9cdd97d16de58b07e0f)
 
 #### [5.96.3](https://github.com/Cecilapp/Cecil/compare/5.96.2...5.96.3)
 
