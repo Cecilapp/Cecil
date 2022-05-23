@@ -31,13 +31,43 @@ class Parsedown extends \ParsedownToC
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
+
+        // "insert" line block: ++text++ -> <ins>text</ins>
+        $this->InlineTypes['+'][] = 'Insert';
+        $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
+        $this->specialCharacters[] = '+';
+        // add caption to image block
         if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
             $this->BlockTypes['!'][] = 'Image';
         }
+        // "notes" block
         if ($this->builder->getConfig()->get('body.notes.enabled')) {
             $this->BlockTypes[':'][] = 'Note';
         }
+
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
+    }
+
+    /**
+     * Insert inline.
+     * e.g.: ++text++ -> <ins>text</ins>
+     */
+    protected function inlineInsert($Excerpt)
+    {
+        if (!isset($Excerpt['text'][1])) {
+            return;
+        }
+
+        if ($Excerpt['text'][1] === '+' and preg_match('/^\+\+(?=\S)(.+?)(?<=\S)\+\+/', $Excerpt['text'], $matches)) {
+            return array(
+                'extent' => strlen($matches[0]),
+                'element' => array(
+                    'name' => 'ins',
+                    'text' => $matches[1],
+                    'handler' => 'line',
+                ),
+            );
+        }
     }
 
     /**
