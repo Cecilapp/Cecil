@@ -133,6 +133,10 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 :::
 ```
 
+## Sub-Header 4
+
+++Inserted text++
+
 #### Table of contents
 
 You can add a table of contents with the following Markdown syntax:
@@ -287,6 +291,18 @@ Is converted to:
 :::info
 **Info:** The _Notes_ syntax can be disabled by setting the [body.notes.enabled](4-Configuration.md#body) option to `false`.
 :::
+
+#### Inserted text
+
+```markdown
+++text++
+```
+
+Is converted to:
+
+```html
+<ins>text</ins>
+```
 
 ## Variables
 
