@@ -50,7 +50,7 @@ class Parsedown extends \ParsedownToC
 
     /**
      * Insert inline.
-     * e.g.: ++text++ -> <ins>text</ins>
+     * e.g.: ++text++ -> <ins>text</ins>.
      */
     protected function inlineInsert($Excerpt)
     {
@@ -59,14 +59,14 @@ class Parsedown extends \ParsedownToC
         }
 
         if ($Excerpt['text'][1] === '+' and preg_match('/^\+\+(?=\S)(.+?)(?<=\S)\+\+/', $Excerpt['text'], $matches)) {
-            return array(
-                'extent' => strlen($matches[0]),
-                'element' => array(
-                    'name' => 'ins',
-                    'text' => $matches[1],
+            return [
+                'extent'  => strlen($matches[0]),
+                'element' => [
+                    'name'    => 'ins',
+                    'text'    => $matches[1],
                     'handler' => 'line',
-                ),
-            );
+                ],
+            ];
         }
     }
 
