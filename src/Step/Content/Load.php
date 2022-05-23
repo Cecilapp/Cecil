@@ -64,6 +64,11 @@ class Load extends AbstractStep
             $namePattern = basename($this->page);
         }
         $content->name($namePattern);
+        if (is_array($this->builder->getConfig()->get('content.exclude'))) {
+            $content->exclude($this->builder->getConfig()->get('content.exclude'));
+            $content->notPath($this->builder->getConfig()->get('content.exclude'));
+            $content->notName($this->builder->getConfig()->get('content.exclude'));
+        }
         if (file_exists(Util::joinFile($this->builder->getConfig()->getContentPath(), '.gitignore'))) {
             $content->ignoreVCSIgnored(true);
         }
