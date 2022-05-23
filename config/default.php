@@ -151,9 +151,9 @@ return [
     ],
     // Markdown files
     'content' => [
-        'dir'     => 'content',
-        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
-        'exclude' => ['vendor', 'node_modules'],
+        'dir'     => 'content', // content directory
+        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // array of content files extensions
+        'exclude' => ['vendor', 'node_modules'], // array of directories, paths and files name to exclude
     ],
     'frontmatter' => [
         'format' => 'yaml',
