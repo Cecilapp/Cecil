@@ -58,7 +58,7 @@ class Parsedown extends \ParsedownToC
             return;
         }
 
-        if ($Excerpt['text'][1] === '+' and preg_match('/^\+\+(?=\S)(.+?)(?<=\S)\+\+/', $Excerpt['text'], $matches)) {
+        if ($Excerpt['text'][1] === '+' && preg_match('/^\+\+(?=\S)(.+?)(?<=\S)\+\+/', $Excerpt['text'], $matches)) {
             return [
                 'extent'  => strlen($matches[0]),
                 'element' => [
