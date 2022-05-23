@@ -131,11 +131,11 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 :::tip
 **Tip:** This is an advice.
 :::
-```
 
 ## Sub-Header 4
 
 ++Inserted text++
+```
 
 #### Table of contents
 
