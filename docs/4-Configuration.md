@@ -544,8 +544,9 @@ Where content files are stored and loaded file extensions (Markdown and plain te
 
 ```yaml
 content:
-  dir: content                                     # pages directory
-  ext: [md, markdown, mdown, mkdn, mkd, text, txt] # array of files extensions.
+  dir: content                                     # content directory
+  ext: [md, markdown, mdown, mkdn, mkd, text, txt] # array of content files extensions
+  exclude: [vendor, node_modules]                  # array of directories, paths and files name to exclude (accepts globs, strings and regexes)
 ```
 
 ### frontmatter
