@@ -617,8 +617,8 @@ class Extension extends SlugifyExtension
         if ($capture == 'after') {
             return trim($matches[3]);
         }
-
-        return trim($matches[1]);
+        // remove footnotes
+        return preg_replace('/<sup[^>]*>[^u]*<\/sup>/', '', trim($matches[1]));
     }
 
     /**
