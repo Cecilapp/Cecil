@@ -118,6 +118,17 @@ return [
         'fingerprint' => [
             'enabled' => false,
         ],
+        'images' => [
+            'optimize' => [
+                'enabled' => false,
+            ],
+            'responsive' => [
+                'enabled' => false,
+            ],
+            'webp' => [
+                'enabled' => false,
+            ],
+        ],
     ],
     'postprocess' => [
         'enabled' => true,
@@ -148,10 +159,16 @@ return [
     ],
     'body' => [
         'images' => [
+            'remote' => [
+                'enabled' => false,
+            ],
             'resize' => [
                 'enabled' => true,
             ],
             'responsive' => [
+                'enabled' => true,
+            ],
+            'webp' => [
                 'enabled' => true,
             ],
         ],
