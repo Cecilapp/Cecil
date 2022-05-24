@@ -210,7 +210,7 @@ class Parsedown extends \ParsedownToC
         if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
             try {
                 if (is_string($InlineImage['element']['attributes']['src'])) {
-                    throw new RuntimeException(\sprintf('Can\'t convert "%s" to WebP', $InlineImage['element']['attributes']['src']));
+                    throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
                 $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 75);
                 $srcset = '';
