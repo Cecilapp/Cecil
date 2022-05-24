@@ -113,20 +113,20 @@ return [
             'variables' => ['test' => '#FFF'],
         ],
         'minify' => [
-            'enabled' => false,
+            'enabled' => true,
         ],
         'fingerprint' => [
-            'enabled' => false,
+            'enabled' => true,
         ],
         'images' => [
             'optimize' => [
-                'enabled' => false,
+                'enabled' => true,
             ],
             'responsive' => [
-                'enabled' => false,
+                'enabled' => true,
             ],
             'webp' => [
-                'enabled' => false,
+                'enabled' => true,
             ],
         ],
     ],
@@ -159,6 +159,12 @@ return [
     ],
     'body' => [
         'images' => [
+            'lazy' => [
+                'enabled' => true,
+            ],
+            'caption' => [
+                'enabled' => true,
+            ],
             'remote' => [
                 'enabled' => false,
             ],
@@ -171,6 +177,9 @@ return [
             'webp' => [
                 'enabled' => true,
             ],
+        ],
+        'notes' => [
+            'enabled' => true,
         ],
     ],
 ];
