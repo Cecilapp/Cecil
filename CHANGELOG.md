@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.98.0...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.98.1...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,26 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.98.1](https://github.com/Cecilapp/Cecil/compare/5.98.0...5.98.1)
+
+> 24 May 2022
+
+- chore: fix WebP configuration of Scrutinizer config [`#1387`](https://github.com/Cecilapp/Cecil/pull/1387)
+- Apply fixes from StyleCI [`#1386`](https://github.com/Cecilapp/Cecil/pull/1386)
+- chore: cleaning tests fixtures [`fff33d5`](https://github.com/Cecilapp/Cecil/commit/fff33d5d4560dc1a867b2a7739271358b61ca2dd)
+- fix: remote asset handling [`56cdf1c`](https://github.com/Cecilapp/Cecil/commit/56cdf1c377b78deb993de5bc847fbc614cdef194)
+- chore: update fixtures [`fc377d4`](https://github.com/Cecilapp/Cecil/commit/fc377d446e1d838c703a889d1590ce3fe69e077c)
+- tests: add images fixtures and cases [`2c9fef6`](https://github.com/Cecilapp/Cecil/commit/2c9fef6b45f781ffd5a58c95b7a96c0701dd97ba)
+- chore: clean code [`cc346b1`](https://github.com/Cecilapp/Cecil/commit/cc346b1cc2410b840597b6f5d1f73daf6cd357c8)
+- tests: add Markdown fixtures [`0af1d41`](https://github.com/Cecilapp/Cecil/commit/0af1d41177ca9532de90fee6fa6e3b621a89bdee)
+- chore: update deps [`812d72b`](https://github.com/Cecilapp/Cecil/commit/812d72bc90a3861c2f0f9c448c2d9e42c11bc513)
+- chore: add webp to circleci installation [`18fcec3`](https://github.com/Cecilapp/Cecil/commit/18fcec357db1fadd3abd825b5f2f748e90b5bda6)
+- test: fix external body [`88cb755`](https://github.com/Cecilapp/Cecil/commit/88cb7551cfacb46b23169d97c0dd8cfd4da54e0b)
+- chore: fix circleci config [`f1321cc`](https://github.com/Cecilapp/Cecil/commit/f1321cca7b3da34dae23176f7f6acf4ac85988b7)
+- chore: update exception message [`8b8bea1`](https://github.com/Cecilapp/Cecil/commit/8b8bea1dde1511c7e50e034f10f709fc8cd96aa5)
+- fix: image height when resize [`280f682`](https://github.com/Cecilapp/Cecil/commit/280f68290cae603862f12e13bc917d80ef415416)
+- chore: try to add WebP to Scrutinizer config [`3b2fc08`](https://github.com/Cecilapp/Cecil/commit/3b2fc08b96120c7229cf8babea62fb041d65a1db)
 
 #### [5.98.0](https://github.com/Cecilapp/Cecil/compare/5.97.0...5.98.0)
 
