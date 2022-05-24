@@ -40,8 +40,8 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 && $page->getVariable('exclude') !== true;
         });
         /** @var \Cecil\Collection\Page\Page $page */
-        if ($page->hasVariable('pagesfrom') && $this->builder->getPages()->has($page->getVariable('pagesfrom'))) {
-            $subPages = $this->builder->getPages()->get($page->getVariable('pagesfrom'))->getVariable('pages');
+        if ($page->hasVariable('pagesfrom') && $this->builder->getPages()->has((string) $page->getVariable('pagesfrom'))) {
+            $subPages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getVariable('pages');
         }
         // sorts
         /** @var \Cecil\Collection\Page\Collection $subPages */

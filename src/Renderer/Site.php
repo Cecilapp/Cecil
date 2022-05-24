@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
-use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Page as CollectionPage;
 
 /**
  * Class Site.
@@ -108,7 +108,7 @@ class Site implements \ArrayAccess
      */
     public function getPages(): \Cecil\Collection\Page\Collection
     {
-        return $this->builder->getPages()->filter(function (Page $page) {
+        return $this->builder->getPages()->filter(function (CollectionPage $page) {
             // We should fix case of virtual pages without language
             if ($page->getVariable('language') === null && $this->language === $this->config->getLanguageDefault()) {
                 return true;
