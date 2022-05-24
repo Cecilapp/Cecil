@@ -39,6 +39,8 @@ jobs:
           mkdir -p ~/phpunit
           vendor/bin/phpunit --testsuite=IntegrationTests --log-junit=~/phpunit/junit.xml
         when: always
+        environment:
+          CECIL_BODY_IMAGES_WEBP_ENABLED: false
     - store_test_results:
         path: ~/phpunit
     - store_artifacts:
