@@ -21,7 +21,7 @@ build:
     timezone: 'Europe/Paris'
     php:
       version: 7.1
-      compile_options: '--with-webp-dir=/usr/include'
+      compile_options: '--with-config-file-path=/home/scrutinizer/.phpenv/versions/7.1.12/etc --with-config-file-scan-dir=/home/scrutinizer/.phpenv/versions/7.1.12/etc/conf.d --prefix=/home/scrutinizer/.phpenv/versions/7.1.12 --libexecdir=/home/scrutinizer/.phpenv/versions/7.1.12/libexec --enable-intl --with-openssl --with-gd --enable-gd --with-jpeg-dir=/usr --with-png-dir=/usr --with-freetype-dir=/usr --enable-exif --with-libzip --with-zlib --with-zlib-dir=/usr --enable-xmlreader --with-xsl --enable-pcntl --with-readline --enable-mbstring --with-curl --with-gettext --with-bz2 --enable-bcmath --with-libdir=lib --with-pear=/home/scrutinizer/.phpenv/versions/7.1.12/pear --with-webp-dir=/usr'
   nodes:
     analysis:
       #requires:
