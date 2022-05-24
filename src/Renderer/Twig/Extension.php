@@ -231,7 +231,8 @@ class Extension extends SlugifyExtension
     public function sortByTitle(\Traversable $collection): array
     {
         $collection = iterator_to_array($collection);
-        array_multisort(array_keys($collection), SORT_NATURAL | SORT_FLAG_CASE, $collection);
+        /** @var \array $collection */
+        array_multisort(array_keys($collection), \SORT_ASC, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
 
         return $collection;
     }
@@ -256,6 +257,7 @@ class Extension extends SlugifyExtension
         };
 
         $collection = iterator_to_array($collection);
+        /** @var \array $collection */
         usort($collection, $callback);
 
         return $collection;
@@ -275,6 +277,7 @@ class Extension extends SlugifyExtension
         };
 
         $collection = iterator_to_array($collection);
+        /** @var \array $collection */
         usort($collection, $callback);
 
         return $collection;
