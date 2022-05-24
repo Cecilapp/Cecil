@@ -16,6 +16,8 @@ namespace Cecil\Converter;
 use Cecil\Assets\Asset;
 use Cecil\Assets\Image;
 use Cecil\Builder;
+use Cecil\Util;
+use Cecil\Exception\RuntimeException;
 
 class Parsedown extends \ParsedownToC
 {
@@ -85,8 +87,8 @@ class Parsedown extends \ParsedownToC
         if ($this->builder->getConfig()->get('body.images.lazy.enabled')) {
             $image['element']['attributes']['loading'] = 'lazy';
         }
-        // disable image handling
-        if (!$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
+        // disable remote image handling
+        if (Util\Url::isUrl($image['element']['attributes']['src']) && !$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
             return $image;
         }
         // create asset
@@ -205,37 +207,44 @@ class Parsedown extends \ParsedownToC
         */
 
         // creates a <picture> element with a <source> (WebP) and an <img> element
-        if (($this->builder->getConfig()->get('body.images.remote.enabled') ?? true) && ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false) && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-            $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 75);
-            $srcset = '';
-            if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
-                $srcset = Image::buildSrcset(
-                    $assetWebp,
-                    $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
-                );
-            }
-            if (empty($srcset)) {
-                $srcset = (string) $assetWebp;
-            }
-            $PictureBlock = [
-                'element' => [
-                    'name'    => 'picture',
-                    'handler' => 'elements',
-                ],
-            ];
-            $source = [
-                'element' => [
-                    'name'       => 'source',
-                    'attributes' => [
-                        'type'   => 'image/webp',
-                        'srcset' => $srcset,
-                        'sizes'  => $this->builder->getConfig()->get('assets.images.responsive.sizes.default'),
+        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
+            try {
+                if (is_string($InlineImage['element']['attributes']['src'])) {
+                    throw new RuntimeException(\sprintf('Can\'t convert "%s" to WebP', $InlineImage['element']['attributes']['src']));
+                }
+                $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 75);
+                $srcset = '';
+                if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
+                    $srcset = Image::buildSrcset(
+                        $assetWebp,
+                        $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                    );
+                }
+                if (empty($srcset)) {
+                    $srcset = (string) $assetWebp;
+                }
+                $PictureBlock = [
+                    'element' => [
+                        'name'    => 'picture',
+                        'handler' => 'elements',
                     ],
-                ],
-            ];
-            $PictureBlock['element']['text'][] = $source['element'];
-            $PictureBlock['element']['text'][] = $InlineImage['element'];
-            $block = $PictureBlock;
+                ];
+                $source = [
+                    'element' => [
+                        'name'       => 'source',
+                        'attributes' => [
+                            'type'   => 'image/webp',
+                            'srcset' => $srcset,
+                            'sizes'  => $this->builder->getConfig()->get('assets.images.responsive.sizes.default'),
+                        ],
+                    ],
+                ];
+                $PictureBlock['element']['text'][] = $source['element'];
+                $PictureBlock['element']['text'][] = $InlineImage['element'];
+                $block = $PictureBlock;
+            } catch (RuntimeException $e) {
+                $this->builder->getLogger()->debug($e->getMessage());
+            }
         }
 
         // put <img> (or <picture>) in a <figure> element if there is a title (<figcaption>)
