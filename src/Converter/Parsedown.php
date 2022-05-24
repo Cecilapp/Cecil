@@ -16,8 +16,8 @@ namespace Cecil\Converter;
 use Cecil\Assets\Asset;
 use Cecil\Assets\Image;
 use Cecil\Builder;
-use Cecil\Util;
 use Cecil\Exception\RuntimeException;
+use Cecil\Util;
 
 class Parsedown extends \ParsedownToC
 {
