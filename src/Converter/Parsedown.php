@@ -121,7 +121,7 @@ class Parsedown extends \ParsedownToC
         }
         // set height
         if (!isset($image['element']['attributes']['height'])) {
-            $image['element']['attributes']['height'] = $asset->getHeight();
+            $image['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
         }
         /**
          * Should be responsive?
