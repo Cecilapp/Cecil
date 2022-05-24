@@ -21,6 +21,7 @@ build:
     timezone: 'Europe/Paris'
     php:
       version: 7.1
+      compile_options: '--with-webp-dir=/usr/include'
   nodes:
     analysis:
       #requires:
