@@ -54,6 +54,7 @@ class Item implements ItemInterface
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->properties);
@@ -66,6 +67,7 @@ class Item implements ItemInterface
      *
      * @return mixed|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->properties[$offset];
@@ -77,6 +79,7 @@ class Item implements ItemInterface
      * @param mixed $offset
      * @param mixed $value
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->properties[$offset] = $value;
@@ -87,6 +90,7 @@ class Item implements ItemInterface
      *
      * @param mixed $offset
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->properties[$offset]);
