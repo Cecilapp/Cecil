@@ -18,7 +18,7 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 📄 [Documentation](https://cecil.app/documentation) | 💻 [Demo](https://demo.cecil.app) | 🐛 [Issue tracker](https://github.com/Cecilapp/Cecil/issues) | 💬 [Discussion](https://github.com/Cecilapp/Cecil/discussions)
 
-![Cecil CLI demo](docs/cecil-demo.gif "Cecil CLI demo")
+![Cecil CLI demo](docs/cecil-cli-demo.gif "Cecil CLI demo")
 
 ## Quick Start
 
