@@ -1,12 +1,10 @@
 ---
-title: 'Image processing'
+title: 'Images'
 date: 2020/06/08
-updated: 2021/11/19
+updated: 2022/05/24
 typora-root-url: ../../static
 ---
 <!-- break -->
-## Resize
-
 ### Original image
 
 ```markdown
@@ -15,13 +13,7 @@ typora-root-url: ../../static
 
 ![Alt text](/images/cecil-logo.png)
 
-### Image with caption
-
-```markdown
-![Alt text](/images/cecil-logo.png 'Title text')
-```
-
-![Alt text](/images/cecil-logo.png 'Title text')
+## Resize
 
 ### Image resized to 100px
 
@@ -39,10 +31,26 @@ typora-root-url: ../../static
 
 ![Jamstatic](https://jamstatic.fr/assets/images/twitter-card.png){width=250}
 
-### Responsive image
+## Image with caption
+
+```markdown
+![Alt text](/images/cecil-logo.png 'Title text')
+```
+
+![Alt text](/images/cecil-logo.png 'Title text')
+
+## Responsive image
 
 ```markdown
 ![Alt text](/cecil-logo-1000.png)
 ```
 
 ![Alt text](/cecil-logo-1000.png)
+
+## Animated GIF
+
+```markdown
+![Alt text](/nyan-cat.gif)
+```
+
+![Alt text](/nyan-cat.gif)
