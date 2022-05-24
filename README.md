@@ -1,4 +1,4 @@
-[![Cecil's logo, created by Cécile Ricordeau](https://cecil.app/images/cecil-logo-netlify-cms.png)](https://cecil.app)
+[![Cecil's logo, created by Cécile Ricordeau](https://cecil.app/images/logo-cecil.png)](https://cecil.app)
 
 Cecil, your content driven static site generator.
 
