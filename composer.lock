@@ -1430,16 +1430,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v4.4.39",
+            "version": "v4.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "72a5b35fecaa670b13954e6eaf414acbe2a67b35"
+                "reference": "815412ee8971209bd4c1eecd5f4f481eacd44bf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/72a5b35fecaa670b13954e6eaf414acbe2a67b35",
-                "reference": "72a5b35fecaa670b13954e6eaf414acbe2a67b35",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/815412ee8971209bd4c1eecd5f4f481eacd44bf5",
+                "reference": "815412ee8971209bd4c1eecd5f4f481eacd44bf5",
                 "shasum": ""
             },
             "require": {
@@ -1473,7 +1473,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v4.4.39"
+                "source": "https://github.com/symfony/filesystem/tree/v4.4.42"
             },
             "funding": [
                 {
@@ -1489,7 +1489,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-25T10:38:15+00:00"
+            "time": "2022-05-20T08:49:14+00:00"
         },
         {
             "name": "symfony/finder",
