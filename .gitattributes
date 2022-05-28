@@ -9,4 +9,5 @@ CONTRIBUTING.md export-ignore
 
 # Auto detect text files and perform LF normalization
 * text=auto
-*.php text
+# Force LF for PHP files
+*.php text eol=lf
