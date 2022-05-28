@@ -712,8 +712,12 @@ class Asset implements \ArrayAccess
             return false;
         }
 
-        if (false === $size = getimagesizefromstring($this->data['content'])) {
-            return false;
+        try {
+            if (false === $size = getimagesizefromstring($this->data['content'])) {
+                return false;
+            }
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Handling asset "%s" failed: "%s"', $this->data['path_source'], $e->getMessage()));
         }
 
         return $size;
