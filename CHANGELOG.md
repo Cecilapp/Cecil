@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.98.1...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.98.2...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,15 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.98.2](https://github.com/Cecilapp/Cecil/compare/5.98.1...5.98.2)
+
+> 28 May 2022
+
+- fix: Asset image correct width [`#1393`](https://github.com/Cecilapp/Cecil/pull/1393)
+- chore: code quality [`#1388`](https://github.com/Cecilapp/Cecil/pull/1388)
+- chore: update deps [`ef462b3`](https://github.com/Cecilapp/Cecil/commit/ef462b3ad3aecb7c9f93c1154fca80e62e7780ae)
+- Create cecil-cli-demo.gif [`7c9b734`](https://github.com/Cecilapp/Cecil/commit/7c9b734d949b79b6b381e448b4c1229e430fdd1f)
 
 #### [5.98.1](https://github.com/Cecilapp/Cecil/compare/5.98.0...5.98.1)
 
