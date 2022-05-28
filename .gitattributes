@@ -9,3 +9,4 @@ CONTRIBUTING.md export-ignore
 
 # Auto detect text files and perform LF normalization
 * text=auto
+* text eol=lf
