@@ -88,6 +88,7 @@ class Asset implements \ArrayAccess
             'content_source' => '', // file content, before transformations
             'content'        => '', // file content, after transformations
             'width'          => 0,  // width (in pixels) in case of an image
+            'height'         => 0,  // height (in pixels) in case of an image
         ];
 
         // handles options
@@ -128,6 +129,9 @@ class Asset implements \ArrayAccess
                     continue;
                 }
                 // set data
+                $this->data['size'] += $file[$i]['size'];
+                $this->data['content_source'] .= $file[$i]['content'];
+                $this->data['content'] .= $file[$i]['content'];
                 if ($i == 0) {
                     $this->data['file'] = $file[$i]['filepath']; // should be an array of files in case of bundle?
                     $this->data['filename'] = $file[$i]['path'];
@@ -139,10 +143,11 @@ class Asset implements \ArrayAccess
                     $this->data['ext'] = $file[$i]['ext'];
                     $this->data['type'] = $file[$i]['type'];
                     $this->data['subtype'] = $file[$i]['subtype'];
+                    if ($this->data['type'] == 'image') {
+                        $this->data['width'] = $this->getWidth();
+                        $this->data['height'] = $this->getHeight();
+                    }
                 }
-                $this->data['size'] += $file[$i]['size'];
-                $this->data['content_source'] .= $file[$i]['content'];
-                $this->data['content'] .= $file[$i]['content'];
             }
             // bundle: define path
             if ($pathsCount > 1) {
@@ -428,6 +433,7 @@ class Asset implements \ArrayAccess
 
             try {
                 $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $this->config->get('assets.images.quality'));
+                $assetResized->data['height'] = $assetResized->getHeight();
             } catch (\Exception $e) {
                 throw new RuntimeException(\sprintf('Not able to encode image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }

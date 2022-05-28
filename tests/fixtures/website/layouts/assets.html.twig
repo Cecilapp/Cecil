@@ -114,6 +114,14 @@ pre {
     </blockquote>
   </p>
 
+  <h2>Image size</h2>
+  <p>
+    <pre>asset('images/cecil-logo.png').width x asset('images/cecil-logo.png').height</pre>
+    <blockquote>
+      {{- asset('images/cecil-logo.png').width ~ ' x ' ~ asset('images/cecil-logo.png').height -}}
+    </blockquote>
+  </p>
+
   <h2>Data URL of an image</h2>
   <p>
     <pre>asset('images/cecil-logo.png')|dataurl</pre>
