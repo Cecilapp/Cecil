@@ -1,5 +1,6 @@
 {
   "name": "cecil/cecil",
+  "type": "library",
   "description": "Your content driven static site generator.",
   "keywords": [
     "static-site-generator",
@@ -8,7 +9,6 @@
   ],
   "homepage": "https://cecil.app",
   "license": "MIT",
-  "type": "library",
   "authors": [
     {
       "name": "Arnaud Ligny",
@@ -17,10 +17,6 @@
       "role": "Developer"
     }
   ],
-  "support": {
-    "source": "https://github.com/Cecilapp/Cecil",
-    "issues": "https://github.com/Cecilapp/Cecil/issues"
-  },
   "require": {
     "php": ">=7.1",
     "ext-fileinfo": "*",
@@ -52,23 +48,29 @@
     "wapmorgan/mp3info": "^0.0",
     "yosymfony/resource-watcher": "^3.0"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/Cecilapp/box"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/Cecilapp/Twig-extensions"
-    }
-  ],
   "require-dev": {
+    "ergebnis/composer-normalize": "^2.8",
     "humbug/box": "3.7.4.x-dev",
     "phpmd/phpmd": "^2.10",
     "phpstan/phpstan": "^0.12",
     "phpunit/phpunit": "^7.5",
     "squizlabs/php_codesniffer": "^3.6",
     "symfony/var-dumper": "^4.4"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true,
+      "ergebnis/composer-normalize": true
+    },
+    "platform": {
+      "php": "7.1.3"
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "5.x-dev"
+    }
   },
   "autoload": {
     "psr-4": {
@@ -80,22 +82,30 @@
       "Cecil\\Test\\": "tests/"
     }
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/Cecilapp/box"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/Cecilapp/Twig-extensions"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "bin": [
     "bin/cecil"
   ],
-  "extra": {
-    "branch-alias": {
-      "dev-master": "5.x-dev"
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "scripts": {
+    "post-install-cmd": "cd ./tests/fixtures/website && composer install",
+    "post-update-cmd": "cd ./tests/fixtures/website && composer update",
+    "box": "@build",
+    "build": "box compile",
     "code:analyse": "phpstan analyse src --memory-limit=1G --level=1 --no-progress --error-format=github",
     "code:style": "phpcs ./src/ --standard=PSR2 -n",
     "test": "@test:integration",
-    "test:unit": "phpunit -c ./ --testsuite=UnitTests",
-    "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
+    "test:bin": "cd bin && php cecil --version && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",
     "test:coverage": "phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml",
     "test:coverage:install": [
       "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/latest/download/php-coveralls.phar -O coveralls.phar",
@@ -103,34 +113,26 @@
       "php coveralls.phar --version"
     ],
     "test:coverage:upload": "php coveralls.phar -v",
-    "test:bin": "cd bin && php cecil --version && mkdir skeleton && php cecil new:site skeleton -f && php cecil build skeleton -v && rm -rf skeleton",
+    "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
     "test:phar": "box compile && cd dist && php cecil.phar --version && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
-    "build": "box compile",
-    "box": "@build",
-    "post-install-cmd": "cd ./tests/fixtures/website && composer install",
-    "post-update-cmd": "cd ./tests/fixtures/website && composer update"
+    "test:unit": "phpunit -c ./ --testsuite=UnitTests"
   },
   "scripts-descriptions": {
+    "box": "Alias of build.",
+    "build": "Builds the PHAR file.",
     "code:analyse": "Analyses code with PHPStan (PHP Static Analysis Tool).",
     "code:style": "Corrects coding standard violations with PHP_CodeSniffer",
     "test": "Runs tests suite.",
-    "test:unit": "Runs unit tests suite.",
-    "test:integration": "Runs integration tests suite.",
+    "test:bin": "Runs the binary to create a new skeleton site.",
     "test:coverage": "Runs functional tests suite with code coverage.",
     "test:coverage:install": "Installs the php-coveralls binary.",
     "test:coverage:upload": "Uploads tests coverage results.",
-    "test:bin": "Runs the binary to create a new skeleton site.",
+    "test:integration": "Runs integration tests suite.",
     "test:phar": "Builds the PHAR file and trys to create a new skeleton site.",
-    "build": "Builds the PHAR file.",
-    "box": "Alias of build."
+    "test:unit": "Runs unit tests suite."
   },
-  "config": {
-    "platform": {
-      "php": "7.1.3"
-    },
-    "sort-packages": true,
-    "allow-plugins": {
-      "composer/package-versions-deprecated": true
-    }
+  "support": {
+    "issues": "https://github.com/Cecilapp/Cecil/issues",
+    "source": "https://github.com/Cecilapp/Cecil"
   }
 }
