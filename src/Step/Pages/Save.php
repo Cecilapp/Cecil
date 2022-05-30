@@ -37,7 +37,7 @@ class Save extends AbstractStep
      */
     public function init(array $options): void
     {
-        // clear cache?
+        // should clear cache?
         $this->clearCache();
 
         if ($options['dry-run']) {
@@ -106,7 +106,7 @@ class Save extends AbstractStep
      */
     private function clearCache(): void
     {
-        if ($this->config->get('cache.enabled') === false) {
+        if ((bool) $this->config->get('cache.enabled') === false) {
             Util\File::getFS()->remove($this->config->getCachePath());
         }
     }

@@ -302,7 +302,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns pages collection.
      */
-    public function getPages(): PagesCollection
+    public function getPages(): ?PagesCollection
     {
         return $this->pages;
     }

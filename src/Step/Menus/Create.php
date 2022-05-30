@@ -40,6 +40,16 @@ class Create extends AbstractStep
 
     /**
      * {@inheritdoc}
+     */
+    public function init(array $options): void
+    {
+        if (is_dir($this->builder->getConfig()->getContentPath())) {
+            $this->canProcess = true;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
      *
      * @throws RuntimeException
      */
