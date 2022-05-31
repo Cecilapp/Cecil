@@ -36,10 +36,9 @@ class Create extends AbstractStep
     public function init(array $options): void
     {
         if (is_dir($this->builder->getConfig()->getContentPath())) {
+            $this->builder->setPages(new PagesCollection('all-pages'));
             $this->canProcess = true;
         }
-
-        $this->builder->setPages(new PagesCollection('all-pages'));
     }
 
     /**

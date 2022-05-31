@@ -41,7 +41,7 @@ class DataLoad extends AbstractStep
      */
     public function init(array $options): void
     {
-        if (is_dir($this->builder->getConfig()->getDataPath()) && $this->config->get('data.load')) {
+        if (is_dir($this->builder->getConfig()->getDataPath()) && (bool) $this->config->get('data.load')) {
             $this->canProcess = true;
         }
     }

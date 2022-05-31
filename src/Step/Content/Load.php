@@ -39,9 +39,9 @@ class Load extends AbstractStep
     public function init(array $options): void
     {
         if (is_dir($this->builder->getConfig()->getContentPath())) {
+            $this->page = $options['page'];
             $this->canProcess = true;
         }
-        $this->page = $options['page'];
     }
 
     /**

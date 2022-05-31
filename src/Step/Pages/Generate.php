@@ -35,7 +35,6 @@ class Generate extends AbstractStep
      */
     public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
         if (count((array) $this->builder->getConfig()->get('generators')) > 0) {
             $this->canProcess = true;
         }

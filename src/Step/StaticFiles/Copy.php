@@ -38,8 +38,6 @@ class Copy extends AbstractStep
     public function init(array $options): void
     {
         if ($options['dry-run']) {
-            $this->canProcess = false;
-
             return;
         }
 

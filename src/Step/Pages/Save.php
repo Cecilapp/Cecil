@@ -41,8 +41,6 @@ class Save extends AbstractStep
         $this->clearCache();
 
         if ($options['dry-run']) {
-            $this->canProcess = false;
-
             return;
         }
 
