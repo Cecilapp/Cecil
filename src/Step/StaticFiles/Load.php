@@ -35,9 +35,7 @@ class Load extends AbstractStep
      */
     public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
-        /** @var \Cecil\Config $config */
-        if (is_dir($this->builder->getConfig()->getStaticPath()) && $this->config->get('static.load')) {
+        if (is_dir($this->builder->getConfig()->getStaticPath()) && (bool) $this->config->get('static.load')) {
             $this->canProcess = true;
         }
     }

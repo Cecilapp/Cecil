@@ -38,11 +38,10 @@ class Load extends AbstractStep
      */
     public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
+            $this->page = $options['page'];
             $this->canProcess = true;
         }
-        $this->page = $options['page'];
     }
 
     /**

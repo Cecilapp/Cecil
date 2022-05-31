@@ -35,10 +35,8 @@ class Create extends AbstractStep
      */
     public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
-        $this->builder->setPages(new PagesCollection('all-pages'));
-
         if (is_dir($this->builder->getConfig()->getContentPath())) {
+            $this->builder->setPages(new PagesCollection('all-pages'));
             $this->canProcess = true;
         }
     }
@@ -48,7 +46,7 @@ class Create extends AbstractStep
      */
     public function process(): void
     {
-        if (count($this->builder->getContent()) <= 0) {
+        if (count($this->builder->getContent()) == 0) {
             return;
         }
 
@@ -60,6 +58,7 @@ class Create extends AbstractStep
             /** @var Page $page */
             $page = new Page(Page::createId($file));
             $page->setFile($file)->parse();
+            // add page to collection if its language is defined in config
             if (in_array($page->getVariable('language') ?? $this->config->getLanguageDefault(), array_column($this->config->getLanguages(), 'code'))) {
                 $this->builder->getPages()->add($page);
             }
