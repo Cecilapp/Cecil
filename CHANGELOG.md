@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.98.2...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.98.3...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,15 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.98.3](https://github.com/Cecilapp/Cecil/compare/5.98.2...5.98.3)
+
+> 28 May 2022
+
+- chore: composer normalize [`47a03c2`](https://github.com/Cecilapp/Cecil/commit/47a03c2e8b5ce6846463adabbb07a9d63c2b5044)
+- Revert "Update CHANGELOG" [`8210f56`](https://github.com/Cecilapp/Cecil/commit/8210f56cca825cb66d6a2c787a8c10d0e09689fc)
+- chore: Better Asset handling error message [`e17f47c`](https://github.com/Cecilapp/Cecil/commit/e17f47c3e3c58268bd27caad0434b1940c332692)
+- chore: force EOL LF [`d1f3eaa`](https://github.com/Cecilapp/Cecil/commit/d1f3eaa488af92105a3c952b99fbd0374e00ef76)
 
 #### [5.98.2](https://github.com/Cecilapp/Cecil/compare/5.98.1...5.98.2)
 
