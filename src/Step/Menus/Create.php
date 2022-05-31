@@ -40,16 +40,6 @@ class Create extends AbstractStep
 
     /**
      * {@inheritdoc}
-     */
-    public function init(array $options): void
-    {
-        if (is_dir($this->builder->getConfig()->getContentPath())) {
-            $this->canProcess = true;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
      *
      * @throws RuntimeException
      */
@@ -77,7 +67,7 @@ class Create extends AbstractStep
          *         enabled: false.
          */
         foreach ($this->config->getLanguages() as $language) {
-            if ($menusConfig = $this->config->get('menus', $language['code'], false)) {
+            if ($menusConfig = (array) $this->config->get('menus', $language['code'], false)) {
                 $totalConfig = array_sum(array_map('count', $menusConfig));
                 $countConfig = 0;
                 $suffix = $language['code'] !== $this->config->getLanguageDefault() ? '.'.$language['code'] : '';
