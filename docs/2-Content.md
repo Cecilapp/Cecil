@@ -588,6 +588,18 @@ language: fr
 ---
 ```
 
+### Reference between translated pages
+
+Each page reference pages in others languages with the `langref` variable.
+
+The `langref` variable is provided by default, but you can change it in the front matter:
+
+```yml
+---
+langref: my-page-ref
+---
+```
+
 ## Dynamic content
 
 You can use [variables](3-Templates.md#variables) and shortcodes in the body content.

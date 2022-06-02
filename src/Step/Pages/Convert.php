@@ -65,9 +65,9 @@ class Convert extends AbstractStep
 
                 try {
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
-                    // set default language
-                    if (!$convertedPage->hasVariable('language')) {
-                        $convertedPage->setVariable('language', $this->config->getLanguageDefault());
+                    // set default language (ex: "en") if necessary
+                    if ($convertedPage->getLanguage('language') === null) {
+                        $convertedPage->setLanguage($this->config->getLanguageDefault());
                     }
                 } catch (RuntimeException $e) {
                     $this->builder->getLogger()->error(sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));

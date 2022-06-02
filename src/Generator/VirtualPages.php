@@ -44,20 +44,22 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
             }
             $path = Page::slugify($frontmatter['path']);
             foreach ($this->config->getLanguages() as $language) {
-                $id = !empty($path) ? $path : 'index';
+                $pageId = !empty($path) ? $path : 'index';
                 if ($language['code'] !== $this->config->getLanguageDefault()) {
-                    $id .= '.'.$language['code'];
+                    $pageId .= '.'.$language['code'];
+                    // disable multilingual support
                     if (isset($frontmatter['multilingual']) && $frontmatter['multilingual'] === false) {
                         continue;
                     }
                 }
-                if ($this->builder->getPages()->has($id)) {
+                // abord if the page id already exists
+                if ($this->builder->getPages()->has($pageId)) {
                     continue;
                 }
-                $page = (new Page($id))
+                $page = (new Page($pageId))
                     ->setPath($path)
                     ->setType(Type::PAGE)
-                    ->setVariable('language', $language['code'])
+                    ->setLanguage($language['code'])
                     ->setVariable('langref', $path);
                 $page->setVariables($frontmatter);
                 $this->generatedPages->add($page);

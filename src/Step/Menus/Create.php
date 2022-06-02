@@ -143,7 +143,7 @@ class Create extends AbstractStep
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return $page->hasVariable('menu')
                 && $page->getVariable('published')
-                && in_array($page->getVariable('language') ?? $this->config->getLanguageDefault(), array_column($this->config->getLanguages(), 'code'));
+                && in_array($page->getLanguage() ?? $this->config->getLanguageDefault(), array_column($this->config->getLanguages(), 'code'));
         });
 
         $total = count($filteredPages);
@@ -151,7 +151,7 @@ class Create extends AbstractStep
         /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
-            $language = $page->getVariable('language') ?? $this->config->getLanguageDefault();
+            $language = $page->getLanguage() ?? $this->config->getLanguageDefault();
             /**
              * Array case.
              *

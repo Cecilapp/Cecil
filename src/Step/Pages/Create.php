@@ -59,7 +59,7 @@ class Create extends AbstractStep
             $page = new Page(Page::createId($file));
             $page->setFile($file)->parse();
             // add page to collection if its language is defined in config
-            if (in_array($page->getVariable('language') ?? $this->config->getLanguageDefault(), array_column($this->config->getLanguages(), 'code'))) {
+            if (in_array($page->getLanguage() ?? $this->config->getLanguageDefault(), array_column($this->config->getLanguages(), 'code'))) {
                 $this->builder->getPages()->add($page);
             }
 

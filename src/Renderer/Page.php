@@ -48,7 +48,7 @@ class Page
         $suffix = (string) $this->config->getOutputFormatProperty($format, 'suffix');
         $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
         $uglyurl = (bool) $page->getVariable('uglyurl');
-        $language = $page->getVariable('language');
+        $language = $page->getLanguage();
         // if ugly URL: not suffix
         if ($uglyurl) {
             $suffix = '';

@@ -77,7 +77,7 @@ class Render extends AbstractStep
             $rendered = [];
 
             // l10n
-            $language = $page->getVariable('language') ?? $this->config->getLanguageDefault();
+            $language = $page->getLanguage() ?? $this->config->getLanguageDefault();
             $locale = $this->config->getLanguageProperty('locale', $language);
             // the PHP Intl extension is needed to use localized date
             if (extension_loaded('intl')) {

@@ -80,7 +80,7 @@ class Site implements \ArrayAccess
             case 'static':
                 return $this->builder->getStatic();
             case 'home':
-                return $this->language !== $this->config->getLanguageDefault() ? \sprintf('index.%s', $this->language) : 'index';
+                return $this->language != $this->config->getLanguageDefault() ? \sprintf('index.%s', $this->language) : 'index';
         }
 
         return $this->config->get($offset, $this->language);
@@ -114,11 +114,11 @@ class Site implements \ArrayAccess
     {
         return $this->builder->getPages()->filter(function (CollectionPage $page) {
             // We should fix case of virtual pages without language
-            if ($page->getVariable('language') === null && $this->language === $this->config->getLanguageDefault()) {
+            if ($page->getLanguage() === null && $this->language == $this->config->getLanguageDefault()) {
                 return true;
             }
 
-            return $page->getVariable('language') == $this->language;
+            return $page->getLanguage() == $this->language;
         });
     }
 

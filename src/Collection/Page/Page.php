@@ -59,6 +59,9 @@ class Page extends Item
     /** @var string Body after Markdown conversion. */
     protected $html;
 
+    /** @var string */
+    protected $language;
+
     /** @var Slugify */
     private static $slugifier;
 
@@ -174,9 +177,10 @@ class Page extends Item
         }
         // is file has a language suffix?
         if (PrefixSuffix::hasSuffix($fileName)) {
-            $this->setVariable('language', PrefixSuffix::getSuffix($fileName));
+            $this->setLanguage(PrefixSuffix::getSuffix($fileName));
+
         }
-        // set reference between translations
+        // set reference between page's translations, even if it exist in only one language
         $this->setVariable('langref', $this->getPath());
 
         return $this;
@@ -393,6 +397,24 @@ class Page extends Item
     public function getContent(): ?string
     {
         return $this->getBodyHtml();
+    }
+
+    /**
+     * Set language.
+     */
+    public function setLanguage(string $language): self
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language.
+     */
+    public function getLanguage(): ?string
+    {
+        return $this->language;
     }
 
     /*
