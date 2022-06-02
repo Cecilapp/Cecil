@@ -60,7 +60,7 @@ class Page extends Item
     protected $html;
 
     /** @var string */
-    protected $language;
+    protected $language = null;
 
     /** @var Slugify */
     private static $slugifier;
@@ -401,7 +401,7 @@ class Page extends Item
     /**
      * Set language.
      */
-    public function setLanguage(string $language): self
+    public function setLanguage(string $language = null): self
     {
         $this->language = $language;
 
