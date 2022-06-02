@@ -108,6 +108,24 @@ class Site implements \ArrayAccess
     }
 
     /**
+     * Returns a page in the current language or the one provided.
+     *
+     * @throws \DomainException
+     */
+    public function getPage(string $id, string $language = null): ?CollectionPage
+    {
+        $pageId = $id;
+        if ($language === null && $this->language != $this->config->getLanguageDefault()) {
+            $pageId = \sprintf('%s.%s', $id, $this->language);
+        }
+        if ($language !== null && $language != $this->config->getLanguageDefault()) {
+            $pageId = \sprintf('%s.%s', $id, $language);
+        }
+
+        return $this->builder->getPages()->get($pageId);
+    }
+
+    /**
      * Returns all pages, in the current language.
      */
     public function getPages(): \Cecil\Collection\Page\Collection
