@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.98.3...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.99.0...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,17 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.99.0](https://github.com/Cecilapp/Cecil/compare/5.98.3...5.99.0)
+
+> 3 June 2022
+
+- feat: Get a page in template with `site.page('id')` [`#1396`](https://github.com/Cecilapp/Cecil/pull/1396)
+- Apply fixes from StyleCI [`#1395`](https://github.com/Cecilapp/Cecil/pull/1395)
+- chore: code enhancement [`#1394`](https://github.com/Cecilapp/Cecil/pull/1394)
+- chore: update language [`739ec02`](https://github.com/Cecilapp/Cecil/commit/739ec02f9e54a3437b6e1689d1adffc63a2d466b)
+- chore: update deps [`3996a4b`](https://github.com/Cecilapp/Cecil/commit/3996a4bded990182ef47425550622496f270ba3e)
+- chore: code style [`d5eac07`](https://github.com/Cecilapp/Cecil/commit/d5eac07e9f2be52e0f69b3eb3c042cc9787eb26d)
 
 #### [5.98.3](https://github.com/Cecilapp/Cecil/compare/5.98.2...5.98.3)
 
