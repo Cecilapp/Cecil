@@ -178,7 +178,6 @@ class Page extends Item
         // is file has a language suffix?
         if (PrefixSuffix::hasSuffix($fileName)) {
             $this->setLanguage(PrefixSuffix::getSuffix($fileName));
-
         }
         // set reference between page's translations, even if it exist in only one language
         $this->setVariable('langref', $this->getPath());
