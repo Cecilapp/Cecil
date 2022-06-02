@@ -18,8 +18,8 @@
 {% endif %}
       </p>
       <hr />
+      <h2>{% trans "Page's language:" %}</h2>
       <p>
-        {% trans "Page's language:" %}<br>
         - code: {{ site.language }}<br>
         - name: {{ site.language.name }}<br>
         - locale: {{ site.language.locale }}<br>
@@ -29,10 +29,30 @@
         {% trans "Default language:" %} {{ site.languages.0.name }}<br>
       </p>
       <hr />
+      <h2>{% trans "Available translations:" %}</h2>
       <p>
-        {% trans "Available translations:" %}<br>
 {% for p in site.allpages|filter_by('langref', page.langref) %}
         - <a href="{{ url(p) }}">{{ p.title }}</a><br>
 {% endfor %}
+      </p>
+      <hr />
+      <h2>site.page</h2>
+      <p>
+        <pre>site.page('about').title</pre>
+      </p>
+      <p>
+        {{ site.page('about').title }}
+      </p>
+      <p>
+        <pre>site.page('about', 'en').title</pre>
+      </p>
+      <p>
+        {{ site.page('about', 'en').title }}
+      </p>
+      <p>
+        <pre>site.page('about', 'fr').title</pre>
+      </p>
+      <p>
+        {{ site.page('about', 'fr').title }}
       </p>
 {% endblock content %}
