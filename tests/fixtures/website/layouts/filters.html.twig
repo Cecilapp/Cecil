@@ -1,0 +1,8 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+
+<h2>json_decode <pre>assets/json.json</pre></h2>
+<pre>{{ dump(asset('json.json').content|json_decode) }}</pre>
+
+{% endblock content %}

@@ -651,7 +651,7 @@ class Extension extends SlugifyExtension
         try {
             $array = json_decode($json, true);
             if ($array === null && json_last_error() !== JSON_ERROR_NONE) {
-                throw new RuntimeException('JSON error.');
+                throw new \Exception('JSON error.');
             }
         } catch (\Exception $e) {
             throw new RuntimeException('"json_decode" filter can not parse supplied JSON.');
