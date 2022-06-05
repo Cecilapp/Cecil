@@ -184,6 +184,9 @@ return [
         'notes' => [
             'enabled' => false,  // enables Notes blocks (`false` by default)
         ],
+        'highlight' => [
+            'enabled' => false,  // enables syntax highlighting (`false` by default)
+        ],
     ],
     // data files
     'data' => [
