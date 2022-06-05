@@ -28,6 +28,8 @@ use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Twig\Extension.
@@ -93,6 +95,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('excerpt_html', [$this, 'excerptHtml']),
             new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
             new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
+            new \Twig\TwigFilter('yaml_parse', [$this, 'yamlParse']),
             new \Twig\TwigFilter('preg_split', [$this, 'pregSplit']),
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
@@ -655,6 +658,25 @@ class Extension extends SlugifyExtension
             }
         } catch (\Exception $e) {
             throw new RuntimeException('"json_decode" filter can not parse supplied JSON.');
+        }
+
+        return $array;
+    }
+
+    /**
+     * Converts a YAML string to an array.
+     *
+     * @throws RuntimeException
+     */
+    public function yamlParse(string $yaml): ?array
+    {
+        try {
+            $array = Yaml::parse($yaml);
+            if (!is_array($array)) {
+                throw new ParseException('YAML error.');
+            }
+        } catch (ParseException $e) {
+            throw new RuntimeException(\sprintf('"yaml_parse" filter can not parse supplied YAML: %s', $e->getMessage()));
         }
 
         return $array;
