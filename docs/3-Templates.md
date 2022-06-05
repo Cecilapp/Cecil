@@ -506,6 +506,22 @@ _Example:_
 {{ array.foo }}
 ```
 
+### yaml_parse
+
+Converts a YAML string to an array.
+
+```twig
+{{ yaml|yaml_parse }}
+```
+
+_Example:_
+
+```twig
+{% set yaml = 'key: value' %}
+{% set array = yaml|yaml_parse %}
+{{ array.key }}
+```
+
 ### slugify
 
 Converts a string to a slug.
