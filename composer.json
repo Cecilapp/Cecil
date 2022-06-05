@@ -33,7 +33,7 @@
     "padraic/phar-updater": "^1.0",
     "psr/log": "^1.1",
     "psr/simple-cache": "^1.0",
-    "scrivo/highlight.php": "^9.14",
+    "scrivo/highlight.php": "^9.18",
     "scssphp/scssphp": "^1.10",
     "spatie/image-optimizer": "^1.1",
     "symfony/console": "^4.4",
