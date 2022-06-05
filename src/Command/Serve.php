@@ -130,6 +130,7 @@ class Serve extends AbstractCommand
 
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
+        $buildProcess->setTimeout(3600 * 2); // timeout = 2 minutes
 
         $processOutputCallback = function ($type, $data) use ($output) {
             $output->write($data, false, OutputInterface::OUTPUT_RAW);
