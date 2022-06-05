@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -11,7 +14,7 @@
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
-use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Page as CollectionPage;
 
 /**
  * Class Site.
@@ -41,6 +44,7 @@ class Site implements \ArrayAccess
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         // special cases
@@ -60,6 +64,7 @@ class Site implements \ArrayAccess
      *
      * @return mixed|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         // special cases
@@ -75,7 +80,7 @@ class Site implements \ArrayAccess
             case 'static':
                 return $this->builder->getStatic();
             case 'home':
-                return $this->language !== $this->config->getLanguageDefault() ? sprintf('index.%s', $this->language) : 'index';
+                return $this->language != $this->config->getLanguageDefault() ? \sprintf('index.%s', $this->language) : 'index';
         }
 
         return $this->config->get($offset, $this->language);
@@ -87,6 +92,7 @@ class Site implements \ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
     }
@@ -96,8 +102,27 @@ class Site implements \ArrayAccess
      *
      * @param mixed $offset
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
+    }
+
+    /**
+     * Returns a page in the current language or the one provided.
+     *
+     * @throws \DomainException
+     */
+    public function getPage(string $id, string $language = null): ?CollectionPage
+    {
+        $pageId = $id;
+        if ($language === null && $this->language != $this->config->getLanguageDefault()) {
+            $pageId = \sprintf('%s.%s', $id, $this->language);
+        }
+        if ($language !== null && $language != $this->config->getLanguageDefault()) {
+            $pageId = \sprintf('%s.%s', $id, $language);
+        }
+
+        return $this->builder->getPages()->get($pageId);
     }
 
     /**
@@ -105,13 +130,13 @@ class Site implements \ArrayAccess
      */
     public function getPages(): \Cecil\Collection\Page\Collection
     {
-        return $this->builder->getPages()->filter(function (Page $page) {
+        return $this->builder->getPages()->filter(function (CollectionPage $page) {
             // We should fix case of virtual pages without language
-            if ($page->getVariable('language') === null && $this->language === $this->config->getLanguageDefault()) {
+            if ($page->getLanguage() === null && $this->language == $this->config->getLanguageDefault()) {
                 return true;
             }
 
-            return $page->getVariable('language') == $this->language;
+            return $page->getLanguage() == $this->language;
         });
     }
 

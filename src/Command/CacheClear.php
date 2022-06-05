@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -48,7 +51,7 @@ class CacheClear extends AbstractCommand
         }
         $output->writeln('Removing cache directory...');
         $output->writeln(
-            sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCachePath()),
+            \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCachePath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         $this->fs->remove($this->getBuilder()->getConfig()->getCachePath());

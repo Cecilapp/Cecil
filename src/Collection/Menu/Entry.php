@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -40,7 +43,7 @@ class Entry extends Item
     /**
      * Set menu entry weight.
      */
-    public function setWeight(string $value): self
+    public function setWeight(int $value): self
     {
         $this->offsetSet('weight', $value);
 

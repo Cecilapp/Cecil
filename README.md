@@ -1,4 +1,4 @@
-[![Cecil's logo, created by Cécile Ricordeau](https://cecil.app/images/cecil-logo-netlify-cms.png)](https://cecil.app)
+[![Cecil's logo, created by Cécile Ricordeau](https://cecil.app/images/logo-cecil.png)](https://cecil.app)
 
 Cecil, your content driven static site generator.
 
@@ -18,7 +18,7 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 📄 [Documentation](https://cecil.app/documentation) | 💻 [Demo](https://demo.cecil.app) | 🐛 [Issue tracker](https://github.com/Cecilapp/Cecil/issues) | 💬 [Discussion](https://github.com/Cecilapp/Cecil/discussions)
 
-![Cecil CLI demo](docs/cecil-demo.gif "Cecil CLI demo")
+![Cecil CLI demo](docs/cecil-cli-demo.gif "Cecil CLI demo")
 
 ## Quick Start
 
@@ -64,7 +64,8 @@ See [Contributing](CONTRIBUTING.md).
 
 ## Sponsors
 
-[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie.png)](https://studio.cecillie.fr#gh-light-mode-only)[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie-dark.png)](https://studio.cecillie.fr#gh-dark-mode-only)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify.png)](https://www.netlify.com#gh-light-mode-only)[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify-dark.png)](https://www.netlify.com#gh-dark-mode-only)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel.png)](https://vercel.com/?utm_source=cecilapp&utm_campaign=oss#gh-light-mode-only)[![ Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel-dark.png)](https://vercel.com/?utm_source=cecilapp&utm_campaign=oss#gh-dark-mode-only)
+<!--[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie.png)](https://studio.cecillie.fr#gh-light-mode-only)[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie-dark.png)](https://studio.cecillie.fr#gh-dark-mode-only)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify.png)](https://www.netlify.com#gh-light-mode-only)[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify-dark.png)](https://www.netlify.com#gh-dark-mode-only)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->[![Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel.png)](https://vercel.com/?utm_source=cecil&utm_campaign=oss#gh-light-mode-only)[![ Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel-dark.png)](https://vercel.com/?utm_source=cecil&utm_campaign=oss#gh-dark-mode-only)
 
 ## License
 

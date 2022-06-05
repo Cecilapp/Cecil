@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -198,7 +201,7 @@ class Collection implements CollectionInterface
      */
     public function toJson(): string
     {
-        return sprintf("%s\n", json_encode($this->items));
+        return \sprintf("%s\n", json_encode($this->items));
     }
 
     /**
@@ -251,7 +254,7 @@ class Collection implements CollectionInterface
     #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
-        return $this->has($offset);
+        return $this->has((string) $offset);
     }
 
     /**
@@ -264,7 +267,7 @@ class Collection implements CollectionInterface
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        return $this->get($offset);
+        return $this->get((string) $offset);
     }
 
     /**

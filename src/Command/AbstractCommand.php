@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -84,7 +87,7 @@ class AbstractCommand extends Command
                 }
                 // checks file(s)
                 foreach ($this->configFiles as $fileName => $filePath) {
-                    if (!file_exists($filePath)) {
+                    if (!$filePath || !file_exists($filePath)) {
                         unset($this->configFiles[$fileName]);
                         $this->getBuilder()->getLogger()->error(\sprintf('Could not find configuration file "%s".', $fileName));
                     }
@@ -164,37 +167,28 @@ class AbstractCommand extends Command
     }
 
     /**
-     * Editor is configured?
-     */
-    protected function hasEditor(): bool
-    {
-        return $this->getBuilder()->getConfig()->has('editor');
-    }
-
-    /**
-     * Opens with editor (if configured).
+     * Opens path with editor.
      *
      * @throws RuntimeException
      */
-    protected function openEditor(string $path): void
+    protected function openEditor(string $path, string $editor): void
     {
-        if ($editor = (string) $this->getBuilder()->getConfig()->get('editor')) {
-            switch (Util\Plateform::getOS()) {
-                case Util\Plateform::OS_WIN:
-                    $command = sprintf('start /B "" %s "%s"', $editor, $path);
-                    break;
-                default:
-                    $command = sprintf('%s "%s"', $editor, $path);
-            }
-            // Typora on macOS
-            if ($editor == 'typora' && Util\Plateform::getOS() == Util\Plateform::OS_OSX) {
-                $command = sprintf('open -a typora "%s"', $path);
-            }
-            $process = Process::fromShellCommandline($command);
-            $process->run();
-            if (!$process->isSuccessful()) {
-                throw new RuntimeException(\sprintf('Can\'t use "%s" editor.', $editor));
-            }
+        $command = \sprintf('%s "%s"', $editor, $path);
+        switch (Util\Plateform::getOS()) {
+            case Util\Plateform::OS_WIN:
+                $command = \sprintf('start /B "" %s "%s"', $editor, $path);
+                break;
+            case Util\Plateform::OS_OSX:
+                // Typora on macOS
+                if ($editor == 'typora') {
+                    $command = \sprintf('open -a typora "%s"', $path);
+                }
+                break;
+        }
+        $process = Process::fromShellCommandline($command);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException(\sprintf('Can\'t use "%s" editor.', $editor));
         }
     }
 }

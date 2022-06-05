@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -45,7 +48,7 @@ class Serve extends AbstractCommand
                     new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                     new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
-                    new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open browser automatically'),
+                    new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
                     new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),
@@ -79,7 +82,7 @@ class Serve extends AbstractCommand
             throw new RuntimeException('Can\'t find a local PHP executable.');
         }
 
-        $command = sprintf(
+        $command = \sprintf(
             '%s -S %s:%d -t %s %s',
             $php,
             $host,
@@ -127,6 +130,7 @@ class Serve extends AbstractCommand
 
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
+        $buildProcess->setTimeout(3600 * 2); // timeout = 2 minutes
 
         $processOutputCallback = function ($type, $data) use ($output) {
             $output->write($data, false, OutputInterface::OUTPUT_RAW);
@@ -164,7 +168,7 @@ class Serve extends AbstractCommand
                     \pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
                 $output->writeln(
-                    sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
+                    \sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
                 );
                 $process->start();
                 if ($open) {
@@ -222,10 +226,10 @@ class Serve extends AbstractCommand
             // copying baseurl text file
             $this->fs->dumpFile(
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
-                sprintf(
+                \sprintf(
                     '%s;%s',
                     (string) $this->getBuilder()->getConfig()->get('baseurl'),
-                    sprintf('http://%s:%s/', $host, $port)
+                    \sprintf('http://%s:%s/', $host, $port)
                 )
             );
         } catch (IOExceptionInterface $e) {

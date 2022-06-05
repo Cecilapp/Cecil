@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -32,11 +35,9 @@ class Copy extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         if ($options['dry-run']) {
-            $this->canProcess = false;
-
             return;
         }
 
@@ -50,7 +51,7 @@ class Copy extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         // copying content of '<theme>/static/' dir if exists
         if ($this->config->hasTheme()) {
@@ -91,7 +92,7 @@ class Copy extends AbstractStep
         if ($this->count === 0) {
             $this->builder->getLogger()->info('Nothing to copy');
 
-            return 0;
+            return;
         }
         $this->builder->getLogger()->info('Files copied', ['progress' => [$this->count, $this->count]]);
     }

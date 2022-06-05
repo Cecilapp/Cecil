@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -30,19 +33,15 @@ abstract class AbstractPostProcess extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         if ($options['dry-run']) {
-            $this->canProcess = false;
-
             return;
         }
-        if (false === $this->builder->getConfig()->get(\sprintf('postprocess.%s.enabled', $this->type))) {
-            $this->canProcess = false;
-
+        if (false === (bool) $this->builder->getConfig()->get(\sprintf('postprocess.%s.enabled', $this->type))) {
             return;
         }
-        if (true === $this->builder->getConfig()->get('postprocess.enabled')) {
+        if (true === (bool) $this->builder->getConfig()->get('postprocess.enabled')) {
             $this->canProcess = true;
         }
     }
@@ -52,7 +51,7 @@ abstract class AbstractPostProcess extends AbstractStep
      *
      * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         $this->setProcessor();
 
@@ -83,14 +82,14 @@ abstract class AbstractPostProcess extends AbstractStep
         foreach ($files as $file) {
             $count++;
             $sizeBefore = $file->getSize();
-            $message = sprintf('File "%s" post-processed', $file->getRelativePathname());
+            $message = \sprintf('File "%s" post-processed', $file->getRelativePathname());
 
             $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
             if (!$cache->has($cacheKey)) {
                 $processed = $this->processFile($file);
                 $sizeAfter = strlen($processed);
                 if ($sizeAfter < $sizeBefore) {
-                    $message = sprintf(
+                    $message = \sprintf(
                         'File "%s" compressed (%s Ko -> %s Ko)',
                         $file->getRelativePathname(),
                         ceil($sizeBefore / 1000),

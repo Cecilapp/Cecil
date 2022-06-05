@@ -1,4 +1,4 @@
 ---
-title: Extension is markdown
+title: Extension is .markdown
 ---
-File extension is ".markdown".
+File extension is `.markdown`.

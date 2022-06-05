@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -36,10 +39,9 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
-        if (is_dir($this->builder->getConfig()->getContentPath())) {
+        if (is_dir($this->builder->getConfig()->getContentPath()) && $this->hasTaxonomies()) {
             $this->canProcess = true;
         }
     }
@@ -47,7 +49,7 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         if ($this->config->get('taxonomies')) {
             $this->createVocabulariesCollection();
@@ -133,5 +135,20 @@ class Create extends AbstractStep
                 }
             }
         }
+    }
+
+    /**
+     * Checks if there is enabled taxonomies in config.
+     */
+    private function hasTaxonomies(): bool
+    {
+        $taxonomiesCount = 0;
+        foreach (array_keys((array) $this->config->get('taxonomies')) as $vocabulary) {
+            if ($this->config->get("taxonomies.$vocabulary") != 'disabled') {
+                $taxonomiesCount++;
+            }
+        }
+
+        return $taxonomiesCount > 0;
     }
 }

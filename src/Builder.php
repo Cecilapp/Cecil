@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -157,7 +160,7 @@ class Builder implements LoggerAwareInterface
         }
 
         // process duration
-        $message = sprintf('Built in %ss', round(microtime(true) - $startTime, 2));
+        $message = \sprintf('Built in %ss', round(microtime(true) - $startTime, 2));
         $this->getLogger()->notice($message);
 
         return $this;
@@ -299,7 +302,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns pages collection.
      */
-    public function getPages(): PagesCollection
+    public function getPages(): ?PagesCollection
     {
         return $this->pages;
     }

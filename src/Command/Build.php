@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -88,18 +91,18 @@ class Build extends AbstractCommand
 
         $output->writeln(\sprintf('Building website%s...', $messageOpt));
         $output->writeln(
-            sprintf('<comment>Path: %s</comment>', $this->getPath()),
+            \sprintf('<comment>Path: %s</comment>', $this->getPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         if (!empty($this->getConfigFiles())) {
             $output->writeln(
-                sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())),
+                \sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
         if ((bool) $this->builder->getConfig()->get('cache.enabled')) {
             $output->writeln(
-                sprintf('<comment>Cache: %s</comment>', $this->builder->getConfig()->getCachePath()),
+                \sprintf('<comment>Cache: %s</comment>', $this->builder->getConfig()->getCachePath()),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }

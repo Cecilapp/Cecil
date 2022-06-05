@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-01-30
+updated: 2022-04-20
 alias: documentation/layouts
 -->
 
@@ -111,6 +111,7 @@ Can be displayed in a template with:
 | `site.home`           | ID of the home page.                                  |
 | `site.pages`          | Collection of pages, in the current language.         |
 | `site.pages.showable` | `site.pages` with "showable" pages only (published, not virtual/redirect/excluded).<br>Alias: `site.pages.all` (deprecated). |
+| `site.page('id')`     | Page in the current language.                         |
 | `site.allpages`       | Collection of pages, regardless of their translation. |
 | `site.taxonomies`     | Collection of vocabularies.                           |
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
@@ -505,6 +506,22 @@ _Example:_
 {{ array.foo }}
 ```
 
+### yaml_parse
+
+Converts a YAML string to an array.
+
+```twig
+{{ yaml|yaml_parse }}
+```
+
+_Example:_
+
+```twig
+{% set yaml = 'key: value' %}
+{% set array = yaml|yaml_parse %}
+{{ array.key }}
+```
+
 ### slugify
 
 Converts a string to a slug.
@@ -745,25 +762,31 @@ Turns an asset into an HTML element.
 {{ asset(path)|html({attributes, options}) }}
 ```
 
+:::info
+Available for images, CSS and JavaScript. The `attributes` and `options` parameters are optional.
+:::
+
 | Option     | Description                                     | Type  | Default |
 | ---------- | ----------------------------------------------- | ----- | ------- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |         |
-| options    | `{preload: true}`: preloads CSS<br>`{responsive: true}`: creates responsives images | array |         |
-
-Available for CSS, JavaScript and image files.
+| options    | `{responsive: true}`: creates responsives images.<br>`{webp: true}`: creates WebP versions of the image.<br>`{preload: true}`: preloads CSS. | array |         |
 
 _Examples:_
 
 ```twig
-{{ asset('image.png')|html({alt: 'Description'}) }}
+{{ asset('image.png')|html }}
 ```
 
 ```twig
-{{ asset('styles.css')|html({}, {preload: true}) }}
+{{ asset('image.jpg')|html({alt: 'Description', loading: 'lazy'}, {responsive: true, webp: true}) }}
 ```
 
 ```twig
-{{ asset('image.png')|html({alt: 'Description', loading: 'lazy'}, {responsive: true}) }}
+{{ asset('styles.css')|html({media: print}) }}
+```
+
+```twig
+{{ asset('styles.css')|html({title: 'Main theme'}, {preload: true}) }}
 ```
 
 ### preg_split
@@ -792,6 +815,14 @@ _Example:_
 
 ```twig
 {% set tags = page.content|preg_match_all('/<[^>]+>(.*)<\\/[^>]+>/') %}
+```
+
+### hex_to_rgb
+
+Converts a hexadecimal color to RGB.
+
+```twig
+{{ color|hex_to_rgb }}
 ```
 
 ## Localization
@@ -910,13 +941,13 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 [`sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/sitemap.xml.twig)
 :   The `sitemap.xml` template: list all pages sorted by date.
 
-### Component templates
+### Partial templates
 
 [`partials/pagination.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/pagination.html.twig)
-:   A simple pagination component for list templates with "Older" and "Newer" links.
+:   A simple pagination for list templates with "Older" and "Newer" links.
 
 [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   All metatags in one component: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
+:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
 
 [`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
 :   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).

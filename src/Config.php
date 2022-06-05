@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -160,7 +163,7 @@ class Config
     {
         if ($language !== null) {
             $index = $this->getLanguageIndex($language);
-            $keyLang = sprintf('languages.%s.config.%s', $index, $key);
+            $keyLang = \sprintf('languages.%s.config.%s', $index, $key);
             if ($this->data->has($keyLang)) {
                 return $this->data->get($keyLang);
             }

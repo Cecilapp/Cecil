@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -10,7 +13,7 @@
 
 namespace Cecil\Renderer;
 
-use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Page as CollectionPage;
 use Cecil\Collection\Page\Type as PageType;
 use Cecil\Config;
 use Cecil\Exception\RuntimeException;
@@ -28,7 +31,7 @@ class Layout
      *
      * @throws RuntimeException
      */
-    public static function finder(Page $page, string $format, Config $config): array
+    public static function finder(CollectionPage $page, string $format, Config $config): array
     {
         $layout = 'unknown';
 
@@ -74,12 +77,12 @@ class Layout
      *
      * @see finder()
      */
-    protected static function fallback(Page $page, string $format): array
+    protected static function fallback(CollectionPage $page, string $format): array
     {
         $ext = self::EXT;
 
         // remove potential redundant extension
-        $layout = str_replace(".$ext", '', $page->getVariable('layout'));
+        $layout = str_replace(".$ext", '', (string) $page->getVariable('layout'));
 
         switch ($page->getType()) {
             case PageType::HOMEPAGE:

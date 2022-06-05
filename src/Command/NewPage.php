@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -36,12 +39,13 @@ class NewPage extends AbstractCommand
                 new InputDefinition([
                     new InputArgument('name', InputArgument::REQUIRED, 'New page name'),
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
-                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
+                    new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use with open option'),
                 ])
             )
-            ->setHelp('Creates a new page file (with filename as title and the current date)');
+            ->setHelp('Creates a new page file (with filename as title)');
     }
 
     /**
@@ -65,10 +69,10 @@ class NewPage extends AbstractCommand
             // has date prefix?
             $datePrefix = '';
             if ($prefix) {
-                $datePrefix = sprintf('%s-', $date);
+                $datePrefix = \sprintf('%s-', $date);
             }
             // path
-            $fileRelativePath = sprintf(
+            $fileRelativePath = \sprintf(
                 '%s%s%s%s%s.md',
                 (string) $this->getBuilder()->getConfig()->get('content.dir'),
                 DIRECTORY_SEPARATOR,
@@ -104,13 +108,16 @@ class NewPage extends AbstractCommand
 
             // open editor?
             if ($open) {
-                if (!$this->hasEditor()) {
-                    $output->writeln('<comment>No editor configured.</comment>');
+                if (null === $editor = $input->getOption('editor')) {
+                    if (!$this->getBuilder()->getConfig()->has('editor')) {
+                        $output->writeln('<comment>No editor configured.</comment>');
 
-                    return 0;
+                        return 0;
+                    }
+                    $editor = (string) $this->getBuilder()->getConfig()->get('editor');
                 }
-                $output->writeln(\sprintf('<info>Opening file with %s...</info>', (string) $this->getBuilder()->getConfig()->get('editor')));
-                $this->openEditor($filePath);
+                $output->writeln(\sprintf('<info>Opening file with %s...</info>', ucfirst($editor)));
+                $this->openEditor($filePath, $editor);
             }
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));

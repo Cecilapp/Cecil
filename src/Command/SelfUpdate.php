@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -34,8 +37,7 @@ class SelfUpdate extends AbstractCommand
                 new InputOption('stable', null, InputOption::VALUE_NONE, 'Force an update to the last stable version'),
                 new InputOption('preview', null, InputOption::VALUE_NONE, 'Force an update to the last unstable version'),
             ]))
-            ->setHelp('The self-update command checks for a newer version and,
-if found, downloads and installs the latest');
+            ->setHelp('The self-update command checks for a newer version and, if found, downloads and installs the latest');
     }
 
     /**

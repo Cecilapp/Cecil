@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -37,15 +40,15 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 && $page->getVariable('exclude') !== true;
         });
         /** @var \Cecil\Collection\Page\Page $page */
-        if ($page->hasVariable('pagesfrom') && $this->builder->getPages()->has($page->getVariable('pagesfrom'))) {
-            $subPages = $this->builder->getPages()->get($page->getVariable('pagesfrom'))->getVariable('pages');
+        if ($page->hasVariable('pagesfrom') && $this->builder->getPages()->has((string) $page->getVariable('pagesfrom'))) {
+            $subPages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getVariable('pages');
         }
         // sorts
         /** @var \Cecil\Collection\Page\Collection $subPages */
         /** @var \Cecil\Collection\Page\Page $page */
         $pages = $subPages->sortByDate();
         if ($page->hasVariable('sortby')) {
-            $sortMethod = sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
+            $sortMethod = \sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
             if (!method_exists($pages, $sortMethod)) {
                 throw new RuntimeException(\sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
             }
