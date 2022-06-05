@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.99.0...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.100.0...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,13 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.100.0](https://github.com/Cecilapp/Cecil/compare/5.99.0...5.100.0)
+
+> 5 June 2022
+
+- feat: template filter `yaml_parse` [`#1397`](https://github.com/Cecilapp/Cecil/pull/1397)
+- chore: add json_decode filter fixture and test [`eb1e8b4`](https://github.com/Cecilapp/Cecil/commit/eb1e8b4bc56018a70112f56166fd84a4b7492d26)
 
 #### [5.99.0](https://github.com/Cecilapp/Cecil/compare/5.98.3...5.99.0)
 
