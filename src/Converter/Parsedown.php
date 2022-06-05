@@ -330,22 +330,23 @@ class Parsedown extends \ParsedownToC
      */
     protected function blockFencedCodeComplete($block)
     {
-        $this->builder->getLogger()->error($block['element']['element']['attributes'] ?? 'pouet');
+        $this->builder->getLogger()->debug(implode($block['element']['text']['attributes']) ?? 'blockFencedCodeComplete');
 
-        if (!isset($block['element']['element']['attributes'])) {
-            //return $block;
+        if (!isset($block['element']['text']['attributes'])) {
+            return $block;
         }
 
-        $code = $block['element']['element']['text'];
-        $languageClass = $block['element']['element']['attributes']['class'];
+        $code = $block['element']['text']['text'];
+        unset($block['element']['text']['text']);
+        $languageClass = $block['element']['text']['attributes']['class'];
         $language = explode('-', $languageClass);
         $highlighted = $this->highlighter->highlight($language[1], $code);
-        $block['element']['element']['attributes']['class'] = vsprintf('%s hljs %s', [
+        $block['element']['text']['attributes']['class'] = vsprintf('%s hljs %s', [
             $languageClass,
             $highlighted->language,
         ]);
-        $block['element']['element']['rawHtml'] = $highlighted->value;
-        unset($block['element']['element']['text']);
+        $block['element']['text']['rawHtml'] = $highlighted->value;
+        $Block['element']['text']['allowRawHtmlInSafeMode'] = true;
 
         return $block;
     }
