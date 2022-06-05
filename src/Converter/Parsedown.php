@@ -347,7 +347,7 @@ class Parsedown extends \ParsedownToC
             $highlighted->language,
         ]);
         $block['element']['text']['rawHtml'] = $highlighted->value;
-        $Block['element']['text']['allowRawHtmlInSafeMode'] = true;
+        $block['element']['text']['allowRawHtmlInSafeMode'] = true;
 
         return $block;
     }
