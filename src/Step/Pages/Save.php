@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -32,11 +35,12 @@ class Save extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
-        if ($options['dry-run']) {
-            $this->canProcess = false;
+        // should clear cache?
+        $this->clearCache();
 
+        if ($options['dry-run']) {
             return;
         }
 
@@ -50,7 +54,7 @@ class Save extends AbstractStep
      *
      * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         /** @var Page $page */
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
@@ -78,12 +82,9 @@ class Save extends AbstractStep
                 $files[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
-            $message = sprintf('File(s) "%s" saved', implode(', ', $files));
+            $message = \sprintf('File(s) "%s" saved', implode(', ', $files));
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
-
-        // clear cache
-        $this->clearCache();
     }
 
     /**
@@ -103,7 +104,7 @@ class Save extends AbstractStep
      */
     private function clearCache(): void
     {
-        if ($this->config->get('cache.enabled') === false) {
+        if ((bool) $this->config->get('cache.enabled') === false) {
             Util\File::getFS()->remove($this->config->getCachePath());
         }
     }

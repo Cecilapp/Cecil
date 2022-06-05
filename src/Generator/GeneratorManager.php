@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -76,7 +79,7 @@ class GeneratorManager extends \SplPriorityQueue
                         $pagesCollection->replace($page->getId(), $page);
                     }
                 }
-                $message = sprintf('%s "%s" pages generated', count($generatedPages), Util::formatClassName($generator));
+                $message = \sprintf('%s "%s" pages generated', count($generatedPages), Util::formatClassName($generator));
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
 
                 $this->next();

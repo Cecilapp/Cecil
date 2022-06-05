@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -41,8 +44,6 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws RuntimeException
      */
     public function get($key, $default = null)
     {
@@ -63,8 +64,6 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws RuntimeException
      */
     public function set($key, $value, $ttl = null)
     {
@@ -87,8 +86,6 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws RuntimeException
      */
     public function delete($key)
     {
@@ -107,8 +104,6 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws RuntimeException
      */
     public function clear()
     {
@@ -179,15 +174,17 @@ class Cache implements CacheInterface
             throw new RuntimeException(\sprintf('Can\'t create cache key for "%s"', $path));
         }
 
-        return $this->prepareKey(\sprintf('%s__%s.ser', $relativePath, $this->createKeyFromString($content)));
+        return $this->prepareKey(\sprintf('%s__%s', $relativePath, $this->createKeyFromString($content)));
     }
 
     /**
-     * Creates key from an Asset source: 'filename.$state' + '__' + MD5 hash.
+     * Creates key from an Asset source: 'filename_ext_$tag' + '__' + MD5 hash.
      */
-    public function createKeyFromAsset(Asset $asset, string $state = null): string
+    public function createKeyFromAsset(Asset $asset, array $tags = null): string
     {
-        return $this->prepareKey(\sprintf('%s%s%s__%s.ser', $asset['filename'], ".{$asset['ext']}", ".$state" ?? '', $this->createKeyFromString($asset['content_source'] ?? '')));
+        $tags = implode('_', $tags ?? []);
+
+        return $this->prepareKey(\sprintf('%s%s%s__%s', $asset['filename'], "_{$asset['ext']}", $tags ? "_$tags" : '', $this->createKeyFromString($asset['content_source'] ?? '')));
     }
 
     /**
@@ -195,13 +192,11 @@ class Cache implements CacheInterface
      */
     private function getFilePathname(string $key): string
     {
-        return Util::joinFile($this->cacheDir, $key);
+        return Util::joinFile($this->cacheDir, \sprintf('%s.ser', $key));
     }
 
     /**
      * Removes previous cache files.
-     *
-     * @throws RuntimeException
      */
     private function prune(string $key): bool
     {

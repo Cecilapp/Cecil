@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -13,6 +16,8 @@ namespace Cecil\Converter;
 use Cecil\Assets\Asset;
 use Cecil\Assets\Image;
 use Cecil\Builder;
+use Cecil\Exception\RuntimeException;
+use Cecil\Util;
 
 class Parsedown extends \ParsedownToC
 {
@@ -28,10 +33,43 @@ class Parsedown extends \ParsedownToC
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
+
+        // "insert" line block: ++text++ -> <ins>text</ins>
+        $this->InlineTypes['+'][] = 'Insert';
+        $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
+        $this->specialCharacters[] = '+';
+        // add caption to image block
         if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
             $this->BlockTypes['!'][] = 'Image';
         }
+        // "notes" block
+        if ($this->builder->getConfig()->get('body.notes.enabled')) {
+            $this->BlockTypes[':'][] = 'Note';
+        }
+
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
+    }
+
+    /**
+     * Insert inline.
+     * e.g.: ++text++ -> <ins>text</ins>.
+     */
+    protected function inlineInsert($Excerpt)
+    {
+        if (!isset($Excerpt['text'][1])) {
+            return;
+        }
+
+        if ($Excerpt['text'][1] === '+' && preg_match('/^\+\+(?=\S)(.+?)(?<=\S)\+\+/', $Excerpt['text'], $matches)) {
+            return [
+                'extent'  => strlen($matches[0]),
+                'element' => [
+                    'name'    => 'ins',
+                    'text'    => $matches[1],
+                    'handler' => 'line',
+                ],
+            ];
+        }
     }
 
     /**
@@ -45,19 +83,19 @@ class Parsedown extends \ParsedownToC
         }
         // clean source path / URL
         $image['element']['attributes']['src'] = trim($this->removeQuery($image['element']['attributes']['src']));
-        // create asset
-        $asset = new Asset($this->builder, $image['element']['attributes']['src'], ['force_slash' => false]);
-        // is asset is valid? (if yes get width)
-        if (false === $width = $asset->getWidth()) {
-            return $image;
-        }
-        $image['element']['attributes']['src'] = $asset;
-        /**
-         * Should be lazy loaded?
-         */
+        // should be lazy loaded?
         if ($this->builder->getConfig()->get('body.images.lazy.enabled')) {
             $image['element']['attributes']['loading'] = 'lazy';
         }
+        // disable remote image handling
+        if (Util\Url::isUrl($image['element']['attributes']['src']) && !$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
+            return $image;
+        }
+        // create asset
+        $asset = new Asset($this->builder, $image['element']['attributes']['src'], ['force_slash' => false]);
+        // get width
+        $width = $asset->getWidth();
+        $image['element']['attributes']['src'] = $asset;
         /**
          * Should be resized?
          */
@@ -83,17 +121,15 @@ class Parsedown extends \ParsedownToC
         }
         // set height
         if (!isset($image['element']['attributes']['height'])) {
-            $image['element']['attributes']['height'] = $asset->getHeight();
+            $image['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
         }
         /**
          * Should be responsive?
          */
         if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
-            if ($srcset = Image::getSrcset(
+            if ($srcset = Image::buildSrcset(
                 $assetResized ?? $asset,
-                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
-                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
-                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
+                $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
             )) {
                 $image['element']['attributes']['srcset'] = $srcset;
                 $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
@@ -170,40 +206,48 @@ class Parsedown extends \ParsedownToC
         </figure>
         */
 
-        // creates a <picture> element with <source> and <img> elements
-        if (($this->builder->getConfig()->get('body.images.webp.enabled') ?? false) && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-            $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 85);
-            $srcset = Image::getSrcset(
-                $assetWebp,
-                $this->builder->getConfig()->get('assets.images.responsive.width.steps') ?? 5,
-                $this->builder->getConfig()->get('assets.images.responsive.width.min') ?? 320,
-                $this->builder->getConfig()->get('assets.images.responsive.width.max') ?? 1280
-            );
-            if (empty($srcset)) {
-                $srcset = (string) $assetWebp;
-            }
-            $PictureBlock = [
-                'element' => [
-                    'name'    => 'picture',
-                    'handler' => 'elements',
-                ],
-            ];
-            $source = [
-                'element' => [
-                    'name'       => 'source',
-                    'attributes' => [
-                        'type'   => 'image/webp',
-                        'srcset' => $srcset,
-                        'sizes'  => $this->builder->getConfig()->get('assets.images.responsive.sizes.default'),
+        // creates a <picture> element with a <source> (WebP) and an <img> element
+        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
+            try {
+                if (is_string($InlineImage['element']['attributes']['src'])) {
+                    throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
+                }
+                $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 75);
+                $srcset = '';
+                if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
+                    $srcset = Image::buildSrcset(
+                        $assetWebp,
+                        $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                    );
+                }
+                if (empty($srcset)) {
+                    $srcset = (string) $assetWebp;
+                }
+                $PictureBlock = [
+                    'element' => [
+                        'name'    => 'picture',
+                        'handler' => 'elements',
                     ],
-                ],
-            ];
-            $PictureBlock['element']['text'][] = $source['element'];
-            $PictureBlock['element']['text'][] = $InlineImage['element'];
-            $block = $PictureBlock;
+                ];
+                $source = [
+                    'element' => [
+                        'name'       => 'source',
+                        'attributes' => [
+                            'type'   => 'image/webp',
+                            'srcset' => $srcset,
+                            'sizes'  => $this->builder->getConfig()->get('assets.images.responsive.sizes.default'),
+                        ],
+                    ],
+                ];
+                $PictureBlock['element']['text'][] = $source['element'];
+                $PictureBlock['element']['text'][] = $InlineImage['element'];
+                $block = $PictureBlock;
+            } catch (RuntimeException $e) {
+                $this->builder->getLogger()->debug($e->getMessage());
+            }
         }
 
-        // put <img> or <picture> in a <figure> element if there is a title
+        // put <img> (or <picture>) in a <figure> element if there is a title (<figcaption>)
         if (!empty($InlineImage['element']['attributes']['title'])) {
             $FigureBlock = [
                 'element' => [
@@ -224,6 +268,54 @@ class Parsedown extends \ParsedownToC
 
             return $FigureBlock;
         }
+
+        return $block;
+    }
+
+    /**
+     * Note block-level markup.
+     *
+     * :::tip
+     * **Tip:** This is an advice.
+     * :::
+     *
+     * Code inspired by https://github.com/sixlive/parsedown-alert from TJ Miller (@sixlive).
+     */
+    protected function blockNote($block)
+    {
+        if (preg_match('/:::(.*)/', $block['text'], $matches)) {
+            return [
+                'char'    => ':',
+                'element' => [
+                    'name'       => 'aside',
+                    'text'       => '',
+                    'attributes' => [
+                        'class' => "note note-{$matches[1]}",
+                    ],
+                ],
+            ];
+        }
+    }
+
+    protected function blockNoteContinue($line, $block)
+    {
+        if (isset($block['complete'])) {
+            return;
+        }
+        if (preg_match('/:::/', $line['text'])) {
+            $block['complete'] = true;
+
+            return $block;
+        }
+        $block['element']['text'] .= $line['text']."\n";
+
+        return $block;
+    }
+
+    protected function blockNoteComplete($block)
+    {
+        $block['element']['rawHtml'] = $this->text($block['element']['text']);
+        unset($block['element']['text']);
 
         return $block;
     }

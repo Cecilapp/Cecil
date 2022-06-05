@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -18,6 +21,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Creates a new website.
@@ -51,24 +56,36 @@ class NewSite extends AbstractCommand
         $force = $input->getOption('force');
 
         try {
+            // ask to override site?
+            $helper = $this->getHelper('question');
             if ($this->fs->exists(Util::joinFile($this->getPath(), self::CONFIG_FILE)) && !$force) {
                 $output->writeln('<comment>Website already exists.</comment>');
-                // ask to override site
-                $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion('Do you want to override it? [y/n]', false);
-                if (!$helper->ask($input, $output, $question)) {
+                if (!$helper->ask($input, $output, new ConfirmationQuestion('Do you want to override it? [y/n]', false))) {
                     return 0;
                 }
             }
+            // define root path
             $root = realpath(Util::joinFile(__DIR__, '/../../'));
             if (Util\Plateform::isPhar()) {
                 $root = Util\Plateform::getPharPath().'/';
             }
+            // ask for basic configuration
             $output->writeln('Creating a new website...');
-            $this->fs->copy(
-                Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE),
-                Util::joinPath($this->getPath(), self::CONFIG_FILE)
-            );
+            $title = $helper->ask($input, $output, new Question('- title: ', 'Cecil'));
+            $baseline = $helper->ask($input, $output, new Question('- baseline (~ 20 characters): ', ''));
+            $baseurl = $helper->ask($input, $output, new Question('- baseurl (e.g.: https://cecil.app/): ', 'http://localhost:8000/'));
+            $description = $helper->ask($input, $output, new Question('- description (~ 250 characters): ', 'Site description'));
+            // rewrite config file?
+            $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE));
+            $config = array_replace_recursive($config, [
+                'title'       => $title,
+                'baseline'    => $baseline,
+                'baseurl'     => $baseurl,
+                'description' => $description,
+            ]);
+            $configYaml = Yaml::dump($config);
+            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), self::CONFIG_FILE), $configYaml);
+            // files copy
             foreach (['content', 'layouts', 'static', 'assets'] as $value) {
                 $this->fs->mirror(
                     Util::joinPath($root, 'resources/skeleton', $value),

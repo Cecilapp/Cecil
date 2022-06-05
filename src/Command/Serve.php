@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -42,19 +45,14 @@ class Serve extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file(s) (comma-separated)'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
-                    new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open browser automatically'),
+                    new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
+                    new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
-                    new InputOption(
-                        'postprocess',
-                        null,
-                        InputOption::VALUE_OPTIONAL,
-                        'Post-process output (disable with "no")',
-                        false
-                    ),
-                    new InputOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear cache after build'),
+                    new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),
+                    new InputOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear cache before build'),
                 ])
             )
             ->setHelp('Starts the live-reloading-built-in web server');
@@ -74,6 +72,7 @@ class Serve extends AbstractCommand
         $postprocess = $input->getOption('postprocess');
         $clearcache = $input->getOption('clear-cache');
         $verbose = $input->getOption('verbose');
+        $page = $input->getOption('page');
 
         $this->setUpServer($host, $port);
 
@@ -83,7 +82,7 @@ class Serve extends AbstractCommand
             throw new RuntimeException('Can\'t find a local PHP executable.');
         }
 
-        $command = sprintf(
+        $command = \sprintf(
             '%s -S %s:%d -t %s %s',
             $php,
             $host,
@@ -118,6 +117,10 @@ class Serve extends AbstractCommand
         if ($verbose) {
             $buildProcessArguments[] = '-'.str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
         }
+        if (!empty($page)) {
+            $buildProcessArguments[] = '--page';
+            $buildProcessArguments[] = $page;
+        }
 
         $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
 
@@ -135,8 +138,10 @@ class Serve extends AbstractCommand
 
         // (re)builds before serve
         $buildProcess->run($processOutputCallback);
-        $ret = $buildProcess->getExitCode();
-        if ($ret !== 0) {
+        if ($buildProcess->isSuccessful()) {
+            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+        }
+        if ($buildProcess->getExitCode() !== 0) {
             return 1;
         }
 
@@ -163,7 +168,7 @@ class Serve extends AbstractCommand
                     \pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
                 $output->writeln(
-                    sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
+                    \sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
                 );
                 $process->start();
                 if ($open) {
@@ -171,18 +176,18 @@ class Serve extends AbstractCommand
                     Util\Plateform::openBrowser(\sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
-                    $result = $resourceWatcher->findChanges();
-                    if ($result->hasChanges()) {
+                    if ($resourceWatcher->findChanges()->hasChanges()) {
                         // re-builds
                         $output->writeln('<comment>Changes detected.</comment>');
                         $output->writeln('');
 
                         $buildProcess->run($processOutputCallback);
+                        if ($buildProcess->isSuccessful()) {
+                            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+                        }
 
                         $output->writeln('<info>Server is runnning...</info>');
-                        $resourceWatcher->rebuild();
                     }
-                    usleep(1000000); // waits 1s
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
@@ -221,10 +226,10 @@ class Serve extends AbstractCommand
             // copying baseurl text file
             $this->fs->dumpFile(
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
-                sprintf(
+                \sprintf(
                     '%s;%s',
                     (string) $this->getBuilder()->getConfig()->get('baseurl'),
-                    sprintf('http://%s:%s/', $host, $port)
+                    \sprintf('http://%s:%s/', $host, $port)
                 )
             );
         } catch (IOExceptionInterface $e) {

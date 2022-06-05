@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -49,7 +52,7 @@ class CacheClearTemplates extends AbstractCommand
         }
         $output->writeln('Removing templates cache directory...');
         $output->writeln(
-            sprintf('<comment>Path %s</comment>', Util::joinFile($this->getBuilder()->getConfig()->getCachePath(), 'templates')),
+            \sprintf('<comment>Path %s</comment>', Util::joinFile($this->getBuilder()->getConfig()->getCachePath(), 'templates')),
             OutputInterface::VERBOSITY_VERBOSE
         );
         $this->fs->remove(Util::joinFile($this->getBuilder()->getConfig()->getCachePath(), 'templates'));

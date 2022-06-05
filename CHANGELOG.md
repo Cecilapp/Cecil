@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.83.11...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.99.0...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,339 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.99.0](https://github.com/Cecilapp/Cecil/compare/5.98.3...5.99.0)
+
+> 3 June 2022
+
+- feat: Get a page in template with `site.page('id')` [`#1396`](https://github.com/Cecilapp/Cecil/pull/1396)
+- Apply fixes from StyleCI [`#1395`](https://github.com/Cecilapp/Cecil/pull/1395)
+- chore: code enhancement [`#1394`](https://github.com/Cecilapp/Cecil/pull/1394)
+- chore: update language [`739ec02`](https://github.com/Cecilapp/Cecil/commit/739ec02f9e54a3437b6e1689d1adffc63a2d466b)
+- chore: update deps [`3996a4b`](https://github.com/Cecilapp/Cecil/commit/3996a4bded990182ef47425550622496f270ba3e)
+- chore: code style [`d5eac07`](https://github.com/Cecilapp/Cecil/commit/d5eac07e9f2be52e0f69b3eb3c042cc9787eb26d)
+
+#### [5.98.3](https://github.com/Cecilapp/Cecil/compare/5.98.2...5.98.3)
+
+> 28 May 2022
+
+- chore: composer normalize [`47a03c2`](https://github.com/Cecilapp/Cecil/commit/47a03c2e8b5ce6846463adabbb07a9d63c2b5044)
+- Revert "Update CHANGELOG" [`8210f56`](https://github.com/Cecilapp/Cecil/commit/8210f56cca825cb66d6a2c787a8c10d0e09689fc)
+- chore: Better Asset handling error message [`e17f47c`](https://github.com/Cecilapp/Cecil/commit/e17f47c3e3c58268bd27caad0434b1940c332692)
+- chore: force EOL LF [`d1f3eaa`](https://github.com/Cecilapp/Cecil/commit/d1f3eaa488af92105a3c952b99fbd0374e00ef76)
+
+#### [5.98.2](https://github.com/Cecilapp/Cecil/compare/5.98.1...5.98.2)
+
+> 28 May 2022
+
+- fix: Asset image correct width [`#1393`](https://github.com/Cecilapp/Cecil/pull/1393)
+- chore: code quality [`#1388`](https://github.com/Cecilapp/Cecil/pull/1388)
+- chore: update deps [`ef462b3`](https://github.com/Cecilapp/Cecil/commit/ef462b3ad3aecb7c9f93c1154fca80e62e7780ae)
+- Create cecil-cli-demo.gif [`7c9b734`](https://github.com/Cecilapp/Cecil/commit/7c9b734d949b79b6b381e448b4c1229e430fdd1f)
+
+#### [5.98.1](https://github.com/Cecilapp/Cecil/compare/5.98.0...5.98.1)
+
+> 24 May 2022
+
+- chore: fix WebP configuration of Scrutinizer config [`#1387`](https://github.com/Cecilapp/Cecil/pull/1387)
+- Apply fixes from StyleCI [`#1386`](https://github.com/Cecilapp/Cecil/pull/1386)
+- chore: cleaning tests fixtures [`fff33d5`](https://github.com/Cecilapp/Cecil/commit/fff33d5d4560dc1a867b2a7739271358b61ca2dd)
+- fix: remote asset handling [`56cdf1c`](https://github.com/Cecilapp/Cecil/commit/56cdf1c377b78deb993de5bc847fbc614cdef194)
+- chore: update fixtures [`fc377d4`](https://github.com/Cecilapp/Cecil/commit/fc377d446e1d838c703a889d1590ce3fe69e077c)
+- tests: add images fixtures and cases [`2c9fef6`](https://github.com/Cecilapp/Cecil/commit/2c9fef6b45f781ffd5a58c95b7a96c0701dd97ba)
+- chore: clean code [`cc346b1`](https://github.com/Cecilapp/Cecil/commit/cc346b1cc2410b840597b6f5d1f73daf6cd357c8)
+- tests: add Markdown fixtures [`0af1d41`](https://github.com/Cecilapp/Cecil/commit/0af1d41177ca9532de90fee6fa6e3b621a89bdee)
+- chore: update deps [`812d72b`](https://github.com/Cecilapp/Cecil/commit/812d72bc90a3861c2f0f9c448c2d9e42c11bc513)
+- chore: add webp to circleci installation [`18fcec3`](https://github.com/Cecilapp/Cecil/commit/18fcec357db1fadd3abd825b5f2f748e90b5bda6)
+- test: fix external body [`88cb755`](https://github.com/Cecilapp/Cecil/commit/88cb7551cfacb46b23169d97c0dd8cfd4da54e0b)
+- chore: fix circleci config [`f1321cc`](https://github.com/Cecilapp/Cecil/commit/f1321cca7b3da34dae23176f7f6acf4ac85988b7)
+- chore: update exception message [`8b8bea1`](https://github.com/Cecilapp/Cecil/commit/8b8bea1dde1511c7e50e034f10f709fc8cd96aa5)
+- fix: image height when resize [`280f682`](https://github.com/Cecilapp/Cecil/commit/280f68290cae603862f12e13bc917d80ef415416)
+- chore: try to add WebP to Scrutinizer config [`3b2fc08`](https://github.com/Cecilapp/Cecil/commit/3b2fc08b96120c7229cf8babea62fb041d65a1db)
+
+#### [5.98.0](https://github.com/Cecilapp/Cecil/compare/5.97.0...5.98.0)
+
+> 24 May 2022
+
+- feat: exclude dir/path/files in content [`#1385`](https://github.com/Cecilapp/Cecil/pull/1385)
+- chore: clean code [`13dbff7`](https://github.com/Cecilapp/Cecil/commit/13dbff7dce82b48a901df59c85938715476aaa3c)
+- docs: minor fix [`beb32c0`](https://github.com/Cecilapp/Cecil/commit/beb32c044ba4b5a0cfcc28f601d244a62b50cbae)
+
+#### [5.97.0](https://github.com/Cecilapp/Cecil/compare/5.96.6...5.97.0)
+
+> 23 May 2022
+
+- feat: inline "insert" markdown [`#1384`](https://github.com/Cecilapp/Cecil/pull/1384)
+
+#### [5.96.6](https://github.com/Cecilapp/Cecil/compare/5.96.5...5.96.6)
+
+> 23 May 2022
+
+- fix: remove footnotes in excerpt [`#1382`](https://github.com/Cecilapp/Cecil/pull/1382)
+- chore: update deps [`699ffa1`](https://github.com/Cecilapp/Cecil/commit/699ffa1287620e900dc66022efc33819261b2390)
+- Revert "chore: update circleci config" [`0a83ec4`](https://github.com/Cecilapp/Cecil/commit/0a83ec4b5c8eb7d51b3a004895526b4e19a118a5)
+- chore: update circleci config [`46cc448`](https://github.com/Cecilapp/Cecil/commit/46cc4489f65a2df25ff45e6ad1d82604aa28ab8a)
+
+#### [5.96.5](https://github.com/Cecilapp/Cecil/compare/5.96.4...5.96.5)
+
+> 21 May 2022
+
+- docs: update charts [`817e2ed`](https://github.com/Cecilapp/Cecil/commit/817e2ed7a55e3d9c0244a8bb70968e196e3f9df8)
+- fix: checks config file(s) [`d3f2d3a`](https://github.com/Cecilapp/Cecil/commit/d3f2d3a56b1793ec64a4c0234ba3836d3a661024)
+
+#### [5.96.4](https://github.com/Cecilapp/Cecil/compare/5.96.3...5.96.4)
+
+> 16 May 2022
+
+- Apply fixes from StyleCI [`#1377`](https://github.com/Cecilapp/Cecil/pull/1377)
+- Apply fixes from StyleCI [`#1376`](https://github.com/Cecilapp/Cecil/pull/1376)
+- chore: update comments [`f5395c4`](https://github.com/Cecilapp/Cecil/commit/f5395c4a3f17c19f8a65ee940756fefec452ea64)
+- chore: code strict_types [`2af3b9e`](https://github.com/Cecilapp/Cecil/commit/2af3b9e05e5dd70e19271f14916191cb9d43bfb9)
+- chore: update deps [`d6c3093`](https://github.com/Cecilapp/Cecil/commit/d6c309338d27b9bdd0e3e55d6e6c8b3451c9cef3)
+- fix: locale path binding [`ae0e748`](https://github.com/Cecilapp/Cecil/commit/ae0e7487dbcf4b2d186736fd0d4a0b64607a8dcf)
+- fix: Variable $layout might not be defined [`17027f2`](https://github.com/Cecilapp/Cecil/commit/17027f2fbfd3b175678690fc0f6a321b1a188da0)
+- fix: Layout str_replace() on PHP 8 [`2895f3e`](https://github.com/Cecilapp/Cecil/commit/2895f3e172a551e74aab8a85ed8ac6ad2b6e3017)
+- fix: SVG detection [`258ecc6`](https://github.com/Cecilapp/Cecil/commit/258ecc6203021ccf9c706e3bbb4177ab06474b80)
+- chore: clean code [`a0afe1f`](https://github.com/Cecilapp/Cecil/commit/a0afe1f1cc8a52170fd4a9cdd97d16de58b07e0f)
+
+#### [5.96.3](https://github.com/Cecilapp/Cecil/compare/5.96.2...5.96.3)
+
+> 13 May 2022
+
+- fix: asset images optimization [`#1375`](https://github.com/Cecilapp/Cecil/pull/1375)
+- chore: sprintf() -&gt; \sprintf() [`1db773b`](https://github.com/Cecilapp/Cecil/commit/1db773bd23e9f2e2f1e9ebfd91aca89810afd69e)
+- chore: code comments [`5de2d85`](https://github.com/Cecilapp/Cecil/commit/5de2d854742f4a48016afb31669452f374d38eaa)
+- chore: clean code [`afc93a9`](https://github.com/Cecilapp/Cecil/commit/afc93a95025acf5448e7f7cfada65fc096e6c141)
+- fix: cache files extension (.ser) [`c7d5d08`](https://github.com/Cecilapp/Cecil/commit/c7d5d083f0062c97a0369e27704f77accdb302a8)
+- chore: clean code [`8fbbd78`](https://github.com/Cecilapp/Cecil/commit/8fbbd780b4a7b3f1c334cfe034a415c6cd721bfe)
+
+#### [5.96.2](https://github.com/Cecilapp/Cecil/compare/5.96.1...5.96.2)
+
+> 12 May 2022
+
+- fix: Assets resize [`#1374`](https://github.com/Cecilapp/Cecil/pull/1374)
+
+#### [5.96.1](https://github.com/Cecilapp/Cecil/compare/5.96.0...5.96.1)
+
+> 11 May 2022
+
+- fix: Optimize assets on save() [`#1372`](https://github.com/Cecilapp/Cecil/pull/1372)
+
+#### [5.96.0](https://github.com/Cecilapp/Cecil/compare/5.95.0...5.96.0)
+
+> 8 May 2022
+
+- feat: Define responsive images widths [`#1371`](https://github.com/Cecilapp/Cecil/pull/1371)
+
+#### [5.95.0](https://github.com/Cecilapp/Cecil/compare/5.94.0...5.95.0)
+
+> 29 April 2022
+
+- feat: Converts variables to boolean [`#1367`](https://github.com/Cecilapp/Cecil/pull/1367)
+
+#### [5.94.0](https://github.com/Cecilapp/Cecil/compare/5.93.3...5.94.0)
+
+> 29 April 2022
+
+- feat: schedule pages publication [`#1369`](https://github.com/Cecilapp/Cecil/pull/1369)
+- chore: update deps [`0bbb905`](https://github.com/Cecilapp/Cecil/commit/0bbb90509fa34552ce047c3f4bbb2bdf87dd984d)
+
+#### [5.93.3](https://github.com/Cecilapp/Cecil/compare/5.93.2...5.93.3)
+
+> 26 April 2022
+
+- chore: clean code [`d18aa7f`](https://github.com/Cecilapp/Cecil/commit/d18aa7f2fa422ea26900e0297a98d1833a3131ac)
+- chore: update deps [`2311d94`](https://github.com/Cecilapp/Cecil/commit/2311d9483f1e8aa5ab35b0da55b4608eef6060b8)
+- fix: run taxonomies step only if necessary [`41bd97e`](https://github.com/Cecilapp/Cecil/commit/41bd97ef2bb3ab62b4ed1f720e8797f077c39263)
+- chore: clean code [`63ecba7`](https://github.com/Cecilapp/Cecil/commit/63ecba7996adc5b81727edea7b777aa10e844557)
+
+#### [5.93.2](https://github.com/Cecilapp/Cecil/compare/5.93.1...5.93.2)
+
+> 24 April 2022
+
+- fix: do not set a default baseline [`#1359`](https://github.com/Cecilapp/Cecil/pull/1359)
+- fix: set timezone only if exists in config [`#1358`](https://github.com/Cecilapp/Cecil/pull/1358)
+
+#### [5.93.1](https://github.com/Cecilapp/Cecil/compare/5.93.0...5.93.1)
+
+> 22 April 2022
+
+- fix: must save asset in `html` filter [`25ea190`](https://github.com/Cecilapp/Cecil/commit/25ea1900d679ecac16d8d275e1963b2c339a340a)
+- chore: clean code [`c0dc53a`](https://github.com/Cecilapp/Cecil/commit/c0dc53a1293c5ed7c3deb8637c65bafba5c128da)
+
+#### [5.93.0](https://github.com/Cecilapp/Cecil/compare/5.92.2...5.93.0)
+
+> 22 April 2022
+
+- feat: new `hex_to_rgb` filter [`#1357`](https://github.com/Cecilapp/Cecil/pull/1357)
+- docs: update `html` filter [`2c77839`](https://github.com/Cecilapp/Cecil/commit/2c778399213a1d6a0f9578f9569d7cd24ea455c0)
+- docs: minor fix [`597408a`](https://github.com/Cecilapp/Cecil/commit/597408a768be0d7e4bb00029d11002625a2919b2)
+
+#### [5.92.2](https://github.com/Cecilapp/Cecil/compare/5.92.1...5.92.2)
+
+> 14 April 2022
+
+- fix: new:site command questions [`1384a6c`](https://github.com/Cecilapp/Cecil/commit/1384a6cfb592651e554ebf8fa13117fb4c06cde4)
+
+#### [5.92.1](https://github.com/Cecilapp/Cecil/compare/5.92.0...5.92.1)
+
+> 13 April 2022
+
+- fix: Structured data navigation item description [`#1354`](https://github.com/Cecilapp/Cecil/pull/1354)
+- fix: asset path should not be empty [`#1353`](https://github.com/Cecilapp/Cecil/pull/1353)
+- fix: WebP optimization quality [`#1352`](https://github.com/Cecilapp/Cecil/pull/1352)
+- fix: load SVG asset returns false if error [`1a38420`](https://github.com/Cecilapp/Cecil/commit/1a3842004049d2b81954aeb8b42f31f7ad471dbb)
+- chore: clean code [`a2af5a2`](https://github.com/Cecilapp/Cecil/commit/a2af5a22f9dfa3561989e51d4e0869a83a133d02)
+- chore: update deps [`24b3482`](https://github.com/Cecilapp/Cecil/commit/24b348282c0662b0ce142a55f6e2d866f1b5e063)
+- chore: clean code [`1cadfdb`](https://github.com/Cecilapp/Cecil/commit/1cadfdb61731fd1a2b3511860f3738f5cc5f0882)
+- docs: should not use "component" term [`7161b53`](https://github.com/Cecilapp/Cecil/commit/7161b538a6e01c7967d662e7e44ffff7a84fc998)
+- chore: clean code [`42d2ac1`](https://github.com/Cecilapp/Cecil/commit/42d2ac175cfcb7eca0c82eb0eeede7a2a3c59b18)
+- fix: throw exception if cant get asset with/height [`ea0a398`](https://github.com/Cecilapp/Cecil/commit/ea0a3989a11643140b8ed8ba85a6f30f00d3066d)
+- fix: check if asset is of type audio [`f311ab8`](https://github.com/Cecilapp/Cecil/commit/f311ab85fd93f47d1722e26c68381c20b842a0e7)
+- docs: fix default image quality (75) [`a096b58`](https://github.com/Cecilapp/Cecil/commit/a096b5846631d050971a24d43ae04a43249046f9)
+- chore: clean code [`851057a`](https://github.com/Cecilapp/Cecil/commit/851057ac3b0558d52974365958d56bc84c333c7f)
+- chore: clean code [`5970a06`](https://github.com/Cecilapp/Cecil/commit/5970a062e2f4eb5f92b4393b1ca585d1875fa83b)
+- chore: clean code [`8b12b4f`](https://github.com/Cecilapp/Cecil/commit/8b12b4fd8ed84e3b48dd96eeea259624f5ad19a4)
+
+#### [5.92.0](https://github.com/Cecilapp/Cecil/compare/5.91.0...5.92.0)
+
+> 6 April 2022
+
+- feat: editor option for `new:page` cmd [`#1351`](https://github.com/Cecilapp/Cecil/pull/1351)
+- feat: asking the user for site config [`#1350`](https://github.com/Cecilapp/Cecil/pull/1350)
+- feat: option to choose the editor with `open` command [`#1347`](https://github.com/Cecilapp/Cecil/pull/1347)
+- chore: update deps [`c58c79a`](https://github.com/Cecilapp/Cecil/commit/c58c79a81d16f7cc47f34b4835b1b41f5bbc2ab3)
+- chore: clean code [`3fff2a9`](https://github.com/Cecilapp/Cecil/commit/3fff2a9194c66ba45b07b90e6335f6f631cc21aa)
+- chore: update deps [`4f99a5d`](https://github.com/Cecilapp/Cecil/commit/4f99a5d30e7e36e669849ad2f56bd0078537c472)
+- chore: clean code [`40213aa`](https://github.com/Cecilapp/Cecil/commit/40213aa85c5a0ba8a071afb89b3853d012cdfc6d)
+- chore: update deps [`722a15e`](https://github.com/Cecilapp/Cecil/commit/722a15e5e9f8b511d60c4693a1b67b86c24a6546)
+- chore: remove `clean` alias [`2a0a09f`](https://github.com/Cecilapp/Cecil/commit/2a0a09f21c3363132032660a03bd0119afa5fc22)
+
+#### [5.91.0](https://github.com/Cecilapp/Cecil/compare/5.90.0...5.91.0)
+
+> 3 April 2022
+
+- docs: minor updates [`fdbfe96`](https://github.com/Cecilapp/Cecil/commit/fdbfe96ca43790ce3b80a17a657bd928245a30b7)
+- docs: update configuration doc [`293ca21`](https://github.com/Cecilapp/Cecil/commit/293ca213c486ced8cbbd15038583b4a51785ed3f)
+- feat: support of SiteNavigationElement (JSON-LD) [`d8b5202`](https://github.com/Cecilapp/Cecil/commit/d8b5202eb5e0505d6a8cc8dc87d1234da266577a)
+- docs: fix body configuration [`bbb7843`](https://github.com/Cecilapp/Cecil/commit/bbb7843ef435b040d5ce4e150ef406e1f3b64461)
+
+#### [5.90.0](https://github.com/Cecilapp/Cecil/compare/5.89.1...5.90.0)
+
+> 2 April 2022
+
+- feat: Option to disable fetching of remote images [`#1342`](https://github.com/Cecilapp/Cecil/pull/1342)
+- fix: disable options in metatags template [`#1341`](https://github.com/Cecilapp/Cecil/pull/1341)
+- fix: better commands description/help [`f31a3e6`](https://github.com/Cecilapp/Cecil/commit/f31a3e66d7a9d8721932f94025a032c3f28f76f7)
+
+#### [5.89.1](https://github.com/Cecilapp/Cecil/compare/5.89.0...5.89.1)
+
+> 1 April 2022
+
+- fix: minor update on default template [`bbfbff8`](https://github.com/Cecilapp/Cecil/commit/bbfbff86574eadef7691d217cc4fbd9d09b8e7f8)
+- fix: minor fix of the live reload script [`ebf8a37`](https://github.com/Cecilapp/Cecil/commit/ebf8a377e6af2a8554853679baea11931d6dfb49)
+- fix: remove remote image from example content [`80a0cf9`](https://github.com/Cecilapp/Cecil/commit/80a0cf9a9b81dc5648731d56a07fad1583693689)
+- feat: add theme-color to default template [`6c32122`](https://github.com/Cecilapp/Cecil/commit/6c32122becccf3a34143b1d7ded344bd8af999d0)
+
+#### [5.89.0](https://github.com/Cecilapp/Cecil/compare/5.88.1...5.89.0)
+
+> 27 March 2022
+
+- feat: optimize WebP images [`#1336`](https://github.com/Cecilapp/Cecil/pull/1336)
+- Squashed commit of the following: [`5ec9880`](https://github.com/Cecilapp/Cecil/commit/5ec9880b34ba893eeeffddf5905bb5f337f5cfe1)
+- docs: minor fix [`2bef34e`](https://github.com/Cecilapp/Cecil/commit/2bef34e955f1c7eafa4f658429d1292a8f926e8f)
+- docs: minor fix [`ea17e91`](https://github.com/Cecilapp/Cecil/commit/ea17e91a31710e2e46d46564c3d87cbdc8727c74)
+
+#### [5.88.1](https://github.com/Cecilapp/Cecil/compare/5.88.0...5.88.1)
+
+> 25 March 2022
+
+- fix: div note should be an aside [`#1332`](https://github.com/Cecilapp/Cecil/pull/1332)
+
+#### [5.88.0](https://github.com/Cecilapp/Cecil/compare/5.87.0...5.88.0)
+
+> 25 March 2022
+
+- feat: get SVG width and height [`#1331`](https://github.com/Cecilapp/Cecil/pull/1331)
+- chore: update deps [`177eed5`](https://github.com/Cecilapp/Cecil/commit/177eed5d89fb635a16d165f2a55190cae6090e5a)
+- docs: update html filter [`322fea3`](https://github.com/Cecilapp/Cecil/commit/322fea3d5b149d9d217517390b6e81c35150974f)
+- docs: minor fix [`a73d575`](https://github.com/Cecilapp/Cecil/commit/a73d5752774c5ba3c6440cc15141a880bb1f802e)
+- docs: temp fix HTML minify [`5d6a48a`](https://github.com/Cecilapp/Cecil/commit/5d6a48a22546f63ebbc8e039b201bffb6eaa555b)
+
+#### [5.87.0](https://github.com/Cecilapp/Cecil/compare/5.86.2...5.87.0)
+
+> 23 March 2022
+
+- feat: Markdown Note block-level element [`#1328`](https://github.com/Cecilapp/Cecil/pull/1328)
+- docs: minor updates [`9b0ee09`](https://github.com/Cecilapp/Cecil/commit/9b0ee094549ca544be3cdf23ff8cb40e3d71072e)
+- docs: fix "ie" -&gt; "e.g." [`54fa0f2`](https://github.com/Cecilapp/Cecil/commit/54fa0f20d007cdf6bc043f238324f9a1f77b57e1)
+- chore: update deps [`7b53a31`](https://github.com/Cecilapp/Cecil/commit/7b53a31071baafa04bb49a083b82a11b35af89d5)
+- docs: minor fix [`ec063aa`](https://github.com/Cecilapp/Cecil/commit/ec063aa478d30cd7cc5dfd856b56b4b02151140f)
+- docs: fix tip note [`258f25d`](https://github.com/Cecilapp/Cecil/commit/258f25da3d0ac4a2782f3fddfc61868f0d822706)
+- docs: testing tips block [`08cbaea`](https://github.com/Cecilapp/Cecil/commit/08cbaea2ba943fb0877ecf638163997f5bbc6b5a)
+- docs: minor changes [`172eed8`](https://github.com/Cecilapp/Cecil/commit/172eed8abe7a4a7d0b86dcbc4e66048a30a5a2d4)
+
+#### [5.86.2](https://github.com/Cecilapp/Cecil/compare/5.86.1...5.86.2)
+
+> 20 March 2022
+
+- fix: page cmd option must support sub dir [`#1325`](https://github.com/Cecilapp/Cecil/pull/1325)
+
+#### [5.86.1](https://github.com/Cecilapp/Cecil/compare/5.86.0...5.86.1)
+
+> 18 March 2022
+
+- fix(server): reload browser on first build [`0fa54c4`](https://github.com/Cecilapp/Cecil/commit/0fa54c456e9dea1b5efd1c48f9f343c030899f68)
+
+#### [5.86.0](https://github.com/Cecilapp/Cecil/compare/5.85.0...5.86.0)
+
+> 18 March 2022
+
+- perf(server): better changes watcher process [`#1324`](https://github.com/Cecilapp/Cecil/pull/1324)
+
+#### [5.85.0](https://github.com/Cecilapp/Cecil/compare/5.84.3...5.85.0)
+
+> 18 March 2022
+
+- feat: build a specific page [`#1323`](https://github.com/Cecilapp/Cecil/pull/1323)
+- chore: clean code [`5b9a9a2`](https://github.com/Cecilapp/Cecil/commit/5b9a9a29aa8adc7f10083dd2f2a43b26ff5af8c8)
+
+#### [5.84.3](https://github.com/Cecilapp/Cecil/compare/5.84.2...5.84.3)
+
+> 18 March 2022
+
+- fix: clear cache before build (during init phase) [`#1322`](https://github.com/Cecilapp/Cecil/pull/1322)
+
+#### [5.84.2](https://github.com/Cecilapp/Cecil/compare/5.84.1...5.84.2)
+
+> 16 March 2022
+
+- fix: config loading check [`#1321`](https://github.com/Cecilapp/Cecil/pull/1321)
+- fix: minor fix in docs [`d8ae6f0`](https://github.com/Cecilapp/Cecil/commit/d8ae6f0e5e77f081f19e7781237ebcdf6f23ddc5)
+- fix: config log [`95fb2c8`](https://github.com/Cecilapp/Cecil/commit/95fb2c8ecd9ce6bc4a307a863aa5041c3e16f92f)
+
+#### [5.84.1](https://github.com/Cecilapp/Cecil/compare/5.84.0...5.84.1)
+
+> 10 March 2022
+
+- fix: open command [`#1319`](https://github.com/Cecilapp/Cecil/pull/1319)
+
+#### [5.84.0](https://github.com/Cecilapp/Cecil/compare/5.83.12...5.84.0)
+
+> 10 March 2022
+
+- feat: Open content with the configured editor [`#1318`](https://github.com/Cecilapp/Cecil/pull/1318)
+- chore: update deps [`bea9b02`](https://github.com/Cecilapp/Cecil/commit/bea9b027612cf52ee1757f262928fac0b715367f)
+
+#### [5.83.12](https://github.com/Cecilapp/Cecil/compare/5.83.11...5.83.12)
+
+> 6 March 2022
+
+- fix: html filter with asset image [`#1313`](https://github.com/Cecilapp/Cecil/pull/1313)
+- doc: minor fixes [`48e9f1f`](https://github.com/Cecilapp/Cecil/commit/48e9f1f03868b4cbb8e8c730a3ebe247560987ac)
+- docs: update images manipulations documentation [`dc37b46`](https://github.com/Cecilapp/Cecil/commit/dc37b464e63ccb34be21bb834552161eaef58785)
+- doc: add `excerpt_html` options description [`5ae919c`](https://github.com/Cecilapp/Cecil/commit/5ae919c10bc3f678f0f32f28c11cb1eb696b4fb0)
+- doc: minor fix [`ef82823`](https://github.com/Cecilapp/Cecil/commit/ef828237717b7d81f333a52edab42ff91d6cd326)
 
 #### [5.83.11](https://github.com/Cecilapp/Cecil/compare/5.83.10...5.83.11)
 

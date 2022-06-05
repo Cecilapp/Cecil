@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -34,7 +37,7 @@ class ShowContent extends AbstractCommand
     {
         $this
             ->setName('show:content')
-            ->setDescription('Shows content')
+            ->setDescription('Shows content as tree')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
@@ -112,7 +115,7 @@ class ShowContent extends AbstractCommand
     private function getFilesTree(string $directory): FilenameRecursiveTreeIterator
     {
         $dir = (string) $this->getBuilder()->getConfig()->get("$directory.dir");
-        $ext = $this->getBuilder()->getConfig()->get("$directory.ext");
+        $ext = (string) $this->getBuilder()->getConfig()->get("$directory.ext");
         $path = Util::joinFile($this->getPath(), $dir);
 
         if (!is_dir($path)) {

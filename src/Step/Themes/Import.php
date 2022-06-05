@@ -1,6 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /*
- * Copyright (c) Arnaud Ligny <arnaud@ligny.org>
+ * This file is part of Cecil.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -31,7 +36,7 @@ class Import extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         if ($this->config->hasTheme()) {
             $this->canProcess = true;
@@ -43,7 +48,7 @@ class Import extends AbstractStep
      *
      * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         $themes = array_reverse((array) $this->config->getTheme());
         $count = 0;
@@ -51,14 +56,14 @@ class Import extends AbstractStep
         foreach ($themes as $theme) {
             $count++;
             $themeConfigFile = $this->config->getThemesPath().'/'.$theme.'/'.self::THEME_CONFIG_FILE;
-            $message = sprintf('"%s": no configuration file', $theme);
+            $message = \sprintf('"%s": no configuration file', $theme);
             if (Util\File::getFS()->exists($themeConfigFile)) {
                 if (false === $config = Util\File::fileGetContents($themeConfigFile)) {
                     throw new RuntimeException('Can\'t read the configuration file.');
                 }
                 $themeConfig = Yaml::parse($config);
                 $this->config->import($themeConfig);
-                $message = sprintf('Theme "%s" imported', $theme);
+                $message = \sprintf('Theme "%s" imported', $theme);
             }
 
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);

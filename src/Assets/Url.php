@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -113,7 +116,7 @@ class Url
                     // Page ID as string
                     case $this->builder->getPages()->has($pageId):
                         $page = $this->builder->getPages()->get($pageId);
-                        $this->url = new self($this->builder, $page, $options);
+                        $this->url = (string) new self($this->builder, $page, $options);
                         break;
                     // asset as string
                     case false !== strpos($value, '.') ? true : false:

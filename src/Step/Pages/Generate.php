@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -30,9 +33,8 @@ class Generate extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
         if (count((array) $this->builder->getConfig()->get('generators')) > 0) {
             $this->canProcess = true;
         }
@@ -41,7 +43,7 @@ class Generate extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $generatorManager = new GeneratorManager($this->builder);
 
@@ -56,7 +58,7 @@ class Generate extends AbstractStep
         $generators = (array) $this->builder->getConfig()->get('generators');
         array_walk($generators, function ($generator, $priority) use ($generatorManager) {
             if (!class_exists($generator)) {
-                $message = sprintf('Unable to load generator "%s".', $generator);
+                $message = \sprintf('Unable to load generator "%s".', $generator);
                 $this->builder->getLogger()->error($message);
 
                 return;

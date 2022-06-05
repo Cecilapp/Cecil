@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -25,6 +28,8 @@ use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Twig\Extension.
@@ -90,8 +95,10 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('excerpt_html', [$this, 'excerptHtml']),
             new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
             new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
+            new \Twig\TwigFilter('yaml_parse', [$this, 'yamlParse']),
             new \Twig\TwigFilter('preg_split', [$this, 'pregSplit']),
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
+            new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             // deprecated
             new \Twig\TwigFilter(
                 'filterBySection',
@@ -227,7 +234,8 @@ class Extension extends SlugifyExtension
     public function sortByTitle(\Traversable $collection): array
     {
         $collection = iterator_to_array($collection);
-        array_multisort(array_keys($collection), SORT_NATURAL | SORT_FLAG_CASE, $collection);
+        /** @var \array $collection */
+        array_multisort(array_keys(/** @scrutinizer ignore-type */ $collection), \SORT_ASC, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
 
         return $collection;
     }
@@ -252,7 +260,8 @@ class Extension extends SlugifyExtension
         };
 
         $collection = iterator_to_array($collection);
-        usort($collection, $callback);
+        /** @var \array $collection */
+        usort(/** @scrutinizer ignore-type */ $collection, $callback);
 
         return $collection;
     }
@@ -271,7 +280,8 @@ class Extension extends SlugifyExtension
         };
 
         $collection = iterator_to_array($collection);
-        usort($collection, $callback);
+        /** @var \array $collection */
+        usort(/** @scrutinizer ignore-type */ $collection, $callback);
 
         return $collection;
     }
@@ -498,13 +508,14 @@ class Extension extends SlugifyExtension
             $htmlAttributes .= $attribute;
         }
 
+        $asset->save();
+
         /* CSS or JavaScript */
         switch ($asset['ext']) {
             case 'css':
                 if ($preload) {
                     return \sprintf(
-                        '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s>
-                         <noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
+                        '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
                         $this->url($asset['path'], $options),
                         $htmlAttributes
                     );
@@ -518,18 +529,15 @@ class Extension extends SlugifyExtension
         /* Image */
         if ($asset['type'] == 'image') {
             // responsive
-            if ($responsive && $srcset = Image::getSrcset(
+            if ($responsive && $srcset = Image::buildSrcset(
                 $asset,
-                $this->config->get('assets.images.responsive.width.steps') ?? 5,
-                $this->config->get('assets.images.responsive.width.min') ?? 320,
-                $this->config->get('assets.images.responsive.width.max') ?? 1280
+                $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
             )) {
                 $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
                 $htmlAttributes .= \sprintf(' sizes="%s"', $this->config->get('assets.images.responsive.sizes.default') ?? '100vw');
             }
 
             // <img>
-            $asset->save();
             $img = \sprintf(
                 '<img src="%s" width="'.($asset->getWidth() ?: 0).'" height="'.($asset->getHeight() ?: 0).'"%s>',
                 $this->url($asset['path'], $options),
@@ -538,16 +546,14 @@ class Extension extends SlugifyExtension
 
             // WebP transformation?
             if ($webp && !Image::isAnimatedGif($asset)) {
-                $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 85);
+                $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 75);
                 // <source>
                 $source = \sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
                 // responsive
                 if ($responsive) {
-                    $srcset = Image::getSrcset(
+                    $srcset = Image::buildSrcset(
                         $assetWebp,
-                        $this->config->get('assets.images.responsive.width.steps') ?? 5,
-                        $this->config->get('assets.images.responsive.width.min') ?? 320,
-                        $this->config->get('assets.images.responsive.width.max') ?? 1280
+                        $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
                     ) ?: (string) $assetWebp;
                     // <source>
                     $source = \sprintf(
@@ -617,8 +623,8 @@ class Extension extends SlugifyExtension
         if ($capture == 'after') {
             return trim($matches[3]);
         }
-
-        return trim($matches[1]);
+        // remove footnotes
+        return preg_replace('/<sup[^>]*>[^u]*<\/sup>/', '', trim($matches[1]));
     }
 
     /**
@@ -648,10 +654,29 @@ class Extension extends SlugifyExtension
         try {
             $array = json_decode($json, true);
             if ($array === null && json_last_error() !== JSON_ERROR_NONE) {
-                throw new RuntimeException('JSON error.');
+                throw new \Exception('JSON error.');
             }
         } catch (\Exception $e) {
             throw new RuntimeException('"json_decode" filter can not parse supplied JSON.');
+        }
+
+        return $array;
+    }
+
+    /**
+     * Converts a YAML string to an array.
+     *
+     * @throws RuntimeException
+     */
+    public function yamlParse(string $yaml): ?array
+    {
+        try {
+            $array = Yaml::parse($yaml);
+            if (!is_array($array)) {
+                throw new ParseException('YAML error.');
+            }
+        } catch (ParseException $e) {
+            throw new RuntimeException(\sprintf('"yaml_parse" filter can not parse supplied YAML: %s', $e->getMessage()));
         }
 
         return $array;
@@ -723,5 +748,40 @@ class Extension extends SlugifyExtension
     public function isAsset($variable): bool
     {
         return $variable instanceof Asset;
+    }
+
+    /**
+     * Converts an hexadecimal color to RGB.
+     */
+    public function hexToRgb($variable): array
+    {
+        if (!self::isHex($variable)) {
+            throw new RuntimeException(\sprintf('"%s" is not a valid hexadecimal value.', $variable));
+        }
+        $hex = ltrim($variable, '#');
+        if (strlen($hex) == 3) {
+            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+        }
+        $c = hexdec($hex);
+
+        return [
+            'red'   => $c >> 16 & 0xFF,
+            'green' => $c >> 8 & 0xFF,
+            'blue'  => $c & 0xFF,
+        ];
+    }
+
+    /**
+     * Is a hexadecimal color is valid?
+     */
+    private static function isHex(string $hex): bool
+    {
+        $valid = is_string($hex);
+        $hex = ltrim($hex, '#');
+        $length = strlen($hex);
+        $valid = $valid && ($length === 3 || $length === 6);
+        $valid = $valid && ctype_xdigit($hex);
+
+        return $valid;
     }
 }

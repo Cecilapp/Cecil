@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -69,7 +72,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             // sorts pages
             $pages = $pages->sortByDate();
             if ($sortby) {
-                $sortMethod = sprintf('sortBy%s', ucfirst($sortby));
+                $sortMethod = \sprintf('sortBy%s', ucfirst($sortby));
                 if (method_exists($pages, $sortMethod)) {
                     $pages = $pages->$sortMethod();
                 }
@@ -102,7 +105,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         ->setId($pageId)
                         ->setPath($firstPath)
                         ->setVariable('aliases', [
-                            sprintf('%s/%s/%s', $path, $paginationPath, 1),
+                            \sprintf('%s/%s/%s', $path, $paginationPath, 1),
                         ]);
                 } else {
                     // ie: blog/page/2

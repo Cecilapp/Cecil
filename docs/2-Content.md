@@ -1,16 +1,17 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2021-11-26
+updated: 2022-03-10
 -->
 
 # Content
 
-There is 3 kinds of content in Cecil:
+There is different kinds of content in Cecil:
 
-1. **_Pages_** ([Markdown](https://daringfireball.net/projects/markdown/) files in `content/`)
-2. **Static files** (images, PDF, etc. in `static/`)
-3. **Data files** (custom variables collections in `data/`)
+- **_Pages_** ([Markdown](https://daringfireball.net/projects/markdown/) or plain text files in `content/`)
+- **Assets** files (images, CSS, scripts, etc. in `assets/`)
+- **Static** files (videos, PDF, etc. in `static/`)
+- **Data** files (custom variables collections in `data/`)
 
 ## Files organization
 
@@ -21,24 +22,27 @@ Your content should be organized in a manner that reflects the rendered website.
 ```plaintext
 <mywebsite>
 ├─ content
-|  ├─ blog               <- Section
-|  |  ├─ post-1.md       <- Page in Section
+|  ├─ blog            <- Section
+|  |  ├─ post-1.md    <- Page in Section
 |  |  └─ post-2.md
 |  ├─ projects
 |  |  └─ project-1.md
-|  └─ about.md           <- Page in the root
-├─ static
-|  └─ logo.png           <- Static file
+|  └─ about.md        <- Page in the root
 ├─ assets
-|  └─ styles.scss        <- Asset file
+|  ├─ styles.scss     <- Asset file
+|  └─ logo.png
+├─ static
+|  └─ video.mp4       <- Static file
 └─ data
-   └─ authors.yml        <- Data collection
+   └─ authors.yml     <- Data collection
 ```
 
-- Each folder in the root of `content/` is called a **_Section_** (ie: “Blog“, “Project“, etc.)
-- You can override _Section_’s default variables by creating ana file `index.md` in its directory (ie: `blog/index.md`)
-- Files in `static/` are copied as is in the root of the built website (ie: `static/images/logo.png` -> `images/logo.png`)
+**Notes:**
+
+- Each folder in the root of `content/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
+- You can override _Section_’s default variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
 - Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function
+- Files in `static/` are copied as is in the root of the built website (e.g.: `static/video.mp4` -> `video.mp4`)
 - Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
 
 ### Built website tree
@@ -55,11 +59,12 @@ Your content should be organized in a manner that reflects the rendered website.
    |  ├─ index.html            <- Generated list of projects
    |  └─ project-1/index.html
    ├─ about/index.html
+   ├─ styles.css
    ├─ logo.png
-   └─ styles.css
+   └─ video.mp4
 ```
 
-By default each _Page_ is generated as `filename-slugified/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`. To get an “ugly” URL (`404.html` instead of `404/`), set `uglyurl: true` in front matter.
+By default each _Page_ is generated as `filename-slugified/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`. To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in front matter.
 
 ### File VS URL structure
 
@@ -79,10 +84,9 @@ A _Page_ is a file made up of a **front matter** and a **body**.
 
 ### Front matter
 
-The _front matter_ is used to store variables in a _Page_, in _key/value_ format.
+The _front matter_ is a collection of [variables](#variables) (in _key/value_ format) surrounded by `---`.
 
-It must be the first thing in the file and must be a valid [YAML](https://en.wikipedia.org/wiki/YAML).  
-Separators must be `---`, `<!-- -->` or `+++`.
+It must be the first thing in the file and must be a valid [YAML](https://en.wikipedia.org/wiki/YAML).
 
 _Example:_
 
@@ -95,12 +99,15 @@ customvar: "Value of customvar"
 ---
 ```
 
+:::tip
+**Tip:** You can also use `<!-- -->` or `+++` as separator.
+:::
+
 ### Body
 
-_Body_ is the main content of a _Page_, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in **[Markdown Extra](https://michelf.ca/projects/php-markdown/extra/)** or in plain text.
+_Body_ is the main content of a _Page_, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/) or in plain text.
 
-_Cecil_ provides extra features to enhance your content (image caption, image lazy loading, image resizing, responsive image, text excerpt, table of contents).  
-See below for more details.
+Cecil also provides **extra features** to enhance your content: table of contents, text excerpt, image manipulation (caption, lazy loading, resizing, responsive) and notes).  
 
 _Example:_
 
@@ -109,43 +116,80 @@ _Example:_
 
 [toc]
 
-## Header 1
+## Sub-Header 1
 
 Lorem ipsum dolor [sit amet](https://example.com), consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 <!-- excerpt -->
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-## Header 2
+## Sub-Header 2
 
-![Description](/image.jpg 'Title')
+![Description](/image.jpg "Title")
+
+## Sub-Header 3
+
+:::tip
+**Tip:** This is an advice.
+:::
+
+## Sub-Header 4
+
+++Inserted text++
+```
+
+#### Table of contents
+
+You can add a table of contents with the following Markdown syntax:
+
+```markdown
+[toc]
+```
+
+#### Excerpt
+
+An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
+
+_Example:_
+
+```html
+Introduction.
+<!-- excerpt -->
+Main content.
 ```
 
 #### Images
 
 ##### Lazy loading
 
-By default Cecil apply the attribute `loading="lazy"` on each images.  
-So you can disable it [in configuration](4-Configuration.md#body).
+By default Cecil apply the attribute `loading="lazy"` on each images.
+
+_Example:_
 
 ```markdown
 ![](/image.jpg)
 ```
 
-Is converted to :
+Is converted to:
 
 ```html
 <img src="/image.jpg" loading="lazy">
 ```
 
+:::info
+**Info:** You can disable the [`lazy` option in the body configuration](4-Configuration.md#body).
+:::
+
 ##### Caption
 
-You can autommatically add a caption (`figcaption`) to an image by adding a title.
+You can automatically add a caption (`figcaption`) to an image with the optional title.
+
+_Example:_
 
 ```markdown
-![](/images/img.jpg 'Title')
+![](/images/img.jpg "Optional title")
 ```
 
-Is converted to :
+Is converted to:
 
 ```html
 <figure>
@@ -154,26 +198,39 @@ Is converted to :
 </figure>
 ```
 
+:::info
+**Info:** You can disable the [`caption` option in the body configuration](4-Configuration.md#body).
+:::
+
 ##### Resize
 
-Each image in the _body_ can be resized by setting a smaller width than the original image with the extra attribute `{width=X}` and if the [`resize` option of the converter](4-Configuration.md#body) is enabled.
+Each image in the _body_ can be resized by setting a smaller width than the original one with the extra attribute `{width=X}` (the [`resize` option in the body configuration](4-Configuration.md#body) must be enabled).
 
-Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.  
-This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
+_Example:_
 
 ```markdown
 ![](/image.jpg){width=800}
 ```
 
-Is converted to :
+Is converted to:
 
 ```html
 <img src="/assets/thumbnails/800/image.jpg" width="800" height="600">
 ```
 
+:::info
+**Info:** Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.  
+:::
+
+:::important
+**Important:** This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
+:::
+
 ##### Responsive
 
-If the [`responsive` option of the converter](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically _responsived_.
+If the [`responsive` option in the body configuration](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically _responsived_.
+
+_Example:_
 
 ```markdown
 ![](/image.jpg){width=800}
@@ -190,33 +247,68 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
 >
 ```
 
-#### Excerpt
+##### WebP
 
-An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
+If the [`webp` option in the body configuration](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
 
 _Example:_
 
-```html
-Introduction.
-<!-- excerpt -->
-Main content.
+```markdown
+![](/image.jpg)
 ```
 
-#### Table of contents
+Is converted to:
 
-You can add a table of contents with the following Markdown syntax:
+```html
+<picture>
+  <source srcset="/image.webp" type="image/webp">
+  <img src="/image.jpg">
+</picture>
+```
+
+#### Notes
+
+Create a _Note_ block (info, tips, important, etc.).
+
+_Example:_
 
 ```markdown
-[toc]
+:::tip
+**Tip:** This is an advice.
+:::
+```
+
+Is converted to:
+
+```html
+<div class="note note-tip">
+  <p>
+    <strong>Tip:</strong> This is an advice.
+  </p>
+</div>
+```
+
+:::info
+**Info:** The _Notes_ syntax can be disabled by setting the [body.notes.enabled](4-Configuration.md#body) option to `false`.
+:::
+
+#### Inserted text
+
+```markdown
+++text++
+```
+
+Is converted to:
+
+```html
+<ins>text</ins>
 ```
 
 ## Variables
 
-The front matter can contains custom variables applied to the current _Page_.
+The _front matter_ can contains custom variables applied to the current _Page_.
 
-### Predefined
-
-All the predefined variables can be overridden except `section`.
+### Predefined variables
 
 | Variable    | Description       | Default value                                      | Example       |
 | ----------- | ----------------- | -------------------------------------------------- | ------------- |
@@ -227,8 +319,12 @@ All the predefined variables can be overridden except `section`.
 | `section`   | Section           | Page's _Section_.                                  | `blog`        |
 | `path`      | Path              | Page's _path_.                                     | `blog/post-1` |
 | `slug`      | Slug              | Page's _slug_.                                     | `post-1`      |
-| `published` | Published or not  | `false`.                                           | `true`        |
-| `draft`     | Published or not  | `true`.                                            | `false`       |
+| `published` | Published or not  | `true`.                                            | `false`       |
+| `draft`     | Published or not  | `false`.                                           | `true`        |
+
+:::info
+All the predefined variables can be overridden except `section`.
+:::
 
 ### menu
 
@@ -242,7 +338,7 @@ _Examples:_
 
 ```yaml
 ---
-menu: navigation
+menu: main
 ---
 ```
 
@@ -266,7 +362,7 @@ menu:
 
 Taxonomies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
-Each _Page_ can contain severals terms (ie: `Tag 1`) of each taxonomies’ vocabulary (ie: `tags`).
+A _Page_ can contain several vocabularies (e.g.: `tags`) and terms (e.g.: `Tag 1`).
 
 _Example:_
 
@@ -276,11 +372,29 @@ tags: ["Tag 1", "Tag 2"]
 ---
 ```
 
+### Schedule
+
+Schedules pages’ publication.
+
+_Example:_
+
+The page will be published if current date is >= 2023-02-07:
+
+```yaml
+schedule:
+  publish: 2023-02-07
+```
+
+This page is published if current date is <= 2022-04-28:
+
+```yaml
+schedule:
+  expiry: 2022-04-28
+```
+
 ### redirect
 
 As indicated by its name, the `redirect` variable is used to redirect a page to a dedicated URL.
-
-It use the template [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig).
 
 _Example:_
 
@@ -290,9 +404,15 @@ redirect: "https://arnaudligny.fr/"
 ---
 ```
 
+:::info
+
+**Info:** Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig) template.
+
+:::
+
 ### alias
 
-`alias` is used to create redirections to the current page.
+Alias is a redirection to the current page
 
 _Example:_
 
@@ -320,10 +440,14 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 
 ### File prefix
 
-The filename can contain a prefix to define `date` or `weight` (used by `sortby`) of the _Page_.
+The filename can contain a prefix to define `date` or `weight` of the _Page_ (used by [`sortby`](3-TEmplates.md#sort-by-date)).
 
-The prefix is not included in the `title` of the _Page_.  
-Available prefix separator are `-`, `_` ~~and `.`~~.
+:::info
+**Info:**
+
+- The prefix is not included in the `title` of the _Page_
+- Available prefix separator are `-`, `_` ~~and `.`~~
+  :::
 
 #### date
 
@@ -351,11 +475,11 @@ In `1-The first project.md`:
 
 ### Section
 
-Some dedicated variables can be used in a custom _Section_ (ie: `blog/index.md`).
+Some dedicated variables can be used in a custom _Section_ (e.g.: `blog/index.md`).
 
 #### sortby
 
-The order of _Pages_ can be changed for a _Section_.
+The order of _Pages_ can be changed in a _Section_.
 
 Available values are:
 
@@ -373,7 +497,7 @@ sortby: title
 
 #### pagination
 
-Global [pagination configuration](4-Configuration.md#pagination) can be overridden for a _Section_.
+Global [pagination configuration](4-Configuration.md#pagination) can be overridden in a _Section_.
 
 _Example:_
 
@@ -387,8 +511,7 @@ pagination:
 
 #### cascade
 
-Any values in `cascade` will be merged into the front matter of all _sub pages_.  
-Existing variables are not overridden.
+Any values in `cascade` will be merged into the front matter of all _sub pages_.
 
 _Example:_
 
@@ -398,6 +521,10 @@ cascade:
   banner: image.jpg
 ---
 ```
+
+:::info
+**Info:** Existing variables are not overridden.
+:::
 
 #### circular
 
@@ -413,11 +540,11 @@ circular: true
 
 ### Home page
 
-Home page support `sortby` and `pagination` configuration.
+Like another section Home page support `sortby` and `pagination` configuration.
 
 #### pagesfrom
 
-Set `pagesfrom` to a valid section to use pages collection from a section.
+Set a valid section’s name to `pagesfrom` to use pages collection from this section.
 
 ### exclude
 
@@ -431,7 +558,9 @@ exclude: true
 ---
 ```
 
-`exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_.
+:::info
+**Info:** `exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_.
+:::
 
 ## Multilingual
 
@@ -439,7 +568,7 @@ If your content is available in multiple [languages](4-Configuration.md#language
 
 ### Language in the file name
 
-Defines the page’s language by adding the language `code` in the file name.
+Defines the page’s language by adding the language `code` as a suffix in the file name.
 
 _Example:_
 
@@ -456,6 +585,18 @@ _Example:_
 ```yml
 ---
 language: fr
+---
+```
+
+### Reference between translated pages
+
+Each page reference pages in others languages with the `langref` variable.
+
+The `langref` variable is provided by default, but you can change it in the front matter:
+
+```yml
+---
+langref: my-page-ref
 ---
 ```
 

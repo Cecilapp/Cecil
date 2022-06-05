@@ -1,4 +1,0 @@
----
-cascade:
-  test: Inherited value
----

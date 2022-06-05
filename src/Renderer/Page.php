@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -45,7 +48,7 @@ class Page
         $suffix = (string) $this->config->getOutputFormatProperty($format, 'suffix');
         $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
         $uglyurl = (bool) $page->getVariable('uglyurl');
-        $language = $page->getVariable('language');
+        $language = $page->getLanguage();
         // if ugly URL: not suffix
         if ($uglyurl) {
             $suffix = '';

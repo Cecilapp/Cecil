@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -36,10 +39,10 @@ class Render extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
-            $message = sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
+            $message = \sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
             $this->builder->getLogger()->debug($message);
         }
 
@@ -51,7 +54,7 @@ class Render extends AbstractStep
      *
      * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         // prepares renderer
         $this->builder->setRenderer(new Twig($this->builder, $this->getAllLayoutsPaths()));
@@ -74,7 +77,7 @@ class Render extends AbstractStep
             $rendered = [];
 
             // l10n
-            $language = $page->getVariable('language') ?? $this->config->getLanguageDefault();
+            $language = $page->getLanguage() ?? $this->config->getLanguageDefault();
             $locale = $this->config->getLanguageProperty('locale', $language);
             // the PHP Intl extension is needed to use localized date
             if (extension_loaded('intl')) {
@@ -82,13 +85,14 @@ class Render extends AbstractStep
             }
             // the PHP Gettext extension is needed to use translation
             if (extension_loaded('gettext')) {
-                $localePath = realpath(Util::joinFile($this->config->getSourceDir(), 'locale'));
                 $domain = 'messages';
                 putenv("LC_ALL=$locale");
                 putenv("LANGUAGE=$locale");
                 setlocale(LC_ALL, "$locale.UTF-8");
                 textdomain($domain);
-                bindtextdomain($domain, $localePath);
+                if ($localePath = realpath(Util::joinFile($this->config->getSourceDir(), 'locale'))) {
+                    bindtextdomain($domain, $localePath);
+                }
             }
 
             // global site variables
@@ -156,7 +160,7 @@ class Render extends AbstractStep
                     throw new RuntimeException(\sprintf(
                         'Template "%s%s" (page: %s): %s',
                         $template,
-                        $e->getTemplateLine() >= 0 ? sprintf(':%s', $e->getTemplateLine()) : '',
+                        $e->getTemplateLine() >= 0 ? \sprintf(':%s', $e->getTemplateLine()) : '',
                         $page->getId(),
                         $e->getMessage()
                     ));
@@ -166,7 +170,7 @@ class Render extends AbstractStep
             $this->builder->getPages()->replace($page->getId(), $page);
 
             $templates = array_column($rendered, 'template');
-            $message = sprintf(
+            $message = \sprintf(
                 'Page "%s" rendered with template(s) "%s"',
                 ($page->getId() ?: 'index'),
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
@@ -207,9 +211,9 @@ class Render extends AbstractStep
     protected function addGlobals()
     {
         $this->builder->getRenderer()->addGlobal('cecil', [
-            'url'       => sprintf('https://cecil.app/#%s', Builder::getVersion()),
+            'url'       => \sprintf('https://cecil.app/#%s', Builder::getVersion()),
             'version'   => Builder::getVersion(),
-            'poweredby' => sprintf('Cecil v%s', Builder::getVersion()),
+            'poweredby' => \sprintf('Cecil v%s', Builder::getVersion()),
         ]);
     }
 

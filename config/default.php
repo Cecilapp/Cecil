@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -11,7 +14,7 @@
 // Website default configuration
 return [
     'title'        => 'Site title',
-    'baseline'     => 'Site baseline',
+    //'baseline'     => 'Site baseline',
     'baseurl'      => 'http://localhost:8000/',
     'canonicalurl' => false,   // if true 'url()' function preprends URL wirh 'baseurl'
     'description'  => 'Site description',
@@ -25,7 +28,7 @@ return [
     ],
     'date' => [
         'format'   => 'j F Y', // See https://php.net/manual/function.date.php
-        'timezone' => 'Europe/Paris',
+        //'timezone' => 'Europe/Paris',
     ],
     'output' => [
         'dir'      => '_site',
@@ -148,8 +151,9 @@ return [
     ],
     // Markdown files
     'content' => [
-        'dir'    => 'content',
-        'ext'    => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
+        'dir'     => 'content', // content directory
+        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // array of content files extensions
+        'exclude' => ['vendor', 'node_modules'], // array of directories, paths and files name to exclude
     ],
     'frontmatter' => [
         'format' => 'yaml',
@@ -164,6 +168,9 @@ return [
             'caption' => [
                 'enabled' => false, // adds <figcaption> to images with a title (`false` by default)
             ],
+            'remote' => [
+                'enabled' => true,  // enables remote image handling (`true` by default)
+            ],
             'resize' => [
                 'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
             ],
@@ -173,6 +180,9 @@ return [
             'webp' => [
                 'enabled' => false, // creates WebP images (`false` by default)
             ],
+        ],
+        'notes' => [
+            'enabled' => false,  // enables Notes blocks (`false` by default)
         ],
     ],
     // data files
@@ -218,15 +228,11 @@ return [
             'optimize' => [
                 'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
             ],
-            'quality'    => 85,     // JPEG and PNG image quality after optimization or resize (`85` by default)
+            'quality'    => 75,     // Image quality after optimization or resize (`75` by default)
             'responsive' => [
                 'enabled' => false, // creates responsive images with `html` filter (`false` by default)
-                'width'   => [
-                    'steps' => 5,     // number of steps from `min` to `max` (`5` by default)
-                    'min'   => 320,   // minimum width (`320` by default)
-                    'max'   => 1280,  // maximum width (`1280` by default)
-                ],
-                'sizes' => [
+                'widths'  => [480, 640, 768, 1024, 1366, 1600, 1920],
+                'sizes'   => [
                     'default' => '100vw', // `sizes` attribute (`100vw` by default)
                 ],
             ],

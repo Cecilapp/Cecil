@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -35,11 +38,10 @@ class Convert extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         parent::init($options);
 
-        /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
             $this->canProcess = true;
         }
@@ -48,7 +50,7 @@ class Convert extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         if (count($this->builder->getPages()) <= 0) {
             return;
@@ -63,9 +65,9 @@ class Convert extends AbstractStep
 
                 try {
                     $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
-                    // set default language
-                    if (!$convertedPage->hasVariable('language')) {
-                        $convertedPage->setVariable('language', $this->config->getLanguageDefault());
+                    // set default language (ex: "en") if necessary
+                    if ($convertedPage->getLanguage() === null) {
+                        $convertedPage->setLanguage($this->config->getLanguageDefault());
                     }
                 } catch (RuntimeException $e) {
                     $this->builder->getLogger()->error(sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
@@ -115,7 +117,7 @@ class Convert extends AbstractStep
                     }
                 }
 
-                $message = sprintf('Page "%s" converted', $page->getId());
+                $message = \sprintf('Page "%s" converted', $page->getId());
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
                     $page->setVariable('published', true);

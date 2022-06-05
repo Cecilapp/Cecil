@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -19,6 +22,9 @@ use Symfony\Component\Finder\Finder;
  */
 class Load extends AbstractStep
 {
+    /** @var string */
+    protected $page;
+
     /**
      * {@inheritdoc}
      */
@@ -30,10 +36,10 @@ class Load extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
         if (is_dir($this->builder->getConfig()->getContentPath())) {
+            $this->page = $options['page'];
             $this->canProcess = true;
         }
     }
@@ -41,13 +47,27 @@ class Load extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
+        $namePattern = '/\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/';
         $content = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getContentPath())
-            ->name('/\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/')
             ->sortByName(true);
+        if ($this->page) {
+            if (!util\File::getFS()->exists(Util::joinFile($this->builder->getConfig()->getContentPath(), $this->page))) {
+                $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
+            }
+            $content->path('.')->path(dirname($this->page));
+            $content->name('/index\.('.implode('|', (array) $this->builder->getConfig()->get('content.ext')).')$/');
+            $namePattern = basename($this->page);
+        }
+        $content->name($namePattern);
+        if (is_array($this->builder->getConfig()->get('content.exclude'))) {
+            $content->exclude($this->builder->getConfig()->get('content.exclude'));
+            $content->notPath($this->builder->getConfig()->get('content.exclude'));
+            $content->notName($this->builder->getConfig()->get('content.exclude'));
+        }
         if (file_exists(Util::joinFile($this->builder->getConfig()->getContentPath(), '.gitignore'))) {
             $content->ignoreVCSIgnored(true);
         }
@@ -57,7 +77,7 @@ class Load extends AbstractStep
         if ($count === 0) {
             $this->builder->getLogger()->info('Nothing to load');
 
-            return 0;
+            return;
         }
         $this->builder->getLogger()->info('Files loaded', ['progress' => [$count, $count]]);
     }

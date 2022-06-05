@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -41,6 +44,7 @@ class Application extends BaseApplication
         $commands = array_merge(parent::getDefaultCommands(), [
             new Command\NewSite(),
             new Command\NewPage(),
+            new Command\OpenWith(),
             new Command\Build(),
             new Command\Serve(),
             new Command\Clear(),

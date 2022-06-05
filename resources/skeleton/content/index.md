@@ -82,7 +82,7 @@ Cecil::create(
 
 ### Image
 
-![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
+![Cecil favicon](/favicon.png "Cecil favicon")
 
 ### Definition lists
 

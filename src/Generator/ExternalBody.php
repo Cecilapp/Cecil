@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -41,7 +44,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
 
                 $this->generatedPages->add($page);
             } catch (\Exception $e) {
-                $message = sprintf('Error in "%s": %s', $page->getFilePath(), $e->getMessage());
+                $message = \sprintf('Error in "%s": %s', $page->getFilePath(), $e->getMessage());
                 $this->builder->getLogger()->error($message);
             }
         }

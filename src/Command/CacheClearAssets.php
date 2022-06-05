@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -34,7 +37,7 @@ class CacheClearAssets extends AbstractCommand
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
-            ->setHelp('Remove cached assets files');
+            ->setHelp('Removes cached assets files');
     }
 
     /**
@@ -49,7 +52,7 @@ class CacheClearAssets extends AbstractCommand
         }
         $output->writeln('Removing assets cache directory...');
         $output->writeln(
-            sprintf('<comment>Path %s</comment>', Util::joinFile($this->getBuilder()->getConfig()->getCachePath(), 'assets')),
+            \sprintf('<comment>Path %s</comment>', Util::joinFile($this->getBuilder()->getConfig()->getCachePath(), 'assets')),
             OutputInterface::VERBOSITY_VERBOSE
         );
         $this->fs->remove(Util::joinFile($this->getBuilder()->getConfig()->getCachePath(), 'assets'));

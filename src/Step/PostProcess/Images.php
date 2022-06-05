@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -28,7 +31,7 @@ class Images extends AbstractPostProcess
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
         $this->type = 'images';
         parent::init($options);
@@ -39,7 +42,7 @@ class Images extends AbstractPostProcess
      */
     public function setProcessor(): void
     {
-        $this->processor = Image::optimizer($this->config->get('assets.images.quality') ?? 85);
+        $this->processor = Image::optimizer($this->config->get('assets.images.quality') ?? 75);
     }
 
     /**

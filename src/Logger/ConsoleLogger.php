@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -75,21 +78,21 @@ class ConsoleLogger extends PrintLogger
 
         // steps prefix
         if (isset($context['step'])) {
-            $prefix = sprintf('%s. ', $this->padPrefix($context['step'][0], $context['step'][1]));
+            $prefix = \sprintf('%s. ', $this->padPrefix((string) $context['step'][0], (string) $context['step'][1]));
         }
 
         // sub steps progress
         if (isset($context['progress'])) {
             // prefix
-            $prefix = sprintf(
+            $prefix = \sprintf(
                 '[%s/%s] ',
-                $this->padPrefix($context['progress'][0], $context['progress'][1]),
+                $this->padPrefix((string) $context['progress'][0], (string) $context['progress'][1]),
                 $context['progress'][1]
             );
         }
 
         $output->writeln(
-            sprintf($pattern, $this->formatLevelMap[$level], $prefix, $this->interpolate($message, $context)),
+            \sprintf($pattern, $this->formatLevelMap[$level], $prefix, $this->interpolate($message, $context)),
             $this->verbosityLevelMap[$level]
         );
     }

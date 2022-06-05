@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-01-30
+updated: 2022-04-20
 alias: documentation/layouts
 -->
 
@@ -44,9 +44,9 @@ In most of cases **you don’t need to specify the template** in the `layout` va
 
 **Lexique:**
 
-- `<format>`: output format (ie: `html`)
-- `<layout>`: value of variable `layout` set in front matter (ie: `layout: post`)
-- `<section>`: page’s _Section_ (ie: `blog`)
+- `<format>`: output format (e.g.: `html`)
+- `<layout>`: value of variable `layout` set in front matter (e.g.: `layout: post`)
+- `<section>`: page’s _Section_ (e.g.: `blog`)
 
 ### _homepage_
 
@@ -110,15 +110,19 @@ Can be displayed in a template with:
 | --------------------- | ----------------------------------------------------- |
 | `site.home`           | ID of the home page.                                  |
 | `site.pages`          | Collection of pages, in the current language.         |
-| `site.pages.showable` | `site.pages` with "showable" pages only (published, not virtual/redirect/excluded). |
-| `site.pages.all`      | Alias of `site.pages.showable`. Deprecated.           |
+| `site.pages.showable` | `site.pages` with "showable" pages only (published, not virtual/redirect/excluded).<br>Alias: `site.pages.all` (deprecated). |
+| `site.page('id')`     | Page in the current language.                         |
 | `site.allpages`       | Collection of pages, regardless of their translation. |
 | `site.taxonomies`     | Collection of vocabularies.                           |
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 
+:::tip
+**Tip:** You can get any page with `site.pages['id']` where `id` is the _ID_ of a page (e.g.: `index` for home page).
+:::
+
 #### site.menus
 
-Loop on `site.menus.<menu>` to get each entry of the `<menu>` collection (ie: `main`).
+Loop on `site.menus.<menu>` to get each entry of the `<menu>` collection (e.g.: `main`).
 
 | Variable         | Description                                      |
 | ---------------- | ------------------------------------------------ |
@@ -132,9 +136,9 @@ Informations about the current language.
 
 | Variable               | Description                                                  |
 | ---------------------- | ------------------------------------------------------------ |
-| `site.language`        | Language code (ie: `en`).                                    |
-| `site.language.name`   | Language name (ie: `English`).                               |
-| `site.language.locale` | Language [locale code](configuration/locale-codes.md) (ie: `en_EN`). |
+| `site.language`        | Language code (e.g.: `en`).                                  |
+| `site.language.name`   | Language name (e.g.: `English`).                             |
+| `site.language.locale` | Language [locale code](configuration/locale-codes.md) (e.g.: `en_EN`). |
 | `site.language.weight` | Language position in the `languages` list.                   |
 
 You can retrieve `name`, `locale` and `weight` of a language different from the current one by passing its code as a parameter, ie: `site.language.name('fr')`.
@@ -145,12 +149,12 @@ The static files collection can be accessed via `site.static` (if [*static load*
 
 Each file exposes the following properties:
 
-- `path`: relative path (ie: `/images/img-1.jpg`)
+- `path`: relative path (e.g.: `/images/img-1.jpg`)
 - `date`: creation date (_timestamp_)
 - `updated`: modification date (_timestamp_)
-- `name`: name (ie: `img-1.jpg`)
-- `basename`: name without extension (ie: `img-1`)
-- `ext`: extension (ie: `jpg`)
+- `name`: name (e.g.: `img-1.jpg`)
+- `basename`: name without extension (e.g.: `img-1`)
+- `ext`: extension (e.g.: `jpg`)
 
 #### site.data
 
@@ -165,34 +169,34 @@ _Examples:_
 
 Contains variables of the _Page_ **and** those set in the front matter.
 
-| Variable              | Description                                           | Example                    |
-| --------------------- | ----------------------------------------------------- | -------------------------- |
-| `page.id`             | Unique identifier.                                    | `blog/post-1`              |
-| `page.title`          | File name (without extension).                        | `Post 1`                   |
-| `page.date`           | File creation date.                                   | _DateTime_                 |
-| `page.updated`        | File modification date.                               | _DateTime_                 |
-| `page.body`           | File body.                                            | _Markdown_                 |
-| `page.content`        | File body converted in HTML.                          | _HTML_                     |
-| `page.section`        | File root folder (_slugified_).                       | `blog`                     |
-| `page.path`           | File path (_slugified_).                              | `blog/post-1`              |
-| `page.slug`           | File name (_slugified_).                              | `post-1`                   |
-| `page.tags`           | Array of _tags_.                                      | `[Tag 1, Tag 2]`           |
-| `page.categories`     | Array of _categories_.                                | `[Category 1, Category 2]` |
-| `page.pages`          | Collection of all sub pages.                          | _Collection_               |
-| `page.pages.showable` | `page.pages` with "showable" pages only.              | _Collection_               |
-| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term` | `page`                     |
-| `page.filepath`       | File system path.                                     | `Blog/Post 1.md`           |
-| `page.translations`   | Collection of translated pages.                       | _Collection_               |
+| Variable              | Description                                            | Example                    |
+| --------------------- | ------------------------------------------------------ | -------------------------- |
+| `page.id`             | Unique identifier.                                     | `blog/post-1`              |
+| `page.title`          | File name (without extension).                         | `Post 1`                   |
+| `page.date`           | File creation date.                                    | _DateTime_                 |
+| `page.updated`        | File modification date.                                | _DateTime_                 |
+| `page.body`           | File body.                                             | _Markdown_                 |
+| `page.content`        | File body converted in HTML.                           | _HTML_                     |
+| `page.section`        | File root folder (_slugified_).                        | `blog`                     |
+| `page.path`           | File path (_slugified_).                               | `blog/post-1`              |
+| `page.slug`           | File name (_slugified_).                               | `post-1`                   |
+| `page.tags`           | Array of _tags_.                                       | `[Tag 1, Tag 2]`           |
+| `page.categories`     | Array of _categories_.                                 | `[Category 1, Category 2]` |
+| `page.pages`          | Collection of all sub pages.                           | _Collection_               |
+| `page.pages.showable` | `page.pages` with "showable" pages only.               | _Collection_               |
+| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`                     |
+| `page.filepath`       | File system path.                                      | `Blog/Post 1.md`           |
+| `page.translations`   | Collection of translated pages.                        | _Collection_               |
 
 #### page.<prev/next>
 
 Navigation between pages in a same _Section_.
 
-| Variable                 | Description                                           |
-| ------------------------ | ----------------------------------------------------- |
-| `page.<prev/next>.id`    | ID of the previous / next page (ie: `blog/post-2`).   |
-| `page.<prev/next>.path`  | Path of the previous / next page (ie: `blog/post-2`). |
-| `page.<prev/next>.title` | Title of the previous / next page (ie: `Post 2`).     |
+| Variable                 | Description                                             |
+| ------------------------ | ------------------------------------------------------- |
+| `page.<prev/next>.id`    | ID of the previous / next page (e.g.: `blog/post-2`).   |
+| `page.<prev/next>.path`  | Path of the previous / next page (e.g.: `blog/post-2`). |
+| `page.<prev/next>.title` | Title of the previous / next page (e.g.: `Post 2`).     |
 
 #### page.pagination
 
@@ -250,10 +254,10 @@ Turns a _Page_, a _Page_ ID or a relative path into an URL.
 {{ url(Page|page-id|path, {options}) }}
 ```
 
-| Option    | Description                              | Type    | Default |
-| --------- | ---------------------------------------- | ------- | ------- |
-| canonical | Prefixes with `baseurl`.                 | boolean | `false` |
-| format    | Defines Page output format (ie: `json`). | string  | `html`  |
+| Option    | Description                                | Type    | Default |
+| --------- | ------------------------------------------ | ------- | ------- |
+| canonical | Prefixes with `baseurl`.                   | boolean | `false` |
+| format    | Defines Page output format (e.g.: `json`). | string  | `html`  |
 
 For assets prefer the [`url` filter](#url-1).
 
@@ -300,8 +304,8 @@ _Examples:_
 - `file`: filesystem path
 - `path`: relative path
 - `ext`: extension
-- `type`: media type (ie: `image`)
-- `subtype`: media sub type (ie: `image/jpeg`)
+- `type`: media type (e.g.: `image`)
+- `subtype`: media sub type (e.g.: `image/jpeg`)
 - `size`: size in octets
 - `source`: content before compiling and/or minifying
 - `content`: file content
@@ -446,10 +450,10 @@ Turns a Page, an Asset or a path into an URL.
 {{ <Page|Asset|path>|url({options}) }}
 ```
 
-| Option    | Description                              | Type    | Default |
-| --------- | ---------------------------------------- | ------- | ------- |
-| canonical | Prefixes with `baseurl`.                 | boolean | `false` |
-| format    | Defines Page output format (ie: `json`). | string  | `html`  |
+| Option    | Description                                | Type    | Default |
+| --------- | ------------------------------------------ | ------- | ------- |
+| canonical | Prefixes with `baseurl`.                   | boolean | `false` |
+| format    | Defines Page output format (e.g.: `json`). | string  | `html`  |
 
 _Examples:_
 
@@ -500,6 +504,22 @@ _Example:_
 {% set json = '{"foo": "bar"}' %}
 {% set array = json|json_decode %}
 {{ array.foo }}
+```
+
+### yaml_parse
+
+Converts a YAML string to an array.
+
+```twig
+{{ yaml|yaml_parse }}
+```
+
+_Example:_
+
+```twig
+{% set yaml = 'key: value' %}
+{% set array = yaml|yaml_parse %}
+{{ array.key }}
 ```
 
 ### slugify
@@ -742,25 +762,31 @@ Turns an asset into an HTML element.
 {{ asset(path)|html({attributes, options}) }}
 ```
 
+:::info
+Available for images, CSS and JavaScript. The `attributes` and `options` parameters are optional.
+:::
+
 | Option     | Description                                     | Type  | Default |
 | ---------- | ----------------------------------------------- | ----- | ------- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |         |
-| options    | `{preload: true}`: prelaods CSS, `{responsive: true}`: creates responsives images | array |         |
-
-Available for CSS, JavaScript and image file.
+| options    | `{responsive: true}`: creates responsives images.<br>`{webp: true}`: creates WebP versions of the image.<br>`{preload: true}`: preloads CSS. | array |         |
 
 _Examples:_
 
 ```twig
-{{ asset('styles.css')|html({}, {preload:true}) }}
+{{ asset('image.png')|html }}
 ```
 
 ```twig
-{{ asset('image.png')|html({title:'Title', alt:'Alternative'}) }}
+{{ asset('image.jpg')|html({alt: 'Description', loading: 'lazy'}, {responsive: true, webp: true}) }}
 ```
 
 ```twig
-{{ asset('image.png')|html({}, {responsive: true}) }}
+{{ asset('styles.css')|html({media: print}) }}
+```
+
+```twig
+{{ asset('styles.css')|html({title: 'Main theme'}, {preload: true}) }}
 ```
 
 ### preg_split
@@ -789,6 +815,14 @@ _Example:_
 
 ```twig
 {% set tags = page.content|preg_match_all('/<[^>]+>(.*)<\\/[^>]+>/') %}
+```
+
+### hex_to_rgb
+
+Converts a hexadecimal color to RGB.
+
+```twig
+{{ color|hex_to_rgb }}
 ```
 
 ## Localization
@@ -907,13 +941,13 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 [`sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/sitemap.xml.twig)
 :   The `sitemap.xml` template: list all pages sorted by date.
 
-### Component templates
+### Partial templates
 
 [`partials/pagination.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/pagination.html.twig)
-:   A simple pagination component for list templates with "Older" and "Newer" links.
+:   A simple pagination for list templates with "Older" and "Newer" links.
 
 [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   All metatags in one component: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
+:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
 
 [`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
 :   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).

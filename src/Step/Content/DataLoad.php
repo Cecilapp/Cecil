@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -36,11 +39,9 @@ class DataLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
-        /** @var \Cecil\Config $config */
-        if (is_dir($this->builder->getConfig()->getDataPath()) && $this->config->get('data.load')) {
+        if (is_dir($this->builder->getConfig()->getDataPath()) && (bool) $this->config->get('data.load')) {
             $this->canProcess = true;
         }
     }
@@ -48,7 +49,7 @@ class DataLoad extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $files = Finder::create()
             ->files()
@@ -115,7 +116,7 @@ class DataLoad extends AbstractStep
             );
             $this->builder->setData($dataArray);
 
-            $message = sprintf('File "%s.%s" loaded', Util::joinFile($path), $file->getExtension());
+            $message = \sprintf('File "%s.%s" loaded', Util::joinFile($path), $file->getExtension());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $count]]);
         }
     }
