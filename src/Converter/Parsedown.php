@@ -330,8 +330,9 @@ class Parsedown extends \ParsedownToC
      */
     protected function blockFencedCodeComplete($block)
     {
-        $this->builder->getLogger()->debug(implode($block['element']['text']['attributes']) ?? 'blockFencedCodeComplete');
-
+        if (!$this->builder->getConfig()->get('body.highlight.enabled')) {
+            return $block;
+        }
         if (!isset($block['element']['text']['attributes'])) {
             return $block;
         }
