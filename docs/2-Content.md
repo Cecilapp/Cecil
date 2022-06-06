@@ -289,7 +289,7 @@ Is converted to:
 ```
 
 :::info
-**Info:** The _Notes_ syntax can be disabled by setting the [body.notes.enabled](4-Configuration.md#body) option to `false`.
+**Info:** The _Notes_ syntax can be enabled by setting the [body.notes.enabled](4-Configuration.md#body) option to `true`.
 :::
 
 #### Inserted text
