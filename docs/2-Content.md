@@ -289,7 +289,7 @@ Is converted to:
 ```
 
 :::info
-**Info:** The _Notes_ syntax can be disabled by setting the [body.notes.enabled](4-Configuration.md#body) option to `false`.
+**Info:** The _Notes_ syntax can be enabled by setting the [body.notes.enabled](4-Configuration.md#body) option to `true`.
 :::
 
 #### Inserted text
@@ -302,6 +302,16 @@ Is converted to:
 
 ```html
 <ins>text</ins>
+```
+
+#### Highlight
+
+Enables code block syntax highlighter by setting the [body.highlight.enabled](4-Configuration.md#body) option to `true`.
+
+_Example:_
+
+```php
+echo "Hello world";
 ```
 
 ## Variables

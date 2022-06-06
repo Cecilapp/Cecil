@@ -181,5 +181,8 @@ return [
         'notes' => [
             'enabled' => true,
         ],
+        'highlight' => [
+            'enabled' => true,
+        ],
     ],
 ];

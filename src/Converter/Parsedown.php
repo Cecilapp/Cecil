@@ -18,6 +18,7 @@ use Cecil\Assets\Image;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use Highlight\Highlighter;
 
 class Parsedown extends \ParsedownToC
 {
@@ -28,7 +29,10 @@ class Parsedown extends \ParsedownToC
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
     /** Regex to verify there is an image in <figure> block */
-    private $MarkdownImageRegex = "~^!\[.*?\]\(.*?\)~";
+    protected $MarkdownImageRegex = "~^!\[.*?\]\(.*?\)~";
+
+    /** @var Highlighter */
+    protected $highlighter;
 
     public function __construct(Builder $builder)
     {
@@ -46,6 +50,7 @@ class Parsedown extends \ParsedownToC
         if ($this->builder->getConfig()->get('body.notes.enabled')) {
             $this->BlockTypes[':'][] = 'Note';
         }
+        $this->highlighter = new Highlighter();
 
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
     }
@@ -316,6 +321,33 @@ class Parsedown extends \ParsedownToC
     {
         $block['element']['rawHtml'] = $this->text($block['element']['text']);
         unset($block['element']['text']);
+
+        return $block;
+    }
+
+    /**
+     * Apply Highlight to code blocks.
+     */
+    protected function blockFencedCodeComplete($block)
+    {
+        if (!$this->builder->getConfig()->get('body.highlight.enabled')) {
+            return $block;
+        }
+        if (!isset($block['element']['text']['attributes'])) {
+            return $block;
+        }
+
+        $code = $block['element']['text']['text'];
+        unset($block['element']['text']['text']);
+        $languageClass = $block['element']['text']['attributes']['class'];
+        $language = explode('-', $languageClass);
+        $highlighted = $this->highlighter->highlight($language[1], $code);
+        $block['element']['text']['attributes']['class'] = vsprintf('%s hljs %s', [
+            $languageClass,
+            $highlighted->language,
+        ]);
+        $block['element']['text']['rawHtml'] = $highlighted->value;
+        $block['element']['text']['allowRawHtmlInSafeMode'] = true;
 
         return $block;
     }

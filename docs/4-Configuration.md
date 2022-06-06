@@ -581,6 +581,8 @@ body:
       enabled: false     # creates WebP images (`false` by default)
   notes:
     enabled: false       # enables Notes blocks (`false` by default)
+  highlight:
+    enabled: false       # enables syntax highlighting (`false` by default)
 ```
 
 To know how those options impacts your content see _[Content > Page > Body](2-Content.md#body)_ documentation.
