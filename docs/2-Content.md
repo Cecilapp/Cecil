@@ -310,6 +310,14 @@ Enables code block syntax highlighter by setting the [body.highlight.enabled](4-
 
 _Example:_
 
+<pre>
+```php
+echo "Hello world";
+```
+</pre>
+
+Is rendered to:
+
 ```php
 echo "Hello world";
 ```
