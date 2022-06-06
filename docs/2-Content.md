@@ -304,6 +304,16 @@ Is converted to:
 <ins>text</ins>
 ```
 
+#### Highlight
+
+Enables code block syntax highlighter by setting the [body.highlight.enabled](4-Configuration.md#body) option to `true`.
+
+_Example:_
+
+```php
+echo "Hello world";
+```
+
 ## Variables
 
 The _front matter_ can contains custom variables applied to the current _Page_.
