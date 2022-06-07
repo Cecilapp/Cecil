@@ -52,7 +52,7 @@ class Convert extends AbstractStep
      */
     public function process(): void
     {
-        if (count($this->builder->getPages()) <= 0) {
+        if (count($this->builder->getPages()) == 0) {
             return;
         }
 
