@@ -2650,16 +2650,16 @@
         },
         {
             "name": "voku/html-min",
-            "version": "4.4.10",
+            "version": "4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/HtmlMin.git",
-                "reference": "aa1fa0b8f526102f6af66ebf7c972533b049c445"
+                "reference": "2c79e17121bdce16844b1190423bfe0c9537885b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/aa1fa0b8f526102f6af66ebf7c972533b049c445",
-                "reference": "aa1fa0b8f526102f6af66ebf7c972533b049c445",
+                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/2c79e17121bdce16844b1190423bfe0c9537885b",
+                "reference": "2c79e17121bdce16844b1190423bfe0c9537885b",
                 "shasum": ""
             },
             "require": {
@@ -2668,7 +2668,7 @@
                 "voku/simple_html_dom": "~4.8.5"
             },
             "require-dev": {
-                "phpunit/phpunit": "~6.0 || ~7.0"
+                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
             },
             "type": "library",
             "autoload": {
@@ -2683,7 +2683,7 @@
             "authors": [
                 {
                     "name": "Lars Moelleken",
-                    "homepage": "http://www.moelleken.org/"
+                    "homepage": "https://www.moelleken.org/"
                 }
             ],
             "description": "HTML Compressor and Minifier",
@@ -2697,7 +2697,7 @@
             ],
             "support": {
                 "issues": "https://github.com/voku/HtmlMin/issues",
-                "source": "https://github.com/voku/HtmlMin/tree/4.4.10"
+                "source": "https://github.com/voku/HtmlMin/tree/4.5.0"
             },
             "funding": [
                 {
@@ -2713,20 +2713,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-03-13T22:49:29+00:00"
+            "time": "2022-06-09T07:37:14+00:00"
         },
         {
             "name": "voku/simple_html_dom",
-            "version": "4.8.5",
+            "version": "4.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/simple_html_dom.git",
-                "reference": "77df6b0bd33845f61ec8b07328c463b725bdfced"
+                "reference": "1df7e9844eddbe190450c87f281e87bbd8d7f645"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/simple_html_dom/zipball/77df6b0bd33845f61ec8b07328c463b725bdfced",
-                "reference": "77df6b0bd33845f61ec8b07328c463b725bdfced",
+                "url": "https://api.github.com/repos/voku/simple_html_dom/zipball/1df7e9844eddbe190450c87f281e87bbd8d7f645",
+                "reference": "1df7e9844eddbe190450c87f281e87bbd8d7f645",
                 "shasum": ""
             },
             "require": {
@@ -2774,7 +2774,7 @@
             ],
             "support": {
                 "issues": "https://github.com/voku/simple_html_dom/issues",
-                "source": "https://github.com/voku/simple_html_dom/tree/4.8.5"
+                "source": "https://github.com/voku/simple_html_dom/tree/4.8.6"
             },
             "funding": [
                 {
@@ -2794,7 +2794,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-13T22:36:51+00:00"
+            "time": "2022-06-09T05:48:45+00:00"
         },
         {
             "name": "wapmorgan/mp3info",
