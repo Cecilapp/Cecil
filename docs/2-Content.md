@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-03-10
+updated: 2022-06-10
 -->
 
 # Content
@@ -266,6 +266,10 @@ Is converted to:
 </picture>
 ```
 
+:::important
+**Important:** This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
+:::
+
 #### Notes
 
 Create a _Note_ block (info, tips, important, etc.).
@@ -423,9 +427,7 @@ redirect: "https://arnaudligny.fr/"
 ```
 
 :::info
-
 **Info:** Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig) template.
-
 :::
 
 ### alias
@@ -465,7 +467,7 @@ The filename can contain a prefix to define `date` or `weight` of the _Page_ (us
 
 - The prefix is not included in the `title` of the _Page_
 - Available prefix separator are `-`, `_` ~~and `.`~~
-  :::
+:::
 
 #### date
 
@@ -577,7 +579,7 @@ exclude: true
 ```
 
 :::info
-**Info:** `exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_.
+**Info:** `exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_ list.
 :::
 
 ## Multilingual

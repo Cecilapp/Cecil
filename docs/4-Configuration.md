@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2022-04-02
+updated: 2022-06-10
 -->
 
 # Configuration
@@ -323,7 +323,7 @@ theme:
 ```
 
 :::info
-**Info:** See [officials themes](https://github.com/Cecilapp?q=theme).
+**Info:** See [officials themes on GitHub](https://github.com/Cecilapp?q=theme) or in the [Themes section](https://cecil.app/themes/).
 :::
 
 ### pagination
@@ -588,7 +588,6 @@ body:
 To know how those options impacts your content see _[Content > Page > Body](2-Content.md#body)_ documentation.
 
 :::info
-
 **Info:** Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
 :::
 
@@ -618,7 +617,7 @@ static:
 ```
 
 :::important
-**Important:** You should put your assets files, used by [`asset()`](3-Templates.md#asset), in [`assets` directory](4-Configuration.md#assets) to avoid unnecessary files copy.
+**Important:** You should put your assets files, used by [`asset()`](3-Templates.md#asset), in the [`assets` directory](4-Configuration.md#assets) to avoid unnecessary files copy.
 :::
 
 _Example:_
