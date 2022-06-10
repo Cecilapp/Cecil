@@ -546,24 +546,28 @@ class Extension extends SlugifyExtension
 
             // WebP transformation?
             if ($webp && !Image::isAnimatedGif($asset)) {
-                $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 75);
-                // <source>
-                $source = \sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
-                // responsive
-                if ($responsive) {
-                    $srcset = Image::buildSrcset(
-                        $assetWebp,
-                        $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
-                    ) ?: (string) $assetWebp;
+                try {
+                    $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 75);
                     // <source>
-                    $source = \sprintf(
-                        '<source type="image/webp" srcset="%s" sizes="%s">',
-                        $srcset,
-                        $this->config->get('assets.images.responsive.sizes.default') ?? '100vw'
-                    );
-                }
+                    $source = \sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
+                    // responsive
+                    if ($responsive) {
+                        $srcset = Image::buildSrcset(
+                            $assetWebp,
+                            $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                        ) ?: (string) $assetWebp;
+                        // <source>
+                        $source = \sprintf(
+                            '<source type="image/webp" srcset="%s" sizes="%s">',
+                            $srcset,
+                            $this->config->get('assets.images.responsive.sizes.default') ?? '100vw'
+                        );
+                    }
 
-                return \sprintf("<picture>\n  %s\n  %s\n</picture>", $source, $img);
+                    return \sprintf("<picture>\n  %s\n  %s\n</picture>", $source, $img);
+                } catch (\Exception $e) {
+                    $this->builder->getLogger()->debug($e->getMessage());
+                }
             }
 
             return $img;

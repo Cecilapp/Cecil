@@ -247,7 +247,7 @@ class Parsedown extends \ParsedownToC
                 $PictureBlock['element']['text'][] = $source['element'];
                 $PictureBlock['element']['text'][] = $InlineImage['element'];
                 $block = $PictureBlock;
-            } catch (RuntimeException $e) {
+            } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
             }
         }
