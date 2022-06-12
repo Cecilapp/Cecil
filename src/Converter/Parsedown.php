@@ -28,7 +28,7 @@ class Parsedown extends \ParsedownToC
     /** {@inheritdoc} */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
-    /** Regex to verify there is an image in <figure> block */
+    /** Regex used to valid block image */
     protected $MarkdownImageRegex = "~^!\[.*?\]\(.*?\)~";
 
     /** @var Highlighter */
@@ -42,16 +42,21 @@ class Parsedown extends \ParsedownToC
         $this->InlineTypes['+'][] = 'Insert';
         $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
         $this->specialCharacters[] = '+';
-        // add caption to image block
-        if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+
+        // add caption or WebP source to image block
+        if ($this->builder->getConfig()->get('body.images.caption.enabled') || $this->builder->getConfig()->get('body.images.webp.enabled')) {
             $this->BlockTypes['!'][] = 'Image';
         }
+
         // "notes" block
         if ($this->builder->getConfig()->get('body.notes.enabled')) {
             $this->BlockTypes[':'][] = 'Note';
         }
+
+        // code highlight
         $this->highlighter = new Highlighter();
 
+        // ToC
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
     }
 
@@ -86,21 +91,25 @@ class Parsedown extends \ParsedownToC
         if (!isset($image)) {
             return null;
         }
+
         // clean source path / URL
-        $image['element']['attributes']['src'] = trim($this->removeQuery($image['element']['attributes']['src']));
+        $image['element']['attributes']['src'] = $this->cleanUrl($image['element']['attributes']['src']);
+
         // should be lazy loaded?
         if ($this->builder->getConfig()->get('body.images.lazy.enabled')) {
             $image['element']['attributes']['loading'] = 'lazy';
         }
-        // disable remote image handling
+
+        // disable remote image handling?
         if (Util\Url::isUrl($image['element']['attributes']['src']) && !$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
             return $image;
         }
+
         // create asset
         $asset = new Asset($this->builder, $image['element']['attributes']['src'], ['force_slash' => false]);
-        // get width
-        $width = $asset->getWidth();
         $image['element']['attributes']['src'] = $asset;
+        $width = $asset->getWidth();
+
         /**
          * Should be resized?
          */
@@ -120,6 +129,7 @@ class Parsedown extends \ParsedownToC
             }
             $image['element']['attributes']['src'] = $assetResized;
         }
+
         // set width
         if (!isset($image['element']['attributes']['width'])) {
             $image['element']['attributes']['width'] = $width;
@@ -128,6 +138,7 @@ class Parsedown extends \ParsedownToC
         if (!isset($image['element']['attributes']['height'])) {
             $image['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
         }
+
         /**
          * Should be responsive?
          */
@@ -180,7 +191,7 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * Enhanced image block with <figure>/<figcaption>.
+     * Enhances image block with <picture>/<source> and/or <figure>/<figcaption>.
      */
     protected function blockImage($Line)
     {
@@ -196,7 +207,9 @@ class Parsedown extends \ParsedownToC
         $block = $InlineImage;
 
         /*
+        <!-- if image has a title: a <figure> is required for <figcaption> -->
         <figure>
+            <!-- if WebP: a <picture> is required for <source> -->
             <picture>
                 <source type="image/webp"
                     srcset="..."
@@ -207,11 +220,12 @@ class Parsedown extends \ParsedownToC
                     sizes="..."
                 >
             </picture>
+            <!-- title -->
             <figcaption>...</figcaption>
         </figure>
         */
 
-        // creates a <picture> element with a <source> (WebP) and an <img> element
+        // creates a <picture> used to add WebP <source> in addition to the image <img> element
         if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
             try {
                 if (is_string($InlineImage['element']['attributes']['src'])) {
@@ -252,7 +266,7 @@ class Parsedown extends \ParsedownToC
             }
         }
 
-        // put <img> (or <picture>) in a <figure> element if there is a title (<figcaption>)
+        // if there is a title: put the <img> (or <picture>) in a <figure> element to use the <figcaption>
         if (!empty($InlineImage['element']['attributes']['title'])) {
             $FigureBlock = [
                 'element' => [
@@ -353,10 +367,10 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * Removes query string from URL.
+     * Returns URL without query string.
      */
-    private function removeQuery(string $path): string
+    private function cleanUrl(string $path): string
     {
-        return strtok($path, '?');
+        return strtok(trim($path), '?') ?: trim($path);
     }
 }
