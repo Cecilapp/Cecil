@@ -226,10 +226,15 @@ class Parsedown extends \ParsedownToC
         */
 
         // creates a <picture> used to add WebP <source> in addition to the image <img> element
-        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false && !Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
+        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp') {
             try {
+                // Image src must be an Asset instance
                 if (is_string($InlineImage['element']['attributes']['src'])) {
                     throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
+                }
+                // Image asset is an animated GIF
+                if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
+                    throw new RuntimeException(\sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
                 $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 75);
                 $srcset = '';
