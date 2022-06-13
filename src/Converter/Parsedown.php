@@ -30,6 +30,7 @@ class Parsedown extends \ParsedownToC
 
     /** Regex used to valid block image */
     protected $MarkdownImageRegex = "~^!\[.*?\]\(.*?\)~";
+    protected $MarkdownMediaRegex = "~^!([a-z]*)\[.*?\]\(.*?\)~";
 
     /** @var Highlighter */
     protected $highlighter;
@@ -195,9 +196,12 @@ class Parsedown extends \ParsedownToC
      */
     protected function blockImage($Line)
     {
-        if (1 !== preg_match($this->MarkdownImageRegex, $Line['text'])) {
+        if (1 !== preg_match($this->MarkdownImageRegex, $Line['text'], $matches)) {
             return;
         }
+
+        // DEBUG
+        dump($matches[1]);
 
         $InlineImage = $this->inlineImage($Line);
         if (!isset($InlineImage)) {
