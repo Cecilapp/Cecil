@@ -31,7 +31,6 @@ class Parsedown extends \ParsedownToC
     /** Valid a media block (image, audio or video) */
     protected $MarkdownMediaRegex = "~^!\[.*?\]\(.*?\)\|*(audio|video)*~";
 
-
     /** @var Highlighter */
     protected $highlighter;
 
@@ -169,10 +168,12 @@ class Parsedown extends \ParsedownToC
         switch ($matches[1]) {
             case 'audio':
                 dump($matches);
+
                 return;
                 break;
             case 'video':
                 dump($matches);
+
                 return;
                 break;
         }
