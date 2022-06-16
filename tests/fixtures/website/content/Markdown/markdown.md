@@ -12,3 +12,11 @@
 :::tip
 **Tip:** This is an advice.
 :::
+
+## Media
+
+![alt](/url "title")|audio
+
+![alt](/url "title")|video
+
+![alt](/url "title")

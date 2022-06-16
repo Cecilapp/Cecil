@@ -28,9 +28,9 @@ class Parsedown extends \ParsedownToC
     /** {@inheritdoc} */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
-    /** Regex used to valid block image */
-    protected $MarkdownImageRegex = "~^!\[.*?\]\(.*?\)~";
-    protected $MarkdownMediaRegex = "~^!([a-z]*)\[.*?\]\(.*?\)~";
+    /** Valid a media block (image, audio or video) */
+    protected $MarkdownMediaRegex = "~^!\[.*?\]\(.*?\)\|*(audio|video)*~";
+
 
     /** @var Highlighter */
     protected $highlighter;
@@ -44,10 +44,8 @@ class Parsedown extends \ParsedownToC
         $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
         $this->specialCharacters[] = '+';
 
-        // add caption or WebP source to image block
-        if ($this->builder->getConfig()->get('body.images.caption.enabled') || $this->builder->getConfig()->get('body.images.webp.enabled')) {
-            $this->BlockTypes['!'][] = 'Image';
-        }
+        // Media (image, audio or video) block
+        $this->BlockTypes['!'][] = 'Media';
 
         // "notes" block
         if ($this->builder->getConfig()->get('body.notes.enabled')) {
@@ -57,7 +55,7 @@ class Parsedown extends \ParsedownToC
         // code highlight
         $this->highlighter = new Highlighter();
 
-        // ToC
+        // Table of Content
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
     }
 
@@ -86,9 +84,9 @@ class Parsedown extends \ParsedownToC
     /**
      * {@inheritdoc}
      */
-    protected function inlineImage($excerpt)
+    protected function inlineImage($Excerpt)
     {
-        $image = parent::inlineImage($excerpt);
+        $image = parent::inlineImage($Excerpt);
         if (!isset($image)) {
             return null;
         }
@@ -157,53 +155,29 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * {@inheritdoc}
+     * Media block support:
+     * 1. <picture>/<source> for WebP images
+     * 2. <audio> and <video> elements
+     * 3. <figure>/<figcaption> for element with a title.
      */
-    protected function parseAttributeData($attributeString)
+    protected function blockMedia($Excerpt)
     {
-        $attributes = preg_split('/[ ]+/', $attributeString, -1, PREG_SPLIT_NO_EMPTY);
-        $Data = [];
-        $HtmlAtt = [];
-
-        foreach ($attributes as $attribute) {
-            switch ($attribute[0]) {
-                case '#': // ID
-                    $Data['id'] = substr($attribute, 1);
-                    break;
-                case '.': // Classes
-                    $classes[] = substr($attribute, 1);
-                    break;
-                default:  // Attributes
-                    parse_str($attribute, $parsed);
-                    $HtmlAtt = array_merge($HtmlAtt, $parsed);
-            }
-        }
-
-        if (isset($classes)) {
-            $Data['class'] = implode(' ', $classes);
-        }
-        if (!empty($HtmlAtt)) {
-            foreach ($HtmlAtt as $a => $v) {
-                $Data[$a] = trim($v, '"');
-            }
-        }
-
-        return $Data;
-    }
-
-    /**
-     * Enhances image block with <picture>/<source> and/or <figure>/<figcaption>.
-     */
-    protected function blockImage($Line)
-    {
-        if (1 !== preg_match($this->MarkdownImageRegex, $Line['text'], $matches)) {
+        if (1 !== preg_match($this->MarkdownMediaRegex, $Excerpt['text'], $matches)) {
             return;
         }
 
-        // DEBUG
-        dump($matches[1]);
+        switch ($matches[1]) {
+            case 'audio':
+                dump($matches);
+                return;
+                break;
+            case 'video':
+                dump($matches);
+                return;
+                break;
+        }
 
-        $InlineImage = $this->inlineImage($Line);
+        $InlineImage = $this->inlineImage($Excerpt);
         if (!isset($InlineImage)) {
             return;
         }
@@ -276,7 +250,7 @@ class Parsedown extends \ParsedownToC
         }
 
         // if there is a title: put the <img> (or <picture>) in a <figure> element to use the <figcaption>
-        if (!empty($InlineImage['element']['attributes']['title'])) {
+        if ($this->builder->getConfig()->get('body.images.caption.enabled') && !empty($InlineImage['element']['attributes']['title'])) {
             $FigureBlock = [
                 'element' => [
                     'name'    => 'figure',
@@ -373,6 +347,41 @@ class Parsedown extends \ParsedownToC
         $block['element']['text']['allowRawHtmlInSafeMode'] = true;
 
         return $block;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function parseAttributeData($attributeString)
+    {
+        $attributes = preg_split('/[ ]+/', $attributeString, -1, PREG_SPLIT_NO_EMPTY);
+        $Data = [];
+        $HtmlAtt = [];
+
+        foreach ($attributes as $attribute) {
+            switch ($attribute[0]) {
+                case '#': // ID
+                    $Data['id'] = substr($attribute, 1);
+                    break;
+                case '.': // Classes
+                    $classes[] = substr($attribute, 1);
+                    break;
+                default:  // Attributes
+                    parse_str($attribute, $parsed);
+                    $HtmlAtt = array_merge($HtmlAtt, $parsed);
+            }
+        }
+
+        if (isset($classes)) {
+            $Data['class'] = implode(' ', $classes);
+        }
+        if (!empty($HtmlAtt)) {
+            foreach ($HtmlAtt as $a => $v) {
+                $Data[$a] = trim($v, '"');
+            }
+        }
+
+        return $Data;
     }
 
     /**
