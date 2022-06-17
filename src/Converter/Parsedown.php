@@ -196,7 +196,7 @@ class Parsedown extends \ParsedownToC
                         'name'       => 'video',
                         'attributes' => [
                             'controls' => '',
-                            'poster'   => isset($block['element']['attributes']['poster']) ? $block['element']['attributes']['poster'] : '',
+                            'poster'   => isset($block['element']['attributes']['poster']) ? new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]) : '',
                         ],
                         'handler' => 'element',
                         'text'    => [
