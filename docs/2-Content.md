@@ -270,6 +270,26 @@ Is converted to:
 **Important:** This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
 :::
 
+### Audio and video
+
+Cecil can generate audio and video HTML elements, based on the Markdown image markup, with a special alternative text as a keyword.
+
+#### Audio
+
+_Example:_
+
+```markdown
+![audio](/audio/test.mp3 "Audio asset")
+```
+
+#### Video
+
+_Example:_
+
+```markdown
+![video](/video/test.mp4 "Video asset"){poster=/images/cecil-logo.png style="width:100%;"}
+```
+
 #### Notes
 
 Create a _Note_ block (info, tips, important, etc.).
