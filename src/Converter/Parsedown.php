@@ -184,7 +184,7 @@ class Parsedown extends \ParsedownToC
             case 'video':
                 $video['element'] = [
                     'name'       => 'video',
-                    'handler' => 'element',
+                    'handler'    => 'element',
                 ];
                 $video['element']['attributes'] = ['controls' => '', 'preload' => 'none'] + $block['element']['attributes'];
                 unset($video['element']['attributes']['loading']);
@@ -216,8 +216,7 @@ class Parsedown extends \ParsedownToC
         // creates a <picture> used to add WebP <source> in addition to the image <img> element
         if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false
             && ($InlineImage['element']['attributes']['src'])['type'] == 'image'
-            && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
-        {
+            && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp') {
             try {
                 // Image src must be an Asset instance
                 if (is_string($InlineImage['element']['attributes']['src'])) {
