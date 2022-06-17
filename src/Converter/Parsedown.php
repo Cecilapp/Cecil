@@ -173,6 +173,7 @@ class Parsedown extends \ParsedownToC
 
         switch ($block['element']['attributes']['alt']) {
             case 'audio':
+                $audio = [];
                 $audio['element'] = [
                     'name'    => 'audio',
                     'handler' => 'element',
@@ -182,6 +183,7 @@ class Parsedown extends \ParsedownToC
                 $block = $audio;
                 break;
             case 'video':
+                $video = [];
                 $video['element'] = [
                     'name'       => 'video',
                     'handler' => 'element',
