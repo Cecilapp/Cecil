@@ -31,7 +31,6 @@ class Parsedown extends \ParsedownToC
     /** Valid a media block (image, audio or video) */
     protected $MarkdownMediaRegex = "~^!\[.*?\]\(.*?\)~";
 
-
     /** @var Highlighter */
     protected $highlighter;
 
@@ -170,7 +169,6 @@ class Parsedown extends \ParsedownToC
         if (!isset($InlineImage)) {
             return;
         }
-
         $block = $InlineImage;
 
         switch ($block['element']['attributes']['alt']) {
