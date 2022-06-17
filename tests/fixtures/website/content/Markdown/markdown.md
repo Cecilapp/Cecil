@@ -15,8 +15,8 @@
 
 ## Media
 
-![alt](/images/cecil-logo.png "title")
+![alt](/images/cecil-logo.png "Image asset")
 
-![audio](/images/cecil-logo.png "title")
+![audio](/audio/test.mp3 "Audio asset")
 
-![video](/images/cecil-logo.png "title"){poster=/images/cecil-logo.png}
+![video](/video/test.mp4 "Video asset"){poster=/images/cecil-logo.png style="width:100%;"}
