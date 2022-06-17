@@ -120,12 +120,12 @@ class Parsedown extends \ParsedownToC
 
             try {
                 $assetResized = $asset->resize($width);
+                $image['element']['attributes']['src'] = $assetResized;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
                 return $image;
             }
-            $image['element']['attributes']['src'] = $assetResized;
         }
 
         // set width
@@ -161,7 +161,7 @@ class Parsedown extends \ParsedownToC
      */
     protected function blockMedia($Excerpt)
     {
-        if (1 !== preg_match($this->MarkdownMediaRegex, $Excerpt['text'], $matches)) {
+        if (1 !== preg_match($this->MarkdownMediaRegex, $Excerpt['text'])) {
             return;
         }
 
