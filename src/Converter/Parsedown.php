@@ -129,11 +129,11 @@ class Parsedown extends \ParsedownToC
         }
 
         // set width
-        if (!isset($image['element']['attributes']['width'])) {
+        if (!isset($image['element']['attributes']['width']) && $asset['type'] == 'image') {
             $image['element']['attributes']['width'] = $width;
         }
         // set height
-        if (!isset($image['element']['attributes']['height'])) {
+        if (!isset($image['element']['attributes']['height']) && $asset['type'] == 'image') {
             $image['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
         }
 
@@ -173,42 +173,25 @@ class Parsedown extends \ParsedownToC
 
         switch ($block['element']['attributes']['alt']) {
             case 'audio':
-                return [
-                    'element' => [
-                        'name'       => 'audio',
-                        'attributes' => [
-                            'controls' => '',
-                        ],
-                        'handler' => 'element',
-                        'text'    => [
-                            'name'       => 'source',
-                            'attributes' => [
-                                'src' => $block['element']['attributes']['src'],
-                            ],
-                        ],
-                    ],
+                $audio['element'] = [
+                    'name'    => 'audio',
+                    'handler' => 'element',
                 ];
-
-                return;
+                $audio['element']['attributes'] = ['controls' => '', 'preload' => 'none'] + $block['element']['attributes'];
+                unset($audio['element']['attributes']['loading']);
+                $block = $audio;
+                break;
             case 'video':
-                return [
-                    'element' => [
-                        'name'       => 'video',
-                        'attributes' => [
-                            'controls' => '',
-                            'poster'   => isset($block['element']['attributes']['poster']) ? new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]) : '',
-                        ],
-                        'handler' => 'element',
-                        'text'    => [
-                            'name'       => 'source',
-                            'attributes' => [
-                                'src' => $block['element']['attributes']['src'],
-                            ],
-                        ],
-                    ],
+                $video['element'] = [
+                    'name'       => 'video',
+                    'handler' => 'element',
                 ];
-
-                return;
+                $video['element']['attributes'] = ['controls' => '', 'preload' => 'none'] + $block['element']['attributes'];
+                unset($video['element']['attributes']['loading']);
+                if (isset($block['element']['attributes']['poster'])) {
+                    $video['element']['attributes']['poster'] = new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
+                }
+                $block = $video;
             }
 
         /*
@@ -231,7 +214,10 @@ class Parsedown extends \ParsedownToC
         */
 
         // creates a <picture> used to add WebP <source> in addition to the image <img> element
-        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp') {
+        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false
+            && ($InlineImage['element']['attributes']['src'])['type'] == 'image'
+            && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
+        {
             try {
                 // Image src must be an Asset instance
                 if (is_string($InlineImage['element']['attributes']['src'])) {
