@@ -29,7 +29,7 @@ class Parsedown extends \ParsedownToC
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
     /** Valid a media block (image, audio or video) */
-    protected $MarkdownMediaRegex = "~^!\[.*?\]\(.*?\)\|*(audio|video)*~";
+    protected $MarkdownMediaRegex = "~^!\[.*?\]\(.*?\)~";
 
 
     /** @var Highlighter */
@@ -166,23 +166,50 @@ class Parsedown extends \ParsedownToC
             return;
         }
 
-        switch ($matches[1]) {
-            case 'audio':
-                dump($matches);
-                return;
-                break;
-            case 'video':
-                dump($matches);
-                return;
-                break;
-        }
-
         $InlineImage = $this->inlineImage($Excerpt);
         if (!isset($InlineImage)) {
             return;
         }
 
         $block = $InlineImage;
+
+        switch ($block['element']['attributes']['alt']) {
+            case 'audio':
+                return [
+                    'element' => [
+                        'name' => 'audio',
+                        'attributes' => [
+                            'controls' => '',
+                        ],
+                        'handler' => 'element',
+                        'text' => [
+                            'name' => 'source',
+                            'attributes' => [
+                                'src' => $block['element']['attributes']['src'],
+                            ],
+                        ],
+                    ],
+                ];
+                return;
+            case 'video':
+                return [
+                    'element' => [
+                        'name' => 'video',
+                        'attributes' => [
+                            'controls' => '',
+                            'poster' => isset($block['element']['attributes']['poster']) ? $block['element']['attributes']['poster'] : ''
+                        ],
+                        'handler' => 'element',
+                        'text' => [
+                            'name' => 'source',
+                            'attributes' => [
+                                'src' => $block['element']['attributes']['src'],
+                            ]
+                        ],
+                    ],
+                ];
+                return;
+            }
 
         /*
         <!-- if image has a title: a <figure> is required for <figcaption> -->
