@@ -175,37 +175,39 @@ class Parsedown extends \ParsedownToC
             case 'audio':
                 return [
                     'element' => [
-                        'name' => 'audio',
+                        'name'       => 'audio',
                         'attributes' => [
                             'controls' => '',
                         ],
                         'handler' => 'element',
-                        'text' => [
-                            'name' => 'source',
+                        'text'    => [
+                            'name'       => 'source',
                             'attributes' => [
                                 'src' => $block['element']['attributes']['src'],
                             ],
                         ],
                     ],
                 ];
+
                 return;
             case 'video':
                 return [
                     'element' => [
-                        'name' => 'video',
+                        'name'       => 'video',
                         'attributes' => [
                             'controls' => '',
-                            'poster' => isset($block['element']['attributes']['poster']) ? $block['element']['attributes']['poster'] : ''
+                            'poster'   => isset($block['element']['attributes']['poster']) ? $block['element']['attributes']['poster'] : '',
                         ],
                         'handler' => 'element',
-                        'text' => [
-                            'name' => 'source',
+                        'text'    => [
+                            'name'       => 'source',
                             'attributes' => [
                                 'src' => $block['element']['attributes']['src'],
-                            ]
+                            ],
                         ],
                     ],
                 ];
+
                 return;
             }
 
