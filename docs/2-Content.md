@@ -270,11 +270,11 @@ Is converted to:
 **Important:** This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
 :::
 
-### Audio and video
+#### Audio and video
 
 Cecil can generate audio and video HTML elements, based on the Markdown image markup, with a special alternative text as a keyword.
 
-#### Audio
+##### Audio
 
 _Example:_
 
@@ -282,7 +282,7 @@ _Example:_
 ![audio](/audio/test.mp3 "Audio asset")
 ```
 
-#### Video
+##### Video
 
 _Example:_
 
