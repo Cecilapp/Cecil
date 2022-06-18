@@ -403,6 +403,10 @@ class Asset implements \ArrayAccess
      */
     public function resize(int $width): self
     {
+        if ($this->data['type'] != 'image') {
+            throw new RuntimeException(\sprintf('Not able to resize "%s": it\'s not an image', $this->data['path']));
+        }
+
         if ($width >= $this->getWidth()) {
             return $this;
         }
@@ -515,6 +519,9 @@ class Asset implements \ArrayAccess
      */
     public function getWidth(): int
     {
+        if ($this->data['type'] != 'image') {
+            return 0;
+        }
         if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
             return (int) $svg->width;
         }
@@ -532,6 +539,9 @@ class Asset implements \ArrayAccess
      */
     public function getHeight(): int
     {
+        if ($this->data['type'] != 'image') {
+            return 0;
+        }
         if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
             return (int) $svg->height;
         }

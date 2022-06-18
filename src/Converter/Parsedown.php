@@ -28,8 +28,8 @@ class Parsedown extends \ParsedownToC
     /** {@inheritdoc} */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
-    /** Regex used to valid block image */
-    protected $MarkdownImageRegex = "~^!\[.*?\]\(.*?\)~";
+    /** Valid a media block (image, audio or video) */
+    protected $MarkdownMediaRegex = "~^!\[.*?\]\(.*?\)~";
 
     /** @var Highlighter */
     protected $highlighter;
@@ -43,10 +43,8 @@ class Parsedown extends \ParsedownToC
         $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
         $this->specialCharacters[] = '+';
 
-        // add caption or WebP source to image block
-        if ($this->builder->getConfig()->get('body.images.caption.enabled') || $this->builder->getConfig()->get('body.images.webp.enabled')) {
-            $this->BlockTypes['!'][] = 'Image';
-        }
+        // Media (image, audio or video) block
+        $this->BlockTypes['!'][] = 'Media';
 
         // "notes" block
         if ($this->builder->getConfig()->get('body.notes.enabled')) {
@@ -56,7 +54,7 @@ class Parsedown extends \ParsedownToC
         // code highlight
         $this->highlighter = new Highlighter();
 
-        // ToC
+        // Table of Content
         parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
     }
 
@@ -85,9 +83,9 @@ class Parsedown extends \ParsedownToC
     /**
      * {@inheritdoc}
      */
-    protected function inlineImage($excerpt)
+    protected function inlineImage($Excerpt)
     {
-        $image = parent::inlineImage($excerpt);
+        $image = parent::inlineImage($Excerpt);
         if (!isset($image)) {
             return null;
         }
@@ -122,20 +120,20 @@ class Parsedown extends \ParsedownToC
 
             try {
                 $assetResized = $asset->resize($width);
+                $image['element']['attributes']['src'] = $assetResized;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
                 return $image;
             }
-            $image['element']['attributes']['src'] = $assetResized;
         }
 
         // set width
-        if (!isset($image['element']['attributes']['width'])) {
+        if (!isset($image['element']['attributes']['width']) && $asset['type'] == 'image') {
             $image['element']['attributes']['width'] = $width;
         }
         // set height
-        if (!isset($image['element']['attributes']['height'])) {
+        if (!isset($image['element']['attributes']['height']) && $asset['type'] == 'image') {
             $image['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
         }
 
@@ -156,55 +154,47 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * {@inheritdoc}
+     * Media block support:
+     * 1. <picture>/<source> for WebP images
+     * 2. <audio> and <video> elements
+     * 3. <figure>/<figcaption> for element with a title.
      */
-    protected function parseAttributeData($attributeString)
+    protected function blockMedia($Excerpt)
     {
-        $attributes = preg_split('/[ ]+/', $attributeString, -1, PREG_SPLIT_NO_EMPTY);
-        $Data = [];
-        $HtmlAtt = [];
-
-        foreach ($attributes as $attribute) {
-            switch ($attribute[0]) {
-                case '#': // ID
-                    $Data['id'] = substr($attribute, 1);
-                    break;
-                case '.': // Classes
-                    $classes[] = substr($attribute, 1);
-                    break;
-                default:  // Attributes
-                    parse_str($attribute, $parsed);
-                    $HtmlAtt = array_merge($HtmlAtt, $parsed);
-            }
-        }
-
-        if (isset($classes)) {
-            $Data['class'] = implode(' ', $classes);
-        }
-        if (!empty($HtmlAtt)) {
-            foreach ($HtmlAtt as $a => $v) {
-                $Data[$a] = trim($v, '"');
-            }
-        }
-
-        return $Data;
-    }
-
-    /**
-     * Enhances image block with <picture>/<source> and/or <figure>/<figcaption>.
-     */
-    protected function blockImage($Line)
-    {
-        if (1 !== preg_match($this->MarkdownImageRegex, $Line['text'])) {
+        if (1 !== preg_match($this->MarkdownMediaRegex, $Excerpt['text'])) {
             return;
         }
 
-        $InlineImage = $this->inlineImage($Line);
+        $InlineImage = $this->inlineImage($Excerpt);
         if (!isset($InlineImage)) {
             return;
         }
-
         $block = $InlineImage;
+
+        switch ($block['element']['attributes']['alt']) {
+            case 'audio':
+                $audio = [];
+                $audio['element'] = [
+                    'name'    => 'audio',
+                    'handler' => 'element',
+                ];
+                $audio['element']['attributes'] = ['controls' => '', 'preload' => 'none'] + $block['element']['attributes'];
+                unset($audio['element']['attributes']['loading']);
+                $block = $audio;
+                break;
+            case 'video':
+                $video = [];
+                $video['element'] = [
+                    'name'       => 'video',
+                    'handler'    => 'element',
+                ];
+                $video['element']['attributes'] = ['controls' => '', 'preload' => 'none'] + $block['element']['attributes'];
+                unset($video['element']['attributes']['loading']);
+                if (isset($block['element']['attributes']['poster'])) {
+                    $video['element']['attributes']['poster'] = new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
+                }
+                $block = $video;
+            }
 
         /*
         <!-- if image has a title: a <figure> is required for <figcaption> -->
@@ -226,7 +216,9 @@ class Parsedown extends \ParsedownToC
         */
 
         // creates a <picture> used to add WebP <source> in addition to the image <img> element
-        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp') {
+        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false
+            && ($InlineImage['element']['attributes']['src'])['type'] == 'image'
+            && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp') {
             try {
                 // Image src must be an Asset instance
                 if (is_string($InlineImage['element']['attributes']['src'])) {
@@ -272,7 +264,7 @@ class Parsedown extends \ParsedownToC
         }
 
         // if there is a title: put the <img> (or <picture>) in a <figure> element to use the <figcaption>
-        if (!empty($InlineImage['element']['attributes']['title'])) {
+        if ($this->builder->getConfig()->get('body.images.caption.enabled') && !empty($InlineImage['element']['attributes']['title'])) {
             $FigureBlock = [
                 'element' => [
                     'name'    => 'figure',
@@ -369,6 +361,41 @@ class Parsedown extends \ParsedownToC
         $block['element']['text']['allowRawHtmlInSafeMode'] = true;
 
         return $block;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function parseAttributeData($attributeString)
+    {
+        $attributes = preg_split('/[ ]+/', $attributeString, -1, PREG_SPLIT_NO_EMPTY);
+        $Data = [];
+        $HtmlAtt = [];
+
+        foreach ($attributes as $attribute) {
+            switch ($attribute[0]) {
+                case '#': // ID
+                    $Data['id'] = substr($attribute, 1);
+                    break;
+                case '.': // Classes
+                    $classes[] = substr($attribute, 1);
+                    break;
+                default:  // Attributes
+                    parse_str($attribute, $parsed);
+                    $HtmlAtt = array_merge($HtmlAtt, $parsed);
+            }
+        }
+
+        if (isset($classes)) {
+            $Data['class'] = implode(' ', $classes);
+        }
+        if (!empty($HtmlAtt)) {
+            foreach ($HtmlAtt as $a => $v) {
+                $Data[$a] = trim($v, '"');
+            }
+        }
+
+        return $Data;
     }
 
     /**
