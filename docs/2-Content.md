@@ -163,16 +163,26 @@ Introduction.
 Main content.
 ```
 
-### Inserted text
+### Notes
+
+Create a _Note_ block (info, tips, important, etc.).
+
+_Example:_
 
 ```markdown
-++text++
+:::tip
+**Tip:** This is an advice.
+:::
 ```
 
 Is converted to:
 
 ```html
-<ins>text</ins>
+<div class="note note-tip">
+  <p>
+    <strong>Tip:</strong> This is an advice.
+  </p>
+</div>
 ```
 
 ### Syntax highlight
@@ -191,6 +201,18 @@ Is rendered to:
 
 ```php
 echo "Hello world";
+```
+
+### Inserted text
+
+```markdown
+++text++
+```
+
+Is converted to:
+
+```html
+<ins>text</ins>
 ```
 
 ### Images
@@ -324,28 +346,6 @@ _Example:_
 
 ```markdown
 ![video](/video/test.mp4 "Video asset"){poster=/images/cecil-logo.png style="width:100%;"}
-```
-
-### Notes
-
-Create a _Note_ block (info, tips, important, etc.).
-
-_Example:_
-
-```markdown
-:::tip
-**Tip:** This is an advice.
-:::
-```
-
-Is converted to:
-
-```html
-<div class="note note-tip">
-  <p>
-    <strong>Tip:</strong> This is an advice.
-  </p>
-</div>
 ```
 
 ## Variables
