@@ -282,6 +282,10 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
 >
 ```
 
+:::info
+**Info:** Differents widths can be defined in [assets configuration](4-Configuration.md#assets).  
+:::
+
 #### WebP
 
 If the [`webp` option in the body configuration](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
