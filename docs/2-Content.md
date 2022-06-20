@@ -8,10 +8,17 @@ updated: 2022-06-20
 
 There is different kinds of content in Cecil:
 
-- **_Pages_**: Markdown (or plain text) files, stored in `content/`
-- **Assets**: handled files (images, CSS, scripts, etc.), stored in `assets/`
-- **Static**: files copied as is, stored in `static/`)
-- **Data**: custom variables collections, stored in `data/`
+**Pages**
+: Markdown (or plain text) files (stored in `content/`).
+
+**Assets**
+: Handled files like resized images, compiled Sass, minified scripts, etc.
+
+**Static**
+: Files copied as is.
+
+**Data**
+: Custom variables collections.
 
 ## Files organization
 
