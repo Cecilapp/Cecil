@@ -161,28 +161,28 @@ return [
     'body' => [
         'format' => 'md',         // page body format (only Markdown is supported)
         'toc'    => ['h2', 'h3'], // headers used to build the table of contents
+        'highlight' => [
+            'enabled' => false,  // enables code syntax highlighting (`false` by default)
+        ],
         'images' => [
             'lazy' => [
-                'enabled' => true,  // enables lazy loading (`true` by default)
-            ],
-            'caption' => [
-                'enabled' => false, // adds <figcaption> to images with a title (`false` by default)
-            ],
-            'remote' => [
-                'enabled' => true,  // enables remote image handling (`true` by default)
+                'enabled' => true,  // adds `loading="lazy"` attribute (`true` by default)
             ],
             'resize' => [
                 'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
             ],
             'responsive' => [
-                'enabled' => false, // creates responsive images (`false` by default)
+                'enabled' => false, // creates responsive images and add them to the `srcset` attribute (`false` by default)
             ],
             'webp' => [
-                'enabled' => false, // creates WebP images (`false` by default)
+                'enabled' => false, // adds a WebP image as a `source` (`false` by default)
             ],
-        ],
-        'highlight' => [
-            'enabled' => false,  // enables syntax highlighting (`false` by default)
+            'caption' => [
+                'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+            ],
+            'remote' => [
+                'enabled' => true,  // turns remote images to Asset to handling them (`true` by default)
+            ],
         ],
     ],
     // data files

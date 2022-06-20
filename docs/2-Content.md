@@ -1,17 +1,17 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-06-10
+updated: 2022-06-20
 -->
 
 # Content
 
 There is different kinds of content in Cecil:
 
-- **_Pages_** ([Markdown](https://daringfireball.net/projects/markdown/) or plain text files in `content/`)
-- **Assets** files (images, CSS, scripts, etc. in `assets/`)
-- **Static** files (videos, PDF, etc. in `static/`)
-- **Data** files (custom variables collections in `data/`)
+- **_Pages_**: Markdown (or plain text) files, stored in `content/`
+- **Assets**: handled files (images, CSS, scripts, etc.), stored in `assets/`
+- **Static**: files copied as is, stored in `static/`)
+- **Data**: custom variables collections, stored in `data/`
 
 ## Files organization
 
@@ -37,11 +37,11 @@ Your content should be organized in a manner that reflects the rendered website.
    └─ authors.yml     <- Data collection
 ```
 
-**Notes:**
+**Explanation:**
 
 - Each folder in the root of `content/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
 - You can override _Section_’s default variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
-- Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function
+- Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function in templates
 - Files in `static/` are copied as is in the root of the built website (e.g.: `static/video.mp4` -> `video.mp4`)
 - Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
 
@@ -64,9 +64,10 @@ Your content should be organized in a manner that reflects the rendered website.
    └─ video.mp4
 ```
 
-By default each _Page_ is generated as `filename-slugified/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`. To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in front matter.
+By default each _Page_ is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.  
+To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in front matter.
 
-### File VS URL structure
+### File VS URL
 
 ```plaintext
 File:
@@ -86,8 +87,6 @@ A _Page_ is a file made up of a **front matter** and a **body**.
 
 The _front matter_ is a collection of [variables](#variables) (in _key/value_ format) surrounded by `---`.
 
-It must be the first thing in the file and must be a valid [YAML](https://en.wikipedia.org/wiki/YAML).
-
 _Example:_
 
 ```yaml
@@ -105,9 +104,7 @@ customvar: "Value of customvar"
 
 ### Body
 
-_Body_ is the main content of a _Page_, it could be written in [Markdown](http://daringfireball.net/projects/markdown/syntax), in [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/) or in plain text.
-
-Cecil also provides **extra features** to enhance your content: table of contents, text excerpt, image manipulation (caption, lazy loading, resizing, responsive) and notes).  
+_Body_ is the main content of a _Page_, it could be written in [Markdown](#markdown) or in plain text.
 
 _Example:_
 
@@ -131,13 +128,15 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 :::tip
 **Tip:** This is an advice.
 :::
-
-## Sub-Header 4
-
-++Inserted text++
 ```
 
-#### Table of contents
+## Markdown
+
+Cecil supports [Markdown](http://daringfireball.net/projects/markdown/syntax) format but also [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/).
+
+Cecil also provides **extra features** to enhance your content, see below.
+
+### Table of contents
 
 You can add a table of contents with the following Markdown syntax:
 
@@ -145,7 +144,7 @@ You can add a table of contents with the following Markdown syntax:
 [toc]
 ```
 
-#### Excerpt
+### Excerpt
 
 An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
 
@@ -157,9 +156,39 @@ Introduction.
 Main content.
 ```
 
-#### Images
+### Inserted text
 
-##### Lazy loading
+```markdown
+++text++
+```
+
+Is converted to:
+
+```html
+<ins>text</ins>
+```
+
+### Syntax highlight
+
+Enables code block syntax highlighter by setting the [body.highlight.enabled](4-Configuration.md#body) option to `true`.
+
+_Example:_
+
+<pre>
+```php
+echo "Hello world";
+```
+</pre>
+
+Is rendered to:
+
+```php
+echo "Hello world";
+```
+
+### Images
+
+#### Lazy loading
 
 By default Cecil apply the attribute `loading="lazy"` on each images.
 
@@ -179,30 +208,7 @@ Is converted to:
 **Info:** You can disable the [`lazy` option in the body configuration](4-Configuration.md#body).
 :::
 
-##### Caption
-
-You can automatically add a caption (`figcaption`) to an image with the optional title.
-
-_Example:_
-
-```markdown
-![](/images/img.jpg "Optional title")
-```
-
-Is converted to:
-
-```html
-<figure>
-  <img src="/image.jpg" title="Title">
-  <figcaption>Title</figcaption>
-</figure>
-```
-
-:::info
-**Info:** You can disable the [`caption` option in the body configuration](4-Configuration.md#body).
-:::
-
-##### Resize
+#### Resize
 
 Each image in the _body_ can be resized by setting a smaller width than the original one with the extra attribute `{width=X}` (the [`resize` option in the body configuration](4-Configuration.md#body) must be enabled).
 
@@ -226,7 +232,7 @@ Is converted to:
 **Important:** This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
 :::
 
-##### Responsive
+#### Responsive
 
 If the [`responsive` option in the body configuration](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically _responsived_.
 
@@ -247,7 +253,7 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
 >
 ```
 
-##### WebP
+#### WebP
 
 If the [`webp` option in the body configuration](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
 
@@ -270,11 +276,34 @@ Is converted to:
 **Important:** This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
 :::
 
-#### Audio and video
+#### Caption
+
+You can automatically add a caption (`figcaption`) to an image with the optional title.
+
+_Example:_
+
+```markdown
+![](/images/img.jpg "Optional title")
+```
+
+Is converted to:
+
+```html
+<figure>
+  <img src="/image.jpg" title="Title">
+  <figcaption>Title</figcaption>
+</figure>
+```
+
+:::info
+**Info:** You can disable the [`caption` option in the body configuration](4-Configuration.md#body).
+:::
+
+### Audio and video
 
 Cecil can generate audio and video HTML elements, based on the Markdown image markup, with a special alternative text as a keyword.
 
-##### Audio
+#### Audio
 
 _Example:_
 
@@ -282,7 +311,7 @@ _Example:_
 ![audio](/audio/test.mp3 "Audio asset")
 ```
 
-##### Video
+#### Video
 
 _Example:_
 
@@ -290,7 +319,7 @@ _Example:_
 ![video](/video/test.mp4 "Video asset"){poster=/images/cecil-logo.png style="width:100%;"}
 ```
 
-#### Notes
+### Notes
 
 Create a _Note_ block (info, tips, important, etc.).
 
@@ -312,43 +341,11 @@ Is converted to:
 </div>
 ```
 
-:::info
-**Info:** The _Notes_ syntax can be enabled by setting the [body.notes.enabled](4-Configuration.md#body) option to `true`.
-:::
-
-#### Inserted text
-
-```markdown
-++text++
-```
-
-Is converted to:
-
-```html
-<ins>text</ins>
-```
-
-#### Highlight
-
-Enables code block syntax highlighter by setting the [body.highlight.enabled](4-Configuration.md#body) option to `true`.
-
-_Example:_
-
-<pre>
-```php
-echo "Hello world";
-```
-</pre>
-
-Is rendered to:
-
-```php
-echo "Hello world";
-```
-
 ## Variables
 
 The _front matter_ can contains custom variables applied to the current _Page_.
+
+It must be the first thing in the file and must be a valid [YAML](https://en.wikipedia.org/wiki/YAML).
 
 ### Predefined variables
 
@@ -588,7 +585,7 @@ Set a valid section’s name to `pagesfrom` to use pages collection from this se
 
 ### exclude
 
-Set `exclude` to `true` to hide the _Page_ from lists (like _Home page_, _Section_, _Sitemap_, etc.).
+Set `exclude` to `true` to hide a _Page_ from lists (like _Home page_, _Section_, _Sitemap_, etc.).
 
 _Example:_
 

@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2022-06-10
+updated: 2022-06-20
 -->
 
 # Configuration
@@ -540,7 +540,7 @@ Each one can be:
 
 ### content
 
-Where content files are stored and loaded file extensions (Markdown and plain text files).
+Where pages’ content files are stored and loaded file extensions (Markdown and plain text files).
 
 ```yaml
 content:
@@ -566,26 +566,26 @@ Pages’ content format and converter’s options.
 body:
   format: md             # page body format (only Markdown is supported)
   toc: [h2, h3]          # headers used to build the table of contents
+  highlight:
+    enabled: false       # enables code syntax highlighting (`false` by default)
   images:                # how to handle images
     lazy:
-      enabled: true      # enables lazy loading (`true` by default)
-    caption:
-      enabled: true      # adds <figcaption> to images with a title (`false` by default)
-    remote:
-      enabled: true      # enables remote image handling (`true` by default)
+      enabled: true      # adds `loading="lazy"` attribute (`true` by default)
     resize:
       enabled: false     # enables image resizing by using the `width` extra attribute (`false` by default)
     responsive:
-      enabled: false     # creates responsive images (`false` by default)
+      enabled: false     # creates responsive images and add them to the `srcset` attribute (`false` by default)
     webp:
-      enabled: false     # creates WebP images (`false` by default)
+      enabled: false     # adds a WebP image as a `source` (`false` by default)
+    caption:
+      enabled: true      # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+    remote:
+      enabled: true      # enables remote image handling (`true` by default)
   notes:
-    enabled: false       # enables Notes blocks (`false` by default)
-  highlight:
-    enabled: false       # enables syntax highlighting (`false` by default)
+    enabled: false       # turns remote images to Asset to handling them (`true` by default)
 ```
 
-To know how those options impacts your content see _[Content > Page > Body](2-Content.md#body)_ documentation.
+To know how those options impacts your content see _[Content > Page > Markdown](2-Content.md#markdown)_ documentation.
 
 :::info
 **Info:** Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
