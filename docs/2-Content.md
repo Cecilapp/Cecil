@@ -283,7 +283,7 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
 ```
 
 :::info
-**Info:** Differents widths can be defined in [assets configuration](4-Configuration.md#assets).  
+**Info:** The different images widths can be defined in [assets configuration](4-Configuration.md#assets).
 :::
 
 #### WebP
