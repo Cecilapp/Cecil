@@ -98,8 +98,8 @@ customvar: "Value of customvar"
 ---
 ```
 
-:::tip
-**Tip:** You can also use `<!-- -->` or `+++` as separator.
+:::info
+**Info:** You can also use `<!-- -->` or `+++` as separator.
 :::
 
 ### Body
@@ -362,7 +362,7 @@ It must be the first thing in the file and must be a valid [YAML](https://en.wik
 | `draft`     | Published or not  | `false`.                                           | `true`        |
 
 :::info
-All the predefined variables can be overridden except `section`.
+**Info:** All the predefined variables can be overridden except `section`.
 :::
 
 ### menu

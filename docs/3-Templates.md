@@ -763,7 +763,7 @@ Turns an asset into an HTML element.
 ```
 
 :::info
-Available for images, CSS and JavaScript. The `attributes` and `options` parameters are optional.
+**Info:** Available for images, CSS and JavaScript. The `attributes` and `options` parameters are optional.
 :::
 
 | Option     | Description                                     | Type  | Default |
