@@ -47,9 +47,7 @@ class Parsedown extends \ParsedownToC
         $this->BlockTypes['!'][] = 'Media';
 
         // "notes" block
-        if ($this->builder->getConfig()->get('body.notes.enabled')) {
-            $this->BlockTypes[':'][] = 'Note';
-        }
+        $this->BlockTypes[':'][] = 'Note';
 
         // code highlight
         $this->highlighter = new Highlighter();
