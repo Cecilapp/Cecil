@@ -316,7 +316,7 @@ You can automatically add a caption (`figcaption`) to an image with the optional
 _Example:_
 
 ```markdown
-![](/images/img.jpg "Optional title")
+![](/images/img.jpg "Title")
 ```
 
 Is converted to:
@@ -334,14 +334,20 @@ Is converted to:
 
 ### Audio and video
 
-Cecil can generate audio and video HTML elements, based on the Markdown image markup, with a special alternative text as a keyword.
+Cecil can generate audio and video HTML elements, based on the Markdown image markup, with a special alternative text as a keyword (`audio` or `video`).
 
 #### Audio
 
 _Example:_
 
 ```markdown
-![audio](/audio/test.mp3 "Audio asset")
+![audio](/audio/test.mp3)
+```
+
+Is converted to:
+
+```html
+<audio controls preload="none" src="/video/test.mp3"></audio>
 ```
 
 #### Video
@@ -349,7 +355,13 @@ _Example:_
 _Example:_
 
 ```markdown
-![video](/video/test.mp4 "Video asset"){poster=/images/cecil-logo.png style="width:100%;"}
+![video](/video/test.mp4){poster=/images/video-test.png style="width:100%;"}
+```
+
+Is converted to:
+
+```html
+<video controls preload="none" src="/video/test.mp4" poster="/images/video-test.png" style="width:100%;"></video>
 ```
 
 ## Variables
