@@ -203,7 +203,13 @@ Is rendered to:
 echo "Hello world";
 ```
 
+:::important
+**Important:** You must add the [StyleSheet](https://highlightjs.org/download/) in the head of your template.
+:::
+
 ### Inserted text
+
+Represents a range of text that has been added.
 
 ```markdown
 ++text++
