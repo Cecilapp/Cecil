@@ -151,6 +151,10 @@ You can add a table of contents with the following Markdown syntax:
 [toc]
 ```
 
+:::info
+**Info:** By default the ToC extract H2 et H3 headers. You can change this behavior with [body options](4-Configuration.md#body).
+:::
+
 ### Excerpt
 
 An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
@@ -184,6 +188,10 @@ Is converted to:
   </p>
 </div>
 ```
+
+:::tip
+**Tip:** This is an advice.
+:::
 
 ### Syntax highlight
 
