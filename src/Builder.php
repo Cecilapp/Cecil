@@ -100,14 +100,13 @@ class Builder implements LoggerAwareInterface
      */
     public function __construct($config = null, LoggerInterface $logger = null)
     {
-        $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
-
-        // default logger
+        // set logger
         if ($logger === null) {
             $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
         }
         $this->setLogger($logger);
-
+        // set config
+        $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
         // debug mode?
         if (getenv('CECIL_DEBUG') == 'true' || (bool) $this->getConfig()->get('debug')) {
             $this->debug = true;
@@ -175,6 +174,10 @@ class Builder implements LoggerAwareInterface
     {
         if (!$config instanceof Config) {
             $config = new Config($config);
+        }
+        // checks baseurl
+        if (empty(trim((string) $config->get('baseurl'), '/'))) {
+            $this->getLogger()->error("The 'baseurl' configuration key is required in production (e.g.: 'baseurl: https://example.com/').");
         }
         if ($this->config !== $config) {
             $this->config = $config;
