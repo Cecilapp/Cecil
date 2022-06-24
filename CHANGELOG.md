@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.102.0...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.102.1...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,25 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.102.1](https://github.com/Cecilapp/Cecil/compare/5.102.0...5.102.1)
+
+> 22 June 2022
+
+- fix: checks if `baseurl` configuration is empty [`#1410`](https://github.com/Cecilapp/Cecil/pull/1410)
+- Apply fixes from StyleCI [`#1409`](https://github.com/Cecilapp/Cecil/pull/1409)
+- docs: enhancements [`dfec0d2`](https://github.com/Cecilapp/Cecil/commit/dfec0d2b75842d4282fc686d22dedf144e4ef398)
+- docs: minor update [`4855173`](https://github.com/Cecilapp/Cecil/commit/485517368155e68717a7ee35cb8d7953a550370a)
+- chore: update deps [`dce57d2`](https://github.com/Cecilapp/Cecil/commit/dce57d21e6e9ca5976b45d990e15ae102e96e4b2)
+- docs: update audio and video section [`9ebd27e`](https://github.com/Cecilapp/Cecil/commit/9ebd27e1c80fa7d578f78c657c1789db78d9d8ae)
+- docs: minor update [`f253b8b`](https://github.com/Cecilapp/Cecil/commit/f253b8b5b605743e1d0fe45fa3d3f34549bc1bc2)
+- docs: minor update [`36fc733`](https://github.com/Cecilapp/Cecil/commit/36fc7332fe01e3bd4af6b8f19faa1cad4a9cddf4)
+- docs: minor fix [`64351b5`](https://github.com/Cecilapp/Cecil/commit/64351b501f379ade17114e4a1cdb310f8617287f)
+- chore: enables notes by default [`fe68a0d`](https://github.com/Cecilapp/Cecil/commit/fe68a0d3c4a83ac69fd6d422a50777b7cdffc41e)
+- docs: minor update [`011d089`](https://github.com/Cecilapp/Cecil/commit/011d089ecb09186bca6307b28e661169158ccbc3)
+- docs: minor fix [`3bf87f9`](https://github.com/Cecilapp/Cecil/commit/3bf87f9953a91772b4a3940c78fd7c24897e0f11)
+- docs: minor update [`c1a75f0`](https://github.com/Cecilapp/Cecil/commit/c1a75f04523459dcfa6e7b8790840bac623986e0)
+- docs: minor fix [`2afb3f9`](https://github.com/Cecilapp/Cecil/commit/2afb3f92873b2e6642029760fd4f66aaecbabb4c)
 
 #### [5.102.0](https://github.com/Cecilapp/Cecil/compare/5.101.2...5.102.0)
 
