@@ -311,15 +311,24 @@ class Render extends AbstractStep
         }
 
         // replace internal link to *.md files with the right URL
-        // https://regex101.com/r/dZ02zO/5
-        $replace = 'href="../%s/%s"';
-        if (empty($page->getFolder())) {
-            $replace = 'href="%s/%s"';
-        }
         $rendered = preg_replace_callback(
-            '/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
-            function ($matches) use ($replace) {
-                return \sprintf($replace, Page::slugify(PrefixSuffix::sub($matches[1])), $matches[2] ?? '');
+            // https://regex101.com/r/dZ02zO/6
+            //'/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
+            // https://regex101.com/r/ycWMe4/1
+            '/href="(\/|)([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
+            function ($matches) use ($page) {
+                // section spage
+                $hrefPattern = 'href="../%s/%s"';
+                // root page
+                if (empty($page->getFolder())) {
+                    $hrefPattern = 'href="%s/%s"';
+                }
+                // root link
+                if ($matches[1] == '/') {
+                    $hrefPattern = 'href="/%s/%s"';
+                }
+
+                return \sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
             },
             $rendered
         );
