@@ -97,6 +97,12 @@ return [
                 'mediatype' => 'application/manifest+json',
                 'extension' => 'webmanifest',
             ],
+            // ie: atom.xsl
+            -10 => [
+                'name'      => 'xslt',
+                'mediatype' => 'application/xml',
+                'extension' => 'xsl',
+            ],
         ],
         'pagetypeformats' => [
             'page'       => ['html'],
@@ -147,6 +153,14 @@ return [
             'published'    => true,
             'exclude'      => true,
             'multilingual' => false,
+        ],
+        'xslt' => [
+            'path'      => 'atom.xsl',
+            'layout'    => 'atom',
+            'output'    => 'xslt',
+            'uglyurl'   => true,
+            'published' => true,
+            'exclude'   => true,
         ],
     ],
     // Markdown files
