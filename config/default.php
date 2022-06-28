@@ -155,7 +155,7 @@ return [
             'multilingual' => false,
         ],
         'xslt' => [
-            'path'      => 'atom.xsl',
+            'path'      => 'atom',
             'layout'    => 'atom',
             'output'    => 'xslt',
             'uglyurl'   => true,
