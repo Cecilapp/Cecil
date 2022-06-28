@@ -93,9 +93,15 @@ if (file_exists($filename = $_SERVER['DOCUMENT_ROOT'].$pathname)) {
             case 'svg':
                 header('Content-Type: image/svg+xml');
                 break;
+            case 'xml':
+                header('Content-Type: application/xml; charset=utf-8');
+                header('X-Content-Type-Options: nosniff');
+                break;
+            case 'xsl':
+                header('Content-Type: application/xslt+xml');
+                break;
             default:
                 header('Content-Type: '.$mimeType);
-                break;
         }
         echo $content;
 
