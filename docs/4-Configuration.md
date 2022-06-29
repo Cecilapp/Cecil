@@ -400,7 +400,7 @@ output:
     - name: <name>            # name of the format, e.g.: `html` (required)
       mediatype: <media type> # media type (MIME), ie: 'text/html' (optional)
       subpath: <sub path>     # sub path, e.g.: `amp` in `path/amp/index.html` (optional)
-      filename: <filename>    # file name, e.g.: `index` in `path/index.html` (optional)
+      filename: <file name>   # file name, e.g.: `index` in `path/index.html` (optional)
       extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
       exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect]` (optional)
 ```
@@ -435,9 +435,9 @@ output:
       mediatype: text/html
       filename: index
       extension: html
-    - name: rss
-      mediatype: application/rss+xml
-      filename: rss
+    - name: atom
+      mediatype: application/xml
+      filename: atom
       extension: xml
       exclude: [redirect, paginated]
   pagetypeformats:
