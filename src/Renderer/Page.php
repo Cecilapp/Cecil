@@ -33,11 +33,11 @@ class Page
      * Returns the path to the output (rendered) file.
      *
      * Use cases:
-     * - default: path + suffix + extension (ie: blog/post-1/index.html)
-     * - subpath: path + subpath + suffix + extension (ie: blog/post-1/amp/index.html)
+     * - default: path + filename + extension (ie: blog/post-1/index.html)
+     * - subpath: path + subpath + filename + extension (ie: blog/post-1/amp/index.html)
      * - ugly: path + extension (ie: 404.html, sitemap.xml, robots.txt)
      * - path only (ie: _redirects)
-     * - l10n: language + path + suffix + extension (ie: fr/blog/page/index.html)
+     * - l10n: language + path + filename + extension (ie: fr/blog/page/index.html)
      *
      * @param string $format Output format (ie: html, amp, json, etc.)
      */
@@ -45,20 +45,20 @@ class Page
     {
         $path = $page->getPath();
         $subpath = (string) $this->config->getOutputFormatProperty($format, 'subpath');
-        $suffix = (string) $this->config->getOutputFormatProperty($format, 'suffix');
+        $filename = (string) $this->config->getOutputFormatProperty($format, 'filename');
         $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
         $uglyurl = (bool) $page->getVariable('uglyurl');
         $language = $page->getLanguage();
-        // if ugly URL: not suffix
+        // if ugly URL = no filename (e.g.: 404.html)
         if ($uglyurl) {
-            $suffix = '';
+            $filename = '';
         }
         // add extension
         if ($extension) {
             $extension = \sprintf('.%s', $extension);
         }
         // homepage special case: path = 'index'
-        if (empty($path) && empty($suffix)) {
+        if (empty($path) && empty($filename)) {
             $path = 'index';
         }
         // do not prefix URL for default language
@@ -66,7 +66,7 @@ class Page
             $language = '';
         }
 
-        return \Cecil\Util::joinPath($language, $path, $subpath, $suffix).$extension;
+        return \Cecil\Util::joinPath($language, $path, $subpath, $filename).$extension;
     }
 
     /**

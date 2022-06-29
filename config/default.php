@@ -37,14 +37,14 @@ return [
             -1 => [
                 'name'      => 'html',
                 'mediatype' => 'text/html',
-                'suffix'    => 'index',
+                'filename'  => 'index',
                 'extension' => 'html',
             ],
             // ie: blog/atom.xml
             -2 => [
                 'name'      => 'atom',
                 'mediatype' => 'application/atom+xml',
-                'suffix'    => 'atom',
+                'filename'  => 'atom',
                 'extension' => 'xml',
                 'exclude'   => ['redirect', 'paginated'],
             ],
@@ -52,7 +52,7 @@ return [
             -3 => [
                 'name'      => 'rss',
                 'mediatype' => 'application/rss+xml',
-                'suffix'    => 'rss',
+                'filename'  => 'rss',
                 'extension' => 'xml',
                 'exclude'   => ['redirect', 'paginated'],
             ],
@@ -82,7 +82,7 @@ return [
                 'name'      => 'amp',
                 'mediatype' => 'text/html',
                 'subpath'   => 'amp',
-                'suffix'    => 'index',
+                'filename'  => 'index',
                 'extension' => 'html',
             ],
             // ie: sw.js
