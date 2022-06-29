@@ -379,7 +379,7 @@ virtualpages:
 
 ### output
 
-Defines where and how files are generated.
+Defines where and in what format(s) content is rendered.
 
 #### dir
 
@@ -392,23 +392,27 @@ output:
 
 #### formats
 
-List of output formats.
+List of output formats. _output formats_ means in which formats the content is rendered (HTML, JSON, XML, RSS, etc.).
 
 ```yaml
 output:
   formats:
     <name>:
-      name: <name>            # name of the format (e.g.: `html`)
-      mediatype: <media type> # media type (MIME). ie: 'text/html'
-      subpath: <sub path>     # sub path (e.g.: `/amp` in `path/amp/index.html`)
-      suffix: <suffix>        # file name (e.g.: `/index` in `path/index.html`)
-      extension: <extension>  # file extension (e.g.: `html` in `path/index.html`)
-      exclude: [<variable>]   # don’t apply this format to pages identified by listed variables (e.g.: `[redirect]`)
+      name: <name>            # name of the format, e.g.: `html` (required)
+      mediatype: <media type> # media type (MIME), ie: 'text/html' (optional)
+      subpath: <sub path>     # sub path, e.g.: `/amp` in `path/amp/index.html` (optional)
+      filename: <filename>    # file name, e.g.: `/index` in `path/index.html` (optional)
+      extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
+      exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect]` (optional)
 ```
+
+Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).
 
 #### pagetypeformats
 
-Array of generated output formats for each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
+Array of output formats by each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
+
+```yaml
 
 ```yaml
 output:
@@ -420,6 +424,8 @@ output:
     term: [<format>]
 ```
 
+Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendred in HTML and RSS.
+
 _Example:_
 
 ```yaml
@@ -428,19 +434,19 @@ output:
   formats:
     - name: html
       mediatype: text/html
-      suffix: index
+      filename: index
       extension: html
     - name: rss
       mediatype: application/rss+xml
-      suffix: rss
+      filename: rss
       extension: xml
       exclude: [redirect, paginated]
   pagetypeformats:
     page: [html]
-    homepage: [html, rss]
-    section: [html, rss]
+    homepage: [html, atom]
+    section: [html, atom]
     vocabulary: [html]
-    term: [html, rss]
+    term: [html, atom]
 ```
 
 ### paths

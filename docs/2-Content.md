@@ -500,6 +500,18 @@ alias:
 
 In the previous example `contact/` redirects to `about/`.
 
+### output
+
+Defines the output (rendred) format(s). See [`formats` configuration](4-Configuration.md#formats) for details.
+
+_Example:_
+
+```yaml
+---
+output: [html, rss]
+---
+```
+
 ### external
 
 A _Page_ with an `external` variable try to fetch the content of the pointed resource.
