@@ -192,7 +192,7 @@ class Parsedown extends \ParsedownToC
                     $video['element']['attributes']['poster'] = new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
                 }
                 $block = $video;
-            }
+        }
 
         /*
         <!-- if image has a title: a <figure> is required for <figcaption> -->
