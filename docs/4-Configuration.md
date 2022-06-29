@@ -392,16 +392,15 @@ output:
 
 #### formats
 
-List of output formats. _output formats_ means in which formats the content is rendered (HTML, JSON, XML, RSS, etc.).
+List of output formats. _output formats_ means in which formats the content is rendered (HTML, JSON, XML, RSS, Atom, etc.).
 
 ```yaml
 output:
   formats:
-    <name>:
-      name: <name>            # name of the format, e.g.: `html` (required)
+    - name: <name>            # name of the format, e.g.: `html` (required)
       mediatype: <media type> # media type (MIME), ie: 'text/html' (optional)
-      subpath: <sub path>     # sub path, e.g.: `/amp` in `path/amp/index.html` (optional)
-      filename: <filename>    # file name, e.g.: `/index` in `path/index.html` (optional)
+      subpath: <sub path>     # sub path, e.g.: `amp` in `path/amp/index.html` (optional)
+      filename: <filename>    # file name, e.g.: `index` in `path/index.html` (optional)
       extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
       exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect]` (optional)
 ```
@@ -424,7 +423,7 @@ output:
     term: [<format>]
 ```
 
-Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendred in HTML and RSS.
+Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendred in HTML and Atom.
 
 _Example:_
 

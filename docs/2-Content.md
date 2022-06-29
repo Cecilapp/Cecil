@@ -508,7 +508,7 @@ _Example:_
 
 ```yaml
 ---
-output: [html, rss]
+output: [html, atom]
 ---
 ```
 
