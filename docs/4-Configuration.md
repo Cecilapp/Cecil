@@ -325,7 +325,7 @@ theme:
 ```
 
 :::info
-**Info:** See [themes on GitHub](https://github.com/Cecilapp?q=theme) or website [themes section](https://cecil.app/themes/).
+**Info:** See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or website [themes section](https://cecil.app/themes/).
 :::
 
 ### pagination
