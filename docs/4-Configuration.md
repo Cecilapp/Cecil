@@ -392,7 +392,8 @@ output:
 
 #### formats
 
-List of output formats. _output formats_ means in which formats the content is rendered (HTML, JSON, XML, RSS, Atom, etc.).
+List of output formats.  
+That means in which formats the content is rendered (e.g. HTML, JSON, XML, RSS, Atom, etc.).
 
 ```yaml
 output:

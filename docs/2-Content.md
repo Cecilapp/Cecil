@@ -502,7 +502,7 @@ In the previous example `contact/` redirects to `about/`.
 
 ### output
 
-Defines the output (rendred) format(s). See [`formats` configuration](4-Configuration.md#formats) for details.
+Defines the output (rendred) format(s). See [`formats` configuration](4-Configuration.md#formats) for more details.
 
 _Example:_
 
