@@ -40,13 +40,15 @@ Templates files are stored in `layouts/`.
 
 Cecil searches for the best layout to use, for a given _Page_, in a defined order.
 
-In most of cases **you don’t need to specify the template** in the `layout` variable: Cecil selects the most appropriate template for you.
+In most of cases **you don’t need to specify the template** with the `layout` variable: Cecil selects the most appropriate template for you.
 
-**Lexique:**
+:::info
+**Glossary:**
 
 - `<format>`: output format (e.g.: `html`)
 - `<layout>`: value of variable `layout` set in front matter (e.g.: `layout: post`)
 - `<section>`: page’s _Section_ (e.g.: `blog`)
+:::
 
 ### _homepage_
 
