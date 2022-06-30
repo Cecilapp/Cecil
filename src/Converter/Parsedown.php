@@ -298,16 +298,21 @@ class Parsedown extends \ParsedownToC
     protected function blockNote($block)
     {
         if (preg_match('/:::(.*)/', $block['text'], $matches)) {
-            return [
+            $block = [
                 'char'    => ':',
                 'element' => [
                     'name'       => 'aside',
                     'text'       => '',
                     'attributes' => [
-                        'class' => "note note-{$matches[1]}",
+                        'class' => 'note',
                     ],
                 ],
             ];
+            if (!empty($matches[1])) {
+                $block['element']['attributes']['class'] .= " note-{$matches[1]}";
+            }
+
+            return $block;
         }
     }
 
