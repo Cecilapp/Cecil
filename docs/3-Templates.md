@@ -42,7 +42,7 @@ Cecil searches for the best layout to use, for a given _Page_, in a defined orde
 
 In most of cases **you don’t need to specify the template** with the `layout` variable: Cecil selects the most appropriate template for you.
 
-:::info
+:::
 **Glossary:**
 
 - `<format>`: output format (e.g.: `html`)
