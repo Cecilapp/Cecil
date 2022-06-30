@@ -126,7 +126,7 @@ menus:
     - id: <unique_id> # unique identifier (required)
       name: "<name>"  # name used in templates
       url: <url>      # relative or absolute URL
-      weight: <XX>    # used to sort entries (lighter first)
+      weight: <int>   # integer value used to sort entries (lighter first)
 ```
 
 By default a `main` menu is created and contains the home page and sections entries.
@@ -213,15 +213,15 @@ title: "Page or site title"
 description: "Page or site description"
 keywords: [keyword1, keyword2] # use `tags` key in page front matter
 author: "Author name"
-image: image.jpg
+image: image.jpg # used by OpenGraph and Twitter Card
 social:
   twitter:
-    site: @username
-    creator: @username
+    site: username
+    creator: username
   facebook:
     id: 123456789
-    firstname: "Firstname"
-    lastname: "Lastname"
+    firstname: Firstname
+    lastname: Lastname
     username: username
 ```
 
@@ -261,7 +261,7 @@ metatags:
 Main language, defined by its code.
 
 ```yaml
-language: en # `en` by default
+language: <language code> # ISO 639-1 code (`en` by default)
 ```
 
 ### languages
@@ -270,12 +270,16 @@ List of available languages, used for [content](2-Content.md#multilingual) and [
 
 ```yaml
 languages:
-  - code: <code>     # language unique code
-    name: <name>     # human readable name of the language
-    locale: <locale> # locale code of the language
+  - code: <code>     # unique code (ISO 639-1)
+    name: <name>     # human readable name
+    locale: <locale> # locale code (`language_COUNTRY`, e.g. `en_US`)
 ```
 
-#### Localize configuration variables 
+:::info
+**Info:** A list of [locales code](configuration/locale-codes.md) is avalaible.
+:::
+
+#### Localize configuration variables
 
 To localize configuration variables you must store them under the `config` key.
 
@@ -294,10 +298,6 @@ languages:
       title: "Cecil en français"
 ```
 
-:::info
-**Info:** A list of [locales code](configuration/locale-codes.md) is avalaible.
-:::
-
 ### theme
 
 The theme name or an array of themes name.
@@ -308,7 +308,9 @@ theme:
   - <theme2>
 ```
 
-The first theme overrides the others, and so on.
+:::info
+**Info:** The first theme overrides the others, and so on.
+:::
 
 _Examples:_
 
@@ -323,7 +325,7 @@ theme:
 ```
 
 :::info
-**Info:** See [officials themes on GitHub](https://github.com/Cecilapp?q=theme) or in the [Themes section](https://cecil.app/themes/).
+**Info:** See [themes on GitHub](https://github.com/Cecilapp?q=theme) or website [themes section](https://cecil.app/themes/).
 :::
 
 ### pagination
@@ -332,16 +334,16 @@ Pagination is available for list pages (_type_ is `homepage`, `section` or `term
 
 ```yaml
 pagination:
-  max: 10      # maximum number of entries per page (`5` by default)
-  path: "page" # path to the paginated page (`page` by default)
+  max: <int>   # maximum number of entries per page (`5` by default)
+  path: <path> # path to the paginated page (`page` by default)
 ```
 
 _Example:_
 
 ```yaml
 pagination:
-  max: 5
-  path: "p"
+  max: 10
+  path: page
 ```
 
 #### Disable pagination
@@ -361,13 +363,13 @@ pagination:
 googleanalytics: UA-XXXXX
 ```
 
-Used by the built-in partial template [`googleanalytics.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig).
+The _Universal Analytics_ ID is used by the built-in partial template [`googleanalytics.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig).
 
 ### virtualpages
 
 Virtual pages is the best way to create pages without content (**front matter only**).
 
-It consists of a list of pages with a `path` and front matter variables.
+It consists of a list of pages with a `path` and some front matter variables.
 
 _Example:_
 
@@ -392,8 +394,7 @@ output:
 
 #### formats
 
-List of output formats.  
-That means in which formats the content is rendered (e.g. HTML, JSON, XML, RSS, Atom, etc.).
+List of output formats, in which of them pages’ content is rendered (e.g. HTML, JSON, XML, RSS, Atom, etc.).
 
 ```yaml
 output:
@@ -407,6 +408,10 @@ output:
 ```
 
 Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).
+
+:::info
+**Info:** To render a page, [Cecil searches a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
+:::
 
 #### pagetypeformats
 
@@ -451,7 +456,7 @@ output:
 
 ### paths
 
-Define a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
+Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
 
 ```yaml
 paths:
@@ -472,7 +477,7 @@ _Example:_
 ```yaml
 paths:
   - section: Blog
-    path: :section/:year/:month/:day/:slug/
+    path: :section/:year/:month/:day/:slug/ # e.g.: blog/2020/12/01/my-post/
 ```
 
 ### debug
@@ -480,7 +485,7 @@ paths:
 Enables the _debug mode_, used to display debug information like Twig dump, Twig profiler, SCSS sourcemap, etc.
 
 ```yaml
-debug: true
+debug: <true|false>
 ```
 
 There is 2 others way to enable the _debug mode_:
@@ -490,7 +495,7 @@ There is 2 others way to enable the _debug mode_:
 
 ## Default values
 
-The configuration website (`config.yml`) overrides the [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php#L11).
+The configuration website (`config.yml`) overrides the [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php#).
 
 ### defaultpages
 
@@ -509,30 +514,30 @@ Default pages are pages created automatically by Cecil, from built-in templates:
 defaultpages:
   index:
     path: ''
-    title: 'Home'
+    title: Home
     published: true
   404:
-    path: '404'
-    title: 'Page not found'
-    layout: '404'
+    path: 404
+    title: Page not found
+    layout: 404
     uglyurl: true
     published: true
     exclude: true
   robots:
     path: robots
-    title: 'Robots.txt'
-    layout: 'robots'
-    output: 'txt'
+    title: Robots.txt
+    layout: robots
+    output: txt
     published: true
     exclude: true
     multilingual: false
   sitemap:
     path: sitemap
-    title: 'XML sitemap'
-    layout: 'sitemap'
-    output: 'xml'
-    changefreq: 'monthly'
-    priority: '0.5'
+    title: XML sitemap
+    layout: sitemap
+    output: xml
+    changefreq: monthly
+    priority: 0.5
     published: true
     exclude: true
     multilingual: false
@@ -546,7 +551,7 @@ Each one can be:
 
 ### content
 
-Where pages’ content files are stored and loaded file extensions (Markdown and plain text files).
+Where pages’ content files (Markdown or plain text) are stored.
 
 ```yaml
 content:
