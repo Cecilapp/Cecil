@@ -156,7 +156,15 @@ return [
         ],
         'atom' => [
             'path'      => 'atom',
-            'layout'    => 'atom',
+            'layout'    => 'feed',
+            'output'    => 'xslt',
+            'uglyurl'   => true,
+            'published' => true,
+            'exclude'   => true,
+        ],
+        'rss' => [
+            'path'      => 'rss',
+            'layout'    => 'feed',
             'output'    => 'xslt',
             'uglyurl'   => true,
             'published' => true,
