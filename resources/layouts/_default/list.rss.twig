@@ -2,19 +2,21 @@
 
 {% block feed %}
 <?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="{{ url('rss.xsl') }}" media="all"?>
 <rss version="2.0">
   <channel>
     <title>{{ title|e }}</title>
     <description><![CDATA[{{ site.description }}]]></description>
     <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
-    <link>{{ url(page, {canonical: true}) }}</link>
+    <link href="{{ url(page, {canonical: true, format: 'rss'}) }}" rel="self" type="application/rss+xml" />
+    <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
     {%- for p in pages|sort_by_date ~%}
     <item>
       <guid>{{ url(p, {canonical: true}) }}</guid>
       <title>{{ p.title|e }}</title>
       <description><![CDATA[{{ p.content }}]]></description>
       <pubDate>{{ p.date|date('c') }}</pubDate>
-      <link>{{ url(p, {canonical: true}) }}</link>
+      <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
     </item>
     {%- endfor ~%}
   </channel>
