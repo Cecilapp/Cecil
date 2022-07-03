@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.103.2...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.103.3...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -46,6 +46,19 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.103.3](https://github.com/Cecilapp/Cecil/compare/5.103.2...5.103.3)
+
+> 1 July 2022
+
+- fix: Markdown Note block CSS class [`#1416`](https://github.com/Cecilapp/Cecil/pull/1416)
+- docs: update of configuration [`ed22610`](https://github.com/Cecilapp/Cecil/commit/ed226105721ececac9492590424142a593b82b31)
+- docs: minor updates [`ed4ceb8`](https://github.com/Cecilapp/Cecil/commit/ed4ceb8650fba1aa3d6486afda8ab15843bfd5b7)
+- docs: minor update [`8580ccf`](https://github.com/Cecilapp/Cecil/commit/8580ccf051f6a6acda1c63fbcbcf895745452e33)
+- docs: minor update of templates [`66c6df7`](https://github.com/Cecilapp/Cecil/commit/66c6df7324b60911bf04b634ede97288f0d1c875)
+- docs: minor updates [`19ad91c`](https://github.com/Cecilapp/Cecil/commit/19ad91c8b14aed1de578f6b20190ee31bd7d9d3b)
+- docs: minor update [`82ec6c3`](https://github.com/Cecilapp/Cecil/commit/82ec6c340b4672fe2f3770d76df2d1d64fc13e2f)
+- docs: fix themes link [`afd1295`](https://github.com/Cecilapp/Cecil/commit/afd1295982443096288e137d616948ce1464bb63)
 
 #### [5.103.2](https://github.com/Cecilapp/Cecil/compare/5.103.1...5.103.2)
 
