@@ -154,7 +154,7 @@ return [
             'exclude'      => true,
             'multilingual' => false,
         ],
-        'xslt' => [
+        'atom' => [
             'path'      => 'atom',
             'layout'    => 'atom',
             'output'    => 'xslt',

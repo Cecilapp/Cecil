@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2022-06-20
+updated: 2022-07-03
 -->
 
 # Configuration
@@ -29,7 +29,7 @@ language: en
 Main title of the site.
 
 ```yaml
-title: "<title>"
+title: "<site title>"
 ```
 
 ### baseline
@@ -45,7 +45,7 @@ baseline: "<baseline>"
 The base URL.
 
 ```yaml
-baseurl: <baseurl>
+baseurl: <url>
 ```
 
 _Example:_
@@ -63,7 +63,7 @@ baseurl: http://localhost:8000/
 If set to `true` the [`url()`](3-Templates.md#url) function will return the absolute URL (`false` by default).
 
 ```yaml
-canonicalurl: false
+canonicalurl: <bool> # false by default
 ```
 
 ### description
@@ -123,8 +123,8 @@ A menu is made up of a unique name and entry’s properties.
 ```yaml
 menus:
   <name>:
-    - id: <unique_id> # unique identifier (required)
-      name: "<name>"  # name used in templates
+    - id: <unique id> # unique identifier (required)
+      name: "<name>"  # name usable in templates
       url: <url>      # relative or absolute URL
       weight: <int>   # integer value used to sort entries (lighter first)
 ```
@@ -389,7 +389,7 @@ Directory where rendered pages’ files are saved.
 
 ```yaml
 output:
-  dir: _site # `_site` by default
+  dir: <directory> # `_site` by default
 ```
 
 #### formats
@@ -416,8 +416,6 @@ Those formats are used by `pagetypeformats` (see below) and by the [`output` pag
 #### pagetypeformats
 
 Array of output formats by each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
-
-```yaml
 
 ```yaml
 output:
@@ -541,6 +539,13 @@ defaultpages:
     published: true
     exclude: true
     multilingual: false
+  atom:
+    path: atom
+    layout: atom
+    output: xslt
+    uglyurl: true
+    published: true
+    exclude: true
 ```
 
 Each one can be:
@@ -575,25 +580,25 @@ Pages’ content format and converter’s options.
 
 ```yaml
 body:
-  format: md             # page body format (only Markdown is supported)
-  toc: [h2, h3]          # headers used to build the table of contents
+  format: md         # page body format (only Markdown is supported)
+  toc: [h2, h3]      # headers used to build the table of contents
   highlight:
-    enabled: false       # enables code syntax highlighting (`false` by default)
-  images:                # how to handle images
+    enabled: false   # enables code syntax highlighting (`false` by default)
+  images:            # how to handle images
     lazy:
-      enabled: true      # adds `loading="lazy"` attribute (`true` by default)
+      enabled: true  # adds `loading="lazy"` attribute (`true` by default)
     resize:
-      enabled: false     # enables image resizing by using the `width` extra attribute (`false` by default)
+      enabled: false # enables image resizing by using the `width` extra attribute (`false` by default)
     responsive:
-      enabled: false     # creates responsive images and add them to the `srcset` attribute (`false` by default)
+      enabled: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
     webp:
-      enabled: false     # adds a WebP image as a `source` (`false` by default)
+      enabled: false # adds a WebP image as a `source` (`false` by default)
     caption:
-      enabled: true      # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+      enabled: true  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
     remote:
-      enabled: true      # enables remote image handling (`true` by default)
+      enabled: true  # enables remote image handling (`true` by default)
   notes:
-    enabled: false       # turns remote images to Asset to handling them (`true` by default)
+    enabled: false   # turns remote images to Asset to handling them (`true` by default)
 ```
 
 To know how those options impacts your content see _[Content > Page > Markdown](2-Content.md#markdown)_ documentation.
@@ -731,8 +736,8 @@ cache:
   dir: '.cache' # cache directory
   enabled: true # enables cache
   templates:    # Twig templates cache
-    dir: templates
-    enabled: true
+    dir: templates # templates cache directory
+    enabled: true  # enables templates cache
   assets:       # Assets cache
     dir: 'assets/remote' # the subdirectory of remote assets cache
 ```
