@@ -132,7 +132,7 @@ class Builder implements LoggerAwareInterface
         $startTime = microtime(true);
 
         // checks baseurl
-        if ($this->config->has('baseurl') && empty(trim((string) $this->config->get('baseurl'), '/'))) {
+        if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
             $this->getLogger()->error("The 'baseurl' configuration key is required in production (e.g.: 'baseurl: https://example.com/').");
         }
 
