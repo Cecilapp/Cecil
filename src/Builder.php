@@ -130,6 +130,12 @@ class Builder implements LoggerAwareInterface
     {
         // set start script time
         $startTime = microtime(true);
+
+        // checks baseurl
+        if ($this->config->has('baseurl') && empty(trim((string) $this->config->get('baseurl'), '/'))) {
+            $this->getLogger()->error("The 'baseurl' configuration key is required in production (e.g.: 'baseurl: https://example.com/').");
+        }
+
         // prepare options
         $this->options = array_merge([
             'drafts'  => false, // build drafts or not
@@ -174,10 +180,6 @@ class Builder implements LoggerAwareInterface
     {
         if (!$config instanceof Config) {
             $config = new Config($config);
-        }
-        // checks baseurl
-        if (empty(trim((string) $config->get('baseurl'), '/'))) {
-            $this->getLogger()->error("The 'baseurl' configuration key is required in production (e.g.: 'baseurl: https://example.com/').");
         }
         if ($this->config !== $config) {
             $this->config = $config;

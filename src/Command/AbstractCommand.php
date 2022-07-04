@@ -49,6 +49,9 @@ class AbstractCommand extends Command
     /** @var array */
     protected $configFiles;
 
+    /** @var array */
+    protected $config;
+
     /** @var Builder */
     protected $builder;
 
@@ -145,18 +148,23 @@ class AbstractCommand extends Command
     protected function getBuilder(array $config = []): Builder
     {
         try {
-            $siteConfig = [];
-            foreach ($this->getConfigFiles() as $fileName => $filePath) {
-                if ($filePath === false || false === $configContent = Util\File::fileGetContents($filePath)) {
-                    throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
+            // config
+            if ($this->config === null) {
+                $siteConfig = [];
+                foreach ($this->getConfigFiles() as $fileName => $filePath) {
+                    if ($filePath === false || false === $configContent = Util\File::fileGetContents($filePath)) {
+                        throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
+                    }
+                    $siteConfig = array_replace_recursive($siteConfig, Yaml::parse($configContent));
                 }
-                $siteConfig = array_replace_recursive($siteConfig, Yaml::parse($configContent));
+                $this->config = array_replace_recursive($siteConfig, $config);
             }
-            $config = array_replace_recursive($siteConfig, $config);
-
-            $this->builder = (new Builder($config, new ConsoleLogger($this->output)))
-                ->setSourceDir($this->getPath())
-                ->setDestinationDir($this->getPath());
+            // builder
+            if ($this->builder === null) {
+                $this->builder = (new Builder($this->config, new ConsoleLogger($this->output)))
+                    ->setSourceDir($this->getPath())
+                    ->setDestinationDir($this->getPath());
+            }
         } catch (ParseException $e) {
             throw new RuntimeException(\sprintf('Configuration parsing error: %s', $e->getMessage()));
         } catch (\Exception $e) {
