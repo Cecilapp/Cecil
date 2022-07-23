@@ -105,7 +105,8 @@ class Copy extends AbstractStep
         if (Util\File::getFS()->exists($from)) {
             $finder = Finder::create()
                 ->files()
-                ->in($from);
+                ->in($from)
+                ->ignoreDotFiles(false);
             if (is_array($exclude)) {
                 $finder->notPath($exclude);
                 $finder->notName($exclude);
