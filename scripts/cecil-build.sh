@@ -126,6 +126,7 @@ if [ -z "${URL}" ]; then
   CECIL_CMD_OPTIONS="${CECIL_CMD_OPTIONS} --baseurl=${URL}"
 fi
 if [ "$CONTEXT" = "production" ]; then
+  export CECIL_ENV="production"
   CECIL_CMD_OPTIONS=" -v ${CECIL_CMD_OPTIONS} --postprocess"
 else
   CECIL_CMD_OPTIONS=" -vv ${CECIL_CMD_OPTIONS} --drafts"
