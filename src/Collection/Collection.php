@@ -252,7 +252,7 @@ class Collection implements CollectionInterface
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->has((string) $offset);
     }
@@ -276,12 +276,12 @@ class Collection implements CollectionInterface
      * @param mixed         $offset
      * @param ItemInterface $value
      *
-     * @return CollectionInterface|ItemInterface|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        return $this->add($value);
+        $this->add($value);
     }
 
     /**
@@ -289,12 +289,12 @@ class Collection implements CollectionInterface
      *
      * @param string $offset
      *
-     * @return CollectionInterface|null
+     * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
-        return $this->remove($offset);
+        $this->remove($offset);
     }
 
     /**
