@@ -5,7 +5,6 @@ on:
     branches:
       - master
       - '6'
-      - 'php-7.4-8.x'
     paths-ignore:
       - 'docs/**'
       - '.github/**'
