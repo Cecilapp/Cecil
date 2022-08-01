@@ -45,7 +45,7 @@ class Site implements \ArrayAccess
      * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         // special cases
         switch ($offset) {
@@ -91,9 +91,11 @@ class Site implements \ArrayAccess
      *
      * @param mixed $offset
      * @param mixed $value
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
     }
 
@@ -101,9 +103,11 @@ class Site implements \ArrayAccess
      * Implements \ArrayAccess.
      *
      * @param mixed $offset
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
     }
 
