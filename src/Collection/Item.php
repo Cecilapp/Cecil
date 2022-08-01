@@ -48,7 +48,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      *
@@ -61,7 +61,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      *
@@ -74,7 +74,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      * @param mixed $value
@@ -86,7 +86,7 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      */

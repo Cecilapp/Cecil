@@ -58,7 +58,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      *
@@ -87,7 +87,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      * @param mixed $value
@@ -98,7 +98,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      */

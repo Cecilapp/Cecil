@@ -245,7 +245,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param string $offset
      *
@@ -258,7 +258,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param string $offset
      *
@@ -271,7 +271,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed         $offset
      * @param ItemInterface $value
@@ -285,7 +285,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param string $offset
      *
