@@ -1,6 +1,7 @@
 name: 'Tests suite'
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -118,15 +119,10 @@ jobs:
       run: |
         composer run-script code:style
 
-    - name: Run build test (from library)
+    - name: Run build test
       if: ${{ !matrix.coverage }}
       run: |
         composer run-script test
-
-    - name: Run build test (from phar)
-      if: ${{ !matrix.coverage }}
-      run: |
-        composer run-script test:phar
 
     - name: Run build test (coverage)
       if: ${{ matrix.coverage && !matrix.experimental }}
@@ -141,3 +137,8 @@ jobs:
       run: |
         composer run-script test:coverage:install
         composer run-script test:coverage:upload
+
+    - name: Build skeleton site from phar
+      if: ${{ !matrix.coverage }}
+      run: |
+        composer run-script test:phar
