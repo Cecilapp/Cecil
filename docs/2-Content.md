@@ -355,13 +355,13 @@ Cecil can generate audio and video HTML elements, based on the Markdown image ma
 _Example:_
 
 ```markdown
-![audio](/audio/test.mp3)
+![audio](/audio/test.mp3){controls}
 ```
 
 Is converted to:
 
 ```html
-<audio controls preload="none" src="/video/test.mp3"></audio>
+<audio src="/video/test.mp3" controls></audio>
 ```
 
 #### Video
@@ -369,13 +369,13 @@ Is converted to:
 _Example:_
 
 ```markdown
-![video](/video/test.mp4){poster=/images/video-test.png style="width:100%;"}
+![video](/video/test.mp4){controls poster=/images/video-test.png style="width:100%;"}
 ```
 
 Is converted to:
 
 ```html
-<video controls preload="none" src="/video/test.mp4" poster="/images/video-test.png" style="width:100%;"></video>
+<video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
 ```
 
 ## Variables
