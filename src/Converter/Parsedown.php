@@ -176,7 +176,7 @@ class Parsedown extends \ParsedownToC
                     'name'    => 'audio',
                     'handler' => 'element',
                 ];
-                $audio['element']['attributes'] = ['controls' => '', 'preload' => 'none'] + $block['element']['attributes'];
+                $audio['element']['attributes'] = $block['element']['attributes'];
                 unset($audio['element']['attributes']['loading']);
                 $block = $audio;
                 break;
@@ -186,7 +186,7 @@ class Parsedown extends \ParsedownToC
                     'name'       => 'video',
                     'handler'    => 'element',
                 ];
-                $video['element']['attributes'] = ['controls' => '', 'preload' => 'none'] + $block['element']['attributes'];
+                $video['element']['attributes'] = $block['element']['attributes'];
                 unset($video['element']['attributes']['loading']);
                 if (isset($block['element']['attributes']['poster'])) {
                     $video['element']['attributes']['poster'] = new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
