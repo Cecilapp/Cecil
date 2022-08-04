@@ -24,7 +24,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
     protected $iterator;
     protected $file;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->sourceDir = (__DIR__.'/fixtures/website');
         $this->destDir = $this->sourceDir;
@@ -32,7 +32,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
         $this->file = $this->createFile();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $fs = new Filesystem();
         $fs->remove($this->destDir.'/_site');

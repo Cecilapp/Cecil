@@ -50,7 +50,7 @@ mv cecil.phar /usr/local/bin/cecil
 chmod +x /usr/local/bin/cecil
 ```
 
-> [PHP](https://www.php.net) 7.1+ is required.
+> [PHP](https://www.php.net) 7.4+ is required.
 
 ## Usage
 

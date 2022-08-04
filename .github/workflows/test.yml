@@ -1,6 +1,7 @@
 name: 'Tests suite'
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -26,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        php: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        php: ['7.4', '8.0', '8.1']
         coverage: [false]
         experimental: [false]
         exclude:
@@ -40,7 +41,7 @@ jobs:
           coverage: true
           experimental: false
         - os: 'ubuntu-latest'
-          php: '8.1'
+          php: '8.2'
           coverage: false
           experimental: true
 
@@ -110,15 +111,18 @@ jobs:
       run: |
         composer install --prefer-dist --no-progress
 
-    - name: Run analyse
+    - name: Run code analyse
       run: |
         composer run-script code:analyse
+
+    - name: Run code style checker
+      run: |
+        composer run-script code:style
 
     - name: Run build test
       if: ${{ !matrix.coverage }}
       run: |
         composer run-script test
-        composer run-script test:phar
 
     - name: Run build test (coverage)
       if: ${{ matrix.coverage && !matrix.experimental }}
@@ -133,3 +137,8 @@ jobs:
       run: |
         composer run-script test:coverage:install
         composer run-script test:coverage:upload
+
+    - name: Build skeleton site from phar
+      if: ${{ !matrix.coverage }}
+      run: |
+        composer run-script test:phar
