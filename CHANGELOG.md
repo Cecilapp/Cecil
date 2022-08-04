@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.0.0-beta.7](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.6...6.0.0-beta.7)
+
+> 4 August 2022
+
+- fix: default media attributes [`#1429`](https://github.com/Cecilapp/Cecil/pull/1429)
+- chore: update test workflow [`b8c9204`](https://github.com/Cecilapp/Cecil/commit/b8c92046e3cb7bce8c2a15ec8787f8063d6b42a1)
+- chore: enhances tests [`22b15a6`](https://github.com/Cecilapp/Cecil/commit/22b15a6f11e3ee87e7a4e0c5b93cb50dd426d0e9)
+- chore: update PHP supported versions [`8ca511d`](https://github.com/Cecilapp/Cecil/commit/8ca511d30e83a5c3cea7266ac3510cbf81c0df61)
+- fix: explicit PHP supported versions [`9dce81f`](https://github.com/Cecilapp/Cecil/commit/9dce81f20b2159b2cf3a2a5f2cf4cc02612b4245)
+- fix set PHP min version of the build script [`1549fe7`](https://github.com/Cecilapp/Cecil/commit/1549fe7bf8d220ffc8107f9166a3c1f2fd520b35)
+- chore: set explicit PHP supported versions [`1c25d96`](https://github.com/Cecilapp/Cecil/commit/1c25d96fc8c9cfffd17fe03a003da47ad071d58d)
+
 #### [6.0.0-beta.6](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.5...6.0.0-beta.6)
 
 > 2 August 2022
@@ -257,7 +269,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`5be08b0`](https://github.com/Cecilapp/Cecil/commit/5be08b0102f411e4ebd695c7cb9f058196c8b2b0)
 - chore: add debug messages [`f64918d`](https://github.com/Cecilapp/Cecil/commit/f64918d78cd08fbc636762b29c4e6816f4a8fc0f)
 
-#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.104.2...6.0.0-beta.1)
+#### [6.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/5.104.3...6.0.0-beta.1)
 
 > 21 December 2021
 
@@ -269,6 +281,16 @@ All notable changes to this project will be documented in this file. Dates are d
 - Composer require PHP 7.4+ [`7fe4ce6`](https://github.com/Cecilapp/Cecil/commit/7fe4ce6dc6bef570060f89e2a00312fbdd032ccf)
 - test: ignore empty extracted variables [`ce929a4`](https://github.com/Cecilapp/Cecil/commit/ce929a4dd3b255abac132b95f2159af38fa21b62)
 - test: drop PHP 7.1, 7.2 and 7.3 [`94064ed`](https://github.com/Cecilapp/Cecil/commit/94064eda4dd19d16e875c205aee3b22de7b1ae27)
+
+#### [5.104.3](https://github.com/Cecilapp/Cecil/compare/5.104.2...5.104.3)
+
+> 4 August 2022
+
+- fix: default media attributes [`#1429`](https://github.com/Cecilapp/Cecil/pull/1429)
+- chore: update deps [`5160ad9`](https://github.com/Cecilapp/Cecil/commit/5160ad9fb507fde33f71ea927fe2c16fd1dba9fc)
+- chore: update deps [`bd27966`](https://github.com/Cecilapp/Cecil/commit/bd2796673040ae7bbb83ccbc0e0f109e2082b5ba)
+- Test PHP 8.1 [`4ec5870`](https://github.com/Cecilapp/Cecil/commit/4ec5870b26c95f41cc68fb662255c8137a1c65ac)
+- fix: explicit PHP supported versions [`9dce81f`](https://github.com/Cecilapp/Cecil/commit/9dce81f20b2159b2cf3a2a5f2cf4cc02612b4245)
 
 #### [5.104.2](https://github.com/Cecilapp/Cecil/compare/5.104.1...5.104.2)
 
