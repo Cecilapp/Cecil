@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.0.0](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.7...6.0.0)
+
+> 4 August 2022
+
+- PHP 8 compatibility [`#1428`](https://github.com/Cecilapp/Cecil/pull/1428)
+
 #### [6.0.0-beta.7](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.6...6.0.0-beta.7)
 
 > 4 August 2022
