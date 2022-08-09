@@ -751,7 +751,9 @@ cache:
 
 ### generators
 
-Generators creates pages automictically (sitemap, feed, pagination, etc.) in a definite order:
+Generators are used by Cecil to create new pages (e.g.: sitemap, feed, pagination, etc.) from existing pages or from other sources, like configuration file or external sources.
+
+List of generators provided by Cecil, in a defined order:
 
 ```yaml
 generators:
@@ -764,6 +766,30 @@ generators:
   70: 'Cecil\Generator\Pagination'
   80: 'Cecil\Generator\Alias'
   90: 'Cecil\Generator\Redirect'
+```
+
+#### Custom generator
+
+It is possible to add a new generator, just add it to the list above, and create a new class in the `Cecil\Generator` namespace.
+
+**Example:**
+
+_/generators/Cecil/Generator/MyGenerator.php_
+
+```php
+<?php
+namespace Cecil\Generator;
+
+class MyGenerator extends AbstractGenerator implements GeneratorInterface
+{
+    public function generate(): void
+    {
+        // create a new page $newPage here, then add it to the site collection
+
+        $this->generatedPages->add($newPage);
+    }
+}
+
 ```
 
 ## Alternative to config file
