@@ -780,13 +780,27 @@ _/generators/Cecil/Generator/MyGenerator.php_
 <?php
 namespace Cecil\Generator;
 
+use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Type;
+
 class MyGenerator extends AbstractGenerator implements GeneratorInterface
 {
     public function generate(): void
     {
-        // create a new page $newPage here, then add it to the site collection
+        // create a new page $page, then add it to the site collection
 
-        $this->generatedPages->add($newPage);
+        $page = (new Page('my-page'))
+          ->setPath('mypage')
+          ->setType(Type::PAGE)
+          ->setLanguage('en')
+          ->setTitle('My page')
+          ->setBodyHtml('<p>My page body</p>')
+          ->setVariable('date', now())
+          ->setVariable('menu', [
+            'main' => ['weight' => 99],
+          ]);
+
+        $this->generatedPages->add($page);
     }
 }
 
