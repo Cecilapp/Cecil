@@ -27,7 +27,7 @@ if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.
   git clone --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
   cd $TARGET_BRANCH
   git checkout --orphan $TARGET_BRANCH
-  echo "Deploy from $GITHUB_REPOSITORY/$TARGET_BRANCH/$SOURCE_DOCS_DIR" > README.md
+  echo "Deploy from https://github.com/$GITHUB_REPOSITORY/tree/$TARGET_BRANCH/$SOURCE_DOCS_DIR." > README.md
   git add README.md
   git commit -a -m "Create '$TARGET_BRANCH' branch"
   git push origin $TARGET_BRANCH
