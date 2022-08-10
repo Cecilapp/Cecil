@@ -78,8 +78,8 @@ To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true
 
 ```plaintext
 File:
-                 pages/my-projects/project-1.md
-                      └───── filepath ──────┘
+                   pages/my-projects/project-1.md
+                        └───── filepath ──────┘
 URL:
     ┌───── baseurl ─────┬─────── path ────────┐
      https://example.com/my-projects/project-1/index.html
