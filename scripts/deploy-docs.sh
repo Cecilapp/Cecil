@@ -22,9 +22,9 @@ cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR
 cd $HOME
 git config --global user.name "${USER_NAME}"
 git config --global user.email "${USER_EMAIL}"
-if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO})" ]; then
+if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_BRANCH})" ]; then
   echo "Create branch '${TARGET_BRANCH}'"
-  git clone --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_REPO > /dev/null
+  git clone --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
   cd $TARGET_BRANCH
   git checkout --orphan $TARGET_BRANCH
   git rm -rf .
@@ -35,7 +35,7 @@ if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.
   cd ..
 else
   echo "Clone branch '${TARGET_BRANCH}'"
-  git clone --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_REPO > /dev/null
+  git clone --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
 fi
 
 cd $TARGET_REPO
