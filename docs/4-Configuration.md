@@ -561,18 +561,18 @@ Each one can be:
 2. excluded from list pages: `exclude: true`
 3. excluded from localization: `multilingual: false`
 
-### content
+### pages
 
-Where pages’ content files (Markdown or plain text) are stored.
+Where pages’ files (Markdown or plain text) are stored.
 
 ```yaml
-content:
-  dir: content                                     # content directory
-  ext: [md, markdown, mdown, mkdn, mkd, text, txt] # array of content files extensions
+pages:
+  dir: content                                     # pages directory
+  ext: [md, markdown, mdown, mkdn, mkd, text, txt] # array of pages files extensions
   exclude: [vendor, node_modules]                  # array of directories, paths and files name to exclude (accepts globs, strings and regexes)
 ```
 
-### frontmatter
+#### frontmatter
 
 Pages’ variables format (YAML by default).
 
@@ -581,7 +581,7 @@ frontmatter:
   format: yaml # front matter format (`yaml` by default)
 ```
 
-### body
+#### body
 
 Pages’ content format and converter’s options.
 

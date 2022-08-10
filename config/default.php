@@ -172,9 +172,9 @@ return [
         ],
     ],
     // Markdown files
-    'content' => [
-        'dir'     => 'content', // content directory
-        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // array of content files extensions
+    'pages' => [
+        'dir'     => 'pages', // pages directory (previously "content")
+        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // array of files extensions
         'exclude' => ['vendor', 'node_modules'], // array of directories, paths and files name to exclude
     ],
     'frontmatter' => [

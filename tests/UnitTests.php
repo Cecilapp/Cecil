@@ -42,14 +42,14 @@ class UnitTests extends \PHPUnit\Framework\TestCase
     {
         return Finder::create()
             ->files()
-            ->in(__DIR__.'/fixtures/content')
+            ->in(__DIR__.'/fixtures/pages')
             ->name('*.md');
     }
 
     public function createFile()
     {
         return new SplFileInfo(
-            __DIR__.'/fixtures/content/Section1/Page1.md',
+            __DIR__.'/fixtures/pages/Section1/Page1.md',
             'Section1',
             'Section1/Page1.md'
         );
@@ -81,7 +81,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testParsePage()
     {
-        $preParsedPath = __DIR__.'/fixtures/content_parsed/Page1.md';
+        $preParsedPath = __DIR__.'/fixtures/pages_parsed/Page1.md';
         $parsed = (new Page($this->file))->parse();
         $this->assertStringEqualsFile(\sprintf("$preParsedPath/%s", 'frontmatter.yaml'), $parsed->getFrontmatter());
         $this->assertStringEqualsFile(\sprintf("$preParsedPath/%s", 'body.md'), $parsed->getBody());

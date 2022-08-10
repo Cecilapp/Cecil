@@ -74,7 +74,7 @@ class NewPage extends AbstractCommand
             // path
             $fileRelativePath = \sprintf(
                 '%s%s%s%s%s.md',
-                (string) $this->getBuilder()->getConfig()->get('content.dir'),
+                (string) $this->getBuilder()->getConfig()->get('pages.dir'),
                 DIRECTORY_SEPARATOR,
                 empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR,
                 $datePrefix,

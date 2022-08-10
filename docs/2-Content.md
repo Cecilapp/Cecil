@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-06-20
+updated: 2022-08-10
 -->
 
 # Content
@@ -9,10 +9,10 @@ updated: 2022-06-20
 There is different kinds of content in Cecil:
 
 **Pages**
-: Markdown (or plain text) files (stored in `content/`).
+: Markdown (or plain text) files.
 
 **Assets**
-: Handled files like resized images, compiled Sass, minified scripts, etc.
+: Handled assets files (i.e.: resized images, compiled Sass, minified scripts, etc.).
 
 **Static**
 : Files copied as is.
@@ -22,13 +22,13 @@ There is different kinds of content in Cecil:
 
 ## Files organization
 
-Your content should be organized in a manner that reflects the rendered website.
+Pages should be organized in a manner that reflects the rendered website.
 
 ### File system tree
 
 ```plaintext
 <mywebsite>
-├─ content
+├─ pages
 |  ├─ blog            <- Section
 |  |  ├─ post-1.md    <- Page in Section
 |  |  └─ post-2.md
@@ -46,7 +46,7 @@ Your content should be organized in a manner that reflects the rendered website.
 
 **Explanation:**
 
-- Each folder in the root of `content/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
+- Each folder in the root of `pages/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
 - You can override _Section_’s default variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
 - Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function in templates
 - Files in `static/` are copied as is in the root of the built website (e.g.: `static/video.mp4` -> `video.mp4`)
@@ -78,7 +78,7 @@ To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true
 
 ```plaintext
 File:
-                 content/my-projects/project-1.md
+                   pages/my-projects/project-1.md
                         └───── filepath ──────┘
 URL:
     ┌───── baseurl ─────┬─────── path ────────┐
@@ -650,7 +650,7 @@ exclude: true
 
 ## Multilingual
 
-If your content is available in multiple [languages](4-Configuration.md#languages) there is 2 ways to define it:
+If your pages are available in multiple [languages](4-Configuration.md#languages) there is 2 ways to define it:
 
 ### Language in the file name
 

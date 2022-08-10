@@ -38,8 +38,8 @@ class Builder implements LoggerAwareInterface
      */
     protected $steps = [
         'Cecil\Step\Themes\Import',
-        'Cecil\Step\Content\Load',
-        'Cecil\Step\Content\DataLoad',
+        'Cecil\Step\Pages\Load',
+        'Cecil\Step\Data\Load',
         'Cecil\Step\StaticFiles\Load',
         'Cecil\Step\Pages\Create',
         'Cecil\Step\Pages\Convert',
@@ -249,17 +249,17 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Set collected content.
+     * Set collected pages files.
      */
-    public function setContent(Finder $content): void
+    public function setPagesFiles(Finder $content): void
     {
         $this->content = $content;
     }
 
     /**
-     * Returns content.
+     * Returns pages files.
      */
-    public function getContent(): ?Finder
+    public function getPagesFiles(): ?Finder
     {
         return $this->content;
     }

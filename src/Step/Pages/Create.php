@@ -37,7 +37,7 @@ class Create extends AbstractStep
     {
         $this->builder->setPages(new PagesCollection('all-pages'));
 
-        if (is_dir($this->builder->getConfig()->getContentPath())) {
+        if (is_dir($this->builder->getConfig()->getPagesPath())) {
             $this->canProcess = true;
         }
     }
@@ -47,14 +47,14 @@ class Create extends AbstractStep
      */
     public function process(): void
     {
-        if (count($this->builder->getContent()) == 0) {
+        if (count($this->builder->getPagesFiles()) == 0) {
             return;
         }
 
-        $max = count($this->builder->getContent());
+        $max = count($this->builder->getPagesFiles());
         $count = 0;
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
-        foreach ($this->builder->getContent() as $file) {
+        foreach ($this->builder->getPagesFiles() as $file) {
             $count++;
             /** @var Page $page */
             $page = new Page(Page::createId($file));

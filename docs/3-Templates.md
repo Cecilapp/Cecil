@@ -24,7 +24,7 @@ Templates files are stored in `layouts/`.
 
 ```plaintext
 <mywebsite>
-├─ content
+├─ pages
 ├─ layouts
 |  ├─ _default           <- Contains default templates
 |  |  ├─ list.html.twig  <- Used by "section" and "term" pages type
