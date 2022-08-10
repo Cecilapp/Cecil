@@ -5,7 +5,9 @@ set -e
 
 SOURCE_DOCS_DIR="docs"
 TARGET_REPO="Cecilapp/website"
-TARGET_BRANCH="master"
+if [ -z "${TARGET_BRANCH}" ]; then
+  export TARGET_BRANCH="master"
+fi
 TARGET_DOCS_DIR="content/documentation"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
