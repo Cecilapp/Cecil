@@ -55,7 +55,7 @@ class ShowContent extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $count = 0;
-        $contentDir = (string) $this->getBuilder()->getConfig()->get('content.dir');
+        $contentDir = (string) $this->getBuilder()->getConfig()->get('pages.dir');
         $dataDir = (string) $this->getBuilder()->getConfig()->get('data.dir');
 
         // formating output

@@ -9,10 +9,10 @@ updated: 2022-06-20
 There is different kinds of content in Cecil:
 
 **Pages**
-: Markdown (or plain text) files (stored in `content/`).
+: Markdown (or plain text) files.
 
 **Assets**
-: Handled files like resized images, compiled Sass, minified scripts, etc.
+: Handled assets files (i.e.: resized images, compiled Sass, minified scripts, etc.).
 
 **Static**
 : Files copied as is.

@@ -239,11 +239,18 @@ class Config
      */
 
     /**
-     * Returns the path of the content directory.
+     * Returns the path of the pages directory.
      */
-    public function getContentPath(): string
+    public function getPagesPath(): string
     {
-        return Util::joinFile($this->getSourceDir(), (string) $this->get('content.dir'));
+        $path = Util::joinFile($this->getSourceDir(), (string) $this->get('pages.dir'));
+
+        // legacy support
+        if (!is_dir($path)) {
+            $path = Util::joinFile($this->getSourceDir(), 'content');
+        }
+
+        return $path;
     }
 
     /**

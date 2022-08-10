@@ -67,8 +67,10 @@ class Site implements \ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        // special cases
+        // Featch data from builder instead of config raw data
         switch ($offset) {
+            case 'pages':
+                return $this->builder->getPages();
             case 'menus':
                 return $this->builder->getMenus($this->language);
             case 'taxonomies':

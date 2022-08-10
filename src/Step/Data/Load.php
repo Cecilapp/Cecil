@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step\Content;
+namespace Cecil\Step\Data;
 
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Serializer;
 /**
  * Loads data files.
  */
-class DataLoad extends AbstractStep
+class Load extends AbstractStep
 {
     /**
      * {@inheritdoc}

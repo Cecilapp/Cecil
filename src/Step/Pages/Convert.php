@@ -42,7 +42,7 @@ class Convert extends AbstractStep
     {
         parent::init($options);
 
-        if (is_dir($this->builder->getConfig()->getContentPath())) {
+        if (is_dir($this->builder->getConfig()->getPagesPath())) {
             $this->canProcess = true;
         }
     }
