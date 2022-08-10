@@ -28,7 +28,7 @@ if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.
   cd $TARGET_BRANCH
   git checkout --orphan $TARGET_BRANCH
   git rm -rf .
-  echo "$TARGET_REPO" > README.md
+  echo "$TARGET_REPO / TARGET_BRANCH" > README.md
   git add README.md
   git commit -a -m "Create '$TARGET_BRANCH' branch"
   git push origin $TARGET_BRANCH
