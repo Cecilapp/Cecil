@@ -38,7 +38,7 @@ else
   git clone --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
 fi
 
-cd $TARGET_REPO
+cd $TARGET_BRANCH
 mkdir -p $TARGET_DOCS_DIR
 # copy documentation dir
 cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
