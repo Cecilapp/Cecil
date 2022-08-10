@@ -6,6 +6,9 @@ on:
       - master
     paths:
       - 'docs/**'
+  pull_request:
+    paths:
+      - 'docs/**'
 
 jobs:
   deploy:
@@ -20,4 +23,5 @@ jobs:
     - name: Push files
       run: bash ./scripts/deploy-docs.sh
       env:
+        TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
         GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
