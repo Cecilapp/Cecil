@@ -18,7 +18,7 @@ echo "Starting to update documentation to ${TARGET_REPO}..."
 mkdir $HOME
 cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR
 
-# clone target repo
+# clone or create target repo
 cd $HOME
 git config --global user.name "${USER_NAME}"
 git config --global user.email "${USER_EMAIL}"
