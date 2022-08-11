@@ -86,7 +86,12 @@ class NewSite extends AbstractCommand
             $configYaml = Yaml::dump($config);
             Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), self::CONFIG_FILE), $configYaml);
             // files copy
-            foreach (['content', 'layouts', 'static', 'assets'] as $value) {
+            foreach ([
+                $this->getBuilder()->getConfig()->get('pages.dir'),
+                $this->getBuilder()->getConfig()->get('layouts.dir'),
+                $this->getBuilder()->getConfig()->get('static.dir'),
+                $this->getBuilder()->getConfig()->get('assets.dir'),
+            ] as $value) {
                 $this->fs->mirror(
                     Util::joinPath($root, 'resources/skeleton', $value),
                     Util::joinPath($this->getPath(), $value)
