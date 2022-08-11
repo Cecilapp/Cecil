@@ -49,8 +49,8 @@ class Site implements \ArrayAccess
     {
         // special cases
         switch ($offset) {
-            case 'home':
             case 'menus':
+            case 'home':
                 return true;
         }
 
@@ -70,17 +70,17 @@ class Site implements \ArrayAccess
         // Featch data from builder instead of config raw data
         switch ($offset) {
             case 'pages':
-                return $this->builder->getPages();
+                return $this->getPages();
             case 'menus':
                 return $this->builder->getMenus($this->language);
             case 'taxonomies':
                 return $this->builder->getTaxonomies();
-            case 'language':
-                return new Language($this->config, $this->language);
             case 'data':
                 return $this->builder->getData();
             case 'static':
                 return $this->builder->getStatic();
+            case 'language':
+                return new Language($this->config, $this->language);
             case 'home':
                 return $this->language != $this->config->getLanguageDefault() ? \sprintf('index.%s', $this->language) : 'index';
         }
