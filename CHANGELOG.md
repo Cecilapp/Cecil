@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.1.1](https://github.com/Cecilapp/Cecil/compare/6.1.0...6.1.1)
+
+> 11 August 2022
+
+- fix: fetch pages in language context [`#1434`](https://github.com/Cecilapp/Cecil/pull/1434)
+
 #### [6.1.0](https://github.com/Cecilapp/Cecil/compare/6.0.0...6.1.0)
 
 > 11 August 2022
