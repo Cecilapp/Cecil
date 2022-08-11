@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.1.2](https://github.com/Cecilapp/Cecil/compare/6.1.1...6.1.2)
+
+> 11 August 2022
+
+- fix: skeleton content -&gt; pages [`#1435`](https://github.com/Cecilapp/Cecil/pull/1435)
+
 #### [6.1.1](https://github.com/Cecilapp/Cecil/compare/6.1.0...6.1.1)
 
 > 11 August 2022
