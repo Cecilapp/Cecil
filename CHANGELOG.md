@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. Dates are d
 > 11 August 2022
 
 - fix: fetch pages in language context [`#1434`](https://github.com/Cecilapp/Cecil/pull/1434)
+- fix: deploy script [`031444e`](https://github.com/Cecilapp/Cecil/commit/031444e48a659fb0d1ed15027c00112d65ac2e2a)
 
 #### [6.1.0](https://github.com/Cecilapp/Cecil/compare/6.0.0...6.1.0)
 
