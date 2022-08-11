@@ -10,7 +10,7 @@ TARGET_RELEASE_DIR="download/$REF"
 TARGET_DIST_DIR="static"
 DIST_FILE="cecil.phar"
 DIST_FILE_SHA1="cecil.phar.sha1"
-TARGET_CONTENT_DIR="content"
+TARGET_PAGES_DIR="pages"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
@@ -47,8 +47,8 @@ echo $REF > VERSION
 
 now=$(date +"%Y-%m-%d")
 
-# cd content/
-cd ../$TARGET_CONTENT_DIR
+# cd pages/
+cd ../$TARGET_PAGES_DIR
 
 # create redirections files
 rm -f $DIST_FILE.md
