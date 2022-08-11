@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.1.0](https://github.com/Cecilapp/Cecil/compare/6.0.0...6.1.0)
+
+> 11 August 2022
+
+- feat: move Markdown files from content/ to pages/ [`#1432`](https://github.com/Cecilapp/Cecil/pull/1432)
+- docs: more details about generators [`b69befb`](https://github.com/Cecilapp/Cecil/commit/b69befb6134c2a9078208998d661cda4f28e6505)
+- docs: update custom generator example [`4e6bea1`](https://github.com/Cecilapp/Cecil/commit/4e6bea1b5f3e078c6b5615e72b76c7c7527e4afa)
+- chore: update deps [`b4d5dde`](https://github.com/Cecilapp/Cecil/commit/b4d5ddef2097ed663fb94d767e6bcca3ef942403)
+- chore: clean fixtures [`4bd6acd`](https://github.com/Cecilapp/Cecil/commit/4bd6acd12218ca8be6ae894f9eaeba4129a3ed6d)
+
 #### [6.0.0](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.7...6.0.0)
 
 > 4 August 2022
