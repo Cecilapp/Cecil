@@ -75,7 +75,7 @@ class ShowContent extends AbstractCommand
             // pages content
             if (is_dir(Util::joinFile($this->getPath(), $contentDir))) {
                 $output->writeln(\sprintf('<info>%s/</info>', $contentDir));
-                $pages = $this->getFilesTree('content');
+                $pages = $this->getFilesTree('pages');
                 if (!Util\Plateform::isWindows()) {
                     $unicodeTreePrefix($pages);
                 }
