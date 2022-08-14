@@ -27,7 +27,7 @@ Si votre objectif est de gérer rapidement le contenu, et de décider plus tard 
 
 ## Créer un site web
 
-Créer un site web – à partir de rien – en 4 étapes!
+Comment créer créer un site Web - à partir de zéro - en quelques étapes.
 
 ### Étape 1 : Installer Cecil
 
@@ -41,35 +41,46 @@ Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuel
 
 > [PHP](https://php.net/manual/fr/install.php) 7.4+ est requis.
 
-### Étape 2 : Créer un nouveau site
+### Créer un nouveau site
 
-Lancez la commande `new:site` :
+Exécutez la commande `new:site` :
 
 ```bash
 php cecil.phar new:site <monsiteweb>
 ```
 
-### Étape 3 : Ajouter du contenu
+### Ajouter du contenu
 
-Lancez la commande `new:page` :
-
-```bash
-php cecil.phar new:page blog/mon-premier-billet.md <monsiteweb>
-```
-
-Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown favoris (je recommande [Typora](https://www.typora.io)): `<monsiteweb>/pages/blog/mon-premier-billet.md`.
-
-### Étape 4 : Vérifier l’aperçu
-
-Lancez la commande suivante pour générer et servir le site web :
+Exécutez la commande `new:page` :
 
 ```bash
-php cecil.phar serve --drafts <monsiteweb>
+php cecil.phar new:page ma-première-page.md <monsiteweb>
 ```
 
-Naviguez ensuite sur votre nouveau site web à `http://localhost:8000`.
+Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown favoris (je recommande [Typora](https://www.typora.io)): `<monsiteweb>/pages/ma-première-page.md`.
 
-**Notes :**
+### Vérifier l’aperçu
 
-- La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est rechargée.
-- L’option `--drafts` est utilisée pour inclure les brouillons.
+Exécutez la commande suivante pour créer un aperçu du site Web :
+
+```bash
+php cecil.phar serve <monsiteweb>
+```
+
+Naviguez ensuite sur `http://localhost:8000`.
+
+:::note
+La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est rechargée.
+:::
+
+### Créer et déployer
+
+Lorsque vous êtes satisfait du résultat, vous pouvez créer le site Web et le déployer sur le Web.
+
+Exécutez la commande suivante pour créer le site Web :
+
+```bash
+php cecil.phar build <monsiteweb>
+```
+
+Vous pouvez maintenant copier le contenu du répertoire `_site` sur votre serveur Web.

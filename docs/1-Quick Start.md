@@ -25,9 +25,9 @@ If your goal is managing content quickly, and decide later where to deploy it, l
 
 ## Create a website
 
-Create a website – from scratch – in 4 steps!
+How to create create a website – from scratch – in a few steps.
 
-### Step 1: Install Cecil
+### Install Cecil
 
 Download `cecil.phar` from your terminal:
 
@@ -39,7 +39,7 @@ You can also [download Cecil](https://cecil.app/download/) manually from the web
 
 > [PHP](https://php.net/manual/en/install.php) 7.4+ is required.
 
-### Step 2: Create a new website
+### Create a new website
 
 Run the `new:site` command:
 
@@ -47,27 +47,38 @@ Run the `new:site` command:
 php cecil.phar new:site <mywebsite>
 ```
 
-### Step 3: Add some content
+### Add a page
 
 Run the `new:page` command:
 
 ```bash
-php cecil.phar new:page blog/my-first-post.md <mywebsite>
+php cecil.phar new:page my-first-page.md <mywebsite>
 ```
 
-Now you can edit the newly created page with your favorite Markdown editor (I recommend [Typora](https://www.typora.io)): `<mywebsite>/pages/blog/my-first-post.md`.
+Now you can edit the newly created page with your favorite Markdown editor (I recommend [Typora](https://www.typora.io)): `<mywebsite>/pages/my-first-page.md`.
 
-### Step 4: Check the preview
+### Check the preview
 
-Run the following command to build and serve the website:
+Run the following command to create a preview of the website:
 
 ```bash
-php cecil.phar serve --drafts <mywebsite>
+php cecil.phar serve <mywebsite>
 ```
 
-Then navigate to your new website at `http://localhost:8000`.
+Then navigate to `http://localhost:8000`.
 
-**Notes:**
+:::note
+The `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is reloaded.
+:::
 
-- `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is reloaded.
-- `--drafts` option is used to include drafts.
+### Build and deploy
+
+When you are satisfy by the result, you can build the website and deploy it to the web.
+
+Run the following command to build the website:
+
+```bash
+php cecil.phar build <mywebsite>
+```
+
+You can now copy the content of the `_site` directory to your web server.
