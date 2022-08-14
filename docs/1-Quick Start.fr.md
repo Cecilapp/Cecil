@@ -15,7 +15,7 @@ Cecil est une application en ligne de commande, propulsée par [PHP](https://www
 
 Si vous souhaiter créer un blog sans vous casser la tête, le [starter blog](https://github.com/Cecilapp/the-butler#readme) est fait pour vous.
 
-Le moyen le plus simple de déployer et de gérer le starer blog est certainement avec [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org) ou [Vercel](https://vercel.com).
+Le moyen le plus simple de déployer et de gérer votre blog est certainement avec [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org) ou [Vercel](https://vercel.com).
 
 [![Déployer sur Netlify](https://www.netlify.com/img/deploy/button.svg "Déployer sur Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Déployer sur Vercel](https://vercel.com/button/default.svg "Déployer sur Vercel")](https://cecil.app/hosting/vercel/deploy/)
 
@@ -68,6 +68,8 @@ php cecil.phar serve --drafts <monsiteweb>
 ```
 
 Naviguez ensuite sur votre nouveau site web à `http://localhost:8000`.
+
+Vous pouvez maintenant copier le dossier `_site` sur votre serveur web.
 
 **Notes :**
 
