@@ -8,7 +8,7 @@ TARGET_REPO="Cecilapp/website"
 if [ -z "${TARGET_BRANCH}" ]; then
   export TARGET_BRANCH="master"
 fi
-TARGET_DOCS_DIR="content/documentation"
+TARGET_DOCS_DIR="pages/documentation"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
