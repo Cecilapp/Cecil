@@ -67,8 +67,6 @@ php cecil.phar serve --drafts <mywebsite>
 
 Then navigate to your new website at `http://localhost:8000`.
 
-Now you can copy the `_site` directory to your web server.
-
 **Notes:**
 
 - `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is reloaded.

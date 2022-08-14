@@ -69,8 +69,6 @@ php cecil.phar serve --drafts <monsiteweb>
 
 Naviguez ensuite sur votre nouveau site web à `http://localhost:8000`.
 
-Vous pouvez maintenant copier le dossier `_site` sur votre serveur web.
-
 **Notes :**
 
 - La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est rechargée.
