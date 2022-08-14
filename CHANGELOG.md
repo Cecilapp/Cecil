@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.1.3](https://github.com/Cecilapp/Cecil/compare/6.1.2...6.1.3)
+
+> 11 August 2022
+
+- fix: skeleton image example URL [`1733a9a`](https://github.com/Cecilapp/Cecil/commit/1733a9a2a589fe3111ff8aab27ae87f4007ecc8c)
+
 #### [6.1.2](https://github.com/Cecilapp/Cecil/compare/6.1.1...6.1.2)
 
 > 11 August 2022
