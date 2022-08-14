@@ -73,7 +73,7 @@ Naviguez ensuite sur `http://localhost:8000`.
 La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est rechargée.
 :::
 
-### Créer et déployer
+### Générer et déployer
 
 Quand vous êtes satisfait du résultat, vous pouvez générer le site Web afin de le déployer sur le Web.
 
