@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site et prévisualiser le localement."
 date: 2021-11-03
-updated: 2022-18-14
+updated: 2022-08-14
 slug: demarrage-rapide
 menu: home
 -->
