@@ -15,9 +15,9 @@ Cecil est une application en ligne de commande, propulsée par [PHP](https://www
 
 Si vous souhaiter créer un blog sans vous casser la tête, le [starter blog](https://github.com/Cecilapp/the-butler#readme) est fait pour vous.
 
-Le moyen le plus simple de déployer et de gérer le starer blog est certainement avec [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org).
+Le moyen le plus simple de déployer et de gérer le starer blog est certainement avec [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org) ou [Vercel](https://vercel.com).
 
-[![Déployer sur Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/ "Déployer sur Netlify")
+[![Déployer sur Netlify](https://www.netlify.com/img/deploy/button.svg "Déployer sur Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Déployer sur Vercel](https://vercel.com/button/default.svg "Déployer sur Vercel")](https://cecil.app/hosting/vercel/deploy/)
 
 Si votre objectif est de gérer rapidement le contenu, et de décider plus tard où le déployer, laissez [Forestry CMS](https://forestry.io) vous guider.
 
@@ -39,7 +39,7 @@ curl -LO https://cecil.app/cecil.phar
 
 Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement depuis le site web.
 
-> [PHP](http://php.net/manual/fr/install.php) 7.1+ est requis.
+> [PHP](https://php.net/manual/fr/install.php) 7.4+ est requis.
 
 ### Étape 2 : Créer un nouveau site
 
@@ -57,7 +57,7 @@ Lancez la commande `new:page` :
 php cecil.phar new:page blog/mon-premier-billet.md <monsiteweb>
 ```
 
-Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown favoris (je recommande [Typora](https://www.typora.io)): `<monsiteweb>/content/blog/mon-premier-billet.md`.
+Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown favoris (je recommande [Typora](https://www.typora.io)): `<monsiteweb>/pages/blog/mon-premier-billet.md`.
 
 ### Étape 4 : Vérifier l’aperçu
 

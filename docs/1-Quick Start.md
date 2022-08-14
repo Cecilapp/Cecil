@@ -13,9 +13,9 @@ Cecil is a CLI application, powered by [PHP](https://www.php.net), that merge pl
 
 If you want to create a no-hassle blog, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you.
 
-The easiest way to deploy and manage your the starter blog is certainly with [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org).
+The easiest way to deploy and manage your the starter blog is certainly with [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org) or [Vercel](https://vercel.com).
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/ "Deploy to Netlify")
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy to Vercel](https://vercel.com/button/default.svg "Deploy to Vercel")](https://cecil.app/hosting/vercel/deploy/)
 
 If your goal is managing content quickly, and decide later where to deploy to it, let [Forestry CMS](https://forestry.io) guide you.
 
@@ -37,7 +37,7 @@ curl -LO https://cecil.app/cecil.phar
 
 You can also [download Cecil](https://cecil.app/download/) manually from the website.
 
-> [PHP](http://php.net/manual/en/install.php) 7.1+ is required.
+> [PHP](https://php.net/manual/en/install.php) 7.4+ is required.
 
 ### Step 2: Create a new website
 
@@ -55,7 +55,7 @@ Run the `new:page` command:
 php cecil.phar new:page blog/my-first-post.md <mywebsite>
 ```
 
-Now you can edit the newly created page with your favorite Markdown editor (I recommend [Typora](https://www.typora.io)): `<mywebsite>/content/blog/my-first-post.md`.
+Now you can edit the newly created page with your favorite Markdown editor (I recommend [Typora](https://www.typora.io)): `<mywebsite>/pages/blog/my-first-post.md`.
 
 ### Step 4: Check the preview
 
