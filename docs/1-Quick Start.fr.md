@@ -69,18 +69,22 @@ php cecil.phar serve <monsiteweb>
 
 Naviguez ensuite sur `http://localhost:8000`.
 
-:::note
+:::info
 La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est rechargée.
 :::
 
 ### Créer et déployer
 
-Lorsque vous êtes satisfait du résultat, vous pouvez créer le site Web et le déployer sur le Web.
+Quand vous êtes satisfait du résultat, vous pouvez générer le site Web afin de le déployer sur le Web.
 
-Exécutez la commande suivante pour créer le site Web :
+Exécutez la commande suivante pour générer le site Web :
 
 ```bash
 php cecil.phar build <monsiteweb>
 ```
 
-Vous pouvez maintenant copier le contenu du répertoire `_site` sur votre serveur Web.
+Vous pouvez maintenant copier le contenu du répertoire `_site` sur votre serveur Web 🎉
+
+:::tip
+La documentation complète est disponible, en anglais, à l'adresse suivante : <https://cecil.app/documentation/>
+:::

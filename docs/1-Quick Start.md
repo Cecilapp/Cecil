@@ -67,13 +67,13 @@ php cecil.phar serve <mywebsite>
 
 Then navigate to `http://localhost:8000`.
 
-:::note
+:::info
 The `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is reloaded.
 :::
 
 ### Build and deploy
 
-When you are satisfy by the result, you can build the website and deploy it to the web.
+When you are satisfied with the result, you can generate the website in order to deploy it on the web.
 
 Run the following command to build the website:
 
@@ -81,4 +81,4 @@ Run the following command to build the website:
 php cecil.phar build <mywebsite>
 ```
 
-You can now copy the content of the `_site` directory to your web server.
+You can now copy the content of the `_site` directory to your web server 🎉
