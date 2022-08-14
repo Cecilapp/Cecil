@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site et prévisualiser le localement."
 date: 2021-11-03
-updated: 2021-11-19
+updated: 2022-18-14
 slug: demarrage-rapide
 menu: home
 -->
@@ -29,7 +29,7 @@ Si votre objectif est de gérer rapidement le contenu, et de décider plus tard 
 
 Comment créer créer un site Web - à partir de zéro - en quelques étapes.
 
-### Étape 1 : Installer Cecil
+### Installer Cecil
 
 Téléchargez `cecil.phar` depuis votre terminal:
 
