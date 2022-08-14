@@ -116,7 +116,7 @@ class Create extends AbstractStep
                         }
                         // adds/replaces entry
                         if ($enabled) {
-                            $url404 = $language['code'] !== $this->config->getLanguageDefault() ? $language['code'] . '/404.html' : '404.html';
+                            $url404 = $language['code'] !== $this->config->getLanguageDefault() ? $language['code'].'/404.html' : '404.html';
                             $item = (new Entry($property['id']))
                                 ->setName($property['name'] ?? ucfirst($property['id']))
                                 ->setUrl($property['url'] ?? $url404)
