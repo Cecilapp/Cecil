@@ -41,7 +41,7 @@ You can also [download Cecil](https://cecil.app/download/) manually.
 
 ### Create a new website
 
-Create a directory for the website (e.g.: `<mywebsite>`), put`cecil.phar` in it, then run the `new:site` command:
+Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it, then run the `new:site` command:
 
 ```bash
 php cecil.phar new:site
