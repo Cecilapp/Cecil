@@ -9,20 +9,18 @@ updated: 2022-08-10
 There is different kinds of content in Cecil:
 
 **Pages**
-: Markdown (or plain text) files.
+: Pages are the main content of the site, written in Markdown (or plain text).
 
 **Assets**
-: Handled assets files (i.e.: resized images, compiled Sass, minified scripts, etc.).
+: Assets are handled files (i.e.: resized images, compiled Sass, minified scripts, etc.).
 
 **Static**
-: Files copied as is.
+: Static files are copied as is in the generated site.
 
 **Data**
-: Custom variables collections.
+: Data are custom variables collections.
 
 ## Files organization
-
-Pages should be organized in a manner that reflects the rendered website.
 
 ### File system tree
 
@@ -44,8 +42,9 @@ Pages should be organized in a manner that reflects the rendered website.
    └─ authors.yml     <- Data collection
 ```
 
-**Explanation:**
+**Explanations:**
 
+- Pages should be organized in a manner that reflects the rendered website
 - Each folder in the root of `pages/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
 - You can override _Section_’s default variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
 - Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function in templates
@@ -71,7 +70,7 @@ Pages should be organized in a manner that reflects the rendered website.
    └─ video.mp4
 ```
 
-By default each _Page_ is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.  
+By default each _Page_ is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.
 To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in front matter.
 
 ### File VS URL
@@ -268,7 +267,7 @@ Is converted to:
 ```
 
 :::info
-**Info:** Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.  
+**Info:** Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.
 :::
 
 :::important
@@ -321,6 +320,10 @@ Is converted to:
 
 :::important
 **Important:** This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
+:::
+
+:::info
+**Info:** You can combine `webp` and `responsive` options.
 :::
 
 #### Caption
@@ -386,17 +389,17 @@ It must be the first thing in the file and must be a valid [YAML](https://en.wik
 
 ### Predefined variables
 
-| Variable    | Description       | Default value                                      | Example       |
-| ----------- | ----------------- | -------------------------------------------------- | ------------- |
-| `title`     | Title             | File name without extension.                       | `Post 1`      |
-| `layout`    | Template          | See [_Lookup rules_](3-Templates.md#lookup-rules). | `404`         |
-| `date`      | Creation date     | File creation date (PHP _DateTime_ object).        | `2019/04/15`  |
-| `updated`   | Modification date | File modification date (PHP _DateTime_ object).    | `2021/11/19`  |
-| `section`   | Section           | Page's _Section_.                                  | `blog`        |
-| `path`      | Path              | Page's _path_.                                     | `blog/post-1` |
-| `slug`      | Slug              | Page's _slug_.                                     | `post-1`      |
-| `published` | Published or not  | `true`.                                            | `false`       |
-| `draft`     | Published or not  | `false`.                                           | `true`        |
+| Variable      | Description       | Default value                                    | Example         |
+| ------------- | ----------------- | ------------------------------------------------ | --------------- |
+| `title`     | Title             | File name without extension.                     | `Post 1`      |
+| `layout`    | Template          | See[_Lookup rules_](3-Templates.md#lookup-rules). | `404`         |
+| `date`      | Creation date     | File creation date (PHP_DateTime_ object).       | `2019/04/15`  |
+| `updated`   | Modification date | File modification date (PHP_DateTime_ object).   | `2021/11/19`  |
+| `section`   | Section           | Page's_Section_.                                 | `blog`        |
+| `path`      | Path              | Page's_path_.                                    | `blog/post-1` |
+| `slug`      | Slug              | Page's_slug_.                                    | `post-1`      |
+| `published` | Published or not  | `true`.                                        | `false`       |
+| `draft`     | Published or not  | `false`.                                       | `true`        |
 
 :::info
 **Info:** All the predefined variables can be overridden except `section`.
@@ -533,7 +536,7 @@ The filename can contain a prefix to define `date` or `weight` of the _Page_ (us
 
 - The prefix is not included in the `title` of the _Page_
 - Available prefix separator are `-`, `_` ~~and `.`~~
-:::
+  :::
 
 #### date
 
@@ -614,7 +617,7 @@ cascade:
 
 #### circular
 
-Set `circular` to `true` to enable circular pagination with [_page.<prev/next>_](3-Templates.md#page-prev-next).
+Set `circular` to `true` to enable circular pagination with [_page.prev_](3-Templates.md#page-prev-next).
 
 _Example:_
 

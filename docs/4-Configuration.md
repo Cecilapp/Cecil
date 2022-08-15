@@ -605,7 +605,7 @@ body:
     remote:
       enabled: true  # enables remote image handling (`true` by default)
   notes:
-    enabled: false   # turns remote images to Asset to handling them (`true` by default)
+    enabled: true   # turns remote images to Asset to handling them (`true` by default)
 ```
 
 To know how those options impacts your content see _[Content > Page > Markdown](2-Content.md#markdown)_ documentation.
