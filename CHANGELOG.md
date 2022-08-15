@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.1.4](https://github.com/Cecilapp/Cecil/compare/6.1.3...6.1.4)
+
+> 14 August 2022
+
+- fix: 404 URL menu localisation [`#1438`](https://github.com/Cecilapp/Cecil/pull/1438)
+- docs: update Quick Start [`e9f2bd7`](https://github.com/Cecilapp/Cecil/commit/e9f2bd77b6109aa4b3f8980fda87338e3ae6f2e7)
+- chore: update deps [`e9ad80f`](https://github.com/Cecilapp/Cecil/commit/e9ad80f05a3cbc59f3e406fbcf2d082f94b09f9e)
+- docs: update Quick Start [`b0c21bb`](https://github.com/Cecilapp/Cecil/commit/b0c21bb0a0f3a28db76b19181f311ecfa4ac1984)
+- docs: update Quick Start [`d3cbbc5`](https://github.com/Cecilapp/Cecil/commit/d3cbbc55bb74caffdaa7691b5c3286cfa8c0a170)
+- chore: update Quick Start [`cf4890f`](https://github.com/Cecilapp/Cecil/commit/cf4890fdbfe7b295d44a2b13da0badf6bb3e1702)
+- docs: fix dates [`0e33175`](https://github.com/Cecilapp/Cecil/commit/0e3317510383d10fcfb2b6ad6d5498f32e51db49)
+- docs: fix fr [`02ca207`](https://github.com/Cecilapp/Cecil/commit/02ca2078d37f642ee237967e1e2c2aac2150ddce)
+- docs: Update Quick Start [`05d97cb`](https://github.com/Cecilapp/Cecil/commit/05d97cb3d66a71be0c314f72b13fbe4c0c88c432)
+- docs: fix Quick Start [`a8f1d01`](https://github.com/Cecilapp/Cecil/commit/a8f1d013c26edaff419917da6a5d5e4ccadb4ec8)
+- fix: deploy script [`6a06ebb`](https://github.com/Cecilapp/Cecil/commit/6a06ebb59fa5cc1b88fb98346d4960150f58d257)
+
 #### [6.1.3](https://github.com/Cecilapp/Cecil/compare/6.1.2...6.1.3)
 
 > 11 August 2022
