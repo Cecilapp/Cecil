@@ -179,6 +179,7 @@ class Parsedown extends \ParsedownToC
                 $audio['element']['attributes'] = $block['element']['attributes'];
                 unset($audio['element']['attributes']['loading']);
                 $block = $audio;
+                unset($block['element']['attributes']['alt']);
                 break;
             case 'video':
                 $video = [];
@@ -192,6 +193,7 @@ class Parsedown extends \ParsedownToC
                     $video['element']['attributes']['poster'] = new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
                 }
                 $block = $video;
+                unset($block['element']['attributes']['alt']);
         }
 
         /*
