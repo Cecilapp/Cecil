@@ -1,7 +1,7 @@
 <!--
 description: "Create a new site and preview it locally."
 date: 2020-12-19
-updated: 2022-08-14
+updated: 2022-08-15
 menu: home
 -->
 
@@ -27,7 +27,7 @@ If your goal is managing content quickly, and decide later where to deploy it, l
 
 How to create create a website in a few steps.
 
-### Install Cecil
+### Download Cecil
 
 Download `cecil.phar` from your terminal:
 
@@ -41,10 +41,10 @@ You can also [download Cecil](https://cecil.app/download/) manually.
 
 ### Create a new website
 
-Run the `new:site` command:
+Create a directory for the website (e.g.: `<mywebsite>`), put`cecil.phar` in it, then run the `new:site` command:
 
 ```bash
-php cecil.phar new:site <mywebsite>
+php cecil.phar new:site
 ```
 
 ### Add a page
@@ -52,7 +52,7 @@ php cecil.phar new:site <mywebsite>
 Run the `new:page` command:
 
 ```bash
-php cecil.phar new:page my-first-page.md <mywebsite>
+php cecil.phar new:page my-first-page.md
 ```
 
 Now you can edit the newly created page with your Markdown editor: `<mywebsite>/pages/my-first-page.md`.
@@ -66,7 +66,7 @@ We recommend you to use [Typora](https://www.typora.io) to edit your Markdown fi
 Run the following command to create a preview of the website:
 
 ```bash
-php cecil.phar serve <mywebsite>
+php cecil.phar serve
 ```
 
 Then navigate to `http://localhost:8000`.
@@ -82,7 +82,7 @@ When you are satisfied with the result, you can generate the website in order to
 Run the following command to build the website:
 
 ```bash
-php cecil.phar build <mywebsite>
+php cecil.phar build
 ```
 
 You can now copy the content of the `_site` directory to a Web server 🎉
