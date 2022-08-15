@@ -70,7 +70,13 @@ class Create extends AbstractStep
             if ($menusConfig = (array) $this->config->get('menus', $language['code'], false)) {
                 $totalConfig = array_sum(array_map('count', $menusConfig));
                 $countConfig = 0;
-                $suffix = $language['code'] !== $this->config->getLanguageDefault() ? '.'.$language['code'] : '';
+                $suffix = '';
+                $page404 = '404.html';
+
+                if ($language['code'] !== $this->config->getLanguageDefault()) {
+                    $suffix = '.'.$language['code'];
+                    $page404 = $language['code'].'/404.html';
+                }
 
                 foreach ($menusConfig as $menuConfig => $entry) {
                     // add Menu if not exists
@@ -116,10 +122,9 @@ class Create extends AbstractStep
                         }
                         // adds/replaces entry
                         if ($enabled) {
-                            $url404 = $language['code'] !== $this->config->getLanguageDefault() ? $language['code'].'/404.html' : '404.html';
                             $item = (new Entry($property['id']))
                                 ->setName($property['name'] ?? ucfirst($property['id']))
-                                ->setUrl($property['url'] ?? $url404)
+                                ->setUrl($property['url'] ?? $page404)
                                 ->setWeight($property['weight'] ?? 0);
                             $menu->add($item);
 
