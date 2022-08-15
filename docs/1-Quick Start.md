@@ -25,7 +25,7 @@ If your goal is managing content quickly, and decide later where to deploy it, l
 
 ## Create a website
 
-How to create create a website – from scratch – in a few steps.
+How to create create a website in a few steps.
 
 ### Install Cecil
 
@@ -35,7 +35,7 @@ Download `cecil.phar` from your terminal:
 curl -LO https://cecil.app/cecil.phar
 ```
 
-You can also [download Cecil](https://cecil.app/download/) manually from the website.
+You can also [download Cecil](https://cecil.app/download/) manually.
 
 > [PHP](https://php.net/manual/en/install.php) 7.4+ is required.
 
@@ -55,7 +55,11 @@ Run the `new:page` command:
 php cecil.phar new:page my-first-page.md <mywebsite>
 ```
 
-Now you can edit the newly created page with your favorite Markdown editor (I recommend [Typora](https://www.typora.io)): `<mywebsite>/pages/my-first-page.md`.
+Now you can edit the newly created page with your Markdown editor: `<mywebsite>/pages/my-first-page.md`.
+
+:::tip
+We recommend you to use [Typora](https://www.typora.io) to edit your Markdown files.
+:::
 
 ### Check the preview
 
@@ -68,12 +72,12 @@ php cecil.phar serve <mywebsite>
 Then navigate to `http://localhost:8000`.
 
 :::info
-The `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is reloaded.
+The `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is automatically reloaded.
 :::
 
 ### Build and deploy
 
-When you are satisfied with the result, you can generate the website in order to deploy it on the web.
+When you are satisfied with the result, you can generate the website in order to deploy it on the Web.
 
 Run the following command to build the website:
 
@@ -81,4 +85,4 @@ Run the following command to build the website:
 php cecil.phar build <mywebsite>
 ```
 
-You can now copy the content of the `_site` directory to your web server 🎉
+You can now copy the content of the `_site` directory to a Web server 🎉

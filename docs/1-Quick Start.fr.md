@@ -37,7 +37,7 @@ Téléchargez `cecil.phar` depuis votre terminal:
 curl -LO https://cecil.app/cecil.phar
 ```
 
-Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement depuis le site web.
+Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement.
 
 > [PHP](https://php.net/manual/fr/install.php) 7.4+ est requis.
 
@@ -57,7 +57,11 @@ Exécutez la commande `new:page` :
 php cecil.phar new:page ma-première-page.md <monsiteweb>
 ```
 
-Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown favoris (je recommande [Typora](https://www.typora.io)): `<monsiteweb>/pages/ma-première-page.md`.
+Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown : `<monsiteweb>/pages/ma-première-page.md`.
+
+:::tip
+Nous vous recommandons d’utiliser [Typora](https://www.typora.io) pour éditer vos fichiers Markdown.
+:::
 
 ### Vérifier l’aperçu
 
@@ -70,20 +74,20 @@ php cecil.phar serve <monsiteweb>
 Naviguez ensuite sur `http://localhost:8000`.
 
 :::info
-La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est rechargée.
+La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est automatiquement rechargée.
 :::
 
 ### Générer et déployer
 
-Quand vous êtes satisfait du résultat, vous pouvez générer le site Web afin de le déployer sur le Web.
+Quand vous êtes satisfait du résultat, vous pouvez générer le site afin de le déployer sur le Web.
 
-Exécutez la commande suivante pour générer le site Web :
+Exécutez la commande suivante pour générer le site :
 
 ```bash
 php cecil.phar build <monsiteweb>
 ```
 
-Vous pouvez maintenant copier le contenu du répertoire `_site` sur votre serveur Web 🎉
+Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur Web 🎉
 
 :::tip
 La documentation complète est disponible, en anglais, à l'adresse suivante : <https://cecil.app/documentation/>
