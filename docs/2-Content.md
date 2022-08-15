@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-08-10
+updated: 2022-08-15
 -->
 
 # Content
@@ -70,7 +70,7 @@ There is different kinds of content in Cecil:
    └─ video.mp4
 ```
 
-By default each _Page_ is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.
+By default each _Page_ is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.  
 To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in front matter.
 
 ### File VS URL
@@ -389,17 +389,17 @@ It must be the first thing in the file and must be a valid [YAML](https://en.wik
 
 ### Predefined variables
 
-| Variable      | Description       | Default value                                    | Example         |
-| ------------- | ----------------- | ------------------------------------------------ | --------------- |
-| `title`     | Title             | File name without extension.                     | `Post 1`      |
-| `layout`    | Template          | See[_Lookup rules_](3-Templates.md#lookup-rules). | `404`         |
-| `date`      | Creation date     | File creation date (PHP_DateTime_ object).       | `2019/04/15`  |
-| `updated`   | Modification date | File modification date (PHP_DateTime_ object).   | `2021/11/19`  |
-| `section`   | Section           | Page's_Section_.                                 | `blog`        |
-| `path`      | Path              | Page's_path_.                                    | `blog/post-1` |
-| `slug`      | Slug              | Page's_slug_.                                    | `post-1`      |
-| `published` | Published or not  | `true`.                                        | `false`       |
-| `draft`     | Published or not  | `false`.                                       | `true`        |
+| Variable    | Description       | Default value                                      | Example       |
+| ----------- | ----------------- | -------------------------------------------------- | ------------- |
+| `title`     | Title             | File name without extension.                       | `Post 1`      |
+| `layout`    | Template          | See [_Lookup rules_](3-Templates.md#lookup-rules). | `404`         |
+| `date`      | Creation date     | File creation date (PHP _DateTime_ object).        | `2019/04/15`  |
+| `updated`   | Modification date | File modification date (PHP _DateTime_ object).    | `2021/11/19`  |
+| `section`   | Section           | Page's _Section_.                                  | `blog`        |
+| `path`      | Path              | Page's _path_.                                     | `blog/post-1` |
+| `slug`      | Slug              | Page's _slug_.                                     | `post-1`      |
+| `published` | Published or not  | `true`.                                            | `false`       |
+| `draft`     | Published or not  | `false`.                                           | `true`        |
 
 :::info
 **Info:** All the predefined variables can be overridden except `section`.
@@ -536,7 +536,7 @@ The filename can contain a prefix to define `date` or `weight` of the _Page_ (us
 
 - The prefix is not included in the `title` of the _Page_
 - Available prefix separator are `-`, `_` ~~and `.`~~
-  :::
+:::
 
 #### date
 
@@ -617,7 +617,7 @@ cascade:
 
 #### circular
 
-Set `circular` to `true` to enable circular pagination with [_page.prev_](3-Templates.md#page-prev-next).
+Set `circular` to `true` to enable circular pagination with [_page.<prev/next>_](3-Templates.md#page-prev-next).
 
 _Example:_
 
