@@ -27,6 +27,8 @@ If your goal is managing content quickly, and decide later where to deploy it, l
 
 How to create create a website in a few steps.
 
+> Demo of expected result: <https://cecilapp.github.io/skeleton/>.
+
 ### Download Cecil
 
 Download `cecil.phar` from your terminal:

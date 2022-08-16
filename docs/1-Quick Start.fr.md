@@ -27,7 +27,9 @@ Si votre objectif est de gérer rapidement le contenu, et de décider plus tard 
 
 ## Créer un site web
 
-Comment créer créer un site Web - à partir de zéro - en quelques étapes.
+Comment créer créer un site Web en quelques étapes.
+
+> Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
 
 ### Télécharger Cecil
 
