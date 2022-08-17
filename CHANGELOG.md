@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.1.5](https://github.com/Cecilapp/Cecil/compare/6.1.4...6.1.5)
+
+> 16 August 2022
+
+- chore: enhance code [`#1440`](https://github.com/Cecilapp/Cecil/pull/1440)
+- docs: update content and config [`274020d`](https://github.com/Cecilapp/Cecil/commit/274020d003337bd7e593b2b1b49c5689e6071245)
+- docs: update Quick Start [`982cd20`](https://github.com/Cecilapp/Cecil/commit/982cd201004ed78d143223727f15bdfea58f839b)
+- docs: minor fix [`f507f39`](https://github.com/Cecilapp/Cecil/commit/f507f39874d35eee492ba28d18b763e7a36451bf)
+- docs: update Quick Start (again ^^) [`d1823a2`](https://github.com/Cecilapp/Cecil/commit/d1823a27f6a415a17542b426a66b32c3f68932da)
+- docs: minor fix [`4436127`](https://github.com/Cecilapp/Cecil/commit/4436127ab3e6c791da35615cc235d6907856acd4)
+- fix: remove "alt" attribute from audio and video [`8cedb37`](https://github.com/Cecilapp/Cecil/commit/8cedb370694fdbdaa7a49e16fe5c27a79fd8dc67)
+
 #### [6.1.4](https://github.com/Cecilapp/Cecil/compare/6.1.3...6.1.4)
 
 > 14 August 2022
