@@ -1,13 +1,11 @@
 ---
 title: Locale codes
-description: List of availables locale codes (language_country).
+description: List of availables locale codes (`language_country`).
 date: 2020-12-19
 weight: 4
 exclude: true
 ---
-# Language
-
-## Locale codes
+List of availables locale codes (`language_country`).
 
 | Locale                           | Code     |
 | -------------------------------- | -------- |
