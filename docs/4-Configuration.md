@@ -22,7 +22,7 @@ baseurl: https://cecil.local/
 language: en
 ```
 
-## Variables
+## Options
 
 ### title
 
@@ -494,7 +494,7 @@ There is 2 others way to enable the _debug mode_:
 1. Run a command with the `-vvv` option
 2. Set the `CECIL_DEBUG` environment variable to `true`
 
-## Default values
+## Default configuration
 
 The configuration website (`config.yml`) overrides the [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php#).
 
@@ -611,7 +611,7 @@ body:
     enabled: true   # turns remote images to Asset to handling them (`true` by default)
 ```
 
-To know how those options impacts your content see _[Content > Page > Markdown](2-Content.md#markdown)_ documentation.
+To know how those options impacts your content see _[Content > Pages > Markdown](2-Content.md#markdown)_ documentation.
 
 :::info
 **Info:** Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
@@ -708,11 +708,13 @@ assets:
       enabled: false     # creates a WebP version of images with `html` filter (`false` by default)
 ```
 
-Notes:
+:::
+**Notes:**
 
 - See [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting) for details about `style` compilation and `variables`
-- `minify` is available for file with a `text/css` or `text/javascript` MIME Type)
+- `minify` is available for file with a `text/css` or `text/javascript` MIME Type
 - Enables sourcemap output requires [debug mode](#debug) is enabled
+:::
 
 ### postprocess
 
@@ -735,7 +737,7 @@ postprocess:
     enabled: true                         # enables images post processing
 ```
 
-Images compressor will use these binaries if they are present in the system: [JpegOptim](http://freecode.com/projects/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/) and [cwebp](https://developers.google.com/speed/webp/docs/cwebp).
+Images compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/) and [cwebp](https://developers.google.com/speed/webp/docs/cwebp).
 
 ### cache
 
@@ -806,10 +808,9 @@ class MyGenerator extends AbstractGenerator implements GeneratorInterface
         $this->generatedPages->add($page);
     }
 }
-
 ```
 
-## Alternative to config file
+## Override configuration
 
 ### Environment variables
 
