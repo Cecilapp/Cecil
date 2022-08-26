@@ -107,7 +107,7 @@ With the `--open` option, the editor will be opened automatically. So use `edito
 
 ### build
 
-Build the site.
+Builds the site.
 
 ```plaintext
 Description:
