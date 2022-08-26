@@ -261,7 +261,7 @@ metatags:
 Main language, defined by its code.
 
 ```yaml
-language: <language code> # ISO 639-1 code (`en` by default)
+language: <language code> # unique code (`en` by default)
 ```
 
 ### languages
@@ -270,13 +270,16 @@ List of available languages, used for [content](2-Content.md#multilingual) and [
 
 ```yaml
 languages:
-  - code: <code>     # unique code (ISO 639-1)
+  - code: <code>     # unique code (e.g.: `en`, 'en-us', `fr`, `fr-ca`)
     name: <name>     # human readable name
-    locale: <locale> # locale code (`language_COUNTRY`, e.g. `en_US`)
+    locale: <locale> # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
 ```
 
 :::info
-**Info:** A list of [locales code](configuration/locale-codes.md) is avalaible.
+**Info:**
+
+- The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`)
+- A list of [locales code](configuration/locale-codes.md) is avalaible
 :::
 
 #### Localize configuration variables
