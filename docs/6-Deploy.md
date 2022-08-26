@@ -10,7 +10,11 @@ By default your static site is built in the `_site` directory, and can be deploy
 
 Below are some recipes to automate build and/or deployment of a static site.
 
-## [Netlify](https://www.netlify.com)
+## Jamstack platform
+
+### [Netlify](https://www.netlify.com)
+
+> A powerful serverless platform with an intuitive git-based workflow. Automated deployments, shareable previews, and much more.
 
 _netlify.toml_:
 
@@ -31,7 +35,9 @@ _netlify.toml_:
 
 [Official documentation](https://www.netlify.com/docs/continuous-deployment/)
 
-## [Vercel](https://vercel.com)
+### [Vercel](https://vercel.com)
+
+> Vercel combines the best developer experience with an obsessive focus on end-user performance.
 
 _vercel.json_:
 
@@ -57,7 +63,9 @@ _package.json_:
 
 [Official documentation](https://vercel.com/docs/concepts/deployments/build-step#build-command)
 
-## [Render](https://render.com)
+### [Render](https://render.com)
+
+> Render is a unified cloud to build and run all your apps and websites with free TLS certificates, global CDN, private networks and auto deploys from Git.
 
 _render.yaml_:
 
@@ -74,7 +82,9 @@ services:
 
 [Official documentation](https://render.com/docs/static-sites)
 
-## [Cloudflare Pages](https://pages.cloudflare.com)
+### [Cloudflare Pages](https://pages.cloudflare.com)
+
+> Cloudflare Pages is a JAMstack platform for frontend developers to collaborate and deploy websites.
 
 Build configurations:
 
@@ -84,18 +94,11 @@ Build configurations:
 
 [Official documentation](https://developers.cloudflare.com/pages/)
 
-## [Surge](https://surge.sh)
+## Continuous build & hosting
 
-Terminal:
+### [GitHub Pages](https://pages.github.com)
 
-```bash
-npm install -g surge
-surge _site/
-```
-
-[Official documentation](https://surge.sh/help/)
-
-## [GitHub Pages](https://pages.github.com)
+> Websites for you and your projects, hosted directly from your GitHub repository. Just edit, push, and your changes are live.
 
 _.github/workflows/build-and-deploy.yml_:
 
@@ -154,9 +157,11 @@ jobs:
         build_dir: _site
 ```
 
-[Official documentation](https://help.github.com/en/articles/configuring-a-publishing-source-for-github-pages)
+[Official documentation](https://about.gitlab.com/stages-devops-lifecycle/pages/)
 
-## [GitLab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
+### [GitLab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
+
+> With GitLab Pages, you can publish static websites directly from a repository in GitLab.
 
 _.gitlab-ci.yml_:
 
@@ -202,3 +207,18 @@ cache:
 ```
 
 [Official documentation](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
+
+## Static hosting
+
+### [Surge](https://surge.sh)
+
+> Shipping web projects should be fast, easy, and low risk. Surge is static web publishing for Front-End Developers, right from the CLI.
+
+Terminal:
+
+```bash
+npm install -g surge
+surge _site/
+```
+
+[Official documentation](https://surge.sh/help/)
