@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-08-15
+updated: 2022-08-27
 -->
 
 # Content
@@ -14,15 +14,17 @@ There is different kinds of content in Cecil:
 **Assets**
 : Assets are handled files (i.e.: resized images, compiled Sass, minified scripts, etc.).
 
-**Static**
+**Static files**
 : Static files are copied as is in the generated site.
 
-**Data**
-: Data are custom variables collections.
+**Data files**
+: Data files are custom variables collections.
 
 ## Files organization
 
 ### File system tree
+
+Project files organization.
 
 ```plaintext
 <mywebsite>
@@ -42,6 +44,7 @@ There is different kinds of content in Cecil:
    └─ authors.yml     <- Data collection
 ```
 
+:::
 **Explanations:**
 
 - Pages should be organized in a manner that reflects the rendered website
@@ -50,8 +53,11 @@ There is different kinds of content in Cecil:
 - Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function in templates
 - Files in `static/` are copied as is in the root of the built website (e.g.: `static/video.mp4` -> `video.mp4`)
 - Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
+:::
 
 ### Built website tree
+
+Result of the build.
 
 ```plaintext
 <mywebsite>
@@ -73,7 +79,9 @@ There is different kinds of content in Cecil:
 By default each _Page_ is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.  
 To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in front matter.
 
-### File VS URL
+### Page to URL
+
+URL corresponding to a page.
 
 ```plaintext
 File:
@@ -85,7 +93,7 @@ URL:
                         └─ section ─┴─ slug ──┘
 ```
 
-## Page anatomy
+## Pages
 
 A _Page_ is a file made up of a **front matter** and a **body**.
 
