@@ -1,6 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
+updated: 2022-08-27
 alias: documentation/publish
 -->
 
@@ -10,7 +11,7 @@ By default your static site is built in the `_site` directory, and can be deploy
 
 Below are some recipes to automate build and/or deployment of a static site.
 
-## Jamstack platform
+## Jamstack platforms
 
 ### [Netlify](https://www.netlify.com)
 
