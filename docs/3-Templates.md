@@ -147,7 +147,7 @@ You can retrieve `name`, `locale` and `weight` of a language different from the 
 
 #### site.static
 
-The static files collection can be accessed via `site.static` (if [*static load*](4-configuration.md#static) is enabled).
+The static files collection can be accessed via `site.static` (if [_static load_](4-configuration.md#static) is enabled).
 
 Each file exposes the following properties:
 
