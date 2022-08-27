@@ -5,10 +5,10 @@ on:
     branches:
       - master
     paths:
-      - 'docs/**'
+      - 'docs/**.md'
   pull_request:
     paths:
-      - 'docs/**'
+      - 'docs/**.md'
 
 jobs:
   deploy:
