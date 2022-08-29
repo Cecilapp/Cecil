@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.1.6](https://github.com/Cecilapp/Cecil/compare/6.1.5...6.1.6)
+
+> 29 August 2022
+
+- fix: XSL file is not XSLT [`#1444`](https://github.com/Cecilapp/Cecil/pull/1444)
+- chore: update deps [`0812875`](https://github.com/Cecilapp/Cecil/commit/0812875b7b1579ba1b5bceaf00a9a2085b6b36c6)
+- chore: update deps [`f856e4f`](https://github.com/Cecilapp/Cecil/commit/f856e4f4b4484840b590297e7140ca5f49881dba)
+- docs: update `deploy` [`6b10141`](https://github.com/Cecilapp/Cecil/commit/6b101415aa9a220248ce8fe1ba01a714cba47bb0)
+- chore: update deps [`ed60de5`](https://github.com/Cecilapp/Cecil/commit/ed60de50160b940b0b793c9913c3e66a1fffaae6)
+- docs: update `content` [`e49dd6c`](https://github.com/Cecilapp/Cecil/commit/e49dd6c60ba2f1b128690ba8b750095568919534)
+- docs: update `configuration` [`dde993b`](https://github.com/Cecilapp/Cecil/commit/dde993b7cef7587a056c23f97d0aefb4b63ee8a4)
+- docs: update language section [`094dc52`](https://github.com/Cecilapp/Cecil/commit/094dc523b5c66b073655ae33e0e48f5bc5d4eb0d)
+- chore: update deps [`bd7695f`](https://github.com/Cecilapp/Cecil/commit/bd7695fd08175866457c3e7e7746b17e160060f6)
+- docs: minor fix [`fb6ec85`](https://github.com/Cecilapp/Cecil/commit/fb6ec8542d355481f10f5ec58d4794b8e300491c)
+- docs: update Quick Start [`5cf7eef`](https://github.com/Cecilapp/Cecil/commit/5cf7eef9ea5df679279f4c27b29bf34a8728bb6c)
+- docs: minor fix [`598aa67`](https://github.com/Cecilapp/Cecil/commit/598aa6739289582b05a4095aab648ee7957cc590)
+- fix: deploy script [`435d2ef`](https://github.com/Cecilapp/Cecil/commit/435d2efb52b708076b44d089a24232245764c570)
+- docs: minor fix [`a1df5bf`](https://github.com/Cecilapp/Cecil/commit/a1df5bf66b1ce85d600fc6687d9542ec50eacc49)
+- docs: update `commands` [`3c1567c`](https://github.com/Cecilapp/Cecil/commit/3c1567cdb5bdac81af5212b39f139a7de7d89049)
+- docs: update Quick Start [`42d85f6`](https://github.com/Cecilapp/Cecil/commit/42d85f6427f2448e62d3c4711bf2157c89c32e71)
+
 #### [6.1.5](https://github.com/Cecilapp/Cecil/compare/6.1.4...6.1.5)
 
 > 16 August 2022
