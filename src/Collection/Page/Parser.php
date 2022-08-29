@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -10,6 +13,7 @@
 
 namespace Cecil\Collection\Page;
 
+use Cecil\Exception\RuntimeException;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -44,13 +48,13 @@ class Parser
      * ---
      * Lorem Ipsum.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function parse(): self
     {
         if ($this->file->isFile()) {
             if (!$this->file->isReadable()) {
-                throw new \RuntimeException('Cannot read file');
+                throw new RuntimeException('Cannot read file');
             }
             preg_match(
                 '/'.self::PATTERN.'/s',

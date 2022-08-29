@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -29,13 +32,12 @@ class Clear extends AbstractCommand
         $this
             ->setName('clear')
             ->setDescription('Removes generated files')
-            ->setAliases(['clean'])
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
-            ->setHelp('Removes generated and temporary files');
+            ->setHelp('Removes generated, temporary and cache files');
     }
 
     /**
@@ -71,7 +73,7 @@ class Clear extends AbstractCommand
 
         $output->writeln('Removing output directory...');
         $output->writeln(
-            sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), $outputDir)),
+            \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), $outputDir)),
             OutputInterface::VERBOSITY_VERBOSE
         );
         $this->fs->remove(Util::joinFile($this->getPath(), $outputDir));
@@ -91,7 +93,7 @@ class Clear extends AbstractCommand
 
         $output->writeln('Removing temporary directory...');
         $output->writeln(
-            sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), self::TMP_DIR)),
+            \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), self::TMP_DIR)),
             OutputInterface::VERBOSITY_VERBOSE
         );
         $this->fs->remove(Util::joinFile($this->getPath(), self::TMP_DIR));

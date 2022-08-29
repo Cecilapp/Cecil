@@ -72,4 +72,3 @@ Cecil::create(
 // Run a local server
 exec('php -S localhost:8000 -t _site');
 ```
-

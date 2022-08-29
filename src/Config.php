@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -10,7 +13,7 @@
 
 namespace Cecil;
 
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Util\Plateform;
 use Dflydev\DotAccessData\Data;
 
@@ -160,7 +163,7 @@ class Config
     {
         if ($language !== null) {
             $index = $this->getLanguageIndex($language);
-            $keyLang = sprintf('languages.%s.config.%s', $index, $key);
+            $keyLang = \sprintf('languages.%s.config.%s', $index, $key);
             if ($this->data->has($keyLang)) {
                 return $this->data->get($keyLang);
             }
@@ -187,7 +190,7 @@ class Config
             $sourceDir = getcwd();
         }
         if (!is_dir($sourceDir)) {
-            throw new \InvalidArgumentException(sprintf('The directory "%s" is not a valid source!', $sourceDir));
+            throw new \InvalidArgumentException(\sprintf('The directory "%s" is not a valid source!', $sourceDir));
         }
         $this->sourceDir = $sourceDir;
 
@@ -213,7 +216,7 @@ class Config
             $destinationDir = $this->sourceDir;
         }
         if (!is_dir($destinationDir)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(\sprintf(
                 'The directory "%s" is not a valid destination!',
                 $destinationDir
             ));
@@ -236,11 +239,18 @@ class Config
      */
 
     /**
-     * Returns the path of the content directory.
+     * Returns the path of the pages directory.
      */
-    public function getContentPath(): string
+    public function getPagesPath(): string
     {
-        return Util::joinFile($this->getSourceDir(), (string) $this->get('content.dir'));
+        $path = Util::joinFile($this->getSourceDir(), (string) $this->get('pages.dir'));
+
+        // legacy support
+        if (!is_dir($path)) {
+            $path = Util::joinFile($this->getSourceDir(), 'content');
+        }
+
+        return $path;
     }
 
     /**
@@ -329,11 +339,13 @@ class Config
 
     /**
      * Returns cache path.
+     *
+     * @throws RuntimeException
      */
     public function getCachePath(): string
     {
         if (empty((string) $this->get('cache.dir'))) {
-            throw new Exception(\sprintf('The cache directory ("%s") is not defined in configuration.', 'cache.dir'));
+            throw new RuntimeException(\sprintf('The cache directory ("%s") is not defined in configuration.', 'cache.dir'));
         }
 
         if ($this->isCacheDirIsAbsolute()) {
@@ -357,6 +369,8 @@ class Config
     /**
      * Returns the property value of an output format.
      *
+     * @throws RuntimeException
+     *
      * @return string|array|null
      */
     public function getOutputFormatProperty(string $name, string $property)
@@ -364,11 +378,7 @@ class Config
         $properties = array_column((array) $this->get('output.formats'), $property, 'name');
 
         if (empty($properties)) {
-            throw new Exception(sprintf(
-                'Property "%s" is not defined for format "%s".',
-                $property,
-                $name
-            ));
+            throw new RuntimeException(\sprintf('Property "%s" is not defined for format "%s".', $property, $name));
         }
 
         return $properties[$name] ?? null;
@@ -397,17 +407,14 @@ class Config
     /**
      * Has a (valid) theme(s)?
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function hasTheme(): bool
     {
         if ($themes = $this->getTheme()) {
             foreach ($themes as $theme) {
                 if (!Util\File::getFS()->exists($this->getThemeDirPath($theme, 'layouts'))) {
-                    throw new Exception(sprintf(
-                        'Theme directory "%s" not found!',
-                        Util::joinFile($this->getThemesPath(), $theme, 'layouts')
-                    ));
+                    throw new RuntimeException(\sprintf('Theme directory "%s" not found!', Util::joinFile($this->getThemesPath(), $theme, 'layouts')));
                 }
             }
 
@@ -432,6 +439,8 @@ class Config
 
     /**
      * Returns an array of available languages.
+     *
+     * @throws RuntimeException
      */
     public function getLanguages(): array
     {
@@ -442,7 +451,7 @@ class Config
         $languages = (array) $this->get('languages');
 
         if (!is_int(array_search($this->getLanguageDefault(), array_column($languages, 'code')))) {
-            throw new Exception(sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
+            throw new RuntimeException(\sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
         }
 
         $languages = array_filter($languages, function ($language) {
@@ -456,11 +465,13 @@ class Config
 
     /**
      * Returns the default language code (ie: "en", "fr-fr", etc.).
+     *
+     * @throws RuntimeException
      */
     public function getLanguageDefault(): string
     {
         if (!$this->get('language')) {
-            throw new Exception('There is no default "language" key in configuration.');
+            throw new RuntimeException('There is no default "language" key in configuration.');
         }
 
         return $this->get('language');
@@ -468,13 +479,15 @@ class Config
 
     /**
      * Returns a language code index.
+     *
+     * @throws RuntimeException
      */
     public function getLanguageIndex(string $code): int
     {
         $array = array_column($this->getLanguages(), 'code');
 
         if (false === $index = array_search($code, $array)) {
-            throw new Exception(sprintf('The language code "%s" is not defined.', $code));
+            throw new RuntimeException(\sprintf('The language code "%s" is not defined.', $code));
         }
 
         return $index;
@@ -482,6 +495,8 @@ class Config
 
     /**
      * Returns the property value of a (specified or default) language.
+     *
+     * @throws RuntimeException
      */
     public function getLanguageProperty(string $property, string $code = null): ?string
     {
@@ -490,11 +505,7 @@ class Config
         $properties = array_column($this->getLanguages(), $property, 'code');
 
         if (empty($properties)) {
-            throw new Exception(sprintf(
-                'Property "%s" is not defined for language "%s".',
-                $property,
-                $code
-            ));
+            throw new RuntimeException(\sprintf('Property "%s" is not defined for language "%s".', $property, $code));
         }
 
         return $properties[$code];

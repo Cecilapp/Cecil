@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -10,6 +13,7 @@
 
 namespace Cecil\Command;
 
+use Cecil\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,6 +44,8 @@ class ShowConfig extends AbstractCommand
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,7 +54,7 @@ class ShowConfig extends AbstractCommand
         try {
             $output->writeln($this->printArray($this->getBuilder()->getConfig()->getAsArray()));
         } catch (\Exception $e) {
-            throw new \Exception(sprintf($e->getMessage()));
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
         return 0;

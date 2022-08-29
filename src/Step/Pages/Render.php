@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -13,7 +16,7 @@ namespace Cecil\Step\Pages;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\PrefixSuffix;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
@@ -35,16 +38,11 @@ class Render extends AbstractStep
 
     /**
      * {@inheritdoc}
-     *
-     * @throws Exception
      */
-    public function init($options)
+    public function init(array $options): void
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
-            $message = sprintf(
-                "'%s' is not a valid layouts directory",
-                $this->config->getLayoutsPath()
-            );
+            $message = \sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
             $this->builder->getLogger()->debug($message);
         }
 
@@ -54,9 +52,9 @@ class Render extends AbstractStep
     /**
      * {@inheritdoc}
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
-    public function process()
+    public function process(): void
     {
         // prepares renderer
         $this->builder->setRenderer(new Twig($this->builder, $this->getAllLayoutsPaths()));
@@ -79,7 +77,7 @@ class Render extends AbstractStep
             $rendered = [];
 
             // l10n
-            $language = $page->getVariable('language') ?? $this->config->getLanguageDefault();
+            $language = $page->getLanguage() ?? $this->config->getLanguageDefault();
             $locale = $this->config->getLanguageProperty('locale', $language);
             // the PHP Intl extension is needed to use localized date
             if (extension_loaded('intl')) {
@@ -87,12 +85,14 @@ class Render extends AbstractStep
             }
             // the PHP Gettext extension is needed to use translation
             if (extension_loaded('gettext')) {
-                $localePath = realpath(Util::joinFile($this->config->getSourceDir(), 'locale'));
                 $domain = 'messages';
                 putenv("LC_ALL=$locale");
                 putenv("LANGUAGE=$locale");
                 setlocale(LC_ALL, "$locale.UTF-8");
-                bindtextdomain($domain, $localePath);
+                textdomain($domain);
+                if ($localePath = realpath(Util::joinFile($this->config->getSourceDir(), 'locale'))) {
+                    bindtextdomain($domain, $localePath);
+                }
             }
 
             // global site variables
@@ -155,10 +155,12 @@ class Render extends AbstractStep
                         );
                     }
                 } catch (\Twig\Error\Error $e) {
-                    throw new Exception(sprintf(
-                        'Template %s%s (page: %s): %s',
-                        $e->getSourceContext()->getPath(),
-                        $e->getTemplateLine() >= 0 ? sprintf(':%s', $e->getTemplateLine()) : '',
+                    $template = !empty($e->getSourceContext()->getPath()) ? $e->getSourceContext()->getPath() : $e->getSourceContext()->getName();
+
+                    throw new RuntimeException(\sprintf(
+                        'Template "%s%s" (page: %s): %s',
+                        $template,
+                        $e->getTemplateLine() >= 0 ? \sprintf(':%s', $e->getTemplateLine()) : '',
                         $page->getId(),
                         $e->getMessage()
                     ));
@@ -168,8 +170,8 @@ class Render extends AbstractStep
             $this->builder->getPages()->replace($page->getId(), $page);
 
             $templates = array_column($rendered, 'template');
-            $message = sprintf(
-                '%s [%s]',
+            $message = \sprintf(
+                'Page "%s" rendered with template(s) "%s"',
                 ($page->getId() ?: 'index'),
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
             );
@@ -209,14 +211,16 @@ class Render extends AbstractStep
     protected function addGlobals()
     {
         $this->builder->getRenderer()->addGlobal('cecil', [
-            'url'       => sprintf('https://cecil.app/#%s', Builder::getVersion()),
+            'url'       => \sprintf('https://cecil.app/#%s', Builder::getVersion()),
             'version'   => Builder::getVersion(),
-            'poweredby' => sprintf('Cecil v%s', Builder::getVersion()),
+            'poweredby' => \sprintf('Cecil v%s', Builder::getVersion()),
         ]);
     }
 
     /**
      * Get available output formats.
+     *
+     * @throws RuntimeException
      */
     protected function getOutputFormats(Page $page): array
     {
@@ -226,7 +230,7 @@ class Render extends AbstractStep
         $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
 
         if (empty($formats)) {
-            throw new Exception('Configuration key "pagetypeformats" can\'t be empty.');
+            throw new RuntimeException('Configuration key "pagetypeformats" can\'t be empty.');
         }
 
         if (!\is_array($formats)) {
@@ -307,15 +311,24 @@ class Render extends AbstractStep
         }
 
         // replace internal link to *.md files with the right URL
-        // https://regex101.com/r/dZ02zO/5
-        $replace = 'href="../%s/%s"';
-        if (empty($page->getFolder())) {
-            $replace = 'href="%s/%s"';
-        }
         $rendered = preg_replace_callback(
-            '/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
-            function ($matches) use ($replace) {
-                return \sprintf($replace, Page::slugify(PrefixSuffix::sub($matches[1])), $matches[2] ?? '');
+            // https://regex101.com/r/dZ02zO/6
+            //'/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
+            // https://regex101.com/r/ycWMe4/1
+            '/href="(\/|)([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
+            function ($matches) use ($page) {
+                // section spage
+                $hrefPattern = 'href="../%s/%s"';
+                // root page
+                if (empty($page->getFolder())) {
+                    $hrefPattern = 'href="%s/%s"';
+                }
+                // root link
+                if ($matches[1] == '/') {
+                    $hrefPattern = 'href="/%s/%s"';
+                }
+
+                return \sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
             },
             $rendered
         );

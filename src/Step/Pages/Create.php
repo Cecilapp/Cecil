@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -30,12 +33,11 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
         $this->builder->setPages(new PagesCollection('all-pages'));
 
-        if (is_dir($this->builder->getConfig()->getContentPath())) {
+        if (is_dir($this->builder->getConfig()->getPagesPath())) {
             $this->canProcess = true;
         }
     }
@@ -43,25 +45,26 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
-        if (count($this->builder->getContent()) <= 0) {
+        if (count($this->builder->getPagesFiles()) == 0) {
             return;
         }
 
-        $max = count($this->builder->getContent());
+        $max = count($this->builder->getPagesFiles());
         $count = 0;
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
-        foreach ($this->builder->getContent() as $file) {
+        foreach ($this->builder->getPagesFiles() as $file) {
             $count++;
             /** @var Page $page */
             $page = new Page(Page::createId($file));
             $page->setFile($file)->parse();
-            if (in_array($page->getVariable('language') ?? $this->config->getLanguageDefault(), array_column($this->config->getLanguages(), 'code'))) {
+            // add page to collection if its language is defined in config
+            if (in_array($page->getLanguage() ?? $this->config->getLanguageDefault(), array_column($this->config->getLanguages(), 'code'))) {
                 $this->builder->getPages()->add($page);
             }
 
-            $message = $page->getId();
+            $message = \sprintf('Page "%s" created', $page->getId());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
     }

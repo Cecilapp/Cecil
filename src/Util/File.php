@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -10,6 +13,7 @@
 
 namespace Cecil\Util;
 
+use Cecil\Exception\RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
 
 class File
@@ -36,6 +40,10 @@ class File
      */
     public static function fileGetContents(string $filename, bool $userAgent = false)
     {
+        if (empty($filename)) {
+            return false;
+        }
+
         set_error_handler(
             function ($severity, $message, $file, $line) {
                 throw new \ErrorException($message, 0, $severity, $file, $line, null);
@@ -56,7 +64,7 @@ class File
             }
 
             return file_get_contents($filename);
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return false;
         } finally {
             restore_error_handler();
@@ -70,8 +78,8 @@ class File
      */
     public static function getMimeType(string $filename): array
     {
-        if (false === $subtype = mime_content_type($filename)) {
-            throw new \Exception(sprintf('Can\'t get MIME content type of "%s"', $filename));
+        if (false === $subtype = \mime_content_type($filename)) {
+            throw new RuntimeException(\sprintf('Can\'t get MIME content type of "%s"', $filename));
         }
         $type = explode('/', $subtype)[0];
 

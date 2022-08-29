@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -13,7 +16,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 
 /**
  * Class Generator\Section.
@@ -38,7 +41,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $this->builder->getPages()->replace($page->getId(), $alteredPage);
                     continue;
                 }
-                $sections[$page->getSection()][$page->getVariable('language') ?? $this->config->getLanguageDefault()][] = $page;
+                $sections[$page->getSection()][$page->getLanguage() ?? $this->config->getLanguageDefault()][] = $page;
             }
         }
 
@@ -50,7 +53,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 foreach ($languages as $language => $pagesAsArray) {
                     $pageId = $path = Page::slugify($section);
                     if ($language != $this->config->getLanguageDefault()) {
-                        $pageId = sprintf('%s.%s', $pageId, $language);
+                        $pageId = \sprintf('%s.%s', $pageId, $language);
                     }
                     $page = (new Page($pageId))->setVariable('title', ucfirst($section));
                     if ($this->builder->getPages()->has($pageId)) {
@@ -72,13 +75,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // sorts
                     $pages = $pages->sortByDate();
                     if ($page->hasVariable('sortby')) {
-                        $sortMethod = sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
+                        $sortMethod = \sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
                         if (!method_exists($pages, $sortMethod)) {
-                            throw new Exception(sprintf(
-                                'In "%s" section "%s" is not a valid value for "sortby" variable.',
-                                $page->getId(),
-                                $page->getVariable('sortby')
-                            ));
+                            throw new RuntimeException(\sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
                         }
                         $pages = $pages->$sortMethod();
                     }
@@ -89,9 +88,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // creates page for each section
                     $page->setPath($path)
                         ->setType(Type::SECTION)
+                        ->setLanguage($language)
                         ->setVariable('pages', $pages)
                         ->setVariable('date', $pages->first()->getVariable('date'))
-                        ->setVariable('language', $language)
                         ->setVariable('langref', $path);
                     // default menu
                     if (!$page->getVariable('menu')) {

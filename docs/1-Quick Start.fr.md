@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site et prévisualiser le localement."
 date: 2021-11-03
-updated: 2021-11-19
+updated: 2022-08-15
 slug: demarrage-rapide
 menu: home
 -->
@@ -13,19 +13,25 @@ Cecil est une application en ligne de commande, propulsée par [PHP](https://www
 
 ## Créer un blog
 
-Si vous souhaiter créer un blog sans vous casser la tête, le [starter blog](https://github.com/Cecilapp/the-butler#readme) est fait pou vous !
+Si vous souhaiter créer un blog sans vous casser la tête, le [starter blog](https://github.com/Cecilapp/the-butler#readme) est fait pour vous.
 
-Cliquez sur le bouton ci-dessous et laisser [Forestry CMS](https://forestry.io) vous guider.
+Le moyen le plus simple de déployer et de gérer votre blog est certainement avec [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org) ou [Vercel](https://vercel.com).
 
-[![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/)
+[![Déployer sur Netlify](https://www.netlify.com/img/deploy/button.svg "Déployer sur Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Déployer sur Vercel](https://vercel.com/button/default.svg "Déployer sur Vercel")](https://cecil.app/hosting/vercel/deploy/)
+
+Si votre objectif est de gérer rapidement le contenu, et de décider plus tard où le déployer, laissez [Forestry CMS](https://forestry.io) vous guider.
+
+[![Importer dans Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/ "Importer dans Forestry")
 
 ----
 
 ## Créer un site web
 
-Créer un site web – à partir de rien – en 4 étapes!
+Comment créer un site Web en quelques étapes.
 
-### Étape 1 : Installer Cecil
+> Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
+
+### Télécharger Cecil
 
 Téléchargez `cecil.phar` depuis votre terminal:
 
@@ -33,39 +39,58 @@ Téléchargez `cecil.phar` depuis votre terminal:
 curl -LO https://cecil.app/cecil.phar
 ```
 
-Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement depuis le site web.
+Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement.
 
-> [PHP](http://php.net/manual/fr/install.php) 7.1+ est requis.
+> [PHP](https://php.net/manual/fr/install.php) 7.4+ est requis.
 
-### Étape 2 : Créer un nouveau site
+### Créer un nouveau site
 
-Lancez la commande `new:site` :
-
-```bash
-php cecil.phar new:site <monsiteweb>
-```
-
-### Étape 3 : Ajouter du contenu
-
-Lancez la commande `new:page` :
+Créez un répertoire pour le site Web (ex : `<monsiteweb>`), placez y `cecil.phar`, puis exécutez la commande `new:site` :
 
 ```bash
-php cecil.phar new:page blog/mon-premier-billet.md <monsiteweb>
+php cecil.phar new:site
 ```
 
-Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown favoris (je recommande [Typora](https://www.typora.io)): `<monsiteweb>/content/blog/mon-premier-billet.md`.
+### Ajouter du contenu
 
-### Étape 4 : Vérifier l’aperçu
-
-Lancez la commande suivante pour générer et servir le site web :
+Exécutez la commande `new:page` :
 
 ```bash
-php cecil.phar serve --drafts <monsiteweb>
+php cecil.phar new:page ma-premiere-page.md
 ```
 
-Naviguez ensuite sur votre nouveau site web à `http://localhost:8000`.
+Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown : `<monsiteweb>/pages/ma-premiere-page.md`.
 
-**Notes :**
+:::tip
+Nous vous recommandons d’utiliser [Typora](https://www.typora.io) pour éditer vos fichiers Markdown.
+:::
 
-- La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est rechargée.
-- L’option `--drafts` est utilisée pour inclure les brouillons.
+### Vérifier l’aperçu
+
+Exécutez la commande suivante pour créer un aperçu du site Web :
+
+```bash
+php cecil.phar serve
+```
+
+Naviguez ensuite sur `http://localhost:8000`.
+
+:::info
+La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est automatiquement rechargée.
+:::
+
+### Générer et déployer
+
+Quand vous êtes satisfait du résultat, vous pouvez générer le site afin de le déployer sur le Web.
+
+Exécutez la commande suivante pour générer le site :
+
+```bash
+php cecil.phar build
+```
+
+Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur Web 🎉
+
+:::tip
+La documentation complète est disponible, en anglais, à l'adresse suivante : <https://cecil.app/documentation/>
+:::

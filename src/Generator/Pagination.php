@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -69,7 +72,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             // sorts pages
             $pages = $pages->sortByDate();
             if ($sortby) {
-                $sortMethod = sprintf('sortBy%s', ucfirst($sortby));
+                $sortMethod = \sprintf('sortBy%s', ucfirst($sortby));
                 if (method_exists($pages, $sortMethod)) {
                     $pages = $pages->$sortMethod();
                 }
@@ -89,10 +92,10 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 );
                 $alteredPage = clone $page;
                 // first page
-                $firstPath = Page::slugify(sprintf('%s', $path));
+                $firstPath = Page::slugify(\sprintf('%s', $path));
                 if ($i == 0) {
                     // ie: blog + blog/page/1 (alias)
-                    $pageId = Page::slugify(sprintf('%s', $path));
+                    $pageId = Page::slugify(\sprintf('%s', $path));
                     // homepage special case
                     if ($path == '') {
                         $pageId = 'index';
@@ -102,11 +105,11 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         ->setId($pageId)
                         ->setPath($firstPath)
                         ->setVariable('aliases', [
-                            sprintf('%s/%s/%s', $path, $paginationPath, 1),
+                            \sprintf('%s/%s/%s', $path, $paginationPath, 1),
                         ]);
                 } else {
                     // ie: blog/page/2
-                    $pageId = Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $i + 1));
+                    $pageId = Page::slugify(\sprintf('%s/%s/%s', $path, $paginationPath, $i + 1));
                     $currentPath = $pageId;
                     $alteredPage
                         ->setId($pageId)
@@ -132,7 +135,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $pagination['links'] += ['prev' => Page::slugify($path ?: 'index')];
                 }
                 if ($i > 1) {
-                    $pagination['links'] += ['prev' => Page::slugify(sprintf(
+                    $pagination['links'] += ['prev' => Page::slugify(\sprintf(
                         '%s/%s/%s',
                         $path,
                         $paginationPath,
@@ -140,14 +143,14 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     ))];
                 }
                 if ($i < $paginationPagesCount - 1) {
-                    $pagination['links'] += ['next' => Page::slugify(sprintf(
+                    $pagination['links'] += ['next' => Page::slugify(\sprintf(
                         '%s/%s/%s',
                         $path,
                         $paginationPath,
                         $i + 2
                     ))];
                 }
-                $pagination['links'] += ['last' => Page::slugify(sprintf(
+                $pagination['links'] += ['last' => Page::slugify(\sprintf(
                     '%s/%s/%s',
                     $path,
                     $paginationPath,

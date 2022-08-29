@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -10,6 +13,7 @@
 
 namespace Cecil\Command;
 
+use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -17,7 +21,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Process\Process;
 
 /**
  * Creates a new page.
@@ -36,16 +39,19 @@ class NewPage extends AbstractCommand
                 new InputDefinition([
                     new InputArgument('name', InputArgument::REQUIRED, 'New page name'),
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
-                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Add date (`YYYY-MM-DD`) as a prefix'),
+                    new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use with open option'),
                 ])
             )
-            ->setHelp('Creates a new page file (with filename as title and the current date)');
+            ->setHelp('Creates a new page file (with filename as title)');
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws RuntimeException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -63,12 +69,12 @@ class NewPage extends AbstractCommand
             // has date prefix?
             $datePrefix = '';
             if ($prefix) {
-                $datePrefix = sprintf('%s-', $date);
+                $datePrefix = \sprintf('%s-', $date);
             }
             // path
-            $fileRelativePath = sprintf(
+            $fileRelativePath = \sprintf(
                 '%s%s%s%s%s.md',
-                (string) $this->getBuilder()->getConfig()->get('content.dir'),
+                (string) $this->getBuilder()->getConfig()->get('pages.dir'),
                 DIRECTORY_SEPARATOR,
                 empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR,
                 $datePrefix,
@@ -78,8 +84,8 @@ class NewPage extends AbstractCommand
 
             // file already exists?
             if ($this->fs->exists($filePath) && !$force) {
-                $output->writeln(sprintf(
-                    '<comment>The page "%s" already exists.</comment>',
+                $output->writeln(\sprintf(
+                    '<comment>The file "%s" already exists.</comment>',
                     $fileRelativePath
                 ));
                 // ask to override file
@@ -91,39 +97,49 @@ class NewPage extends AbstractCommand
             }
 
             // creates a new file
+            $model = $this->findModel(\sprintf('%s%s', empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR, $filename));
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],
-                $this->findModel(sprintf('%s%s', empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR, $filename))
+                $model['content']
             );
             $this->fs->dumpFile($filePath, $fileContent);
-            $output->writeln(sprintf('<info>File "%s" created.</info>', $fileRelativePath));
+            $output->writeln(\sprintf('<info>File "%s" created (with model "%s").</info>', $fileRelativePath, $model['name']));
 
             // open editor?
             if ($open) {
-                if (!$this->hasEditor()) {
-                    $output->writeln('<comment>No editor configured.</comment>');
+                if (null === $editor = $input->getOption('editor')) {
+                    if (!$this->getBuilder()->getConfig()->has('editor')) {
+                        $output->writeln('<comment>No editor configured.</comment>');
+
+                        return 0;
+                    }
+                    $editor = (string) $this->getBuilder()->getConfig()->get('editor');
                 }
-                $this->openEditor($filePath);
+                $output->writeln(\sprintf('<info>Opening file with %s...</info>', ucfirst($editor)));
+                $this->openEditor($filePath, $editor);
             }
         } catch (\Exception $e) {
-            throw new \Exception(sprintf($e->getMessage()));
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
         return 0;
     }
 
     /**
-     * Finds the page model and returns its content.
+     * Finds the page model and returns its [name, content].
      */
-    private function findModel(string $name): string
+    private function findModel(string $name): array
     {
-        $name = !empty(strstr($name, DIRECTORY_SEPARATOR, true)) ?: 'default';
+        $name = strstr($name, DIRECTORY_SEPARATOR, true) ?: 'default';
         if (file_exists($model = Util::joinFile($this->getPath(), 'models', "$name.md"))) {
-            return Util\File::fileGetContents($model);
+            return [
+                'name'    => $name,
+                'content' => Util\File::fileGetContents($model),
+            ];
         }
 
-        return <<<'EOT'
+        $content = <<<'EOT'
 ---
 title: "%title%"
 date: %date%
@@ -132,34 +148,10 @@ published: true
 _Your content here_
 
 EOT;
-    }
 
-    /**
-     * Editor is configured?
-     */
-    protected function hasEditor(): bool
-    {
-        return (bool) $this->getBuilder()->getConfig()->get('editor');
-    }
-
-    /**
-     * Opens the new file in editor (if configured).
-     */
-    protected function openEditor(string $filePath): void
-    {
-        if ($editor = (string) $this->getBuilder()->getConfig()->get('editor')) {
-            $command = sprintf('%s "%s"', $editor, $filePath);
-            // Typora 4TW!
-            if ($editor == 'typora') {
-                if (Util\Plateform::getOS() == Util\Plateform::OS_OSX) {
-                    $command = sprintf('open -a typora "%s"', $filePath);
-                }
-            }
-            $process = Process::fromShellCommandline($command);
-            $process->run();
-            if (!$process->isSuccessful()) {
-                throw new \Exception(sprintf('Can\'t run "%s".', $command));
-            }
-        }
+        return [
+            'name'    => 'cecil',
+            'content' => $content,
+        ];
     }
 }

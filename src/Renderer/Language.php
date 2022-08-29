@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -11,7 +14,7 @@
 namespace Cecil\Renderer;
 
 use Cecil\Config;
-use Cecil\Exception\Exception;
+use Cecil\Exception\RuntimeException;
 
 /**
  * Class Language.
@@ -95,11 +98,7 @@ class Language
         if (empty($value)) {
             $language = $this->language ?: $this->config->getLanguageDefault();
 
-            throw new Exception(sprintf(
-                'The property "%s" is empty for language "%s".',
-                $property,
-                $language
-            ));
+            throw new RuntimeException(\sprintf('The property "%s" is empty for language "%s".', $property, $language));
         }
 
         return true;

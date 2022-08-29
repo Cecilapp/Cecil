@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -11,7 +14,7 @@
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
-use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Page as CollectionPage;
 
 /**
  * Class Site.
@@ -41,12 +44,13 @@ class Site implements \ArrayAccess
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset): bool
     {
         // special cases
         switch ($offset) {
-            case 'home':
             case 'menus':
+            case 'home':
                 return true;
         }
 
@@ -54,50 +58,77 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      *
      * @return mixed|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        // special cases
+        // Featch data from builder instead of config raw data
         switch ($offset) {
+            case 'pages':
+                return $this->getPages();
             case 'menus':
                 return $this->builder->getMenus($this->language);
             case 'taxonomies':
                 return $this->builder->getTaxonomies();
-            case 'language':
-                return new Language($this->config, $this->language);
             case 'data':
                 return $this->builder->getData();
             case 'static':
                 return $this->builder->getStatic();
+            case 'language':
+                return new Language($this->config, $this->language);
             case 'home':
-                return $this->language !== $this->config->getLanguageDefault() ? sprintf('index.%s', $this->language) : 'index';
+                return $this->language != $this->config->getLanguageDefault() ? \sprintf('index.%s', $this->language) : 'index';
         }
 
         return $this->config->get($offset, $this->language);
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      * @param mixed $value
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function offsetSet($offset, $value)
+    #[\ReturnTypeWillChange]
+    public function offsetSet($offset, $value): void
     {
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function offsetUnset($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetUnset($offset): void
     {
+    }
+
+    /**
+     * Returns a page in the current language or the one provided.
+     *
+     * @throws \DomainException
+     */
+    public function getPage(string $id, string $language = null): ?CollectionPage
+    {
+        $pageId = $id;
+        if ($language === null && $this->language != $this->config->getLanguageDefault()) {
+            $pageId = \sprintf('%s.%s', $id, $this->language);
+        }
+        if ($language !== null && $language != $this->config->getLanguageDefault()) {
+            $pageId = \sprintf('%s.%s', $id, $language);
+        }
+
+        return $this->builder->getPages()->get($pageId);
     }
 
     /**
@@ -105,13 +136,13 @@ class Site implements \ArrayAccess
      */
     public function getPages(): \Cecil\Collection\Page\Collection
     {
-        return $this->builder->getPages()->filter(function (Page $page) {
+        return $this->builder->getPages()->filter(function (CollectionPage $page) {
             // We should fix case of virtual pages without language
-            if ($page->getVariable('language') === null && $this->language === $this->config->getLanguageDefault()) {
+            if ($page->getLanguage() === null && $this->language == $this->config->getLanguageDefault()) {
                 return true;
             }
 
-            return $page->getVariable('language') == $this->language;
+            return $page->getLanguage() == $this->language;
         });
     }
 

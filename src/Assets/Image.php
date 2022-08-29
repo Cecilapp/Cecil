@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -10,6 +13,7 @@
 
 namespace Cecil\Assets;
 
+use Cecil\Assets\Image\Optimizers\Cwebp;
 use Intervention\Image\ImageManagerStatic as ImageManager;
 use Spatie\ImageOptimizer\OptimizerChain;
 use Spatie\ImageOptimizer\Optimizers\Gifsicle;
@@ -47,6 +51,12 @@ class Image
             ->addOptimizer(new Gifsicle([
                 '-b',
                 '-O3',
+            ]))
+            ->addOptimizer(new Cwebp([
+                '-m 6',
+                '-pass 10',
+                '-mt',
+                '-q $quality',
             ]));
     }
 
@@ -54,24 +64,20 @@ class Image
      * Build the `srcset` attribute for responsive images.
      * ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w".
      */
-    public static function getSrcset(Asset $asset, int $steps, int $wMin, int $wMax): string
+    public static function buildSrcset(Asset $asset, array $widths): string
     {
         $srcset = '';
-        for ($i = 1; $i <= $steps; $i++) {
-            $w = ceil($wMin * $i);
-            if ($w > $asset->getWidth() || $w > $wMax) {
+        foreach ($widths as $width) {
+            if ($asset->getWidth() < $width) {
                 break;
             }
-            $a = clone $asset;
-            $img = $a->resize(intval($w));
-            $srcset .= sprintf('%s %sw', $img, $w);
-            if ($i < $steps) {
-                $srcset .= ', ';
-            }
+            $img = $asset->resize($width);
+            $srcset .= \sprintf('%s %sw, ', $img, $width);
         }
+        rtrim($srcset, ', ');
         // add reference image
         if (!empty($srcset)) {
-            $srcset .= sprintf('%s %sw', (string) $asset, $asset->getWidth());
+            $srcset .= \sprintf('%s %sw', (string) $asset, $asset->getWidth());
         }
 
         return $srcset;
@@ -84,11 +90,25 @@ class Image
     {
         $assetWebp = clone $asset;
         $format = 'webp';
-        $image = ImageManager::make($assetWebp['content_source']);
+        $image = ImageManager::make($assetWebp['content']);
         $assetWebp['content'] = (string) $image->encode($format, $quality);
         $assetWebp['path'] = preg_replace('/\.'.$asset['ext'].'$/m', ".$format", $asset['path']);
         $assetWebp['ext'] = $format;
 
         return $assetWebp;
+    }
+
+    /**
+     * Tests if an asset is an animated gif.
+     */
+    public static function isAnimatedGif(Asset $asset): bool
+    {
+        // an animated gif contains multiple "frames", with each frame having a header made up of:
+        // * a static 4-byte sequence (\x00\x21\xF9\x04)
+        // * 4 variable bytes
+        // * a static 2-byte sequence (\x00\x2C)
+        $count = preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', (string) $asset['content_source']);
+
+        return $count > 1;
     }
 }

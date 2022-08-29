@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -33,19 +36,14 @@ class Build extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file(s) (comma-separated)'),
+                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
                     new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
+                    new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                     new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
-                    new InputOption(
-                        'postprocess',
-                        null,
-                        InputOption::VALUE_OPTIONAL,
-                        'Post-process output (disable with "no")',
-                        false
-                    ),
-                    new InputOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear cache after build'),
+                    new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),
+                    new InputOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear cache before build'),
                 ])
             )
             ->setHelp('Builds the website in the output directory');
@@ -65,10 +63,7 @@ class Build extends AbstractCommand
         }
         if ($input->getOption('output')) {
             $config['output']['dir'] = $input->getOption('output');
-            $this->fs->dumpFile(
-                Util::joinFile($this->getPath(), self::TMP_DIR, 'output'),
-                (string) $input->getOption('output')
-            );
+            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'), (string) $input->getOption('output'));
         }
         if ($input->getOption('postprocess') === null) {
             $config['postprocess']['enabled'] = true;
@@ -90,27 +85,29 @@ class Build extends AbstractCommand
             $options['dry-run'] = true;
             $messageOpt .= ' (dry-run)';
         }
+        if ($input->getOption('page')) {
+            $options['page'] = $input->getOption('page');
+        }
 
-        $output->writeln(sprintf('Building website%s...', $messageOpt));
+        $output->writeln(\sprintf('Building website%s...', $messageOpt));
         $output->writeln(
-            sprintf('<comment>Path: %s</comment>', $this->getPath()),
+            \sprintf('<comment>Path: %s</comment>', $this->getPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         if (!empty($this->getConfigFiles())) {
             $output->writeln(
-                sprintf('<comment>Config: %s</comment>', implode(',', $this->getConfigFiles())),
+                \sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
         if ((bool) $this->builder->getConfig()->get('cache.enabled')) {
             $output->writeln(
-                sprintf('<comment>Cache: %s</comment>', $this->builder->getConfig()->getCachePath()),
+                \sprintf('<comment>Cache: %s</comment>', $this->builder->getConfig()->getCachePath()),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
 
         $builder->build($options);
-        $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
         $output->writeln('Done! 🎉');
 
         return 0;

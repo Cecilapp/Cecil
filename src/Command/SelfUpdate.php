@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -34,8 +37,7 @@ class SelfUpdate extends AbstractCommand
                 new InputOption('stable', null, InputOption::VALUE_NONE, 'Force an update to the last stable version'),
                 new InputOption('preview', null, InputOption::VALUE_NONE, 'Force an update to the last unstable version'),
             ]))
-            ->setHelp('The self-update command checks for a newer version and,
-if found, downloads and installs the latest');
+            ->setHelp('The self-update command checks for a newer version and, if found, downloads and installs the latest');
     }
 
     /**
@@ -72,6 +74,7 @@ if found, downloads and installs the latest');
         $strategy->setPharName('cecil.phar');
         $strategy->setCurrentLocalVersion($version);
         $strategy->setStability($input->getOption('preview') ? 'unstable' : 'stable');
+        $updater->setStrategyObject($strategy);
 
         try {
             $output->writeln('Checking for updates...');
@@ -79,11 +82,11 @@ if found, downloads and installs the latest');
             if ($result) {
                 $new = $updater->getNewVersion();
                 $old = $updater->getOldVersion();
-                $output->writeln(sprintf('Updated from <comment>%s</comment> to <info>%s</info>.', $old, $new));
+                $output->writeln(\sprintf('Updated from <comment>%s</comment> to <info>%s</info>.', $old, $new));
 
                 return 0;
             }
-            $output->writeln(sprintf('You are already using the last version (<comment>%s</comment>).', $version));
+            $output->writeln(\sprintf('You are already using the last version (<comment>%s</comment>).', $version));
 
             return 0;
         } catch (\Exception $e) {

@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -42,7 +45,7 @@ class GeneratorManager extends \SplPriorityQueue
     /**
      * {@inheritdoc}
      */
-    public function compare($priority1, $priority2)
+    public function compare($priority1, $priority2): int
     {
         if ($priority1 === $priority2) {
             return 0;
@@ -72,11 +75,11 @@ class GeneratorManager extends \SplPriorityQueue
                     /** @var \Cecil\Collection\Page\Page $page */
                     try {
                         $pagesCollection->add($page);
-                    } catch (\Exception $e) {
+                    } catch (\DomainException $e) {
                         $pagesCollection->replace($page->getId(), $page);
                     }
                 }
-                $message = sprintf('%s: %s', Util::formatClassName($generator), count($generatedPages));
+                $message = \sprintf('%s "%s" pages generated', count($generatedPages), Util::formatClassName($generator));
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
 
                 $this->next();

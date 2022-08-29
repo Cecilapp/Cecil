@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -11,7 +14,7 @@
 // Website default configuration
 return [
     'title'        => 'Site title',
-    'baseline'     => 'Site baseline',
+    //'baseline'     => 'Site baseline',
     'baseurl'      => 'http://localhost:8000/',
     'canonicalurl' => false,   // if true 'url()' function preprends URL wirh 'baseurl'
     'description'  => 'Site description',
@@ -25,7 +28,7 @@ return [
     ],
     'date' => [
         'format'   => 'j F Y', // See https://php.net/manual/function.date.php
-        'timezone' => 'Europe/Paris',
+        //'timezone' => 'Europe/Paris',
     ],
     'output' => [
         'dir'      => '_site',
@@ -34,14 +37,14 @@ return [
             -1 => [
                 'name'      => 'html',
                 'mediatype' => 'text/html',
-                'suffix'    => 'index',
+                'filename'  => 'index',
                 'extension' => 'html',
             ],
             // ie: blog/atom.xml
             -2 => [
                 'name'      => 'atom',
                 'mediatype' => 'application/atom+xml',
-                'suffix'    => 'atom',
+                'filename'  => 'atom',
                 'extension' => 'xml',
                 'exclude'   => ['redirect', 'paginated'],
             ],
@@ -49,7 +52,7 @@ return [
             -3 => [
                 'name'      => 'rss',
                 'mediatype' => 'application/rss+xml',
-                'suffix'    => 'rss',
+                'filename'  => 'rss',
                 'extension' => 'xml',
                 'exclude'   => ['redirect', 'paginated'],
             ],
@@ -79,7 +82,7 @@ return [
                 'name'      => 'amp',
                 'mediatype' => 'text/html',
                 'subpath'   => 'amp',
-                'suffix'    => 'index',
+                'filename'  => 'index',
                 'extension' => 'html',
             ],
             // ie: sw.js
@@ -93,6 +96,12 @@ return [
                 'name'      => 'webmanifest',
                 'mediatype' => 'application/manifest+json',
                 'extension' => 'webmanifest',
+            ],
+            // ie: atom.xsl
+            -10 => [
+                'name'      => 'xsl',
+                'mediatype' => 'application/xml',
+                'extension' => 'xsl',
             ],
         ],
         'pagetypeformats' => [
@@ -145,33 +154,56 @@ return [
             'exclude'      => true,
             'multilingual' => false,
         ],
+        'atom' => [
+            'path'      => 'atom',
+            'layout'    => 'feed',
+            'output'    => 'xsl',
+            'uglyurl'   => true,
+            'published' => true,
+            'exclude'   => true,
+        ],
+        'rss' => [
+            'path'      => 'rss',
+            'layout'    => 'feed',
+            'output'    => 'xsl',
+            'uglyurl'   => true,
+            'published' => true,
+            'exclude'   => true,
+        ],
     ],
     // Markdown files
-    'content' => [
-        'dir'    => 'content',
-        'ext'    => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'],
+    'pages' => [
+        'dir'     => 'pages', // pages directory (previously "content")
+        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // array of files extensions
+        'exclude' => ['vendor', 'node_modules'], // array of directories, paths and files name to exclude
     ],
     'frontmatter' => [
         'format' => 'yaml',
     ],
     'body' => [
-        'format' => 'md',         // only Markdown is supported
-        'toc'    => ['h2', 'h3'], // list of headers to include in Table of contents
+        'format'    => 'md',         // page body format (only Markdown is supported)
+        'toc'       => ['h2', 'h3'], // headers used to build the table of contents
+        'highlight' => [
+            'enabled' => false,  // enables code syntax highlighting (`false` by default)
+        ],
         'images' => [
             'lazy' => [
-                'enabled' => true,  // lazy load images
-            ],
-            'caption' => [
-                'enabled' => false, // adds <figcaption> based on image title
+                'enabled' => true,  // adds `loading="lazy"` attribute (`true` by default)
             ],
             'resize' => [
-                'enabled' => false, // resizes images with a `with` attribute
+                'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
             ],
             'responsive' => [
-                'enabled' => false, // creates responsive images
+                'enabled' => false, // creates responsive images and add them to the `srcset` attribute (`false` by default)
             ],
             'webp' => [
-                'enabled' => false, // creates a WebP version of images
+                'enabled' => false, // adds a WebP image as a `source` (`false` by default)
+            ],
+            'caption' => [
+                'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+            ],
+            'remote' => [
+                'enabled' => true,  // turns remote images to Asset to handling them (`true` by default)
             ],
         ],
     ],
@@ -216,22 +248,18 @@ return [
         'target' => 'assets', // target directory of remote and resized assets
         'images' => [
             'optimize' => [
-                'enabled' => false, // enables image optimization (JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp)
+                'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
             ],
-            'quality'    => 85,     // quality of optimized JPEG and PNG, and resized JPEG
+            'quality'    => 75,     // Image quality after optimization or resize (`75` by default)
             'responsive' => [
-                'enabled' => false, // creates responsive images with `html` filter
-                'width'   => [
-                    'steps' => 5,     // number of steps between each responsives images
-                    'min'   => 320,   // minimum width
-                    'max'   => 1280,  // maximum width
-                ],
-                'sizes' => [
-                    'default' => '100vw', // default sizes
+                'enabled' => false, // creates responsive images with `html` filter (`false` by default)
+                'widths'  => [480, 640, 768, 1024, 1366, 1600, 1920],
+                'sizes'   => [
+                    'default' => '100vw', // `sizes` attribute (`100vw` by default)
                 ],
             ],
             'webp' => [
-                'enabled' => false, // creates a WebP version of images with `html` filter
+                'enabled' => false, // creates a WebP version of images with `html` filter (`false` by default)
             ],
         ],
     ],

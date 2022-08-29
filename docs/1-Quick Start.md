@@ -1,7 +1,7 @@
 <!--
 description: "Create a new site and preview it locally."
 date: 2020-12-19
-updated: 2021-11-19
+updated: 2022-08-15
 menu: home
 -->
 
@@ -11,19 +11,25 @@ Cecil is a CLI application, powered by [PHP](https://www.php.net), that merge pl
 
 ## Create a blog
 
-If you want to create a no-hassle blog, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you!
+If you want to create a no-hassle blog, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you.
 
-Click on the button below and let [Forestry CMS](https://forestry.io) guide you.
+The easiest way to deploy and manage your blog is certainly with [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org) or [Vercel](https://vercel.com).
 
-[![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy to Vercel](https://vercel.com/button/default.svg "Deploy to Vercel")](https://cecil.app/hosting/vercel/deploy/)
+
+If your goal is managing content quickly, and decide later where to deploy it, let [Forestry CMS](https://forestry.io) guide you.
+
+[![Import into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/ "Import into Forestry")
 
 ----
 
 ## Create a website
 
-Create a website – from scratch – in 4 steps!
+How to create create a website in a few steps.
 
-### Step 1: Install Cecil
+> Demo of expected result: <https://cecilapp.github.io/skeleton/>.
+
+### Download Cecil
 
 Download `cecil.phar` from your terminal:
 
@@ -31,39 +37,54 @@ Download `cecil.phar` from your terminal:
 curl -LO https://cecil.app/cecil.phar
 ```
 
-You can also [download Cecil](https://cecil.app/download/) manually from the website.
+You can also [download Cecil](https://cecil.app/download/) manually.
 
-> [PHP](http://php.net/manual/en/install.php) 7.1+ is required.
+> [PHP](https://php.net/manual/en/install.php) 7.4+ is required.
 
-### Step 2: Create a new website
+### Create a new website
 
-Run the `new:site` command:
+Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it, then run the `new:site` command:
 
 ```bash
-php cecil.phar new:site <mywebsite>
+php cecil.phar new:site
 ```
 
-### Step 3: Add some content
+### Add a page
 
 Run the `new:page` command:
 
 ```bash
-php cecil.phar new:page blog/my-first-post.md <mywebsite>
+php cecil.phar new:page my-first-page.md
 ```
 
-Now you can edit the newly created page with your favorite Markdown editor (I recommend [Typora](https://www.typora.io)): `<mywebsite>/content/blog/my-first-post.md`.
+Now you can edit the newly created page with your Markdown editor: `<mywebsite>/pages/my-first-page.md`.
 
-### Step 4: Check the preview
+:::tip
+We recommend you to use [Typora](https://www.typora.io) to edit your Markdown files.
+:::
 
-Run the following command to build and serve the website:
+### Check the preview
+
+Run the following command to create a preview of the website:
 
 ```bash
-php cecil.phar serve --drafts <mywebsite>
+php cecil.phar serve
 ```
 
-Then navigate to your new website at `http://localhost:8000`.
+Then navigate to `http://localhost:8000`.
 
-**Notes:**
+:::info
+The `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is automatically reloaded.
+:::
 
-- `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is reloaded.
-- `--drafts` option is used to include drafts.
+### Build and deploy
+
+When you are satisfied with the result, you can generate the website in order to deploy it on the Web.
+
+Run the following command to build the website:
+
+```bash
+php cecil.phar build
+```
+
+You can now copy the content of the `_site` directory to a Web server 🎉

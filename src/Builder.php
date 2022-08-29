@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -11,6 +14,7 @@
 namespace Cecil;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
+use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
 use Cecil\Util\Plateform;
@@ -23,7 +27,7 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder implements LoggerAwareInterface
 {
-    const VERSION = '5.x-dev';
+    const VERSION = '6.x-dev';
     const VERBOSITY_QUIET = -1;
     const VERBOSITY_NORMAL = 0;
     const VERBOSITY_VERBOSE = 1;
@@ -33,9 +37,9 @@ class Builder implements LoggerAwareInterface
      * @var array Steps processed by build().
      */
     protected $steps = [
-        'Cecil\Step\Config\Import',
-        'Cecil\Step\Content\Load',
-        'Cecil\Step\Content\DataLoad',
+        'Cecil\Step\Themes\Import',
+        'Cecil\Step\Pages\Load',
+        'Cecil\Step\Data\Load',
         'Cecil\Step\StaticFiles\Load',
         'Cecil\Step\Pages\Create',
         'Cecil\Step\Pages\Convert',
@@ -96,14 +100,13 @@ class Builder implements LoggerAwareInterface
      */
     public function __construct($config = null, LoggerInterface $logger = null)
     {
-        $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
-
-        // default logger
+        // set logger
         if ($logger === null) {
             $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
         }
         $this->setLogger($logger);
-
+        // set config
+        $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
         // debug mode?
         if (getenv('CECIL_DEBUG') == 'true' || (bool) $this->getConfig()->get('debug')) {
             $this->debug = true;
@@ -127,10 +130,17 @@ class Builder implements LoggerAwareInterface
     {
         // set start script time
         $startTime = microtime(true);
+
+        // checks baseurl
+        if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
+            $this->getLogger()->error("The 'baseurl' configuration key is required in production (e.g.: 'baseurl: https://example.com/').");
+        }
+
         // prepare options
         $this->options = array_merge([
             'drafts'  => false, // build drafts or not
             'dry-run' => false, // if dry-run is true, generated files are not saved
+            'page'    => '',    // specific page to build
         ], $options);
 
         // process each step
@@ -155,7 +165,7 @@ class Builder implements LoggerAwareInterface
         }
 
         // process duration
-        $message = sprintf('Built in %ss', round(microtime(true) - $startTime, 2));
+        $message = \sprintf('Built in %ss', round(microtime(true) - $startTime, 2));
         $this->getLogger()->notice($message);
 
         return $this;
@@ -239,17 +249,17 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Set collected content.
+     * Set collected pages files.
      */
-    public function setContent(Finder $content): void
+    public function setPagesFiles(Finder $content): void
     {
         $this->content = $content;
     }
 
     /**
-     * Returns content.
+     * Returns pages files.
      */
-    public function getContent(): ?Finder
+    public function getPagesFiles(): ?Finder
     {
         return $this->content;
     }
@@ -297,7 +307,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns pages collection.
      */
-    public function getPages(): PagesCollection
+    public function getPages(): ?PagesCollection
     {
         return $this->pages;
     }
@@ -352,6 +362,8 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns application version.
+     *
+     * @throws RuntimeException
      */
     public static function getVersion(): string
     {
@@ -363,11 +375,11 @@ class Builder implements LoggerAwareInterface
 
             try {
                 if (!file_exists($filePath)) {
-                    throw new \Exception(sprintf('%s file doesn\'t exist!', $filePath));
+                    throw new RuntimeException(\sprintf('%s file doesn\'t exist!', $filePath));
                 }
                 $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
-                    throw new \Exception(sprintf('Can\'t get %s file!', $filePath));
+                    throw new RuntimeException(\sprintf('Can\'t get %s file!', $filePath));
                 }
                 self::$version = trim($version);
             } catch (\Exception $e) {

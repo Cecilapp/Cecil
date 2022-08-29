@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -8,11 +11,10 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Item;
+use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
@@ -56,6 +58,9 @@ class Page extends Item
 
     /** @var string Body after Markdown conversion. */
     protected $html;
+
+    /** @var string */
+    protected $language = null;
 
     /** @var Slugify */
     private static $slugifier;
@@ -172,12 +177,20 @@ class Page extends Item
         }
         // is file has a language suffix?
         if (PrefixSuffix::hasSuffix($fileName)) {
-            $this->setVariable('language', PrefixSuffix::getSuffix($fileName));
+            $this->setLanguage(PrefixSuffix::getSuffix($fileName));
         }
-        // set reference between translations
+        // set reference between page's translations, even if it exist in only one language
         $this->setVariable('langref', $this->getPath());
 
         return $this;
+    }
+
+    /**
+     * Returns file real path.
+     */
+    public function getFilePath(): ?string
+    {
+        return $this->file->getRealPath() === false ? null : $this->file->getRealPath();
     }
 
     /**
@@ -385,6 +398,24 @@ class Page extends Item
         return $this->getBodyHtml();
     }
 
+    /**
+     * Set language.
+     */
+    public function setLanguage(string $language = null): self
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language.
+     */
+    public function getLanguage(): ?string
+    {
+        return $this->language;
+    }
+
     /*
      * Helpers to set and get variables.
      */
@@ -392,7 +423,7 @@ class Page extends Item
     /**
      * Set an array as variables.
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
     public function setVariables(array $variables): self
     {
@@ -417,42 +448,61 @@ class Page extends Item
      * @param string $name
      * @param mixed  $value
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
     public function setVariable(string $name, $value): self
     {
-        if (is_bool($value)) {
-            $value = $value ?: 0;
+        // cast some strings to boolean
+        $this->filterBool($value);
+        if (is_array($value)) {
+            array_walk_recursive($value, [$this, 'filterBool']);
         }
+        // behavior for specific named variables
         switch ($name) {
+            /**
+             * date: 2012-10-08.
+             */
             case 'date':
                 try {
                     $date = Util\Date::dateToDatetime($value);
                 } catch (\Exception $e) {
-                    throw new \Exception(sprintf(
-                        'Expected date format (ie: "2012-10-08") for "date" in "%s" instead of "%s"',
-                        $this->getId(),
-                        (string) $value
-                    ));
+                    throw new RuntimeException(\sprintf('Expected date format for "date" in "%s" must be "YYYY-MM-DD" instead of "%s"', $this->getId(), (string) $value));
                 }
                 $this->offsetSet('date', $date);
                 break;
-            case 'draft':
-                if ($value === true) {
-                    $this->offsetSet('published', false);
+            /**
+             * schedule:
+             *   publish: 2012-10-08
+             *   expiry: 2012-10-09.
+             */
+            case 'schedule':
+                $this->offsetSet('published', false);
+                if (is_array($value)) {
+                    if (array_key_exists('publish', $value) && Util\Date::dateToDatetime($value['publish']) <= Util\Date::dateToDatetime('now')) {
+                        $this->offsetSet('published', true);
+                    }
+                    if (array_key_exists('expiry', $value) && Util\Date::dateToDatetime($value['expiry']) >= Util\Date::dateToDatetime('now')) {
+                        $this->offsetSet('published', true);
+                    }
                 }
                 break;
+            /**
+             * draft: true.
+             */
+            case 'draft':
+                if ($value === true) {
+                    $this->offsetSet('published', 0);
+                }
+                break;
+            /**
+             * path: about/about
+             * slug: about.
+             */
             case 'path':
             case 'slug':
                 $slugify = self::slugify((string) $value);
                 if ($value != $slugify) {
-                    throw new \Exception(sprintf(
-                        '"%s" variable should be "%s" (not "%s") in "%s"',
-                        $name,
-                        $slugify,
-                        (string) $value,
-                        $this->getId()
-                    ));
+                    throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s"', $name, $slugify, (string) $value, $this->getId()));
                 }
                 /** @see setPath() */
                 /** @see setSlug() */
@@ -514,5 +564,20 @@ class Page extends Item
     public function getFmVariables(): array
     {
         return $this->fmVariables;
+    }
+
+    /**
+     * Filter 'true', 'false', 'on', 'off', 'yes', 'no' to boolean.
+     */
+    private function filterBool(&$value)
+    {
+        if (is_string($value)) {
+            if (in_array($value, ['true', 'on', 'yes'])) {
+                $value = true;
+            }
+            if (in_array($value, ['false', 'off', 'no'])) {
+                $value = false;
+            }
+        }
     }
 }

@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -30,11 +33,9 @@ class Load extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
-        /** @var \Cecil\Config $config */
-        if (is_dir($this->builder->getConfig()->getStaticPath()) && $this->config->get('static.load')) {
+        if (is_dir($this->builder->getConfig()->getStaticPath()) && (bool) $this->config->get('static.load')) {
             $this->canProcess = true;
         }
     }
@@ -42,7 +43,7 @@ class Load extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         $files = Finder::create()
             ->files()
@@ -73,7 +74,7 @@ class Load extends AbstractStep
             $staticFiles[$count]['ext'] = $file->getExtension();
             $count++;
 
-            $message = sprintf('%s', $file->getRelativePathname());
+            $message = \sprintf('File "%s" loaded', $file->getRelativePathname());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
         }
 

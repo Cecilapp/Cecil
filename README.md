@@ -1,10 +1,9 @@
-# Cecil
+[![Cecil's logo, created by Cécile Ricordeau](https://cecil.app/images/logo-cecil.png)](https://cecil.app)
 
-![Cecil logo](https://cecil.app/images/cecil-logo-netlify-cms.png "Logo created by Cécile Ricordeau")
-
-> Your content driven static site generator.
+Cecil, your content driven static site generator.
 
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
+[![Latest Preview Version](https://poser.pugx.org/cecil/cecil/v/unstable)](https://github.com/Cecilapp/Cecil/releases)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
 [![Tests suite](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml)
 [![Release cecil.phar](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml)
@@ -19,13 +18,13 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 📄 [Documentation](https://cecil.app/documentation) | 💻 [Demo](https://demo.cecil.app) | 🐛 [Issue tracker](https://github.com/Cecilapp/Cecil/issues) | 💬 [Discussion](https://github.com/Cecilapp/Cecil/discussions)
 
-![Cecil CLI demo](docs/cecil-demo.gif "Cecil CLI demo")
+![Cecil CLI demo](docs/cecil-cli-demo.gif "Cecil CLI demo")
 
 ## Quick Start
 
 Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button)](https://cecil.app/hosting/vercel/deploy/) [![Import this project into Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button "Deploy with Vercel")](https://cecil.app/hosting/vercel/deploy/) [![Import to Forestry](https://assets.forestry.io/import-to-forestryK.svg "Import to Forestry")](https://cecil.app/cms/forestry/import/)
 
 ## Features
 
@@ -51,7 +50,7 @@ mv cecil.phar /usr/local/bin/cecil
 chmod +x /usr/local/bin/cecil
 ```
 
-> [PHP](https://www.php.net) 7.1+ is required.
+> [PHP](https://www.php.net) 7.4+ is required.
 
 ## Usage
 
@@ -65,7 +64,8 @@ See [Contributing](CONTRIBUTING.md).
 
 ## Sponsors
 
-[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100 "Aperture Lab")](https://aperturelab.fr) [![studio cecillie](https://raw.githubusercontent.com/cecillie/eshop/main/static/images/cecillie_signature.png "studio cecillie")](https://studio.cecillie.fr)
+<!--[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie.png)](https://studio.cecillie.fr#gh-light-mode-only)[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie-dark.png)](https://studio.cecillie.fr#gh-dark-mode-only)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify.png)](https://www.netlify.com#gh-light-mode-only)[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify-dark.png)](https://www.netlify.com#gh-dark-mode-only)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->[![Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel.png)](https://vercel.com/?utm_source=cecil&utm_campaign=oss#gh-light-mode-only)[![ Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel-dark.png)](https://vercel.com/?utm_source=cecil&utm_campaign=oss#gh-dark-mode-only)
 
 ## License
 

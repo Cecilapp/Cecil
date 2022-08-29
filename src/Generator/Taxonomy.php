@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -13,8 +16,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
-use Cecil\Exception\Exception;
+use Cecil\Collection\Taxonomy\Vocabulary;
 
 /**
  * Class Generator\Taxonomy.
@@ -39,7 +41,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                      */
                     /** @var PagesCollection $pages */
                     foreach ($vocabulary as $term) {
-                        $pageId = $path = Page::slugify(sprintf('%s/%s', $plural, $term->getId()));
+                        $pageId = $path = Page::slugify(\sprintf('%s/%s', $plural, $term->getId()));
                         $pages = $term->sortByDate();
                         $date = $pages->first()->getVariable('date');
                         $page = (new Page($pageId))
@@ -74,7 +76,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     // adds page only if a template exist
                     try {
                         $this->generatedPages->add($page);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         printf("%s\n", $e->getMessage());
                         unset($page); // do not adds page
                     }

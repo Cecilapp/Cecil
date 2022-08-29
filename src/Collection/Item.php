@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -45,46 +48,50 @@ class Item implements ItemInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->properties);
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      *
      * @return mixed|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->properties[$offset];
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    #[\ReturnTypeWillChange]
+    public function offsetSet($offset, $value): void
     {
         $this->properties[$offset] = $value;
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetUnset($offset): void
     {
         unset($this->properties[$offset]);
     }

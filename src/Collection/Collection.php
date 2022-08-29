@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -70,15 +73,13 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function add(ItemInterface $item): CollectionInterface
     {
         if ($this->has($item->getId())) {
-            throw new \DomainException(sprintf(
-                'Failed adding "%s" in "%s" collection: item already exists.',
-                $item->getId(),
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed adding "%s" in "%s" collection: item already exists.', $item->getId(), $this->getId()));
         }
         $this->items[] = $item;
 
@@ -87,15 +88,13 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function replace(string $id, ItemInterface $item): CollectionInterface
     {
         if (!$this->has($id)) {
-            throw new \DomainException(sprintf(
-                'Failed replacing "%s" in "%s" collection: item does not exist.',
-                $item->getId(),
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $item->getId(), $this->getId()));
         }
         $this->items[$this->getPosition($id)] = $item;
 
@@ -104,15 +103,13 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function remove(string $id): CollectionInterface
     {
         if (!$this->has($id)) {
-            throw new \DomainException(sprintf(
-                'Failed removing "%s" in "%s" collection: item does not exist.',
-                $id,
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
         unset($this->items[$this->getPosition($id)]);
 
@@ -121,15 +118,13 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function get(string $id): ItemInterface
     {
         if (!$this->has($id)) {
-            throw new \DomainException(sprintf(
-                'Failed getting "%s" in "%s" collection: item does not exist.',
-                $id,
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
         return $this->items[$this->getPosition($id)];
@@ -137,17 +132,15 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
      */
     public function getPosition(string $id): int
     {
         $result = $this->searchItem($id);
         $position = key($result);
         if (!is_int($position)) {
-            throw new \DomainException(sprintf(
-                'Failed getting position of "%s" in "%s" collection: item does not exist.',
-                $id,
-                $this->getId()
-            ));
+            throw new \DomainException(\sprintf('Failed getting position of "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
         return $position;
@@ -208,7 +201,7 @@ class Collection implements CollectionInterface
      */
     public function toJson(): string
     {
-        return sprintf("%s\n", json_encode($this->items));
+        return \sprintf("%s\n", json_encode($this->items));
     }
 
     /**
@@ -252,52 +245,56 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param string $offset
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset): bool
     {
-        return $this->has($offset);
+        return $this->has((string) $offset);
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param string $offset
      *
      * @return CollectionInterface|ItemInterface|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        return $this->get($offset);
+        return $this->get((string) $offset);
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param mixed         $offset
      * @param ItemInterface $value
      *
-     * @return CollectionInterface|ItemInterface|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function offsetSet($offset, $value)
+    #[\ReturnTypeWillChange]
+    public function offsetSet($offset, $value): void
     {
-        return $this->add($value);
+        $this->add($value);
     }
 
     /**
-     * Implements ArrayAccess.
+     * Implements \ArrayAccess.
      *
      * @param string $offset
      *
-     * @return CollectionInterface|null
+     * @return void
      */
-    public function offsetUnset($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetUnset($offset): void
     {
-        return $this->remove($offset);
+        $this->remove($offset);
     }
 
     /**

@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -46,9 +49,10 @@ abstract class AbstractGenerator implements GeneratorInterface
     {
         $this->generate();
 
+        // set default language (ex: "en") if necessary
         $this->generatedPages->map(function (\Cecil\Collection\Page\Page $page) {
-            if (!$page->hasVariable('language')) {
-                $page->setVariable('language', $this->config->getLanguageDefault());
+            if ($page->getLanguage() === null) {
+                $page->setLanguage($this->config->getLanguageDefault());
             }
         });
 

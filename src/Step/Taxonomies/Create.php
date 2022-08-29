@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -12,9 +15,9 @@ namespace Cecil\Step\Taxonomies;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Taxonomy\Collection as VocabulariesCollection;
-use Cecil\Collection\Taxonomy\Term as Term;
-use Cecil\Collection\Taxonomy\Vocabulary as Vocabulary;
-use Cecil\Exception\Exception;
+use Cecil\Collection\Taxonomy\Term;
+use Cecil\Collection\Taxonomy\Vocabulary;
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 
 /**
@@ -36,10 +39,9 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function init($options)
+    public function init(array $options): void
     {
-        /** @var \Cecil\Builder $builder */
-        if (is_dir($this->builder->getConfig()->getContentPath())) {
+        if (is_dir($this->builder->getConfig()->getPagesPath()) && $this->hasTaxonomies()) {
             $this->canProcess = true;
         }
     }
@@ -47,13 +49,13 @@ class Create extends AbstractStep
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         if ($this->config->get('taxonomies')) {
             $this->createVocabulariesCollection();
-            $this->builder->getLogger()->info('Vocabularies', ['progress' => [1, 2]]);
+            $this->builder->getLogger()->info('Vocabularies collection created', ['progress' => [1, 2]]);
             $this->collectTermsFromPages();
-            $this->builder->getLogger()->info('Terms', ['progress' => [2, 2]]);
+            $this->builder->getLogger()->info('Terms collection created', ['progress' => [2, 2]]);
         }
 
         $this->builder->setTaxonomies($this->vocabCollection);
@@ -113,7 +115,7 @@ class Create extends AbstractStep
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
                         if (null === $termName) {
-                            throw new Exception(\sprintf(
+                            throw new RuntimeException(\sprintf(
                                 'Taxonomy "%s" of "%s" can\'t be empty.',
                                 $plural,
                                 $page->getId()
@@ -133,5 +135,20 @@ class Create extends AbstractStep
                 }
             }
         }
+    }
+
+    /**
+     * Checks if there is enabled taxonomies in config.
+     */
+    private function hasTaxonomies(): bool
+    {
+        $taxonomiesCount = 0;
+        foreach (array_keys((array) $this->config->get('taxonomies')) as $vocabulary) {
+            if ($this->config->get("taxonomies.$vocabulary") != 'disabled') {
+                $taxonomiesCount++;
+            }
+        }
+
+        return $taxonomiesCount > 0;
     }
 }

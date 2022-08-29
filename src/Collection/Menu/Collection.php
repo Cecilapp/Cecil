@@ -1,6 +1,9 @@
 <?php
-/**
- * This file is part of the Cecil/Cecil package.
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Cecil.
  *
  * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
  *
@@ -36,6 +39,6 @@ class Collection extends CecilCollection
             return true;
         }
 
-        throw new \Exception(\sprintf('Menu "%s" not found', $id));
+        return false;
     }
 }
