@@ -506,6 +506,8 @@ Default pages are pages created automatically by Cecil, from built-in templates:
 - _404.html_
 - _robots.txt_
 - _sitemaps.xml_
+- _atom.xsl_
+- _rss.xsl_
 
 :::info
 **Info:** The structure is almost identical of [`virtualpages`](#virtualpages), except the named key.
@@ -545,14 +547,14 @@ defaultpages:
   atom:
     path: atom
     layout: feed
-    output: xslt
+    output: xsl
     uglyurl: true
     published: true
     exclude: true
   rss:
     path: rss
     layout: feed
-    output: xslt
+    output: xsl
     uglyurl: true
     published: true
     exclude: true
