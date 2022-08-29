@@ -99,7 +99,7 @@ return [
             ],
             // ie: atom.xsl
             -10 => [
-                'name'      => 'xslt',
+                'name'      => 'xsl',
                 'mediatype' => 'application/xml',
                 'extension' => 'xsl',
             ],
@@ -157,7 +157,7 @@ return [
         'atom' => [
             'path'      => 'atom',
             'layout'    => 'feed',
-            'output'    => 'xslt',
+            'output'    => 'xsl',
             'uglyurl'   => true,
             'published' => true,
             'exclude'   => true,
@@ -165,7 +165,7 @@ return [
         'rss' => [
             'path'      => 'rss',
             'layout'    => 'feed',
-            'output'    => 'xslt',
+            'output'    => 'xsl',
             'uglyurl'   => true,
             'published' => true,
             'exclude'   => true,
