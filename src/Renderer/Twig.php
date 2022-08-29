@@ -70,6 +70,17 @@ class Twig implements RendererInterface
         if (extension_loaded('intl')) {
             $this->twig->addExtension(new \Twig\Extensions\IntlExtension());
             $builder->getLogger()->debug('Intl extension is loaded');
+            // filters fallback
+            $this->twig->registerUndefinedFilterCallback(function ($name) use ($builder) {
+                switch ($name) {
+                    case 'localizeddate':
+                        return new \Twig\TwigFilter($name, function ($value = null) use ($builder) {
+                            return date((string) $builder->getConfig()->get('date.format'), $value->getTimestamp());
+                        });
+                }
+
+                return false;
+            });
         }
         if (extension_loaded('gettext')) {
             $this->twig->addExtension(new \Twig\Extensions\I18nExtension());
