@@ -144,7 +144,7 @@ menus:
 
 #### Override entry properties
 
-A page menu entry can be overridden: use the _Page_ ID as `id`.
+A page menu entry can be overridden: use the page ID as `id`.
 
 _Example:_
 
@@ -610,7 +610,7 @@ body:
     remote:
       enabled: true  # enables remote image handling (`true` by default)
   notes:
-    enabled: true   # turns remote images to Asset to handling them (`true` by default)
+    enabled: true   # turns remote images to assets to handling them (`true` by default)
 ```
 
 To know how those options impacts your content see _[Content > Pages > Markdown](2-Content.md#markdown)_ documentation.
@@ -752,7 +752,7 @@ cache:
   templates:    # Twig templates cache
     dir: templates # templates cache directory
     enabled: true  # enables templates cache
-  assets:       # Assets cache
+  assets:       # assets cache
     dir: 'assets/remote' # the subdirectory of remote assets cache
 ```
 

@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-08-27
+updated: 2022-08-30
 -->
 
 # Content
@@ -76,7 +76,7 @@ Result of the build.
    └─ video.mp4
 ```
 
-By default each _Page_ is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.  
+By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.  
 To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in front matter.
 
 ### Page to URL
@@ -95,7 +95,7 @@ URL:
 
 ## Pages
 
-A _Page_ is a file made up of a **front matter** and a **body**.
+A page is a file made up of a **front matter** and a **body**.
 
 ### Front matter
 
@@ -118,7 +118,7 @@ customvar: "Value of customvar"
 
 ### Body
 
-_Body_ is the main content of a _Page_, it could be written in [Markdown](#markdown) or in plain text.
+_Body_ is the main content of a page, it could be written in [Markdown](#markdown) or in plain text.
 
 _Example:_
 
@@ -391,7 +391,7 @@ Is converted to:
 
 ## Variables
 
-The _front matter_ can contains custom variables applied to the current _Page_.
+The _front matter_ can contains custom variables applied to the current page.
 
 It must be the first thing in the file and must be a valid [YAML](https://en.wikipedia.org/wiki/YAML).
 
@@ -415,9 +415,9 @@ It must be the first thing in the file and must be a valid [YAML](https://en.wik
 
 ### menu
 
-A _Page_ can be added to a menu.
+A page can be added to a menu.
 
-A same _Page_ could be added to severals menus, and the position of each entry can be defined with the `weight` key (the lightest first).
+A same page could be added to severals menus, and the position of each entry can be defined with the `weight` key (the lightest first).
 
 See [_Menus configuration_](4-Configuration.md#menus) for details.
 
@@ -449,7 +449,7 @@ menu:
 
 Taxonomies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
-A _Page_ can contain several vocabularies (e.g.: `tags`) and terms (e.g.: `Tag 1`).
+A page can contain several vocabularies (e.g.: `tags`) and terms (e.g.: `Tag 1`).
 
 _Example:_
 
@@ -525,7 +525,7 @@ output: [html, atom]
 
 ### external
 
-A _Page_ with an `external` variable try to fetch the content of the pointed resource.
+A page with an `external` variable try to fetch the content of the pointed resource.
 
 _Example:_
 
@@ -537,38 +537,38 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 
 ### File prefix
 
-The filename can contain a prefix to define `date` or `weight` of the _Page_ (used by [`sortby`](3-TEmplates.md#sort-by-date)).
+The filename can contain a prefix to define `date` or `weight` of the page (used by [`sortby`](3-TEmplates.md#sort-by-date)).
 
 :::info
 **Info:**
 
-- The prefix is not included in the `title` of the _Page_
+- The prefix is not included in the `title` of the page
 - Available prefix separator are `-`, `_` ~~and `.`~~
 :::
 
 #### date
 
-The _date prefix_ is used to set the creation date of the _Page_, and must be a valid date format (`YYYY-MM-DD`).
+The _date prefix_ is used to set the creation date of the page, and must be a valid date format (`YYYY-MM-DD`).
 
 _Example:_
 
 In `2019-04-23-My blog post.md`:
 
 - the prefix is `2019-04-23`
-- the `date` of the _Page_ is `2019-04-23`
-- the `title` of the _Page_ is `My blog post`
+- the `date` of the page is `2019-04-23`
+- the `title` of the page is `My blog post`
 
 #### weight
 
-The _weight prefix_ is used to set the sort order of the _Page_, and must be a valid integer value.
+The _weight prefix_ is used to set the sort order of the page, and must be a valid integer value.
 
 _Example:_
 
 In `1-The first project.md`:
 
 - the prefix is `1`
-- the `weight` of the _Page_ is `1`
-- the `title` of the _Page_ is `The first project`
+- the `weight` of the page is `1`
+- the `title` of the page is `The first project`
 
 ### Section
 
@@ -645,7 +645,7 @@ Set a valid section’s name to `pagesfrom` to use pages collection from this se
 
 ### exclude
 
-Set `exclude` to `true` to hide a _Page_ from lists (like _Home page_, _Section_, _Sitemap_, etc.).
+Set `exclude` to `true` to hide a page from lists (like _Home page_, _Section_, _Sitemap_, etc.).
 
 _Example:_
 
