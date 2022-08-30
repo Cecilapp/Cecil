@@ -41,7 +41,7 @@ cd $TARGET_BRANCH
 mkdir -p $TARGET_DOCS_DIR
 # copy documentation dir
 #cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
-find $HOME/$SOURCE_DOCS_DIR/ -name '*.md' | xargs cp -t $TARGET_DOCS_DIR
+find $HOME/$SOURCE_DOCS_DIR/ -name 'docs/*.md' | xargs cp -t $TARGET_DOCS_DIR
 
 # commit and push
 if [[ -n $(git status -s) ]]; then
