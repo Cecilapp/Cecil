@@ -1,21 +1,25 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-06-10
+updated: 2022-08-30
 alias: documentation/layouts
 -->
 
 # Templates
 
-Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use it.
+Cecil is powered by the [Twig](https://twig.symfony.com) template engine.
+
+:::info
+Refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use Twig.
+:::
 
 ## Example
 
 ```twig
-<h1>{{ page.title }} | {{ site.title }}</h1>
+<h1>{{ page.title }} - {{ site.title }}</h1>
 <span>{{ page.date|date('j M Y') }}</span>
 <p>{{ page.content }}</p>
-<p>{{ page.customvar }}</p>
+<p>{{ page.variable }}</p>
 ```
 
 ## Files organization
@@ -38,9 +42,7 @@ Templates files are stored in `layouts/`.
 
 ## Lookup rules
 
-Cecil searches for the best layout to use, for a given _Page_, in a defined order.
-
-In most of cases **you don’t need to specify the template** with the `layout` variable: Cecil selects the most appropriate template for you.
+In most of cases **you don’t need to [specify the template](2-Content.md#predefined-variables)** to use: Cecil selects the most appropriate template, by page type.
 
 :::
 **Glossary:**
@@ -50,7 +52,7 @@ In most of cases **you don’t need to specify the template** with the `layout` 
 - `<section>`: page’s _Section_ (e.g.: `blog`)
 :::
 
-### _homepage_
+### Type _homepage_
 
 1. `<layout>.<format>.twig`
 2. `index.<format>.twig`
@@ -59,7 +61,7 @@ In most of cases **you don’t need to specify the template** with the `layout` 
 5. `_default/list.<format>.twig`
 6. `_default/page.<format>.twig`
 
-### _page_
+### Type _page_
 
 1. `<section>/<layout>.<format>.twig`
 2. `<layout>.<format>.twig`
@@ -67,7 +69,7 @@ In most of cases **you don’t need to specify the template** with the `layout` 
 4. `page.<format>.twig`
 5. `_default/page.<format>.twig`
 
-### _section_
+### Type _section_
 
 1. `<layout>.<format>.twig`
 2. `<section>/list.<format>.twig`
@@ -75,12 +77,12 @@ In most of cases **you don’t need to specify the template** with the `layout` 
 4. `_default/section.<format>.twig`
 5. `_default/list.<format>.twig`
 
-### _vocabulary_
+### Type _vocabulary_
 
 1. `taxonomy/<plural>.<format>.twig`
 2. `_default/vocabulary.<format>.twig`
 
-### _term_
+### Type _term_
 
 1. `taxonomy/<term>.<format>.twig`
 2. `_default/term.<format>.twig`
@@ -88,11 +90,15 @@ In most of cases **you don’t need to specify the template** with the `layout` 
 
 ## Variables
 
-You can use variables from different scopes (`site`, `page`, etc.) in templates.
+> The application passes variables to the templates for manipulation in the template. Variables may have attributes or elements you can access, too.
+>
+> Use a dot (.) to access attributes of a variable: `{{ foo.bar }}`
+
+You can use variables from different scopes: [`site`](#site), [`page`](#page), [`cecil`](#cecil).
 
 ### site
 
-Contains all variables from the configuration file (`config.yml`) and some built-in variables.
+The `site` variable contains all variables from the configuration and some built-in variables.
 
 _Example:_
 
@@ -108,14 +114,14 @@ Can be displayed in a template with:
 
 #### Built-in variables
 
-| Variable              | Description                                           |
-| --------------------- | ----------------------------------------------------- |
-| `site.home`           | ID of the home page.                                  |
-| `site.pages`          | Collection of pages, in the current language.         |
-| `site.pages.showable` | `site.pages` with "showable" pages only (published and not virtual/redirect/excluded). |
-| `site.page('id')`     | A specific page in the current language.              |
-| `site.allpages`       | Collection of pages, regardless of their language.    |
-| `site.taxonomies`     | Collection of vocabularies.                           |
+| Variable              | Description                                            |
+| --------------------- | ------------------------------------------------------ |
+| `site.home`           | ID of the home page.                                   |
+| `site.pages`          | Collection of pages, in the current language.          |
+| `site.pages.showable` | Same as `site.pages` but filtered by "showable" status (published pages and not virtual/redirect/excluded). |
+| `site.page('id')`     | A page with the given ID in the current language.      |
+| `site.allpages`       | Collection of all pages, regardless of their language. |
+| `site.taxonomies`     | Collection of vocabularies.                            |
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 
 :::tip
@@ -132,6 +138,18 @@ Loop on `site.menus.<menu>` to get each entry of the `<menu>` collection (e.g.: 
 | `<entry>.url`    | Menu entry URL.                                  |
 | `<entry>.weight` | Menu entry weight (useful to sort menu entries). |
 
+_Example:_
+
+```twig
+<nav>
+  <ol>
+  {% for entry in site.menus.main|sort_by_weight %}
+    <li><a href="{{ url(entry.url) }}" data-weight="{{ entry.weight }}">{{ entry.name }}</a></li>
+  {% endfor %}
+  </ol>
+</nav>
+```
+
 #### site.language
 
 Informations about the current language.
@@ -143,11 +161,14 @@ Informations about the current language.
 | `site.language.locale` | Language [locale code](configuration/locale-codes.md) (e.g.: `en_EN`). |
 | `site.language.weight` | Language position in the `languages` list.                   |
 
-You can retrieve `name`, `locale` and `weight` of a language different from the current one by passing its code as a parameter, ie: `site.language.name('fr')`.
+:::tip
+You can retrieve `name`, `locale` and `weight` of a specific language by passing its code as a parameter.  
+e.g.: `site.language.name('fr')`.
+:::
 
 #### site.static
 
-The static files collection can be accessed via `site.static` (if [_static load_](4-configuration.md#static) is enabled).
+The static files collection can be accessed via `site.static` if the [_static load_](4-configuration.md#static) is enabled.
 
 Each file exposes the following properties:
 
@@ -169,7 +190,7 @@ _Examples:_
 
 ### page
 
-Contains variables of the _Page_ **and** those set in the front matter.
+Contains built-in variables of a page **and** those set in the [front matter](2-Content.md#front-matter).
 
 | Variable              | Description                                            | Example                    |
 | --------------------- | ------------------------------------------------------ | -------------------------- |
@@ -218,7 +239,7 @@ Pagination is avaialable for homepage, sections, and taxonomies.
 
 #### Taxonomy
 
-Variables available in _vocabulary_ and _term_ layouts.
+Variables available in _vocabulary_ and _term_ templates.
 
 ##### Vocabulary
 
@@ -245,21 +266,20 @@ Variables available in _vocabulary_ and _term_ layouts.
 
 ## Functions
 
-Functions can be called to generate content.  
-Functions are called by their name followed by parentheses and may have arguments.
+> [Functions](https://twig.symfony.com/doc/functions/index.html) can be called to generate content. Functions are called by their name followed by parentheses (`()`) and may have arguments.
 
 ### url
 
-Turns a _Page_, a _Page_ ID or a relative path into an URL.
+Create a valid URL for a page, a page ID or a path.
 
 ```twig
-{{ url(Page|page-id|path, {options}) }}
+{{ url(value, {options}) }}
 ```
 
 | Option    | Description                                | Type    | Default |
 | --------- | ------------------------------------------ | ------- | ------- |
-| canonical | Prefixes with `baseurl`.                   | boolean | `false` |
-| format    | Defines Page output format (e.g.: `json`). | string  | `html`  |
+| canonical | Prefixes the relative URL with `baseurl`.  | boolean | `false` |
+| format    | Defines page output format (e.g.: `json`). | string  | `html`  |
 
 For assets prefer the [`url` filter](#url-1).
 
@@ -277,7 +297,7 @@ _Examples:_
 Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL or an array of files path (bundle).
 
 ```twig
-{{ asset(path|url|[paths], {options}) }}
+{{ asset(path, {options}) }}
 ```
 
 | Option         | Description                                         | Type    | Default |
@@ -287,8 +307,13 @@ Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL 
 | filename       | File where to save content.                         | string  |         |
 | ignore_missing | Do not stop build if file don't exists.             | boolean | `false` |
 
-See [assets configuration](4-Configuration.md#assets) to define the global behavior.  
+:::info
+Refer to [assets configuration](4-Configuration.md#assets) to define the global behavior.  
+:::
+
+:::tip
 Uses [filters](#filters) to manipulate assets.
+:::
 
 _Examples:_
 
@@ -301,7 +326,9 @@ _Examples:_
 {{ asset('https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js') }}
 ```
 
-#### Attributes
+#### Asset attributes
+
+Assets created with the `asset()` function expose some useful attributes :
 
 - `file`: filesystem path
 - `path`: relative path
@@ -326,10 +353,10 @@ _Examples:_
 
 ### integrity
 
-Returns the hash (`sha384`) of a file.
+Returns the hash (`sha384`) of a file (from an asset or a path).
 
 ```twig
-{{ integrity(Asset|path) }}
+{{ integrity(asset) }}
 ```
 
 Used for SRI ([Subresource Integrity](https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity)).
@@ -342,10 +369,10 @@ _Example:_
 
 ### readtime
 
-Returns read time, in minutes.
+Returns read time of a text, in minutes.
 
 ```twig
-{{ readtime(string) }}
+{{ readtime(text) }}
 ```
 
 _Example:_
@@ -356,10 +383,10 @@ _Example:_
 
 ### getenv
 
-Gets the value of an environment variable.
+Gets the value of an environment variable from its key.
 
 ```twig
-{{ getenv(key) }}
+{{ getenv(var) }}
 ```
 
 _Example:_
@@ -370,7 +397,7 @@ _Example:_
 
 ## Sorts
 
-Sorting collections (Pages, Menus, Taxonomies).
+Sorting collections (of pages, menus or taxonomies).
 
 ### sort_by_title
 
@@ -408,13 +435,7 @@ _Example:_
 
 ## Filters
 
-Filters allow you to modify a variable’s data before you use it:
-
-```twig
-{{ page.title|capitalize }}
-```
-
-You can chain filters to perform severals alterations at once:
+> Variables can be modified by [filters](https://twig.symfony.com/doc/filters/index.html). Filters are separated from the variable by a pipe symbol (`|`). Multiple filters can be chained. The output of one filter is applied to the next.
 
 ```twig
 {{ page.title|truncate(25)|capitalize }}
@@ -446,16 +467,16 @@ _Example:_
 
 ### url
 
-Turns a Page, an Asset or a path into an URL.
+Returns the valid URL of a page, an asset or a path.
 
 ```twig
-{{ <Page|Asset|path>|url({options}) }}
+{{ <value>|url({options}) }}
 ```
 
 | Option    | Description                                | Type    | Default |
 | --------- | ------------------------------------------ | ------- | ------- |
-| canonical | Prefixes with `baseurl`.                   | boolean | `false` |
-| format    | Defines Page output format (e.g.: `json`). | string  | `html`  |
+| canonical | Prefixes the relative URL with `baseurl`.  | boolean | `false` |
+| format    | Defines page output format (e.g.: `json`). | string  | `html`  |
 
 _Examples:_
 
@@ -574,7 +595,7 @@ _Examples:_
 
 ### to_css
 
-Compiles a [Sass](https://sass-lang.com) file (to CSS).
+Compiles a [Sass](https://sass-lang.com) file to CSS.
 
 ```twig
 {{ asset(path)|to_css }}
@@ -685,7 +706,7 @@ _Examples:_
 
 ### scss_to_css
 
-Compiles a [Sass](https://sass-lang.com) string (to CSS).
+Compiles a [Sass](https://sass-lang.com) string to CSS.
 
 ```twig
 {{ variable|scss_to_css }}
@@ -726,7 +747,9 @@ Resizes an image to a specified with.
 {{ <image_path>|resize(integer) }} {# deprecated #}
 ```
 
-Ratio is preserved, the original file is not altered and the resized version is stored in `/assets/thumbnails/<integer>/images/image.jpg`.
+:::info
+Aspect ratio is preserved, the original file is not altered and the resized version is stored in `/assets/thumbnails/<integer>/images/image.jpg`.
+:::
 
 _Example:_
 
@@ -758,7 +781,7 @@ _Example:_
 
 ### html
 
-Turns an asset into an HTML element.
+Converts an asset into an HTML element.
 
 ```twig
 {{ asset(path)|html({attributes, options}) }}
@@ -793,7 +816,7 @@ _Examples:_
 
 ### preg_split
 
-Split a string into an array using a regular expression.
+Splits a string into an array using a regular expression.
 
 ```twig
 {{ string|preg_split(pattern, limit) }}
@@ -807,7 +830,7 @@ _Example:_
 
 ### preg_match_all
 
-Perform a regular expression match and return the group for all matches.
+Performs a regular expression match and return the group for all matches.
 
 ```twig
 {{ string|preg_match_all(pattern, group) }}
