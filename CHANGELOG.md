@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.2.0](https://github.com/Cecilapp/Cecil/compare/6.1.6...6.2.0)
+
+> 30 August 2022
+
+- feature: `localizeddate` fallback [`#1258`](https://github.com/Cecilapp/Cecil/pull/1258)
+
 #### [6.1.6](https://github.com/Cecilapp/Cecil/compare/6.1.5...6.1.6)
 
 > 29 August 2022
