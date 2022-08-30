@@ -109,6 +109,7 @@ if [ $CECIL_IS_INSTALLED -ne 0 ]; then
     fi
   fi
   CECIL_CMD="php cecil.phar"
+  echo "$($CECIL_CMD --version) is installed."
 else
   echo "$($CECIL_CMD --version) is already installed."
 fi
