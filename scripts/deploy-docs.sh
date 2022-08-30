@@ -40,7 +40,8 @@ fi
 cd $TARGET_BRANCH
 mkdir -p $TARGET_DOCS_DIR
 # copy documentation dir
-cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
+#cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
+find $HOME/$SOURCE_DOCS_DIR -name '*.md' | cpio -pdm $TARGET_DOCS_DIR
 
 # commit and push
 if [[ -n $(git status -s) ]]; then
