@@ -27,7 +27,7 @@ class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
     {
         return str_replace(
             $this->getInnerIterator()->current(),
-            substr(strrchr($this->getInnerIterator()->current(), DIRECTORY_SEPARATOR), 1),
+            substr(strrchr((string) $this->getInnerIterator()->current(), DIRECTORY_SEPARATOR), 1),
             parent::current()
         );
     }
