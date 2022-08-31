@@ -21,7 +21,7 @@ use RecursiveFilterIterator;
 class FileExtensionFilter extends RecursiveFilterIterator
 {
     /** @var array */
-    protected $allowedExt = ['md', 'markdown'];
+    protected $allowedExt = ['md'];
 
     /** @var array */
     protected $excludedDir = ['.git', '.cecil', '.cache', '_site'];
