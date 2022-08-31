@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.2.1](https://github.com/Cecilapp/Cecil/compare/6.2.0...6.2.1)
+
+> 31 August 2022
+
+- fix: phar-updater to laravel-zero/phar-updater [`#1447`](https://github.com/Cecilapp/Cecil/pull/1447)
+- docs: update templates [`531ec2c`](https://github.com/Cecilapp/Cecil/commit/531ec2c246ba93bdec5ecfc711be4ff85a07bcb2)
+- docs: minor fix [`aff9858`](https://github.com/Cecilapp/Cecil/commit/aff985802a616d69f4388e076ee700ebed837ae4)
+- chore: update deps [`6af7a62`](https://github.com/Cecilapp/Cecil/commit/6af7a627f18d94e0a613d762ae666dc912c7401f)
+
 #### [6.2.0](https://github.com/Cecilapp/Cecil/compare/6.1.6...6.2.0)
 
 > 30 August 2022
