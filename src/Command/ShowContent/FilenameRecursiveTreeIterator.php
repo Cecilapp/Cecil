@@ -26,7 +26,7 @@ class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
     public function current()
     {
         return str_replace(
-            $this->getInnerIterator()->current(),
+            (string) $this->getInnerIterator()->current(),
             substr(strrchr((string) $this->getInnerIterator()->current(), DIRECTORY_SEPARATOR), 1),
             parent::current()
         );
