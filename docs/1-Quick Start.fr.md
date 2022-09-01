@@ -91,6 +91,6 @@ php cecil.phar build
 
 Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur Web 🎉
 
-:::tip
+:::info
 La documentation complète est disponible, en anglais, à l'adresse suivante : <https://cecil.app/documentation/>
 :::
