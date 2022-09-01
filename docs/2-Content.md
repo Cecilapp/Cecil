@@ -34,12 +34,12 @@ Project files organization.
 |  |  └─ post-2.md
 |  ├─ projects
 |  |  └─ project-1.md
-|  └─ about.md        <- Page in the root
+|  └─ about.md        <- Root page
 ├─ assets
 |  ├─ styles.scss     <- Asset file
 |  └─ logo.png
 ├─ static
-|  └─ video.mp4       <- Static file
+|  └─ file.pdf        <- Static file
 └─ data
    └─ authors.yml     <- Data collection
 ```
@@ -49,9 +49,9 @@ Project files organization.
 
 - Pages should be organized in a manner that reflects the rendered website
 - Each folder in the root of `pages/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
-- You can override _Section_’s default variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
+- You can override a _Section_’s default variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
 - Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function in templates
-- Files in `static/` are copied as is in the root of the built website (e.g.: `static/video.mp4` -> `video.mp4`)
+- Files in `static/` are copied as is in the root of the built website (e.g.: `static/file.pdf` -> `file.pdf`)
 - Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
 :::
 
@@ -68,20 +68,25 @@ Result of the build.
    |  ├─ post-1/index.html     <- A blog post
    |  └─ post-2/index.html
    ├─ projects/
-   |  ├─ index.html            <- Generated list of projects
+   |  ├─ index.html
    |  └─ project-1/index.html
    ├─ about/index.html
    ├─ styles.css
    ├─ logo.png
-   └─ video.mp4
+   └─ file.pdf
 ```
 
+:::info
 By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.  
-To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in front matter.
+:::
 
-### Page to URL
+:::tip
+To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in [front matter](#front-matter).
+:::
 
-URL corresponding to a page.
+### File based routing
+
+Markdown files in the `pages` directory enable file based routing. Meaning that adding a `pages/my-projects/project-1.md` for instance will make it available at `/project-1` in your browser.
 
 ```plaintext
 File:
@@ -95,7 +100,7 @@ URL:
 
 ## Pages
 
-A page is a file made up of a **front matter** and a **body**.
+A page is a file made up of a [**front matter**](#front-matter) and a [**body**](#body).
 
 ### Front matter
 
@@ -189,11 +194,11 @@ _Example:_
 Is converted to:
 
 ```html
-<div class="note note-tip">
+<aside class="note note-tip">
   <p>
     <strong>Tip:</strong> This is an advice.
   </p>
-</div>
+</aside>
 ```
 
 :::tip
