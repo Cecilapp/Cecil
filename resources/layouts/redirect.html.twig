@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head lang="en">
+  <head lang="{{ page.language|default(site.language) }}">
     <meta charset="utf-8">
     <title>Redirecting&hellip;</title>
     <link rel="canonical" href="{{ url(page.redirect, {canonical: true}) }}" />
