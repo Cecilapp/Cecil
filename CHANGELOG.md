@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.2.3](https://github.com/Cecilapp/Cecil/compare/6.2.2...6.2.3)
+
+> 2 September 2022
+
+- fix: alias URL in case of localized page [`#1449`](https://github.com/Cecilapp/Cecil/pull/1449)
+- docs: update content [`44be9c5`](https://github.com/Cecilapp/Cecil/commit/44be9c5af8db8b7112eb81d66f7c8a6b7ca44440)
+- docs: minor fix [`4597ea5`](https://github.com/Cecilapp/Cecil/commit/4597ea5fff8dfe013829bf0a64751135cc6a761c)
+
 #### [6.2.2](https://github.com/Cecilapp/Cecil/compare/6.2.1...6.2.2)
 
 > 31 August 2022
