@@ -63,9 +63,16 @@ class NewPage extends AbstractCommand
         try {
             $nameParts = pathinfo($name);
             $dirname = trim($nameParts['dirname'], '.');
-            $filename = $nameParts['filename'];
+            $basename = $nameParts['basename'];
+            $extension = $nameParts['extension'];
+            $title = substr($basename, 0, -strlen(".$extension"));
+            $filename = $basename;
+            if (!in_array($extension, $this->builder->getConfig()->get('pages.ext'))) {
+                $title = $filename;
+                $filename = "$basename.md"; // force a valid extension
+            }
+            $title = ucfirst(str_replace('-', ' ', $title));
             $date = date('Y-m-d');
-            $title = ucfirst($filename);
             // has date prefix?
             $datePrefix = '';
             if ($prefix) {
@@ -73,7 +80,7 @@ class NewPage extends AbstractCommand
             }
             // path
             $fileRelativePath = \sprintf(
-                '%s%s%s%s%s.md',
+                '%s%s%s%s%s',
                 (string) $this->getBuilder()->getConfig()->get('pages.dir'),
                 DIRECTORY_SEPARATOR,
                 empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR,
