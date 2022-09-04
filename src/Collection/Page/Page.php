@@ -167,8 +167,8 @@ class Page extends Item
             $prefix = PrefixSuffix::getPrefix($fileName);
             if ($prefix !== null) {
                 // prefix is a valid date?
-                if (Util\Date::isDateValid($prefix)) {
                     $this->setVariable('date', (string) $prefix);
+                if (Util\Date::isValid($prefix)) {
                 } else {
                     // prefix is an integer: used for sorting
                     $this->setVariable('weight', (int) $prefix);
@@ -452,12 +452,18 @@ class Page extends Item
      */
     public function setVariable(string $name, $value): self
     {
-        // cast some strings to boolean
+        /**
+         * cast value to boolean.
+         *
+         * @see filterBool()
+         */
         $this->filterBool($value);
         if (is_array($value)) {
             array_walk_recursive($value, [$this, 'filterBool']);
         }
-        // behavior for specific named variables
+        /**
+         * handle variable by its name
+         */
         switch ($name) {
             /**
              * date: 2012-10-08.
@@ -478,25 +484,29 @@ class Page extends Item
             case 'schedule':
                 $this->offsetSet('published', false);
                 if (is_array($value)) {
-                    if (array_key_exists('publish', $value) && Util\Date::dateToDatetime($value['publish']) <= Util\Date::dateToDatetime('now')) {
+                    if (array_key_exists('publish', $value) && Util\Date::toDatetime($value['publish']) <= Util\Date::toDatetime('now')) {
                         $this->offsetSet('published', true);
                     }
-                    if (array_key_exists('expiry', $value) && Util\Date::dateToDatetime($value['expiry']) >= Util\Date::dateToDatetime('now')) {
+                    if (array_key_exists('expiry', $value) && Util\Date::toDatetime($value['expiry']) >= Util\Date::toDatetime('now')) {
                         $this->offsetSet('published', true);
                     }
                 }
                 break;
             /**
-             * draft: true.
+             * draft: true = published: false
              */
             case 'draft':
                 if ($value === true) {
-                    $this->offsetSet('published', 0);
+                    $this->offsetSet('published', false);
                 }
                 break;
             /**
-             * path: about/about
-             * slug: about.
+             * @see setPath()
+             * @see setSlug()
+             *
+             * e.g.:
+             *   path: about/about
+             *   slug: about
              */
             case 'path':
             case 'slug':
@@ -504,8 +514,6 @@ class Page extends Item
                 if ($value != $slugify) {
                     throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s"', $name, $slugify, (string) $value, $this->getId()));
                 }
-                /** @see setPath() */
-                /** @see setSlug() */
                 $method = 'set'.\ucfirst($name);
                 $this->$method($value);
                 break;
