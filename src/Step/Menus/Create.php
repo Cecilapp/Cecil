@@ -125,7 +125,7 @@ class Create extends AbstractStep
                             $item = (new Entry($property['id']))
                                 ->setName($property['name'] ?? ucfirst($property['id']))
                                 ->setUrl($property['url'] ?? $page404)
-                                ->setWeight($property['weight'] ?? 0);
+                                ->setWeight((int) $property['weight'] ?? 0);
                             $menu->add($item);
 
                             if (!$updated) {
@@ -193,7 +193,7 @@ class Create extends AbstractStep
                         ->setUrl((new PageRenderer($this->config))->getUrl($page));
                     if (isset($property['weight'])) {
                         $weight = $property['weight'];
-                        $item->setWeight($property['weight']);
+                        $item->setWeight((int) $property['weight']);
                     }
                     // add Menu if not exists
                     if (!$this->menus[$language]->has($menuName)) {
