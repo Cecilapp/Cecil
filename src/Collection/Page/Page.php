@@ -62,6 +62,15 @@ class Page extends Item
     /** @var string */
     protected $language = null;
 
+    /** @var \DateTime */
+    protected $date;
+
+    /** @var string|array */
+    protected $menu;
+
+    /** @var integer */
+    protected $weight;
+
     /** @var Slugify */
     private static $slugifier;
 
@@ -167,11 +176,11 @@ class Page extends Item
             $prefix = PrefixSuffix::getPrefix($fileName);
             if ($prefix !== null) {
                 // prefix is a valid date?
-                    $this->setVariable('date', (string) $prefix);
                 if (Util\Date::isValid($prefix)) {
+                    $this->setDate((string) $prefix);
                 } else {
                     // prefix is an integer: used for sorting
-                    $this->setVariable('weight', (int) $prefix);
+                    $this->setWeight((int) $prefix);
                 }
             }
         }
@@ -416,6 +425,65 @@ class Page extends Item
         return $this->language;
     }
 
+    /**
+     * Set date.
+     *
+     * @param mixed $value
+     *
+     * @throws RuntimeException
+     */
+    public function setDate($value)
+    {
+        try {
+            $date = Util\Date::toDatetime($value);
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Expected date format for "date" in "%s" must be "YYYY-MM-DD" instead of "%s"', $this->getId(), (string) $value));
+        }
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get Date.
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set menu.
+     *
+     * @param $menu string|array
+     */
+    public function setMenu($menu): self
+    {
+        $this->menu = $menu;
+
+        return $this;
+    }
+
+    /**
+     * Get menu.
+     *
+     * @return string|array
+     */
+    public function getMenu()
+    {
+        return $this->menu;
+    }
+
+    /**
+     * Set weight.
+     */
+    public function setWeight(int $weight): self
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
     /*
      * Helpers to set and get variables.
      */
@@ -469,12 +537,7 @@ class Page extends Item
              * date: 2012-10-08.
              */
             case 'date':
-                try {
-                    $date = Util\Date::dateToDatetime($value);
-                } catch (\Exception $e) {
-                    throw new RuntimeException(\sprintf('Expected date format for "date" in "%s" must be "YYYY-MM-DD" instead of "%s"', $this->getId(), (string) $value));
-                }
-                $this->offsetSet('date', $date);
+                $this->setDate($value);
                 break;
             /**
              * schedule:

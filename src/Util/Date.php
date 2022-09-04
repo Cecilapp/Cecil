@@ -18,7 +18,7 @@ class Date
     /**
      * Checks if a date is valid.
      */
-    public static function isDateValid(string $date, string $format = 'Y-m-d'): bool
+    public static function isValid(string $date, string $format = 'Y-m-d'): bool
     {
         $d = \DateTime::createFromFormat($format, $date);
 
@@ -28,9 +28,9 @@ class Date
     /**
      * Date to DateTime.
      *
-     * @param mixed $date
+     * @param mixed $date Can be a DateTIme object, a timestamp or a string
      */
-    public static function dateToDatetime($date): \DateTime
+    public static function toDatetime($date): \DateTime
     {
         // DateTime
         if ($date instanceof \DateTime) {

@@ -58,13 +58,11 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         $page->setType(Type::HOMEPAGE)
             ->setVariable('pages', $pages);
         if ($pages->first()) {
-            $page->setVariable('date', $pages->first()->getVariable('date'));
+            $page->setDate($pages->first()->getDate());
         }
         // default menu
-        if (!$page->getVariable('menu')) {
-            $page->setVariable('menu', [
-                'main' => ['weight' => 0],
-            ]);
+        if (!$page->getMenu()) {
+            $page->setMenu(['main' => ['weight' => 0]]);
         }
         $this->generatedPages->add($page);
     }

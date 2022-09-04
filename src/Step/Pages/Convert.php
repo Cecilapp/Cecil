@@ -102,9 +102,9 @@ class Convert extends AbstractStep
                                             ':slug',
                                         ],
                                         [
-                                            $page->getVariable('date')->format('Y'),
-                                            $page->getVariable('date')->format('m'),
-                                            $page->getVariable('date')->format('d'),
+                                            $page->getDate()->format('Y'),
+                                            $page->getDate()->format('m'),
+                                            $page->getDate()->format('d'),
                                             $page->getSection(),
                                             $page->getSlug(),
                                         ],

@@ -43,11 +43,11 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     foreach ($vocabulary as $term) {
                         $pageId = $path = Page::slugify(\sprintf('%s/%s', $plural, $term->getId()));
                         $pages = $term->sortByDate();
-                        $date = $pages->first()->getVariable('date');
+                        $date = $pages->first()->getDate();
                         $page = (new Page($pageId))
                             ->setVariable('title', $term->getName())
                             ->setPath($path)
-                            ->setVariable('date', $date);
+                            ->setDate($date);
                         if ($this->builder->getPages()->has($pageId)) {
                             $page = clone $this->builder->getPages()->get($pageId);
                         }
@@ -69,7 +69,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         ->setType(Type::VOCABULARY)
                         ->setPath($path)
                         ->setVariable('title', ucfirst($plural))
-                        ->setVariable('date', $date)
+                        ->setDate($date)
                         ->setVariable('plural', $plural)
                         ->setVariable('singular', $singular)
                         ->setVariable('terms', $vocabulary);

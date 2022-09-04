@@ -90,13 +90,11 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setType(Type::SECTION)
                         ->setLanguage($language)
                         ->setVariable('pages', $pages)
-                        ->setVariable('date', $pages->first()->getVariable('date'))
+                        ->setDate($pages->first()->getDate())
                         ->setVariable('langref', $path);
                     // default menu
-                    if (!$page->getVariable('menu')) {
-                        $page->setVariable('menu', [
-                            'main' => ['weight' => $menuWeight],
-                        ]);
+                    if (!$page->getMenu()) {
+                        $page->setMenu(['main' => ['weight' => $menuWeight]]);
                     }
                     $this->generatedPages->add($page);
                 }

@@ -168,8 +168,8 @@ class Create extends AbstractStep
              *     main:
              *       weight: 999
              */
-            if (is_array($page->getVariable('menu'))) {
-                foreach ($page->getVariable('menu') as $key => $value) {
+            if (is_array($page->getMenu())) {
+                foreach ($page->getMenu() as $key => $value) {
                     $menuName = $key;
                     $property = $value;
                     $weight = null;
@@ -218,14 +218,14 @@ class Create extends AbstractStep
                 ->setName($page->getVariable('title'))
                 ->setUrl((new PageRenderer($this->config))->getUrl($page));
             // add Menu if not exists
-            if (!$this->menus[$language]->has($page->getVariable('menu'))) {
-                $this->menus[$language]->add(new Menu($page->getVariable('menu')));
+            if (!$this->menus[$language]->has($page->getMenu())) {
+                $this->menus[$language]->add(new Menu($page->getMenu()));
             }
             /** @var \Cecil\Collection\Menu\Menu $menu */
-            $menu = $this->menus[$language]->get($page->getVariable('menu'));
+            $menu = $this->menus[$language]->get($page->getMenu());
             $menu->add($item);
 
-            $message = \sprintf('Page menu entry "%s > %s" created', $page->getVariable('menu'), $page->getId());
+            $message = \sprintf('Page menu entry "%s > %s" created', $page->getMenu(), $page->getId());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

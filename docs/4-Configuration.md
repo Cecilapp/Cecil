@@ -802,10 +802,8 @@ class MyGenerator extends AbstractGenerator implements GeneratorInterface
           ->setLanguage('en')
           ->setTitle('My page')
           ->setBodyHtml('<p>My page body</p>')
-          ->setVariable('date', now())
-          ->setVariable('menu', [
-            'main' => ['weight' => 99],
-          ]);
+          ->setDate(now())
+          ->setMenu(['main' => ['weight' => 99]]);
 
         $this->generatedPages->add($page);
     }

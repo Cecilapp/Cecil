@@ -39,7 +39,7 @@ class Alias extends AbstractGenerator implements GeneratorInterface
                             'layout'   => 'redirect',
                             'redirect' => $page,
                             'title'    => $alias,
-                            'date'     => $page->getVariable('date'),
+                            'date'     => $page->getDate(),
                             'language' => $page->getLanguage(),
                         ]);
                     $this->generatedPages->add($aliasPage);
