@@ -167,7 +167,7 @@ class Page extends Item
             $prefix = PrefixSuffix::getPrefix($fileName);
             if ($prefix !== null) {
                 // prefix is a valid date?
-                    $this->setVariable('date', (string) $prefix);
+                $this->setVariable('date', (string) $prefix);
                 if (Util\Date::isValid($prefix)) {
                 } else {
                     // prefix is an integer: used for sorting
@@ -462,7 +462,7 @@ class Page extends Item
             array_walk_recursive($value, [$this, 'filterBool']);
         }
         /**
-         * handle variable by its name
+         * handle variable by its name.
          */
         switch ($name) {
             /**
@@ -493,7 +493,7 @@ class Page extends Item
                 }
                 break;
             /**
-             * draft: true = published: false
+             * draft: true = published: false.
              */
             case 'draft':
                 if ($value === true) {
