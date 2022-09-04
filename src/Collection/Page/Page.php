@@ -167,8 +167,8 @@ class Page extends Item
             $prefix = PrefixSuffix::getPrefix($fileName);
             if ($prefix !== null) {
                 // prefix is a valid date?
-                $this->setVariable('date', (string) $prefix);
                 if (Util\Date::isValid($prefix)) {
+                    $this->setVariable('date', (string) $prefix);
                 } else {
                     // prefix is an integer: used for sorting
                     $this->setVariable('weight', (int) $prefix);
@@ -470,7 +470,7 @@ class Page extends Item
              */
             case 'date':
                 try {
-                    $date = Util\Date::dateToDatetime($value);
+                    $date = Util\Date::toDatetime($value);
                 } catch (\Exception $e) {
                     throw new RuntimeException(\sprintf('Expected date format for "date" in "%s" must be "YYYY-MM-DD" instead of "%s"', $this->getId(), (string) $value));
                 }

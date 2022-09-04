@@ -125,7 +125,7 @@ class Create extends AbstractStep
                             $item = (new Entry($property['id']))
                                 ->setName($property['name'] ?? ucfirst($property['id']))
                                 ->setUrl($property['url'] ?? $page404)
-                                ->setWeight((int) $property['weight'] ?? 0);
+                                ->setWeight((int) ($property['weight'] ?? 0));
                             $menu->add($item);
 
                             if (!$updated) {
