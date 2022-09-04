@@ -68,7 +68,7 @@ class Page extends Item
     /** @var string|array */
     protected $menu;
 
-    /** @var integer */
+    /** @var int */
     protected $weight;
 
     /** @var Slugify */
@@ -530,7 +530,7 @@ class Page extends Item
             array_walk_recursive($value, [$this, 'filterBool']);
         }
         /**
-         * handle variable by its name
+         * handle variable by its name.
          */
         switch ($name) {
             /**
@@ -556,7 +556,7 @@ class Page extends Item
                 }
                 break;
             /**
-             * draft: true = published: false
+             * draft: true = published: false.
              */
             case 'draft':
                 if ($value === true) {
