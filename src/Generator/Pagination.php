@@ -104,7 +104,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $alteredPage
                         ->setId($pageId)
                         ->setPath($firstPath)
-                        ->setVariable('aliases', [
+                        ->setVariable('alias', [
                             \sprintf('%s/%s/%s', $path, $paginationPath, 1),
                         ]);
                 } else {
@@ -156,7 +156,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $paginationPath,
                     $paginationPagesCount
                 ))];
-                $alteredPage->setVariable('pagination', $pagination);
+                $alteredPage->setPagination($pagination);
                 // updates date with the first element of the collection
                 $alteredPage->setVariable('date', $pagesInPagination->first()->getVariable('date'));
 
