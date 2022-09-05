@@ -44,16 +44,16 @@ class AbstractCommand extends Command
     protected $fs;
 
     /** @var string */
-    protected $path;
+    private $path;
 
     /** @var array */
-    protected $configFiles;
+    private $configFiles;
 
     /** @var array */
-    protected $config;
+    private $config;
 
     /** @var Builder */
-    protected $builder;
+    private $builder;
 
     /**
      * {@inheritdoc}

@@ -67,7 +67,7 @@ class NewPage extends AbstractCommand
             $extension = $nameParts['extension'];
             $title = substr($basename, 0, -strlen(".$extension"));
             $filename = $basename;
-            if (!in_array($extension, $this->builder->getConfig()->get('pages.ext'))) {
+            if (!in_array($extension, $this->getBuilder()->getConfig()->get('pages.ext'))) {
                 $title = $filename;
                 $filename = "$basename.md"; // force a valid extension
             }
