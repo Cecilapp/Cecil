@@ -800,7 +800,7 @@ class MyGenerator extends AbstractGenerator implements GeneratorInterface
           ->setType(Type::PAGE)
           ->setPath('mypage')
           ->setBodyHtml('<p>My page body</p>')
-          ->setVariable('language', 'en');
+          ->setVariable('language', 'en')
           ->setVariable('title', 'My page')
           ->setVariable('date', now())
           ->setVariable('menu', ['main' => ['weight' => 99]]);
