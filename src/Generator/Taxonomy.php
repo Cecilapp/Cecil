@@ -45,8 +45,8 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         $pages = $term->sortByDate();
                         $date = $pages->first()->getVariable('date');
                         $page = (new Page($pageId))
-                            ->setVariable('title', $term->getName())
                             ->setPath($path)
+                            ->setVariable('title', $term->getName())
                             ->setVariable('date', $date);
                         if ($this->builder->getPages()->has($pageId)) {
                             $page = clone $this->builder->getPages()->get($pageId);
@@ -68,11 +68,11 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                     $page = (new Page($pageId))
                         ->setType(Type::VOCABULARY)
                         ->setPath($path)
+                        ->setTerms($vocabulary)
                         ->setVariable('title', ucfirst($plural))
                         ->setVariable('date', $date)
                         ->setVariable('plural', $plural)
-                        ->setVariable('singular', $singular)
-                        ->setVariable('terms', $vocabulary);
+                        ->setVariable('singular', $singular);
                     // adds page only if a template exist
                     try {
                         $this->generatedPages->add($page);
