@@ -100,9 +100,9 @@ class Build extends AbstractCommand
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
-        if ((bool) $this->builder->getConfig()->get('cache.enabled')) {
+        if ((bool) $builder->getConfig()->get('cache.enabled')) {
             $output->writeln(
-                \sprintf('<comment>Cache: %s</comment>', $this->builder->getConfig()->getCachePath()),
+                \sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
