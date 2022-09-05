@@ -41,7 +41,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $this->builder->getPages()->replace($page->getId(), $alteredPage);
                     continue;
                 }
-                $sections[$page->getSection()][$page->getLanguage() ?? $this->config->getLanguageDefault()][] = $page;
+                $sections[$page->getSection()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;
             }
         }
 
@@ -88,8 +88,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // creates page for each section
                     $page->setPath($path)
                         ->setType(Type::SECTION)
-                        ->setLanguage($language)
-                        ->setVariable('pages', $pages)
+                        ->setSubPages($pages)
+                        ->setVariable('language', $language)
                         ->setVariable('date', $pages->first()->getVariable('date'))
                         ->setVariable('langref', $path);
                     // default menu

@@ -52,4 +52,23 @@ class Str
 
         return substr($string, 0, -2);
     }
+
+    /**
+     * Converts 'true', 'false', 'on', 'off', 'yes', 'no' to a boolean.
+     *
+     * @return bool|mixed
+     */
+    public static function strToBool($value)
+    {
+        if (is_string($value)) {
+            if (in_array($value, ['true', 'on', 'yes'])) {
+                return true;
+            }
+            if (in_array($value, ['false', 'off', 'no'])) {
+                return false;
+            }
+        }
+
+        return $value;
+    }
 }

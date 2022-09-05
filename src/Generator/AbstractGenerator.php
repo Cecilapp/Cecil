@@ -49,10 +49,10 @@ abstract class AbstractGenerator implements GeneratorInterface
     {
         $this->generate();
 
-        // set default language (ex: "en") if necessary
+        // set default language (e.g.: "en") if necessary
         $this->generatedPages->map(function (\Cecil\Collection\Page\Page $page) {
-            if ($page->getLanguage() === null) {
-                $page->setLanguage($this->config->getLanguageDefault());
+            if ($page->getVariable('language') === null) {
+                $page->setVariable('language', $this->config->getLanguageDefault());
             }
         });
 

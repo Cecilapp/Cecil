@@ -39,7 +39,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
         foreach ($filteredPages as $page) {
             // page config
             $path = $page->getPath();
-            $pages = $page->getVariable('pages');
+            $pages = $page->getSubPages();
             $sortby = $page->getVariable('sortby');
             // no sub-pages?
             if ($pages === null) {
