@@ -67,7 +67,7 @@ class Site implements \ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        // Featch data from builder instead of config raw data
+        // Fetchs data from builder instead of config raw data
         switch ($offset) {
             case 'pages':
                 return $this->getPages();
