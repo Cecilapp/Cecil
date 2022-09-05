@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.2.6](https://github.com/Cecilapp/Cecil/compare/6.2.5...6.2.6)
+
+> 5 September 2022
+
+- fix: can't create a new page [`#1459`](https://github.com/Cecilapp/Cecil/pull/1459)
+
 #### [6.2.5](https://github.com/Cecilapp/Cecil/compare/6.2.4...6.2.5)
 
 > 4 September 2022
