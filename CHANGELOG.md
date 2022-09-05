@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.2.5](https://github.com/Cecilapp/Cecil/compare/6.2.4...6.2.5)
+
+> 4 September 2022
+
+- Apply fixes from StyleCI [`#1452`](https://github.com/Cecilapp/Cecil/pull/1452)
+- chore: update deps [`1a4663e`](https://github.com/Cecilapp/Cecil/commit/1a4663e2c6c7cdbe48332080849fb0661ef1ec2e)
+- chore: clean code [`4808b7f`](https://github.com/Cecilapp/Cecil/commit/4808b7f36f8d626208c7577ed5754137566a8c6b)
+- chore: update deps [`cfad680`](https://github.com/Cecilapp/Cecil/commit/cfad680fda8d0e422323f500f4b597ec11e3bfcc)
+- chore: update deps [`0dffa91`](https://github.com/Cecilapp/Cecil/commit/0dffa91a31a2f4380a0e46de3850d1817e500f91)
+- fix: bugs introduce in the previous commit [`02b1277`](https://github.com/Cecilapp/Cecil/commit/02b12772bd5aa3d341b81a07a7ccdb7ceff2bc49)
+- fix: menu entry weight must be an integer [`c17267f`](https://github.com/Cecilapp/Cecil/commit/c17267f3ecfb2bf066534dea89f968902f5e023a)
+- chore: better code [`e13538d`](https://github.com/Cecilapp/Cecil/commit/e13538d46b9533840c3d3ae0862e07a1ac4f0a25)
+
 #### [6.2.4](https://github.com/Cecilapp/Cecil/compare/6.2.3...6.2.4)
 
 > 2 September 2022
