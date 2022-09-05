@@ -1,6 +1,6 @@
 {% set pages = site.pages.showable -%}
 
-{% if page.pages is defined %}
+{% if page.pages %}
   {%- set pages = page.pages.showable -%}
 {% endif -%}
 
