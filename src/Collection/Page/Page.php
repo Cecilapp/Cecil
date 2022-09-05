@@ -466,7 +466,7 @@ class Page extends Item
     /**
      * Set a variable.
      *
-     * @param string $name Name of the variable
+     * @param string $name  Name of the variable
      * @param mixed  $value Value of the variable
      *
      * @throws RuntimeException
@@ -550,7 +550,7 @@ class Page extends Item
     /**
      * Get a variable.
      *
-     * @param string $name Name of the variable
+     * @param string     $name    Name of the variable
      * @param mixed|null $default Default value
      *
      * @return mixed|null
