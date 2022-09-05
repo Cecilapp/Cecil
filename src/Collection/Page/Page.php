@@ -422,7 +422,7 @@ class Page extends Item
     /**
      * Set Subpages.
      */
-    public function setSubPages(\Cecil\Collection\Page\Collection $subPages): self
+    public function setPages(\Cecil\Collection\Page\Collection $subPages): self
     {
         $this->subPages = $subPages;
 
@@ -432,7 +432,7 @@ class Page extends Item
     /**
      * Get Subpages.
      */
-    public function getSubPages(): ?\Cecil\Collection\Page\Collection
+    public function getPages(): ?\Cecil\Collection\Page\Collection
     {
         return $this->subPages;
     }

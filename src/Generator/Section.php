@@ -88,7 +88,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // creates page for each section
                     $page->setPath($path)
                         ->setType(Type::SECTION)
-                        ->setSubPages($pages)
+                        ->setPages($pages)
                         ->setVariable('language', $language)
                         ->setVariable('date', $pages->first()->getVariable('date'))
                         ->setVariable('langref', $path);

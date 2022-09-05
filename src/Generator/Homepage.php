@@ -41,7 +41,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         });
         /** @var \Cecil\Collection\Page\Page $page */
         if ($page->hasVariable('pagesfrom') && $this->builder->getPages()->has((string) $page->getVariable('pagesfrom'))) {
-            $subPages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getSubPages();
+            $subPages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getPages();
         }
         // sorts
         /** @var \Cecil\Collection\Page\Collection $subPages */
@@ -56,7 +56,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
         }
         /** @var \Cecil\Collection\Page\Page $page */
         $page->setType(Type::HOMEPAGE)
-            ->setSubPages($pages);
+            ->setPages($pages);
         if ($pages->first()) {
             $page->setVariable('date', $pages->first()->getVariable('date'));
         }
