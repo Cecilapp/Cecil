@@ -65,6 +65,12 @@ class Page extends Item
     /** @var \Cecil\Collection\Page\Collection Subpages of a section */
     protected $subPages;
 
+    /** @var array */
+    protected $pagination = [];
+
+    /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary */
+    protected $terms;
+
     /** @var Slugify */
     private static $slugifier;
 
@@ -435,6 +441,42 @@ class Page extends Item
     public function getPages(): ?\Cecil\Collection\Page\Collection
     {
         return $this->subPages;
+    }
+
+    /**
+     * Set pagination.
+     */
+    public function setPagination(array $pagination): self
+    {
+        $this->pagination = $pagination;
+
+        return $this;
+    }
+
+    /**
+     * Get pagination.
+     */
+    public function getPagination(): array
+    {
+        return $this->pagination;
+    }
+
+    /**
+     * Set vocabulary terms.
+     */
+    public function setTerms(\Cecil\Collection\Taxonomy\Vocabulary $terms): self
+    {
+        $this->terms = $terms;
+
+        return $this;
+    }
+
+    /**
+     * Get vocabulary terms.
+     */
+    public function getTerms(): \Cecil\Collection\Taxonomy\Vocabulary
+    {
+        return $this->terms;
     }
 
     /*
