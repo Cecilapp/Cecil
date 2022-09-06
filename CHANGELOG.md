@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.4.1](https://github.com/Cecilapp/Cecil/compare/6.4.0...6.4.1)
+
+> 6 September 2022
+
+- fix: default date of a page based on file [`d061618`](https://github.com/Cecilapp/Cecil/commit/d061618a8f973009cfe42d0b99a7c2ca85068475)
+
 #### [6.4.0](https://github.com/Cecilapp/Cecil/compare/6.3.0...6.4.0)
 
 > 6 September 2022
