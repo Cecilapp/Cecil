@@ -67,7 +67,7 @@ class Site implements \ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        // Featch data from builder instead of config raw data
+        // Fetchs data from builder instead of config raw data
         switch ($offset) {
             case 'pages':
                 return $this->getPages();
@@ -138,11 +138,11 @@ class Site implements \ArrayAccess
     {
         return $this->builder->getPages()->filter(function (CollectionPage $page) {
             // We should fix case of virtual pages without language
-            if ($page->getLanguage() === null && $this->language == $this->config->getLanguageDefault()) {
+            if ($page->getVariable('language') === null && $this->language == $this->config->getLanguageDefault()) {
                 return true;
             }
 
-            return $page->getLanguage() == $this->language;
+            return $page->getVariable('language') == $this->language;
         });
     }
 
