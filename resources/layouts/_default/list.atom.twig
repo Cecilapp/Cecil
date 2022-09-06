@@ -17,7 +17,7 @@
     <name>{{ author_name }}</name>
     <uri>{{ author_uri }}</uri>
   </author>
-  {%- for p in pages|sort_by_date ~%}
+  {%- for p in pages|sort_by_date('updated') ~%}
   <entry xml:lang="{{ lang }}">
     <id>{{ url(p, {canonical: true}) }}</id>
     <title>{{ p.title|e }}</title>
@@ -32,7 +32,7 @@
     {%- endif ~%}
     <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
     <published>{{ p.date|date('c') }}</published>
-    <updated>{{ p.date|date('c') }}</updated>
+    <updated>{{ p.updated|date('c') }}</updated>
   </entry>
   {%- endfor ~%}
 </feed>
