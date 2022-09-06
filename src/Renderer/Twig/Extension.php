@@ -267,16 +267,16 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Sorts by date: the most recent first.
+     * Sorts by creation date (or 'updated' date): the most recent first.
      */
-    public function sortByDate(\Traversable $collection): array
+    public function sortByDate(\Traversable $collection, string $variable = 'date'): array
     {
-        $callback = function ($a, $b) {
-            if ($a['date'] == $b['date']) {
+        $callback = function ($a, $b) use ($variable) {
+            if ($a[$variable] == $b[$variable]) {
                 return 0;
             }
 
-            return ($a['date'] > $b['date']) ? -1 : 1;
+            return ($a[$variable] > $b[$variable]) ? -1 : 1;
         };
 
         $collection = iterator_to_array($collection);
