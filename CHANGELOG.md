@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.5.1](https://github.com/Cecilapp/Cecil/compare/6.5.0...6.5.1)
+
+> 6 September 2022
+
+- fix: atom entry date [`3a77cf2`](https://github.com/Cecilapp/Cecil/commit/3a77cf2ec941bc3bf779e795867b67007f0a116e)
+
 #### [6.5.0](https://github.com/Cecilapp/Cecil/compare/6.4.1...6.5.0)
 
 > 6 September 2022
