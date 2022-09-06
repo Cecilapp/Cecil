@@ -48,7 +48,7 @@ class Page
         $filename = (string) $this->config->getOutputFormatProperty($format, 'filename');
         $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
         $uglyurl = (bool) $page->getVariable('uglyurl');
-        $language = $page->getLanguage();
+        $language = $page->getVariable('language');
         // if ugly URL = no filename (e.g.: 404.html)
         if ($uglyurl) {
             $filename = '';

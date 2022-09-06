@@ -50,17 +50,26 @@ class Page extends Item
     /** @var string */
     protected $frontmatter;
 
-    /** @var string Body before conversion. */
-    protected $body;
-
     /** @var array Front matter before conversion. */
     protected $fmVariables = [];
+
+    /** @var string Body before conversion. */
+    protected $body;
 
     /** @var string Body after Markdown conversion. */
     protected $html;
 
-    /** @var string */
-    protected $language = null;
+    /** @var array Output by format */
+    protected $rendered = [];
+
+    /** @var \Cecil\Collection\Page\Collection Subpages of a section */
+    protected $subPages;
+
+    /** @var array */
+    protected $pagination = [];
+
+    /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary */
+    protected $terms;
 
     /** @var Slugify */
     private static $slugifier;
@@ -177,7 +186,7 @@ class Page extends Item
         }
         // is file has a language suffix?
         if (PrefixSuffix::hasSuffix($fileName)) {
-            $this->setLanguage(PrefixSuffix::getSuffix($fileName));
+            $this->setVariable('language', PrefixSuffix::getSuffix($fileName));
         }
         // set reference between page's translations, even if it exist in only one language
         $this->setVariable('langref', $this->getPath());
@@ -399,21 +408,75 @@ class Page extends Item
     }
 
     /**
-     * Set language.
+     * Set rendered.
      */
-    public function setLanguage(string $language = null): self
+    public function setRendered(array $rendered): self
     {
-        $this->language = $language;
+        $this->rendered = $rendered;
 
         return $this;
     }
 
     /**
-     * Get language.
+     * Get rendered.
      */
-    public function getLanguage(): ?string
+    public function getRendered(): array
     {
-        return $this->language;
+        return $this->rendered;
+    }
+
+    /**
+     * Set Subpages.
+     */
+    public function setPages(\Cecil\Collection\Page\Collection $subPages): self
+    {
+        $this->subPages = $subPages;
+
+        return $this;
+    }
+
+    /**
+     * Get Subpages.
+     */
+    public function getPages(): ?\Cecil\Collection\Page\Collection
+    {
+        return $this->subPages;
+    }
+
+    /**
+     * Set pagination.
+     */
+    public function setPagination(array $pagination): self
+    {
+        $this->pagination = $pagination;
+
+        return $this;
+    }
+
+    /**
+     * Get pagination.
+     */
+    public function getPagination(): array
+    {
+        return $this->pagination;
+    }
+
+    /**
+     * Set vocabulary terms.
+     */
+    public function setTerms(\Cecil\Collection\Taxonomy\Vocabulary $terms): self
+    {
+        $this->terms = $terms;
+
+        return $this;
+    }
+
+    /**
+     * Get vocabulary terms.
+     */
+    public function getTerms(): \Cecil\Collection\Taxonomy\Vocabulary
+    {
+        return $this->terms;
     }
 
     /*
@@ -445,22 +508,14 @@ class Page extends Item
     /**
      * Set a variable.
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param string $name  Name of the variable
+     * @param mixed  $value Value of the variable
      *
      * @throws RuntimeException
      */
     public function setVariable(string $name, $value): self
     {
-        /**
-         * cast value to boolean.
-         *
-         * @see filterBool()
-         */
         $this->filterBool($value);
-        if (is_array($value)) {
-            array_walk_recursive($value, [$this, 'filterBool']);
-        }
         /**
          * handle variable by its name.
          */
@@ -526,6 +581,8 @@ class Page extends Item
 
     /**
      * Is variable exists?
+     *
+     * @param string $name Name of the variable
      */
     public function hasVariable(string $name): bool
     {
@@ -535,17 +592,24 @@ class Page extends Item
     /**
      * Get a variable.
      *
+     * @param string     $name    Name of the variable
+     * @param mixed|null $default Default value
+     *
      * @return mixed|null
      */
-    public function getVariable(string $name)
+    public function getVariable(string $name, $default = null)
     {
         if ($this->offsetExists($name)) {
             return $this->offsetGet($name);
         }
+
+        return $default;
     }
 
     /**
      * Unset a variable.
+     *
+     * @param string $name Name of the variable
      */
     public function unVariable(string $name): self
     {
@@ -575,17 +639,15 @@ class Page extends Item
     }
 
     /**
-     * Filter 'true', 'false', 'on', 'off', 'yes', 'no' to boolean.
+     * Cast "boolean" string (or array of strings) to boolean.
+     *
+     * @see strToBool()
      */
     private function filterBool(&$value)
     {
-        if (is_string($value)) {
-            if (in_array($value, ['true', 'on', 'yes'])) {
-                $value = true;
-            }
-            if (in_array($value, ['false', 'off', 'no'])) {
-                $value = false;
-            }
+        \Cecil\Util\Str::strToBool($value);
+        if (is_array($value)) {
+            array_walk_recursive($value, '\Cecil\Util\Str::strToBool');
         }
     }
 }
