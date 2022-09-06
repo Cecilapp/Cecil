@@ -524,10 +524,11 @@ class Page extends Item
              * date: 2012-10-08.
              */
             case 'date':
+            case 'updated':
                 try {
                     $date = Util\Date::toDatetime($value);
                 } catch (\Exception $e) {
-                    throw new RuntimeException(\sprintf('Expected date format for "date" in "%s" must be "YYYY-MM-DD" instead of "%s"', $this->getId(), (string) $value));
+                    throw new RuntimeException(\sprintf('Expected date format for "%s" in "%s" must be "YYYY-MM-DD" instead of "%s"', $name, $this->getId(), (string) $value));
                 }
                 $this->offsetSet('date', $date);
                 break;
