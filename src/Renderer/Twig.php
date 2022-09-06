@@ -110,7 +110,7 @@ class Twig implements RendererInterface
             $this->twig->addExtension(new \Twig\Extension\ProfilerExtension($this->profile));
         }
         /**
-         * Backward compatibility
+         * Backward compatibility.
          */
         if (extension_loaded('intl')) {
             $this->twig->addExtension(new \Twig\Extensions\IntlExtension());
