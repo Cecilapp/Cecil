@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.4.0](https://github.com/Cecilapp/Cecil/compare/6.3.0...6.4.0)
+
+> 6 September 2022
+
+- feat: support of i18n for homepage [`#1460`](https://github.com/Cecilapp/Cecil/pull/1460)
+- chore: clean code [`062cd1b`](https://github.com/Cecilapp/Cecil/commit/062cd1b259aa461984015322e9f1cb2c14138b4d)
+- fix: convert "updated" variable to a Datetime [`1443850`](https://github.com/Cecilapp/Cecil/commit/1443850289c2570112274ea8d5888b854b2ac335)
+
 #### [6.3.0](https://github.com/Cecilapp/Cecil/compare/6.2.6...6.3.0)
 
 > 6 September 2022
