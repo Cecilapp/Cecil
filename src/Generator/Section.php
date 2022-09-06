@@ -94,9 +94,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setVariable('langref', $path);
                     // default menu
                     if (!$page->getVariable('menu')) {
-                        $page->setVariable('menu', [
-                            'main' => ['weight' => $menuWeight],
-                        ]);
+                        $page->setVariable('menu', ['main' => ['weight' => $menuWeight]]);
                     }
                     $this->generatedPages->add($page);
                 }
