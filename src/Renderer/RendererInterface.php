@@ -26,6 +26,11 @@ interface RendererInterface
     public function __construct(Builder $buider, $templatesPath);
 
     /**
+     * Set locale (e.g.: 'fr_FR').
+     */
+    public function setLocale(string $locale): void;
+
+    /**
      * Adds a global variable.
      */
     public function addGlobal(string $name, $value): void;

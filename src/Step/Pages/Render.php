@@ -22,6 +22,8 @@ use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
+use Symfony\Bridge\Twig\Extension\TranslationExtension;
+use Symfony\Component\Translation\Translator;
 
 /**
  * Pages rendering.
@@ -79,6 +81,11 @@ class Render extends AbstractStep
             // l10n
             $language = $page->getVariable('language', $this->config->getLanguageDefault());
             $locale = $this->config->getLanguageProperty('locale', $language);
+            $this->builder->getRenderer()->setLocale($locale);
+
+            /**
+             * Backward compatibility
+             */
             // the PHP Intl extension is needed to use localized date
             if (extension_loaded('intl')) {
                 \Locale::setDefault($locale);

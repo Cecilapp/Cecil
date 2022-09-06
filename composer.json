@@ -41,6 +41,8 @@
     "symfony/process": "^5.4",
     "symfony/property-access": "^5.4",
     "symfony/serializer": "^5.4",
+    "symfony/translation": "^5.4",
+    "symfony/twig-bridge": "^5.4",
     "symfony/yaml": "^5.4",
     "twig/extensions": "1.5.4.x-dev",
     "twig/twig": "^3.4",
