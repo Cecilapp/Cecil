@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [6.3.0](https://github.com/Cecilapp/Cecil/compare/6.2.6...6.3.0)
+
+> 6 September 2022
+
+- Recode page variables handling [`#1457`](https://github.com/Cecilapp/Cecil/pull/1457)
+- fix: end tag for main element [`#1455`](https://github.com/Cecilapp/Cecil/pull/1455)
+
 #### [6.2.6](https://github.com/Cecilapp/Cecil/compare/6.2.5...6.2.6)
 
 > 5 September 2022
