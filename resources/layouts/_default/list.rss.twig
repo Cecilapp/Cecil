@@ -10,7 +10,7 @@
     <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
     <link href="{{ url(page, {canonical: true, format: 'rss'}) }}" rel="self" type="application/rss+xml" />
     <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
-    {%- for p in pages|sort_by_date('updated') ~%}
+    {%- for p in pages|sort_by_date ~%}
     <item>
       <guid>{{ url(p, {canonical: true}) }}</guid>
       <title>{{ p.title|e }}</title>

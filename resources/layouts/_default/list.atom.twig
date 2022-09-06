@@ -17,7 +17,7 @@
     <name>{{ author_name }}</name>
     <uri>{{ author_uri }}</uri>
   </author>
-  {%- for p in pages|sort_by_date('updated') ~%}
+  {%- for p in pages|sort_by_date ~%}
   <entry xml:lang="{{ lang }}">
     <id>{{ url(p, {canonical: true}) }}</id>
     <title>{{ p.title|e }}</title>
