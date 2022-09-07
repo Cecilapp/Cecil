@@ -75,6 +75,7 @@ class Twig implements RendererInterface
         // i18n
         $locale = $builder->getConfig()->getLanguageProperty('locale');
         $this->translator = new Translator($locale, new MessageFormatter(new IdentityTranslator()));
+        $this->translator->setFallbackLocales([$locale]);
         $this->translator->addLoader('mo', new MoFileLoader());
         if (count($builder->getConfig()->getLanguages()) > 1) {
             foreach ($builder->getConfig()->getLanguages() as $lang) {
@@ -82,11 +83,6 @@ class Twig implements RendererInterface
                 if (Util\File::getFS()->exists($translationFile)) {
                     $this->translator->addResource('mo', $translationFile, $lang['locale']);
                 }
-            }
-        } else {
-            $translationFile = realpath(Util::joinFile($builder->getConfig()->getSourceDir(), \sprintf('translations/messages.%s.mo', $locale)));
-            if (Util\File::getFS()->exists($translationFile)) {
-                $this->translator->addResource('mo', $translationFile, $locale);
             }
         }
         $this->twig->addExtension(new TranslationExtension($this->translator));
