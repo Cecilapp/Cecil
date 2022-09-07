@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Cecil fixtures\n"
-"POT-Creation-Date: 2022-09-07 00:59+0200\n"
-"PO-Revision-Date: 2022-09-07 00:59+0200\n"
+"POT-Creation-Date: 2022-09-07 02:14+0200\n"
+"PO-Revision-Date: 2022-09-07 02:14+0200\n"
 "Last-Translator: Arnaud Ligny <arnaud@ligny.org>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -19,14 +19,50 @@ msgstr ""
 msgid "Publication date:"
 msgstr "Date de publication :"
 
-#: layouts/intl.html.twig:21
+#: layouts/intl.html.twig:14
+msgid "Translation examples:"
+msgstr "Exemples de traduction :"
+
+#: layouts/intl.html.twig:16
+msgid "Simple text"
+msgstr "Texte simple"
+
+#: layouts/intl.html.twig:18
+msgid "Content with a variable: %site_title%"
+msgstr "Contenu avec une variable : %site_title%"
+
+#: layouts/intl.html.twig:25 layouts/intl.html.twig:33
+msgid "%count% apple."
+msgid_plural "%count% apples."
+msgstr[0] "%count% pomme."
+msgstr[1] "%count% pommes."
+
+#: layouts/intl.html.twig:40
 msgid "Page's language:"
 msgstr "Langue de la page :"
 
-#: layouts/intl.html.twig:29
+#: layouts/intl.html.twig:48
 msgid "Default language:"
 msgstr "Langue par défaut :"
 
-#: layouts/intl.html.twig:32
+#: layouts/intl.html.twig:51
 msgid "Available translations:"
 msgstr "Traductions disponibles :"
+
+#~ msgid "pouet"
+#~ msgstr "pouet fr"
+
+#~ msgid "Examples:"
+#~ msgstr "Exemples :"
+
+#~ msgid "test"
+#~ msgstr "test"
+
+#~ msgid "Your are on %site_title%"
+#~ msgstr "Vous êtes sur %site_title%"
+
+#~ msgid "Hello"
+#~ msgstr "Salut"
+
+#~ msgid "Hello %name%"
+#~ msgstr "Salut %name%"
