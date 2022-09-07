@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Cecil fixtures\n"
-"POT-Creation-Date: 2022-09-07 02:14+0200\n"
-"PO-Revision-Date: 2022-09-07 02:14+0200\n"
+"POT-Creation-Date: 2022-09-07 02:17+0200\n"
+"PO-Revision-Date: 2022-09-07 02:17+0200\n"
 "Last-Translator: Arnaud Ligny <arnaud@ligny.org>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -48,21 +48,3 @@ msgstr "Langue par défaut :"
 #: layouts/intl.html.twig:51
 msgid "Available translations:"
 msgstr "Traductions disponibles :"
-
-#~ msgid "pouet"
-#~ msgstr "pouet fr"
-
-#~ msgid "Examples:"
-#~ msgstr "Exemples :"
-
-#~ msgid "test"
-#~ msgstr "test"
-
-#~ msgid "Your are on %site_title%"
-#~ msgstr "Vous êtes sur %site_title%"
-
-#~ msgid "Hello"
-#~ msgstr "Salut"
-
-#~ msgid "Hello %name%"
-#~ msgstr "Salut %name%"
