@@ -108,14 +108,14 @@ class Twig implements RendererInterface
         /**
          * Backward compatibility.
          */
-        if (extension_loaded('intl')) {
+        /*if (extension_loaded('intl')) {
             $this->twig->addExtension(new \Twig\Extensions\IntlExtension());
             $builder->getLogger()->debug('Intl extension is loaded');
         }
         if (extension_loaded('gettext')) {
             $this->twig->addExtension(new \Twig\Extensions\I18nExtension());
             $builder->getLogger()->debug('Gettext extension is loaded');
-        }
+        }*/
     }
 
     /**

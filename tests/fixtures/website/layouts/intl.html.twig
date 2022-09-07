@@ -11,33 +11,26 @@
 {% endif %}
       {{ page.content }}
       <hr />
-      <h2>{% trans %}Translation examples:{% endtrans %}</h2>
+      <h2>{% trans %}Translation examples{% endtrans %}</h2>
       <ul>
-        <li>{% trans "Simple text" %}</li>
-        {% set site_title = site.title %}
-        <li>{% trans %}Content with a variable: {{ site_title }}{% endtrans %}</li>
+        <li>{% trans %}Simple text{% endtrans %}</li>
+        <li>{% trans into 'fr_FR' %}Simple text in fr_FR{% endtrans %}</li>
+        <li>{% trans with {'%site_title%': site.title } %}Simple text with variable "%site_title%"{% endtrans %}</li>
       </ul>
-      <h3>Plural form</h3>
+      <h3>{% trans %}Plural form{% endtrans %}</h3>
       <ul>
         <li>
-          {% set count = 1 %}
-          {% trans %}
-            {{ count }} apple.
-          {% plural count %}
-            {{ count }} apples.
-          {% endtrans %}
+          {% trans with {'%name%': 'Arnaud', '%count%': 0}%}{0}%name% has no apples|{1}%name% has one apple|]1,Inf[ %name% has %count% apples{% endtrans %}
         </li>
         <li>
-          {% set count = 10 %}
-          {% trans %}
-            {{ count }} apple.
-          {% plural count %}
-            {{ count }} apples.
-          {% endtrans %}
+          {% trans with {'%name%': 'Arnaud', '%count%': 1}%}{0}%name% has no apples|{1}%name% has one apple|]1,Inf[ %name% has %count% apples{% endtrans %}
+        </li>
+        <li>
+          {% trans with {'%name%': 'Arnaud', '%count%': 10}%}{0}%name% has no apples|{1}%name% has one apple|]1,Inf[ %name% has %count% apples{% endtrans %}
         </li>
       </ul>
       <hr />
-      <h2>{% trans %}Page's language:{% endtrans %}</h2>
+      <h2>{% trans %}Page's language{% endtrans %}</h2>
       <p>
         - code: {{ site.language }}<br>
         - name: {{ site.language.name }}<br>

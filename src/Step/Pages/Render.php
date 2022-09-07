@@ -85,7 +85,7 @@ class Render extends AbstractStep
              * Backward compatibility.
              */
             // the PHP Intl extension is needed to use localized date
-            if (extension_loaded('intl')) {
+            /*if (extension_loaded('intl')) {
                 \Locale::setDefault($locale);
             }
             // the PHP Gettext extension is needed to use translation
@@ -98,7 +98,7 @@ class Render extends AbstractStep
                 if ($localePath = realpath(Util::joinFile($this->config->getSourceDir(), 'locale'))) {
                     bindtextdomain($domain, $localePath);
                 }
-            }
+            }*/
 
             // global site variables
             $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $language));
