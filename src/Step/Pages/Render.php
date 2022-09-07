@@ -80,6 +80,7 @@ class Render extends AbstractStep
             $language = $page->getVariable('language', $this->config->getLanguageDefault());
             $locale = $this->config->getLanguageProperty('locale', $language);
             $this->builder->getRenderer()->setLocale($locale);
+            \Locale::setDefault($locale);
 
             /**
              * Backward compatibility.

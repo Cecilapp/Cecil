@@ -21,6 +21,7 @@ use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Loader\MoFileLoader;
 use Symfony\Component\Translation\Translator;
+use Twig\Extra\Intl\IntlExtension;
 
 /**
  * Class Twig.
@@ -73,6 +74,8 @@ class Twig implements RendererInterface
         $this->twig->addExtension(new TwigExtension($builder));
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // i18n
+        $this->twig->addExtension(new IntlExtension());
+        // l10n
         $locale = $builder->getConfig()->getLanguageProperty('locale');
         $this->translator = new Translator($locale, new MessageFormatter(new IdentityTranslator()));
         $this->translator->setFallbackLocales([$locale]);

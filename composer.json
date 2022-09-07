@@ -45,6 +45,7 @@
     "symfony/twig-bridge": "^5.4",
     "symfony/yaml": "^5.4",
     "twig/extensions": "1.5.4.x-dev",
+    "twig/intl-extra": "^3.4",
     "twig/twig": "^3.4",
     "voku/html-min": "^4.5",
     "wapmorgan/mp3info": "^0.0",
