@@ -498,7 +498,7 @@ class Config
      *
      * @throws RuntimeException
      */
-    public function getLanguageProperty(string $property, string $code = null): ?string
+    public function getLanguageProperty(string $property, string $code = null): string
     {
         $code = $code ?? $this->getLanguageDefault();
 
