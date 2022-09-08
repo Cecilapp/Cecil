@@ -862,21 +862,9 @@ Uses the `trans` _tag_ or _filter_ to translate texts in templates.
 {% trans with variables into locale %}{% endtrans %}
 ```
 
-`variables` _(optional)_
-: type: `array`, default: `[]`
-
-`locale` _(optional)_
-: type: `string`, default: `string`
-
 ```twig
 {{ message|trans(variables = []) }}
 ```
-
-`message`
-: type: `string`
-
-`variables` _(optional)_
-: type: `array`, default: `[]`
 
 #### Examples
 
