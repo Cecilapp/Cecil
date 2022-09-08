@@ -62,6 +62,8 @@ case $RUNNING_ON in
   "CFPages")
     if [ "$CF_PAGES_BRANCH" = "master" ] || [ "$CF_PAGES_BRANCH" = "main" ]; then
       CONTEXT="production"
+    else
+      URL=$CF_PAGES_URL
     fi
     ;;
   "Render")
