@@ -898,7 +898,7 @@ Pluralize:
 {% trans with {'%count%': 42}%}{0}I don't have apples|{1}I have one apple|]1,Inf[I have %count% apples{% endtrans %}
 ```
 
-Translation files must be named `messages.<locale>.mo` and stored in the `translations` directory.
+Translation files must be named `messages.<locale>.mo` and stored in the [`translations`](4-Configuration.md#translations) directory.
 
 ```plaintext
 <mywebsite>
@@ -908,6 +908,10 @@ Translation files must be named `messages.<locale>.mo` and stored in the `transl
 ```
 
 [_Poedit Pro_](https://poedit.net/pro) is recommended to easily translate your templates.
+
+:::important
+Be carreful about the cache ([enabled by default](4-Configuration.md#cache)) when you update translations files.  Cache can be cleared with with the following command: `php cecil.phar cache:clear:translations`.
+:::
 
 ### Date localization
 
