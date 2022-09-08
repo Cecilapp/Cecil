@@ -35,6 +35,7 @@
     "scrivo/highlight.php": "^9.18",
     "scssphp/scssphp": "^1.10",
     "spatie/image-optimizer": "^1.6",
+    "symfony/config": "^5.4",
     "symfony/console": "^5.4",
     "symfony/filesystem": "^5.4",
     "symfony/finder": "^5.4",
