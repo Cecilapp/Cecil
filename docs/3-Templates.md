@@ -856,21 +856,25 @@ Cecil support [**text translation**](#text-translation) and [**date localization
 
 ### Text translation
 
-Uses the `trans` tag to translate a text in templates.
+Uses the `trans` tag to translate texts in templates.
 
 ```twig
 {% trans %}Hello World!{% endtrans %}
 ```
 
-```twig
-{% trans into 'fr_FR' %}Hello World!{% endtrans %}
-```
+Include variables:
 
 ```twig
 {% trans with {'%name%': 'Arnaud'} %}Hello "%name%"!{% endtrans %}
 ```
 
-To pluralize a translatable string, use the following syntax:
+Force locale:
+
+```twig
+{% trans into 'fr_FR' %}Hello World!{% endtrans %}
+```
+
+Pluralize:
 
 ```twig
 {% trans with {'%count%': 42}%}{0}I don't have apples|{1}I have one apple|]1,Inf[I have %count% apples{% endtrans %}
