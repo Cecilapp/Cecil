@@ -35,7 +35,7 @@ class Twig implements RendererInterface
     private $twig;
 
     /** @var Translator */
-    private $translator;
+    private $translator = null;
 
     /**
      * {@inheritdoc}
@@ -139,7 +139,7 @@ class Twig implements RendererInterface
     public function setLocale(string $locale): void
     {
         !class_exists(\Locale::class) ?: \Locale::setDefault($locale);
-        !$this->translator instanceof Translator ?: $this->translator->setLocale($locale);
+        $this->translator === null ?: $this->translator->setLocale($locale);
     }
 
     /**
