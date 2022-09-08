@@ -53,7 +53,7 @@ return [
         [
             'code'   => 'en',
             'name'   => 'English',
-            'locale' => 'en_US',
+            'locale' => 'en',
         ],
         [
             'code'   => 'fr',

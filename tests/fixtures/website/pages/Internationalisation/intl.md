@@ -6,4 +6,4 @@ layout: intl
 ---
 <!-- break -->
 - Use `{% trans %}Text{% endtrans %}` to translate some text
-- Use `localizeddate()` filter to localize a date
+- Use `format_date` filter to localize a date

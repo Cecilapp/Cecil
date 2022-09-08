@@ -6,5 +6,5 @@ layout: intl
 menu: main
 ---
 <!-- break -->
-- Utiliser `{% trans %}Text{% endtrans %}` pour traduire du texte
-- Utiliser le filtre `localizeddate()` pour localiser une date
+- Utiliser `{% trans %}Texte{% endtrans %}` pour traduire du texte
+- Utiliser le filtre `format_date` pour localiser une date
