@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
-use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -45,17 +44,17 @@ class CacheClearTemplates extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->fs->exists(Util::joinFile($this->getBuilder()->getConfig()->getCachePath(), 'templates'))) {
+        if (!$this->fs->exists($this->getBuilder()->getConfig()->getCacheTemplatesPath())) {
             $output->writeln('<info>No templates cache.</info>');
 
             return 0;
         }
         $output->writeln('Removing templates cache directory...');
         $output->writeln(
-            \sprintf('<comment>Path %s</comment>', Util::joinFile($this->getBuilder()->getConfig()->getCachePath(), 'templates')),
+            \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCacheTemplatesPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
-        $this->fs->remove(Util::joinFile($this->getBuilder()->getConfig()->getCachePath(), 'templates'));
+        $this->fs->remove($this->getBuilder()->getConfig()->getCacheTemplatesPath());
         $output->writeln('<info>Templates cache is clear.</info>');
 
         return 0;

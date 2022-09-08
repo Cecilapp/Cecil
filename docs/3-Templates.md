@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-08-30
+updated: 2022-09-08
 alias: documentation/layouts
 -->
 
@@ -879,7 +879,7 @@ Uses the `trans` _tag_ or _filter_ to translate texts in templates.
 Include variables:
 
 ```twig
-{% trans with {'%name%': 'Arnaud'} %}Hello "%name%"!{% endtrans %}
+{% trans with {'%name%': 'Arnaud'} %}Hello %name%!{% endtrans %}
 ```
 
 ```twig
@@ -898,7 +898,7 @@ Pluralize:
 {% trans with {'%count%': 42}%}{0}I don't have apples|{1}I have one apple|]1,Inf[I have %count% apples{% endtrans %}
 ```
 
-Translation files must be named `messages.<locale>.mo` and stored in the `translations` directory.
+Translation files must be named `messages.<locale>.mo` and stored in the [`translations`](4-Configuration.md#translations) directory.
 
 ```plaintext
 <mywebsite>
@@ -908,6 +908,10 @@ Translation files must be named `messages.<locale>.mo` and stored in the `transl
 ```
 
 [_Poedit Pro_](https://poedit.net/pro) is recommended to easily translate your templates.
+
+:::important
+Be carreful about the cache ([enabled by default](4-Configuration.md#cache)) when you update translations files.  Cache can be cleared with with the following command: `php cecil.phar cache:clear:translations`.
+:::
 
 ### Date localization
 

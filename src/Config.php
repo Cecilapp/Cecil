@@ -290,7 +290,7 @@ class Config
      */
     public function getTranslationsPath(): string
     {
-        return Util::joinFile($this->getSourceDir(), 'translations');
+        return Util::joinFile($this->getSourceDir(), (string) $this->get('translations.dir'));
     }
 
     /**
@@ -364,6 +364,22 @@ class Config
         }
 
         return Util::joinFile($this->getDestinationDir(), (string) $this->get('cache.dir'));
+    }
+
+    /**
+     * Returns cache path of templates.
+     */
+    public function getCacheTemplatesPath(): string
+    {
+        return Util::joinFile($this->getCachePath(), (string) $this->get('cache.templates.dir'));
+    }
+
+    /**
+     * Returns cache path of translations.
+     */
+    public function getCacheTranslationsPath(): string
+    {
+        return Util::joinFile($this->getCachePath(), (string) $this->get('cache.translations.dir'));
     }
 
     /**

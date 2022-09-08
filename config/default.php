@@ -230,6 +230,10 @@ return [
     'themes' => [
         'dir' => 'themes',
     ],
+    // i18n
+    'translations' => [
+        'dir' => 'translations',
+    ],
     'assets' => [
         'dir'     => 'assets',
         'compile' => [     // Compile Saas
@@ -291,6 +295,10 @@ return [
         ],
         'assets' => [
             'dir' => 'assets/remote',
+        ],
+        'translations' => [
+            'dir'     => 'translations',
+            'enabled' => true,
         ],
     ],
     'generators' => [

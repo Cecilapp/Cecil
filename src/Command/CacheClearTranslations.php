@@ -19,9 +19,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Removes assets cache files.
+ * Removes translations cache files.
  */
-class CacheClearAssets extends AbstractCommand
+class CacheClearTranslations extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -29,14 +29,14 @@ class CacheClearAssets extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('cache:clear:assets')
-            ->setDescription('Removes assets cache')
+            ->setName('cache:clear:translations')
+            ->setDescription('Removes translations cache')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 ])
             )
-            ->setHelp('Removes cached assets files');
+            ->setHelp('Removes cached translations files');
     }
 
     /**
@@ -44,18 +44,18 @@ class CacheClearAssets extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->fs->exists($this->getBuilder()->getConfig()->getCacheAssetsPath())) {
-            $output->writeln('<info>No assets cache.</info>');
+        if (!$this->fs->exists($this->getBuilder()->getConfig()->getCacheTranslationsPath())) {
+            $output->writeln('<info>No translations cache.</info>');
 
             return 0;
         }
-        $output->writeln('Removing assets cache directory...');
+        $output->writeln('Removing translations cache directory...');
         $output->writeln(
-            \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCacheAssetsPath()),
+            \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCacheTranslationsPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
-        $this->fs->remove($this->getBuilder()->getConfig()->getCacheAssetsPath());
-        $output->writeln('<info>Assets cache is clear.</info>');
+        $this->fs->remove($this->getBuilder()->getConfig()->getCacheTranslationsPath());
+        $output->writeln('<info>Translations cache is clear.</info>');
 
         return 0;
     }

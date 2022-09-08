@@ -51,6 +51,7 @@ class Application extends BaseApplication
             new Command\CacheClear(),
             new Command\CacheClearAssets(),
             new Command\CacheClearTemplates(),
+            new Command\CacheClearTranslations(),
             new Command\ShowContent(),
             new Command\ShowConfig(),
             new Command\ListCommand(),

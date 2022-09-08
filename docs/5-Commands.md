@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2021-12-08
+updated: 2022-09-08
 -->
 
 # Commands
@@ -10,22 +10,23 @@ List of all available commands.
 
 ```plaintext
 Available commands:
-  build                  Builds the website
-  clear                  [clean] Removes generated files
-  help                   Display help for a command
-  open                   Open content directory with the editor
-  self-update            Updates Cecil to the latest version
-  serve                  Starts the built-in server
+  build                     Builds the website
+  clear                     Removes generated files
+  help                      Display help for a command
+  open                      Open pages directory with the editor
+  self-update               Updates Cecil to the latest version
+  serve                     Starts the built-in server
  cache
-  cache:clear            Removes all caches
-  cache:clear:assets     Removes assets cache
-  cache:clear:templates  Removes templates cache
+  cache:clear               Removes all caches
+  cache:clear:assets        Removes assets cache
+  cache:clear:templates     Removes templates cache
+  cache:clear:translations  Removes translations cache
  new
-  new:page               Creates a new page
-  new:site               Creates a new website
+  new:page                  Creates a new page
+  new:site                  Creates a new website
  show
-  show:config            Shows the configuration
-  show:content           Shows content as tree
+  show:config               Shows the configuration
+  show:content              Shows content as tree
 ```
 
 ## Main commands

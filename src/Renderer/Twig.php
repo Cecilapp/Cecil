@@ -54,11 +54,7 @@ class Twig implements RendererInterface
         ];
         // use Twig cache?
         if ($builder->getConfig()->get('cache.templates.enabled')) {
-            $templatesCachePath = \Cecil\Util::joinFile(
-                $builder->getConfig()->getCachePath(),
-                (string) $builder->getConfig()->get('cache.templates.dir')
-            );
-            $loaderOptions = array_replace($loaderOptions, ['cache' => $templatesCachePath]);
+            $loaderOptions = array_replace($loaderOptions, ['cache' => $builder->getConfig()->getCacheTemplatesPath()]);
         }
         // create the Twig instance
         $this->twig = new \Twig\Environment($loader, $loaderOptions);
@@ -87,13 +83,13 @@ class Twig implements RendererInterface
             return false;
         });
         // l10n
+        $this->translator = new Translator(
+            $builder->getConfig()->getLanguageProperty('locale'),
+            new MessageFormatter(new IdentityTranslator()),
+            $builder->getConfig()->get('cache.templates.enabled') ? $builder->getConfig()->getCacheTranslationsPath() : null,
+            $builder->isDebug()
+        );
         if (count($builder->getConfig()->getLanguages()) > 1) {
-            $this->translator = new Translator(
-                $builder->getConfig()->getLanguageProperty('locale'),
-                new MessageFormatter(new IdentityTranslator()),
-                Util::joinFile($builder->getConfig()->getCachePath(), 'translations'),
-                $builder->isDebug()
-            );
             $this->translator->addLoader('mo', new MoFileLoader());
             foreach ($builder->getConfig()->getLanguages() as $lang) {
                 // themes
@@ -105,8 +101,8 @@ class Twig implements RendererInterface
                 // site
                 $this->addTransResource($builder->getConfig()->getTranslationsPath(), $lang['locale']);
             }
-            $this->twig->addExtension(new TranslationExtension($this->translator));
         }
+        $this->twig->addExtension(new TranslationExtension($this->translator));
         // debug
         if ($builder->isDebug()) {
             // dump()
