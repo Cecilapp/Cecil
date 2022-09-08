@@ -856,16 +856,46 @@ Cecil support [**text translation**](#text-translation) and [**date localization
 
 ### Text translation
 
-Uses the `trans` tag to translate texts in templates.
+Uses the `trans` _tag_ or _filter_ to translate texts in templates.
+
+```twig
+{% trans with variables into locale %}{% endtrans %}
+```
+
+`variables` _(optional)_
+: type: `array`, default: `[]`
+
+`locale` _(optional)_
+: type: `string`, default: `string`
+
+```twig
+{{ message|trans(variables = []) }}
+```
+
+`message`
+: type: `string`
+
+`variables` _(optional)_
+: type: `array`, default: `[]`
+
+#### Examples
 
 ```twig
 {% trans %}Hello World!{% endtrans %}
+```
+
+```twig
+{{ message|trans }}
 ```
 
 Include variables:
 
 ```twig
 {% trans with {'%name%': 'Arnaud'} %}Hello "%name%"!{% endtrans %}
+```
+
+```twig
+{{ message|trans({'%name%': 'Arnaud'}) }}
 ```
 
 Force locale:
