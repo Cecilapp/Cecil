@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+### [7.0.0](https://github.com/Cecilapp/Cecil/compare/6.5.1...7.0.0)
+
+> 8 September 2022
+
+- feat: recode i18n support with Sf Translation + Twig Intl [`#1463`](https://github.com/Cecilapp/Cecil/pull/1463)
+- fix: display pagination template if not empty [`f38cbc3`](https://github.com/Cecilapp/Cecil/commit/f38cbc33bcdeaa79d66dd3f0310c085e8c889836)
+
 #### [6.5.1](https://github.com/Cecilapp/Cecil/compare/6.5.0...6.5.1)
 
 > 6 September 2022
