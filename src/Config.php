@@ -286,6 +286,14 @@ class Config
     }
 
     /**
+     * Returns the path of translations directory.
+     */
+    public function getTranslationsPath(): string
+    {
+        return Util::joinFile($this->getSourceDir(), 'translations');
+    }
+
+    /**
      * Returns the path of the output directory.
      */
     public function getOutputPath(): string
