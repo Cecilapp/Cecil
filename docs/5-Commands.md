@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2021-12-08
+updated: 2022-09-08
 -->
 
 # Commands
@@ -13,7 +13,7 @@ Available commands:
   build                     Builds the website
   clear                     Removes generated files
   help                      Display help for a command
-  open                      Open content directory with the editor
+  open                      Open pages directory with the editor
   self-update               Updates Cecil to the latest version
   serve                     Starts the built-in server
  cache
