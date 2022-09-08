@@ -879,7 +879,7 @@ Uses the `trans` _tag_ or _filter_ to translate texts in templates.
 Include variables:
 
 ```twig
-{% trans with {'%name%': 'Arnaud'} %}Hello "%name%"!{% endtrans %}
+{% trans with {'%name%': 'Arnaud'} %}Hello %name%!{% endtrans %}
 ```
 
 ```twig
