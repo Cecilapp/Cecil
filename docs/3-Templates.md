@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-08-30
+updated: 2022-09-08
 alias: documentation/layouts
 -->
 
