@@ -96,10 +96,14 @@ class Twig implements RendererInterface
             );
             $this->translator->addLoader('mo', new MoFileLoader());
             foreach ($builder->getConfig()->getLanguages() as $lang) {
-                $translationFile = realpath(Util::joinFile($builder->getConfig()->getSourceDir(), \sprintf('translations/messages.%s.mo', $lang['locale'])));
-                if (Util\File::getFS()->exists($translationFile)) {
-                    $this->translator->addResource('mo', $translationFile, $lang['locale']);
+                // themes
+                if ($themes = $builder->getConfig()->getTheme()) {
+                    foreach ($themes as $theme) {
+                        $this->addTransResource($builder->getConfig()->getThemeDirPath($theme, 'translations'), $lang['locale']);
+                    }
                 }
+                // site
+                $this->addTransResource($builder->getConfig()->getTranslationsPath(), $lang['locale']);
             }
             $this->twig->addExtension(new TranslationExtension($this->translator));
         }
@@ -116,15 +120,6 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
-    public function setLocale(string $locale): void
-    {
-        !class_exists(\Locale::class) ?: \Locale::setDefault($locale);
-        !$this->translator instanceof Translator ?: $this->translator->setLocale($locale);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function addGlobal(string $name, $value): void
     {
         $this->twig->addGlobal($name, $value);
@@ -136,5 +131,25 @@ class Twig implements RendererInterface
     public function render(string $template, array $variables): string
     {
         return $this->twig->render($template, $variables);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLocale(string $locale): void
+    {
+        !class_exists(\Locale::class) ?: \Locale::setDefault($locale);
+        !$this->translator instanceof Translator ?: $this->translator->setLocale($locale);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addTransResource(string $translationsDir, string $locale): void
+    {
+        $translationFile = realpath(Util::joinFile($translationsDir, \sprintf('messages.%s.mo', $locale)));
+        if (Util\File::getFS()->exists($translationFile)) {
+            $this->translator->addResource('mo', $translationFile, $locale);
+        }
     }
 }
