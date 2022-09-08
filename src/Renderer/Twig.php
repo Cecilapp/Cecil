@@ -75,20 +75,6 @@ class Twig implements RendererInterface
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // i18n
         $this->twig->addExtension(new IntlExtension());
-        // l10n
-        $locale = $builder->getConfig()->getLanguageProperty('locale');
-        $this->translator = new Translator($locale, new MessageFormatter(new IdentityTranslator()));
-        $this->translator->setFallbackLocales([$locale]);
-        $this->translator->addLoader('mo', new MoFileLoader());
-        if (count($builder->getConfig()->getLanguages()) > 1) {
-            foreach ($builder->getConfig()->getLanguages() as $lang) {
-                $translationFile = realpath(Util::joinFile($builder->getConfig()->getSourceDir(), \sprintf('translations/messages.%s.mo', $lang['locale'])));
-                if (Util\File::getFS()->exists($translationFile)) {
-                    $this->translator->addResource('mo', $translationFile, $lang['locale']);
-                }
-            }
-        }
-        $this->twig->addExtension(new TranslationExtension($this->translator));
         // filters fallback
         $this->twig->registerUndefinedFilterCallback(function ($name) use ($builder) {
             switch ($name) {
@@ -100,6 +86,23 @@ class Twig implements RendererInterface
 
             return false;
         });
+        // l10n
+        if (count($builder->getConfig()->getLanguages()) > 1) {
+            $this->translator = new Translator(
+                $builder->getConfig()->getLanguageProperty('locale'),
+                new MessageFormatter(new IdentityTranslator()),
+                Util::joinFile($builder->getConfig()->getCachePath(), 'translations'),
+                $builder->isDebug()
+            );
+            $this->translator->addLoader('mo', new MoFileLoader());
+            foreach ($builder->getConfig()->getLanguages() as $lang) {
+                $translationFile = realpath(Util::joinFile($builder->getConfig()->getSourceDir(), \sprintf('translations/messages.%s.mo', $lang['locale'])));
+                if (Util\File::getFS()->exists($translationFile)) {
+                    $this->translator->addResource('mo', $translationFile, $lang['locale']);
+                }
+            }
+            $this->twig->addExtension(new TranslationExtension($this->translator));
+        }
         // debug
         if ($builder->isDebug()) {
             // dump()
@@ -108,17 +111,6 @@ class Twig implements RendererInterface
             $this->profile = new \Twig\Profiler\Profile();
             $this->twig->addExtension(new \Twig\Extension\ProfilerExtension($this->profile));
         }
-        /**
-         * Backward compatibility.
-         */
-        /*if (extension_loaded('intl')) {
-            $this->twig->addExtension(new \Twig\Extensions\IntlExtension());
-            $builder->getLogger()->debug('Intl extension is loaded');
-        }
-        if (extension_loaded('gettext')) {
-            $this->twig->addExtension(new \Twig\Extensions\I18nExtension());
-            $builder->getLogger()->debug('Gettext extension is loaded');
-        }*/
     }
 
     /**
@@ -126,7 +118,8 @@ class Twig implements RendererInterface
      */
     public function setLocale(string $locale): void
     {
-        $this->translator->setLocale($locale);
+        !class_exists(\Locale::class) ?: \Locale::setDefault($locale);
+        !$this->translator instanceof Translator ?: $this->translator->setLocale($locale);
     }
 
     /**
