@@ -679,6 +679,15 @@ themes:
   dir: themes # themes directory
 ```
 
+### translations
+
+Where translations files are stored.
+
+```yaml
+translations:
+  dir: translations # translations directory
+```
+
 ### assets
 
 Assets handling options.
@@ -754,6 +763,9 @@ cache:
     enabled: true  # enables templates cache
   assets:       # assets cache
     dir: 'assets/remote' # the subdirectory of remote assets cache
+  translations:
+    dir: 'translations' # translations cache directory
+    enabled: true       # enables translations cache
 ```
 
 ### generators
