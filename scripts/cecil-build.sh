@@ -133,18 +133,19 @@ if [ -f "./composer.json" ]; then
 fi
 
 # Options
-if [ -z "${URL}" ]; then
-  CECIL_CMD_OPTIONS="${CECIL_CMD_OPTIONS} --baseurl=${URL}"
+if [ ! -z "${URL}" ]; then
+  CECIL_CMD_OPTIONS="--baseurl=${URL} ${CECIL_CMD_OPTIONS}"
 fi
 if [ "$CONTEXT" = "production" ]; then
   export CECIL_ENV="production"
-  CECIL_CMD_OPTIONS=" -v ${CECIL_CMD_OPTIONS} --postprocess"
+  CECIL_CMD_OPTIONS="-v --postprocess ${CECIL_CMD_OPTIONS}"
 else
-  CECIL_CMD_OPTIONS=" -vv ${CECIL_CMD_OPTIONS} --drafts"
+  CECIL_CMD_OPTIONS="-vv --drafts ${CECIL_CMD_OPTIONS}"
 fi
 
 # Run build
-$CECIL_CMD build$CECIL_CMD_OPTIONS
+echo "Running \"${CECIL_CMD} build ${CECIL_CMD_OPTIONS}\"";
+$CECIL_CMD build $CECIL_CMD_OPTIONS
 BUILD_SUCCESS=$?
 
 # Build success? Can deploy?
