@@ -1,8 +1,9 @@
 ---
 title: Internationalization
 date: 2019-07-31
+updated: 2022-09-07
 layout: intl
 ---
 <!-- break -->
-- Use `localizeddate()` filter to localize a date
-- Use `{% trans "Text" %}` to translate some text (via Gettext)
+- Use `{% trans %}Text{% endtrans %}` to translate some text
+- Use `format_date` filter to localize a date

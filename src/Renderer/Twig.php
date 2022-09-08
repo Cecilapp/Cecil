@@ -15,20 +15,27 @@ namespace Cecil\Renderer;
 
 use Cecil\Builder;
 use Cecil\Renderer\Twig\Extension as TwigExtension;
+use Cecil\Util;
+use Symfony\Bridge\Twig\Extension\TranslationExtension;
+use Symfony\Component\Translation\Formatter\MessageFormatter;
+use Symfony\Component\Translation\IdentityTranslator;
+use Symfony\Component\Translation\Loader\MoFileLoader;
+use Symfony\Component\Translation\Translator;
+use Twig\Extra\Intl\IntlExtension;
 
 /**
  * Class Twig.
  */
 class Twig implements RendererInterface
 {
-    /** @var \Twig\Environment */
-    protected $twig;
-
-    /** @var string */
-    protected $templatesDir;
-
     /** @var \Twig\Profiler\Profile */
     public $profile;
+
+    /** @var \Twig\Environment */
+    private $twig;
+
+    /** @var Translator */
+    private $translator = null;
 
     /**
      * {@inheritdoc}
@@ -66,26 +73,41 @@ class Twig implements RendererInterface
         // adds extensions
         $this->twig->addExtension(new TwigExtension($builder));
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
-        // internationalisation
-        if (extension_loaded('intl')) {
-            $this->twig->addExtension(new \Twig\Extensions\IntlExtension());
-            $builder->getLogger()->debug('Intl extension is loaded');
-            // filters fallback
-            $this->twig->registerUndefinedFilterCallback(function ($name) use ($builder) {
-                switch ($name) {
-                    case 'localizeddate':
-                        return new \Twig\TwigFilter($name, function (\DateTime $value = null) use ($builder) {
-                            return date((string) $builder->getConfig()->get('date.format'), $value->getTimestamp());
-                        });
-                }
+        // i18n
+        $this->twig->addExtension(new IntlExtension());
+        // filters fallback
+        $this->twig->registerUndefinedFilterCallback(function ($name) use ($builder) {
+            switch ($name) {
+                case 'localizeddate':
+                    return new \Twig\TwigFilter($name, function (\DateTime $value = null) use ($builder) {
+                        return date((string) $builder->getConfig()->get('date.format'), $value->getTimestamp());
+                    });
+            }
 
-                return false;
-            });
+            return false;
+        });
+        // l10n
+        if (count($builder->getConfig()->getLanguages()) > 1) {
+            $this->translator = new Translator(
+                $builder->getConfig()->getLanguageProperty('locale'),
+                new MessageFormatter(new IdentityTranslator()),
+                Util::joinFile($builder->getConfig()->getCachePath(), 'translations'),
+                $builder->isDebug()
+            );
+            $this->translator->addLoader('mo', new MoFileLoader());
+            foreach ($builder->getConfig()->getLanguages() as $lang) {
+                // themes
+                if ($themes = $builder->getConfig()->getTheme()) {
+                    foreach ($themes as $theme) {
+                        $this->addTransResource($builder->getConfig()->getThemeDirPath($theme, 'translations'), $lang['locale']);
+                    }
+                }
+                // site
+                $this->addTransResource($builder->getConfig()->getTranslationsPath(), $lang['locale']);
+            }
+            $this->twig->addExtension(new TranslationExtension($this->translator));
         }
-        if (extension_loaded('gettext')) {
-            $this->twig->addExtension(new \Twig\Extensions\I18nExtension());
-            $builder->getLogger()->debug('Gettext extension is loaded');
-        }
+        // debug
         if ($builder->isDebug()) {
             // dump()
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
@@ -109,5 +131,25 @@ class Twig implements RendererInterface
     public function render(string $template, array $variables): string
     {
         return $this->twig->render($template, $variables);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLocale(string $locale): void
+    {
+        !class_exists(\Locale::class) ?: \Locale::setDefault($locale);
+        $this->translator === null ?: $this->translator->setLocale($locale);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addTransResource(string $translationsDir, string $locale): void
+    {
+        $translationFile = realpath(Util::joinFile($translationsDir, \sprintf('messages.%s.mo', $locale)));
+        if (Util\File::getFS()->exists($translationFile)) {
+            $this->translator->addResource('mo', $translationFile, $locale);
+        }
     }
 }

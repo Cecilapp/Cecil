@@ -41,8 +41,10 @@
     "symfony/process": "^5.4",
     "symfony/property-access": "^5.4",
     "symfony/serializer": "^5.4",
+    "symfony/translation": "^5.4",
+    "symfony/twig-bridge": "^5.4",
     "symfony/yaml": "^5.4",
-    "twig/extensions": "1.5.4.x-dev",
+    "twig/intl-extra": "^3.4",
     "twig/twig": "^3.4",
     "voku/html-min": "^4.5",
     "wapmorgan/mp3info": "^0.0",
@@ -62,8 +64,7 @@
     "psr/simple-cache-implementation": "1.0"
   },
   "suggest": {
-    "ext-intl": "Needed to support date internationalization",
-    "ext-gettext": "Needed to support text internationalization"
+    "ext-intl": "Locale support"
   },
   "config": {
     "allow-plugins": {
@@ -90,16 +91,6 @@
       "Cecil\\Test\\": "tests/"
     }
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/Cecilapp/file_get_contents"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/Cecilapp/Twig-extensions"
-    }
-  ],
   "minimum-stability": "dev",
   "prefer-stable": true,
   "bin": [
