@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Open content with an editor.
+ * Open pages with an editor.
  */
 class OpenWith extends AbstractCommand
 {
@@ -33,14 +33,14 @@ class OpenWith extends AbstractCommand
     {
         $this
             ->setName('open')
-            ->setDescription('Open content directory with the editor')
+            ->setDescription('Open pages directory with the editor')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use'),
                 ])
             )
-            ->setHelp('Open content directory with the editor defined in the configuration file.');
+            ->setHelp('Open pages directory with the editor defined in the configuration file.');
     }
 
     /**
@@ -59,7 +59,7 @@ class OpenWith extends AbstractCommand
                 }
                 $editor = (string) $this->getBuilder()->getConfig()->get('editor');
             }
-            $output->writeln(\sprintf('<info>Opening content directory with %s...</info>', ucfirst($editor)));
+            $output->writeln(\sprintf('<info>Opening pages directory with %s...</info>', ucfirst($editor)));
             $this->openEditor(Util::joinFile($this->getPath(), (string) $this->getBuilder()->getConfig()->get('pages.dir')), $editor);
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));
