@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.0.1](https://github.com/Cecilapp/Cecil/compare/7.0.0...7.0.1)
+
+> 8 September 2022
+
+- fix: add symfony/config [`a2ac8bd`](https://github.com/Cecilapp/Cecil/commit/a2ac8bde44d759d06cdf3c83a4ef3259648b1088)
+
 ### [7.0.0](https://github.com/Cecilapp/Cecil/compare/6.5.1...7.0.0)
 
 > 8 September 2022
