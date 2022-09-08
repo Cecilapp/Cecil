@@ -86,7 +86,7 @@ class Twig implements RendererInterface
         $this->translator = new Translator(
             $builder->getConfig()->getLanguageProperty('locale'),
             new MessageFormatter(new IdentityTranslator()),
-            $builder->getConfig()->get('cache.templates.enabled') ? $builder->getConfig()->getCacheTranslationsPath() : false,
+            $builder->getConfig()->get('cache.templates.enabled') ? $builder->getConfig()->getCacheTranslationsPath() : null,
             $builder->isDebug()
         );
         if (count($builder->getConfig()->getLanguages()) > 1) {
