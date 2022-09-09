@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.1.1](https://github.com/Cecilapp/Cecil/compare/7.1.0...7.1.1)
+
+> 9 September 2022
+
+- chore: update build script [`e1594ae`](https://github.com/Cecilapp/Cecil/commit/e1594ae36110e27dfec2b3a436780875ee61692a)
+- fix: pagination template [`220f86b`](https://github.com/Cecilapp/Cecil/commit/220f86ba39023f56626c655e2eafa7de35e9279f)
+- chore: update build script [`356c5c2`](https://github.com/Cecilapp/Cecil/commit/356c5c2ed5deea2694e968be2979d21f6c2833d4)
+- chore: (script) add CF Pages URL for preview [`409ff5b`](https://github.com/Cecilapp/Cecil/commit/409ff5b91353359a7d3278a962f61f79dfa7c829)
+
 #### [7.1.0](https://github.com/Cecilapp/Cecil/compare/7.0.1...7.1.0)
 
 > 8 September 2022
