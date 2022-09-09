@@ -89,7 +89,7 @@ class Twig implements RendererInterface
             $builder->getConfig()->get('cache.templates.enabled') ? $builder->getConfig()->getCacheTranslationsPath() : null,
             $builder->isDebug()
         );
-        if (count($builder->getConfig()->getLanguages()) > 1) {
+        if ($builder->getConfig()->getLanguages()) {
             $this->translator->addLoader('mo', new MoFileLoader());
             foreach ($builder->getConfig()->getLanguages() as $lang) {
                 // themes
