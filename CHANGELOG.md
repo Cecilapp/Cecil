@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.1.2](https://github.com/Cecilapp/Cecil/compare/7.1.1...7.1.2)
+
+> 9 September 2022
+
+- fix: load translations file for 1 language too [`518dc68`](https://github.com/Cecilapp/Cecil/commit/518dc68e9c91db3f0b459cfe11ca4f743f272db7)
+
 #### [7.1.1](https://github.com/Cecilapp/Cecil/compare/7.1.0...7.1.1)
 
 > 9 September 2022
