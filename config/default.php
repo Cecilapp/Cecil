@@ -27,7 +27,7 @@ return [
         'path' => 'page', // path to paginated pages. ie: '/blog/page/2/'
     ],
     'date' => [
-        'format'   => 'j F Y', // See https://php.net/manual/function.date.php
+        'format'   => 'j F Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
         //'timezone' => 'Europe/Paris',
     ],
     'output' => [
