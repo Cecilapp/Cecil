@@ -65,9 +65,7 @@ class NewSite extends AbstractCommand
                 }
             }
             // define root path
-            if (false === $root = realpath(Util::joinFile(__DIR__, '/../../'))) {
-                throw new RuntimeException('Can\'t define root path.');
-            }
+            $root = realpath(Util::joinFile(__DIR__, '/../../'));
             if (Util\Plateform::isPhar()) {
                 $root = Util\Plateform::getPharPath().'/';
             }
