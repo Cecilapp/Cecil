@@ -16,6 +16,7 @@ namespace Cecil;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util\Plateform;
 use Dflydev\DotAccessData\Data;
+use RuntimeException as GlobalRuntimeException;
 
 /**
  * Class Config.
@@ -43,7 +44,9 @@ class Config
     public function __construct(array $config = null)
     {
         // load default configuration
-        $defaultConfig = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
+        if (false === $defaultConfig = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'))) {
+            throw new RuntimeException('Can\'t load default configuration file.');
+        }
         if (Plateform::isPhar()) {
             $defaultConfig = Util::joinPath(Plateform::getPharPath(), 'config/default.php');
         }

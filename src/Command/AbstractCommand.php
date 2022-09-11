@@ -71,10 +71,9 @@ class AbstractCommand extends Command
             if ($input->getArgument('path') !== null) {
                 $this->path = (string) $input->getArgument('path');
             }
-            if (realpath($this->getPath()) === false) {
+            if (false === $this->path = realpath($this->getPath())) {
                 $this->fs->mkdir($this->getPath());
             }
-            $this->path = realpath($this->getPath());
             // config file(s)
             if (!in_array($this->getName(), ['new:site'])) {
                 // default
