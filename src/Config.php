@@ -16,7 +16,6 @@ namespace Cecil;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util\Plateform;
 use Dflydev\DotAccessData\Data;
-use RuntimeException as GlobalRuntimeException;
 
 /**
  * Class Config.
