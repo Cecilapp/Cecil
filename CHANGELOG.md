@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.2.0](https://github.com/Cecilapp/Cecil/compare/7.1.2...7.2.0)
+
+> 11 September 2022
+
+- Apply fixes from StyleCI [`#1466`](https://github.com/Cecilapp/Cecil/pull/1466)
+- feat: debug output of translation files added [`1561761`](https://github.com/Cecilapp/Cecil/commit/15617613b0c8d8c83a31ca7228f52a376a16e9ee)
+- chore: update deps [`cfc761c`](https://github.com/Cecilapp/Cecil/commit/cfc761c15ddb1095b27d8a519f1f212fe320e7d1)
+- chore: better code [`43e9b53`](https://github.com/Cecilapp/Cecil/commit/43e9b5391915c5ecea787e7434e7e188adeee6a0)
+- chore: update fixtures deps [`547bcbe`](https://github.com/Cecilapp/Cecil/commit/547bcbeae3b8f3a363a4457f4dfb90880a84e870)
+- fix: regression from previous commits [`c44ec7a`](https://github.com/Cecilapp/Cecil/commit/c44ec7a1ba088c949109704b467d728f2827c455)
+- chore: clean code [`cef6f18`](https://github.com/Cecilapp/Cecil/commit/cef6f180e6f212cfd98dbe43a5a588bc758808cf)
+- chore: default config minor update [`4b4fdf8`](https://github.com/Cecilapp/Cecil/commit/4b4fdf8ccd845d45dce2f0dc83fc2e43e81c1ceb)
+
 #### [7.1.2](https://github.com/Cecilapp/Cecil/compare/7.1.1...7.1.2)
 
 > 9 September 2022
