@@ -41,7 +41,12 @@ interface RendererInterface
     public function setLocale(string $locale): void;
 
     /**
-     * Add a translation file.
+     * Adds a translation file.
      */
     public function addTransResource(string $translationsDir, string $locale): void;
+
+    /**
+     * Returns debug profile.
+     */
+    public function getDebugProfile(): ?\Twig\Profiler\Profile;
 }

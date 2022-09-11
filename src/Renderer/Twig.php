@@ -28,8 +28,8 @@ use Twig\Extra\Intl\IntlExtension;
  */
 class Twig implements RendererInterface
 {
-    /** @var \Twig\Profiler\Profile */
-    public $profile;
+    /** @var Buidler */
+    private $builder;
 
     /** @var \Twig\Environment */
     private $twig;
@@ -37,46 +37,50 @@ class Twig implements RendererInterface
     /** @var Translator */
     private $translator = null;
 
+    /** @var \Twig\Profiler\Profile */
+    private $profile = null;
+
     /**
      * {@inheritdoc}
      */
     public function __construct(Builder $builder, $templatesPath)
     {
+        $this->builder = $builder;
         // load layouts
         $loader = new \Twig\Loader\FilesystemLoader($templatesPath);
         // default options
         $loaderOptions = [
-            'debug'            => $builder->isDebug(),
+            'debug'            => $this->builder->isDebug(),
             'strict_variables' => true,
             'autoescape'       => false,
             'auto_reload'      => true,
             'cache'            => false,
         ];
         // use Twig cache?
-        if ($builder->getConfig()->get('cache.templates.enabled')) {
-            $loaderOptions = array_replace($loaderOptions, ['cache' => $builder->getConfig()->getCacheTemplatesPath()]);
+        if ($this->builder->getConfig()->get('cache.templates.enabled')) {
+            $loaderOptions = array_replace($loaderOptions, ['cache' => $this->builder->getConfig()->getCacheTemplatesPath()]);
         }
         // create the Twig instance
         $this->twig = new \Twig\Environment($loader, $loaderOptions);
         // set date format
         $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
-            ->setDateFormat($builder->getConfig()->get('date.format'));
+            ->setDateFormat($this->builder->getConfig()->get('date.format'));
         // set timezone
-        if ($builder->getConfig()->has('date.timezone')) {
+        if ($this->builder->getConfig()->has('date.timezone')) {
             $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
-                ->setTimezone($builder->getConfig()->get('date.timezone'));
+                ->setTimezone($this->builder->getConfig()->get('date.timezone'));
         }
         // adds extensions
-        $this->twig->addExtension(new TwigExtension($builder));
+        $this->twig->addExtension(new TwigExtension($this->builder));
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // i18n
         $this->twig->addExtension(new IntlExtension());
         // filters fallback
-        $this->twig->registerUndefinedFilterCallback(function ($name) use ($builder) {
+        $this->twig->registerUndefinedFilterCallback(function ($name) {
             switch ($name) {
                 case 'localizeddate':
-                    return new \Twig\TwigFilter($name, function (\DateTime $value = null) use ($builder) {
-                        return date((string) $builder->getConfig()->get('date.format'), $value->getTimestamp());
+                    return new \Twig\TwigFilter($name, function (\DateTime $value = null) {
+                        return date((string) $this->builder->getConfig()->get('date.format'), $value->getTimestamp());
                     });
             }
 
@@ -84,27 +88,27 @@ class Twig implements RendererInterface
         });
         // l10n
         $this->translator = new Translator(
-            $builder->getConfig()->getLanguageProperty('locale'),
+            $this->builder->getConfig()->getLanguageProperty('locale'),
             new MessageFormatter(new IdentityTranslator()),
-            $builder->getConfig()->get('cache.templates.enabled') ? $builder->getConfig()->getCacheTranslationsPath() : null,
-            $builder->isDebug()
+            $this->builder->getConfig()->get('cache.templates.enabled') ? $this->builder->getConfig()->getCacheTranslationsPath() : null,
+            $this->builder->isDebug()
         );
-        if ($builder->getConfig()->getLanguages()) {
+        if ($this->builder->getConfig()->getLanguages()) {
             $this->translator->addLoader('mo', new MoFileLoader());
-            foreach ($builder->getConfig()->getLanguages() as $lang) {
+            foreach ($this->builder->getConfig()->getLanguages() as $lang) {
                 // themes
-                if ($themes = $builder->getConfig()->getTheme()) {
+                if ($themes = $this->builder->getConfig()->getTheme()) {
                     foreach ($themes as $theme) {
-                        $this->addTransResource($builder->getConfig()->getThemeDirPath($theme, 'translations'), $lang['locale']);
+                        $this->addTransResource($this->builder->getConfig()->getThemeDirPath($theme, 'translations'), $lang['locale']);
                     }
                 }
                 // site
-                $this->addTransResource($builder->getConfig()->getTranslationsPath(), $lang['locale']);
+                $this->addTransResource($this->builder->getConfig()->getTranslationsPath(), $lang['locale']);
             }
         }
         $this->twig->addExtension(new TranslationExtension($this->translator));
         // debug
-        if ($builder->isDebug()) {
+        if ($this->builder->isDebug()) {
             // dump()
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
             // profiler
@@ -144,8 +148,17 @@ class Twig implements RendererInterface
     public function addTransResource(string $translationsDir, string $locale): void
     {
         $translationFile = realpath(Util::joinFile($translationsDir, \sprintf('messages.%s.mo', $locale)));
-        if (Util\File::getFS()->exists($translationFile)) {
+        if ($translationFile !== false && Util\File::getFS()->exists($translationFile)) {
             $this->translator->addResource('mo', $translationFile, $locale);
+            $this->builder->getLogger()->debug(\sprintf('Translation "%s" added', $translationFile));
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDebugProfile(): ?\Twig\Profiler\Profile
+    {
+        return $this->profile;
     }
 }

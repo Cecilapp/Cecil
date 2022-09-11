@@ -137,7 +137,7 @@ class Render extends AbstractStep
                         $dumper = new \Twig\Profiler\Dumper\HtmlDumper();
                         file_put_contents(
                             Util::joinFile($this->config->getOutputPath(), '_debug_twig_profile.html'),
-                            $dumper->dump($this->builder->getRenderer()->profile)
+                            $dumper->dump($this->builder->getRenderer()->getDebugProfile())
                         );
                     }
                 } catch (\Twig\Error\Error $e) {
