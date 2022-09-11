@@ -28,7 +28,7 @@ use Twig\Extra\Intl\IntlExtension;
  */
 class Twig implements RendererInterface
 {
-    /** @var Buidler */
+    /** @var Builder */
     private $builder;
 
     /** @var \Twig\Environment */
