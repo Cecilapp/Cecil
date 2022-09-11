@@ -43,9 +43,7 @@ class Config
     public function __construct(array $config = null)
     {
         // load default configuration
-        if (false === $defaultConfig = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'))) {
-            throw new RuntimeException('Can\'t load default configuration file.');
-        }
+        $defaultConfig = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
         if (Plateform::isPhar()) {
             $defaultConfig = Util::joinPath(Plateform::getPharPath(), 'config/default.php');
         }
