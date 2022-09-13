@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Cecil\Assets;
 
-use Cecil\Assets\Image\Optimizers\Cwebp;
 use Intervention\Image\ImageManagerStatic as ImageManager;
 use Spatie\ImageOptimizer\OptimizerChain;
+use Spatie\ImageOptimizer\Optimizers\Cwebp;
 use Spatie\ImageOptimizer\Optimizers\Gifsicle;
 use Spatie\ImageOptimizer\Optimizers\Jpegoptim;
 use Spatie\ImageOptimizer\Optimizers\Optipng;
