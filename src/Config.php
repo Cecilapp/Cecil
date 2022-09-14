@@ -88,6 +88,10 @@ class Config
 
     /**
      * Casts boolean value given to set() as string.
+     *
+     * @param mixed $value
+     *
+     * @return bool|mixed
      */
     private function castSetValue($value)
     {
