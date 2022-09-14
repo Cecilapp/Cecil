@@ -1,0 +1,7 @@
+php_version: 7.4
+exclude_patterns:
+  - resources/server/router.php
+  - resources/skeleton/static/*
+rules:
+  missing_e_o_l:
+    enabled: false
