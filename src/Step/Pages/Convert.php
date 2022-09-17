@@ -17,6 +17,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
+use Cecil\Util;
 
 /**
  * Converts content of all pages.
@@ -70,11 +71,11 @@ class Convert extends AbstractStep
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
                 } catch (RuntimeException $e) {
-                    $this->builder->getLogger()->error(sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
+                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
-                    $this->builder->getLogger()->error(sprintf('Unable to convert "%s": %s', $page->getFilePath(), $e->getMessage()));
+                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative($page->getFilePath(), $this->builder->getConfig()->getPagesPath())), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 }

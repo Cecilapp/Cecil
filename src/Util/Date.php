@@ -32,6 +32,9 @@ class Date
      */
     public static function toDatetime($date): \DateTime
     {
+        if ($date === null) {
+            throw new \Exception('$date can\'t be null.');
+        }
         // DateTime
         if ($date instanceof \DateTime) {
             return $date;

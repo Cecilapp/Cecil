@@ -528,7 +528,7 @@ class Page extends Item
                 try {
                     $date = Util\Date::toDatetime($value);
                 } catch (\Exception $e) {
-                    throw new RuntimeException(\sprintf('Expected date format for "%s" in "%s" must be "YYYY-MM-DD" instead of "%s"', $name, $this->getId(), (string) $value));
+                    throw new \Exception(\sprintf('Expected date format for variable "%s" must be "YYYY-MM-DD" instead of "%s".', $name, (string) $value));
                 }
                 $this->offsetSet($name, $date);
                 break;
