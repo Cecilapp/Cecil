@@ -568,7 +568,7 @@ class Page extends Item
             case 'slug':
                 $slugify = self::slugify((string) $value);
                 if ($value != $slugify) {
-                    throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s"', $name, $slugify, (string) $value, $this->getId()));
+                    throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s".', $name, $slugify, (string) $value, $this->getId()));
                 }
                 $method = 'set'.\ucfirst($name);
                 $this->$method($value);
