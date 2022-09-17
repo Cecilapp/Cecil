@@ -642,6 +642,10 @@ class Page extends Item
     /**
      * Cast "boolean" string (or array of strings) to boolean.
      *
+     * @param mixed $value Value to filter
+     *
+     * @return bool|mixed
+     *
      * @see strToBool()
      */
     private function filterBool(&$value)

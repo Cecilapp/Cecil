@@ -25,7 +25,7 @@ class Collection extends CecilCollection
      */
     public function showable(): self
     {
-        $filteredPages = $this->filter(function (Page $page) {
+        return $this->filter(function (Page $page) {
             if ($page->getVariable('published') === true
                 && $page->isVirtual() === false
                 && $page->getVariable('redirect') === null
@@ -33,8 +33,6 @@ class Collection extends CecilCollection
                 return true;
             }
         });
-
-        return $filteredPages;
     }
 
     /**
