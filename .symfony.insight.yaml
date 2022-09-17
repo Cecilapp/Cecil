@@ -1,7 +1,14 @@
 php_version: 7.4
+commit_failure_conditions:
+    - "project.severity.critical > 0"
 exclude_patterns:
-  - resources/server/router.php
-  - resources/skeleton/static/*
+    - resources/server/router.php
+    - resources/skeleton/static/*
 rules:
-  missing_e_o_l:
-    enabled: false
+    missing_e_o_l:
+      enabled: false
+    # temp
+    php.invalid_return_typehint:
+        enabled: false
+    php.invalid_typehint:
+        enabled: false

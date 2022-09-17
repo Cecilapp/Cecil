@@ -56,6 +56,8 @@ class Str
     /**
      * Converts 'true', 'false', 'on', 'off', 'yes', 'no' to a boolean.
      *
+     * @param mixed $value Value to convert
+     *
      * @return bool|mixed
      */
     public static function strToBool($value)
