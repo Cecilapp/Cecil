@@ -118,8 +118,8 @@ class Url
                         $page = $this->builder->getPages()->get($pageId);
                         $this->url = (string) new self($this->builder, $page, $options);
                         break;
-                    // asset as string
-                    case false !== strpos($value, '.') ? true : false:
+                    // asset as string (i.e.: '*.js', '*.css', '*.jpeg')
+                    case false !== strrpos($value, '.') && in_array(strlen($value) - strrpos($value, '.'), [3, 4, 5]) ? true : false:
                         $this->url = $base.'/'.ltrim($value, '/');
                         break;
                     // others cases?
