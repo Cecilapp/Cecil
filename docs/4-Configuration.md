@@ -462,6 +462,7 @@ Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
 ```yaml
 paths:
   - section: <section’s name>
+    language: <language> # optional
     path: <path of pages, with palceholders>
 ```
 
@@ -479,6 +480,9 @@ _Example:_
 paths:
   - section: Blog
     path: :section/:year/:month/:day/:slug/ # e.g.: blog/2020/12/01/my-post/
+  - section: Blog
+    language: fr
+    path: blogue/:year/:month/:day/:slug/ # e.g.: blogue/2020/12/01/mon-billet/
 ```
 
 ### debug
