@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.3.1](https://github.com/Cecilapp/Cecil/compare/7.3.0...7.3.1)
+
+> 18 September 2022
+
+- fix: `filter_by` must return type::page only [`8746c72`](https://github.com/Cecilapp/Cecil/commit/8746c7220571a36546c7e755dae26cb0106dea2f)
+
 #### [7.3.0](https://github.com/Cecilapp/Cecil/compare/7.2.2...7.3.0)
 
 > 18 September 2022
