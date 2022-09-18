@@ -21,6 +21,7 @@ use Cecil\Builder;
 use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Type;
 use Cecil\Config;
 use Cecil\Converter\Parsedown;
 use Cecil\Exception\RuntimeException;
@@ -211,17 +212,14 @@ class Extension extends SlugifyExtension
     public function filterBy(PagesCollection $pages, string $variable, string $value): CollectionInterface
     {
         $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
-            $notVirtual = false;
-            if (!$page->isVirtual()) {
-                $notVirtual = true;
-            }
             // is a dedicated getter exists?
             $method = 'get'.ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
-                return $notVirtual && true;
+                return $page->getType() == Type::PAGE() && !$page->isVirtual() && true;
             }
+            // or a classic variable
             if ($page->getVariable($variable) == $value) {
-                return $notVirtual && true;
+                return $page->getType() == Type::PAGE() && !$page->isVirtual() && true;
             }
         });
 
