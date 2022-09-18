@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.2.2](https://github.com/Cecilapp/Cecil/compare/7.2.1...7.2.2)
+
+> 18 September 2022
+
+- chore: enhance code [`#1468`](https://github.com/Cecilapp/Cecil/pull/1468)
+- docs: update life cycle chart [`e129639`](https://github.com/Cecilapp/Cecil/commit/e129639c986ff2982d4154bbe23bae4ad34aa9c1)
+- chore: update deps [`fec7924`](https://github.com/Cecilapp/Cecil/commit/fec792414bb37c751a1bbdf6765242f2a587100d)
+- chore: remove useless code [`ff3d1b6`](https://github.com/Cecilapp/Cecil/commit/ff3d1b65e7db5a22499ca579c1d00ed8fc59a7aa)
+- chore: update deps [`bed5319`](https://github.com/Cecilapp/Cecil/commit/bed5319faa4129f76d5a327df67244694cf2fe95)
+- fix: catch error if date or updated is null [`444f038`](https://github.com/Cecilapp/Cecil/commit/444f0381eea51399a08b3fb691c81faaf78b2622)
+- chore: update .symfony.insight.yaml [`044220b`](https://github.com/Cecilapp/Cecil/commit/044220ba92b35646586ee443d44af95cc1216a42)
+- test: add Symfony Insight config file [`cf542da`](https://github.com/Cecilapp/Cecil/commit/cf542daad4d98e29d12a6764b9167a8a27a60b35)
+- fix: better detection of asset, based on extension [`5fa7ec0`](https://github.com/Cecilapp/Cecil/commit/5fa7ec056ebec0d53d169efdf711c882a8adfe8f)
+- chore: version is 7.x [`f320f17`](https://github.com/Cecilapp/Cecil/commit/f320f1742fec9cbfac04e2598415e73eec1cc7b7)
+- chore: clean error message [`826d1be`](https://github.com/Cecilapp/Cecil/commit/826d1beaff92afdc9a84c0cf446ac6f7d02ed8d2)
+- chore: update composer.lock [`2de0828`](https://github.com/Cecilapp/Cecil/commit/2de0828537c983d6618bc1b6f191fa494e7f9e6e)
+
 #### [7.2.1](https://github.com/Cecilapp/Cecil/compare/7.2.0...7.2.1)
 
 > 12 September 2022
