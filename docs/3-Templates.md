@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-09-08
+updated: 2022-09-18
 alias: documentation/layouts
 -->
 
@@ -215,11 +215,16 @@ Contains built-in variables of a page **and** those set in the [front matter](2-
 
 Navigation between pages in a same _Section_.
 
-| Variable                 | Description                                             |
-| ------------------------ | ------------------------------------------------------- |
-| `page.<prev/next>.id`    | ID of the previous / next page (e.g.: `blog/post-2`).   |
-| `page.<prev/next>.path`  | Path of the previous / next page (e.g.: `blog/post-2`). |
-| `page.<prev/next>.title` | Title of the previous / next page (e.g.: `Post 2`).     |
+| Variable              | Description                                            | Example                    |
+| --------------------- | ------------------------------------------------------ | -------------------------- |
+| `page.prev`           | Previous page.                                         | _Page_                     |
+| `page.next`           | Next page.                                             | _Page_                     |
+
+_Example:_
+
+```twig
+<a href="{{ url(page.prev) }}">{{ page.prev.title }}</a>
+```
 
 #### page.pagination
 

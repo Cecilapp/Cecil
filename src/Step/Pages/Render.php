@@ -278,26 +278,27 @@ class Render extends AbstractStep
     /**
      * Apply post rendering on output.
      */
-    private function postProcessOutput(string $rendered, Page $page, string $format): string
+    private function postProcessOutput(string $output, Page $page, string $format): string
     {
         switch ($format) {
             case 'html':
                 // add generator meta tag
-                if (!preg_match('/<meta name="generator".*/i', $rendered)) {
+                if (!preg_match('/<meta name="generator".*/i', $output)) {
                     $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
-                    $rendered = preg_replace_callback('/([[:blank:]]+)(<\/head>)/i', function ($matches) use ($meta) {
+                    $output = preg_replace_callback('/([[:blank:]]+)(<\/head>)/i', function ($matches) use ($meta) {
                         return str_repeat($matches[1], 2).$meta."\n".$matches[1].$matches[2];
-                    }, $rendered);
+                    }, $output);
                 }
                 // replace excerpt or break tag by HTML anchor
                 // https://regex101.com/r/Xl7d5I/3
                 $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
                 $replacement = '$1<span id="more"></span>$4';
-                $rendered = preg_replace('/'.$pattern.'/is', $replacement, $rendered);
+                $excerpt = preg_replace('/'.$pattern.'/is', $replacement, $output, 1);
+                $output = $excerpt ?? $output;
         }
 
         // replace internal link to *.md files with the right URL
-        $rendered = preg_replace_callback(
+        $output = preg_replace_callback(
             // https://regex101.com/r/dZ02zO/6
             //'/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
             // https://regex101.com/r/ycWMe4/1
@@ -316,9 +317,9 @@ class Render extends AbstractStep
 
                 return \sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
             },
-            $rendered
+            $output
         );
 
-        return $rendered;
+        return $output;
     }
 }

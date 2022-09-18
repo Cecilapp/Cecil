@@ -121,52 +121,28 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     case 0:
                         if ($circular) {
                             $page->setVariables([
-                                'prev' => [
-                                    'id'    => $pagesAsArray[$count - 1]->getId(),
-                                    'path'  => $pagesAsArray[$count - 1]->getPath(),
-                                    'title' => $pagesAsArray[$count - 1]->getVariable('title'),
-                                ],
+                                'prev' => $pagesAsArray[$count - 1],
                             ]);
                         }
                         $page->setVariables([
-                            'next' => [
-                                'id'    => $pagesAsArray[$position + 1]->getId(),
-                                'path'  => $pagesAsArray[$position + 1]->getPath(),
-                                'title' => $pagesAsArray[$position + 1]->getVariable('title'),
-                            ],
+                            'next' => $pagesAsArray[$position + 1],
                         ]);
                         break;
                     // last
                     case $count - 1:
                         $page->setVariables([
-                            'prev' => [
-                                'id'    => $pagesAsArray[$position - 1]->getId(),
-                                'path'  => $pagesAsArray[$position - 1]->getPath(),
-                                'title' => $pagesAsArray[$position - 1]->getVariable('title'),
-                            ],
+                            'prev' => $pagesAsArray[$position - 1],
                         ]);
                         if ($circular) {
                             $page->setVariables([
-                                'next' => [
-                                    'id'    => $pagesAsArray[0]->getId(),
-                                    'path'  => $pagesAsArray[0]->getPath(),
-                                    'title' => $pagesAsArray[0]->getVariable('title'),
-                                ],
+                                'next' => $pagesAsArray[0],
                             ]);
                         }
                         break;
                     default:
                         $page->setVariables([
-                            'prev' => [
-                                'id'    => $pagesAsArray[$position - 1]->getId(),
-                                'path'  => $pagesAsArray[$position - 1]->getPath(),
-                                'title' => $pagesAsArray[$position - 1]->getVariable('title'),
-                            ],
-                            'next' => [
-                                'id'    => $pagesAsArray[$position + 1]->getId(),
-                                'path'  => $pagesAsArray[$position + 1]->getPath(),
-                                'title' => $pagesAsArray[$position + 1]->getVariable('title'),
-                            ],
+                            'prev' => $pagesAsArray[$position - 1],
+                            'next' => $pagesAsArray[$position + 1],
                         ]);
                         break;
                 }
