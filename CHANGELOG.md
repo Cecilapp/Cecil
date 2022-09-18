@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.4.0](https://github.com/Cecilapp/Cecil/compare/7.3.1...7.4.0)
+
+> 19 September 2022
+
+- feat: enhance prev/next navigation in section [`#1471`](https://github.com/Cecilapp/Cecil/pull/1471)
+- docs: configuration minor updates [`d5e7864`](https://github.com/Cecilapp/Cecil/commit/d5e7864c55aa54eefca2f1b3ba2fcec43cb69c17)
+
 #### [7.3.1](https://github.com/Cecilapp/Cecil/compare/7.3.0...7.3.1)
 
 > 18 September 2022
