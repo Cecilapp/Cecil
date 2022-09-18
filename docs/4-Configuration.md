@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2022-09-08
+updated: 2022-09-18
 -->
 
 # Configuration
@@ -479,10 +479,10 @@ _Example:_
 ```yaml
 paths:
   - section: Blog
-    path: :section/:year/:month/:day/:slug/ # e.g.: blog/2020/12/01/my-post/
+    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
   - section: Blog
     language: fr
-    path: blogue/:year/:month/:day/:slug/ # e.g.: blogue/2020/12/01/mon-billet/
+    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
 ```
 
 ### debug
