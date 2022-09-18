@@ -110,7 +110,7 @@ class Layout
                     "_default/list.$format.$ext",
                 ];
                 if ($page->getPath()) {
-                    $section = explode('/', $page->getPath())[0];
+                    $section = $page->getSection();
                     $layouts = array_merge(
                         [sprintf('section/%s.%s.%s', $section, $format, $ext)],
                         $layouts

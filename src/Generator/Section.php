@@ -55,7 +55,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     if ($language != $this->config->getLanguageDefault()) {
                         $pageId = \sprintf('%s.%s', $pageId, $language);
                     }
-                    $page = (new Page($pageId))->setVariable('title', ucfirst($section));
+                    $page = (new Page($pageId))->setVariable('title', ucfirst($section))
+                        ->setPath($path);
                     if ($this->builder->getPages()->has($pageId)) {
                         $page = clone $this->builder->getPages()->get($pageId);
                     }
@@ -86,8 +87,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $this->addNavigationLinks($pages, $page->getVariable('sortby'), $page->getVariable('circular'));
                     }
                     // creates page for each section
-                    $page->setPath($path)
-                        ->setType(Type::SECTION)
+                    $page->setType(Type::SECTION)
+                        ->setSection($path)
                         ->setPages($pages)
                         ->setVariable('language', $language)
                         ->setVariable('date', $pages->first()->getVariable('date'))
