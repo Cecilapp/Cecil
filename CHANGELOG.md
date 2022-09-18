@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.3.0](https://github.com/Cecilapp/Cecil/compare/7.2.2...7.3.0)
+
+> 18 September 2022
+
+- feat: support of custom (localized) `path` for section [`#1470`](https://github.com/Cecilapp/Cecil/pull/1470)
+
 #### [7.2.2](https://github.com/Cecilapp/Cecil/compare/7.2.1...7.2.2)
 
 > 18 September 2022
