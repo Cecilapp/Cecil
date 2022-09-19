@@ -28,7 +28,6 @@ class PrefixSuffix
     // https://regex101.com/r/GlgBdT/7
     // ie: "blog/2017-10-19_post-1.en.md" suffix is "en"
     // ie: "projet/1-projet-a.fr-FR.md" suffix is "fr-FR"
-    //const SUFFIX_PATTERN = '(.*)\.([a-z]{2}(-[A-Z]{2})?)';
     const SUFFIX_PATTERN = '(.*)\.'.Config::LANG_CODE_PATTERN;
 
     /**
