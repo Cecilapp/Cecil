@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.4.1](https://github.com/Cecilapp/Cecil/compare/7.4.0...7.4.1)
+
+> 19 September 2022
+
+- fix: URL must return a string [`5380750`](https://github.com/Cecilapp/Cecil/commit/53807506b02a1fd7c6873ca30d3cb6200a0a3a79)
+
 #### [7.4.0](https://github.com/Cecilapp/Cecil/compare/7.3.1...7.4.0)
 
 > 19 September 2022
