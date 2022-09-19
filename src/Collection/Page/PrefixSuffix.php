@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Cecil\Collection\Page;
 
+use Cecil\Config;
+
 /**
  * Class PrefixSuffix.
  */
@@ -21,19 +23,20 @@ class PrefixSuffix
     // https://regex101.com/r/tJWUrd/6
     // ie: "blog/2017-10-19_post-1.md" prefix is "2017-10-19"
     // ie: "projet/1-projet-a.md" prefix is "1"
-    const PREFIX_PATTERN = '^(|.*\/)(([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|[0-9]+)(-|_)(.*)$';
+    const PREFIX_PATTERN = '(|.*\/)(([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|[0-9]+)(-|_)(.*)';
 
     // https://regex101.com/r/GlgBdT/7
     // ie: "blog/2017-10-19_post-1.en.md" suffix is "en"
     // ie: "projet/1-projet-a.fr-FR.md" suffix is "fr-FR"
-    const SUFFIX_PATTERN = '^(.*)\.([a-z]{2}(-[A-Z]{2})?)$';
+    //const SUFFIX_PATTERN = '(.*)\.([a-z]{2}(-[A-Z]{2})?)';
+    const SUFFIX_PATTERN = '(.*)\.'.Config::LANG_CODE_PATTERN;
 
     /**
      * Returns true if the string contains a prefix or a suffix.
      */
     protected static function has(string $string, string $type): bool
     {
-        return (bool) preg_match('/'.self::getPattern($type).'/', $string);
+        return (bool) preg_match('/^'.self::getPattern($type).'$/', $string);
     }
 
     /**
@@ -58,7 +61,7 @@ class PrefixSuffix
     protected static function get(string $string, string $type): ?string
     {
         if (self::has($string, $type)) {
-            preg_match('/'.self::getPattern($type).'/', $string, $matches);
+            preg_match('/^'.self::getPattern($type).'$/', $string, $matches);
             switch ($type) {
                 case 'prefix':
                     return $matches[2];
@@ -92,12 +95,12 @@ class PrefixSuffix
     public static function sub(string $string): string
     {
         if (self::hasPrefix($string)) {
-            preg_match('/'.self::getPattern('prefix').'/', $string, $matches);
+            preg_match('/^'.self::getPattern('prefix').'$/', $string, $matches);
 
             $string = $matches[1].$matches[7];
         }
         if (self::hasSuffix($string)) {
-            preg_match('/'.self::getPattern('suffix').'/', $string, $matches);
+            preg_match('/^'.self::getPattern('suffix').'$/', $string, $matches);
 
             $string = $matches[1];
         }
@@ -111,7 +114,7 @@ class PrefixSuffix
     public static function subPrefix(string $string): string
     {
         if (self::hasPrefix($string)) {
-            preg_match('/'.self::getPattern('prefix').'/', $string, $matches);
+            preg_match('/^'.self::getPattern('prefix').'$/', $string, $matches);
 
             return $matches[1].$matches[7];
         }

@@ -37,6 +37,9 @@ class Config
     /** @var array Languages. */
     protected $languages = null;
 
+    const LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
+    const LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
+
     /**
      * @param array|null $config
      */
@@ -492,7 +495,7 @@ class Config
     }
 
     /**
-     * Returns the default language code (ie: "en", "fr-fr", etc.).
+     * Returns the default language code (ie: "en", "fr-FR", etc.).
      *
      * @throws RuntimeException
      */
