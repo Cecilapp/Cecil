@@ -416,8 +416,10 @@ class Extension extends SlugifyExtension
     /**
      * Minifying a CSS string.
      */
-    public function minifyCss(string $value): string
+    public function minifyCss(?string $value): string
     {
+        $value = $value ?? '';
+
         if ($this->builder->isDebug()) {
             return $value;
         }
@@ -436,8 +438,10 @@ class Extension extends SlugifyExtension
     /**
      * Minifying a JavaScript string.
      */
-    public function minifyJs(string $value): string
+    public function minifyJs(?string $value): string
     {
+        $value = $value ?? '';
+
         if ($this->builder->isDebug()) {
             return $value;
         }
@@ -456,8 +460,10 @@ class Extension extends SlugifyExtension
     /**
      * Compiles a SCSS string.
      */
-    public function scssToCss(string $value): string
+    public function scssToCss(?string $value): string
     {
+        $value = $value ?? '';
+
         $cache = new Cache($this->builder);
         $cacheKey = $cache->createKeyFromString($value);
         if (!$cache->has($cacheKey)) {
@@ -591,8 +597,10 @@ class Extension extends SlugifyExtension
     /**
      * Reads $length first characters of a string and adds a suffix.
      */
-    public function excerpt(string $string = null, int $length = 450, string $suffix = ' …'): ?string
+    public function excerpt(?string $string, int $length = 450, string $suffix = ' …'): string
     {
+        $string = $string ?? '';
+
         $string = str_replace('</p>', '<br /><br />', $string);
         $string = trim(strip_tags($string, '<br>'), '<br />');
         if (mb_strlen($string) > $length) {
@@ -609,8 +617,10 @@ class Extension extends SlugifyExtension
      *  - separator: string to use as separator
      *  - capture: string to capture, 'before' (default) or 'after'.
      */
-    public function excerptHtml(string $string, array $options = []): string
+    public function excerptHtml(?string $string, array $options = []): string
     {
+        $string = $string ?? '';
+
         $separator = 'excerpt|break';
         $capture = 'before';
         extract($options, EXTR_IF_EXISTS);
@@ -634,8 +644,10 @@ class Extension extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function markdownToHtml(string $markdown): ?string
+    public function markdownToHtml(?string $markdown): ?string
     {
+        $markdown = $markdown ?? '';
+
         try {
             $parsedown = new Parsedown($this->builder);
             $html = $parsedown->text($markdown);
@@ -651,8 +663,10 @@ class Extension extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function jsonDecode(string $json): ?array
+    public function jsonDecode(?string $json): ?array
     {
+        $json = $json ?? '';
+
         try {
             $array = json_decode($json, true);
             if ($array === null && json_last_error() !== JSON_ERROR_NONE) {
@@ -670,8 +684,10 @@ class Extension extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function yamlParse(string $yaml): ?array
+    public function yamlParse(?string $yaml): ?array
     {
+        $yaml = $yaml ?? '';
+
         try {
             $array = Yaml::parse($yaml);
             if (!is_array($array)) {
@@ -689,8 +705,10 @@ class Extension extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function pregSplit(string $value, string $pattern, int $limit = 0): ?array
+    public function pregSplit(?string $value, string $pattern, int $limit = 0): ?array
     {
+        $value = $value ?? '';
+
         try {
             $array = preg_split($pattern, $value, $limit);
             if ($array === false) {
@@ -708,8 +726,10 @@ class Extension extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function pregMatchAll(string $value, string $pattern, int $group = 0): ?array
+    public function pregMatchAll(?string $value, string $pattern, int $group = 0): ?array
     {
+        $value = $value ?? '';
+
         try {
             $array = preg_match_all($pattern, $value, $matches, PREG_PATTERN_ORDER);
             if ($array === false) {
@@ -725,8 +745,10 @@ class Extension extends SlugifyExtension
     /**
      * Calculates estimated time to read a text.
      */
-    public function readtime(string $text): string
+    public function readtime(?string $text): string
     {
+        $text = $text ?? '';
+
         $words = str_word_count(strip_tags($text));
         $min = floor($words / 200);
         if ($min === 0) {
@@ -739,8 +761,10 @@ class Extension extends SlugifyExtension
     /**
      * Gets the value of an environment variable.
      */
-    public function getEnv(string $var): ?string
+    public function getEnv(?string $var): ?string
     {
+        $var = $var ?? '';
+
         return getenv($var) ?: null;
     }
 
@@ -755,8 +779,10 @@ class Extension extends SlugifyExtension
     /**
      * Converts an hexadecimal color to RGB.
      */
-    public function hexToRgb($variable): array
+    public function hexToRgb(?string $variable): array
     {
+        $variable = $variable ?? '';
+
         if (!self::isHex($variable)) {
             throw new RuntimeException(\sprintf('"%s" is not a valid hexadecimal value.', $variable));
         }
