@@ -73,19 +73,6 @@ class Twig implements RendererInterface
         // adds extensions
         $this->twig->addExtension(new TwigExtension($this->builder));
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
-        // i18n
-        $this->twig->addExtension(new IntlExtension());
-        // filters fallback
-        $this->twig->registerUndefinedFilterCallback(function ($name) {
-            switch ($name) {
-                case 'localizeddate':
-                    return new \Twig\TwigFilter($name, function (\DateTime $value = null) {
-                        return date((string) $this->builder->getConfig()->get('date.format'), $value->getTimestamp());
-                    });
-            }
-
-            return false;
-        });
         // l10n
         $this->translator = new Translator(
             $this->builder->getConfig()->getLanguageProperty('locale'),
@@ -107,6 +94,22 @@ class Twig implements RendererInterface
             }
         }
         $this->twig->addExtension(new TranslationExtension($this->translator));
+        // intl
+        $this->twig->addExtension(new IntlExtension());
+        if (extension_loaded('intl')) {
+            $this->builder->getLogger()->debug('Intl extension is loaded');
+        }
+        // filters fallback
+        $this->twig->registerUndefinedFilterCallback(function ($name) {
+            switch ($name) {
+                case 'localizeddate':
+                    return new \Twig\TwigFilter($name, function (\DateTime $value = null) {
+                        return date((string) $this->builder->getConfig()->get('date.format'), $value->getTimestamp());
+                    });
+            }
+
+            return false;
+        });
         // debug
         if ($this->builder->isDebug()) {
             // dump()
@@ -138,7 +141,9 @@ class Twig implements RendererInterface
      */
     public function setLocale(string $locale): void
     {
-        !class_exists(\Locale::class) ?: \Locale::setDefault($locale);
+        if (extension_loaded('intl')) {
+            \Locale::setDefault($locale);
+        }
         $this->translator === null ?: $this->translator->setLocale($locale);
     }
 
