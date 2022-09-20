@@ -926,6 +926,10 @@ Uses the Twig [`format_date`](https://twig.symfony.com/doc/3.x/filters/format_da
 {{ page.date|format_date('long') }}
 ```
 
+:::important
+If you want to use the `format_date` filter **with other locales than "en"**, you should [install the intl PHP extension](https://php.net/intl.setup).
+:::
+
 ## Built-in templates
 
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).

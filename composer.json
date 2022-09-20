@@ -65,7 +65,7 @@
     "psr/simple-cache-implementation": "1.0"
   },
   "suggest": {
-    "ext-intl": "Locale support"
+    "ext-intl": "Intl locales support."
   },
   "config": {
     "allow-plugins": {
