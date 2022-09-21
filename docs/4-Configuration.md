@@ -55,7 +55,7 @@ baseurl: http://localhost:8000/
 ```
 
 :::important
-**Important:** `baseurl` must end with a trailing slash (`/`).
+`baseurl` should end with a trailing slash (`/`).
 :::
 
 ### canonicalurl
@@ -113,7 +113,7 @@ taxonomies:
 ```
 
 :::tip
-**Tip:** A vocabulary can be disabled with the special value `disabled`. Example: `tags: disabled`.
+A vocabulary can be disabled with the special value `disabled`. Example: `tags: disabled`.
 :::
 
 ### menus
@@ -226,11 +226,12 @@ social:
 ```
 
 :::tip
-**Tip:** If needed the title can be overridden:
+If needed the title can be overridden:
 
 ```twig
 {% include 'partials/metatags.html.twig' with {title: 'Custom title'} %}
 ```
+
 :::
 
 #### metatags configuration
@@ -276,8 +277,6 @@ languages:
 ```
 
 :::info
-**Info:**
-
 - The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`)
 - A list of [locales code](configuration/locale-codes.md) is avalaible
 :::
@@ -312,7 +311,7 @@ theme:
 ```
 
 :::info
-**Info:** The first theme overrides the others, and so on.
+The first theme overrides the others, and so on.
 :::
 
 _Examples:_
@@ -328,7 +327,7 @@ theme:
 ```
 
 :::info
-**Info:** See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or website [themes section](https://cecil.app/themes/).
+See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or website [themes section](https://cecil.app/themes/).
 :::
 
 ### pagination
@@ -413,7 +412,7 @@ output:
 Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).
 
 :::info
-**Info:** To render a page, [Cecil searches a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
+To render a page, [Cecil searches a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
 :::
 
 #### pagetypeformats
@@ -514,7 +513,7 @@ Default pages are pages created automatically by Cecil, from built-in templates:
 - _rss.xsl_
 
 :::info
-**Info:** The structure is almost identical of [`virtualpages`](#virtualpages), except the named key.
+The structure is almost identical of [`virtualpages`](#virtualpages), except the named key.
 :::
 
 ```yaml
@@ -620,7 +619,7 @@ body:
 To know how those options impacts your content see _[Content > Pages > Markdown](2-Content.md#markdown)_ documentation.
 
 :::info
-**Info:** Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
+Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
 :::
 
 ### data
@@ -649,7 +648,7 @@ static:
 ```
 
 :::important
-**Important:** You should put your assets files, used by [`asset()`](3-Templates.md#asset), in the [`assets` directory](4-Configuration.md#assets) to avoid unnecessary files copy.
+You should put your assets files, used by [`asset()`](3-Templates.md#asset), in the [`assets` directory](4-Configuration.md#assets) to avoid unnecessary files copy.
 :::
 
 _Example:_
