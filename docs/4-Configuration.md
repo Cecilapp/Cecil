@@ -270,7 +270,7 @@ List of available languages, used for [content](2-Content.md#multilingual) and [
 
 ```yaml
 languages:
-  - code: <code>     # unique code (e.g.: `en`, 'en-us', `fr`, `fr-ca`)
+  - code: <code>     # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
     name: <name>     # human readable name
     locale: <locale> # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
 ```

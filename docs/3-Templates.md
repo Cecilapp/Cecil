@@ -125,7 +125,7 @@ Can be displayed in a template with:
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 
 :::tip
-**Tip:** You can get any page, regardless of their language, with `site.pages['id']` where `id` is the _ID_ of a page.
+You can get any page, regardless of their language, with `site.pages['id']` where `id` is the _ID_ of a page.
 :::
 
 #### site.menus
@@ -793,7 +793,7 @@ Converts an asset into an HTML element.
 ```
 
 :::info
-**Info:** Available for images, CSS and JavaScript. The `attributes` and `options` parameters are optional.
+The `html` filter is available for images, CSS and JavaScript. The `attributes` and `options` parameters are optional.
 :::
 
 | Option     | Description                                     | Type  | Default |

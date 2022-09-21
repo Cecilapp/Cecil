@@ -118,7 +118,7 @@ customvar: "Value of customvar"
 ```
 
 :::info
-**Info:** You can also use `<!-- -->` or `+++` as separator.
+You can also use `<!-- -->` or `+++` as separator.
 :::
 
 ### Body
@@ -145,7 +145,7 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 ## Sub-Header 3
 
 :::tip
-**Tip:** This is an advice.
+This is an advice.
 :::
 ```
 
@@ -164,7 +164,7 @@ You can add a table of contents with the following Markdown syntax:
 ```
 
 :::info
-**Info:** By default the ToC extract H2 et H3 headers. You can change this behavior with [body options](4-Configuration.md#body).
+By default the ToC extract H2 et H3 headers. You can change this behavior with [body options](4-Configuration.md#body).
 :::
 
 ### Excerpt
@@ -224,7 +224,7 @@ echo "Hello world";
 ```
 
 :::important
-**Important:** You must add the [StyleSheet](https://highlightjs.org/download/) in the head of your template.
+You must add the [StyleSheet](https://highlightjs.org/download/) in the head of your template.
 :::
 
 ### Inserted text
@@ -260,7 +260,7 @@ Is converted to:
 ```
 
 :::info
-**Info:** You can disable the [`lazy` option in the body configuration](4-Configuration.md#body).
+You can disable the [`lazy` option in the body configuration](4-Configuration.md#body).
 :::
 
 #### Resize
@@ -280,11 +280,11 @@ Is converted to:
 ```
 
 :::info
-**Info:** Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.
+Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.
 :::
 
 :::important
-**Important:** This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
+This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
 :::
 
 #### Responsive
@@ -309,7 +309,7 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
 ```
 
 :::info
-**Info:** The different images widths can be defined in [assets configuration](4-Configuration.md#assets).
+The different images widths can be defined in [assets configuration](4-Configuration.md#assets).
 :::
 
 #### WebP
@@ -332,11 +332,11 @@ Is converted to:
 ```
 
 :::important
-**Important:** This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
+This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
 :::
 
 :::info
-**Info:** You can combine `webp` and `responsive` options.
+You can combine `webp` and `responsive` options.
 :::
 
 #### Caption
@@ -359,7 +359,7 @@ Is converted to:
 ```
 
 :::info
-**Info:** You can disable the [`caption` option in the body configuration](4-Configuration.md#body).
+You can disable the [`caption` option in the body configuration](4-Configuration.md#body).
 :::
 
 ### Audio and video
@@ -415,7 +415,7 @@ It must be the first thing in the file and must be a valid [YAML](https://en.wik
 | `draft`     | Published or not  | `false`.                                           | `true`        |
 
 :::info
-**Info:** All the predefined variables can be overridden except `section`.
+All the predefined variables can be overridden except `section`.
 :::
 
 ### menu
@@ -497,7 +497,7 @@ redirect: "https://arnaudligny.fr/"
 ```
 
 :::info
-**Info:** Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig) template.
+Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig) template.
 :::
 
 ### alias
@@ -545,8 +545,6 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 The filename can contain a prefix to define `date` or `weight` of the page (used by [`sortby`](3-TEmplates.md#sort-by-date)).
 
 :::info
-**Info:**
-
 - The prefix is not included in the `title` of the page
 - Available prefix separator are `-`, `_` ~~and `.`~~
 :::
@@ -625,7 +623,7 @@ cascade:
 ```
 
 :::info
-**Info:** Existing variables are not overridden.
+Existing variables are not overridden.
 :::
 
 #### circular
@@ -661,7 +659,7 @@ exclude: true
 ```
 
 :::info
-**Info:** `exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_ list.
+`exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_ list.
 :::
 
 ## Multilingual
