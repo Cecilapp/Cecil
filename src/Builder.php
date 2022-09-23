@@ -128,8 +128,9 @@ class Builder implements LoggerAwareInterface
      */
     public function build(array $options): self
     {
-        // set start script time
+        // set start script time and memory usage
         $startTime = microtime(true);
+        $startMemory = memory_get_usage();
 
         // checks the configuration
         $this->validConfig();
@@ -163,7 +164,7 @@ class Builder implements LoggerAwareInterface
         }
 
         // process duration
-        $message = \sprintf('Built in %ss', round(microtime(true) - $startTime, 2));
+        $message = \sprintf('Built in %s s (%s)', round(microtime(true) - $startTime, 2), Util::convertMemory(memory_get_usage() - $startMemory));
         $this->getLogger()->notice($message);
 
         return $this;
