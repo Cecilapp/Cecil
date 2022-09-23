@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.5.2](https://github.com/Cecilapp/Cecil/compare/7.5.1...7.5.2)
+
+> 20 September 2022
+
+- fix(intl): set locale only if Intl ext is loaded [`#1476`](https://github.com/Cecilapp/Cecil/pull/1476)
+- docs: important message about Intl [`e521c3c`](https://github.com/Cecilapp/Cecil/commit/e521c3cda0185880d9ecb55bbbdc3d6b4ceb12ba)
+
+#### [7.5.1](https://github.com/Cecilapp/Cecil/compare/7.5.0...7.5.1)
+
+> 20 September 2022
+
+- fix(filters): turns null value in empty value [`#1475`](https://github.com/Cecilapp/Cecil/pull/1475)
+- chore: clean code [`654f83c`](https://github.com/Cecilapp/Cecil/commit/654f83cdcb18224bfbbb1f06d439631aa6b92ded)
+
 #### [7.5.0](https://github.com/Cecilapp/Cecil/compare/7.4.1...7.5.0)
 
 > 19 September 2022
