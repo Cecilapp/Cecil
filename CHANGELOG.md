@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.6.0](https://github.com/Cecilapp/Cecil/compare/7.5.2...7.6.0)
+
+> 23 September 2022
+
+- feat: print memory usage in verbose mode [`#1478`](https://github.com/Cecilapp/Cecil/pull/1478)
+- docs: minor fix [`7b631c4`](https://github.com/Cecilapp/Cecil/commit/7b631c43554ed88abcdd62dd092c8de0484ff969)
+- chore: update deps [`3bac64d`](https://github.com/Cecilapp/Cecil/commit/3bac64d9e957f15d4301b261e2d782f22148a991)
+- docs: minor fix [`fce7804`](https://github.com/Cecilapp/Cecil/commit/fce7804b74ad2f3bbc91d522d6391afb93520f03)
+
 #### [7.5.2](https://github.com/Cecilapp/Cecil/compare/7.5.1...7.5.2)
 
 > 20 September 2022
