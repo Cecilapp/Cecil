@@ -857,7 +857,7 @@ Converts a hexadecimal color to RGB.
 
 ## Localization
 
-Cecil support [**text translation**](#text-translation) and [**date localization**](#date-localization).
+Cecil support [text translation](#text-translation) and [date localization](#date-localization).
 
 ### Text translation
 
@@ -903,16 +903,23 @@ Pluralize:
 {% trans with {'%count%': 42}%}{0}I don't have apples|{1}I have one apple|]1,Inf[I have %count% apples{% endtrans %}
 ```
 
-Translation files must be named `messages.<locale>.mo` and stored in the [`translations`](4-Configuration.md#translations) directory.
+#### Translation files
+
+Translation files must be named `messages.<locale>.<format>` and stored in the [`translations`](4-Configuration.md#translations) directory.  
+Cecil supports `yaml` and `mo` (Gettext) file [formats by default](4-Configuration.md#translations).
+
+_Example:_
 
 ```plaintext
 <mywebsite>
 └─ translations
-   ├─ messages.fr_FR.po  <- Translation file
-   └─ messages.fr_FR.mo  <- Compiled translation file
+   ├─ messages.fr_FR.mo   <- Machine Object format
+   └─ messages.fr_FR.yaml <- Yaml format
 ```
 
-[_Poedit Pro_](https://poedit.net/pro) is recommended to easily translate your templates.
+:::tip
+[_Poedit Pro_](https://poedit.net/pro) (~ 35 €) is recommended to easily translate your templates.
+:::
 
 :::important
 Be carreful about the cache ([enabled by default](4-Configuration.md#cache)) when you update translations files.  Cache can be cleared with with the following command: `php cecil.phar cache:clear:translations`.

@@ -19,7 +19,6 @@ use Cecil\Util;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
-use Symfony\Component\Translation\Loader\MoFileLoader;
 use Symfony\Component\Translation\Translator;
 use Twig\Extra\Intl\IntlExtension;
 
@@ -81,7 +80,13 @@ class Twig implements RendererInterface
             $this->builder->isDebug()
         );
         if ($this->builder->getConfig()->getLanguages()) {
-            $this->translator->addLoader('mo', new MoFileLoader());
+            foreach ($this->builder->getConfig()->get('translations.formats') as $format) {
+                $loader = \sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
+                if (class_exists($loader)) {
+                    $this->translator->addLoader($format, new $loader());
+                    $this->builder->getLogger()->debug(\sprintf('Translation loader for format "%s" found.', $format));
+                }
+            }
             foreach ($this->builder->getConfig()->getLanguages() as $lang) {
                 // themes
                 if ($themes = $this->builder->getConfig()->getTheme()) {
@@ -152,10 +157,12 @@ class Twig implements RendererInterface
      */
     public function addTransResource(string $translationsDir, string $locale): void
     {
-        $translationFile = realpath(Util::joinFile($translationsDir, \sprintf('messages.%s.mo', $locale)));
-        if ($translationFile !== false && Util\File::getFS()->exists($translationFile)) {
-            $this->translator->addResource('mo', $translationFile, $locale);
-            $this->builder->getLogger()->debug(\sprintf('Translation "%s" added', $translationFile));
+        foreach ($this->builder->getConfig()->get('translations.formats') as $format) {
+            $translationFile = realpath(Util::joinFile($translationsDir, \sprintf('messages.%s.%s', $locale, $format)));
+            if ($translationFile !== false && Util\File::getFS()->exists($translationFile)) {
+                $this->translator->addResource($format, $translationFile, $locale);
+                $this->builder->getLogger()->debug(\sprintf('Translation "%s" added', $translationFile));
+            }
         }
     }
 

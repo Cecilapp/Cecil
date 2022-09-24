@@ -684,11 +684,12 @@ themes:
 
 ### translations
 
-Where translations files are stored.
+Where and in what format translations files are stored.
 
 ```yaml
 translations:
-  dir: translations # translations directory
+  dir: translations       # translations directory
+  formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
 ### assets

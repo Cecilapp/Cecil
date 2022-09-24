@@ -232,7 +232,8 @@ return [
     ],
     // i18n
     'translations' => [
-        'dir' => 'translations',
+        'dir'     => 'translations',
+        'formats' => ['yaml', 'mo'],
     ],
     'assets' => [
         'dir'     => 'assets',
