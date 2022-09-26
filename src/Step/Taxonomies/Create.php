@@ -112,6 +112,8 @@ class Create extends AbstractStep
                     if (!is_array($page->getVariable($plural))) {
                         $page->setVariable($plural, [$page->getVariable($plural)]);
                     }
+                    // removes duplicate terms
+                    $page->setVariable($plural, array_unique($page->getVariable($plural)));
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
                         if (null === $termName) {
