@@ -41,9 +41,9 @@ class Config
     const LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
 
     /**
-     * @param array|null $config
+     * Build the Config object with the default config + the optional given array.
      */
-    public function __construct(array $config = null)
+    public function __construct(?array $config = null)
     {
         // load default configuration
         $defaultConfig = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
@@ -60,7 +60,7 @@ class Config
     /**
      * Imports site configuration.
      */
-    protected function importSiteConfig(): void
+    private function importSiteConfig(): void
     {
         $this->data->import($this->siteConfig);
 
@@ -114,8 +114,6 @@ class Config
 
     /**
      * Imports (theme) configuration.
-     *
-     * @param array|null $config
      */
     public function import(array $config): void
     {
@@ -140,7 +138,7 @@ class Config
     /**
      * Get configuration as a Data object.
      */
-    public function getData(): Data
+    protected function getData(): Data
     {
         return $this->data;
     }
@@ -164,9 +162,13 @@ class Config
     /**
      * Get the value of a configuration's key.
      *
+     * @param string $key Configuration key
+     * @param string $language Language code (optionnal)
+     * @param bool $fallback Set to false to not return the value in the default language as fallback
+     *
      * @return mixed|null
      */
-    public function get(string $key, string $language = null, bool $fallback = true)
+    public function get(string $key, ?string $language = null, bool $fallback = true)
     {
         if ($language !== null) {
             $index = $this->getLanguageIndex($language);
@@ -529,7 +531,7 @@ class Config
      *
      * @throws RuntimeException
      */
-    public function getLanguageProperty(string $property, string $code = null): string
+    public function getLanguageProperty(string $property, ?string $code = null): string
     {
         $code = $code ?? $this->getLanguageDefault();
 
