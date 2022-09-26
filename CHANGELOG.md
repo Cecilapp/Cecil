@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.7.1](https://github.com/Cecilapp/Cecil/compare/7.7.0...7.7.1)
+
+> 26 September 2022
+
+- fix: remove duplicated vocabulary terms [`#1482`](https://github.com/Cecilapp/Cecil/pull/1482)
+
+#### [7.7.0](https://github.com/Cecilapp/Cecil/compare/7.6.0...7.7.0)
+
+> 24 September 2022
+
+- feat: support multiple formats translation [`#1480`](https://github.com/Cecilapp/Cecil/pull/1480)
+
 #### [7.6.0](https://github.com/Cecilapp/Cecil/compare/7.5.2...7.6.0)
 
 > 23 September 2022
