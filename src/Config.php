@@ -162,9 +162,9 @@ class Config
     /**
      * Get the value of a configuration's key.
      *
-     * @param string $key Configuration key
+     * @param string $key      Configuration key
      * @param string $language Language code (optionnal)
-     * @param bool $fallback Set to false to not return the value in the default language as fallback
+     * @param bool   $fallback Set to false to not return the value in the default language as fallback
      *
      * @return mixed|null
      */
