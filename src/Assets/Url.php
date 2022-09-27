@@ -86,18 +86,17 @@ class Url
                 if (!$format) {
                     $format = $value->getVariable('output');
                     if (is_array($value->getVariable('output'))) {
-                        $format = $value->getVariable('output')[0];
+                        $format = $value->getVariable('output')[0]; // first format by default
                     }
                     if (!$format) {
-                        $format = 'html';
+                        $format = 'html'; // 'html' format by default
                     }
                 }
                 $this->url = $base.'/'.ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
                 break;
             // Asset
             case $value instanceof Asset:
-                $asset = $value;
-                $this->url = $base.'/'.ltrim($asset['path'], '/');
+                $this->url = $base.'/'.ltrim($value['path'], '/');
                 break;
             // string
             case is_string($value):
@@ -110,16 +109,18 @@ class Url
                         break;
                     // Page ID as string
                     case $this->builder->getPages()->has($pageId):
-                        $page = $this->builder->getPages()->get($pageId);
-                        $this->url = (string) new self($this->builder, $page, $options);
+                        $this->url = (string) new self(
+                            $this->builder,
+                            $this->builder->getPages()->get($pageId),
+                            $options
+                        );
                         break;
-                    // asset as string (i.e.: '*.js', '*.css', '*.jpeg')
-                    case false !== strrpos($value, '.') && in_array(strlen($value) - strrpos($value, '.'), [3, 4, 5]) ? true : false:
+                    // asset as string, file with extension (i.e.: '*.js', '*.css', '*.jpeg')
+                    case false !== $dotpos = strrpos($value, '.') && isset([3, 4, 5][strlen($value) - $dotpos]):
                         $this->url = $base.'/'.ltrim($value, '/');
                         break;
-                    // others cases?
+                    // default case
                     default:
-                        // others cases
                         $this->url = $base.'/'.$value;
                 }
         }
