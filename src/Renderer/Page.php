@@ -30,16 +30,17 @@ class Page
     }
 
     /**
-     * Returns the path to the output (rendered) file.
+     * Returns the path of the rendered file, based on the output format properties.
      *
      * Use cases:
-     * - default: path + filename + extension (ie: blog/post-1/index.html)
-     * - subpath: path + subpath + filename + extension (ie: blog/post-1/amp/index.html)
-     * - ugly: path + extension (ie: 404.html, sitemap.xml, robots.txt)
-     * - path only (ie: _redirects)
-     * - l10n: language + path + filename + extension (ie: fr/blog/page/index.html)
+     *   - default: path + filename + extension (e.g.: 'blog/post-1/index.html')
+     *   - subpath: path + subpath + filename + extension (e.g.: 'blog/post-1/amp/index.html')
+     *   - ugly: path + extension (e.g.: '404.html', 'sitemap.xml', 'robots.txt')
+     *   - path only (e.g.: '_redirects')
+     *   - language (e.g.: 'fr/blog/page/index.html')
      *
-     * @param string $format Output format (ie: html, amp, json, etc.)
+     * @param PageItem $page
+     * @param string   $format Output format (ie: 'html', 'amp', 'json', etc.)
      */
     public function getOutputFile(PageItem $page, string $format): string
     {
@@ -72,7 +73,8 @@ class Page
     /**
      * Returns the public URL.
      *
-     * @param string $format Output format (ie: html, amp, json, etc.)
+     * @param PageItem $page
+     * @param string   $format Output format (ie: 'html', 'amp', 'json', etc.), 'html' by default
      */
     public function getUrl(PageItem $page, string $format = 'html'): string
     {

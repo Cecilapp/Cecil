@@ -44,16 +44,11 @@ class Url
     private static $slugifier;
 
     /**
-     * Creates an URL from string, Page or Asset.
-     *
-     * $options[
-     *     'canonical' => true,
-     *     'format'    => 'json',
-     * ];
+     * Creates an URL from a string, a Page or an Asset.
      *
      * @param Builder                $builder
      * @param Page|Asset|string|null $value
-     * @param array|null             $options
+     * @param array|null             $options Render options, e.g.: ['canonical' => true, 'format' => 'json']
      */
     public function __construct(Builder $builder, $value, array $options = null)
     {

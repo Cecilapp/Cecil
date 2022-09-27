@@ -84,7 +84,7 @@ class Image
     }
 
     /**
-     * Converts an asset image to WebP.
+     * Converts an asset to WebP format.
      */
     public static function convertTopWebp(Asset $asset, int $quality): Asset
     {
@@ -99,7 +99,7 @@ class Image
     }
 
     /**
-     * Tests if an asset is an animated gif.
+     * Checks if an asset is an animated gif.
      */
     public static function isAnimatedGif(Asset $asset): bool
     {
