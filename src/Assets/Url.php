@@ -116,12 +116,12 @@ class Url
                         );
                         break;
                     // asset as string, file with extension (i.e.: '*.js', '*.css', '*.jpeg')
-                    case false !== $dotpos = strrpos($value, '.') && isset([3, 4, 5][strlen($value) - $dotpos]):
+                    /*case false !== $dotpos = strrpos($value, '.') && isset([3, 4, 5][strlen($value) - $dotpos]):
                         $this->url = $base.'/'.ltrim($value, '/');
-                        break;
+                        break;*/
                     // default case
                     default:
-                        $this->url = $base.'/'.$value;
+                        $this->url = $base.'/'.ltrim($value, '/');
                 }
         }
     }
