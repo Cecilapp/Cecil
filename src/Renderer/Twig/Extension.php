@@ -520,14 +520,14 @@ class Extension extends SlugifyExtension
                 if ($preload) {
                     return \sprintf(
                         '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
-                        $this->url($asset['path'], $options),
+                        $this->url($asset, $options),
                         $htmlAttributes
                     );
                 }
 
-                return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($asset['path'], $options), $htmlAttributes);
+                return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($asset, $options), $htmlAttributes);
             case 'js':
-                return \sprintf('<script src="%s"%s></script>', $this->url($asset['path'], $options), $htmlAttributes);
+                return \sprintf('<script src="%s"%s></script>', $this->url($asset, $options), $htmlAttributes);
         }
 
         /* Image */
@@ -544,7 +544,7 @@ class Extension extends SlugifyExtension
             // <img>
             $img = \sprintf(
                 '<img src="%s" width="'.($asset->getWidth() ?: 0).'" height="'.($asset->getHeight() ?: 0).'"%s>',
-                $this->url($asset['path'], $options),
+                $this->url($asset, $options),
                 $htmlAttributes
             );
 
