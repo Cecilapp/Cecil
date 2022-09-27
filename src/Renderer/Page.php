@@ -50,19 +50,19 @@ class Page
         $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
         $uglyurl = (bool) $page->getVariable('uglyurl');
         $language = $page->getVariable('language');
-        // if ugly URL = no filename (e.g.: 404.html)
+        // if ugly URL
         if ($uglyurl) {
             $filename = '';
         }
-        // add extension
+        // add extension if exists
         if ($extension) {
             $extension = \sprintf('.%s', $extension);
         }
-        // homepage special case: path = 'index'
+        // homepage special case
         if (empty($path) && empty($filename)) {
             $path = 'index';
         }
-        // do not prefix URL for default language
+        // do not prefix URL for the default language
         if ($language == $this->config->getLanguageDefault() || $language === null) {
             $language = '';
         }
@@ -78,10 +78,8 @@ class Page
      */
     public function getUrl(PageItem $page, string $format = 'html'): string
     {
-        $uglyurl = $page->getVariable('uglyurl') ? true : false;
         $output = $this->getOutputFile($page, $format);
-
-        if (!$uglyurl) {
+        if (!($page->getVariable('uglyurl') ?? false)) {
             $output = str_replace('index.html', '', $output);
         }
 
