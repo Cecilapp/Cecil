@@ -709,7 +709,7 @@ assets:
     variables: []        # list of preset variables (empty by default)
   minify:
     enabled: true        # enables asset minification (`true` by default)
-  target: assets         # where remote and resized assets are saved
+  target: assets         # where handled assets are stored
   images:
     optimize:
       enabled: false     # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
@@ -721,6 +721,8 @@ assets:
         default: '100vw' # `sizes` attribute (`100vw` by default)
     webp:
       enabled: false     # creates a WebP version of images with `html` filter (`false` by default)
+    thumbnails:
+      dir: thumbnails    # where thumbnails are stored (in the assets target directory)
 ```
 
 :::

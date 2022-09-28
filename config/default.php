@@ -266,6 +266,9 @@ return [
             'webp' => [
                 'enabled' => false, // creates a WebP version of images with `html` filter (`false` by default)
             ],
+            'thumbnails' => [
+                'dir' => 'thumbnails', // where thumbnails are stored (in the assets target directory)
+            ],
         ],
     ],
     'postprocess' => [
