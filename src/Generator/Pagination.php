@@ -46,8 +46,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             // global pagination config
-            $paginationPerPage = intval($this->config->get('pagination.max'));
-            $paginationPath = $this->config->get('pagination.path');
+            $paginationPerPage = intval($this->config->get('pagination.max') ?? 5);
+            $paginationPath = (string) $this->config->get('pagination.path') ?? 'page';
             // page pagination config
             $pagePagination = $page->getVariable('pagination');
             if ($pagePagination) {
@@ -78,9 +78,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 }
             }
 
-            // builds pagination
-            $paginationPagesCount = ceil($pagesTotal / $paginationPerPage);
-            for ($i = 0; $i < $paginationPagesCount; $i++) {
+            // builds paginator
+            $paginatorPagesCount = intval(ceil($pagesTotal / $paginationPerPage));
+            for ($i = 0; $i < $paginatorPagesCount; $i++) {
                 $pagesInPagination = new \LimitIterator(
                     $pages->getIterator(),
                     ($i * $paginationPerPage),
@@ -100,6 +100,10 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     if ($path == '') {
                         $pageId = 'index';
                     }
+                    // i18n
+                    if ($page->getVariable('language') != $this->config->getLanguageDefault()) {
+                        $pageId = \sprintf('%s.%s', $pageId, $page->getVariable('language'));
+                    }
                     $currentPath = $firstPath;
                     $alteredPage
                         ->setId($pageId)
@@ -110,6 +114,10 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 } else {
                     // ie: blog/page/2
                     $pageId = Page::slugify(\sprintf('%s/%s/%s', $path, $paginationPath, $i + 1));
+                    // i18n
+                    if ($page->getVariable('language') != $this->config->getLanguageDefault()) {
+                        $pageId = \sprintf('%s.%s', $pageId, $page->getVariable('language'));
+                    }
                     $currentPath = $pageId;
                     $alteredPage
                         ->setId($pageId)
@@ -121,42 +129,49 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         ->unVariable('langref')
                         ->setVariable('paginated', true);
                 }
-                // updates 'pagination' variable
-                $pagination = [
+                // updates 'paginator' variable
+                $paginator = [
                     'totalpages' => $pagesTotal,
                     'pages'      => $pagesInPagination,
                     'current'    => $i + 1,
-                    'count'      => $paginationPagesCount,
+                    'count'      => $paginatorPagesCount,
                 ];
                 // adds links
-                $pagination['links'] = ['self' => $currentPath ?: 'index'];
-                $pagination['links'] += ['first' => $firstPath ?: 'index'];
+                $paginator['links'] = ['self' => $currentPath ?: 'index'];
+                $paginator['links'] += ['first' => $firstPath ?: 'index'];
                 if ($i == 1) {
-                    $pagination['links'] += ['prev' => Page::slugify($path ?: 'index')];
+                    $paginator['links'] += ['prev' => Page::slugify($path ?: 'index')];
                 }
                 if ($i > 1) {
-                    $pagination['links'] += ['prev' => Page::slugify(\sprintf(
+                    $paginator['links'] += ['prev' => Page::slugify(\sprintf(
                         '%s/%s/%s',
                         $path,
                         $paginationPath,
                         $i
                     ))];
                 }
-                if ($i < $paginationPagesCount - 1) {
-                    $pagination['links'] += ['next' => Page::slugify(\sprintf(
+                if ($i < $paginatorPagesCount - 1) {
+                    $paginator['links'] += ['next' => Page::slugify(\sprintf(
                         '%s/%s/%s',
                         $path,
                         $paginationPath,
                         $i + 2
                     ))];
                 }
-                $pagination['links'] += ['last' => Page::slugify(\sprintf(
+                $paginator['links'] += ['last' => Page::slugify(\sprintf(
                     '%s/%s/%s',
                     $path,
                     $paginationPath,
-                    $paginationPagesCount
+                    $paginatorPagesCount
                 ))];
-                $alteredPage->setPagination($pagination);
+                // i18n
+                if ($page->getVariable('language') != $this->config->getLanguageDefault()) {
+                    foreach ($paginator['links'] as $key => $value) {
+                        $paginator['links'][$key] = \sprintf('%s.%s', $value, $page->getVariable('language'));
+                    }
+                }
+                $alteredPage->setPaginator($paginator);
+                $alteredPage->setVariable('pagination', $paginator); // backward compatibility
                 // updates date with the first element of the collection
                 $alteredPage->setVariable('date', $pagesInPagination->first()->getVariable('date'));
 
