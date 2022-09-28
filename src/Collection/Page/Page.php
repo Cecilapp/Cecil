@@ -66,7 +66,7 @@ class Page extends Item
     protected $subPages;
 
     /** @var array */
-    protected $pagination = [];
+    protected $paginator = [];
 
     /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary */
     protected $terms;
@@ -444,21 +444,21 @@ class Page extends Item
     }
 
     /**
-     * Set pagination.
+     * Set paginator.
      */
-    public function setPagination(array $pagination): self
+    public function setPaginator(array $paginator): self
     {
-        $this->pagination = $pagination;
+        $this->paginator = $paginator;
 
         return $this;
     }
 
     /**
-     * Get pagination.
+     * Get paginator.
      */
-    public function getPagination(): array
+    public function getPaginator(): array
     {
-        return $this->pagination;
+        return $this->paginator;
     }
 
     /**

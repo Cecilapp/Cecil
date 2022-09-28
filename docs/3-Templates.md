@@ -226,21 +226,42 @@ _Example:_
 <a href="{{ url(page.prev) }}">{{ page.prev.title }}</a>
 ```
 
-#### page.pagination
+#### page.paginator
 
-Pagination is avaialable for homepage, sections, and taxonomies.
+_Paginator_ help you to build a navigation for list pages: homepage, sections, and taxonomies.
 
-| Variable                      | Description                 |
-| ----------------------------- | --------------------------- |
-| `page.pagination.pages`       | Paginated pages collection. |
-| `page.pagination.totalpages`  | Paginated total pages.      |
-| `page.pagination.current`     | Number of the current page. |
-| `page.pagination.count`       | Number of pages.            |
-| `page.pagination.links.self`  | Path of the current page.   |
-| `page.pagination.links.first` | Path of the first page.     |
-| `page.pagination.links.prev`  | Path of the previous page.  |
-| `page.pagination.links.next`  | Path of the next page.      |
-| `page.pagination.links.last`  | Path of the last page.      |
+| Variable                     | Description                   |
+| ---------------------------- | ----------------------------- |
+| `page.paginator.pages`       | Paginated pages collection.   |
+| `page.paginator.totalpages`  | Paginated total pages.        |
+| `page.paginator.current`     | Position of the current page. |
+| `page.paginator.count`       | Number of pages.              |
+| `page.paginator.links.self`  | Page ID of the current page.  |
+| `page.paginator.links.first` | Page ID of the first page.    |
+| `page.paginator.links.prev`  | Page ID of the previous page. |
+| `page.paginator.links.next`  | Page ID of the next page.     |
+| `page.paginator.links.last`  | Page ID of the last page.     |
+
+:::important
+Links entries are Page ID, so you must use the `url()` function to create working links.  
+In a future release, links should be a _Page_.
+:::
+
+_Example:_
+
+```twig
+{% if page.paginator %}
+  {% set links = page.paginator.links %}
+<div>
+  {% if links.prev is defined %}
+  <a href="{{ url(links.prev) }}">Previous</a>
+  {% endif %}
+  {% if links.next is defined %}
+  <a href="{{ url(links.next) }}">Next</a>
+  {% endif %}
+</div>
+{% endif %}
+```
 
 #### Taxonomy
 
