@@ -104,20 +104,28 @@ class Parsedown extends \ParsedownToC
         // create asset
         $asset = new Asset($this->builder, $image['element']['attributes']['src'], ['force_slash' => false]);
         $image['element']['attributes']['src'] = $asset;
-        $width = $asset->getWidth();
+        $width = null;
+        $height = null;
 
         /**
          * Should be resized?
          */
         $assetResized = null;
-        if (isset($image['element']['attributes']['width'])
-            && (int) $image['element']['attributes']['width'] < $width
-            && $this->builder->getConfig()->get('body.images.resize.enabled')
+        if ($this->builder->getConfig()->get('body.images.resize.enabled')
+            && (
+                (isset($image['element']['attributes']['width']) && (int) $image['element']['attributes']['width'] < $asset->getWidth())
+                || (isset($image['element']['attributes']['height']) && (int) $image['element']['attributes']['height'] < $asset->getHeight())
+            )
         ) {
-            $width = (int) $image['element']['attributes']['width'];
+            if (isset($image['element']['attributes']['width'])) {
+                $width = (int) $image['element']['attributes']['width'];
+            }
+            if (isset($image['element']['attributes']['height'])) {
+                $height = (int) $image['element']['attributes']['height'];
+            }
 
             try {
-                $assetResized = $asset->resize($width);
+                $assetResized = $asset->resize($width, $height);
                 $image['element']['attributes']['src'] = $assetResized;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
@@ -128,7 +136,7 @@ class Parsedown extends \ParsedownToC
 
         // set width
         if (!isset($image['element']['attributes']['width']) && $asset['type'] == 'image') {
-            $image['element']['attributes']['width'] = $width;
+            $image['element']['attributes']['width'] = ($assetResized ?? $asset)->getWidth();
         }
         // set height
         if (!isset($image['element']['attributes']['height']) && $asset['type'] == 'image') {
@@ -138,7 +146,7 @@ class Parsedown extends \ParsedownToC
         /**
          * Should be responsive?
          */
-        if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
+        if ($this->builder->getConfig()->get('body.images.responsive.enabled') && false === false) {
             if ($srcset = Image::buildSrcset(
                 $assetResized ?? $asset,
                 $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]

@@ -401,16 +401,19 @@ class Asset implements \ArrayAccess
      *
      * @throws RuntimeException
      */
-    public function resize(int $width): self
+    public function resize(?int $width = null, ?int $height = null): self
     {
-        if ($width >= $this->getWidth()) {
+        if ($width === null && $height === null) {
+            return $this;
+        }
+        if ($width >= $this->getWidth() && $height >= $this->getHeight()) {
             return $this;
         }
 
         $assetResized = clone $this;
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x"]);
+        $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x{$height}"]);
         if (!$cache->has($cacheKey)) {
             if ($assetResized->data['type'] !== 'image') {
                 throw new RuntimeException(\sprintf('Not able to resize "%s": it\'s not an image', $assetResized->data['path']));
@@ -421,19 +424,19 @@ class Asset implements \ArrayAccess
 
             try {
                 $img = ImageManager::make($assetResized->data['content_source']);
-                $img->fit($width, null, function (\Intervention\Image\Constraint $constraint) {
+                $img->resize($width, $height, function (\Intervention\Image\Constraint $constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             } catch (\Exception $e) {
                 throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }
-            $assetResized->data['width'] = $width;
+            $assetResized->data['width'] = $assetResized->getWidth();
             $assetResized->data['height'] = $assetResized->getHeight();
             $assetResized->data['path'] = '/'.Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 (string) $this->config->get('assets.images.thumbnails.dir'),
-                (string) $width,
+                "{$width}x{$height}",
                 $assetResized->data['path']
             );
 

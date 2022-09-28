@@ -191,7 +191,7 @@ return [
                 'enabled' => true,  // adds `loading="lazy"` attribute (`true` by default)
             ],
             'resize' => [
-                'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
+                'enabled' => false, // enables image resizing by using the `width` or 'height' extra attribute (`false` by default)
             ],
             'responsive' => [
                 'enabled' => false, // creates responsive images and add them to the `srcset` attribute (`false` by default)
