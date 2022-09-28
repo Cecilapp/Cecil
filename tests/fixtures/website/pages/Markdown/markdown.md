@@ -1,3 +1,4 @@
+<!-- break -->
 ## Links
 
 - [Link to `About.md`](../About.md)
@@ -17,6 +18,6 @@
 
 ![alt](/images/cecil-logo.png "Image asset")
 
-![audio](/audio/test.mp3 "Audio asset")
+![audio](/audio/test.mp3 "Audio asset"){controls}
 
-![video](/video/test.mp4 "Video asset"){poster=/images/cecil-logo.png style="width:100%;"}
+![video](/video/test.mp4 "Video asset"){controls poster=/images/cecil-logo.png style="width:100%;"}

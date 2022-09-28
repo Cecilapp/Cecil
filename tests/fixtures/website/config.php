@@ -9,8 +9,9 @@ return [
     'menus' => [
         'main' => [
             [
-                'id'   => 'index',
-                'name' => 'Da home! \o/',
+                'id'     => 'index',
+                'name'   => 'Homepage',
+                'weight' => -9999,
             ],
             [
                 'id'      => 'about',
@@ -29,7 +30,7 @@ return [
     ],
     'theme' => [
         'a-theme',
-        'hyde',
+        //'hyde',
     ],
     'googleanalytics' => 'UA-XXXXX',
     'output'          => [
@@ -65,8 +66,12 @@ return [
                 'menus'       => [
                     'main' => [
                         [
+                            'id'     => 'index',
+                            'weight' => -9999,
+                        ],
+                        [
                             'id'     => 'menu-fr',
-                            'name'   => 'Menu en français',
+                            'name'   => 'Arnaud (FR)',
                             'url'    => 'https://arnaudligny.fr',
                         ],
                     ],

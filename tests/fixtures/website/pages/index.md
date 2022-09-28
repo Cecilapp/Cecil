@@ -1,3 +1,3 @@
 ---
-title: Home! \o/
+title: Home
 ---

@@ -2,4 +2,12 @@
 slug: another-slug
 ---
 
-Slug `slug` is now `another-slug`.
+# Custom `slug`
+
+From:
+
+`slug`
+
+To:
+
+`another-slug`

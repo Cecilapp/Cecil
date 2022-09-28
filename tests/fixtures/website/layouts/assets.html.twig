@@ -45,28 +45,29 @@ pre {
 
   <h2>Bundle files</h2>
   <p>
-    <pre>asset(['css/poole.css', 'css/syntax.css', 'css/hyde.css'])</pre>
-    <blockquote>{{ asset(['css/poole.css', 'css/syntax.css', 'css/hyde.css'], {fingerprint:true, minify:true, filename:'bundle.css'}) }}</blockquote>
+    <pre>asset(['css/style-1.css', 'css/style-2.css'])</pre>
+    <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css'], {fingerprint: true, minify: true, filename: 'bundle.css'}) }}</blockquote>
   </p>
 
   <h2>Canonical URL</h2>
   <p>
-    <pre>asset('css/style.css')|url({canonical:true})</pre>
-    <blockquote>{{ asset('css/style.css')|url({canonical:true}) }}</blockquote>
+    <pre>asset('css/style.css')|url({canonical: true})</pre>
+    <blockquote>{{ asset('css/style.css')|url({canonical: true}) }}</blockquote>
   </p>
   <p>
-    <pre>url(asset('css/style.css'), {canonical:true})</pre> (deprecated)
-    <blockquote>{{ url(asset('css/style.css'), {canonical:true}) }}</blockquote>
+    Deprecated:
+    <pre>url(asset('css/style.css'), {canonical: true})</pre>
+    <blockquote>{{ url(asset('css/style.css'), {canonical: true}) }}</blockquote>
   </p>
 
   <h2>Fingerprint</h2>
   <p>
-    <pre>asset('css/style.css', {fingerprint:true})</pre>
-    <blockquote>{{ asset('css/style.css', {fingerprint:true}) }}</blockquote>
+    <pre>asset('css/style.css', {fingerprint: true})</pre>
+    <blockquote>{{ asset('css/style.css', {fingerprint: true}) }}</blockquote>
   </p>
   <p>
-    <pre>asset('css/style.css', {fingerprint:true})|minify</pre>
-    <blockquote>{{ asset('css/style.css', {fingerprint:true})|minify }}</blockquote>
+    <pre>asset('css/style.css', {fingerprint: true})|minify</pre>
+    <blockquote>{{ asset('css/style.css', {fingerprint: true})|minify }}</blockquote>
   </p>
   <p>
     <pre>asset('css/style.css')|fingerprint</pre>
@@ -81,11 +82,13 @@ pre {
     <blockquote>{{ asset('scss/colors.scss')|to_css|inline }}</blockquote>
   </p>
   <p>
-    <pre>asset('scss/colors.scss')</pre> (if "auto compile" is enabled)
+    If "auto compile" is enabled:
+    <pre>asset('scss/colors.scss')</pre>
     <blockquote>{{ asset('scss/colors.scss') }}</blockquote>
   </p>
   <p>
-    <pre>asset('scss/colors.scss')|minify</pre> (minify filter force compile before)
+    Minify filter force compile before:
+    <pre>asset('scss/colors.scss')|minify</pre>
     <blockquote>{{ asset('scss/colors.scss')|minify }}</blockquote>
   </p>
 
@@ -95,23 +98,26 @@ pre {
     <blockquote>{{ asset('css/style.css')|minify }}</blockquote>
   </p>
   <p>
-    <pre>minify(asset('css/style.css'))</pre> (deprecated)
+     Deprecated:
+    <pre>minify(asset('css/style.css'))</pre>
     <blockquote>{{ minify(asset('css/style.css')) }}</blockquote>
   </p>
 
   <h2>HTML element</h2>
   <p>
     <pre>asset('css/style.css')|html</pre>
-    <blockquote>{{ asset('css/style.css')|html|e }}</blockquote>
+    <pre>{{ asset('css/style.css')|html|e }}</pre>
   </p>
 
   <h2>Image as HTML element</h2>
   <p>
-    <pre>asset('images/cecil-logo.png')|html({title:'title', alt:'alternative', lazyloading:''})</pre>
+    <pre>asset('images/cecil-logo.png')|html({title: 'title', alt: 'alternative', lazyloading: ''})</pre>
     <blockquote>
-      {{- asset('images/cecil-logo.png')|html({title:'title', alt:'alternative', lazyloading:''}) }}
-      {{~ asset('images/cecil-logo.png')|html({title:'title', alt:'alternative', lazyloading:''})|e -}}
+      {{- asset('images/cecil-logo.png')|html({title: 'title', alt: 'alternative', lazyloading: ''}) }}
     </blockquote>
+    <pre>
+      {{~ asset('images/cecil-logo.png')|html({title: 'title', alt: 'alternative', lazyloading: ''})|e -}}
+    </pre>
   </p>
 
   <h2>Image size</h2>
@@ -136,11 +142,13 @@ pre {
     <blockquote>{{ asset('css/style.css')|inline }}</blockquote>
   </p>
   <p>
-    <pre>asset('css/style.css').content</pre> (attribute access)
+    Attribute access:
+    <pre>asset('css/style.css').content</pre>
     <blockquote>{{ asset('css/style.css')['content'] }}</blockquote>
   </p>
   <p>
-    <pre>asset('css/style.css')['content']</pre> (array access, not recommended)
+    Array access, not recommended:
+    <pre>asset('css/style.css')['content']</pre>
     <blockquote>{{ asset('css/style.css')['content'] }}</blockquote>
   </p>
 
@@ -160,26 +168,28 @@ pre {
     <blockquote>{{ asset('css/style.css').integrity }}</blockquote>
   </p>
   <p>
-    <pre>integrity('css/style.css')</pre> (deprecated)
+    Deprecated:
+    <pre>integrity('css/style.css')</pre>
     <blockquote>{{ integrity('css/style.css') }}</blockquote>
   </p>
   <p>
-    <pre>integrity(asset('css/style.css'))</pre> (deprecated)
+    Deprecated:
+    <pre>integrity(asset('css/style.css'))</pre>
     <blockquote>{{ integrity(asset('css/style.css')) }}</blockquote>
   </p>
 
   <h2>Asset with wrong path + ignore directive</h2>
   <p>
-    <pre>asset('asssset.css', {ignore_missing:true}))</pre>
-    <blockquote>{{ asset('asssset.css', {ignore_missing:true}) }}</blockquote>
+    <pre>asset('asssset.css', {ignore_missing: true}))</pre>
+    <blockquote>{{ asset('asssset.css', {ignore_missing: true}) }}</blockquote>
   </p>
 
   <h2>Remote (URL)</h2>
   <p>
-{% set snipcart = asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js',{ignore_missing:true}) %}
-    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js'))</pre>
+    {%- set snipcart = asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js', {ignore_missing: true}) ~%}
+    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')</pre>
     <blockquote>{{ snipcart }}</blockquote>
-    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file)</pre>
+    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file</pre>
     <blockquote>{% if snipcart.file is defined %}{{ snipcart.file }}{% endif %}</blockquote>
     <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext</pre>
     <blockquote>{% if snipcart.ext is defined %}{{ snipcart.ext }}{% endif %}</blockquote>
@@ -192,7 +202,7 @@ pre {
 
   <h2>Preload CSS</h2>
   <p>
-    <pre>asset('css/styleA.css')|html({test:'test'},{preload:true,canonical:true})</pre>
-    <blockquote>{{ asset('css/styleA.css')|html({test:'test'},{preload:true,canonical:true})|e }}</blockquote>
+    <pre>asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})</pre>
+    <pre>{{ asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})|e }}</pre>
   </p>
 {% endblock content %}

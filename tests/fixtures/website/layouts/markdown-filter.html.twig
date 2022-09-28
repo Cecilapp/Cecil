@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{{ page.content }}
+
 {% set md = '**This is bold text.**' %}
 {{ md|markdown_to_html }}
 

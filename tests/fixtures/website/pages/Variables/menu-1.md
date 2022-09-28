@@ -1,10 +1,9 @@
 ---
-menu:
-  main:
-    weight: 99999
+menu: [main, navigation]
 ---
+
+# Menu 1
+
 ```yaml
-menu:
-  main:
-    weight: 99999
+menu: [main, navigation]
 ```

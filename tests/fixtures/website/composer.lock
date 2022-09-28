@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8d5c8c88b85c1a123cb188c1594393f",
+    "content-hash": "9eb51381e72eef34a02b0558220dc35e",
     "packages": [
         {
             "name": "cecil/theme-hyde",
-            "version": "1.19.2",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/theme-hyde.git",
-                "reference": "5713ec195a3cf5feb93ebdb6fba7925b9be41f99"
+                "reference": "f7a2c212d41df47d7db58e392edf03dbb8dcc065"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/5713ec195a3cf5feb93ebdb6fba7925b9be41f99",
-                "reference": "5713ec195a3cf5feb93ebdb6fba7925b9be41f99",
+                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/f7a2c212d41df47d7db58e392edf03dbb8dcc065",
+                "reference": "f7a2c212d41df47d7db58e392edf03dbb8dcc065",
                 "shasum": ""
             },
             "require": {
@@ -42,7 +42,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Cecilapp/theme-hyde/issues",
-                "source": "https://github.com/Cecilapp/theme-hyde/tree/1.19.2"
+                "source": "https://github.com/Cecilapp/theme-hyde/tree/2.0.0"
             },
             "funding": [
                 {
@@ -58,7 +58,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-09-01T19:45:46+00:00"
+            "time": "2022-09-08T16:19:35+00:00"
         },
         {
             "name": "cecil/theme-installer",

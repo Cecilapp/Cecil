@@ -1,5 +1,16 @@
 ---
 slug: slugwithmenu
-menu: main
+menu:
+  main:
+    weight: 99999
 ---
-`slug-with-menu` -> `slugwithmenu`
+
+# Custom `slug` + menu entry
+
+From:
+
+`slug-with-menu`
+
+To:
+
+`slugwithmenu`
