@@ -27,7 +27,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        if (false === (bool) $this->config->get('pagination.enabled')) {
+        if (false === $this->config->get('pagination.enabled')) {
             return;
         }
 
@@ -46,8 +46,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             // global pagination config
-            $paginationPerPage = intval($this->config->get('pagination.max'));
-            $paginationPath = $this->config->get('pagination.path');
+            $paginationPerPage = intval($this->config->get('pagination.max') ?? 5);
+            $paginationPath = (string) $this->config->get('pagination.path') ?? 'page';
             // page pagination config
             $pagePagination = $page->getVariable('pagination');
             if ($pagePagination) {
