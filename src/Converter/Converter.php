@@ -50,6 +50,9 @@ class Converter implements ConverterInterface
             default:
                 try {
                     $result = Yaml::parse((string) $string) ?? [];
+                    if (!is_array($result)) {
+                        throw new RuntimeException('Can\'t parse YAML front matter.');
+                    }
 
                     return $result;
                 } catch (ParseException $e) {
