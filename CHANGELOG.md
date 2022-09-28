@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.8.0](https://github.com/Cecilapp/Cecil/compare/7.7.2...7.8.0)
+
+> 28 September 2022
+
+- feat: new paginator [`#1485`](https://github.com/Cecilapp/Cecil/pull/1485)
+
+#### [7.7.2](https://github.com/Cecilapp/Cecil/compare/7.7.1...7.7.2)
+
+> 28 September 2022
+
+- Apply fixes from StyleCI [`#1483`](https://github.com/Cecilapp/Cecil/pull/1483)
+- test: update and clean fixtures [`bccfc10`](https://github.com/Cecilapp/Cecil/commit/bccfc104ae0c21056f367c68489d54da2257f0c0)
+- chore: update deps [`afc2e99`](https://github.com/Cecilapp/Cecil/commit/afc2e9947f7ccf88c9bbaaf6a7cf5479c6f2861d)
+- chore: code comments [`a85bc54`](https://github.com/Cecilapp/Cecil/commit/a85bc54c8c284bf7bc7937ff2fd174df0f05c35d)
+- refactor: Asset/URL [`483a05e`](https://github.com/Cecilapp/Cecil/commit/483a05ee2ddb52a0e0a3c30f6b698d2c7294e694)
+- refactor: Config class [`4bccea4`](https://github.com/Cecilapp/Cecil/commit/4bccea4c132f9ed359349297ce56f1702eb8a8c8)
+- chore: update deps [`4ffeda1`](https://github.com/Cecilapp/Cecil/commit/4ffeda17a006b2543b3541b5f5c85df7f3b25055)
+- refactor: Page output/URL [`8b21267`](https://github.com/Cecilapp/Cecil/commit/8b212670299b070dd6c526735e7edc330f33ff4b)
+- refactor: html filter enhanced [`141a645`](https://github.com/Cecilapp/Cecil/commit/141a645d09b7e8e67062157b89bc2444665191c6)
+- test: update fixtures [`dbf7e09`](https://github.com/Cecilapp/Cecil/commit/dbf7e09ffc459a617cf2d7712fb01f47e515c9cb)
+- refactor: Asset/URL better detection [`dcc2e0c`](https://github.com/Cecilapp/Cecil/commit/dcc2e0c841f65023cf954017e50cd01d9fb7d100)
+- refactor: remove useless comments [`0042005`](https://github.com/Cecilapp/Cecil/commit/00420055554fc2aed36c053a88970d3c1666497e)
+- fix: localize aliases generated pages [`59c75b7`](https://github.com/Cecilapp/Cecil/commit/59c75b7ec31eefbfe4ce9692e316c5dd9fee2968)
+- fix: section title must be the folder's name [`6ab5020`](https://github.com/Cecilapp/Cecil/commit/6ab5020fad2fd6c410471f80fdcb71bf1ffa727d)
+- fix: front matter detection pattern [`b195e2a`](https://github.com/Cecilapp/Cecil/commit/b195e2a56b66950f523ad7258375a6097f125a57)
+- fix: throw exception if YAML front matter is empty [`0a4163d`](https://github.com/Cecilapp/Cecil/commit/0a4163d8a596326b4b694455de43dbd950b28cfb)
+- refactor: remove useless comments [`fc1537b`](https://github.com/Cecilapp/Cecil/commit/fc1537b545a1b7c43ec2dbef22a42c0120ab4df5)
+
 #### [7.7.1](https://github.com/Cecilapp/Cecil/compare/7.7.0...7.7.1)
 
 > 26 September 2022
