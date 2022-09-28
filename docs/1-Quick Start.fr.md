@@ -11,6 +11,10 @@ menu: home
 
 Cecil est une application en ligne de commande, propulsée par [PHP](https://www.php.net), qui fusionne des fichiers textes plats (écrit en [Markdown](https://daringfireball.net/projects/markdown/)), des images et des templates [Twig](https://twig.symfony.com/) afin de générer un [site statique](https://fr.wikipedia.org/wiki/Site_web_statique).
 
+:::info
+La documentation complète est disponible, en anglais, à l’adresse suivante : <https://cecil.app/documentation/>
+:::
+
 ## Créer un blog
 
 Si vous souhaiter créer un blog sans vous casser la tête, le [starter blog](https://github.com/Cecilapp/the-butler#readme) est fait pour vous.
@@ -90,7 +94,3 @@ php cecil.phar build
 ```
 
 Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur Web 🎉
-
-:::info
-La documentation complète est disponible, en anglais, à l'adresse suivante : <https://cecil.app/documentation/>
-:::
