@@ -33,6 +33,10 @@ class Alias extends AbstractGenerator implements GeneratorInterface
                 foreach ($aliases as $alias) {
                     /** @var Page $aliasPage */
                     $pageId = $path = Page::slugify($alias);
+                    // i18n
+                    if ($page->getVariable('language') != $this->config->getLanguageDefault()) {
+                        $pageId = \sprintf('%s.%s', $pageId, $page->getVariable('language'));
+                    }
                     $aliasPage = (new Page($pageId))
                         ->setPath($path)
                         ->setVariables([
