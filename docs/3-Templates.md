@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-09-18
+updated: 2022-09-30
 alias: documentation/layouts
 -->
 
@@ -965,6 +965,14 @@ If you want to use the `format_date` filter **with other locales than "en"**, yo
 ## Built-in templates
 
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
+
+:::tips
+You can extract built-in templates in the "layouts" directory of your site with the following command:
+
+```bash
+php cecil.phar util:extract
+```
+:::
 
 ### Default templates
 
