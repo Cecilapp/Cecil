@@ -1,0 +1,15 @@
+{% if page.paginator %}
+{% set links = page.paginator.links %}
+      <div class="pagination">
+{% if links.prev is defined %}
+        <a class="pagination-item prev" href="{{ url(links.prev) }}">Previous</a>
+{% else %}
+        <span class="pagination-item prev">Previous</span>
+{% endif %}
+{% if links.next is defined %}
+        <a class="pagination-item next" href="{{ url(links.next) }}">Next</a>
+{% else %}
+        <span class="pagination-item next">Next</span>
+{% endif %}
+      </div>
+{% endif %}
