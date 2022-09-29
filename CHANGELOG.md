@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.8.1](https://github.com/Cecilapp/Cecil/compare/7.8.0...7.8.1)
+
+> 29 September 2022
+
+- fix: paginator backward compatibility [`#1488`](https://github.com/Cecilapp/Cecil/pull/1488)
+- docs: minor update [`f77e7d4`](https://github.com/Cecilapp/Cecil/commit/f77e7d434e2a871e8c78ec60b5cbd9dc3925e15b)
+- test: update config [`58a7007`](https://github.com/Cecilapp/Cecil/commit/58a70078312b8e6f0b8ed2fd300366e314bab5f1)
+
 #### [7.8.0](https://github.com/Cecilapp/Cecil/compare/7.7.1...7.8.0)
 
 > 28 September 2022
