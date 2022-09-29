@@ -18,6 +18,7 @@ use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -37,6 +38,7 @@ class UtilExtractTemplates extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override files if they already exist'),
                 ])
             )
             ->setHelp('Extracts built-in templates in the "layouts" directory.');
@@ -49,6 +51,8 @@ class UtilExtractTemplates extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $force = $input->getOption('force');
+
         try {
             $phar = new \Phar(Util\Plateform::getPharPath());
 
@@ -60,7 +64,7 @@ class UtilExtractTemplates extends AbstractCommand
                 $templatesList[] = Util::joinPath((string) $this->getBuilder()->getConfig()->get('layouts.internal.dir'), Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getInternalLayoutsPath()));
             }
 
-            $phar->extractTo($this->getBuilder()->getConfig()->getLayoutsPath(), $templatesList);
+            $phar->extractTo($this->getBuilder()->getConfig()->getLayoutsPath(), $templatesList, $force);
             Util\File::getFS()->mirror(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), (string) $this->getBuilder()->getConfig()->get('layouts.internal.dir')), $this->getBuilder()->getConfig()->getLayoutsPath());
             Util\File::getFS()->remove(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), 'resources'));
             $output->writeln(\sprintf('<info>Built-in templates extracted to "%s".</info>', $this->getBuilder()->getConfig()->get('layouts.dir')));
