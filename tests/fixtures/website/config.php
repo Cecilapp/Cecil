@@ -171,7 +171,7 @@ return [
                 'enabled' => true,
             ],
             'remote' => [
-                'enabled' => false,
+                'enabled' => true,
             ],
             'resize' => [
                 'enabled' => true,
