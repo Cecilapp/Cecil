@@ -57,11 +57,11 @@ class UtilExtractTemplates extends AbstractCommand
             ->files()
             ->in($this->getBuilder()->getConfig()->getInternalLayoutsPath());
             foreach ($templates as $template) {
-                $templatesList[] = Util::joinPath($this->getBuilder()->getConfig()->get('layouts.internal.dir'), Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getInternalLayoutsPath()));
+                $templatesList[] = Util::joinPath((string) $this->getBuilder()->getConfig()->get('layouts.internal.dir'), Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getInternalLayoutsPath()));
             }
 
             $phar->extractTo($this->getBuilder()->getConfig()->getLayoutsPath(), $templatesList);
-            Util\File::getFS()->mirror(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), $this->getBuilder()->getConfig()->get('layouts.internal.dir')), $this->getBuilder()->getConfig()->getLayoutsPath());
+            Util\File::getFS()->mirror(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), (string) $this->getBuilder()->getConfig()->get('layouts.internal.dir')), $this->getBuilder()->getConfig()->getLayoutsPath());
             Util\File::getFS()->remove(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), 'resources'));
             $output->writeln(\sprintf('<info>Built-in templates extracted to "%s".</info>', $this->getBuilder()->getConfig()->get('layouts.dir')));
         } catch (\Exception $e) {
