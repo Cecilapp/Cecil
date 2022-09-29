@@ -1,5 +1,5 @@
-title: "Cecil"
-baseline: "Your content driven static site generator."
+title: Cecil
+baseline: Your content driven static site generator.
 baseurl: https://cecil.local/
 description: "Cecil is a CLI application, powered by PHP, that merge plain text files (written in Markdown), images and Twig templates to generate a static website."
 author:

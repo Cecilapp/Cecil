@@ -1,0 +1,22 @@
+{% extends '_default/page.html.twig' %}
+
+            {%- block content_header ~%}
+            <h1>{{ page.title|e }}</h1>
+            <div>
+              <time>{{ page.date|format_date('long') }}</time> &middot; {% include 'partials/terms-list.html.twig' with {'page': page, 'vocabulary': 'tags'} only %}
+            </div>
+            {%- endblock content_header ~%}
+            {%- block content_footer ~%}
+            {%- if page.prev is defined or page.next is defined ~%}
+            <nav>
+              <ul>
+                {%- if page.prev is defined ~%}
+                <li><a href="{{ url(page.prev) }}">{{ page.prev.title }}</a></li>
+                {%- endif ~%}
+                {%- if page.next is defined ~%}
+                <li><a href="{{ url(page.next) }}">{{ page.next.title }}</a></li>
+                {%- endif ~%}
+              </ul>
+            </nav>
+            {%- endif ~%}
+            {%- endblock content_footer ~%}

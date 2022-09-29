@@ -1,9 +1,11 @@
 ---
-title: "Another page"
+title: "About"
 menu:
   main:
     weight: 999
 ---
-## Welcome to another page
+# About
+
+_Nothing here..._
 
 [back](../)

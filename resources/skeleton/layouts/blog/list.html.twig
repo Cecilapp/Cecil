@@ -1,0 +1,6 @@
+{% extends '_default/list.html.twig' %}
+
+          {%- block content_header ~%}
+          <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
+          <time>{{ p.date|format_date('long') }}</time>
+          {%- endblock content_header ~%}
