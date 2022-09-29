@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2022-09-08
+updated: 2022-09-30
 -->
 
 # Commands
@@ -27,6 +27,8 @@ Available commands:
  show
   show:config               Shows the configuration
   show:content              Shows content as tree
+ util
+  util:extract              Extracts built-in templates
 ```
 
 ## Main commands
