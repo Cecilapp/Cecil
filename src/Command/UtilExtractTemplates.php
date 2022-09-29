@@ -52,6 +52,7 @@ class UtilExtractTemplates extends AbstractCommand
         try {
             $phar = new \Phar(Util\Plateform::getPharPath());
 
+            $templatesList = [];
             $templates = Finder::create()
             ->files()
             ->in($this->getBuilder()->getConfig()->getInternalLayoutsPath());
