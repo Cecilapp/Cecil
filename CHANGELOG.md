@@ -2,16 +2,11 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### [7.8.0](https://github.com/Cecilapp/Cecil/compare/7.7.2...7.8.0)
+#### [7.8.0](https://github.com/Cecilapp/Cecil/compare/7.7.1...7.8.0)
 
 > 28 September 2022
 
 - feat: new paginator [`#1485`](https://github.com/Cecilapp/Cecil/pull/1485)
-
-#### [7.7.2](https://github.com/Cecilapp/Cecil/compare/7.7.1...7.7.2)
-
-> 28 September 2022
-
 - Apply fixes from StyleCI [`#1483`](https://github.com/Cecilapp/Cecil/pull/1483)
 - test: update and clean fixtures [`bccfc10`](https://github.com/Cecilapp/Cecil/commit/bccfc104ae0c21056f367c68489d54da2257f0c0)
 - chore: update deps [`afc2e99`](https://github.com/Cecilapp/Cecil/commit/afc2e9947f7ccf88c9bbaaf6a7cf5479c6f2861d)
