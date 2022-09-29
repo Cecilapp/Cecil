@@ -371,13 +371,13 @@ class Extension extends SlugifyExtension
      *
      * @return Asset
      */
-    public function resize($asset, int $size): Asset
+    public function resize($asset, ?int $width = null, ?int $height = null): Asset
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->resize($size);
+        return $asset->resize($width, $height);
     }
 
     /**

@@ -15,7 +15,7 @@ typora-root-url: ../../static
 
 ## Resize
 
-### Image resized to 100px
+### Image resized to 100px width
 
 ```markdown
 ![Alt text](/images/cecil-logo.png){width=100}
@@ -23,7 +23,15 @@ typora-root-url: ../../static
 
 ![Alt text](/images/cecil-logo.png){width=100}
 
-### External image resized to 250px
+### Image resized to 100px height
+
+```markdown
+![Alt text](/images/cecil-logo.png){height=150}
+```
+
+![Alt text](/images/cecil-logo.png){height=150}
+
+### External image resized to 250px width
 
 ```markdown
 ![Jamstatic](https://jamstatic.fr/assets/images/twitter-card.png){width=250}

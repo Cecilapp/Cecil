@@ -401,24 +401,22 @@ class Asset implements \ArrayAccess
      *
      * @throws RuntimeException
      */
-    public function resize(int $width): self
+    public function resize(?int $width = null, ?int $height = null): self
     {
-        if ($this->data['type'] != 'image') {
-            throw new RuntimeException(\sprintf('Not able to resize "%s": it\'s not an image', $this->data['path']));
+        if ($width === null && $height === null) {
+            return $this;
         }
-
-        if ($width >= $this->getWidth()) {
+        if ($width >= $this->getWidth() && $height >= $this->getHeight()) {
             return $this;
         }
 
         $assetResized = clone $this;
-        $assetResized->data['width'] = $width;
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x"]);
+        $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x{$height}"]);
         if (!$cache->has($cacheKey)) {
             if ($assetResized->data['type'] !== 'image') {
-                throw new RuntimeException(\sprintf('Not able to resize "%s"', $assetResized->data['path']));
+                throw new RuntimeException(\sprintf('Not able to resize "%s": it\'s not an image', $assetResized->data['path']));
             }
             if (!extension_loaded('gd')) {
                 throw new RuntimeException('GD extension is required to use images resize.');
@@ -426,18 +424,24 @@ class Asset implements \ArrayAccess
 
             try {
                 $img = ImageManager::make($assetResized->data['content_source']);
-                $img->resize($width, null, function (\Intervention\Image\Constraint $constraint) {
+                $img->resize($width, $height, function (\Intervention\Image\Constraint $constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             } catch (\Exception $e) {
                 throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }
-            $assetResized->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $width, $assetResized->data['path']);
+            $assetResized->data['width'] = $assetResized->getWidth();
+            $assetResized->data['height'] = $assetResized->getHeight();
+            $assetResized->data['path'] = '/'.Util::joinPath(
+                (string) $this->config->get('assets.target'),
+                (string) $this->config->get('assets.images.thumbnails.dir'),
+                "{$width}x{$height}",
+                $assetResized->data['path']
+            );
 
             try {
                 $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $this->config->get('assets.images.quality'));
-                $assetResized->data['height'] = $assetResized->getHeight();
             } catch (\Exception $e) {
                 throw new RuntimeException(\sprintf('Not able to encode image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }

@@ -191,7 +191,7 @@ return [
                 'enabled' => true,  // adds `loading="lazy"` attribute (`true` by default)
             ],
             'resize' => [
-                'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
+                'enabled' => false, // enables image resizing by using the `width` or 'height' extra attribute (`false` by default)
             ],
             'responsive' => [
                 'enabled' => false, // creates responsive images and add them to the `srcset` attribute (`false` by default)
@@ -265,6 +265,9 @@ return [
             ],
             'webp' => [
                 'enabled' => false, // creates a WebP version of images with `html` filter (`false` by default)
+            ],
+            'thumbnails' => [
+                'dir' => 'thumbnails', // where thumbnails are stored (in the assets target directory)
             ],
         ],
     ],
