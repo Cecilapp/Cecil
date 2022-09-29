@@ -88,6 +88,10 @@ In most of cases **you don’t need to [specify the template](2-Content.md#prede
 2. `_default/term.<format>.twig`
 3. `_default/list.<format>.twig`
 
+:::info
+Most of those templates a available by default, see [built-in templates](#built-in-templates).
+:::
+
 ## Variables
 
 > The application passes variables to the templates for manipulation in the template. Variables may have attributes or elements you can access, too.
@@ -965,29 +969,26 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 ### Default templates
 
 [`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
-:   A very simple default main template with a clean CSS.
+:   A simple default main template with a clean CSS.
 
 [`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
 :   A pages list with (optional) pagination.
 
 [`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
-:   A basic list of all terms of a vocabulary.
-
-[`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
-:   A clean Atom feed for sections.
-
-[`_default/list.rss.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.rss.twig)
-:   A clean RSS feed for sections.
+:   A simple list of all terms of a vocabulary.
 
 ### Utility templates
-
-[`robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/robots.txt.twig)
-:   The `robots.txt` template: allow all pages except 404, with a reference to the XML sitemap.
 
 [`sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/sitemap.xml.twig)
 :   The `sitemap.xml` template: list all pages sorted by date.
 
+[`robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/robots.txt.twig)
+:   The `robots.txt` template: allow all pages except 404, with a reference to the XML sitemap.
+
 ### Partial templates
+
+[`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
+:   Main menu navigation.
 
 [`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
 :   A simple paginated navigation for list templates with "Previous" and "Next" links.
@@ -995,11 +996,8 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
 :   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
 
-[`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
-:   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).
-
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
 :   Switcher between [languages](4-Configuration.md#languages).
 
-[`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
-:   Menu navigation.
+[`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
+:   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).

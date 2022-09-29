@@ -1,0 +1,6 @@
+{%- if page.translations|default({})|length >= 1 -%}
+  {%- for alternate in page.translations ~%}
+    <link rel="alternate" hreflang="{{ alternate.language }}" href="{{ url(alternate, {canonical: true}) }}">
+  {%- endfor ~%}
+    <link rel="alternate" hreflang="x-default" href="{{ url(page, {canonical: true}) }}">
+{%- endif -%}

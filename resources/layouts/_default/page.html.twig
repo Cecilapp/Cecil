@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ site.language }}">
+<html lang="{{ page.language|default(site.language) }}">
   <head>
     {%- block head ~%}
     <meta charset="UTF-8" />
@@ -492,18 +492,21 @@
   <body>
     <header>
       <h1>{{ site.title }}</h1>
-      {%- if site.menus.main|length > 1 ~%}
-      {%~ include 'partials/navigation.html.twig' ~%}
-      {%- endif ~%}
+      {%- include 'partials/navigation.html.twig' with {'menu': site.menus.main} only ~%}
     </header>
     <main>
       {%- block content ~%}
+      {%- block content_header %}{% endblock content_header ~%}
       {{ page.content }}
+      {%- block content_footer %}{% endblock content_footer ~%}
       {%- endblock content ~%}
     </main>
     <footer>
-      <small>Powered by <a href="{{ cecil.url }}">Cecil</a> &amp; <a href="https://newcss.net">new.css</a></small>
+      {%- set powered_by -%}
+      <a href="{{ cecil.url }}">Cecil</a> &amp; <a href="https://newcss.net">new.css</a>
+      {%- endset ~%}
+      <small>{% trans %}Powered by %powered_by%{% endtrans %}</small>
     </footer>
-    {%~ include 'partials/googleanalytics.js.twig' with {site} only ~%}
+    {%- include 'partials/googleanalytics.js.twig' with {site} only ~%}
   </body>
 </html>

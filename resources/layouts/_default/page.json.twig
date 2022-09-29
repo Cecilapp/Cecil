@@ -11,8 +11,8 @@
   ]
 {#- meta #}
 {% block meta %}
-{% if meta is not defined and pagination is defined %}
-{% set meta = {'totalPages': pagination.totalpages} %}
+{% if meta is not defined and paginator is defined %}
+{% set meta = {'totalPages': paginator.totalpages} %}
 {% endif %}
 {% if meta is defined %},
   "meta": {
@@ -24,17 +24,17 @@
 {% endblock meta %}
 {# links #}
 {% block links %}
-{% if links is not defined and pagination is defined %}
+{% if links is not defined and paginator is defined %}
 {% set links = {
-  'self': url(pagination.links.self, {canonical: true, format: 'json'}),
-  'first': url(pagination.links.first, {canonical: true, format: 'json'}),
-  'last': url(pagination.links.last, {canonical: true, format: 'json'})
+  'self': url(paginator.links.self, {canonical: true, format: 'json'}),
+  'first': url(paginator.links.first, {canonical: true, format: 'json'}),
+  'last': url(paginator.links.last, {canonical: true, format: 'json'})
 } %}
-{% if pagination.links.prev is defined %}
-{% set links = links|merge({'prev': url(pagination.links.prev, {canonical: true, format: 'json'})}) %}
+{% if paginator.links.prev is defined %}
+{% set links = links|merge({'prev': url(paginator.links.prev, {canonical: true, format: 'json'})}) %}
 {% endif %}
-{% if pagination.links.next is defined %}
-{% set links = links|merge({'next': url(pagination.links.next, {canonical: true, format: 'json'})}) %}
+{% if paginator.links.next is defined %}
+{% set links = links|merge({'next': url(paginator.links.next, {canonical: true, format: 'json'})}) %}
 {% endif %}
 {% endif %}
 {% if links is defined %},

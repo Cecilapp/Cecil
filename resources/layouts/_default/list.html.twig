@@ -1,21 +1,28 @@
+{# all "showable pages by default #}
 {% set pages = site.pages.showable %}
+{# in case of a list page, take its sub pages #}
 {% if page.pages is defined %}
   {%- set pages = page.pages -%}
 {% endif %}
+{# in case of a paginated list page, take the paginator list pages #}
 {% if page.paginator.pages is defined %}
   {%- set pages = page.paginator.pages -%}
 {% endif %}
 
 {% extends '_default/page.html.twig' %}
 
-{% block content %}
-      {{ page.content }}
-      {%- for p in pages ~%}
-      <article>
-        <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
-        <time>{{ p.date|date("j M Y") }}</time>
-        {{ p.content|excerpt_html }}
-      </article>
-      {%- endfor ~%}
-    {%~ include 'partials/pagination.html.twig' with {'page': page} only ~%}
-{% endblock content %}
+      {%- block content ~%}
+      <section>
+        <h1>{{ page.title }}</h1>
+        {{- page.content ~}}
+        {%- for p in pages ~%}
+        <article>
+          {%- block content_header ~%}
+          <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
+          {%- endblock content_header ~%}
+          {{ p.content|excerpt_html }}
+        </article>
+        {%- endfor ~%}
+        {%- include 'partials/paginator.html.twig' with {'page': page} only ~%}
+      </section>
+      {%- endblock content ~%}
