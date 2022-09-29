@@ -968,7 +968,7 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 :   A very simple default main template with a clean CSS.
 
 [`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
-:   A pages list with pagination.
+:   A pages list with (optional) pagination.
 
 [`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
 :   A basic list of all terms of a vocabulary.
@@ -989,8 +989,8 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 
 ### Partial templates
 
-[`partials/pagination.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/pagination.html.twig)
-:   A simple pagination for list templates with "Older" and "Newer" links.
+[`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
+:   A simple paginated navigation for list templates with "Previous" and "Next" links.
 
 [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
 :   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
