@@ -200,6 +200,10 @@ class Asset implements \ArrayAccess
             $this->builder->getLogger()->error($e->getMessage());
         }
 
+        if ($this->builder->getConfig()->get('canonicalurl')) {
+            return (string) new Url($this->builder, $this->data['path'], ['canonical' => true]);
+        }
+
         return $this->data['path'];
     }
 
