@@ -462,6 +462,14 @@ class Page extends Item
     }
 
     /**
+     * Paginator backward compatibility.
+     */
+    public function getPagination(): array
+    {
+        return $this->getPaginator();
+    }
+
+    /**
      * Set vocabulary terms.
      */
     public function setTerms(\Cecil\Collection\Taxonomy\Vocabulary $terms): self

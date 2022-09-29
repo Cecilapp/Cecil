@@ -2,8 +2,8 @@
 {% if page.pages is defined %}
   {%- set pages = page.pages -%}
 {% endif %}
-{% if page.pagination.pages is defined %}
-  {%- set pages = page.pagination.pages -%}
+{% if page.paginator.pages is defined %}
+  {%- set pages = page.paginator.pages -%}
 {% endif %}
 
 {% extends '_default/page.html.twig' %}
