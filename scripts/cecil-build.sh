@@ -144,6 +144,7 @@ else
 fi
 
 # Run build
+CECIL_CMD_OPTIONS="${CECIL_CMD_OPTIONS%[[:space:]]}"
 echo "Running \"${CECIL_CMD} build ${CECIL_CMD_OPTIONS}\"";
 $CECIL_CMD build $CECIL_CMD_OPTIONS
 BUILD_SUCCESS=$?
