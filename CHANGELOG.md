@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.10.0](https://github.com/Cecilapp/Cecil/compare/7.9.1...7.10.0)
+
+> 30 September 2022
+
+- feat: internal translations [`#1496`](https://github.com/Cecilapp/Cecil/pull/1496)
+- refactor: cleaning internal templates [`0648ccf`](https://github.com/Cecilapp/Cecil/commit/0648ccf3d45322c4035b3c0348aafddb7c9cfbe3)
+- test: fix templates [`4ac3ed1`](https://github.com/Cecilapp/Cecil/commit/4ac3ed12a9268afcf041ee625f144de781831bb6)
+- fix: translation in feed template [`9fd1e84`](https://github.com/Cecilapp/Cecil/commit/9fd1e84392dd8e3fd77d2857a93c5b7370f77124)
+
 #### [7.9.1](https://github.com/Cecilapp/Cecil/compare/7.9.0...7.9.1)
 
 > 30 September 2022
