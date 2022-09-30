@@ -950,7 +950,7 @@ _Example:_
 ```
 
 :::tip
-[_Poedit Pro_](https://poedit.net/pro) (~ 35 €) is recommended to easily translate your templates.
+[_Poedit Pro_](https://poedit.net/pro) is recommended to easily translate your templates.
 :::
 
 :::important
@@ -963,7 +963,10 @@ Uses the Twig [`format_date`](https://twig.symfony.com/doc/3.x/filters/format_da
 
 ```twig
 {{ page.date|format_date('long') }}
+# September 30, 2022
 ```
+
+Supported values are: `short`, `medium`, `long`, and `full`.
 
 :::important
 If you want to use the `format_date` filter **with other locales than "en"**, you should [install the intl PHP extension](https://php.net/intl.setup).
