@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-  <head lang="{{ page.language|default(site.language) }}">
+  <head lang="{{ site.language }}">
     <meta charset="utf-8">
-    <title>Redirecting&hellip;</title>
+    <title>{% trans %}Redirecting…{% endtrans %}</title>
     <link rel="canonical" href="{{ url(page.redirect, {canonical: true}) }}" />
     <meta name="robots" content="noindex" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -12,8 +12,8 @@
     </script>
   </head>
   <body>
-    <h1>Redirecting&hellip;</h1>
-    <a href="{{ url(page.redirect) }}">Click here if you are not redirected.</a>
+    <h1>{% trans %}Redirecting…{% endtrans %}</h1>
+    <a href="{{ url(page.redirect) }}">{% trans %}Click here if you are not redirected.{% endtrans %}</a>
     {%- if site.googleanalytics is defined ~%}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.googleanalytics }}"></script>
     <script>

@@ -1,7 +1,7 @@
 {% set author_name = site.author.name|default(site.title) %}
 {% set author_uri = site.author.url|default(site.baseurl) %}
 
-{% extends 'feed.twig' %}
+{% extends 'extended/feed.twig' %}
 
 {% block feed %}
 <?xml version="1.0" encoding="utf-8"?>

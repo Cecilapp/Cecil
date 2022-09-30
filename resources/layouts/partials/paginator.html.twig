@@ -3,14 +3,14 @@
         <nav>
           <ul>
             {%- if links.prev is defined ~%}
-            <li><a href="{{ url(links.prev) }}">Previous</a></li>
+            <li><a href="{{ url(links.prev) }}">{% trans %}Previous{% endtrans %}</a></li>
             {%- else ~%}
-            <li>Previous</li>
+            <li>{% trans %}Previous{% endtrans %}</li>
             {%- endif ~%}
             {%- if links.next is defined ~%}
-            <li><a href="{{ url(links.next) }}">Next</a></li>
+            <li><a href="{{ url(links.next) }}">{% trans %}Next{% endtrans %}</a></li>
             {%- else ~%}
-            <li>Next</li>
+            <li>{% trans %}Next{% endtrans %}</li>
             {%- endif ~%}
           </ul>
         </nav>

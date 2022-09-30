@@ -1,7 +1,7 @@
 {% extends '_default/page.html.twig' %}
 
-{% block content %}
-{{ parent() }}
+      {%- block content ~%}
+      {{- parent() ~}}
       <ul>
         {%- for term in page.terms ~%}
         <li>
@@ -9,4 +9,4 @@
         </li>
         {%- endfor ~%}
       </ul>
-{% endblock %}
+      {%- endblock ~%}
