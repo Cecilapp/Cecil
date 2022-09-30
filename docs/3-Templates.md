@@ -42,13 +42,20 @@ Templates files are stored in `layouts/`.
 
 ## Lookup rules
 
-In most of cases **you don’t need to [specify the template](2-Content.md#predefined-variables)** to use: Cecil selects the most appropriate template, by page type.
+In most of cases **you don’t need to specify the template** to use through the `layout` variable in the [front matter](2-Content.md#front-matter) of the page : Cecil selects the most appropriate template, by page _type_.
+
+For example, the _homepage_ will be rendered by the template:
+
+1. `my_template.html.twig` if the `layout` variable is set to `my_template` in the front matter of `index.md`
+2. if not, `index.html.twig` if the file exists in the layout directory
+3. if not, `list.html.twig`
+4. etc. (See below)
 
 :::
 **Glossary:**
 
-- `<format>`: output format (e.g.: `html`)
 - `<layout>`: value of variable `layout` set in front matter (e.g.: `layout: post`)
+- `<format>`: output format (e.g.: `html`)
 - `<section>`: page’s _Section_ (e.g.: `blog`)
 :::
 
@@ -89,7 +96,7 @@ In most of cases **you don’t need to [specify the template](2-Content.md#prede
 3. `_default/list.<format>.twig`
 
 :::info
-Most of those templates a available by default, see [built-in templates](#built-in-templates).
+Most of those templates are available by default, see [built-in templates](#built-in-templates).
 :::
 
 ## Variables
@@ -967,7 +974,7 @@ If you want to use the `format_date` filter **with other locales than "en"**, yo
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
 
 :::tips
-You can extract built-in templates in the "layouts" directory of your site with the following command:
+If you need to modify the default templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
 
 ```bash
 php cecil.phar util:extract
