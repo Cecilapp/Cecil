@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.10.1](https://github.com/Cecilapp/Cecil/compare/7.10.0...7.10.1)
+
+> 30 September 2022
+
+- chore: update deps [`4798fc3`](https://github.com/Cecilapp/Cecil/commit/4798fc3a8fe67dcf179015e58427fd15efee52f4)
+- fix: load root locale version of a trans if exists [`afba2d3`](https://github.com/Cecilapp/Cecil/commit/afba2d39bf55589aab700528a240baf9af4e08c1)
+- docs: update templates documentation [`6d8d58d`](https://github.com/Cecilapp/Cecil/commit/6d8d58d713bde8c719c80bde281566548ebc8ec3)
+
 #### [7.10.0](https://github.com/Cecilapp/Cecil/compare/7.9.1...7.10.0)
 
 > 30 September 2022
