@@ -234,6 +234,9 @@ return [
     'translations' => [
         'dir'     => 'translations',
         'formats' => ['yaml', 'mo'],
+        'internal' => [
+            'dir' => 'resources/translations',
+        ],
     ],
     'assets' => [
         'dir'     => 'assets',
