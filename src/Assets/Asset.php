@@ -77,18 +77,19 @@ class Asset implements \ArrayAccess
             }
         });
         $this->data = [
-            'file'           => '', // absolute file path
-            'filename'       => '', // filename
-            'path_source'    => '', // public path to the file, before transformations
-            'path'           => '', // public path to the file, after transformations
-            'ext'            => '', // file extension
-            'type'           => '', // file type (e.g.: image, audio, video, etc.)
-            'subtype'        => '', // file media type (e.g.: image/png, audio/mp3, etc.)
-            'size'           => 0,  // file size (in bytes)
-            'content_source' => '', // file content, before transformations
-            'content'        => '', // file content, after transformations
-            'width'          => 0,  // width (in pixels) in case of an image
-            'height'         => 0,  // height (in pixels) in case of an image
+            'file'           => '',    // absolute file path
+            'filename'       => '',    // filename
+            'path_source'    => '',    // public path to the file, before transformations
+            'path'           => '',    // public path to the file, after transformations
+            'missing'        => false, // if file not found, but missing ollowed 'missing' is true
+            'ext'            => '',    // file extension
+            'type'           => '',    // file type (e.g.: image, audio, video, etc.)
+            'subtype'        => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
+            'size'           => 0,     // file size (in bytes)
+            'content_source' => '',    // file content, before transformations
+            'content'        => '',    // file content, after transformations
+            'width'          => 0,     // width (in pixels) in case of an image
+            'height'         => 0,     // height (in pixels) in case of an image
         ];
 
         // handles options
@@ -124,7 +125,8 @@ class Asset implements \ArrayAccess
                 }
                 // missing allowed = empty path
                 if ($file[$i]['missing']) {
-                    $this->data['path'] = '';
+                    $this->data['missing'] = true;
+                    $this->data['path'] = $file[$i]['path'];
 
                     continue;
                 }
@@ -407,10 +409,12 @@ class Asset implements \ArrayAccess
      */
     public function resize(int $width): self
     {
-        if ($this->data['type'] != 'image') {
-            throw new RuntimeException(\sprintf('Not able to resize "%s": it\'s not an image', $this->data['path']));
+        if ($this->data['missing']) {
+            throw new RuntimeException(\sprintf('Not able to resize "%s": file not found', $this->data['path']));
         }
-
+        if ($this->data['type'] != 'image') {
+            throw new RuntimeException(\sprintf('Not able to resize "%s": not an image', $this->data['path']));
+        }
         if ($width >= $this->getWidth()) {
             return $this;
         }
@@ -605,6 +609,7 @@ class Asset implements \ArrayAccess
 
         if (false === $filePath = $this->findFile($path)) {
             if ($ignore_missing) {
+                $file['path'] = $path;
                 $file['missing'] = true;
 
                 return $file;
