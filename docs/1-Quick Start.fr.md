@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site et prévisualiser le localement."
 date: 2021-11-03
-updated: 2022-08-15
+updated: 2022-09-30
 slug: demarrage-rapide
 menu: home
 -->
@@ -33,7 +33,9 @@ Si votre objectif est de gérer rapidement le contenu, et de décider plus tard 
 
 Comment créer un site Web en quelques étapes.
 
-> Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
+:::info
+Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
+:::
 
 ### Télécharger Cecil
 

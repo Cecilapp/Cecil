@@ -1,7 +1,7 @@
 <!--
 description: "Create a new site and preview it locally."
 date: 2020-12-19
-updated: 2022-08-15
+updated: 2022-09-30
 menu: home
 -->
 
@@ -27,7 +27,9 @@ If your goal is managing content quickly, and decide later where to deploy it, l
 
 How to create create a website in a few steps.
 
-> Demo of expected result: <https://cecilapp.github.io/skeleton/>.
+:::info
+Demo of expected result: <https://cecilapp.github.io/skeleton/>.
+:::
 
 ### Download Cecil
 
