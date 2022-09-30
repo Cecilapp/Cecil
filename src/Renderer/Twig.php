@@ -159,11 +159,18 @@ class Twig implements RendererInterface
      */
     public function addTransResource(string $translationsDir, string $locale): void
     {
-        foreach ($this->builder->getConfig()->get('translations.formats') as $format) {
-            $translationFile = realpath(Util::joinFile($translationsDir, \sprintf('messages.%s.%s', $locale, $format)));
-            if ($translationFile !== false && Util\File::getFS()->exists($translationFile)) {
-                $this->translator->addResource($format, $translationFile, $locale);
-                $this->builder->getLogger()->debug(\sprintf('Translation "%s" added', $translationFile));
+        $locales[] = $locale;
+        // if locale is 'fr_FR', trying to load ['fr', 'fr_FR']
+        if (strlen($locale) > 2) {
+            array_unshift($locales, substr($locale, 0, 2));
+        }
+        foreach ($locales as $locale) {
+            foreach ($this->builder->getConfig()->get('translations.formats') as $format) {
+                $translationFile = realpath(Util::joinFile($translationsDir, \sprintf('messages.%s.%s', $locale, $format)));
+                if ($translationFile !== false && Util\File::getFS()->exists($translationFile)) {
+                    $this->translator->addResource($format, $translationFile, $locale);
+                    $this->builder->getLogger()->debug(\sprintf('Translation "%s" added', $translationFile));
+                }
             }
         }
     }
