@@ -9,10 +9,12 @@ on:
     paths-ignore:
       - 'docs/**'
       - '.github/**'
+      - 'scripts/**'
   pull_request:
     paths-ignore:
       - 'docs/**'
       - '.github/**'
+      - 'scripts/**'
 
 jobs:
   test:
