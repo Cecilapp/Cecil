@@ -20,6 +20,8 @@
         "*.txt",
         "*.xml",
         "*.xsd",
+        "*.mo",
+        "*.po",
         "LICENSE*",
         "License*",
         "VERSION"
