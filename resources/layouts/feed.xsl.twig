@@ -101,7 +101,7 @@
           </h1>
           <p>{% trans %}To subscribe to this feed, copy its URL to your feed reader.{% endtrans %} <a href="https://aboutfeeds.com/#1-what-is-a-feed-aka-rss">{% trans %}What is a feed? (a.k.a. RSS){% endtrans %}</a></p>
           <form>
-            <label for="feed-url">Feed URL:</label>
+            <label for="feed-url">{% trans %}Feed URL:{% endtrans %}</label>
             <input id="feed-url" onClick="this.select();">
               <xsl:attribute name="type">url</xsl:attribute>
               <xsl:attribute name="url">URL</xsl:attribute>
