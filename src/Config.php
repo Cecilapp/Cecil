@@ -303,6 +303,14 @@ class Config
     }
 
     /**
+     * Returns the path of internal translations directory.
+     */
+    public function getInternalTranslationsPath(): string
+    {
+        return Util::joinPath(__DIR__, '..', (string) $this->get('translations.internal.dir'));
+    }
+
+    /**
      * Returns the path of the output directory.
      */
     public function getOutputPath(): string

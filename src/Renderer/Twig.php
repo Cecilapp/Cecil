@@ -88,6 +88,8 @@ class Twig implements RendererInterface
                 }
             }
             foreach ($this->builder->getConfig()->getLanguages() as $lang) {
+                // internal
+                $this->addTransResource($this->builder->getConfig()->getInternalTranslationsPath(), $lang['locale']);
                 // themes
                 if ($themes = $this->builder->getConfig()->getTheme()) {
                     foreach ($themes as $theme) {
