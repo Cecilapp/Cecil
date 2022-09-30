@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.9.1](https://github.com/Cecilapp/Cecil/compare/7.9.0...7.9.1)
+
+> 30 September 2022
+
+- fix: do not try to resize missing favicon [`#1490`](https://github.com/Cecilapp/Cecil/pull/1490)
+- docs: minor update [`6f4a5af`](https://github.com/Cecilapp/Cecil/commit/6f4a5af6a39d292a07e6ae3fae84cfc435120018)
+
 #### [7.9.0](https://github.com/Cecilapp/Cecil/compare/7.8.1...7.9.0)
 
 > 30 September 2022
