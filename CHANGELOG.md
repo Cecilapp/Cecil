@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.9.0](https://github.com/Cecilapp/Cecil/compare/7.8.1...7.9.0)
+
+> 30 September 2022
+
+- feat: new command to extract templates [`#1489`](https://github.com/Cecilapp/Cecil/pull/1489)
+- refactor: enhance skeleton [`69f3ab8`](https://github.com/Cecilapp/Cecil/commit/69f3ab8d93d45ace9223430c0ae36808eb9bb440)
+- refactor: update built-in templates [`91cb21b`](https://github.com/Cecilapp/Cecil/commit/91cb21b1c1cfc29ab3c109ca0399313d8a7b2869)
+- docs: update paginator details [`b8f2f6a`](https://github.com/Cecilapp/Cecil/commit/b8f2f6a13b90bd04e3f978d188c84b2479a207eb)
+- fix: asset as string must return a valid URL [`c8bb0e9`](https://github.com/Cecilapp/Cecil/commit/c8bb0e9d0d9871761e3ebecf75f63780df68dbd4)
+
 #### [7.8.1](https://github.com/Cecilapp/Cecil/compare/7.8.0...7.8.1)
 
 > 29 September 2022
