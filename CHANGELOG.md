@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.10.2](https://github.com/Cecilapp/Cecil/compare/7.10.1...7.10.2)
+
+> 30 September 2022
+
+- docs: minor update of templates documentation [`0790028`](https://github.com/Cecilapp/Cecil/commit/0790028d78d2bbe4393276fc48b9ee8cfe5517b3)
+- fix: phar must include mo files [`d27515d`](https://github.com/Cecilapp/Cecil/commit/d27515d26ffda4ab1f16de4972fdd4f31ebaa510)
+
 #### [7.10.1](https://github.com/Cecilapp/Cecil/compare/7.10.0...7.10.1)
 
 > 30 September 2022
