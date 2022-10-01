@@ -62,6 +62,7 @@ class Url
         // handles options
         $canonical = null;
         $format = null;
+        $language = null;
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // canonical URL?
@@ -102,6 +103,12 @@ class Url
             case is_string($value):
                 // potential Page ID
                 $pageId = self::$slugifier->slugify($value);
+                // force language?
+                $lang = '';
+                if ($language !== null && $language != $this->config->getLanguageDefault()) {
+                    $pageId = "$pageId.$language";
+                    $lang = "$language/";
+                }
                 switch (true) {
                     // External URL
                     case Util\Url::isUrl($value):
@@ -117,7 +124,7 @@ class Url
                         break;
                     // default case
                     default:
-                        $this->url = $base.'/'.ltrim($value, '/');
+                        $this->url = $base.'/'.$lang.ltrim($value, '/');
                 }
         }
     }

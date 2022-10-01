@@ -317,6 +317,7 @@ Create a valid URL for a page, a page ID or a path.
 | --------- | ------------------------------------------ | ------- | ------- |
 | canonical | Prefixes the relative URL with `baseurl`.  | boolean | `false` |
 | format    | Defines page output format (e.g.: `json`). | string  | `html`  |
+| language  | Trying to force language (e.g.: `fr`).     | string  | null    |
 
 For assets prefer the [`url` filter](#url-1).
 
@@ -325,6 +326,7 @@ _Examples:_
 ```twig
 {{ url(page) }}
 {{ url('page-id') }}
+{{ url('page-id', {'language': 'fr'}) }}
 {{ url(menu.url) }}
 {{ url('tags/'~tag) }}
 ```
