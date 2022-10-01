@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.10.3](https://github.com/Cecilapp/Cecil/compare/7.10.2...7.10.3)
+
+> 1 October 2022
+
+- fix: detection of internal translation file [`9f063eb`](https://github.com/Cecilapp/Cecil/commit/9f063ebfa56e084d41c3c121f3d8f13ce2d8bc1d)
+
 #### [7.10.2](https://github.com/Cecilapp/Cecil/compare/7.10.1...7.10.2)
 
 > 30 September 2022
