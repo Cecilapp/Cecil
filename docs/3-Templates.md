@@ -326,6 +326,7 @@ _Examples:_
 ```twig
 {{ url(page) }}
 {{ url('page-id') }}
+{{ url('page-id', {'language': 'fr'}) }}
 {{ url(menu.url) }}
 {{ url('tags/'~tag) }}
 ```
