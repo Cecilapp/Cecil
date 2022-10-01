@@ -166,10 +166,10 @@ class Twig implements RendererInterface
         }
         foreach ($locales as $locale) {
             foreach ($this->builder->getConfig()->get('translations.formats') as $format) {
-                $translationFile = realpath(Util::joinFile($translationsDir, \sprintf('messages.%s.%s', $locale, $format)));
-                if ($translationFile !== false && Util\File::getFS()->exists($translationFile)) {
+                $translationFile = Util::joinPath($translationsDir, \sprintf('messages.%s.%s', $locale, $format));
+                if (Util\File::getFS()->exists($translationFile)) {
                     $this->translator->addResource($format, $translationFile, $locale);
-                    $this->builder->getLogger()->debug(\sprintf('Translation "%s" added', $translationFile));
+                    $this->builder->getLogger()->debug(\sprintf('Translation file "%s" added', $translationFile));
                 }
             }
         }
