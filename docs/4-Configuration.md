@@ -259,7 +259,7 @@ metatags:
 
 ### language
 
-Main language, defined by its code.
+The main language, defined by its code.
 
 ```yaml
 language: <language code> # unique code (`en` by default)
@@ -267,7 +267,7 @@ language: <language code> # unique code (`en` by default)
 
 ### languages
 
-List of available languages, used for [content](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
+List of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
 
 ```yaml
 languages:
@@ -282,9 +282,9 @@ languages:
 - A list of [locales code](configuration/locale-codes.md) is avalaible
 :::
 
-#### Localize configuration variables
+#### Localize configuration options
 
-To localize configuration variables you must store them under the `config` key.
+To localize configuration options you must store them under the `config` key of the language.
 
 _Example:_
 
@@ -831,7 +831,7 @@ class MyGenerator extends AbstractGenerator implements GeneratorInterface
 
 ### Environment variables
 
-The configuration can be defined through [environment variables](https://en.wikipedia.org/wiki/Environment_variable).
+The configuration can be overridden through [environment variables](https://en.wikipedia.org/wiki/Environment_variable).
 
 Each environment variable name must be prefixed with `CECIL_` and the configuration key must be set in uppercase.
 
@@ -840,3 +840,7 @@ For example, the following command set the website’s `baseurl`:
 ```bash
 export CECIL_BASEURL="https://example.com/"
 ```
+
+:::important
+Only existing configuration options can be overridden: you can’t create new configuration options with environment variables.
+:::

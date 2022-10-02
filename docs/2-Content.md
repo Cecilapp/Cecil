@@ -686,6 +686,8 @@ You can change the URL of the translated page by adding a `slug` variable in the
 ---
 slug: a-propos
 ---
+# about.md    -> /about/
+# about.fr.md -> /fr/a-propos/
 ```
 :::
 
@@ -711,7 +713,7 @@ Those pages collection is available in [templates](3-Templates.md#page) with the
 {{ page.translations }}
 ```
 
-:::tip
+:::info
 The `langref` variable is provided by default, but you can change it in the front matter:
 
 ```yml

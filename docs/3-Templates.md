@@ -952,7 +952,7 @@ _Example:_
 ```
 
 :::info
-The locale code (e.g.: `fr_FR`) of a language is defined in the [`languages` entries of the configuration](4-Configuration.md#languages).
+The locale code (e.g.: `fr_FR`) of a language is defined in the [`languages`](4-Configuration.md#languages) entries of the configuration.
 :::
 
 :::tip
