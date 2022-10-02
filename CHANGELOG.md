@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.11.0](https://github.com/Cecilapp/Cecil/compare/7.10.3...7.11.0)
+
+> 2 October 2022
+
+- feat: add 'language' option to Twig url() [`#1497`](https://github.com/Cecilapp/Cecil/pull/1497)
+
 #### [7.10.3](https://github.com/Cecilapp/Cecil/compare/7.10.2...7.10.3)
 
 > 1 October 2022
