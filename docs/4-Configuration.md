@@ -301,6 +301,11 @@ languages:
       title: "Cecil en français"
 ```
 
+:::info
+In [templates](3-Templates.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.  
+If an option is not available in the current language (e.g.: `fr`) it fallback to the global one.
+:::
+
 ### theme
 
 The theme name or an array of themes name.
