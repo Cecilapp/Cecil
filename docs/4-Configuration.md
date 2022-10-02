@@ -592,7 +592,7 @@ Pages’ variables format (YAML by default).
 
 ```yaml
 frontmatter:
-  format: yaml # front matter format (`yaml` by default)
+  format: yaml # front matter format `yaml`, `ini`, `toml` or `json` (`yaml` by default)
 ```
 
 #### body
@@ -601,7 +601,7 @@ Pages’ content format and converter’s options.
 
 ```yaml
 body:
-  format: md         # page body format (only Markdown is supported)
+  format: md         # page body format (only `md`, Markdown, is supported)
   toc: [h2, h3]      # headers used to build the table of contents
   highlight:
     enabled: false   # enables code syntax highlighting (`false` by default)

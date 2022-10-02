@@ -49,7 +49,8 @@
     "twig/twig": "^3.4",
     "voku/html-min": "^4.5",
     "wapmorgan/mp3info": "^0.0",
-    "yosymfony/resource-watcher": "^3.0"
+    "yosymfony/resource-watcher": "^3.0",
+    "yosymfony/toml": "^1.0"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.28",

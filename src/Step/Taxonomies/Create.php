@@ -91,7 +91,7 @@ class Create extends AbstractStep
     }
 
     /**
-     * Collects vocabularies/terms from pages frontmatter.
+     * Collects vocabularies/terms from pages front matter.
      */
     protected function collectTermsFromPages(): void
     {

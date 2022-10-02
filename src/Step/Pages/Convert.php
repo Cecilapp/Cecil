@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
+use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
+use Cecil\Converter\ConverterInterface;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
@@ -65,7 +67,7 @@ class Convert extends AbstractStep
                 $count++;
 
                 try {
-                    $convertedPage = $this->convertPage($page, (string) $this->config->get('frontmatter.format'));
+                    $convertedPage = $this->convertPage($this->builder, $page);
                     // set default language (ex: "en") if necessary
                     if ($convertedPage->getVariable('language') === null) {
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
@@ -139,15 +141,17 @@ class Convert extends AbstractStep
 
     /**
      * Converts page content:
-     * - Yaml frontmatter to PHP array
-     * - Markdown body to HTML.
+     *   - front matter to PHP array
+     *   - body to HTML.
      *
      * @throws RuntimeException
      */
-    public function convertPage(Page $page, $format = 'yaml'): Page
+    public function convertPage(Builder $builder, Page $page, ?string $format = null, ?ConverterInterface $converter = null): Page
     {
-        $converter = new Converter($this->builder);
-        // converts frontmatter
+        $format = $format ?? $builder->getConfig()->get('frontmatter.format') ?? 'yaml';
+        $converter = $converter ?? new Converter($builder);
+
+        // converts front matter
         if ($page->getFrontmatter()) {
             try {
                 $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
@@ -158,7 +162,7 @@ class Convert extends AbstractStep
             $page->setVariables($variables);
         }
 
-        // converts body only if page is published
+        // converts body (only if page is published or drafts option is enabled)
         if ($page->getVariable('published') || $this->options['drafts']) {
             try {
                 $html = $converter->convertBody($page->getBody());

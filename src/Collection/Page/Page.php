@@ -216,7 +216,7 @@ class Page extends Item
     }
 
     /**
-     * Get frontmatter.
+     * Get front matter.
      */
     public function getFrontmatter(): ?string
     {

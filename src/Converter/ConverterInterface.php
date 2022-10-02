@@ -19,9 +19,9 @@ namespace Cecil\Converter;
 interface ConverterInterface
 {
     /**
-     * Converts frontmatter.
+     * Converts front matter.
      */
-    public function convertFrontmatter(string $string, string $type): array;
+    public function convertFrontmatter(string $string, string $format): array;
 
     /**
      * Converts body.
