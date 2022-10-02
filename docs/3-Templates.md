@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-09-30
+updated: 2022-10-02
 alias: documentation/layouts
 -->
 
@@ -950,6 +950,10 @@ _Example:_
    ├─ messages.fr_FR.mo   <- Machine Object format
    └─ messages.fr_FR.yaml <- Yaml format
 ```
+
+:::info
+The locale code (e.g.: `fr_FR`) of a language is defined in the [`languages` entries of the configuration](4-Configuration.md#languages).
+:::
 
 :::tip
 [_Poedit Pro_](https://poedit.net/pro) is recommended to easily translate your templates.

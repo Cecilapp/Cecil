@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2022-09-18
+updated: 2022-10-02
 -->
 
 # Configuration
@@ -272,11 +272,12 @@ List of available languages, used for [content](2-Content.md#multilingual) and [
 ```yaml
 languages:
   - code: <code>     # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
-    name: <name>     # human readable name
+    name: <name>     # human readable name (e.g.: `Français`)
     locale: <locale> # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
 ```
 
 :::info
+
 - The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`)
 - A list of [locales code](configuration/locale-codes.md) is avalaible
 :::

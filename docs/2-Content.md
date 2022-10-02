@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-08-31
+updated: 2022-10-02
 -->
 
 # Content
@@ -664,21 +664,34 @@ exclude: true
 
 ## Multilingual
 
-If your pages are available in multiple [languages](4-Configuration.md#languages) there is 2 ways to define it:
+If your pages are available in multiple [languages](4-Configuration.md#languages) there is 2 differents ways to define it:
 
 ### Language in the file name
 
-Defines the page’s language by adding the language `code` as a suffix in the file name.
+This is the common way when you want to translate a page from the main [language](4-Configuration.md#language) to others languages.
+
+So you just need to duplicate the reference page and suffix it with the target language `code` (e.g.: `fr`).
 
 _Example:_
 
 ```plaintext
-about.fr.md
+├─ about.md    # the reference page in english (`en`)
+└─ about.fr.md # the french version (`fr`)
 ```
+
+:::tip
+You can change the URL of the translated page by adding a `slug` variable in the front matter. For example:
+
+```yml
+---
+slug: a-propos
+---
+```
+:::
 
 ### Language in the front matter
 
-Defines the page’s language by setting the `language` variable with language `code` as value in the front matter.
+If you want to create a page in a language other than the main language, without it being a translation of an existing page, you can use the `language` variable in its front matter.
 
 _Example:_
 
@@ -688,10 +701,17 @@ language: fr
 ---
 ```
 
-### Reference between translated pages
+### Link translations of a page
 
-Each page reference pages in others languages with the `langref` variable.
+Each translated page reference the pages in others languages.
 
+Those pages collection is available in [templates](3-Templates.md#page) with the following variable:
+
+```twig
+{{ page.translations }}
+```
+
+:::tip
 The `langref` variable is provided by default, but you can change it in the front matter:
 
 ```yml
@@ -699,6 +719,7 @@ The `langref` variable is provided by default, but you can change it in the fron
 langref: my-page-ref
 ---
 ```
+:::
 
 ## Dynamic content
 
