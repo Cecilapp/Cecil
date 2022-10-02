@@ -6,9 +6,9 @@ on:
       - master
     paths:
       - 'docs/**.md'
-  pull_request:
-    paths:
-      - 'docs/**.md'
+  #pull_request:
+  #  paths:
+  #    - 'docs/**.md'
 
 jobs:
   deploy:
