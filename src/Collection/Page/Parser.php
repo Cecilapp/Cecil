@@ -75,7 +75,7 @@ class Parser
     }
 
     /**
-     * Get frontmatter.
+     * Get front matter.
      */
     public function getFrontmatter(): ?string
     {

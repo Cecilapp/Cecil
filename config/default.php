@@ -178,7 +178,7 @@ return [
         'exclude' => ['vendor', 'node_modules'], // array of directories, paths and files name to exclude
     ],
     'frontmatter' => [
-        'format' => 'yaml',
+        'format' => 'yaml', // front matter format `yaml`, `ini`, `toml` or `json` (`yaml` by default)
     ],
     'body' => [
         'format'    => 'md',         // page body format (only Markdown is supported)
