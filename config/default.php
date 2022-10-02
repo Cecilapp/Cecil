@@ -154,16 +154,16 @@ return [
             'exclude'      => true,
             'multilingual' => false,
         ],
-        'atom' => [
-            'path'      => 'atom',
+        'xsl/atom' => [
+            'path'      => 'xsl/atom',
             'layout'    => 'feed',
             'output'    => 'xsl',
             'uglyurl'   => true,
             'published' => true,
             'exclude'   => true,
         ],
-        'rss' => [
-            'path'      => 'rss',
+        'xsl/rss' => [
+            'path'      => 'xsl/rss',
             'layout'    => 'feed',
             'output'    => 'xsl',
             'uglyurl'   => true,

@@ -6,7 +6,7 @@
       <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width" />
-        {%- if page.path == 'atom' ~%}
+        {%- if page.path == 'xsl/atom' ~%}
         <title><xsl:value-of select="atom:feed/atom:title" /> (feed)</title>
         {%- else ~%}
         <title><xsl:value-of select="rss/channel/title" /> (RSS)</title>
@@ -93,7 +93,7 @@
               <path d="M160 213h-34a82 82 0 0 0 -82 -82v-34a116 116 0 0 1 116 116z" fill="#FFF"/>
               <path d="M184 213A140 140 0 0 0 44 73 V 38a175 175 0 0 1 175 175z" fill="#FFF"/>
             </svg>
-            {%- if page.path == 'atom' ~%}
+            {%- if page.path == 'xsl/atom' ~%}
             <a><xsl:attribute name="href"><xsl:value-of select="atom:feed/atom:link[@rel='alternate']/@href" /></xsl:attribute><xsl:value-of select="atom:feed/atom:title" /></a>
             {%- else ~%}
             <a><xsl:attribute name="href"><xsl:value-of select="rss/channel/link[@rel='alternate']/@href" /></xsl:attribute><xsl:value-of select="rss/channel/title" /></a>
@@ -106,7 +106,7 @@
               <xsl:attribute name="type">url</xsl:attribute>
               <xsl:attribute name="url">URL</xsl:attribute>
               <xsl:attribute name="spellcheck">false</xsl:attribute>
-              {%- if page.path == 'atom' ~%}
+              {%- if page.path == 'xsl/atom' ~%}
               <xsl:attribute name="value"><xsl:value-of select="atom:feed/atom:link[@rel='self']/@href" /></xsl:attribute>
               {%- else ~%}
               <xsl:attribute name="value"><xsl:value-of select="rss/channel/link[@rel='self']/@href" /></xsl:attribute>
@@ -117,7 +117,7 @@
         <article>
           <h2>{% trans %}Feed’s entries{% endtrans %}</h2>
           <ol>
-            {%- if page.path == 'atom' ~%}
+            {%- if page.path == 'xsl/atom' ~%}
             <xsl:for-each select="atom:feed/atom:entry">
             <li>
               <h3><a><xsl:attribute name="href"><xsl:value-of select="atom:link/@href" /></xsl:attribute><xsl:value-of select="atom:title" /></a></h3>
