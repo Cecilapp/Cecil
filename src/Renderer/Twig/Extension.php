@@ -95,6 +95,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
             new \Twig\TwigFilter('excerpt_html', [$this, 'excerptHtml']),
             new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
+            new \Twig\TwigFilter('toc', [$this, 'markdownToToc']),
             new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
             new \Twig\TwigFilter('yaml_parse', [$this, 'yamlParse']),
             new \Twig\TwigFilter('preg_split', [$this, 'pregSplit']),
@@ -656,6 +657,25 @@ class Extension extends SlugifyExtension
         }
 
         return $html;
+    }
+
+    /**
+     * Extract table of content of a Markdown string,
+     * in the given format ("html" or "json", "html" by default).
+     */
+    public function markdownToToc(?string $markdown, $format = 'html'): ?string
+    {
+        $markdown = $markdown ?? '';
+
+        try {
+            $parsedown = new Parsedown($this->builder, ['selectors' => ['h2']]);
+            $parsedown->body($markdown);
+            $return = $parsedown->contentsList($format);
+        } catch (\Exception $e) {
+            throw new RuntimeException('"toc" filter can not convert supplied Markdown.');
+        }
+
+        return $return;
     }
 
     /**

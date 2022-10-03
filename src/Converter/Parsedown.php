@@ -34,7 +34,7 @@ class Parsedown extends \ParsedownToC
     /** @var Highlighter */
     protected $highlighter;
 
-    public function __construct(Builder $builder)
+    public function __construct(Builder $builder, ?array $options = null)
     {
         $this->builder = $builder;
 
@@ -52,8 +52,10 @@ class Parsedown extends \ParsedownToC
         // code highlight
         $this->highlighter = new Highlighter();
 
-        // Table of Content
-        parent::__construct(['selectors' => $this->builder->getConfig()->get('body.toc')]);
+        // options
+        $options = array_merge(['selectors' => $this->builder->getConfig()->get('body.toc')], $options ?? []);
+
+        parent::__construct($options);
     }
 
     /**
