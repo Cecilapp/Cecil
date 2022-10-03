@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.12.0](https://github.com/Cecilapp/Cecil/compare/7.11.1...7.12.0)
+
+> 3 October 2022
+
+- feat: new "toc" filter [`#1499`](https://github.com/Cecilapp/Cecil/pull/1499)
+- feat: add formats supported by front matter: (JSON and TOML) [`#1498`](https://github.com/Cecilapp/Cecil/pull/1498)
+- docs: update documentation about l10n [`b2bdb8e`](https://github.com/Cecilapp/Cecil/commit/b2bdb8e4c7189f765e5a5d9da98997a29a4b3e7b)
+- docs: minor changes [`c2c62f0`](https://github.com/Cecilapp/Cecil/commit/c2c62f093465e185a7886fbb788805cec1613f31)
+- docs: minor explanation [`e7c61f4`](https://github.com/Cecilapp/Cecil/commit/e7c61f48deaf1b357ea6b8e779c20803bf6ad2ef)
+
 #### [7.11.1](https://github.com/Cecilapp/Cecil/compare/7.11.0...7.11.1)
 
 > 2 October 2022
