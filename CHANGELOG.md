@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.11.1](https://github.com/Cecilapp/Cecil/compare/7.11.0...7.11.1)
+
+> 2 October 2022
+
+- fix: fix feeds layout and XSL template [`98966fc`](https://github.com/Cecilapp/Cecil/commit/98966fca1dda4ccf6b6091933297cdcc8c4a06b2)
+
 #### [7.11.0](https://github.com/Cecilapp/Cecil/compare/7.10.3...7.11.0)
 
 > 2 October 2022
