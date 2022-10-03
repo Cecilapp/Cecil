@@ -552,6 +552,21 @@ _Examples:_
 {% endapply %}
 ```
 
+### toc
+
+Extracts table of content from a Markdown string, in the given format ("html" or "json", "html" by default).
+
+```twig
+{{ markdown|toc(format) }}
+```
+
+_Examples:_
+
+```twig
+{{ page.body|toc }}
+{{ page.body|toc('json') }}
+```
+
 ### json_decode
 
 Converts a JSON string to an array.
