@@ -277,9 +277,11 @@ languages:
 ```
 
 :::info
+The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`).  
+:::
 
-- The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`)
-- A list of [locales code](configuration/locale-codes.md) is avalaible
+:::info
+A list of [locales code](configuration/locale-codes.md) is available.
 :::
 
 #### Localize configuration options
