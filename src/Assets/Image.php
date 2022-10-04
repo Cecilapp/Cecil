@@ -64,6 +64,8 @@ class Image
     /**
      * Build the `srcset` attribute for responsive images.
      * ie: srcset="/img-480.jpg 480w, /img-800.jpg 800w".
+     *
+     * @throws RuntimeException
      */
     public static function buildSrcset(Asset $asset, array $widths): string
     {
@@ -90,6 +92,8 @@ class Image
 
     /**
      * Converts an asset to WebP format.
+     *
+     * @throws RuntimeException
      */
     public static function convertTopWebp(Asset $asset, int $quality): Asset
     {

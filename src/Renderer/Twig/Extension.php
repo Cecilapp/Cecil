@@ -460,6 +460,8 @@ class Extension extends SlugifyExtension
 
     /**
      * Compiles a SCSS string.
+     *
+     * @throws RuntimeException
      */
     public function scssToCss(?string $value): string
     {
@@ -583,8 +585,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Returns the content of an asset.
-     *
-     * @throws RuntimeException
      */
     public function inline(Asset $asset): string
     {
@@ -658,6 +658,8 @@ class Extension extends SlugifyExtension
     /**
      * Extract table of content of a Markdown string,
      * in the given format ("html" or "json", "html" by default).
+     *
+     * @throws RuntimeException
      */
     public function markdownToToc(?string $markdown, $format = 'html'): ?string
     {
@@ -794,6 +796,8 @@ class Extension extends SlugifyExtension
 
     /**
      * Converts an hexadecimal color to RGB.
+     *
+     * @throws RuntimeException
      */
     public function hexToRgb(?string $variable): array
     {
