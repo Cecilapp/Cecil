@@ -140,7 +140,7 @@ class Parsedown extends \ParsedownToC
         /**
          * Should be responsive?
          */
-        if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
+        if ($asset['type'] == 'image' && $this->builder->getConfig()->get('body.images.responsive.enabled')) {
             if ($srcset = Image::buildSrcset(
                 $assetResized ?? $asset,
                 $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
