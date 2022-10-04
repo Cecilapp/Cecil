@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.12.1](https://github.com/Cecilapp/Cecil/compare/7.12.0...7.12.1)
+
+> 3 October 2022
+
+- fix: JSON templates [`#1500`](https://github.com/Cecilapp/Cecil/pull/1500)
+
 #### [7.12.0](https://github.com/Cecilapp/Cecil/compare/7.11.1...7.12.0)
 
 > 3 October 2022
