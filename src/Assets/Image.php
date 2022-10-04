@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Assets;
 
+use Cecil\Exception\RuntimeException;
 use Intervention\Image\ImageManagerStatic as ImageManager;
 use Spatie\ImageOptimizer\OptimizerChain;
 use Spatie\ImageOptimizer\Optimizers\Cwebp;
@@ -66,6 +67,10 @@ class Image
      */
     public static function buildSrcset(Asset $asset, array $widths): string
     {
+        if ($asset['type'] !== 'image') {
+            throw new RuntimeException(\sprintf('Can not build "srcset" of "%s": it\'s not an image file.', $asset['path']));
+        }
+
         $srcset = '';
         foreach ($widths as $width) {
             if ($asset->getWidth() < $width) {
@@ -88,6 +93,10 @@ class Image
      */
     public static function convertTopWebp(Asset $asset, int $quality): Asset
     {
+        if ($asset['type'] !== 'image') {
+            throw new RuntimeException(\sprintf('Can not convert "%s" to WebP: it\'s not an image file.', $asset['path']));
+        }
+
         $assetWebp = clone $asset;
         $format = 'webp';
         $image = ImageManager::make($assetWebp['content']);

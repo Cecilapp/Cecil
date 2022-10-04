@@ -588,10 +588,6 @@ class Extension extends SlugifyExtension
      */
     public function inline(Asset $asset): string
     {
-        if (is_null($asset['content'])) {
-            throw new RuntimeException(\sprintf('%s is available with CSS et JS files only.', '"inline" filter'));
-        }
-
         return $asset['content'];
     }
 
