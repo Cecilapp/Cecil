@@ -124,4 +124,24 @@ class Image
 
         return $count > 1;
     }
+
+    /**
+     * Returns the dominant hex color of an image asset.
+     *
+     * @throws RuntimeException
+     */
+    public static function getDominantColor(Asset $asset): string
+    {
+        if ($asset['type'] !== 'image') {
+            throw new RuntimeException(\sprintf('Can not get dominant color of "%s": it\'s not an image file.', $asset['path']));
+        }
+
+        $assetColor = clone $asset;
+        $assetColor = $assetColor->resize(100);
+        $image = ImageManager::make($assetColor['content']);
+        $color = $image->limitColors(1)->pickColor(0, 0, 'hex');
+        $image->destroy();
+
+        return $color;
+    }
 }

@@ -819,6 +819,15 @@ Returns the [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTT
 {{ asset(image_path)|dataurl }}
 ```
 
+### dominant_color
+
+Returns the dominant hex color of an image.
+
+```twig
+{{ asset(image_path)|dominant_color }}
+# #F2D07F
+```
+
 ### inline
 
 Outputs the content of an _Asset_.

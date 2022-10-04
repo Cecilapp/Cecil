@@ -90,6 +90,7 @@ class Extension extends SlugifyExtension
             new \Twig\TwigFilter('sass_to_css', [$this, 'scssToCss']),
             new \Twig\TwigFilter('resize', [$this, 'resize']),
             new \Twig\TwigFilter('dataurl', [$this, 'dataurl']),
+            new \Twig\TwigFilter('dominant_color', [$this, 'dominantColor']),
             // content
             new \Twig\TwigFilter('slugify', [$this, 'slugifyFilter']),
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
@@ -792,6 +793,22 @@ class Extension extends SlugifyExtension
     public function isAsset($variable): bool
     {
         return $variable instanceof Asset;
+    }
+
+    /**
+     * Returns the dominant hex color of an image asset.
+     *
+     * @param string|Asset $path
+     *
+     * @return string
+     */
+    public function dominantColor($asset): string
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return Image::getDominantColor($asset);
     }
 
     /**

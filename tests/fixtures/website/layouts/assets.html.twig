@@ -205,4 +205,12 @@ pre {
     <pre>asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})</pre>
     <pre>{{ asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})|e }}</pre>
   </p>
+
+  <h2>Dominant color</h2>
+  <p>
+    <pre>asset('images/cecil-logo.png')|dominant_color</pre>
+    <blockquote>
+      {{- asset('images/cecil-logo.png')|dominant_color -}}
+    </blockquote>
+  </p>
 {% endblock content %}
