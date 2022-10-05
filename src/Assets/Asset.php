@@ -445,7 +445,8 @@ class Asset implements \ArrayAccess
             $assetResized->data['path'] = '/'.Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 (string) $this->config->get('assets.images.resize.dir'),
-                (string) $width, $assetResized->data['path']
+                (string) $width,
+                $assetResized->data['path']
             );
 
             try {
