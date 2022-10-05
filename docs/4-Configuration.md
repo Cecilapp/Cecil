@@ -730,7 +730,7 @@ assets:
     webp:
       enabled: false     # creates a WebP version of images with `html` filter (`false` by default)
     resize:
-      dir: thumbs        # directory of resized assets (`thumbs` by default)
+      dir: thumbnails    # directory of resized assets (`thumbnails` by default)
 ```
 
 :::
