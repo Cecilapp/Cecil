@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.13.0](https://github.com/Cecilapp/Cecil/compare/7.12.1...7.13.0)
+
+> 5 October 2022
+
+- feat: fetch the dominant color of an image [`#1502`](https://github.com/Cecilapp/Cecil/pull/1502)
+- refactor: enhance code [`ffd6554`](https://github.com/Cecilapp/Cecil/commit/ffd6554e96f5d5065b2ed0b16a2c9c29a7fd8892)
+- refactor: enhance code [`1fb10fd`](https://github.com/Cecilapp/Cecil/commit/1fb10fd966e4f9d064607020d20c9f7efe1bd5ac)
+- docs: minor update of Configuration [`fece84b`](https://github.com/Cecilapp/Cecil/commit/fece84bf1290838206ef5703d9e857903d16c56e)
+- fix: try to apply responsive on image asset only [`3f274f0`](https://github.com/Cecilapp/Cecil/commit/3f274f0ff851e1384ce348c3b166ccdec661f67e)
+
 #### [7.12.1](https://github.com/Cecilapp/Cecil/compare/7.12.0...7.12.1)
 
 > 3 October 2022
