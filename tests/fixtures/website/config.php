@@ -167,12 +167,6 @@ return [
             'lazy' => [
                 'enabled' => true,
             ],
-            'caption' => [
-                'enabled' => true,
-            ],
-            'remote' => [
-                'enabled' => true,
-            ],
             'resize' => [
                 'enabled' => true,
             ],
@@ -180,6 +174,12 @@ return [
                 'enabled' => true,
             ],
             'webp' => [
+                'enabled' => true,
+            ],
+            'caption' => [
+                'enabled' => true,
+            ],
+            'remote' => [
                 'enabled' => true,
             ],
         ],
