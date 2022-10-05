@@ -30,23 +30,19 @@ class Image
             throw new RuntimeException(\sprintf('can\'t build "srcset" of "%s": it\'s not an image file.', $asset['path']));
         }
 
-        $assetSrcset = clone $asset;
         $srcset = '';
         foreach ($widths as $width) {
-            if ($assetSrcset->getWidth() < $width) {
+            if ($asset->getWidth() < $width) {
                 break;
             }
-            $assetTmp = clone $assetSrcset;
-            $img = $assetTmp->resize($width);
+            $img = $asset->resize($width);
             $srcset .= \sprintf('%s %sw, ', (string) $img, $width);
-            unset($assetTmp);
         }
         rtrim($srcset, ', ');
         // add reference image
         if (!empty($srcset)) {
-            $srcset .= \sprintf('%s %sw', (string) $assetSrcset, $assetSrcset->getWidth());
+            $srcset .= \sprintf('%s %sw', (string) $asset, $asset->getWidth());
         }
-        unset($assetSrcset);
 
         return $srcset;
     }
