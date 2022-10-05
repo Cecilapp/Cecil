@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2022-10-02
+updated: 2022-10-05
 -->
 
 # Configuration
@@ -729,6 +729,8 @@ assets:
         default: '100vw' # `sizes` attribute (`100vw` by default)
     webp:
       enabled: false     # creates a WebP version of images with `html` filter (`false` by default)
+    resize:
+      dir: thumbs        # directory of resized assets (`thumbs` by default)
 ```
 
 :::

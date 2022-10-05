@@ -240,14 +240,14 @@ return [
     ],
     'assets' => [
         'dir'     => 'assets',
-        'compile' => [     // Compile Saas
+        'compile' => [ // Compile Saas
             'enabled'   => true,
             'style'     => 'expanded', // 'expanded' or 'compressed',
             'import'    => ['sass', 'scss', 'node_modules'],
             'sourcemap' => false, // works in debug mode only
             //'variables' => ['var' => 'value']
         ],
-        'minify' => [      // Minify CSS and JS
+        'minify' => [ // Minify CSS and JS
             'enabled' => true,
         ],
         'fingerprint' => [ // Add fingerprint
@@ -258,7 +258,7 @@ return [
             'optimize' => [
                 'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
             ],
-            'quality'    => 75,     // Image quality after optimization or resize (`75` by default)
+            'quality'    => 75, // Image quality after optimization or resize (`75` by default)
             'responsive' => [
                 'enabled' => false, // creates responsive images with `html` filter (`false` by default)
                 'widths'  => [480, 640, 768, 1024, 1366, 1600, 1920],
@@ -268,6 +268,9 @@ return [
             ],
             'webp' => [
                 'enabled' => false, // creates a WebP version of images with `html` filter (`false` by default)
+            ],
+            'resize' => [
+                'dir' => 'thumbnails', // directory of resized assets (`thumbnails` by default)
             ],
         ],
     ],

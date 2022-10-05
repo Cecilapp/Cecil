@@ -16,7 +16,7 @@
 
 ## Media
 
-![alt](/images/cecil-logo.png "Image asset")
+![alt](/cecil-logo-1000.png "Image asset")
 
 ![audio](/audio/test.mp3 "Audio asset"){controls}
 

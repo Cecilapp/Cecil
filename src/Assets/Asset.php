@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Assets;
 
+use Cecil\Assets\Image\Optimizer;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
@@ -382,7 +383,7 @@ class Asset implements \ArrayAccess
         if (!$cache->has($cacheKey)) {
             $message = $this->data['path'];
             $sizeBefore = filesize($filepath);
-            Image::optimizer($this->config->get('assets.images.quality') ?? 75)->optimize($filepath);
+            Optimizer::create($this->config->get('assets.images.quality') ?? 75)->optimize($filepath);
             $sizeAfter = filesize($filepath);
             if ($sizeAfter < $sizeBefore) {
                 $message = \sprintf(
@@ -441,7 +442,12 @@ class Asset implements \ArrayAccess
             } catch (\Exception $e) {
                 throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }
-            $assetResized->data['path'] = '/'.Util::joinPath((string) $this->config->get('assets.target'), 'thumbnails', (string) $width, $assetResized->data['path']);
+            $assetResized->data['path'] = '/'.Util::joinPath(
+                (string) $this->config->get('assets.target'),
+                (string) $this->config->get('assets.images.resize.dir'),
+                (string) $width,
+                $assetResized->data['path']
+            );
 
             try {
                 $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $this->config->get('assets.images.quality'));

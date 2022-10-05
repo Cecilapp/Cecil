@@ -553,7 +553,7 @@ class Extension extends SlugifyExtension
             );
 
             // WebP transformation?
-            if ($webp && !Image::isAnimatedGif($asset)) {
+            if ($webp && $asset['subtype'] != 'image/webp' && !Image::isAnimatedGif($asset)) {
                 try {
                     $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 75);
                     // <source>
