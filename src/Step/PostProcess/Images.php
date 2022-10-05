@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step\PostProcess;
 
-use Cecil\Assets\Image;
+use Cecil\Assets\Image\Optimizer;
 
 /**
  * Post process image files.
@@ -42,7 +42,7 @@ class Images extends AbstractPostProcess
      */
     public function setProcessor(): void
     {
-        $this->processor = Image::optimizer($this->config->get('assets.images.quality') ?? 75);
+        $this->processor = Optimizer::create($this->config->get('assets.images.quality') ?? 75);
     }
 
     /**

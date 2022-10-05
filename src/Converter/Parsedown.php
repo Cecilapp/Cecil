@@ -141,12 +141,16 @@ class Parsedown extends \ParsedownToC
          * Should be responsive?
          */
         if ($asset['type'] == 'image' && $this->builder->getConfig()->get('body.images.responsive.enabled')) {
-            if ($srcset = Image::buildSrcset(
-                $assetResized ?? $asset,
-                $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
-            )) {
-                $image['element']['attributes']['srcset'] = $srcset;
-                $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
+            try {
+                if ($srcset = Image::buildSrcset(
+                    $assetResized ?? $asset,
+                    $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                )) {
+                    $image['element']['attributes']['srcset'] = $srcset;
+                    $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
+                }
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->debug($e->getMessage());
             }
         }
 
@@ -219,8 +223,9 @@ class Parsedown extends \ParsedownToC
 
         // creates a <picture> used to add WebP <source> in addition to the image <img> element
         if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false
-            && ($InlineImage['element']['attributes']['src'])['type'] == 'image'
-            && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp') {
+            && (($InlineImage['element']['attributes']['src'])['type'] == 'image'
+                && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
+        ) {
             try {
                 // Image src must be an Asset instance
                 if (is_string($InlineImage['element']['attributes']['src'])) {
@@ -232,12 +237,18 @@ class Parsedown extends \ParsedownToC
                 }
                 $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 75);
                 $srcset = '';
+                // build responsives WebP?
                 if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
-                    $srcset = Image::buildSrcset(
-                        $assetWebp,
-                        $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
-                    );
+                    try {
+                        $srcset = Image::buildSrcset(
+                            $assetWebp,
+                            $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                        );
+                    } catch (\Exception $e) {
+                        $this->builder->getLogger()->debug($e->getMessage());
+                    }
                 }
+                // if not, default image as srcset
                 if (empty($srcset)) {
                     $srcset = (string) $assetWebp;
                 }
