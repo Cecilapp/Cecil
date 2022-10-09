@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-10-02
+updated: 2022-10-09
 alias: documentation/layouts
 -->
 
@@ -307,29 +307,45 @@ Variables available in _vocabulary_ and _term_ templates.
 
 ### url
 
-Create a valid URL for a page, a page ID or a path.
+Create a valid URL for a page, an asset, a page ID or a path.
 
 ```twig
 {{ url(value, {options}) }}
 ```
 
-| Option    | Description                                | Type    | Default |
-| --------- | ------------------------------------------ | ------- | ------- |
-| canonical | Prefixes the relative URL with `baseurl`.  | boolean | `false` |
-| format    | Defines page output format (e.g.: `json`). | string  | `html`  |
-| language  | Trying to force language (e.g.: `fr`).     | string  | null    |
-
-For assets prefer the [`url` filter](#url-1).
+| Option    | Description                                 | Type    | Default |
+| --------- | ------------------------------------------- | ------- | ------- |
+| canonical | Prefixes the relative URL with `baseurl`.   | boolean | `false` |
+| format    | Defines page output format (e.g.: `html`).  | string  | `html`  |
+| language  | Trying to force page language (e.g.: `fr`). | string  | null    |
 
 _Examples:_
 
 ```twig
+# page
 {{ url(page) }}
+{{ url(page, {format: json}) }}
+# asset
+{{ url(asset('styles.css'), {canonical: true}) }}
+# page ID
 {{ url('page-id') }}
 {{ url('page-id', {'language': 'fr'}) }}
+# path
 {{ url(menu.url) }}
-{{ url('tags/'~tag) }}
+{{ url('tags/' ~ tag) }}
 ```
+
+:::info
+For convenience the `url` function is also available as a filter:
+
+```twig
+# page
+{{ page|url }}
+{{ page|url({format: json}) }}
+# asset
+{{ asset('styles.css')|url({canonical: true}) }}
+```
+:::
 
 ### asset
 
@@ -357,12 +373,19 @@ Uses [filters](#filters) to manipulate assets.
 _Examples:_
 
 ```twig
+# CSS
+{{ asset('styles.css') }}
+# JavaScript
+{{ asset('scripts.js', {minify: false}) }}
+# image
+{{ asset('image.jpeg') }}
+# CSS bundle
+{{ asset(['poole.css', 'hyde.css'], {filename: styles.css}) }}
+# remote file
+{{ asset('https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js') }}
+# with filter
 {{ asset('styles.css')|minify }}
 {{ asset('styles.scss')|inline }}
-{{ asset('scripts.js', {minify: false}) }}
-{{ asset('image.png', {fingerprint: false}) }}
-{{ asset(['poole.css', 'hyde.css'], {filename: styles.css}) }}
-{{ asset('https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js') }}
 ```
 
 #### Asset attributes
@@ -370,12 +393,14 @@ _Examples:_
 Assets created with the `asset()` function expose some useful attributes :
 
 - `file`: filesystem path
+- `filename`: file name
 - `path`: relative path
+- `missing`: `true` if file not found, but missing is ollowed
 - `ext`: extension
 - `type`: media type (e.g.: `image`)
 - `subtype`: media sub type (e.g.: `image/jpeg`)
 - `size`: size in octets
-- `source`: content before compiling and/or minifying
+- `content_source`: content before processing
 - `content`: file content
 - `integrity`: integrity hash
 - `width`: image width
@@ -392,7 +417,7 @@ _Examples:_
 
 ### integrity
 
-Returns the hash (`sha384`) of a file (from an asset or a path).
+Creates the hash (`sha384`) of a file (from an asset or a path).
 
 ```twig
 {{ integrity(asset) }}
@@ -408,7 +433,7 @@ _Example:_
 
 ### readtime
 
-Returns read time of a text, in minutes.
+Determines read time of a text, in minutes.
 
 ```twig
 {{ readtime(text) }}
