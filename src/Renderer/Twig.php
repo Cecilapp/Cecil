@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
-use Cecil\Renderer\Twig\Extension as TwigExtension;
+use Cecil\Renderer\Extension\CoreExtension;
 use Cecil\Util;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
@@ -70,7 +70,7 @@ class Twig implements RendererInterface
                 ->setTimezone($this->builder->getConfig()->get('date.timezone'));
         }
         // adds extensions
-        $this->twig->addExtension(new TwigExtension($this->builder));
+        $this->twig->addExtension(new CoreExtension($this->builder));
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // l10n
         $this->translator = new Translator(

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Renderer\Twig;
+namespace Cecil\Renderer\Extension;
 
 use Cecil\Assets\Asset;
 use Cecil\Assets\Cache;
@@ -33,9 +33,9 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class Twig\Extension.
+ * Class Extension\CoreExtension.
  */
-class Extension extends SlugifyExtension
+class CoreExtension extends SlugifyExtension
 {
     /** @var Builder */
     protected $builder;
@@ -63,7 +63,40 @@ class Extension extends SlugifyExtension
      */
     public function getName()
     {
-        return 'cecil';
+        return 'CoreExtension';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFunctions()
+    {
+        return [
+            new \Twig\TwigFunction('url', [$this, 'url']),
+            // assets
+            new \Twig\TwigFunction('asset', [$this, 'asset']),
+            new \Twig\TwigFunction('integrity', [$this, 'integrity']),
+            // content
+            new \Twig\TwigFunction('readtime', [$this, 'readtime']),
+            // others
+            new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
+            // deprecated
+            new \Twig\TwigFunction(
+                'hash',
+                [$this, 'integrity'],
+                ['deprecated' => true, 'alternative' => 'integrity']
+            ),
+            new \Twig\TwigFunction(
+                'minify',
+                [$this, 'minify'],
+                ['deprecated' => true, 'alternative' => 'minify filter']
+            ),
+            new \Twig\TwigFunction(
+                'toCSS',
+                [$this, 'toCss'],
+                ['deprecated' => true, 'alternative' => 'to_css filter']
+            ),
+        ];
     }
 
     /**
@@ -72,13 +105,13 @@ class Extension extends SlugifyExtension
     public function getFilters()
     {
         return [
-            new \Twig\TwigFilter('filter_by', [$this, 'filterBy']),
-            // sort
+            new \Twig\TwigFilter('url', [$this, 'url']),
+            // collections
             new \Twig\TwigFilter('sort_by_title', [$this, 'sortByTitle']),
             new \Twig\TwigFilter('sort_by_weight', [$this, 'sortByWeight']),
             new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
+            new \Twig\TwigFilter('filter_by', [$this, 'filterBy']),
             // assets
-            new \Twig\TwigFilter('url', [$this, 'url']),
             new \Twig\TwigFilter('html', [$this, 'html']),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('fingerprint', [$this, 'fingerprint']),
@@ -159,39 +192,6 @@ class Extension extends SlugifyExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
-    {
-        return [
-            // assets
-            new \Twig\TwigFunction('url', [$this, 'url']),
-            new \Twig\TwigFunction('asset', [$this, 'asset']),
-            new \Twig\TwigFunction('integrity', [$this, 'integrity']),
-            // content
-            new \Twig\TwigFunction('readtime', [$this, 'readtime']),
-            // others
-            new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
-            // deprecated
-            new \Twig\TwigFunction(
-                'minify',
-                [$this, 'minify'],
-                ['deprecated' => true, 'alternative' => 'minify filter']
-            ),
-            new \Twig\TwigFunction(
-                'toCSS',
-                [$this, 'toCss'],
-                ['deprecated' => true, 'alternative' => 'to_css filter']
-            ),
-            new \Twig\TwigFunction(
-                'hash',
-                [$this, 'integrity'],
-                ['deprecated' => true, 'alternative' => 'integrity']
-            ),
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getTests()
     {
         return [
@@ -201,7 +201,6 @@ class Extension extends SlugifyExtension
 
     /**
      * Filters by Section.
-     * Alias of `filterBy('section', $value)`.
      */
     public function filterBySection(PagesCollection $pages, string $section): CollectionInterface
     {
@@ -290,25 +289,23 @@ class Extension extends SlugifyExtension
      * Creates an URL.
      *
      * $options[
-     *     'canonical' => true,
-     *     'addhash'   => false,
-     *     'format'    => 'json',
+     *     'canonical' => false,
+     *     'format'    => 'html',
+     *     'language'  => null,
      * ];
      *
      * @param Page|Asset|string|null $value
      * @param array|null             $options
-     *
-     * @return mixed
      */
-    public function url($value = null, array $options = null)
+    public function url($value = null, array $options = null): string
     {
-        return new Url($this->builder, $value, $options);
+        return (new Url($this->builder, $value, $options))->getUrl();
     }
 
     /**
-     * Creates an asset (CSS, JS, images, etc.).
+     * Creates an Asset (CSS, JS, images, etc.) from a path or an array of paths.
      *
-     * @param string|array $path    File path (relative from static/ dir).
+     * @param string|array $path    File path or array of files path (relative from `assets/` or `static/` dir).
      * @param array|null   $options
      *
      * @return Asset
@@ -491,11 +488,12 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Returns the HTML version of an asset.
+     * Creates the HTML element of an asset.
      *
      * $options[
      *     'preload'    => false,
      *     'responsive' => false,
+     *     'webp'       => false,
      * ];
      *
      * @throws RuntimeException
@@ -508,6 +506,7 @@ class Extension extends SlugifyExtension
         $webp = $this->config->get('assets.images.webp.enabled') ?? false;
         extract($options, EXTR_IF_EXISTS);
 
+        // builds HTML attributes
         foreach ($attributes as $name => $value) {
             $attribute = \sprintf(' %s="%s"', $name, $value);
             if (empty($value)) {
@@ -516,9 +515,10 @@ class Extension extends SlugifyExtension
             $htmlAttributes .= $attribute;
         }
 
+        // be sure Asset file is saved
         $asset->save();
 
-        /* CSS or JavaScript */
+        // CSS or JavaScript
         switch ($asset['ext']) {
             case 'css':
                 if ($preload) {
@@ -533,8 +533,7 @@ class Extension extends SlugifyExtension
             case 'js':
                 return \sprintf('<script src="%s"%s></script>', $this->url($asset, $options), $htmlAttributes);
         }
-
-        /* Image */
+        // image
         if ($asset['type'] == 'image') {
             // responsive
             if ($responsive && $srcset = Image::buildSrcset(
@@ -545,18 +544,18 @@ class Extension extends SlugifyExtension
                 $htmlAttributes .= \sprintf(' sizes="%s"', $this->config->get('assets.images.responsive.sizes.default') ?? '100vw');
             }
 
-            // <img>
+            // <img> element
             $img = \sprintf(
-                '<img src="%s" width="'.($asset->getWidth() ?: 0).'" height="'.($asset->getHeight() ?: 0).'"%s>',
+                '<img src="%s" width="'.($asset->getWidth() ?: '').'" height="'.($asset->getHeight() ?: '').'"%s>',
                 $this->url($asset, $options),
                 $htmlAttributes
             );
 
-            // WebP transformation?
+            // WebP conversion?
             if ($webp && $asset['subtype'] != 'image/webp' && !Image::isAnimatedGif($asset)) {
                 try {
                     $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 75);
-                    // <source>
+                    // <source> element
                     $source = \sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
                     // responsive
                     if ($responsive) {
@@ -564,7 +563,7 @@ class Extension extends SlugifyExtension
                             $assetWebp,
                             $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
                         ) ?: (string) $assetWebp;
-                        // <source>
+                        // <source> element
                         $source = \sprintf(
                             '<source type="image/webp" srcset="%s" sizes="%s">',
                             $srcset,
@@ -581,7 +580,7 @@ class Extension extends SlugifyExtension
             return $img;
         }
 
-        throw new RuntimeException(\sprintf('%s is available with CSS, JS and images files only.', '"html" filter'));
+        throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and images files only.', '"html" filter'));
     }
 
     /**
