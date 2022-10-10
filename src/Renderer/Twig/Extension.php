@@ -269,11 +269,11 @@ class Extension extends SlugifyExtension
     /**
      * Sorts by creation date (or 'updated' date): the most recent first.
      */
-    public function sortByDate(\Traversable $collection, string $variable = 'date'): array
+    public function sortByDate(\Traversable $collection, string $variable = 'date', bool $reverseTitle = false): array
     {
-        $callback = function ($a, $b) use ($variable) {
+        $callback = function ($a, $b) use ($variable, $reverseTitle) {
             if ($a[$variable] == $b[$variable]) {
-                if (isset($a['title']) && isset($b['title'])) {
+                if ($reverseTitle && (isset($a['title']) && isset($b['title']))) {
                     return ($a['title'] > $b['title']) ? -1 : 1;
                 }
 
