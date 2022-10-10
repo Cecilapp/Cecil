@@ -273,6 +273,10 @@ class Extension extends SlugifyExtension
     {
         $callback = function ($a, $b) use ($variable) {
             if ($a[$variable] == $b[$variable]) {
+                if (isset($a['title']) && isset($b['title'])) {
+                    return ($a['title'] > $b['title']) ? -1 : 1;
+                }
+
                 return 0;
             }
 
