@@ -529,27 +529,6 @@ _Example:_
 {% pages|filter(p => p.virtual == false and p.id not in ['page-1', 'page-2']) %}
 ```
 
-### url
-
-Returns the valid URL of a page, an asset or a path.
-
-```twig
-{{ <value>|url({options}) }}
-```
-
-| Option    | Description                                | Type    | Default |
-| --------- | ------------------------------------------ | ------- | ------- |
-| canonical | Prefixes the relative URL with `baseurl`.  | boolean | `false` |
-| format    | Defines page output format (e.g.: `json`). | string  | `html`  |
-
-_Examples:_
-
-```twig
-{{ page|url }}
-{{ asset('styles.css')|url({canonical: true}) }}
-{{ page|url({format: json}) }}
-```
-
 ### markdown_to_html
 
 Converts a Markdown string to HTML.
