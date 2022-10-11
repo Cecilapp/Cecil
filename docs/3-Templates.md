@@ -465,10 +465,10 @@ Sorting collections (of pages, menus or taxonomies).
 
 ### sort_by_title
 
-Sorts a collection by title (with [natural sort](https://en.wikipedia.org/wiki/Natural_sort_order)).
+Sorts a collection by title (with [natural sort](https://en.wikipedia.org/wiki/Natural_sort_order), reversed with `reverse=false`).
 
 ```twig
-{{ <collection>|sort_by_title }}
+{{ <collection>|sort_by_title(reverse=false) }}
 ```
 
 _Example:_
@@ -479,10 +479,10 @@ _Example:_
 
 ### sort_by_date
 
-Sorts a collection by date (most recent first).
+Sorts a collection by date (most recent first, reversed with `reverse=false`).
 
 ```twig
-{{ <collection>|sort_by_date(variable='date', reverseTitle=false) }}
+{{ <collection>|sort_by_date(variable='date', reverse=false, desc_title=false) }}
 ```
 
 _Example:_
@@ -490,18 +490,20 @@ _Example:_
 ```twig
 # sort by date
 {{ site.pages|sort_by_date }}
-# sort by update variable instead of date
-{{ site.pages|sort_by_date(variable='update') }}
-# sort items with the same date by title, reversed
-{{ site.pages|sort_by_date(reverseTitle=true) }}
+# sort by updated variable instead of date
+{{ site.pages|sort_by_date(variable='updated') }}
+# reverse sort
+{{ site.pages|sort_by_date(reverse=true) }}
+# sort items with the same date by desc title
+{{ site.pages|sort_by_date(desc_title=true) }}
 ```
 
 ### sort_by_weight
 
-Sorts a collection by weight (lighter first).
+Sorts a collection by weight (lighter first, reversed with `reverse=false`).
 
 ```twig
-{{ <collection>|sort_by_weight }}
+{{ <collection>|sort_by_weight(reverse=false) }}
 ```
 
 _Example:_

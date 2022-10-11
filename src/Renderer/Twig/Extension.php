@@ -209,7 +209,7 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Filters by variable's name/value.
+     * Filters a pages collection by variable's name/value.
      */
     public function filterBy(PagesCollection $pages, string $variable, string $value): CollectionInterface
     {
@@ -229,23 +229,25 @@ class Extension extends SlugifyExtension
     }
 
     /**
-     * Sorts by title.
+     * Sorts a collection by title.
      */
-    public function sortByTitle(\Traversable $collection): array
+    public function sortByTitle(\Traversable $collection, bool $reverse = false): array
     {
+        $sort = $reverse ? \SORT_DESC : \SORT_ASC;
+
         $collection = iterator_to_array($collection);
         /** @var \array $collection */
-        array_multisort(array_keys(/** @scrutinizer ignore-type */ $collection), \SORT_ASC, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
+        array_multisort(array_keys(/** @scrutinizer ignore-type */ $collection), $sort, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
 
         return $collection;
     }
 
     /**
-     * Sorts by weight.
+     * Sorts a collection by weight.
      */
-    public function sortByWeight(\Traversable $collection): array
+    public function sortByWeight(\Traversable $collection, bool $reverse = false): array
     {
-        $callback = function ($a, $b) {
+        $callback = function ($a, $b) use ($reverse) {
             if (!isset($a['weight'])) {
                 $a['weight'] = 0;
             }
@@ -256,7 +258,7 @@ class Extension extends SlugifyExtension
                 return 0;
             }
 
-            return ($a['weight'] < $b['weight']) ? -1 : 1;
+            return ($reverse ? -1 : 1) * ($a['weight'] < $b['weight'] ? -1 : 1);
         };
 
         $collection = iterator_to_array($collection);
@@ -269,18 +271,19 @@ class Extension extends SlugifyExtension
     /**
      * Sorts by creation date (or 'updated' date): the most recent first.
      */
-    public function sortByDate(\Traversable $collection, string $variable = 'date', bool $reverseTitle = false): array
+    public function sortByDate(\Traversable $collection, string $variable = 'date', bool $reverse = false, bool $descTitle = false): array
     {
-        $callback = function ($a, $b) use ($variable, $reverseTitle) {
+        $callback = function ($a, $b) use ($variable, $reverse, $descTitle) {
             if ($a[$variable] == $b[$variable]) {
-                if ($reverseTitle && (isset($a['title']) && isset($b['title']))) {
-                    return ($a['title'] > $b['title']) ? -1 : 1;
+                // if dates are equal and "descTitle" is true
+                if ($descTitle && (isset($a['title']) && isset($b['title']))) {
+                    return $a['title'] > $b['title'] ? -1 : 1;
                 }
 
                 return 0;
             }
 
-            return ($a[$variable] > $b[$variable]) ? -1 : 1;
+            return ($reverse ? -1 : 1) * ($a[$variable] > $b[$variable] ? -1 : 1);
         };
 
         $collection = iterator_to_array($collection);

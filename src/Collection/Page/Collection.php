@@ -44,40 +44,66 @@ class Collection extends CecilCollection
     }
 
     /**
-     * Sorts pages by date: the most recent first.
+     * Sorts pages by date (or 'updated' date): the most recent first.
+     *
+     * @param array|string $options
      */
-    public function sortByDate(): self
+    public function sortByDate($options = null): self
     {
-        return $this->usort(function ($a, $b) {
-            if ($a['date'] == $b['date']) {
+        // backward compatibility
+        if (is_string($options)) {
+            $options['variable'] = $options;
+        }
+        // options
+        $options['variable'] = $options['variable'] ?? 'date';
+        $options['descTitle'] = $options['descTitle'] ?? false;
+        $options['reverse'] = $options['reverse'] ?? false;
+
+        return $this->usort(function ($a, $b) use ($options) {
+            if ($a[$options['variable']] == $b[$options['variable']]) {
+                // if dates are equal and "descTitle" is true
+                if ($options['descTitle'] && (isset($a['title']) && isset($b['title']))) {
+                    return $a['title'] > $b['title'] ? -1 : 1;
+                }
+
                 return 0;
             }
 
-            return ($a['date'] > $b['date']) ? -1 : 1;
+            return ($options['reverse'] ? -1 : 1) * ($a['date'] > $b['date'] ? -1 : 1);
         });
     }
 
     /**
      * Sorts pages by title (natural sort).
      */
-    public function sortByTitle(): self
+    public function sortByTitle($options = null): self
     {
-        return $this->usort(function ($a, $b) {
-            return strnatcmp($a['title'], $b['title']);
+        // options
+        if (!isset($options['reverse'])) {
+            $options['reverse'] = false;
+        }
+
+        return $this->usort(function ($a, $b) use ($options) {
+            return ($options['reverse'] ? -1 : 1) * strnatcmp($a['title'], $b['title']);
         });
     }
 
     /**
      * Sorts by weight (the heaviest first).
      */
-    public function sortByWeight(): self
+    public function sortByWeight($options = null): self
     {
-        return $this->usort(function ($a, $b) {
+        // options
+        if (!isset($options['reverse'])) {
+            $options['reverse'] = false;
+        }
+
+        return $this->usort(function ($a, $b) use ($options) {
             if ($a['weight'] == $b['weight']) {
                 return 0;
             }
 
-            return ($a['weight'] < $b['weight']) ? -1 : 1;
+            return ($options['reverse'] ? -1 : 1) * ($a['weight'] < $b['weight'] ? -1 : 1);
         });
     }
 }
