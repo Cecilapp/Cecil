@@ -784,9 +784,9 @@ cache:
 
 ### generators
 
-Generators are used by Cecil to create new pages (e.g.: sitemap, feed, pagination, etc.) from existing pages or from other sources, like configuration file or external sources.
+Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
 
-List of generators provided by Cecil, in a defined order:
+Below the list of Generators provided by Cecil, in a defined order:
 
 ```yaml
 generators:
@@ -803,7 +803,7 @@ generators:
 
 #### Custom generator
 
-It is possible to add a new generator, just add it to the list above, and create a new class in the `Cecil\Generator` namespace.
+It is possible to create a custom Generator, just add it to the list above, and create a new class in the `Cecil\Generator` namespace.
 
 **Example:**
 
