@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
-use Cecil\Renderer\Extension\CoreExtension;
+use Cecil\Renderer\Extension\Core as CoreExtension;
 use Cecil\Util;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
@@ -69,8 +69,12 @@ class Twig implements RendererInterface
             $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
                 ->setTimezone($this->builder->getConfig()->get('date.timezone'));
         }
-        // adds extensions
+        /*
+         * adds extensions
+         */
+        // Cecil core extension
         $this->twig->addExtension(new CoreExtension($this->builder));
+        // required by `template_from_string()`
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // l10n
         $this->translator = new Translator(
@@ -124,6 +128,14 @@ class Twig implements RendererInterface
             // profiler
             $this->profile = new \Twig\Profiler\Profile();
             $this->twig->addExtension(new \Twig\Extension\ProfilerExtension($this->profile));
+        }
+        // local extensions
+        if ($this->builder->getConfig()->has('extensions')) {
+            Util::autoload($builder, 'extensions');
+            foreach ((array) $this->builder->getConfig()->get('extensions') as $name => $class) {
+                $this->twig->addExtension(new $class($this->builder));
+                $this->builder->getLogger()->debug(\sprintf('Extension "%s" (%s) added.', $name, $class));
+            }
         }
     }
 

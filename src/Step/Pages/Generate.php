@@ -47,13 +47,7 @@ class Generate extends AbstractStep
     {
         $generatorManager = new GeneratorManager($this->builder);
 
-        // loads local generators
-        spl_autoload_register(function ($className) {
-            $generatorFile = Util::joinFile($this->config->getSourceDir(), 'generators', "$className.php");
-            if (file_exists($generatorFile)) {
-                require $generatorFile;
-            }
-        });
+        Util::autoload($this->builder, 'generators');
 
         $generators = (array) $this->builder->getConfig()->get('generators');
         array_walk($generators, function ($generator, $priority) use ($generatorManager) {

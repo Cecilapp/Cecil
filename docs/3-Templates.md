@@ -1078,3 +1078,37 @@ php cecil.phar util:extract
 
 [`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
 :   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).
+
+### Custom extension
+
+It is possible to use custom [functions](#functions) and [filters](#filters):
+
+1. [create a Twig extension](https://twig.symfony.com/doc/advanced.html#creating-an-extension) in the `Cecil\Renderer\Extension` namespace
+2. add the PHP file in the `extensions` directory
+3. add the class name to the configuration
+
+**Example:**
+
+_/extensions/Cecil/Renderer/Extension/Test.php_
+
+```php
+<?php
+namespace Cecil\Renderer\Extension;
+
+class Test extends \Twig\Extension\AbstractExtension
+{
+    public function getFilters()
+    {
+        return [
+            new \Twig\TwigFilter('rot13', 'str_rot13'),
+        ];
+    }
+}
+```
+
+_configuration_
+
+```yaml
+extensions:
+  Test: Cecil\Renderer\Extension\Test
+```

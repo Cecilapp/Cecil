@@ -33,9 +33,9 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class Extension\CoreExtension.
+ * Class Renderer\Extension\Core.
  */
-class CoreExtension extends SlugifyExtension
+class Core extends SlugifyExtension
 {
     /** @var Builder */
     protected $builder;
