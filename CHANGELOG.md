@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.13.2](https://github.com/Cecilapp/Cecil/compare/7.13.1...7.13.2)
+
+> 11 October 2022
+
+- fix: reverse sort by date if the same date [`65eaee7`](https://github.com/Cecilapp/Cecil/commit/65eaee7938eaf618839712fe909468fbb8eb6de3)
+
+#### [7.13.1](https://github.com/Cecilapp/Cecil/compare/7.13.0...7.13.1)
+
+> 11 October 2022
+
+- refactor: enhance images handling [`#1504`](https://github.com/Cecilapp/Cecil/pull/1504)
+- docs: update templates [`36935a0`](https://github.com/Cecilapp/Cecil/commit/36935a05d23975403df270afb7ef51620b16a086)
+- refactor: clean code [`1b3b719`](https://github.com/Cecilapp/Cecil/commit/1b3b7198b99c36d1dd0717b40ce3328b93f9943e)
+- refactor: clean code [`87d2aa6`](https://github.com/Cecilapp/Cecil/commit/87d2aa6ff8d34990ec1d4bac9085fb3629455fe0)
+- chore: update deps [`4463800`](https://github.com/Cecilapp/Cecil/commit/446380035c24314b5b77682087f826ed59cfc3fb)
+- fix: sort by date with the same date [`9338d35`](https://github.com/Cecilapp/Cecil/commit/9338d35fa2d59a56149ca543c7f79187f734383c)
+- docs: minor fix [`816c2be`](https://github.com/Cecilapp/Cecil/commit/816c2beb00314025533034e95302e796d782f6b4)
+
 #### [7.13.0](https://github.com/Cecilapp/Cecil/compare/7.12.1...7.13.0)
 
 > 5 October 2022

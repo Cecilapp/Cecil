@@ -595,6 +595,17 @@ sortby: title
 ---
 ```
 
+**Options:**
+
+```yaml
+---
+sortby:
+  variable: date    # date, updated, title or weight
+  desc_title: false # used with date or updated variables to sort by desc title order if items have same date
+  reverse: false    # reversed if true
+---
+```
+
 #### pagination
 
 Global [pagination configuration](4-Configuration.md#pagination) can be overridden in a _Section_.

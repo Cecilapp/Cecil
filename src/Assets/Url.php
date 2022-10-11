@@ -44,11 +44,11 @@ class Url
     private static $slugifier;
 
     /**
-     * Creates an URL from a string, a Page or an Asset.
+     * Creates an URL from a Page, an Asset or a string.
      *
      * @param Builder                $builder
      * @param Page|Asset|string|null $value
-     * @param array|null             $options Render options, e.g.: ['canonical' => true, 'format' => 'json']
+     * @param array|null             $options Rendering options, e.g.: ['canonical' => true, 'format' => 'html', 'language' => 'fr']
      */
     public function __construct(Builder $builder, $value, array $options = null)
     {
@@ -60,9 +60,9 @@ class Url
         $this->baseurl = (string) $this->config->get('baseurl');
 
         // handles options
-        $canonical = null;
-        $format = null;
-        $language = null;
+        $canonical = null; // if true, add prefix URL with baseurl
+        $format = null;    // set output format
+        $language = null;  // force language
         extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // canonical URL?
@@ -74,7 +74,7 @@ class Url
             $base = '';
         }
 
-        // value is empty (ie: `url()`)
+        // value is empty (i.e.: `url()`)
         if (is_null($value) || empty($value) || $value == '/') {
             $this->url = $base.'/';
 

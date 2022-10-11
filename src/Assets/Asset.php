@@ -52,18 +52,11 @@ class Asset implements \ArrayAccess
     protected $ignore_missing = false;
 
     /**
-     * Creates an Asset from file(s) path.
-     *
-     * $options[
-     *     'fingerprint'    => true,
-     *     'minify'         => true,
-     *     'filename'       => '',
-     *     'ignore_missing' => false,
-     * ];
+     * Creates an Asset from a file path or an array of files path.
      *
      * @param Builder      $builder
      * @param string|array $paths
-     * @param array|null   $options
+     * @param array|null   $options e.g.: ['fingerprint' => true, 'minify' => true, 'filename' => '', 'ignore_missing' => false]
      *
      * @throws RuntimeException
      */
