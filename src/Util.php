@@ -79,4 +79,17 @@ class Util
 
         return \sprintf('%s %s', round($size / pow(1024, ($i = floor(log($size, 1024)))), 2), $unit[$i]);
     }
+
+    /**
+     * Loads class from the source directory, in the given subdirectory $dir.
+     */
+    public static function autoload(Builder $builder, string $dir): void
+    {
+        spl_autoload_register(function ($className) use ($builder, $dir) {
+            $classFile = Util::joinFile($builder->getConfig()->getSourceDir(), $dir, "$className.php");
+            if (file_exists($classFile)) {
+                require $classFile;
+            }
+        });
+    }
 }

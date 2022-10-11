@@ -104,10 +104,6 @@ return [
         ],
         'load' => true,
     ],
-    'generators' => [
-        99  => 'Cecil\Generator\Test',
-        100 => 'Cecil\Generator\TitleReplace',
-    ],
     'cache' => [
         'enabled' => true,
     ],
@@ -189,5 +185,12 @@ return [
         'highlight' => [
             'enabled' => true,
         ],
+    ],
+    'generators' => [
+        99  => 'Cecil\Generator\Test',
+        100 => 'Cecil\Generator\TitleReplace',
+    ],
+    'extensions' => [
+        'Test' => 'Cecil\Renderer\Extension\Test',
     ],
 ];

@@ -1,0 +1,8 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+{{ page.content }}
+<p>
+  "This is a test" become "{{ "This is a test"|rot13 }}".
+</p>
+{% endblock %}
