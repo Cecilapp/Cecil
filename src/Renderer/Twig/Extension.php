@@ -275,7 +275,7 @@ class Extension extends SlugifyExtension
     {
         $callback = function ($a, $b) use ($variable, $reverse, $descTitle) {
             if ($a[$variable] == $b[$variable]) {
-                 // if dates are equal and "descTitle" is true
+                // if dates are equal and "descTitle" is true
                 if ($descTitle && (isset($a['title']) && isset($b['title']))) {
                     return $a['title'] > $b['title'] ? -1 : 1;
                 }

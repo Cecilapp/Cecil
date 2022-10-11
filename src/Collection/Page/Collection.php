@@ -55,9 +55,9 @@ class Collection extends CecilCollection
             $options['variable'] = $options;
         }
         // options
-        $options['variable']  = $options['variable'] ?? 'date';
+        $options['variable'] = $options['variable'] ?? 'date';
         $options['descTitle'] = $options['descTitle'] ?? false;
-        $options['reverse']   = $options['reverse'] ?? false;
+        $options['reverse'] = $options['reverse'] ?? false;
 
         return $this->usort(function ($a, $b) use ($options) {
             if ($a[$options['variable']] == $b[$options['variable']]) {
