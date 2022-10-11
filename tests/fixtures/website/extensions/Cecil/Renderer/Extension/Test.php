@@ -1,4 +1,5 @@
 <?php
+
 namespace Cecil\Renderer\Extension;
 
 class Test extends \Twig\Extension\AbstractExtension
