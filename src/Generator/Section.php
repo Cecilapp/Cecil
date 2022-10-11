@@ -75,8 +75,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     }
                     // sorts (by date by default)
                     $pages = $pages->sortByDate();
-                    /**
-                     * sortby: date|updated|title|weight.
+                    /*
+                     * sortby: date|updated|title|weight
                      *
                      * sortby:
                      *   variable: date|updated
