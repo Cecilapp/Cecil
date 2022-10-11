@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
@@ -35,7 +35,7 @@ jobs:
 
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           vendor
@@ -82,7 +82,7 @@ jobs:
         php cecil.phar show:content skeleton
 
     - name: Upload cecil.phar
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: cecil.phar
         path: dist/cecil.phar
@@ -95,7 +95,7 @@ jobs:
 
     steps:
     - name: Download cecil.phar
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: cecil.phar
 
@@ -141,12 +141,12 @@ jobs:
 
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
     - name: Download cecil.phar
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: cecil.phar
         path: dist
