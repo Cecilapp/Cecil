@@ -85,12 +85,10 @@ class Section extends AbstractGenerator implements GeneratorInterface
                      */
                     if ($page->hasVariable('sortby')) {
                         $sortby = (string) $page->getVariable('sortby');
-                        // with options
-                        if (is_array($page->getVariable('sortby'))) {
-                            $sortby = $page->getVariable('sortby')['variable'] ?? 'date';
-                            $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
-                            $reverse = $page->getVariable('sortby')['reverse'] ?? false;
-                        }
+                        // options?
+                        $sortby = $page->getVariable('sortby')['variable'] ?? $sortby;
+                        $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
+                        $reverse = $page->getVariable('sortby')['reverse'] ?? false;
                         // sortby: date, title or weight
                         $sortMethod = \sprintf('sortBy%s', str_replace('updated', 'date', ucfirst($sortby)));
                         if (!method_exists($pages, $sortMethod)) {
@@ -100,7 +98,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     }
                     // adds navigation links (excludes taxonomy pages)
                     if (!in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
-                        $this->addNavigationLinks($pages, $sortby, $page->getVariable('circular'));
+                        $this->addNavigationLinks($pages, $sortby ?? 'date', $page->getVariable('circular'));
                     }
                     // creates page for each section
                     $page->setType(Type::SECTION)
@@ -130,7 +128,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
     protected function addNavigationLinks(PagesCollection $pages, string $sort = null, $circular = false): void
     {
         $pagesAsArray = $pages->toArray();
-        if ($sort === null || $sort == 'date') {
+        if ($sort === null || $sort == 'date' || $sort == 'updated') {
             $pagesAsArray = array_reverse($pagesAsArray);
         }
         $count = count($pagesAsArray);
