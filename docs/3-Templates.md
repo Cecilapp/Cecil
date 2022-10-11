@@ -1079,7 +1079,7 @@ php cecil.phar util:extract
 [`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
 :   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).
 
-### Custom extension
+## Custom extension
 
 It is possible to use custom [functions](#functions) and [filters](#filters):
 
