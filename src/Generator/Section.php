@@ -76,7 +76,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // sorts (by date by default)
                     $pages = $pages->sortByDate();
                     /**
-                     * sortby: date|updated|title|weight
+                     * sortby: date|updated|title|weight.
                      *
                      * sortby:
                      *   variable: date|updated
@@ -87,9 +87,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $sortby = (string) $page->getVariable('sortby');
                         // with options
                         if (is_array($page->getVariable('sortby'))) {
-                            $sortby    = $page->getVariable('sortby')['variable'] ?? 'date';
+                            $sortby = $page->getVariable('sortby')['variable'] ?? 'date';
                             $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
-                            $reverse   = $page->getVariable('sortby')['reverse'] ?? false;
+                            $reverse = $page->getVariable('sortby')['reverse'] ?? false;
                         }
                         // sortby: date, title or weight
                         $sortMethod = \sprintf('sortBy%s', str_replace('updated', 'date', ucfirst($sortby)));
