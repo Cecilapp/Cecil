@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.13.2](https://github.com/Cecilapp/Cecil/compare/7.13.1...7.13.2)
+
+> 11 October 2022
+
+- fix: reverse sort by date if the same date [`65eaee7`](https://github.com/Cecilapp/Cecil/commit/65eaee7938eaf618839712fe909468fbb8eb6de3)
+
 #### [7.13.1](https://github.com/Cecilapp/Cecil/compare/7.13.0...7.13.1)
 
 > 11 October 2022
