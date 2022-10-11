@@ -233,7 +233,7 @@ class Extension extends SlugifyExtension
      */
     public function sortByTitle(\Traversable $collection, bool $reverse = false): array
     {
-        $sort = $reverse ? "\SORT_DESC" : "\SORT_ASC";
+        $sort = $reverse ? \SORT_DESC : \SORT_ASC;
 
         $collection = iterator_to_array($collection);
         /** @var \array $collection */
