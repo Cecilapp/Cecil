@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.14.0](https://github.com/Cecilapp/Cecil/compare/7.13.2...7.14.0)
+
+> 11 October 2022
+
+- feat: options for `sortby` front matter variable [`#1509`](https://github.com/Cecilapp/Cecil/pull/1509)
+- docs: update sorts filter [`4cf903f`](https://github.com/Cecilapp/Cecil/commit/4cf903f4566fb723adfefdd79f1a01d52152babf)
+
 #### [7.13.2](https://github.com/Cecilapp/Cecil/compare/7.13.1...7.13.2)
 
 > 11 October 2022
