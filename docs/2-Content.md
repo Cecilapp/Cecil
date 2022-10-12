@@ -542,11 +542,14 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 
 ### File prefix
 
-The filename can contain a prefix to define `date` or `weight` of the page (used by [`sortby`](3-TEmplates.md#sort-by-date)).
+The filename can contain a prefix to define `date` or `weight` of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
 
 :::info
-- The prefix is not included in the `title` of the page
-- Available prefix separator are `-`, `_` ~~and `.`~~
+The prefix is not included in the `title` of the page.
+:::
+
+:::info
+Available prefix separator are `-`, `_` ~~and `.`~~.
 :::
 
 #### date
