@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.15.0](https://github.com/Cecilapp/Cecil/compare/7.14.0...7.15.0)
+
+> 12 October 2022
+
+- feat: add local Twig extensions [`#1507`](https://github.com/Cecilapp/Cecil/pull/1507)
+
 #### [7.14.0](https://github.com/Cecilapp/Cecil/compare/7.13.2...7.14.0)
 
 > 11 October 2022
