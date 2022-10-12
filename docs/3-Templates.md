@@ -1089,13 +1089,13 @@ It is possible to use custom [functions](#functions) and [filters](#filters):
 
 **Example:**
 
-_/extensions/Cecil/Renderer/Extension/Test.php_
+_/extensions/Cecil/Renderer/Extension/MyExtension.php_
 
 ```php
 <?php
 namespace Cecil\Renderer\Extension;
 
-class Test extends \Twig\Extension\AbstractExtension
+class MyExtension extends \Twig\Extension\AbstractExtension
 {
     public function getFilters()
     {
@@ -1110,5 +1110,5 @@ _configuration_
 
 ```yaml
 extensions:
-  Test: Cecil\Renderer\Extension\Test
+  MyExtension: Cecil\Renderer\Extension\MyExtension
 ```
