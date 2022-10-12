@@ -9,10 +9,10 @@ updated: 2022-10-02
 There is different kinds of content in Cecil:
 
 **Pages**
-: Pages are the main content of the site, written in Markdown (or plain text).
+: Pages are the main content of the site, written in [Markdown](#markdown).
 
 **Assets**
-: Assets are handled files (i.e.: resized images, compiled Sass, minified scripts, etc.).
+: Assets are manipulated files (i.e.: resized images, compiled Sass, minified scripts, etc.).
 
 **Static files**
 : Static files are copied as is in the generated site.
@@ -77,7 +77,7 @@ Result of the build.
 ```
 
 :::info
-By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.  
+By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.
 :::
 
 :::tip
@@ -492,7 +492,7 @@ _Example:_
 
 ```yaml
 ---
-redirect: "https://arnaudligny.fr/"
+redirect: "https://arnaudligny.fr"
 ---
 ```
 
@@ -545,24 +545,25 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 The filename can contain a prefix to define `date` or `weight` of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
 
 :::info
-The prefix is not included in the `title` of the page.
+The prefix is not included in `title`.  
+For example in « 2019-04-23-My blog post.md » the `title` contains « My blog post ».
 :::
 
 :::info
-Available prefix separator are `-`, `_` ~~and `.`~~.
+Available prefix separator are `-` and `_`.
 :::
 
 #### date
 
-The _date prefix_ is used to set the creation date of the page, and must be a valid date format (`YYYY-MM-DD`).
+The _date prefix_ is used to set the `date` of the page, and must be a valid date format (i.e.: « YYYY-MM-DD »).
 
 _Example:_
 
-In `2019-04-23-My blog post.md`:
+In « 2019-04-23-My blog post.md »:
 
-- the prefix is `2019-04-23`
-- the `date` of the page is `2019-04-23`
-- the `title` of the page is `My blog post`
+- the prefix is « 2019-04-23 »
+- the `date` of the page is « 2019-04-23 »
+- the `title` of the page is « My blog post »
 
 #### weight
 
@@ -570,19 +571,19 @@ The _weight prefix_ is used to set the sort order of the page, and must be a val
 
 _Example:_
 
-In `1-The first project.md`:
+In « 1-The first project.md »:
 
-- the prefix is `1`
-- the `weight` of the page is `1`
-- the `title` of the page is `The first project`
+- the prefix is « 1 »
+- the `weight` of the page is « 1 »
+- the `title` of the page is « The first project »
 
 ### Section
 
-Some dedicated variables can be used in a custom _Section_ (e.g.: `blog/index.md`).
+Some dedicated variables can be used in a custom _Section_ (i.e.: `<section>/index.md`).
 
 #### sortby
 
-The order of _Pages_ can be changed in a _Section_.
+The order of pages in a _Section_ can be changed.
 
 Available values are:
 
@@ -604,28 +605,28 @@ sortby: title
 ---
 sortby:
   variable: date    # date, updated, title or weight
-  desc_title: false # used with date or updated variables to sort by desc title order if items have same date
+  desc_title: false # used with date or updated variable to sort by desc title order if items have same date
   reverse: false    # reversed if true
 ---
 ```
 
 #### pagination
 
-Global [pagination configuration](4-Configuration.md#pagination) can be overridden in a _Section_.
+Global [pagination configuration](4-Configuration.md#pagination) can be overridden in each _Section_.
 
 _Example:_
 
 ```yaml
 ---
 pagination:
-  max: 2
-  path: "p"
+  max: 5
+  path: "page"
 ---
 ```
 
 #### cascade
 
-Any values in `cascade` will be merged into the front matter of all _sub pages_.
+Any variables in `cascade` are added to the front matter of all _sub pages_.
 
 _Example:_
 
@@ -654,15 +655,15 @@ circular: true
 
 ### Home page
 
-Like another section Home page support `sortby` and `pagination` configuration.
+Like another section, _Home page_ support `sortby` and `pagination` configuration.
 
 #### pagesfrom
 
-Set a valid section’s name to `pagesfrom` to use pages collection from this section.
+Set a valid _Section_ name in `pagesfrom` to use pages collection from this _Section_ in _Home page_.
 
 ### exclude
 
-Set `exclude` to `true` to hide a page from lists (like _Home page_, _Section_, _Sitemap_, etc.).
+Set `exclude` to `true` to hide a page from list pages (i.e.: _Home page_, _Section_, _Sitemap_, etc.).
 
 _Example:_
 
@@ -673,7 +674,7 @@ exclude: true
 ```
 
 :::info
-`exclude` is different from [`published`](#predefined): an excluded page is published but it’s hidden from the _Section_ list.
+`exclude` is different from [`published`](#predefined): an excluded page is published but hidden from list pages.
 :::
 
 ## Multilingual
@@ -739,15 +740,13 @@ langref: my-page-ref
 
 ## Dynamic content
 
-You can use [variables](3-Templates.md#variables) and shortcodes in the body content.
+With this **experimental** feature you can use [variables](3-Templates.md#variables) and shortcodes in the [body](#body).
 
 To do this you must include a specific template instead of `{{ page.content }}`:
 
 ```twig
-{% include page.content_template %}
+{{ include(page.content_template) }}
 ```
-
-> _Experimental_
 
 ### Display variables
 
