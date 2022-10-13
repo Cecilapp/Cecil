@@ -458,8 +458,8 @@ class Config
     {
         if ($themes = $this->getTheme()) {
             foreach ($themes as $theme) {
-                if (!Util\File::getFS()->exists($this->getThemeDirPath($theme, 'layouts'))) {
-                    throw new RuntimeException(\sprintf('Theme directory "%s" not found!', Util::joinFile($this->getThemesPath(), $theme, 'layouts')));
+                if (!Util\File::getFS()->exists($this->getThemeDirPath($theme, 'layouts')) || !Util\File::getFS()->exists(Util::joinFile($this->getThemesPath(), $theme, 'config.yml'))) {
+                    throw new RuntimeException(\sprintf('Theme "%s" not found. Did you forgot to install it?', $theme));
                 }
             }
 
