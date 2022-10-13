@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.15.1](https://github.com/Cecilapp/Cecil/compare/7.15.0...7.15.1)
+
+> 13 October 2022
+
+- chore: update deps [`1f34148`](https://github.com/Cecilapp/Cecil/commit/1f34148cd6d46c25bfcf431895ccb1499d73866a)
+- docs: update content [`cbec697`](https://github.com/Cecilapp/Cecil/commit/cbec697fcf4f83254248814faac7d4855e46a529)
+- chore: update actions [`f5b671d`](https://github.com/Cecilapp/Cecil/commit/f5b671d589606230327b5b830a4d71de203d9e0f)
+- docs: minor fix [`574adcb`](https://github.com/Cecilapp/Cecil/commit/574adcb63827f5b381b85ae68028cda9aa9e747a)
+- docs: update templates [`91392c9`](https://github.com/Cecilapp/Cecil/commit/91392c9179fb1f857f3889b70769e3fbe7e3970e)
+- refactor: exception message if theme not installed [`a058961`](https://github.com/Cecilapp/Cecil/commit/a058961f967977e4a1c3933ce041dbd2e5000112)
+- docs: fix templates [`b0e9e97`](https://github.com/Cecilapp/Cecil/commit/b0e9e97043e56845f9a2b9bddecbe1d32eae2c5c)
+
 #### [7.15.0](https://github.com/Cecilapp/Cecil/compare/7.14.0...7.15.0)
 
 > 12 October 2022
