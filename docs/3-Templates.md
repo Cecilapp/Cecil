@@ -658,22 +658,23 @@ _Examples:_
 
 ### excerpt_html
 
-Reads characters before `<!-- excerpt -->` or `<!-- break -->` tag.
+Reads characters before or after `<!-- excerpt -->` or `<!-- break -->` tag.
 
 ```twig
-{{ string|excerpt_html(separator, capture) }}
+{{ string|excerpt_html({separator, capture}) }}
 ```
 
 | Option    | Description                                           | Type    | Default         |
 | --------- | ----------------------------------------------------- | ------- | --------------- |
 | separator | String to use as separator.                           | string  | `excerpt|break` |
-| capture   | Capture characters `before` or `after` the separator. | string  | `before`        |
+| capture   | Part to capture, `before` or `after` the separator.   | string  | `before`        |
 
 _Examples:_
 
 ```twig
 {{ variable|excerpt_html }}
-{{ variable|excerpt_html('excerpt|break', 'before') }}
+{{ variable|excerpt_html({separator: 'excerpt|break', capture: 'before'}) }}
+{{ variable|excerpt_html({capture: 'after'}) }}
 ```
 
 ### to_css

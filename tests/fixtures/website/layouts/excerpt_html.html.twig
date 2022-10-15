@@ -1,0 +1,7 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+
+{{ page.content|excerpt_html({separator: 'pouet', capture: 'after'}) }}
+
+{% endblock %}

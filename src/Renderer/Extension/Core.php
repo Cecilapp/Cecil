@@ -616,17 +616,17 @@ class Core extends SlugifyExtension
     }
 
     /**
-     * Reads characters before '<!-- excerpt|break -->'.
+     * Reads characters before or after '<!-- separator -->'.
      * Options:
-     *  - separator: string to use as separator
-     *  - capture: string to capture, 'before' (default) or 'after'.
+     *  - separator: string to use as separator (`excerpt|break` by default)
+     *  - capture: part to capture, `before` or `after` the separator (`before` by default).
      */
     public function excerptHtml(?string $string, array $options = []): string
     {
         $string = $string ?? '';
 
-        $separator = 'excerpt|break';
-        $capture = 'before';
+        $separator = $this->builder->getConfig()->get('body.excerpt.separator');
+        $capture = $this->builder->getConfig()->get('body.excerpt.capture');
         extract($options, EXTR_IF_EXISTS);
 
         // https://regex101.com/r/n9TWHF/1
@@ -636,11 +636,12 @@ class Core extends SlugifyExtension
         if (empty($matches)) {
             return $string;
         }
+        $result = trim($matches[1]);
         if ($capture == 'after') {
-            return trim($matches[3]);
+            $result = trim($matches[3]);
         }
-        // remove footnotes
-        return preg_replace('/<sup[^>]*>[^u]*<\/sup>/', '', trim($matches[1]));
+        // removes footnotes and returns result
+        return preg_replace('/<sup[^>]*>[^u]*<\/sup>/', '', $result);
     }
 
     /**

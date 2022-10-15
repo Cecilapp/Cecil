@@ -620,8 +620,9 @@ body:
       enabled: true  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
     remote:
       enabled: true  # enables remote image handling (`true` by default)
-  notes:
-    enabled: true   # turns remote images to assets to handling them (`true` by default)
+  excerpt:
+    separator: excerpt|break # string to use as separator (`excerpt|break` by default)
+    capture: before          # part to capture, `before` or `after` the separator (`before` by default)
 ```
 
 To know how those options impacts your content see _[Content > Pages > Markdown](2-Content.md#markdown)_ documentation.
