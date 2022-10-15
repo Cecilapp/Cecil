@@ -72,6 +72,7 @@ class Asset implements \ArrayAccess
         });
         $this->data = [
             'file'           => '',    // absolute file path
+            'files'          => [],    // bundle: files path
             'filename'       => '',    // filename
             'path_source'    => '',    // public path to the file, before transformations
             'path'           => '',    // public path to the file, after transformations
@@ -126,7 +127,7 @@ class Asset implements \ArrayAccess
                 $this->data['content_source'] .= $file[$i]['content'];
                 $this->data['content'] .= $file[$i]['content'];
                 if ($i == 0) {
-                    $this->data['file'] = $file[$i]['filepath']; // should be an array of files in case of bundle?
+                    $this->data['file'] = $file[$i]['filepath'];
                     $this->data['filename'] = $file[$i]['path'];
                     $this->data['path_source'] = $file[$i]['path'];
                     $this->data['path'] = $file[$i]['path'];
@@ -141,21 +142,21 @@ class Asset implements \ArrayAccess
                         $this->data['height'] = $this->getHeight();
                     }
                 }
+                // bundle files path
+                $this->data['files'][] = $file[$i]['filepath'];
             }
             // bundle: define path
-            if ($pathsCount > 1) {
-                if (empty($filename)) { /** @phpstan-ignore-line */
-                    switch ($this->data['ext']) {
-                        case 'scss':
-                        case 'css':
-                            $this->data['path'] = '/styles.'.$file[0]['ext'];
-                            break;
-                        case 'js':
-                            $this->data['path'] = '/scripts.'.$file[0]['ext'];
-                            break;
-                        default:
-                            throw new RuntimeException(\sprintf('Asset bundle supports "%s" files only.', 'scss, css and js'));
-                    }
+            if ($pathsCount > 1 && empty($filename)) { /** @phpstan-ignore-line */
+                switch ($this->data['ext']) {
+                    case 'scss':
+                    case 'css':
+                        $this->data['path'] = '/styles.' . $file[0]['ext'];
+                        break;
+                    case 'js':
+                        $this->data['path'] = '/scripts.' . $file[0]['ext'];
+                        break;
+                    default:
+                        throw new RuntimeException(\sprintf('Asset bundle supports "%s" files only.', '.scss, .css and .js'));
                 }
             }
             $cache->set($cacheKey, $this->data);
