@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.15.3](https://github.com/Cecilapp/Cecil/compare/7.15.2...7.15.3)
+
+> 15 October 2022
+
+- fix: `excerpt_html` filter options handling [`#1518`](https://github.com/Cecilapp/Cecil/pull/1518)
+
 #### [7.15.2](https://github.com/Cecilapp/Cecil/compare/7.15.1...7.15.2)
 
 > 13 October 2022
