@@ -393,6 +393,7 @@ _Examples:_
 Assets created with the `asset()` function expose some useful attributes :
 
 - `file`: filesystem path
+- `files`: array of filesystem path in case of bundle
 - `filename`: file name
 - `path`: relative path
 - `missing`: `true` if file not found, but missing is ollowed
