@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.15.2](https://github.com/Cecilapp/Cecil/compare/7.15.1...7.15.2)
+
+> 13 October 2022
+
+- fix: regression introduce in previous release [`fb5cb6c`](https://github.com/Cecilapp/Cecil/commit/fb5cb6c44eb76f617a5eede9ae6909c2f5a0dcbd)
+
 #### [7.15.1](https://github.com/Cecilapp/Cecil/compare/7.15.0...7.15.1)
 
 > 13 October 2022
