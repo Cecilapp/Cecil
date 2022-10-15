@@ -150,10 +150,10 @@ class Asset implements \ArrayAccess
                 switch ($this->data['ext']) {
                     case 'scss':
                     case 'css':
-                        $this->data['path'] = '/styles.' . $file[0]['ext'];
+                        $this->data['path'] = '/styles.'.$file[0]['ext'];
                         break;
                     case 'js':
-                        $this->data['path'] = '/scripts.' . $file[0]['ext'];
+                        $this->data['path'] = '/scripts.'.$file[0]['ext'];
                         break;
                     default:
                         throw new RuntimeException(\sprintf('Asset bundle supports "%s" files only.', '.scss, .css and .js'));
