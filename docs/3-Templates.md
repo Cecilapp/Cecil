@@ -370,6 +370,10 @@ Refer to [assets configuration](4-Configuration.md#assets) to define the global 
 Uses [filters](#filters) to manipulate assets.
 :::
 
+:::important
+Be carreful about the cache ([enabled by default](4-Configuration.md#cache)): if an asset is modified but keeps the same name, then the previous version (cached) will be used. Cache can be cleared with with the following command: `php cecil.phar cache:clear:assets`.
+:::
+
 _Examples:_
 
 ```twig
