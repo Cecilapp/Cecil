@@ -209,7 +209,7 @@ return [
         'excerpt' => [
             'separator' => 'excerpt|break', // string to use as separator (`excerpt|break` by default)
             'capture'   => 'before',        // part to capture, `before` or `after` the separator (`before` by default)
-        ]
+        ],
     ],
     // data files
     'data' => [
