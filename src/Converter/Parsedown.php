@@ -269,6 +269,12 @@ class Parsedown extends \ParsedownToC
                     ],
                 ];
                 $PictureBlock['element']['text'][] = $source['element'];
+                // clean title (and preserve raw HTML)
+                $titleRawHtml = '';
+                if (isset($InlineImage['element']['attributes']['title'])) {
+                    $titleRawHtml = $this->line($InlineImage['element']['attributes']['title']);
+                    $InlineImage['element']['attributes']['title'] = strip_tags($titleRawHtml);
+                }
                 $PictureBlock['element']['text'][] = $InlineImage['element'];
                 $block = $PictureBlock;
             } catch (\Exception $e) {
@@ -277,7 +283,7 @@ class Parsedown extends \ParsedownToC
         }
 
         // if there is a title: put the <img> (or <picture>) in a <figure> element to use the <figcaption>
-        if ($this->builder->getConfig()->get('body.images.caption.enabled') && !empty($InlineImage['element']['attributes']['title'])) {
+        if ($this->builder->getConfig()->get('body.images.caption.enabled') && !empty($titleRawHtml)) {
             $FigureBlock = [
                 'element' => [
                     'name'    => 'figure',
@@ -289,8 +295,9 @@ class Parsedown extends \ParsedownToC
             ];
             $InlineFigcaption = [
                 'element' => [
-                    'name' => 'figcaption',
-                    'text' => $InlineImage['element']['attributes']['title'],
+                    'name'                   => 'figcaption',
+                    'allowRawHtmlInSafeMode' => true,
+                    'rawHtml'                => $this->line($titleRawHtml),
                 ],
             ];
             $FigureBlock['element']['text'][] = $InlineFigcaption['element'];
