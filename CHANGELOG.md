@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.15.5](https://github.com/Cecilapp/Cecil/compare/7.15.4...7.15.5)
+
+> 16 October 2022
+
+- fix: add version to asset cache key [`f9228e0`](https://github.com/Cecilapp/Cecil/commit/f9228e01b5b723f1967b039256d097d10190a1da)
+- docs: add notice about cache [`e97764c`](https://github.com/Cecilapp/Cecil/commit/e97764c51dc8c988930c0c5a4899d75b56660f8c)
+- refactor: clean code [`67920e7`](https://github.com/Cecilapp/Cecil/commit/67920e7ab26be262fb222a986b24cacd640e7877)
+- docs: minor fix [`ea1a124`](https://github.com/Cecilapp/Cecil/commit/ea1a124123003d41fa09e284d0996c56a9e09e90)
+
 #### [7.15.4](https://github.com/Cecilapp/Cecil/compare/7.15.3...7.15.4)
 
 > 16 October 2022
