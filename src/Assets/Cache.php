@@ -164,7 +164,7 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key from a file: $relativePath + '__' + MD5 hash.
+     * Creates key from a file: "$relativePath__MD5".
      *
      * @throws RuntimeException
      */
