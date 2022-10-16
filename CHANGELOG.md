@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.15.4](https://github.com/Cecilapp/Cecil/compare/7.15.3...7.15.4)
+
+> 16 October 2022
+
+- Apply fixes from StyleCI [`#1519`](https://github.com/Cecilapp/Cecil/pull/1519)
+- fix: bundle files path [`4991d73`](https://github.com/Cecilapp/Cecil/commit/4991d7337d6505ebd85ee0f4683c26c81735db82)
+- refactor: clean code [`0ecaf8b`](https://github.com/Cecilapp/Cecil/commit/0ecaf8b0a86dca66b304a966b999416d94d42f32)
+- fix: add Cecil version to asset cache key [`207428c`](https://github.com/Cecilapp/Cecil/commit/207428c7dab8f13507f4fc54f0e6c16e033b7776)
+
 #### [7.15.3](https://github.com/Cecilapp/Cecil/compare/7.15.2...7.15.3)
 
 > 15 October 2022
