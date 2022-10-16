@@ -269,6 +269,11 @@ class Parsedown extends \ParsedownToC
                     ],
                 ];
                 $PictureBlock['element']['text'][] = $source['element'];
+                // clean title (and preserve raw HTML)
+                if (isset($InlineImage['element']['attributes']['title'])) {
+                    $titleRawHtml = $this->line($InlineImage['element']['attributes']['title']);
+                    $InlineImage['element']['attributes']['title'] = strip_tags($this->line($InlineImage['element']['attributes']['title']));
+                }
                 $PictureBlock['element']['text'][] = $InlineImage['element'];
                 $block = $PictureBlock;
             } catch (\Exception $e) {
@@ -290,7 +295,8 @@ class Parsedown extends \ParsedownToC
             $InlineFigcaption = [
                 'element' => [
                     'name' => 'figcaption',
-                    'text' => $InlineImage['element']['attributes']['title'],
+                    'allowRawHtmlInSafeMode' => true,
+                    'rawHtml' => $this->line($titleRawHtml),
                 ],
             ];
             $FigureBlock['element']['text'][] = $InlineFigcaption['element'];
