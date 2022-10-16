@@ -184,16 +184,14 @@ class Cache implements CacheInterface
     {
         $tags = implode('_', $tags ?? []);
 
-        return $this->prepareKey(
-            \sprintf(
+        return $this->prepareKey(\sprintf(
             '%s%s%s__%s__%s',
             $asset['filename'],
             "_{$asset['ext']}",
             $tags ? "_$tags" : '',
             $this->builder->getVersion(),
             $this->createKeyFromString($asset['content_source'] ?? '')
-        )
-        );
+        ));
     }
 
     /**
