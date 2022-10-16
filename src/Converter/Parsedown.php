@@ -294,9 +294,9 @@ class Parsedown extends \ParsedownToC
             ];
             $InlineFigcaption = [
                 'element' => [
-                    'name' => 'figcaption',
+                    'name'                   => 'figcaption',
                     'allowRawHtmlInSafeMode' => true,
-                    'rawHtml' => $this->line($titleRawHtml),
+                    'rawHtml'                => $this->line($titleRawHtml),
                 ],
             ];
             $FigureBlock['element']['text'][] = $InlineFigcaption['element'];
