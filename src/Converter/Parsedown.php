@@ -94,7 +94,7 @@ class Parsedown extends \ParsedownToC
         $image['element']['attributes']['src'] = $this->cleanUrl($image['element']['attributes']['src']);
 
         // should be lazy loaded?
-        if ($this->builder->getConfig()->get('body.images.lazy.enabled')) {
+        if ($this->builder->getConfig()->get('body.images.lazy.enabled') && !isset($image['element']['attributes']['loading'])) {
             $image['element']['attributes']['loading'] = 'lazy';
         }
 
