@@ -98,7 +98,7 @@ class Asset implements \ArrayAccess
         $this->ignore_missing = $ignore_missing;
 
         // fill data array with file(s) informations
-        $cache = new Cache($this->builder, 'assets');
+        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = \sprintf('%s__%s', implode('_', $paths), $this->builder->getVersion());
         if (!$cache->has($cacheKey)) {
             $pathsCount = count($paths);
@@ -237,7 +237,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($this, ['compiled']);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
@@ -329,7 +329,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($this, ['minified']);
         if (!$cache->has($cacheKey)) {
             switch ($this->data['ext']) {
@@ -365,7 +365,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $tags = ['optimized'];
         if ($this->data['width']) {
             array_unshift($tags, "{$this->data['width']}x");
@@ -414,7 +414,7 @@ class Asset implements \ArrayAccess
         $assetResized = clone $this;
         $assetResized->data['width'] = $width;
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x"]);
         if (!$cache->has($cacheKey)) {
             if ($assetResized->data['type'] !== 'image') {
@@ -667,7 +667,7 @@ class Asset implements \ArrayAccess
         if (Util\Url::isUrl($path)) {
             $url = $path;
             $relativePath = Page::slugify(\sprintf('%s%s-%s', parse_url($url, PHP_URL_HOST), parse_url($url, PHP_URL_PATH), parse_url($url, PHP_URL_QUERY)));
-            $filePath = Util::joinFile($this->config->getCacheAssetsPath(), $relativePath);
+            $filePath = Util::joinFile($this->config->getCacheAssetsRemotePath(), $relativePath);
             if (!file_exists($filePath)) {
                 if (!Util\Url::isRemoteFileExists($url)) {
                     return false;
