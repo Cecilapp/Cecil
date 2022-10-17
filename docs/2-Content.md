@@ -761,9 +761,13 @@ var: 'value'
 The value of `var` is {{ page.var }}.
 ```
 
+> Experimental
+
 ### Shortcodes
 
 Shortcodes are helpers to create dynamic content.
+
+> Experimental
 
 #### Built-in shortcodes
 
