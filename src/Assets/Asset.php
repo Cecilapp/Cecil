@@ -98,7 +98,7 @@ class Asset implements \ArrayAccess
         $this->ignore_missing = $ignore_missing;
 
         // fill data array with file(s) informations
-        $cache = new Cache($this->builder, 'assets');
+        $cache = new Cache($this->builder, $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = \sprintf('%s__%s', implode('_', $paths), $this->builder->getVersion());
         if (!$cache->has($cacheKey)) {
             $pathsCount = count($paths);
@@ -237,7 +237,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = new Cache($this->builder, $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($this, ['compiled']);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
@@ -329,7 +329,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = new Cache($this->builder, $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($this, ['minified']);
         if (!$cache->has($cacheKey)) {
             switch ($this->data['ext']) {
