@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.16.0](https://github.com/Cecilapp/Cecil/compare/7.15.5...7.16.0)
+
+> 16 October 2022
+
+- feat: support of Markdown in `figcaption` (title) of an image [`#1522`](https://github.com/Cecilapp/Cecil/pull/1522)
+- Apply fixes from StyleCI [`#1520`](https://github.com/Cecilapp/Cecil/pull/1520)
+- refactor: clean code [`f208cff`](https://github.com/Cecilapp/Cecil/commit/f208cff7e5f8ef725bd735ac0cc999baf8dbfd9c)
+- fix: do not override image `loading` attribute [`cb74c2f`](https://github.com/Cecilapp/Cecil/commit/cb74c2ffa947c34274f627de9afc455b51d36b67)
+
 #### [7.15.5](https://github.com/Cecilapp/Cecil/compare/7.15.4...7.15.5)
 
 > 16 October 2022
