@@ -67,7 +67,10 @@ class Asset implements \ArrayAccess
         $paths = is_array($paths) ? $paths : [$paths];
         array_walk($paths, function ($path) {
             if (empty($path)) {
-                throw new RuntimeException('The path parameter of "asset() can\'t be empty."');
+                throw new RuntimeException('The path to an asset can\'t be empty.');
+            }
+            if (substr($path, 0, 2) == '..') {
+                throw new RuntimeException(\sprintf('The path to asset "%s" is wrong: it must be directly relative to "assets" or "static" directory, or a remote URL.', $path));
             }
         });
         $this->data = [
