@@ -305,10 +305,10 @@ return [
             'enabled' => true,
         ],
         'assets' => [
-            'dir' => 'assets',
+            'dir'    => 'assets',
             'remote' => [
                 'dir' => 'remote',
-            ]
+            ],
         ],
         'translations' => [
             'dir'     => 'translations',
