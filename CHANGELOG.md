@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.16.1](https://github.com/Cecilapp/Cecil/compare/7.16.0...7.16.1)
+
+> 17 October 2022
+
+- fix: error if wrong relative to parent asset path [`#1525`](https://github.com/Cecilapp/Cecil/pull/1525)
+- fix: path to assets cache directory [`#1524`](https://github.com/Cecilapp/Cecil/pull/1524)
+
 #### [7.16.0](https://github.com/Cecilapp/Cecil/compare/7.15.5...7.16.0)
 
 > 16 October 2022
