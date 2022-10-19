@@ -442,6 +442,7 @@ class Parsedown extends \ParsedownToC
      *   "images/img.jpeg"
      *
      * @param string $path
+     *
      * @return string
      */
     private function normalizePath(string $path): string
@@ -454,11 +455,9 @@ class Parsedown extends \ParsedownToC
         );
         $path = Util::joinPath($path);
         if (!preg_match('/'.$pattern.'/is', $path, $matches)) {
-
             return $path;
         }
         if ($matches[1] == '../') {
-
             return $matches[3];
         }
     }
