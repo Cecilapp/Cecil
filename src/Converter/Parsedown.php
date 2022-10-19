@@ -90,8 +90,11 @@ class Parsedown extends \ParsedownToC
             return null;
         }
 
-        // clean source path / URL
-        $image['element']['attributes']['src'] = $this->cleanUrl($image['element']['attributes']['src']);
+        // remove quesry string
+        $image['element']['attributes']['src'] = $this->removeQueryString($image['element']['attributes']['src']);
+
+        // normalize path
+        $image['element']['attributes']['src'] = $this->normalizePath($image['element']['attributes']['src']);
 
         // should be lazy loaded?
         if ($this->builder->getConfig()->get('body.images.lazy.enabled') && !isset($image['element']['attributes']['loading'])) {
@@ -424,10 +427,33 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * Returns URL without query string.
+     * Remove query string form a path/URL.
      */
-    private function cleanUrl(string $path): string
+    private function removeQueryString(string $path): string
     {
         return strtok(trim($path), '?') ?: trim($path);
+    }
+
+    /**
+     * Turns a path relative to static or assets into a website relative path.
+     *
+     *   "../../assets/images/img.jpeg"
+     *   ->
+     *   "/images/img.jpeg"
+     */
+    private function normalizePath(string $path): string
+    {
+        // https://regex101.com/r/Rzguzh/1
+        $pattern = \sprintf(
+            '(\.\.\/)+(\b%s|%s\b)+(\/.*)',
+            $this->builder->getConfig()->get('static.dir'),
+            $this->builder->getConfig()->get('assets.dir')
+        );
+        $path = Util::joinPath($path);
+        if (!preg_match('/'.$pattern.'/is', $path, $matches)) {
+            return $path;
+        }
+
+        return $matches[3];
     }
 }
