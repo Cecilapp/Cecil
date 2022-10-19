@@ -243,6 +243,17 @@ Is converted to:
 
 ### Images
 
+To add an image, use an exclamation mark (`!`) followed by alternative description in brackets (`[]`), and the path or URL to the image in parentheses (`()`).  
+You can optionally add a title in quotation marks.
+
+```markdown
+![Alternative description](/image.jpg "Image title")
+```
+
+:::info
+The path should be relative to the root of your website (e.g.: `/image.jpg`), however Cecil is able to normalize a relative path like `../../assets/image.jpg` (or `../../static/image.jpg`) to `/image.jpg`.
+:::
+
 #### Lazy loading
 
 By default Cecil apply the attribute `loading="lazy"` on each images.
