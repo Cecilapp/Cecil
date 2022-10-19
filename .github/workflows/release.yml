@@ -24,7 +24,7 @@ jobs:
     - name: Get previous release
       id: previous_release
       run: |
-        echo ::set-output name=tag::$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1  --max-count=1`)
+        echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1  --max-count=1`)" >> $GITHUB_OUTPUT
 
     - name: Install PHP
       uses: shivammathur/setup-php@v2
