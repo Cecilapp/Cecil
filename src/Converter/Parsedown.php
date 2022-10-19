@@ -440,9 +440,6 @@ class Parsedown extends \ParsedownToC
      *   "../../assets/images/img.jpeg"
      *   ->
      *   "images/img.jpeg"
-     *
-     * @param string $path
-     * @return string
      */
     private function normalizePath(string $path): string
     {
@@ -457,9 +454,7 @@ class Parsedown extends \ParsedownToC
 
             return $path;
         }
-        if ($matches[1] == '../') {
 
-            return $matches[3];
-        }
+        return $matches[3];
     }
 }
