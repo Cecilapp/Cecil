@@ -315,8 +315,6 @@ class Page extends Item
      */
     public function setPath(string $path): self
     {
-        $path = self::slugify(PrefixSuffix::sub($path));
-
         // case of homepage
         if ($path == 'index') {
             $this->path = '';
