@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.17.2](https://github.com/Cecilapp/Cecil/compare/7.17.1...7.17.2)
+
+> 22 October 2022
+
+- fix: do not double sub slug prefix [`5c9f514`](https://github.com/Cecilapp/Cecil/commit/5c9f514c1fe1c5eb1dc88cb9680540e935cfe91b)
+
+#### [7.17.1](https://github.com/Cecilapp/Cecil/compare/7.17.0...7.17.1)
+
+> 19 October 2022
+
+- fix: generator meta if no spaces before &lt;/head&gt; [`53c6a96`](https://github.com/Cecilapp/Cecil/commit/53c6a96b2b6cc931f27664ee303dc1e40984a282)
+
 #### [7.17.0](https://github.com/Cecilapp/Cecil/compare/7.16.1...7.17.0)
 
 > 19 October 2022
