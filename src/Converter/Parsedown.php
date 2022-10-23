@@ -102,22 +102,23 @@ class Parsedown extends \ParsedownToC
         }
         $iframe = [
             'element' => [
-                'name' => 'iframe',
-                'text' => $link['element']['text'],
+                'name'       => 'iframe',
+                'text'       => $link['element']['text'],
                 'attributes' => [
-                    'width' => '560',
-                    'height' => '315',
-                    'title' => $link['element']['text'],
-                    'src' => 'https://www.youtube.com/embed/'.$matches[1],
-                    'frameborder' => '0',
-                    'allow' => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+                    'width'           => '560',
+                    'height'          => '315',
+                    'title'           => $link['element']['text'],
+                    'src'             => 'https://www.youtube.com/embed/'.$matches[1],
+                    'frameborder'     => '0',
+                    'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
                     'allowfullscreen' => '',
-                    'style' => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
+                    'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
                 ],
             ],
         ];
+
         return [
-            'extent' => $link['extent'],
+            'extent'  => $link['extent'],
             'element' => [
                 'name'    => 'div',
                 'handler' => 'elements',
