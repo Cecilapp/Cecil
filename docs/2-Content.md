@@ -405,6 +405,18 @@ Is converted to:
 <video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
 ```
 
+### Embedded links
+
+If the configuration option `body.links.embed.enabled` is set to `true`, Cecil tries to turns a link in an embedded content.
+
+:::info
+Only YouTube links are supported for the moment, for example:
+
+```markdown
+[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w)
+```
+:::
+
 ## Variables
 
 The _front matter_ can contains custom variables applied to the current page.

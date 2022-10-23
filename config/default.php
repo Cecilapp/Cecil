@@ -206,6 +206,11 @@ return [
                 'enabled' => true,  // turns remote images to Asset to handling them (`true` by default)
             ],
         ],
+        'links' => [
+            'embed' => [
+                'enabled' => false, // turns links in embedded content if possible (`false` by default)
+            ],
+        ],
         'excerpt' => [
             'separator' => 'excerpt|break', // string to use as separator (`excerpt|break` by default)
             'capture'   => 'before',        // part to capture, `before` or `after` the separator (`before` by default)
