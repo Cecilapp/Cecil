@@ -620,6 +620,9 @@ body:
       enabled: true  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
     remote:
       enabled: true  # enables remote image handling (`true` by default)
+  links:
+    embed:
+      enabled: false # turns links in embedded content if possible (`false` by default)
   excerpt:
     separator: excerpt|break # string to use as separator (`excerpt|break` by default)
     capture: before          # part to capture, `before` or `after` the separator (`before` by default)
