@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.17.3](https://github.com/Cecilapp/Cecil/compare/7.17.2...7.17.3)
+
+> 23 October 2022
+
+- fix: image figure caption [`f664e4a`](https://github.com/Cecilapp/Cecil/commit/f664e4a660b45a36754450b53fe1e22db4f610f1)
+
 #### [7.17.2](https://github.com/Cecilapp/Cecil/compare/7.17.1...7.17.2)
 
 > 22 October 2022
