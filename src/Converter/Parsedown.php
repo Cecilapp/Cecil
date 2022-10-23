@@ -176,6 +176,14 @@ class Parsedown extends \ParsedownToC
         if (!isset($InlineImage)) {
             return;
         }
+
+        // clean title (and preserve raw HTML)
+        $titleRawHtml = '';
+        if (isset($InlineImage['element']['attributes']['title'])) {
+            $titleRawHtml = $this->line($InlineImage['element']['attributes']['title']);
+            $InlineImage['element']['attributes']['title'] = strip_tags($titleRawHtml);
+        }
+
         $block = $InlineImage;
 
         switch ($block['element']['attributes']['alt']) {
@@ -272,13 +280,7 @@ class Parsedown extends \ParsedownToC
                     ],
                 ];
                 $PictureBlock['element']['text'][] = $source['element'];
-                // clean title (and preserve raw HTML)
-                $titleRawHtml = '';
-                if (isset($InlineImage['element']['attributes']['title'])) {
-                    $titleRawHtml = $this->line($InlineImage['element']['attributes']['title']);
-                    $InlineImage['element']['attributes']['title'] = strip_tags($titleRawHtml);
-                }
-                $PictureBlock['element']['text'][] = $InlineImage['element'];
+                $PictureBlock['element']['text'][] = $block['element'];
                 $block = $PictureBlock;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
