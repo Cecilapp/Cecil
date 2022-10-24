@@ -91,6 +91,13 @@ class Parsedown extends \ParsedownToC
             return null;
         }
 
+        // Link to a page with "page:page_id"
+        if (Util\Str::startsWith($link['element']['attributes']['href'], 'page:')) {
+            $link['element']['attributes']['href'] = new \Cecil\Assets\Url($this->builder, substr($link['element']['attributes']['href'], 5, strlen($link['element']['attributes']['href'])));
+
+            return $link;
+        }
+
         // Embed Youtube link?
         if (!$this->builder->getConfig()->get('body.links.embed.enabled') ?? true) {
             return $link;

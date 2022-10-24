@@ -405,6 +405,14 @@ Is converted to:
 <video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
 ```
 
+### Link to a page
+
+You can easily create a link to a page of your site with the following syntax:
+
+```markdown
+[Link to a page](page:page-id)
+```
+
 ### Embedded links
 
 If the configuration option `body.links.embed.enabled` is set to `true`, Cecil tries to turns a link in an embedded content.

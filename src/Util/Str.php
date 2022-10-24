@@ -57,4 +57,25 @@ class Str
 
         return $value;
     }
+
+    /**
+     * Checks if a string starts with the given string.
+     */
+    public static function startsWith(string $haystack, string $needle): bool
+    {
+        $length = strlen($needle);
+        return substr($haystack, 0, $length) === $needle;
+    }
+
+    /**
+     * Checks if a string ends with the given string.
+     */
+    public static function endsWith(string $haystack, string $needle): bool
+    {
+        $length = strlen($needle);
+        if (!$length) {
+            return true;
+        }
+        return substr($haystack, -$length) === $needle;
+    }
 }
