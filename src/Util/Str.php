@@ -64,6 +64,7 @@ class Str
     public static function startsWith(string $haystack, string $needle): bool
     {
         $length = strlen($needle);
+
         return substr($haystack, 0, $length) === $needle;
     }
 
@@ -76,6 +77,7 @@ class Str
         if (!$length) {
             return true;
         }
+
         return substr($haystack, -$length) === $needle;
     }
 }
