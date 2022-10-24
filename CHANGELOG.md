@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.18.0](https://github.com/Cecilapp/Cecil/compare/7.17.3...7.18.0)
+
+> 23 October 2022
+
+- feat: embed a YouTube video from a Markdown link [`#1529`](https://github.com/Cecilapp/Cecil/pull/1529)
+
 #### [7.17.3](https://github.com/Cecilapp/Cecil/compare/7.17.2...7.17.3)
 
 > 23 October 2022
