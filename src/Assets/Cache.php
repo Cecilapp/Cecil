@@ -231,6 +231,7 @@ class Cache implements CacheInterface
         $key = Page::slugify($key);
         $key = trim($key, '/');
         $key = str_replace(['\\', '/'], ['-', '-'], $key);
+        $key = substr($key, 0, 200); // Maximum filename length in NTFS?
 
         return $key;
     }
