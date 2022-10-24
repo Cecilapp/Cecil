@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.19.0](https://github.com/Cecilapp/Cecil/compare/7.18.0...7.19.0)
+
+> 24 October 2022
+
+- feat: link to a page in a markdown link [`#1532`](https://github.com/Cecilapp/Cecil/pull/1532)
+
 #### [7.18.0](https://github.com/Cecilapp/Cecil/compare/7.17.3...7.18.0)
 
 > 23 October 2022
