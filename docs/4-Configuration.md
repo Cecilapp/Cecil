@@ -223,6 +223,9 @@ social:
     firstname: Firstname
     lastname: Lastname
     username: username
+canonical: # to override the generated canonical URL
+  url: <URL>
+  title: "<URL title>" # optional
 ```
 
 :::tip
