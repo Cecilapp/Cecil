@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.22.1](https://github.com/Cecilapp/Cecil/compare/7.22.0...7.22.1)
+
+> 25 October 2022
+
+- fix: apply custom path before the convert step [`#1542`](https://github.com/Cecilapp/Cecil/pull/1542)
+
 #### [7.22.0](https://github.com/Cecilapp/Cecil/compare/7.21.0...7.22.0)
 
 > 25 October 2022
