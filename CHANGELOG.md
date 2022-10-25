@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.19.1](https://github.com/Cecilapp/Cecil/compare/7.19.0...7.19.1)
+
+> 24 October 2022
+
+- fix: cache key max length for NTFS [`f8131a5`](https://github.com/Cecilapp/Cecil/commit/f8131a5c88f6db661e3f90573b700373ca50e24d)
+
 #### [7.19.0](https://github.com/Cecilapp/Cecil/compare/7.18.0...7.19.0)
 
 > 24 October 2022
