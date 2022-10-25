@@ -166,7 +166,11 @@ class Parsedown extends \ParsedownToC
         }
 
         // create asset
-        $asset = new Asset($this->builder, $image['element']['attributes']['src'], ['force_slash' => false]);
+        $assetOptions = ['force_slash' => false];
+        if ($this->builder->getConfig()->get('body.images.remote.fallback.enabled')) {
+            $assetOptions += ['remote_fallback' => $this->builder->getConfig()->get('body.images.remote.fallback.path')];
+        }
+        $asset = new Asset($this->builder, $image['element']['attributes']['src'], $assetOptions);
         $image['element']['attributes']['src'] = $asset;
         $width = $asset->getWidth();
 
