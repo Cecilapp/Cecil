@@ -203,7 +203,11 @@ return [
                 'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
             ],
             'remote' => [
-                'enabled' => true,  // turns remote images to Asset to handling them (`true` by default)
+                'enabled'  => true,  // turns remote images to Asset to handling them (`true` by default)
+                'fallback' => [
+                    'enabled' => false, // enables a fallback if image is not found (`false` by default)
+                    'path'    => '',     // path to the fallback image, stored in assets dir (`` by default)
+                ],
             ],
         ],
         'links' => [
