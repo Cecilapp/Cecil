@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/BenjaminHoegh/parsedownToc.git",
-                "reference": "2576c438cc385bb1375cc6b0d66b81e27b83be88"
+                "url": "https://github.com/BenjaminHoegh/ParsedownToc.git",
+                "reference": "cf7990201d4f8805a5d8f45715da1819d6333779"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenjaminHoegh/parsedownToc/zipball/2576c438cc385bb1375cc6b0d66b81e27b83be88",
-                "reference": "2576c438cc385bb1375cc6b0d66b81e27b83be88",
+                "url": "https://api.github.com/repos/BenjaminHoegh/ParsedownToc/zipball/cf7990201d4f8805a5d8f45715da1819d6333779",
+                "reference": "cf7990201d4f8805a5d8f45715da1819d6333779",
                 "shasum": ""
             },
             "require": {
@@ -49,16 +49,20 @@
                 "parser"
             ],
             "support": {
-                "issues": "https://github.com/BenjaminHoegh/parsedownToc/issues",
-                "source": "https://github.com/BenjaminHoegh/parsedownToc/tree/1.4.1"
+                "issues": "https://github.com/BenjaminHoegh/ParsedownToc/issues",
+                "source": "https://github.com/BenjaminHoegh/ParsedownToc/tree/1.4.2"
             },
             "funding": [
                 {
                     "url": "https://paypal.me/BenjaminHoegh",
                     "type": "custom"
+                },
+                {
+                    "url": "https://www.buymeacoffee.com/BenjaminHoegh",
+                    "type": "custom"
                 }
             ],
-            "time": "2021-11-15T22:13:47+00:00"
+            "time": "2022-10-24T19:20:33+00:00"
         },
         {
             "name": "cocur/slugify",
