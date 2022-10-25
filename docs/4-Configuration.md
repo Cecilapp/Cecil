@@ -623,6 +623,9 @@ body:
       enabled: true  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
     remote:
       enabled: true  # enables remote image handling (`true` by default)
+      fallback:
+        enabled: false # enables a fallback if image is not found (`false` by default)
+        path: ''       # path to the fallback image, stored in assets dir (`` by default)
   links:
     embed:
       enabled: false # turns links in embedded content if possible (`false` by default)
