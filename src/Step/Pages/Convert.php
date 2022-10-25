@@ -65,6 +65,7 @@ class Convert extends AbstractStep
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
+
                 try {
                     $convertedPage = $this->convertPage($this->builder, $page);
                     // set default language (ex: "en") if necessary
