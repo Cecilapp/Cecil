@@ -104,6 +104,21 @@ class Parsedown extends \ParsedownToC
         if (!$this->builder->getConfig()->get('body.links.embed.enabled') ?? true) {
             return $link;
         }
+        // GitHub Gist link?
+        // https://regex101.com/r/QmCiAL/1
+        $pattern = 'https:\/\/gist\.github.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
+        if (preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
+            return [
+                'extent'  => $link['extent'],
+                'element' => [
+                    'name'       => 'script',
+                    'text'       => $link['element']['text'],
+                    'attributes' => [
+                        'src' => $matches[0].'.js',
+                    ],
+                ],
+            ];
+        }
         // Youtube link?
         // https://regex101.com/r/gznM1j/1
         $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
