@@ -98,45 +98,49 @@ class Parsedown extends \ParsedownToC
             return $link;
         }
 
-        // Embed Youtube link?
+        /*
+         * Embed link?
+         */
         if (!$this->builder->getConfig()->get('body.links.embed.enabled') ?? true) {
             return $link;
         }
+        // Youtube link?
         // https://regex101.com/r/gznM1j/1
         $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
-        if (!preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return $link;
-        }
-        $iframe = [
-            'element' => [
-                'name'       => 'iframe',
-                'text'       => $link['element']['text'],
-                'attributes' => [
-                    'width'           => '560',
-                    'height'          => '315',
-                    'title'           => $link['element']['text'],
-                    'src'             => 'https://www.youtube.com/embed/'.$matches[1],
-                    'frameborder'     => '0',
-                    'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
-                    'allowfullscreen' => '',
-                    'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
+        if (preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
+            $iframe = [
+                'element' => [
+                    'name'       => 'iframe',
+                    'text'       => $link['element']['text'],
+                    'attributes' => [
+                        'width'           => '560',
+                        'height'          => '315',
+                        'title'           => $link['element']['text'],
+                        'src'             => 'https://www.youtube.com/embed/' . $matches[1],
+                        'frameborder'     => '0',
+                        'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+                        'allowfullscreen' => '',
+                        'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
+                    ],
                 ],
-            ],
-        ];
+            ];
 
-        return [
-            'extent'  => $link['extent'],
-            'element' => [
-                'name'    => 'div',
-                'handler' => 'elements',
-                'text'    => [
-                    $iframe['element'],
+            return [
+                'extent'  => $link['extent'],
+                'element' => [
+                    'name'    => 'div',
+                    'handler' => 'elements',
+                    'text'    => [
+                        $iframe['element'],
+                    ],
+                    'attributes' => [
+                        'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden',
+                    ],
                 ],
-                'attributes' => [
-                    'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden',
-                ],
-            ],
-        ];
+            ];
+        }
+
+        return $link;
     }
 
     /**
