@@ -111,7 +111,7 @@ class Parsedown extends \ParsedownToC
             return [
                 'extent'  => $link['extent'],
                 'element' => [
-                    'name'    => 'script',
+                    'name'       => 'script',
                     'text'       => $link['element']['text'],
                     'attributes' => [
                         'src' => $matches[0].'.js',
