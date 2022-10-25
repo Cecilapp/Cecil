@@ -65,7 +65,6 @@ class Convert extends AbstractStep
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
-
                 try {
                     $convertedPage = $this->convertPage($this->builder, $page);
                     // set default language (ex: "en") if necessary
@@ -81,49 +80,6 @@ class Convert extends AbstractStep
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 }
-
-                /**
-                 * Apply a custom path to pages of a specified section.
-                 *
-                 * ie:
-                 * paths:
-                 * - section: Blog
-                 *   language: fr # optional
-                 *   path: :section/:year/:month/:day/:slug
-                 */
-                if (is_array($this->config->get('paths'))) {
-                    foreach ($this->config->get('paths') as $entry) {
-                        if (isset($entry['section'])) {
-                            /** @var Page $page */
-                            if ($page->getSection() == Page::slugify($entry['section'])) {
-                                if ((isset($entry['language']) && $entry['language'] != $page->getVariable('language'))) {
-                                    break;
-                                }
-                                if (isset($entry['path'])) {
-                                    $path = str_replace(
-                                        [
-                                            ':year',
-                                            ':month',
-                                            ':day',
-                                            ':section',
-                                            ':slug',
-                                        ],
-                                        [
-                                            $page->getVariable('date')->format('Y'),
-                                            $page->getVariable('date')->format('m'),
-                                            $page->getVariable('date')->format('d'),
-                                            $page->getSection(),
-                                            $page->getSlug(),
-                                        ],
-                                        $entry['path']
-                                    );
-                                    $page->setPath(trim($path, '/'));
-                                }
-                            }
-                        }
-                    }
-                }
-
                 $message = \sprintf('Page "%s" converted', $page->getId());
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {

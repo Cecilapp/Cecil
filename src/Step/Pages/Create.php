@@ -59,7 +59,51 @@ class Create extends AbstractStep
             /** @var Page $page */
             $page = new Page(Page::createId($file));
             $page->setFile($file)->parse();
-            // add page to collection if its language is defined in config
+
+            /*
+             * Apply an - optional - custom path to pages of a section.
+             *
+             * ```yaml
+             * paths:
+             *   - section: Blog
+             *     language: fr # optional
+             *     path: :section/:year/:month/:day/:slug
+             * ```
+             */
+            if (is_array($this->config->get('paths'))) {
+                foreach ($this->config->get('paths') as $entry) {
+                    if (isset($entry['section'])) {
+                        /** @var Page $page */
+                        if ($page->getSection() == Page::slugify($entry['section'])) {
+                            if ((isset($entry['language']) && $entry['language'] != $page->getVariable('language'))) {
+                                break;
+                            }
+                            if (isset($entry['path'])) {
+                                $path = str_replace(
+                                    [
+                                        ':year',
+                                        ':month',
+                                        ':day',
+                                        ':section',
+                                        ':slug',
+                                    ],
+                                    [
+                                        $page->getVariable('date')->format('Y'),
+                                        $page->getVariable('date')->format('m'),
+                                        $page->getVariable('date')->format('d'),
+                                        $page->getSection(),
+                                        $page->getSlug(),
+                                    ],
+                                    $entry['path']
+                                );
+                                $page->setPath(trim($path, '/'));
+                            }
+                        }
+                    }
+                }
+            }
+
+            // add the page to pages collection only if its language is defined in configuration
             if (in_array($page->getVariable('language', $this->config->getLanguageDefault()), array_column($this->config->getLanguages(), 'code'))) {
                 $this->builder->getPages()->add($page);
             }
