@@ -116,7 +116,7 @@ class Parsedown extends \ParsedownToC
                         'width'           => '560',
                         'height'          => '315',
                         'title'           => $link['element']['text'],
-                        'src'             => 'https://www.youtube.com/embed/' . $matches[1],
+                        'src'             => 'https://www.youtube.com/embed/'.$matches[1],
                         'frameborder'     => '0',
                         'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
                         'allowfullscreen' => '',
