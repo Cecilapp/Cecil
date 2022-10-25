@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.22.0](https://github.com/Cecilapp/Cecil/compare/7.21.0...7.22.0)
+
+> 25 October 2022
+
+- feat: embed GitHub Gist link [`#1540`](https://github.com/Cecilapp/Cecil/pull/1540)
+- Apply fixes from StyleCI [`#1538`](https://github.com/Cecilapp/Cecil/pull/1538)
+- refactor: clean code [`f1c4951`](https://github.com/Cecilapp/Cecil/commit/f1c4951469c5993cee4935d701bbbb0b8fc41890)
+
 #### [7.21.0](https://github.com/Cecilapp/Cecil/compare/7.20.0...7.21.0)
 
 > 25 October 2022
