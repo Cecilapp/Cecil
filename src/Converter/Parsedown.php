@@ -104,6 +104,11 @@ class Parsedown extends \ParsedownToC
         if (!$this->builder->getConfig()->get('body.links.embed.enabled') ?? true) {
             return $link;
         }
+        if (isset($link['element']['attributes']['embed']) && $link['element']['attributes']['embed'] == 'false') {
+            unset($link['element']['attributes']['embed']);
+
+            return $link;
+        }
         // GitHub Gist link?
         // https://regex101.com/r/QmCiAL/1
         $pattern = 'https:\/\/gist\.github.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';

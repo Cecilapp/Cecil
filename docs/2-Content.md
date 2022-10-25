@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-10-02
+updated: 2022-10-26
 -->
 
 # Content
@@ -405,24 +405,47 @@ Is converted to:
 <video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
 ```
 
-### Link to a page
+### Links
 
-You can easily create a link to a page of your site with the following syntax:
+You can create a link with the syntax `[Text](url)` where "url" can be an absolute URL, a relative path, an external URL, etc.
+
+_Example:_
 
 ```markdown
-[Link to a page](page:page-id)
+[Link to Cecil website](https://cecil.app)
 ```
 
-### Embedded links
+#### Link to a page
 
-If the configuration option `body.links.embed.enabled` is set to `true`, Cecil tries to turns a link in an embedded content.
+You can easily create a link to a page with the syntax `[Page title](page:page-id)`.
 
-:::info
-Only YouTube links are supported for the moment, for example:
+_Example:_
+
+```markdown
+[Link to a blog post](page:blog/post-1)
+```
+
+#### Embedded links
+
+If the configuration option `body.links.embed.enabled` is set to `true`, Cecil tries to turns a link into an embedded content.
+
+_Example:_
 
 ```markdown
 [An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w)
 ```
+
+:::info
+Only **YouTube** and **GitHub Gits** links are supported for the moment.
+:::
+
+:::tip
+You can disable the embed feature for a specfic link by setting the "embed" attribute to "false":
+
+```markdown
+[Link to a video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed=false}
+```
+
 :::
 
 ## Variables
