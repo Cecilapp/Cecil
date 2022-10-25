@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.20.0](https://github.com/Cecilapp/Cecil/compare/7.19.1...7.20.0)
+
+> 25 October 2022
+
+- feat: variable to override generated canonical URL [`#1535`](https://github.com/Cecilapp/Cecil/pull/1535)
+- chore: clean default layouts [`b94e27b`](https://github.com/Cecilapp/Cecil/commit/b94e27b2e92d507f9667e7e77f3f5ae323cee803)
+
 #### [7.19.1](https://github.com/Cecilapp/Cecil/compare/7.19.0...7.19.1)
 
 > 24 October 2022
