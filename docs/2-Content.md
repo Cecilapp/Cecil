@@ -155,91 +155,48 @@ Cecil supports [Markdown](http://daringfireball.net/projects/markdown/syntax) fo
 
 Cecil also provides **extra features** to enhance your content, see below.
 
-### Table of contents
+### Links
 
-You can add a table of contents with the following Markdown syntax:
+You can create a link with the syntax `[Text](url)` where "url" can be an absolute URL, a relative path, an external URL, etc.
+
+_Example:_
 
 ```markdown
-[toc]
+[Link to Cecil website](https://cecil.app)
+```
+
+#### Link to a page
+
+You can easily create a link to a page with the syntax `[Page title](page:page-id)`.
+
+_Example:_
+
+```markdown
+[Link to a blog post](page:blog/post-1)
+```
+
+#### Embedded links
+
+If the configuration option `body.links.embed.enabled` is set to `true`, Cecil tries to turns a link into an embedded content.
+
+_Example:_
+
+```markdown
+[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w)
 ```
 
 :::info
-By default the ToC extract H2 et H3 headers. You can change this behavior with [body options](4-Configuration.md#body).
+Only **YouTube** and **GitHub Gits** links are supported for the moment.
 :::
-
-### Excerpt
-
-An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
-
-_Example:_
-
-```html
-Introduction.
-<!-- excerpt -->
-Main content.
-```
-
-### Notes
-
-Create a _Note_ block (info, tips, important, etc.).
-
-_Example:_
-
-```markdown
-:::tip
-**Tip:** This is an advice.
-:::
-```
-
-Is converted to:
-
-```html
-<aside class="note note-tip">
-  <p>
-    <strong>Tip:</strong> This is an advice.
-  </p>
-</aside>
-```
 
 :::tip
-**Tip:** This is an advice.
-:::
-
-### Syntax highlight
-
-Enables code block syntax highlighter by setting the [body.highlight.enabled](4-Configuration.md#body) option to `true`.
-
-_Example:_
-
-<pre>
-```php
-echo "Hello world";
-```
-</pre>
-
-Is rendered to:
-
-```php
-echo "Hello world";
-```
-
-:::important
-You must add the [StyleSheet](https://highlightjs.org/download/) in the head of your template.
-:::
-
-### Inserted text
-
-Represents a range of text that has been added.
+You can disable the embed feature for a specfic link by setting the "embed" attribute to "false":
 
 ```markdown
-++text++
+[Link to a video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed=false}
 ```
 
-Is converted to:
-
-```html
-<ins>text</ins>
-```
+:::
 
 ### Images
 
@@ -405,48 +362,91 @@ Is converted to:
 <video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
 ```
 
-### Links
+### Table of contents
 
-You can create a link with the syntax `[Text](url)` where "url" can be an absolute URL, a relative path, an external URL, etc.
-
-_Example:_
+You can add a table of contents with the following Markdown syntax:
 
 ```markdown
-[Link to Cecil website](https://cecil.app)
-```
-
-#### Link to a page
-
-You can easily create a link to a page with the syntax `[Page title](page:page-id)`.
-
-_Example:_
-
-```markdown
-[Link to a blog post](page:blog/post-1)
-```
-
-#### Embedded links
-
-If the configuration option `body.links.embed.enabled` is set to `true`, Cecil tries to turns a link into an embedded content.
-
-_Example:_
-
-```markdown
-[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w)
+[toc]
 ```
 
 :::info
-Only **YouTube** and **GitHub Gits** links are supported for the moment.
+By default the ToC extract H2 et H3 headers. You can change this behavior with [body options](4-Configuration.md#body).
 :::
 
-:::tip
-You can disable the embed feature for a specfic link by setting the "embed" attribute to "false":
+### Excerpt
 
-```markdown
-[Link to a video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed=false}
+An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
+
+_Example:_
+
+```html
+Introduction.
+<!-- excerpt -->
+Main content.
 ```
 
+### Notes
+
+Create a _Note_ block (info, tips, important, etc.).
+
+_Example:_
+
+```markdown
+:::tip
+**Tip:** This is an advice.
 :::
+```
+
+Is converted to:
+
+```html
+<aside class="note note-tip">
+  <p>
+    <strong>Tip:</strong> This is an advice.
+  </p>
+</aside>
+```
+
+:::tip
+**Tip:** This is an advice.
+:::
+
+### Syntax highlight
+
+Enables code block syntax highlighter by setting the [body.highlight.enabled](4-Configuration.md#body) option to `true`.
+
+_Example:_
+
+<pre>
+```php
+echo "Hello world";
+```
+</pre>
+
+Is rendered to:
+
+```php
+echo "Hello world";
+```
+
+:::important
+You must add the [StyleSheet](https://highlightjs.org/download/) in the head of your template.
+:::
+
+### Inserted text
+
+Represents a range of text that has been added.
+
+```markdown
+++text++
+```
+
+Is converted to:
+
+```html
+<ins>text</ins>
+```
 
 ## Variables
 
