@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.21.0](https://github.com/Cecilapp/Cecil/compare/7.20.0...7.21.0)
+
+> 25 October 2022
+
+- feat: local fallback for remote images [`#1537`](https://github.com/Cecilapp/Cecil/pull/1537)
+
 #### [7.20.0](https://github.com/Cecilapp/Cecil/compare/7.19.1...7.20.0)
 
 > 25 October 2022
