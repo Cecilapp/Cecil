@@ -91,7 +91,7 @@ class Parsedown extends \ParsedownToC
             return null;
         }
 
-        // Link to a page with "page:page_id"
+        // Link to a page with "page:page_id" as URL
         if (Util\Str::startsWith($link['element']['attributes']['href'], 'page:')) {
             $link['element']['attributes']['href'] = new \Cecil\Assets\Url($this->builder, substr($link['element']['attributes']['href'], 5, strlen($link['element']['attributes']['href'])));
 
@@ -101,12 +101,16 @@ class Parsedown extends \ParsedownToC
         /*
          * Embed link?
          */
-        if (!$this->builder->getConfig()->get('body.links.embed.enabled') ?? true) {
-            return $link;
-        }
-        if (isset($link['element']['attributes']['embed']) && $link['element']['attributes']['embed'] == 'false') {
+        $embed = false;
+        $embed = (bool) $this->builder->getConfig()->get('body.links.embed.enabled') ?? false;
+        if (isset($link['element']['attributes']['embed'])) {
+            $embed = true;
+            if ($link['element']['attributes']['embed'] == 'false') {
+                $embed = false;
+            }
             unset($link['element']['attributes']['embed']);
-
+        }
+        if (!$embed) {
             return $link;
         }
         // GitHub Gist link?

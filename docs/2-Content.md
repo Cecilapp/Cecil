@@ -177,25 +177,16 @@ _Example:_
 
 #### Embedded links
 
-If the configuration option `body.links.embed.enabled` is set to `true`, Cecil tries to turns a link into an embedded content.
+You can let Cecil tries to turns a link into an embedded content by using the `{embed=true}` attribute or by setting the global configuration option `body.links.embed.enabled` to `true`.
 
 _Example:_
 
 ```markdown
-[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w)
+[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed=true}
 ```
 
 :::info
 Only **YouTube** and **GitHub Gits** links are supported for the moment.
-:::
-
-:::tip
-You can disable the embed feature for a specfic link by setting the "embed" attribute to "false":
-
-```markdown
-[Link to a video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed=false}
-```
-
 :::
 
 ### Images
