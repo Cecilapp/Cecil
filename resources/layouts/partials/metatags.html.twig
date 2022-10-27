@@ -93,7 +93,11 @@
   'creator': '',
 } %}
 {% if page.social.twitter is defined or site.social.twitter is defined %}
-  {%- set twitter = twitter|merge(page.social.twitter|default(site.social.twitter)) %}
+  {%- if page.social.twitter|default(site.social.twitter) is not iterable %}
+    {%- set twitter = twitter|merge({'site': page.social.twitter|default(site.social.twitter)}) %}
+  {%- else %}
+    {%- set twitter = twitter|merge(page.social.twitter|default(site.social.twitter)) %}
+  {%- endif %}
 {% endif %}
 
     {#- template #}
