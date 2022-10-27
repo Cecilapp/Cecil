@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.22.3](https://github.com/Cecilapp/Cecil/compare/7.22.2...7.22.3)
+
+> 27 October 2022
+
+- fix: embedded links disable option [`#1544`](https://github.com/Cecilapp/Cecil/pull/1544)
+- docs: update content [`79314a0`](https://github.com/Cecilapp/Cecil/commit/79314a07f93c47a5c0bd5f4dd556fc018c5846c1)
+
+#### [7.22.2](https://github.com/Cecilapp/Cecil/compare/7.22.1...7.22.2)
+
+> 26 October 2022
+
+- fix: disable embed link on demand [`#1543`](https://github.com/Cecilapp/Cecil/pull/1543)
+
 #### [7.22.1](https://github.com/Cecilapp/Cecil/compare/7.22.0...7.22.1)
 
 > 25 October 2022
