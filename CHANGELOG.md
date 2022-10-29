@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.23.2](https://github.com/Cecilapp/Cecil/compare/7.23.1...7.23.2)
+
+> 29 October 2022
+
+- fix: bug introduce in the previous version [`#1551`](https://github.com/Cecilapp/Cecil/pull/1551)
+
 #### [7.23.1](https://github.com/Cecilapp/Cecil/compare/7.23.0...7.23.1)
 
 > 29 October 2022
