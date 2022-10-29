@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2022-10-05
+updated: 2022-10-29
 -->
 
 # Configuration
@@ -626,6 +626,7 @@ body:
       fallback:
         enabled: false # enables a fallback if image is not found (`false` by default)
         path: ''       # path to the fallback image, stored in assets dir (`` by default)
+    class: ''        # put default class to each image (`` by default)
   links:
     embed:
       enabled: false # turns links in embedded content if possible (`false` by default)
