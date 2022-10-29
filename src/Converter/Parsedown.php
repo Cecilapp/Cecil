@@ -479,6 +479,7 @@ class Parsedown extends \ParsedownToC
         unset($block['element']['text']['text']);
         $languageClass = $block['element']['text']['attributes']['class'];
         $language = explode('-', $languageClass);
+
         try {
             $highlighted = $this->highlighter->highlight($language[1], $code);
             $block['element']['text']['attributes']['class'] = vsprintf('%s hljs %s', [
