@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.23.1](https://github.com/Cecilapp/Cecil/compare/7.23.0...7.23.1)
+
+> 29 October 2022
+
+- fix: convert page even a language code is wrong [`#1549`](https://github.com/Cecilapp/Cecil/pull/1549)
+
 #### [7.23.0](https://github.com/Cecilapp/Cecil/compare/7.22.4...7.23.0)
 
 > 29 October 2022
