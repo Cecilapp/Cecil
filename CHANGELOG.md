@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.22.4](https://github.com/Cecilapp/Cecil/compare/7.22.3...7.22.4)
+
+> 27 October 2022
+
+- fix: Twitter account [`#1545`](https://github.com/Cecilapp/Cecil/pull/1545)
+
 #### [7.22.3](https://github.com/Cecilapp/Cecil/compare/7.22.2...7.22.3)
 
 > 27 October 2022
