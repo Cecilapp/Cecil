@@ -479,13 +479,17 @@ class Parsedown extends \ParsedownToC
         unset($block['element']['text']['text']);
         $languageClass = $block['element']['text']['attributes']['class'];
         $language = explode('-', $languageClass);
-        $highlighted = $this->highlighter->highlight($language[1], $code);
-        $block['element']['text']['attributes']['class'] = vsprintf('%s hljs %s', [
-            $languageClass,
-            $highlighted->language,
-        ]);
-        $block['element']['text']['rawHtml'] = $highlighted->value;
-        $block['element']['text']['allowRawHtmlInSafeMode'] = true;
+        try {
+            $highlighted = $this->highlighter->highlight($language[1], $code);
+            $block['element']['text']['attributes']['class'] = vsprintf('%s hljs %s', [
+                $languageClass,
+                $highlighted->language,
+            ]);
+            $block['element']['text']['rawHtml'] = $highlighted->value;
+            $block['element']['text']['allowRawHtmlInSafeMode'] = true;
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->debug($e->getMessage());
+        }
 
         return $block;
     }
