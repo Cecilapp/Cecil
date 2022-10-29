@@ -209,6 +209,7 @@ return [
                     'path'    => '',     // path to the fallback image, stored in assets dir (`` by default)
                 ],
             ],
+            'class' => '', // put default class to each image (`` by default)
         ],
         'links' => [
             'embed' => [

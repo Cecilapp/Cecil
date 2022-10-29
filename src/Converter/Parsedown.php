@@ -188,6 +188,12 @@ class Parsedown extends \ParsedownToC
             $image['element']['attributes']['loading'] = 'lazy';
         }
 
+        // add default class?
+        if ($this->builder->getConfig()->get('body.images.class')) {
+            $image['element']['attributes']['class'] .= ' '.$this->builder->getConfig()->get('body.images.class');
+            $image['element']['attributes']['class'] = trim($image['element']['attributes']['class']);
+        }
+
         // disable remote image handling?
         if (Util\Url::isUrl($image['element']['attributes']['src']) && !$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
             return $image;
