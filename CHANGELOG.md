@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.23.0](https://github.com/Cecilapp/Cecil/compare/7.22.4...7.23.0)
+
+> 29 October 2022
+
+- feat: option to add default class to body images [`#1548`](https://github.com/Cecilapp/Cecil/pull/1548)
+
 #### [7.22.4](https://github.com/Cecilapp/Cecil/compare/7.22.3...7.22.4)
 
 > 27 October 2022
