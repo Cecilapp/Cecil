@@ -28,8 +28,8 @@ class Parsedown extends \ParsedownToC
     /** {@inheritdoc} */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
-    /** Valid a media block (image, audio or video) */
-    protected $MarkdownMediaRegex = "~^!\[.*?\]\(.*?\)~";
+    /** Valid image */
+    protected $regexImageBlock = "~^!\[.*?\]\(.*?\)~";
 
     /** @var Highlighter */
     protected $highlighter;
@@ -43,8 +43,8 @@ class Parsedown extends \ParsedownToC
         $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
         $this->specialCharacters[] = '+';
 
-        // Media (image, audio or video) block
-        $this->BlockTypes['!'][] = 'Media';
+        // Image block
+        $this->BlockTypes['!'][] = 'Image';
 
         // "notes" block
         $this->BlockTypes[':'][] = 'Note';
@@ -266,14 +266,13 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * Media block support:
+     * Image block support:
      * 1. <picture>/<source> for WebP images
-     * 2. <audio> and <video> elements
-     * 3. <figure>/<figcaption> for element with a title.
+     * 2. <figure>/<figcaption> for element with a title.
      */
-    protected function blockMedia($Excerpt)
+    protected function blockImage($Excerpt)
     {
-        if (1 !== preg_match($this->MarkdownMediaRegex, $Excerpt['text'])) {
+        if (1 !== preg_match($this->regexImageBlock, $Excerpt['text'])) {
             return;
         }
 
@@ -282,19 +281,10 @@ class Parsedown extends \ParsedownToC
             return;
         }
 
-        // clean title (and preserve raw HTML)
-        $titleRawHtml = '';
-        if (isset($InlineImage['element']['attributes']['title'])) {
-            $titleRawHtml = $this->line($InlineImage['element']['attributes']['title']);
-            $InlineImage['element']['attributes']['title'] = strip_tags($titleRawHtml);
-        }
-
-        $block = $InlineImage;
-
         /*
-        <!-- if image has a title: a <figure> is required for <figcaption> -->
+        <!-- if title: a <figure> is required to put it in <figcaption> -->
         <figure>
-            <!-- if WebP: a <picture> is required for <source> -->
+            <!-- if WebP is enabled: a <picture> is required for <source> -->
             <picture>
                 <source type="image/webp"
                     srcset="..."
@@ -305,12 +295,20 @@ class Parsedown extends \ParsedownToC
                     sizes="..."
                 >
             </picture>
-            <!-- title -->
-            <figcaption>...</figcaption>
+            <figcaption><!-- title --></figcaption>
         </figure>
         */
 
-        // creates a <picture> used to add WebP <source> in addition to the image <img> element
+        // clean title (and preserve raw HTML)
+        $titleRawHtml = '';
+        if (isset($InlineImage['element']['attributes']['title'])) {
+            $titleRawHtml = $this->line($InlineImage['element']['attributes']['title']);
+            $InlineImage['element']['attributes']['title'] = strip_tags($titleRawHtml);
+        }
+
+        $block = $InlineImage;
+
+        // converts image to WebP and put it in picture > source
         if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false
             && (($InlineImage['element']['attributes']['src'])['type'] == 'image'
                 && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
