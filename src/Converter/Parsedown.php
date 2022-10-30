@@ -561,6 +561,7 @@ class Parsedown extends \ParsedownToC
                 if (isset($link['element']['attributes']['poster'])) {
                     $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $link['element']['attributes']['poster'], ['force_slash' => false]);
                 }
+
                 return $block;
             case 'audio':
                 $block['element']['name'] = 'audio';
