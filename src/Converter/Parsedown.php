@@ -565,7 +565,8 @@ class Parsedown extends \ParsedownToC
                 return $block;
             case 'audio':
                 $block['element']['name'] = 'audio';
-                break;
+
+                return $block;
 
             throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
         }
