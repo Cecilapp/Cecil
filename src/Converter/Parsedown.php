@@ -113,6 +113,14 @@ class Parsedown extends \ParsedownToC
         if (!$embed) {
             return $link;
         }
+        // video or audio?
+        $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
+        if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.video.ext'))) {
+            return $this->createMediaFromLink($link, 'video');
+        }
+        if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.audio.ext'))) {
+            return $this->createMediaFromLink($link, 'audio');
+        }
         // GitHub Gist link?
         // https://regex101.com/r/QmCiAL/1
         $pattern = 'https:\/\/gist\.github.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
@@ -282,33 +290,6 @@ class Parsedown extends \ParsedownToC
         }
 
         $block = $InlineImage;
-
-        switch ($block['element']['attributes']['alt']) {
-            case 'audio':
-                $audio = [];
-                $audio['element'] = [
-                    'name'    => 'audio',
-                    'handler' => 'element',
-                ];
-                $audio['element']['attributes'] = $block['element']['attributes'];
-                unset($audio['element']['attributes']['loading']);
-                $block = $audio;
-                unset($block['element']['attributes']['alt']);
-                break;
-            case 'video':
-                $video = [];
-                $video['element'] = [
-                    'name'       => 'video',
-                    'handler'    => 'element',
-                ];
-                $video['element']['attributes'] = $block['element']['attributes'];
-                unset($video['element']['attributes']['loading']);
-                if (isset($block['element']['attributes']['poster'])) {
-                    $video['element']['attributes']['poster'] = new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
-                }
-                $block = $video;
-                unset($block['element']['attributes']['alt']);
-        }
 
         /*
         <!-- if image has a title: a <figure> is required for <figcaption> -->
@@ -558,5 +539,34 @@ class Parsedown extends \ParsedownToC
         }
 
         return $matches[3];
+    }
+
+    /**
+     * Create a media (video or audio) element from a link.
+     */
+    private function createMediaFromLink(array $link, string $type = 'video'): array
+    {
+        $block = [
+            'extent'  => $link['extent'],
+            'element' => [
+                'handler' => 'element',
+            ],
+        ];
+        $block['element']['attributes'] = $link['element']['attributes'];
+        unset($block['element']['attributes']['href']);
+        $block['element']['attributes']['src'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+        switch ($type) {
+            case 'video':
+                $block['element']['name'] = 'video';
+                if (isset($link['element']['attributes']['poster'])) {
+                    $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $link['element']['attributes']['poster'], ['force_slash' => false]);
+                }
+                return $block;
+            case 'audio':
+                $block['element']['name'] = 'audio';
+                break;
+
+            throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
+        }
     }
 }

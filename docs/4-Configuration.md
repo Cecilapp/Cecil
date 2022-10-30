@@ -630,6 +630,10 @@ body:
   links:
     embed:
       enabled: false # turns links in embedded content if possible (`false` by default)
+      video:
+        ext: [mp4] # video files extensions
+      audio:
+        ext: [mp3] # audio files extensions
   excerpt:
     separator: excerpt|break # string to use as separator (`excerpt|break` by default)
     capture: before          # part to capture, `before` or `after` the separator (`before` by default)

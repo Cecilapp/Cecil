@@ -189,6 +189,36 @@ _Example:_
 Only **YouTube** and **GitHub Gits** links are supported for the moment.
 :::
 
+Cecil can also create a video or audio HTML elements, through the file extension.
+
+##### Video
+
+_Example:_
+
+```markdown
+[The video](/video/test.mp4){controls poster=/images/video-test.png style="width:100%;"}
+```
+
+Is converted to:
+
+```html
+<video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
+```
+
+##### Audio
+
+_Example:_
+
+```markdown
+[The audio file](/audio/test.mp3){controls}
+```
+
+Is converted to:
+
+```html
+<audio src="/video/test.mp3" controls></audio>
+```
+
 ### Images
 
 To add an image, use an exclamation mark (`!`) followed by alternative description in brackets (`[]`), and the path or URL to the image in parentheses (`()`).  
@@ -320,38 +350,6 @@ Is converted to:
 :::info
 You can disable the [`caption` option in the body configuration](4-Configuration.md#body).
 :::
-
-### Audio and video
-
-Cecil can generate audio and video HTML elements, based on the Markdown image markup, with a special alternative text as a keyword (`audio` or `video`).
-
-#### Audio
-
-_Example:_
-
-```markdown
-![audio](/audio/test.mp3){controls}
-```
-
-Is converted to:
-
-```html
-<audio src="/video/test.mp3" controls></audio>
-```
-
-#### Video
-
-_Example:_
-
-```markdown
-![video](/video/test.mp4){controls poster=/images/video-test.png style="width:100%;"}
-```
-
-Is converted to:
-
-```html
-<video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
-```
 
 ### Table of contents
 
