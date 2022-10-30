@@ -63,6 +63,12 @@ class Load extends AbstractStep
             ->in($this->builder->getConfig()->getPagesPath())
             ->sortByName(true);
         if ($this->page) {
+            // pages.dir in page path? remove it
+            $pagePathAsArray = explode(DIRECTORY_SEPARATOR, $this->page);
+            if ($pagePathAsArray[1] == $this->builder->getConfig()->get('pages.dir')) {
+                unset($pagePathAsArray[1]);
+                $this->page = implode($pagePathAsArray, DIRECTORY_SEPARATOR);
+            }
             if (!util\File::getFS()->exists(Util::joinFile($this->builder->getConfig()->getPagesPath(), $this->page))) {
                 $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
             }
