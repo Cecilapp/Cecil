@@ -567,8 +567,8 @@ class Parsedown extends \ParsedownToC
                 $block['element']['name'] = 'audio';
 
                 return $block;
-
-            throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
         }
+
+        throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
     }
 }
