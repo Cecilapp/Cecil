@@ -28,8 +28,10 @@ class Parsedown extends \ParsedownToC
     /** {@inheritdoc} */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
+    /** Regex who's looking for images */
     protected $regexImage = "~^!\[.*?\]\(.*?\)~";
 
+    /** Regex who's looking for links */
     protected $regexLink = "~^\[.*?\]\(.*?\)~";
 
     /** @var Highlighter */
