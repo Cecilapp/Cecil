@@ -113,7 +113,10 @@ class Image
                 $result = $config[$class].', ';
             }
         }
+        if (!empty($result)) {
+            return trim($result, ', ');
+        }
 
-        return trim($result, ', ');
+        return $config['default'];
     }
 }
