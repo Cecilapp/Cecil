@@ -101,4 +101,19 @@ class Image
 
         return $color;
     }
+
+    /**
+     * Returns the value of "sizes" corresponding to the configured class.
+     */
+    public static function getSizes(string $class = '', array $config): string
+    {
+        $classArray = explode(' ', $class);
+        foreach ($classArray as $class) {
+            if (array_key_exists($class, $config)) {
+                $result = $config[$class].', ';
+            }
+        }
+
+        return trim($result, ', ');
+    }
 }
