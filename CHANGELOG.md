@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.25.0](https://github.com/Cecilapp/Cecil/compare/7.24.1...7.25.0)
+
+> 31 October 2022
+
+- feat: custom responsive `sizes` [`#1555`](https://github.com/Cecilapp/Cecil/pull/1555)
+
 #### [7.24.1](https://github.com/Cecilapp/Cecil/compare/7.24.0...7.24.1)
 
 > 30 October 2022
