@@ -116,12 +116,14 @@ class Parsedown extends \ParsedownToC
             }
             unset($link['element']['attributes']['embed']);
         }
-        if (!$embed) {
-            return $link;
-        }
         // video or audio?
         $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
         if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.video.ext'))) {
+            if (!$embed) {
+                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+
+                return $link;
+            }
             $video = $this->createMediaFromLink($link, 'video');
             if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
                 return $this->createFigure($video);
@@ -130,12 +132,20 @@ class Parsedown extends \ParsedownToC
             return $video;
         }
         if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.audio.ext'))) {
+            if (!$embed) {
+                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+
+                return $link;
+            }
             $audio = $this->createMediaFromLink($link, 'audio');
             if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
                 return $this->createFigure($audio);
             }
 
             return $audio;
+        }
+        if (!$embed) {
+            return $link;
         }
         // GitHub Gist link?
         // https://regex101.com/r/QmCiAL/1
@@ -573,7 +583,7 @@ class Parsedown extends \ParsedownToC
         $block = [
             'extent'  => $link['extent'],
             'element' => [
-                'text' => $link['element']['attributes']['title'],
+                'text' => $link['element']['text'],
             ],
         ];
         $block['element']['attributes'] = $link['element']['attributes'];
@@ -582,8 +592,12 @@ class Parsedown extends \ParsedownToC
         switch ($type) {
             case 'video':
                 $block['element']['name'] = 'video';
-                if (isset($link['element']['attributes']['poster'])) {
-                    $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $link['element']['attributes']['poster'], ['force_slash' => false]);
+                if (!isset($block['element']['attributes']['controls'])) {
+                    $block['element']['attributes']['autoplay'] = '';
+                    $block['element']['attributes']['loop'] = '';
+                }
+                if (isset($block['element']['attributes']['poster'])) {
+                    $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
                 }
 
                 return $block;
@@ -593,7 +607,7 @@ class Parsedown extends \ParsedownToC
                 return $block;
         }
 
-        throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['src']));
+        throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
     }
 
     /**
