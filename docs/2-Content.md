@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-10-26
+updated: 2022-10-31
 -->
 
 # Content
@@ -300,6 +300,23 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
 :::info
 The different images widths can be defined in [assets configuration](4-Configuration.md#assets).
 :::
+
+The `sizes` attribute take the value of the `assets.images.responsive.sizes.default` configuration option by default, and can be customized by creating a new entry named with the class name added to the image.
+
+_Example:_
+
+```yaml
+assets:
+  images:
+    responsive:
+      sizes:
+        default: 100vw
+        my_class: "(max-width: 800px) 768px, 1024px"
+```
+
+```markdown
+![](/image.jpg){.my_class}
+```
 
 #### WebP
 
