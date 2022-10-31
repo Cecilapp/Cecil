@@ -548,7 +548,11 @@ class Core extends SlugifyExtension
                 $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
             )) {
                 $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                $htmlAttributes .= \sprintf(' sizes="%s"', $this->config->get('assets.images.responsive.sizes.default') ?? '100vw');
+                $sizes = $this->config->get('assets.images.responsive.sizes.default') ?? '100vw';
+                if (isset($attributes['class'])) {
+                    $sizes = Image::getSizes($attributes['class'], (array) $this->builder->getConfig()->get('assets.images.responsive.sizes'));
+                }
+                $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
             }
 
             // <img> element
@@ -574,7 +578,7 @@ class Core extends SlugifyExtension
                         $source = \sprintf(
                             '<source type="image/webp" srcset="%s" sizes="%s">',
                             $srcset,
-                            $this->config->get('assets.images.responsive.sizes.default') ?? '100vw'
+                            $sizes
                         );
                     }
 
