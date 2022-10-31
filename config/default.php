@@ -215,7 +215,7 @@ return [
             'embed' => [
                 'enabled' => false, // turns links in embedded content if possible (`false` by default)
                 'video'   => [
-                    'ext' => ['mp4'], // video files extensions
+                    'ext' => ['mp4', 'webm'], // video files extensions
                 ],
                 'audio' => [
                     'ext' => ['mp3'], // audio files extensions
