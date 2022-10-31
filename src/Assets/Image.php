@@ -105,7 +105,7 @@ class Image
     /**
      * Returns the value of "sizes" corresponding to the configured class.
      */
-    public static function getSizes(string $class = '', array $config): string
+    public static function getSizes(string $class, array $config): string
     {
         $classArray = explode(' ', $class);
         foreach ($classArray as $class) {
