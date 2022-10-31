@@ -28,6 +28,10 @@ class Parsedown extends \ParsedownToC
     /** {@inheritdoc} */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
+    protected $regexImage = "~^!\[.*?\]\(.*?\)~";
+
+    protected $regexLink = "~^\[.*?\]\(.*?\)~";
+
     /** @var Highlighter */
     protected $highlighter;
 
@@ -39,6 +43,12 @@ class Parsedown extends \ParsedownToC
         $this->InlineTypes['+'][] = 'Insert';
         $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
         $this->specialCharacters[] = '+';
+
+        // Image block (to avoid paragraph)
+        $this->BlockTypes['!'][] = 'Image';
+
+        // Link block (to avoid paragraph)
+        $this->BlockTypes['['][] = 'Link';
 
         // "notes" block
         $this->BlockTypes[':'][] = 'Note';
@@ -110,25 +120,41 @@ class Parsedown extends \ParsedownToC
         // video or audio?
         $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
         if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.video.ext'))) {
-            return $this->createMediaFromLink($link, 'video');
+            $video = $this->createMediaFromLink($link, 'video');
+            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+                return $this->createFigure($video);
+            }
+
+            return $video;
         }
         if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.audio.ext'))) {
-            return $this->createMediaFromLink($link, 'audio');
+            $audio = $this->createMediaFromLink($link, 'audio');
+            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+                return $this->createFigure($audio);
+            }
+
+            return $audio;
         }
         // GitHub Gist link?
         // https://regex101.com/r/QmCiAL/1
         $pattern = 'https:\/\/gist\.github.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
         if (preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return [
+            $gist = [
                 'extent'  => $link['extent'],
                 'element' => [
                     'name'       => 'script',
                     'text'       => $link['element']['text'],
                     'attributes' => [
-                        'src' => $matches[0].'.js',
+                        'src'   => $matches[0].'.js',
+                        'title' => $link['element']['attributes']['title'],
                     ],
                 ],
             ];
+            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+                return $this->createFigure($gist);
+            }
+
+            return $gist;
         }
         // Youtube link?
         // https://regex101.com/r/gznM1j/1
@@ -150,8 +176,7 @@ class Parsedown extends \ParsedownToC
                     ],
                 ],
             ];
-
-            return [
+            $youtube = [
                 'extent'  => $link['extent'],
                 'element' => [
                     'name'    => 'div',
@@ -161,9 +186,15 @@ class Parsedown extends \ParsedownToC
                     ],
                     'attributes' => [
                         'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden',
+                        'title' => $link['element']['attributes']['title'],
                     ],
                 ],
             ];
+            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+                return $this->createFigure($youtube);
+            }
+
+            return $youtube;
         }
 
         return $link;
@@ -279,17 +310,6 @@ class Parsedown extends \ParsedownToC
         </figure>
         */
 
-        /*
-         * if title:
-         *   1. converts Markdown and store it into raw HTML
-         *   2. clean title attribute
-         */
-        $titleRawHtml = '';
-        if (isset($InlineImage['element']['attributes']['title'])) {
-            $titleRawHtml = $this->line($InlineImage['element']['attributes']['title']);
-            $InlineImage['element']['attributes']['title'] = strip_tags($titleRawHtml);
-        }
-
         $image = $InlineImage;
 
         // converts image to WebP and put it in picture > source
@@ -326,8 +346,11 @@ class Parsedown extends \ParsedownToC
                 $picture = [
                     'extent'  => $InlineImage['extent'],
                     'element' => [
-                        'name'    => 'picture',
-                        'handler' => 'elements',
+                        'name'       => 'picture',
+                        'handler'    => 'elements',
+                        'attributes' => [
+                            'title' => $image['element']['attributes']['title'],
+                        ],
                     ],
                 ];
                 $source = [
@@ -349,30 +372,45 @@ class Parsedown extends \ParsedownToC
         }
 
         // if title: put the <img> (or <picture>) in a <figure> and create a <figcaption>
-        if (!empty($titleRawHtml) && $this->builder->getConfig()->get('body.images.caption.enabled')) {
-            $figure = [
-                'extent'  => $InlineImage['extent'],
-                'element' => [
-                    'name'    => 'figure',
-                    'handler' => 'elements',
-                    'text'    => [
-                        $image['element'],
-                    ],
-                ],
-            ];
-            $figcaption = [
-                'element' => [
-                    'name'                   => 'figcaption',
-                    'allowRawHtmlInSafeMode' => true,
-                    'rawHtml'                => $this->line($titleRawHtml),
-                ],
-            ];
-            $figure['element']['text'][] = $figcaption['element'];
-
-            return $figure;
+        if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+            return $this->createFigure($image);
         }
 
         return $image;
+    }
+
+    /**
+     * Image block.
+     */
+    protected function blockImage($Excerpt)
+    {
+        if (1 !== preg_match($this->regexImage, $Excerpt['text'])) {
+            return;
+        }
+
+        $InlineImage = $this->inlineImage($Excerpt);
+        if (!isset($InlineImage)) {
+            return;
+        }
+
+        return $InlineImage;
+    }
+
+    /**
+     * Link block.
+     */
+    protected function blockLink($Excerpt)
+    {
+        if (1 !== preg_match($this->regexLink, $Excerpt['text'])) {
+            return;
+        }
+
+        $InlineLink = $this->inlineLink($Excerpt);
+        if (!isset($InlineLink)) {
+            return;
+        }
+
+        return $InlineLink;
     }
 
     /**
@@ -533,7 +571,7 @@ class Parsedown extends \ParsedownToC
         $block = [
             'extent'  => $link['extent'],
             'element' => [
-                'handler' => 'element',
+                'text' => $link['element']['attributes']['title'],
             ],
         ];
         $block['element']['attributes'] = $link['element']['attributes'];
@@ -554,5 +592,39 @@ class Parsedown extends \ParsedownToC
         }
 
         throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['src']));
+    }
+
+    /**
+     * Create a figure / caption element.
+     */
+    private function createFigure(array $inline): array
+    {
+        if (empty($inline['element']['attributes']['title'])) {
+            return $inline;
+        }
+
+        $titleRawHtml = $this->line($inline['element']['attributes']['title']);
+        $inline['element']['attributes']['title'] = strip_tags($titleRawHtml);
+
+        $figcaption = [
+            'element' => [
+                'name'                   => 'figcaption',
+                'allowRawHtmlInSafeMode' => true,
+                'rawHtml'                => $this->line($titleRawHtml),
+            ],
+        ];
+        $figure = [
+            'extent'  => $inline['extent'],
+            'element' => [
+                'name'    => 'figure',
+                'handler' => 'elements',
+                'text'    => [
+                    $inline['element'],
+                    $figcaption['element'],
+                ],
+            ],
+        ];
+
+        return $figure;
     }
 }
