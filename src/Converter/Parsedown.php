@@ -293,8 +293,7 @@ class Parsedown extends \ParsedownToC
         $image = $InlineImage;
 
         // converts image to WebP and put it in picture > source
-        if (
-            $this->builder->getConfig()->get('body.images.webp.enabled') ?? false
+        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false
             && (($InlineImage['element']['attributes']['src'])['type'] == 'image'
                 && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
         ) {
