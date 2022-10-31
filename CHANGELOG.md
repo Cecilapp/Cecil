@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.24.1](https://github.com/Cecilapp/Cecil/compare/7.24.0...7.24.1)
+
+> 30 October 2022
+
+- fix: normalize page path to build [`#1554`](https://github.com/Cecilapp/Cecil/pull/1554)
+
 #### [7.24.0](https://github.com/Cecilapp/Cecil/compare/7.23.2...7.24.0)
 
 > 30 October 2022
