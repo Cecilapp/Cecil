@@ -28,9 +28,6 @@ class Parsedown extends \ParsedownToC
     /** {@inheritdoc} */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
-    /** Valid image */
-    protected $regexImageBlock = "~^!\[.*?\]\(.*?\)~";
-
     /** @var Highlighter */
     protected $highlighter;
 
@@ -42,9 +39,6 @@ class Parsedown extends \ParsedownToC
         $this->InlineTypes['+'][] = 'Insert';
         $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
         $this->specialCharacters[] = '+';
-
-        // Image block
-        $this->BlockTypes['!'][] = 'Image';
 
         // "notes" block
         $this->BlockTypes[':'][] = 'Note';
@@ -180,31 +174,31 @@ class Parsedown extends \ParsedownToC
      */
     protected function inlineImage($Excerpt)
     {
-        $image = parent::inlineImage($Excerpt);
-        if (!isset($image)) {
+        $InlineImage = parent::inlineImage($Excerpt);
+        if (!isset($InlineImage)) {
             return null;
         }
 
         // remove quesry string
-        $image['element']['attributes']['src'] = $this->removeQueryString($image['element']['attributes']['src']);
+        $InlineImage['element']['attributes']['src'] = $this->removeQueryString($InlineImage['element']['attributes']['src']);
 
         // normalize path
-        $image['element']['attributes']['src'] = $this->normalizePath($image['element']['attributes']['src']);
+        $InlineImage['element']['attributes']['src'] = $this->normalizePath($InlineImage['element']['attributes']['src']);
 
         // should be lazy loaded?
-        if ($this->builder->getConfig()->get('body.images.lazy.enabled') && !isset($image['element']['attributes']['loading'])) {
-            $image['element']['attributes']['loading'] = 'lazy';
+        if ($this->builder->getConfig()->get('body.images.lazy.enabled') && !isset($InlineImage['element']['attributes']['loading'])) {
+            $InlineImage['element']['attributes']['loading'] = 'lazy';
         }
 
         // add default class?
         if ($this->builder->getConfig()->get('body.images.class')) {
-            $image['element']['attributes']['class'] .= ' '.$this->builder->getConfig()->get('body.images.class');
-            $image['element']['attributes']['class'] = trim($image['element']['attributes']['class']);
+            $InlineImage['element']['attributes']['class'] .= ' '.$this->builder->getConfig()->get('body.images.class');
+            $InlineImage['element']['attributes']['class'] = trim($InlineImage['element']['attributes']['class']);
         }
 
         // disable remote image handling?
-        if (Util\Url::isUrl($image['element']['attributes']['src']) && !$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
-            return $image;
+        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
+            return $InlineImage;
         }
 
         // create asset
@@ -212,79 +206,65 @@ class Parsedown extends \ParsedownToC
         if ($this->builder->getConfig()->get('body.images.remote.fallback.enabled')) {
             $assetOptions += ['remote_fallback' => $this->builder->getConfig()->get('body.images.remote.fallback.path')];
         }
-        $asset = new Asset($this->builder, $image['element']['attributes']['src'], $assetOptions);
-        $image['element']['attributes']['src'] = $asset;
+        $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
+        $InlineImage['element']['attributes']['src'] = $asset;
         $width = $asset->getWidth();
 
-        /**
+        /*
          * Should be resized?
          */
         $assetResized = null;
-        if (isset($image['element']['attributes']['width'])
-            && (int) $image['element']['attributes']['width'] < $width
+        if (isset($InlineImage['element']['attributes']['width'])
+            && (int) $InlineImage['element']['attributes']['width'] < $width
             && $this->builder->getConfig()->get('body.images.resize.enabled')
         ) {
-            $width = (int) $image['element']['attributes']['width'];
+            $width = (int) $InlineImage['element']['attributes']['width'];
 
             try {
                 $assetResized = $asset->resize($width);
-                $image['element']['attributes']['src'] = $assetResized;
+                $InlineImage['element']['attributes']['src'] = $assetResized;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
-                return $image;
+                return $InlineImage;
             }
         }
 
         // set width
-        if (!isset($image['element']['attributes']['width']) && $asset['type'] == 'image') {
-            $image['element']['attributes']['width'] = $width;
+        if (!isset($InlineImage['element']['attributes']['width'])) {
+            $InlineImage['element']['attributes']['width'] = $width;
         }
         // set height
-        if (!isset($image['element']['attributes']['height']) && $asset['type'] == 'image') {
-            $image['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
+        if (!isset($InlineImage['element']['attributes']['height'])) {
+            $InlineImage['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
         }
 
-        /**
+        /*
          * Should be responsive?
          */
-        if ($asset['type'] == 'image' && $this->builder->getConfig()->get('body.images.responsive.enabled')) {
+        $sizes = '';
+        if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
             try {
                 if ($srcset = Image::buildSrcset(
                     $assetResized ?? $asset,
                     $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
                 )) {
-                    $image['element']['attributes']['srcset'] = $srcset;
-                    $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
+                    $InlineImage['element']['attributes']['srcset'] = $srcset;
+                    $sizes = (string) $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
+                    if (isset($InlineImage['element']['attributes']['class'])) {
+                        $sizes = Image::getSizes($InlineImage['element']['attributes']['class'], (array) $this->builder->getConfig()->get('assets.images.responsive.sizes'));
+                    }
+                    $InlineImage['element']['attributes']['sizes'] = $sizes;
                 }
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
             }
         }
 
-        return $image;
-    }
-
-    /**
-     * Image block support:
-     * 1. <picture>/<source> for WebP images
-     * 2. <figure>/<figcaption> for element with a title.
-     */
-    protected function blockImage($Excerpt)
-    {
-        if (1 !== preg_match($this->regexImageBlock, $Excerpt['text'])) {
-            return;
-        }
-
-        $InlineImage = $this->inlineImage($Excerpt);
-        if (!isset($InlineImage)) {
-            return;
-        }
-
         /*
-        <!-- if title: a <figure> is required to put it in <figcaption> -->
+        <!-- if title: a <figure> is required to put in it a <figcaption> -->
         <figure>
-            <!-- if WebP is enabled: a <picture> is required for <source> -->
+            <!-- if WebP is enabled: a <picture> is required for the WebP <source> -->
             <picture>
                 <source type="image/webp"
                     srcset="..."
@@ -299,26 +279,31 @@ class Parsedown extends \ParsedownToC
         </figure>
         */
 
-        // clean title (and preserve raw HTML)
+        /*
+         * if title:
+         *   1. converts Markdown and store it into raw HTML
+         *   2. clean title attribute
+         */
         $titleRawHtml = '';
         if (isset($InlineImage['element']['attributes']['title'])) {
             $titleRawHtml = $this->line($InlineImage['element']['attributes']['title']);
             $InlineImage['element']['attributes']['title'] = strip_tags($titleRawHtml);
         }
 
-        $block = $InlineImage;
+        $image = $InlineImage;
 
         // converts image to WebP and put it in picture > source
-        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false
+        if (
+            $this->builder->getConfig()->get('body.images.webp.enabled') ?? false
             && (($InlineImage['element']['attributes']['src'])['type'] == 'image'
                 && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
         ) {
             try {
-                // Image src must be an Asset instance
-                if (is_string($InlineImage['element']['attributes']['src'])) {
+                // InlineImage src must be an Asset instance
+                if (!$InlineImage['element']['attributes']['src'] instanceof Asset) {
                     throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
-                // Image asset is an animated GIF
+                // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
                     throw new RuntimeException(\sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
@@ -339,7 +324,8 @@ class Parsedown extends \ParsedownToC
                 if (empty($srcset)) {
                     $srcset = (string) $assetWebp;
                 }
-                $PictureBlock = [
+                $picture = [
+                    'extent'  => $InlineImage['extent'],
                     'element' => [
                         'name'    => 'picture',
                         'handler' => 'elements',
@@ -351,42 +337,43 @@ class Parsedown extends \ParsedownToC
                         'attributes' => [
                             'type'   => 'image/webp',
                             'srcset' => $srcset,
-                            'sizes'  => $this->builder->getConfig()->get('assets.images.responsive.sizes.default'),
+                            'sizes'  => $sizes,
                         ],
                     ],
                 ];
-                $PictureBlock['element']['text'][] = $source['element'];
-                $PictureBlock['element']['text'][] = $block['element'];
-                $block = $PictureBlock;
+                $picture['element']['text'][] = $source['element'];
+                $picture['element']['text'][] = $image['element'];
+                $image = $picture;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
             }
         }
 
-        // if there is a title: put the <img> (or <picture>) in a <figure> element to use the <figcaption>
-        if ($this->builder->getConfig()->get('body.images.caption.enabled') && !empty($titleRawHtml)) {
-            $FigureBlock = [
+        // if title: put the <img> (or <picture>) in a <figure> and create a <figcaption>
+        if (!empty($titleRawHtml) && $this->builder->getConfig()->get('body.images.caption.enabled')) {
+            $figure = [
+                'extent'  => $InlineImage['extent'],
                 'element' => [
                     'name'    => 'figure',
                     'handler' => 'elements',
                     'text'    => [
-                        $block['element'],
+                        $image['element'],
                     ],
                 ],
             ];
-            $InlineFigcaption = [
+            $figcaption = [
                 'element' => [
                     'name'                   => 'figcaption',
                     'allowRawHtmlInSafeMode' => true,
                     'rawHtml'                => $this->line($titleRawHtml),
                 ],
             ];
-            $FigureBlock['element']['text'][] = $InlineFigcaption['element'];
+            $figure['element']['text'][] = $figcaption['element'];
 
-            return $FigureBlock;
+            return $figure;
         }
 
-        return $block;
+        return $image;
     }
 
     /**
