@@ -151,17 +151,38 @@ This is an advice.
 
 ## Markdown
 
-Cecil supports [Markdown](http://daringfireball.net/projects/markdown/syntax) format but also [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/).
+Cecil supports [Markdown](http://daringfireball.net/projects/markdown/syntax) format, but also [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/).
 
 Cecil also provides **extra features** to enhance your content, see below.
 
+### Attributes
+
+With [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/) you can set an id, class and custom attributes on certain elements using an attribute block.  
+For instance, put the desired attribute(s) after a header, a fenced code block, a link or an image at the end of the line inside curly brackets, like this:
+
+```markdown
+## Header {#id .class attribute=value}
+```
+
+:::important
+For an inline element, like a link, you must use a line break after the closing brace:
+
+```markdown
+Lorem ipsum [dolor](url){attribute=value} 
+sit amet.
+```
+
+:::
+
 ### Links
 
-You can create a link with the syntax `[Text](url)` where "url" can be an absolute URL, a relative path, an external URL, etc.
+You can create a link with the syntax `[Text](url)` with "url" can be a path, a relative path to a Markdown file, an external URL, etc.
 
 _Example:_
 
 ```markdown
+[Link to a path](/about/)
+[Link to a Markdown file](../about.md)
 [Link to Cecil website](https://cecil.app)
 ```
 
