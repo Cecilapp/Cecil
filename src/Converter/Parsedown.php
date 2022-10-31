@@ -145,7 +145,7 @@ class Parsedown extends \ParsedownToC
                     'name'       => 'script',
                     'text'       => $link['element']['text'],
                     'attributes' => [
-                        'src' => $matches[0].'.js',
+                        'src'   => $matches[0].'.js',
                         'title' => $link['element']['attributes']['title'],
                     ],
                 ],
@@ -346,8 +346,8 @@ class Parsedown extends \ParsedownToC
                 $picture = [
                     'extent'  => $InlineImage['extent'],
                     'element' => [
-                        'name'    => 'picture',
-                        'handler' => 'elements',
+                        'name'       => 'picture',
+                        'handler'    => 'elements',
                         'attributes' => [
                             'title' => $image['element']['attributes']['title'],
                         ],
@@ -380,7 +380,7 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * Image block
+     * Image block.
      */
     protected function blockImage($Excerpt)
     {
@@ -397,7 +397,7 @@ class Parsedown extends \ParsedownToC
     }
 
     /**
-     * Link block
+     * Link block.
      */
     protected function blockLink($Excerpt)
     {
@@ -618,7 +618,7 @@ class Parsedown extends \ParsedownToC
             'element' => [
                 'name'    => 'figure',
                 'handler' => 'elements',
-                'text' => [
+                'text'    => [
                     $inline['element'],
                     $figcaption['element'],
                 ],
