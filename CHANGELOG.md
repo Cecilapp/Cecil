@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.26.0](https://github.com/Cecilapp/Cecil/compare/7.25.0...7.26.0)
+
+> 31 October 2022
+
+- feat: figure/caption to image and link with title [`#1556`](https://github.com/Cecilapp/Cecil/pull/1556)
+- fix: support webm video format [`e0e0762`](https://github.com/Cecilapp/Cecil/commit/e0e0762258041e7721f5f2a0e87cadc6bdf68076)
+- fix: minor fix [`77b7cb7`](https://github.com/Cecilapp/Cecil/commit/77b7cb79a60a8678e6334100e125bcec9af7bf38)
+
 #### [7.25.0](https://github.com/Cecilapp/Cecil/compare/7.24.1...7.25.0)
 
 > 31 October 2022
