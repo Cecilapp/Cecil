@@ -543,6 +543,7 @@ class Core extends SlugifyExtension
         // image
         if ($asset['type'] == 'image') {
             // responsive
+            $sizes = '';
             if ($responsive && $srcset = Image::buildSrcset(
                 $asset,
                 $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
