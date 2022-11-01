@@ -31,9 +31,6 @@ class Parsedown extends \ParsedownToC
     /** Regex who's looking for images */
     protected $regexImage = "~^!\[.*?\]\(.*?\)~";
 
-    /** Regex who's looking for links */
-    protected $regexLink = "~^\[.*?\]\(.*?\)~";
-
     /** @var Highlighter */
     protected $highlighter;
 
@@ -48,9 +45,6 @@ class Parsedown extends \ParsedownToC
 
         // Image block (to avoid paragraph)
         $this->BlockTypes['!'][] = 'Image';
-
-        // Link block (to avoid paragraph)
-        $this->BlockTypes['['][] = 'Link';
 
         // "notes" block
         $this->BlockTypes[':'][] = 'Note';
@@ -406,23 +400,6 @@ class Parsedown extends \ParsedownToC
         }
 
         return $InlineImage;
-    }
-
-    /**
-     * Link block.
-     */
-    protected function blockLink($Excerpt)
-    {
-        if (1 !== preg_match($this->regexLink, $Excerpt['text'])) {
-            return;
-        }
-
-        $InlineLink = $this->inlineLink($Excerpt);
-        if (!isset($InlineLink)) {
-            return;
-        }
-
-        return $InlineLink;
     }
 
     /**
