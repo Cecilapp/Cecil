@@ -31,9 +31,6 @@ class Parsedown extends \ParsedownToC
     /** Regex who's looking for images */
     protected $regexImage = "~^!\[.*?\]\(.*?\)~";
 
-    /** Regex who's looking for links */
-    protected $regexLink = "~^\[.*?\]\(.*?\)~";
-
     /** @var Highlighter */
     protected $highlighter;
 
