@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.26.1](https://github.com/Cecilapp/Cecil/compare/7.26.0...7.26.1)
+
+> 1 November 2022
+
+- fix: minor fix on convertor [`2300468`](https://github.com/Cecilapp/Cecil/commit/230046862cd61bae15f5f2e95970f5cc85ce7b08)
+- docs: update content [`85db9c5`](https://github.com/Cecilapp/Cecil/commit/85db9c5de798bc147ee4a326570d4a8d1f9218f3)
+- refactor: code comments [`ea95927`](https://github.com/Cecilapp/Cecil/commit/ea95927e555767dc1afdbea13718af9e6eecd98a)
+
 #### [7.26.0](https://github.com/Cecilapp/Cecil/compare/7.25.0...7.26.0)
 
 > 31 October 2022
