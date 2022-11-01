@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.26.2](https://github.com/Cecilapp/Cecil/compare/7.26.1...7.26.2)
+
+> 1 November 2022
+
+- fix: favicon sizes attribute [`1e78e80`](https://github.com/Cecilapp/Cecil/commit/1e78e80ab0cfa97feeb8cc579ab5c9ebb03f3e5d)
+
 #### [7.26.1](https://github.com/Cecilapp/Cecil/compare/7.26.0...7.26.1)
 
 > 1 November 2022
