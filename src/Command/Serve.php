@@ -52,7 +52,7 @@ class Serve extends AbstractCommand
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
                     new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),
-                    new InputOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear cache before build'),
+                    new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 ])
             )
             ->setHelp('Starts the live-reloading-built-in web server');
@@ -111,8 +111,12 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = '--postprocess';
             $buildProcessArguments[] = $postprocess;
         }
-        if ($clearcache) {
+        if ($clearcache === null) {
             $buildProcessArguments[] = '--clear-cache';
+        }
+        if (!empty($clearcache)) {
+            $buildProcessArguments[] = '--clear-cache';
+            $buildProcessArguments[] = $clearcache;
         }
         if ($verbose) {
             $buildProcessArguments[] = '-'.str_repeat('v', $_SERVER['SHELL_VERBOSITY']);

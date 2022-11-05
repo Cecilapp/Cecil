@@ -197,7 +197,7 @@ class Cache implements CacheInterface
     /**
      * Clear cache by pattern.
      */
-    public function clearByPattern(string $pattern): bool
+    public function clearByPattern(string $pattern): int
     {
         try {
             $fileCount = 0;
@@ -217,10 +217,10 @@ class Cache implements CacheInterface
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
-            return false;
+            return 0;
         }
 
-        return $fileCount > 0;
+        return $fileCount;
     }
 
     /**
