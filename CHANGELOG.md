@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.26.3](https://github.com/Cecilapp/Cecil/compare/7.26.2...7.26.3)
+
+> 1 November 2022
+
+- fix: should not convert a line link in block [`#1558`](https://github.com/Cecilapp/Cecil/pull/1558)
+
 #### [7.26.2](https://github.com/Cecilapp/Cecil/compare/7.26.1...7.26.2)
 
 > 1 November 2022
