@@ -208,10 +208,12 @@ class Cache implements CacheInterface
     private function prune(string $key): bool
     {
         try {
-            $key = $this->prepareKey($key);
-            $pattern = Util::joinFile($this->cacheDir, explode('__', $key)[0]).'*';
-            foreach (glob($pattern) as $filename) {
-                Util\File::getFS()->remove($filename);
+            $keyAsArray = explode('__', $this->prepareKey($key), -1);
+            if (!empty($keyAsArray)) {
+                $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]).'*';
+                foreach (glob($pattern) as $filename) {
+                    Util\File::getFS()->remove($filename);
+                }
             }
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
