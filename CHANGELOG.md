@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.27.0](https://github.com/Cecilapp/Cecil/compare/7.26.3...7.27.0)
+
+> 5 November 2022
+
+- feat: remove cache files by regular expression [`#1562`](https://github.com/Cecilapp/Cecil/pull/1562)
+- fix: pattern used in cache prune method [`#1561`](https://github.com/Cecilapp/Cecil/pull/1561)
+
 #### [7.26.3](https://github.com/Cecilapp/Cecil/compare/7.26.2...7.26.3)
 
 > 1 November 2022
