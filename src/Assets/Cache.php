@@ -195,6 +195,35 @@ class Cache implements CacheInterface
     }
 
     /**
+     * Clear cache by pattern.
+     */
+    public function clearByPattern(string $pattern)
+    {
+        try {
+            $fileCount = 0;
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($this->cacheDir),
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
+            foreach ($iterator as $file) {
+                if ($file->isFile()) {
+                    if (preg_match('/'.$pattern.'/i', $file->getBasename())) {
+                        Util\File::getFS()->remove($file->getPathname());
+                        $fileCount++;
+                        $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', $file->getPathname()));
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->error($e->getMessage());
+
+            return false;
+        }
+
+        return $fileCount;
+    }
+
+    /**
      * Returns cache file pathname from key.
      */
     private function getFilePathname(string $key): string

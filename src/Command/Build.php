@@ -43,7 +43,7 @@ class Build extends AbstractCommand
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                     new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
                     new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),
-                    new InputOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear cache before build'),
+                    new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 ])
             )
             ->setHelp('Builds the website in the output directory');
@@ -71,7 +71,7 @@ class Build extends AbstractCommand
         if ($input->getOption('postprocess') == 'no') {
             $config['postprocess']['enabled'] = false;
         }
-        if ($input->getOption('clear-cache')) {
+        if ($input->getOption('clear-cache') === null) {
             $config['cache']['enabled'] = false;
         }
 
@@ -87,6 +87,11 @@ class Build extends AbstractCommand
         }
         if ($input->getOption('page')) {
             $options['page'] = $input->getOption('page');
+        }
+        if ($input->getOption('clear-cache')) {
+            if ((new \Cecil\Assets\Cache($this->getBuilder()))->clearByPattern($input->getOption('clear-cache'))) {
+                $output->writeln(\sprintf('<info>Cache files removed by regular expression "%s"</info>', $input->getOption('clear-cache')));
+            }
         }
 
         $output->writeln(\sprintf('Building website%s...', $messageOpt));
