@@ -90,7 +90,7 @@ class Build extends AbstractCommand
         }
         if ($input->getOption('clear-cache')) {
             if ((new \Cecil\Assets\Cache($this->getBuilder()))->clearByPattern($input->getOption('clear-cache'))) {
-                $output->writeln(\sprintf('<info>Cache files with regular expression "%s" removed</info>', $input->getOption('clear-cache')));
+                $output->writeln(\sprintf('<info>Cache files removed by regular expression "%s"</info>', $input->getOption('clear-cache')));
             }
         }
 
