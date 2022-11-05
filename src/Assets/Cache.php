@@ -197,7 +197,7 @@ class Cache implements CacheInterface
     /**
      * Clear cache by pattern.
      */
-    public function clearByPattern(string $pattern)
+    public function clearByPattern(string $pattern): bool
     {
         try {
             $fileCount = 0;
@@ -220,7 +220,7 @@ class Cache implements CacheInterface
             return false;
         }
 
-        return $fileCount;
+        return $fileCount > 0;
     }
 
     /**
