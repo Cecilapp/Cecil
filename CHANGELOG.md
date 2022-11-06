@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.27.1](https://github.com/Cecilapp/Cecil/compare/7.27.0...7.27.1)
+
+> 6 November 2022
+
+- fix: clear-cache command [`#1563`](https://github.com/Cecilapp/Cecil/pull/1563)
+- chore: update deps [`253ed6a`](https://github.com/Cecilapp/Cecil/commit/253ed6a4220ab627506c10ebe8b5df6007a7ec93)
+- refactor: clean code [`5789caa`](https://github.com/Cecilapp/Cecil/commit/5789caa2ce327791264020e9bdcd7725be0946f2)
+- refactor: clean code [`09a9028`](https://github.com/Cecilapp/Cecil/commit/09a9028109d1660b7553c2e58963b1547a5390e6)
+
 #### [7.27.0](https://github.com/Cecilapp/Cecil/compare/7.26.3...7.27.0)
 
 > 5 November 2022
