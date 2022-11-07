@@ -205,6 +205,7 @@ class Asset implements \ArrayAccess
             if ($this->resized) {
                 return $this->data['url'];
             }
+
             return \sprintf('https://res.cloudinary.com/aligny/image/fetch/q_auto,f_auto/%s', $this->data['url']);
         }
 
@@ -436,8 +437,6 @@ class Asset implements \ArrayAccess
 
         $assetResized = clone $this;
         $assetResized->data['width'] = $width;
-
-
 
         $cdn = 1;
         if ($this->data['type'] == 'image' && !empty($this->data['url']) && $cdn == 1) {
