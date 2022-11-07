@@ -48,6 +48,8 @@ class Asset implements \ArrayAccess
     protected $optimize = false;
     protected $optimized = false;
 
+    protected $resized = false;
+
     /** @var bool */
     protected $ignore_missing = false;
 
@@ -145,6 +147,7 @@ class Asset implements \ArrayAccess
                         $this->data['width'] = $this->getWidth();
                         $this->data['height'] = $this->getHeight();
                     }
+                    $this->data['url'] = $file[$i]['url'];
                 }
                 // bundle files path
                 $this->data['files'][] = $file[$i]['filepath'];
@@ -166,6 +169,11 @@ class Asset implements \ArrayAccess
             $cache->set($cacheKey, $this->data);
         }
         $this->data = $cache->get($cacheKey);
+
+        $cdn = 1;
+        if ($this->data['type'] == 'image' && $cdn == 1) {
+            return;
+        }
 
         // fingerprinting
         if ($fingerprint) {
@@ -192,6 +200,14 @@ class Asset implements \ArrayAccess
      */
     public function __toString(): string
     {
+        $cdn = 1;
+        if ($this->data['type'] == 'image' && !empty($this->data['url']) && $cdn == 1) {
+            if ($this->resized) {
+                return $this->data['url'];
+            }
+            return \sprintf('https://res.cloudinary.com/aligny/image/fetch/q_auto,f_auto/%s', $this->data['url']);
+        }
+
         try {
             $this->save();
         } catch (\Exception $e) {
@@ -411,12 +427,24 @@ class Asset implements \ArrayAccess
         if ($this->data['type'] != 'image') {
             throw new RuntimeException(\sprintf('Not able to resize "%s": not an image', $this->data['path']));
         }
+
+        $this->resized = true;
+
         if ($width >= $this->getWidth()) {
             return $this;
         }
 
         $assetResized = clone $this;
         $assetResized->data['width'] = $width;
+
+
+
+        $cdn = 1;
+        if ($this->data['type'] == 'image' && !empty($this->data['url']) && $cdn == 1) {
+            $assetResized->data['url'] = \sprintf('https://res.cloudinary.com/aligny/image/fetch/c_limit,w_%s,q_auto,f_auto/%s', $width, $this->data['url']);
+
+            return $assetResized;
+        }
 
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x"]);
@@ -620,6 +648,7 @@ class Asset implements \ArrayAccess
         }
 
         if (Util\Url::isUrl($path)) {
+            $file['url'] = $path;
             $urlHost = parse_url($path, PHP_URL_HOST);
             $urlPath = parse_url($path, PHP_URL_PATH);
             $urlQuery = parse_url($path, PHP_URL_QUERY);
