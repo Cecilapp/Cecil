@@ -298,7 +298,7 @@ return [
                 //'account'    => 'aligny',
                 'url_format' => 'https://%account%.cloudimg.io/%image_url%?w=%width%',
                 'account'    => 'ayrcxgimor',
-            ]
+            ],
         ],
     ],
     'postprocess' => [
