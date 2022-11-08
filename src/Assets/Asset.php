@@ -207,8 +207,7 @@ class Asset implements \ArrayAccess
     {
         // use CDN for images
         if ($this->data['type'] == 'image' && (bool) $this->config->get('assets.images.cdn.enabled')
-            && !empty($this->data['url']))
-        {
+            && !empty($this->data['url'])) {
             if ($this->resized) {
                 return $this->data['url'];
             }
