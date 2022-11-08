@@ -46,9 +46,14 @@ class Asset implements \ArrayAccess
 
     /** @var bool */
     protected $optimize = false;
+    /** @var bool */
     protected $optimized = false;
 
+    /** @var bool */
     protected $resized = false;
+
+    /** @var bool */
+    protected $isURL;
 
     /** @var bool */
     protected $ignore_missing = false;
@@ -170,8 +175,8 @@ class Asset implements \ArrayAccess
         }
         $this->data = $cache->get($cacheKey);
 
-        $cdn = 1;
-        if ($this->data['type'] == 'image' && $cdn == 1) {
+        // use CDN for images
+        if ($this->data['type'] == 'image' && (bool) $this->config->get('assets.images.cdn.enabled')) {
             return;
         }
 
@@ -200,13 +205,19 @@ class Asset implements \ArrayAccess
      */
     public function __toString(): string
     {
-        $cdn = 1;
-        if ($this->data['type'] == 'image' && !empty($this->data['url']) && $cdn == 1) {
+        // use CDN for images
+        if ($this->data['type'] == 'image' && (bool) $this->config->get('assets.images.cdn.enabled')
+            && !empty($this->data['url']))
+        {
             if ($this->resized) {
                 return $this->data['url'];
             }
 
-            return \sprintf('https://res.cloudinary.com/aligny/image/fetch/q_auto,f_auto/%s', $this->data['url']);
+            return str_replace(
+                ['%account%', '%image_url%', '%width%'],
+                [(string) $this->config->get('assets.images.cdn.account'), $this->data['url'], $this->data['width']],
+                (string) $this->config->get('assets.images.cdn.url_format')
+            );
         }
 
         try {
@@ -438,9 +449,12 @@ class Asset implements \ArrayAccess
         $assetResized = clone $this;
         $assetResized->data['width'] = $width;
 
-        $cdn = 1;
-        if ($this->data['type'] == 'image' && !empty($this->data['url']) && $cdn == 1) {
-            $assetResized->data['url'] = \sprintf('https://res.cloudinary.com/aligny/image/fetch/c_limit,w_%s,q_auto,f_auto/%s', $width, $this->data['url']);
+        if ($assetResized->data['type'] == 'image' && !empty($assetResized->data['url']) && (bool) $assetResized->config->get('assets.images.cdn.enabled')) {
+            $assetResized->data['url'] = str_replace(
+                ['%account%', '%image_url%', '%width%'],
+                [(string) $this->config->get('assets.images.cdn.account'), $assetResized->data['url'], $assetResized->data['width']],
+                (string) $this->config->get('assets.images.cdn.url_format')
+            );
 
             return $assetResized;
         }

@@ -32,7 +32,7 @@ class Image
 
         $srcset = '';
         foreach ($widths as $width) {
-            if ($asset->getWidth() < $width) {
+            if ($asset['width'] < $width) {
                 break;
             }
             $img = $asset->resize($width);
@@ -41,7 +41,7 @@ class Image
         rtrim($srcset, ', ');
         // add reference image
         if (!empty($srcset)) {
-            $srcset .= \sprintf('%s %sw', (string) $asset, $asset->getWidth());
+            $srcset .= \sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 
         return $srcset;

@@ -292,6 +292,13 @@ return [
             'resize' => [
                 'dir' => 'thumbnails', // directory of resized assets (`thumbnails` by default)
             ],
+            'cdn' => [
+                'enabled'    => true,
+                //'url_format' => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_auto,f_auto/%image_url%',
+                //'account'    => 'aligny',
+                'url_format' => 'https://%account%.cloudimg.io/%image_url%?w=%width%',
+                'account'    => 'ayrcxgimor',
+            ]
         ],
     ],
     'postprocess' => [
