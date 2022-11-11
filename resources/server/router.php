@@ -69,10 +69,8 @@ if (!file_exists($filename)) {
     $filename = $_SERVER['DOCUMENT_ROOT'].'/'.FILE_404;
 }
 
-// file content
-$content = file_get_contents($filename);
-
 // HTTP response: 200
+$content = file_get_contents($filename);
 $pathInfo = getPathInfo($path);
 // text content
 if (in_array($pathInfo['media_maintype'], $mediaSubtypeText)) {
@@ -110,7 +108,7 @@ return logger(true);
  * Functions
  */
 
-// logger
+// logger + return
 function logger(bool $return): bool
 {
     \error_log(
