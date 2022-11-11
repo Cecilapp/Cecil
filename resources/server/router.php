@@ -56,11 +56,13 @@ if (!file_exists($filename)) {
     // favicon.ico
     if ($path == '/favicon.ico') {
         header('Content-Type: image/vnd.microsoft.icon');
+
         return logger(false);
     }
     // 404.html exists?
     if (!$isIndex || !file_exists($_SERVER['DOCUMENT_ROOT'].'/'.FILE_404)) {
         echo 'Error 404: page or file not found.';
+
         return logger(true);
     }
     $path = '/'.FILE_404;
@@ -101,6 +103,7 @@ foreach ($pathInfo['headers'] as $header) {
     header($header);
 }
 echo $content;
+
 return logger(true);
 
 /*
@@ -108,7 +111,8 @@ return logger(true);
  */
 
 // logger
-function logger(bool $return): bool {
+function logger(bool $return): bool
+{
     \error_log(
         \sprintf("%s:%d [%d]: %s\n", $_SERVER['REMOTE_ADDR'], $_SERVER['REMOTE_PORT'], \http_response_code(), $_SERVER['REQUEST_URI']),
         3,
@@ -119,13 +123,14 @@ function logger(bool $return): bool {
 }
 
 // get path info (media type + headers)
-function getPathInfo(string $path): array {
+function getPathInfo(string $path): array
+{
     $filename = $_SERVER['DOCUMENT_ROOT'].$path;
     $extension = pathinfo($path, PATHINFO_EXTENSION);
     $mediaType = \mime_content_type($filename); // e.g.: "text/html"
     $info = [
         'media_maintype' => explode('/', $mediaType)[0], // e.g.: "text"
-        'media_subtype' => explode('/', $mediaType)[1], // e.g.: "html"
+        'media_subtype'  => explode('/', $mediaType)[1], // e.g.: "html"
     ];
     $info['headers'] = [
         "Content-Type: {$info['media_maintype']}/{$info['media_subtype']}",
@@ -136,10 +141,10 @@ function getPathInfo(string $path): array {
         case 'html':
             $info = [
                 'media_maintype' => 'text',
-                'media_subtype' => 'html',
-                'headers' => [
+                'media_subtype'  => 'html',
+                'headers'        => [
                     'Content-Type: text/html; charset=utf-8',
-                ]
+                ],
             ];
             break;
         case 'css':
