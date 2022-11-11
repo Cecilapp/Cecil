@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.27.2](https://github.com/Cecilapp/Cecil/compare/7.27.1...7.27.2)
+
+> 6 November 2022
+
+- fix: homepage generator if no other pages [`#1564`](https://github.com/Cecilapp/Cecil/pull/1564)
+
 #### [7.27.1](https://github.com/Cecilapp/Cecil/compare/7.27.0...7.27.1)
 
 > 6 November 2022
