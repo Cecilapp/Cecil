@@ -22,7 +22,7 @@ mb_internal_encoding('UTF-8');
 define('SERVER_TMP_DIR', '.cecil');
 define('DIRECTORY_INDEX', 'index.html');
 define('FILE_404', '404.html');
-$isHtml = null;
+$isIndex = null;
 $mediaSubtypeText = ['plain', 'css', 'javascript', 'json', 'xml', 'csv'];
 
 $path = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
