@@ -20,8 +20,8 @@ if (!date_default_timezone_get()) {
 mb_internal_encoding('UTF-8');
 
 define('SERVER_TMP_DIR', '.cecil');
-define('DIRECTORY_INDEX', 'index.html');
-define('FILE_404', '404.html');
+define('DIRECTORY_INDEX', '/index.html');
+define('ERROR_404', '/404.html');
 $isIndex = null;
 $mediaSubtypeText = ['javascript', 'xml', 'json', 'ld+json', 'csv'];
 
@@ -41,17 +41,16 @@ if ($path == '/watcher') {
     exit();
 }
 
-// path '/' = '/index.html'
-if (substr($path, -1) == '/') {
-    $isIndex = true;
-    $path = rtrim($path, '/').'/'.DIRECTORY_INDEX;
+// 'path' = 'path/index.html'?
+if (empty(pathinfo($path, PATHINFO_EXTENSION)) && file_exists($_SERVER['DOCUMENT_ROOT'].rtrim($path, '/').DIRECTORY_INDEX)) {
+    $path = rtrim($path, '/').DIRECTORY_INDEX;
 }
 
 // file absolute path
 $filename = $_SERVER['DOCUMENT_ROOT'].$path;
 
 // HTTP response: 404
-if (!file_exists($filename)) {
+if (!file_exists($filename) || is_dir($filename)) {
     http_response_code(404);
     // favicon.ico
     if ($path == '/favicon.ico') {
@@ -59,8 +58,9 @@ if (!file_exists($filename)) {
 
         return logger(false);
     }
+
     // 404.html exists?
-    if (!$isIndex || !file_exists($_SERVER['DOCUMENT_ROOT'].'/'.FILE_404)) {
+    if (!file_exists($_SERVER['DOCUMENT_ROOT'].ERROR_404)) {
         echo <<<END
         <!doctype html>
         <html>
@@ -83,8 +83,8 @@ if (!file_exists($filename)) {
 
         return logger(true);
     }
-    $path = '/'.FILE_404;
-    $filename = $_SERVER['DOCUMENT_ROOT'].'/'.FILE_404;
+    $path = ERROR_404;
+    $filename = $_SERVER['DOCUMENT_ROOT'].ERROR_404;
 }
 
 // HTTP response: 200
