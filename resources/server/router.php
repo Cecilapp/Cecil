@@ -23,7 +23,7 @@ define('SERVER_TMP_DIR', '.cecil');
 define('DIRECTORY_INDEX', 'index.html');
 define('FILE_404', '404.html');
 $isIndex = null;
-$mediaSubtypeText = ['plain', 'css', 'javascript', 'json', 'xml', 'csv'];
+$mediaSubtypeText = ['javascript', 'xml', 'json', 'ld+json', 'csv'];
 
 $path = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
@@ -73,7 +73,7 @@ if (!file_exists($filename)) {
 $content = file_get_contents($filename);
 $pathInfo = getPathInfo($path);
 // text content
-if (in_array($pathInfo['media_maintype'], $mediaSubtypeText)) {
+if ($pathInfo['media_maintype'] == 'text' || in_array($pathInfo['media_subtype'], $mediaSubtypeText)) {
     // replaces the "live" baseurl by the "local" baseurl
     $baseurl = explode(';', trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/baseurl')));
     if (strstr($baseurl[0], 'http') !== false || $baseurl[0] != '/') {
