@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.27.4](https://github.com/Cecilapp/Cecil/compare/7.27.3...7.27.4)
+
+> 12 November 2022
+
+- fix: server baseurl replacement [`099c9b6`](https://github.com/Cecilapp/Cecil/commit/099c9b66eb460bec76df8147be4140b78be7188f)
+
 #### [7.27.3](https://github.com/Cecilapp/Cecil/compare/7.27.2...7.27.3)
 
 > 12 November 2022
