@@ -174,6 +174,7 @@ function getPathInfo(string $path): array
     }
     // forces the info according to the media main type
     switch ($info['media_maintype']) {
+        case 'video':
         case 'audio':
             $info['headers'] += [
                 'Content-Transfer-Encoding: binary',
