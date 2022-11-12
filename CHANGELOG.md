@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.27.3](https://github.com/Cecilapp/Cecil/compare/7.27.2...7.27.3)
+
+> 12 November 2022
+
+- refactor: enhance server router [`#1570`](https://github.com/Cecilapp/Cecil/pull/1570)
+- chore: update deps [`924613d`](https://github.com/Cecilapp/Cecil/commit/924613d9ce2de4f015b869ed41774adbc6df41ee)
+
 #### [7.27.2](https://github.com/Cecilapp/Cecil/compare/7.27.1...7.27.2)
 
 > 6 November 2022
