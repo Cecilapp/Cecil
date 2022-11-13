@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-10-31
+updated: 2022-11-13
 -->
 
 # Content
@@ -785,6 +785,7 @@ slug: a-propos
 # about.md    -> /about/
 # about.fr.md -> /fr/a-propos/
 ```
+
 :::
 
 ### Language in the front matter
@@ -817,17 +818,22 @@ The `langref` variable is provided by default, but you can change it in the fron
 langref: my-page-ref
 ---
 ```
+
 :::
 
 ## Dynamic content
 
-With this **experimental** feature you can use [variables](3-Templates.md#variables) and shortcodes in the [body](#body).
+With this **_experimental_** feature you can use **[variables](3-Templates.md#variables)** and **shortcodes** in the [body](#body).
 
-To do this you must include a specific template instead of `{{ page.content }}`:
+:::important
+To do this you must include a specific template:
 
 ```twig
 {{ include(page.content_template) }}
 ```
+
+(instead of `{{ page.content }}`)
+:::
 
 ### Display variables
 
