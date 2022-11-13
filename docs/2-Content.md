@@ -898,7 +898,7 @@ _Example:_
 `shortcodes.twig`:
 
 ```twig
-{% extends 'macros.twig' %}
+{% extends 'extended/macros.twig' %}
 
 {% block macros %}
 
