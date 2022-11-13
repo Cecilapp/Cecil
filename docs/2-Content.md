@@ -886,7 +886,7 @@ _Example:_
 _Example:_
 
 ```twig
-{{ shortcode.gist('Narno', 'fbe791e05b93951ffc1f6abda8ee88f0') }}
+{{ shortcode.gist('ArnaudLigny', 'fbe791e05b93951ffc1f6abda8ee88f0') }}
 ```
 
 #### Custom shortcode
