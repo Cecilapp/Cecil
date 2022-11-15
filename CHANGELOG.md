@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.27.5](https://github.com/Cecilapp/Cecil/compare/7.27.4...7.27.5)
+
+> 13 November 2022
+
+- refactor(server): enhances router code [`8aea505`](https://github.com/Cecilapp/Cecil/commit/8aea5058fb0276b68e32f94eba194b0cb53f1a7c)
+- refactor(server): better default 404 page [`efc5190`](https://github.com/Cecilapp/Cecil/commit/efc5190d7f8c3d02ddd548091d5dfb8aa43fec7c)
+- docs: update details about dynamic content [`378c398`](https://github.com/Cecilapp/Cecil/commit/378c398f56c4d666cadd2e172d3aa942903f7c4e)
+- fix: extends macros for shortcodes [`db9f6fb`](https://github.com/Cecilapp/Cecil/commit/db9f6fb37b7a6fdb3f6c96a49ca39c4f06530016)
+- docs: fix shortcode example [`045b8d3`](https://github.com/Cecilapp/Cecil/commit/045b8d3826afdb01b6a0754cb560130a80a137db)
+- fix(server): apply content handling to video files [`3c6adf4`](https://github.com/Cecilapp/Cecil/commit/3c6adf40799b8a26698cc283d920466232af7d8a)
+
 #### [7.27.4](https://github.com/Cecilapp/Cecil/compare/7.27.3...7.27.4)
 
 > 12 November 2022
