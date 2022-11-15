@@ -593,7 +593,7 @@ class Asset implements \ArrayAccess
                 }
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 if (!$this->ignore_missing) {
-                    throw new RuntimeException(\sprintf('Can\'t save asset "%s".', $filepath));
+                    throw new RuntimeException(\sprintf('Can\'t save asset "%s"', $filepath));
                 }
             }
         }
@@ -616,35 +616,24 @@ class Asset implements \ArrayAccess
                 return $file;
             }
 
-            throw new RuntimeException(\sprintf('Asset file "%s" doesn\'t exist.', $path));
+            throw new RuntimeException(\sprintf('Asset file "%s" doesn\'t exist', $path));
         }
 
         if (Util\Url::isUrl($path)) {
-            $urlHost = parse_url($path, PHP_URL_HOST);
-            $urlPath = parse_url($path, PHP_URL_PATH);
-            $urlQuery = parse_url($path, PHP_URL_QUERY);
-            $path = Util::joinPath((string) $this->config->get('assets.target'), $urlHost, $urlPath);
-            $path = $this->sanitize($path);
-            if (!empty($urlQuery)) {
-                $path = Util::joinPath($path, Page::slugify($urlQuery));
-                // Google Fonts hack
-                if (strpos($urlPath, '/css') !== false) {
-                    $path .= '.css';
-                }
-            }
+            $path = Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath());
+            $path = Util::joinPath((string) $this->config->get('assets.target'), $path);
             $force_slash = true;
         }
         if ($force_slash) {
             $path = '/'.ltrim($path, '/');
         }
 
-        $pathinfo = pathinfo($path);
         list($type, $subtype) = Util\File::getMimeType($filePath);
         $content = Util\File::fileGetContents($filePath);
 
         $file['filepath'] = $filePath;
         $file['path'] = $path;
-        $file['ext'] = $pathinfo['extension'] ?? '';
+        $file['ext'] = pathinfo($path)['extension'] ?? '';
         $file['type'] = $type;
         $file['subtype'] = $subtype;
         $file['size'] = filesize($filePath);
@@ -670,7 +659,17 @@ class Asset implements \ArrayAccess
         // in case of remote file: save it and returns cached file path
         if (Util\Url::isUrl($path)) {
             $url = $path;
-            $relativePath = Page::slugify(\sprintf('%s%s-%s', parse_url($url, PHP_URL_HOST), parse_url($url, PHP_URL_PATH), parse_url($url, PHP_URL_QUERY)));
+            $urlHost = parse_url($path, PHP_URL_HOST);
+            $urlPath = parse_url($path, PHP_URL_PATH);
+            $urlQuery = parse_url($path, PHP_URL_QUERY);
+            $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            $relativePath = Page::slugify(\sprintf(
+                '%s%s-%s%s',
+                $urlHost,
+                $this->sanitize($urlPath),
+                $urlQuery ? "-$urlQuery" : '',
+                $urlQuery && $extension ? ".$extension" : ''
+            ));
             $filePath = Util::joinFile($this->config->getCacheAssetsRemotePath(), $relativePath);
             if (!file_exists($filePath)) {
                 if (!Util\Url::isRemoteFileExists($url)) {
@@ -688,7 +687,7 @@ class Asset implements \ArrayAccess
                     return false;
                 }
                 if (strlen($content) <= 1) {
-                    throw new RuntimeException(\sprintf('Asset at "%s" is empty.', $url));
+                    throw new RuntimeException(\sprintf('Asset at "%s" is empty', $url));
                 }
                 Util\File::getFS()->dumpFile($filePath, $content);
             }
