@@ -664,7 +664,7 @@ class Asset implements \ArrayAccess
             $urlQuery = parse_url($path, PHP_URL_QUERY);
             $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
             $relativePath = Page::slugify(\sprintf(
-                '%s%s-%s%s',
+                '%s%s%s%s',
                 $urlHost,
                 $this->sanitize($urlPath),
                 $urlQuery ? "-$urlQuery" : '',
