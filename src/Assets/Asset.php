@@ -663,6 +663,10 @@ class Asset implements \ArrayAccess
             $urlPath = parse_url($path, PHP_URL_PATH);
             $urlQuery = parse_url($path, PHP_URL_QUERY);
             $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            // Google Fonts hack
+            if (strpos($urlPath, '/css') !== false) {
+                $extension = 'css';
+            }
             $relativePath = Page::slugify(\sprintf(
                 '%s%s%s%s',
                 $urlHost,
