@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Build Phar file
+    name: Build cecil.phar
     runs-on: ubuntu-latest
     outputs:
       previous_release: ${{ steps.previous_release.outputs.tag }}
@@ -88,7 +88,7 @@ jobs:
     - name: Set SHA256
       id: sha256
       run: |
-        echo "shasum=$(shasum -a 256 ./cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
+        echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
 
     - name: Upload cecil.phar
       uses: actions/upload-artifact@v3
@@ -167,7 +167,7 @@ jobs:
 
   update_homebrew_formula:
     name: Update Homebrew Formula
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: [build, deploy_to_github]
 
     steps:
