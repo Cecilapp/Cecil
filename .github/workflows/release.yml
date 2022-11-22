@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       previous_release: ${{ steps.previous_release.outputs.tag }}
+      version: ${{ steps.get_version.outputs.version }}
+      shasum: ${{ steps.sha256.outputs.shasum }}
 
     steps:
     - name: Checkout source code
@@ -58,7 +60,8 @@ jobs:
     - name: Get version
       id: get_version
       run: |
-        echo "${GITHUB_REF#refs/tags/}" > VERSION
+        echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        echo "${{ steps.get_version.outputs.version }}" > VERSION
 
     - name: Build cecil.phar
       run: composer run-script box
@@ -81,6 +84,11 @@ jobs:
         php cecil.phar new:site skeleton -f
         php cecil.phar build skeleton -vvv
         php cecil.phar show:content skeleton
+
+    - name: Set SHA256
+      id: sha256
+      run: |
+        echo "shasum=$(shasum -a 256 ./cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
 
     - name: Upload cecil.phar
       uses: actions/upload-artifact@v3
@@ -156,3 +164,19 @@ jobs:
       run: bash ./scripts/deploy-dist.sh
       env:
         GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
+
+  update_homebrew_formula:
+    name: Update Homebrew Formula
+    runs-on: ubuntu-latest
+    needs: [build, deploy_to_github]
+
+    steps:
+    - name: Bump Formula PR
+      env:
+        HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.REPOS_TOKEN }}
+      run: |
+        brew tap cecilapp/cecil
+        brew bump-formula-pr -f --version=${{ needs.build.outputs.version }} --no-browse --no-audit \
+        --sha256=${{ needs.build.outputs.shasum }} \
+        --url="https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar" \
+        cecilapp/cecil/cecil
