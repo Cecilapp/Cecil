@@ -4,7 +4,6 @@ date: 2021-05-07
 updated: 2022-10-09
 alias: documentation/layouts
 -->
-
 # Templates
 
 Cecil is powered by the [Twig](https://twig.symfony.com) template engine.

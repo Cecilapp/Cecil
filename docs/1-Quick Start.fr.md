@@ -6,7 +6,6 @@ updated: 2022-09-30
 slug: demarrage-rapide
 menu: home
 -->
-
 # Démarrage rapide
 
 Cecil est une application en ligne de commande, propulsée par [PHP](https://www.php.net), qui fusionne des fichiers textes plats (écrit en [Markdown](https://daringfireball.net/projects/markdown/)), des images et des templates [Twig](https://twig.symfony.com/) afin de générer un [site statique](https://fr.wikipedia.org/wiki/Site_web_statique).

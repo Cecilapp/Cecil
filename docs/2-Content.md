@@ -3,7 +3,6 @@ description: "Create content and organize it."
 date: 2021-05-07
 updated: 2022-11-13
 -->
-
 # Content
 
 There is different kinds of content in Cecil:

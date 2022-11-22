@@ -2,7 +2,6 @@
 description: "Use Cecil as a PHP library."
 date: 2020-12-19
 -->
-
 # Library
 
 You can use the Cecil as a [PHP](https://www.php.net) library.

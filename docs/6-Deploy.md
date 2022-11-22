@@ -4,7 +4,6 @@ date: 2020-12-19
 updated: 2022-08-27
 alias: documentation/publish
 -->
-
 # Deploy
 
 By default your static site is built in the `_site` directory, and can be deployed as is.

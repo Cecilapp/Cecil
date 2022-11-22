@@ -3,7 +3,6 @@ description: "Configure your website."
 date: 2021-05-07
 updated: 2022-10-29
 -->
-
 # Configuration
 
 The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `config.yml` by default and stored at the root:
