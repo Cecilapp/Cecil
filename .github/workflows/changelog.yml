@@ -1,4 +1,4 @@
-name: 'Update CHANGELOG'
+name: 'Changelog'
 
 on:
   push:
