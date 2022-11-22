@@ -9,8 +9,8 @@ on:
       - published
 
 jobs:
-  test_and_build:
-    name: Build cecil.phar
+  build:
+    name: Build Phar file
     runs-on: ubuntu-latest
     outputs:
       previous_release: ${{ steps.previous_release.outputs.tag }}
@@ -55,7 +55,8 @@ jobs:
     - name: Run build test
       run: composer run-script test
 
-    - name: Write version
+    - name: Get version
+      id: get_version
       run: |
         echo "${GITHUB_REF#refs/tags/}" > VERSION
 
@@ -91,7 +92,7 @@ jobs:
   deploy_to_github:
     name: Deploy cecil.phar to GitHub
     runs-on: ubuntu-latest
-    needs: test_and_build
+    needs: build
 
     steps:
     - name: Download cecil.phar
@@ -119,7 +120,7 @@ jobs:
       id: changelog
       uses: jaywcjlove/changelog-generator@v1.6.1
       with:
-        base-ref: ${{ needs.test_and_build.outputs.previous_release }}
+        base-ref: ${{ needs.build.outputs.previous_release }}
         token: ${{ secrets.GITHUB_TOKEN }}
         filter: (^[U|u]pdate|Merge)
 
@@ -136,7 +137,7 @@ jobs:
   deploy_to_website:
     name: Deploy cecil.phar to website
     runs-on: ubuntu-latest
-    needs: test_and_build
+    needs: build
     if: "!github.event.release.prerelease"
 
     steps:
