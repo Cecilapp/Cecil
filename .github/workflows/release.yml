@@ -1,4 +1,4 @@
-name: 'Release cecil.phar'
+name: 'Release'
 
 env:
   PHP_VERSION: '7.4'
@@ -166,7 +166,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
 
   update_homebrew_formula:
-    name: Update Homebrew Formula
+    name: Update Homebrew Formulae
     runs-on: macos-latest
     needs: [build, deploy_to_github]
 
