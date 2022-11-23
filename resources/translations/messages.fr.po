@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-09-30 17:33+0200\n"
-"PO-Revision-Date: 2022-09-30 17:33+0200\n"
+"POT-Creation-Date: 2022-11-23 23:51+0100\n"
+"PO-Revision-Date: 2022-11-23 23:52+0100\n"
 "Last-Translator: Arnaud Ligny <arnaud@ligny.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 "X-Poedit-Basepath: ../layouts\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -23,12 +23,10 @@ msgid "Powered by %powered_by%"
 msgstr "Propulsé par %powered_by%"
 
 #: feed.xsl.twig:102
-msgid "To subscribe to this feed, copy its URL to your feed reader."
-msgstr "Pour vous abonner à ce flux, copiez son URL dans votre lecteur de flux."
-
-#: feed.xsl.twig:102
-msgid "What is a feed? (a.k.a. RSS)"
-msgstr "Qu’est-ce qu’un flux ? (alias RSS)"
+msgid "To subscribe to this web feed, copy its URL to your feed reader."
+msgstr ""
+"Pour vous abonner à ce flux Web, copiez son URL dans votre lecteur de "
+"flux."
 
 #: feed.xsl.twig:104
 msgid "Feed URL:"
@@ -57,3 +55,6 @@ msgstr "Redirection…"
 #: redirect.html.twig:16
 msgid "Click here if you are not redirected."
 msgstr "Cliquez ici si vous n'êtes pas redirigé automatiquement."
+
+#~ msgid "What is a feed? (a.k.a. RSS)"
+#~ msgstr "Qu’est-ce qu’un flux ? (alias RSS)"
