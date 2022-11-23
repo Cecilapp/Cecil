@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.27.7](https://github.com/Cecilapp/Cecil/compare/7.27.6...7.27.7)
+
+> 23 November 2022
+
+- chore(deploy): homebrew tap [`d806ec0`](https://github.com/Cecilapp/Cecil/commit/d806ec0009251d012293f8b59529420e313452a3)
+- Create tap-release.yaml [`56f1fe4`](https://github.com/Cecilapp/Cecil/commit/56f1fe40bd8f473312e50619f2f6b3203ab131d3)
+- chore: rename workflows [`4a1843d`](https://github.com/Cecilapp/Cecil/commit/4a1843d11b09c4c8df077fbf5188a0e1988903b8)
+
+#### [7.27.6](https://github.com/Cecilapp/Cecil/compare/7.27.5...7.27.6)
+
+> 15 November 2022
+
+- fix: remote files handling [`#1572`](https://github.com/Cecilapp/Cecil/pull/1572)
+
 #### [7.27.5](https://github.com/Cecilapp/Cecil/compare/7.27.4...7.27.5)
 
 > 13 November 2022
