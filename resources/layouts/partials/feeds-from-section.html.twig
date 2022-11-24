@@ -1,0 +1,4 @@
+{%- if page.section|default and page.type == 'page' -%}
+  {%- set section = site.pages.showable[page.section] -%}
+  {%- include 'partials/alternates.html.twig' with {'title': title, 'page': section, 'alternates': section.alternates|filter(a => a.format in ['atom', 'rss', 'jsonfeed'])} only ~%}
+{%- endif -%}
