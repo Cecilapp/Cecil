@@ -141,6 +141,7 @@
 {%- endif -%}
 {#- template: alternates ~#}
 {%- include 'partials/alternates.html.twig' with {'title': title, 'page': page} only ~%}
+{%- include 'partials/feeds-from-section.html.twig' with {'title': title, 'page': page} only ~%}
 {#- template: alternates languages ~#}
 {%- include 'partials/alternates-languages.html.twig' with {'page': page} only ~%}
 {#- template: Open Graph ~#}

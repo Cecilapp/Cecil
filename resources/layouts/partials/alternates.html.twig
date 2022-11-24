@@ -1,6 +1,7 @@
-{%- if page.alternates is defined -%}
+{%- if alternates is not defined %}{% set alternates = page.alternates %}{% endif -%}
+{%- if page.alternates|default -%}
   {%- if title is not defined %}{% set title = page.title %}{% endif -%}
-  {%- for alternate in page.alternates ~%}
+  {%- for alternate in alternates ~%}
     {%- if alternate.rel == 'canonical' and page.canonical.url|default %}{# custom canonical URL  ~#}
     <link rel="canonical" type="text/html" title="{{ page.canonical.title|default(title|trim) }}" href="{{ url(page.canonical.url) }}" />
     {%- else ~%}
