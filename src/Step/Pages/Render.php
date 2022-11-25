@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Step\Pages;
 
 use Cecil\Builder;
+use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Exception\RuntimeException;
@@ -62,25 +63,25 @@ class Render extends AbstractStep
         // adds global variables
         $this->addGlobals();
 
-        // collects published pages
-        /** @var Page $page */
-        $pages = $this->builder->getPages()->filter(function (Page $page) {
-            return !empty($page->getVariable('published'));
-        });
-        $max = count($pages);
+        /** @var Collection $pages */
+        $pages = $this->builder->getPages()
+            // published only
+            ->filter(function (Page $page) {
+                return (bool) $page->getVariable('published');
+            })
+            // enrichs some variables
+            ->map(function (Page $page) {
+                $formats = $this->getOutputFormats($page);
+                // output formats
+                $page->setVariable('output', $formats);
+                // alternates formats
+                $page->setVariable('alternates', $this->getAlternates($formats));
+                // translations
+                $page->setVariable('translations', $this->getTranslations($page));
 
-        // enrichs some variables
-        $pages = $this->builder->getPages()->map(function (Page $page) {
-            $formats = $this->getOutputFormats($page);
-            // set output formats
-            $page->setVariable('output', $formats);
-            // set alternates links
-            $page->setVariable('alternates', $this->getAlternates($formats));
-            // set translations
-            $page->setVariable('translations', $this->getTranslations($page));
-
-            return $page;
-        });
+                return $page;
+            });
+        $total = count($pages);
 
         // renders each page
         $count = 0;
@@ -166,7 +167,7 @@ class Render extends AbstractStep
                 ($page->getId() ?: 'index'),
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
             );
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }
 
