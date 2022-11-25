@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.28.1](https://github.com/Cecilapp/Cecil/compare/7.28.0...7.28.1)
+
+> 25 November 2022
+
+- fix: VERSION [`a54b28a`](https://github.com/Cecilapp/Cecil/commit/a54b28a359de1f43cbd49581733ea68fa9a4e22c)
+
+#### [7.28.0](https://github.com/Cecilapp/Cecil/compare/7.27.7...7.28.0)
+
+> 25 November 2022
+
+- feat: add feeds to pages in a section [`#1575`](https://github.com/Cecilapp/Cecil/pull/1575)
+- refactor: feeds XSL [`0f36fbf`](https://github.com/Cecilapp/Cecil/commit/0f36fbfc72b0673b046cb6f5231beebb81b1ff94)
+- fix: FR translation [`7dbfbdc`](https://github.com/Cecilapp/Cecil/commit/7dbfbdc7eb8d1e0a8421d33e41c4c3e9a7a7a07f)
+- docs: minor updates [`d0171e4`](https://github.com/Cecilapp/Cecil/commit/d0171e418506e51bb2901c9911743d4c0bef95ac)
+
 #### [7.27.7](https://github.com/Cecilapp/Cecil/compare/7.27.6...7.27.7)
 
 > 23 November 2022
