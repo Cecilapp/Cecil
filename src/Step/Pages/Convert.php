@@ -59,7 +59,7 @@ class Convert extends AbstractStep
             return;
         }
 
-        $max = count($this->builder->getPages());
+        $total = count($this->builder->getPages());
         $count = 0;
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
@@ -91,15 +91,15 @@ class Convert extends AbstractStep
                 } else {
                     $message .= ' (not published)';
                 }
-                $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
             }
         }
     }
 
     /**
      * Converts page content:
-     *   - front matter to PHP array
-     *   - body to HTML.
+     *  - front matter to PHP array
+     *  - body to HTML.
      *
      * @throws RuntimeException
      */

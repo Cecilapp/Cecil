@@ -52,9 +52,9 @@ class Load extends AbstractStep
             $files->notName($this->config->get('static.exclude'));
         }
         $files->sortByName(true);
-        $max = count($files);
+        $total = count($files);
 
-        if ($max <= 0) {
+        if ($total < 1) {
             $message = 'No files';
             $this->builder->getLogger()->info($message);
 
@@ -75,7 +75,7 @@ class Load extends AbstractStep
             $count++;
 
             $message = \sprintf('File "%s" loaded', $file->getRelativePathname());
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
 
         $this->builder->setStatic($staticFiles);

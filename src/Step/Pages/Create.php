@@ -51,13 +51,13 @@ class Create extends AbstractStep
             return;
         }
 
-        $max = count($this->builder->getPagesFiles());
+        $total = count($this->builder->getPagesFiles());
         $count = 0;
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($this->builder->getPagesFiles() as $file) {
             $count++;
             /** @var Page $page */
-            $page = new Page(Page::createId($file));
+            $page = new Page(Page::createIdFromFile($file));
             $page->setFile($file)->parse();
 
             /*
@@ -109,7 +109,7 @@ class Create extends AbstractStep
             }
 
             $message = \sprintf('Page "%s" created', $page->getId());
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }
 }

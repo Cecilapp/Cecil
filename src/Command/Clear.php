@@ -61,11 +61,11 @@ class Clear extends AbstractCommand
     private function removeOutputDir(OutputInterface $output): void
     {
         $outputDir = (string) $this->getBuilder()->getConfig()->get('output.dir');
-        if ($this->fs->exists(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'))) {
+        if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'))) {
             $outputDir = Util\File::fileGetContents(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'));
         }
 
-        if ($outputDir === false || !$this->fs->exists(Util::joinFile($this->getPath(), $outputDir))) {
+        if ($outputDir === false || !Util\File::getFS()->exists(Util::joinFile($this->getPath(), $outputDir))) {
             $output->writeln('<info>No output directory.</info>');
 
             return;
@@ -76,7 +76,7 @@ class Clear extends AbstractCommand
             \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), $outputDir)),
             OutputInterface::VERBOSITY_VERBOSE
         );
-        $this->fs->remove(Util::joinFile($this->getPath(), $outputDir));
+        Util\File::getFS()->remove(Util::joinFile($this->getPath(), $outputDir));
         $output->writeln('<info>Output directory is clear.</info>');
     }
 
@@ -85,7 +85,7 @@ class Clear extends AbstractCommand
      */
     private function removeTmpDir(OutputInterface $output): void
     {
-        if (!$this->fs->exists(Util::joinFile($this->getPath(), self::TMP_DIR))) {
+        if (!Util\File::getFS()->exists(Util::joinFile($this->getPath(), self::TMP_DIR))) {
             $output->writeln('<info>No temporary files.</info>');
 
             return;
@@ -96,7 +96,7 @@ class Clear extends AbstractCommand
             \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), self::TMP_DIR)),
             OutputInterface::VERBOSITY_VERBOSE
         );
-        $this->fs->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
+        Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
         $output->writeln('<info>Temporary directory is clear.</info>');
     }
 }

@@ -106,23 +106,23 @@ class Page extends Item
     /**
      * Creates the ID from the file path.
      */
-    public static function createId(SplFileInfo $file): string
+    public static function createIdFromFile(SplFileInfo $file): string
     {
-        $relativepath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
+        $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.'.$file->getExtension())));
         // case of "README" -> index
         $basename = (string) str_ireplace('readme', 'index', $basename);
         // case of section's index: "section/index" -> "section"
-        if (!empty($relativepath) && PrefixSuffix::sub($basename) == 'index') {
-            // case of a localized section
+        if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
+            // case of a localized section: "section/index.fr" -> "section.fr"
             if (PrefixSuffix::hasSuffix($basename)) {
-                return $relativepath.'.'.PrefixSuffix::getSuffix($basename);
+                return $relativePath.'.'.PrefixSuffix::getSuffix($basename);
             }
 
-            return $relativepath;
+            return $relativePath;
         }
 
-        return trim(Util::joinPath($relativepath, $basename), '/');
+        return trim(Util::joinPath($relativePath, $basename), '/');
     }
 
     /**

@@ -90,7 +90,7 @@ class NewPage extends AbstractCommand
             $filePath = Util::joinFile($this->getPath(), $fileRelativePath);
 
             // file already exists?
-            if ($this->fs->exists($filePath) && !$force) {
+            if (Util\File::getFS()->exists($filePath) && !$force) {
                 $output->writeln(\sprintf(
                     '<comment>The file "%s" already exists.</comment>',
                     $fileRelativePath
@@ -110,7 +110,7 @@ class NewPage extends AbstractCommand
                 [$title, $date],
                 $model['content']
             );
-            $this->fs->dumpFile($filePath, $fileContent);
+            Util\File::getFS()->dumpFile($filePath, $fileContent);
             $output->writeln(\sprintf('<info>File "%s" created (with model "%s").</info>', $fileRelativePath, $model['name']));
 
             // open editor?
