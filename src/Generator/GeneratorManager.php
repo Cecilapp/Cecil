@@ -61,12 +61,12 @@ class GeneratorManager extends \SplPriorityQueue
     {
         /** @var PagesCollection $pagesCollection */
         $pagesCollection = $this->builder->getPages();
-        $max = $this->count();
+        $total = $this->count();
 
-        if ($max > 0) {
+        if ($total > 0) {
             $this->top();
             while ($this->valid()) {
-                $count = $max - $this->key();
+                $count = $total - $this->key();
                 /** @var AbstractGenerator $generator */
                 $generator = $this->current();
                 /** @var PagesCollection $generatedPages */
@@ -80,7 +80,7 @@ class GeneratorManager extends \SplPriorityQueue
                     }
                 }
                 $message = \sprintf('%s "%s" pages generated', count($generatedPages), Util::formatClassName($generator));
-                $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
 
                 $this->next();
             }
