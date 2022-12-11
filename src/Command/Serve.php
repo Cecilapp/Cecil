@@ -143,7 +143,7 @@ class Serve extends AbstractCommand
         // (re)builds before serve
         $buildProcess->run($processOutputCallback);
         if ($buildProcess->isSuccessful()) {
-            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
         }
         if ($buildProcess->getExitCode() !== 0) {
             return 1;
@@ -187,7 +187,7 @@ class Serve extends AbstractCommand
 
                         $buildProcess->run($processOutputCallback);
                         if ($buildProcess->isSuccessful()) {
-                            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+                            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
                         }
 
                         $output->writeln('<info>Server is runnning...</info>');
@@ -216,19 +216,19 @@ class Serve extends AbstractCommand
                 $root = Util\Plateform::getPharPath().'/';
             }
             // copying router
-            $this->fs->copy(
+            Util\File::getFS()->copy(
                 $root.'/resources/server/router.php',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
             // copying livereload JS
-            $this->fs->copy(
+            Util\File::getFS()->copy(
                 $root.'/resources/server/livereload.js',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js'),
                 true
             );
             // copying baseurl text file
-            $this->fs->dumpFile(
+            Util\File::getFS()->dumpFile(
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
                 \sprintf(
                     '%s;%s',
@@ -255,7 +255,7 @@ class Serve extends AbstractCommand
         $this->output->writeln('<comment>Server stopped.</comment>');
 
         try {
-            $this->fs->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
+            Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException($e->getMessage());
         }

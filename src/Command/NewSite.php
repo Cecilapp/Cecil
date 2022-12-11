@@ -58,7 +58,7 @@ class NewSite extends AbstractCommand
         try {
             // ask to override site?
             $helper = $this->getHelper('question');
-            if ($this->fs->exists(Util::joinFile($this->getPath(), self::CONFIG_FILE)) && !$force) {
+            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), self::CONFIG_FILE)) && !$force) {
                 $output->writeln('<comment>Website already exists.</comment>');
                 if (!$helper->ask($input, $output, new ConfirmationQuestion('Do you want to override it? [y/n]', false))) {
                     return 0;
@@ -92,7 +92,7 @@ class NewSite extends AbstractCommand
                 $this->getBuilder()->getConfig()->get('static.dir'),
                 $this->getBuilder()->getConfig()->get('assets.dir'),
             ] as $value) {
-                $this->fs->mirror(
+                Util\File::getFS()->mirror(
                     Util::joinPath($root, 'resources/skeleton', $value),
                     Util::joinPath($this->getPath(), $value)
                 );
