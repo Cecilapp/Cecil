@@ -30,11 +30,11 @@ if (version_compare(PHP_VERSION, $phpVersion, '<')) {
 // check if required php extensions are loaded
 $requiredPhpExtensions = ['fileinfo', 'gd', 'mbstring'];
 foreach ($requiredPhpExtensions as $extension) {
-  if (! extension_loaded($extension)) {
-    printf('Unable to proceed, Cecil requires php extension `%s` to be installed and loaded.', $extension);
+    if (! extension_loaded($extension)) {
+        printf('Unable to proceed, Cecil requires php extension `%s` to be installed and loaded.%s', $extension, PHP_EOL);
 
-    exit(2);
-  }
+        exit(2);
+    }
 }
 
 // autoload
