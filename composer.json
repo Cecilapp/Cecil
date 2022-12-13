@@ -39,6 +39,7 @@
     "symfony/console": "^5.4",
     "symfony/filesystem": "^5.4",
     "symfony/finder": "^5.4",
+    "symfony/polyfill-intl-icu": "^1.27",
     "symfony/process": "^5.4",
     "symfony/property-access": "^5.4",
     "symfony/serializer": "^5.4",
