@@ -16,23 +16,21 @@ if (getenv('CECIL_DEBUG') == 'true') {
 }
 date_default_timezone_set('UTC');
 
-$name       = 'Cecil';
-$version    = '@git_version@';
-$phpVersion = '7.4.0';
+$name                  = 'Cecil';
+$version               = '@git_version@';
+$phpMinimumVersion     = '7.4.0';
+$phpRequiredExtensions = ['fileinfo', 'gd', 'mbstring'];
 
 // checks PHP minimal version
-if (version_compare(PHP_VERSION, $phpVersion, '<')) {
-    printf('PHP %s is required (server version: %s)%s', $phpVersion, PHP_VERSION, PHP_EOL);
-
+if (version_compare(PHP_VERSION, $phpMinimumVersion, '<')) {
+    printf('PHP %s is required (current version: %s).%s', $phpMinimumVersion, PHP_VERSION, PHP_EOL);
     exit(2);
 }
 
 // checks if required PHP extensions are loaded
-$requiredPhpExtensions = ['fileinfo', 'gd', 'mbstring'];
-foreach ($requiredPhpExtensions as $extension) {
+foreach ($phpRequiredExtensions as $extension) {
     if (!extension_loaded($extension)) {
         printf('Unable to proceed because %s requires PHP extension `%s` to be installed and loaded.%s', $name, $extension, PHP_EOL);
-
         exit(2);
     }
 }
@@ -52,7 +50,7 @@ switch (true) {
         require 'vendor/autoload.php';
         break;
     default:
-        echo 'Unable to locate Composer autoloader. Please run "composer install".'.PHP_EOL;
+        printf('Unable to locate Composer autoloader. Please run "composer install".%s', PHP_EOL);
         exit(2);
 }
 
@@ -88,7 +86,7 @@ $version = ($version === '@'.'git_version'.'@')
     ? Builder::getVersion()
     : $version;
 
-$application = new Application('Cecil', $version);
+$application = new Application($name, $version);
 
 $exit = $application->run();
 exit($exit);
