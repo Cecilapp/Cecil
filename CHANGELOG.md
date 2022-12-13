@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.28.2](https://github.com/Cecilapp/Cecil/compare/7.28.1...7.28.2)
+
+> 13 December 2022
+
+- Fixes #1583 - Enforcing runtime checks for required php extensions [`#1585`](https://github.com/Cecilapp/Cecil/pull/1585)
+- refactor: enhances code [`#1577`](https://github.com/Cecilapp/Cecil/pull/1577)
+- fix: pages filter and map in render step [`#1576`](https://github.com/Cecilapp/Cecil/pull/1576)
+- Fixes #1583 - Enforcing runtime checks for required php extensions (#1585) [`#1583`](https://github.com/Cecilapp/Cecil/issues/1583)
+- refactor: add symfony/polyfill-intl-icu [`dcb38d2`](https://github.com/Cecilapp/Cecil/commit/dcb38d23f88b706544dd9a3353d4fc0924323164)
+- chore: update deps [`20ecec3`](https://github.com/Cecilapp/Cecil/commit/20ecec35e1291df242bd3b5c39b49ee0e782c635)
+
 #### [7.28.1](https://github.com/Cecilapp/Cecil/compare/7.28.0...7.28.1)
 
 > 25 November 2022
