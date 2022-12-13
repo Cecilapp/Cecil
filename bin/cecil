@@ -27,6 +27,16 @@ if (version_compare(PHP_VERSION, $phpVersion, '<')) {
     exit(2);
 }
 
+// checks if required PHP extensions are loaded
+$requiredPhpExtensions = ['fileinfo', 'gd', 'mbstring'];
+foreach ($requiredPhpExtensions as $extension) {
+    if (!extension_loaded($extension)) {
+        printf('Unable to proceed because %s requires PHP extension `%s` to be installed and loaded.%s', $name, $extension, PHP_EOL);
+
+        exit(2);
+    }
+}
+
 // autoload
 switch (true) {
     // Installed standalone
