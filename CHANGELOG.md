@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.28.3](https://github.com/Cecilapp/Cecil/compare/7.28.2...7.28.3)
+
+> 19 December 2022
+
+- fix(server): tear down method must be public [`#1588`](https://github.com/Cecilapp/Cecil/pull/1588)
+- chore: update deps [`6abfeb7`](https://github.com/Cecilapp/Cecil/commit/6abfeb7a99e73896b1c2fcce17ae01e2c192022f)
+- chore: update deps [`43760de`](https://github.com/Cecilapp/Cecil/commit/43760de3029c2f3c6977a69aad51a5136148a33b)
+- refactor: minor changes [`b57a9dc`](https://github.com/Cecilapp/Cecil/commit/b57a9dc765254f7015debfac8c887859bb158ef2)
+
 #### [7.28.2](https://github.com/Cecilapp/Cecil/compare/7.28.1...7.28.2)
 
 > 13 December 2022
