@@ -249,7 +249,7 @@ class Serve extends AbstractCommand
      *
      * @throws RuntimeException
      */
-    private function tearDownServer(): void
+    public function tearDownServer(): void
     {
         $this->output->writeln('');
         $this->output->writeln('<comment>Server stopped.</comment>');
