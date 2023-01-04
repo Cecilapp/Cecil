@@ -41,8 +41,8 @@ if ($path == '/watcher') {
     exit();
 }
 
-// 'path' = 'path/index.html'?
-if (empty(pathinfo($path, PATHINFO_EXTENSION)) && file_exists($_SERVER['DOCUMENT_ROOT'].rtrim($path, '/').DIRECTORY_INDEX)) {
+// 'path' or 'path/' = 'path/index.html'?
+if ((empty(pathinfo($path, PATHINFO_EXTENSION)) || $path[-1] == '/') && file_exists($_SERVER['DOCUMENT_ROOT'].rtrim($path, '/').DIRECTORY_INDEX)) {
     $path = rtrim($path, '/').DIRECTORY_INDEX;
 }
 
