@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.28.4](https://github.com/Cecilapp/Cecil/compare/7.28.3...7.28.4)
+
+> 4 January 2023
+
+- chore: update deps [`27eb2cb`](https://github.com/Cecilapp/Cecil/commit/27eb2cb128c583be31f2ac77ac53dc4d04ba7fed)
+- chore: update deps [`8730d97`](https://github.com/Cecilapp/Cecil/commit/8730d978caae9c95acbe48c5c94daa930e8b4f32)
+- fix(server): path with dot but without extension [`6c644a3`](https://github.com/Cecilapp/Cecil/commit/6c644a3dbe211139c8402e2711246444e3d2b05e)
+
 #### [7.28.3](https://github.com/Cecilapp/Cecil/compare/7.28.2...7.28.3)
 
 > 19 December 2022
