@@ -44,7 +44,7 @@ return [
         'pagetypeformats' => [
             'page'       => ['html', 'json'],
             'homepage'   => ['html', 'atom', 'rss', 'json'],
-            'section'    => ['html', 'atom', 'rss', 'json'],
+            'section'    => ['html', 'atom', 'rss', 'json', 'jsonfeed'],
             'vocabulary' => ['html'],
             'term'       => ['html', 'atom', 'rss'],
         ],

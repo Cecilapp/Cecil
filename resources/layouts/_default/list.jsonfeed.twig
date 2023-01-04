@@ -1,0 +1,64 @@
+{% extends 'extended/feed.twig' %}
+
+{% block feed %}
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": {{ title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+  "description": {{ page.description|default(site.description)|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+  "feed_url": "{{ url(page, {canonical: true, format: 'jsonfeed'}) }}",
+  "home_page_url": "{{ url(page, {canonical: true}) }}",
+  {%- set icon = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
+  {%- if not icon.missing ~%}
+  "icon": "{{ icon|resize(512)|url({canonical: true}) }}",
+  "favicon": "{{ icon|resize(64)|url({canonical: true}) }}",
+  {%- endif ~%}
+  {%- if site.author.firstname is defined and site.author.lastname is defined -%}
+  {%- set author = site.author.firstname ~ ' ' ~ site.author.lastname -%}
+  {%- endif ~%}
+  {%- if author|default ~%}
+  "authors": [
+    {
+      "name": {{ author|json_encode }}
+      {%- if not icon.missing -%}
+      ,
+      "avatar": "{{ icon|resize(128)|url({canonical: true}) }}"
+      {%- endif ~%}
+    }
+  ],
+  {%- endif ~%}
+  "language": "{{ site.language|default('en') }}",
+  "items": [
+    {%- for item in pages|sort_by_date ~%}
+    {
+      "id": {{ url(item, {canonical: true})|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
+      "url": "{{ url(item, {canonical: true}) }}",
+      "title": {{ item.title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+      "content_text": {{ item.content|striptags|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+      "content_html": {{ item.content|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
+      {%- if item.image is defined ~%}
+      "image": "{{ url(asset(item.image), {canonical: true}) }}",
+      {%- endif ~%}
+      "date_published": "{{ item.date|date('c') }}",
+      {%- if item.updated is defined ~%}
+      "date_modified": "{{ item.updated|date('c') }}",
+      {%- endif ~%}
+      {%- if item.tags is defined ~%}
+      "tags": {{ item.tags|default([])|json_encode }},
+      {%- endif ~%}
+      {%- for variable, value in item.fmvariables|filter((v, k) => k starts with '_') ~%}
+      "{{ variable }}": {{ value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
+      {%- endfor ~%}
+      {%- if page.author is defined ~%}
+      "authors": [
+        {
+          "name": {{ page.author|json_encode }}
+        }
+      ],
+      {%- endif ~%}
+      "language": "{{ item.language|default(site.language|default('en')) }}"
+    }
+    {%- if not loop.last %},{% endif -%}
+    {%- endfor ~%}
+  ]
+}
+{% endblock feed %}

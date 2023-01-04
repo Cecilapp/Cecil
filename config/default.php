@@ -103,6 +103,14 @@ return [
                 'mediatype' => 'application/xml',
                 'extension' => 'xsl',
             ],
+            // ie: blog/feed.json
+            -11 => [
+                'name'      => 'jsonfeed',
+                'mediatype' => 'application/json',
+                'filename'  => 'feed',
+                'extension' => 'json',
+                'exclude'   => ['redirect', 'paginated'],
+            ],
         ],
         'pagetypeformats' => [
             'page'       => ['html'],
