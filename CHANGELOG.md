@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.29.0](https://github.com/Cecilapp/Cecil/compare/7.28.4...7.29.0)
+
+> 4 January 2023
+
+- feat: JSON Feed output format support [`#1595`](https://github.com/Cecilapp/Cecil/pull/1595)
+
 #### [7.28.4](https://github.com/Cecilapp/Cecil/compare/7.28.3...7.28.4)
 
 > 4 January 2023
