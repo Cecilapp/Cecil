@@ -1,35 +1,55 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2022-10-09
+updated: 2023-01-12
 alias: documentation/layouts
 -->
 # Templates
 
-Cecil is powered by the [Twig](https://twig.symfony.com) template engine.
-
-:::info
-Refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use Twig.
-:::
+Cecil is powered by the [Twig](https://twig.symfony.com), so please refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use the template.
 
 ## Example
 
 ```twig
+{# this is a template example #}
 <h1>{{ page.title }} - {{ site.title }}</h1>
 <span>{{ page.date|date('j M Y') }}</span>
 <p>{{ page.content }}</p>
-<p>{{ page.variable }}</p>
+<ul>
+{% for variable in page.my_variables %}
+  <li>{{ variable }}</li>
+{% endfor %}
+</ul>
 ```
+
+- `{# #}`: adds comments
+- `{{ }}`: outputs content of variables or expressions
+- `{% %}`: executes statements, like loop (`for`), condition (`if`)
+- `|filter()`: filters or formats content
 
 ## Files organization
 
-Templates files are stored in `layouts/`.
+Templates files are stored in the `layouts/` directory.
+
+A template must be named according to the following convention:
+
+```
+<name|type>.<format>.twig
+```
+
+
+
+
+- `<layout>`: value of variable `layout` set in front matter (e.g.: `layout: post`)
+- `<format>`: output format (e.g.: `html`)
+- `<section>`: page’s _Section_ (e.g.: `blog`)
+
 
 ```plaintext
 <mywebsite>
 ├─ pages
 ├─ layouts
-|  ├─ _default           <- Contains default templates
+|  ├─ _default           <- Contains default templates that can be easily extended
 |  |  ├─ list.html.twig  <- Used by "section" and "term" pages type
 |  |  └─ page.html.twig  <- Used by "page" pages type
 |  └─ index.html.twig    <- Used by the "homepage" type
