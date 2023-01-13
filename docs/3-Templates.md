@@ -37,32 +37,35 @@ Templates files are stored in the `layouts/` directory and must be named accordi
 
 - `<layout>` is the value of the variable `layout` set in [front matter](2-Content.md#front-matter) (e.g.: `layout: my_template`)
 - or `<type>` of the page: _homepage_, _page_, _section_, _vocabulary_ or _term_
-- `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `xml`, etc.)
+- `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `rss`, `json`, `xml`, etc.)
 
 ```plaintext
 <mywebsite>
 ├─ pages
 ├─ layouts
-|  ├─ my_template.html.twig <- Named template
-|  ├─ _default              <- Default templates, that can be easily extended
-|  |  ├─ list.html.twig     <- Used by "section" and "term" pages type
-|  |  └─ page.html.twig     <- Used by "page" pages type
-|  └─ index.html.twig       <- Used by the "homepage" type
+|  ├─ my_template.html.twig <- Dedicated template
+|  ├─ index.html.twig       <- Used by type "homepage"
+|  ├─ list.html.twig        <- Used by types "homepage", "section" and "term"
+|  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
+|  ├─ page.html.twig        <- Used by type "page"
+|  └─ _default              <- Default templates, that can be easily extended by "root" templates
+|     ├─ list.html.twig
+|     └─ page.html.twig
 └─ themes
    └─ <theme>
-      ├─ layouts            <- Theme templates
-      └─ ...
+      └─ layouts            <- Theme templates
+         └─ ...
 ```
 
 ## Lookup rules
 
 In most of cases **you don’t need to specify a template name** (with the `layout` variable in the [front matter](2-Content.md#front-matter) of the page) : **Cecil selects the most appropriate template**, according to the page _type_.
 
-For example, the _home page_ will be rendered in the following order:
+For example, the HTML output of _home page_ will be rendered in the following order:
 
 1. with `my_template.html.twig` if the `layout` variable is set to "my_template" in the front matter of `index.md`
-2. if not, with `index.html.twig` if the file exists in the `layouts` directory
-3. if not, with `list.html.twig`
+2. if not, with `index.html.twig` if the file exists
+3. if not, with `list.html.twig` if the file exists
 4. etc.
 
 All rules are detailed below, for each page type, in the priority order.
