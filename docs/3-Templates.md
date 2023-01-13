@@ -6,7 +6,7 @@ alias: documentation/layouts
 -->
 # Templates
 
-Cecil is powered by the [Twig](https://twig.symfony.com), so please refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use the template engine.
+Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so please refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use it.
 
 ## Example
 
@@ -31,11 +31,11 @@ Cecil is powered by the [Twig](https://twig.symfony.com), so please refer to the
 
 Templates files are stored in the `layouts/` directory and must be named according to the following convention:
 
-```text
+```plaintext
 <layout|type>.<format>.twig
 ```
 
-- `<layout>` is the value of the variable `layout`, set in [front matter](2-Content.md#front-matter) (e.g.: `layout: my_template`)
+- `<layout>` is the value of the variable `layout` set in [front matter](2-Content.md#front-matter) (e.g.: `layout: my_template`)
 - or `<type>` of the page: _homepage_, _page_, _section_, _vocabulary_ or _term_
 - `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `xml`, etc.)
 
@@ -43,11 +43,11 @@ Templates files are stored in the `layouts/` directory and must be named accordi
 <mywebsite>
 ├─ pages
 ├─ layouts
+|  ├─ my_template.html.twig <- Named template
 |  ├─ _default              <- Default templates, that can be easily extended
 |  |  ├─ list.html.twig     <- Used by "section" and "term" pages type
 |  |  └─ page.html.twig     <- Used by "page" pages type
-|  |  index.html.twig       <- Used by the "homepage" type
-|  └─ my_template.html.twig <- Custom template
+|  └─ index.html.twig       <- Used by the "homepage" type
 └─ themes
    └─ <theme>
       ├─ layouts            <- Theme templates
@@ -56,14 +56,16 @@ Templates files are stored in the `layouts/` directory and must be named accordi
 
 ## Lookup rules
 
-In most of cases **you don’t need to specify the template** with the `layout` variable in the [front matter](2-Content.md#front-matter) of the page : **Cecil selects the most appropriate template**, according to the page _type_.
+In most of cases **you don’t need to specify a template name** (with the `layout` variable in the [front matter](2-Content.md#front-matter) of the page) : **Cecil selects the most appropriate template**, according to the page _type_.
 
 For example, the _home page_ will be rendered in the following order:
 
-1. with `my_template.html.twig` if the `layout` variable is set to `my_template` in the front matter of `index.md`
+1. with `my_template.html.twig` if the `layout` variable is set to "my_template" in the front matter of `index.md`
 2. if not, with `index.html.twig` if the file exists in the `layouts` directory
 3. if not, with `list.html.twig`
 4. etc.
+
+All rules are detailed below, for each page type, in the priority order.
 
 ### Type _homepage_
 
