@@ -35,7 +35,7 @@ Templates files are stored in the `layouts/` directory and must be named accordi
 <layout|type>.<format>.twig
 ```
 
-- `<layout>` is the value of the variable `layout` set in [front matter](2-Content.md#front-matter) (e.g.: `layout: my_template`)
+- `<layout>` is the name of the template set in [front matter](2-Content.md#front-matter) (e.g.: `layout: my_template`)
 - or `<type>` of the page: _homepage_, _page_, _section_, _vocabulary_ or _term_
 - `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `rss`, `json`, `xml`, etc.)
 
@@ -43,7 +43,7 @@ Templates files are stored in the `layouts/` directory and must be named accordi
 <mywebsite>
 ├─ ...
 ├─ layouts
-|  ├─ my_template.html.twig <- Dedicated template
+|  ├─ my_template.html.twig <- Named template
 |  ├─ index.html.twig       <- Used by type "homepage"
 |  ├─ list.html.twig        <- Used by types "homepage", "section" and "term"
 |  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
