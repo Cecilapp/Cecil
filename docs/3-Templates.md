@@ -6,7 +6,7 @@ alias: documentation/layouts
 -->
 # Templates
 
-Cecil is powered by the [Twig](https://twig.symfony.com), so please refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use the template.
+Cecil is powered by the [Twig](https://twig.symfony.com), so please refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use the template engine.
 
 ## Example
 
@@ -24,59 +24,46 @@ Cecil is powered by the [Twig](https://twig.symfony.com), so please refer to the
 
 - `{# #}`: adds comments
 - `{{ }}`: outputs content of variables or expressions
-- `{% %}`: executes statements, like loop (`for`), condition (`if`)
+- `{% %}`: executes statements, like loop (`for`), condition (`if`), etc.
 - `|filter()`: filters or formats content
 
 ## Files organization
 
-Templates files are stored in the `layouts/` directory.
+Templates files are stored in the `layouts/` directory and must be named according to the following convention:
 
-A template must be named according to the following convention:
-
-```
-<name|type>.<format>.twig
+```text
+<layout|type>.<format>.twig
 ```
 
-
-
-
-- `<layout>`: value of variable `layout` set in front matter (e.g.: `layout: post`)
-- `<format>`: output format (e.g.: `html`)
-- `<section>`: page’s _Section_ (e.g.: `blog`)
-
+- `<layout>` is the value of the variable `layout`, set in [front matter](2-Content.md#front-matter) (e.g.: `layout: my_template`)
+- or `<type>` of the page: _homepage_, _page_, _section_, _vocabulary_ or _term_
+- `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `xml`, etc.)
 
 ```plaintext
 <mywebsite>
 ├─ pages
 ├─ layouts
-|  ├─ _default           <- Contains default templates that can be easily extended
-|  |  ├─ list.html.twig  <- Used by "section" and "term" pages type
-|  |  └─ page.html.twig  <- Used by "page" pages type
-|  └─ index.html.twig    <- Used by the "homepage" type
+|  ├─ _default              <- Default templates, that can be easily extended
+|  |  ├─ list.html.twig     <- Used by "section" and "term" pages type
+|  |  └─ page.html.twig     <- Used by "page" pages type
+|  |  index.html.twig       <- Used by the "homepage" type
+|  └─ my_template.html.twig <- Custom template
 └─ themes
-   └─ <theme>            <- A custom theme
-      ├─ layouts
+   └─ <theme>
+      ├─ layouts            <- Theme templates
       └─ ...
 ```
 
 ## Lookup rules
 
-In most of cases **you don’t need to specify the template** to use through the `layout` variable in the [front matter](2-Content.md#front-matter) of the page : Cecil selects the most appropriate template, by page _type_.
+In most of cases **you don’t need to specify the template** with the `layout` variable in the [front matter](2-Content.md#front-matter) of the page : **Cecil selects the most appropriate template**, according to the page _type_.
 
-For example, the _homepage_ will be rendered by the template:
+For example, the _home page_ will be rendered in the following order:
 
-1. `my_template.html.twig` if the `layout` variable is set to `my_template` in the front matter of `index.md`
-2. if not, `index.html.twig` if the file exists in the layout directory
-3. if not, `list.html.twig`
-4. etc. (See below)
-
-:::
-**Glossary:**
-
-- `<layout>`: value of variable `layout` set in front matter (e.g.: `layout: post`)
-- `<format>`: output format (e.g.: `html`)
-- `<section>`: page’s _Section_ (e.g.: `blog`)
-:::
+1. with `my_template.html.twig` if the `layout` variable is set to `my_template` in the front matter of `index.md`
+2. if not, with `index.html.twig` if the file exists in the `layouts` directory
+3. if not, with `list.html.twig`
+4. etc.
 
 ### Type _homepage_
 
