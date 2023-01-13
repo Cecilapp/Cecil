@@ -41,16 +41,18 @@ Templates files are stored in the `layouts/` directory and must be named accordi
 
 ```plaintext
 <mywebsite>
-├─ pages
+├─ ...
 ├─ layouts
 |  ├─ my_template.html.twig <- Dedicated template
 |  ├─ index.html.twig       <- Used by type "homepage"
 |  ├─ list.html.twig        <- Used by types "homepage", "section" and "term"
 |  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
 |  ├─ page.html.twig        <- Used by type "page"
+|  ├─ ...
 |  └─ _default              <- Default templates, that can be easily extended by "root" templates
 |     ├─ list.html.twig
-|     └─ page.html.twig
+|     ├─ page.html.twig
+|     └─ ...
 └─ themes
    └─ <theme>
       └─ layouts            <- Theme templates
