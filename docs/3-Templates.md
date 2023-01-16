@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2023-01-12
+updated: 2023-01-16
 alias: documentation/layouts
 -->
 # Templates
@@ -32,18 +32,18 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 Templates files are stored in the `layouts/` directory and must be named according to the following convention:
 
 ```plaintext
-<layout|type>.<format>.twig
+<layout>.<format>.twig
 ```
 
-- `<layout>` is the name of the template set in [front matter](2-Content.md#front-matter) (e.g.: `layout: my_template`)
-- or `<type>` of the page: _homepage_, _page_, _section_, _vocabulary_ or _term_
+- `<layout>` is the name of the layout, the same as the one defined in [front matter](2-Content.md#front-matter) (e.g.: `layout: my_layout`) or the name of a generic layout (i.e.: `index`, `page`, `list`, etc. See below for details)
 - `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `rss`, `json`, `xml`, etc.)
+- `.twig` is the mandatory file extension
 
 ```plaintext
 <mywebsite>
 ├─ ...
 ├─ layouts
-|  ├─ my_template.html.twig <- Named template
+|  ├─ my_layout.html.twig
 |  ├─ index.html.twig       <- Used by type "homepage"
 |  ├─ list.html.twig        <- Used by types "homepage", "section" and "term"
 |  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
@@ -61,11 +61,11 @@ Templates files are stored in the `layouts/` directory and must be named accordi
 
 ## Lookup rules
 
-In most of cases **you don’t need to specify a template name** (with the `layout` variable in the [front matter](2-Content.md#front-matter) of the page) : **Cecil selects the most appropriate template**, according to the page _type_.
+In most of cases **you don’t need to specify a layout name** (with the `layout` variable in the [front matter](2-Content.md#front-matter) of the page) : **Cecil selects the most appropriate layout**, according to the page _type_.
 
 For example, the HTML output of _home page_ will be rendered in the following order:
 
-1. with `my_template.html.twig` if the `layout` variable is set to "my_template" in the front matter of `index.md`
+1. with `my_layout.html.twig` if the `layout` variable is set to "my_layout" in the front matter of `index.md`
 2. if not, with `index.html.twig` if the file exists
 3. if not, with `list.html.twig` if the file exists
 4. etc.
@@ -109,7 +109,7 @@ All rules are detailed below, for each page type, in the priority order.
 3. `_default/list.<format>.twig`
 
 :::info
-Most of those templates are available by default, see [built-in templates](#built-in-templates).
+Most of those layouts are available by default, see [built-in templates](#built-in-templates).
 :::
 
 ## Variables
