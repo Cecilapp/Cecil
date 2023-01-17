@@ -1,7 +1,7 @@
 <!--
 description: "Working with templates and use variables."
 date: 2021-05-07
-updated: 2023-01-16
+updated: 2023-01-17
 alias: documentation/layouts
 -->
 # Templates
@@ -29,43 +29,50 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 
 ## Files organization
 
-Templates files are stored in the `layouts/` directory and must be named according to the following convention:
+There is two kinds of templates: _layouts_ and _others templates_.
+
+_Layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include](https://twig.symfony.com/doc/templates.html#including-other-templates) templates.
+
+_Layouts_ files are stored in the `layouts/` directory and must be named according to the following convention:
 
 ```plaintext
 <layout>.<format>.twig
 ```
 
-- `<layout>` is the name of the layout, the same as the one defined in [front matter](2-Content.md#front-matter) (e.g.: `layout: my_layout`) or the name of a generic layout (i.e.: `index`, `page`, `list`, etc. See below for details)
+- `<layout>` is the name of the layout, the same as the one defined in [front matter](2-Content.md#front-matter) of a page (e.g.: `layout: my-layout`) or the name of a generic layout (i.e.: `index`, `page`, `list`, etc. See below for details)
 - `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `rss`, `json`, `xml`, etc.)
 - `.twig` is the mandatory file extension
 
 ```plaintext
 <mywebsite>
 ├─ ...
-├─ layouts
-|  ├─ my_layout.html.twig
+├─ layouts                  <- Layouts and templates
+|  ├─ my-layout.html.twig
 |  ├─ index.html.twig       <- Used by type "homepage"
 |  ├─ list.html.twig        <- Used by types "homepage", "section" and "term"
 |  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
 |  ├─ page.html.twig        <- Used by type "page"
 |  ├─ ...
-|  └─ _default              <- Default templates, that can be easily extended by "root" templates
-|     ├─ list.html.twig
-|     ├─ page.html.twig
+|  ├─ _default              <- Default layouts, that can be easily extended by "root" layouts
+|  |  ├─ list.html.twig
+|  |  ├─ page.html.twig
+|  |  └─ ...
+|  └─ partials
+|     ├─ footer.html.twig   <- Included template
 |     └─ ...
 └─ themes
    └─ <theme>
-      └─ layouts            <- Theme templates
+      └─ layouts            <- Theme layouts and templates
          └─ ...
 ```
 
 ## Lookup rules
 
-In most of cases **you don’t need to specify a layout name** (with the `layout` variable in the [front matter](2-Content.md#front-matter) of the page) : **Cecil selects the most appropriate layout**, according to the page _type_.
+In most of cases **you don’t need to specify a layout name** (in the [front matter](2-Content.md#front-matter) of the page) : **Cecil selects the most appropriate layout**, according to the page _type_.
 
 For example, the HTML output of _home page_ will be rendered in the following order:
 
-1. with `my_layout.html.twig` if the `layout` variable is set to "my_layout" in the front matter of `index.md`
+1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" in the front matter of `index.md`
 2. if not, with `index.html.twig` if the file exists
 3. if not, with `list.html.twig` if the file exists
 4. etc.
