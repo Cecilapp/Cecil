@@ -189,6 +189,12 @@ function getPathInfo(string $path): array
                 'Content-Type: application/xslt+xml',
             ];
             break;
+        case 'yml':
+        case 'yaml':
+            $info['headers'] = [
+                'Content-Type: application/yaml',
+            ];
+            break;
     }
     // forces the info according to the media main type
     switch ($info['media_maintype']) {
