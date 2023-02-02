@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.29.1](https://github.com/Cecilapp/Cecil/compare/7.29.0...7.29.1)
+
+> 2 February 2023
+
+- fix: path of only one page load [`#1606`](https://github.com/Cecilapp/Cecil/pull/1606)
+- chore: update deps [`01bb490`](https://github.com/Cecilapp/Cecil/commit/01bb490ce3455a7e44d952cb052802e0efc64b52)
+- docs: update templates docs [`70c9b7d`](https://github.com/Cecilapp/Cecil/commit/70c9b7d1b5824f915b6a075522c2b82d287f28e7)
+- docs: enhance templates docs [`75ab333`](https://github.com/Cecilapp/Cecil/commit/75ab333cefb0f7e48606881641137f6e5bce9adc)
+- docs: update templates docs [`0c175c8`](https://github.com/Cecilapp/Cecil/commit/0c175c81f7718a29acc702551f676768a89d2f78)
+- chore: update deps [`76a6501`](https://github.com/Cecilapp/Cecil/commit/76a65015815651da88bbb6b2cefc34d4440627b0)
+- docs: update templates docs [`317fa40`](https://github.com/Cecilapp/Cecil/commit/317fa40b6c139a4565a0a1585194231d44807761)
+- docs: update templates docs [`f1c7dff`](https://github.com/Cecilapp/Cecil/commit/f1c7dff279cfa9ac1da58150527bc6d33ad114c6)
+- docs: update templates docs [`eb1acf1`](https://github.com/Cecilapp/Cecil/commit/eb1acf14a7f56a46f114d6c87fa5c95787315246)
+- chore: update deps [`a959292`](https://github.com/Cecilapp/Cecil/commit/a95929243c00171066d2da188c015e4c88096650)
+- chore: update deps [`7f91f8f`](https://github.com/Cecilapp/Cecil/commit/7f91f8f945dcfb0320b6a4e54fe8c5fe8bfa90fd)
+- feat(server): YAML file support [`3e12d31`](https://github.com/Cecilapp/Cecil/commit/3e12d317f23806152ab62af5d741baa8245afe7d)
+- docs: update templates docs [`33da832`](https://github.com/Cecilapp/Cecil/commit/33da8327aa71d714f567381cfbbd59c4bd71d9de)
+- docs: update templates docs [`fb57d14`](https://github.com/Cecilapp/Cecil/commit/fb57d14b820fc047ab93858da905a8c5d6b185f1)
+- docs: update templates docs [`a492420`](https://github.com/Cecilapp/Cecil/commit/a492420b456dc7581f6f92eb2caf8d5e252dc1d6)
+
 #### [7.29.0](https://github.com/Cecilapp/Cecil/compare/7.28.4...7.29.0)
 
 > 4 January 2023
