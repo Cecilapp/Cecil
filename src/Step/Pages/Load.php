@@ -63,7 +63,7 @@ class Load extends AbstractStep
             ->in($this->builder->getConfig()->getPagesPath())
             ->sortByName(true);
         // load only one page?
-        if ($this->page) {            
+        if ($this->page) {
             // is the page path starts with the `pages.dir` configuration option?
             // (i.e.: `pages/...`, `/pages/...`, `./pages/...`)
             $pagePathAsArray = explode(DIRECTORY_SEPARATOR, $this->page);
