@@ -370,6 +370,7 @@ class Parsedown extends \ParsedownToC
                     ],
                 ];
                 $picture['element']['text'][] = $source['element'];
+                unset($image['element']['attributes']['title']);
                 $picture['element']['text'][] = $image['element'];
                 $image = $picture;
             } catch (\Exception $e) {
@@ -603,7 +604,7 @@ class Parsedown extends \ParsedownToC
             'element' => [
                 'name'                   => 'figcaption',
                 'allowRawHtmlInSafeMode' => true,
-                'rawHtml'                => $this->line($titleRawHtml),
+                'rawHtml'                => $titleRawHtml,
             ],
         ];
         $figure = [
