@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.29.2](https://github.com/Cecilapp/Cecil/compare/7.29.1...7.29.2)
+
+> 6 February 2023
+
+- fix: Markdown image title [`#1609`](https://github.com/Cecilapp/Cecil/pull/1609)
+- chore: update deps [`e33783a`](https://github.com/Cecilapp/Cecil/commit/e33783a95dc85bc98eb6f31ada62e4578e77d735)
+- chore: update deps [`23de8d9`](https://github.com/Cecilapp/Cecil/commit/23de8d961d77621e61899c12cc1558dee644900c)
+
 #### [7.29.1](https://github.com/Cecilapp/Cecil/compare/7.29.0...7.29.1)
 
 > 2 February 2023
