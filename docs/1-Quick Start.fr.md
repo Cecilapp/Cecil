@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site et prévisualiser le localement."
 date: 2021-11-03
-updated: 2022-09-30
+updated: 2023-02-11
 slug: demarrage-rapide
 menu: home
 -->
@@ -20,11 +20,7 @@ Si vous souhaiter créer un blog sans vous casser la tête, le [starter blog](ht
 
 Le moyen le plus simple de déployer et de gérer votre blog est certainement avec [Netlify](https://www.netlify.com) + [Netlify CMS](https://www.netlifycms.org) ou [Vercel](https://vercel.com).
 
-[![Déployer sur Netlify](https://www.netlify.com/img/deploy/button.svg "Déployer sur Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Déployer sur Vercel](https://vercel.com/button/default.svg "Déployer sur Vercel")](https://cecil.app/hosting/vercel/deploy/)
-
-Si votre objectif est de gérer rapidement le contenu, et de décider plus tard où le déployer, laissez [Forestry CMS](https://forestry.io) vous guider.
-
-[![Importer dans Forestry](https://assets.forestry.io/import-to-forestryK.svg)](https://cecil.app/cms/forestry/import/ "Importer dans Forestry")
+[![Déployer sur Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/) [![Déployer sur Vercel](https://vercel.com/button/default.svg)](https://cecil.app/hosting/vercel/deploy/)
 
 ----
 
