@@ -123,13 +123,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.1'
           extensions: mbstring, gd, imagick, intl, gettext
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Build with Cecil
         uses: Cecilapp/Cecil-Action@v3
         env:
