@@ -1,7 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2022-08-27
+updated: 2023-02-13
 alias: documentation/publish
 -->
 # Deploy
@@ -63,25 +63,6 @@ _package.json_:
 
 [Official documentation](https://vercel.com/docs/concepts/deployments/build-step#build-command)
 
-### [Render](https://render.com)
-
-> Render is a unified cloud to build and run all your apps and websites with free TLS certificates, global CDN, private networks and auto deploys from Git.
-
-_render.yaml_:
-
-```yml
-previewsEnabled: true
-services:
-- type: web
-  name: Cecil
-  env: static
-  buildCommand: curl -sSOL https://cecil.app/build.sh && bash ./build.sh
-  staticPublishPath: _site
-  pullRequestPreviewsEnabled: true
-```
-
-[Official documentation](https://render.com/docs/static-sites)
-
 ### [Cloudflare Pages](https://pages.cloudflare.com)
 
 > Cloudflare Pages is a JAMstack platform for frontend developers to collaborate and deploy websites.
@@ -93,6 +74,25 @@ Build configurations:
 - Build output directory: `_site`
 
 [Official documentation](https://developers.cloudflare.com/pages/)
+
+### [Render](https://render.com)
+
+> Render is a unified cloud to build and run all your apps and websites with free TLS certificates, global CDN, private networks and auto deploys from Git.
+
+_render.yaml_:
+
+```yml
+previewsEnabled: true
+services:
+  - type: web
+    name: Cecil
+    env: static
+    buildCommand: curl -sSOL https://cecil.app/build.sh && bash ./build.sh
+    staticPublishPath: _site
+    pullRequestPreviewsEnabled: true
+```
+
+[Official documentation](https://render.com/docs/static-sites)
 
 ## Continuous build & hosting
 
@@ -107,54 +107,47 @@ name: Build and deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
-        extensions: mbstring, gd, imagick, intl, gettext
-
-    - name: Checkout source
-      uses: actions/checkout@v2
-
-    - name: Build site
-      env:
-        CECIL_BASEURL: ${{ secrets.CECIL_BASEURL }}
-      uses: Cecilapp/Cecil-Action@v3
-
-    - name: Upload site to Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: _site
-        path: _site/
-        if-no-files-found: error
-
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: mbstring, gd, imagick, intl, gettext
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build with Cecil
+        uses: Cecilapp/Cecil-Action@v3
+        env:
+          CECIL_BASEURL: ${{ secrets.CECIL_BASEURL }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: _site
   deploy:
-    name: Deploy
-    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-
+    needs: build
     steps:
-    - name: Download site from Artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: _site
-        path: _site/
-
-    - name: Deploy site to GitHub Pages
-      uses: Cecilapp/GitHub-Pages-deploy@v3
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        email: arnaud@ligny.org
-        build_dir: _site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
 ```
 
 [Official documentation](https://about.gitlab.com/stages-devops-lifecycle/pages/)
@@ -169,41 +162,41 @@ _.gitlab-ci.yml_:
 image: phpdocker/phpdocker:7.4
 
 before_script:
-- |
-  echo "Downloading Cecil..."
-  if [[ -z "$CECIL_VERSION" ]]; then
-    curl -sSOL https://cecil.app/cecil.phar
-  else
-    curl -sSOL https://cecil.app/download/$CECIL_VERSION/cecil.phar
-  fi
-- php cecil.phar --version
-- COMPOSER_CACHE_DIR=composer-cache composer install --prefer-dist --no-dev --no-progress --no-interaction
+  - |
+    echo "Downloading Cecil..."
+    if [[ -z "$CECIL_VERSION" ]]; then
+      curl -sSOL https://cecil.app/cecil.phar
+    else
+      curl -sSOL https://cecil.app/download/$CECIL_VERSION/cecil.phar
+    fi
+  - php cecil.phar --version
+  - COMPOSER_CACHE_DIR=composer-cache composer install --prefer-dist --no-dev --no-progress --no-interaction
 
 test:
   stage: test
   script:
-  - php cecil.phar build --verbose --output=test
+    - php cecil.phar build --verbose --output=test
   artifacts:
     paths:
-    - test
+      - test
   except:
-  - master
+    - master
 
 pages:
   stage: deploy
   script:
-  - php cecil.phar build --output=public
+    - php cecil.phar build --output=public
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
+    - master
 
 cache:
   paths:
-  - composer-cache/
-  - vendor/
-  - .cache/
+    - composer-cache/
+    - vendor/
+    - .cache/
 ```
 
 [Official documentation](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
