@@ -27,8 +27,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class AbstractCommand extends Command
 {
-    const CONFIG_FILE = 'config.yml';
-    const TMP_DIR = '.cecil';
+    public const CONFIG_FILE = 'config.yml';
+    public const TMP_DIR = '.cecil';
 
     /** @var InputInterface */
     protected $input;

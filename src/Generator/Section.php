@@ -135,8 +135,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
         if ($count > 1) {
             foreach ($pagesAsArray as $position => $page) {
                 switch ($position) {
-                    // first
-                    case 0:
+                    case 0: // first
                         if ($circular) {
                             $page->setVariables([
                                 'prev' => $pagesAsArray[$count - 1],
@@ -146,8 +145,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                             'next' => $pagesAsArray[$position + 1],
                         ]);
                         break;
-                    // last
-                    case $count - 1:
+                    case $count - 1: // last
                         $page->setVariables([
                             'prev' => $pagesAsArray[$position - 1],
                         ]);

@@ -24,7 +24,7 @@ use Cecil\Util;
  */
 class Layout
 {
-    const EXT = 'twig';
+    public const EXT = 'twig';
 
     /**
      * Layout files finder.

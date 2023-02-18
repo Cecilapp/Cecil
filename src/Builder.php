@@ -27,11 +27,11 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder implements LoggerAwareInterface
 {
-    const VERSION = '7.x-dev';
-    const VERBOSITY_QUIET = -1;
-    const VERBOSITY_NORMAL = 0;
-    const VERBOSITY_VERBOSE = 1;
-    const VERBOSITY_DEBUG = 2;
+    public const VERSION = '7.x-dev';
+    public const VERBOSITY_QUIET = -1;
+    public const VERBOSITY_NORMAL = 0;
+    public const VERBOSITY_VERBOSE = 1;
+    public const VERBOSITY_DEBUG = 2;
 
     /**
      * @var array Steps processed by build().

@@ -55,6 +55,7 @@
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.28",
+    "friendsofphp/php-cs-fixer": "^3.14",
     "humbug/box": "^3.16",
     "phpmd/phpmd": "^2.12",
     "phpstan/phpstan": "^1.8",
@@ -106,6 +107,7 @@
     "build": "box compile",
     "code:analyse": "phpstan analyse src --memory-limit=1G --level=1 --no-progress --error-format=github",
     "code:style": "phpcs ./src/ --standard=PSR2 -n",
+    "code:fix": "php-cs-fixer fix ./src/ --rules=@PSR12",
     "test": "@test:integration",
     "test:bin": "cd bin && php cecil --version && mkdir skeleton && php cecil new:site skeleton -f && php cecil new:page test skeleton && php cecil build skeleton -v && rm -rf skeleton",
     "test:coverage": "phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml",

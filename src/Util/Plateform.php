@@ -15,10 +15,10 @@ namespace Cecil\Util;
 
 class Plateform
 {
-    const OS_UNKNOWN = 1;
-    const OS_WIN = 2;
-    const OS_LINUX = 3;
-    const OS_OSX = 4;
+    public const OS_UNKNOWN = 1;
+    public const OS_WIN = 2;
+    public const OS_LINUX = 3;
+    public const OS_OSX = 4;
 
     /** @var string */
     protected static $pharPath;

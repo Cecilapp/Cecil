@@ -23,7 +23,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Import extends AbstractStep
 {
-    const THEME_CONFIG_FILE = 'config.yml';
+    public const THEME_CONFIG_FILE = 'config.yml';
 
     /**
      * {@inheritdoc}

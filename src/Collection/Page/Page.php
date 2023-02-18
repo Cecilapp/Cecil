@@ -24,7 +24,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Page extends Item
 {
-    const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
+    public const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
 
     /** @var bool True if page is not created from a Markdown file. */
     protected $virtual;
@@ -522,13 +522,7 @@ class Page extends Item
     public function setVariable(string $name, $value): self
     {
         $this->filterBool($value);
-        /**
-         * handle variable by its name.
-         */
         switch ($name) {
-            /**
-             * date: 2012-10-08.
-             */
             case 'date':
             case 'updated':
                 try {
@@ -538,12 +532,12 @@ class Page extends Item
                 }
                 $this->offsetSet($name, $date);
                 break;
-            /**
-             * schedule:
-             *   publish: 2012-10-08
-             *   expiry: 2012-10-09.
-             */
+
             case 'schedule':
+                /*
+                 * publish: 2012-10-08
+                 * expiry: 2012-10-09
+                 */
                 $this->offsetSet('published', false);
                 if (is_array($value)) {
                     if (array_key_exists('publish', $value) && Util\Date::toDatetime($value['publish']) <= Util\Date::toDatetime('now')) {
@@ -554,22 +548,12 @@ class Page extends Item
                     }
                 }
                 break;
-            /**
-             * draft: true = published: false.
-             */
             case 'draft':
+                // draft: true = published: false
                 if ($value === true) {
                     $this->offsetSet('published', false);
                 }
                 break;
-            /**
-             * @see setPath()
-             * @see setSlug()
-             *
-             * e.g.:
-             *   path: about/about
-             *   slug: about
-             */
             case 'path':
             case 'slug':
                 $slugify = self::slugify((string) $value);

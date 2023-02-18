@@ -82,7 +82,6 @@ class Url
         }
 
         switch (true) {
-            // Page
             case $value instanceof Page:
                 if (!$format) {
                     $format = $value->getVariable('output');
@@ -95,11 +94,9 @@ class Url
                 }
                 $this->url = $base.'/'.ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
                 break;
-            // Asset
             case $value instanceof Asset:
                 $this->url = $base.'/'.ltrim($value['path'], '/');
                 break;
-            // string
             case is_string($value):
                 // potential Page ID
                 $pageId = self::$slugifier->slugify($value);
@@ -110,11 +107,9 @@ class Url
                     $lang = "$language/";
                 }
                 switch (true) {
-                    // External URL
                     case Util\Url::isUrl($value):
                         $this->url = $value;
                         break;
-                    // Page ID as string
                     case $this->builder->getPages()->has($pageId):
                         $this->url = (string) new self(
                             $this->builder,
@@ -122,7 +117,6 @@ class Url
                             $options
                         );
                         break;
-                    // default case
                     default:
                         $this->url = $base.'/'.$lang.ltrim($value, '/');
                 }
