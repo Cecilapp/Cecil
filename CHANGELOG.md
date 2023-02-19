@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.29.3](https://github.com/Cecilapp/Cecil/compare/7.29.2...7.29.3)
+
+> 9 February 2023
+
+- chore: update deps [`6eb4e57`](https://github.com/Cecilapp/Cecil/commit/6eb4e576046e77b796c8b813486db082dd57845e)
+- fix: default page layout [`8b74811`](https://github.com/Cecilapp/Cecil/commit/8b7481117c1d8bb7b39ee17998aa4ac1e09a65d8)
+
 #### [7.29.2](https://github.com/Cecilapp/Cecil/compare/7.29.1...7.29.2)
 
 > 6 February 2023
