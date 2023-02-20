@@ -63,13 +63,13 @@ class Collection extends CecilCollection
             if ($a[$options['variable']] == $b[$options['variable']]) {
                 // if dates are equal and "descTitle" is true
                 if ($options['descTitle'] && (isset($a['title']) && isset($b['title']))) {
-                    return $a['title'] > $b['title'] ? -1 : 1;
+                    return strnatcmp($b['title'], $a['title']);
                 }
 
                 return 0;
             }
 
-            return ($options['reverse'] ? -1 : 1) * ($a['date'] > $b['date'] ? -1 : 1);
+            return ($options['reverse'] ? -1 : 1) * ($a[$options['variable']] > $b[$options['variable']] ? -1 : 1);
         });
     }
 

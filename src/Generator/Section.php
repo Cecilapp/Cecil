@@ -90,9 +90,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
                         $reverse = $page->getVariable('sortby')['reverse'] ?? false;
                         // sortby: date, title or weight
-                        $sortMethod = \sprintf('sortBy%s', str_replace('updated', 'date', ucfirst($sortby)));
+                        $sortMethod = \sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortby)));
                         if (!method_exists($pages, $sortMethod)) {
-                            throw new RuntimeException(\sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
+                            throw new RuntimeException(\sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $sortby));
                         }
                         $pages = $pages->$sortMethod(['variable' => $sortby, 'descTitle' => $descTitle, 'reverse' => $reverse]);
                     }
