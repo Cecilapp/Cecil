@@ -230,9 +230,9 @@ class Core extends SlugifyExtension
     /**
      * Sorts a collection by title.
      */
-    public function sortByTitle(\Traversable $collection, bool $reverse = false): array
+    public function sortByTitle(\Traversable $collection): array
     {
-        $sort = $reverse ? \SORT_DESC : \SORT_ASC;
+        $sort = \SORT_ASC;
 
         $collection = iterator_to_array($collection);
         /** @var \array $collection */
@@ -244,9 +244,9 @@ class Core extends SlugifyExtension
     /**
      * Sorts a collection by weight.
      */
-    public function sortByWeight(\Traversable $collection, bool $reverse = false): array
+    public function sortByWeight(\Traversable $collection): array
     {
-        $callback = function ($a, $b) use ($reverse) {
+        $callback = function ($a, $b) {
             if (!isset($a['weight'])) {
                 $a['weight'] = 0;
             }
@@ -257,7 +257,7 @@ class Core extends SlugifyExtension
                 return 0;
             }
 
-            return ($reverse ? -1 : 1) * ($a['weight'] < $b['weight'] ? -1 : 1);
+            return $a['weight'] < $b['weight'] ? -1 : 1;
         };
 
         $collection = iterator_to_array($collection);
@@ -270,19 +270,19 @@ class Core extends SlugifyExtension
     /**
      * Sorts by creation date (or 'updated' date): the most recent first.
      */
-    public function sortByDate(\Traversable $collection, string $variable = 'date', bool $reverse = false, bool $descTitle = false): array
+    public function sortByDate(\Traversable $collection, string $variable = 'date', bool $descTitle = false): array
     {
-        $callback = function ($a, $b) use ($variable, $reverse, $descTitle) {
+        $callback = function ($a, $b) use ($variable, $descTitle) {
             if ($a[$variable] == $b[$variable]) {
                 // if dates are equal and "descTitle" is true
                 if ($descTitle && (isset($a['title']) && isset($b['title']))) {
-                    return $a['title'] > $b['title'] ? -1 : 1;
+                    return strnatcmp($b['title'], $a['title']);
                 }
 
                 return 0;
             }
 
-            return ($reverse ? -1 : 1) * ($a[$variable] > $b[$variable] ? -1 : 1);
+            return $a[$variable] > $b[$variable] ? -1 : 1;
         };
 
         $collection = iterator_to_array($collection);
