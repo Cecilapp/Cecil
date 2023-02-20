@@ -59,7 +59,7 @@ class Collection extends CecilCollection
         $options['descTitle'] = $options['descTitle'] ?? false;
         $options['reverse'] = $options['reverse'] ?? false;
 
-        return $this->usort(function ($a, $b) use ($options) {
+        $pages = $this->usort(function ($a, $b) use ($options) {
             if ($a[$options['variable']] == $b[$options['variable']]) {
                 // if dates are equal and "descTitle" is true
                 if ($options['descTitle'] && (isset($a['title']) && isset($b['title']))) {
@@ -69,8 +69,13 @@ class Collection extends CecilCollection
                 return 0;
             }
 
-            return ($options['reverse'] ? -1 : 1) * ($a[$options['variable']] > $b[$options['variable']] ? -1 : 1);
+            return $a[$options['variable']] > $b[$options['variable']] ? -1 : 1;
         });
+        if ($options['reverse']) {
+            $pages = $pages->reverse(); /** @phpstan-ignore-line */
+        }
+
+        return $pages;
     }
 
     /**
