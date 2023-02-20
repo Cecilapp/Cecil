@@ -96,6 +96,11 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function usort(\Closure $callback = null): self;
 
     /**
+     * Reverse items.
+     */
+    public function reverse(): self;
+
+    /**
      * Filters items using a callback function.
      */
     public function filter(\Closure $callback): self;
