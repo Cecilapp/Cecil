@@ -72,7 +72,7 @@ class Collection extends CecilCollection
             return $a[$options['variable']] > $b[$options['variable']] ? -1 : 1;
         });
         if ($options['reverse']) {
-            $pages = $pages->reverse(); /** @phpstan-ignore-line */
+            $pages = $pages->reverse();
         }
 
         return $pages;
