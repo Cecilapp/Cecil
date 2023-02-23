@@ -608,10 +608,10 @@ _Examples:_
 
 ### toc
 
-Extracts table of content from a Markdown string, in the given format ("html" or "json", "html" by default).
+Extracts table of content from a Markdown string, in the given format ("html" or "json", "html" by default) and an optional base URL.
 
 ```twig
-{{ markdown|toc(format) }}
+{{ markdown|toc(format, url) }}
 ```
 
 _Examples:_
@@ -619,6 +619,7 @@ _Examples:_
 ```twig
 {{ page.body|toc }}
 {{ page.body|toc('json') }}
+{{ page.body|toc('html', 'https://example.com/page/') }}
 ```
 
 ### json_decode

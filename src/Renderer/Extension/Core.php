@@ -674,12 +674,12 @@ class Core extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function markdownToToc(?string $markdown, $format = 'html'): ?string
+    public function markdownToToc(?string $markdown, $format = 'html', $url = ''): ?string
     {
         $markdown = $markdown ?? '';
 
         try {
-            $parsedown = new Parsedown($this->builder, ['selectors' => ['h2']]);
+            $parsedown = new Parsedown($this->builder, ['selectors' => ['h2'], 'url' => $url]);
             $parsedown->body($markdown);
             $return = $parsedown->contentsList($format);
         } catch (\Exception $e) {
