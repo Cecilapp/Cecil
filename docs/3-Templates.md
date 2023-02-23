@@ -619,7 +619,7 @@ _Examples:_
 ```twig
 {{ page.body|toc }}
 {{ page.body|toc('json') }}
-{{ page.body|toc('html', 'https://example.com/page/') }}
+{{ page.body|toc(url=url(page)) }}
 ```
 
 ### json_decode
