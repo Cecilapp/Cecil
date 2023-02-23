@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.29.4](https://github.com/Cecilapp/Cecil/compare/7.29.3...7.29.4)
+
+> 20 February 2023
+
+- fix: sort by date [`#1615`](https://github.com/Cecilapp/Cecil/pull/1615)
+- refactor: code fix [`#1614`](https://github.com/Cecilapp/Cecil/pull/1614)
+- docs: update deploy [`b8131c2`](https://github.com/Cecilapp/Cecil/commit/b8131c26d9f80897c50c8a10acbbbc769cd75298)
+- chore: update deps [`d270814`](https://github.com/Cecilapp/Cecil/commit/d2708142015603e6eeb7aabc587f121847cdeccc)
+- docs: remove Forestry references [`8baaede`](https://github.com/Cecilapp/Cecil/commit/8baaedebca84aec70bd86a96175bea6526dac02a)
+- docs: update deploy [`53d7a16`](https://github.com/Cecilapp/Cecil/commit/53d7a1676b88c174e8098d3ffdc25b99b15006fa)
+
 #### [7.29.3](https://github.com/Cecilapp/Cecil/compare/7.29.2...7.29.3)
 
 > 9 February 2023
