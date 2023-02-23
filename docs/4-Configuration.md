@@ -1,9 +1,8 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2022-10-05
+updated: 2022-10-29
 -->
-
 # Configuration
 
 The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `config.yml` by default and stored at the root:
@@ -223,6 +222,9 @@ social:
     firstname: Firstname
     lastname: Lastname
     username: username
+canonical: # to override the generated canonical URL
+  url: <URL>
+  title: "<URL title>" # optional
 ```
 
 :::tip
@@ -620,6 +622,17 @@ body:
       enabled: true  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
     remote:
       enabled: true  # enables remote image handling (`true` by default)
+      fallback:
+        enabled: false # enables a fallback if image is not found (`false` by default)
+        path: ''       # path to the fallback image, stored in assets dir (`` by default)
+    class: ''        # put default class to each image (`` by default)
+  links:
+    embed:
+      enabled: false # turns links in embedded content if possible (`false` by default)
+      video:
+        ext: [mp4] # video files extensions
+      audio:
+        ext: [mp3] # audio files extensions
   excerpt:
     separator: excerpt|break # string to use as separator (`excerpt|break` by default)
     capture: before          # part to capture, `before` or `after` the separator (`before` by default)

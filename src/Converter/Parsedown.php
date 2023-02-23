@@ -28,8 +28,8 @@ class Parsedown extends \ParsedownToC
     /** {@inheritdoc} */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
-    /** Valid a media block (image, audio or video) */
-    protected $MarkdownMediaRegex = "~^!\[.*?\]\(.*?\)~";
+    /** Regex who's looking for images */
+    protected $regexImage = "~^!\[.*?\]\(.*?\)~";
 
     /** @var Highlighter */
     protected $highlighter;
@@ -43,8 +43,8 @@ class Parsedown extends \ParsedownToC
         $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
         $this->specialCharacters[] = '+';
 
-        // Media (image, audio or video) block
-        $this->BlockTypes['!'][] = 'Media';
+        // Image block (to avoid paragraph)
+        $this->BlockTypes['!'][] = 'Image';
 
         // "notes" block
         $this->BlockTypes[':'][] = 'Note';
@@ -83,132 +83,225 @@ class Parsedown extends \ParsedownToC
     /**
      * {@inheritdoc}
      */
+    protected function inlineLink($Excerpt)
+    {
+        $link = parent::inlineLink($Excerpt);
+
+        if (!isset($link)) {
+            return null;
+        }
+
+        // Link to a page with "page:page_id" as URL
+        if (Util\Str::startsWith($link['element']['attributes']['href'], 'page:')) {
+            $link['element']['attributes']['href'] = new \Cecil\Assets\Url($this->builder, substr($link['element']['attributes']['href'], 5, strlen($link['element']['attributes']['href'])));
+
+            return $link;
+        }
+
+        /*
+         * Embed link?
+         */
+        $embed = false;
+        $embed = (bool) $this->builder->getConfig()->get('body.links.embed.enabled') ?? false;
+        if (isset($link['element']['attributes']['embed'])) {
+            $embed = true;
+            if ($link['element']['attributes']['embed'] == 'false') {
+                $embed = false;
+            }
+            unset($link['element']['attributes']['embed']);
+        }
+        // video or audio?
+        $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
+        if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.video.ext'))) {
+            if (!$embed) {
+                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+
+                return $link;
+            }
+            $video = $this->createMediaFromLink($link, 'video');
+            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+                return $this->createFigure($video);
+            }
+
+            return $video;
+        }
+        if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.audio.ext'))) {
+            if (!$embed) {
+                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+
+                return $link;
+            }
+            $audio = $this->createMediaFromLink($link, 'audio');
+            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+                return $this->createFigure($audio);
+            }
+
+            return $audio;
+        }
+        if (!$embed) {
+            return $link;
+        }
+        // GitHub Gist link?
+        // https://regex101.com/r/QmCiAL/1
+        $pattern = 'https:\/\/gist\.github.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
+        if (preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
+            $gist = [
+                'extent'  => $link['extent'],
+                'element' => [
+                    'name'       => 'script',
+                    'text'       => $link['element']['text'],
+                    'attributes' => [
+                        'src'   => $matches[0].'.js',
+                        'title' => $link['element']['attributes']['title'],
+                    ],
+                ],
+            ];
+            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+                return $this->createFigure($gist);
+            }
+
+            return $gist;
+        }
+        // Youtube link?
+        // https://regex101.com/r/gznM1j/1
+        $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
+        if (preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
+            $iframe = [
+                'element' => [
+                    'name'       => 'iframe',
+                    'text'       => $link['element']['text'],
+                    'attributes' => [
+                        'width'           => '560',
+                        'height'          => '315',
+                        'title'           => $link['element']['text'],
+                        'src'             => 'https://www.youtube.com/embed/'.$matches[1],
+                        'frameborder'     => '0',
+                        'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+                        'allowfullscreen' => '',
+                        'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
+                    ],
+                ],
+            ];
+            $youtube = [
+                'extent'  => $link['extent'],
+                'element' => [
+                    'name'    => 'div',
+                    'handler' => 'elements',
+                    'text'    => [
+                        $iframe['element'],
+                    ],
+                    'attributes' => [
+                        'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden',
+                        'title' => $link['element']['attributes']['title'],
+                    ],
+                ],
+            ];
+            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+                return $this->createFigure($youtube);
+            }
+
+            return $youtube;
+        }
+
+        return $link;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function inlineImage($Excerpt)
     {
-        $image = parent::inlineImage($Excerpt);
-        if (!isset($image)) {
+        $InlineImage = parent::inlineImage($Excerpt);
+        if (!isset($InlineImage)) {
             return null;
         }
 
         // remove quesry string
-        $image['element']['attributes']['src'] = $this->removeQueryString($image['element']['attributes']['src']);
+        $InlineImage['element']['attributes']['src'] = $this->removeQueryString($InlineImage['element']['attributes']['src']);
 
         // normalize path
-        $image['element']['attributes']['src'] = $this->normalizePath($image['element']['attributes']['src']);
+        $InlineImage['element']['attributes']['src'] = $this->normalizePath($InlineImage['element']['attributes']['src']);
 
         // should be lazy loaded?
-        if ($this->builder->getConfig()->get('body.images.lazy.enabled') && !isset($image['element']['attributes']['loading'])) {
-            $image['element']['attributes']['loading'] = 'lazy';
+        if ($this->builder->getConfig()->get('body.images.lazy.enabled') && !isset($InlineImage['element']['attributes']['loading'])) {
+            $InlineImage['element']['attributes']['loading'] = 'lazy';
+        }
+
+        // add default class?
+        if ($this->builder->getConfig()->get('body.images.class')) {
+            $InlineImage['element']['attributes']['class'] .= ' '.$this->builder->getConfig()->get('body.images.class');
+            $InlineImage['element']['attributes']['class'] = trim($InlineImage['element']['attributes']['class']);
         }
 
         // disable remote image handling?
-        if (Util\Url::isUrl($image['element']['attributes']['src']) && !$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
-            return $image;
+        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
+            return $InlineImage;
         }
 
         // create asset
-        $asset = new Asset($this->builder, $image['element']['attributes']['src'], ['force_slash' => false]);
-        $image['element']['attributes']['src'] = $asset;
+        $assetOptions = ['force_slash' => false];
+        if ($this->builder->getConfig()->get('body.images.remote.fallback.enabled')) {
+            $assetOptions += ['remote_fallback' => $this->builder->getConfig()->get('body.images.remote.fallback.path')];
+        }
+        $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
+        $InlineImage['element']['attributes']['src'] = $asset;
         $width = $asset->getWidth();
 
-        /**
+        /*
          * Should be resized?
          */
         $assetResized = null;
-        if (isset($image['element']['attributes']['width'])
-            && (int) $image['element']['attributes']['width'] < $width
+        if (isset($InlineImage['element']['attributes']['width'])
+            && (int) $InlineImage['element']['attributes']['width'] < $width
             && $this->builder->getConfig()->get('body.images.resize.enabled')
         ) {
-            $width = (int) $image['element']['attributes']['width'];
+            $width = (int) $InlineImage['element']['attributes']['width'];
 
             try {
                 $assetResized = $asset->resize($width);
-                $image['element']['attributes']['src'] = $assetResized;
+                $InlineImage['element']['attributes']['src'] = $assetResized;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
-                return $image;
+                return $InlineImage;
             }
         }
 
         // set width
-        if (!isset($image['element']['attributes']['width']) && $asset['type'] == 'image') {
-            $image['element']['attributes']['width'] = $width;
+        if (!isset($InlineImage['element']['attributes']['width'])) {
+            $InlineImage['element']['attributes']['width'] = $width;
         }
         // set height
-        if (!isset($image['element']['attributes']['height']) && $asset['type'] == 'image') {
-            $image['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
+        if (!isset($InlineImage['element']['attributes']['height'])) {
+            $InlineImage['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
         }
 
-        /**
+        /*
          * Should be responsive?
          */
-        if ($asset['type'] == 'image' && $this->builder->getConfig()->get('body.images.responsive.enabled')) {
+        $sizes = '';
+        if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
             try {
                 if ($srcset = Image::buildSrcset(
                     $assetResized ?? $asset,
                     $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
                 )) {
-                    $image['element']['attributes']['srcset'] = $srcset;
-                    $image['element']['attributes']['sizes'] = $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
+                    $InlineImage['element']['attributes']['srcset'] = $srcset;
+                    $sizes = (string) $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
+                    if (isset($InlineImage['element']['attributes']['class'])) {
+                        $sizes = Image::getSizes($InlineImage['element']['attributes']['class'], (array) $this->builder->getConfig()->get('assets.images.responsive.sizes'));
+                    }
+                    $InlineImage['element']['attributes']['sizes'] = $sizes;
                 }
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
             }
         }
 
-        return $image;
-    }
-
-    /**
-     * Media block support:
-     * 1. <picture>/<source> for WebP images
-     * 2. <audio> and <video> elements
-     * 3. <figure>/<figcaption> for element with a title.
-     */
-    protected function blockMedia($Excerpt)
-    {
-        if (1 !== preg_match($this->MarkdownMediaRegex, $Excerpt['text'])) {
-            return;
-        }
-
-        $InlineImage = $this->inlineImage($Excerpt);
-        if (!isset($InlineImage)) {
-            return;
-        }
-        $block = $InlineImage;
-
-        switch ($block['element']['attributes']['alt']) {
-            case 'audio':
-                $audio = [];
-                $audio['element'] = [
-                    'name'    => 'audio',
-                    'handler' => 'element',
-                ];
-                $audio['element']['attributes'] = $block['element']['attributes'];
-                unset($audio['element']['attributes']['loading']);
-                $block = $audio;
-                unset($block['element']['attributes']['alt']);
-                break;
-            case 'video':
-                $video = [];
-                $video['element'] = [
-                    'name'       => 'video',
-                    'handler'    => 'element',
-                ];
-                $video['element']['attributes'] = $block['element']['attributes'];
-                unset($video['element']['attributes']['loading']);
-                if (isset($block['element']['attributes']['poster'])) {
-                    $video['element']['attributes']['poster'] = new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
-                }
-                $block = $video;
-                unset($block['element']['attributes']['alt']);
-        }
-
         /*
-        <!-- if image has a title: a <figure> is required for <figcaption> -->
+        <!-- if title: a <figure> is required to put in it a <figcaption> -->
         <figure>
-            <!-- if WebP: a <picture> is required for <source> -->
+            <!-- if WebP is enabled: a <picture> is required for the WebP <source> -->
             <picture>
                 <source type="image/webp"
                     srcset="..."
@@ -219,22 +312,23 @@ class Parsedown extends \ParsedownToC
                     sizes="..."
                 >
             </picture>
-            <!-- title -->
-            <figcaption>...</figcaption>
+            <figcaption><!-- title --></figcaption>
         </figure>
         */
 
-        // creates a <picture> used to add WebP <source> in addition to the image <img> element
+        $image = $InlineImage;
+
+        // converts image to WebP and put it in picture > source
         if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false
             && (($InlineImage['element']['attributes']['src'])['type'] == 'image'
                 && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
         ) {
             try {
-                // Image src must be an Asset instance
-                if (is_string($InlineImage['element']['attributes']['src'])) {
+                // InlineImage src must be an Asset instance
+                if (!$InlineImage['element']['attributes']['src'] instanceof Asset) {
                     throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
-                // Image asset is an animated GIF
+                // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
                     throw new RuntimeException(\sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
@@ -255,10 +349,14 @@ class Parsedown extends \ParsedownToC
                 if (empty($srcset)) {
                     $srcset = (string) $assetWebp;
                 }
-                $PictureBlock = [
+                $picture = [
+                    'extent'  => $InlineImage['extent'],
                     'element' => [
-                        'name'    => 'picture',
-                        'handler' => 'elements',
+                        'name'       => 'picture',
+                        'handler'    => 'elements',
+                        'attributes' => [
+                            'title' => $image['element']['attributes']['title'],
+                        ],
                     ],
                 ];
                 $source = [
@@ -267,48 +365,42 @@ class Parsedown extends \ParsedownToC
                         'attributes' => [
                             'type'   => 'image/webp',
                             'srcset' => $srcset,
-                            'sizes'  => $this->builder->getConfig()->get('assets.images.responsive.sizes.default'),
+                            'sizes'  => $sizes,
                         ],
                     ],
                 ];
-                $PictureBlock['element']['text'][] = $source['element'];
-                // clean title (and preserve raw HTML)
-                $titleRawHtml = '';
-                if (isset($InlineImage['element']['attributes']['title'])) {
-                    $titleRawHtml = $this->line($InlineImage['element']['attributes']['title']);
-                    $InlineImage['element']['attributes']['title'] = strip_tags($titleRawHtml);
-                }
-                $PictureBlock['element']['text'][] = $InlineImage['element'];
-                $block = $PictureBlock;
+                $picture['element']['text'][] = $source['element'];
+                unset($image['element']['attributes']['title']);
+                $picture['element']['text'][] = $image['element'];
+                $image = $picture;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
             }
         }
 
-        // if there is a title: put the <img> (or <picture>) in a <figure> element to use the <figcaption>
-        if ($this->builder->getConfig()->get('body.images.caption.enabled') && !empty($titleRawHtml)) {
-            $FigureBlock = [
-                'element' => [
-                    'name'    => 'figure',
-                    'handler' => 'elements',
-                    'text'    => [
-                        $block['element'],
-                    ],
-                ],
-            ];
-            $InlineFigcaption = [
-                'element' => [
-                    'name'                   => 'figcaption',
-                    'allowRawHtmlInSafeMode' => true,
-                    'rawHtml'                => $this->line($titleRawHtml),
-                ],
-            ];
-            $FigureBlock['element']['text'][] = $InlineFigcaption['element'];
-
-            return $FigureBlock;
+        // if title: put the <img> (or <picture>) in a <figure> and create a <figcaption>
+        if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+            return $this->createFigure($image);
         }
 
-        return $block;
+        return $image;
+    }
+
+    /**
+     * Image block.
+     */
+    protected function blockImage($Excerpt)
+    {
+        if (1 !== preg_match($this->regexImage, $Excerpt['text'])) {
+            return;
+        }
+
+        $InlineImage = $this->inlineImage($Excerpt);
+        if (!isset($InlineImage)) {
+            return;
+        }
+
+        return $InlineImage;
     }
 
     /**
@@ -376,19 +468,23 @@ class Parsedown extends \ParsedownToC
             return $block;
         }
 
-        $code = $block['element']['text']['text'];
-        unset($block['element']['text']['text']);
-        $languageClass = $block['element']['text']['attributes']['class'];
-        $language = explode('-', $languageClass);
-        $highlighted = $this->highlighter->highlight($language[1], $code);
-        $block['element']['text']['attributes']['class'] = vsprintf('%s hljs %s', [
-            $languageClass,
-            $highlighted->language,
-        ]);
-        $block['element']['text']['rawHtml'] = $highlighted->value;
-        $block['element']['text']['allowRawHtmlInSafeMode'] = true;
-
-        return $block;
+        try {
+            $code = $block['element']['text']['text'];
+            $languageClass = $block['element']['text']['attributes']['class'];
+            $language = explode('-', $languageClass);
+            $highlighted = $this->highlighter->highlight($language[1], $code);
+            $block['element']['text']['attributes']['class'] = vsprintf('%s hljs %s', [
+                $languageClass,
+                $highlighted->language,
+            ]);
+            $block['element']['text']['rawHtml'] = $highlighted->value;
+            $block['element']['text']['allowRawHtmlInSafeMode'] = true;
+            unset($block['element']['text']['text']);
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->debug($e->getMessage());
+        } finally {
+            return $block;
+        }
     }
 
     /**
@@ -455,5 +551,74 @@ class Parsedown extends \ParsedownToC
         }
 
         return $matches[3];
+    }
+
+    /**
+     * Create a media (video or audio) element from a link.
+     */
+    private function createMediaFromLink(array $link, string $type = 'video'): array
+    {
+        $block = [
+            'extent'  => $link['extent'],
+            'element' => [
+                'text' => $link['element']['text'],
+            ],
+        ];
+        $block['element']['attributes'] = $link['element']['attributes'];
+        unset($block['element']['attributes']['href']);
+        $block['element']['attributes']['src'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+        switch ($type) {
+            case 'video':
+                $block['element']['name'] = 'video';
+                if (!isset($block['element']['attributes']['controls'])) {
+                    $block['element']['attributes']['autoplay'] = '';
+                    $block['element']['attributes']['loop'] = '';
+                }
+                if (isset($block['element']['attributes']['poster'])) {
+                    $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
+                }
+
+                return $block;
+            case 'audio':
+                $block['element']['name'] = 'audio';
+
+                return $block;
+        }
+
+        throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
+    }
+
+    /**
+     * Create a figure / caption element.
+     */
+    private function createFigure(array $inline): array
+    {
+        if (empty($inline['element']['attributes']['title'])) {
+            return $inline;
+        }
+
+        $titleRawHtml = $this->line($inline['element']['attributes']['title']);
+        $inline['element']['attributes']['title'] = strip_tags($titleRawHtml);
+
+        $figcaption = [
+            'element' => [
+                'name'                   => 'figcaption',
+                'allowRawHtmlInSafeMode' => true,
+                'rawHtml'                => $titleRawHtml,
+            ],
+        ];
+        $figure = [
+            'extent'  => $inline['extent'],
+            'element' => [
+                'name'    => 'figure',
+                'handler' => 'elements',
+                'text'    => [
+                    $inline['element'],
+                    $figcaption['element'],
+                ],
+            ],
+        ];
+
+        return $figure;
     }
 }

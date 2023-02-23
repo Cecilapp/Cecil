@@ -95,7 +95,7 @@ class Create extends AbstractStep
      */
     protected function collectTermsFromPages(): void
     {
-        /** @var Page $page */
+        /** @var \Cecil\Collection\Page\Collection $pages */
         $pages = $this->builder->getPages()->filter(function (Page $page) {
             return $page->getVariable('published');
         })->sortByDate();

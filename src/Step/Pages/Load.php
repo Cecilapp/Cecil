@@ -62,7 +62,20 @@ class Load extends AbstractStep
             ->files()
             ->in($this->builder->getConfig()->getPagesPath())
             ->sortByName(true);
+        // load only one page?
         if ($this->page) {
+            // is the page path starts with the `pages.dir` configuration option?
+            // (i.e.: `pages/...`, `/pages/...`, `./pages/...`)
+            $pagePathAsArray = explode(DIRECTORY_SEPARATOR, $this->page);
+            if ($pagePathAsArray[0] == $this->builder->getConfig()->get('pages.dir')) {
+                unset($pagePathAsArray[0]);
+                $this->page = implode(DIRECTORY_SEPARATOR, $pagePathAsArray);
+            }
+            if ($pagePathAsArray[0] == '.' && $pagePathAsArray[1] == $this->builder->getConfig()->get('pages.dir')) {
+                unset($pagePathAsArray[0]);
+                unset($pagePathAsArray[1]);
+                $this->page = implode(DIRECTORY_SEPARATOR, $pagePathAsArray);
+            }
             if (!util\File::getFS()->exists(Util::joinFile($this->builder->getConfig()->getPagesPath(), $this->page))) {
                 $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
             }

@@ -29,7 +29,6 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
     {
         foreach ($this->config->getLanguages() as $lang) {
             $language = $lang['code'];
-
             $pageId = 'index';
             if ($language != $this->config->getLanguageDefault()) {
                 $pageId = \sprintf('index.%s', $language);
@@ -40,6 +39,8 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             if ($this->builder->getPages()->has($pageId)) {
                 $page = clone $this->builder->getPages()->get($pageId);
             }
+            /** @var \Cecil\Collection\Page\Page $page */
+            $page->setType(Type::HOMEPAGE);
             // collects all pages
             $subPages = $this->builder->getPages()->filter(function (Page $page) use ($language) {
                 return $page->getType() == TYPE::PAGE
@@ -47,29 +48,27 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                     && $page->getVariable('exclude') !== true
                     && $page->getVariable('language') == $language;
             });
-
-            /** @var \Cecil\Collection\Page\Page $page */
+            // collects pages of a section
+            /** @var \Cecil\Collection\Page\Collection $subPages */
             if ($page->hasVariable('pagesfrom') && $this->builder->getPages()->has((string) $page->getVariable('pagesfrom'))) {
                 $subPages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getPages();
             }
-            // sorts
-            /** @var \Cecil\Collection\Page\Collection $subPages */
-            /** @var \Cecil\Collection\Page\Page $page */
-            $pages = $subPages->sortByDate();
-            if ($page->hasVariable('sortby')) {
-                $sortMethod = \sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
-                if (!method_exists($pages, $sortMethod)) {
-                    throw new RuntimeException(\sprintf('In page "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
+            if ($subPages instanceof \Cecil\Collection\Page\Collection) {
+                // sorts
+                $pages = $subPages->sortByDate();
+                if ($page->hasVariable('sortby')) {
+                    $sortMethod = \sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
+                    if (!method_exists($pages, $sortMethod)) {
+                        throw new RuntimeException(\sprintf('In page "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
+                    }
+                    $pages = $pages->$sortMethod();
                 }
-                $pages = $pages->$sortMethod();
+                $page->setPages($pages);
+                if ($pages->first()) {
+                    $page->setVariable('date', $pages->first()->getVariable('date'));
+                }
             }
-            /** @var \Cecil\Collection\Page\Page $page */
-            $page->setType(Type::HOMEPAGE)
-                ->setPages($pages);
-            if ($pages->first()) {
-                $page->setVariable('date', $pages->first()->getVariable('date'));
-            }
-            // default menu
+            // set default "main" menu
             if (!$page->getVariable('menu')) {
                 $page->setVariable('menu', ['main' => ['weight' => 0]]);
             }

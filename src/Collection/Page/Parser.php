@@ -22,7 +22,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class Parser
 {
     // https://regex101.com/r/UaUjlv/1
-    const PATTERN = '^\s*(?:<!--|---|\+\+\+){1}[\n\r]+(.*?)[\n\r]+(?:-->|---|\+\+\+){1}[\n\r\s]+(.*)$';
+    public const PATTERN = '^\s*(?:<!--|---|\+\+\+){1}[\n\r]+(.*?)[\n\r]+(?:-->|---|\+\+\+){1}[\n\r\s]+(.*)$';
 
     /** @var SplFileInfo */
     protected $file;

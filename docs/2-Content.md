@@ -1,9 +1,8 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2022-10-02
+updated: 2022-11-13
 -->
-
 # Content
 
 There is different kinds of content in Cecil:
@@ -151,9 +150,243 @@ This is an advice.
 
 ## Markdown
 
-Cecil supports [Markdown](http://daringfireball.net/projects/markdown/syntax) format but also [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/).
+Cecil supports [Markdown](http://daringfireball.net/projects/markdown/syntax) format, but also [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/).
 
 Cecil also provides **extra features** to enhance your content, see below.
+
+### Attributes
+
+With [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/) you can set an id, class and custom attributes on certain elements using an attribute block.  
+For instance, put the desired attribute(s) after a header, a fenced code block, a link or an image at the end of the line inside curly brackets, like this:
+
+```markdown
+## Header {#id .class attribute=value}
+```
+
+:::important
+For an inline element, like a link, you must use a line break after the closing brace:
+
+```markdown
+Lorem ipsum [dolor](url){attribute=value} 
+sit amet.
+```
+
+:::
+
+### Links
+
+You can create a link with the syntax `[Text](url)` with "url" can be a path, a relative path to a Markdown file, an external URL, etc.
+
+_Example:_
+
+```markdown
+[Link to a path](/about/)
+[Link to a Markdown file](../about.md)
+[Link to Cecil website](https://cecil.app)
+```
+
+#### Link to a page
+
+You can easily create a link to a page with the syntax `[Page title](page:page-id)`.
+
+_Example:_
+
+```markdown
+[Link to a blog post](page:blog/post-1)
+```
+
+#### Embedded links
+
+You can let Cecil tries to turns a link into an embedded content by using the `{embed=true}` attribute or by setting the global configuration option `body.links.embed.enabled` to `true`.
+
+_Example:_
+
+```markdown
+[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed=true}
+```
+
+:::info
+Only **YouTube** and **GitHub Gits** links are supported for the moment.
+:::
+
+Cecil can also create a video or audio HTML elements, through the file extension.
+
+##### Video
+
+_Example:_
+
+```markdown
+[The video](/video/test.mp4){controls poster=/images/video-test.png style="width:100%;"}
+```
+
+Is converted to:
+
+```html
+<video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
+```
+
+##### Audio
+
+_Example:_
+
+```markdown
+[The audio file](/audio/test.mp3){controls}
+```
+
+Is converted to:
+
+```html
+<audio src="/video/test.mp3" controls></audio>
+```
+
+### Images
+
+To add an image, use an exclamation mark (`!`) followed by alternative description in brackets (`[]`), and the path or URL to the image in parentheses (`()`).  
+You can optionally add a title in quotation marks.
+
+```markdown
+![Alternative description](/image.jpg "Image title")
+```
+
+:::info
+The path should be relative to the root of your website (e.g.: `/image.jpg`), however Cecil is able to normalize a relative path like `../../assets/image.jpg` (or `../../static/image.jpg`) to `/image.jpg`.
+:::
+
+#### Lazy loading
+
+By default Cecil apply the attribute `loading="lazy"` on each images.
+
+_Example:_
+
+```markdown
+![](/image.jpg)
+```
+
+Is converted to:
+
+```html
+<img src="/image.jpg" loading="lazy">
+```
+
+:::info
+You can disable the [`lazy` option in the body configuration](4-Configuration.md#body).
+:::
+
+#### Resize
+
+Each image in the _body_ can be resized by setting a smaller width than the original one with the extra attribute `{width=X}` (the [`resize` option in the body configuration](4-Configuration.md#body) must be enabled).
+
+_Example:_
+
+```markdown
+![](/image.jpg){width=800}
+```
+
+Is converted to:
+
+```html
+<img src="/assets/thumbnails/800/image.jpg" width="800" height="600">
+```
+
+:::info
+Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.
+:::
+
+:::important
+This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
+:::
+
+#### Responsive
+
+If the [`responsive` option in the body configuration](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically _responsived_.
+
+_Example:_
+
+```markdown
+![](/image.jpg){width=800}
+```
+
+If `resize` and `responsive` options are enabled, then this Markdown line will be converted to:
+
+```html
+<img src="/assets/thumbnails/800/image.jpg" width="800" height="600"
+  srcset="/assets/thumbnails/320/image.jpg 320w,
+          /assets/thumbnails/640/image.jpg 640w,
+          /assets/thumbnails/800/image.jpg 800w"
+  sizes="100vw"
+>
+```
+
+:::info
+The different images widths can be defined in [assets configuration](4-Configuration.md#assets).
+:::
+
+The `sizes` attribute take the value of the `assets.images.responsive.sizes.default` configuration option by default, and can be customized by creating a new entry named with the class name added to the image.
+
+_Example:_
+
+```yaml
+assets:
+  images:
+    responsive:
+      sizes:
+        default: 100vw
+        my_class: "(max-width: 800px) 768px, 1024px"
+```
+
+```markdown
+![](/image.jpg){.my_class}
+```
+
+#### WebP
+
+If the [`webp` option in the body configuration](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
+
+_Example:_
+
+```markdown
+![](/image.jpg)
+```
+
+Is converted to:
+
+```html
+<picture>
+  <source srcset="/image.webp" type="image/webp">
+  <img src="/image.jpg">
+</picture>
+```
+
+:::important
+This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
+:::
+
+:::info
+You can combine `webp` and `responsive` options.
+:::
+
+#### Caption
+
+You can automatically add a caption (`figcaption`) to an image with the optional title.
+
+_Example:_
+
+```markdown
+![](/images/img.jpg "Title")
+```
+
+Is converted to:
+
+```html
+<figure>
+  <img src="/image.jpg" title="Title">
+  <figcaption>Title</figcaption>
+</figure>
+```
+
+:::info
+You can disable the [`caption` option in the body configuration](4-Configuration.md#body).
+:::
 
 ### Table of contents
 
@@ -239,170 +472,6 @@ Is converted to:
 
 ```html
 <ins>text</ins>
-```
-
-### Images
-
-To add an image, use an exclamation mark (`!`) followed by alternative description in brackets (`[]`), and the path or URL to the image in parentheses (`()`).  
-You can optionally add a title in quotation marks.
-
-```markdown
-![Alternative description](/image.jpg "Image title")
-```
-
-:::info
-The path should be relative to the root of your website (e.g.: `/image.jpg`), however Cecil is able to normalize a relative path like `../../assets/image.jpg` (or `../../static/image.jpg`) to `/image.jpg`.
-:::
-
-#### Lazy loading
-
-By default Cecil apply the attribute `loading="lazy"` on each images.
-
-_Example:_
-
-```markdown
-![](/image.jpg)
-```
-
-Is converted to:
-
-```html
-<img src="/image.jpg" loading="lazy">
-```
-
-:::info
-You can disable the [`lazy` option in the body configuration](4-Configuration.md#body).
-:::
-
-#### Resize
-
-Each image in the _body_ can be resized by setting a smaller width than the original one with the extra attribute `{width=X}` (the [`resize` option in the body configuration](4-Configuration.md#body) must be enabled).
-
-_Example:_
-
-```markdown
-![](/image.jpg){width=800}
-```
-
-Is converted to:
-
-```html
-<img src="/assets/thumbnails/800/image.jpg" width="800" height="600">
-```
-
-:::info
-Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.
-:::
-
-:::important
-This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
-:::
-
-#### Responsive
-
-If the [`responsive` option in the body configuration](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically _responsived_.
-
-_Example:_
-
-```markdown
-![](/image.jpg){width=800}
-```
-
-If `resize` and `responsive` options are enabled, then this Markdown line will be converted to:
-
-```html
-<img src="/assets/thumbnails/800/image.jpg" width="800" height="600"
-  srcset="/assets/thumbnails/320/image.jpg 320w,
-          /assets/thumbnails/640/image.jpg 640w,
-          /assets/thumbnails/800/image.jpg 800w"
-  sizes="100vw"
->
-```
-
-:::info
-The different images widths can be defined in [assets configuration](4-Configuration.md#assets).
-:::
-
-#### WebP
-
-If the [`webp` option in the body configuration](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
-
-_Example:_
-
-```markdown
-![](/image.jpg)
-```
-
-Is converted to:
-
-```html
-<picture>
-  <source srcset="/image.webp" type="image/webp">
-  <img src="/image.jpg">
-</picture>
-```
-
-:::important
-This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
-:::
-
-:::info
-You can combine `webp` and `responsive` options.
-:::
-
-#### Caption
-
-You can automatically add a caption (`figcaption`) to an image with the optional title.
-
-_Example:_
-
-```markdown
-![](/images/img.jpg "Title")
-```
-
-Is converted to:
-
-```html
-<figure>
-  <img src="/image.jpg" title="Title">
-  <figcaption>Title</figcaption>
-</figure>
-```
-
-:::info
-You can disable the [`caption` option in the body configuration](4-Configuration.md#body).
-:::
-
-### Audio and video
-
-Cecil can generate audio and video HTML elements, based on the Markdown image markup, with a special alternative text as a keyword (`audio` or `video`).
-
-#### Audio
-
-_Example:_
-
-```markdown
-![audio](/audio/test.mp3){controls}
-```
-
-Is converted to:
-
-```html
-<audio src="/video/test.mp3" controls></audio>
-```
-
-#### Video
-
-_Example:_
-
-```markdown
-![video](/video/test.mp4){controls poster=/images/video-test.png style="width:100%;"}
-```
-
-Is converted to:
-
-```html
-<video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
 ```
 
 ## Variables
@@ -715,6 +784,7 @@ slug: a-propos
 # about.md    -> /about/
 # about.fr.md -> /fr/a-propos/
 ```
+
 :::
 
 ### Language in the front matter
@@ -747,17 +817,22 @@ The `langref` variable is provided by default, but you can change it in the fron
 langref: my-page-ref
 ---
 ```
+
 :::
 
 ## Dynamic content
 
-With this **experimental** feature you can use [variables](3-Templates.md#variables) and shortcodes in the [body](#body).
+With this **_experimental_** feature you can use **[variables](3-Templates.md#variables)** and **shortcodes** in the [body](#body).
 
-To do this you must include a specific template instead of `{{ page.content }}`:
+:::important
+To do this you must include a specific template:
 
 ```twig
 {{ include(page.content_template) }}
 ```
+
+(instead of `{{ page.content }}`)
+:::
 
 ### Display variables
 
@@ -810,7 +885,7 @@ _Example:_
 _Example:_
 
 ```twig
-{{ shortcode.gist('Narno', 'fbe791e05b93951ffc1f6abda8ee88f0') }}
+{{ shortcode.gist('ArnaudLigny', 'fbe791e05b93951ffc1f6abda8ee88f0') }}
 ```
 
 #### Custom shortcode
@@ -822,7 +897,7 @@ _Example:_
 `shortcodes.twig`:
 
 ```twig
-{% extends 'macros.twig' %}
+{% extends 'extended/macros.twig' %}
 
 {% block macros %}
 

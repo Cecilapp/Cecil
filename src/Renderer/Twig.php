@@ -88,7 +88,7 @@ class Twig implements RendererInterface
                 $loader = \sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
                 if (class_exists($loader)) {
                     $this->translator->addLoader($format, new $loader());
-                    $this->builder->getLogger()->debug(\sprintf('Translation loader for format "%s" found.', $format));
+                    $this->builder->getLogger()->debug(\sprintf('Translation loader for format "%s" found', $format));
                 }
             }
             foreach ($this->builder->getConfig()->getLanguages() as $lang) {

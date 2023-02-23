@@ -3,7 +3,6 @@ description: "List of available commands."
 date: 2020-12-19
 updated: 2022-09-30
 -->
-
 # Commands
 
 List of all available commands.

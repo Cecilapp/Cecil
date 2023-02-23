@@ -99,7 +99,7 @@
             <a><xsl:attribute name="href"><xsl:value-of select="rss/channel/link[@rel='alternate']/@href" /></xsl:attribute><xsl:value-of select="rss/channel/title" /></a>
             {%- endif ~%}
           </h1>
-          <p>{% trans %}To subscribe to this feed, copy its URL to your feed reader.{% endtrans %} <a href="https://aboutfeeds.com/#1-what-is-a-feed-aka-rss">{% trans %}What is a feed? (a.k.a. RSS){% endtrans %}</a></p>
+          <p>{% trans %}To subscribe to this web feed, copy its URL to your feed reader.{% endtrans %}</p>
           <form>
             <label for="feed-url">{% trans %}Feed URL:{% endtrans %}</label>
             <input id="feed-url" onClick="this.select();">

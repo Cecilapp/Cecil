@@ -195,6 +195,35 @@ class Cache implements CacheInterface
     }
 
     /**
+     * Clear cache by pattern.
+     */
+    public function clearByPattern(string $pattern): int
+    {
+        try {
+            $fileCount = 0;
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($this->cacheDir),
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
+            foreach ($iterator as $file) {
+                if ($file->isFile()) {
+                    if (preg_match('/'.$pattern.'/i', $file->getBasename())) {
+                        Util\File::getFS()->remove($file->getPathname());
+                        $fileCount++;
+                        $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', $file->getPathname()));
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->error($e->getMessage());
+
+            return 0;
+        }
+
+        return $fileCount;
+    }
+
+    /**
      * Returns cache file pathname from key.
      */
     private function getFilePathname(string $key): string
@@ -208,10 +237,12 @@ class Cache implements CacheInterface
     private function prune(string $key): bool
     {
         try {
-            $key = $this->prepareKey($key);
-            $pattern = Util::joinFile($this->cacheDir, explode('__', $key)[0]).'*';
-            foreach (glob($pattern) as $filename) {
-                Util\File::getFS()->remove($filename);
+            $keyAsArray = explode('__', $this->prepareKey($key), -1);
+            if (!empty($keyAsArray)) {
+                $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]).'*';
+                foreach (glob($pattern) as $filename) {
+                    Util\File::getFS()->remove($filename);
+                }
             }
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
@@ -231,6 +262,7 @@ class Cache implements CacheInterface
         $key = Page::slugify($key);
         $key = trim($key, '/');
         $key = str_replace(['\\', '/'], ['-', '-'], $key);
+        $key = substr($key, 0, 200); // Maximum filename length in NTFS?
 
         return $key;
     }

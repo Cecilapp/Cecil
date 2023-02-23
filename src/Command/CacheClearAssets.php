@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
+use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,7 +45,7 @@ class CacheClearAssets extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->fs->exists($this->getBuilder()->getConfig()->getCacheAssetsPath())) {
+        if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCacheAssetsPath())) {
             $output->writeln('<info>No assets cache.</info>');
 
             return 0;
@@ -54,7 +55,7 @@ class CacheClearAssets extends AbstractCommand
             \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCacheAssetsPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
-        $this->fs->remove($this->getBuilder()->getConfig()->getCacheAssetsPath());
+        Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheAssetsPath());
         $output->writeln('<info>Assets cache is clear.</info>');
 
         return 0;

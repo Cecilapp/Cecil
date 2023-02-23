@@ -56,9 +56,9 @@ class Load extends AbstractStep
             ->in($this->builder->getConfig()->getDataPath())
             ->name('/\.('.implode('|', (array) $this->builder->getConfig()->get('data.ext')).')$/')
             ->sortByName(true);
-        $max = count($files);
+        $total = count($files);
 
-        if ($max <= 0) {
+        if ($total < 1) {
             $message = 'No files';
             $this->builder->getLogger()->info($message);
 
@@ -85,16 +85,16 @@ class Load extends AbstractStep
             switch ($file->getExtension()) {
                 case 'yml':
                 case 'yaml':
-                    $dataArray = $serializerYaml->decode($data, 'yaml');
+                    $dataAsArray = $serializerYaml->decode($data, 'yaml');
                     break;
                 case 'json':
-                    $dataArray = $serializerJson->decode($data, 'json');
+                    $dataAsArray = $serializerJson->decode($data, 'json');
                     break;
                 case 'csv':
-                    $dataArray = $serializerCsv->decode($data, 'csv');
+                    $dataAsArray = $serializerCsv->decode($data, 'csv');
                     break;
                 case 'xml':
-                    $dataArray = $serializerXml->decode($data, 'xml');
+                    $dataAsArray = $serializerXml->decode($data, 'xml');
                     break;
                 default:
                     return;
@@ -108,35 +108,33 @@ class Load extends AbstractStep
             $subpath = trim($subpath, './');
             $array = [];
             $path = !empty($subpath) ? Util::joinFile($subpath, $basename) : $basename;
-            $this->pathToArray($array, $path, $dataArray);
+            $this->pathToArray($array, $path, $dataAsArray);
 
-            $dataArray = array_merge_recursive(
+            $dataAsArray = array_merge_recursive(
                 $this->builder->getData(),
                 $array
             );
-            $this->builder->setData($dataArray);
+            $this->builder->setData($dataAsArray);
 
             $message = \sprintf('File "%s.%s" loaded', Util::joinFile($path), $file->getExtension());
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $count]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }
 
     /**
-     * Converts a path to an array.
+     * Puts a path/value couple into an array.
      *
      * @param array  $arr       Target array
      * @param string $path      Source path
      * @param array  $value     Source values
-     * @param string $separator Separator (ie: /)
+     * @param string $separator Path separator (ie: '/')
      */
     private function pathToArray(array &$arr, string $path, array $value, string $separator = DIRECTORY_SEPARATOR): void
     {
         $keys = explode($separator, $path);
-
         foreach ($keys as $key) {
             $arr = &$arr[$key];
         }
-
         $arr = $value;
     }
 }

@@ -2,6 +2,308 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.29.4](https://github.com/Cecilapp/Cecil/compare/7.29.3...7.29.4)
+
+> 20 February 2023
+
+- fix: sort by date [`#1615`](https://github.com/Cecilapp/Cecil/pull/1615)
+- refactor: code fix [`#1614`](https://github.com/Cecilapp/Cecil/pull/1614)
+- docs: update deploy [`b8131c2`](https://github.com/Cecilapp/Cecil/commit/b8131c26d9f80897c50c8a10acbbbc769cd75298)
+- chore: update deps [`d270814`](https://github.com/Cecilapp/Cecil/commit/d2708142015603e6eeb7aabc587f121847cdeccc)
+- docs: remove Forestry references [`8baaede`](https://github.com/Cecilapp/Cecil/commit/8baaedebca84aec70bd86a96175bea6526dac02a)
+- docs: update deploy [`53d7a16`](https://github.com/Cecilapp/Cecil/commit/53d7a1676b88c174e8098d3ffdc25b99b15006fa)
+
+#### [7.29.3](https://github.com/Cecilapp/Cecil/compare/7.29.2...7.29.3)
+
+> 9 February 2023
+
+- chore: update deps [`6eb4e57`](https://github.com/Cecilapp/Cecil/commit/6eb4e576046e77b796c8b813486db082dd57845e)
+- fix: default page layout [`8b74811`](https://github.com/Cecilapp/Cecil/commit/8b7481117c1d8bb7b39ee17998aa4ac1e09a65d8)
+
+#### [7.29.2](https://github.com/Cecilapp/Cecil/compare/7.29.1...7.29.2)
+
+> 6 February 2023
+
+- fix: Markdown image title [`#1609`](https://github.com/Cecilapp/Cecil/pull/1609)
+- chore: update deps [`e33783a`](https://github.com/Cecilapp/Cecil/commit/e33783a95dc85bc98eb6f31ada62e4578e77d735)
+- chore: update deps [`23de8d9`](https://github.com/Cecilapp/Cecil/commit/23de8d961d77621e61899c12cc1558dee644900c)
+
+#### [7.29.1](https://github.com/Cecilapp/Cecil/compare/7.29.0...7.29.1)
+
+> 2 February 2023
+
+- fix: path of only one page load [`#1606`](https://github.com/Cecilapp/Cecil/pull/1606)
+- chore: update deps [`01bb490`](https://github.com/Cecilapp/Cecil/commit/01bb490ce3455a7e44d952cb052802e0efc64b52)
+- docs: update templates docs [`70c9b7d`](https://github.com/Cecilapp/Cecil/commit/70c9b7d1b5824f915b6a075522c2b82d287f28e7)
+- docs: enhance templates docs [`75ab333`](https://github.com/Cecilapp/Cecil/commit/75ab333cefb0f7e48606881641137f6e5bce9adc)
+- docs: update templates docs [`0c175c8`](https://github.com/Cecilapp/Cecil/commit/0c175c81f7718a29acc702551f676768a89d2f78)
+- chore: update deps [`76a6501`](https://github.com/Cecilapp/Cecil/commit/76a65015815651da88bbb6b2cefc34d4440627b0)
+- docs: update templates docs [`317fa40`](https://github.com/Cecilapp/Cecil/commit/317fa40b6c139a4565a0a1585194231d44807761)
+- docs: update templates docs [`f1c7dff`](https://github.com/Cecilapp/Cecil/commit/f1c7dff279cfa9ac1da58150527bc6d33ad114c6)
+- docs: update templates docs [`eb1acf1`](https://github.com/Cecilapp/Cecil/commit/eb1acf14a7f56a46f114d6c87fa5c95787315246)
+- chore: update deps [`a959292`](https://github.com/Cecilapp/Cecil/commit/a95929243c00171066d2da188c015e4c88096650)
+- chore: update deps [`7f91f8f`](https://github.com/Cecilapp/Cecil/commit/7f91f8f945dcfb0320b6a4e54fe8c5fe8bfa90fd)
+- feat(server): YAML file support [`3e12d31`](https://github.com/Cecilapp/Cecil/commit/3e12d317f23806152ab62af5d741baa8245afe7d)
+- docs: update templates docs [`33da832`](https://github.com/Cecilapp/Cecil/commit/33da8327aa71d714f567381cfbbd59c4bd71d9de)
+- docs: update templates docs [`fb57d14`](https://github.com/Cecilapp/Cecil/commit/fb57d14b820fc047ab93858da905a8c5d6b185f1)
+- docs: update templates docs [`a492420`](https://github.com/Cecilapp/Cecil/commit/a492420b456dc7581f6f92eb2caf8d5e252dc1d6)
+
+#### [7.29.0](https://github.com/Cecilapp/Cecil/compare/7.28.4...7.29.0)
+
+> 4 January 2023
+
+- feat: JSON Feed output format support [`#1595`](https://github.com/Cecilapp/Cecil/pull/1595)
+
+#### [7.28.4](https://github.com/Cecilapp/Cecil/compare/7.28.3...7.28.4)
+
+> 4 January 2023
+
+- chore: update deps [`27eb2cb`](https://github.com/Cecilapp/Cecil/commit/27eb2cb128c583be31f2ac77ac53dc4d04ba7fed)
+- chore: update deps [`8730d97`](https://github.com/Cecilapp/Cecil/commit/8730d978caae9c95acbe48c5c94daa930e8b4f32)
+- fix(server): path with dot but without extension [`6c644a3`](https://github.com/Cecilapp/Cecil/commit/6c644a3dbe211139c8402e2711246444e3d2b05e)
+
+#### [7.28.3](https://github.com/Cecilapp/Cecil/compare/7.28.2...7.28.3)
+
+> 19 December 2022
+
+- fix(server): tear down method must be public [`#1588`](https://github.com/Cecilapp/Cecil/pull/1588)
+- chore: update deps [`6abfeb7`](https://github.com/Cecilapp/Cecil/commit/6abfeb7a99e73896b1c2fcce17ae01e2c192022f)
+- chore: update deps [`43760de`](https://github.com/Cecilapp/Cecil/commit/43760de3029c2f3c6977a69aad51a5136148a33b)
+- refactor: minor changes [`b57a9dc`](https://github.com/Cecilapp/Cecil/commit/b57a9dc765254f7015debfac8c887859bb158ef2)
+
+#### [7.28.2](https://github.com/Cecilapp/Cecil/compare/7.28.1...7.28.2)
+
+> 13 December 2022
+
+- Fixes #1583 - Enforcing runtime checks for required php extensions [`#1585`](https://github.com/Cecilapp/Cecil/pull/1585)
+- refactor: enhances code [`#1577`](https://github.com/Cecilapp/Cecil/pull/1577)
+- fix: pages filter and map in render step [`#1576`](https://github.com/Cecilapp/Cecil/pull/1576)
+- Fixes #1583 - Enforcing runtime checks for required php extensions (#1585) [`#1583`](https://github.com/Cecilapp/Cecil/issues/1583)
+- refactor: add symfony/polyfill-intl-icu [`dcb38d2`](https://github.com/Cecilapp/Cecil/commit/dcb38d23f88b706544dd9a3353d4fc0924323164)
+- chore: update deps [`20ecec3`](https://github.com/Cecilapp/Cecil/commit/20ecec35e1291df242bd3b5c39b49ee0e782c635)
+
+#### [7.28.1](https://github.com/Cecilapp/Cecil/compare/7.28.0...7.28.1)
+
+> 25 November 2022
+
+- fix: VERSION [`a54b28a`](https://github.com/Cecilapp/Cecil/commit/a54b28a359de1f43cbd49581733ea68fa9a4e22c)
+
+#### [7.28.0](https://github.com/Cecilapp/Cecil/compare/7.27.7...7.28.0)
+
+> 25 November 2022
+
+- feat: add feeds to pages in a section [`#1575`](https://github.com/Cecilapp/Cecil/pull/1575)
+- refactor: feeds XSL [`0f36fbf`](https://github.com/Cecilapp/Cecil/commit/0f36fbfc72b0673b046cb6f5231beebb81b1ff94)
+- fix: FR translation [`7dbfbdc`](https://github.com/Cecilapp/Cecil/commit/7dbfbdc7eb8d1e0a8421d33e41c4c3e9a7a7a07f)
+- docs: minor updates [`d0171e4`](https://github.com/Cecilapp/Cecil/commit/d0171e418506e51bb2901c9911743d4c0bef95ac)
+
+#### [7.27.7](https://github.com/Cecilapp/Cecil/compare/7.27.6...7.27.7)
+
+> 23 November 2022
+
+- chore(deploy): homebrew tap [`d806ec0`](https://github.com/Cecilapp/Cecil/commit/d806ec0009251d012293f8b59529420e313452a3)
+- Create tap-release.yaml [`56f1fe4`](https://github.com/Cecilapp/Cecil/commit/56f1fe40bd8f473312e50619f2f6b3203ab131d3)
+- chore: rename workflows [`4a1843d`](https://github.com/Cecilapp/Cecil/commit/4a1843d11b09c4c8df077fbf5188a0e1988903b8)
+
+#### [7.27.6](https://github.com/Cecilapp/Cecil/compare/7.27.5...7.27.6)
+
+> 15 November 2022
+
+- fix: remote files handling [`#1572`](https://github.com/Cecilapp/Cecil/pull/1572)
+
+#### [7.27.5](https://github.com/Cecilapp/Cecil/compare/7.27.4...7.27.5)
+
+> 13 November 2022
+
+- refactor(server): enhances router code [`8aea505`](https://github.com/Cecilapp/Cecil/commit/8aea5058fb0276b68e32f94eba194b0cb53f1a7c)
+- refactor(server): better default 404 page [`efc5190`](https://github.com/Cecilapp/Cecil/commit/efc5190d7f8c3d02ddd548091d5dfb8aa43fec7c)
+- docs: update details about dynamic content [`378c398`](https://github.com/Cecilapp/Cecil/commit/378c398f56c4d666cadd2e172d3aa942903f7c4e)
+- fix: extends macros for shortcodes [`db9f6fb`](https://github.com/Cecilapp/Cecil/commit/db9f6fb37b7a6fdb3f6c96a49ca39c4f06530016)
+- docs: fix shortcode example [`045b8d3`](https://github.com/Cecilapp/Cecil/commit/045b8d3826afdb01b6a0754cb560130a80a137db)
+- fix(server): apply content handling to video files [`3c6adf4`](https://github.com/Cecilapp/Cecil/commit/3c6adf40799b8a26698cc283d920466232af7d8a)
+
+#### [7.27.4](https://github.com/Cecilapp/Cecil/compare/7.27.3...7.27.4)
+
+> 12 November 2022
+
+- fix: server baseurl replacement [`099c9b6`](https://github.com/Cecilapp/Cecil/commit/099c9b66eb460bec76df8147be4140b78be7188f)
+
+#### [7.27.3](https://github.com/Cecilapp/Cecil/compare/7.27.2...7.27.3)
+
+> 12 November 2022
+
+- refactor: enhance server router [`#1570`](https://github.com/Cecilapp/Cecil/pull/1570)
+- chore: update deps [`924613d`](https://github.com/Cecilapp/Cecil/commit/924613d9ce2de4f015b869ed41774adbc6df41ee)
+
+#### [7.27.2](https://github.com/Cecilapp/Cecil/compare/7.27.1...7.27.2)
+
+> 6 November 2022
+
+- fix: homepage generator if no other pages [`#1564`](https://github.com/Cecilapp/Cecil/pull/1564)
+
+#### [7.27.1](https://github.com/Cecilapp/Cecil/compare/7.27.0...7.27.1)
+
+> 6 November 2022
+
+- fix: clear-cache command [`#1563`](https://github.com/Cecilapp/Cecil/pull/1563)
+- chore: update deps [`253ed6a`](https://github.com/Cecilapp/Cecil/commit/253ed6a4220ab627506c10ebe8b5df6007a7ec93)
+- refactor: clean code [`5789caa`](https://github.com/Cecilapp/Cecil/commit/5789caa2ce327791264020e9bdcd7725be0946f2)
+- refactor: clean code [`09a9028`](https://github.com/Cecilapp/Cecil/commit/09a9028109d1660b7553c2e58963b1547a5390e6)
+
+#### [7.27.0](https://github.com/Cecilapp/Cecil/compare/7.26.3...7.27.0)
+
+> 5 November 2022
+
+- feat: remove cache files by regular expression [`#1562`](https://github.com/Cecilapp/Cecil/pull/1562)
+- fix: pattern used in cache prune method [`#1561`](https://github.com/Cecilapp/Cecil/pull/1561)
+
+#### [7.26.3](https://github.com/Cecilapp/Cecil/compare/7.26.2...7.26.3)
+
+> 1 November 2022
+
+- fix: should not convert a line link in block [`#1558`](https://github.com/Cecilapp/Cecil/pull/1558)
+
+#### [7.26.2](https://github.com/Cecilapp/Cecil/compare/7.26.1...7.26.2)
+
+> 1 November 2022
+
+- fix: favicon sizes attribute [`1e78e80`](https://github.com/Cecilapp/Cecil/commit/1e78e80ab0cfa97feeb8cc579ab5c9ebb03f3e5d)
+
+#### [7.26.1](https://github.com/Cecilapp/Cecil/compare/7.26.0...7.26.1)
+
+> 1 November 2022
+
+- fix: minor fix on convertor [`2300468`](https://github.com/Cecilapp/Cecil/commit/230046862cd61bae15f5f2e95970f5cc85ce7b08)
+- docs: update content [`85db9c5`](https://github.com/Cecilapp/Cecil/commit/85db9c5de798bc147ee4a326570d4a8d1f9218f3)
+- refactor: code comments [`ea95927`](https://github.com/Cecilapp/Cecil/commit/ea95927e555767dc1afdbea13718af9e6eecd98a)
+
+#### [7.26.0](https://github.com/Cecilapp/Cecil/compare/7.25.0...7.26.0)
+
+> 31 October 2022
+
+- feat: figure/caption to image and link with title [`#1556`](https://github.com/Cecilapp/Cecil/pull/1556)
+- fix: support webm video format [`e0e0762`](https://github.com/Cecilapp/Cecil/commit/e0e0762258041e7721f5f2a0e87cadc6bdf68076)
+- fix: minor fix [`77b7cb7`](https://github.com/Cecilapp/Cecil/commit/77b7cb79a60a8678e6334100e125bcec9af7bf38)
+
+#### [7.25.0](https://github.com/Cecilapp/Cecil/compare/7.24.1...7.25.0)
+
+> 31 October 2022
+
+- feat: custom responsive `sizes` [`#1555`](https://github.com/Cecilapp/Cecil/pull/1555)
+
+#### [7.24.1](https://github.com/Cecilapp/Cecil/compare/7.24.0...7.24.1)
+
+> 30 October 2022
+
+- fix: normalize page path to build [`#1554`](https://github.com/Cecilapp/Cecil/pull/1554)
+
+#### [7.24.0](https://github.com/Cecilapp/Cecil/compare/7.23.2...7.24.0)
+
+> 30 October 2022
+
+- feat: turn a link into a video or audio element [`#1553`](https://github.com/Cecilapp/Cecil/pull/1553)
+- chore: update deps [`ab08723`](https://github.com/Cecilapp/Cecil/commit/ab08723ac8411da9153e4b51fa82ac9a50f3c040)
+
+#### [7.23.2](https://github.com/Cecilapp/Cecil/compare/7.23.1...7.23.2)
+
+> 29 October 2022
+
+- fix: bug introduce in the previous version [`#1551`](https://github.com/Cecilapp/Cecil/pull/1551)
+
+#### [7.23.1](https://github.com/Cecilapp/Cecil/compare/7.23.0...7.23.1)
+
+> 29 October 2022
+
+- fix: convert page even a language code is wrong [`#1549`](https://github.com/Cecilapp/Cecil/pull/1549)
+
+#### [7.23.0](https://github.com/Cecilapp/Cecil/compare/7.22.4...7.23.0)
+
+> 29 October 2022
+
+- feat: option to add default class to body images [`#1548`](https://github.com/Cecilapp/Cecil/pull/1548)
+
+#### [7.22.4](https://github.com/Cecilapp/Cecil/compare/7.22.3...7.22.4)
+
+> 27 October 2022
+
+- fix: Twitter account [`#1545`](https://github.com/Cecilapp/Cecil/pull/1545)
+
+#### [7.22.3](https://github.com/Cecilapp/Cecil/compare/7.22.2...7.22.3)
+
+> 27 October 2022
+
+- fix: embedded links disable option [`#1544`](https://github.com/Cecilapp/Cecil/pull/1544)
+- docs: update content [`79314a0`](https://github.com/Cecilapp/Cecil/commit/79314a07f93c47a5c0bd5f4dd556fc018c5846c1)
+
+#### [7.22.2](https://github.com/Cecilapp/Cecil/compare/7.22.1...7.22.2)
+
+> 26 October 2022
+
+- fix: disable embed link on demand [`#1543`](https://github.com/Cecilapp/Cecil/pull/1543)
+
+#### [7.22.1](https://github.com/Cecilapp/Cecil/compare/7.22.0...7.22.1)
+
+> 25 October 2022
+
+- fix: apply custom path before the convert step [`#1542`](https://github.com/Cecilapp/Cecil/pull/1542)
+
+#### [7.22.0](https://github.com/Cecilapp/Cecil/compare/7.21.0...7.22.0)
+
+> 25 October 2022
+
+- feat: embed GitHub Gist link [`#1540`](https://github.com/Cecilapp/Cecil/pull/1540)
+- Apply fixes from StyleCI [`#1538`](https://github.com/Cecilapp/Cecil/pull/1538)
+- refactor: clean code [`f1c4951`](https://github.com/Cecilapp/Cecil/commit/f1c4951469c5993cee4935d701bbbb0b8fc41890)
+
+#### [7.21.0](https://github.com/Cecilapp/Cecil/compare/7.20.0...7.21.0)
+
+> 25 October 2022
+
+- feat: local fallback for remote images [`#1537`](https://github.com/Cecilapp/Cecil/pull/1537)
+
+#### [7.20.0](https://github.com/Cecilapp/Cecil/compare/7.19.1...7.20.0)
+
+> 25 October 2022
+
+- feat: variable to override generated canonical URL [`#1535`](https://github.com/Cecilapp/Cecil/pull/1535)
+- chore: clean default layouts [`b94e27b`](https://github.com/Cecilapp/Cecil/commit/b94e27b2e92d507f9667e7e77f3f5ae323cee803)
+
+#### [7.19.1](https://github.com/Cecilapp/Cecil/compare/7.19.0...7.19.1)
+
+> 24 October 2022
+
+- fix: cache key max length for NTFS [`f8131a5`](https://github.com/Cecilapp/Cecil/commit/f8131a5c88f6db661e3f90573b700373ca50e24d)
+
+#### [7.19.0](https://github.com/Cecilapp/Cecil/compare/7.18.0...7.19.0)
+
+> 24 October 2022
+
+- feat: link to a page in a markdown link [`#1532`](https://github.com/Cecilapp/Cecil/pull/1532)
+
+#### [7.18.0](https://github.com/Cecilapp/Cecil/compare/7.17.3...7.18.0)
+
+> 23 October 2022
+
+- feat: embed a YouTube video from a Markdown link [`#1529`](https://github.com/Cecilapp/Cecil/pull/1529)
+
+#### [7.17.3](https://github.com/Cecilapp/Cecil/compare/7.17.2...7.17.3)
+
+> 23 October 2022
+
+- fix: image figure caption [`f664e4a`](https://github.com/Cecilapp/Cecil/commit/f664e4a660b45a36754450b53fe1e22db4f610f1)
+
+#### [7.17.2](https://github.com/Cecilapp/Cecil/compare/7.17.1...7.17.2)
+
+> 22 October 2022
+
+- fix: do not double sub slug prefix [`5c9f514`](https://github.com/Cecilapp/Cecil/commit/5c9f514c1fe1c5eb1dc88cb9680540e935cfe91b)
+
+#### [7.17.1](https://github.com/Cecilapp/Cecil/compare/7.17.0...7.17.1)
+
+> 19 October 2022
+
+- fix: generator meta if no spaces before &lt;/head&gt; [`53c6a96`](https://github.com/Cecilapp/Cecil/commit/53c6a96b2b6cc931f27664ee303dc1e40984a282)
+
 #### [7.17.0](https://github.com/Cecilapp/Cecil/compare/7.16.1...7.17.0)
 
 > 19 October 2022

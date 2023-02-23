@@ -103,6 +103,14 @@ return [
                 'mediatype' => 'application/xml',
                 'extension' => 'xsl',
             ],
+            // ie: blog/feed.json
+            -11 => [
+                'name'      => 'jsonfeed',
+                'mediatype' => 'application/json',
+                'filename'  => 'feed',
+                'extension' => 'json',
+                'exclude'   => ['redirect', 'paginated'],
+            ],
         ],
         'pagetypeformats' => [
             'page'       => ['html'],
@@ -203,7 +211,23 @@ return [
                 'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
             ],
             'remote' => [
-                'enabled' => true,  // turns remote images to Asset to handling them (`true` by default)
+                'enabled'  => true,  // turns remote images to Asset to handling them (`true` by default)
+                'fallback' => [
+                    'enabled' => false, // enables a fallback if image is not found (`false` by default)
+                    'path'    => '',     // path to the fallback image, stored in assets dir (`` by default)
+                ],
+            ],
+            'class' => '', // put default class to each image (`` by default)
+        ],
+        'links' => [
+            'embed' => [
+                'enabled' => false, // turns links in embedded content if possible (`false` by default)
+                'video'   => [
+                    'ext' => ['mp4', 'webm'], // video files extensions
+                ],
+                'audio' => [
+                    'ext' => ['mp3'], // audio files extensions
+                ],
             ],
         ],
         'excerpt' => [

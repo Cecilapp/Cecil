@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
+use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,7 +45,7 @@ class CacheClearTranslations extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->fs->exists($this->getBuilder()->getConfig()->getCacheTranslationsPath())) {
+        if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCacheTranslationsPath())) {
             $output->writeln('<info>No translations cache.</info>');
 
             return 0;
@@ -54,7 +55,7 @@ class CacheClearTranslations extends AbstractCommand
             \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCacheTranslationsPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
-        $this->fs->remove($this->getBuilder()->getConfig()->getCacheTranslationsPath());
+        Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheTranslationsPath());
         $output->writeln('<info>Translations cache is clear.</info>');
 
         return 0;

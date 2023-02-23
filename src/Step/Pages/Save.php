@@ -60,7 +60,7 @@ class Save extends AbstractStep
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return !empty($page->getRendered());
         });
-        $max = count($filteredPages);
+        $total = count($filteredPages);
 
         $count = 0;
         foreach ($filteredPages as $page) {
@@ -83,7 +83,7 @@ class Save extends AbstractStep
             }
 
             $message = \sprintf('File(s) "%s" saved', implode(', ', $files));
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }
 

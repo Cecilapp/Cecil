@@ -21,15 +21,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 class AbstractCommand extends Command
 {
-    const CONFIG_FILE = 'config.yml';
-    const TMP_DIR = '.cecil';
+    public const CONFIG_FILE = 'config.yml';
+    public const TMP_DIR = '.cecil';
 
     /** @var InputInterface */
     protected $input;
@@ -39,9 +38,6 @@ class AbstractCommand extends Command
 
     /** @var SymfonyStyle */
     protected $io;
-
-    /** @var Filesystem */
-    protected $fs;
 
     /** @var string */
     private $path;
@@ -63,7 +59,6 @@ class AbstractCommand extends Command
         $this->input = $input;
         $this->output = $output;
         $this->io = new SymfonyStyle($input, $output);
-        $this->fs = new Filesystem();
 
         if (!in_array($this->getName(), ['self-update'])) {
             // working directory
@@ -72,7 +67,7 @@ class AbstractCommand extends Command
                 $this->path = (string) $input->getArgument('path');
             }
             if (realpath($this->getPath()) === false) {
-                $this->fs->mkdir($this->getPath());
+                Util\File::getFS()->mkdir($this->getPath());
             }
             $this->path = realpath($this->getPath());
             // config file(s)

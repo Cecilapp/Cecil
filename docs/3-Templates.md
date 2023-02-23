@@ -1,63 +1,83 @@
 <!--
-description: "Working with templates and use variables."
+description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2022-10-09
+updated: 2023-01-18
 alias: documentation/layouts
 -->
-
 # Templates
 
-Cecil is powered by the [Twig](https://twig.symfony.com) template engine.
-
-:::info
-Refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use Twig.
-:::
+Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so please refer to the **[official documentation](https://twig.symfony.com/doc/templates.html)** to learn how to use it.
 
 ## Example
 
 ```twig
+{# this is a template example #}
 <h1>{{ page.title }} - {{ site.title }}</h1>
 <span>{{ page.date|date('j M Y') }}</span>
 <p>{{ page.content }}</p>
-<p>{{ page.variable }}</p>
+<ul>
+{% for variable in page.my_variables %}
+  <li>{{ variable }}</li>
+{% endfor %}
+</ul>
 ```
+
+- `{# #}`: adds comments
+- `{{ }}`: outputs content of variables or expressions
+- `{% %}`: executes statements, like loop (`for`), condition (`if`), etc.
+- `|filter()`: filters or formats content
 
 ## Files organization
 
-Templates files are stored in `layouts/`.
+There is two kinds of templates: _layouts_ and _others templates_.
+
+_Layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include](https://twig.symfony.com/doc/templates.html#including-other-templates) templates.
+
+_Layouts_ files are stored in the `layouts/` directory and must be named according to the following convention:
+
+```plaintext
+<layout>.<format>.twig
+```
+
+- `<layout>` is the name of the layout, the same as the one defined in [front matter](2-Content.md#front-matter) of a page (e.g.: `layout: my-layout`) or the name of a generic layout (i.e.: `index`, `page`, `list`, etc. See below for details)
+- `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `rss`, `json`, `xml`, etc.)
+- `.twig` is the mandatory file extension
 
 ```plaintext
 <mywebsite>
-├─ pages
-├─ layouts
-|  ├─ _default           <- Contains default templates
-|  |  ├─ list.html.twig  <- Used by "section" and "term" pages type
-|  |  └─ page.html.twig  <- Used by "page" pages type
-|  └─ index.html.twig    <- Used by the "homepage" type
+├─ ...
+├─ layouts                  <- Layouts and templates
+|  ├─ my-layout.html.twig
+|  ├─ index.html.twig       <- Used by type "homepage"
+|  ├─ list.html.twig        <- Used by types "homepage", "section" and "term"
+|  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
+|  ├─ page.html.twig        <- Used by type "page"
+|  ├─ ...
+|  ├─ _default              <- Default layouts, that can be easily extended by "root" layouts
+|  |  ├─ list.html.twig
+|  |  ├─ page.html.twig
+|  |  └─ ...
+|  └─ partials
+|     ├─ footer.html.twig   <- Included template
+|     └─ ...
 └─ themes
-   └─ <theme>            <- A custom theme
-      ├─ layouts
-      └─ ...
+   └─ <theme>
+      └─ layouts            <- Theme layouts and templates
+         └─ ...
 ```
 
 ## Lookup rules
 
-In most of cases **you don’t need to specify the template** to use through the `layout` variable in the [front matter](2-Content.md#front-matter) of the page : Cecil selects the most appropriate template, by page _type_.
+In most of cases **you don’t need to specify a layout name** (in the [front matter](2-Content.md#front-matter) of the page) : **Cecil selects the most appropriate layout**, according to the page _type_.
 
-For example, the _homepage_ will be rendered by the template:
+For example, the HTML output of _home page_ will be rendered in the following order:
 
-1. `my_template.html.twig` if the `layout` variable is set to `my_template` in the front matter of `index.md`
-2. if not, `index.html.twig` if the file exists in the layout directory
-3. if not, `list.html.twig`
-4. etc. (See below)
+1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" in the front matter of `index.md`
+2. if not, with `index.html.twig` if the file exists
+3. if not, with `list.html.twig` if the file exists
+4. etc.
 
-:::
-**Glossary:**
-
-- `<layout>`: value of variable `layout` set in front matter (e.g.: `layout: post`)
-- `<format>`: output format (e.g.: `html`)
-- `<section>`: page’s _Section_ (e.g.: `blog`)
-:::
+All rules are detailed below, for each page type, in the priority order.
 
 ### Type _homepage_
 
@@ -96,7 +116,7 @@ For example, the _homepage_ will be rendered by the template:
 3. `_default/list.<format>.twig`
 
 :::info
-Most of those templates are available by default, see [built-in templates](#built-in-templates).
+Most of those layouts are available by default, see [built-in templates](#built-in-templates).
 :::
 
 ## Variables
@@ -470,10 +490,10 @@ Sorting collections (of pages, menus or taxonomies).
 
 ### sort_by_title
 
-Sorts a collection by title (with [natural sort](https://en.wikipedia.org/wiki/Natural_sort_order), reversed with `reverse=false`).
+Sorts a collection by title (with [natural sort](https://en.wikipedia.org/wiki/Natural_sort_order)).
 
 ```twig
-{{ <collection>|sort_by_title(reverse=false) }}
+{{ <collection>|sort_by_title }}
 ```
 
 _Example:_
@@ -484,10 +504,10 @@ _Example:_
 
 ### sort_by_date
 
-Sorts a collection by date (most recent first, reversed with `reverse=false`).
+Sorts a collection by date (most recent first).
 
 ```twig
-{{ <collection>|sort_by_date(variable='date', reverse=false, desc_title=false) }}
+{{ <collection>|sort_by_date(variable='date', desc_title=false) }}
 ```
 
 _Example:_
@@ -497,18 +517,18 @@ _Example:_
 {{ site.pages|sort_by_date }}
 # sort by updated variable instead of date
 {{ site.pages|sort_by_date(variable='updated') }}
-# reverse sort
-{{ site.pages|sort_by_date(reverse=true) }}
 # sort items with the same date by desc title
 {{ site.pages|sort_by_date(desc_title=true) }}
+# reverse sort
+{{ site.pages|sort_by_date|reverse }}
 ```
 
 ### sort_by_weight
 
-Sorts a collection by weight (lighter first, reversed with `reverse=false`).
+Sorts a collection by weight (lighter first).
 
 ```twig
-{{ <collection>|sort_by_weight(reverse=false) }}
+{{ <collection>|sort_by_weight }}
 ```
 
 _Example:_

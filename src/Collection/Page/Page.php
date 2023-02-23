@@ -24,7 +24,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Page extends Item
 {
-    const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
+    public const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
 
     /** @var bool True if page is not created from a Markdown file. */
     protected $virtual;
@@ -106,23 +106,23 @@ class Page extends Item
     /**
      * Creates the ID from the file path.
      */
-    public static function createId(SplFileInfo $file): string
+    public static function createIdFromFile(SplFileInfo $file): string
     {
-        $relativepath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
+        $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.'.$file->getExtension())));
         // case of "README" -> index
         $basename = (string) str_ireplace('readme', 'index', $basename);
         // case of section's index: "section/index" -> "section"
-        if (!empty($relativepath) && PrefixSuffix::sub($basename) == 'index') {
-            // case of a localized section
+        if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
+            // case of a localized section: "section/index.fr" -> "section.fr"
             if (PrefixSuffix::hasSuffix($basename)) {
-                return $relativepath.'.'.PrefixSuffix::getSuffix($basename);
+                return $relativePath.'.'.PrefixSuffix::getSuffix($basename);
             }
 
-            return $relativepath;
+            return $relativePath;
         }
 
-        return trim(Util::joinPath($relativepath, $basename), '/');
+        return trim(Util::joinPath($relativePath, $basename), '/');
     }
 
     /**
@@ -315,8 +315,6 @@ class Page extends Item
      */
     public function setPath(string $path): self
     {
-        $path = self::slugify(PrefixSuffix::sub($path));
-
         // case of homepage
         if ($path == 'index') {
             $this->path = '';
@@ -524,13 +522,7 @@ class Page extends Item
     public function setVariable(string $name, $value): self
     {
         $this->filterBool($value);
-        /**
-         * handle variable by its name.
-         */
         switch ($name) {
-            /**
-             * date: 2012-10-08.
-             */
             case 'date':
             case 'updated':
                 try {
@@ -540,12 +532,12 @@ class Page extends Item
                 }
                 $this->offsetSet($name, $date);
                 break;
-            /**
-             * schedule:
-             *   publish: 2012-10-08
-             *   expiry: 2012-10-09.
-             */
+
             case 'schedule':
+                /*
+                 * publish: 2012-10-08
+                 * expiry: 2012-10-09
+                 */
                 $this->offsetSet('published', false);
                 if (is_array($value)) {
                     if (array_key_exists('publish', $value) && Util\Date::toDatetime($value['publish']) <= Util\Date::toDatetime('now')) {
@@ -556,22 +548,12 @@ class Page extends Item
                     }
                 }
                 break;
-            /**
-             * draft: true = published: false.
-             */
             case 'draft':
+                // draft: true = published: false
                 if ($value === true) {
                     $this->offsetSet('published', false);
                 }
                 break;
-            /**
-             * @see setPath()
-             * @see setSlug()
-             *
-             * e.g.:
-             *   path: about/about
-             *   slug: about
-             */
             case 'path':
             case 'slug':
                 $slugify = self::slugify((string) $value);

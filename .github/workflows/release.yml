@@ -1,4 +1,4 @@
-name: 'Release cecil.phar'
+name: 'Release'
 
 env:
   PHP_VERSION: '7.4'
@@ -9,11 +9,13 @@ on:
       - published
 
 jobs:
-  test_and_build:
+  build:
     name: Build cecil.phar
     runs-on: ubuntu-latest
     outputs:
       previous_release: ${{ steps.previous_release.outputs.tag }}
+      version: ${{ steps.get_version.outputs.version }}
+      shasum: ${{ steps.sha256.outputs.shasum }}
 
     steps:
     - name: Checkout source code
@@ -55,8 +57,10 @@ jobs:
     - name: Run build test
       run: composer run-script test
 
-    - name: Write version
+    - name: Get version
+      id: get_version
       run: |
+        echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
         echo "${GITHUB_REF#refs/tags/}" > VERSION
 
     - name: Build cecil.phar
@@ -81,6 +85,11 @@ jobs:
         php cecil.phar build skeleton -vvv
         php cecil.phar show:content skeleton
 
+    - name: Set SHA256
+      id: sha256
+      run: |
+        echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
+
     - name: Upload cecil.phar
       uses: actions/upload-artifact@v3
       with:
@@ -91,7 +100,7 @@ jobs:
   deploy_to_github:
     name: Deploy cecil.phar to GitHub
     runs-on: ubuntu-latest
-    needs: test_and_build
+    needs: build
 
     steps:
     - name: Download cecil.phar
@@ -119,7 +128,7 @@ jobs:
       id: changelog
       uses: jaywcjlove/changelog-generator@v1.6.1
       with:
-        base-ref: ${{ needs.test_and_build.outputs.previous_release }}
+        base-ref: ${{ needs.build.outputs.previous_release }}
         token: ${{ secrets.GITHUB_TOKEN }}
         filter: (^[U|u]pdate|Merge)
 
@@ -136,7 +145,7 @@ jobs:
   deploy_to_website:
     name: Deploy cecil.phar to website
     runs-on: ubuntu-latest
-    needs: test_and_build
+    needs: build
     if: "!github.event.release.prerelease"
 
     steps:
@@ -155,3 +164,19 @@ jobs:
       run: bash ./scripts/deploy-dist.sh
       env:
         GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
+
+  update_homebrew_formula:
+    name: Update Homebrew Formulae
+    runs-on: macos-latest
+    needs: [build, deploy_to_github]
+
+    steps:
+    - name: Bump Formula PR
+      env:
+        HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.REPOS_TOKEN }}
+      run: |
+        brew tap cecilapp/cecil
+        brew bump-formula-pr -f --version=${{ needs.build.outputs.version }} --no-browse --no-audit \
+        --sha256=${{ needs.build.outputs.shasum }} \
+        --url="https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar" \
+        cecilapp/cecil/cecil

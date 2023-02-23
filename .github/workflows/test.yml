@@ -1,4 +1,4 @@
-name: 'Tests suite'
+name: 'Tests'
 
 on:
   workflow_dispatch:

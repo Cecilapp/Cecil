@@ -23,7 +23,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Import extends AbstractStep
 {
-    const THEME_CONFIG_FILE = 'config.yml';
+    public const THEME_CONFIG_FILE = 'config.yml';
 
     /**
      * {@inheritdoc}
@@ -52,10 +52,10 @@ class Import extends AbstractStep
     {
         $themes = array_reverse((array) $this->config->getTheme());
         $count = 0;
-        $max = count($themes);
+        $total = count($themes);
         foreach ($themes as $theme) {
             $count++;
-            $themeConfigFile = $this->config->getThemesPath().'/'.$theme.'/'.self::THEME_CONFIG_FILE;
+            $themeConfigFile = Util::joinFile($this->config->getThemesPath(), $theme, self::THEME_CONFIG_FILE);
             $message = \sprintf('"%s": no configuration file', $theme);
             if (Util\File::getFS()->exists($themeConfigFile)) {
                 if (false === $config = Util\File::fileGetContents($themeConfigFile)) {
@@ -66,7 +66,7 @@ class Import extends AbstractStep
                 $message = \sprintf('Theme "%s" imported', $theme);
             }
 
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }
 }

@@ -52,7 +52,7 @@ class Serve extends AbstractCommand
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
                     new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),
-                    new InputOption('clear-cache', null, InputOption::VALUE_NONE, 'Clear cache before build'),
+                    new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 ])
             )
             ->setHelp('Starts the live-reloading-built-in web server');
@@ -111,8 +111,12 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = '--postprocess';
             $buildProcessArguments[] = $postprocess;
         }
-        if ($clearcache) {
+        if ($clearcache === null) {
             $buildProcessArguments[] = '--clear-cache';
+        }
+        if (!empty($clearcache)) {
+            $buildProcessArguments[] = '--clear-cache';
+            $buildProcessArguments[] = $clearcache;
         }
         if ($verbose) {
             $buildProcessArguments[] = '-'.str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
@@ -139,7 +143,7 @@ class Serve extends AbstractCommand
         // (re)builds before serve
         $buildProcess->run($processOutputCallback);
         if ($buildProcess->isSuccessful()) {
-            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
         }
         if ($buildProcess->getExitCode() !== 0) {
             return 1;
@@ -183,7 +187,7 @@ class Serve extends AbstractCommand
 
                         $buildProcess->run($processOutputCallback);
                         if ($buildProcess->isSuccessful()) {
-                            $this->fs->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+                            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
                         }
 
                         $output->writeln('<info>Server is runnning...</info>');
@@ -212,19 +216,19 @@ class Serve extends AbstractCommand
                 $root = Util\Plateform::getPharPath().'/';
             }
             // copying router
-            $this->fs->copy(
+            Util\File::getFS()->copy(
                 $root.'/resources/server/router.php',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
             // copying livereload JS
-            $this->fs->copy(
+            Util\File::getFS()->copy(
                 $root.'/resources/server/livereload.js',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js'),
                 true
             );
             // copying baseurl text file
-            $this->fs->dumpFile(
+            Util\File::getFS()->dumpFile(
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
                 \sprintf(
                     '%s;%s',
@@ -245,13 +249,13 @@ class Serve extends AbstractCommand
      *
      * @throws RuntimeException
      */
-    private function tearDownServer(): void
+    public function tearDownServer(): void
     {
         $this->output->writeln('');
         $this->output->writeln('<comment>Server stopped.</comment>');
 
         try {
-            $this->fs->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
+            Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException($e->getMessage());
         }

@@ -231,6 +231,14 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
+    public function reverse(): CollectionInterface
+    {
+        return new static($this->getId(), array_reverse($this->items)); /** @phpstan-ignore-line */
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filter(\Closure $callback): CollectionInterface
     {
         return new static($this->getId(), array_filter($this->items, $callback)); /** @phpstan-ignore-line */

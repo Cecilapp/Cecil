@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Step\Pages;
 
 use Cecil\Builder;
+use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Exception\RuntimeException;
@@ -62,17 +63,30 @@ class Render extends AbstractStep
         // adds global variables
         $this->addGlobals();
 
-        // collects published pages
-        /** @var Page $page */
-        $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
-            return !empty($page->getVariable('published'));
-        });
-        $max = count($filteredPages);
+        /** @var Collection $pages */
+        $pages = $this->builder->getPages()
+            // published only
+            ->filter(function (Page $page) {
+                return (bool) $page->getVariable('published');
+            })
+            // enrichs some variables
+            ->map(function (Page $page) {
+                $formats = $this->getOutputFormats($page);
+                // output formats
+                $page->setVariable('output', $formats);
+                // alternates formats
+                $page->setVariable('alternates', $this->getAlternates($formats));
+                // translations
+                $page->setVariable('translations', $this->getTranslations($page));
+
+                return $page;
+            });
+        $total = count($pages);
 
         // renders each page
         $count = 0;
         /** @var Page $page */
-        foreach ($filteredPages as $page) {
+        foreach ($pages as $page) {
             $count++;
             $rendered = [];
 
@@ -84,11 +98,8 @@ class Render extends AbstractStep
             // global site variables
             $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $language));
 
-            // get Page's output formats
-            $formats = $this->getOutputFormats($page);
-            $page->setVariable('output', $formats);
-
             // excluded format(s)?
+            $formats = (array) $page->getVariable('output');
             foreach ($formats as $key => $format) {
                 if ($exclude = $this->config->getOutputFormatProperty($format, 'exclude')) {
                     // ie:
@@ -106,11 +117,6 @@ class Render extends AbstractStep
                     }
                 }
             }
-
-            // get and set alternates links
-            $page->setVariable('alternates', $this->getAlternates($formats));
-            // get and set translations
-            $page->setVariable('translations', $this->getTranslations($page));
 
             // renders each output format
             foreach ($formats as $format) {
@@ -161,7 +167,7 @@ class Render extends AbstractStep
                 ($page->getId() ?: 'index'),
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
             );
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
+            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }
 
@@ -210,27 +216,31 @@ class Render extends AbstractStep
      */
     protected function getOutputFormats(Page $page): array
     {
-        // Get available output formats for the page type.
+        // Get page output format(s) if defined.
         // ie:
-        //   page: [html, json]
-        $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
-
-        if (empty($formats)) {
-            throw new RuntimeException('Configuration key "pagetypeformats" can\'t be empty.');
-        }
-
-        if (!\is_array($formats)) {
-            $formats = [$formats];
-        }
-
-        // Get page output format(s).
-        // ie:
-        //   output: txt
+        // ```yaml
+        // output: txt
+        // ```
         if ($page->getVariable('output')) {
             $formats = $page->getVariable('output');
             if (!\is_array($formats)) {
                 $formats = [$formats];
             }
+
+            return $formats;
+        }
+
+        // Get available output formats for the page type.
+        // ie:
+        // ```yaml
+        // page: [html, json]
+        // ```
+        $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
+        if (empty($formats)) {
+            throw new RuntimeException('Configuration key "pagetypeformats" can\'t be empty.');
+        }
+        if (!\is_array($formats)) {
+            $formats = [$formats];
         }
 
         return $formats;
@@ -264,7 +274,7 @@ class Render extends AbstractStep
     protected function getTranslations(Page $refPage): \Cecil\Collection\Page\Collection
     {
         /** @var Page $page */
-        $filteredPages = $this->builder->getPages()->filter(function (Page $page) use ($refPage) {
+        $pages = $this->builder->getPages()->filter(function (Page $page) use ($refPage) {
             return $page->getId() !== $refPage->getId()
                 && $page->getVariable('langref') == $refPage->getVariable('langref')
                 && $page->getType() == $refPage->getType()
@@ -272,7 +282,7 @@ class Render extends AbstractStep
                 && !$page->getVariable('paginated');
         });
 
-        return $filteredPages;
+        return $pages;
     }
 
     /**
