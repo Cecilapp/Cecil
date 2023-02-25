@@ -115,7 +115,7 @@ jobs:
 
     - name: Run code analyse
       run: |
-        composer run-script code:analyse
+        composer run-script code:analyse:gh
 
     - name: Run code style checker
       run: |
