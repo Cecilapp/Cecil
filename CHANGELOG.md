@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.30.0](https://github.com/Cecilapp/Cecil/compare/7.29.4...7.30.0)
+
+> 23 February 2023
+
+- feat: add base page URL to TOC anchor [`#1619`](https://github.com/Cecilapp/Cecil/pull/1619)
+- chore: update deps [`9c9d511`](https://github.com/Cecilapp/Cecil/commit/9c9d511209212cf8b4c647efdf3cd7a31236d52e)
+
 #### [7.29.4](https://github.com/Cecilapp/Cecil/compare/7.29.3...7.29.4)
 
 > 20 February 2023
