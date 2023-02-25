@@ -20,4 +20,11 @@ use Cecil\Collection\Collection as CecilCollection;
  */
 class Collection extends CecilCollection
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function get(string $id): Vocabulary
+    {
+        return parent::get($id);
+    }
 }
