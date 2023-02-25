@@ -35,7 +35,7 @@ class FileExtensionFilter extends RecursiveFilterIterator
         parent::__construct($iterator);
         if (!empty($extensions)) {
             if (!is_array($extensions)) {
-                $ext = [$extensions];
+                $extensions = [$extensions];
             }
             $this->allowedExt = $extensions;
         }
