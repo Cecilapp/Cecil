@@ -28,16 +28,16 @@ class FileExtensionFilter extends RecursiveFilterIterator
 
     /**
      * @param \RecursiveIterator $iterator
-     * @param string|array       $ext
+     * @param string|array       $extensions
      */
-    public function __construct(\RecursiveIterator $iter, $ext = '')
+    public function __construct(\RecursiveIterator $iterator, $extensions = '')
     {
-        parent::__construct($iter);
-        if (!empty($ext)) {
-            if (!is_array($ext)) {
-                $ext = [$ext];
+        parent::__construct($iterator);
+        if (!empty($extensions)) {
+            if (!is_array($extensions)) {
+                $extensions = [$extensions];
             }
-            $this->allowedExt = $ext;
+            $this->allowedExt = $extensions;
         }
     }
 

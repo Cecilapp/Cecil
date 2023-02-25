@@ -273,7 +273,6 @@ class Render extends AbstractStep
      */
     protected function getTranslations(Page $refPage): \Cecil\Collection\Page\Collection
     {
-        /** @var Page $page */
         $pages = $this->builder->getPages()->filter(function (Page $page) use ($refPage) {
             return $page->getId() !== $refPage->getId()
                 && $page->getVariable('langref') == $refPage->getVariable('langref')

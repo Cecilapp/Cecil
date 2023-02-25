@@ -56,7 +56,6 @@ class Save extends AbstractStep
      */
     public function process(): void
     {
-        /** @var Page $page */
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return !empty($page->getRendered());
         });

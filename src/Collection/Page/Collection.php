@@ -111,4 +111,44 @@ class Collection extends CecilCollection
             return ($options['reverse'] ? -1 : 1) * ($a['weight'] < $b['weight'] ? -1 : 1);
         });
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get(string $id): Page
+    {
+        return parent::get($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function first(): ?Page
+    {
+        return parent::first();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filter(\Closure $callback): self
+    {
+        return parent::filter($callback);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function usort(\Closure $callback = null): self
+    {
+        return parent::usort($callback);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reverse(): self
+    {
+        return parent::reverse();
+    }
 }

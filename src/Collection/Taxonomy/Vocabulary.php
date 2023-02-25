@@ -37,4 +37,12 @@ class Vocabulary extends CecilCollection implements ItemInterface
 
         return $this;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get(string $id): Term
+    {
+        return parent::get($id);
+    }
 }

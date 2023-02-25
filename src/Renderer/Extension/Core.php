@@ -235,7 +235,6 @@ class Core extends SlugifyExtension
         $sort = \SORT_ASC;
 
         $collection = iterator_to_array($collection);
-        /** @var \array $collection */
         array_multisort(array_keys(/** @scrutinizer ignore-type */ $collection), $sort, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
 
         return $collection;
@@ -261,7 +260,6 @@ class Core extends SlugifyExtension
         };
 
         $collection = iterator_to_array($collection);
-        /** @var \array $collection */
         usort(/** @scrutinizer ignore-type */ $collection, $callback);
 
         return $collection;
@@ -286,7 +284,6 @@ class Core extends SlugifyExtension
         };
 
         $collection = iterator_to_array($collection);
-        /** @var \array $collection */
         usort(/** @scrutinizer ignore-type */ $collection, $callback);
 
         return $collection;
@@ -405,7 +402,7 @@ class Core extends SlugifyExtension
     /**
      * Hashing an asset with algo (sha384 by default).
      *
-     * @param string|Asset $path
+     * @param string|Asset $asset
      * @param string       $algo
      *
      * @return string
@@ -810,7 +807,7 @@ class Core extends SlugifyExtension
     /**
      * Returns the dominant hex color of an image asset.
      *
-     * @param string|Asset $path
+     * @param string|Asset $asset
      *
      * @return string
      */

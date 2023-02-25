@@ -39,7 +39,6 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                      * Creates $plural/$term pages (list of pages)
                      * ie: /tags/tag-1/
                      */
-                    /** @var PagesCollection $pages */
                     foreach ($vocabulary as $term) {
                         $pageId = $path = Page::slugify(\sprintf('%s/%s', $plural, $term->getId()));
                         $pages = $term->sortByDate();

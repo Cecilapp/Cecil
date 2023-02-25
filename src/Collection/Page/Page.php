@@ -645,4 +645,12 @@ class Page extends Item
             array_walk_recursive($value, '\Cecil\Util\Str::strToBool');
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId(string $id): self
+    {
+        return parent::setId($id);
+    }
 }
