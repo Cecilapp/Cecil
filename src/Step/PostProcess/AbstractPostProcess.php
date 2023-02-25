@@ -55,7 +55,7 @@ abstract class AbstractPostProcess extends AbstractStep
     {
         $this->setProcessor();
 
-        $extensions = $this->builder->getConfig()->get(\sprintf('postprocess.%s.ext', $this->type));
+        $extensions = (array) $this->builder->getConfig()->get(\sprintf('postprocess.%s.ext', $this->type));
         if (empty($extensions)) {
             throw new RuntimeException(\sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
         }

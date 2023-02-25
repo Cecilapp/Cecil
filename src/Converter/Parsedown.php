@@ -53,7 +53,7 @@ class Parsedown extends \ParsedownToC
         $this->highlighter = new Highlighter();
 
         // options
-        $options = array_merge(['selectors' => $this->builder->getConfig()->get('body.toc')], $options ?? []);
+        $options = array_merge(['selectors' => (array) $this->builder->getConfig()->get('body.toc')], $options ?? []);
 
         parent::__construct($options);
     }
@@ -112,27 +112,27 @@ class Parsedown extends \ParsedownToC
         }
         // video or audio?
         $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
-        if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.video.ext'))) {
+        if (in_array($extension, (array) $this->builder->getConfig()->get('body.links.embed.video.ext'))) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
                 return $link;
             }
             $video = $this->createMediaFromLink($link, 'video');
-            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+            if ((bool) $this->builder->getConfig()->get('body.images.caption.enabled')) {
                 return $this->createFigure($video);
             }
 
             return $video;
         }
-        if (in_array($extension, $this->builder->getConfig()->get('body.links.embed.audio.ext'))) {
+        if (in_array($extension, (array) $this->builder->getConfig()->get('body.links.embed.audio.ext'))) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
                 return $link;
             }
             $audio = $this->createMediaFromLink($link, 'audio');
-            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+            if ((bool) $this->builder->getConfig()->get('body.images.caption.enabled')) {
                 return $this->createFigure($audio);
             }
 
@@ -156,7 +156,7 @@ class Parsedown extends \ParsedownToC
                     ],
                 ],
             ];
-            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+            if ((bool) $this->builder->getConfig()->get('body.images.caption.enabled')) {
                 return $this->createFigure($gist);
             }
 
@@ -196,7 +196,7 @@ class Parsedown extends \ParsedownToC
                     ],
                 ],
             ];
-            if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+            if ((bool) $this->builder->getConfig()->get('body.images.caption.enabled')) {
                 return $this->createFigure($youtube);
             }
 
@@ -223,25 +223,25 @@ class Parsedown extends \ParsedownToC
         $InlineImage['element']['attributes']['src'] = $this->normalizePath($InlineImage['element']['attributes']['src']);
 
         // should be lazy loaded?
-        if ($this->builder->getConfig()->get('body.images.lazy.enabled') && !isset($InlineImage['element']['attributes']['loading'])) {
+        if ((bool) $this->builder->getConfig()->get('body.images.lazy.enabled') && !isset($InlineImage['element']['attributes']['loading'])) {
             $InlineImage['element']['attributes']['loading'] = 'lazy';
         }
 
         // add default class?
-        if ($this->builder->getConfig()->get('body.images.class')) {
-            $InlineImage['element']['attributes']['class'] .= ' '.$this->builder->getConfig()->get('body.images.class');
+        if ((string) $this->builder->getConfig()->get('body.images.class')) {
+            $InlineImage['element']['attributes']['class'] .= ' '.(string) $this->builder->getConfig()->get('body.images.class');
             $InlineImage['element']['attributes']['class'] = trim($InlineImage['element']['attributes']['class']);
         }
 
         // disable remote image handling?
-        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !$this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
+        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !(bool) $this->builder->getConfig()->get('body.images.remote.enabled') ?? true) {
             return $InlineImage;
         }
 
         // create asset
         $assetOptions = ['force_slash' => false];
-        if ($this->builder->getConfig()->get('body.images.remote.fallback.enabled')) {
-            $assetOptions += ['remote_fallback' => $this->builder->getConfig()->get('body.images.remote.fallback.path')];
+        if ((bool) $this->builder->getConfig()->get('body.images.remote.fallback.enabled')) {
+            $assetOptions += ['remote_fallback' => (string) $this->builder->getConfig()->get('body.images.remote.fallback.path')];
         }
         $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
         $InlineImage['element']['attributes']['src'] = $asset;
@@ -253,7 +253,7 @@ class Parsedown extends \ParsedownToC
         $assetResized = null;
         if (isset($InlineImage['element']['attributes']['width'])
             && (int) $InlineImage['element']['attributes']['width'] < $width
-            && $this->builder->getConfig()->get('body.images.resize.enabled')
+            && (bool) $this->builder->getConfig()->get('body.images.resize.enabled')
         ) {
             $width = (int) $InlineImage['element']['attributes']['width'];
 
@@ -280,11 +280,11 @@ class Parsedown extends \ParsedownToC
          * Should be responsive?
          */
         $sizes = '';
-        if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
+        if ((bool) $this->builder->getConfig()->get('body.images.responsive.enabled')) {
             try {
                 if ($srcset = Image::buildSrcset(
                     $assetResized ?? $asset,
-                    $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                    (array) $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
                 )) {
                     $InlineImage['element']['attributes']['srcset'] = $srcset;
                     $sizes = (string) $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
@@ -319,7 +319,7 @@ class Parsedown extends \ParsedownToC
         $image = $InlineImage;
 
         // converts image to WebP and put it in picture > source
-        if ($this->builder->getConfig()->get('body.images.webp.enabled') ?? false
+        if ((bool) $this->builder->getConfig()->get('body.images.webp.enabled') ?? false
             && (($InlineImage['element']['attributes']['src'])['type'] == 'image'
                 && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
         ) {
@@ -332,14 +332,14 @@ class Parsedown extends \ParsedownToC
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
                     throw new RuntimeException(\sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
-                $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], $this->builder->getConfig()->get('assets.images.quality') ?? 75);
+                $assetWebp = Image::convertTopWebp($InlineImage['element']['attributes']['src'], (int) $this->builder->getConfig()->get('assets.images.quality') ?? 75);
                 $srcset = '';
                 // build responsives WebP?
-                if ($this->builder->getConfig()->get('body.images.responsive.enabled')) {
+                if ((bool) $this->builder->getConfig()->get('body.images.responsive.enabled')) {
                     try {
                         $srcset = Image::buildSrcset(
                             $assetWebp,
-                            $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                            (array) $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
                         );
                     } catch (\Exception $e) {
                         $this->builder->getLogger()->debug($e->getMessage());
@@ -379,7 +379,7 @@ class Parsedown extends \ParsedownToC
         }
 
         // if title: put the <img> (or <picture>) in a <figure> and create a <figcaption>
-        if ($this->builder->getConfig()->get('body.images.caption.enabled')) {
+        if ((bool) $this->builder->getConfig()->get('body.images.caption.enabled')) {
             return $this->createFigure($image);
         }
 
@@ -461,7 +461,7 @@ class Parsedown extends \ParsedownToC
      */
     protected function blockFencedCodeComplete($block)
     {
-        if (!$this->builder->getConfig()->get('body.highlight.enabled')) {
+        if (!(bool) $this->builder->getConfig()->get('body.highlight.enabled')) {
             return $block;
         }
         if (!isset($block['element']['text']['attributes'])) {
@@ -542,8 +542,8 @@ class Parsedown extends \ParsedownToC
         // https://regex101.com/r/Rzguzh/1
         $pattern = \sprintf(
             '(\.\.\/)+(\b%s|%s\b)+(\/.*)',
-            $this->builder->getConfig()->get('static.dir'),
-            $this->builder->getConfig()->get('assets.dir')
+            (string) $this->builder->getConfig()->get('static.dir'),
+            (string) $this->builder->getConfig()->get('assets.dir')
         );
         $path = Util::joinPath($path);
         if (!preg_match('/'.$pattern.'/is', $path, $matches)) {

@@ -67,7 +67,7 @@ class UtilExtractTemplates extends AbstractCommand
             $phar->extractTo($this->getBuilder()->getConfig()->getLayoutsPath(), $templatesList, $force);
             Util\File::getFS()->mirror(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), (string) $this->getBuilder()->getConfig()->get('layouts.internal.dir')), $this->getBuilder()->getConfig()->getLayoutsPath());
             Util\File::getFS()->remove(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), 'resources'));
-            $output->writeln(\sprintf('<info>Built-in templates extracted to "%s".</info>', $this->getBuilder()->getConfig()->get('layouts.dir')));
+            $output->writeln(\sprintf('<info>Built-in templates extracted to "%s".</info>', (string) $this->getBuilder()->getConfig()->get('layouts.dir')));
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));
         }

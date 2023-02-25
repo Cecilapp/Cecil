@@ -56,18 +56,18 @@ class Twig implements RendererInterface
             'cache'            => false,
         ];
         // use Twig cache?
-        if ($this->builder->getConfig()->get('cache.templates.enabled')) {
+        if ((bool) $this->builder->getConfig()->get('cache.templates.enabled')) {
             $loaderOptions = array_replace($loaderOptions, ['cache' => $this->builder->getConfig()->getCacheTemplatesPath()]);
         }
         // create the Twig instance
         $this->twig = new \Twig\Environment($loader, $loaderOptions);
         // set date format
         $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
-            ->setDateFormat($this->builder->getConfig()->get('date.format'));
+            ->setDateFormat((string) $this->builder->getConfig()->get('date.format'));
         // set timezone
         if ($this->builder->getConfig()->has('date.timezone')) {
             $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
-                ->setTimezone($this->builder->getConfig()->get('date.timezone'));
+                ->setTimezone((string) $this->builder->getConfig()->get('date.timezone'));
         }
         /*
          * adds extensions
@@ -80,11 +80,11 @@ class Twig implements RendererInterface
         $this->translator = new Translator(
             $this->builder->getConfig()->getLanguageProperty('locale'),
             new MessageFormatter(new IdentityTranslator()),
-            $this->builder->getConfig()->get('cache.templates.enabled') ? $this->builder->getConfig()->getCacheTranslationsPath() : null,
+            (bool) $this->builder->getConfig()->get('cache.templates.enabled') ? $this->builder->getConfig()->getCacheTranslationsPath() : null,
             $this->builder->isDebug()
         );
-        if ($this->builder->getConfig()->getLanguages()) {
-            foreach ($this->builder->getConfig()->get('translations.formats') as $format) {
+        if (count($this->builder->getConfig()->getLanguages()) > 0) {
+            foreach ((array) $this->builder->getConfig()->get('translations.formats') as $format) {
                 $loader = \sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
                 if (class_exists($loader)) {
                     $this->translator->addLoader($format, new $loader());
@@ -177,7 +177,7 @@ class Twig implements RendererInterface
             array_unshift($locales, substr($locale, 0, 2));
         }
         foreach ($locales as $locale) {
-            foreach ($this->builder->getConfig()->get('translations.formats') as $format) {
+            foreach ((array) $this->builder->getConfig()->get('translations.formats') as $format) {
                 $translationFile = Util::joinPath($translationsDir, \sprintf('messages.%s.%s', $locale, $format));
                 if (Util\File::getFS()->exists($translationFile)) {
                     $this->translator->addResource($format, $translationFile, $locale);

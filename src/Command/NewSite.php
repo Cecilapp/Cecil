@@ -87,10 +87,10 @@ class NewSite extends AbstractCommand
             Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), self::CONFIG_FILE), $configYaml);
             // files copy
             foreach ([
-                $this->getBuilder()->getConfig()->get('pages.dir'),
-                $this->getBuilder()->getConfig()->get('layouts.dir'),
-                $this->getBuilder()->getConfig()->get('static.dir'),
-                $this->getBuilder()->getConfig()->get('assets.dir'),
+                (string) $this->getBuilder()->getConfig()->get('pages.dir'),
+                (string) $this->getBuilder()->getConfig()->get('layouts.dir'),
+                (string) $this->getBuilder()->getConfig()->get('static.dir'),
+                (string) $this->getBuilder()->getConfig()->get('assets.dir'),
             ] as $value) {
                 Util\File::getFS()->mirror(
                     Util::joinPath($root, 'resources/skeleton', $value),

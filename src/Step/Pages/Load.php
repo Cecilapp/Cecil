@@ -67,11 +67,11 @@ class Load extends AbstractStep
             // is the page path starts with the `pages.dir` configuration option?
             // (i.e.: `pages/...`, `/pages/...`, `./pages/...`)
             $pagePathAsArray = explode(DIRECTORY_SEPARATOR, $this->page);
-            if ($pagePathAsArray[0] == $this->builder->getConfig()->get('pages.dir')) {
+            if ($pagePathAsArray[0] == (string) $this->builder->getConfig()->get('pages.dir')) {
                 unset($pagePathAsArray[0]);
                 $this->page = implode(DIRECTORY_SEPARATOR, $pagePathAsArray);
             }
-            if ($pagePathAsArray[0] == '.' && $pagePathAsArray[1] == $this->builder->getConfig()->get('pages.dir')) {
+            if ($pagePathAsArray[0] == '.' && $pagePathAsArray[1] == (string) $this->builder->getConfig()->get('pages.dir')) {
                 unset($pagePathAsArray[0]);
                 unset($pagePathAsArray[1]);
                 $this->page = implode(DIRECTORY_SEPARATOR, $pagePathAsArray);

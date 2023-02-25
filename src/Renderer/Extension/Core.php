@@ -510,7 +510,7 @@ class Core extends SlugifyExtension
         $htmlAttributes = '';
         $preload = false;
         $responsive = $this->config->get('assets.images.responsive.enabled') ?? false;
-        $webp = $this->config->get('assets.images.webp.enabled') ?? false;
+        $webp = (bool) $this->config->get('assets.images.webp.enabled') ?? false;
         extract($options, EXTR_IF_EXISTS);
 
         // builds HTML attributes
@@ -630,8 +630,8 @@ class Core extends SlugifyExtension
     {
         $string = $string ?? '';
 
-        $separator = $this->builder->getConfig()->get('body.excerpt.separator');
-        $capture = $this->builder->getConfig()->get('body.excerpt.capture');
+        $separator = (string) $this->builder->getConfig()->get('body.excerpt.separator');
+        $capture = (string) $this->builder->getConfig()->get('body.excerpt.capture');
         extract($options, EXTR_IF_EXISTS);
 
         // https://regex101.com/r/n9TWHF/1
