@@ -1,7 +1,6 @@
 name: dependabot-auto-merge
 
 on:
-  workflow_dispatch:
   pull_request_target:
 
 permissions:
