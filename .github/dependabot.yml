@@ -1,5 +1,4 @@
-# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 version: 2
 updates:
   - package-ecosystem: "composer"
@@ -7,7 +6,7 @@ updates:
     schedule:
       interval: "daily"
     assignees:
-      - "Narno"
+      - "ArnaudLigny"
     commit-message:
       prefix: "deps prod"
       prefix-development: "deps dev"
@@ -16,5 +15,5 @@ updates:
       - "dependencies"
     rebase-strategy: "auto"
     reviewers:
-      - "Narno"
+      - "ArnaudLigny"
     versioning-strategy: lockfile-only
