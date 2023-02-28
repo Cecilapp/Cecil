@@ -3,7 +3,7 @@ version: 2
 updates:
   # PHP dependencies
   - package-ecosystem: "composer"
-    directory: "/" # Location of package manifests
+    directory: "/"
     schedule:
       interval: "daily"
     commit-message:
