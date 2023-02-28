@@ -1,4 +1,4 @@
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+# https://docs.github.com/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates
 version: 2
 updates:
   # PHP dependencies
