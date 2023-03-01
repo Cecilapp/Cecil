@@ -13,7 +13,7 @@ tools:
   php_code_sniffer:
     enabled: true
     config:
-      standard: [PSR1, PSR12]
+      standard: PSR12
   php_cs_fixer:
     enabled: true
     config:
