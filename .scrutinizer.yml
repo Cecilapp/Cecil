@@ -1,20 +1,32 @@
 filter:
   excluded_paths:
-  - 'dist/*'
-  - 'resources/*'
-  - 'tests/*'
+    - 'dist/*'
+    - 'resources/*'
+    - 'tests/*'
   dependency_paths:
-  - 'vendor/*'
+    - 'vendor/*'
 
 tools:
   php_analyzer: true
   php_changetracking: true
   php_code_coverage: false
-  php_code_sniffer: true
-  php_cs_fixer: true
+  php_code_sniffer:
+    enabled: true
+    config:
+      standard: [PSR1, PSR12]
+  php_cs_fixer:
+    enabled: true
+    config:
+      level: psr12
   php_mess_detector: true
   php_pdepend: true
   sensiolabs_security_checker: true
+
+coding_style:
+  php:
+    spaces:
+      around_operators:
+        concatenation: true
 
 build:
   environment:
@@ -25,18 +37,18 @@ build:
   nodes:
     analysis:
       #requires:
-      #- is_pull_request: true
+      #  - is_pull_request: true
       tests:
         override:
-        - php-scrutinizer-run
+          - php-scrutinizer-run
     coverage:
       requires:
-      - node: analysis
-      - branch: master
+        - node: analysis
+        - branch: master
       tests:
         override:
-        - command: ./vendor/bin/phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml
-          idle_timeout: 360
-          coverage:
-            file: build/logs/clover.xml
-            format: clover
+          - command: ./vendor/bin/phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml
+            idle_timeout: 360
+            coverage:
+              file: build/logs/clover.xml
+              format: clover
