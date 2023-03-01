@@ -28,7 +28,7 @@ coding_style:
       around_operators:
         concatenation: true
       before_parentheses:
-        function_declaration: true
+        function_declaration: false
         closure_definition: true
       other:
         after_type_cast: true
