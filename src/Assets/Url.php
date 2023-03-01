@@ -93,6 +93,9 @@ class Url
                     }
                 }
                 $this->url = $base . '/' . ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
+                if ($value->hasVariable('canonical') && $value->getVariable('canonical')['url']) { // canonical URL
+                    $this->url = $value->getVariable('canonical')['url'];
+                }
                 break;
             case $value instanceof Asset:
                 $this->url = $base . '/' . ltrim($value['path'], '/');

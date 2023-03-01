@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-01-18
+updated: 2023-03-01
 alias: documentation/layouts
 -->
 # Templates
@@ -333,23 +333,24 @@ Create a valid URL for a page, an asset, a page ID or a path.
 {{ url(value, {options}) }}
 ```
 
-| Option    | Description                                 | Type    | Default |
-| --------- | ------------------------------------------- | ------- | ------- |
-| canonical | Prefixes the relative URL with `baseurl`.   | boolean | `false` |
-| format    | Defines page output format (e.g.: `html`).  | string  | `html`  |
-| language  | Trying to force page language (e.g.: `fr`). | string  | null    |
+| Option    | Description                                                                                                            | Type    | Default |
+| --------- | ---------------------------------------------------------------------------------------------------------------------- | ------- | ------- |
+| canonical | Prefixes path with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-keys). | boolean | `false` |
+| format    | Defines page [output format](4-Configuration.md#formats) (e.g.: `json`).                                               | string  | `html`  |
+| language  | Trying to force page [language](4-Configuration.md#languages) (e.g.: `fr`).                                            | string  | null    |
 
 _Examples:_
 
 ```twig
 # page
 {{ url(page) }}
+{{ url(page, {canonical: true}) }}
 {{ url(page, {format: json}) }}
+{{ url(page, {language: fr}) }}
 # asset
-{{ url(asset('styles.css'), {canonical: true}) }}
+{{ url(asset('styles.css')) }}
 # page ID
 {{ url('page-id') }}
-{{ url('page-id', {'language': 'fr'}) }}
 # path
 {{ url(menu.url) }}
 {{ url('tags/' ~ tag) }}
@@ -361,9 +362,9 @@ For convenience the `url` function is also available as a filter:
 ```twig
 # page
 {{ page|url }}
-{{ page|url({format: json}) }}
+{{ page|url({canonical: true, format: json, language: fr}) }}
 # asset
-{{ asset('styles.css')|url({canonical: true}) }}
+{{ asset('styles.css')|url }}
 ```
 :::
 
