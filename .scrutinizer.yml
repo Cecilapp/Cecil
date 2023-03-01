@@ -27,6 +27,11 @@ coding_style:
     spaces:
       around_operators:
         concatenation: true
+      before_parentheses:
+        function_declaration: true
+        closure_definition: true
+      other:
+        after_type_cast: true
 
 build:
   environment:
