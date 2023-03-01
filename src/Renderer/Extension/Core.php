@@ -214,7 +214,7 @@ class Core extends SlugifyExtension
     {
         $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
             // is a dedicated getter exists?
-            $method = 'get'.ucfirst($variable);
+            $method = 'get' . ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
                 return $page->getType() == Type::PAGE() && !$page->isVirtual() && true;
             }
@@ -541,10 +541,12 @@ class Core extends SlugifyExtension
         if ($asset['type'] == 'image') {
             // responsive
             $sizes = '';
-            if ($responsive && $srcset = Image::buildSrcset(
-                $asset,
-                $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
-            )) {
+            if (
+                $responsive && $srcset = Image::buildSrcset(
+                    $asset,
+                    $this->config->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                )
+            ) {
                 $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
                 $sizes = $this->config->get('assets.images.responsive.sizes.default') ?? '100vw';
                 if (isset($attributes['class'])) {
@@ -555,7 +557,7 @@ class Core extends SlugifyExtension
 
             // <img> element
             $img = \sprintf(
-                '<img src="%s" width="'.($asset->getWidth() ?: '').'" height="'.($asset->getHeight() ?: '').'"%s>',
+                '<img src="%s" width="' . ($asset->getWidth() ?: '') . '" height="' . ($asset->getHeight() ?: '') . '"%s>',
                 $this->url($asset, $options),
                 $htmlAttributes
             );
@@ -632,8 +634,8 @@ class Core extends SlugifyExtension
         extract($options, EXTR_IF_EXISTS);
 
         // https://regex101.com/r/n9TWHF/1
-        $pattern = '(.*)<!--[[:blank:]]?('.$separator.')[[:blank:]]?-->(.*)';
-        preg_match('/'.$pattern.'/is', $string, $matches);
+        $pattern = '(.*)<!--[[:blank:]]?(' . $separator . ')[[:blank:]]?-->(.*)';
+        preg_match('/' . $pattern . '/is', $string, $matches);
 
         if (empty($matches)) {
             return $string;
@@ -834,7 +836,7 @@ class Core extends SlugifyExtension
         }
         $hex = ltrim($variable, '#');
         if (strlen($hex) == 3) {
-            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
         }
         $c = hexdec($hex);
 

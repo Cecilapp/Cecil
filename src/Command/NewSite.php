@@ -67,7 +67,7 @@ class NewSite extends AbstractCommand
             // define root path
             $root = realpath(Util::joinFile(__DIR__, '/../../'));
             if (Util\Plateform::isPhar()) {
-                $root = Util\Plateform::getPharPath().'/';
+                $root = Util\Plateform::getPharPath() . '/';
             }
             // ask for basic configuration
             $output->writeln('Creating a new website...');
@@ -86,12 +86,14 @@ class NewSite extends AbstractCommand
             $configYaml = Yaml::dump($config);
             Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), self::CONFIG_FILE), $configYaml);
             // files copy
-            foreach ([
-                (string) $this->getBuilder()->getConfig()->get('pages.dir'),
-                (string) $this->getBuilder()->getConfig()->get('layouts.dir'),
-                (string) $this->getBuilder()->getConfig()->get('static.dir'),
-                (string) $this->getBuilder()->getConfig()->get('assets.dir'),
-            ] as $value) {
+            foreach (
+                [
+                    (string) $this->getBuilder()->getConfig()->get('pages.dir'),
+                    (string) $this->getBuilder()->getConfig()->get('layouts.dir'),
+                    (string) $this->getBuilder()->getConfig()->get('static.dir'),
+                    (string) $this->getBuilder()->getConfig()->get('assets.dir'),
+                ] as $value
+            ) {
                 Util\File::getFS()->mirror(
                     Util::joinPath($root, 'resources/skeleton', $value),
                     Util::joinPath($this->getPath(), $value)

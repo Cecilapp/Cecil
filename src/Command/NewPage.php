@@ -83,7 +83,7 @@ class NewPage extends AbstractCommand
                 '%s%s%s%s%s',
                 (string) $this->getBuilder()->getConfig()->get('pages.dir'),
                 DIRECTORY_SEPARATOR,
-                empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR,
+                empty($dirname) ? '' : $dirname . DIRECTORY_SEPARATOR,
                 $datePrefix,
                 $filename
             );
@@ -104,7 +104,7 @@ class NewPage extends AbstractCommand
             }
 
             // creates a new file
-            $model = $this->findModel(\sprintf('%s%s', empty($dirname) ? '' : $dirname.DIRECTORY_SEPARATOR, $filename));
+            $model = $this->findModel(\sprintf('%s%s', empty($dirname) ? '' : $dirname . DIRECTORY_SEPARATOR, $filename));
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],

@@ -62,7 +62,7 @@ class Image
         $format = 'webp';
         $image = ImageManager::make($assetWebp['content']);
         $assetWebp['content'] = (string) $image->encode($format, $quality);
-        $assetWebp['path'] = preg_replace('/\.'.$asset['ext'].'$/m', ".$format", $asset['path']);
+        $assetWebp['path'] = preg_replace('/\.' . $asset['ext'] . '$/m', ".$format", $asset['path']);
         $assetWebp['ext'] = $format;
 
         return $assetWebp;
@@ -110,7 +110,7 @@ class Image
         $classArray = explode(' ', $class);
         foreach ($classArray as $class) {
             if (array_key_exists($class, $config)) {
-                $result = $config[$class].', ';
+                $result = $config[$class] . ', ';
             }
         }
         if (!empty($result)) {

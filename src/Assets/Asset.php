@@ -136,7 +136,7 @@ class Asset implements \ArrayAccess
                     $this->data['path_source'] = $file[$i]['path'];
                     $this->data['path'] = $file[$i]['path'];
                     if (!empty($filename)) { /** @phpstan-ignore-line */
-                        $this->data['path'] = '/'.ltrim($filename, '/');
+                        $this->data['path'] = '/' . ltrim($filename, '/');
                     }
                     $this->data['ext'] = $file[$i]['ext'];
                     $this->data['type'] = $file[$i]['type'];
@@ -154,10 +154,10 @@ class Asset implements \ArrayAccess
                 switch ($this->data['ext']) {
                     case 'scss':
                     case 'css':
-                        $this->data['path'] = '/styles.'.$file[0]['ext'];
+                        $this->data['path'] = '/styles.' . $file[0]['ext'];
                         break;
                     case 'js':
-                        $this->data['path'] = '/scripts.'.$file[0]['ext'];
+                        $this->data['path'] = '/scripts.' . $file[0]['ext'];
                         break;
                     default:
                         throw new RuntimeException(\sprintf('Asset bundle supports "%s" files only.', '.scss, .css and .js'));
@@ -216,8 +216,8 @@ class Asset implements \ArrayAccess
 
         $fingerprint = hash('md5', $this->data['content_source']);
         $this->data['path'] = preg_replace(
-            '/\.'.$this->data['ext'].'$/m',
-            ".$fingerprint.".$this->data['ext'],
+            '/\.' . $this->data['ext'] . '$/m',
+            ".$fingerprint." . $this->data['ext'],
             $this->data['path']
         );
 
@@ -264,7 +264,7 @@ class Asset implements \ArrayAccess
             if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
                 $importDir = [];
                 $assetDir = (string) $this->config->get('assets.dir');
-                $assetDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR.$assetDir.DIRECTORY_SEPARATOR);
+                $assetDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR . $assetDir . DIRECTORY_SEPARATOR);
                 $fileRelPath = substr($this->data['file'], $assetDirPos + 8);
                 $filePath = Util::joinFile($this->config->getOutputPath(), $fileRelPath);
                 $importDir[] = dirname($filePath);
@@ -347,8 +347,8 @@ class Asset implements \ArrayAccess
                     throw new RuntimeException(\sprintf('Not able to minify "%s"', $this->data['path']));
             }
             $this->data['path'] = preg_replace(
-                '/\.'.$this->data['ext'].'$/m',
-                '.min.'.$this->data['ext'],
+                '/\.' . $this->data['ext'] . '$/m',
+                '.min.' . $this->data['ext'],
                 $this->data['path']
             );
             $this->data['content'] = $minifier->minify();
@@ -437,7 +437,7 @@ class Asset implements \ArrayAccess
             } catch (\Exception $e) {
                 throw new RuntimeException(\sprintf('Not able to resize image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }
-            $assetResized->data['path'] = '/'.Util::joinPath(
+            $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 (string) $this->config->get('assets.images.resize.dir'),
                 (string) $width,
@@ -625,7 +625,7 @@ class Asset implements \ArrayAccess
             $force_slash = true;
         }
         if ($force_slash) {
-            $path = '/'.ltrim($path, '/');
+            $path = '/' . ltrim($path, '/');
         }
 
         list($type, $subtype) = Util\File::getMimeType($filePath);
@@ -672,7 +672,7 @@ class Asset implements \ArrayAccess
                 $urlHost,
                 $this->sanitize($urlPath),
                 $urlQuery ? "-$urlQuery" : '',
-                $urlQuery && $extension ? ".$extension" : ''
+                $urlQuery && $extension ? " . $extension" : ''
             ));
             $filePath = Util::joinFile($this->config->getCacheAssetsRemotePath(), $relativePath);
             if (!file_exists($filePath)) {

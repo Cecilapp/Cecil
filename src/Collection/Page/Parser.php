@@ -57,7 +57,7 @@ class Parser
                 throw new RuntimeException('Cannot read file');
             }
             preg_match(
-                '/'.self::PATTERN.'/s',
+                '/' . self::PATTERN . '/s',
                 $this->file->getContents(),
                 $matches
             );

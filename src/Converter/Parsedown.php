@@ -144,14 +144,14 @@ class Parsedown extends \ParsedownToC
         // GitHub Gist link?
         // https://regex101.com/r/QmCiAL/1
         $pattern = 'https:\/\/gist\.github.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
-        if (preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
+        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
             $gist = [
                 'extent'  => $link['extent'],
                 'element' => [
                     'name'       => 'script',
                     'text'       => $link['element']['text'],
                     'attributes' => [
-                        'src'   => $matches[0].'.js',
+                        'src'   => $matches[0] . '.js',
                         'title' => $link['element']['attributes']['title'],
                     ],
                 ],
@@ -165,7 +165,7 @@ class Parsedown extends \ParsedownToC
         // Youtube link?
         // https://regex101.com/r/gznM1j/1
         $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
-        if (preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
+        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
             $iframe = [
                 'element' => [
                     'name'       => 'iframe',
@@ -174,7 +174,7 @@ class Parsedown extends \ParsedownToC
                         'width'           => '560',
                         'height'          => '315',
                         'title'           => $link['element']['text'],
-                        'src'             => 'https://www.youtube.com/embed/'.$matches[1],
+                        'src'             => 'https://www.youtube.com/embed/' . $matches[1],
                         'frameborder'     => '0',
                         'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
                         'allowfullscreen' => '',
@@ -229,7 +229,7 @@ class Parsedown extends \ParsedownToC
 
         // add default class?
         if ((string) $this->builder->getConfig()->get('body.images.class')) {
-            $InlineImage['element']['attributes']['class'] .= ' '.(string) $this->builder->getConfig()->get('body.images.class');
+            $InlineImage['element']['attributes']['class'] .= ' ' . (string) $this->builder->getConfig()->get('body.images.class');
             $InlineImage['element']['attributes']['class'] = trim($InlineImage['element']['attributes']['class']);
         }
 
@@ -251,7 +251,8 @@ class Parsedown extends \ParsedownToC
          * Should be resized?
          */
         $assetResized = null;
-        if (isset($InlineImage['element']['attributes']['width'])
+        if (
+            isset($InlineImage['element']['attributes']['width'])
             && (int) $InlineImage['element']['attributes']['width'] < $width
             && (bool) $this->builder->getConfig()->get('body.images.resize.enabled')
         ) {
@@ -282,10 +283,12 @@ class Parsedown extends \ParsedownToC
         $sizes = '';
         if ((bool) $this->builder->getConfig()->get('body.images.responsive.enabled')) {
             try {
-                if ($srcset = Image::buildSrcset(
-                    $assetResized ?? $asset,
-                    (array) $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
-                )) {
+                if (
+                    $srcset = Image::buildSrcset(
+                        $assetResized ?? $asset,
+                        (array) $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                    )
+                ) {
                     $InlineImage['element']['attributes']['srcset'] = $srcset;
                     $sizes = (string) $this->builder->getConfig()->get('assets.images.responsive.sizes.default');
                     if (isset($InlineImage['element']['attributes']['class'])) {
@@ -319,9 +322,10 @@ class Parsedown extends \ParsedownToC
         $image = $InlineImage;
 
         // converts image to WebP and put it in picture > source
-        if ((bool) $this->builder->getConfig()->get('body.images.webp.enabled') ?? false
+        if (
+            (bool) $this->builder->getConfig()->get('body.images.webp.enabled') ?? false
             && (($InlineImage['element']['attributes']['src'])['type'] == 'image'
-                && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
+            && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
         ) {
             try {
                 // InlineImage src must be an Asset instance
@@ -443,7 +447,7 @@ class Parsedown extends \ParsedownToC
 
             return $block;
         }
-        $block['element']['text'] .= $line['text']."\n";
+        $block['element']['text'] .= $line['text'] . "\n";
 
         return $block;
     }
@@ -546,7 +550,7 @@ class Parsedown extends \ParsedownToC
             (string) $this->builder->getConfig()->get('assets.dir')
         );
         $path = Util::joinPath($path);
-        if (!preg_match('/'.$pattern.'/is', $path, $matches)) {
+        if (!preg_match('/' . $pattern . '/is', $path, $matches)) {
             return $path;
         }
 

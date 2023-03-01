@@ -46,7 +46,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
             foreach ($this->config->getLanguages() as $language) {
                 $pageId = !empty($path) ? $path : 'index';
                 if ($language['code'] !== $this->config->getLanguageDefault()) {
-                    $pageId .= '.'.$language['code'];
+                    $pageId .= '.' . $language['code'];
                     // disable multilingual support
                     if (isset($frontmatter['multilingual']) && $frontmatter['multilingual'] === false) {
                         continue;

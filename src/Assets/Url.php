@@ -76,7 +76,7 @@ class Url
 
         // value is empty (i.e.: `url()`)
         if (is_null($value) || empty($value) || $value == '/') {
-            $this->url = $base.'/';
+            $this->url = $base . '/';
 
             return;
         }
@@ -92,10 +92,10 @@ class Url
                         $format = 'html'; // 'html' format by default
                     }
                 }
-                $this->url = $base.'/'.ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
+                $this->url = $base . '/' . ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
                 break;
             case $value instanceof Asset:
-                $this->url = $base.'/'.ltrim($value['path'], '/');
+                $this->url = $base . '/' . ltrim($value['path'], '/');
                 break;
             case is_string($value):
                 // potential Page ID
@@ -118,7 +118,7 @@ class Url
                         );
                         break;
                     default:
-                        $this->url = $base.'/'.$lang.ltrim($value, '/');
+                        $this->url = $base . '/' . $lang . ltrim($value, '/');
                 }
         }
     }

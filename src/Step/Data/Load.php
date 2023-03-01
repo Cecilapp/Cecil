@@ -54,7 +54,7 @@ class Load extends AbstractStep
         $files = Finder::create()
             ->files()
             ->in($this->builder->getConfig()->getDataPath())
-            ->name('/\.('.implode('|', (array) $this->builder->getConfig()->get('data.ext')).')$/')
+            ->name('/\.(' . implode('|', (array) $this->builder->getConfig()->get('data.ext')) . ')$/')
             ->sortByName(true);
         $total = count($files);
 
@@ -100,7 +100,7 @@ class Load extends AbstractStep
                     return;
             }
 
-            $basename = $file->getBasename('.'.$file->getExtension());
+            $basename = $file->getBasename('.' . $file->getExtension());
             $subpath = \Cecil\Util\File::getFS()->makePathRelative(
                 $file->getPath(),
                 $this->builder->getConfig()->getDataPath()

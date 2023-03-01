@@ -26,10 +26,12 @@ class Collection extends CecilCollection
     public function showable(): self
     {
         return $this->filter(function (Page $page) {
-            if ($page->getVariable('published') === true
+            if (
+                $page->getVariable('published') === true
                 && $page->isVirtual() === false
                 && $page->getVariable('redirect') === null
-                && $page->getVariable('exclude') !== true) {
+                && $page->getVariable('exclude') !== true
+            ) {
                 return true;
             }
         });
