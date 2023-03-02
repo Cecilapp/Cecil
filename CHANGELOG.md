@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.30.3](https://github.com/Cecilapp/Cecil/compare/7.30.2...7.30.3)
+
+> 2 March 2023
+
+- fix: regressions from a previous release [`#1638`](https://github.com/Cecilapp/Cecil/pull/1638)
+
 #### [7.30.2](https://github.com/Cecilapp/Cecil/compare/7.30.1...7.30.2)
 
 > 2 March 2023
