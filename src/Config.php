@@ -171,8 +171,8 @@ class Config
     public function get(string $key, ?string $language = null, bool $fallback = true)
     {
         if ($language !== null) {
-            $index = $this->getLanguageIndex($language);
-            $keyLang = \sprintf('languages.%s.config.%s', $index, $key);
+            $langIndex = $this->getLanguageIndex($language);
+            $keyLang = "languages.$langIndex.config.$key";
             if ($this->data->has($keyLang)) {
                 return $this->data->get($keyLang);
             }
@@ -180,7 +180,6 @@ class Config
                 return null;
             }
         }
-
         if ($this->data->has($key)) {
             return $this->data->get($key);
         }
