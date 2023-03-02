@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.30.1](https://github.com/Cecilapp/Cecil/compare/7.30.0...7.30.1)
+
+> 1 March 2023
+
+- fix: support custom canonical URL with url() [`#1636`](https://github.com/Cecilapp/Cecil/pull/1636)
+- refactor: code analyse [`#1621`](https://github.com/Cecilapp/Cecil/pull/1621)
+- chore: update deps [`60c6e9e`](https://github.com/Cecilapp/Cecil/commit/60c6e9ecafe603571371a3b73d14d7252055e27b)
+- refactor: CS PSR12 [`764fcbc`](https://github.com/Cecilapp/Cecil/commit/764fcbc116d15e920975f22811638dcbab53414c)
+- refactor: clean code [`38996ea`](https://github.com/Cecilapp/Cecil/commit/38996eacd3391d03a66007b9200b28b883927574)
+- Create dependabot-auto-merge.yml [`a86778c`](https://github.com/Cecilapp/Cecil/commit/a86778c536e1a3a1a7dfa512eb68e95b0c8ab96d)
+- chore: update deps [`b36a500`](https://github.com/Cecilapp/Cecil/commit/b36a500a75fe75cdad253a930a487aadab6859e0)
+- docs: update 'toc' filter example [`e6eaaef`](https://github.com/Cecilapp/Cecil/commit/e6eaaef888cac866934ff0ce9bc9974f16125eaa)
+- Rename .github/workflows/workflows/dependabot-auto-merge.yml to .github/workflows/dependabot-auto-merge.yml [`205ad83`](https://github.com/Cecilapp/Cecil/commit/205ad83caca3554215776a821708c85a81c52fa0)
+
 #### [7.30.0](https://github.com/Cecilapp/Cecil/compare/7.29.4...7.30.0)
 
 > 23 February 2023
