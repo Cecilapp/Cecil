@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.30.2](https://github.com/Cecilapp/Cecil/compare/7.30.1...7.30.2)
+
+> 2 March 2023
+
+- fix: canonical URL [`#1637`](https://github.com/Cecilapp/Cecil/pull/1637)
+
 #### [7.30.1](https://github.com/Cecilapp/Cecil/compare/7.30.0...7.30.1)
 
 > 1 March 2023
