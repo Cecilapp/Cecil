@@ -66,6 +66,9 @@ class Asset implements \ArrayAccess
         $this->config = $builder->getConfig();
         $paths = is_array($paths) ? $paths : [$paths];
         array_walk($paths, function ($path) {
+            if (!is_string($path)) {
+                throw new RuntimeException(\sprintf('The path to an asset must be a string (%s given).', gettype($path)));
+            }
             if (empty($path)) {
                 throw new RuntimeException('The path to an asset can\'t be empty.');
             }
