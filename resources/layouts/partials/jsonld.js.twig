@@ -7,8 +7,8 @@
           "@type": "WebSite",
           "name": "{{ site.title }}",
           "description": "{{ site.description }}",
-          "url": "{{ url('/', {canonical: true}) }}",
-          {%- if site.image is defined ~%}
+          "url": "{{ url('/', {canonical: true}) }}"
+          {%- if site.image is defined ~%},
           "image": ["{{ url(site.image, {canonical: true}) }}"]
           {%- endif ~%}
           {%- if site.social is defined ~%},
