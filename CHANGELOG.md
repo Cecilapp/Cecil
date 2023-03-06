@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.30.4](https://github.com/Cecilapp/Cecil/compare/7.30.3...7.30.4)
+
+> 4 March 2023
+
+- fix: case of an asset path is not a string [`#1639`](https://github.com/Cecilapp/Cecil/pull/1639)
+- chore: code cleaning [`1f609aa`](https://github.com/Cecilapp/Cecil/commit/1f609aaefa527f6dcee4058d08d8f148a3837e84)
+- fix: JSON-LD if not site image [`f594ebc`](https://github.com/Cecilapp/Cecil/commit/f594ebc1bbdb720d908721e493229f1fb577053a)
+
 #### [7.30.3](https://github.com/Cecilapp/Cecil/compare/7.30.2...7.30.3)
 
 > 2 March 2023
