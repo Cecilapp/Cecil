@@ -372,8 +372,9 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
+        $quality = $this->config->get('assets.images.quality') ?? 75;
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $tags = ['optimized'];
+        $tags = ["q$quality", 'optimized'];
         if ($this->data['width']) {
             array_unshift($tags, "{$this->data['width']}x");
         }
@@ -381,7 +382,7 @@ class Asset implements \ArrayAccess
         if (!$cache->has($cacheKey)) {
             $message = $this->data['path'];
             $sizeBefore = filesize($filepath);
-            Optimizer::create($this->config->get('assets.images.quality') ?? 75)->optimize($filepath);
+            Optimizer::create($quality)->optimize($filepath);
             $sizeAfter = filesize($filepath);
             if ($sizeAfter < $sizeBefore) {
                 $message = \sprintf(
@@ -421,8 +422,9 @@ class Asset implements \ArrayAccess
         $assetResized = clone $this;
         $assetResized->data['width'] = $width;
 
+        $quality = $this->config->get('assets.images.quality');
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x"]);
+        $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x", "q$quality"]);
         if (!$cache->has($cacheKey)) {
             if ($assetResized->data['type'] !== 'image') {
                 throw new RuntimeException(\sprintf('Not able to resize "%s"', $assetResized->data['path']));
@@ -448,7 +450,7 @@ class Asset implements \ArrayAccess
             );
 
             try {
-                $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $this->config->get('assets.images.quality'));
+                $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $quality);
                 $assetResized->data['height'] = $assetResized->getHeight();
             } catch (\Exception $e) {
                 throw new RuntimeException(\sprintf('Not able to encode image "%s": %s', $assetResized->data['path'], $e->getMessage()));
