@@ -135,6 +135,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('preg_split', [$this, 'pregSplit']),
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
+            new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
             // deprecated
             new \Twig\TwigFilter(
                 'filterBySection',
@@ -845,6 +846,16 @@ class Core extends SlugifyExtension
             'green' => $c >> 8 & 0xFF,
             'blue'  => $c & 0xFF,
         ];
+    }
+
+    /**
+     * Split a string in multiple lines.
+     */
+    public function splitLine(?string $variable, int $max = 18): array
+    {
+        $variable = $variable ?? '';
+
+        return preg_split("/.{0,{$max}}\K(\s+|$)/", $variable, 0, PREG_SPLIT_NO_EMPTY);
     }
 
     /**
