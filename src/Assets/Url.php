@@ -86,10 +86,11 @@ class Url
                 if (!$format) {
                     $format = $value->getVariable('output');
                     if (is_array($value->getVariable('output'))) {
-                        $format = $value->getVariable('output')[0]; // first format by default
+                        $default = array_search('html', $value->getVariable('output')) ?: 0;
+                        $format = $value->getVariable('output')[$default];
                     }
                     if (!$format) {
-                        $format = 'html'; // 'html' format by default
+                        $format = 'html';
                     }
                 }
                 $this->url = $base . '/' . ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
