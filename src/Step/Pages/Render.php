@@ -135,9 +135,13 @@ class Render extends AbstractStep
                         $this->builder->getLogger()->warning($value);
                     }
                     $output = $this->postProcessOutput($output, $page, $format);
-                    $rendered[$format]['output'] = $output;
-                    $rendered[$format]['template']['scope'] = $layout['scope'];
-                    $rendered[$format]['template']['file'] = $layout['file'];
+                    $rendered[$format] = [
+                        'output'   => $output,
+                        'template' => [
+                            'scope' => $layout['scope'],
+                            'file'  => $layout['file'],
+                        ]
+                    ];
                     // profiler
                     if ($this->builder->isDebug()) {
                         $dumper = new \Twig\Profiler\Dumper\HtmlDumper();
