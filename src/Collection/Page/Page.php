@@ -406,11 +406,11 @@ class Page extends Item
     }
 
     /**
-     * Set rendered.
+     * Add rendered.
      */
-    public function setRendered(array $rendered): self
+    public function addRendered(array $rendered): self
     {
-        $this->rendered = $rendered;
+        $this->rendered += $rendered;
 
         return $this;
     }

@@ -142,6 +142,7 @@ class Render extends AbstractStep
                             'file'  => $layout['file'],
                         ]
                     ];
+                    $page->addRendered($rendered);
                     // profiler
                     if ($this->builder->isDebug()) {
                         $dumper = new \Twig\Profiler\Dumper\HtmlDumper();
@@ -162,7 +163,6 @@ class Render extends AbstractStep
                     ));
                 }
             }
-            $page->setRendered($rendered);
             $this->builder->getPages()->replace($page->getId(), $page);
 
             $templates = array_column($rendered, 'template');
