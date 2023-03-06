@@ -9,19 +9,19 @@
     {%~ include 'partials/metatags.html.twig' with {page, site} only ~%}
     <style>{% apply minify_css %}
       {%- include 'partials/new.css.twig' ~%}
-      /* nav */
-      nav ul {
+      /* nav (not main) */
+      nav ul:not(main) {
         padding: 0;
         margin: 0;
       }
-      nav li {
+      nav li:not(main) {
         display: inline-block;
         margin: 0 .5rem 0 0;
       }
-      nav a {
+      nav a:not(main) {
         text-decoration: none;
       }
-      nav a:hover {
+      nav a:hover:not(main) {
         text-decoration: underline;
       }
       /* footer */
@@ -30,8 +30,8 @@
         padding-top: 1rem;
         margin-top: 2rem;
       }
-      /* image */
-      img {
+      /* main image */
+      main img {
         height: auto;
       }
     {% endapply %}</style>
@@ -39,8 +39,10 @@
   </head>
   <body>
     <header>
+      {%- block header ~%}
       <h1>{{ site.title }}</h1>
       {%- include 'partials/navigation.html.twig' with {'menu': site.menus.main} only ~%}
+      {%- endblock header ~%}
     </header>
     <main>
       {%- block content ~%}
@@ -50,10 +52,12 @@
       {%- endblock content ~%}
     </main>
     <footer>
+      {%- block footer ~%}
       {%- set powered_by -%}
       <a href="{{ cecil.url }}">Cecil</a> &amp; <a href="https://newcss.net">new.css</a>
       {%- endset ~%}
       <small>{% trans %}Powered by %powered_by%{% endtrans %}</small>
+      {%- endblock footer ~%}
     </footer>
     {%- include 'partials/googleanalytics.js.twig' with {site} only ~%}
   </body>
