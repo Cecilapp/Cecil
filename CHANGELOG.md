@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.30.5](https://github.com/Cecilapp/Cecil/compare/7.30.4...7.30.5)
+
+> 7 March 2023
+
+- fix: cache tag for image quality [`#1640`](https://github.com/Cecilapp/Cecil/pull/1640)
+- chore: update deps [`78d0155`](https://github.com/Cecilapp/Cecil/commit/78d01551092b78b3f2f9c0a654912a8e68fc29ab)
+- feat: split line template filter [`ad5c6a4`](https://github.com/Cecilapp/Cecil/commit/ad5c6a48dc66d546b5637a0f42507a76488aeff2)
+- fix: default layout page CSS [`a289f82`](https://github.com/Cecilapp/Cecil/commit/a289f82c7573d8922eb8f10d25528f2968786778)
+- chore: clean code [`ab8cf48`](https://github.com/Cecilapp/Cecil/commit/ab8cf4890f41e64523c2c62c9a98fbe0eec5fecb)
+- refactor: better renderer [`f17a962`](https://github.com/Cecilapp/Cecil/commit/f17a962f6ded0859a7cdbe7701c7aabcac03b3d3)
+- fix: url(page) default format [`470b9fc`](https://github.com/Cecilapp/Cecil/commit/470b9fcc1cb870f89879dac01d99b0efa1451e65)
+
 #### [7.30.4](https://github.com/Cecilapp/Cecil/compare/7.30.3...7.30.4)
 
 > 4 March 2023
