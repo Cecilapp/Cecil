@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.31.0](https://github.com/Cecilapp/Cecil/compare/7.30.5...7.31.0)
+
+> 7 March 2023
+
+- feat: EXIF data for static load and asset [`51a7530`](https://github.com/Cecilapp/Cecil/commit/51a75300034964e61795eb2094d60da7bf064085)
+- docs: update templates about EXIF data [`bb32caa`](https://github.com/Cecilapp/Cecil/commit/bb32caa3048284d306b7350559b0631418d7db0c)
+- feat: audio data for static load [`9bf67b2`](https://github.com/Cecilapp/Cecil/commit/9bf67b28279c75bff724bd3b15033543d2a1f01e)
+- docs: update templates about audio data [`d5b4b43`](https://github.com/Cecilapp/Cecil/commit/d5b4b43539d1bea0c2d036234f42f634d383cee8)
+
 #### [7.30.5](https://github.com/Cecilapp/Cecil/compare/7.30.4...7.30.5)
 
 > 7 March 2023
