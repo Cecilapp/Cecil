@@ -47,7 +47,7 @@ class Load extends AbstractStep
     {
         $files = Finder::create()
             ->files()
-            ->in($this->builder->getConfig()->getStaticPath());
+            ->in($this->config->getStaticPath());
         if (is_array($this->config->get('static.exclude'))) {
             $files->notName($this->config->get('static.exclude'));
         }
@@ -65,6 +65,7 @@ class Load extends AbstractStep
         $count = 0;
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
+            list($type, $subtype) = Util\File::getMimeType($file->getRealPath());
             $staticFiles[$count]['file'] = $file->getRelativePathname();
             $staticFiles[$count]['path'] = Util::joinPath($file->getRelativePathname());
             $staticFiles[$count]['date'] = (new \DateTime())->setTimestamp($file->getCTime());
@@ -72,6 +73,21 @@ class Load extends AbstractStep
             $staticFiles[$count]['name'] = $file->getBasename();
             $staticFiles[$count]['basename'] = $file->getBasename('.' . $file->getExtension());
             $staticFiles[$count]['ext'] = $file->getExtension();
+            if ($type == 'image') {
+                set_error_handler(
+                    function ($severity, $message, $file, $line) {
+                        throw new \ErrorException($message, 0, $severity, $file, $line, null);
+                    }
+                );
+                try {
+                    $staticFiles[$count]['exif'] = exif_read_data($file->getRealPath());
+                } catch (\ErrorException $e) {
+                    $staticFiles[$count]['exif'] = null;
+                    $this->builder->getLogger()->error($e->getMessage());
+                } finally {
+                    restore_error_handler();
+                }
+            }
             $count++;
 
             $message = \sprintf('File "%s" loaded', $file->getRelativePathname());

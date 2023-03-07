@@ -91,6 +91,7 @@ class Asset implements \ArrayAccess
             'content'        => '',    // file content, after transformations
             'width'          => 0,     // width (in pixels) in case of an image
             'height'         => 0,     // height (in pixels) in case of an image
+            'exif'           => [],    // exif data
         ];
 
         // handles options
@@ -147,6 +148,7 @@ class Asset implements \ArrayAccess
                     if ($this->data['type'] == 'image') {
                         $this->data['width'] = $this->getWidth();
                         $this->data['height'] = $this->getHeight();
+                        $this->data['exif'] = exif_read_data($file[$i]['filepath']);
                     }
                 }
                 // bundle files path
