@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.31.1](https://github.com/Cecilapp/Cecil/compare/7.31.0...7.31.1)
+
+> 7 March 2023
+
+- refactor: exif_read_data error handler [`d91d639`](https://github.com/Cecilapp/Cecil/commit/d91d63924e61e917f6f0ba56e3ebb0f1069d62fd)
+
 #### [7.31.0](https://github.com/Cecilapp/Cecil/compare/7.30.5...7.31.0)
 
 > 7 March 2023
