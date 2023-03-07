@@ -209,6 +209,7 @@ Each file exposes the following properties:
 - `name`: name (e.g.: `img-1.jpg`)
 - `basename`: name without extension (e.g.: `img-1`)
 - `ext`: extension (e.g.: `jpg`)
+- `exif`: image EXIF data (_array_)
 
 #### site.data
 
@@ -431,7 +432,8 @@ Assets created with the `asset()` function expose some useful attributes :
 - `integrity`: integrity hash
 - `width`: image width
 - `height`: image height
-- `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information)
+- `exif`: image EXIF data as array
+- `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) object
 
 _Examples:_
 
