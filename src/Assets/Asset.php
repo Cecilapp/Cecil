@@ -148,7 +148,9 @@ class Asset implements \ArrayAccess
                     if ($this->data['type'] == 'image') {
                         $this->data['width'] = $this->getWidth();
                         $this->data['height'] = $this->getHeight();
-                        $this->data['exif'] = exif_read_data($file[$i]['filepath']);
+                        if ($this->data['subtype'] == 'jpeg') {
+                            $this->data['exif'] = Util\File::readExif($file[$i]['filepath']);
+                        }
                     }
                 }
                 // bundle files path

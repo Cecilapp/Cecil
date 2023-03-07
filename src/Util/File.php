@@ -88,4 +88,28 @@ class File
             $subtype,
         ];
     }
+
+    /**
+     * exif_read_data() function with error handler.
+     */
+    public static function readExif(string $filename): array
+    {
+        if (empty($filename)) {
+            return [];
+        }
+
+        set_error_handler(
+            function ($severity, $message, $file, $line) {
+                throw new \ErrorException($message, 0, $severity, $file, $line, null);
+            }
+        );
+
+        try {
+            return exif_read_data($filename, null, true);
+        } catch (\ErrorException $e) {
+            return [];
+        } finally {
+            restore_error_handler();
+        }
+    }
 }
