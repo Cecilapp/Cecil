@@ -229,6 +229,9 @@ class Parsedown extends \ParsedownToC
 
         // add default class?
         if ((string) $this->builder->getConfig()->get('body.images.class')) {
+            if (!array_key_exists('class', $InlineImage['element']['attributes'])) {
+                $InlineImage['element']['attributes']['class'] = '';
+            }
             $InlineImage['element']['attributes']['class'] .= ' ' . (string) $this->builder->getConfig()->get('body.images.class');
             $InlineImage['element']['attributes']['class'] = trim($InlineImage['element']['attributes']['class']);
         }
