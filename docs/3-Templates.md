@@ -210,6 +210,7 @@ Each file exposes the following properties:
 - `basename`: name without extension (e.g.: `img-1`)
 - `ext`: extension (e.g.: `jpg`)
 - `exif`: image EXIF data (_array_)
+- `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) object
 
 #### site.data
 
@@ -439,6 +440,7 @@ _Examples:_
 
 ```twig
 {{ asset('image.png').width }}px
+{{ asset('photo.jpeg').exif.DateTimeOriginal|date('U') }}
 {{ asset('title.mp3').audio.duration|round }} min
 {% set integrity = asset('styles.scss').integrity %}
 ```
