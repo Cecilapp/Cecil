@@ -16,6 +16,7 @@ namespace Cecil\Step\StaticFiles;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
+use wapmorgan\Mp3Info\Mp3Info;
 
 /**
  * Loads static files.
@@ -87,6 +88,9 @@ class Load extends AbstractStep
                 } finally {
                     restore_error_handler();
                 }
+            }
+            if ($type == 'audio') {
+                $staticFiles[$count]['audio'] =  new Mp3Info($file->getRealPath());
             }
             $count++;
 
