@@ -17,12 +17,13 @@
       <li>name: {{ file.name }}</li>
       <li>basename: {{ file.basename }}</li>
       <li>ext: {{ file.ext }}</li>
+      <li>exif: <pre>{{ dump(file.exif|default({})) }}</pre></li>
+      <li>audio: <pre>{{ dump(file.audio|default) }}</pre></li>
     </ul>
   </li>
 {% endfor %}
 </ul>
 <a name="photo-stream"></a>
-{#% for file in site.static if file.ext in ['jpg', 'jpeg', 'png', 'gif'] %#}
 {% for file in site.static|filter(f => f.ext in ['jpg', 'jpeg', 'png', 'gif']) %}
 <figure>
   <img src="{{ url(file.path) }}" alt="{{ file.name }}"/>

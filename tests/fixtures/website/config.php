@@ -125,6 +125,9 @@ return [
             ],
             'responsive' => [
                 'enabled' => true,
+                'sizes'   => [
+                    'img' => '100vw',
+                ],
             ],
             'webp' => [
                 'enabled' => true,
@@ -177,7 +180,12 @@ return [
             ],
             'remote' => [
                 'enabled' => true,
+                'fallback' => [
+                    'enabled' => true,
+                    'path' => 'images/cecil-logo.png',
+                ],
             ],
+            'class' => 'img',
         ],
         'notes' => [
             'enabled' => true,

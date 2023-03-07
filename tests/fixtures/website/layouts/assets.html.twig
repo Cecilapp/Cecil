@@ -213,4 +213,12 @@ pre {
       {{- asset('images/cecil-logo.png')|dominant_color -}}
     </blockquote>
   </p>
+
+  <h2>Read EXIF data</h2>
+  <p>
+    <pre>asset('ISS_ULF3_STS-129.jpg').exif</pre>
+    <blockquote>
+      {{- dump(asset('ISS_ULF3_STS-129.jpg').exif) -}}
+    </blockquote>
+  </p>
 {% endblock content %}

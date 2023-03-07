@@ -15,6 +15,7 @@
 - [Link to Cecil.app](https://cecil.app)
 - [Link to `../Others/external-body.md`](../Others/external-body.md)
 - [Link to `../About.md`](../About.md)
+- [Link to `/markdown.md`](/markdown.md)
 - [Link to page:about](page:about)
 
 ### Emebedded links
@@ -22,6 +23,10 @@
 #### Youtube
 
 [An example YouTube video](https://www.youtube.com/watch?v=FTpBS7g7YnI){embed=true}
+
+#### Youtube (embed = false)
+
+[An example YouTube video](https://www.youtube.com/watch?v=FTpBS7g7YnI){embed=false}
 
 #### GitHub Gist
 
@@ -31,9 +36,21 @@
 
 [Video example](/video/test.mp4 "/video/test.mp4"){embed=true controls poster=/images/cecil-logo.png style="width:100%;"}
 
+#### Video (without controls = autoplay + loop)
+
+[Video example](/video/test.mp4 "/video/test.mp4"){embed=true poster=/images/cecil-logo.png style="width:100%;"}
+
+#### Video (embed = false)
+
+[Video example](/video/test.mp4 "/video/test.mp4"){embed=false controls poster=/images/cecil-logo.png style="width:100%;"}
+
 #### Audio
 
 [Audio example](/audio/test.mp3 "/audio/test.mp3"){embed=true controls}
+
+#### Audio (embed = false)
+
+[Audio example](/audio/test.mp3 "/audio/test.mp3"){embed=false controls}
 
 ## Image
 
