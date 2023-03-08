@@ -218,6 +218,7 @@ return [
                 ],
             ],
             'class' => '', // put default class to each image (`` by default)
+            'decoding' => 'async',  // adds `decoding="<value>"` attribute (`async` by default. 'sync', 'async' or 'auto')
         ],
         'links' => [
             'embed' => [
