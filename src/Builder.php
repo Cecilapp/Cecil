@@ -396,16 +396,19 @@ class Builder implements LoggerAwareInterface
     {
         // baseurl
         if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
-            $this->getLogger()->error('The "baseurl" configuration key is required in production (e.g.: "baseurl: https://example.com/").');
+            $this->getLogger()->error('Config: `baseurl` is required in production (e.g.: "baseurl: https://example.com/").');
         }
         // default language
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', (string) $this->config->get('language'))) {
-            throw new RuntimeException(\sprintf('The configured default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->get('language')));
+            throw new RuntimeException(\sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->get('language')));
         }
         // locales
         foreach ((array) $this->config->get('languages') as $lang) {
+            if (!isset($lang['locale'])) {
+                throw new RuntimeException('Config: a language locale is not defined.');
+            }
             if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
-                throw new RuntimeException(\sprintf('The configured language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
+                throw new RuntimeException(\sprintf('Config: the language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
             }
         }
     }
