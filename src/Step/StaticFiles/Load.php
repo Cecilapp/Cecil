@@ -62,6 +62,10 @@ class Load extends AbstractStep
             return;
         }
 
+        if (extension_loaded('exif')) {
+            $this->builder->getLogger()->debug('EXIF extension is loaded');
+        }
+
         $staticFiles = [];
         $count = 0;
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
