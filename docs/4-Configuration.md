@@ -620,7 +620,7 @@ body:
     webp:
       enabled: false # adds a WebP image as a `source` (`false` by default)
     caption:
-      enabled: true  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+      enabled: false # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
     remote:
       enabled: true  # enables remote image handling (`true` by default)
       fallback:
