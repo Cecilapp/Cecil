@@ -227,6 +227,9 @@ class Parsedown extends \ParsedownToC
             $InlineImage['element']['attributes']['loading'] = 'lazy';
         }
 
+        // decoding attribute
+        $InlineImage['element']['attributes']['decoding'] = (string) $this->builder->getConfig()->get('body.images.decoding');
+
         // add default class?
         if ((string) $this->builder->getConfig()->get('body.images.class')) {
             if (!array_key_exists('class', $InlineImage['element']['attributes'])) {

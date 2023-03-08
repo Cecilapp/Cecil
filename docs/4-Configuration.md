@@ -606,27 +606,28 @@ Pages’ content format and converter’s options.
 
 ```yaml
 body:
-  format: md         # page body format (only `md`, Markdown, is supported)
-  toc: [h2, h3]      # headers used to build the table of contents
+  format: md          # page body format (only `md`, Markdown, is supported)
+  toc: [h2, h3]       # headers used to build the table of contents
   highlight:
-    enabled: false   # enables code syntax highlighting (`false` by default)
-  images:            # how to handle images
+    enabled: false    # enables code syntax highlighting (`false` by default)
+  images:             # how to handle images
     lazy:
-      enabled: true  # adds `loading="lazy"` attribute (`true` by default)
+      enabled: true   # adds `loading="lazy"` attribute (`true` by default)
     resize:
-      enabled: false # enables image resizing by using the `width` extra attribute (`false` by default)
+      enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)
     responsive:
-      enabled: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
+      enabled: false  # creates responsive images and add them to the `srcset` attribute (`false` by default)
     webp:
-      enabled: false # adds a WebP image as a `source` (`false` by default)
+      enabled: false  # adds a WebP image as a `source` (`false` by default)
     caption:
       enabled: false # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
     remote:
-      enabled: true  # enables remote image handling (`true` by default)
+      enabled: true   # enables remote image handling (`true` by default)
       fallback:
         enabled: false # enables a fallback if image is not found (`false` by default)
         path: ''       # path to the fallback image, stored in assets dir (`` by default)
-    class: ''        # put default class to each image (`` by default)
+    class: ''         # put default class to each image (`` by default)
+    decoding: 'async' # adds `decoding="<value>"` attribute (`async` by default. 'sync', 'async' or 'auto')
   links:
     embed:
       enabled: false # turns links in embedded content if possible (`false` by default)
