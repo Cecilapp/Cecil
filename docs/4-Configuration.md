@@ -189,30 +189,34 @@ _Example:_
 
 This template adds the following meta tags to your site:
 
-- Page title with site title or site title with site baseline
-- Page description or site description
-- Page tags or site keywords
-- Page author or site author
+- Page title + site title or site title + site baseline
+- Page/site description
+- Page/site keywords
+- Page/site author
 - Search engine crawler directives
 - Favicon links
 - Previous and next page links
 - Pagination links (first, previous, next, last)
 - Canonical URL
-- Links to alternates formats (e.g.: RSS feed)
+- Links to alternates (e.g.: RSS feed, others languages)
 - Open Graph
 - Twitter Card
 - JSON-LD site and article metadata
 
-#### metatags keys
+#### metatags options and variables
 
 Cecil uses page’s front matter to feed meta tags, and fallbacks to the site configuration if needed.
 
 ```yaml
-title: "Page or site title"
-description: "Page or site description"
-keywords: [keyword1, keyword2] # use `tags` key in page front matter
+title: "Page/site title"
+description: "Page/site description"
+tags: [tag1, tag2] # feeds keywords meta
+keywords: [keyword1, keyword2] # obsolete
 author: "Author name"
 image: image.jpg # used by OpenGraph and Twitter Card
+canonical: # used to override the generated canonical URL
+  url: <URL>
+  title: "<URL title>" # optional
 social:
   twitter:
     site: username
@@ -222,9 +226,6 @@ social:
     firstname: Firstname
     lastname: Lastname
     username: username
-canonical: # to override the generated canonical URL
-  url: <URL>
-  title: "<URL title>" # optional
 ```
 
 :::tip
@@ -255,7 +256,7 @@ metatags:
     image: favicon.png    # path to favicon image
     sizes:
       - "icon": [32, 57, 76, 96, 128, 192, 228] # web browsers
-      - "shortcut icon": [196]                  # Adnroid
+      - "shortcut icon": [196]                  # Android
       - "apple-touch-icon": [120, 152, 180]     # iOS
 ```
 
