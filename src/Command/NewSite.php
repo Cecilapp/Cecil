@@ -40,7 +40,7 @@ class NewSite extends AbstractCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the directory if already exist'),
+                    new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override directory if it already exists'),
                 ])
             )
             ->setHelp('Creates a new website in the current directory, or in <path> if provided');
@@ -71,11 +71,11 @@ class NewSite extends AbstractCommand
             }
             // ask for basic configuration
             $output->writeln('Creating a new website...');
-            $title = $helper->ask($input, $output, new Question('- title: ', 'Cecil'));
-            $baseline = $helper->ask($input, $output, new Question('- baseline (~ 20 characters): ', ''));
+            $title = $helper->ask($input, $output, new Question('- title: ', 'Site title'));
+            $baseline = $helper->ask($input, $output, new Question('- baseline (~ 20 characters): ', 'Site baseline'));
             $baseurl = $helper->ask($input, $output, new Question('- baseurl (e.g.: https://cecil.app/): ', 'http://localhost:8000/'));
-            $description = $helper->ask($input, $output, new Question('- description (~ 250 characters): ', 'Site description'));
-            // rewrite config file?
+            $description = $helper->ask($input, $output, new Question('- description (~ 250 characters): ', 'Site description.'));
+            // override skeleton default config
             $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE));
             $config = array_replace_recursive($config, [
                 'title'       => $title,
@@ -99,7 +99,7 @@ class NewSite extends AbstractCommand
                     Util::joinPath($this->getPath(), $value)
                 );
             }
-            $output->writeln('<info>Done!</info>');
+            $output->writeln('<info>Done</info>');
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));
         }
