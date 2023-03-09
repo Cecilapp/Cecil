@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.32.0](https://github.com/Cecilapp/Cecil/compare/7.31.1...7.32.0)
+
+> 8 March 2023
+
+- feat: Markdown image decoding async by default [`#1642`](https://github.com/Cecilapp/Cecil/pull/1642)
+- test: code coverage [`7ad46ff`](https://github.com/Cecilapp/Cecil/commit/7ad46ff0add2424a1525fde2c67098159ad02023)
+- docs: update metatags configuration [`9125d2b`](https://github.com/Cecilapp/Cecil/commit/9125d2b0878687cc13283ec2ca775a682776f54a)
+- chore: update deps [`5c71449`](https://github.com/Cecilapp/Cecil/commit/5c71449550be360ef54fabcdc0861ebb10f558e8)
+- chore: update deps [`ccfe702`](https://github.com/Cecilapp/Cecil/commit/ccfe702d92360d289207aab9e84fc4bdd3da7702)
+- fix: config error messages [`ca14c1a`](https://github.com/Cecilapp/Cecil/commit/ca14c1af9e1948a0707c03332f66a3d57e0bc83f)
+- fix: log if EXIF extension is loaded [`ab3ac22`](https://github.com/Cecilapp/Cecil/commit/ab3ac22efeda13775662cc44f38eff4db9e49d67)
+- fix: default class to Markdown image [`0422d50`](https://github.com/Cecilapp/Cecil/commit/0422d507b543cb9acfb7c6f3569b0104409f0ff6)
+- docs: minor fix [`fb6af31`](https://github.com/Cecilapp/Cecil/commit/fb6af3170cb07d22eebe169e2cc3790c404462c7)
+
 #### [7.31.1](https://github.com/Cecilapp/Cecil/compare/7.31.0...7.31.1)
 
 > 7 March 2023
