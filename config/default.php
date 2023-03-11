@@ -192,7 +192,7 @@ return [
         'format'    => 'md',         // page body format (only Markdown is supported)
         'toc'       => ['h2', 'h3'], // headers used to build the table of contents
         'highlight' => [
-            'enabled' => false,  // enables code syntax highlighting (`false` by default)
+            'enabled' => false,      // enables code syntax highlighting (`false` by default)
         ],
         'images' => [
             'lazy' => [
