@@ -368,6 +368,7 @@ For convenience the `url` function is also available as a filter:
 # asset
 {{ asset('styles.css')|url }}
 ```
+
 :::
 
 ### asset
