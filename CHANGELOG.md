@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.32.1](https://github.com/Cecilapp/Cecil/compare/7.32.0...7.32.1)
+
+> 9 March 2023
+
+- chore: update deps [`c71a55a`](https://github.com/Cecilapp/Cecil/commit/c71a55a42c1a4c7538682c56408a5b0ad3ffbb04)
+- fix: new:site command texts [`b6f11c4`](https://github.com/Cecilapp/Cecil/commit/b6f11c4d867b8aca13175394906c68433ec315d4)
+
 #### [7.32.0](https://github.com/Cecilapp/Cecil/compare/7.31.1...7.32.0)
 
 > 8 March 2023
