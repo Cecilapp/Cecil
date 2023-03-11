@@ -613,6 +613,8 @@ body:
   images:             # how to handle images
     lazy:
       enabled: true   # adds `loading="lazy"` attribute (`true` by default)
+    decoding: 'async' # adds `decoding="<value>"` attribute (`async` by default. 'sync', 'async' or 'auto')
+    class: ''         # put default class to each image (empty by default)
     resize:
       enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)
     responsive:
@@ -620,14 +622,12 @@ body:
     webp:
       enabled: false  # adds a WebP image as a `source` (`false` by default)
     caption:
-      enabled: false # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+      enabled: false  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
     remote:
       enabled: true   # enables remote image handling (`true` by default)
       fallback:
         enabled: false # enables a fallback if image is not found (`false` by default)
-        path: ''       # path to the fallback image, stored in assets dir (`` by default)
-    class: ''         # put default class to each image (`` by default)
-    decoding: 'async' # adds `decoding="<value>"` attribute (`async` by default. 'sync', 'async' or 'auto')
+        path: ''       # path to the fallback image, stored in assets dir (empty by default)
   links:
     embed:
       enabled: false # turns links in embedded content if possible (`false` by default)
@@ -742,11 +742,11 @@ assets:
       enabled: false     # creates responsive images with `html` filter (`false` by default)
       widths: [480, 640, 768, 1024, 1366, 1600, 1920] # `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
       sizes:
-        default: '100vw' # `sizes` attribute (`100vw` by default)
+        default: '100vw' # default `sizes` attribute
     webp:
       enabled: false     # creates a WebP version of images with `html` filter (`false` by default)
     resize:
-      dir: thumbnails    # directory of resized assets (`thumbnails` by default)
+      dir: thumbnails    # directory to store resized assets (`thumbnails` by default)
 ```
 
 :::

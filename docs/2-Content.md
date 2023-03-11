@@ -249,7 +249,7 @@ You can optionally add a title in quotation marks.
 ```
 
 :::info
-The path should be relative to the root of your website (e.g.: `/image.jpg`), however Cecil is able to normalize a relative path like `../../assets/image.jpg` (or `../../static/image.jpg`) to `/image.jpg`.
+The path should be relative to the root of your website (e.g.: `/image.jpg`), however Cecil is able to normalize a path relative to _assets_ and _static_ directory (e.g.: `../../assets/image.jpg`).
 :::
 
 #### Lazy loading
@@ -269,12 +269,36 @@ Is converted to:
 ```
 
 :::info
-You can disable the [`lazy` option in the body configuration](4-Configuration.md#body).
+You can disable the [`lazy` option](4-Configuration.md#body).
 :::
+
+#### Decoding
+
+By default Cecil apply the attribute `decoding="async"` on each images.
+
+_Example:_
+
+```markdown
+![](/image.jpg)
+```
+
+Is converted to:
+
+```html
+<img src="/image.jpg" decoding="async">
+```
+
+:::info
+You can change this behaviour with the [`decoding` option](4-Configuration.md#body).
+:::
+
+#### CSS class
+
+You can set a default value to the `class` attribute of each image with the [`class` option](4-Configuration.md#body).
 
 #### Resize
 
-Each image in the _body_ can be resized by setting a smaller width than the original one with the extra attribute `{width=X}` (the [`resize` option in the body configuration](4-Configuration.md#body) must be enabled).
+Each image in the _body_ can be resized automatically by setting a smaller width than the original one, with the extra attribute `{width=X}` (the [`resize` option](4-Configuration.md#body) must be enabled).
 
 _Example:_
 
@@ -289,7 +313,7 @@ Is converted to:
 ```
 
 :::info
-Ratio is preserved, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.
+Ratio is preserved, `height` is calculated automatically, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.
 :::
 
 :::important
@@ -298,7 +322,7 @@ This feature requires [GD extension](https://www.php.net/manual/book.image.php) 
 
 #### Responsive
 
-If the [`responsive` option in the body configuration](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically _responsived_.
+If the [`responsive` option](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically "responsived".
 
 _Example:_
 
@@ -318,10 +342,10 @@ If `resize` and `responsive` options are enabled, then this Markdown line will b
 ```
 
 :::info
-The different images widths can be defined in [assets configuration](4-Configuration.md#assets).
+Because a body image is converted into an [Asset](3-Templates.md#asset), the different widths must be defined in [assets configuration](4-Configuration.md#assets).
 :::
 
-The `sizes` attribute take the value of the `assets.images.responsive.sizes.default` configuration option by default, and can be customized by creating a new entry named with the class name added to the image.
+The `sizes` attribute take the value of the `assets.images.responsive.sizes.default` configuration option, but can be changed by creating a new entry named with a _class_ added to the image.
 
 _Example:_
 
@@ -340,7 +364,7 @@ assets:
 
 #### WebP
 
-If the [`webp` option in the body configuration](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
+If the [`webp` option](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
 
 _Example:_
 
@@ -367,7 +391,7 @@ You can combine `webp` and `responsive` options.
 
 #### Caption
 
-You can automatically add a caption (`figcaption`) to an image with the optional title.
+The optional title can be used to create a caption (`figcaption`) automatically by enabling the [`caption` option](4-Configuration.md#body).
 
 _Example:_
 
@@ -383,10 +407,6 @@ Is converted to:
   <figcaption>Title</figcaption>
 </figure>
 ```
-
-:::info
-You can disable the [`caption` option in the body configuration](4-Configuration.md#body).
-:::
 
 ### Table of contents
 

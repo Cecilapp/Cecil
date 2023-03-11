@@ -198,6 +198,8 @@ return [
             'lazy' => [
                 'enabled' => true,  // adds `loading="lazy"` attribute (`true` by default)
             ],
+            'decoding' => 'async',  // adds `decoding="<value>"` attribute (`async` by default. 'sync', 'async' or 'auto')
+            'class' => '',          // put default class to each image (empty by default)
             'resize' => [
                 'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
             ],
@@ -211,14 +213,12 @@ return [
                 'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
             ],
             'remote' => [
-                'enabled'  => true,  // turns remote images to Asset to handling them (`true` by default)
+                'enabled'  => true, // turns remote images to Asset to handling them (`true` by default)
                 'fallback' => [
                     'enabled' => false, // enables a fallback if image is not found (`false` by default)
-                    'path'    => '',     // path to the fallback image, stored in assets dir (`` by default)
+                    'path'    => '',    // path to the fallback image, stored in assets dir (empty by default)
                 ],
             ],
-            'class' => '', // put default class to each image (`` by default)
-            'decoding' => 'async',  // adds `decoding="<value>"` attribute (`async` by default. 'sync', 'async' or 'auto')
         ],
         'links' => [
             'embed' => [
@@ -287,7 +287,7 @@ return [
             'optimize' => [
                 'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
             ],
-            'quality'    => 75, // Image quality after optimization or resize (`75` by default)
+            'quality'    => 75, // image quality after optimization or resize (`75` by default)
             'responsive' => [
                 'enabled' => false, // creates responsive images with `html` filter (`false` by default)
                 'widths'  => [480, 640, 768, 1024, 1366, 1600, 1920],
@@ -299,7 +299,7 @@ return [
                 'enabled' => false, // creates a WebP version of images with `html` filter (`false` by default)
             ],
             'resize' => [
-                'dir' => 'thumbnails', // directory of resized assets (`thumbnails` by default)
+                'dir' => 'thumbnails', // directory to store resized assets (`thumbnails` by default)
             ],
         ],
     ],
