@@ -640,7 +640,7 @@ body:
     capture: before          # part to capture, `before` or `after` the separator (`before` by default)
 ```
 
-To know how those options impacts your content see _[Content > Pages > Markdown](2-Content.md#markdown)_ documentation.
+To know how those options impacts your content see _[Content > Markdown](2-Content.md#markdown)_ documentation.
 
 :::info
 Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
