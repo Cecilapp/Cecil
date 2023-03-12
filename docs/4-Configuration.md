@@ -613,7 +613,8 @@ body:
   images:             # how to handle images
     lazy:
       enabled: true   # adds `loading="lazy"` attribute (`true` by default)
-    decoding: 'async' # adds `decoding="<value>"` attribute (`async` by default. 'sync', 'async' or 'auto')
+    decoding:
+      enabled: true   # adds `decoding="async"` attribute (`true` by default)
     class: ''         # put default class to each image (empty by default)
     resize:
       enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)

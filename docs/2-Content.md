@@ -289,7 +289,7 @@ Is converted to:
 ```
 
 :::info
-You can change this behaviour with the [`decoding` option](4-Configuration.md#body).
+You can disable the [`decoding` option](4-Configuration.md#body).
 :::
 
 #### CSS class

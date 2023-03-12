@@ -226,10 +226,10 @@ class Parsedown extends \ParsedownToC
         if ((bool) $this->builder->getConfig()->get('body.images.lazy.enabled') && !isset($InlineImage['element']['attributes']['loading'])) {
             $InlineImage['element']['attributes']['loading'] = 'lazy';
         }
-
-        // decoding attribute
-        $InlineImage['element']['attributes']['decoding'] = (string) $this->builder->getConfig()->get('body.images.decoding');
-
+        // should be decoding async?
+        if ((bool) $this->builder->getConfig()->get('body.images.decoding.enabled') && !isset($InlineImage['element']['attributes']['decoding'])) {
+            $InlineImage['element']['attributes']['decoding'] = 'async';
+        }
         // add default class?
         if ((string) $this->builder->getConfig()->get('body.images.class')) {
             if (!array_key_exists('class', $InlineImage['element']['attributes'])) {
