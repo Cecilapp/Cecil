@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.32.2](https://github.com/Cecilapp/Cecil/compare/7.32.1...7.32.2)
+
+> 12 March 2023
+
+- chore(deps): bump spatie/image-optimizer from 1.6.3 to 1.6.4 [`#1644`](https://github.com/Cecilapp/Cecil/pull/1644)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.5 to 1.10.6 [`#1643`](https://github.com/Cecilapp/Cecil/pull/1643)
+- docs: enhances docs about images [`a0d0e52`](https://github.com/Cecilapp/Cecil/commit/a0d0e520e61d9fd58aba30395fdecd9b4debc97b)
+- refactor: better responsive widths [`6c8a69b`](https://github.com/Cecilapp/Cecil/commit/6c8a69b13831695afb04a4540d20f0db8eb72db2)
+- chore: code cleaning [`8b5b285`](https://github.com/Cecilapp/Cecil/commit/8b5b2850404b0e0ee32c057e0a2e173f09f0ea34)
+- fix: do not duplicate responsive image [`87c007e`](https://github.com/Cecilapp/Cecil/commit/87c007e4d9a88c6891c5f0143c390f6075a84a02)
+- chore: code cleaning [`b34dd82`](https://github.com/Cecilapp/Cecil/commit/b34dd82e0ac2c3ccc367411f7a4fac26ee7aa96c)
+- refactor(server): auto refresh 404 [`2d5e8cc`](https://github.com/Cecilapp/Cecil/commit/2d5e8cca0defc036f6040815336900172c911514)
+- docs: minor fix [`be4620c`](https://github.com/Cecilapp/Cecil/commit/be4620c1f031ab8f50a28bf5984ac61a59529a03)
+
 #### [7.32.1](https://github.com/Cecilapp/Cecil/compare/7.32.0...7.32.1)
 
 > 9 March 2023
