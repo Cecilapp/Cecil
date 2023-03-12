@@ -73,6 +73,7 @@ if (!file_exists($filename) || is_dir($filename)) {
                     h1, p { padding-left: 10px; }
                     code.url { background-color: #eeeeee; font-family:monospace; padding:0 2px; }
                 </style>
+                <meta http-equiv="refresh" content="2;URL=$path">
             </head>
             <body>
                 <h1>Not Found</h1>
