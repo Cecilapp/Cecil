@@ -31,16 +31,18 @@ class Image
         }
 
         $srcset = '';
+        $widthMax = 0;
         foreach ($widths as $width) {
             if ($asset->getWidth() < $width) {
                 break;
             }
             $img = $asset->resize($width);
             $srcset .= \sprintf('%s %sw, ', (string) $img, $width);
+            $widthMax = $width;
         }
         rtrim($srcset, ', ');
         // add reference image
-        if (!empty($srcset) && ($asset->getWidth() != max($widths))) {
+        if (!empty($srcset) && ($asset->getWidth() != $widthMax)) {
             $srcset .= \sprintf('%s %sw', (string) $asset, $asset->getWidth());
         }
 
