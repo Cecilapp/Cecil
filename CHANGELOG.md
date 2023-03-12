@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.32.4](https://github.com/Cecilapp/Cecil/compare/7.32.3...7.32.4)
+
+> 12 March 2023
+
+- chore: update deps [`0b1bef4`](https://github.com/Cecilapp/Cecil/commit/0b1bef404ef98c9f93bf5a624140826884d13d1d)
+- chore: update workflows deps [`d3b2b77`](https://github.com/Cecilapp/Cecil/commit/d3b2b777894e257d74d289b432e6f57e0b6b723e)
+- fix: duplicated responsive image [`e13cae8`](https://github.com/Cecilapp/Cecil/commit/e13cae879ed3f7bb6832f04eea69db87b8044da6)
+- chore: clean test commands [`ce00a29`](https://github.com/Cecilapp/Cecil/commit/ce00a296c6695378911e39dc4c825f5dfe4a49b4)
+
 #### [7.32.3](https://github.com/Cecilapp/Cecil/compare/7.32.2...7.32.3)
 
 > 12 March 2023
