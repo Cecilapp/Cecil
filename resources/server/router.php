@@ -71,7 +71,7 @@ if (!file_exists($filename) || is_dir($filename)) {
                     body { background-color: #fcfcfc; color: #333333; margin: 0; padding:0; }
                     h1 { font-size: 1.5em; font-weight: normal; background-color: #eeeeee; min-height:2em; line-height:2em; border-bottom: 1px inset #d6d6d6; margin: 0; }
                     h1, p { padding-left: 10px; }
-                    code.url { background-color: #eeeeee; font-family:monospace; padding:0 2px;}
+                    code.url { background-color: #eeeeee; font-family:monospace; padding:0 2px; }
                 </style>
             </head>
             <body>
