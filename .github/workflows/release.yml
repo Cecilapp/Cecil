@@ -110,7 +110,7 @@ jobs:
 
     - name: Get release
       id: release
-      uses: bruceadams/get-release@v1.2.3
+      uses: bruceadams/get-release@v1.3.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -126,7 +126,7 @@ jobs:
 
     - name: Generate changelog
       id: changelog
-      uses: jaywcjlove/changelog-generator@v1.6.1
+      uses: jaywcjlove/changelog-generator@v1.6.4
       with:
         base-ref: ${{ needs.build.outputs.previous_release }}
         token: ${{ secrets.GITHUB_TOKEN }}
