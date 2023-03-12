@@ -356,7 +356,7 @@ class Config
      */
     public function getAssetsImagesWidths(): array
     {
-        return count($this->get('assets.images.responsive.widths')) > 0 ? $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
+        return count((array) $this->get('assets.images.responsive.widths')) > 0 ? (array) $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
     }
 
     /**
