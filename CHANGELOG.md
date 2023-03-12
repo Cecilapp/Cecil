@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.32.3](https://github.com/Cecilapp/Cecil/compare/7.32.2...7.32.3)
+
+> 12 March 2023
+
+- fix: normalize the image decoding option [`dbd2a44`](https://github.com/Cecilapp/Cecil/commit/dbd2a444511b6488d0c2dc361530825cbc079841)
+- chore: update deps [`f20d96d`](https://github.com/Cecilapp/Cecil/commit/f20d96de86d2b236372cce1fa47c5ac0f13e1d35)
+- docs: minor fix [`a05fc19`](https://github.com/Cecilapp/Cecil/commit/a05fc19666fd0d56e00d709de7618a5d1301e60e)
+
 #### [7.32.2](https://github.com/Cecilapp/Cecil/compare/7.32.1...7.32.2)
 
 > 12 March 2023
