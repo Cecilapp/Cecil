@@ -40,7 +40,7 @@ class Image
         }
         rtrim($srcset, ', ');
         // add reference image
-        if (!empty($srcset)) {
+        if (!empty($srcset) && ($asset->getWidth() != max($widths))) {
             $srcset .= \sprintf('%s %sw', (string) $asset, $asset->getWidth());
         }
 
