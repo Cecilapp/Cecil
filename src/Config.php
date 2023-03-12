@@ -352,6 +352,14 @@ class Config
     }
 
     /**
+     * Returns asset image sizes.
+     */
+    public function getAssetsImagesWidths(): array
+    {
+        return count($this->get('assets.images.responsive.widths')) > 0 ? $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
+    }
+
+    /**
      * Is cache dir is absolute to system files
      * or relative to project destination?
      */

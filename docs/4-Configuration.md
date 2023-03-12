@@ -740,7 +740,7 @@ assets:
     quality: 75          # image quality after optimization or resize (`75` by default)
     responsive:
       enabled: false     # creates responsive images with `html` filter (`false` by default)
-      widths: [480, 640, 768, 1024, 1366, 1600, 1920] # `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
+      widths: []         # `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
       sizes:
         default: '100vw' # default `sizes` attribute
     webp:

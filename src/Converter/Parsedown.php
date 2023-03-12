@@ -292,7 +292,7 @@ class Parsedown extends \ParsedownToC
                 if (
                     $srcset = Image::buildSrcset(
                         $assetResized ?? $asset,
-                        (array) $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                        $this->builder->getConfig()->getAssetsImagesWidths()
                     )
                 ) {
                     $InlineImage['element']['attributes']['srcset'] = $srcset;
@@ -349,7 +349,7 @@ class Parsedown extends \ParsedownToC
                     try {
                         $srcset = Image::buildSrcset(
                             $assetWebp,
-                            (array) $this->builder->getConfig()->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920]
+                            $this->builder->getConfig()->getAssetsImagesWidths()
                         );
                     } catch (\Exception $e) {
                         $this->builder->getLogger()->debug($e->getMessage());

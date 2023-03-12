@@ -290,7 +290,7 @@ return [
             'quality'    => 75, // image quality after optimization or resize (`75` by default)
             'responsive' => [
                 'enabled' => false, // creates responsive images with `html` filter (`false` by default)
-                'widths'  => [480, 640, 768, 1024, 1366, 1600, 1920],
+                'widths'  => [], // recommanded [480, 640, 768, 1024, 1366, 1600, 1920]
                 'sizes'   => [
                     'default' => '100vw', // `sizes` attribute (`100vw` by default)
                 ],
