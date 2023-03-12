@@ -110,7 +110,7 @@
     "code:style": "phpcs ./src/ --standard=PSR12 -n",
     "code:fix": "php-cs-fixer fix ./src/ --rules=@PSR12",
     "test": "@test:integration",
-    "test:bin": "cd bin && php cecil --version && mkdir skeleton && php cecil new:site skeleton -f && php cecil new:page test skeleton && php cecil build skeleton -v && rm -rf skeleton",
+    "test:bin": "cd bin && php cecil --version && mkdir skeleton && php cecil new:site skeleton -f -n && php cecil new:page test skeleton && php cecil build skeleton -v && rm -rf skeleton",
     "test:coverage": "phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml",
     "test:coverage:install": [
       "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/latest/download/php-coveralls.phar -O coveralls.phar",
@@ -119,7 +119,7 @@
     ],
     "test:coverage:upload": "php coveralls.phar -v",
     "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
-    "test:phar": "box compile && cd dist && php cecil.phar --version && mkdir skeleton && php cecil.phar new:site skeleton -f && php cecil.phar new:page test skeleton && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
+    "test:phar": "box compile && cd dist && php cecil.phar --version && mkdir skeleton && php cecil.phar new:site skeleton -f -n && php cecil.phar new:page test skeleton && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
     "test:unit": "phpunit -c ./ --testsuite=UnitTests"
   },
   "scripts-descriptions": {
