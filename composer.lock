@@ -5740,16 +5740,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.14.5",
+            "version": "v3.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "fb929675a201b7fc79a516226033e36538d5308d"
+                "reference": "7306744c63e9cc1337894252b4eec4920c38b053"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/fb929675a201b7fc79a516226033e36538d5308d",
-                "reference": "fb929675a201b7fc79a516226033e36538d5308d",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/7306744c63e9cc1337894252b4eec4920c38b053",
+                "reference": "7306744c63e9cc1337894252b4eec4920c38b053",
                 "shasum": ""
             },
             "require": {
@@ -5824,7 +5824,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.14.5"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.15.0"
             },
             "funding": [
                 {
@@ -5832,7 +5832,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-12T22:24:56+00:00"
+            "time": "2023-03-12T22:44:55+00:00"
         },
         {
             "name": "humbug/box",
