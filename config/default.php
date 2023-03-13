@@ -16,31 +16,31 @@ return [
     'title'        => 'Site title',
     //'baseline'     => 'Site baseline',
     'baseurl'      => 'http://localhost:8000/',
-    'canonicalurl' => false,   // if true 'url()' function preprends URL wirh 'baseurl'
+    'canonicalurl' => false, // if true then `url()` function prepends URL with `baseurl`
     'description'  => 'Site description',
-    'taxonomies'   => [        // default taxonomies
-        'tags'       => 'tag', // can be disabled with 'disabled' value
+    'taxonomies'   => [ // default taxonomies
+        'tags'       => 'tag', // can be disabled with the special "disabled" value
         'categories' => 'category',
     ],
     'pagination' => [
-        'max'  => 5,      // number of pages on each paginated pages
-        'path' => 'page', // path to paginated pages. ie: '/blog/page/2/'
+        'max'  => 5,      // number of pages by each paginated pages
+        'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
     ],
-    'date' => [
-        'format'   => 'j F Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
-        //'timezone' => 'Europe/Paris',
-    ],
-    'output' => [
-        'dir'      => '_site',
+    //'date' => [
+    //    'format'   => 'j F Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
+    //    'timezone' => 'Europe/Paris',
+    //],
+    'output' => [ // https://cecil.app/documentation/configuration/#formats
+        'dir'      => '_site', // output directory (`_site` by default)
         'formats'  => [
-            // ie: blog/post-1/index.html
+            // e.g.: blog/post-1/index.html
             -1 => [
                 'name'      => 'html',
                 'mediatype' => 'text/html',
                 'filename'  => 'index',
                 'extension' => 'html',
             ],
-            // ie: blog/atom.xml
+            // e.g.: blog/atom.xml
             -2 => [
                 'name'      => 'atom',
                 'mediatype' => 'application/atom+xml',
@@ -48,7 +48,7 @@ return [
                 'extension' => 'xml',
                 'exclude'   => ['redirect', 'paginated'],
             ],
-            // ie: blog/rss.xml
+            // e.g.: blog/rss.xml
             -3 => [
                 'name'      => 'rss',
                 'mediatype' => 'application/rss+xml',
@@ -56,28 +56,28 @@ return [
                 'extension' => 'xml',
                 'exclude'   => ['redirect', 'paginated'],
             ],
-            // ie: blog/post-1.json
+            // e.g.: blog/post-1.json
             -4 => [
                 'name'      => 'json',
                 'mediatype' => 'application/json',
                 'extension' => 'json',
                 'exclude'   => ['redirect'],
             ],
-            // ie: blog/post-1.xml
+            // e.g.: blog/post-1.xml
             -5 => [
                 'name'      => 'xml',
                 'mediatype' => 'application/xml',
                 'extension' => 'xml',
                 'exclude'   => ['redirect'],
             ],
-            // ie: robots.txt
+            // e.g.: robots.txt
             -6 => [
                 'name'      => 'txt',
                 'mediatype' => 'text/plain',
                 'extension' => 'txt',
                 'exclude'   => ['redirect'],
             ],
-            // ie: blog/post-1/amp/index.html
+            // e.g.: blog/post-1/amp/index.html
             -7 => [
                 'name'      => 'amp',
                 'mediatype' => 'text/html',
@@ -85,25 +85,25 @@ return [
                 'filename'  => 'index',
                 'extension' => 'html',
             ],
-            // ie: sw.js
+            // e.g.: sw.js
             -8 => [
                 'name'      => 'js',
                 'mediatype' => 'application/javascript',
                 'extension' => 'js',
             ],
-            // ie: manifest.webmanifest
+            // e.g.: manifest.webmanifest
             -9 => [
                 'name'      => 'webmanifest',
                 'mediatype' => 'application/manifest+json',
                 'extension' => 'webmanifest',
             ],
-            // ie: atom.xsl
+            // e.g.: atom.xsl
             -10 => [
                 'name'      => 'xsl',
                 'mediatype' => 'application/xml',
                 'extension' => 'xsl',
             ],
-            // ie: blog/feed.json
+            // e.g.: blog/feed.json
             -11 => [
                 'name'      => 'jsonfeed',
                 'mediatype' => 'application/json',
@@ -112,7 +112,7 @@ return [
                 'exclude'   => ['redirect', 'paginated'],
             ],
         ],
-        'pagetypeformats' => [
+        'pagetypeformats' => [ // formats applied by page type
             'page'       => ['html'],
             'homepage'   => ['html', 'atom'],
             'section'    => ['html', 'atom'],
@@ -120,7 +120,7 @@ return [
             'term'       => ['html', 'atom'],
         ],
     ],
-    'language'  => 'en',
+    'language'  => 'en', // main language code (`en` by default)
     'languages' => [
         [
             'code'   => 'en',
@@ -128,7 +128,7 @@ return [
             'locale' => 'en_US',
         ],
     ],
-    'defaultpages' => [
+    'defaultpages' => [ // default generated pages
         'index' => [
             'path'      => '',
             'title'     => 'Home',
@@ -179,14 +179,13 @@ return [
             'exclude'   => true,
         ],
     ],
-    // Markdown files
     'pages' => [
-        'dir'     => 'pages', // pages directory (previously "content")
-        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // array of files extensions
-        'exclude' => ['vendor', 'node_modules'], // array of directories, paths and files name to exclude
+        'dir'     => 'pages', // pages files directory (`pages` by default, previously `content`)
+        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // supported files formats, by extension
+        'exclude' => ['vendor', 'node_modules'], // directories, paths and files name to exclude (accepts globs, strings and regexes)
     ],
     'frontmatter' => [
-        'format' => 'yaml', // front matter format `yaml`, `ini`, `toml` or `json` (`yaml` by default)
+        'format' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
     ],
     'body' => [
         'format'    => 'md',         // page body format (only Markdown is supported)
@@ -201,16 +200,16 @@ return [
             'decoding' => [
                 'enabled' => true,  // adds `decoding="async"` attribute (`true` by default)
             ],
-            'class' => '',          // put default class to each image (empty by default)
             'resize' => [
                 'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
             ],
-            'responsive' => [
-                'enabled' => false, // creates responsive images and add them to the `srcset` attribute (`false` by default)
-            ],
             'webp' => [
-                'enabled' => false, // adds a WebP image as a `source` (`false` by default)
+                'enabled' => false, // creates and adds a WebP image as a `source` (`false` by default)
             ],
+            'responsive' => [
+                'enabled' => false, // creates responsive images and adds them to the `srcset` attribute (`false` by default)
+            ],
+            'class' => '',          // puts default CSS class to each image (empty by default)
             'caption' => [
                 'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
             ],
@@ -226,10 +225,10 @@ return [
             'embed' => [
                 'enabled' => false, // turns links in embedded content if possible (`false` by default)
                 'video'   => [
-                    'ext' => ['mp4', 'webm'], // video files extensions
+                    'ext' => ['mp4', 'webm'], // supported video file types, extensions
                 ],
                 'audio' => [
-                    'ext' => ['mp3'], // audio files extensions
+                    'ext' => ['mp3'], // supported audio file types, extensions
                 ],
             ],
         ],
@@ -240,109 +239,109 @@ return [
     ],
     // data files
     'data' => [
-        'dir'  => 'data',
-        'ext'  => ['yaml', 'yml', 'json', 'xml', 'csv'],
+        'dir'  => 'data', // data files directory (`data` by default)
+        'ext'  => ['yaml', 'yml', 'json', 'xml', 'csv'], // loaded files by extension
         'load' => true, // enables `site.data` collection
     ],
     // static files
     'static' => [
-        'dir'     => 'static',
-        'target'  => '',
-        'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'],
+        'dir'     => 'static', // static files directory (`static` by default)
+        'target'  => '', // subdirectory where files are copied
+        'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'], // excluded files by extension or pattern
         'load'    => false, // enables `site.static` collection
     ],
     // templates
     'layouts' => [
-        'dir'      => 'layouts',
+        'dir'      => 'layouts', // Twig templates directory (`layouts` by default)
         'internal' => [
-            'dir' => 'resources/layouts',
+            'dir' => 'resources/layouts', // internal templates directory
         ],
     ],
     'themes' => [
-        'dir' => 'themes',
+        'dir' => 'themes', // where themes are stored (`themes` by default)
     ],
     // i18n
     'translations' => [
-        'dir'      => 'translations',
-        'formats'  => ['yaml', 'mo'],
+        'dir'      => 'translations', // translations files directory (`translations` by default)
+        'formats'  => ['yaml', 'mo'], // translations supported formats (`yaml` and `mo`)
         'internal' => [
-            'dir' => 'resources/translations',
+            'dir' => 'resources/translations', // internal translations directory
         ],
     ],
     'assets' => [
-        'dir'     => 'assets',
-        'compile' => [ // Compile Saas
-            'enabled'   => true,
-            'style'     => 'expanded', // 'expanded' or 'compressed',
-            'import'    => ['sass', 'scss', 'node_modules'],
-            'sourcemap' => false, // works in debug mode only
-            //'variables' => ['var' => 'value']
+        'dir'    => 'assets', // assets files directory (`assets` by default)
+        'target' => 'assets', // where remote and resized assets are saved
+        'fingerprint' => [
+            'enabled' => true, // enables fingerprinting (`true` by default)
         ],
-        'minify' => [ // Minify CSS and JS
-            'enabled' => true,
+        'compile' => [
+            'enabled'   => true, // enables Sass files compilation (`true` by default)
+            'style'     => 'expanded', // compilation style (`expanded` or `compressed`. `expanded`
+            'import'    => ['sass', 'scss', 'node_modules'], // list of imported paths (`[sass, scss, node_modules]` by default)
+            'sourcemap' => false, // enables sourcemap in debug mode (`false` by default)
+            //'variables' => ['var' => 'value'] // list of preset variables (empty by default)
         ],
-        'fingerprint' => [ // Add fingerprint
-            'enabled' => true,
+        'minify' => [
+            'enabled' => true, // enables CSS et JS minification (`true` by default)
         ],
-        'target' => 'assets', // target directory of remote and resized assets
         'images' => [
+            'resize' => [
+                'dir' => 'thumbnails', // where resized images are stored (`thumbnails` by default)
+            ],
             'optimize' => [
                 'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
             ],
             'quality'    => 75, // image quality after optimization or resize (`75` by default)
             'responsive' => [
-                'enabled' => false, // creates responsive images with `html` filter (`false` by default)
-                'widths'  => [], // recommanded [480, 640, 768, 1024, 1366, 1600, 1920]
-                'sizes'   => [
-                    'default' => '100vw', // `sizes` attribute (`100vw` by default)
+                'widths' => [], // `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]`
+                'sizes'  => [
+                    'default' => '100vw', // default `sizes` attribute (`100vw` by default)
                 ],
+                'enabled' => false, // `html` filter: creates responsive images (`false` by default)
             ],
             'webp' => [
-                'enabled' => false, // creates a WebP version of images with `html` filter (`false` by default)
-            ],
-            'resize' => [
-                'dir' => 'thumbnails', // directory to store resized assets (`thumbnails` by default)
+                'enabled' => false, // `html` filter: creates and adds a WebP image as a `source` (`false` by default)
             ],
         ],
     ],
     'postprocess' => [
-        'enabled' => false,
+        'enabled' => false, // enables post-process (compression)
         'html'    => [
-            'ext'     => ['html', 'htm'],
-            'enabled' => true,
+            'enabled' => true, // enables HTML files post-process
+            'ext'     => ['html', 'htm'], // supported files extensions
         ],
         'css' => [
-            'ext'     => ['css'],
-            'enabled' => true,
+            'enabled' => true, // enables CSS files post-process
+            'ext'     => ['css'], // supported files extensions
         ],
         'js' => [
-            'ext'     => ['js'],
-            'enabled' => true,
+            'enabled' => true, // enables JavaScript files post-process
+            'ext'     => ['js'], // supported files extensions
         ],
         'images' => [
-            'ext'     => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'],
-            'enabled' => true,
+            'enabled' => true, // enables images files post-process
+            'ext'     => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'], // supported files extensions
         ],
     ],
     'cache' => [
-        'dir'       => '.cache',
-        'enabled'   => true,
+        'enabled'   => true, // enables cache support (`true` by default)
+        'dir'       => '.cache', // cache files directory (`.cache` by default)
         'templates' => [
-            'dir'     => 'templates',
-            'enabled' => true,
+            'enabled' => true, // enables cache for Twig templates
+            'dir'     => 'templates', // templates files cache directory (`templates` by default)
         ],
         'assets' => [
-            'dir'    => 'assets',
+            'dir'    => 'assets', // assets files cache directory (`assets` by default)
             'remote' => [
-                'dir' => 'remote',
+                'dir' => 'remote', // remote files cache directory (`remote` by default)
             ],
         ],
         'translations' => [
-            'dir'     => 'translations',
-            'enabled' => true,
+            'enabled' => true, // enables cache for translations dictionary
+            'dir'     => 'translations', // translations files cache directory (`assets` by default)
         ],
     ],
-    'generators' => [
+    'generators' => [ // list of generators ordered by index weight
         10 => 'Cecil\Generator\DefaultPages',
         20 => 'Cecil\Generator\VirtualPages',
         30 => 'Cecil\Generator\ExternalBody',

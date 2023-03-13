@@ -510,7 +510,7 @@ There is 2 others way to enable the _debug mode_:
 
 ## Default configuration
 
-The configuration website (`config.yml`) overrides the [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php#).
+The website configuration (`config.yml`) overrides the [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
 
 ### defaultpages
 
@@ -586,9 +586,9 @@ Where pages’ files (Markdown or plain text) are stored.
 
 ```yaml
 pages:
-  dir: content                                     # pages directory
-  ext: [md, markdown, mdown, mkdn, mkd, text, txt] # array of pages files extensions
-  exclude: [vendor, node_modules]                  # array of directories, paths and files name to exclude (accepts globs, strings and regexes)
+  dir: pages                                       # pages files directory (`pages` by default, previously `content`)
+  ext: [md, markdown, mdown, mkdn, mkd, text, txt] # supported files formats, by extension
+  exclude: [vendor, node_modules]                  # directories, paths and files name to exclude (accepts globs, strings and regexes)
 ```
 
 #### frontmatter
@@ -597,7 +597,7 @@ Pages’ variables format (YAML by default).
 
 ```yaml
 frontmatter:
-  format: yaml # front matter format `yaml`, `ini`, `toml` or `json` (`yaml` by default)
+  format: yaml # front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
 ```
 
 #### body
@@ -615,13 +615,13 @@ body:
       enabled: true   # adds `loading="lazy"` attribute (`true` by default)
     decoding:
       enabled: true   # adds `decoding="async"` attribute (`true` by default)
-    class: ''         # put default class to each image (empty by default)
     resize:
       enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)
-    responsive:
-      enabled: false  # creates responsive images and add them to the `srcset` attribute (`false` by default)
     webp:
       enabled: false  # adds a WebP image as a `source` (`false` by default)
+    responsive:
+      enabled: false  # creates responsive images and add them to the `srcset` attribute (`false` by default)
+    class: ''         # put default class to each image (empty by default)
     caption:
       enabled: false  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
     remote:
@@ -633,7 +633,7 @@ body:
     embed:
       enabled: false # turns links in embedded content if possible (`false` by default)
       video:
-        ext: [mp4] # video files extensions
+        ext: [mp4, 'webm'] # video files extensions
       audio:
         ext: [mp3] # audio files extensions
   excerpt:
@@ -723,31 +723,31 @@ Assets handling options.
 
 ```yml
 assets:
-  dir: assets            # files directory
+  dir: assets            # assets files directory (`assets` by default)
+  target: assets         # where remote and resized assets are saved
   fingerprint:
     enabled: true        # enables fingerprinting (`true` by default)
   compile:
-    enabled: true        # enables Sass asset compilation (`true` by default)
-    style: expanded      # style of compilation (`expanded` or `compressed`. `expanded` by default)
+    enabled: true        # enables Sass files compilation (`true` by default)
+    style: expanded      # compilation style (`expanded` or `compressed`. `expanded` by default)
     import: [sass, scss] # list of imported paths (`[sass, scss, node_modules]` by default)
     sourcemap: false     # enables sourcemap in debug mode (`false` by default)
     variables: []        # list of preset variables (empty by default)
   minify:
-    enabled: true        # enables asset minification (`true` by default)
-  target: assets         # where remote and resized assets are saved
+    enabled: true        # enables CSS et JS minification (`true` by default)
   images:
+    resize:
+      dir: thumbnails    # where resized images are stored (`thumbnails` by default)
     optimize:
       enabled: false     # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
     quality: 75          # image quality after optimization or resize (`75` by default)
     responsive:
-      enabled: false     # creates responsive images with `html` filter (`false` by default)
       widths: []         # `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
       sizes:
-        default: '100vw' # default `sizes` attribute
+        default: '100vw' # default `sizes` attribute (`100vw` by default)
+      enabled: false     # `html` filter: creates responsive images (`false` by default)
     webp:
-      enabled: false     # creates a WebP version of images with `html` filter (`false` by default)
-    resize:
-      dir: thumbnails    # directory to store resized assets (`thumbnails` by default)
+      enabled: false     # `html` filter: creates and adds a WebP image as a `source` (`false` by default)
 ```
 
 :::
