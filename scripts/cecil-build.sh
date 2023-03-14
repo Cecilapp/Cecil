@@ -54,7 +54,7 @@ case $RUNNING_ON in
       yum install -y gifsicle
       yum install -y libwebp-tools
     fi
-    URL="https://$VERCEL_URL"
+    URL="https://$VERCEL_URL" # https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
     if [ "$VERCEL_ENV" = "production" ]; then
       CONTEXT="production"
     fi
