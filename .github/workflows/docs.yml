@@ -21,7 +21,10 @@ jobs:
 
       - uses: DavidAnson/markdownlint-cli2-action@v9
         with:
-          globs: 'docs/**.md'
+          command: config
+          globs: |
+            .markdownlint.yaml
+            'docs/**.md'
         continue-on-error: true
 
       - name: Push files

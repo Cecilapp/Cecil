@@ -1,0 +1,3 @@
+# markdownlint configuration
+default: true
+MD013: true
