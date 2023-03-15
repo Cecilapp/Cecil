@@ -16,13 +16,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout source code
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 1
+      - name: Checkout source code
+        uses: actions/checkout@v3
 
-    - name: Push files
-      run: bash ./scripts/deploy-docs.sh
-      env:
-        TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
-        GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
+      - uses: DavidAnson/markdownlint-cli2-action@v9
+        with:
+          globs: 'docs/**.md'
+        continue-on-error: true
+
+      - name: Push files
+        run: bash ./scripts/deploy-docs.sh
+        env:
+          TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+          GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
