@@ -249,12 +249,12 @@ You can optionally add a title in quotation marks.
 ```
 
 :::info
-The path should be relative to the root of your website (e.g.: `/image.jpg`), however Cecil is able to normalize a path relative to _assets_ and _static_ directory (e.g.: `../../assets/image.jpg`).
+The path should be relative to the root of your website (e.g.: `/image.jpg`), however Cecil is able to normalize a path relative to _assets_ and _static_ directories (e.g.: `../../assets/image.jpg`).
 :::
 
 #### Lazy loading
 
-By default Cecil apply the attribute `loading="lazy"` on each images.
+Cecil adds the attribute `loading="lazy"` to each image.
 
 _Example:_
 
@@ -269,12 +269,12 @@ Is converted to:
 ```
 
 :::info
-You can disable the [`lazy` option](4-Configuration.md#body).
+You can disable this behavior with the attribute `{loading=eager}` or with the [`lazy` option](4-Configuration.md#body).
 :::
 
 #### Decoding
 
-By default Cecil apply the attribute `decoding="async"` on each images.
+Cecil adds the attribute `decoding="async"` to each image.
 
 _Example:_
 
@@ -289,12 +289,8 @@ Is converted to:
 ```
 
 :::info
-You can disable the [`decoding` option](4-Configuration.md#body).
+You can disable this behavior with the attribute `{decoding=auto}` or with the [`decoding` option](4-Configuration.md#body).
 :::
-
-#### CSS class
-
-You can set a default value to the `class` attribute of each image with the [`class` option](4-Configuration.md#body).
 
 #### Resize
 
@@ -313,11 +309,34 @@ Is converted to:
 ```
 
 :::info
-Ratio is preserved, `height` is calculated automatically, the original file is not altered, and the resized version is stored in `/assets/thumbnails/<width>/image.jpg`.
+Ratio is preserved (`height` attribute is calculated automatically), the original file is not altered and the resized version is stored in `/assets/thumbnails/<width>/`.
 :::
 
 :::important
 This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
+:::
+
+#### WebP
+
+If the [`webp` option](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
+
+_Example:_
+
+```markdown
+![](/image.jpg)
+```
+
+Is converted to:
+
+```html
+<picture>
+  <source srcset="/image.webp" type="image/webp">
+  <img src="/image.jpg">
+</picture>
+```
+
+:::important
+This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
 :::
 
 #### Responsive
@@ -362,32 +381,13 @@ assets:
 ![](/image.jpg){.my_class}
 ```
 
-#### WebP
-
-If the [`webp` option](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
-
-_Example:_
-
-```markdown
-![](/image.jpg)
-```
-
-Is converted to:
-
-```html
-<picture>
-  <source srcset="/image.webp" type="image/webp">
-  <img src="/image.jpg">
-</picture>
-```
-
-:::important
-This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
-:::
-
 :::info
 You can combine `webp` and `responsive` options.
 :::
+
+#### CSS class
+
+You can set a default value to the `class` attribute of each image with the [`class` option](4-Configuration.md#body).
 
 #### Caption
 
