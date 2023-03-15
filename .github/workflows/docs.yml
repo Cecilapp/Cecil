@@ -19,7 +19,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - uses: DavidAnson/markdownlint-cli2-action@v9
+      - name: Markdown lint
+        uses: DavidAnson/markdownlint-cli2-action@v9
         with:
           command: config
           globs: |
