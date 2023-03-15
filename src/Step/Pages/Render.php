@@ -312,10 +312,8 @@ class Render extends AbstractStep
 
         // replace internal link to *.md files with the right URL
         $output = preg_replace_callback(
-            // https://regex101.com/r/dZ02zO/6
-            //'/href="([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
             // https://regex101.com/r/ycWMe4/1
-            '/href="(\/|)([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9\-]+)?"/is',
+            '/href="(\/|)([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9_\-]+)?"/is',
             function ($matches) use ($page) {
                 // section spage
                 $hrefPattern = 'href="../%s/%s"';
