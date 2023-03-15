@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-03-01
+updated: 2023-03-15
 alias: documentation/layouts
 -->
 # Templates
@@ -690,7 +690,7 @@ _Examples:_
 
 ### excerpt_html
 
-Reads characters before or after `<!-- excerpt -->` or `<!-- break -->` tag.
+Reads characters before or after `<!-- excerpt -->` or `<!-- break -->` tag (see [Content documentation](2-Content.md#excerpt) for details).
 
 ```twig
 {{ string|excerpt_html({separator, capture}) }}

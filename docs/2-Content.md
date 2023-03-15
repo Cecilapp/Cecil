@@ -408,6 +408,10 @@ Is converted to:
 </figure>
 ```
 
+:::info
+Caption supports Markdown content.
+:::
+
 ### Table of contents
 
 You can add a table of contents with the following Markdown syntax:
@@ -431,6 +435,8 @@ Introduction.
 <!-- excerpt -->
 Main content.
 ```
+
+Then use the [`excerpt_html` filter](3-Templates.md#excerpt_html) in your template.
 
 ### Notes
 
