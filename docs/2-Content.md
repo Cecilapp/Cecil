@@ -436,7 +436,7 @@ Introduction.
 Main content.
 ```
 
-Then use the [`excerpt_html` filter](3-Templates.md#excerpt_html) in your template.
+Then use the [`excerpt_html` filter](3-Templates.md#excerpt-html) in your template.
 
 ### Notes
 
