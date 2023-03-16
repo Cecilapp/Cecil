@@ -197,12 +197,12 @@ _Example:_
 
 #### Embedded links
 
-You can let Cecil tries to turns a link into an embedded content by using the `{embed=true}` attribute or by setting the global configuration option `body.links.embed.enabled` to `true`.
+You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `body.links.embed.enabled` to `true`.
 
 _Example:_
 
 ```markdown
-[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed=true}
+[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed}
 ```
 
 :::info
@@ -216,7 +216,7 @@ Cecil can also create a video or audio HTML elements, through the file extension
 _Example:_
 
 ```markdown
-[The video](/video/test.mp4){controls poster=/images/video-test.png style="width:100%;"}
+[The video](/video/test.mp4){embed controls poster=/images/video-test.png style="width:100%;"}
 ```
 
 Is converted to:
@@ -230,7 +230,7 @@ Is converted to:
 _Example:_
 
 ```markdown
-[The audio file](/audio/test.mp3){controls}
+[The audio file](/audio/test.mp3){embed controls}
 ```
 
 Is converted to:
