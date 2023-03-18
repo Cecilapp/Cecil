@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2022-09-30
+updated: 2023-03-18
 -->
 # Commands
 
@@ -47,12 +47,11 @@ Arguments:
   path                  Use the given path as working directory
 
 Options:
-  -f, --force           Override the directory if already exist
-  -h, --help            Display this help message
+  -f, --force           Override directory if it already exists
+  -h, --help            Display help for the given command. When no command is given display help for the list command
   -q, --quiet           Do not output any message
   -V, --version         Display this application version
-      --ansi            Force ANSI output
-      --no-ansi         Disable ANSI output
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
   -n, --no-interaction  Do not ask any interactive question
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
@@ -76,14 +75,14 @@ Arguments:
   path                  Use the given path as working directory
 
 Options:
+  -p, --prefix          Prefix the file name with the current date (`YYYY-MM-DD`)
   -f, --force           Override the file if already exist
   -o, --open            Open editor automatically
-  -p, --prefix          Prefix the file name with the current date (`YYYY-MM-DD`)
-  -h, --help            Display this help message
+      --editor=EDITOR   Editor to use with open option
+  -h, --help            Display help for the given command. When no command is given display help for the list command
   -q, --quiet           Do not output any message
   -V, --version         Display this application version
-      --ansi            Force ANSI output
-      --no-ansi         Disable ANSI output
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
   -n, --no-interaction  Do not ask any interactive question
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
@@ -129,12 +128,11 @@ Options:
       --baseurl=BASEURL            Set the base URL
       --output=OUTPUT              Set the output directory
       --postprocess[=POSTPROCESS]  Post-process output (disable with "no") [default: false]
-      --clear-cache                Clear cache before build
-  -h, --help                       Display this help message
+      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
+  -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version
-      --ansi                       Force ANSI output
-      --no-ansi                    Disable ANSI output
+      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
   -n, --no-interaction             Do not ask any interactive question
   -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
@@ -164,12 +162,11 @@ Options:
       --host=HOST                  Server host
       --port=PORT                  Server port
       --postprocess[=POSTPROCESS]  Post-process output (disable with "no") [default: false]
-      --clear-cache                Clear cache before build
-  -h, --help                       Display this help message
+      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
+  -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version
-      --ansi                       Force ANSI output
-      --no-ansi                    Disable ANSI output
+      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
   -n, --no-interaction             Do not ask any interactive question
   -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
