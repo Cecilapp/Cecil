@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.32.5](https://github.com/Cecilapp/Cecil/compare/7.32.4...7.32.5)
+
+> 15 March 2023
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.15.0 to 3.15.1 [`#1646`](https://github.com/Cecilapp/Cecil/pull/1646)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.14.5 to 3.15.0 [`#1645`](https://github.com/Cecilapp/Cecil/pull/1645)
+- refactor: cleaning default config [`e25484e`](https://github.com/Cecilapp/Cecil/commit/e25484ed1cb816cf98f8eff31c130920cc041908)
+- docs: minor fix [`969deed`](https://github.com/Cecilapp/Cecil/commit/969deed6ee1557a1803291bf07932e77142589a9)
+- chore: lint Markdown docs? [`61c9465`](https://github.com/Cecilapp/Cecil/commit/61c946567f0584ff273fa2ee621b23500835d4b5)
+- docs: enhancements [`2d9c14a`](https://github.com/Cecilapp/Cecil/commit/2d9c14a860ebc3fe0747638926f4b5379b347643)
+- chore: markdown lint config [`44f52f2`](https://github.com/Cecilapp/Cecil/commit/44f52f23140c218f12d5adc5c9d1cf325cba56ea)
+- fix: link to Markdown file with anchor [`930863c`](https://github.com/Cecilapp/Cecil/commit/930863c7022ba42e587fa72cbc49f11eb3865439)
+- fix: markdownlint config [`b09519f`](https://github.com/Cecilapp/Cecil/commit/b09519fb49f2b39e677bc36632d70916f1273eb6)
+- chore: cleaning code [`3aec30c`](https://github.com/Cecilapp/Cecil/commit/3aec30c1fa9a40118c2c56e353d512eda351ff49)
+
 #### [7.32.4](https://github.com/Cecilapp/Cecil/compare/7.32.3...7.32.4)
 
 > 12 March 2023
