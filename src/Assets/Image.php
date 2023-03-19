@@ -50,29 +50,6 @@ class Image
     }
 
     /**
-     * Converts an image asset to WebP format.
-     *
-     * @throws RuntimeException
-     */
-    public static function convertTopWebp(Asset $asset, int $quality): Asset
-    {
-        if ($asset['type'] !== 'image') {
-            throw new RuntimeException(\sprintf('can\'t convert "%s" (%s) to WebP: it\'s not an image file.', $asset['path'], $asset['type']));
-        }
-
-        $assetWebp = clone $asset;
-        $format = 'webp';
-        $image = ImageManager::make($assetWebp['content']);
-        $assetWebp['content'] = (string) $image->encode($format, $quality);
-        $assetWebp['path'] = preg_replace('/\.' . $asset['ext'] . '$/m', ".$format", $asset['path']);
-        $assetWebp['ext'] = $format;
-        $assetWebp['subtype'] = "image/$format";
-        $assetWebp['size'] = strlen($assetWebp['content']);
-
-        return $assetWebp;
-    }
-
-    /**
      * Checks if an asset is an animated gif.
      */
     public static function isAnimatedGif(Asset $asset): bool

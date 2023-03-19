@@ -566,7 +566,7 @@ class Core extends SlugifyExtension
             // WebP conversion?
             if ($webp && $asset['subtype'] != 'image/webp' && !Image::isAnimatedGif($asset)) {
                 try {
-                    $assetWebp = Image::convertTopWebp($asset, $this->config->get('assets.images.quality') ?? 75);
+                    $assetWebp = $asset->webp();
                     // <source> element
                     $source = \sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
                     // responsive

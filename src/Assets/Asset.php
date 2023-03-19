@@ -474,6 +474,33 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Converts an image asset to WebP format.
+     *
+     * @throws RuntimeException
+     */
+    public function webp(?int $quality = null): self
+    {
+        if ($this->data['type'] !== 'image') {
+            throw new RuntimeException(\sprintf('can\'t convert "%s" (%s) to WebP: it\'s not an image file.', $this->data['path'], $this->data['type']));
+        }
+
+        if ($quality === null) {
+            $quality = (int) $this->config->get('assets.images.quality') ?? 75;
+        }
+
+        $assetWebp = clone $this;
+        $format = 'webp';
+        $image = ImageManager::make($assetWebp['content']);
+        $assetWebp['content'] = (string) $image->encode($format, $quality);
+        $assetWebp['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
+        $assetWebp['ext'] = $format;
+        $assetWebp['subtype'] = "image/$format";
+        $assetWebp['size'] = strlen($assetWebp['content']);
+
+        return $assetWebp;
+    }
+
+    /**
      * Implements \ArrayAccess.
      */
     #[\ReturnTypeWillChange]
