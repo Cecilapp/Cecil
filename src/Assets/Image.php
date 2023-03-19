@@ -33,7 +33,7 @@ class Image
         $srcset = '';
         $widthMax = 0;
         foreach ($widths as $width) {
-            if ($asset->getWidth() < $width) {
+            if ($asset['width'] < $width) {
                 break;
             }
             $img = $asset->resize($width);
@@ -42,8 +42,8 @@ class Image
         }
         rtrim($srcset, ', ');
         // add reference image
-        if (!empty($srcset) && ($asset->getWidth() != $widthMax)) {
-            $srcset .= \sprintf('%s %sw', (string) $asset, $asset->getWidth());
+        if (!empty($srcset) && ($asset['width'] != $widthMax)) {
+            $srcset .= \sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 
         return $srcset;
@@ -66,6 +66,8 @@ class Image
         $assetWebp['content'] = (string) $image->encode($format, $quality);
         $assetWebp['path'] = preg_replace('/\.' . $asset['ext'] . '$/m', ".$format", $asset['path']);
         $assetWebp['ext'] = $format;
+        $assetWebp['subtype'] = "image/$format";
+        $assetWebp['size'] = strlen($assetWebp['content']);
 
         return $assetWebp;
     }

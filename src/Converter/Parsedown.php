@@ -251,7 +251,7 @@ class Parsedown extends \ParsedownToC
         }
         $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
         $InlineImage['element']['attributes']['src'] = $asset;
-        $width = $asset->getWidth();
+        $width = $asset['width'];
 
         /*
          * Should be resized?
@@ -280,7 +280,7 @@ class Parsedown extends \ParsedownToC
         }
         // set height
         if (!isset($InlineImage['element']['attributes']['height'])) {
-            $InlineImage['element']['attributes']['height'] = ($assetResized ?? $asset)->getHeight();
+            $InlineImage['element']['attributes']['height'] = $assetResized !== null ? $assetResized['height'] : $asset['height'];
         }
 
         /*

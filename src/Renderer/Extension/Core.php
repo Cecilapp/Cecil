@@ -558,7 +558,7 @@ class Core extends SlugifyExtension
 
             // <img> element
             $img = \sprintf(
-                '<img src="%s" width="' . ($asset->getWidth() ?: '') . '" height="' . ($asset->getHeight() ?: '') . '"%s>',
+                '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
                 $this->url($asset, $options),
                 $htmlAttributes
             );

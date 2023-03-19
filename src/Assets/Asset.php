@@ -301,7 +301,10 @@ class Asset implements \ArrayAccess
             // update data
             $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
             $this->data['ext'] = 'css';
+            $this->data['type'] = 'text';
+            $this->data['subtype'] = 'text/css';
             $this->data['content'] = $scssPhp->compileString($this->data['content'])->getCss();
+            $this->data['size'] = strlen($this->data['content']);
             $this->compiled = true;
             $cache->set($cacheKey, $this->data);
         }
@@ -359,6 +362,7 @@ class Asset implements \ArrayAccess
                 $this->data['path']
             );
             $this->data['content'] = $minifier->minify();
+            $this->data['size'] = strlen($this->data['content']);
             $this->minified = true;
             $cache->set($cacheKey, $this->data);
         }
@@ -397,6 +401,7 @@ class Asset implements \ArrayAccess
                 );
             }
             $this->data['content'] = Util\File::fileGetContents($filepath);
+            $this->data['size'] = $sizeAfter;
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $message));
         }
@@ -419,7 +424,7 @@ class Asset implements \ArrayAccess
         if ($this->data['type'] != 'image') {
             throw new RuntimeException(\sprintf('Not able to resize "%s": not an image', $this->data['path']));
         }
-        if ($width >= $this->getWidth()) {
+        if ($width >= $this->data['width']) {
             return $this;
         }
 
@@ -456,6 +461,7 @@ class Asset implements \ArrayAccess
             try {
                 $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $quality);
                 $assetResized->data['height'] = $assetResized->getHeight();
+                $assetResized->data['size'] = strlen($assetResized->data['content']);
             } catch (\Exception $e) {
                 throw new RuntimeException(\sprintf('Not able to encode image "%s": %s', $assetResized->data['path'], $e->getMessage()));
             }
@@ -465,20 +471,6 @@ class Asset implements \ArrayAccess
         $assetResized->data = $cache->get($cacheKey);
 
         return $assetResized;
-    }
-
-    /**
-     * Returns the data URL of an image.
-     *
-     * @throws RuntimeException
-     */
-    public function dataurl(): string
-    {
-        if ($this->data['type'] !== 'image') {
-            throw new RuntimeException(\sprintf('Can\'t get data URL of "%s"', $this->data['path']));
-        }
-
-        return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
     }
 
     /**
@@ -531,46 +523,6 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns the width of an image/SVG.
-     *
-     * @throws RuntimeException
-     */
-    public function getWidth(): int
-    {
-        if ($this->data['type'] != 'image') {
-            return 0;
-        }
-        if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
-            return (int) $svg->width;
-        }
-        if (false === $size = $this->getImageSize()) {
-            throw new RuntimeException(\sprintf('Not able to get width of "%s"', $this->data['path']));
-        }
-
-        return $size[0];
-    }
-
-    /**
-     * Returns the height of an image/SVG.
-     *
-     * @throws RuntimeException
-     */
-    public function getHeight(): int
-    {
-        if ($this->data['type'] != 'image') {
-            return 0;
-        }
-        if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
-            return (int) $svg->height;
-        }
-        if (false === $size = $this->getImageSize()) {
-            throw new RuntimeException(\sprintf('Not able to get height of "%s"', $this->data['path']));
-        }
-
-        return $size[1];
-    }
-
-    /**
      * Returns MP3 file infos.
      *
      * @see https://github.com/wapmorgan/Mp3Info
@@ -582,6 +534,20 @@ class Asset implements \ArrayAccess
         }
 
         return new Mp3Info($this->data['file']);
+    }
+
+    /**
+     * Returns the data URL of an image.
+     *
+     * @throws RuntimeException
+     */
+    public function dataurl(): string
+    {
+        if ($this->data['type'] !== 'image') {
+            throw new RuntimeException(\sprintf('Can\'t get data URL of "%s"', $this->data['path']));
+        }
+
+        return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
     }
 
     /**
@@ -737,6 +703,46 @@ class Asset implements \ArrayAccess
         }
 
         return false;
+    }
+
+    /**
+     * Returns the width of an image/SVG.
+     *
+     * @throws RuntimeException
+     */
+    private function getWidth(): int
+    {
+        if ($this->data['type'] != 'image') {
+            return 0;
+        }
+        if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
+            return (int) $svg->width;
+        }
+        if (false === $size = $this->getImageSize()) {
+            throw new RuntimeException(\sprintf('Not able to get width of "%s"', $this->data['path']));
+        }
+
+        return $size[0];
+    }
+
+    /**
+     * Returns the height of an image/SVG.
+     *
+     * @throws RuntimeException
+     */
+    private function getHeight(): int
+    {
+        if ($this->data['type'] != 'image') {
+            return 0;
+        }
+        if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
+            return (int) $svg->height;
+        }
+        if (false === $size = $this->getImageSize()) {
+            throw new RuntimeException(\sprintf('Not able to get height of "%s"', $this->data['path']));
+        }
+
+        return $size[1];
     }
 
     /**
