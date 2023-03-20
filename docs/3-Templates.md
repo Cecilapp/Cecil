@@ -395,7 +395,7 @@ Uses [filters](#filters) to manipulate assets.
 :::
 
 :::important
-Be carreful about the cache ([enabled by default](4-Configuration.md#cache)): if an asset is modified but keeps the same name, then the previous version (cached) will be used. Cache can be cleared with with the following command: `php cecil.phar cache:clear:assets`.
+Be carreful about the cache ([enabled by default](4-Configuration.md#cache)): if an asset is modified but keeps the same name, then the previous version (cached) will be used. Cache can be cleared with the [command](5-Commands.md) `php cecil.phar cache:clear:assets`.
 :::
 
 _Examples:_
@@ -403,26 +403,27 @@ _Examples:_
 ```twig
 # CSS
 {{ asset('styles.css') }}
-# JavaScript
-{{ asset('scripts.js', {minify: false}) }}
-# image
-{{ asset('image.jpeg') }}
 # CSS bundle
 {{ asset(['poole.css', 'hyde.css'], {filename: styles.css}) }}
+# JavaScript
+{{ asset('scripts.js') }}
+# image
+{{ asset('image.jpeg') }}
 # remote file
-{{ asset('https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js') }}
+{{ asset('https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js', {minify: false}) }}
 # with filter
 {{ asset('styles.css')|minify }}
-{{ asset('styles.scss')|inline }}
+{{ asset('styles.scss')|to_css|minify }}
 ```
 
 #### Asset attributes
 
-Assets created with the `asset()` function expose some useful attributes :
+Assets created with the `asset()` function expose some useful attributes:
 
 - `file`: filesystem path
 - `files`: array of filesystem path in case of bundle
 - `filename`: file name
+- `path_source`: relative path before processing
 - `path`: relative path
 - `missing`: `true` if file not found, but missing is ollowed
 - `ext`: extension
