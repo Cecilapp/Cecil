@@ -52,7 +52,7 @@ class Asset implements \ArrayAccess
     protected $ignore_missing = false;
 
     /**
-     * Creates an Asset from a file path or an array of files path.
+     * Creates an Asset from a file path, an array of files path or an URL.
      *
      * @param Builder      $builder
      * @param string|array $paths
@@ -78,7 +78,7 @@ class Asset implements \ArrayAccess
         });
         $this->data = [
             'file'           => '',    // absolute file path
-            'files'          => [],    // bundle: files path
+            'files'          => [],    // array of files path (if bundle)
             'filename'       => '',    // filename
             'path_source'    => '',    // public path to the file, before transformations
             'path'           => '',    // public path to the file, after transformations
