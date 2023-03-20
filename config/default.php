@@ -302,6 +302,14 @@ return [
             'webp' => [
                 'enabled' => false, // `html` filter: creates and adds a WebP image as a `source` (`false` by default)
             ],
+            'cdn' => [
+                'enabled' => true,
+                //'url'     => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_%default%/%image_url%',
+                //'account' => 'aligny',
+                //'default' => 'cecil-logo.png',
+                'url'     => 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%',
+                'account' => 'ayrcxgimor',
+            ]
         ],
     ],
     'postprocess' => [

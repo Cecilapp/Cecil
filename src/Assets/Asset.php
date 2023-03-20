@@ -83,6 +83,7 @@ class Asset implements \ArrayAccess
             'filename'       => '',    // filename
             'path_source'    => '',    // public path to the file, before transformations
             'path'           => '',    // public path to the file, after transformations
+            'url'            => null,  // URL of a remote image
             'missing'        => false, // if file not found, but missing ollowed 'missing' is true
             'ext'            => '',    // file extension
             'type'           => '',    // file type (e.g.: image, audio, video, etc.)
@@ -143,6 +144,7 @@ class Asset implements \ArrayAccess
                     if (!empty($filename)) { /** @phpstan-ignore-line */
                         $this->data['path'] = '/' . ltrim($filename, '/');
                     }
+                    $this->data['url'] = $file[$i]['url'];
                     $this->data['ext'] = $file[$i]['ext'];
                     $this->data['type'] = $file[$i]['type'];
                     $this->data['subtype'] = $file[$i]['subtype'];
@@ -204,6 +206,28 @@ class Asset implements \ArrayAccess
             $this->save();
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
+        }
+
+        if ($this->data['type'] == 'image' && (bool) $this->config->get('assets.images.cdn.enabled')) {
+            return str_replace(
+                [
+                    '%account%',
+                    '%image_url%',
+                    '%width%',
+                    '%quality%',
+                    '%format%',
+                    '%default%',
+                ],
+                [
+                    $this->config->get('assets.images.cdn.account'),
+                    $this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => true]),
+                    $this->data['width'],
+                    $this->config->get('assets.images.quality') ?? 75,
+                    $this->data['ext'],
+                    $this->config->get('assets.images.cdn.default') ?? 'default.jpg',
+                ],
+                (string) $this->config->get('assets.images.cdn.url')
+            );
         }
 
         if ($this->builder->getConfig()->get('canonicalurl')) {
@@ -609,7 +633,9 @@ class Asset implements \ArrayAccess
      */
     private function loadFile(string $path, bool $ignore_missing = false, ?string $remote_fallback = null, bool $force_slash = true): array
     {
-        $file = [];
+        $file = [
+            'url' => null,
+        ];
 
         if (false === $filePath = $this->findFile($path, $remote_fallback)) {
             if ($ignore_missing) {
@@ -623,6 +649,7 @@ class Asset implements \ArrayAccess
         }
 
         if (Util\Url::isUrl($path)) {
+            $file['url'] = $path;
             $path = Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath());
             $path = Util::joinPath((string) $this->config->get('assets.target'), $path);
             $force_slash = true;
