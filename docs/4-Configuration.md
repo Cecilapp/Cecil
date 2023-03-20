@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-03-15
+updated: 2023-03-20
 -->
 # Configuration
 
@@ -757,6 +757,28 @@ assets:
 - `minify` is available for file with a `text/css` or `text/javascript` MIME Type
 - Enables sourcemap output requires [debug mode](#debug) is enabled
 :::
+
+#### Put the images in a CDN
+
+```yaml
+assets:
+  images:
+    cdn:
+      enabled: false
+      # Cloudinary
+      url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_%default%/%image_url%'
+      account: 'xxxx'
+      default: 'cloudinary-image-id'
+      # Cloudimage
+      url: 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%'
+      account: 'xxxx'
+```
+
+- `%account%`: provider account
+- `%image_url%`: path or URL of the remote image
+- `%width%`: image width
+- `%quality%`: image quality
+- `%format%`: image format (e.g.: 'jpg', 'png', 'webp', etc.)
 
 ### postprocess
 
