@@ -46,6 +46,7 @@ class Asset implements \ArrayAccess
 
     /** @var bool */
     protected $optimize = false;
+    /** @var bool */
     protected $optimized = false;
 
     /** @var bool */
