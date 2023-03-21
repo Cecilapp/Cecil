@@ -102,7 +102,7 @@ class Url
             case $value instanceof Asset:
                 /** @var Asset $value */
                 $this->url = $base . '/' . ltrim($value['path'], '/');
-                if ((bool) $this->config->get('assets.images.cdn.enabled')) {
+                if ($value->isImageInCdn()) {
                     $this->url = (string) $value;
                 }
                 break;

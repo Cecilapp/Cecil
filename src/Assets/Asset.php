@@ -208,7 +208,7 @@ class Asset implements \ArrayAccess
             $this->builder->getLogger()->error($e->getMessage());
         }
 
-        if ($this->data['type'] == 'image' && (bool) $this->config->get('assets.images.cdn.enabled')) {
+        if ($this->isImageInCdn()) {
             return str_replace(
                 [
                     '%account%',
@@ -624,6 +624,16 @@ class Asset implements \ArrayAccess
                 }
             }
         }
+    }
+
+    /**
+     * Is Asset is an image in CDN.
+     *
+     * @return boolean
+     */
+    public function isImageInCdn()
+    {
+        return $this->data['type'] == 'image' && (bool) $this->config->get('assets.images.cdn.enabled');
     }
 
     /**
