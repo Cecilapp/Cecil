@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.33.1](https://github.com/Cecilapp/Cecil/compare/7.33.0...7.33.1)
+
+> 21 March 2023
+
+- fix: cdn asset url [`80a0ecd`](https://github.com/Cecilapp/Cecil/commit/80a0ecd2b89198d5a3c421babbed2c947de7a934)
+- refactor: minor [`aff34c2`](https://github.com/Cecilapp/Cecil/commit/aff34c2e558332424fcb812953f06895a98f4c6e)
+
 #### [7.33.0](https://github.com/Cecilapp/Cecil/compare/7.32.5...7.33.0)
 
 > 20 March 2023
