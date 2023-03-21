@@ -507,7 +507,7 @@ class Core extends SlugifyExtension
     {
         $htmlAttributes = '';
         $preload = false;
-        $responsive = $this->config->get('assets.images.responsive.enabled') ?? false;
+        $responsive = (bool) $this->config->get('assets.images.responsive.enabled') ?? false;
         $webp = (bool) $this->config->get('assets.images.webp.enabled') ?? false;
         extract($options, EXTR_IF_EXISTS);
 
