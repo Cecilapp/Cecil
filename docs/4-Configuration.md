@@ -758,7 +758,7 @@ assets:
 - Enables sourcemap output requires [debug mode](#debug) is enabled
 :::
 
-#### Put the images in a CDN
+#### Put your images in a CDN
 
 If the option `assets.images.cdn` is enabled then the asset URL will be replaced by the provided CDN `url`.
 
