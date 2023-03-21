@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-03-20
+updated: 2023-03-21
 -->
 # Configuration
 
@@ -764,14 +764,9 @@ assets:
 assets:
   images:
     cdn:
-      enabled: false
-      # Cloudinary
-      url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_%default%/%image_url%'
-      account: 'xxxx'
-      default: 'cloudinary-image-id'
-      # Cloudimage
-      url: 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%'
-      account: 'xxxx'
+      enabled: true # false by default
+      url: 'https://provider.tld/%account%/%image_url%?w=%width%&q=%quality%&format=%format%'
+      account: 'xxxx' # provider account
 ```
 
 - `%account%`: provider account
@@ -779,6 +774,31 @@ assets:
 - `%width%`: image width
 - `%quality%`: image quality
 - `%format%`: image format (e.g.: 'jpg', 'png', 'webp', etc.)
+
+##### Providers
+
+###### [Cloudinary](https://cloudinary.com)
+
+```yaml
+assets:
+  images:
+    cdn:
+      enabled: true
+      url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_%default%/%image_url%'
+      account: 'xxxx'
+      default: 'cloudinary-image-id' # default image
+```
+
+###### [Cloudimage](https://www.cloudimage.io)
+
+```yaml
+assets:
+  images:
+    cdn:
+      enabled: true
+      url: 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%'
+      account: 'xxxx'
+```
 
 ### postprocess
 
