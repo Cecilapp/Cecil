@@ -83,6 +83,7 @@ class Url
 
         switch (true) {
             case $value instanceof Page:
+                /** @var Page $value */
                 if (!$format) {
                     $format = $value->getVariable('output');
                     if (is_array($value->getVariable('output'))) {
@@ -99,12 +100,14 @@ class Url
                 }
                 break;
             case $value instanceof Asset:
+                /** @var Asset $value */
                 $this->url = $base . '/' . ltrim($value['path'], '/');
                 if ((bool) $this->config->get('assets.images.cdn.enabled')) {
                     $this->url = (string) $value;
                 }
                 break;
             case is_string($value):
+                /** @var string $value */
                 // potential Page ID
                 $pageId = self::$slugifier->slugify($value);
                 // force language?
