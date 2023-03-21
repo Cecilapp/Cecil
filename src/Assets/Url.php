@@ -100,6 +100,9 @@ class Url
                 break;
             case $value instanceof Asset:
                 $this->url = $base . '/' . ltrim($value['path'], '/');
+                if ((bool) $this->config->get('assets.images.cdn.enabled')) {
+                    $this->url = (string) $value;
+                }
                 break;
             case is_string($value):
                 // potential Page ID
