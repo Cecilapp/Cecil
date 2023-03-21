@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.33.0](https://github.com/Cecilapp/Cecil/compare/7.32.5...7.33.0)
+
+> 20 March 2023
+
+- feat: add images CDN support [`#1648`](https://github.com/Cecilapp/Cecil/pull/1648)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.6 to 1.10.7 [`#1647`](https://github.com/Cecilapp/Cecil/pull/1647)
+- refactor: assets [`509d60b`](https://github.com/Cecilapp/Cecil/commit/509d60b4c6a144a1473789281232e07dea45530d)
+- refactor: Asset WebP [`df4a530`](https://github.com/Cecilapp/Cecil/commit/df4a5306b5df3e9782060654fa833ca49cc73aa9)
+- docs: update commands list [`0d160aa`](https://github.com/Cecilapp/Cecil/commit/0d160aaa12406e08b748a85eeb5adf8253ce95db)
+- docs: minor fix [`b37b359`](https://github.com/Cecilapp/Cecil/commit/b37b3598c551f86604bf0bf9280009583adb5e08)
+- docs: minor fix [`d94b82b`](https://github.com/Cecilapp/Cecil/commit/d94b82b8474d9631008e78d765b47ce6d666e140)
+- refactor: minor fix [`6743f23`](https://github.com/Cecilapp/Cecil/commit/6743f2340271004b38e133ca506b055a2e54fa70)
+- refactor: minor fix [`5eff125`](https://github.com/Cecilapp/Cecil/commit/5eff125ee3e7d49eb97a39d91c7fa41ed26d1e64)
+
 #### [7.32.5](https://github.com/Cecilapp/Cecil/compare/7.32.4...7.32.5)
 
 > 15 March 2023
