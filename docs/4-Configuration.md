@@ -760,6 +760,8 @@ assets:
 
 #### Put the images in a CDN
 
+If the option `assets.images.cdn` is enabled then the asset URL will be replaced by the provided CDN `url`.
+
 ```yaml
 assets:
   images:
@@ -769,13 +771,15 @@ assets:
       account: 'xxxx' # provider account
 ```
 
-- `%account%`: provider account
-- `%image_url%`: path or URL of the remote image
-- `%width%`: image width
-- `%quality%`: image quality
-- `%format%`: image format (e.g.: 'jpg', 'png', 'webp', etc.)
+`url` is a pattern that contains variables:
 
-##### Providers
+- `%account%` replaced by the `assets.images.cdn.account` option
+- `%image_url%` replaced by the asset `path` or the URL of the remote image
+- `%width%` replaced by the image width
+- `%quality%` replaced by the `assets.images.quality` option
+- `%format%` replaced by the image format
+
+##### Provider examples
 
 ###### [Cloudinary](https://cloudinary.com)
 
@@ -786,7 +790,7 @@ assets:
       enabled: true
       url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_%default%/%image_url%'
       account: 'xxxx'
-      default: 'cloudinary-image-id' # default image
+      default: 'cloudinary-image-id' # default image (optional)
 ```
 
 ###### [Cloudimage](https://www.cloudimage.io)
