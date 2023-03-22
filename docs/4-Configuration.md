@@ -788,9 +788,8 @@ assets:
   images:
     cdn:
       enabled: true
-      url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_%default%/%image_url%'
+      url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%'
       account: 'xxxx'
-      default: 'cloudinary-image-id' # default image (optional)
 ```
 
 ###### [Cloudimage](https://www.cloudimage.io)
