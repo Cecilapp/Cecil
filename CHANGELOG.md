@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.33.2](https://github.com/Cecilapp/Cecil/compare/7.33.1...7.33.2)
+
+> 21 March 2023
+
+- refactor: get CDN context for image assets [`a6a0b06`](https://github.com/Cecilapp/Cecil/commit/a6a0b06f38326fe8e35eb24359f22055e6cbe64b)
+- chore: better comments [`218fe5f`](https://github.com/Cecilapp/Cecil/commit/218fe5f8b84e2dbe000ba43ba554ec6955bda8b9)
+
 #### [7.33.1](https://github.com/Cecilapp/Cecil/compare/7.33.0...7.33.1)
 
 > 21 March 2023
