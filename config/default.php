@@ -305,9 +305,8 @@ return [
             'cdn' => [
                 'enabled' => false,
                 // Cloudinary
-                //'url'     => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_%default%/%image_url%',
+                //'url'     => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%',
                 //'account' => 'xxxx',
-                //'default' => 'cecil-logo.png',
                 // Cloudimage
                 //'url'     => 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%',
                 //'account' => 'xxxx',

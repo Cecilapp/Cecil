@@ -216,7 +216,6 @@ class Asset implements \ArrayAccess
                     '%width%',
                     '%quality%',
                     '%format%',
-                    '%default%',
                 ],
                 [
                     $this->config->get('assets.images.cdn.account'),
@@ -224,7 +223,6 @@ class Asset implements \ArrayAccess
                     $this->data['width'],
                     $this->config->get('assets.images.quality') ?? 75,
                     $this->data['ext'],
-                    $this->config->get('assets.images.cdn.default') ?? 'default.jpg',
                 ],
                 (string) $this->config->get('assets.images.cdn.url')
             );
