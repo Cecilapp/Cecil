@@ -209,23 +209,7 @@ class Asset implements \ArrayAccess
         }
 
         if ($this->isImageInCdn()) {
-            return str_replace(
-                [
-                    '%account%',
-                    '%image_url%',
-                    '%width%',
-                    '%quality%',
-                    '%format%',
-                ],
-                [
-                    $this->config->get('assets.images.cdn.account'),
-                    $this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => true]),
-                    $this->data['width'],
-                    $this->config->get('assets.images.quality') ?? 75,
-                    $this->data['ext'],
-                ],
-                (string) $this->config->get('assets.images.cdn.url')
-            );
+            return $this->buildImageCdnUrl();
         }
 
         if ($this->builder->getConfig()->get('canonicalurl')) {
@@ -631,7 +615,7 @@ class Asset implements \ArrayAccess
      */
     public function isImageInCdn()
     {
-        return $this->data['type'] == 'image' && (bool) $this->config->get('assets.images.cdn.enabled');
+        return $this->data['type'] == 'image' && !$this->isSVG() && (bool) $this->config->get('assets.images.cdn.enabled');
     }
 
     /**
@@ -860,5 +844,29 @@ class Asset implements \ArrayAccess
     private function sanitize(string $string): string
     {
         return str_replace(['<', '>', ':', '"', '\\', '|', '?', '*'], '_', $string);
+    }
+
+    /**
+     * Builds CDN image URL.
+     */
+    private function buildImageCdnUrl(): string
+    {
+        return str_replace(
+            [
+                '%account%',
+                '%image_url%',
+                '%width%',
+                '%quality%',
+                '%format%',
+            ],
+            [
+                $this->config->get('assets.images.cdn.account'),
+                $this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => true]),
+                $this->data['width'],
+                $this->config->get('assets.images.quality') ?? 75,
+                $this->data['ext'],
+            ],
+            (string) $this->config->get('assets.images.cdn.url')
+        );
     }
 }
