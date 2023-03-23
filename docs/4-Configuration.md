@@ -768,7 +768,7 @@ assets:
     cdn:
       enabled: false  # enables Image CDN (`false` by default)
       canonical: true # is `image_url` must be canonical or not (`true` by default)
-      remote: false   # includes remote images (`false` by default)
+      remote: true    # includes remote images (`true` by default)
       account: 'xxxx' # provider account
       url: 'https://provider.tld/%account%/%image_url%?w=%width%&q=%quality%&format=%format%'
 ```
@@ -813,6 +813,8 @@ assets:
     cdn:
       enabled: true
       account: 'xxxx'
+      canonical: false
+      remote: false
       url: 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%'
 ```
 
