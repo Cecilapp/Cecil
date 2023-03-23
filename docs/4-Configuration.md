@@ -766,9 +766,11 @@ If the option `assets.images.cdn` is enabled then URL of assets will be replaced
 assets:
   images:
     cdn:
-      enabled: true # false by default
-      url: 'https://provider.tld/%account%/%image_url%?w=%width%&q=%quality%&format=%format%'
+      enabled: false  # enables Image CDN (`false` by default)
+      canonical: true # is `image_url` must be canonical or not (`true` by default)
+      remote: false   # includes remote images (`false` by default)
       account: 'xxxx' # provider account
+      url: 'https://provider.tld/%account%/%image_url%?w=%width%&q=%quality%&format=%format%'
 ```
 
 `url` is a pattern that contains variables:
@@ -788,8 +790,8 @@ assets:
   images:
     cdn:
       enabled: true
-      url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%'
       account: 'xxxx'
+      url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%'
 ```
 
 ###### [Cloudimage](https://www.cloudimage.io)
@@ -799,8 +801,19 @@ assets:
   images:
     cdn:
       enabled: true
-      url: 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%'
       account: 'xxxx'
+      url: 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%'
+```
+
+###### [TwicPics](https://www.twicpics.com)
+
+```yaml
+assets:
+  images:
+    cdn:
+      enabled: true
+      account: 'xxxx'
+      url: 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%'
 ```
 
 ### postprocess
