@@ -303,13 +303,16 @@ return [
                 'enabled' => false, // `html` filter: creates and adds a WebP image as a `source` (`false` by default)
             ],
             'cdn' => [
-                'enabled' => false,
+                'enabled'   => false,  // enables Image CDN (`false` by default)
+                'canonical' => true,   // is `image_url` must be canonical or not (`true` by default)
+                'remote'    => false,  // includes remote images (`false` by default)
+                //'account' => 'xxxx', // provider account
                 // Cloudinary
-                //'url'     => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%',
-                //'account' => 'xxxx',
+                //'url'      => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%',
                 // Cloudimage
-                //'url'     => 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%',
-                //'account' => 'xxxx',
+                //'url'      => 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%',
+                // TwicPics
+                //'url'      => 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%',
             ]
         ],
     ],

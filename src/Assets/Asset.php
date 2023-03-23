@@ -438,6 +438,10 @@ class Asset implements \ArrayAccess
         $assetResized = clone $this;
         $assetResized->data['width'] = $width;
 
+        if ($this->isImageInCdn()) {
+            return $assetResized; // returns the asset with the new width only: CDN do the rest of the job
+        }
+
         $quality = $this->config->get('assets.images.quality');
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x", "q$quality"]);
@@ -497,10 +501,15 @@ class Asset implements \ArrayAccess
 
         $assetWebp = clone $this;
         $format = 'webp';
+        $assetWebp['ext'] = $format;
+
+        if ($this->isImageInCdn()) {
+            return $assetWebp; // returns the asset with the new format only: CDN do the rest of the job
+        }
+
         $image = ImageManager::make($assetWebp['content']);
         $assetWebp['content'] = (string) $image->encode($format, $quality);
         $assetWebp['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
-        $assetWebp['ext'] = $format;
         $assetWebp['subtype'] = "image/$format";
         $assetWebp['size'] = strlen($assetWebp['content']);
 
@@ -615,7 +624,15 @@ class Asset implements \ArrayAccess
      */
     public function isImageInCdn()
     {
-        return $this->data['type'] == 'image' && !$this->isSVG() && (bool) $this->config->get('assets.images.cdn.enabled');
+        if ($this->data['type'] != 'image' || $this->isSVG() || (bool) $this->config->get('assets.images.cdn.enabled') !== true) {
+            return false;
+        }
+        // remote image?
+        if ($this->data['url'] !== null && (bool) $this->config->get('assets.images.cdn.remote') !== true) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -861,7 +878,7 @@ class Asset implements \ArrayAccess
             ],
             [
                 $this->config->get('assets.images.cdn.account'),
-                $this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => true]),
+                ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical') ?? true]), '/'),
                 $this->data['width'],
                 $this->config->get('assets.images.quality') ?? 75,
                 $this->data['ext'],
