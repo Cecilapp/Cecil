@@ -781,7 +781,7 @@ assets:
 - `%quality%` replaced by the `assets.images.quality` option
 - `%format%` replaced by the image format
 
-##### Provider examples
+##### CDN provider examples
 
 ###### [Cloudinary](https://cloudinary.com)
 
