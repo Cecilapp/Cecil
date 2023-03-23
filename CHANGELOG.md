@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.33.3](https://github.com/Cecilapp/Cecil/compare/7.33.2...7.33.3)
+
+> 22 March 2023
+
+- fix: enhance CDN [`#1649`](https://github.com/Cecilapp/Cecil/pull/1649)
+- docs: update CDN [`592a710`](https://github.com/Cecilapp/Cecil/commit/592a710e5d5712d2e69a3128b08efaf190af79b6)
+- docs: update CDN configuration [`ff85700`](https://github.com/Cecilapp/Cecil/commit/ff85700912ef645070c2116d410cff1c3d813214)
+
 #### [7.33.2](https://github.com/Cecilapp/Cecil/compare/7.33.1...7.33.2)
 
 > 21 March 2023
