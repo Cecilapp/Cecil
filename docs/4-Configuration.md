@@ -818,6 +818,19 @@ assets:
       url: 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%'
 ```
 
+###### [imgix](https://imgix.com)
+
+```yaml
+assets:
+  images:
+    cdn:
+      enabled: true
+      account: 'xxxx'
+      canonical: false
+      remote: false
+      url: 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
+```
+
 ### postprocess
 
 Options of files optimizations after build step (post process).

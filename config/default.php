@@ -313,6 +313,8 @@ return [
                 //'url'       => 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%',
                 // TwicPics
                 //'url'       => 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%',
+                // imgix
+                //'url'       => 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
             ]
         ],
     ],
