@@ -96,7 +96,7 @@ class Image
 
         $assetLqip = clone $asset;
         $assetLqip = $assetLqip->resize(100);
-        return (string) ImageManager::make($assetLqip['content'])->blur(50)->interlace()->encode('data-url');
+        return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
     }
 
     /**
