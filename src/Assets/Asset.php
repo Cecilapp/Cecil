@@ -580,17 +580,17 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns the data URL of an image.
+     * Returns the data URL (encoded in Base64).
      *
      * @throws RuntimeException
      */
     public function dataurl(): string
     {
-        if ($this->data['type'] !== 'image') {
-            throw new RuntimeException(\sprintf('Can\'t get data URL of "%s"', $this->data['path']));
+        if ($this->data['type'] == 'image') {
+            return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
         }
 
-        return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
+        return sprintf("data:%s;base64,%s", $this->data['subtype'], base64_encode($this->data['content']));
     }
 
     /**
