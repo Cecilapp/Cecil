@@ -877,10 +877,19 @@ _Example:_
 
 ### dataurl
 
-Returns the [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) of an image.
+Returns the [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) of an asset.
 
 ```twig
+{{ asset(path)|dataurl }}
 {{ asset(image_path)|dataurl }}
+```
+
+### lqip
+
+Returns a Low Quality Image Placeholder (LQIP) as data URL.
+
+```twig
+{{ asset(image_path)|lqip }}
 ```
 
 ### dominant_color
