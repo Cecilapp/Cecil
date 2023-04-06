@@ -124,6 +124,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('resize', [$this, 'resize']),
             new \Twig\TwigFilter('dataurl', [$this, 'dataurl']),
             new \Twig\TwigFilter('dominant_color', [$this, 'dominantColor']),
+            new \Twig\TwigFilter('lqip', [$this, 'lqip']),
             // content
             new \Twig\TwigFilter('slugify', [$this, 'slugifyFilter']),
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
@@ -821,6 +822,22 @@ class Core extends SlugifyExtension
         }
 
         return Image::getDominantColor($asset);
+    }
+
+    /**
+     * Returns a Low Quality Image Placeholder (LQIP) as data URL.
+     *
+     * @param string|Asset $asset
+     *
+     * @return string
+     */
+    public function lqip($asset): string
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return Image::getLqip($asset);
     }
 
     /**

@@ -84,6 +84,22 @@ class Image
     }
 
     /**
+     * Returns a Low Quality Image Placeholder (LQIP) as data URL.
+     *
+     * @throws RuntimeException
+     */
+    public static function getLqip(Asset $asset): string
+    {
+        if ($asset['type'] !== 'image') {
+            throw new RuntimeException(\sprintf('can\'t create LQIP of "%s": it\'s not an image file.', $asset['path']));
+        }
+
+        $assetLqip = clone $asset;
+        $assetLqip = $assetLqip->resize(100);
+        return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
+    }
+
+    /**
      * Returns the value of "sizes" corresponding to the configured class.
      */
     public static function getSizes(string $class, array $config): string
