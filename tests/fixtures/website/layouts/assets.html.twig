@@ -224,20 +224,20 @@ pre {
 
   <h2>Low Quality Image Placeholder (LQIP) as data URL</h2>
   <p>
-    <pre>asset('ISS_ULF3_STS-129.jpg')|lqip</pre>
+    <pre>asset('ISS.jpg')|lqip</pre>
     <blockquote>
-      {{- asset('ISS_ULF3_STS-129.jpg')|lqip -}}
+      {{- asset('ISS.jpg')|lqip -}}
     </blockquote>
     <blockquote>
-      <img src="{{ asset('ISS_ULF3_STS-129.jpg')|lqip }}" />
+      <img src="{{ asset('ISS.jpg')|lqip }}" />
     </blockquote>
   </p>
 
   <h2>Read EXIF data</h2>
   <p>
-    <pre>asset('ISS_ULF3_STS-129.jpg').exif</pre>
+    <pre>asset('ISS.jpg').exif</pre>
     <blockquote>
-      {{- dump(asset('ISS_ULF3_STS-129.jpg').exif) -}}
+      {{- dump(asset('ISS.jpg').exif) -}}
     </blockquote>
   </p>
 {% endblock content %}
