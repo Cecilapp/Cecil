@@ -214,11 +214,22 @@ pre {
     <pre>{{ asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})|e }}</pre>
   </p>
 
-  <h2>Dominant color</h2>
+  <h2>Image dominant color</h2>
   <p>
     <pre>asset('images/cecil-logo.png')|dominant_color</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png')|dominant_color -}}
+    </blockquote>
+  </p>
+
+  <h2>Low Quality Image Placeholder (LQIP) as data URL</h2>
+  <p>
+    <pre>asset('ISS_ULF3_STS-129.jpg')|lqip</pre>
+    <blockquote>
+      {{- asset('ISS_ULF3_STS-129.jpg')|lqip -}}
+    </blockquote>
+    <blockquote>
+      <img src="{{ asset('ISS_ULF3_STS-129.jpg')|lqip }}" />
     </blockquote>
   </p>
 
