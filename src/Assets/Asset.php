@@ -470,7 +470,9 @@ class Asset implements \ArrayAccess
             );
 
             try {
+                $img->interlace();
                 $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $quality);
+                $img->destroy();
                 $assetResized->data['height'] = $assetResized->getHeight();
                 $assetResized->data['size'] = strlen($assetResized->data['content']);
             } catch (\Exception $e) {
@@ -507,8 +509,10 @@ class Asset implements \ArrayAccess
             return $assetWebp; // returns the asset with the new format only: CDN do the rest of the job
         }
 
-        $image = ImageManager::make($assetWebp['content']);
-        $assetWebp['content'] = (string) $image->encode($format, $quality);
+        $img = ImageManager::make($assetWebp['content']);
+        $img->interlace();
+        $assetWebp['content'] = (string) $img->encode($format, $quality);
+        $img->interlace();
         $assetWebp['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
         $assetWebp['subtype'] = "image/$format";
         $assetWebp['size'] = strlen($assetWebp['content']);
@@ -587,7 +591,7 @@ class Asset implements \ArrayAccess
     public function dataurl(): string
     {
         if ($this->data['type'] == 'image') {
-            return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
+            return (string) ImageManager::make($this->data['content'])->interlace()->encode('data-url', $this->config->get('assets.images.quality'));
         }
 
         return sprintf("data:%s;base64,%s", $this->data['subtype'], base64_encode($this->data['content']));
