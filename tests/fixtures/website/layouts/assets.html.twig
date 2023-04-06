@@ -144,6 +144,33 @@ pre {
     </blockquote>
   </p>
 
+  <h2>Image dominant color</h2>
+  <p>
+    <pre>asset('images/cecil-logo.png')|dominant_color</pre>
+    <blockquote>
+      {{- asset('images/cecil-logo.png')|dominant_color -}}
+    </blockquote>
+  </p>
+
+  <h2>Low Quality Image Placeholder (LQIP) as data URL</h2>
+  <p>
+    <pre>asset('cecil-logo-1000.png')|lqip</pre>
+    <blockquote>
+      {{- asset('cecil-logo-1000.png')|lqip -}}
+    </blockquote>
+    <blockquote>
+      <img src="{{ asset('cecil-logo-1000.png')|lqip }}" />
+    </blockquote>
+  </p>
+
+  <h2>Read EXIF data</h2>
+  <p>
+    <pre>asset('ISS.jpg').exif</pre>
+    <blockquote>
+      {{- dump(asset('ISS.jpg').exif) -}}
+    </blockquote>
+  </p>
+
   <h2>Inline</h2>
   <p>
     <pre>asset('css/style.css')|inline</pre>
@@ -212,32 +239,5 @@ pre {
   <p>
     <pre>asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})</pre>
     <pre>{{ asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})|e }}</pre>
-  </p>
-
-  <h2>Image dominant color</h2>
-  <p>
-    <pre>asset('images/cecil-logo.png')|dominant_color</pre>
-    <blockquote>
-      {{- asset('images/cecil-logo.png')|dominant_color -}}
-    </blockquote>
-  </p>
-
-  <h2>Low Quality Image Placeholder (LQIP) as data URL</h2>
-  <p>
-    <pre>asset('ISS.jpg')|lqip</pre>
-    <blockquote>
-      {{- asset('ISS.jpg')|lqip -}}
-    </blockquote>
-    <blockquote>
-      <img src="{{ asset('ISS.jpg')|lqip }}" />
-    </blockquote>
-  </p>
-
-  <h2>Read EXIF data</h2>
-  <p>
-    <pre>asset('ISS.jpg').exif</pre>
-    <blockquote>
-      {{- dump(asset('ISS.jpg').exif) -}}
-    </blockquote>
   </p>
 {% endblock content %}
