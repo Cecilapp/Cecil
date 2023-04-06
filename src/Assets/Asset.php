@@ -454,7 +454,7 @@ class Asset implements \ArrayAccess
             }
 
             try {
-                $img = ImageManager::make($assetResized->data['content_source']);
+                $img = ImageManager::make($assetResized->data['content_source'])->encode($assetResized->data['ext']);
                 $img->resize($width, null, function (\Intervention\Image\Constraint $constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
@@ -470,7 +470,9 @@ class Asset implements \ArrayAccess
             );
 
             try {
-                $img->interlace();
+                if ($assetResized->data['subtype'] == 'image/jpeg') {
+                    $img->interlace();
+                }
                 $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $quality);
                 $img->destroy();
                 $assetResized->data['height'] = $assetResized->getHeight();
@@ -510,9 +512,8 @@ class Asset implements \ArrayAccess
         }
 
         $img = ImageManager::make($assetWebp['content']);
-        $img->interlace();
         $assetWebp['content'] = (string) $img->encode($format, $quality);
-        $img->interlace();
+        $img->destroy();
         $assetWebp['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
         $assetWebp['subtype'] = "image/$format";
         $assetWebp['size'] = strlen($assetWebp['content']);
@@ -591,7 +592,7 @@ class Asset implements \ArrayAccess
     public function dataurl(): string
     {
         if ($this->data['type'] == 'image') {
-            return (string) ImageManager::make($this->data['content'])->interlace()->encode('data-url', $this->config->get('assets.images.quality'));
+            return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
         }
 
         return sprintf("data:%s;base64,%s", $this->data['subtype'], base64_encode($this->data['content']));
