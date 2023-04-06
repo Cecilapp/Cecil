@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.34.0](https://github.com/Cecilapp/Cecil/compare/7.33.5...7.34.0)
+
+> 6 April 2023
+
+- feat: image LQIP filter [`#1664`](https://github.com/Cecilapp/Cecil/pull/1664)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.10 to 1.10.11 [`#1663`](https://github.com/Cecilapp/Cecil/pull/1663)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.9 to 1.10.10 [`#1662`](https://github.com/Cecilapp/Cecil/pull/1662)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.15.1 to 3.16.0 [`#1661`](https://github.com/Cecilapp/Cecil/pull/1661)
+- chore(deps): bump symfony/property-access from 5.4.21 to 5.4.22 [`#1660`](https://github.com/Cecilapp/Cecil/pull/1660)
+- chore(deps): bump symfony/serializer from 5.4.15 to 5.4.22 [`#1659`](https://github.com/Cecilapp/Cecil/pull/1659)
+- chore(deps): bump symfony/console from 5.4.21 to 5.4.22 [`#1658`](https://github.com/Cecilapp/Cecil/pull/1658)
+- chore(deps-dev): bump symfony/var-dumper from 5.4.21 to 5.4.22 [`#1657`](https://github.com/Cecilapp/Cecil/pull/1657)
+- chore(deps): bump symfony/process from 5.4.21 to 5.4.22 [`#1656`](https://github.com/Cecilapp/Cecil/pull/1656)
+- chore(deps): bump symfony/translation from 5.4.21 to 5.4.22 [`#1655`](https://github.com/Cecilapp/Cecil/pull/1655)
+- chore(deps): bump symfony/twig-bridge from 5.4.21 to 5.4.22 [`#1654`](https://github.com/Cecilapp/Cecil/pull/1654)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.8 to 1.10.9 [`#1653`](https://github.com/Cecilapp/Cecil/pull/1653)
+- chore(deps-dev): bump phpunit/phpunit from 9.6.5 to 9.6.6 [`#1652`](https://github.com/Cecilapp/Cecil/pull/1652)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.7 to 1.10.8 [`#1651`](https://github.com/Cecilapp/Cecil/pull/1651)
+- chore: update deps [`0c461ca`](https://github.com/Cecilapp/Cecil/commit/0c461ca8bf50519ce7239b3baec8ba7ce5d48db7)
+- feat: enhances Asset data IRL [`5fd438a`](https://github.com/Cecilapp/Cecil/commit/5fd438a98dd7fc7412dc1e8fbf76f4d6b72c8353)
+- docs: imgix CDN example [`f33dabb`](https://github.com/Cecilapp/Cecil/commit/f33dabb8e065c45393fc43753b3510c7db3e9d6a)
+- chore: update deps [`5faf212`](https://github.com/Cecilapp/Cecil/commit/5faf2121cfac351ad2a6c5fa94c0ceff48cdb299)
+- refactor: better image handling [`6c35831`](https://github.com/Cecilapp/Cecil/commit/6c3583161a8ee21d877d555fce88a38f616b8e68)
+
 #### [7.33.5](https://github.com/Cecilapp/Cecil/compare/7.33.4...7.33.5)
 
 > 24 March 2023
