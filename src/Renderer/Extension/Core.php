@@ -553,7 +553,7 @@ class Core extends SlugifyExtension
                 )
             ) {
                 $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                $sizes = Image::getSizes($attributes['class'], (array) $this->builder->getConfig()->get('assets.images.responsive.sizes'));
+                $sizes = Image::getSizes($attributes['class'] ?? '', (array) $this->builder->getConfig()->get('assets.images.responsive.sizes'));
                 $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
             }
 
