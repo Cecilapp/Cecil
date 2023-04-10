@@ -598,6 +598,8 @@ class Core extends SlugifyExtension
 
     /**
      * Creates HTML `srcset` attribute of an image Asset.
+     *
+     * @throws RuntimeException
      */
     public function imageSrcset(Asset $asset): string
     {
@@ -614,6 +616,8 @@ class Core extends SlugifyExtension
 
     /**
      * Converts an image Asset to WebP format.
+     *
+     * @throws RuntimeException
      */
     public function webp(Asset $asset): Asset
     {
@@ -626,6 +630,7 @@ class Core extends SlugifyExtension
         try {
             return $asset->webp();
         } catch (\Exception $e) {
+            return $asset;
             $this->builder->getLogger()->debug($e->getMessage());
         }
     }
