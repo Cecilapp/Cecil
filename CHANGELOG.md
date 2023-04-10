@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.35.0](https://github.com/Cecilapp/Cecil/compare/7.34.1...7.35.0)
+
+> 11 April 2023
+
+- feat: images functions and filters [`#1665`](https://github.com/Cecilapp/Cecil/pull/1665)
+- refactor: better images handling [`0471add`](https://github.com/Cecilapp/Cecil/commit/0471addd525b0afbec9b288fea1aec398593ade0)
+- docs: update templates [`0ed1582`](https://github.com/Cecilapp/Cecil/commit/0ed15825dc6bc5ebf8daaf2a71775e21fb3083fe)
+
 #### [7.34.1](https://github.com/Cecilapp/Cecil/compare/7.34.0...7.34.1)
 
 > 7 April 2023
