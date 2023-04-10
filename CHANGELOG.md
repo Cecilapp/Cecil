@@ -1033,7 +1033,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`b4d5dde`](https://github.com/Cecilapp/Cecil/commit/b4d5ddef2097ed663fb94d767e6bcca3ef942403)
 - chore: clean fixtures [`4bd6acd`](https://github.com/Cecilapp/Cecil/commit/4bd6acd12218ca8be6ae894f9eaeba4129a3ed6d)
 
-#### [6.0.0](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.7...6.0.0)
+### [6.0.0](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.7...6.0.0)
 
 > 4 August 2022
 
@@ -4821,7 +4821,7 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - New skeleton [`#104`](https://github.com/Cecilapp/Cecil/pull/104)
 
-#### [2.0.0](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.27...2.0.0)
+### [2.0.0](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.27...2.0.0)
 
 > 13 November 2017
 
