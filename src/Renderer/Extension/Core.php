@@ -76,6 +76,8 @@ class Core extends SlugifyExtension
             // assets
             new \Twig\TwigFunction('asset', [$this, 'asset']),
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
+            new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
+            new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             // others
@@ -125,6 +127,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('dataurl', [$this, 'dataurl']),
             new \Twig\TwigFilter('dominant_color', [$this, 'dominantColor']),
             new \Twig\TwigFilter('lqip', [$this, 'lqip']),
+            new \Twig\TwigFilter('webp', [$this, 'webp']),
             // content
             new \Twig\TwigFilter('slugify', [$this, 'slugifyFilter']),
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
@@ -591,6 +594,46 @@ class Core extends SlugifyExtension
         }
 
         throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and images files only.', '"html" filter'));
+    }
+
+    /**
+     * Creates HTML `srcset` attribute of an image Asset.
+     *
+     * @throws RuntimeException
+     */
+    public function imageSrcset(Asset $asset): string
+    {
+        return Image::buildSrcset($asset, $this->config->getAssetsImagesWidths());
+    }
+
+    /**
+     * Creates HTML `sizes` attribute based of class value.
+     */
+    public function imageSizes(string $class): string
+    {
+        return Image::getSizes($class, (array) $this->config->get('assets.images.responsive.sizes'));
+    }
+
+    /**
+     * Converts an image Asset to WebP format.
+     *
+     * @throws RuntimeException
+     */
+    public function webp(Asset $asset): Asset
+    {
+        if ($asset['subtype'] == 'image/webp') {
+            return $asset;
+        }
+        if (Image::isAnimatedGif($asset)) {
+            throw new RuntimeException(sprintf('Can\'t convert "%s" to WebP.', $asset['path']));
+        }
+        try {
+            return $asset->webp();
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->debug($e->getMessage());
+
+            return $asset;
+        }
     }
 
     /**
