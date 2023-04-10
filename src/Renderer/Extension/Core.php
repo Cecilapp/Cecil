@@ -630,8 +630,9 @@ class Core extends SlugifyExtension
         try {
             return $asset->webp();
         } catch (\Exception $e) {
-            return $asset;
             $this->builder->getLogger()->debug($e->getMessage());
+
+            return $asset;
         }
     }
 
