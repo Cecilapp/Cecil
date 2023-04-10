@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.34.1](https://github.com/Cecilapp/Cecil/compare/7.34.0...7.34.1)
+
+> 7 April 2023
+
+- fix: dataurl filter with SVG [`0a6ade7`](https://github.com/Cecilapp/Cecil/commit/0a6ade7b34d28cdcda32298b1d8bc10726107717)
+
 #### [7.34.0](https://github.com/Cecilapp/Cecil/compare/7.33.5...7.34.0)
 
 > 6 April 2023
