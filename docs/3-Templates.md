@@ -447,6 +447,34 @@ _Examples:_
 {% set integrity = asset('styles.scss').integrity %}
 ```
 
+### image_srcset
+
+Creates HTML `srcset` attribute of an image Asset.
+
+```twig
+{{ image_srcset(asset) }}
+```
+
+_Examples:_
+
+```twig
+<img src="{{ asset|url }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="photo" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('photo') }}">
+```
+
+### image_sizes
+
+Creates HTML `sizes` attribute based of class value.
+
+```twig
+{{ image_sizes('class') }}
+```
+
+_Examples:_
+
+```twig
+<img src="{{ asset|url }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="photo" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('photo') }}">
+```
+
 ### integrity
 
 Creates the hash (`sha384`) of a file (from an asset or a path).
@@ -948,6 +976,19 @@ _Examples:_
 
 ```twig
 {{ asset('styles.css')|html({title: 'Main theme'}, {preload: true}) }}
+```
+
+### webp
+
+Converts an image Asset to WebP format.
+
+_Example:_
+
+```twig
+<picture>
+    <source type="image/webp" srcset="{{ image_srcset(asset|webp) }}" sizes="{{ image_sizes('photo') }}">
+    <img src="{{ asset|url }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="photo" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('photo') }}">
+</picture>
 ```
 
 ### preg_split
