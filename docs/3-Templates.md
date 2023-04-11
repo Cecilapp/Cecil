@@ -462,6 +462,7 @@ Builds the HTML img `srcset` (responsive) attribute of an image Asset.
 _Examples:_
 
 ```twig
+{{ set asset = asset(image_path) }}
 <img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
 ```
 
@@ -477,6 +478,7 @@ It should be use in conjunction with the [`image_srcset`](3-Templates.md#image-s
 _Examples:_
 
 ```twig
+{{ set asset = asset(image_path) }}
 <img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
 ```
 
@@ -916,8 +918,8 @@ _Example:_
 
 ```twig
 <picture>
-    <source type="image/webp" srcset="{{ image_srcset(asset|webp) }}" sizes="{{ image_sizes('asset') }}">
-    <img src="{{ asset|url }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="photo" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
+    <source type="image/webp" srcset="{{ asset(image_path)|webp }}">
+    <img src="{{ url(asset(image_path)) }}" width="{{ asset(image_path).width }}" height="{{ asset(image_path).height }}" alt="">
 </picture>
 ```
 
@@ -940,7 +942,7 @@ Returns a [Low Quality Image Placeholder](https://www.guypo.com/introducing-lqip
 
 ### dominant_color
 
-Returns the dominant hex color of an image.
+Returns the dominant hexadecimal color of an image.
 
 ```twig
 {{ asset(image_path)|dominant_color }}
