@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.35.1](https://github.com/Cecilapp/Cecil/compare/7.35.0...7.35.1)
+
+> 11 April 2023
+
+- fix: html filter [`6496151`](https://github.com/Cecilapp/Cecil/commit/6496151028c2b0a67ac401670e8b8b224e4d07a4)
+
 #### [7.35.0](https://github.com/Cecilapp/Cecil/compare/7.34.1...7.35.0)
 
 > 11 April 2023
