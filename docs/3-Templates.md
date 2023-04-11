@@ -329,7 +329,7 @@ Variables available in _vocabulary_ and _term_ templates.
 
 ### url
 
-Create a valid URL for a page, an asset, a page ID or a path.
+Creates a valid URL for a page, an asset, a page ID or a path.
 
 ```twig
 {{ url(value, {options}) }}
@@ -383,11 +383,11 @@ Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL 
 | -------------- | --------------------------------------------------- | ------- | ------- |
 | fingerprint    | Add the file content finger print to the file name. | boolean | `true`  |
 | minify         | Compress file content (CSS or JavaScript).          | boolean | `true`  |
-| filename       | File where to save content.                         | string  |         |
+| filename       | File where to save content.                         | string  | `styles.css` or `scripts.js` |
 | ignore_missing | Do not stop build if file don't exists.             | boolean | `false` |
 
 :::info
-Refer to [assets configuration](4-Configuration.md#assets) to define the global behavior.  
+Refers to [assets configuration](4-Configuration.md#assets) to define the global behavior.  
 :::
 
 :::tip
@@ -395,7 +395,7 @@ Uses [filters](#filters) to manipulate assets.
 :::
 
 :::important
-Be carreful about the cache ([enabled by default](4-Configuration.md#cache)): if an asset is modified but keeps the same name, then the previous version (cached) will be used. Cache can be cleared with the [command](5-Commands.md) `php cecil.phar cache:clear:assets`.
+Be carreful about the cache ([enabled by default](4-Configuration.md#cache)): if an asset is modified but keeps the same name, then the cached version will be used. Cache can be cleared with the [command](5-Commands.md) `php cecil.phar cache:clear:assets`.
 :::
 
 _Examples:_
@@ -441,15 +441,19 @@ Assets created with the `asset()` function expose some useful attributes:
 _Examples:_
 
 ```twig
+# image width in pixels
 {{ asset('image.png').width }}px
+# photo's date in seconds
 {{ asset('photo.jpeg').exif.DateTimeOriginal|date('U') }}
+# MP3 song duration in minutes
 {{ asset('title.mp3').audio.duration|round }} min
+# file integrity hash
 {% set integrity = asset('styles.scss').integrity %}
 ```
 
 ### image_srcset
 
-Creates HTML `srcset` attribute of an image Asset.
+Builds the HTML img `srcset` (responsive) attribute of an image Asset.
 
 ```twig
 {{ image_srcset(asset) }}
@@ -458,12 +462,13 @@ Creates HTML `srcset` attribute of an image Asset.
 _Examples:_
 
 ```twig
-<img src="{{ asset|url }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="photo" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('photo') }}">
+<img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
 ```
 
 ### image_sizes
 
-Creates HTML `sizes` attribute based of class value.
+Returns the HTML img `sizes` attribute based on a CSS class name.  
+It should be use in conjunction with the [`image_srcset`](3-Templates.md#image-srcset) function.
 
 ```twig
 {{ image_sizes('class') }}
@@ -472,7 +477,7 @@ Creates HTML `sizes` attribute based of class value.
 _Examples:_
 
 ```twig
-<img src="{{ asset|url }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="photo" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('photo') }}">
+<img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
 ```
 
 ### integrity
@@ -903,6 +908,19 @@ _Example:_
 {{ asset(page.image)|resize(300) }}
 ```
 
+### webp
+
+Converts an image to WebP format.
+
+_Example:_
+
+```twig
+<picture>
+    <source type="image/webp" srcset="{{ image_srcset(asset|webp) }}" sizes="{{ image_sizes('asset') }}">
+    <img src="{{ asset|url }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="photo" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
+</picture>
+```
+
 ### dataurl
 
 Returns the [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) of an asset.
@@ -976,19 +994,6 @@ _Examples:_
 
 ```twig
 {{ asset('styles.css')|html({title: 'Main theme'}, {preload: true}) }}
-```
-
-### webp
-
-Converts an image Asset to WebP format.
-
-_Example:_
-
-```twig
-<picture>
-    <source type="image/webp" srcset="{{ image_srcset(asset|webp) }}" sizes="{{ image_sizes('photo') }}">
-    <img src="{{ asset|url }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="photo" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('photo') }}">
-</picture>
 ```
 
 ### preg_split
