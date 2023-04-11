@@ -934,7 +934,7 @@ Returns the [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTT
 
 ### lqip
 
-Returns a [Low Quality Image Placeholder](https://www.guypo.com/introducing-lqip-low-quality-image-placeholders) as data URL.
+Returns a [Low Quality Image Placeholder](https://www.guypo.com/introducing-lqip-low-quality-image-placeholders) (100x100 px, 50% blurred) as data URL.
 
 ```twig
 {{ asset(image_path)|lqip }}
