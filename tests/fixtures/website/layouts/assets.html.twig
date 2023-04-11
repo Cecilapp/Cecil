@@ -120,11 +120,41 @@ pre {
     </pre>
   </p>
 
-  <h2>Image size</h2>
+  <h2>Image URL</h2>
+  <p>
+    <pre>url(asset('images/cecil-logo.png'))</pre>
+    <blockquote>
+      {{- url(asset('images/cecil-logo.png')) -}}
+    </blockquote>
+  </p>
+
+  <h2>Image width x height</h2>
   <p>
     <pre>asset('images/cecil-logo.png').width x asset('images/cecil-logo.png').height</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png').width ~ ' x ' ~ asset('images/cecil-logo.png').height -}}
+    </blockquote>
+  </p>
+
+  <h2>Image resize</h2>
+  <p>
+    <pre>asset('images/cecil-logo.png')|resize(96)</pre>
+    <pre>{{ asset('images/cecil-logo.png')|resize(96) }}</pre>
+  </p>
+
+  <h2>Image `srcset`</h2>
+  <p>
+    <pre>image_srcset(asset('cecil-logo-1000.png'))</pre>
+    <blockquote>
+      {{- image_srcset(asset('cecil-logo-1000.png')) -}}
+    </blockquote>
+  </p>
+
+  <h2>Image `sizes`</h2>
+  <p>
+    <pre>image_sizes('test')</pre>
+    <blockquote>
+      {{- image_sizes('test') -}}
     </blockquote>
   </p>
 
