@@ -462,7 +462,7 @@ Builds the HTML img `srcset` (responsive) attribute of an image Asset.
 _Examples:_
 
 ```twig
-{{ set asset = asset(image_path) }}
+{% set asset = asset(image_path) %}
 <img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
 ```
 
@@ -478,7 +478,7 @@ It should be use in conjunction with the [`image_srcset`](3-Templates.md#image-s
 _Examples:_
 
 ```twig
-{{ set asset = asset(image_path) }}
+{% set asset = asset(image_path) %}
 <img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
 ```
 
