@@ -597,7 +597,7 @@ class Core extends SlugifyExtension
     }
 
     /**
-     * Creates HTML `srcset` attribute of an image Asset.
+     * Builds the HTML img `srcset` (responsive) attribute of an image Asset.
      *
      * @throws RuntimeException
      */
@@ -607,11 +607,11 @@ class Core extends SlugifyExtension
     }
 
     /**
-     * Creates HTML `sizes` attribute based of class value.
+     * Returns the HTML img `sizes` attribute based on a CSS class name.
      */
     public function imageSizes(string $class): string
     {
-        return Image::getSizes($class, (array) $this->config->get('assets.images.responsive.sizes'));
+        return Image::getSizes($class, $this->config->getAssetsImagesWidths());
     }
 
     /**
@@ -619,20 +619,18 @@ class Core extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function webp(Asset $asset): Asset
+    public function webp(Asset $asset, ?int $quality = null): Asset
     {
         if ($asset['subtype'] == 'image/webp') {
             return $asset;
         }
         if (Image::isAnimatedGif($asset)) {
-            throw new RuntimeException(sprintf('Can\'t convert "%s" to WebP.', $asset['path']));
+            throw new RuntimeException(sprintf('Can\'t convert the animated GIF "%s" to WebP.', $asset['path']));
         }
         try {
-            return $asset->webp();
+            return $asset->webp($quality);
         } catch (\Exception $e) {
-            $this->builder->getLogger()->debug($e->getMessage());
-
-            return $asset;
+            throw new RuntimeException(sprintf('Can\'t convert "%s" to WebP (%s).', $asset['path'], $e->getMessage()));
         }
     }
 

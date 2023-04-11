@@ -508,7 +508,7 @@ class Asset implements \ArrayAccess
         $assetWebp['ext'] = $format;
 
         if ($this->isImageInCdn()) {
-            return $assetWebp; // returns the asset with the new format only: CDN do the rest of the job
+            return $assetWebp; // returns the asset with the new extension ('webp') only: CDN do the rest of the job
         }
 
         $img = ImageManager::make($assetWebp['content']);
