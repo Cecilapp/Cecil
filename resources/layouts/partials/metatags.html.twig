@@ -111,15 +111,15 @@
 {%- endif ~%}
     <meta name="robots" content="{{ robots }}" />
 {#- template: favicon ~#}
-{%- if site.metatags.favicon.enabled ?? true and asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) is not empty ~%}
-  {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
-    {%- for size in favicon_sizes ~%}
-      {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
-      {%- if not favicon_asset.missing ~%}
+{%- if site.metatags.favicon.enabled ?? true ~%}
+  {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
+  {%- if not favicon_asset.missing -%}
+    {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
+      {%- for size in favicon_sizes|filter(size => favicon_asset.width >= size) ~%}
     <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ favicon_asset|resize(size)|url({canonical: true}) }}" type="{{ favicon_asset.subtype }}" />
-      {%- endif -%}
+      {%- endfor -%}
     {%- endfor -%}
-  {%- endfor -%}
+  {%- endif -%}
 {%- endif ~%}
 {#- template: prev/next ~#}
 {%- if page.prev.path is defined ~%}
