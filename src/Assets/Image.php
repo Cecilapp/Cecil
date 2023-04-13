@@ -52,20 +52,20 @@ class Image
     /**
      * Returns the value of the "sizes" attribute corresponding to the configured class.
      */
-    public static function getSizes(string $class, array $config = []): string
+    public static function getSizes(string $class, array $sizes = []): string
     {
         $result = '';
         $classArray = explode(' ', $class);
         foreach ($classArray as $class) {
-            if (array_key_exists($class, $config)) {
-                $result = $config[$class] . ', ';
+            if (array_key_exists($class, $sizes)) {
+                $result = $sizes[$class] . ', ';
             }
         }
         if (!empty($result)) {
             return trim($result, ', ');
         }
 
-        return $config['default'] ?? '100vw';
+        return $sizes['default'] ?? '100vw';
     }
 
     /**

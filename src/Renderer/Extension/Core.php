@@ -55,7 +55,7 @@ class Core extends SlugifyExtension
         parent::__construct(self::$slugifier);
 
         $this->builder = $builder;
-        $this->config = $this->builder->getConfig();
+        $this->config = $builder->getConfig();
     }
 
     /**
@@ -553,7 +553,7 @@ class Core extends SlugifyExtension
                 )
             ) {
                 $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                $sizes = Image::getSizes($attributes['class'] ?? '', (array) $this->builder->getConfig()->get('assets.images.responsive.sizes'));
+                $sizes = Image::getSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
                 $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
             }
 
@@ -669,8 +669,8 @@ class Core extends SlugifyExtension
     {
         $string = $string ?? '';
 
-        $separator = (string) $this->builder->getConfig()->get('body.excerpt.separator');
-        $capture = (string) $this->builder->getConfig()->get('body.excerpt.capture');
+        $separator = (string) $this->config->get('body.excerpt.separator');
+        $capture = (string) $this->config->get('body.excerpt.capture');
         extract($options, EXTR_IF_EXISTS);
 
         // https://regex101.com/r/n9TWHF/1
