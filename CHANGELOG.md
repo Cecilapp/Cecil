@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.35.2](https://github.com/Cecilapp/Cecil/compare/7.35.1...7.35.2)
+
+> 12 April 2023
+
+- docs: enhances documentation [`64f8afa`](https://github.com/Cecilapp/Cecil/commit/64f8afa01f0ade6a90c8009d66faa88c34ca1367)
+- tests: add tests for image asset handling [`fd6095b`](https://github.com/Cecilapp/Cecil/commit/fd6095b89f19cc7171a2593ed71914d9fb5ba2f8)
+- chore: update deps [`e55762a`](https://github.com/Cecilapp/Cecil/commit/e55762abf724a095c19656b6a739ded290a71932)
+- refactor: enhances code [`ad62dbf`](https://github.com/Cecilapp/Cecil/commit/ad62dbf1851d5f60ae3af3c5a561f50156c6091e)
+- fix: favicons generation [`50ebb21`](https://github.com/Cecilapp/Cecil/commit/50ebb21ee0407c2b720ac0627e541fcf3bb540bf)
+- docs: enhances documentation [`0019a38`](https://github.com/Cecilapp/Cecil/commit/0019a38d4c476c74cbb4e37e6df9cb2c9e6aa489)
+- docs: minor enhancements [`7a64285`](https://github.com/Cecilapp/Cecil/commit/7a642854b00c96a414dc8865c995a8736e012e12)
+- docs: minor fix [`151b660`](https://github.com/Cecilapp/Cecil/commit/151b660f0c569b0f5f04ca3fbf6b985c6a7dd99b)
+
 #### [7.35.1](https://github.com/Cecilapp/Cecil/compare/7.35.0...7.35.1)
 
 > 11 April 2023
