@@ -89,6 +89,15 @@ class Util
             $classFile = Util::joinFile($builder->getConfig()->getSourceDir(), $dir, "$className.php");
             if (file_exists($classFile)) {
                 require $classFile;
+                return;
+            }
+            // in themes
+            foreach ($builder->getConfig()->getTheme() as $theme) {
+                $classFile = Util::joinFile($builder->getConfig()->getThemeDirPath($theme, $dir), $path);
+                if (file_exists($classFile)) {
+                    require $classFile;
+                    return;
+                }
             }
         });
     }

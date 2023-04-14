@@ -119,6 +119,7 @@ return [
             'vocabulary' => ['html'],
             'term'       => ['html', 'atom'],
         ],
+        'postprocessors' => [], // output post processors
     ],
     'language'  => 'en', // main language code (`en` by default)
     'languages' => [
@@ -183,6 +184,17 @@ return [
         'dir'     => 'pages', // pages files directory (`pages` by default, previously `content`)
         'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // supported files formats, by extension
         'exclude' => ['vendor', 'node_modules'], // directories, paths and files name to exclude (accepts globs, strings and regexes)
+        'generators' => [ // list of pages generators, ordered by weight
+            10 => 'Cecil\Generator\DefaultPages',
+            20 => 'Cecil\Generator\VirtualPages',
+            30 => 'Cecil\Generator\ExternalBody',
+            40 => 'Cecil\Generator\Section',
+            50 => 'Cecil\Generator\Taxonomy',
+            60 => 'Cecil\Generator\Homepage',
+            70 => 'Cecil\Generator\Pagination',
+            80 => 'Cecil\Generator\Alias',
+            90 => 'Cecil\Generator\Redirect',
+        ],
     ],
     'frontmatter' => [
         'format' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
@@ -256,6 +268,7 @@ return [
         'internal' => [
             'dir' => 'resources/layouts', // internal templates directory
         ],
+        'extensions' => [], // Twig extensions
     ],
     'themes' => [
         'dir' => 'themes', // where themes are stored (`themes` by default)
@@ -279,7 +292,7 @@ return [
             'style'     => 'expanded', // compilation style (`expanded` or `compressed`. `expanded`
             'import'    => ['sass', 'scss', 'node_modules'], // list of imported paths (`[sass, scss, node_modules]` by default)
             'sourcemap' => false, // enables sourcemap in debug mode (`false` by default)
-            //'variables' => ['var' => 'value'] // list of preset variables (empty by default)
+            //'variables' => ['var' => 'value'], // list of preset variables (empty by default)
         ],
         'minify' => [
             'enabled' => true, // enables CSS et JS minification (`true` by default)
@@ -354,16 +367,5 @@ return [
             'enabled' => true, // enables cache for translations dictionary
             'dir'     => 'translations', // translations files cache directory (`assets` by default)
         ],
-    ],
-    'generators' => [ // list of generators ordered by index weight
-        10 => 'Cecil\Generator\DefaultPages',
-        20 => 'Cecil\Generator\VirtualPages',
-        30 => 'Cecil\Generator\ExternalBody',
-        40 => 'Cecil\Generator\Section',
-        50 => 'Cecil\Generator\Taxonomy',
-        60 => 'Cecil\Generator\Homepage',
-        70 => 'Cecil\Generator\Pagination',
-        80 => 'Cecil\Generator\Alias',
-        90 => 'Cecil\Generator\Redirect',
     ],
 ];

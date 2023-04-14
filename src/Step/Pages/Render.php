@@ -134,7 +134,7 @@ class Render extends AbstractStep
                     foreach ($deprecations as $value) {
                         $this->builder->getLogger()->warning($value);
                     }
-                    $output = $this->postProcessOutput($output, $page, $format);
+                    $output = $this->outputPostProcess($output, $page, $format);
                     $rendered[$format] = [
                         'output'   => $output,
                         'template' => [
@@ -289,9 +289,9 @@ class Render extends AbstractStep
     }
 
     /**
-     * Apply post rendering on output.
+     * Apply post processors on rendered output.
      */
-    private function postProcessOutput(string $output, Page $page, string $format): string
+    private function outputPostProcess(string $output, Page $page, string $format): string
     {
         switch ($format) {
             case 'html':

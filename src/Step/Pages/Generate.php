@@ -46,10 +46,8 @@ class Generate extends AbstractStep
     public function process(): void
     {
         $generatorManager = new GeneratorManager($this->builder);
-
-        Util::autoload($this->builder, 'generators');
-
-        $generators = (array) $this->builder->getConfig()->get('generators');
+        Util::autoload($this->builder, 'generators'); // loads custom generators
+        $generators = (array) $this->builder->getConfig()->get('pages.generators');
         array_walk($generators, function ($generator, $priority) use ($generatorManager) {
             if (!class_exists($generator)) {
                 $message = \sprintf('Unable to load generator "%s".', $generator);
@@ -59,7 +57,6 @@ class Generate extends AbstractStep
             }
             $generatorManager->addGenerator(new $generator($this->builder), $priority);
         });
-
         $pages = $generatorManager->process();
         $this->builder->setPages($pages);
     }

@@ -129,10 +129,10 @@ class Twig implements RendererInterface
             $this->profile = new \Twig\Profiler\Profile();
             $this->twig->addExtension(new \Twig\Extension\ProfilerExtension($this->profile));
         }
-        // local extensions
-        if ($this->builder->getConfig()->has('extensions')) {
+        // loads custom extensions
+        if ($this->builder->getConfig()->has('layouts.extensions')) {
             Util::autoload($builder, 'extensions');
-            foreach ((array) $this->builder->getConfig()->get('extensions') as $name => $class) {
+            foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $name => $class) {
                 $this->twig->addExtension(new $class($this->builder));
                 $this->builder->getLogger()->debug(\sprintf('Extension "%s" (%s) added.', $name, $class));
             }

@@ -591,6 +591,61 @@ pages:
   exclude: [vendor, node_modules]                  # directories, paths and files name to exclude (accepts globs, strings and regexes)
 ```
 
+#### generators
+
+Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
+
+Below the list of Generators provided by Cecil, in a defined order:
+
+```yaml
+pages:
+  generators:
+    10: 'Cecil\Generator\DefaultPages'
+    20: 'Cecil\Generator\VirtualPages'
+    30: 'Cecil\Generator\ExternalBody'
+    40: 'Cecil\Generator\Section'
+    50: 'Cecil\Generator\Taxonomy'
+    60: 'Cecil\Generator\Homepage'
+    70: 'Cecil\Generator\Pagination'
+    80: 'Cecil\Generator\Alias'
+    90: 'Cecil\Generator\Redirect'
+```
+
+##### Custom generator
+
+It is possible to create a custom Generator, just add it to the list above, and create a new class in the `Cecil\Generator` namespace.
+
+**Example:**
+
+_/generators/Cecil/Generator/MyGenerator.php_
+
+```php
+<?php
+namespace Cecil\Generator;
+
+use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Type;
+
+class MyGenerator extends AbstractGenerator implements GeneratorInterface
+{
+    public function generate(): void
+    {
+        // create a new page $page, then add it to the site collection
+
+        $page = (new Page('my-page'))
+          ->setType(Type::PAGE)
+          ->setPath('mypage')
+          ->setBodyHtml('<p>My page body</p>')
+          ->setVariable('language', 'en')
+          ->setVariable('title', 'My page')
+          ->setVariable('date', now())
+          ->setVariable('menu', ['main' => ['weight' => 99]]);
+
+        $this->generatedPages->add($page);
+    }
+}
+```
+
 #### frontmatter
 
 Pages’ variables format (YAML by default).
@@ -874,60 +929,6 @@ cache:
   translations:
     dir: 'translations' # translations cache directory
     enabled: true       # enables translations cache
-```
-
-### generators
-
-Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
-
-Below the list of Generators provided by Cecil, in a defined order:
-
-```yaml
-generators:
-  10: 'Cecil\Generator\DefaultPages'
-  20: 'Cecil\Generator\VirtualPages'
-  30: 'Cecil\Generator\ExternalBody'
-  40: 'Cecil\Generator\Section'
-  50: 'Cecil\Generator\Taxonomy'
-  60: 'Cecil\Generator\Homepage'
-  70: 'Cecil\Generator\Pagination'
-  80: 'Cecil\Generator\Alias'
-  90: 'Cecil\Generator\Redirect'
-```
-
-#### Custom generator
-
-It is possible to create a custom Generator, just add it to the list above, and create a new class in the `Cecil\Generator` namespace.
-
-**Example:**
-
-_/generators/Cecil/Generator/MyGenerator.php_
-
-```php
-<?php
-namespace Cecil\Generator;
-
-use Cecil\Collection\Page\Page;
-use Cecil\Collection\Page\Type;
-
-class MyGenerator extends AbstractGenerator implements GeneratorInterface
-{
-    public function generate(): void
-    {
-        // create a new page $page, then add it to the site collection
-
-        $page = (new Page('my-page'))
-          ->setType(Type::PAGE)
-          ->setPath('mypage')
-          ->setBodyHtml('<p>My page body</p>')
-          ->setVariable('language', 'en')
-          ->setVariable('title', 'My page')
-          ->setVariable('date', now())
-          ->setVariable('menu', ['main' => ['weight' => 99]]);
-
-        $this->generatedPages->add($page);
-    }
-}
 ```
 
 ## Override configuration
