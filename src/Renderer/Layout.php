@@ -129,8 +129,8 @@ class Layout
                 break;
             case PageType::VOCABULARY:
                 $layouts = [
-                    // "taxonomy/$plural.$format.$ext", // ie: taxonomy/tags.html.twig
-                    "_default/vocabulary.$format.$ext", // ie: _default/vocabulary.html.twig
+                    // "taxonomy/$plural.$format.$ext", // e.g.: taxonomy/tags.html.twig
+                    "_default/vocabulary.$format.$ext", // e.g.: _default/vocabulary.html.twig
                 ];
                 if ($page->hasVariable('plural')) {
                     $layouts = array_merge(
@@ -141,13 +141,20 @@ class Layout
                 break;
             case PageType::TERM:
                 $layouts = [
-                    // "taxonomy/$term.$format.$ext", // ie: taxonomy/velo.html.twig
-                    "_default/term.$format.$ext",     // ie: _default/term.html.twig
-                    "_default/list.$format.$ext",     // ie: _default/list.html.twig
+                    // "taxonomy/$term.$format.$ext",     // e.g.: taxonomy/velo.html.twig
+                    // "taxonomy/$singular.$format.$ext", // e.g.: taxonomy/tag.html.twig
+                    "_default/term.$format.$ext",         // e.g.: _default/term.html.twig
+                    "_default/list.$format.$ext",         // e.g.: _default/list.html.twig
                 ];
                 if ($page->hasVariable('term')) {
                     $layouts = array_merge(
                         [sprintf('taxonomy/%s.%s.%s', $page->getVariable('term'), $format, $ext)],
+                        $layouts
+                    );
+                }
+                if ($page->hasVariable('singular')) {
+                    $layouts = array_merge(
+                        [sprintf('taxonomy/%s.%s.%s', $page->getVariable('singular'), $format, $ext)],
                         $layouts
                     );
                 }
