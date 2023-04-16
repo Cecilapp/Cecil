@@ -248,9 +248,9 @@ return [
             'term'       => ['html', 'atom'],
         ],
         'postprocessors' => [ // list of output post processors
-            'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
-            'Cecil\Renderer\PostProcessor\HtmlExcerpt',
-            'Cecil\Renderer\PostProcessor\MarkdownLink',
+            -1 => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
+            -2 => 'Cecil\Renderer\PostProcessor\HtmlExcerpt',
+            -3 => 'Cecil\Renderer\PostProcessor\MarkdownLink',
         ],
     ],
     // data files
