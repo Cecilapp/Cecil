@@ -591,6 +591,64 @@ pages:
   exclude: [vendor, node_modules]                  # directories, paths and files name to exclude (accepts globs, strings and regexes)
 ```
 
+#### frontmatter
+
+Pages’ variables format (YAML by default).
+
+```yaml
+pages:
+  frontmatter:
+    format: yaml # front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
+```
+
+#### body
+
+Pages’ content format and converter’s options.
+
+```yaml
+pages:
+  body:
+    format: md          # page body format (only `md`, Markdown, is supported)
+    toc: [h2, h3]       # headers used to build the table of contents
+    highlight:
+      enabled: false    # enables code syntax highlighting (`false` by default)
+    images:             # how to handle images
+      lazy:
+        enabled: true   # adds `loading="lazy"` attribute (`true` by default)
+      decoding:
+        enabled: true   # adds `decoding="async"` attribute (`true` by default)
+      resize:
+        enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)
+      webp:
+        enabled: false  # adds a WebP image as a `source` (`false` by default)
+      responsive:
+        enabled: false  # creates responsive images and add them to the `srcset` attribute (`false` by default)
+      class: ''         # put default class to each image (empty by default)
+      caption:
+        enabled: false  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+      remote:
+        enabled: true   # enables remote image handling (`true` by default)
+        fallback:
+          enabled: false # enables a fallback if image is not found (`false` by default)
+          path: ''       # path to the fallback image, stored in assets dir (empty by default)
+    links:
+      embed:
+        enabled: false # turns links in embedded content if possible (`false` by default)
+        video:
+          ext: [mp4, 'webm'] # video files extensions
+        audio:
+          ext: [mp3] # audio files extensions
+    excerpt:
+      separator: excerpt|break # string to use as separator (`excerpt|break` by default)
+      capture: before          # part to capture, `before` or `after` the separator (`before` by default)
+```
+
+To know how those options impacts your content see _[Content > Markdown](2-Content.md#markdown)_ documentation.
+
+:::info
+Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
+:::
+
 #### generators
 
 Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
@@ -631,7 +689,6 @@ class MyGenerator extends AbstractGenerator implements GeneratorInterface
     public function generate(): void
     {
         // create a new page $page, then add it to the site collection
-
         $page = (new Page('my-page'))
           ->setType(Type::PAGE)
           ->setPath('mypage')
@@ -640,67 +697,10 @@ class MyGenerator extends AbstractGenerator implements GeneratorInterface
           ->setVariable('title', 'My page')
           ->setVariable('date', now())
           ->setVariable('menu', ['main' => ['weight' => 99]]);
-
         $this->generatedPages->add($page);
     }
 }
 ```
-
-#### frontmatter
-
-Pages’ variables format (YAML by default).
-
-```yaml
-frontmatter:
-  format: yaml # front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
-```
-
-#### body
-
-Pages’ content format and converter’s options.
-
-```yaml
-body:
-  format: md          # page body format (only `md`, Markdown, is supported)
-  toc: [h2, h3]       # headers used to build the table of contents
-  highlight:
-    enabled: false    # enables code syntax highlighting (`false` by default)
-  images:             # how to handle images
-    lazy:
-      enabled: true   # adds `loading="lazy"` attribute (`true` by default)
-    decoding:
-      enabled: true   # adds `decoding="async"` attribute (`true` by default)
-    resize:
-      enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)
-    webp:
-      enabled: false  # adds a WebP image as a `source` (`false` by default)
-    responsive:
-      enabled: false  # creates responsive images and add them to the `srcset` attribute (`false` by default)
-    class: ''         # put default class to each image (empty by default)
-    caption:
-      enabled: false  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
-    remote:
-      enabled: true   # enables remote image handling (`true` by default)
-      fallback:
-        enabled: false # enables a fallback if image is not found (`false` by default)
-        path: ''       # path to the fallback image, stored in assets dir (empty by default)
-  links:
-    embed:
-      enabled: false # turns links in embedded content if possible (`false` by default)
-      video:
-        ext: [mp4, 'webm'] # video files extensions
-      audio:
-        ext: [mp3] # audio files extensions
-  excerpt:
-    separator: excerpt|break # string to use as separator (`excerpt|break` by default)
-    capture: before          # part to capture, `before` or `after` the separator (`before` by default)
-```
-
-To know how those options impacts your content see _[Content > Markdown](2-Content.md#markdown)_ documentation.
-
-:::info
-Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
-:::
 
 ### data
 
