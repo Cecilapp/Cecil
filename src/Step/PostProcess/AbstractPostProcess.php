@@ -38,10 +38,10 @@ abstract class AbstractPostProcess extends AbstractStep
         if ($options['dry-run']) {
             return;
         }
-        if (false === $this->builder->getConfig()->get(\sprintf('postprocess.%s.enabled', $this->type))) {
+        if (false === $this->config->get(\sprintf('postprocess.%s.enabled', $this->type))) {
             return;
         }
-        if (true === $this->builder->getConfig()->get('postprocess.enabled')) {
+        if (true === $this->config->get('postprocess.enabled')) {
             $this->canProcess = true;
         }
     }
@@ -55,14 +55,14 @@ abstract class AbstractPostProcess extends AbstractStep
     {
         $this->setProcessor();
 
-        $extensions = (array) $this->builder->getConfig()->get(\sprintf('postprocess.%s.ext', $this->type));
+        $extensions = (array) $this->config->get(\sprintf('postprocess.%s.ext', $this->type));
         if (empty($extensions)) {
             throw new RuntimeException(\sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
         }
 
         $files = Finder::create()
             ->files()
-            ->in($this->builder->getConfig()->getOutputPath())
+            ->in($this->config->getOutputPath())
             ->name('/\.(' . implode('|', $extensions) . ')$/')
             ->notName('/\.min\.(' . implode('|', $extensions) . ')$/')
             ->sortByName(true);

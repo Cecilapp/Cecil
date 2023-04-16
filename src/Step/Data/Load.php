@@ -41,7 +41,7 @@ class Load extends AbstractStep
      */
     public function init(array $options): void
     {
-        if (is_dir($this->builder->getConfig()->getDataPath()) && (bool) $this->config->get('data.load')) {
+        if (is_dir($this->config->getDataPath()) && (bool) $this->config->get('data.load')) {
             $this->canProcess = true;
         }
     }
@@ -53,8 +53,8 @@ class Load extends AbstractStep
     {
         $files = Finder::create()
             ->files()
-            ->in($this->builder->getConfig()->getDataPath())
-            ->name('/\.(' . implode('|', (array) $this->builder->getConfig()->get('data.ext')) . ')$/')
+            ->in($this->config->getDataPath())
+            ->name('/\.(' . implode('|', (array) $this->config->get('data.ext')) . ')$/')
             ->sortByName(true);
         $total = count($files);
 
@@ -103,7 +103,7 @@ class Load extends AbstractStep
             $basename = $file->getBasename('.' . $file->getExtension());
             $subpath = \Cecil\Util\File::getFS()->makePathRelative(
                 $file->getPath(),
-                $this->builder->getConfig()->getDataPath()
+                $this->config->getDataPath()
             );
             $subpath = trim($subpath, './');
             $array = [];

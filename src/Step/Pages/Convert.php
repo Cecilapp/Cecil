@@ -45,7 +45,7 @@ class Convert extends AbstractStep
     {
         parent::init($options);
 
-        if (is_dir($this->builder->getConfig()->getPagesPath())) {
+        if (is_dir($this->config->getPagesPath())) {
             $this->canProcess = true;
         }
     }
@@ -77,7 +77,7 @@ class Convert extends AbstractStep
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative($page->getFilePath(), $this->builder->getConfig()->getPagesPath())), $e->getMessage()));
+                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative($page->getFilePath(), $this->config->getPagesPath())), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 }
