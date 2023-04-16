@@ -134,7 +134,10 @@ class Render extends AbstractStep
                     foreach ($deprecations as $value) {
                         $this->builder->getLogger()->warning($value);
                     }
-                    $output = $this->outputPostProcess($output, $page, $format);
+                    Util::autoload($this->builder, 'postprocessors');
+                    foreach ($this->config->get('output.postprocessors') as $processor) {
+                        $output = (new $processor($this->builder))->process($page, $output, $format);
+                    }
                     $rendered[$format] = [
                         'output'   => $output,
                         'template' => [
@@ -286,51 +289,5 @@ class Render extends AbstractStep
         });
 
         return $pages;
-    }
-
-    /**
-     * Apply post processors on rendered output.
-     */
-    private function outputPostProcess(string $output, Page $page, string $format): string
-    {
-        switch ($format) {
-            case 'html':
-                // add generator meta tag
-                if (!preg_match('/<meta name="generator".*/i', $output)) {
-                    $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
-                    $output = preg_replace_callback('/([[:blank:]]*)(<\/head>)/i', function ($matches) use ($meta) {
-                        return str_repeat($matches[1] ?: ' ', 2) . $meta . "\n" . $matches[1] . $matches[2];
-                    }, $output);
-                }
-                // replace excerpt or break tag by HTML anchor
-                // https://regex101.com/r/Xl7d5I/3
-                $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
-                $replacement = '$1<span id="more"></span>$4';
-                $excerpt = preg_replace('/' . $pattern . '/is', $replacement, $output, 1);
-                $output = $excerpt ?? $output;
-        }
-
-        // replace internal link to *.md files with the right URL
-        $output = preg_replace_callback(
-            // https://regex101.com/r/ycWMe4/1
-            '/href="(\/|)([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9_\-]+)?"/is',
-            function ($matches) use ($page) {
-                // section spage
-                $hrefPattern = 'href="../%s/%s"';
-                // root page
-                if (empty($page->getFolder())) {
-                    $hrefPattern = 'href="%s/%s"';
-                }
-                // root link
-                if ($matches[1] == '/') {
-                    $hrefPattern = 'href="/%s/%s"';
-                }
-
-                return \sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
-            },
-            $output
-        );
-
-        return $output;
     }
 }
