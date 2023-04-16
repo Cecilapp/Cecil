@@ -1201,6 +1201,7 @@ class MyExtension extends \Twig\Extension\AbstractExtension
 _configuration_
 
 ```yaml
-extensions:
-  MyExtension: Cecil\Renderer\Extension\MyExtension
+layouts:
+  extensions:
+    MyExtension: Cecil\Renderer\Extension\MyExtension
 ```
