@@ -247,7 +247,11 @@ return [
             'vocabulary' => ['html'],
             'term'       => ['html', 'atom'],
         ],
-        'postprocessors' => [], // output post processors
+        'postprocessors' => [ // list of output post processors
+            'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
+            'Cecil\Renderer\PostProcessor\HtmlExcerpt',
+            'Cecil\Renderer\PostProcessor\MarkdownLink',
+        ],
     ],
     // data files
     'data' => [
