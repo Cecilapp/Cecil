@@ -30,6 +30,134 @@ return [
     //    'format'   => 'j F Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
     //    'timezone' => 'Europe/Paris',
     //],
+    'language'  => 'en', // main language code (`en` by default)
+    'languages' => [
+        [
+            'code'   => 'en',
+            'name'   => 'English',
+            'locale' => 'en_US',
+        ],
+    ],
+    'pages' => [
+        'dir'     => 'pages', // pages files directory (`pages` by default, previously `content`)
+        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // supported files formats, by extension
+        'exclude' => ['vendor', 'node_modules'], // directories, paths and files name to exclude (accepts globs, strings and regexes)
+        'frontmatter' => [
+            'format' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
+        ],
+        'body' => [
+            'format'    => 'md',         // page body format (only Markdown is supported)
+            'toc'       => ['h2', 'h3'], // headers used to build the table of contents
+            'highlight' => [
+                'enabled' => false,      // enables code syntax highlighting (`false` by default)
+            ],
+            'images' => [
+                'lazy' => [
+                    'enabled' => true,  // adds `loading="lazy"` attribute (`true` by default)
+                ],
+                'decoding' => [
+                    'enabled' => true,  // adds `decoding="async"` attribute (`true` by default)
+                ],
+                'resize' => [
+                    'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
+                ],
+                'webp' => [
+                    'enabled' => false, // creates and adds a WebP image as a `source` (`false` by default)
+                ],
+                'responsive' => [
+                    'enabled' => false, // creates responsive images and adds them to the `srcset` attribute (`false` by default)
+                ],
+                'class' => '',          // puts default CSS class to each image (empty by default)
+                'caption' => [
+                    'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+                ],
+                'remote' => [
+                    'enabled'  => true, // turns remote images to Asset to handling them (`true` by default)
+                    'fallback' => [
+                        'enabled' => false, // enables a fallback if image is not found (`false` by default)
+                        'path'    => '',    // path to the fallback image, stored in assets dir (empty by default)
+                    ],
+                ],
+            ],
+            'links' => [
+                'embed' => [
+                    'enabled' => false, // turns links in embedded content if possible (`false` by default)
+                    'video'   => [
+                        'ext' => ['mp4', 'webm'], // supported video file types, extensions
+                    ],
+                    'audio' => [
+                        'ext' => ['mp3'], // supported audio file types, extensions
+                    ],
+                ],
+            ],
+            'excerpt' => [
+                'separator' => 'excerpt|break', // string to use as separator (`excerpt|break` by default)
+                'capture'   => 'before',        // part to capture, `before` or `after` the separator (`before` by default)
+            ],
+        ],
+        'generators' => [ // list of pages generators, ordered by weight
+            10 => 'Cecil\Generator\DefaultPages',
+            20 => 'Cecil\Generator\VirtualPages',
+            30 => 'Cecil\Generator\ExternalBody',
+            40 => 'Cecil\Generator\Section',
+            50 => 'Cecil\Generator\Taxonomy',
+            60 => 'Cecil\Generator\Homepage',
+            70 => 'Cecil\Generator\Pagination',
+            80 => 'Cecil\Generator\Alias',
+            90 => 'Cecil\Generator\Redirect',
+        ],
+    ],
+    'defaultpages' => [ // default generated pages
+        'index' => [
+            'path'      => '',
+            'title'     => 'Home',
+            'published' => true,
+        ],
+        '404' => [
+            'path'      => '404',
+            'title'     => 'Page not found',
+            'layout'    => '404',
+            'uglyurl'   => true,
+            'published' => true,
+            'exclude'   => true,
+        ],
+        'robots' => [
+            'path'         => 'robots',
+            'title'        => 'Robots.txt',
+            'layout'       => 'robots',
+            'output'       => 'txt',
+            'published'    => true,
+            'exclude'      => true,
+            'multilingual' => false,
+        ],
+        'sitemap' => [
+            'path'         => 'sitemap',
+            'title'        => 'XML sitemap',
+            'layout'       => 'sitemap',
+            'output'       => 'xml',
+            'changefreq'   => 'monthly',
+            'priority'     => '0.5',
+            'published'    => true,
+            'exclude'      => true,
+            'multilingual' => false,
+        ],
+        'xsl/atom' => [
+            'path'      => 'xsl/atom',
+            'layout'    => 'feed',
+            'output'    => 'xsl',
+            'uglyurl'   => true,
+            'published' => true,
+            'exclude'   => true,
+        ],
+        'xsl/rss' => [
+            'path'      => 'xsl/rss',
+            'layout'    => 'feed',
+            'output'    => 'xsl',
+            'uglyurl'   => true,
+            'published' => true,
+            'exclude'   => true,
+        ],
+    ],
     'output' => [ // https://cecil.app/documentation/configuration/#formats
         'dir'      => '_site', // output directory (`_site` by default)
         'formats'  => [
@@ -121,134 +249,6 @@ return [
         ],
         'postprocessors' => [], // output post processors
     ],
-    'language'  => 'en', // main language code (`en` by default)
-    'languages' => [
-        [
-            'code'   => 'en',
-            'name'   => 'English',
-            'locale' => 'en_US',
-        ],
-    ],
-    'defaultpages' => [ // default generated pages
-        'index' => [
-            'path'      => '',
-            'title'     => 'Home',
-            'published' => true,
-        ],
-        '404' => [
-            'path'      => '404',
-            'title'     => 'Page not found',
-            'layout'    => '404',
-            'uglyurl'   => true,
-            'published' => true,
-            'exclude'   => true,
-        ],
-        'robots' => [
-            'path'         => 'robots',
-            'title'        => 'Robots.txt',
-            'layout'       => 'robots',
-            'output'       => 'txt',
-            'published'    => true,
-            'exclude'      => true,
-            'multilingual' => false,
-        ],
-        'sitemap' => [
-            'path'         => 'sitemap',
-            'title'        => 'XML sitemap',
-            'layout'       => 'sitemap',
-            'output'       => 'xml',
-            'changefreq'   => 'monthly',
-            'priority'     => '0.5',
-            'published'    => true,
-            'exclude'      => true,
-            'multilingual' => false,
-        ],
-        'xsl/atom' => [
-            'path'      => 'xsl/atom',
-            'layout'    => 'feed',
-            'output'    => 'xsl',
-            'uglyurl'   => true,
-            'published' => true,
-            'exclude'   => true,
-        ],
-        'xsl/rss' => [
-            'path'      => 'xsl/rss',
-            'layout'    => 'feed',
-            'output'    => 'xsl',
-            'uglyurl'   => true,
-            'published' => true,
-            'exclude'   => true,
-        ],
-    ],
-    'pages' => [
-        'dir'     => 'pages', // pages files directory (`pages` by default, previously `content`)
-        'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // supported files formats, by extension
-        'exclude' => ['vendor', 'node_modules'], // directories, paths and files name to exclude (accepts globs, strings and regexes)
-        'generators' => [ // list of pages generators, ordered by weight
-            10 => 'Cecil\Generator\DefaultPages',
-            20 => 'Cecil\Generator\VirtualPages',
-            30 => 'Cecil\Generator\ExternalBody',
-            40 => 'Cecil\Generator\Section',
-            50 => 'Cecil\Generator\Taxonomy',
-            60 => 'Cecil\Generator\Homepage',
-            70 => 'Cecil\Generator\Pagination',
-            80 => 'Cecil\Generator\Alias',
-            90 => 'Cecil\Generator\Redirect',
-        ],
-    ],
-    'frontmatter' => [
-        'format' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
-    ],
-    'body' => [
-        'format'    => 'md',         // page body format (only Markdown is supported)
-        'toc'       => ['h2', 'h3'], // headers used to build the table of contents
-        'highlight' => [
-            'enabled' => false,      // enables code syntax highlighting (`false` by default)
-        ],
-        'images' => [
-            'lazy' => [
-                'enabled' => true,  // adds `loading="lazy"` attribute (`true` by default)
-            ],
-            'decoding' => [
-                'enabled' => true,  // adds `decoding="async"` attribute (`true` by default)
-            ],
-            'resize' => [
-                'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
-            ],
-            'webp' => [
-                'enabled' => false, // creates and adds a WebP image as a `source` (`false` by default)
-            ],
-            'responsive' => [
-                'enabled' => false, // creates responsive images and adds them to the `srcset` attribute (`false` by default)
-            ],
-            'class' => '',          // puts default CSS class to each image (empty by default)
-            'caption' => [
-                'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
-            ],
-            'remote' => [
-                'enabled'  => true, // turns remote images to Asset to handling them (`true` by default)
-                'fallback' => [
-                    'enabled' => false, // enables a fallback if image is not found (`false` by default)
-                    'path'    => '',    // path to the fallback image, stored in assets dir (empty by default)
-                ],
-            ],
-        ],
-        'links' => [
-            'embed' => [
-                'enabled' => false, // turns links in embedded content if possible (`false` by default)
-                'video'   => [
-                    'ext' => ['mp4', 'webm'], // supported video file types, extensions
-                ],
-                'audio' => [
-                    'ext' => ['mp3'], // supported audio file types, extensions
-                ],
-            ],
-        ],
-        'excerpt' => [
-            'separator' => 'excerpt|break', // string to use as separator (`excerpt|break` by default)
-            'capture'   => 'before',        // part to capture, `before` or `after` the separator (`before` by default)
-        ],
-    ],
     // data files
     'data' => [
         'dir'  => 'data', // data files directory (`data` by default)
@@ -261,25 +261,6 @@ return [
         'target'  => '', // subdirectory where files are copied
         'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'], // excluded files by extension or pattern
         'load'    => false, // enables `site.static` collection
-    ],
-    // templates
-    'layouts' => [
-        'dir'      => 'layouts', // Twig templates directory (`layouts` by default)
-        'internal' => [
-            'dir' => 'resources/layouts', // internal templates directory
-        ],
-        'extensions' => [], // Twig extensions
-    ],
-    'themes' => [
-        'dir' => 'themes', // where themes are stored (`themes` by default)
-    ],
-    // i18n
-    'translations' => [
-        'dir'      => 'translations', // translations files directory (`translations` by default)
-        'formats'  => ['yaml', 'mo'], // translations supported formats (`yaml` and `mo`)
-        'internal' => [
-            'dir' => 'resources/translations', // internal translations directory
-        ],
     ],
     'assets' => [
         'dir'    => 'assets', // assets files directory (`assets` by default)
@@ -331,23 +312,23 @@ return [
             ]
         ],
     ],
-    'postprocess' => [
-        'enabled' => false, // enables post-process (compression)
-        'html'    => [
-            'enabled' => true, // enables HTML files post-process
-            'ext'     => ['html', 'htm'], // supported files extensions
+    // templates
+    'layouts' => [
+        'dir'      => 'layouts', // Twig templates directory (`layouts` by default)
+        'internal' => [
+            'dir' => 'resources/layouts', // internal templates directory
         ],
-        'css' => [
-            'enabled' => true, // enables CSS files post-process
-            'ext'     => ['css'], // supported files extensions
-        ],
-        'js' => [
-            'enabled' => true, // enables JavaScript files post-process
-            'ext'     => ['js'], // supported files extensions
-        ],
-        'images' => [
-            'enabled' => true, // enables images files post-process
-            'ext'     => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'], // supported files extensions
+        'extensions' => [], // Twig extensions
+    ],
+    'themes' => [
+        'dir' => 'themes', // where themes are stored (`themes` by default)
+    ],
+    // i18n
+    'translations' => [
+        'dir'      => 'translations', // translations files directory (`translations` by default)
+        'formats'  => ['yaml', 'mo'], // translations supported formats (`yaml` and `mo`)
+        'internal' => [
+            'dir' => 'resources/translations', // internal translations directory
         ],
     ],
     'cache' => [
@@ -366,6 +347,25 @@ return [
         'translations' => [
             'enabled' => true, // enables cache for translations dictionary
             'dir'     => 'translations', // translations files cache directory (`assets` by default)
+        ],
+    ],
+    'postprocess' => [
+        'enabled' => false, // enables post-process (compression)
+        'html'    => [
+            'enabled' => true, // enables HTML files post-process
+            'ext'     => ['html', 'htm'], // supported files extensions
+        ],
+        'css' => [
+            'enabled' => true, // enables CSS files post-process
+            'ext'     => ['css'], // supported files extensions
+        ],
+        'js' => [
+            'enabled' => true, // enables JavaScript files post-process
+            'ext'     => ['js'], // supported files extensions
+        ],
+        'images' => [
+            'enabled' => true, // enables images files post-process
+            'ext'     => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'], // supported files extensions
         ],
     ],
 ];
