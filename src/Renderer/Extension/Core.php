@@ -669,8 +669,8 @@ class Core extends SlugifyExtension
     {
         $string = $string ?? '';
 
-        $separator = (string) $this->config->get('body.excerpt.separator');
-        $capture = (string) $this->config->get('body.excerpt.capture');
+        $separator = (string) $this->config->get('pages.body.excerpt.separator');
+        $capture = (string) $this->config->get('pages.body.excerpt.capture');
         extract($options, EXTR_IF_EXISTS);
 
         // https://regex101.com/r/n9TWHF/1
