@@ -104,7 +104,7 @@ if ($pathInfo['media_maintype'] == 'text' || in_array($pathInfo['media_subtype']
             $script = file_get_contents(__DIR__ . '/livereload.js');
             $content = str_ireplace('</body>', "  <script>$script    </script>\n  </body>", $content);
             if (stristr($content, '</body>') === false) {
-                $content .= "\n$script";
+                $content .= "\n<script>$script    </script>";
             }
         }
     }
