@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-03-21
+updated: 2023-04-17
 -->
 # Configuration
 
@@ -94,6 +94,57 @@ date:
   timezone: 'UTC'
 ```
 
+### language
+
+The main language, defined by its code.
+
+```yaml
+language: <language code> # unique code (`en` by default)
+```
+
+### languages
+
+List of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
+
+```yaml
+languages:
+  - code: <code>     # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
+    name: <name>     # human readable name (e.g.: `Français`)
+    locale: <locale> # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
+```
+
+:::info
+The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`).
+:::
+
+:::info
+A list of [locales code](configuration/locale-codes.md) is available.
+:::
+
+#### Localize configuration options
+
+To localize configuration options you must store them under the `config` key of the language.
+
+_Example:_
+
+```yaml
+title: "Cecil in english"
+languages:
+  - code: en
+    name: English
+    locale: en_US
+  - code: fr
+    name: Français
+    locale: fr_FR
+    config:
+      title: "Cecil en français"
+```
+
+:::info
+In [templates](3-Templates.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.
+If an option is not available in the current language (e.g.: `fr`) it fallback to the global one.
+:::
+
 ### taxonomies
 
 List of vocabularies, paired by plural and singular value.
@@ -114,6 +165,33 @@ taxonomies:
 :::tip
 A vocabulary can be disabled with the special value `disabled`. Example: `tags: disabled`.
 :::
+
+### pagination
+
+Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
+
+```yaml
+pagination:
+  max: <int>   # maximum number of entries per page (`5` by default)
+  path: <path> # path to the paginated page (`page` by default)
+```
+
+_Example:_
+
+```yaml
+pagination:
+  max: 10
+  path: page
+```
+
+#### Disable pagination
+
+Pagination can be disabled:
+
+```yaml
+pagination:
+  enabled: false
+```
 
 ### menus
 
@@ -260,57 +338,6 @@ metatags:
       - "apple-touch-icon": [120, 152, 180]     # iOS
 ```
 
-### language
-
-The main language, defined by its code.
-
-```yaml
-language: <language code> # unique code (`en` by default)
-```
-
-### languages
-
-List of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
-
-```yaml
-languages:
-  - code: <code>     # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
-    name: <name>     # human readable name (e.g.: `Français`)
-    locale: <locale> # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
-```
-
-:::info
-The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`).  
-:::
-
-:::info
-A list of [locales code](configuration/locale-codes.md) is available.
-:::
-
-#### Localize configuration options
-
-To localize configuration options you must store them under the `config` key of the language.
-
-_Example:_
-
-```yaml
-title: "Cecil in english"
-languages:
-  - code: en
-    name: English
-    locale: en_US
-  - code: fr
-    name: Français
-    locale: fr_FR
-    config:
-      title: "Cecil en français"
-```
-
-:::info
-In [templates](3-Templates.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.  
-If an option is not available in the current language (e.g.: `fr`) it fallback to the global one.
-:::
-
 ### theme
 
 The theme name or an array of themes name.
@@ -341,33 +368,6 @@ theme:
 See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or website [themes section](https://cecil.app/themes/).
 :::
 
-### pagination
-
-Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
-
-```yaml
-pagination:
-  max: <int>   # maximum number of entries per page (`5` by default)
-  path: <path> # path to the paginated page (`page` by default)
-```
-
-_Example:_
-
-```yaml
-pagination:
-  max: 10
-  path: page
-```
-
-#### Disable pagination
-
-Pagination can be disabled:
-
-```yaml
-pagination:
-  enabled: false
-```
-
 ### googleanalytics
 
 [Google Analytics](https://wikipedia.org/wiki/Google_Analytics) user identifier:
@@ -378,7 +378,7 @@ googleanalytics: UA-XXXXX
 
 The _Universal Analytics_ ID is used by the built-in partial template [`googleanalytics.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig).
 
-### virtualpages
+### virtual pages
 
 Virtual pages is the best way to create pages without content (**front matter only**).
 
@@ -387,9 +387,10 @@ It consists of a list of pages with a `path` and some front matter variables.
 _Example:_
 
 ```yaml
-virtualpages:
-  - path: code
-    redirect: https://github.com/ArnaudLigny
+pages:
+  virtual:
+    - path: code
+      redirect: https://github.com/ArnaudLigny
 ```
 
 ### output
@@ -465,6 +466,10 @@ output:
     term: [html, atom]
 ```
 
+:::tip
+You can extend Cecil with [output post processor](8-Extend.md#output-post-processor).
+:::
+
 ### paths
 
 Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
@@ -511,74 +516,6 @@ There is 2 others way to enable the _debug mode_:
 ## Default configuration
 
 The website configuration (`config.yml`) overrides the [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
-
-### defaultpages
-
-Default pages are pages created automatically by Cecil, from built-in templates:
-
-- _index.html_ (home page)
-- _404.html_
-- _robots.txt_
-- _sitemaps.xml_
-- _atom.xsl_
-- _rss.xsl_
-
-:::info
-The structure is almost identical of [`virtualpages`](#virtualpages), except the named key.
-:::
-
-```yaml
-defaultpages:
-  index:
-    path: ''
-    title: Home
-    published: true
-  404:
-    path: 404
-    title: Page not found
-    layout: 404
-    uglyurl: true
-    published: true
-    exclude: true
-  robots:
-    path: robots
-    title: Robots.txt
-    layout: robots
-    output: txt
-    published: true
-    exclude: true
-    multilingual: false
-  sitemap:
-    path: sitemap
-    title: XML sitemap
-    layout: sitemap
-    output: xml
-    changefreq: monthly
-    priority: 0.5
-    published: true
-    exclude: true
-    multilingual: false
-  atom:
-    path: atom
-    layout: feed
-    output: xsl
-    uglyurl: true
-    published: true
-    exclude: true
-  rss:
-    path: rss
-    layout: feed
-    output: xsl
-    uglyurl: true
-    published: true
-    exclude: true
-```
-
-Each one can be:
-
-1. disabled: `published: false`
-2. excluded from list pages: `exclude: true`
-3. excluded from localization: `multilingual: false`
 
 ### pages
 
@@ -669,38 +606,78 @@ pages:
     90: 'Cecil\Generator\Redirect'
 ```
 
-##### Custom generator
+:::tip
+You can extend Cecil with [custom generator](8-Extend.md#pages-generator).
+:::
 
-It is possible to create a custom Generator, just add it to the list above, and create a new class in the `Cecil\Generator` namespace.
+#### default pages
 
-**Example:**
+Default pages are pages created automatically by Cecil, from built-in templates:
 
-_/generators/Cecil/Generator/MyGenerator.php_
+- _index.html_ (home page)
+- _404.html_
+- _robots.txt_
+- _sitemaps.xml_
+- _atom.xsl_
+- _rss.xsl_
 
-```php
-<?php
-namespace Cecil\Generator;
+:::info
+The structure is almost identical of [`virtual pages`](#virtual-pages), except the named key.
+:::
 
-use Cecil\Collection\Page\Page;
-use Cecil\Collection\Page\Type;
-
-class MyGenerator extends AbstractGenerator implements GeneratorInterface
-{
-    public function generate(): void
-    {
-        // create a new page $page, then add it to the site collection
-        $page = (new Page('my-page'))
-          ->setType(Type::PAGE)
-          ->setPath('mypage')
-          ->setBodyHtml('<p>My page body</p>')
-          ->setVariable('language', 'en')
-          ->setVariable('title', 'My page')
-          ->setVariable('date', now())
-          ->setVariable('menu', ['main' => ['weight' => 99]]);
-        $this->generatedPages->add($page);
-    }
-}
+```yaml
+pages:
+  default:
+    index:
+      path: ''
+      title: Home
+      published: true
+    404:
+      path: 404
+      title: Page not found
+      layout: 404
+      uglyurl: true
+      published: true
+      exclude: true
+    robots:
+      path: robots
+      title: Robots.txt
+      layout: robots
+      output: txt
+      published: true
+      exclude: true
+      multilingual: false
+    sitemap:
+      path: sitemap
+      title: XML sitemap
+      layout: sitemap
+      output: xml
+      changefreq: monthly
+      priority: 0.5
+      published: true
+      exclude: true
+      multilingual: false
+    atom:
+      path: atom
+      layout: feed
+      output: xsl
+      uglyurl: true
+      published: true
+      exclude: true
+    rss:
+      path: rss
+      layout: feed
+      output: xsl
+      uglyurl: true
+      published: true
+      exclude: true
 ```
+
+Each one can be:
+
+1. disabled: `published: false`
+2. excluded from list pages: `exclude: true`
+3. excluded from localization: `multilingual: false`
 
 ### data
 
@@ -742,34 +719,6 @@ static:
     - '*.scss'
     - '/\.bck$/'
   load: true
-```
-
-### layouts
-
-Where templates files are stored.
-
-```yaml
-layouts:
-  dir: layouts # layouts directory
-```
-
-### themes
-
-Where themes are stored.
-
-```yaml
-themes:
-  dir: themes # themes directory
-```
-
-### translations
-
-Where and in what format translations files are stored.
-
-```yaml
-translations:
-  dir: translations       # translations directory
-  formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
 ### assets
@@ -890,6 +839,52 @@ assets:
 
 `Base URL`: Your website `baseurl`.
 
+### layouts
+
+Where templates files are stored.
+
+```yaml
+layouts:
+  dir: layouts # layouts directory
+```
+
+### themes
+
+Where themes are stored.
+
+```yaml
+themes:
+  dir: themes # themes directory
+```
+
+### translations
+
+Where and in what format translations files are stored.
+
+```yaml
+translations:
+  dir: translations       # translations directory
+  formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
+```
+
+### cache
+
+Cache options.
+
+```yaml
+cache:
+  dir: '.cache' # cache directory
+  enabled: true # enables cache
+  templates:    # Twig templates cache
+    dir: templates # templates cache directory
+    enabled: true  # enables templates cache
+  assets:       # assets cache
+    dir: 'assets/remote' # the subdirectory of remote assets cache
+  translations:
+    dir: 'translations' # translations cache directory
+    enabled: true       # enables translations cache
+```
+
 ### postprocess
 
 Options of files optimizations after build step (post process).
@@ -912,24 +907,6 @@ postprocess:
 ```
 
 Images compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/) and [cwebp](https://developers.google.com/speed/webp/docs/cwebp).
-
-### cache
-
-Cache options.
-
-```yaml
-cache:
-  dir: '.cache' # cache directory
-  enabled: true # enables cache
-  templates:    # Twig templates cache
-    dir: templates # templates cache directory
-    enabled: true  # enables templates cache
-  assets:       # assets cache
-    dir: 'assets/remote' # the subdirectory of remote assets cache
-  translations:
-    dir: 'translations' # translations cache directory
-    enabled: true       # enables translations cache
-```
 
 ## Override configuration
 
