@@ -22,7 +22,7 @@ use Cecil\Exception\RuntimeException;
  */
 class VirtualPages extends AbstractGenerator implements GeneratorInterface
 {
-    protected $configKey = 'virtualpages';
+    protected $configKey = 'pages.virtual';
 
     /**
      * {@inheritdoc}
