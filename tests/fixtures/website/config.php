@@ -6,48 +6,8 @@ return [
     'taxonomies' => [
         'tests' => 'disabled',
     ],
-    'menus' => [
-        'main' => [
-            [
-                'id'     => 'index',
-                'name'   => 'Homepage',
-                'weight' => -9999,
-            ],
-            [
-                'id'      => 'about',
-                'enabled' => false,
-            ],
-            [
-                'id'     => 'aligny',
-                'name'   => 'The author',
-                'url'    => 'https://arnaudligny.fr',
-                'weight' => 9999,
-            ],
-        ],
-    ],
     'pagination' => [
         'enabled' => true,
-    ],
-    'theme' => [
-        'a-theme',
-        //'hyde',
-    ],
-    'googleanalytics' => 'UA-XXXXX',
-    'output'          => [
-        'formats' => [
-            [
-                'name'      => 'netlify_redirects',
-                'mediatype' => 'text/plain',
-                'extension' => '',
-            ],
-        ],
-        'pagetypeformats' => [
-            'page'       => ['html', 'json'],
-            'homepage'   => ['html', 'atom', 'rss', 'json'],
-            'section'    => ['html', 'atom', 'rss', 'json', 'jsonfeed'],
-            'vocabulary' => ['html'],
-            'term'       => ['html', 'atom', 'rss'],
-        ],
     ],
     'language'  => 'en',
     'languages' => [
@@ -79,20 +39,107 @@ return [
             ],
         ],
     ],
-    'virtualpages' => [
-        [
-            'path'   => '_redirects',
-            'output' => 'netlify_redirects',
-        ],
-        [
-            'path'      => 'rss',
-            'published' => false,
+    'menus' => [
+        'main' => [
+            [
+                'id'     => 'index',
+                'name'   => 'Homepage',
+                'weight' => -9999,
+            ],
+            [
+                'id'      => 'about',
+                'enabled' => false,
+            ],
+            [
+                'id'     => 'aligny',
+                'name'   => 'The author',
+                'url'    => 'https://arnaudligny.fr',
+                'weight' => 9999,
+            ],
         ],
     ],
-    'defaultpages'    => [
-        'sitemap' => [
-            'published' => false,
-            'priority'  => 99,
+    'theme' => [
+        'a-theme',
+        //'hyde',
+    ],
+    'googleanalytics' => 'UA-XXXXX',
+    'paths' => [
+        [
+            'section' => 'Blog',
+            'path'    => ':section/:year/:month/:day/:slug',
+        ],
+    ],
+    'podcast' => [
+        'author' => 'Cecil',
+        'owner'  => [
+            'name'  => 'Cecil',
+            'email' => 'contact@cecil.app',
+        ],
+        'image'      => '/images/cecil-logo.png',
+        'categories' => [
+            'Society & Culture',
+            'History',
+        ],
+    ],
+    'metatags' => [
+        'jsonld' => [
+            'enabled'  => true,
+            'articles' => 'blog',
+        ],
+    ],
+    'pages' => [
+        'generators' => [
+            99  => 'Cecil\Generator\Test',
+            100 => 'Cecil\Generator\TitleReplace',
+        ],
+        'default'    => [
+            'sitemap' => [
+                'published' => false,
+                'priority'  => 99,
+            ],
+        ],
+        'virtual' => [
+            [
+                'path'   => '_redirects',
+                'output' => 'netlify_redirects',
+            ],
+            [
+                'path'      => 'rss',
+                'published' => false,
+            ],
+        ],
+        'body' => [
+            'images' => [
+                'lazy' => [
+                    'enabled' => true,
+                ],
+                'resize' => [
+                    'enabled' => true,
+                ],
+                'responsive' => [
+                    'enabled' => true,
+                ],
+                'webp' => [
+                    'enabled' => true,
+                ],
+                'caption' => [
+                    'enabled' => true,
+                ],
+                'remote' => [
+                    'enabled' => true,
+                    'fallback' => [
+                        'enabled' => true,
+                        'path' => 'images/cecil-logo.png',
+                    ],
+                ],
+                'class' => 'img',
+            ],
+            'notes' => [
+                'enabled' => true,
+            ],
+            'highlight' => [
+                'enabled' => true,
+            ],
         ],
     ],
     'static' => [
@@ -103,9 +150,6 @@ return [
             'path',
         ],
         'load' => true,
-    ],
-    'cache' => [
-        'enabled' => true,
     ],
     'assets' => [
         'compile' => [
@@ -134,69 +178,27 @@ return [
             ],
         ],
     ],
-    'postprocess' => [
+    'output' => [
+        'formats' => [
+            [
+                'name'      => 'netlify_redirects',
+                'mediatype' => 'text/plain',
+                'extension' => '',
+            ],
+        ],
+        'pagetypeformats' => [
+            'page'       => ['html', 'json'],
+            'homepage'   => ['html', 'atom', 'rss', 'json'],
+            'section'    => ['html', 'atom', 'rss', 'json', 'jsonfeed'],
+            'vocabulary' => ['html'],
+            'term'       => ['html', 'atom', 'rss'],
+        ],
+    ],
+    'cache' => [
         'enabled' => true,
     ],
-    'paths' => [
-        [
-            'section' => 'Blog',
-            'path'    => ':section/:year/:month/:day/:slug',
-        ],
-    ],
-    'podcast' => [
-        'author' => 'Cecil',
-        'owner'  => [
-            'name'  => 'Cecil',
-            'email' => 'contact@cecil.app',
-        ],
-        'image'      => '/images/cecil-logo.png',
-        'categories' => [
-            'Society & Culture',
-            'History',
-        ],
-    ],
-    'metatags' => [
-        'jsonld' => [
-            'enabled'  => true,
-            'articles' => 'blog',
-        ],
-    ],
-    'body' => [
-        'images' => [
-            'lazy' => [
-                'enabled' => true,
-            ],
-            'resize' => [
-                'enabled' => true,
-            ],
-            'responsive' => [
-                'enabled' => true,
-            ],
-            'webp' => [
-                'enabled' => true,
-            ],
-            'caption' => [
-                'enabled' => true,
-            ],
-            'remote' => [
-                'enabled' => true,
-                'fallback' => [
-                    'enabled' => true,
-                    'path' => 'images/cecil-logo.png',
-                ],
-            ],
-            'class' => 'img',
-        ],
-        'notes' => [
-            'enabled' => true,
-        ],
-        'highlight' => [
-            'enabled' => true,
-        ],
-    ],
-    'generators' => [
-        99  => 'Cecil\Generator\Test',
-        100 => 'Cecil\Generator\TitleReplace',
+    'postprocess' => [
+        'enabled' => true,
     ],
     'extensions' => [
         'Test' => 'Cecil\Renderer\Extension\Test',
