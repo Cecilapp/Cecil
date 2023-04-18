@@ -16,8 +16,8 @@ namespace Cecil\Step\Pages;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
-use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Exception\RuntimeException;
+use Cecil\Renderer\Config;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
@@ -97,6 +97,9 @@ class Render extends AbstractStep
 
             // global site variables
             $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $language));
+
+            // global config raw variables
+            $this->builder->getRenderer()->addGlobal('config', new Config($this->builder, $language));
 
             // excluded format(s)?
             $formats = (array) $page->getVariable('output');
