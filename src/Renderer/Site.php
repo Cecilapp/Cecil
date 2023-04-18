@@ -49,8 +49,9 @@ class Site implements \ArrayAccess
     {
         // special cases
         switch ($offset) {
-            case 'menus':
+            case 'config':
             case 'home':
+            case 'menus':
                 return true;
         }
 
@@ -67,22 +68,22 @@ class Site implements \ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        // Fetchs data from builder instead of config raw data
+        // If it's a built-in variable: dot not fetchs data from config raw
         switch ($offset) {
-            case 'pages':
-                return $this->getPages();
-            case 'menus':
-                return $this->builder->getMenus($this->language);
+            case 'home':
+                return $this->language != $this->config->getLanguageDefault() ? \sprintf('index.%s', $this->language) : 'index';
+            case 'language':
+                return new Language($this->config, $this->language);
             case 'taxonomies':
                 return $this->builder->getTaxonomies();
+            case 'menus':
+                return $this->builder->getMenus($this->language);
+            case 'pages':
+                return $this->getPages();
             case 'data':
                 return $this->builder->getData();
             case 'static':
                 return $this->builder->getStatic();
-            case 'language':
-                return new Language($this->config, $this->language);
-            case 'home':
-                return $this->language != $this->config->getLanguageDefault() ? \sprintf('index.%s', $this->language) : 'index';
         }
 
         return $this->config->get($offset, $this->language);
