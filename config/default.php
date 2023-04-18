@@ -18,14 +18,6 @@ return [
     'baseurl'      => 'http://localhost:8000/',
     'canonicalurl' => false, // if true then `url()` function prepends URL with `baseurl`
     'description'  => 'Site description',
-    'taxonomies'   => [ // default taxonomies
-        'tags'       => 'tag', // can be disabled with the special "disabled" value
-        'categories' => 'category',
-    ],
-    'pagination' => [
-        'max'  => 5,      // number of pages by each paginated pages
-        'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
-    ],
     //'date' => [
     //    'format'   => 'j F Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
     //    'timezone' => 'Europe/Paris',
@@ -37,6 +29,14 @@ return [
             'name'   => 'English',
             'locale' => 'en_US',
         ],
+    ],
+    'taxonomies'   => [ // default taxonomies
+        'tags'       => 'tag', // can be disabled with the special "disabled" value
+        'categories' => 'category',
+    ],
+    'pagination' => [
+        'max'  => 5,      // number of pages by each paginated pages
+        'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
     ],
     'pages' => [
         'dir'     => 'pages', // pages files directory (`pages` by default, previously `content`)
@@ -106,56 +106,56 @@ return [
             80 => 'Cecil\Generator\Alias',
             90 => 'Cecil\Generator\Redirect',
         ],
-    ],
-    'defaultpages' => [ // default generated pages
-        'index' => [
-            'path'      => '',
-            'title'     => 'Home',
-            'published' => true,
-        ],
-        '404' => [
-            'path'      => '404',
-            'title'     => 'Page not found',
-            'layout'    => '404',
-            'uglyurl'   => true,
-            'published' => true,
-            'exclude'   => true,
-        ],
-        'robots' => [
-            'path'         => 'robots',
-            'title'        => 'Robots.txt',
-            'layout'       => 'robots',
-            'output'       => 'txt',
-            'published'    => true,
-            'exclude'      => true,
-            'multilingual' => false,
-        ],
-        'sitemap' => [
-            'path'         => 'sitemap',
-            'title'        => 'XML sitemap',
-            'layout'       => 'sitemap',
-            'output'       => 'xml',
-            'changefreq'   => 'monthly',
-            'priority'     => '0.5',
-            'published'    => true,
-            'exclude'      => true,
-            'multilingual' => false,
-        ],
-        'xsl/atom' => [
-            'path'      => 'xsl/atom',
-            'layout'    => 'feed',
-            'output'    => 'xsl',
-            'uglyurl'   => true,
-            'published' => true,
-            'exclude'   => true,
-        ],
-        'xsl/rss' => [
-            'path'      => 'xsl/rss',
-            'layout'    => 'feed',
-            'output'    => 'xsl',
-            'uglyurl'   => true,
-            'published' => true,
-            'exclude'   => true,
+        'default' => [ // default generated pages
+            'index' => [
+                'path'      => '',
+                'title'     => 'Home',
+                'published' => true,
+            ],
+            '404' => [
+                'path'      => '404',
+                'title'     => 'Page not found',
+                'layout'    => '404',
+                'uglyurl'   => true,
+                'published' => true,
+                'exclude'   => true,
+            ],
+            'robots' => [
+                'path'         => 'robots',
+                'title'        => 'Robots.txt',
+                'layout'       => 'robots',
+                'output'       => 'txt',
+                'published'    => true,
+                'exclude'      => true,
+                'multilingual' => false,
+            ],
+            'sitemap' => [
+                'path'         => 'sitemap',
+                'title'        => 'XML sitemap',
+                'layout'       => 'sitemap',
+                'output'       => 'xml',
+                'changefreq'   => 'monthly',
+                'priority'     => '0.5',
+                'published'    => true,
+                'exclude'      => true,
+                'multilingual' => false,
+            ],
+            'xsl/atom' => [
+                'path'      => 'xsl/atom',
+                'layout'    => 'feed',
+                'output'    => 'xsl',
+                'uglyurl'   => true,
+                'published' => true,
+                'exclude'   => true,
+            ],
+            'xsl/rss' => [
+                'path'      => 'xsl/rss',
+                'layout'    => 'feed',
+                'output'    => 'xsl',
+                'uglyurl'   => true,
+                'published' => true,
+                'exclude'   => true,
+            ],
         ],
     ],
     'output' => [ // https://cecil.app/documentation/configuration/#formats
