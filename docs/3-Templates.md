@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-04-14
+updated: 2023-04-17
 alias: documentation/layouts
 -->
 # Templates
@@ -1173,35 +1173,6 @@ php cecil.phar util:extract
 
 ## Custom extension
 
-You can add custom [functions](#functions) and [filters](#filters):
-
-1. [create a Twig extension](https://twig.symfony.com/doc/advanced.html#creating-an-extension) in the `Cecil\Renderer\Extension` namespace
-2. add the PHP file in the `extensions` directory
-3. add the class name to the configuration
-
-**Example:**
-
-_/extensions/Cecil/Renderer/Extension/MyExtension.php_
-
-```php
-<?php
-namespace Cecil\Renderer\Extension;
-
-class MyExtension extends \Twig\Extension\AbstractExtension
-{
-    public function getFilters()
-    {
-        return [
-            new \Twig\TwigFilter('rot13', 'str_rot13'),
-        ];
-    }
-}
-```
-
-_configuration_
-
-```yaml
-layouts:
-  extensions:
-    MyExtension: Cecil\Renderer\Extension\MyExtension
-```
+:::tip
+You can extend Cecil with [custom extension](8-Extend.md#templates-extension).
+:::
