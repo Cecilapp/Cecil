@@ -204,8 +204,8 @@ class Render extends AbstractStep
             }
         }
         // resources/layouts/
-        if (is_dir($this->config->getInternalLayoutsPath())) {
-            $paths[] = $this->config->getInternalLayoutsPath();
+        if (is_dir($this->config->getLayoutsInternalPath())) {
+            $paths[] = $this->config->getLayoutsInternalPath();
         }
 
         return $paths;
