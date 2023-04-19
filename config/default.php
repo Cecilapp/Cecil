@@ -18,10 +18,10 @@ return [
     'baseurl'      => 'http://localhost:8000/',
     'canonicalurl' => false, // if true then `url()` function prepends URL with `baseurl`
     'description'  => 'Site description',
-    //'date' => [
-    //    'format'   => 'j F Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
-    //    'timezone' => 'Europe/Paris',
-    //],
+    'date' => [
+        'format'   => 'F j, Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
+        //'timezone' => 'Europe/Paris',
+    ],
     'language'  => 'en', // main language code (`en` by default)
     'languages' => [
         [
