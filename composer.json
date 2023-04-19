@@ -55,7 +55,7 @@
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.28",
-    "friendsofphp/php-cs-fixer": "^3.15",
+    "friendsofphp/php-cs-fixer": "^3.16",
     "humbug/box": "^3.16",
     "phpmd/phpmd": "^2.13",
     "phpstan/phpstan": "^1.10",
@@ -82,7 +82,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "7.x-dev"
+      "dev-master": "8.x-dev"
     }
   },
   "autoload": {
@@ -126,8 +126,8 @@
     "box": "Alias of build.",
     "build": "Builds the PHAR file.",
     "code:analyse": "Analyses code with PHPStan (PHP Static Analysis Tool).",
-    "code:style": "Corrects coding standard violations with PHP_CodeSniffer",
-    "code:fix": "Fix code according to the PSR12",
+    "code:style": "Corrects coding standard violations with PHP_CodeSniffer.",
+    "code:fix": "Fix code according to the PSR12.",
     "test": "Runs tests suite.",
     "test:bin": "Runs the binary to create a new skeleton site.",
     "test:coverage": "Runs functional tests suite with code coverage.",
