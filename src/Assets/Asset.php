@@ -516,7 +516,7 @@ class Asset implements \ArrayAccess
         $img->destroy();
         $assetWebp['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
         $assetWebp['subtype'] = "image/$format";
-        $assetWebp['size'] = strlen($assetWebp['content']);
+        $assetWebp['size'] = strlen((string) $assetWebp['content']);
 
         return $assetWebp;
     }
