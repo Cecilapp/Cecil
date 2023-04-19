@@ -142,6 +142,22 @@ return [
             ],
         ],
     ],
+    'output' => [
+        'formats' => [
+            [
+                'name'      => 'netlify_redirects',
+                'mediatype' => 'text/plain',
+                'extension' => '',
+            ],
+        ],
+        'pagetypeformats' => [
+            'page'       => ['html', 'json'],
+            'homepage'   => ['html', 'atom', 'rss', 'json'],
+            'section'    => ['html', 'atom', 'rss', 'json', 'jsonfeed'],
+            'vocabulary' => ['html'],
+            'term'       => ['html', 'atom', 'rss'],
+        ],
+    ],
     'static' => [
         'exclude' => [
             'test*.txt',
@@ -178,20 +194,9 @@ return [
             ],
         ],
     ],
-    'output' => [
-        'formats' => [
-            [
-                'name'      => 'netlify_redirects',
-                'mediatype' => 'text/plain',
-                'extension' => '',
-            ],
-        ],
-        'pagetypeformats' => [
-            'page'       => ['html', 'json'],
-            'homepage'   => ['html', 'atom', 'rss', 'json'],
-            'section'    => ['html', 'atom', 'rss', 'json', 'jsonfeed'],
-            'vocabulary' => ['html'],
-            'term'       => ['html', 'atom', 'rss'],
+    'layouts' => [
+        'extensions' => [
+            'Test' => 'Cecil\Renderer\Extension\Test',
         ],
     ],
     'cache' => [
@@ -199,8 +204,5 @@ return [
     ],
     'postprocess' => [
         'enabled' => true,
-    ],
-    'extensions' => [
-        'Test' => 'Cecil\Renderer\Extension\Test',
     ],
 ];
