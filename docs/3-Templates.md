@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-04-17
+updated: 2023-04-19
 alias: documentation/layouts
 -->
 # Templates
@@ -157,6 +157,17 @@ Can be displayed in a template with:
 
 :::tip
 You can get any page, regardless of their language, with `site.pages['id']` where `id` is the _ID_ of a page.
+:::
+
+:::info
+In some case you can encounter conflicts between configuration and built-in variables (e.g.: default page configuration), so you can use `config.xxxx` (with `xxxx` is the variable name) to access directly to the raw configuration).
+
+Example:
+
+```twig
+{{ config.pages.default.sitemap.priority }}
+```
+
 :::
 
 #### site.menus
