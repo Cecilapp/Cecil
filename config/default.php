@@ -158,9 +158,91 @@ return [
             ],
         ],
     ],
-    'output' => [ // https://cecil.app/documentation/configuration/#formats
+    // data files
+    'data' => [
+        'dir'  => 'data', // data files directory (`data` by default)
+        'ext'  => ['yaml', 'yml', 'json', 'xml', 'csv'], // loaded files by extension
+        'load' => true, // enables `site.data` collection
+    ],
+    // static files
+    'static' => [
+        'dir'     => 'static', // static files directory (`static` by default)
+        'target'  => '', // subdirectory where files are copied
+        'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'], // excluded files by extension or pattern
+        'load'    => false, // enables `site.static` collection
+    ],
+    // assets: CSS, JS, images...
+    'assets' => [
+        'dir'    => 'assets', // assets files directory (`assets` by default)
+        'target' => 'assets', // where remote and resized assets are saved
+        'fingerprint' => [
+            'enabled' => true, // enables fingerprinting (`true` by default)
+        ],
+        'compile' => [
+            'enabled'   => true, // enables Sass files compilation (`true` by default)
+            'style'     => 'expanded', // compilation style (`expanded` or `compressed`. `expanded`
+            'import'    => ['sass', 'scss', 'node_modules'], // list of imported paths (`[sass, scss, node_modules]` by default)
+            'sourcemap' => false, // enables sourcemap in debug mode (`false` by default)
+            //'variables' => ['var' => 'value'], // list of preset variables (empty by default)
+        ],
+        'minify' => [
+            'enabled' => true, // enables CSS et JS minification (`true` by default)
+        ],
+        'images' => [
+            'resize' => [
+                'dir' => 'thumbnails', // where resized images are stored (`thumbnails` by default)
+            ],
+            'optimize' => [
+                'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
+            ],
+            'quality'    => 75, // image quality after optimization or resize (`75` by default)
+            'responsive' => [
+                'widths' => [], // `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]`
+                'sizes'  => [
+                    'default' => '100vw', // default `sizes` attribute (`100vw` by default)
+                ],
+                'enabled' => false, // `html` filter: creates responsive images (`false` by default)
+            ],
+            'webp' => [
+                'enabled' => false, // `html` filter: creates and adds a WebP image as a `source` (`false` by default)
+            ],
+            'cdn' => [
+                'enabled'   => false,  // enables Image CDN (`false` by default)
+                'canonical' => true,   // is `image_url` must be canonical or not (`true` by default)
+                'remote'    => true,   // includes remote images (`true` by default)
+                //'account'   => 'xxxx', // provider account
+                // Cloudinary
+                //'url'       => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%',
+                // Cloudimage
+                //'url'       => 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%',
+                // TwicPics
+                //'url'       => 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%',
+                // imgix
+                //'url'       => 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
+            ]
+        ],
+    ],
+    // templates
+    'layouts' => [
+        'dir'      => 'layouts', // Twig templates directory (`layouts` by default)
+        'internal' => [
+            'dir' => 'resources/layouts', // internal templates directory
+        ],
+        'themes' => [
+            'dir' => 'themes', // where themes are stored (`themes` by default)
+        ],
+        'extensions' => [], // Twig extensions
+        'translations' => [ // i18n
+            'dir'      => 'translations', // translations files directory (`translations` by default)
+            'formats'  => ['yaml', 'mo'], // translations supported formats (`yaml` and `mo`)
+            'internal' => [
+                'dir' => 'resources/translations', // internal translations directory
+            ],
+        ],
+    ],
+    'output' => [
         'dir'      => '_site', // output directory (`_site` by default)
-        'formats'  => [
+        'formats'  => [ // https://cecil.app/documentation/configuration/#formats
             // e.g.: blog/post-1/index.html
             -1 => [
                 'name'      => 'html',
@@ -251,88 +333,6 @@ return [
             -1 => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
             -2 => 'Cecil\Renderer\PostProcessor\HtmlExcerpt',
             -3 => 'Cecil\Renderer\PostProcessor\MarkdownLink',
-        ],
-    ],
-    // data files
-    'data' => [
-        'dir'  => 'data', // data files directory (`data` by default)
-        'ext'  => ['yaml', 'yml', 'json', 'xml', 'csv'], // loaded files by extension
-        'load' => true, // enables `site.data` collection
-    ],
-    // static files
-    'static' => [
-        'dir'     => 'static', // static files directory (`static` by default)
-        'target'  => '', // subdirectory where files are copied
-        'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'], // excluded files by extension or pattern
-        'load'    => false, // enables `site.static` collection
-    ],
-    'assets' => [
-        'dir'    => 'assets', // assets files directory (`assets` by default)
-        'target' => 'assets', // where remote and resized assets are saved
-        'fingerprint' => [
-            'enabled' => true, // enables fingerprinting (`true` by default)
-        ],
-        'compile' => [
-            'enabled'   => true, // enables Sass files compilation (`true` by default)
-            'style'     => 'expanded', // compilation style (`expanded` or `compressed`. `expanded`
-            'import'    => ['sass', 'scss', 'node_modules'], // list of imported paths (`[sass, scss, node_modules]` by default)
-            'sourcemap' => false, // enables sourcemap in debug mode (`false` by default)
-            //'variables' => ['var' => 'value'], // list of preset variables (empty by default)
-        ],
-        'minify' => [
-            'enabled' => true, // enables CSS et JS minification (`true` by default)
-        ],
-        'images' => [
-            'resize' => [
-                'dir' => 'thumbnails', // where resized images are stored (`thumbnails` by default)
-            ],
-            'optimize' => [
-                'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
-            ],
-            'quality'    => 75, // image quality after optimization or resize (`75` by default)
-            'responsive' => [
-                'widths' => [], // `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]`
-                'sizes'  => [
-                    'default' => '100vw', // default `sizes` attribute (`100vw` by default)
-                ],
-                'enabled' => false, // `html` filter: creates responsive images (`false` by default)
-            ],
-            'webp' => [
-                'enabled' => false, // `html` filter: creates and adds a WebP image as a `source` (`false` by default)
-            ],
-            'cdn' => [
-                'enabled'   => false,  // enables Image CDN (`false` by default)
-                'canonical' => true,   // is `image_url` must be canonical or not (`true` by default)
-                'remote'    => true,   // includes remote images (`true` by default)
-                //'account'   => 'xxxx', // provider account
-                // Cloudinary
-                //'url'       => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%',
-                // Cloudimage
-                //'url'       => 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%',
-                // TwicPics
-                //'url'       => 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%',
-                // imgix
-                //'url'       => 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
-            ]
-        ],
-    ],
-    // templates
-    'layouts' => [
-        'dir'      => 'layouts', // Twig templates directory (`layouts` by default)
-        'internal' => [
-            'dir' => 'resources/layouts', // internal templates directory
-        ],
-        'extensions' => [], // Twig extensions
-    ],
-    'themes' => [
-        'dir' => 'themes', // where themes are stored (`themes` by default)
-    ],
-    // i18n
-    'translations' => [
-        'dir'      => 'translations', // translations files directory (`translations` by default)
-        'formats'  => ['yaml', 'mo'], // translations supported formats (`yaml` and `mo`)
-        'internal' => [
-            'dir' => 'resources/translations', // internal translations directory
         ],
     ],
     'cache' => [
