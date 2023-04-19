@@ -1,7 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2023-02-13
+updated: 2023-04-19
 alias: documentation/publish
 -->
 # Deploy
@@ -116,7 +116,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
