@@ -228,9 +228,6 @@ return [
         'internal' => [
             'dir' => 'resources/layouts', // internal templates directory
         ],
-        'themes' => [
-            'dir' => 'themes', // where themes are stored (`themes` by default)
-        ],
         'extensions' => [], // Twig extensions
         'translations' => [ // i18n
             'dir'      => 'translations', // translations files directory (`translations` by default)
@@ -239,6 +236,10 @@ return [
                 'dir' => 'resources/translations', // internal translations directory
             ],
         ],
+    ],
+    // themes
+    'themes' => [
+        'dir' => 'themes', // where themes are stored (`themes` by default)
     ],
     'output' => [
         'dir'      => '_site', // output directory (`_site` by default)
