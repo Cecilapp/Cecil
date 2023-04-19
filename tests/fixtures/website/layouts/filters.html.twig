@@ -2,10 +2,12 @@
 
 {% block content %}
 
-<h2>json_decode <pre>assets/json.json</pre></h2>
+<h2>json_decode</h2>
+<blockquote>asset('json.json').content|json_decode</blockquote>
 <pre>{{ dump(asset('json.json').content|json_decode) }}</pre>
 
-<h2>yaml_parse <pre>assets/yaml.yml</pre></h2>
+<h2>yaml_parse</h2>
+<blockquote>asset('yaml.yml').content|yaml_parse</blockquote>
 <pre>{{ dump(asset('yaml.yml').content|yaml_parse) }}</pre>
 
 {% endblock content %}
