@@ -14,17 +14,16 @@ declare(strict_types=1);
 namespace Cecil\Renderer;
 
 use Cecil\Collection\Page\Page as PageItem;
-use Cecil\Config;
 
 /**
  * Class Renderer\Page.
  */
 class Page
 {
-    /** @var Config */
+    /** @var \Cecil\Config */
     protected $config;
 
-    public function __construct(Config $config)
+    public function __construct(\Cecil\Config $config)
     {
         $this->config = $config;
     }
