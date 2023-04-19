@@ -59,9 +59,9 @@ class UtilExtractTemplates extends AbstractCommand
             $templatesList = [];
             $templates = Finder::create()
                 ->files()
-                ->in($this->getBuilder()->getConfig()->getInternalLayoutsPath());
+                ->in($this->getBuilder()->getConfig()->getLayoutsInternalPath());
             foreach ($templates as $template) {
-                $templatesList[] = Util::joinPath((string) $this->getBuilder()->getConfig()->get('layouts.internal.dir'), Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getInternalLayoutsPath()));
+                $templatesList[] = Util::joinPath((string) $this->getBuilder()->getConfig()->get('layouts.internal.dir'), Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getLayoutsInternalPath()));
             }
 
             $phar->extractTo($this->getBuilder()->getConfig()->getLayoutsPath(), $templatesList, $force);
