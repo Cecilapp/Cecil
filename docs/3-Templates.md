@@ -16,8 +16,8 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 <span>{{ page.date|date('j M Y') }}</span>
 <p>{{ page.content }}</p>
 <ul>
-{% for variable in page.my_variables %}
-  <li>{{ variable }}</li>
+{% for tag in page.tags %}
+  <li>{{ tag }}</li>
 {% endfor %}
 </ul>
 ```
@@ -129,7 +129,7 @@ You can use variables from different scopes: [`site`](#site), [`page`](#page), [
 
 ### site
 
-The `site` variable contains all variables from the configuration and some built-in variables.
+The `site` variable contains all variables from the configuration and built-in variables.
 
 _Example:_
 
@@ -160,7 +160,7 @@ You can get any page, regardless of their language, with `site.pages['id']` wher
 :::
 
 :::info
-In some case you can encounter conflicts between configuration and built-in variables (e.g.: default page configuration), so you can use `config.xxxx` (with `xxxx` is the variable name) to access directly to the raw configuration).
+In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.xxxx` (with `xxxx` is the variable name) to access directly to the raw configuration).
 
 Example:
 
@@ -1002,7 +1002,7 @@ _Examples:_
 ```
 
 ```twig
-{{ asset('styles.css')|html({media: print}) }}
+{{ asset('styles.css')|html({media: 'print'}) }}
 ```
 
 ```twig
