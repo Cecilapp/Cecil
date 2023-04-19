@@ -242,7 +242,7 @@ class Config
         return $this->destinationDir;
     }
 
-    /**
+    /*
      * Path helpers.
      */
 
@@ -262,6 +262,14 @@ class Config
     }
 
     /**
+     * Returns the path of the output directory.
+     */
+    public function getOutputPath(): string
+    {
+        return Util::joinFile($this->getDestinationDir(), (string) $this->get('output.dir'));
+    }
+
+    /**
      * Returns the path of the data directory.
      */
     public function getDataPath(): string
@@ -278,19 +286,19 @@ class Config
     }
 
     /**
+     * Returns the path of internal templates directory.
+     */
+    public function getLayoutsInternalPath(): string
+    {
+        return Util::joinPath(__DIR__, '..', (string) $this->get('layouts.internal.dir'));
+    }
+
+    /**
      * Returns the path of themes directory.
      */
     public function getThemesPath(): string
     {
-        return Util::joinFile($this->getSourceDir(), (string) $this->get('themes.dir'));
-    }
-
-    /**
-     * Returns the path of internal templates directory.
-     */
-    public function getInternalLayoutsPath(): string
-    {
-        return Util::joinPath(__DIR__, '..', (string) $this->get('layouts.internal.dir'));
+        return Util::joinFile($this->getSourceDir(), (string) $this->get('layouts.themes.dir'));
     }
 
     /**
@@ -298,27 +306,19 @@ class Config
      */
     public function getTranslationsPath(): string
     {
-        return Util::joinFile($this->getSourceDir(), (string) $this->get('translations.dir'));
+        return Util::joinFile($this->getSourceDir(), (string) $this->get('layouts.translations.dir'));
     }
 
     /**
      * Returns the path of internal translations directory.
      */
-    public function getInternalTranslationsPath(): string
+    public function getTranslationsInternalPath(): string
     {
         if (Util\Plateform::isPhar()) {
             return Util::joinPath(Plateform::getPharPath(), (string) $this->get('translations.internal.dir'));
         }
 
         return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('translations.internal.dir')));
-    }
-
-    /**
-     * Returns the path of the output directory.
-     */
-    public function getOutputPath(): string
-    {
-        return Util::joinFile($this->getDestinationDir(), (string) $this->get('output.dir'));
     }
 
     /**
@@ -349,36 +349,6 @@ class Config
     public function getAssetsPath(): string
     {
         return Util::joinFile($this->getSourceDir(), (string) $this->get('assets.dir'));
-    }
-
-    /**
-     * Returns asset image widths.
-     */
-    public function getAssetsImagesWidths(): array
-    {
-        return count((array) $this->get('assets.images.responsive.widths')) > 0 ? (array) $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
-    }
-
-    /**
-     * Returns asset image sizes.
-     */
-    public function getAssetsImagesSizes(): array
-    {
-        return count((array) $this->get('assets.images.responsive.sizes')) > 0 ? (array) $this->get('assets.images.responsive.sizes') : ['default' => '100vw'];
-    }
-
-    /**
-     * Is cache dir is absolute to system files
-     * or relative to project destination?
-     */
-    public function isCacheDirIsAbsolute(): bool
-    {
-        $path = (string) $this->get('cache.dir');
-        if (Util::joinFile($path) == realpath(Util::joinFile($path))) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -434,6 +404,10 @@ class Config
         return Util::joinFile($this->getCacheAssetsPath(), (string) $this->get('cache.assets.remote.dir'));
     }
 
+    /*
+     * Output helpers.
+     */
+
     /**
      * Returns the property value of an output format.
      *
@@ -452,7 +426,27 @@ class Config
         return $properties[$name] ?? null;
     }
 
+    /*
+     * Assets helpers.
+     */
+
     /**
+     * Returns asset image widths.
+     */
+    public function getAssetsImagesWidths(): array
+    {
+        return count((array) $this->get('assets.images.responsive.widths')) > 0 ? (array) $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
+    }
+
+    /**
+     * Returns asset image sizes.
+     */
+    public function getAssetsImagesSizes(): array
+    {
+        return count((array) $this->get('assets.images.responsive.sizes')) > 0 ? (array) $this->get('assets.images.responsive.sizes') : ['default' => '100vw'];
+    }
+
+    /*
      * Theme helpers.
      */
 
@@ -501,7 +495,7 @@ class Config
         return Util::joinFile($this->getThemesPath(), $theme, $dir);
     }
 
-    /**
+    /*
      * Language helpers.
      */
 
@@ -577,5 +571,23 @@ class Config
         }
 
         return $properties[$code];
+    }
+
+    /*
+     * Cache helpers.
+     */
+
+    /**
+     * Is cache dir is absolute to system files
+     * or relative to project destination?
+     */
+    public function isCacheDirIsAbsolute(): bool
+    {
+        $path = (string) $this->get('cache.dir');
+        if (Util::joinFile($path) == realpath(Util::joinFile($path))) {
+            return true;
+        }
+
+        return false;
     }
 }
