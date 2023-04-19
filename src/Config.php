@@ -294,14 +294,6 @@ class Config
     }
 
     /**
-     * Returns the path of themes directory.
-     */
-    public function getThemesPath(): string
-    {
-        return Util::joinFile($this->getSourceDir(), (string) $this->get('layouts.themes.dir'));
-    }
-
-    /**
      * Returns the path of translations directory.
      */
     public function getTranslationsPath(): string
@@ -319,6 +311,14 @@ class Config
         }
 
         return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('translations.internal.dir')));
+    }
+
+    /**
+     * Returns the path of themes directory.
+     */
+    public function getThemesPath(): string
+    {
+        return Util::joinFile($this->getSourceDir(), (string) $this->get('themes.dir'));
     }
 
     /**
