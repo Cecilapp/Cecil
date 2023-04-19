@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2023-03-15
+updated: 2023-04-19
 -->
 # Content
 
@@ -14,12 +14,26 @@ There is different kinds of content in Cecil:
 : Assets are manipulated files (i.e.: resized images, compiled Sass, minified scripts, etc.).
 
 **Static files**
-: Static files are copied as is in the generated site.
+: Static files are copied as is in the built site.
 
 **Data files**
 : Data files are custom variables collections.
 
 ## Files organization
+
+### File based routing
+
+Markdown files in the `pages` directory enable file based routing. Meaning that adding a `pages/my-projects/project-1.md` for instance will make it available at `/project-1` in your browser.
+
+```plaintext
+File:
+                   pages/my-projects/project-1.md
+                        └───── filepath ──────┘
+URL:
+    ┌───── baseurl ─────┬─────── path ────────┐
+     https://example.com/my-projects/project-1/index.html
+                        └─ section ─┴─ slug ──┘
+```
 
 ### File system tree
 
@@ -50,7 +64,7 @@ Project files organization.
 - Each folder in the root of `pages/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
 - You can override a _Section_’s default variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
 - Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function in templates
-- Files in `static/` are copied as is in the root of the built website (e.g.: `static/file.pdf` -> `file.pdf`)
+- Files in `static/` are copied as is in the built site (e.g.: `static/file.pdf` -> `file.pdf`)
 - Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
 :::
 
@@ -77,25 +91,9 @@ Result of the build.
 
 :::info
 By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.
+
+To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in page [front matter](#front-matter).
 :::
-
-:::tip
-To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in [front matter](#front-matter).
-:::
-
-### File based routing
-
-Markdown files in the `pages` directory enable file based routing. Meaning that adding a `pages/my-projects/project-1.md` for instance will make it available at `/project-1` in your browser.
-
-```plaintext
-File:
-                   pages/my-projects/project-1.md
-                        └───── filepath ──────┘
-URL:
-    ┌───── baseurl ─────┬─────── path ────────┐
-     https://example.com/my-projects/project-1/index.html
-                        └─ section ─┴─ slug ──┘
-```
 
 ## Pages
 
@@ -466,7 +464,7 @@ Is converted to:
 
 ### Syntax highlight
 
-Enables code block syntax highlighter by setting the [body.highlight.enabled](4-Configuration.md#body) option to `true`.
+Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#body) option to `true`.
 
 _Example:_
 
