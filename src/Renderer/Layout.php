@@ -15,7 +15,6 @@ namespace Cecil\Renderer;
 
 use Cecil\Collection\Page\Page as CollectionPage;
 use Cecil\Collection\Page\Type as PageType;
-use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
@@ -31,7 +30,7 @@ class Layout
      *
      * @throws RuntimeException
      */
-    public static function finder(CollectionPage $page, string $format, Config $config): array
+    public static function finder(CollectionPage $page, string $format, \Cecil\Config $config): array
     {
         $layout = 'unknown';
 
