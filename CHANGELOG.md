@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [7.36.0](https://github.com/Cecilapp/Cecil/compare/7.35.2...7.36.0)
+
+> 15 April 2023
+
+- feat: new taxonomy template lookup rule [`#1671`](https://github.com/Cecilapp/Cecil/pull/1671)
+- chore(deps-dev): bump phpunit/phpunit from 9.6.6 to 9.6.7 [`#1668`](https://github.com/Cecilapp/Cecil/pull/1668)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.12 to 1.10.13 [`#1667`](https://github.com/Cecilapp/Cecil/pull/1667)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.11 to 1.10.12 [`#1666`](https://github.com/Cecilapp/Cecil/pull/1666)
+- refactor: enhances code [`80f8d2f`](https://github.com/Cecilapp/Cecil/commit/80f8d2f5f932f2ae16543d072e125993dbaf4dbe)
+- docs: minor fix [`e432434`](https://github.com/Cecilapp/Cecil/commit/e43243484e8fe9cd1e8aba4076a1a3a677712132)
+
 #### [7.35.2](https://github.com/Cecilapp/Cecil/compare/7.35.1...7.35.2)
 
 > 12 April 2023

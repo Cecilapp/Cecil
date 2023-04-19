@@ -112,8 +112,9 @@ All rules are detailed below, for each page type, in the priority order.
 ### Type _term_
 
 1. `taxonomy/<term>.<format>.twig`
-2. `_default/term.<format>.twig`
-3. `_default/list.<format>.twig`
+2. `taxonomy/<singular>.<format>.twig`
+3. `_default/term.<format>.twig`
+4. `_default/list.<format>.twig`
 
 :::info
 Most of those layouts are available by default, see [built-in templates](#built-in-templates).

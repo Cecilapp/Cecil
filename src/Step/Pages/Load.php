@@ -40,12 +40,12 @@ class Load extends AbstractStep
     public function init(array $options): void
     {
         // legacy support
-        if (is_dir(Util::joinFile($this->builder->getConfig()->getSourceDir(), 'content'))) {
+        if (is_dir(Util::joinFile($this->config->getSourceDir(), 'content'))) {
             $this->builder->getLogger()->alert('"content" directory is deprecated, please rename it to "pages"');
         }
 
-        if (!is_dir($this->builder->getConfig()->getPagesPath())) {
-            throw new RuntimeException(\sprintf('Pages path "%s" not found.', $this->builder->getConfig()->getPagesPath()));
+        if (!is_dir($this->config->getPagesPath())) {
+            throw new RuntimeException(\sprintf('Pages path "%s" not found.', $this->config->getPagesPath()));
         }
 
         $this->page = $options['page'];
@@ -57,39 +57,39 @@ class Load extends AbstractStep
      */
     public function process(): void
     {
-        $namePattern = '/\.(' . implode('|', (array) $this->builder->getConfig()->get('pages.ext')) . ')$/';
+        $namePattern = '/\.(' . implode('|', (array) $this->config->get('pages.ext')) . ')$/';
         $content = Finder::create()
             ->files()
-            ->in($this->builder->getConfig()->getPagesPath())
+            ->in($this->config->getPagesPath())
             ->sortByName(true);
         // load only one page?
         if ($this->page) {
             // is the page path starts with the `pages.dir` configuration option?
             // (i.e.: `pages/...`, `/pages/...`, `./pages/...`)
             $pagePathAsArray = explode(DIRECTORY_SEPARATOR, $this->page);
-            if ($pagePathAsArray[0] == (string) $this->builder->getConfig()->get('pages.dir')) {
+            if ($pagePathAsArray[0] == (string) $this->config->get('pages.dir')) {
                 unset($pagePathAsArray[0]);
                 $this->page = implode(DIRECTORY_SEPARATOR, $pagePathAsArray);
             }
-            if ($pagePathAsArray[0] == '.' && $pagePathAsArray[1] == (string) $this->builder->getConfig()->get('pages.dir')) {
+            if ($pagePathAsArray[0] == '.' && $pagePathAsArray[1] == (string) $this->config->get('pages.dir')) {
                 unset($pagePathAsArray[0]);
                 unset($pagePathAsArray[1]);
                 $this->page = implode(DIRECTORY_SEPARATOR, $pagePathAsArray);
             }
-            if (!util\File::getFS()->exists(Util::joinFile($this->builder->getConfig()->getPagesPath(), $this->page))) {
+            if (!util\File::getFS()->exists(Util::joinFile($this->config->getPagesPath(), $this->page))) {
                 $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
             }
             $content->path('.')->path(dirname($this->page));
-            $content->name('/index\.(' . implode('|', (array) $this->builder->getConfig()->get('pages.ext')) . ')$/');
+            $content->name('/index\.(' . implode('|', (array) $this->config->get('pages.ext')) . ')$/');
             $namePattern = basename($this->page);
         }
         $content->name($namePattern);
-        if (is_array($this->builder->getConfig()->get('pages.exclude'))) {
-            $content->exclude($this->builder->getConfig()->get('pages.exclude'));
-            $content->notPath($this->builder->getConfig()->get('pages.exclude'));
-            $content->notName($this->builder->getConfig()->get('pages.exclude'));
+        if (is_array($this->config->get('pages.exclude'))) {
+            $content->exclude($this->config->get('pages.exclude'));
+            $content->notPath($this->config->get('pages.exclude'));
+            $content->notName($this->config->get('pages.exclude'));
         }
-        if (file_exists(Util::joinFile($this->builder->getConfig()->getPagesPath(), '.gitignore'))) {
+        if (file_exists(Util::joinFile($this->config->getPagesPath(), '.gitignore'))) {
             $content->ignoreVCSIgnored(true);
         }
         $this->builder->setPagesFiles($content);
