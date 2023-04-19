@@ -79,8 +79,8 @@ Date format and timezone.
 
 ```yaml
 date:
-  format: <format>     # date format (`j F Y` by default)
-  timezone: <timezone> # date timezone (`Europe/Paris` by default)
+  format: <format>     # date format (`F j, Y` by default)
+  timezone: <timezone> # date timezone (local time zone by default)
 ```
 
 - `format`: [PHP date](https://php.net/date) format specifier
@@ -90,8 +90,8 @@ _Example:_
 
 ```yaml
 date:
-  format: 'Y-m-d'
-  timezone: 'UTC'
+  format: 'j F Y'
+  timezone: 'Europe/Paris'
 ```
 
 ### language
@@ -118,7 +118,7 @@ The language code is used to define the path to pages in a different language of
 :::
 
 :::info
-A list of [locales code](configuration/locale-codes.md) is available.
+A list of [locales code is available](configuration/locale-codes.md).
 :::
 
 #### Localize configuration options
@@ -259,9 +259,9 @@ _Example:_
   <head>
     <meta charset="utf-8">
     {%~ include 'partials/metatags.html.twig' ~%}
-    [... other head elements ...]
   </head>
-  [...]
+  <body>
+  </body>
 </html>
 ```
 
@@ -515,7 +515,7 @@ There is 2 others way to enable the _debug mode_:
 
 ## Default configuration
 
-The website configuration (`config.yml`) overrides the [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
+Your site configuration (`config.yml`) overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
 
 ### pages
 
@@ -612,18 +612,7 @@ You can extend Cecil with [custom generator](8-Extend.md#pages-generator).
 
 #### default pages
 
-Default pages are pages created automatically by Cecil, from built-in templates:
-
-- _index.html_ (home page)
-- _404.html_
-- _robots.txt_
-- _sitemaps.xml_
-- _atom.xsl_
-- _rss.xsl_
-
-:::info
-The structure is almost identical of [`virtual pages`](#virtual-pages), except the named key.
-:::
+Default pages are pages created automatically by Cecil (from built-in templates):
 
 ```yaml
 pages:
@@ -672,6 +661,10 @@ pages:
       published: true
       exclude: true
 ```
+
+:::info
+The structure is almost identical of [`virtual pages`](#virtual-pages), except the named key.
+:::
 
 Each one can be:
 
@@ -785,63 +778,11 @@ assets:
 - `%quality%` replaced by the `assets.images.quality` option
 - `%format%` replaced by the image format
 
-##### CDN provider examples
-
-###### [Cloudinary](https://cloudinary.com)
-
-```yaml
-assets:
-  images:
-    cdn:
-      enabled: true
-      account: 'xxxx'
-      url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%'
-```
-
-###### [Cloudimage](https://www.cloudimage.io)
-
-```yaml
-assets:
-  images:
-    cdn:
-      enabled: true
-      account: 'xxxx'
-      url: 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%'
-```
-
-###### [TwicPics](https://www.twicpics.com)
-
-```yaml
-assets:
-  images:
-    cdn:
-      enabled: true
-      account: 'xxxx'
-      canonical: false
-      remote: false
-      url: 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%'
-```
-
-`Source URL`: Your website `baseurl`.
-
-###### [imgix](https://imgix.com)
-
-```yaml
-assets:
-  images:
-    cdn:
-      enabled: true
-      account: 'xxxx'
-      canonical: false
-      remote: false
-      url: 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
-```
-
-`Base URL`: Your website `baseurl`.
+See [**CDN providers**](configuration/cdn-providers.md).
 
 ### layouts
 
-Where templates and templates translations files are stored.
+Where templates and translations files are stored.
 
 ```yaml
 layouts:
@@ -866,16 +807,18 @@ Cache options.
 
 ```yaml
 cache:
-  dir: '.cache' # cache directory
-  enabled: true # enables cache
-  templates:    # Twig templates cache
-    dir: templates # templates cache directory
-    enabled: true  # enables templates cache
-  assets:       # assets cache
-    dir: 'assets/remote' # the subdirectory of remote assets cache
+  enabled: true # enables cache support (`true` by default)
+  dir: '.cache' # cache files directory (`.cache` by default)
+  templates:
+    enabled: true  # enables cache for Twig templates
+    dir: templates # templates files cache directory (`templates` by default)
+  assets:
+    dir: 'assets' # assets files cache directory (`assets` by default)
+    remote:
+      dir: remote # remote files cache directory (`remote` by default)
   translations:
-    dir: 'translations' # translations cache directory
-    enabled: true       # enables translations cache
+    enabled: true       # enables cache for translations dictionary
+    dir: 'translations' # translations files cache directory (`assets` by default)
 ```
 
 ### postprocess
@@ -884,19 +827,19 @@ Options of files optimizations after build.
 
 ```yaml
 postprocess:
-  enabled: false     # enables (`false` by default)
+  enabled: false # enables (`false` by default)
   html:
-    ext: [html, htm] # list of files extensions
-    enabled: true    # enables HTML post processing
+    enabled: true    # enables HTML files post-process
+    ext: [html, htm] # supported files extensions
   css:
-    ext: [css]       # list of files extensions
-    enabled: true    # enables CSS post processing
+    enabled: true # enables CSS files post-process
+    ext: [css]    # supported files extensions
   js:
-    ext: [js]        # list of files extensions
-    enabled: true    # enables JS post processing
+    enabled: true # enables JavaScript files post-process
+    ext: [js]     # supported files extensions
   images:
-    ext: [jpeg, jpg, png, gif, webp, svg] # list of files extensions
-    enabled: true                         # enables images post processing
+    enabled: true # enables images files post-process
+    ext: [jpeg, jpg, png, gif, webp, svg] # supported files extensions
 ```
 
 :::important
