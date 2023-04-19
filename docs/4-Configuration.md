@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-04-17
+updated: 2023-04-19
 -->
 # Configuration
 
@@ -380,7 +380,7 @@ The _Universal Analytics_ ID is used by the built-in partial template [`googlean
 
 ### virtual pages
 
-Virtual pages is the best way to create pages without content (**front matter only**).
+Virtual pages is the best way to create pages without body (**front matter only**).
 
 It consists of a list of pages with a `path` and some front matter variables.
 
@@ -841,11 +841,14 @@ assets:
 
 ### layouts
 
-Where templates files are stored.
+Where templates and templates translations files are stored.
 
 ```yaml
 layouts:
   dir: layouts # layouts directory
+  translations:
+    dir: translations       # translations directory
+    formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
 ### themes
@@ -855,16 +858,6 @@ Where themes are stored.
 ```yaml
 themes:
   dir: themes # themes directory
-```
-
-### translations
-
-Where and in what format translations files are stored.
-
-```yaml
-translations:
-  dir: translations       # translations directory
-  formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
 ### cache
@@ -887,7 +880,7 @@ cache:
 
 ### postprocess
 
-Options of files optimizations after build step (post process).
+Options of files optimizations after build.
 
 ```yaml
 postprocess:
@@ -906,7 +899,9 @@ postprocess:
     enabled: true                         # enables images post processing
 ```
 
+:::important
 Images compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/) and [cwebp](https://developers.google.com/speed/webp/docs/cwebp).
+:::
 
 ## Override configuration
 
