@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Cecil\Renderer\PostProcessor;
 
-use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 
 /**
