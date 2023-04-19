@@ -27,7 +27,7 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder implements LoggerAwareInterface
 {
-    public const VERSION = '7.x-dev';
+    public const VERSION = '8.x-dev';
     public const VERBOSITY_QUIET = -1;
     public const VERBOSITY_NORMAL = 0;
     public const VERBOSITY_VERBOSE = 1;
