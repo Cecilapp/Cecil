@@ -157,6 +157,9 @@ return [
             'vocabulary' => ['html'],
             'term'       => ['html', 'atom', 'rss'],
         ],
+        'postprocessors' => [
+            'Cecil\Renderer\PostProcessor\Test',
+        ],
     ],
     'static' => [
         'exclude' => [
