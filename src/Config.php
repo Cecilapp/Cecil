@@ -62,7 +62,7 @@ class Config
      */
     private function importSiteConfig(): void
     {
-        $this->data->import($this->siteConfig);
+        $this->data->import($this->siteConfig, Data::REPLACE);
 
         /**
          * Overrides configuration with environment variables.
@@ -94,7 +94,7 @@ class Config
      */
     public function import(array $config): void
     {
-        $this->data->import($config);
+        $this->data->import($config, Data::REPLACE);
 
         // re-import site config
         $this->importSiteConfig();
