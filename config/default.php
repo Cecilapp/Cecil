@@ -31,11 +31,11 @@ return [
         ],
     ],
     'taxonomies'   => [ // default taxonomies
-        'tags'       => 'tag', // can be disabled with the special "disabled" value
-        'categories' => 'category',
+        'tags'       => 'tag',
+        'categories' => 'category', // can be disabled with the special "disabled" value
     ],
     'pagination' => [
-        'max'  => 5,      // number of pages by each paginated pages
+        'max'  => 5, // number of pages by each paginated pages
         'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
     ],
     'pages' => [
@@ -46,17 +46,17 @@ return [
             'format' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
         ],
         'body' => [
-            'format'    => 'md',         // page body format (only Markdown is supported)
+            'format'    => 'markdown', // page body format (only Markdown is supported)
             'toc'       => ['h2', 'h3'], // headers used to build the table of contents
             'highlight' => [
-                'enabled' => false,      // enables code syntax highlighting (`false` by default)
+                'enabled' => false, // enables code syntax highlighting (`false` by default)
             ],
             'images' => [
                 'lazy' => [
-                    'enabled' => true,  // adds `loading="lazy"` attribute (`true` by default)
+                    'enabled' => true, // adds `loading="lazy"` attribute (`true` by default)
                 ],
                 'decoding' => [
-                    'enabled' => true,  // adds `decoding="async"` attribute (`true` by default)
+                    'enabled' => true, // adds `decoding="async"` attribute (`true` by default)
                 ],
                 'resize' => [
                     'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
@@ -67,7 +67,7 @@ return [
                 'responsive' => [
                     'enabled' => false, // creates responsive images and adds them to the `srcset` attribute (`false` by default)
                 ],
-                'class' => '',          // puts default CSS class to each image (empty by default)
+                'class' => '', // puts default CSS class to each image (empty by default)
                 'caption' => [
                     'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
                 ],
@@ -75,7 +75,7 @@ return [
                     'enabled'  => true, // turns remote images to Asset to handling them (`true` by default)
                     'fallback' => [
                         'enabled' => false, // enables a fallback if image is not found (`false` by default)
-                        'path'    => '',    // path to the fallback image, stored in assets dir (empty by default)
+                        'path'    => '', // path to the fallback image, stored in assets dir (empty by default)
                     ],
                 ],
             ],
@@ -92,7 +92,7 @@ return [
             ],
             'excerpt' => [
                 'separator' => 'excerpt|break', // string to use as separator (`excerpt|break` by default)
-                'capture'   => 'before',        // part to capture, `before` or `after` the separator (`before` by default)
+                'capture'   => 'before', // part to capture, `before` or `after` the separator (`before` by default)
             ],
         ],
         'generators' => [ // list of pages generators, ordered by weight
@@ -207,9 +207,9 @@ return [
                 'enabled' => false, // `html` filter: creates and adds a WebP image as a `source` (`false` by default)
             ],
             'cdn' => [
-                'enabled'   => false,  // enables Image CDN (`false` by default)
-                'canonical' => true,   // is `image_url` must be canonical or not (`true` by default)
-                'remote'    => true,   // includes remote images (`true` by default)
+                'enabled'   => false, // enables Image CDN (`false` by default)
+                'canonical' => true, // is `image_url` must be canonical or not (`true` by default)
+                'remote'    => true, // includes remote images (`true` by default)
                 //'account'   => 'xxxx', // provider account
                 // Cloudinary
                 //'url'       => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%',
@@ -228,7 +228,6 @@ return [
         'internal' => [
             'dir' => 'resources/layouts', // internal templates directory
         ],
-        'extensions' => [], // Twig extensions
         'translations' => [ // i18n
             'dir'      => 'translations', // translations files directory (`translations` by default)
             'formats'  => ['yaml', 'mo'], // translations supported formats (`yaml` and `mo`)
@@ -236,6 +235,7 @@ return [
                 'dir' => 'resources/translations', // internal translations directory
             ],
         ],
+        'extensions' => [], // Twig extensions
     ],
     // themes
     'themes' => [
