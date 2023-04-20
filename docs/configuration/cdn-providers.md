@@ -43,7 +43,7 @@ assets:
       url: 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%'
 ```
 
-`Source URL`: Your website `baseurl`.
+Path `Source URL`: Your website `baseurl`.
 
 ## [imgix](https://imgix.com)
 
@@ -58,4 +58,4 @@ assets:
       url: 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
 ```
 
-`Base URL`: Your website `baseurl`.
+Web Folder Settings `Base URL`: Your website `baseurl`.
