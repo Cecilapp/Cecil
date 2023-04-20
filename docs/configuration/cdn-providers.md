@@ -1,11 +1,12 @@
----
+<!--
 title: CDN providers
 description: Examples of CDN providers.
 date: 2023-04-19
+updated: 2023-04-20
 weight: 4
 exclude: true
----
-# CDN providers
+-->
+Examples of [Image CDN](4-Configuration.md#image-cdn) configuration.
 
 ## [Cloudinary](https://cloudinary.com)
 
