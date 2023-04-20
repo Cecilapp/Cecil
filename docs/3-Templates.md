@@ -1186,5 +1186,5 @@ php cecil.phar util:extract
 ## Custom extension
 
 :::tip
-You can extend Cecil with [custom extension](8-Extend.md#templates-extension).
+You can extend Cecil with [custom extension](7-Extend.md#templates-extension).
 :::
