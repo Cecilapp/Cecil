@@ -6,7 +6,7 @@ updated: 2023-04-20
 weight: 4
 exclude: true
 -->
-Examples of [Image CDN](4-Configuration.md#image-cdn) configuration.
+Examples of [Image CDN](../4-Configuration.md#image-cdn) configuration.
 
 ## [Cloudinary](https://cloudinary.com)
 
