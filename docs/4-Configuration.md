@@ -467,7 +467,7 @@ output:
 ```
 
 :::tip
-You can extend Cecil with [output post processor](8-Extend.md#output-post-processor).
+You can extend Cecil with [output post processor](7-Extend.md#output-post-processor).
 :::
 
 ### paths
@@ -607,7 +607,7 @@ pages:
 ```
 
 :::tip
-You can extend Cecil with [custom generator](8-Extend.md#pages-generator).
+You can extend Cecil with [custom generator](7-Extend.md#pages-generator).
 :::
 
 #### default pages
