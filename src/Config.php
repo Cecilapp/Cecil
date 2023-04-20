@@ -90,29 +90,6 @@ class Config
     }
 
     /**
-     * Casts boolean value given to set() as string.
-     *
-     * @param mixed $value
-     *
-     * @return bool|mixed
-     */
-    private function castSetValue($value)
-    {
-        if (is_string($value)) {
-            switch ($value) {
-                case 'true':
-                    return true;
-                case 'false':
-                    return false;
-                default:
-                    return $value;
-            }
-        }
-
-        return $value;
-    }
-
-    /**
      * Imports (theme) configuration.
      */
     public function import(array $config): void
@@ -121,26 +98,6 @@ class Config
 
         // re-import site config
         $this->importSiteConfig();
-    }
-
-    /**
-     * Set a Data object as configuration.
-     */
-    protected function setData(Data $data): self
-    {
-        if ($this->data !== $data) {
-            $this->data = $data;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get configuration as a Data object.
-     */
-    protected function getData(): Data
-    {
-        return $this->data;
     }
 
     /**
@@ -589,5 +546,48 @@ class Config
         }
 
         return false;
+    }
+
+    /**
+     * Set a Data object as configuration.
+     */
+    protected function setData(Data $data): self
+    {
+        if ($this->data !== $data) {
+            $this->data = $data;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get configuration as a Data object.
+     */
+    protected function getData(): Data
+    {
+        return $this->data;
+    }
+
+    /**
+     * Casts boolean value given to set() as string.
+     *
+     * @param mixed $value
+     *
+     * @return bool|mixed
+     */
+    private function castSetValue($value)
+    {
+        if (is_string($value)) {
+            switch ($value) {
+                case 'true':
+                    return true;
+                case 'false':
+                    return false;
+                default:
+                    return $value;
+            }
+        }
+
+        return $value;
     }
 }
