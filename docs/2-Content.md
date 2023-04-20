@@ -195,7 +195,7 @@ _Example:_
 
 #### Embedded links
 
-You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `body.links.embed.enabled` to `true`.
+You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `pages.body.links.embed.enabled` to `true`.
 
 _Example:_
 
