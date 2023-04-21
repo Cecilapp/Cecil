@@ -590,23 +590,21 @@ class Config
                 throw new ConfigException(\sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
             }
         }
-        // checks pages config
-        if ($this->has('defaultpages')) {
-            throw new ConfigException(\sprintf("`defaultpages` must be moved to:\n%s", "pages:\n  default:\n    ..."));
-        }
-        if ($this->has('virtualpages')) {
-            throw new ConfigException(\sprintf("`virtualpages` must be moved to:\n%s", "pages:\n  virtual:\n    ..."));
-        }
-        if ($this->has('generators')) {
-            throw new ConfigException(\sprintf("`generators` must be moved to:\n%s", "pages:\n  generators:\n    ..."));
-        }
-        // checks layouts config
-        if ($this->has('translations')) {
-            throw new ConfigException(\sprintf("`translations` must be moved to:\n%s", "layouts:\n  translations:\n    ..."));
-        }
-        if ($this->has('extensions')) {
-            throw new ConfigException(\sprintf("`extensions` must be moved to:\n%s", "layouts:\n  extensions:\n    ..."));
-        }
+        // v8 BC
+        $toV8 = [
+            'defaultpages' => 'pages:default',
+            'virtualpages' => 'pages:virtual',
+            'generators'   => 'pages:generators',
+            'translations' => 'layouts:translations',
+            'extensions'   => 'layouts:extensions',
+        ];
+        array_walk($toV8, function ($value, $key) {
+            if ($this->has($key)) {
+                $root = explode(':', $value)[0];
+                $option = explode(':', $value)[1];
+                throw new ConfigException("`$key` must be moved to:\n$root:\n  $option:\n    ...");
+            }
+        });
     }
 
     /**
