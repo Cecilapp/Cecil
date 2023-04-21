@@ -98,6 +98,9 @@ class Config
 
         // re-import site config
         $this->importSiteConfig();
+
+        // checks the configuration
+        $this->valid();
     }
 
     /**
@@ -566,6 +569,43 @@ class Config
     protected function getData(): Data
     {
         return $this->data;
+    }
+
+    /**
+     * Valid the configuration.
+     */
+    private function valid(): void
+    {
+        // default language must be valid
+        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', (string) $this->get('language'))) {
+            throw new RuntimeException(\sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->get('language')));
+        }
+        // if language is set then the locale is required
+        foreach ((array) $this->get('languages') as $lang) {
+            if (!isset($lang['locale'])) {
+                throw new RuntimeException('Config: a language locale is not defined.');
+            }
+            if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
+                throw new RuntimeException(\sprintf('Config: the language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
+            }
+        }
+        // checks pages config
+        if ($this->has('defaultpages')) {
+            throw new RuntimeException(\sprintf("Config: `defaultpages` must be moved to:\n%s", "pages:\n  default:\n    ..."));
+        }
+        if ($this->has('virtualpages')) {
+            throw new RuntimeException(\sprintf("Config: `virtualpages` must be moved to:\n%s", "pages:\n  virtual:\n    ..."));
+        }
+        if ($this->has('generators')) {
+            throw new RuntimeException(\sprintf("Config: `generators` must be moved to:\n%s", "pages:\n  generators:\n    ..."));
+        }
+        // checks layouts config
+        if ($this->has('translations')) {
+            throw new RuntimeException(\sprintf("Config: `translations` must be moved to:\n%s", "layouts:\n  translations:\n    ..."));
+        }
+        if ($this->has('extensions')) {
+            throw new RuntimeException(\sprintf("Config: `extensions` must be moved to:\n%s", "layouts:\n  extensions:\n    ..."));
+        }
     }
 
     /**
