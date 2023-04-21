@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util\Plateform;
 use Dflydev\DotAccessData\Data;
@@ -578,33 +579,33 @@ class Config
     {
         // default language must be valid
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', (string) $this->get('language'))) {
-            throw new RuntimeException(\sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->get('language')));
+            throw new ConfigException(\sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->get('language')));
         }
         // if language is set then the locale is required
         foreach ((array) $this->get('languages') as $lang) {
             if (!isset($lang['locale'])) {
-                throw new RuntimeException('Config: a language locale is not defined.');
+                throw new ConfigException('A language locale is not defined.');
             }
             if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
-                throw new RuntimeException(\sprintf('Config: the language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
+                throw new ConfigException(\sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
             }
         }
         // checks pages config
         if ($this->has('defaultpages')) {
-            throw new RuntimeException(\sprintf("Config: `defaultpages` must be moved to:\n%s", "pages:\n  default:\n    ..."));
+            throw new ConfigException(\sprintf("`defaultpages` must be moved to:\n%s", "pages:\n  default:\n    ..."));
         }
         if ($this->has('virtualpages')) {
-            throw new RuntimeException(\sprintf("Config: `virtualpages` must be moved to:\n%s", "pages:\n  virtual:\n    ..."));
+            throw new ConfigException(\sprintf("`virtualpages` must be moved to:\n%s", "pages:\n  virtual:\n    ..."));
         }
         if ($this->has('generators')) {
-            throw new RuntimeException(\sprintf("Config: `generators` must be moved to:\n%s", "pages:\n  generators:\n    ..."));
+            throw new ConfigException(\sprintf("`generators` must be moved to:\n%s", "pages:\n  generators:\n    ..."));
         }
         // checks layouts config
         if ($this->has('translations')) {
-            throw new RuntimeException(\sprintf("Config: `translations` must be moved to:\n%s", "layouts:\n  translations:\n    ..."));
+            throw new ConfigException(\sprintf("`translations` must be moved to:\n%s", "layouts:\n  translations:\n    ..."));
         }
         if ($this->has('extensions')) {
-            throw new RuntimeException(\sprintf("Config: `extensions` must be moved to:\n%s", "layouts:\n  extensions:\n    ..."));
+            throw new ConfigException(\sprintf("`extensions` must be moved to:\n%s", "layouts:\n  extensions:\n    ..."));
         }
     }
 
