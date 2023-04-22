@@ -598,11 +598,16 @@ class Config
             'translations' => 'layouts:translations',
             'extensions'   => 'layouts:extensions',
         ];
-        array_walk($toV8, function ($value, $key) {
-            if ($this->has($key)) {
-                $root = explode(':', $value)[0];
-                $option = explode(':', $value)[1];
-                throw new ConfigException("`$key` must be moved to:\n$root:\n  $option:\n    ...");
+        array_walk($toV8, function ($to, $from) {
+            if ($this->has($from)) {
+                $path = explode(':', $to);
+                $step = 0;
+                $formatedPath = '';
+                foreach ($path as $fragment) {
+                    $step = $step + 2;
+                    $formatedPath .= "$fragment:\n" . str_pad(' ', $step);
+                }
+                throw new ConfigException("`$from` must be moved to:\n$formatedPath");
             }
         });
     }
