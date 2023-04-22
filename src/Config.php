@@ -592,6 +592,8 @@ class Config
         }
         // v8 BC
         $toV8 = [
+            'frontmatter'  => 'pages:frontmatter',
+            'body'         => 'pages:body',
             'defaultpages' => 'pages:default',
             'virtualpages' => 'pages:virtual',
             'generators'   => 'pages:generators',
