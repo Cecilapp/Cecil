@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.1...8.0.0-beta.1)
+
+> 19 April 2023
+
+- chore(deps): bump guzzlehttp/psr7 from 2.4.4 to 2.5.0 [`#1677`](https://github.com/Cecilapp/Cecil/pull/1677)
+- chore(deps): bump dependabot/fetch-metadata from 1.3.5 to 1.4.0 [`#1675`](https://github.com/Cecilapp/Cecil/pull/1675)
+- cleaning default config [`dd3a65a`](https://github.com/Cecilapp/Cecil/commit/dd3a65a0853b2d7e17e7b78fbab047426f4e1399)
+- Create Post Process class [`e11b516`](https://github.com/Cecilapp/Cecil/commit/e11b5163c5cffe04e7f4c52c9bbd61fd8c8677e8)
+- feat: better extensibility [`35bdb2d`](https://github.com/Cecilapp/Cecil/commit/35bdb2d86bfd0611a3ff9c98aaf962a8abab4108)
+- Create 8-Extend.md [`6505f13`](https://github.com/Cecilapp/Cecil/commit/6505f13c01eb52fb3ce6e1192ee19d18687bac0f)
+- Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
+- Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
+- Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.36.1](https://github.com/Cecilapp/Cecil/compare/7.36.0...7.36.1)
+
+> 17 April 2023
+
+- fix: Added script tags to live reload script [`#1674`](https://github.com/Cecilapp/Cecil/pull/1674)
+- refactor: cleaning code [`c4c4036`](https://github.com/Cecilapp/Cecil/commit/c4c4036f84d4a14b43033c146019fc4e77a50233)
+
 #### [7.36.0](https://github.com/Cecilapp/Cecil/compare/7.35.2...7.36.0)
 
 > 15 April 2023
