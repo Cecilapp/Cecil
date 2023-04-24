@@ -716,7 +716,7 @@ class Asset implements \ArrayAccess
                 $urlHost,
                 $this->sanitize($urlPath),
                 $urlQuery ? "-$urlQuery" : '',
-                $urlQuery && $extension ? " . $extension" : ''
+                $urlQuery && $extension ? ".$extension" : ''
             ));
             $filePath = Util::joinFile($this->config->getCacheAssetsRemotePath(), $relativePath);
             if (!file_exists($filePath)) {
