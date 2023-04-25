@@ -11,7 +11,7 @@
   ]
 {#- meta #}
 {% block meta %}
-{% if meta is not defined and page.paginator.pages is defined %}
+{% if meta is not defined and (page.paginator.pages is defined and paginator ?? true != false) %}
 {% set meta = {'totalPages': page.paginator.totalpages} %}
 {% endif %}
 {% if meta is defined %},
@@ -24,7 +24,7 @@
 {% endblock meta %}
 {# links #}
 {% block links %}
-{% if links is not defined and page.paginator.pages is defined %}
+{% if links is not defined and (page.paginator.pages is defined and paginator ?? true != false) %}
 {% set links = {
   'self': url(page.paginator.links.self, {canonical: true, format: 'json'}),
   'first': url(page.paginator.links.first, {canonical: true, format: 'json'}),
