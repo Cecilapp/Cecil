@@ -78,7 +78,7 @@ class Save extends AbstractStep
                     throw new RuntimeException($e->getMessage());
                 }
 
-                $files[] = substr($pathname, strlen($this->config->getDestinationDir()) + 1);
+                $files[] = $this->builder->isDebug() ? $pathname : substr($pathname, strlen($this->config->getDestinationDir()) + 1);
             }
 
             $message = \sprintf('File(s) "%s" saved', implode(', ', $files));
