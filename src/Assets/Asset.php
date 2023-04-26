@@ -610,7 +610,7 @@ class Asset implements \ArrayAccess
         if (!$this->builder->getBuildOptions()['dry-run'] && !Util\File::getFS()->exists($filepath)) {
             try {
                 Util\File::getFS()->dumpFile($filepath, $this->data['content']);
-                $this->builder->getLogger()->debug(\sprintf('Asset "%s" saved', $this->data['path']));
+                $this->builder->getLogger()->debug(\sprintf('Asset "%s" saved', $filepath));
                 if ($this->optimize) {
                     $this->optimize($filepath);
                 }
