@@ -67,6 +67,7 @@ class GeneratorManager extends \SplPriorityQueue
             $this->top();
             while ($this->valid()) {
                 $count = $total - $this->key();
+                $countPagesAdded = $countPagesUpdated = 0;
                 /** @var AbstractGenerator $generator */
                 $generator = $this->current();
                 /** @var PagesCollection $generatedPages */
@@ -75,11 +76,13 @@ class GeneratorManager extends \SplPriorityQueue
                     /** @var \Cecil\Collection\Page\Page $page */
                     try {
                         $pagesCollection->add($page);
+                        $countPagesAdded++;
                     } catch (\DomainException $e) {
                         $pagesCollection->replace($page->getId(), $page);
+                        $countPagesUpdated++;
                     }
                 }
-                $message = \sprintf('%s "%s" pages generated', count($generatedPages), Util::formatClassName($generator));
+                $message = \sprintf('%s "%s" pages generated and %s pages updated', $countPagesAdded, Util::formatClassName($generator), $countPagesUpdated);
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
 
                 $this->next();

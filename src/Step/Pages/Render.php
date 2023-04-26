@@ -177,7 +177,7 @@ class Render extends AbstractStep
 
             $templates = array_column($rendered, 'template');
             $message = \sprintf(
-                'Page "%s" rendered with template(s) "%s"',
+                'Page "%s" rendered with [%s]',
                 ($page->getId() ?: 'index'),
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
             );

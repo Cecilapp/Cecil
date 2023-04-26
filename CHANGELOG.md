@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.0.0-beta.2](https://github.com/Cecilapp/Cecil/compare/8.0.0-beta.1...8.0.0-beta.2)
+
+> 23 April 2023
+
+- Delete 8-Extend.md [`6b3c7b8`](https://github.com/Cecilapp/Cecil/commit/6b3c7b863827c49a9d3ff867a5641eee866df547)
+- Create 7-Extend.md [`93caaa6`](https://github.com/Cecilapp/Cecil/commit/93caaa6381fa05bdea8b1f19bc4e323147f9e876)
+- Create 8-Library.md [`c26a88b`](https://github.com/Cecilapp/Cecil/commit/c26a88bf4e17c64f4a2307684abf849e56ef61a8)
+- Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
+- Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
+
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.3...8.0.0-beta.1)
+
+> 19 April 2023
+
+- cleaning default config [`dd3a65a`](https://github.com/Cecilapp/Cecil/commit/dd3a65a0853b2d7e17e7b78fbab047426f4e1399)
+- Create Post Process class [`e11b516`](https://github.com/Cecilapp/Cecil/commit/e11b5163c5cffe04e7f4c52c9bbd61fd8c8677e8)
+- feat: better extensibility [`35bdb2d`](https://github.com/Cecilapp/Cecil/commit/35bdb2d86bfd0611a3ff9c98aaf962a8abab4108)
+- Create 8-Extend.md [`6505f13`](https://github.com/Cecilapp/Cecil/commit/6505f13c01eb52fb3ce6e1192ee19d18687bac0f)
+- Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
+- Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
+- Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.36.3](https://github.com/Cecilapp/Cecil/compare/7.36.2...7.36.3)
+
+> 25 April 2023
+
+- fix: JSON templates [`#1681`](https://github.com/Cecilapp/Cecil/pull/1681)
+- chore: update deps [`3ac5f66`](https://github.com/Cecilapp/Cecil/commit/3ac5f6678c7dec414f0290f1e2928b2cdeb59cad)
+
+#### [7.36.2](https://github.com/Cecilapp/Cecil/compare/7.36.1...7.36.2)
+
+> 24 April 2023
+
+- fix: handle remote asset with query string [`#1680`](https://github.com/Cecilapp/Cecil/pull/1680)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.13 to 1.10.14 [`#1679`](https://github.com/Cecilapp/Cecil/pull/1679)
+- chore(deps): bump guzzlehttp/psr7 from 2.4.4 to 2.5.0 [`#1677`](https://github.com/Cecilapp/Cecil/pull/1677)
+- chore(deps): bump dependabot/fetch-metadata from 1.3.5 to 1.4.0 [`#1675`](https://github.com/Cecilapp/Cecil/pull/1675)
+- chore: deploy docs on PR [`d44afa8`](https://github.com/Cecilapp/Cecil/commit/d44afa81811f0ddcb29675cd84e4fd1292fbabe9)
+
+#### [7.36.1](https://github.com/Cecilapp/Cecil/compare/7.36.0...7.36.1)
+
+> 17 April 2023
+
+- fix: Added script tags to live reload script [`#1674`](https://github.com/Cecilapp/Cecil/pull/1674)
+- refactor: cleaning code [`c4c4036`](https://github.com/Cecilapp/Cecil/commit/c4c4036f84d4a14b43033c146019fc4e77a50233)
+
 #### [7.36.0](https://github.com/Cecilapp/Cecil/compare/7.35.2...7.36.0)
 
 > 15 April 2023

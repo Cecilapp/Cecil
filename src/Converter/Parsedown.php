@@ -220,9 +220,6 @@ class Parsedown extends \ParsedownToC
             return null;
         }
 
-        // remove quesry string
-        $InlineImage['element']['attributes']['src'] = $this->removeQueryString($InlineImage['element']['attributes']['src']);
-
         // normalize path
         $InlineImage['element']['attributes']['src'] = $this->normalizePath($InlineImage['element']['attributes']['src']);
 
@@ -531,14 +528,6 @@ class Parsedown extends \ParsedownToC
         }
 
         return $Data;
-    }
-
-    /**
-     * Remove query string form a path/URL.
-     */
-    private function removeQueryString(string $path): string
-    {
-        return strtok(trim($path), '?') ?: trim($path);
     }
 
     /**

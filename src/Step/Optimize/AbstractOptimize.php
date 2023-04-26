@@ -82,7 +82,7 @@ abstract class AbstractOptimize extends AbstractStep
         foreach ($files as $file) {
             $count++;
             $sizeBefore = $file->getSize();
-            $message = \sprintf('File "%s" processed', $file->getRelativePathname());
+            $message = \sprintf('File "%s" processed', $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname());
 
             $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
             if (!$cache->has($cacheKey)) {
@@ -91,7 +91,7 @@ abstract class AbstractOptimize extends AbstractStep
                 if ($sizeAfter < $sizeBefore) {
                     $message = \sprintf(
                         'File "%s" optimized (%s Ko -> %s Ko)',
-                        $file->getRelativePathname(),
+                        $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname(),
                         ceil($sizeBefore / 1000),
                         ceil($sizeAfter / 1000)
                     );
