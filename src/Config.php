@@ -599,6 +599,7 @@ class Config
             'generators'   => 'pages:generators',
             'translations' => 'layouts:translations',
             'extensions'   => 'layouts:extensions',
+            'postprocess'  => 'optimize',
         ];
         array_walk($toV8, function ($to, $from) {
             if ($this->has($from)) {
@@ -609,7 +610,7 @@ class Config
                     $step = $step + 2;
                     $formatedPath .= "$fragment:\n" . str_pad(' ', $step);
                 }
-                throw new ConfigException("`$from` must be moved to:\n$formatedPath");
+                throw new ConfigException("Option `$from:` must be moved to:\n```\n$formatedPath\n```");
             }
         });
     }
