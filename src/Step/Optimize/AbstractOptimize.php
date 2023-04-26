@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step\PostProcess;
+namespace Cecil\Step\Optimize;
 
 use Cecil\Assets\Cache;
 use Cecil\Exception\RuntimeException;
@@ -22,7 +22,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Post Processing.
  */
-abstract class AbstractPostProcess extends AbstractStep
+abstract class AbstractOptimize extends AbstractStep
 {
     /** @var string File type (ie: 'css') */
     protected $type;
@@ -38,10 +38,10 @@ abstract class AbstractPostProcess extends AbstractStep
         if ($options['dry-run']) {
             return;
         }
-        if (false === $this->config->get(\sprintf('postprocess.%s.enabled', $this->type))) {
+        if (false === $this->config->get(\sprintf('optimize.%s.enabled', $this->type))) {
             return;
         }
-        if (true === $this->config->get('postprocess.enabled')) {
+        if (true === $this->config->get('optimize.enabled')) {
             $this->canProcess = true;
         }
     }
@@ -55,9 +55,9 @@ abstract class AbstractPostProcess extends AbstractStep
     {
         $this->setProcessor();
 
-        $extensions = (array) $this->config->get(\sprintf('postprocess.%s.ext', $this->type));
+        $extensions = (array) $this->config->get(\sprintf('optimize.%s.ext', $this->type));
         if (empty($extensions)) {
-            throw new RuntimeException(\sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
+            throw new RuntimeException(\sprintf('The config key "optimize.%s.ext" is empty', $this->type));
         }
 
         $files = Finder::create()
@@ -75,14 +75,14 @@ abstract class AbstractPostProcess extends AbstractStep
         }
 
         $count = 0;
-        $postprocessed = 0;
-        $cache = new Cache($this->builder, 'postprocess');
+        $optimized = 0;
+        $cache = new Cache($this->builder, 'optimized');
 
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
             $count++;
             $sizeBefore = $file->getSize();
-            $message = \sprintf('File "%s" post-processed', $file->getRelativePathname());
+            $message = \sprintf('File "%s" processed', $file->getRelativePathname());
 
             $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
             if (!$cache->has($cacheKey)) {
@@ -90,21 +90,21 @@ abstract class AbstractPostProcess extends AbstractStep
                 $sizeAfter = strlen($processed);
                 if ($sizeAfter < $sizeBefore) {
                     $message = \sprintf(
-                        'File "%s" compressed (%s Ko -> %s Ko)',
+                        'File "%s" optimized (%s Ko -> %s Ko)',
                         $file->getRelativePathname(),
                         ceil($sizeBefore / 1000),
                         ceil($sizeAfter / 1000)
                     );
                 }
                 $cache->set($cacheKey, $this->encode($processed));
-                $postprocessed++;
+                $optimized++;
 
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
             $processed = $this->decode($cache->get($cacheKey));
             Util\File::getFS()->dumpFile($file->getPathname(), $processed);
         }
-        if ($postprocessed == 0) {
+        if ($optimized == 0) {
             $this->builder->getLogger()->info('Nothing to do');
         }
     }

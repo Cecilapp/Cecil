@@ -127,7 +127,7 @@ Options:
       --dry-run                    Build without saving
       --baseurl=BASEURL            Set the base URL
       --output=OUTPUT              Set the output directory
-      --postprocess[=POSTPROCESS]  Post-process output (disable with "no") [default: false]
+      --optimize[=OPTIMIZE]        Optimize files (disable with "no") [default: false]
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
@@ -161,7 +161,7 @@ Options:
   -o, --open                       Open web browser automatically
       --host=HOST                  Server host
       --port=PORT                  Server port
-      --postprocess[=POSTPROCESS]  Post-process output (disable with "no") [default: false]
+      --optimize[=OPTIMIZE]        Optimize files (disable with "no") [default: false]
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message

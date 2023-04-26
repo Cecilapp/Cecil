@@ -205,7 +205,7 @@ return [
     'cache' => [
         'enabled' => true,
     ],
-    'postprocess' => [
+    'optimize' => [
         'enabled' => true,
     ],
 ];

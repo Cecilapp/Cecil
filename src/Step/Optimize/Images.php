@@ -11,21 +11,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step\PostProcess;
+namespace Cecil\Step\Optimize;
 
-use MatthiasMullie\Minify;
+use Cecil\Assets\Image\Optimizer;
 
 /**
- * Post process CSS files.
+ * Optimize image files.
  */
-class Css extends AbstractPostProcess
+class Images extends AbstractOptimize
 {
     /**
      * {@inheritdoc}
      */
     public function getName(): string
     {
-        return 'Post-processing CSS';
+        return 'Optimizing images';
     }
 
     /**
@@ -33,7 +33,7 @@ class Css extends AbstractPostProcess
      */
     public function init(array $options): void
     {
-        $this->type = 'css';
+        $this->type = 'images';
         parent::init($options);
     }
 
@@ -42,6 +42,7 @@ class Css extends AbstractPostProcess
      */
     public function setProcessor(): void
     {
+        $this->processor = Optimizer::create($this->config->get('assets.images.quality') ?? 75);
     }
 
     /**
@@ -49,8 +50,24 @@ class Css extends AbstractPostProcess
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
-        $minifier = new Minify\CSS($file->getPathname());
+        $this->processor->optimize($file->getPathname());
 
-        return $minifier->minify();
+        return $file->getContents();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function encode(string $content = null): ?string
+    {
+        return base64_encode((string) $content);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function decode(string $content = null): ?string
+    {
+        return base64_decode((string) $content);
     }
 }

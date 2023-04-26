@@ -49,10 +49,10 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\StaticFiles\Copy',
         'Cecil\Step\Pages\Render',
         'Cecil\Step\Pages\Save',
-        'Cecil\Step\PostProcess\Html',
-        'Cecil\Step\PostProcess\Css',
-        'Cecil\Step\PostProcess\Js',
-        'Cecil\Step\PostProcess\Images',
+        'Cecil\Step\Optimize\Html',
+        'Cecil\Step\Optimize\Css',
+        'Cecil\Step\Optimize\Js',
+        'Cecil\Step\Optimize\Images',
     ];
 
     /** @var Config Configuration. */

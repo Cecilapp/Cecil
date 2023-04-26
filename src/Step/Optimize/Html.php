@@ -11,21 +11,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step\PostProcess;
+namespace Cecil\Step\Optimize;
 
-use Cecil\Assets\Image\Optimizer;
+use Cecil\Util;
+use voku\helper\HtmlMin;
 
 /**
- * Post process image files.
+ * Optimize HTML files.
  */
-class Images extends AbstractPostProcess
+class Html extends AbstractOptimize
 {
     /**
      * {@inheritdoc}
      */
     public function getName(): string
     {
-        return 'Post-processing images';
+        return 'Optimizing HTML';
     }
 
     /**
@@ -33,7 +34,7 @@ class Images extends AbstractPostProcess
      */
     public function init(array $options): void
     {
-        $this->type = 'images';
+        $this->type = 'html';
         parent::init($options);
     }
 
@@ -42,7 +43,7 @@ class Images extends AbstractPostProcess
      */
     public function setProcessor(): void
     {
-        $this->processor = Optimizer::create($this->config->get('assets.images.quality') ?? 75);
+        $this->processor = new HtmlMin();
     }
 
     /**
@@ -50,9 +51,9 @@ class Images extends AbstractPostProcess
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
-        $this->processor->optimize($file->getPathname());
+        $html = Util\File::fileGetContents($file->getPathname());
 
-        return $file->getContents();
+        return $this->processor->minify($html);
     }
 
     /**
@@ -60,7 +61,7 @@ class Images extends AbstractPostProcess
      */
     public function encode(string $content = null): ?string
     {
-        return base64_encode((string) $content);
+        return json_encode($content);
     }
 
     /**
@@ -68,6 +69,6 @@ class Images extends AbstractPostProcess
      */
     public function decode(string $content = null): ?string
     {
-        return base64_decode((string) $content);
+        return json_decode((string) $content);
     }
 }

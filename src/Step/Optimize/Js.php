@@ -11,22 +11,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step\PostProcess;
+namespace Cecil\Step\Optimize;
 
-use Cecil\Util;
-use voku\helper\HtmlMin;
+use MatthiasMullie\Minify;
 
 /**
- * Post process HTML files.
+ * Optimize JS files.
  */
-class Html extends AbstractPostProcess
+class Js extends AbstractOptimize
 {
     /**
      * {@inheritdoc}
      */
     public function getName(): string
     {
-        return 'Post-processing HTML';
+        return 'Optimizing JS';
     }
 
     /**
@@ -34,7 +33,7 @@ class Html extends AbstractPostProcess
      */
     public function init(array $options): void
     {
-        $this->type = 'html';
+        $this->type = 'js';
         parent::init($options);
     }
 
@@ -43,7 +42,6 @@ class Html extends AbstractPostProcess
      */
     public function setProcessor(): void
     {
-        $this->processor = new HtmlMin();
     }
 
     /**
@@ -51,24 +49,8 @@ class Html extends AbstractPostProcess
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
-        $html = Util\File::fileGetContents($file->getPathname());
+        $minifier = new Minify\JS($file->getPathname());
 
-        return $this->processor->minify($html);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function encode(string $content = null): ?string
-    {
-        return json_encode($content);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function decode(string $content = null): ?string
-    {
-        return json_decode((string) $content);
+        return $minifier->minify();
     }
 }

@@ -18,7 +18,7 @@ class Util
     /**
      * Formats a class name.
      *
-     * ie: "Cecil\Step\PostProcessHtml" become "PostProcessHtml"
+     * ie: "Cecil\Step\OptimizeHtml" become "OptimizeHtml"
      *
      * @param object $class
      */

@@ -51,7 +51,7 @@ class Serve extends AbstractCommand
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
-                    new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),
+                    new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
                     new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 ])
             )
@@ -69,7 +69,7 @@ class Serve extends AbstractCommand
         $open = $input->getOption('open');
         $host = $input->getOption('host') ?? 'localhost';
         $port = $input->getOption('port') ?? '8000';
-        $postprocess = $input->getOption('postprocess');
+        $optimize = $input->getOption('optimize');
         $clearcache = $input->getOption('clear-cache');
         $verbose = $input->getOption('verbose');
         $page = $input->getOption('page');
@@ -104,12 +104,12 @@ class Serve extends AbstractCommand
         if ($drafts) {
             $buildProcessArguments[] = '--drafts';
         }
-        if ($postprocess === null) {
-            $buildProcessArguments[] = '--postprocess';
+        if ($optimize === null) {
+            $buildProcessArguments[] = '--optimize';
         }
-        if (!empty($postprocess)) {
-            $buildProcessArguments[] = '--postprocess';
-            $buildProcessArguments[] = $postprocess;
+        if (!empty($optimize)) {
+            $buildProcessArguments[] = '--optimize';
+            $buildProcessArguments[] = $optimize;
         }
         if ($clearcache === null) {
             $buildProcessArguments[] = '--clear-cache';

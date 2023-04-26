@@ -354,22 +354,22 @@ return [
             'dir'     => 'translations', // translations files cache directory (`assets` by default)
         ],
     ],
-    'postprocess' => [
-        'enabled' => false, // enables post-process (compression)
+    'optimize' => [
+        'enabled' => false, // enables files optimization (`false` by default)
         'html'    => [
-            'enabled' => true, // enables HTML files post-process
+            'enabled' => true, // enables HTML files optimization
             'ext'     => ['html', 'htm'], // supported files extensions
         ],
         'css' => [
-            'enabled' => true, // enables CSS files post-process
+            'enabled' => true, // enables CSS files optimization
             'ext'     => ['css'], // supported files extensions
         ],
         'js' => [
-            'enabled' => true, // enables JavaScript files post-process
+            'enabled' => true, // enables JavaScript files optimization
             'ext'     => ['js'], // supported files extensions
         ],
         'images' => [
-            'enabled' => true, // enables images files post-process
+            'enabled' => true, // enables images files optimization
             'ext'     => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'], // supported files extensions
         ],
     ],
