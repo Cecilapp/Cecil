@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.2...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.3...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -23,6 +23,13 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.36.3](https://github.com/Cecilapp/Cecil/compare/7.36.2...7.36.3)
+
+> 25 April 2023
+
+- fix: JSON templates [`#1681`](https://github.com/Cecilapp/Cecil/pull/1681)
+- chore: update deps [`3ac5f66`](https://github.com/Cecilapp/Cecil/commit/3ac5f6678c7dec414f0290f1e2928b2cdeb59cad)
 
 #### [7.36.2](https://github.com/Cecilapp/Cecil/compare/7.36.1...7.36.2)
 
