@@ -46,8 +46,6 @@ class Asset implements \ArrayAccess
 
     /** @var bool */
     protected $optimize = false;
-    /** @var bool */
-    protected $optimized = false;
 
     /** @var bool */
     protected $ignore_missing = false;
@@ -417,7 +415,6 @@ class Asset implements \ArrayAccess
             $cache->set($cacheKey, $this->data);
         }
         $this->data = $cache->get($cacheKey);
-        $this->optimized = true;
 
         return $this;
     }
