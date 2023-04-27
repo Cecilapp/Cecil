@@ -395,26 +395,26 @@ class Asset implements \ArrayAccess
         }
         $cacheKey = $cache->createKeyFromAsset($this, $tags);
         if (!$cache->has($cacheKey)) {
-            $message = $this->data['path'];
-            $sizeBefore = filesize($filepath);
             try {
+                $message = $this->data['path'];
+                $sizeBefore = filesize($filepath);
                 Optimizer::create($quality)->optimize($filepath);
+                $sizeAfter = filesize($filepath);
+                if ($sizeAfter < $sizeBefore) {
+                    $message = \sprintf(
+                        '%s (%s Ko -> %s Ko)',
+                        $message,
+                        ceil($sizeBefore / 1000),
+                        ceil($sizeAfter / 1000)
+                    );
+                }
+                $this->data['content'] = Util\File::fileGetContents($filepath);
+                $this->data['size'] = $sizeAfter;
+                $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $message));
             } catch (\Exception $e) {
                 $this->builder->getLogger()->error(\sprintf('Can\'t optimize image "%s": "%s"', $filepath, $e->getMessage()));
             }
-            $sizeAfter = filesize($filepath);
-            if ($sizeAfter < $sizeBefore) {
-                $message = \sprintf(
-                    '%s (%s Ko -> %s Ko)',
-                    $message,
-                    ceil($sizeBefore / 1000),
-                    ceil($sizeAfter / 1000)
-                );
-            }
-            $this->data['content'] = Util\File::fileGetContents($filepath);
-            $this->data['size'] = $sizeAfter;
             $cache->set($cacheKey, $this->data);
-            $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $message));
         }
         $this->data = $cache->get($cacheKey);
         $this->optimized = true;
