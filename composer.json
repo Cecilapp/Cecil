@@ -130,11 +130,11 @@
     "code:fix": "Fix code according to the PSR12.",
     "test": "Runs tests suite.",
     "test:bin": "Runs the binary to create a new skeleton site.",
-    "test:coverage": "Runs functional tests suite with code coverage.",
+    "test:coverage": "Runs tests suite with code coverage.",
     "test:coverage:install": "Installs the php-coveralls binary.",
     "test:coverage:upload": "Uploads tests coverage results.",
     "test:integration": "Runs integration tests suite.",
-    "test:phar": "Builds the PHAR file and trys to create a new skeleton site.",
+    "test:phar": "Builds the PHAR file to create a new skeleton site.",
     "test:unit": "Runs unit tests suite."
   },
   "support": {
