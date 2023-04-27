@@ -408,13 +408,13 @@ class Asset implements \ArrayAccess
                 }
                 $this->data['content'] = Util\File::fileGetContents($filepath);
                 $this->data['size'] = $sizeAfter;
+                $cache->set($cacheKey, $this->data);
                 $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $message));
             } catch (\Exception $e) {
                 $this->builder->getLogger()->error(\sprintf('Can\'t optimize image "%s": "%s"', $filepath, $e->getMessage()));
             }
-            $cache->set($cacheKey, $this->data);
         }
-        $this->data = $cache->get($cacheKey);
+        $this->data = $cache->get($cacheKey, $this->data);
 
         return $this;
     }
