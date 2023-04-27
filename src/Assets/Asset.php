@@ -397,7 +397,11 @@ class Asset implements \ArrayAccess
         if (!$cache->has($cacheKey)) {
             $message = $this->data['path'];
             $sizeBefore = filesize($filepath);
-            Optimizer::create($quality)->optimize($filepath);
+            try {
+                Optimizer::create($quality)->optimize($filepath);
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->error(\sprintf('Can\'t optimize image "%s": "%s"', $filepath, $e->getMessage()));
+            }
             $sizeAfter = filesize($filepath);
             if ($sizeAfter < $sizeBefore) {
                 $message = \sprintf(
