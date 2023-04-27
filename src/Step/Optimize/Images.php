@@ -50,7 +50,11 @@ class Images extends AbstractOptimize
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
-        $this->processor->optimize($file->getPathname());
+        try {
+            $this->processor->optimize($file->getPathname());
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->error(\sprintf('Can\'t optimize image "%s": "%s"', $file->getPathname(), $e->getMessage()));
+        }
 
         return $file->getContents();
     }
