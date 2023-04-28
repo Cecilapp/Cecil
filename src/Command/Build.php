@@ -78,7 +78,7 @@ class Build extends AbstractCommand
 
         $builder = $this->getBuilder($config);
 
-        if ($input->getOption('postprocess') === 'no' || $input->getOption('postprocess') === null ) {
+        if ($input->getOption('postprocess') === 'no' || $input->getOption('postprocess') === null) {
             $this->getBuilder()->getLogger()->alert('Option `postprocess` deprecated: use `optimize` instead.');
         }
 
