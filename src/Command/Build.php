@@ -43,6 +43,7 @@ class Build extends AbstractCommand
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                     new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
                     new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
+                    new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Option deprecated: use `optimize` instead', false),
                     new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 ])
             )
@@ -76,6 +77,10 @@ class Build extends AbstractCommand
         }
 
         $builder = $this->getBuilder($config);
+
+        if ($input->getOption('postprocess') === 'no' || $input->getOption('postprocess') === null ) {
+            $this->getBuilder()->getLogger()->alert('Option `postprocess` deprecated: use `optimize` instead.');
+        }
 
         if ($input->getOption('drafts')) {
             $options['drafts'] = true;
