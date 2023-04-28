@@ -590,7 +590,7 @@ class Config
                 throw new ConfigException(\sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
             }
         }
-        // v8 BC
+        // Version 8.x breaking changes
         $toV8 = [
             'frontmatter'  => 'pages:frontmatter',
             'body'         => 'pages:body',
