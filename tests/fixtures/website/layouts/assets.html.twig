@@ -46,7 +46,12 @@ pre {
   <h2>Bundle files</h2>
   <p>
     <pre>asset(['css/style-1.css', 'css/style-2.css'])</pre>
-    <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css'], {fingerprint: true, minify: true, filename: 'bundle.css'}) }}</blockquote>
+    <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css']) }}</blockquote>
+  </p>
+  <h2>Bundle files (custom path)</h2>
+  <p>
+    <pre>asset(['css/style-1.css', 'css/style-2.css'], {path: 'bundle.css'})</pre>
+    <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css'], {path: 'bundle.css'}) }}</blockquote>
   </p>
 
   <h2>Canonical URL</h2>
