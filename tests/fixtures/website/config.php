@@ -177,10 +177,10 @@ return [
             'variables' => ['test' => '#FFF'],
         ],
         'minify' => [
-            'enabled' => true,
+            'enabled' => false,
         ],
         'fingerprint' => [
-            'enabled' => true,
+            'enabled' => false,
         ],
         'images' => [
             'optimize' => [
