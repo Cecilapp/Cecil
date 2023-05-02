@@ -24,6 +24,15 @@ pre {
   <h1>asset()</h1>
 
   <h2>Search file</h2>
+  <h3>in static/</h3>
+  <p>
+    <pre>asset('css/_style.css')</pre>
+    <blockquote>{{ asset('css/_style.css') }}</blockquote>
+  </p>
+  <p>
+    <pre>asset('css/_style.css').file</pre>
+    <blockquote>{{ asset('css/_style.css').file }}</blockquote>
+  </p>
   <h3>in themes/[theme]/static/</h3>
   <p>
     <pre>{% verbatim %}{{ asset('css/style.css') }}{% endverbatim %}</pre>
@@ -33,14 +42,20 @@ pre {
     <pre>asset('css/style.css').file</pre>
     <blockquote>{{ asset('css/style.css').file }}</blockquote>
   </p>
-  <h3>in static/</h3>
+  <h3>Remote</h3>
   <p>
-    <pre>asset('css/_style.css')</pre>
-    <blockquote>{{ asset('css/_style.css') }}</blockquote>
+    {%- set snipcart = asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js', {ignore_missing: true}) ~%}
+    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')</pre>
+    <blockquote>{{ snipcart }}</blockquote>
+    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file</pre>
+    <blockquote>{% if snipcart.file is defined %}{{ snipcart.file }}{% endif %}</blockquote>
+    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext</pre>
+    <blockquote>{% if snipcart.ext is defined %}{{ snipcart.ext }}{% endif %}</blockquote>
   </p>
+  <h3>Remote (URL with query params)</h3>
   <p>
-    <pre>asset('css/_style.css').file</pre>
-    <blockquote>{{ asset('css/_style.css').file }}</blockquote>
+    <pre>asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap')</pre>
+    <blockquote>{{ asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap') }}</blockquote>
   </p>
 
   <h2>Bundle files</h2>
@@ -54,7 +69,14 @@ pre {
     <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css'], {filename: 'bundle.css'}) }}</blockquote>
   </p>
 
-  <h2>Canonical URL</h2>
+  <h2>URL</h2>
+  <p>
+    <pre>url(asset('images/cecil-logo.png'))</pre>
+    <blockquote>
+      {{- url(asset('images/cecil-logo.png')) -}}
+    </blockquote>
+  </p>
+  <h3>Canonical URL</h3>
   <p>
     <pre>url(asset('css/style.css'), {canonical: true})</pre>
     <blockquote>{{ url(asset('css/style.css'), {canonical: true}) }}</blockquote>
@@ -64,7 +86,6 @@ pre {
     <pre>asset('css/style.css')|url({canonical: true})</pre>
     <blockquote>{{ asset('css/style.css')|url({canonical: true}) }}</blockquote>
   </p>
-
 
   <h2>Fingerprint</h2>
   <p>
@@ -110,7 +131,11 @@ pre {
     <pre>asset('css/style.css')|html</pre>
     <pre>{{ asset('css/style.css')|html|e }}</pre>
   </p>
-
+  <h3>Preload CSS</h3>
+  <p>
+    <pre>asset('css/styleA.css')|html({}, {preload: true})</pre>
+    <pre>{{ asset('css/styleA.css')|html({}, {preload: true})|e }}</pre>
+  </p>
   <h3>Image as HTML element</h3>
   <p>
     <pre>asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'})</pre>
@@ -142,37 +167,51 @@ pre {
     </pre>
   </p>
 
-  <h2>Image URL</h2>
-  <p>
-    <pre>url(asset('images/cecil-logo.png'))</pre>
-    <blockquote>
-      {{- url(asset('images/cecil-logo.png')) -}}
-    </blockquote>
-  </p>
-
-  <h2>Image width x height</h2>
+  <h2>Image handling<h2>
+  <h3>Image width x height</h3>
   <p>
     <pre>asset('images/cecil-logo.png').width x asset('images/cecil-logo.png').height</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png').width ~ ' x ' ~ asset('images/cecil-logo.png').height -}}
     </blockquote>
   </p>
-
-  <h2>Image resize</h2>
+  <h3>Image resize</h3>
   <p>
     <pre>asset('images/cecil-logo.png')|resize(96)</pre>
     <pre>{{ asset('images/cecil-logo.png')|resize(96) }}</pre>
   </p>
-
-  <h2>Image `srcset`</h2>
+  <h3>Image dominant color</h3>
+  <p>
+    <pre>asset('images/cecil-logo.png')|dominant_color</pre>
+    <blockquote>
+      {{- asset('images/cecil-logo.png')|dominant_color -}}
+    </blockquote>
+  </p>
+  <h3>Low Quality Image Placeholder as data URL</h3>
+  <p>
+    <pre>asset('cecil-logo-1000.png')|lqip</pre>
+    <blockquote>
+      {{- asset('cecil-logo-1000.png')|lqip -}}
+    </blockquote>
+    <blockquote>
+      <img src="{{ asset('cecil-logo-1000.png')|lqip }}" />
+    </blockquote>
+  </p>
+  <h3>Read EXIF data</h3>
+  <p>
+    <pre>asset('ISS.jpg').exif</pre>
+    <blockquote>
+      {{- dump(asset('ISS.jpg').exif) -}}
+    </blockquote>
+  </p>
+  <h3>Image `srcset`</h3>
   <p>
     <pre>image_srcset(asset('cecil-logo-1000.png'))</pre>
     <blockquote>
       {{- image_srcset(asset('cecil-logo-1000.png')) -}}
     </blockquote>
   </p>
-
-  <h2>Image `sizes`</h2>
+  <h3>Image `sizes`</h3>
   <p>
     <pre>image_sizes('test')</pre>
     <blockquote>
@@ -187,39 +226,11 @@ pre {
       {{- asset('css/style.css')|dataurl -}}
     </blockquote>
   </p>
-
-  <h2>Data URL of an image</h2>
+  <h3>Data URL of an image</h3>
   <p>
     <pre>asset('images/cecil-logo.png')|dataurl</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png')|dataurl -}}
-    </blockquote>
-  </p>
-
-  <h2>Image dominant color</h2>
-  <p>
-    <pre>asset('images/cecil-logo.png')|dominant_color</pre>
-    <blockquote>
-      {{- asset('images/cecil-logo.png')|dominant_color -}}
-    </blockquote>
-  </p>
-
-  <h2>Low Quality Image Placeholder as data URL</h2>
-  <p>
-    <pre>asset('cecil-logo-1000.png')|lqip</pre>
-    <blockquote>
-      {{- asset('cecil-logo-1000.png')|lqip -}}
-    </blockquote>
-    <blockquote>
-      <img src="{{ asset('cecil-logo-1000.png')|lqip }}" />
-    </blockquote>
-  </p>
-
-  <h2>Read EXIF data</h2>
-  <p>
-    <pre>asset('ISS.jpg').exif</pre>
-    <blockquote>
-      {{- dump(asset('ISS.jpg').exif) -}}
     </blockquote>
   </p>
 
@@ -238,8 +249,6 @@ pre {
     <pre>asset('css/style.css')['content']</pre>
     <blockquote>{{ asset('css/style.css')['content'] }}</blockquote>
   </p>
-
-  <h2>JavaScript</h2>
   <p>
     <pre>asset('js/script.js')|minify|inline</pre>
     <blockquote>{{ asset('js/script.js')|minify|inline }}</blockquote>
@@ -269,28 +278,6 @@ pre {
   <p>
     <pre>asset('asssset.css', {ignore_missing: true}))</pre>
     <blockquote>{{ asset('asssset.css', {ignore_missing: true}) }}</blockquote>
-  </p>
-
-  <h2>Remote (URL)</h2>
-  <p>
-    {%- set snipcart = asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js', {ignore_missing: true}) ~%}
-    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')</pre>
-    <blockquote>{{ snipcart }}</blockquote>
-    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file</pre>
-    <blockquote>{% if snipcart.file is defined %}{{ snipcart.file }}{% endif %}</blockquote>
-    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext</pre>
-    <blockquote>{% if snipcart.ext is defined %}{{ snipcart.ext }}{% endif %}</blockquote>
-  </p>
-  <h2>Remote (URL with query params)</h2>
-  <p>
-    <pre>asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap')</pre>
-    <blockquote>{{ asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap') }}</blockquote>
-  </p>
-
-  <h2>Preload CSS</h2>
-  <p>
-    <pre>asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})</pre>
-    <pre>{{ asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})|e }}</pre>
   </p>
 
   <h2>Audio file</h2>
