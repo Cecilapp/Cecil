@@ -107,7 +107,7 @@ class Asset implements \ArrayAccess
 
         // fill data array with file(s) informations
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $cacheKey = \sprintf('%s__%s', implode('_', $paths), $this->builder->getVersion());
+        $cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $this->builder->getVersion());
         if (!$cache->has($cacheKey)) {
             $pathsCount = count($paths);
             $file = [];
@@ -139,9 +139,6 @@ class Asset implements \ArrayAccess
                     $this->data['filename'] = $file[$i]['path'];
                     $this->data['path_source'] = $file[$i]['path'];
                     $this->data['path'] = $file[$i]['path'];
-                    if (!empty($filename)) { /** @phpstan-ignore-line */
-                        $this->data['path'] = '/' . ltrim($filename, '/');
-                    }
                     $this->data['url'] = $file[$i]['url'];
                     $this->data['ext'] = $file[$i]['ext'];
                     $this->data['type'] = $file[$i]['type'];
@@ -153,23 +150,28 @@ class Asset implements \ArrayAccess
                             $this->data['exif'] = Util\File::readExif($file[$i]['filepath']);
                         }
                     }
+                    // bundle: default filename
+                    if ($pathsCount > 1 && empty($filename)) { /** @phpstan-ignore-line */
+                        switch ($this->data['ext']) {
+                            case 'scss':
+                            case 'css':
+                                $filename = '/styles.css';
+                                break;
+                            case 'js':
+                                $filename = '/scripts.js';
+                                break;
+                            default:
+                                throw new RuntimeException(\sprintf('Asset bundle supports "%s" files only.', '.scss, .css and .js'));
+                        }
+                    }
+                    // bundle: filename and path
+                    if (!empty($filename)) { /** @phpstan-ignore-line */
+                        $this->data['filename'] = $filename;
+                        $this->data['path'] = '/' . ltrim($filename, '/');
+                    }
                 }
-                // bundle files path
+                // bundle: files path
                 $this->data['files'][] = $file[$i]['filepath'];
-            }
-            // bundle: define path
-            if ($pathsCount > 1 && empty($filename)) { /** @phpstan-ignore-line */
-                switch ($this->data['ext']) {
-                    case 'scss':
-                    case 'css':
-                        $this->data['path'] = '/styles.' . $file[0]['ext'];
-                        break;
-                    case 'js':
-                        $this->data['path'] = '/scripts.' . $file[0]['ext'];
-                        break;
-                    default:
-                        throw new RuntimeException(\sprintf('Asset bundle supports "%s" files only.', '.scss, .css and .js'));
-                }
             }
             $cache->set($cacheKey, $this->data);
         }
