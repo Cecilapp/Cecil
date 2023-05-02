@@ -571,11 +571,7 @@ class Core extends SlugifyExtension
                     // <source> element
                     $source = \sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
                     // responsive
-                    if ($responsive) {
-                        $srcset = Image::buildSrcset(
-                            $assetWebp,
-                            $this->config->getAssetsImagesWidths()
-                        ) ?: (string) $assetWebp;
+                    if ($responsive && $srcset = Image::buildSrcset($assetWebp, $this->config->getAssetsImagesWidths())) {
                         // <source> element
                         $source = \sprintf(
                             '<source type="image/webp" srcset="%s" sizes="%s">',
