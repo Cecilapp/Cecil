@@ -151,7 +151,7 @@ class Asset implements \ArrayAccess
                         }
                     }
                     // bundle: default filename
-                    if ($pathsCount > 1 && empty($filename)) { /** @phpstan-ignore-line */
+                    if ($pathsCount > 1 && empty($filename)) {
                         switch ($this->data['ext']) {
                             case 'scss':
                             case 'css':
@@ -165,7 +165,7 @@ class Asset implements \ArrayAccess
                         }
                     }
                     // bundle: filename and path
-                    if (!empty($filename)) { /** @phpstan-ignore-line */
+                    if (!empty($filename)) {
                         $this->data['filename'] = $filename;
                         $this->data['path'] = '/' . ltrim($filename, '/');
                     }
