@@ -26,7 +26,7 @@ pre {
   <h2>Search file</h2>
   <h3>in themes/[theme]/static/</h3>
   <p>
-    <pre>asset('css/style.css')</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css') }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css') }}</blockquote>
   </p>
   <p>
@@ -48,7 +48,7 @@ pre {
     <pre>asset(['css/style-1.css', 'css/style-2.css'])</pre>
     <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css']) }}</blockquote>
   </p>
-  <h2>Bundle files (custom path)</h2>
+  <h2>Bundle files (with custom filename)</h2>
   <p>
     <pre>asset(['css/style-1.css', 'css/style-2.css'], {filename: 'bundle.css'})</pre>
     <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css'], {filename: 'bundle.css'}) }}</blockquote>
@@ -56,23 +56,20 @@ pre {
 
   <h2>Canonical URL</h2>
   <p>
-    <pre>asset('css/style.css')|url({canonical: true})</pre>
-    <blockquote>{{ asset('css/style.css')|url({canonical: true}) }}</blockquote>
-  </p>
-  <p>
-    Deprecated:
     <pre>url(asset('css/style.css'), {canonical: true})</pre>
     <blockquote>{{ url(asset('css/style.css'), {canonical: true}) }}</blockquote>
   </p>
+  <p>
+    With filter:
+    <pre>asset('css/style.css')|url({canonical: true})</pre>
+    <blockquote>{{ asset('css/style.css')|url({canonical: true}) }}</blockquote>
+  </p>
+
 
   <h2>Fingerprint</h2>
   <p>
     <pre>asset('css/style.css', {fingerprint: true})</pre>
     <blockquote>{{ asset('css/style.css', {fingerprint: true}) }}</blockquote>
-  </p>
-  <p>
-    <pre>asset('css/style.css', {fingerprint: true})|minify</pre>
-    <blockquote>{{ asset('css/style.css', {fingerprint: true})|minify }}</blockquote>
   </p>
   <p>
     <pre>asset('css/style.css')|fingerprint</pre>
@@ -87,12 +84,12 @@ pre {
     <blockquote>{{ asset('scss/colors.scss')|to_css|inline }}</blockquote>
   </p>
   <p>
-    If "auto compile" is enabled:
+    If auto compile is enabled "to_css" is not required:
     <pre>asset('scss/colors.scss')</pre>
     <blockquote>{{ asset('scss/colors.scss') }}</blockquote>
   </p>
   <p>
-    Minify filter force compile before:
+    Minify filter force compilation:
     <pre>asset('scss/colors.scss')|minify</pre>
     <blockquote>{{ asset('scss/colors.scss')|minify }}</blockquote>
   </p>
@@ -114,14 +111,34 @@ pre {
     <pre>{{ asset('css/style.css')|html|e }}</pre>
   </p>
 
-  <h2>Image as HTML element</h2>
+  <h3>Image as HTML element</h3>
   <p>
-    <pre>asset('images/cecil-logo.png')|html({title: 'title', alt: 'alternative', lazyloading: ''})</pre>
+    <pre>asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'})</pre>
     <blockquote>
-      {{- asset('images/cecil-logo.png')|html({title: 'title', alt: 'alternative', lazyloading: ''}) }}
+      {{- asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'}, {responsive: false, webp: false}) }}
     </blockquote>
     <pre>
-      {{~ asset('images/cecil-logo.png')|html({title: 'title', alt: 'alternative', lazyloading: ''})|e -}}
+      {{~ asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'}, {responsive: false, webp: false})|e -}}
+    </pre>
+  </p>
+  <h3>WebP</h3>
+  <p>
+    <pre>asset('images/cecil-logo.png')|html({alt: 'Description'}, {webp: true})</pre>
+    <blockquote>
+      {{- asset('images/cecil-logo.png')|html({alt: 'Description'}, {responsive: false, webp: true}) }}
+    </blockquote>
+    <pre>
+      {{~ asset('images/cecil-logo.png')|html({alt: 'Description'}, {responsive: false, webp: true})|e -}}
+    </pre>
+  </p>
+  <h3>Responsive and WebP</h2>
+  <p>
+    <pre>asset('cecil-logo-1000.png')|html({alt: 'Responsive logo'}, {responsive: true, webp: true})</pre>
+    <blockquote>
+      {{- asset('cecil-logo-1000.png')|html({alt: 'Responsive logo'}, {responsive: true, webp: true}) }}
+    </blockquote>
+    <pre>
+      {{~ asset('cecil-logo-1000.png')|html({alt: 'Responsive logo'}, {responsive: true, webp: true})|e -}}
     </pre>
   </p>
 
@@ -274,5 +291,13 @@ pre {
   <p>
     <pre>asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})</pre>
     <pre>{{ asset('css/styleA.css')|html({test: 'test'}, {preload: true, canonical: true})|e }}</pre>
+  </p>
+
+  <h2>Audio file</h2>
+  <p>
+    <pre>asset('audio/test.mp3').audio.duration</pre>
+    <blockquote>
+      {{ (asset('audio/test.mp3').audio.duration / 60)|round }} min {{ (asset('audio/test.mp3').audio.duration % 60)|round }} s
+    </blockquote>
   </p>
 {% endblock content %}
