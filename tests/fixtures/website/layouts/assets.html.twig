@@ -65,8 +65,13 @@ pre {
   </p>
   <h2>Bundle files (with custom filename)</h2>
   <p>
-    <pre>asset(['css/style-1.css', 'css/style-2.css'], {filename: 'bundle.css'})</pre>
-    <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css'], {filename: 'bundle.css'}) }}</blockquote>
+    <pre>{% verbatim %}{{ asset(['css/hyde.css', 'css/poole.css', 'css/syntax.css'], {filename: 'bundle.css'}) }}{% endverbatim %}</pre>
+    <blockquote>{{ asset(['css/hyde.css', 'css/poole.css', 'css/syntax.css'], {filename: 'bundle.css'}) }}</blockquote>
+  </p>
+  <h2>Bundle files (scripts)</h2>
+  <p>
+    <pre>{% verbatim %}{{ asset(['js/script.js', 'js/script.js']) }}{% endverbatim %}</pre>
+    <blockquote>{{ asset(['js/script.js', 'js/script.js']) }}</blockquote>
   </p>
 
   <h2>URL</h2>
@@ -89,12 +94,18 @@ pre {
 
   <h2>Fingerprint</h2>
   <p>
-    <pre>asset('css/style.css', {fingerprint: true})</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css')|fingerprint }}{% endverbatim %}</pre>
+    <blockquote>{{ asset('css/style.css')|fingerprint }}</blockquote>
+  </p>
+  <h3>With option</h3>
+  <p>
+    <pre>{% verbatim %}{{ asset('css/style.css', {fingerprint: true}) }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css', {fingerprint: true}) }}</blockquote>
   </p>
+  <h3>Don't do it twice</h3>
   <p>
-    <pre>asset('css/style.css')|fingerprint</pre>
-    <blockquote>{{ asset('css/style.css')|fingerprint }}</blockquote>
+    <pre>{% verbatim %}{{ asset('css/style.css', {fingerprint: true})|fingerprint }}{% endverbatim %}</pre>
+    <blockquote>{{ asset('css/style.css', {fingerprint: true})|fingerprint }}</blockquote>
   </p>
 
   <h2>Compile SCSS</h2>
@@ -120,9 +131,14 @@ pre {
     <pre>asset('css/style.css')|minify</pre>
     <blockquote>{{ asset('css/style.css')|minify }}</blockquote>
   </p>
+  <h3>With option</h3>
   <p>
-    Deprecated:
-    <pre>minify(asset('css/style.css'))</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css', {minify: true}) }}{% endverbatim %}</pre>
+    <blockquote>{{ asset('css/style.css', {minify: true}) }}</blockquote>
+  </p>
+  <h3>With function (deprecated)</h3>
+  <p>
+    <pre>{% verbatim %}{{ minify(asset('css/style.css')) }}{% endverbatim %}</pre>
     <blockquote>{{ minify(asset('css/style.css')) }}</blockquote>
   </p>
 
@@ -179,6 +195,11 @@ pre {
   <p>
     <pre>asset('images/cecil-logo.png')|resize(96)</pre>
     <pre>{{ asset('images/cecil-logo.png')|resize(96) }}</pre>
+  </p>
+  <h3>Do not resize</h3>
+  <p>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(999) }}{% endverbatim %}</pre>
+    <pre>{{ asset('images/cecil-logo.png')|resize(999) }}</pre>
   </p>
   <h3>Image dominant color</h3>
   <p>
@@ -274,17 +295,27 @@ pre {
     <blockquote>{{ integrity(asset('css/style.css')) }}</blockquote>
   </p>
 
-  <h2>Asset with wrong path + ignore directive</h2>
-  <p>
-    <pre>asset('asssset.css', {ignore_missing: true}))</pre>
-    <blockquote>{{ asset('asssset.css', {ignore_missing: true}) }}</blockquote>
-  </p>
-
   <h2>Audio file</h2>
   <p>
     <pre>asset('audio/test.mp3').audio.duration</pre>
     <blockquote>
       {{ (asset('audio/test.mp3').audio.duration / 60)|round }} min {{ (asset('audio/test.mp3').audio.duration % 60)|round }} s
     </blockquote>
+  </p>
+
+  <h2>Asset with wrong path + ignore directive</h2>
+  <p>
+    <pre>asset('asssset.css', {ignore_missing: true}))</pre>
+    <blockquote>{{ asset('asssset.css', {ignore_missing: true}) }}</blockquote>
+  </p>
+
+  <h2>Access to wrong properties</h2>
+  {#<p>
+    <pre>{% verbatim %}{{ asset('css/style.css').audio }}{% endverbatim %}</pre>
+    <blockquote>{{ asset('css/style.css').audio }}</blockquote>
+  </p>#}
+  <p>
+    <pre>{% verbatim %}{{ asset('css/style.css').width }} x {{ asset('css/style.css').height }}{% endverbatim %}</pre>
+    <blockquote>{{ asset('css/style.css').width }} x {{ asset('css/style.css').height }}</blockquote>
   </p>
 {% endblock content %}
