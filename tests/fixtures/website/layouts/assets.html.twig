@@ -26,11 +26,11 @@ pre {
   <h2>Search file</h2>
   <h3>in static/</h3>
   <p>
-    <pre>asset('css/_style.css')</pre>
+    <pre>{% verbatim %}{{ asset('css/_style.css') }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/_style.css') }}</blockquote>
   </p>
   <p>
-    <pre>asset('css/_style.css').file</pre>
+    <pre>{% verbatim %}{{ asset('css/_style.css').file }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/_style.css').file }}</blockquote>
   </p>
   <h3>in themes/[theme]/static/</h3>
@@ -39,28 +39,28 @@ pre {
     <blockquote>{{ asset('css/style.css') }}</blockquote>
   </p>
   <p>
-    <pre>asset('css/style.css').file</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css').file }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css').file }}</blockquote>
   </p>
   <h3>Remote</h3>
   <p>
     {%- set snipcart = asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js', {ignore_missing: true}) ~%}
-    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js')</pre>
+    <pre>{% verbatim %}{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js') }}{% endverbatim %}</pre>
     <blockquote>{{ snipcart }}</blockquote>
-    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file</pre>
+    <pre>{% verbatim %}{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').file }}{% endverbatim %}</pre>
     <blockquote>{% if snipcart.file is defined %}{{ snipcart.file }}{% endif %}</blockquote>
-    <pre>asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext</pre>
+    <pre>{% verbatim %}{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext }}{% endverbatim %}</pre>
     <blockquote>{% if snipcart.ext is defined %}{{ snipcart.ext }}{% endif %}</blockquote>
   </p>
   <h3>Remote (URL with query params)</h3>
   <p>
-    <pre>asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap')</pre>
+    <pre>{% verbatim %}{{ asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap') }}{% endverbatim %}</pre>
     <blockquote>{{ asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap') }}</blockquote>
   </p>
 
   <h2>Bundle files</h2>
   <p>
-    <pre>asset(['css/style-1.css', 'css/style-2.css'])</pre>
+    <pre>{% verbatim %}{{ asset(['css/style-1.css', 'css/style-2.css']) }}{% endverbatim %}</pre>
     <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css']) }}</blockquote>
   </p>
   <h2>Bundle files (with custom filename)</h2>
@@ -76,19 +76,19 @@ pre {
 
   <h2>URL</h2>
   <p>
-    <pre>url(asset('images/cecil-logo.png'))</pre>
+    <pre>{% verbatim %}{{ url(asset('images/cecil-logo.png')) }}{% endverbatim %}</pre>
     <blockquote>
       {{- url(asset('images/cecil-logo.png')) -}}
     </blockquote>
   </p>
   <h3>Canonical URL</h3>
   <p>
-    <pre>url(asset('css/style.css'), {canonical: true})</pre>
+    <pre>{% verbatim %}{{ url(asset('css/style.css'), {canonical: true}) }}{% endverbatim %}</pre>
     <blockquote>{{ url(asset('css/style.css'), {canonical: true}) }}</blockquote>
   </p>
+  <h3>With filter</h3>
   <p>
-    With filter:
-    <pre>asset('css/style.css')|url({canonical: true})</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css')|url({canonical: true}) }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css')|url({canonical: true}) }}</blockquote>
   </p>
 
@@ -110,25 +110,25 @@ pre {
 
   <h2>Compile SCSS</h2>
   <p>
-    <pre>asset('scss/colors.scss')|to_css</pre>
+    <pre>{% verbatim %}{{ asset('scss/colors.scss')|to_css }}{% endverbatim %}</pre>
     <blockquote>{{ asset('scss/colors.scss')|to_css }}</blockquote>
-    <pre>asset('scss/colors.scss')|to_css|inline</pre>
+    <pre>{% verbatim %}{{ asset('scss/colors.scss')|to_css|inline }}{% endverbatim %}</pre>
     <blockquote>{{ asset('scss/colors.scss')|to_css|inline }}</blockquote>
   </p>
   <p>
     If auto compile is enabled "to_css" is not required:
-    <pre>asset('scss/colors.scss')</pre>
+    <pre>{% verbatim %}{{ asset('scss/colors.scss') }}{% endverbatim %}</pre>
     <blockquote>{{ asset('scss/colors.scss') }}</blockquote>
   </p>
   <p>
     Minify filter force compilation:
-    <pre>asset('scss/colors.scss')|minify</pre>
+    <pre>{% verbatim %}{{ asset('scss/colors.scss')|minify }}{% endverbatim %}</pre>
     <blockquote>{{ asset('scss/colors.scss')|minify }}</blockquote>
   </p>
 
   <h2>Minify</h2>
   <p>
-    <pre>asset('css/style.css')|minify</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css')|minify }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css')|minify }}</blockquote>
   </p>
   <h3>With option</h3>
@@ -144,17 +144,17 @@ pre {
 
   <h2>HTML element</h2>
   <p>
-    <pre>asset('css/style.css')|html</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css')|html }}{% endverbatim %}</pre>
     <pre>{{ asset('css/style.css')|html|e }}</pre>
   </p>
   <h3>Preload CSS</h3>
   <p>
-    <pre>asset('css/styleA.css')|html({}, {preload: true})</pre>
+    <pre>{% verbatim %}{{ asset('css/styleA.css')|html({}, {preload: true}) }}{% endverbatim %}</pre>
     <pre>{{ asset('css/styleA.css')|html({}, {preload: true})|e }}</pre>
   </p>
   <h3>Image as HTML element</h3>
   <p>
-    <pre>asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'})</pre>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'}) }}{% endverbatim %}</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'}, {responsive: false, webp: false}) }}
     </blockquote>
@@ -164,7 +164,7 @@ pre {
   </p>
   <h3>WebP</h3>
   <p>
-    <pre>asset('images/cecil-logo.png')|html({alt: 'Description'}, {webp: true})</pre>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|html({alt: 'Description'}, {webp: true}) }}{% endverbatim %}</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png')|html({alt: 'Description'}, {responsive: false, webp: true}) }}
     </blockquote>
@@ -174,7 +174,7 @@ pre {
   </p>
   <h3>Responsive and WebP</h2>
   <p>
-    <pre>asset('cecil-logo-1000.png')|html({alt: 'Responsive logo'}, {responsive: true, webp: true})</pre>
+    <pre>{% verbatim %}{{ asset('cecil-logo-1000.png')|html({alt: 'Responsive logo'}, {responsive: true, webp: true}) }}{% endverbatim %}</pre>
     <blockquote>
       {{- asset('cecil-logo-1000.png')|html({alt: 'Responsive logo'}, {responsive: true, webp: true}) }}
     </blockquote>
@@ -186,14 +186,14 @@ pre {
   <h2>Image handling<h2>
   <h3>Image width x height</h3>
   <p>
-    <pre>asset('images/cecil-logo.png').width x asset('images/cecil-logo.png').height</pre>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png').width x asset('images/cecil-logo.png').height }}{% endverbatim %}</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png').width ~ ' x ' ~ asset('images/cecil-logo.png').height -}}
     </blockquote>
   </p>
   <h3>Image resize</h3>
   <p>
-    <pre>asset('images/cecil-logo.png')|resize(96)</pre>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(96) }}{% endverbatim %}</pre>
     <pre>{{ asset('images/cecil-logo.png')|resize(96) }}</pre>
   </p>
   <h3>Do not resize</h3>
@@ -203,14 +203,14 @@ pre {
   </p>
   <h3>Image dominant color</h3>
   <p>
-    <pre>asset('images/cecil-logo.png')|dominant_color</pre>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|dominant_color }}{% endverbatim %}</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png')|dominant_color -}}
     </blockquote>
   </p>
   <h3>Low Quality Image Placeholder as data URL</h3>
   <p>
-    <pre>asset('cecil-logo-1000.png')|lqip</pre>
+    <pre>{% verbatim %}{{ asset('cecil-logo-1000.png')|lqip }}{% endverbatim %}</pre>
     <blockquote>
       {{- asset('cecil-logo-1000.png')|lqip -}}
     </blockquote>
@@ -220,21 +220,21 @@ pre {
   </p>
   <h3>Read EXIF data</h3>
   <p>
-    <pre>asset('ISS.jpg').exif</pre>
+    <pre>{% verbatim %}{{ asset('ISS.jpg').exif }}{% endverbatim %}</pre>
     <blockquote>
       {{- dump(asset('ISS.jpg').exif) -}}
     </blockquote>
   </p>
   <h3>Image `srcset`</h3>
   <p>
-    <pre>image_srcset(asset('cecil-logo-1000.png'))</pre>
+    <pre>{% verbatim %}{{ image_srcset(asset('cecil-logo-1000.png')) }}{% endverbatim %}</pre>
     <blockquote>
       {{- image_srcset(asset('cecil-logo-1000.png')) -}}
     </blockquote>
   </p>
   <h3>Image `sizes`</h3>
   <p>
-    <pre>image_sizes('test')</pre>
+    <pre>{% verbatim %}{{ image_sizes('test') }}{% endverbatim %}</pre>
     <blockquote>
       {{- image_sizes('test') -}}
     </blockquote>
@@ -242,14 +242,14 @@ pre {
 
   <h2>Data URL</h2>
   <p>
-    <pre>asset('css/style.css')|dataurl</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css')|dataurl }}{% endverbatim %}</pre>
     <blockquote>
       {{- asset('css/style.css')|dataurl -}}
     </blockquote>
   </p>
   <h3>Data URL of an image</h3>
   <p>
-    <pre>asset('images/cecil-logo.png')|dataurl</pre>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|dataurl }}{% endverbatim %}</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png')|dataurl -}}
     </blockquote>
@@ -257,47 +257,47 @@ pre {
 
   <h2>Inline</h2>
   <p>
-    <pre>asset('css/style.css')|inline</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css')|inline }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css')|inline }}</blockquote>
   </p>
   <p>
     Attribute access:
-    <pre>asset('css/style.css').content</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css').content }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css')['content'] }}</blockquote>
   </p>
   <p>
     Array access, not recommended:
-    <pre>asset('css/style.css')['content']</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css')['content'] }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css')['content'] }}</blockquote>
   </p>
   <p>
-    <pre>asset('js/script.js')|minify|inline</pre>
+    <pre>{% verbatim %}{{ asset('js/script.js')|minify|inline }}{% endverbatim %}</pre>
     <blockquote>{{ asset('js/script.js')|minify|inline }}</blockquote>
   </p>
 
   <h2>Integrity</h2>
   <p>
-    <pre>asset('css/style.css').integrity</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css').integrity }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css').integrity }}</blockquote>
   </p>
   <p>
-    <pre>asset('css/style.css')|minify.integrity</pre>
+    <pre>{% verbatim %}{{ asset('css/style.css')|minify.integrity }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css').integrity }}</blockquote>
   </p>
   <p>
     Deprecated:
-    <pre>integrity('css/style.css')</pre>
+    <pre>{% verbatim %}{{ integrity('css/style.css') }}{% endverbatim %}</pre>
     <blockquote>{{ integrity('css/style.css') }}</blockquote>
   </p>
   <p>
     Deprecated:
-    <pre>integrity(asset('css/style.css'))</pre>
+    <pre>{% verbatim %}{{ integrity(asset('css/style.css')) }}{% endverbatim %}</pre>
     <blockquote>{{ integrity(asset('css/style.css')) }}</blockquote>
   </p>
 
   <h2>Audio file</h2>
   <p>
-    <pre>asset('audio/test.mp3').audio.duration</pre>
+    <pre>{% verbatim %}{{ asset('audio/test.mp3').audio.duration }}{% endverbatim %}</pre>
     <blockquote>
       {{ (asset('audio/test.mp3').audio.duration / 60)|round }} min {{ (asset('audio/test.mp3').audio.duration % 60)|round }} s
     </blockquote>
@@ -305,7 +305,7 @@ pre {
 
   <h2>Asset with wrong path + ignore directive</h2>
   <p>
-    <pre>asset('asssset.css', {ignore_missing: true}))</pre>
+    <pre>{% verbatim %}{{ asset('asssset.css', {ignore_missing: true})) }}{% endverbatim %}</pre>
     <blockquote>{{ asset('asssset.css', {ignore_missing: true}) }}</blockquote>
   </p>
 
