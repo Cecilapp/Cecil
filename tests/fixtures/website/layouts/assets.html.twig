@@ -1,24 +1,26 @@
 {% extends 'page.html.twig' %}
 
-{% block head_css %}
+{% block head %}
 {{ parent() }}
-{% set style %}
-$primary-color: #ddbd83;
-$bg-color: #22427c;
-body {
-  color: $primary-color;
-  background-color: $bg-color;
-  test: $test;
-}
-h1, h2, h3 {
-  color: $primary-color;
-}
-pre {
-  background-color: black;
-}
-{% endset %}
-    <style>{{ style|scss_to_css|minify_css }}</style>
-{% endblock head_css %}
+    {% set style %}
+    $primary-color: #181818;
+    $bg-color: white;
+    body {
+      color: $primary-color;
+      background-color: $bg-color;
+      test: $test;
+    }
+    h1, h2, h3 {
+      color: $primary-color;
+    }
+    pre {
+      background-color: #DCDCDC;
+    }
+    {% endset %}
+    <style>
+      {{~ style|scss_to_css|minify_css ~}}
+    </style>
+{% endblock head %}
 
 {% block content %}
   <h1>asset()</h1>
@@ -146,6 +148,11 @@ pre {
   <p>
     <pre>{% verbatim %}{{ asset('css/style.css')|html }}{% endverbatim %}</pre>
     <pre>{{ asset('css/style.css')|html|e }}</pre>
+  </p>
+  <h3>Custom attributes CSS</h3>
+  <p>
+    <pre>{% verbatim %}{{ asset('css/style.css')|html({foo: '', bar: 'bar'}) }}{% endverbatim %}</pre>
+    <pre>{{ asset('css/style.css')|html({foo: '', bar: 'bar'})|e }}</pre>
   </p>
   <h3>Preload CSS</h3>
   <p>
