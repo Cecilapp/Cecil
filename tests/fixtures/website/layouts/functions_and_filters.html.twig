@@ -1,0 +1,45 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+
+<h2>Functions</h2>
+
+<h3>readtime</h3>
+<pre>{% verbatim %}{{ readtime(site.page('blog/post-1').content) }} min{% endverbatim %}</pre>
+<blockquote>{{ readtime(site.page('blog/post-1').content) }} min</blockquote>
+
+<h2>Filters</h2>
+
+<h3>excerpt</h3>
+<pre>{% verbatim %}{{ site.page('blog/post-1').content|excerpt}}{% endverbatim %}</pre>
+<blockquote>{{ site.page('blog/post-1').content|excerpt }}</blockquote>
+
+<h3>markdown_to_html</h3>
+<pre>{% verbatim %}{{ site.page('markdown/images').body|markdown_to_html }}{% endverbatim %}</pre>
+<blockquote>{{ site.page('markdown/images').body|markdown_to_html }}</blockquote>
+
+<h3>toc</h3>
+<pre>{% verbatim %}{{ site.page('markdown/images').body|toc }}{% endverbatim %}</pre>
+<blockquote>{{ site.page('markdown/images').body|toc }}</blockquote>
+
+<h3>webp</h3>
+<pre>{% verbatim %}{{ asset('images/cecil-logo.png')|webp }}{% endverbatim %}</pre>
+<blockquote>{{ asset('images/cecil-logo.png')|webp }}</blockquote>
+
+<h3>json_decode</h3>
+<pre>{% verbatim %}{{ asset('json.json').content|json_decode}}{% endverbatim %}</pre>
+<pre>{{ dump(asset('json.json').content|json_decode) }}</pre>
+
+<h3>yaml_parse</h3>
+<pre>{% verbatim %}{{ asset('yaml.yml').content|yaml_parse }}{% endverbatim %}</pre>
+<pre>{{ dump(asset('yaml.yml').content|yaml_parse) }}</pre>
+
+<h3>hex_to_rgb</h3>
+<pre>{% verbatim %}{{ dump('#0A66C2'|hex_to_rgb) }}{% endverbatim %}</pre>
+<pre>{{ dump('#0A66C2'|hex_to_rgb) }}</pre>
+
+<h3>splitline</h3>
+<pre>{% verbatim %}{{ dump('This is a test of the splitline filter.'|splitline) }}{% endverbatim %}</pre>
+<pre>{{ dump('This is a test of the splitline filter.'|splitline) }}</pre>
+
+{% endblock content %}
