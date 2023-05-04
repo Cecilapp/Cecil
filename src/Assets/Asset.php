@@ -654,7 +654,9 @@ class Asset implements \ArrayAccess
             'url' => null,
         ];
 
-        if (false === $filePath = $this->findFile($path, $remote_fallback)) {
+        try {
+            $filePath = $this->findFile($path, $remote_fallback);
+        } catch (\Exception $e) {
             if ($ignore_missing) {
                 $file['path'] = $path;
                 $file['missing'] = true;
@@ -662,7 +664,7 @@ class Asset implements \ArrayAccess
                 return $file;
             }
 
-            throw new RuntimeException(\sprintf('Asset file "%s" doesn\'t exist', $path));
+            throw new RuntimeException(\sprintf('Asset file "%s" doesn\'t exist (%s)', $path, $e->getMessage()));
         }
 
         if (Util\Url::isUrl($path)) {
@@ -695,13 +697,13 @@ class Asset implements \ArrayAccess
      *   1. remote (if $path is a valid URL)
      *   2. in static/
      *   3. in themes/<theme>/static/
-     * Returns local file path or false if file don't exists.
+     * Returns local file path or throw an exception.
      *
      * @throws RuntimeException
      *
-     * @return string|false
+     * @return string
      */
-    private function findFile(string $path, ?string $remote_fallback = null)
+    private function findFile(string $path, ?string $remote_fallback = null): string
     {
         // in case of remote file: save it and returns cached file path
         if (Util\Url::isUrl($path)) {
@@ -730,15 +732,16 @@ class Asset implements \ArrayAccess
                         if (Util\File::getFS()->exists($filePath)) {
                             return $filePath;
                         }
+                        throw new RuntimeException(\sprintf('Fallback file "%s" doesn\'t exists', $filePath));
                     }
 
-                    return false;
+                    throw new RuntimeException(\sprintf('File "%s" doesn\'t exists', $url));
                 }
                 if (false === $content = Util\File::fileGetContents($url, true)) {
-                    return false;
+                    throw new RuntimeException(\sprintf('Can\'t get content of "%s"', $url));
                 }
                 if (strlen($content) <= 1) {
-                    throw new RuntimeException(\sprintf('Asset at "%s" is empty', $url));
+                    throw new RuntimeException(\sprintf('File "%s" is empty', $url));
                 }
                 Util\File::getFS()->dumpFile($filePath, $content);
             }
@@ -774,7 +777,7 @@ class Asset implements \ArrayAccess
             }
         }
 
-        return false;
+        throw new RuntimeException(\sprintf('Can\'t find file "%s"', $path));
     }
 
     /**
