@@ -673,6 +673,12 @@ class Asset implements \ArrayAccess
                 (string) $this->config->get('assets.target'),
                 Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath())
             );
+            if ($remote_fallback) {
+                $path = Util::joinPath(
+                    (string) $this->config->get('assets.target'),
+                    Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsPath())
+                );
+            }
             $force_slash = true;
         }
         if ($force_slash) {
