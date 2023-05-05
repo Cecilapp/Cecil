@@ -664,13 +664,15 @@ class Asset implements \ArrayAccess
                 return $file;
             }
 
-            throw new RuntimeException(\sprintf('Asset file "%s" doesn\'t exist (%s)', $path, $e->getMessage()));
+            throw new RuntimeException(\sprintf('Can\'t load Asset file "%s" (%s)', $path, $e->getMessage()));
         }
 
         if (Util\Url::isUrl($path)) {
             $file['url'] = $path;
-            $path = Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath());
-            $path = Util::joinPath((string) $this->config->get('assets.target'), $path);
+            $path = Util::joinPath(
+                (string) $this->config->get('assets.target'),
+                Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath())
+            );
             $force_slash = true;
         }
         if ($force_slash) {
@@ -700,8 +702,6 @@ class Asset implements \ArrayAccess
      * Returns local file path or throw an exception.
      *
      * @throws RuntimeException
-     *
-     * @return string
      */
     private function findFile(string $path, ?string $remote_fallback = null): string
     {
@@ -724,8 +724,19 @@ class Asset implements \ArrayAccess
                 $urlQuery && $extension ? ".$extension" : ''
             ));
             $filePath = Util::joinFile($this->config->getCacheAssetsRemotePath(), $relativePath);
+            // not already in cache
             if (!file_exists($filePath)) {
-                if (!Util\Url::isRemoteFileExists($url)) {
+                try {
+                    if (!Util\Url::isRemoteFileExists($url)) {
+                        throw new RuntimeException(\sprintf('File "%s" doesn\'t exists', $url));
+                    }
+                    if (false === $content = Util\File::fileGetContents($url, true)) {
+                        throw new RuntimeException(\sprintf('Can\'t get content of file "%s"', $url));
+                    }
+                    if (strlen($content) <= 1) {
+                        throw new RuntimeException(\sprintf('File "%s" is empty', $url));
+                    }
+                } catch (RuntimeException $e) {
                     // is there a fallback in assets/
                     if ($remote_fallback) {
                         $filePath = Util::joinFile($this->config->getAssetsPath(), $remote_fallback);
@@ -735,14 +746,9 @@ class Asset implements \ArrayAccess
                         throw new RuntimeException(\sprintf('Fallback file "%s" doesn\'t exists', $filePath));
                     }
 
-                    throw new RuntimeException(\sprintf('File "%s" doesn\'t exists', $url));
+                    throw new RuntimeException($e->getMessage());
                 }
-                if (false === $content = Util\File::fileGetContents($url, true)) {
-                    throw new RuntimeException(\sprintf('Can\'t get content of "%s"', $url));
-                }
-                if (strlen($content) <= 1) {
-                    throw new RuntimeException(\sprintf('File "%s" is empty', $url));
-                }
+                // put file in cache
                 Util\File::getFS()->dumpFile($filePath, $content);
             }
 
