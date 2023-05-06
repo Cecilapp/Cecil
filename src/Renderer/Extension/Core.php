@@ -82,22 +82,6 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             // others
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
-            // deprecated
-            new \Twig\TwigFunction(
-                'hash',
-                [$this, 'integrity'],
-                ['deprecated' => true, 'alternative' => 'integrity']
-            ),
-            new \Twig\TwigFunction(
-                'minify',
-                [$this, 'minify'],
-                ['deprecated' => true, 'alternative' => 'minify filter']
-            ),
-            new \Twig\TwigFunction(
-                'toCSS',
-                [$this, 'toCss'],
-                ['deprecated' => true, 'alternative' => 'to_css filter']
-            ),
         ];
     }
 
@@ -140,57 +124,6 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
-            // deprecated
-            new \Twig\TwigFilter(
-                'filterBySection',
-                [$this, 'filterBySection'],
-                ['deprecated' => true, 'alternative' => 'filter_by']
-            ),
-            new \Twig\TwigFilter(
-                'filterBy',
-                [$this, 'filterBy'],
-                ['deprecated' => true, 'alternative' => 'filter_by']
-            ),
-            new \Twig\TwigFilter(
-                'sortByTitle',
-                [$this, 'sortByTitle'],
-                ['deprecated' => true, 'alternative' => 'sort_by_title']
-            ),
-            new \Twig\TwigFilter(
-                'sortByWeight',
-                [$this, 'sortByWeight'],
-                ['deprecated' => true, 'alternative' => 'sort_by_weight']
-            ),
-            new \Twig\TwigFilter(
-                'sortByDate',
-                [$this, 'sortByDate'],
-                ['deprecated' => true, 'alternative' => 'sort_by_date']
-            ),
-            new \Twig\TwigFilter(
-                'minifyCSS',
-                [$this, 'minifyCss'],
-                ['deprecated' => true, 'alternative' => 'minifyCss']
-            ),
-            new \Twig\TwigFilter(
-                'minifyJS',
-                [$this, 'minifyJs'],
-                ['deprecated' => true, 'alternative' => 'minifyJs']
-            ),
-            new \Twig\TwigFilter(
-                'SCSStoCSS',
-                [$this, 'scssToCss'],
-                ['deprecated' => true, 'alternative' => 'scss_to_css']
-            ),
-            new \Twig\TwigFilter(
-                'excerptHtml',
-                [$this, 'excerptHtml'],
-                ['deprecated' => true, 'alternative' => 'excerpt_html']
-            ),
-            new \Twig\TwigFilter(
-                'urlize',
-                [$this, 'slugifyFilter'],
-                ['deprecated' => true, 'alternative' => 'slugify']
-            ),
         ];
     }
 

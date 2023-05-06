@@ -39,11 +39,6 @@ class Load extends AbstractStep
      */
     public function init(array $options): void
     {
-        // legacy support
-        if (is_dir(Util::joinFile($this->config->getSourceDir(), 'content'))) {
-            $this->builder->getLogger()->alert('"content" directory is deprecated, please rename it to "pages"');
-        }
-
         if (!is_dir($this->config->getPagesPath())) {
             throw new RuntimeException(\sprintf('Pages path "%s" not found.', $this->config->getPagesPath()));
         }

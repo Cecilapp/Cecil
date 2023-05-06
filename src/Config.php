@@ -212,14 +212,7 @@ class Config
      */
     public function getPagesPath(): string
     {
-        $path = Util::joinFile($this->getSourceDir(), (string) $this->get('pages.dir'));
-
-        // legacy support
-        if (!is_dir($path)) {
-            $path = Util::joinFile($this->getSourceDir(), 'content');
-        }
-
-        return $path;
+        return Util::joinFile($this->getSourceDir(), (string) $this->get('pages.dir'));
     }
 
     /**

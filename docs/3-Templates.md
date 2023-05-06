@@ -771,7 +771,6 @@ _Examples:_
 
 ```twig
 {{ asset('styles.scss')|to_css }}
-{{ 'styles.scss'|to_css }} {# deprecated #}
 ```
 
 ### fingerprint
@@ -787,7 +786,6 @@ _Examples:_
 
 ```twig
 {{ asset('styles.css')|fingerprint }}
-{{ 'styles.css'|fingerprint }} {# deprecated #}
 ```
 
 ### minify
@@ -796,14 +794,12 @@ Minifying a CSS or a JavaScript file.
 
 ```twig
 {{ asset(path)|minify }}
-{{ path|minify }} {# deprecated #}
 ```
 
 _Examples:_
 
 ```twig
 {{ asset('styles.css')|minify }}
-{{ 'styles.css'|minify }} {# deprecated #}
 {{ asset('scripts.js')|minify }}
 ```
 
@@ -909,7 +905,6 @@ Resizes an image to a specified with.
 
 ```twig
 {{ asset(image_path)|resize(integer) }}
-{{ <image_path>|resize(integer) }} {# deprecated #}
 ```
 
 :::info
