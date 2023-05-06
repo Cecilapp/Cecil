@@ -1,4 +1,4 @@
 ---
-title: Google
-redirect: https://google.fr
+title: Cecil
+redirect: https://cecil.app
 ---
