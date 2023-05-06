@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-04-19
+updated: 2023-05-05
 -->
 # Configuration
 
@@ -367,16 +367,6 @@ theme:
 :::info
 See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or website [themes section](https://cecil.app/themes/).
 :::
-
-### googleanalytics
-
-[Google Analytics](https://wikipedia.org/wiki/Google_Analytics) user identifier:
-
-```yaml
-googleanalytics: UA-XXXXX
-```
-
-The _Universal Analytics_ ID is used by the built-in partial template [`googleanalytics.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig).
 
 ### virtual pages
 

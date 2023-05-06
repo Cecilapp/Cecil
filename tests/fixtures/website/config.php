@@ -62,7 +62,6 @@ return [
         'a-theme',
         //'hyde',
     ],
-    'googleanalytics' => 'UA-XXXXX',
     'paths' => [
         [
             'section' => 'Blog',

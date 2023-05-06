@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-04-19
+updated: 2023-05-05
 alias: documentation/layouts
 -->
 # Templates
@@ -1179,9 +1179,6 @@ php cecil.phar util:extract
 
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
 :   Switcher between [languages](4-Configuration.md#languages).
-
-[`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
-:   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).
 
 ## Custom extension
 
