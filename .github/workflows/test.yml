@@ -75,7 +75,7 @@ jobs:
         restore-keys: ${{ steps.extcache.outputs.key }}
 
     - name: Install PHP
-      if: ${{ !matrix.coverage && !matrix.experimental }}
+      if: ${{ !matrix.coverage && !matrix.experimental && !matrix.profiling }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -83,7 +83,7 @@ jobs:
         coverage: none
 
     - name: Install PHP (coverage)
-      if: ${{ matrix.coverage && !matrix.experimental }}
+      if: ${{ matrix.coverage && !matrix.experimental && !matrix.profiling }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -91,7 +91,7 @@ jobs:
         coverage: xdebug
 
     - name: Install PHP (JIT)
-      if: ${{ !matrix.coverage && matrix.experimental }}
+      if: ${{ !matrix.coverage && matrix.experimental && !matrix.profiling }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
