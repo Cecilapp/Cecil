@@ -93,10 +93,11 @@ class Collection implements CollectionInterface
      */
     public function replace(string $id, ItemInterface $item): CollectionInterface
     {
-        if (!$this->has($id)) {
+        try {
+            $this->items[$this->getPosition($id)] = $item;
+        } catch (\Throwable $th) {
             throw new \DomainException(\sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $item->getId(), $this->getId()));
         }
-        $this->items[$this->getPosition($id)] = $item;
 
         return $this;
     }
@@ -108,10 +109,11 @@ class Collection implements CollectionInterface
      */
     public function remove(string $id): CollectionInterface
     {
-        if (!$this->has($id)) {
+        try {
+            unset($this->items[$this->getPosition($id)]);
+        } catch (\Throwable $th) {
             throw new \DomainException(\sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
-        unset($this->items[$this->getPosition($id)]);
 
         return $this;
     }
@@ -123,11 +125,11 @@ class Collection implements CollectionInterface
      */
     public function get(string $id): ItemInterface
     {
-        if (!$this->has($id)) {
+        try {
+            return $this->items[$this->getPosition($id)];
+        } catch (\Throwable $th) {
             throw new \DomainException(\sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
-
-        return $this->items[$this->getPosition($id)];
     }
 
     /**
