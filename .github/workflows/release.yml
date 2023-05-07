@@ -52,7 +52,9 @@ jobs:
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress
+      run: |
+        composer install --prefer-dist --no-progress
+        composer dump-autoload --optimize
 
     - name: Run build test
       run: composer run-script test

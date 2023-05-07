@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-      - '6'
     paths-ignore:
       - 'docs/**'
       - '.github/**'
@@ -18,7 +17,7 @@ on:
 
 jobs:
   test:
-    name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }}, e=${{ matrix.experimental }})'
+    name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }}, p=${{ matrix.profiling }}, e=${{ matrix.experimental }})'
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     env:
@@ -32,26 +31,31 @@ jobs:
         php: ['7.4', '8.0', '8.1']
         coverage: [false]
         experimental: [false]
+        profiling: [true]
         exclude:
+        # excluded for code coverage
         - os: 'ubuntu-latest'
           php: '7.4'
           coverage: false
+          profiling: false
           experimental: false
         include:
+        # code coverage + profiling
         - os: 'ubuntu-latest'
           php: '7.4'
           coverage: true
+          profiling: false
           experimental: false
+        # PHP 8.2 experimental
         - os: 'ubuntu-latest'
           php: '8.2'
           coverage: false
+          profiling: false
           experimental: true
 
     steps:
     - name: Checkout source code
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 1
 
     - name: Setup cache extensions
       id: extcache
@@ -68,8 +72,8 @@ jobs:
         key: ${{ steps.extcache.outputs.key }}
         restore-keys: ${{ steps.extcache.outputs.key }}
 
-    - name: Install PHP
-      if: ${{ !matrix.coverage && !matrix.experimental }}
+    - name: Install PHP (standart)
+      if: ${{ !matrix.coverage && !matrix.profiling && !matrix.experimental }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -77,15 +81,29 @@ jobs:
         coverage: none
 
     - name: Install PHP (coverage)
-      if: ${{ matrix.coverage && !matrix.experimental }}
+      if: ${{ matrix.coverage && !matrix.profiling && !matrix.experimental }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
         extensions: ${{ env.extensions }}
         coverage: xdebug
 
-    - name: Install PHP (JIT)
-      if: ${{ !matrix.coverage && matrix.experimental }}
+    - name: Install PHP (profiling)
+      if: ${{ !matrix.coverage && matrix.profiling && !matrix.experimental }}
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: ${{ env.extensions }}, blackfire, :xdebug
+        coverage: none
+        tools: blackfire
+      env:
+        BLACKFIRE_SERVER_ID: ${{ secrets.BLACKFIRE_SERVER_ID }}
+        BLACKFIRE_SERVER_TOKEN: ${{ secrets.BLACKFIRE_SERVER_TOKEN }}
+        BLACKFIRE_CLIENT_ID: ${{ secrets.BLACKFIRE_CLIENT_ID }}
+        BLACKFIRE_CLIENT_TOKEN: ${{ secrets.BLACKFIRE_CLIENT_TOKEN }}
+
+    - name: Install PHP (experimental with JIT)
+      if: ${{ !matrix.coverage && !matrix.profiling && matrix.experimental }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -131,6 +149,13 @@ jobs:
       run: |
         composer run-script test:coverage
 
+    - name: Run build test (profiling)
+      if: ${{ matrix.profiling && !matrix.experimental }}
+      env:
+        APP_ENV: prod
+        APP_DEBUG: 0
+      run: blackfire run php vendor/bin/phpunit -c ./ --testsuite=IntegrationTests
+
     - name: Upload coverage results to Coveralls
       if: ${{ matrix.coverage && !matrix.experimental }}
       continue-on-error: true
@@ -141,6 +166,6 @@ jobs:
         composer run-script test:coverage:upload
 
     - name: Build skeleton site from phar
-      if: ${{ !matrix.coverage }}
+      if: ${{ !matrix.coverage && !matrix.profiling }}
       run: |
         composer run-script test:phar

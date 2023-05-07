@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.0.0-beta.4](https://github.com/Cecilapp/Cecil/compare/8.0.0-beta.3...8.0.0-beta.4)
+
+> 6 May 2023
+
+- tests: enhance fixtures [`d8f2720`](https://github.com/Cecilapp/Cecil/commit/d8f2720c3fb7fe9b79a3887b82fd7c34bf531fc3)
+- refactor: Remove deprecated [`20d3661`](https://github.com/Cecilapp/Cecil/commit/20d36616af6282a7fd5f42f39fb186b988615748)
+- tests: enhance fixtures [`90bd624`](https://github.com/Cecilapp/Cecil/commit/90bd624fc5c40ec09e48d6e1eb0a9af0d5a021fb)
+- refactor: remove Google Analytics [`1ad6011`](https://github.com/Cecilapp/Cecil/commit/1ad60118fc1939f94d0f187b4f92aa911de8c17c)
+- chore: update deps [`7a238dd`](https://github.com/Cecilapp/Cecil/commit/7a238ddece153d3546cc3c434917cc0595706f74)
+- fix: Assets bundle [`dca5491`](https://github.com/Cecilapp/Cecil/commit/dca5491da43d2c201b9970f4c7438e47044d8932)
+- refactor: enhances asset find file [`84f1f64`](https://github.com/Cecilapp/Cecil/commit/84f1f649ab9c5820801e63a8105e0e629bf25699)
+- refactor: enhance Asset find file [`b9292f9`](https://github.com/Cecilapp/Cecil/commit/b9292f9d0a63a6228e752cc3e8e914d14dfaf202)
+- chore: update deps [`81b3a9a`](https://github.com/Cecilapp/Cecil/commit/81b3a9a1faafaa29ac82698520dff7d540c9e12e)
+- fix: remote asset fallback [`ecb4d30`](https://github.com/Cecilapp/Cecil/commit/ecb4d305cb3b546394dfb166710fcbc7f67e3669)
+- fix: html asset filter for WebP [`3a9868c`](https://github.com/Cecilapp/Cecil/commit/3a9868c599fbcd764bfc69e3e090314cd06809fc)
+- tests: add PHP MD [`a96957c`](https://github.com/Cecilapp/Cecil/commit/a96957c8ad1dc888bc8e5137042d4dabeab83f50)
+- Create cecil-logo.png [`fa72cc1`](https://github.com/Cecilapp/Cecil/commit/fa72cc1bf93979b55e7974ee0197d64bd5bc6317)
+
+#### [8.0.0-beta.3](https://github.com/Cecilapp/Cecil/compare/8.0.0-beta.2...8.0.0-beta.3)
+
+> 27 April 2023
+
+- refactor: enhances step logged messages [`#1682`](https://github.com/Cecilapp/Cecil/pull/1682)
+- fix: JSON templates [`#1681`](https://github.com/Cecilapp/Cecil/pull/1681)
+- fix: handle remote asset with query string [`#1680`](https://github.com/Cecilapp/Cecil/pull/1680)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.13 to 1.10.14 [`#1679`](https://github.com/Cecilapp/Cecil/pull/1679)
+- refactor: assets post process -&gt; optimize [`9650988`](https://github.com/Cecilapp/Cecil/commit/96509886fb65d8361879bdc8b5128b5b7177e067)
+- chore: update deps [`2ef612d`](https://github.com/Cecilapp/Cecil/commit/2ef612dd1f37a5c48fe68572cc4f8f5418af6938)
+- chore: update deps [`3ac5f66`](https://github.com/Cecilapp/Cecil/commit/3ac5f6678c7dec414f0290f1e2928b2cdeb59cad)
+- Add support of PHP 8.2 [`0566b06`](https://github.com/Cecilapp/Cecil/commit/0566b066be34e6806a844886abb0c6c111c4c9c3)
+- chore: deploy docs on PR [`d44afa8`](https://github.com/Cecilapp/Cecil/commit/d44afa81811f0ddcb29675cd84e4fd1292fbabe9)
+
 #### [8.0.0-beta.2](https://github.com/Cecilapp/Cecil/compare/8.0.0-beta.1...8.0.0-beta.2)
 
 > 23 April 2023
@@ -12,7 +44,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.3...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.4...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -23,6 +55,12 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.36.4](https://github.com/Cecilapp/Cecil/compare/7.36.3...7.36.4)
+
+> 26 April 2023
+
+- refactor: enhances step logged messages [`#1682`](https://github.com/Cecilapp/Cecil/pull/1682)
 
 #### [7.36.3](https://github.com/Cecilapp/Cecil/compare/7.36.2...7.36.3)
 
