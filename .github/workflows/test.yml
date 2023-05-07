@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-      - '6'
     paths-ignore:
       - 'docs/**'
       - '.github/**'
@@ -50,8 +49,6 @@ jobs:
     steps:
     - name: Checkout source code
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 1
 
     - name: Setup cache extensions
       id: extcache
