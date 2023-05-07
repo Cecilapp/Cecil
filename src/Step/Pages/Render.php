@@ -85,6 +85,7 @@ class Render extends AbstractStep
 
         // renders each page
         $count = 0;
+        Util::autoload($this->builder, 'postprocessors');
         /** @var Page $page */
         foreach ($pages as $page) {
             $count++;
@@ -137,7 +138,6 @@ class Render extends AbstractStep
                     foreach ($deprecations as $value) {
                         $this->builder->getLogger()->warning($value);
                     }
-                    Util::autoload($this->builder, 'postprocessors');
                     foreach ($this->config->get('output.postprocessors') as $processor) {
                         if (!class_exists($processor)) {
                             $this->builder->getLogger()->error(\sprintf('Can\'t load output post processor "%s"', $processor));
