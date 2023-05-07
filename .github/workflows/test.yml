@@ -165,9 +165,9 @@ jobs:
       run: |
         composer run-script test:phar
 
-    - name: Profiling
+    - name: Run profiling
       if: ${{ matrix.profiling }}
       env:
         APP_ENV: prod
         APP_DEBUG: 0
-      run: blackfire run php bin/cecil
+      run: blackfire run php composer run-script test
