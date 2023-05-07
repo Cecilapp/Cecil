@@ -31,20 +31,29 @@ jobs:
         php: ['7.4', '8.0', '8.1']
         coverage: [false]
         experimental: [false]
+        profiling: [false]
         exclude:
         - os: 'ubuntu-latest'
           php: '7.4'
           coverage: false
           experimental: false
+          profiling: false
         include:
         - os: 'ubuntu-latest'
           php: '7.4'
           coverage: true
           experimental: false
+          profiling: false
         - os: 'ubuntu-latest'
           php: '8.2'
           coverage: false
           experimental: true
+          profiling: false
+        - os: 'ubuntu-latest'
+          php: '7.4'
+          coverage: false
+          experimental: false
+          profiling: true
 
     steps:
     - name: Checkout source code
