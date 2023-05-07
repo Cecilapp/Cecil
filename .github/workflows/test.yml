@@ -17,7 +17,7 @@ on:
 
 jobs:
   test:
-    name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }}, e=${{ matrix.experimental }})'
+    name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }}, e=${{ matrix.experimental }}, p=${{ matrix.profiling }})'
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     env:
@@ -90,6 +90,20 @@ jobs:
         ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
         coverage: none
 
+    - name: Install PHP (Blackfire)
+      if: ${{ !matrix.coverage && !matrix.experimental && matrix.profiling }}
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: ${{ env.extensions }}, blackfire, :xdebug
+        coverage: none
+        tools: blackfire
+      env:
+        BLACKFIRE_SERVER_ID: ${{ secrets.BLACKFIRE_SERVER_ID }}
+        BLACKFIRE_SERVER_TOKEN: ${{ secrets.BLACKFIRE_SERVER_TOKEN }}
+        BLACKFIRE_CLIENT_ID: ${{ secrets.BLACKFIRE_CLIENT_ID }}
+        BLACKFIRE_CLIENT_TOKEN: ${{ secrets.BLACKFIRE_CLIENT_TOKEN }}
+
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
@@ -141,3 +155,10 @@ jobs:
       if: ${{ !matrix.coverage }}
       run: |
         composer run-script test:phar
+
+    - name: Profiling
+      if: ${{ matrix.profiling }}
+      env:
+        APP_ENV: prod
+        APP_DEBUG: 0
+      run: blackfire run php bin/cecil
