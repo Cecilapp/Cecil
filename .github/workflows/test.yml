@@ -171,4 +171,4 @@ jobs:
         APP_ENV: prod
         APP_DEBUG: 0
       #run: blackfire run php composer run-script test
-      run: blackfire run php phpunit -c ./ --testsuite=IntegrationTests
+      run: blackfire run php vendor/bin/phpunit -c ./ --testsuite=IntegrationTests
