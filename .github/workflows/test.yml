@@ -28,7 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        php: ['7.4', '8.0', '8.1']
+        php: ['7.4', '8.0', '8.1', '8.2']
         coverage: [false]
         experimental: [false]
         profiling: [true]
@@ -46,7 +46,7 @@ jobs:
           coverage: true
           profiling: false
           experimental: false
-        # PHP 8.2 experimental
+        # PHP 8.2 JIT experimental
         - os: 'ubuntu-latest'
           php: '8.2'
           coverage: false
