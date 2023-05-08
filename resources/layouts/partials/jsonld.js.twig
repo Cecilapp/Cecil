@@ -1,4 +1,4 @@
-{% if page.metatags.jsonld|default(site.metatags.jsonld|default(false)) %}
+{% if page.metatags.jsonld|default(config.metatags.jsonld|default(false)) %}
     <script type="application/ld+json">{%- apply minify_js ~%}
       [
         {#- WebSite ~#}
@@ -39,8 +39,9 @@
           ]
         }
         {%- endif ~%}
-        {#- BreadcrumbList ~#}
-        {%- if page.section -%}
+        {%- if page.type == 'page' ~%}
+          {#- BreadcrumbList ~#}
+          {%- if page.section -%}
         ,{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -56,8 +57,8 @@
             "item": "{{ url(page, {canonical: true}) }}"
           }]
         }
-          {#- NewsArticle ~#}
-          {%- if page.section == site.metatags.articles|default('blog') -%}
+            {#- NewsArticle ~#}
+            {%- if page.section == config.metatags.articles|default('blog') -%}
         ,{
           "@context": "https://schema.org",
           "@type": "NewsArticle",
@@ -93,6 +94,7 @@
             {%- endif ~%}
           }
         }
+            {%- endif ~%}
           {%- endif ~%}
         {%- endif ~%}
       ]
