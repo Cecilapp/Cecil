@@ -86,10 +86,10 @@
           "publisher": {
             "@type": "Organization",
             "name": "{{ site.title }}"
-            {%- if favicon_url is not empty ~%},
+            {%- if not favicon_asset.missing ~%},
             "logo": {
               "@type": "ImageObject",
-              "url": "{{ favicon_url }}"
+              "url": "{{ url(favicon_asset) }}"
             }
             {%- endif ~%}
           }
