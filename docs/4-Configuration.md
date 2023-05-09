@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-03-21
+updated: 2023-05-09
 -->
 # Configuration
 
@@ -187,7 +187,7 @@ _Example:_
 </html>
 ```
 
-This template adds the following meta tags to your site:
+This template adds the following meta tags:
 
 - Page title + site title or site title + site baseline
 - Page/site description
@@ -198,12 +198,12 @@ This template adds the following meta tags to your site:
 - Previous and next page links
 - Pagination links (first, previous, next, last)
 - Canonical URL
-- Links to alternates (e.g.: RSS feed, others languages)
+- Links to alternate versions (i.e.: RSS feed, others languages)
 - Open Graph
 - Twitter Card
-- JSON-LD site and article metadata
+- Structured data (JSON-LD)
 
-#### metatags options and variables
+#### metatags options and front matter
 
 Cecil uses page’s front matter to feed meta tags, and fallbacks to the site configuration if needed.
 
@@ -229,10 +229,10 @@ social:
 ```
 
 :::tip
-If needed the title can be overridden:
+If needed `title` and `image` can be overridden:
 
 ```twig
-{% include 'partials/metatags.html.twig' with {title: 'Custom title'} %}
+{% include 'partials/metatags.html.twig' with {title: 'Custom title', image: og_image} %}
 ```
 
 :::
@@ -250,7 +250,7 @@ metatags:
   robots: "index,follow"  # web crawlers directives (`index,follow` by default)
   articles: "blog"        # articles' section (`blog` by default)
   jsonld:
-    enabled: true         # injects JSON-LD meta tags (`false` by default)
+    enabled: false        # injects JSON-LD structured data (`false` by default)
   favicon:
     enabled: true         # injects favicon (`true` by default)
     image: favicon.png    # path to favicon image
