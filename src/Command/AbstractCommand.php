@@ -99,7 +99,7 @@ class AbstractCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         if ($output->isDebug()) {
             putenv('CECIL_DEBUG=true');

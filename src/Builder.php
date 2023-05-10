@@ -18,8 +18,7 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
 use Cecil\Util\Plateform;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
+use Psr\Log\{LoggerAwareInterface, LoggerInterface};
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -94,11 +93,7 @@ class Builder implements LoggerAwareInterface
     /** @var string Application version. */
     protected static $version;
 
-    /**
-     * @param Config|array|null    $config
-     * @param LoggerInterface|null $logger
-     */
-    public function __construct($config = null, LoggerInterface $logger = null)
+    public function __construct(Config|array|null $config = null, LoggerInterface|null $logger = null)
     {
         // set logger
         if ($logger === null) {
@@ -174,10 +169,8 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set configuration.
-     *
-     * @param Config|array|null $config
      */
-    public function setConfig($config): self
+    public function setConfig(Config|array|null $config): self
     {
         if (!$config instanceof Config) {
             $config = new Config($config);
@@ -220,7 +213,7 @@ class Builder implements LoggerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
