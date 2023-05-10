@@ -19,11 +19,11 @@ class RuntimeException extends \RuntimeException implements ExceptionInterface
     private $pageLine;
     private $pageCol;
 
-    public function __construct(string $message, string $pageFile = null, int $pageLine = null, int $pageCol = null, \Throwable $previous = null)
+    public function __construct(string $message, string|null $file = null, int|null $line = null, int|null $col = null, \Throwable|null $previous = null)
     {
-        $this->pageFile = $pageFile;
-        $this->pageLine = $pageLine;
-        $this->pageCol = $pageCol;
+        $this->pageFile = $file;
+        $this->pageLine = $line;
+        $this->pageCol = $col;
 
         parent::__construct($message, 0, $previous);
     }

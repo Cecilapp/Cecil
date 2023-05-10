@@ -45,7 +45,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         try {
             $key = $this->prepareKey($key);
@@ -65,7 +65,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function set($key, $value, $ttl = null)
+    public function set(string $key, mixed $value, \DateInterval|int|null $ttl = null): bool
     {
         try {
             $key = $this->prepareKey($key);
@@ -87,7 +87,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function delete($key)
+    public function delete(string $key): bool
     {
         try {
             $key = $this->prepareKey($key);
@@ -105,7 +105,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function clear(): bool
     {
         try {
             Util\File::getFS()->remove($this->cacheDir);
@@ -121,7 +121,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function getMultiple($keys, $default = null)
+    public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
         throw new \Exception(\sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
@@ -129,7 +129,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function setMultiple($values, $ttl = null)
+    public function setMultiple(iterable $values, \Dateinterval|int|null $ttl = null): bool
     {
         throw new \Exception(\sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
@@ -137,7 +137,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteMultiple($keys)
+    public function deleteMultiple(iterable $keys): bool
     {
         throw new \Exception(\sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
@@ -145,7 +145,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         $key = $this->prepareKey($key);
         if (!Util\File::getFS()->exists($this->getFilePathname($key))) {
