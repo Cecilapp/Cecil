@@ -28,10 +28,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        php: ['7.4', '8.0', '8.1']
+        php: ['7.4', '8.0', '8.1', '8.2']
         coverage: [false]
         experimental: [false]
-        profiling: [true]
+        profiling: [false]
         exclude:
         # excluded for code coverage
         - os: 'ubuntu-latest'
@@ -40,13 +40,19 @@ jobs:
           profiling: false
           experimental: false
         include:
-        # code coverage + profiling
+        # code coverage
         - os: 'ubuntu-latest'
           php: '7.4'
           coverage: true
           profiling: false
           experimental: false
-        # PHP 8.2 experimental
+        # code profiling
+        - os: 'ubuntu-latest'
+          php: '8.1'
+          coverage: false
+          profiling: true
+          experimental: false
+        # PHP 8.2 JIT experimental
         - os: 'ubuntu-latest'
           php: '8.2'
           coverage: false
@@ -140,24 +146,24 @@ jobs:
         composer run-script code:style
 
     - name: Run build test
-      if: ${{ !matrix.coverage }}
+      if: ${{ !matrix.coverage && !matrix.profiling }}
       run: |
         composer run-script test
 
     - name: Run build test (coverage)
-      if: ${{ matrix.coverage && !matrix.experimental }}
+      if: ${{ matrix.coverage && !matrix.profiling && !matrix.experimental }}
       run: |
         composer run-script test:coverage
 
     - name: Run build test (profiling)
-      if: ${{ matrix.profiling && !matrix.experimental }}
+      if: ${{ !matrix.coverage && matrix.profiling && !matrix.experimental }}
       env:
         APP_ENV: prod
         APP_DEBUG: 0
       run: blackfire run php vendor/bin/phpunit -c ./ --testsuite=IntegrationTests
 
     - name: Upload coverage results to Coveralls
-      if: ${{ matrix.coverage && !matrix.experimental }}
+      if: ${{ matrix.coverage && !matrix.profiling && !matrix.experimental }}
       continue-on-error: true
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
