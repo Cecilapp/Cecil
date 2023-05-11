@@ -101,7 +101,16 @@ class AbstractCommand extends Command
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
+        // disable debug mode if a verbosity level is specified
+        if ($output->getVerbosity() != OutputInterface::VERBOSITY_NORMAL) {
+            putenv('CECIL_DEBUG=false');
+        }
+        // force verbosity level to "debug" in debug mode
+        if (getenv('CECIL_DEBUG') == 'true') {
+            $output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+        }
         if ($output->isDebug()) {
+            // set env. variable in debug mode
             putenv('CECIL_DEBUG=true');
 
             return parent::run($input, $output);

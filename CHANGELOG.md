@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.0.0-beta.5](https://github.com/Cecilapp/Cecil/compare/8.0.0-beta.4...8.0.0-beta.5)
+
+> 9 May 2023
+
+- chore(deps): bump twig/intl-extra from 3.5.1 to 3.6.0 [`#1690`](https://github.com/Cecilapp/Cecil/pull/1690)
+- chore(deps): bump symfony/console from 5.4.22 to 5.4.23 [`#1689`](https://github.com/Cecilapp/Cecil/pull/1689)
+- chore(deps): bump symfony/filesystem from 5.4.21 to 5.4.23 [`#1688`](https://github.com/Cecilapp/Cecil/pull/1688)
+- chore(deps): bump symfony/yaml from 5.4.21 to 5.4.23 [`#1687`](https://github.com/Cecilapp/Cecil/pull/1687)
+- chore(deps): bump symfony/serializer from 5.4.22 to 5.4.23 [`#1686`](https://github.com/Cecilapp/Cecil/pull/1686)
+- chore(deps-dev): bump symfony/var-dumper from 5.4.22 to 5.4.23 [`#1685`](https://github.com/Cecilapp/Cecil/pull/1685)
+- chore(deps): bump symfony/process from 5.4.22 to 5.4.23 [`#1684`](https://github.com/Cecilapp/Cecil/pull/1684)
+- chore: update deps [`060d208`](https://github.com/Cecilapp/Cecil/commit/060d20833b0007dfa968060f35042e7d4ae048e3)
+- docs: update metatags [`3fd032b`](https://github.com/Cecilapp/Cecil/commit/3fd032b27bd458b36267282d452228116ec72b35)
+- perf: collection item access [`4063d39`](https://github.com/Cecilapp/Cecil/commit/4063d390eb9d9ced965ee3e9022066621440ab91)
+- fix: json-ld template [`5ef15e7`](https://github.com/Cecilapp/Cecil/commit/5ef15e7279664ee5fb98125fb3188dab5e47287d)
+- fix: logo in JSON-LD [`6cfed7a`](https://github.com/Cecilapp/Cecil/commit/6cfed7aa51e3514d556c10567d66f0cb3d786615)
+- perf: composer dump-autoloader for release [`1fbda78`](https://github.com/Cecilapp/Cecil/commit/1fbda78648a2a833f148356c0d8a97c0ac877b38)
+- perf: move postprocessors autoloader [`a4d8912`](https://github.com/Cecilapp/Cecil/commit/a4d89127c03c36cbd214730bdc61448a326748f1)
+- Create googleanalytics.js.twig [`9fd27bc`](https://github.com/Cecilapp/Cecil/commit/9fd27bc94759c7e436530df50c22784ea23edbe9)
+
 #### [8.0.0-beta.4](https://github.com/Cecilapp/Cecil/compare/8.0.0-beta.3...8.0.0-beta.4)
 
 > 6 May 2023
@@ -44,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.4...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.6...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -55,6 +75,27 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.36.6](https://github.com/Cecilapp/Cecil/compare/7.36.5...7.36.6)
+
+> 9 May 2023
+
+- docs: update metatags [`3fd032b`](https://github.com/Cecilapp/Cecil/commit/3fd032b27bd458b36267282d452228116ec72b35)
+- fix: logo in JSON-LD [`6cfed7a`](https://github.com/Cecilapp/Cecil/commit/6cfed7aa51e3514d556c10567d66f0cb3d786615)
+
+#### [7.36.5](https://github.com/Cecilapp/Cecil/compare/7.36.4...7.36.5)
+
+> 7 May 2023
+
+- chore(deps): bump twig/intl-extra from 3.5.1 to 3.6.0 [`#1690`](https://github.com/Cecilapp/Cecil/pull/1690)
+- chore(deps): bump symfony/console from 5.4.22 to 5.4.23 [`#1689`](https://github.com/Cecilapp/Cecil/pull/1689)
+- chore(deps): bump symfony/filesystem from 5.4.21 to 5.4.23 [`#1688`](https://github.com/Cecilapp/Cecil/pull/1688)
+- chore(deps): bump symfony/yaml from 5.4.21 to 5.4.23 [`#1687`](https://github.com/Cecilapp/Cecil/pull/1687)
+- chore(deps): bump symfony/serializer from 5.4.22 to 5.4.23 [`#1686`](https://github.com/Cecilapp/Cecil/pull/1686)
+- chore(deps-dev): bump symfony/var-dumper from 5.4.22 to 5.4.23 [`#1685`](https://github.com/Cecilapp/Cecil/pull/1685)
+- chore(deps): bump symfony/process from 5.4.22 to 5.4.23 [`#1684`](https://github.com/Cecilapp/Cecil/pull/1684)
+- chore: update deps [`060d208`](https://github.com/Cecilapp/Cecil/commit/060d20833b0007dfa968060f35042e7d4ae048e3)
+- perf: composer dump-autoloader for release [`1fbda78`](https://github.com/Cecilapp/Cecil/commit/1fbda78648a2a833f148356c0d8a97c0ac877b38)
 
 #### [7.36.4](https://github.com/Cecilapp/Cecil/compare/7.36.3...7.36.4)
 
