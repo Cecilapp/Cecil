@@ -23,7 +23,7 @@ class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
     /**
      * @return mixed
      */
-    public function current()
+    public function current(): mixed
     {
         return str_replace(
             (string) $this->getInnerIterator()->current(),
