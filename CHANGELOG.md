@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.6...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.36.7...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,17 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.36.7](https://github.com/Cecilapp/Cecil/compare/7.36.6...7.36.7)
+
+> 11 May 2023
+
+- chore(deps-dev): bump phpunit/phpunit from 9.6.7 to 9.6.8 [`#1693`](https://github.com/Cecilapp/Cecil/pull/1693)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.14 to 1.10.15 [`#1692`](https://github.com/Cecilapp/Cecil/pull/1692)
+- chore: update deps [`a3855a8`](https://github.com/Cecilapp/Cecil/commit/a3855a89fe2ec80cf5805f82cae2d7e10a4af919)
+- fix: console debug mode [`bba6992`](https://github.com/Cecilapp/Cecil/commit/bba699238635194d8d10d0b353510955bc3886a2)
+- Revert "Update composer.json" [`1a11ed1`](https://github.com/Cecilapp/Cecil/commit/1a11ed17d0c3a3a230f753f7273bfb03a1aec8d0)
+- fix: clear-cache cmd option [`b92ace4`](https://github.com/Cecilapp/Cecil/commit/b92ace465b3d8989ad7ea42e1592a7208c767c4f)
 
 #### [7.36.6](https://github.com/Cecilapp/Cecil/compare/7.36.5...7.36.6)
 
