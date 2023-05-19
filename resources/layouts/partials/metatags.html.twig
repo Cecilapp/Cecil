@@ -188,4 +188,4 @@
     <meta name="twitter:creator" content="@{{ twitter.creator }}" />
 {%- endif ~%}
 {#- template: json-ld ~#}
-{%~ include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset} %}
+{%~ include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset|default} %}
