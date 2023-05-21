@@ -267,7 +267,7 @@ _Paginator_ help you to build a navigation for list pages: homepage, sections, a
 | Variable                     | Description                   |
 | ---------------------------- | ----------------------------- |
 | `page.paginator.pages`       | Paginated pages collection.   |
-| `page.paginator.totalpages`  | Paginated total pages.        |
+| `page.paginator.pages_total` | Paginated total pages.        |
 | `page.paginator.count`       | Number of pages.              |
 | `page.paginator.current`     | Position of the current page. |
 | `page.paginator.links.first` | Page ID of the first page.    |
@@ -275,7 +275,7 @@ _Paginator_ help you to build a navigation for list pages: homepage, sections, a
 | `page.paginator.links.self`  | Page ID of the current page.  |
 | `page.paginator.links.next`  | Page ID of the next page.     |
 | `page.paginator.links.last`  | Page ID of the last page.     |
-| `page.paginator.links.path`  | Page ID without counter.      |
+| `page.paginator.links.path`  | Page ID without position.     |
 
 :::important
 Because links entries are Page ID you must use the `url()` function to create working links.  
