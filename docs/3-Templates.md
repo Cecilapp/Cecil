@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-03-15
+updated: 2023-05-22
 alias: documentation/layouts
 -->
 # Templates
@@ -267,32 +267,52 @@ _Paginator_ help you to build a navigation for list pages: homepage, sections, a
 | Variable                     | Description                   |
 | ---------------------------- | ----------------------------- |
 | `page.paginator.pages`       | Paginated pages collection.   |
-| `page.paginator.totalpages`  | Paginated total pages.        |
-| `page.paginator.current`     | Position of the current page. |
+| `page.paginator.pages_total` | Paginated total pages.        |
 | `page.paginator.count`       | Number of pages.              |
-| `page.paginator.links.self`  | Page ID of the current page.  |
+| `page.paginator.current`     | Position of the current page. |
 | `page.paginator.links.first` | Page ID of the first page.    |
 | `page.paginator.links.prev`  | Page ID of the previous page. |
+| `page.paginator.links.self`  | Page ID of the current page.  |
 | `page.paginator.links.next`  | Page ID of the next page.     |
 | `page.paginator.links.last`  | Page ID of the last page.     |
+| `page.paginator.links.path`  | Page ID without position.     |
 
 :::important
-Links entries are Page ID, so you must use the `url()` function to create working links.  
-In a future release, links should be a _Page_.
+Because links entries are Page ID you must use the `url()` function to create working links.  
+e.g: `{{ url(page.paginator.links.next) }}`
 :::
 
 _Example:_
 
 ```twig
 {% if page.paginator %}
-  {% set links = page.paginator.links %}
 <div>
-  {% if links.prev is defined %}
-  <a href="{{ url(links.prev) }}">Previous</a>
+  {% if page.paginator.links.prev is defined %}
+  <a href="{{ url(page.paginator.links.prev) }}">Previous</a>
   {% endif %}
-  {% if links.next is defined %}
-  <a href="{{ url(links.next) }}">Next</a>
+  {% if page.paginator.links.next is defined %}
+  <a href="{{ url(page.paginator.links.next) }}">Next</a>
   {% endif %}
+</div>
+{% endif %}
+```
+
+_Example:_
+
+```twig
+{% if page.paginator %}
+<div>
+  {% for paginator_index in 1..page.paginator.count %}
+    {% if paginator_index != page.paginator.current %}
+      {% if paginator_index == 1 %}
+  <a href="{{ url(pagination.links.first) }}">{{ paginator_index }}</a>
+      {% else %}
+  <a href="{{ url(page.paginator.links.path ~ '/' ~ paginator_index) }}">{{ paginator_index }}</a>
+      {% endif %}
+    {% else %}
+  {{ paginator_index }}
+    {% endif %}
+  {% endfor %}
 </div>
 {% endif %}
 ```
@@ -1134,6 +1154,7 @@ If you need to modify the default templates, you can easily extract them via the
 ```bash
 php cecil.phar util:extract
 ```
+
 :::
 
 ### Default templates
