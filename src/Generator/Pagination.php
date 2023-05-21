@@ -78,10 +78,10 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             // builds paginator
             $paginatorPagesCount = \intval(ceil($pagesTotal / $paginationPerPage));
             for ($i = 0; $i < $paginatorPagesCount; $i++) {
-                $iteratorPagesInPagination = new \LimitIterator($pages->getIterator(), ($i * $paginationPerPage), $paginationPerPage);
+                $itPagesInPagination = new \LimitIterator($pages->getIterator(), ($i * $paginationPerPage), $paginationPerPage);
                 $pagesInPagination = new PagesCollection(
                     $page->getId() . '-page-' . ($i + 1),
-                    iterator_to_array($iteratorPagesInPagination)
+                    iterator_to_array($itPagesInPagination)
                 );
                 $alteredPage = clone $page;
                 // first page (ie: blog/page/1 -> blog)
