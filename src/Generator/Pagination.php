@@ -106,10 +106,11 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 }
                 // set paginator values
                 $paginator = [
-                    'totalpages' => $pagesTotal,
-                    'pages'      => $pagesInPagination,
-                    'count'      => $paginatorPagesCount,
-                    'current'    => $i + 1,
+                    'pages'       => $pagesInPagination,
+                    'pages_total' => $pagesTotal,
+                    'totalpages'  => $pagesTotal, // backward compatibility
+                    'count'       => $paginatorPagesCount,
+                    'current'     => $i + 1,
                 ];
                 // adds links
                 $paginator['links'] = ['first' => $page->getId() ?: 'index'];
