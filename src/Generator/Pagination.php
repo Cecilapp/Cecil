@@ -52,7 +52,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             // page pagination configuration
             $pagePagination = $page->getVariable('pagination');
             if ($pagePagination) {
-                if (isset($pagePagination['enabled']) && $pagePagination['enabled'] == false) {
+                if (isset($pagePagination['enabled']) && $pagePagination['enabled'] === false) {
                     continue;
                 }
                 if (isset($pagePagination['max'])) {
