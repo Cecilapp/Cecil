@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.37.0...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.37.1...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,17 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.37.1](https://github.com/Cecilapp/Cecil/compare/7.37.0...7.37.1)
+
+> 23 May 2023
+
+- perf: native_function_invocation [`#1697`](https://github.com/Cecilapp/Cecil/pull/1697)
+- fix: pagination sorting [`0934f5c`](https://github.com/Cecilapp/Cecil/commit/0934f5c8604a6d4e4e755b4cd58f2a3169be8fbc)
+- chore: update deps [`673848e`](https://github.com/Cecilapp/Cecil/commit/673848e48432558b3763899c578f1e8e79ee1017)
+- chore: update deps [`f2fc114`](https://github.com/Cecilapp/Cecil/commit/f2fc114311d67078efa5b62b52d8a681561de4fe)
+- fix: getIdWithoutLang() [`34ad8f4`](https://github.com/Cecilapp/Cecil/commit/34ad8f45a5200df06d783669bf3d98431408aca5)
+- refactor: clean code [`218aa40`](https://github.com/Cecilapp/Cecil/commit/218aa401b26c86b8f3740945088142f1ea7a04f3)
 
 #### [7.37.0](https://github.com/Cecilapp/Cecil/compare/7.36.8...7.37.0)
 
