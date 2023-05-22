@@ -136,7 +136,7 @@ class Page extends Item
     {
         $langPrefix = $this->getVariable('language') . '/';
         if ($this->hasVariable('language') && Util\Str::startsWith($this->getId(), $langPrefix)) {
-            return substr($this->getId(), strlen($langPrefix));
+            return substr($this->getId(), \strlen($langPrefix));
         }
 
         return $this->getId();
