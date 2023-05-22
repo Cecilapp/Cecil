@@ -73,32 +73,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
                             }
                         });
                     }
-                    // sorts (by date by default)
-                    $pages = $pages->sortByDate();
-                    /*
-                     * sortby: date|updated|title|weight
-                     *
-                     * sortby:
-                     *   variable: date|updated
-                     *   desc_title: false|true
-                     *   reverse: false|true
-                     */
-                    if ($page->hasVariable('sortby')) {
-                        $sortby = (string) $page->getVariable('sortby');
-                        // options?
-                        $sortby = $page->getVariable('sortby')['variable'] ?? $sortby;
-                        $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
-                        $reverse = $page->getVariable('sortby')['reverse'] ?? false;
-                        // sortby: date, title or weight
-                        $sortMethod = sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortby)));
-                        if (!method_exists($pages, $sortMethod)) {
-                            throw new RuntimeException(sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $sortby));
-                        }
-                        $pages = $pages->$sortMethod(['variable' => $sortby, 'descTitle' => $descTitle, 'reverse' => $reverse]);
-                    }
+                    // sorts pages
+                    $pages = self::sortSubPages($page, $pages);
                     // adds navigation links (excludes taxonomy pages)
+                    $sortby = $page->getVariable('sortby')['variable'] ?? (string) $page->getVariable('sortby') ?? 'date';
                     if (!\in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
-                        $this->addNavigationLinks($pages, $sortby ?? 'date', $page->getVariable('circular'));
+                        $this->addNavigationLinks($pages, $sortby, $page->getVariable('circular'));
                     }
                     // creates page for each section
                     $page->setType(Type::SECTION)
@@ -120,6 +100,39 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 $menuWeight += 10;
             }
         }
+    }
+
+    /**
+     * Sorts subpages.
+     */
+    public static function sortSubPages(Page $page, PagesCollection $pages): PagesCollection
+    {
+        // sorts (by date by default)
+        $pages = $pages->sortByDate();
+        /*
+         * sortby: date|updated|title|weight
+         *
+         * sortby:
+         *   variable: date|updated
+         *   desc_title: false|true
+         *   reverse: false|true
+         */
+        if ($page->hasVariable('sortby')) {
+            $sortby = (string) $page->getVariable('sortby');
+            // options?
+            $sortby = $page->getVariable('sortby')['variable'] ?? $sortby;
+            $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
+            $reverse = $page->getVariable('sortby')['reverse'] ?? false;
+            // sortby: date, title or weight
+            $sortMethod = sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortby)));
+            if (!method_exists($pages, $sortMethod)) {
+                throw new RuntimeException(sprintf('In "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $sortby));
+            }
+
+            return $pages->$sortMethod(['variable' => $sortby, 'descTitle' => $descTitle, 'reverse' => $reverse]);
+        }
+
+        return $pages;
     }
 
     /**

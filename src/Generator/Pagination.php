@@ -67,29 +67,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             if ($pagesTotal <= $paginationPerPage) {
                 continue;
             }
-            // sorts (by date by default)
-            $pages = $pages->sortByDate();
-            /*
-             * sortby: date|updated|title|weight
-             *
-             * sortby:
-             *   variable: date|updated
-             *   desc_title: false|true
-             *   reverse: false|true
-             */
-            if ($page->hasVariable('sortby')) {
-                $sortby = (string) $page->getVariable('sortby');
-                // options?
-                $sortby = $page->getVariable('sortby')['variable'] ?? $sortby;
-                $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
-                $reverse = $page->getVariable('sortby')['reverse'] ?? false;
-                // sortby: date, title or weight
-                $sortMethod = sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortby)));
-                if (!method_exists($pages, $sortMethod)) {
-                    throw new RuntimeException(sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $sortby));
-                }
-                $pages = $pages->$sortMethod(['variable' => $sortby, 'descTitle' => $descTitle, 'reverse' => $reverse]);
-            }
+            // sorts pages
+            $pages = Section::sortSubPages($page, $pages);
             // builds paginator
             $paginatorPagesCount = \intval(ceil($pagesTotal / $paginationPerPage));
             for ($i = 0; $i < $paginatorPagesCount; $i++) {
