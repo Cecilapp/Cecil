@@ -91,8 +91,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                         ->setVariable('alias', [
                             sprintf('%s/%s/%s', $path, $paginationPath, 1),
                         ]);
+                }
                 // others pages (ie: blog/page/X)
-                } else {
+                else {
                     $pageId = Page::slugify(sprintf('%s/%s/%s', $page->getId(), $paginationPath, $i + 1));
                     $alteredPage
                         ->setId($pageId)
