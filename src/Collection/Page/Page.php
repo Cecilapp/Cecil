@@ -324,7 +324,7 @@ class Page extends Item
 
         // case of custom sections' index (ie: content/section/index.md)
         if (substr($path, -6) == '/index') {
-            $path = substr($path, 0, strlen($path) - 6);
+            $path = substr($path, 0, \strlen($path) - 6);
         }
         $this->path = $path;
 
@@ -340,7 +340,7 @@ class Page extends Item
             $this->section = explode('/', $this->path)[0];
         }
         $this->folder = substr($this->path, 0, $lastslash);
-        $this->slug = substr($this->path, -(strlen($this->path) - $lastslash - 1));
+        $this->slug = substr($this->path, -(\strlen($this->path) - $lastslash - 1));
 
         return $this;
     }
@@ -528,7 +528,7 @@ class Page extends Item
                 try {
                     $date = Util\Date::toDatetime($value);
                 } catch (\Exception $e) {
-                    throw new \Exception(\sprintf('Expected date format for variable "%s" must be "YYYY-MM-DD" instead of "%s".', $name, (string) $value));
+                    throw new \Exception(sprintf('Expected date format for variable "%s" must be "YYYY-MM-DD" instead of "%s".', $name, (string) $value));
                 }
                 $this->offsetSet($name, $date);
                 break;
@@ -539,11 +539,11 @@ class Page extends Item
                  * expiry: 2012-10-09
                  */
                 $this->offsetSet('published', false);
-                if (is_array($value)) {
-                    if (array_key_exists('publish', $value) && Util\Date::toDatetime($value['publish']) <= Util\Date::toDatetime('now')) {
+                if (\is_array($value)) {
+                    if (\array_key_exists('publish', $value) && Util\Date::toDatetime($value['publish']) <= Util\Date::toDatetime('now')) {
                         $this->offsetSet('published', true);
                     }
-                    if (array_key_exists('expiry', $value) && Util\Date::toDatetime($value['expiry']) >= Util\Date::toDatetime('now')) {
+                    if (\array_key_exists('expiry', $value) && Util\Date::toDatetime($value['expiry']) >= Util\Date::toDatetime('now')) {
                         $this->offsetSet('published', true);
                     }
                 }
@@ -558,9 +558,9 @@ class Page extends Item
             case 'slug':
                 $slugify = self::slugify((string) $value);
                 if ($value != $slugify) {
-                    throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s".', $name, $slugify, (string) $value, $this->getId()));
+                    throw new RuntimeException(sprintf('"%s" variable should be "%s" (not "%s") in "%s".', $name, $slugify, (string) $value, $this->getId()));
                 }
-                $method = 'set' . \ucfirst($name);
+                $method = 'set' . ucfirst($name);
                 $this->$method($value);
                 break;
             default:
@@ -641,7 +641,7 @@ class Page extends Item
     private function filterBool(&$value)
     {
         \Cecil\Util\Str::strToBool($value);
-        if (is_array($value)) {
+        if (\is_array($value)) {
             array_walk_recursive($value, '\Cecil\Util\Str::strToBool');
         }
     }

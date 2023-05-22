@@ -59,10 +59,10 @@ class OpenWith extends AbstractCommand
                 }
                 $editor = (string) $this->getBuilder()->getConfig()->get('editor');
             }
-            $output->writeln(\sprintf('<info>Opening pages directory with %s...</info>', ucfirst($editor)));
+            $output->writeln(sprintf('<info>Opening pages directory with %s...</info>', ucfirst($editor)));
             $this->openEditor(Util::joinFile($this->getPath(), (string) $this->getBuilder()->getConfig()->get('pages.dir')), $editor);
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf($e->getMessage()));
+            throw new RuntimeException(sprintf($e->getMessage()));
         }
 
         return 0;

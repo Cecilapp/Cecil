@@ -45,7 +45,7 @@ class Load extends AbstractStep
         }
 
         if (!is_dir($this->config->getPagesPath())) {
-            throw new RuntimeException(\sprintf('Pages path "%s" not found.', $this->config->getPagesPath()));
+            throw new RuntimeException(sprintf('Pages path "%s" not found.', $this->config->getPagesPath()));
         }
 
         $this->page = $options['page'];
@@ -79,12 +79,12 @@ class Load extends AbstractStep
             if (!util\File::getFS()->exists(Util::joinFile($this->config->getPagesPath(), $this->page))) {
                 $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
             }
-            $content->path('.')->path(dirname($this->page));
+            $content->path('.')->path(\dirname($this->page));
             $content->name('/index\.(' . implode('|', (array) $this->config->get('pages.ext')) . ')$/');
             $namePattern = basename($this->page);
         }
         $content->name($namePattern);
-        if (is_array($this->config->get('pages.exclude'))) {
+        if (\is_array($this->config->get('pages.exclude'))) {
             $content->exclude($this->config->get('pages.exclude'));
             $content->notPath($this->config->get('pages.exclude'));
             $content->notName($this->config->get('pages.exclude'));

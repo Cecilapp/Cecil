@@ -74,7 +74,7 @@ class Parsedown extends \ParsedownToC
 
         if ($Excerpt['text'][1] === '+' && preg_match('/^\+\+(?=\S)(.+?)(?<=\S)\+\+/', $Excerpt['text'], $matches)) {
             return [
-                'extent'  => strlen($matches[0]),
+                'extent'  => \strlen($matches[0]),
                 'element' => [
                     'name'    => 'ins',
                     'text'    => $matches[1],
@@ -97,7 +97,7 @@ class Parsedown extends \ParsedownToC
 
         // Link to a page with "page:page_id" as URL
         if (Util\Str::startsWith($link['element']['attributes']['href'], 'page:')) {
-            $link['element']['attributes']['href'] = new \Cecil\Assets\Url($this->builder, substr($link['element']['attributes']['href'], 5, strlen($link['element']['attributes']['href'])));
+            $link['element']['attributes']['href'] = new \Cecil\Assets\Url($this->builder, substr($link['element']['attributes']['href'], 5, \strlen($link['element']['attributes']['href'])));
 
             return $link;
         }
@@ -116,7 +116,7 @@ class Parsedown extends \ParsedownToC
         }
         // video or audio?
         $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
-        if (in_array($extension, (array) $this->config->get('body.links.embed.video.ext'))) {
+        if (\in_array($extension, (array) $this->config->get('body.links.embed.video.ext'))) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
@@ -129,7 +129,7 @@ class Parsedown extends \ParsedownToC
 
             return $video;
         }
-        if (in_array($extension, (array) $this->config->get('body.links.embed.audio.ext'))) {
+        if (\in_array($extension, (array) $this->config->get('body.links.embed.audio.ext'))) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
@@ -233,7 +233,7 @@ class Parsedown extends \ParsedownToC
         }
         // add default class?
         if ((string) $this->config->get('body.images.class')) {
-            if (!array_key_exists('class', $InlineImage['element']['attributes'])) {
+            if (!\array_key_exists('class', $InlineImage['element']['attributes'])) {
                 $InlineImage['element']['attributes']['class'] = '';
             }
             $InlineImage['element']['attributes']['class'] .= ' ' . (string) $this->config->get('body.images.class');
@@ -334,11 +334,11 @@ class Parsedown extends \ParsedownToC
             try {
                 // InlineImage src must be an Asset instance
                 if (!$InlineImage['element']['attributes']['src'] instanceof Asset) {
-                    throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
+                    throw new RuntimeException(sprintf('Asset "%s" can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
                 // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-                    throw new RuntimeException(\sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
+                    throw new RuntimeException(sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
                 $assetWebp = ($InlineImage['element']['attributes']['src'])->webp();
                 $srcset = '';
@@ -540,7 +540,7 @@ class Parsedown extends \ParsedownToC
     private function normalizePath(string $path): string
     {
         // https://regex101.com/r/Rzguzh/1
-        $pattern = \sprintf(
+        $pattern = sprintf(
             '(\.\.\/)+(\b%s|%s\b)+(\/.*)',
             (string) $this->config->get('static.dir'),
             (string) $this->config->get('assets.dir')
@@ -585,7 +585,7 @@ class Parsedown extends \ParsedownToC
                 return $block;
         }
 
-        throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
+        throw new \Exception(sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
     }
 
     /**

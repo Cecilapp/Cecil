@@ -65,9 +65,9 @@ class NewPage extends AbstractCommand
             $dirname = trim($nameParts['dirname'], '.');
             $basename = $nameParts['basename'];
             $extension = $nameParts['extension'];
-            $title = substr($basename, 0, -strlen(".$extension"));
+            $title = substr($basename, 0, -\strlen(".$extension"));
             $filename = $basename;
-            if (!in_array($extension, (array) $this->getBuilder()->getConfig()->get('pages.ext'))) {
+            if (!\in_array($extension, (array) $this->getBuilder()->getConfig()->get('pages.ext'))) {
                 $title = $filename;
                 $filename = "$basename.md"; // force a valid extension
             }
@@ -76,10 +76,10 @@ class NewPage extends AbstractCommand
             // has date prefix?
             $datePrefix = '';
             if ($prefix) {
-                $datePrefix = \sprintf('%s-', $date);
+                $datePrefix = sprintf('%s-', $date);
             }
             // path
-            $fileRelativePath = \sprintf(
+            $fileRelativePath = sprintf(
                 '%s%s%s%s%s',
                 (string) $this->getBuilder()->getConfig()->get('pages.dir'),
                 DIRECTORY_SEPARATOR,
@@ -91,7 +91,7 @@ class NewPage extends AbstractCommand
 
             // file already exists?
             if (Util\File::getFS()->exists($filePath) && !$force) {
-                $output->writeln(\sprintf(
+                $output->writeln(sprintf(
                     '<comment>The file "%s" already exists.</comment>',
                     $fileRelativePath
                 ));
@@ -104,14 +104,14 @@ class NewPage extends AbstractCommand
             }
 
             // creates a new file
-            $model = $this->findModel(\sprintf('%s%s', empty($dirname) ? '' : $dirname . DIRECTORY_SEPARATOR, $filename));
+            $model = $this->findModel(sprintf('%s%s', empty($dirname) ? '' : $dirname . DIRECTORY_SEPARATOR, $filename));
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],
                 $model['content']
             );
             Util\File::getFS()->dumpFile($filePath, $fileContent);
-            $output->writeln(\sprintf('<info>File "%s" created (with model "%s").</info>', $fileRelativePath, $model['name']));
+            $output->writeln(sprintf('<info>File "%s" created (with model "%s").</info>', $fileRelativePath, $model['name']));
 
             // open editor?
             if ($open) {
@@ -123,11 +123,11 @@ class NewPage extends AbstractCommand
                     }
                     $editor = (string) $this->getBuilder()->getConfig()->get('editor');
                 }
-                $output->writeln(\sprintf('<info>Opening file with %s...</info>', ucfirst($editor)));
+                $output->writeln(sprintf('<info>Opening file with %s...</info>', ucfirst($editor)));
                 $this->openEditor($filePath, $editor);
             }
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf($e->getMessage()));
+            throw new RuntimeException(sprintf($e->getMessage()));
         }
 
         return 0;

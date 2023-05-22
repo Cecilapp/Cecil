@@ -109,7 +109,7 @@ class Create extends AbstractStep
                  */
                 if ($page->hasVariable($plural)) {
                     // converts a string list to an array
-                    if (!is_array($page->getVariable($plural))) {
+                    if (!\is_array($page->getVariable($plural))) {
                         $page->setVariable($plural, [$page->getVariable($plural)]);
                     }
                     // removes duplicate terms
@@ -117,7 +117,7 @@ class Create extends AbstractStep
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
                         if (null === $termName) {
-                            throw new RuntimeException(\sprintf(
+                            throw new RuntimeException(sprintf(
                                 'Taxonomy "%s" of "%s" can\'t be empty.',
                                 $plural,
                                 $page->getId()

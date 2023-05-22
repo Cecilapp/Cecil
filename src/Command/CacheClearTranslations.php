@@ -52,7 +52,7 @@ class CacheClearTranslations extends AbstractCommand
         }
         $output->writeln('Removing translations cache directory...');
         $output->writeln(
-            \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCacheTranslationsPath()),
+            sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCacheTranslationsPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheTranslationsPath());

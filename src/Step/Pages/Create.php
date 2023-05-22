@@ -47,11 +47,11 @@ class Create extends AbstractStep
      */
     public function process(): void
     {
-        if (count($this->builder->getPagesFiles()) == 0) {
+        if (\count($this->builder->getPagesFiles()) == 0) {
             return;
         }
 
-        $total = count($this->builder->getPagesFiles());
+        $total = \count($this->builder->getPagesFiles());
         $count = 0;
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($this->builder->getPagesFiles() as $file) {
@@ -70,7 +70,7 @@ class Create extends AbstractStep
              *     path: :section/:year/:month/:day/:slug
              * ```
              */
-            if (is_array($this->config->get('paths'))) {
+            if (\is_array($this->config->get('paths'))) {
                 foreach ($this->config->get('paths') as $entry) {
                     if (isset($entry['section'])) {
                         /** @var Page $page */
@@ -104,11 +104,11 @@ class Create extends AbstractStep
             }
 
             // add the page to pages collection only if its language is defined in configuration
-            if (in_array($page->getVariable('language', $this->config->getLanguageDefault()), array_column($this->config->getLanguages(), 'code'))) {
+            if (\in_array($page->getVariable('language', $this->config->getLanguageDefault()), array_column($this->config->getLanguages(), 'code'))) {
                 $this->builder->getPages()->add($page);
             }
 
-            $message = \sprintf('Page "%s" created', $page->getId());
+            $message = sprintf('Page "%s" created', $page->getId());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

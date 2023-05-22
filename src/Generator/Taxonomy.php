@@ -33,14 +33,14 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
             foreach ($this->builder->getTaxonomies() as $vocabulary) {
                 $plural = $vocabulary->getId();
                 $singular = $this->config->get("taxonomies.$plural");
-                if (count($vocabulary) > 0) {
+                if (\count($vocabulary) > 0) {
                     $date = date('Y-m-d');
                     /*
                      * Creates $plural/$term pages (list of pages)
                      * ie: /tags/tag-1/
                      */
                     foreach ($vocabulary as $term) {
-                        $pageId = $path = Page::slugify(\sprintf('%s/%s', $plural, $term->getId()));
+                        $pageId = $path = Page::slugify(sprintf('%s/%s', $plural, $term->getId()));
                         $pages = $term->sortByDate();
                         $date = $pages->first()->getVariable('date');
                         $page = (new Page($pageId))

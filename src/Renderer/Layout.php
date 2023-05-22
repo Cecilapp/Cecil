@@ -69,7 +69,7 @@ class Layout
             }
         }
 
-        throw new RuntimeException(\sprintf('Layout "%s" not found (page: %s).', $layout, $page->getId()));
+        throw new RuntimeException(sprintf('Layout "%s" not found (page: %s).', $layout, $page->getId()));
     }
 
     /**

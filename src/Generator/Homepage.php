@@ -31,7 +31,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             $language = $lang['code'];
             $pageId = 'index';
             if ($language != $this->config->getLanguageDefault()) {
-                $pageId = \sprintf('index.%s', $language);
+                $pageId = sprintf('index.%s', $language);
             }
             // creates a new index page...
             $page = (new Page($pageId))->setPath('')->setVariable('title', 'Home');
@@ -57,9 +57,9 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 // sorts
                 $pages = $subPages->sortByDate();
                 if ($page->hasVariable('sortby')) {
-                    $sortMethod = \sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
+                    $sortMethod = sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
                     if (!method_exists($pages, $sortMethod)) {
-                        throw new RuntimeException(\sprintf('In page "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
+                        throw new RuntimeException(sprintf('In page "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
                     }
                     $pages = $pages->$sortMethod();
                 }

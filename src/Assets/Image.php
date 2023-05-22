@@ -27,7 +27,7 @@ class Image
     public static function buildSrcset(Asset $asset, array $widths): string
     {
         if ($asset['type'] !== 'image') {
-            throw new RuntimeException(\sprintf('can\'t build "srcset" of "%s": it\'s not an image file.', $asset['path']));
+            throw new RuntimeException(sprintf('can\'t build "srcset" of "%s": it\'s not an image file.', $asset['path']));
         }
 
         $srcset = '';
@@ -37,13 +37,13 @@ class Image
                 break;
             }
             $img = $asset->resize($width);
-            $srcset .= \sprintf('%s %sw, ', (string) $img, $width);
+            $srcset .= sprintf('%s %sw, ', (string) $img, $width);
             $widthMax = $width;
         }
         rtrim($srcset, ', ');
         // adds original image
         if (!empty($srcset) && ($asset['width'] != $widthMax)) {
-            $srcset .= \sprintf('%s %sw', (string) $asset, $asset['width']);
+            $srcset .= sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 
         return $srcset;
@@ -57,7 +57,7 @@ class Image
         $result = '';
         $classArray = explode(' ', $class);
         foreach ($classArray as $class) {
-            if (array_key_exists($class, $sizes)) {
+            if (\array_key_exists($class, $sizes)) {
                 $result = $sizes[$class] . ', ';
             }
         }
@@ -90,7 +90,7 @@ class Image
     public static function getDominantColor(Asset $asset): string
     {
         if ($asset['type'] !== 'image') {
-            throw new RuntimeException(\sprintf('can\'t get dominant color of "%s": it\'s not an image file.', $asset['path']));
+            throw new RuntimeException(sprintf('can\'t get dominant color of "%s": it\'s not an image file.', $asset['path']));
         }
 
         $assetColor = clone $asset;
@@ -110,7 +110,7 @@ class Image
     public static function getLqip(Asset $asset): string
     {
         if ($asset['type'] !== 'image') {
-            throw new RuntimeException(\sprintf('can\'t create LQIP of "%s": it\'s not an image file.', $asset['path']));
+            throw new RuntimeException(sprintf('can\'t create LQIP of "%s": it\'s not an image file.', $asset['path']));
         }
 
         $assetLqip = clone $asset;

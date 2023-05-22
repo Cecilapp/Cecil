@@ -47,22 +47,22 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             $path = $page->getPath();
             $sortby = $page->getVariable('sortby');
             // site pagination configuration
-            $paginationPerPage = intval($this->config->get('pagination.max') ?? 5);
+            $paginationPerPage = \intval($this->config->get('pagination.max') ?? 5);
             $paginationPath = (string) $this->config->get('pagination.path') ?? 'page';
             // page pagination configuration
             $pagePagination = $page->getVariable('pagination');
             if ($pagePagination) {
-                if (isset($pagePagination['enabled']) && $pagePagination['enabled'] == false) {
+                if (isset($pagePagination['enabled']) && $pagePagination['enabled'] === false) {
                     continue;
                 }
                 if (isset($pagePagination['max'])) {
-                    $paginationPerPage = intval($pagePagination['max']);
+                    $paginationPerPage = \intval($pagePagination['max']);
                 }
                 if (isset($pagePagination['path'])) {
                     $paginationPath = (string) $pagePagination['path'];
                 }
             }
-            $pagesTotal = count($pages);
+            $pagesTotal = \count($pages);
             // is pagination not necessary?
             if ($pagesTotal <= $paginationPerPage) {
                 continue;
@@ -70,7 +70,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             // sorts pages
             $pages = $pages->sortByDate();
             if ($sortby) {
-                $sortMethod = \sprintf('sortBy%s', ucfirst($sortby));
+                $sortMethod = sprintf('sortBy%s', ucfirst($sortby));
                 if (method_exists($pages, $sortMethod)) {
                     $pages = $pages->$sortMethod();
                 }
@@ -89,15 +89,15 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $pageId = $page->getId();
                     $alteredPage
                         ->setVariable('alias', [
-                            \sprintf('%s/%s/%s', $path, $paginationPath, 1),
+                            sprintf('%s/%s/%s', $path, $paginationPath, 1),
                         ]);
                 // others pages (ie: blog/page/X)
                 } else {
-                    $pageId = Page::slugify(\sprintf('%s/%s/%s', $page->getId(), $paginationPath, $i + 1));
+                    $pageId = Page::slugify(sprintf('%s/%s/%s', $page->getId(), $paginationPath, $i + 1));
                     $alteredPage
                         ->setId($pageId)
                         ->setVirtual(true)
-                        ->setPath(Page::slugify(\sprintf('%s/%s/%s', $path, $paginationPath, $i + 1)))
+                        ->setPath(Page::slugify(sprintf('%s/%s/%s', $path, $paginationPath, $i + 1)))
                         ->unVariable('menu')
                         ->unVariable('alias')
                         ->unVariable('aliases') // backward compatibility
@@ -118,7 +118,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $paginator['links'] += ['prev' => $page->getId() ?: 'index'];
                 }
                 if ($i > 1) {
-                    $paginator['links'] += ['prev' => Page::slugify(\sprintf(
+                    $paginator['links'] += ['prev' => Page::slugify(sprintf(
                         '%s/%s/%s',
                         $page->getId(),
                         $paginationPath,
@@ -127,20 +127,20 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 }
                 $paginator['links'] += ['self' => $pageId ?: 'index'];
                 if ($i < $paginatorPagesCount - 1) {
-                    $paginator['links'] += ['next' => Page::slugify(\sprintf(
+                    $paginator['links'] += ['next' => Page::slugify(sprintf(
                         '%s/%s/%s',
                         $page->getId(),
                         $paginationPath,
                         $i + 2
                     ))];
                 }
-                $paginator['links'] += ['last' => Page::slugify(\sprintf(
+                $paginator['links'] += ['last' => Page::slugify(sprintf(
                     '%s/%s/%s',
                     $page->getId(),
                     $paginationPath,
                     $paginatorPagesCount
                 ))];
-                $paginator['links'] += ['path' => Page::slugify(\sprintf('%s/%s', $page->getId(), $paginationPath))];
+                $paginator['links'] += ['path' => Page::slugify(sprintf('%s/%s', $page->getId(), $paginationPath))];
                 // set paginator to cloned page
                 $alteredPage->setPaginator($paginator);
                 $alteredPage->setVariable('pagination', $paginator); // backward compatibility

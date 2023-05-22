@@ -27,7 +27,7 @@ class Util
         $lowercase = false;
         extract($options, EXTR_IF_EXISTS);
 
-        $className = substr(strrchr(get_class($class), '\\'), 1);
+        $className = substr(strrchr(\get_class($class), '\\'), 1);
         if ($lowercase) {
             $className = strtolower($className);
         }
@@ -41,7 +41,7 @@ class Util
     public static function joinPath(string ...$path): string
     {
         $path = array_filter($path, function ($path) {
-            return !empty($path) && !is_null($path);
+            return !empty($path) && !\is_null($path);
         });
         array_walk($path, function (&$value, $key) {
             $value = str_replace('\\', '/', $value);
@@ -77,7 +77,7 @@ class Util
     {
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
-        return \sprintf('%s %s', round($size / pow(1024, ($i = floor(log($size, 1024)))), 2), $unit[$i]);
+        return sprintf('%s %s', round($size / pow(1024, ($i = floor(log($size, 1024)))), 2), $unit[$i]);
     }
 
     /**

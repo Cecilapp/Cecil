@@ -38,7 +38,7 @@ abstract class AbstractPostProcess extends AbstractStep
         if ($options['dry-run']) {
             return;
         }
-        if (false === $this->config->get(\sprintf('postprocess.%s.enabled', $this->type))) {
+        if (false === $this->config->get(sprintf('postprocess.%s.enabled', $this->type))) {
             return;
         }
         if (true === $this->config->get('postprocess.enabled')) {
@@ -55,9 +55,9 @@ abstract class AbstractPostProcess extends AbstractStep
     {
         $this->setProcessor();
 
-        $extensions = (array) $this->config->get(\sprintf('postprocess.%s.ext', $this->type));
+        $extensions = (array) $this->config->get(sprintf('postprocess.%s.ext', $this->type));
         if (empty($extensions)) {
-            throw new RuntimeException(\sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
+            throw new RuntimeException(sprintf('The config key "postprocess.%s.ext" is empty', $this->type));
         }
 
         $files = Finder::create()
@@ -66,7 +66,7 @@ abstract class AbstractPostProcess extends AbstractStep
             ->name('/\.(' . implode('|', $extensions) . ')$/')
             ->notName('/\.min\.(' . implode('|', $extensions) . ')$/')
             ->sortByName(true);
-        $max = count($files);
+        $max = \count($files);
 
         if ($max <= 0) {
             $this->builder->getLogger()->info('No files');
@@ -82,14 +82,14 @@ abstract class AbstractPostProcess extends AbstractStep
         foreach ($files as $file) {
             $count++;
             $sizeBefore = $file->getSize();
-            $message = \sprintf('File "%s" post-processed', $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname());
+            $message = sprintf('File "%s" post-processed', $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname());
 
             $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
             if (!$cache->has($cacheKey)) {
                 $processed = $this->processFile($file);
-                $sizeAfter = strlen($processed);
+                $sizeAfter = \strlen($processed);
                 if ($sizeAfter < $sizeBefore) {
-                    $message = \sprintf(
+                    $message = sprintf(
                         'File "%s" compressed (%s Ko -> %s Ko)',
                         $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname(),
                         ceil($sizeBefore / 1000),
