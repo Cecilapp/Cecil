@@ -90,24 +90,24 @@ class Build extends AbstractCommand
         }
         if ($input->getOption('clear-cache')) {
             if (0 < $removedFiles = (new \Cecil\Assets\Cache($this->getBuilder()))->clearByPattern($input->getOption('clear-cache'))) {
-                $output->writeln(\sprintf('<info>%s cache files removed by regular expression "%s"</info>', $removedFiles, $input->getOption('clear-cache')));
+                $output->writeln(sprintf('<info>%s cache files removed by regular expression "%s"</info>', $removedFiles, $input->getOption('clear-cache')));
             }
         }
 
-        $output->writeln(\sprintf('Building website%s...', $messageOpt));
+        $output->writeln(sprintf('Building website%s...', $messageOpt));
         $output->writeln(
-            \sprintf('<comment>Path: %s</comment>', $this->getPath()),
+            sprintf('<comment>Path: %s</comment>', $this->getPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         if (!empty($this->getConfigFiles())) {
             $output->writeln(
-                \sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())),
+                sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
         if ((bool) $builder->getConfig()->get('cache.enabled')) {
             $output->writeln(
-                \sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()),
+                sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }

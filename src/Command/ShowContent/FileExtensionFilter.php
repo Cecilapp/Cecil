@@ -34,7 +34,7 @@ class FileExtensionFilter extends RecursiveFilterIterator
     {
         parent::__construct($iterator);
         if (!empty($extensions)) {
-            if (!is_array($extensions)) {
+            if (!\is_array($extensions)) {
                 $extensions = [$extensions];
             }
             $this->allowedExt = $extensions;
@@ -49,10 +49,10 @@ class FileExtensionFilter extends RecursiveFilterIterator
         /** @var \SplFileInfo $file */
         $file = $this->current();
         if ($file->isFile()) {
-            return in_array($file->getExtension(), $this->allowedExt);
+            return \in_array($file->getExtension(), $this->allowedExt);
         }
         if ($file->isDir()) {
-            return !in_array($file->getBasename(), $this->excludedDir);
+            return !\in_array($file->getBasename(), $this->excludedDir);
         }
 
         return true;

@@ -29,7 +29,7 @@ class Url
     public static function isRemoteFileExists(string $remoteFile): bool
     {
         $handle = @fopen($remoteFile, 'r');
-        if (is_resource($handle)) {
+        if (\is_resource($handle)) {
             return true;
         }
 

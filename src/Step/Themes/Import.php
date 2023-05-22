@@ -52,18 +52,18 @@ class Import extends AbstractStep
     {
         $themes = array_reverse((array) $this->config->getTheme());
         $count = 0;
-        $total = count($themes);
+        $total = \count($themes);
         foreach ($themes as $theme) {
             $count++;
             $themeConfigFile = Util::joinFile($this->config->getThemesPath(), $theme, self::THEME_CONFIG_FILE);
-            $message = \sprintf('"%s": no configuration file', $theme);
+            $message = sprintf('"%s": no configuration file', $theme);
             if (Util\File::getFS()->exists($themeConfigFile)) {
                 if (false === $config = Util\File::fileGetContents($themeConfigFile)) {
                     throw new RuntimeException('Can\'t read the configuration file.');
                 }
                 $themeConfig = Yaml::parse($config);
                 $this->config->import($themeConfig);
-                $message = \sprintf('Theme "%s" imported', $theme);
+                $message = sprintf('Theme "%s" imported', $theme);
             }
 
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);

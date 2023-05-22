@@ -54,7 +54,7 @@ class ShowConfig extends AbstractCommand
         try {
             $output->writeln($this->printArray($this->getBuilder()->getConfig()->getAsArray()));
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf($e->getMessage()));
+            throw new RuntimeException(sprintf($e->getMessage()));
         }
 
         return 0;
@@ -69,7 +69,7 @@ class ShowConfig extends AbstractCommand
 
         $column += 2;
         foreach ($array as $key => $val) {
-            switch (gettype($val)) {
+            switch (\gettype($val)) {
                 case 'array':
                     $output .= str_repeat(' ', $column) . "$key:\n" . $this->printArray($val, $column);
                     break;

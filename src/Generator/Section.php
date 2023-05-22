@@ -46,14 +46,14 @@ class Section extends AbstractGenerator implements GeneratorInterface
         }
 
         // adds section to pages collection
-        if (count($sections) > 0) {
+        if (\count($sections) > 0) {
             $menuWeight = 100;
 
             foreach ($sections as $section => $languages) {
                 foreach ($languages as $language => $pagesAsArray) {
                     $pageId = $path = Page::slugify($section);
                     if ($language != $this->config->getLanguageDefault()) {
-                        $pageId = \sprintf('%s.%s', $pageId, $language);
+                        $pageId = sprintf('%s.%s', $pageId, $language);
                     }
                     $page = (new Page($pageId))->setVariable('title', ucfirst($section))
                         ->setPath($path);
@@ -90,14 +90,14 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
                         $reverse = $page->getVariable('sortby')['reverse'] ?? false;
                         // sortby: date, title or weight
-                        $sortMethod = \sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortby)));
+                        $sortMethod = sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortby)));
                         if (!method_exists($pages, $sortMethod)) {
-                            throw new RuntimeException(\sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $sortby));
+                            throw new RuntimeException(sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $sortby));
                         }
                         $pages = $pages->$sortMethod(['variable' => $sortby, 'descTitle' => $descTitle, 'reverse' => $reverse]);
                     }
                     // adds navigation links (excludes taxonomy pages)
-                    if (!in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
+                    if (!\in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
                         $this->addNavigationLinks($pages, $sortby ?? 'date', $page->getVariable('circular'));
                     }
                     // creates page for each section
@@ -131,7 +131,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
         if ($sort === null || $sort == 'date' || $sort == 'updated') {
             $pagesAsArray = array_reverse($pagesAsArray);
         }
-        $count = count($pagesAsArray);
+        $count = \count($pagesAsArray);
         if ($count > 1) {
             foreach ($pagesAsArray as $position => $page) {
                 switch ($position) {

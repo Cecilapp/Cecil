@@ -118,9 +118,9 @@ class Builder implements LoggerAwareInterface
      */
     public static function create(): self
     {
-        $class = new \ReflectionClass(get_called_class());
+        $class = new \ReflectionClass(\get_called_class());
 
-        return $class->newInstanceArgs(func_get_args());
+        return $class->newInstanceArgs(\func_get_args());
     }
 
     /**
@@ -155,7 +155,7 @@ class Builder implements LoggerAwareInterface
         }
         // ...and process!
         $stepNumber = 0;
-        $stepsTotal = count($steps);
+        $stepsTotal = \count($steps);
         foreach ($steps as $step) {
             $stepNumber++;
             /** @var Step\StepInterface $step */
@@ -164,7 +164,7 @@ class Builder implements LoggerAwareInterface
         }
 
         // process duration
-        $message = \sprintf('Built in %s s (%s)', round(microtime(true) - $startTime, 2), Util::convertMemory(memory_get_usage() - $startMemory));
+        $message = sprintf('Built in %s s (%s)', round(microtime(true) - $startTime, 2), Util::convertMemory(memory_get_usage() - $startMemory));
         $this->getLogger()->notice($message);
 
         return $this;
@@ -374,11 +374,11 @@ class Builder implements LoggerAwareInterface
 
             try {
                 if (!file_exists($filePath)) {
-                    throw new RuntimeException(\sprintf('%s file doesn\'t exist!', $filePath));
+                    throw new RuntimeException(sprintf('%s file doesn\'t exist!', $filePath));
                 }
                 $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
-                    throw new RuntimeException(\sprintf('Can\'t get %s file!', $filePath));
+                    throw new RuntimeException(sprintf('Can\'t get %s file!', $filePath));
                 }
                 self::$version = trim($version);
             } catch (\Exception $e) {
@@ -400,7 +400,7 @@ class Builder implements LoggerAwareInterface
         }
         // default language
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', (string) $this->config->get('language'))) {
-            throw new RuntimeException(\sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->get('language')));
+            throw new RuntimeException(sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->get('language')));
         }
         // locales
         foreach ((array) $this->config->get('languages') as $lang) {
@@ -408,7 +408,7 @@ class Builder implements LoggerAwareInterface
                 throw new RuntimeException('Config: a language locale is not defined.');
             }
             if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
-                throw new RuntimeException(\sprintf('Config: the language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
+                throw new RuntimeException(sprintf('Config: the language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
             }
         }
     }

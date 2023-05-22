@@ -43,7 +43,7 @@ class Render extends AbstractStep
     public function init(array $options): void
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
-            $message = \sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
+            $message = sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
             $this->builder->getLogger()->debug($message);
         }
 
@@ -81,7 +81,7 @@ class Render extends AbstractStep
 
                 return $page;
             });
-        $total = count($pages);
+        $total = \count($pages);
 
         // renders each page
         $count = 0;
@@ -107,7 +107,7 @@ class Render extends AbstractStep
                     //     atom:
                     //       [...]
                     //       exclude: [paginated]
-                    if (!is_array($exclude)) {
+                    if (!\is_array($exclude)) {
                         $exclude = [$exclude];
                     }
                     foreach ($exclude as $variable) {
@@ -154,10 +154,10 @@ class Render extends AbstractStep
                 } catch (\Twig\Error\Error $e) {
                     $template = !empty($e->getSourceContext()->getPath()) ? $e->getSourceContext()->getPath() : $e->getSourceContext()->getName();
 
-                    throw new RuntimeException(\sprintf(
+                    throw new RuntimeException(sprintf(
                         'Template "%s%s" (page: %s): %s',
                         $template,
-                        $e->getTemplateLine() >= 0 ? \sprintf(':%s', $e->getTemplateLine()) : '',
+                        $e->getTemplateLine() >= 0 ? sprintf(':%s', $e->getTemplateLine()) : '',
                         $page->getId(),
                         $e->getMessage()
                     ));
@@ -166,7 +166,7 @@ class Render extends AbstractStep
             $this->builder->getPages()->replace($page->getId(), $page);
 
             $templates = array_column($rendered, 'template');
-            $message = \sprintf(
+            $message = sprintf(
                 'Page "%s" rendered with [%s]',
                 ($page->getId() ?: 'index'),
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
@@ -207,9 +207,9 @@ class Render extends AbstractStep
     protected function addGlobals()
     {
         $this->builder->getRenderer()->addGlobal('cecil', [
-            'url'       => \sprintf('https://cecil.app/#%s', Builder::getVersion()),
+            'url'       => sprintf('https://cecil.app/#%s', Builder::getVersion()),
             'version'   => Builder::getVersion(),
-            'poweredby' => \sprintf('Cecil v%s', Builder::getVersion()),
+            'poweredby' => sprintf('Cecil v%s', Builder::getVersion()),
         ]);
     }
 
@@ -257,7 +257,7 @@ class Render extends AbstractStep
     {
         $alternates = [];
 
-        if (count($formats) > 1 || in_array('html', $formats)) {
+        if (\count($formats) > 1 || \in_array('html', $formats)) {
             foreach ($formats as $format) {
                 $format == 'html' ? $rel = 'canonical' : $rel = 'alternate';
                 $alternates[] = [
@@ -297,7 +297,7 @@ class Render extends AbstractStep
             case 'html':
                 // add generator meta tag
                 if (!preg_match('/<meta name="generator".*/i', $output)) {
-                    $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
+                    $meta = sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
                     $output = preg_replace_callback('/([[:blank:]]*)(<\/head>)/i', function ($matches) use ($meta) {
                         return str_repeat($matches[1] ?: ' ', 2) . $meta . "\n" . $matches[1] . $matches[2];
                     }, $output);
@@ -326,7 +326,7 @@ class Render extends AbstractStep
                     $hrefPattern = 'href="/%s/%s"';
                 }
 
-                return \sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
+                return sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
             },
             $output
         );

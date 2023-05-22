@@ -107,7 +107,7 @@ class Copy extends AbstractStep
                 ->files()
                 ->in($from)
                 ->ignoreDotFiles(false);
-            if (is_array($exclude)) {
+            if (\is_array($exclude)) {
                 $finder->notPath($exclude);
                 $finder->notName($exclude);
             }

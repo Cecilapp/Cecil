@@ -83,12 +83,12 @@ class Twig implements RendererInterface
             (bool) $this->builder->getConfig()->get('cache.templates.enabled') ? $this->builder->getConfig()->getCacheTranslationsPath() : null,
             $this->builder->isDebug()
         );
-        if (count($this->builder->getConfig()->getLanguages()) > 0) {
+        if (\count($this->builder->getConfig()->getLanguages()) > 0) {
             foreach ((array) $this->builder->getConfig()->get('translations.formats') as $format) {
-                $loader = \sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
+                $loader = sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
                 if (class_exists($loader)) {
                     $this->translator->addLoader($format, new $loader());
-                    $this->builder->getLogger()->debug(\sprintf('Translation loader for format "%s" found', $format));
+                    $this->builder->getLogger()->debug(sprintf('Translation loader for format "%s" found', $format));
                 }
             }
             foreach ($this->builder->getConfig()->getLanguages() as $lang) {
@@ -107,7 +107,7 @@ class Twig implements RendererInterface
         $this->twig->addExtension(new TranslationExtension($this->translator));
         // intl
         $this->twig->addExtension(new IntlExtension());
-        if (extension_loaded('intl')) {
+        if (\extension_loaded('intl')) {
             $this->builder->getLogger()->debug('Intl extension is loaded');
         }
         // filters fallback
@@ -134,7 +134,7 @@ class Twig implements RendererInterface
             Util::autoload($builder, 'extensions');
             foreach ((array) $this->builder->getConfig()->get('extensions') as $name => $class) {
                 $this->twig->addExtension(new $class($this->builder));
-                $this->builder->getLogger()->debug(\sprintf('Extension "%s" (%s) added.', $name, $class));
+                $this->builder->getLogger()->debug(sprintf('Extension "%s" (%s) added.', $name, $class));
             }
         }
     }
@@ -160,7 +160,7 @@ class Twig implements RendererInterface
      */
     public function setLocale(string $locale): void
     {
-        if (extension_loaded('intl')) {
+        if (\extension_loaded('intl')) {
             \Locale::setDefault($locale);
         }
         $this->translator === null ?: $this->translator->setLocale($locale);
@@ -173,15 +173,15 @@ class Twig implements RendererInterface
     {
         $locales[] = $locale;
         // if locale is 'fr_FR', trying to load ['fr', 'fr_FR']
-        if (strlen($locale) > 2) {
+        if (\strlen($locale) > 2) {
             array_unshift($locales, substr($locale, 0, 2));
         }
         foreach ($locales as $locale) {
             foreach ((array) $this->builder->getConfig()->get('translations.formats') as $format) {
-                $translationFile = Util::joinPath($translationsDir, \sprintf('messages.%s.%s', $locale, $format));
+                $translationFile = Util::joinPath($translationsDir, sprintf('messages.%s.%s', $locale, $format));
                 if (Util\File::getFS()->exists($translationFile)) {
                     $this->translator->addResource($format, $translationFile, $locale);
-                    $this->builder->getLogger()->debug(\sprintf('Translation file "%s" added', $translationFile));
+                    $this->builder->getLogger()->debug(sprintf('Translation file "%s" added', $translationFile));
                 }
             }
         }

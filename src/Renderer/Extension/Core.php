@@ -480,8 +480,8 @@ class Core extends SlugifyExtension
             $scssPhp = new Compiler();
             $outputStyles = ['expanded', 'compressed'];
             $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
-            if (!in_array($outputStyle, $outputStyles)) {
-                throw new RuntimeException(\sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
+            if (!\in_array($outputStyle, $outputStyles)) {
+                throw new RuntimeException(sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
             }
             $scssPhp->setOutputStyle($outputStyle);
             $variables = $this->config->get('assets.compile.variables') ?? [];
@@ -517,9 +517,9 @@ class Core extends SlugifyExtension
 
         // builds HTML attributes
         foreach ($attributes as $name => $value) {
-            $attribute = \sprintf(' %s="%s"', $name, $value);
+            $attribute = sprintf(' %s="%s"', $name, $value);
             if (empty($value)) {
-                $attribute = \sprintf(' %s', $name);
+                $attribute = sprintf(' %s', $name);
             }
             $htmlAttributes .= $attribute;
         }
@@ -531,16 +531,16 @@ class Core extends SlugifyExtension
         switch ($asset['ext']) {
             case 'css':
                 if ($preload) {
-                    return \sprintf(
+                    return sprintf(
                         '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
                         $this->url($asset, $options),
                         $htmlAttributes
                     );
                 }
 
-                return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($asset, $options), $htmlAttributes);
+                return sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($asset, $options), $htmlAttributes);
             case 'js':
-                return \sprintf('<script src="%s"%s></script>', $this->url($asset, $options), $htmlAttributes);
+                return sprintf('<script src="%s"%s></script>', $this->url($asset, $options), $htmlAttributes);
         }
         // image
         if ($asset['type'] == 'image') {
@@ -552,13 +552,13 @@ class Core extends SlugifyExtension
                     $this->config->getAssetsImagesWidths()
                 )
             ) {
-                $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
+                $htmlAttributes .= sprintf(' srcset="%s"', $srcset);
                 $sizes = Image::getSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
-                $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
+                $htmlAttributes .= sprintf(' sizes="%s"', $sizes);
             }
 
             // <img> element
-            $img = \sprintf(
+            $img = sprintf(
                 '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
                 $this->url($asset, $options),
                 $htmlAttributes
@@ -569,7 +569,7 @@ class Core extends SlugifyExtension
                 try {
                     $assetWebp = $asset->webp();
                     // <source> element
-                    $source = \sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
+                    $source = sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
                     // responsive
                     if ($responsive) {
                         $srcset = Image::buildSrcset(
@@ -577,14 +577,14 @@ class Core extends SlugifyExtension
                             $this->config->getAssetsImagesWidths()
                         ) ?: (string) $assetWebp;
                         // <source> element
-                        $source = \sprintf(
+                        $source = sprintf(
                             '<source type="image/webp" srcset="%s" sizes="%s">',
                             $srcset,
                             $sizes
                         );
                     }
 
-                    return \sprintf("<picture>\n  %s\n  %s\n</picture>", $source, $img);
+                    return sprintf("<picture>\n  %s\n  %s\n</picture>", $source, $img);
                 } catch (\Exception $e) {
                     $this->builder->getLogger()->debug($e->getMessage());
                 }
@@ -593,7 +593,7 @@ class Core extends SlugifyExtension
             return $img;
         }
 
-        throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and images files only.', '"html" filter'));
+        throw new RuntimeException(sprintf('%s is available for CSS, JavaScript and images files only.', '"html" filter'));
     }
 
     /**
@@ -760,11 +760,11 @@ class Core extends SlugifyExtension
 
         try {
             $array = Yaml::parse($yaml);
-            if (!is_array($array)) {
+            if (!\is_array($array)) {
                 throw new ParseException('YAML error.');
             }
         } catch (ParseException $e) {
-            throw new RuntimeException(\sprintf('"yaml_parse" filter can not parse supplied YAML: %s', $e->getMessage()));
+            throw new RuntimeException(sprintf('"yaml_parse" filter can not parse supplied YAML: %s', $e->getMessage()));
         }
 
         return $array;
@@ -888,10 +888,10 @@ class Core extends SlugifyExtension
         $variable = $variable ?? '';
 
         if (!self::isHex($variable)) {
-            throw new RuntimeException(\sprintf('"%s" is not a valid hexadecimal value.', $variable));
+            throw new RuntimeException(sprintf('"%s" is not a valid hexadecimal value.', $variable));
         }
         $hex = ltrim($variable, '#');
-        if (strlen($hex) == 3) {
+        if (\strlen($hex) == 3) {
             $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
         }
         $c = hexdec($hex);
@@ -918,9 +918,9 @@ class Core extends SlugifyExtension
      */
     private static function isHex(string $hex): bool
     {
-        $valid = is_string($hex);
+        $valid = \is_string($hex);
         $hex = ltrim($hex, '#');
-        $length = strlen($hex);
+        $length = \strlen($hex);
         $valid = $valid && ($length === 3 || $length === 6);
         $valid = $valid && ctype_xdigit($hex);
 
