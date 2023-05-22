@@ -31,7 +31,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             $language = $lang['code'];
             $pageId = 'index';
             if ($language != $this->config->getLanguageDefault()) {
-                $pageId = sprintf('index.%s', $language);
+                $pageId = "$language/$pageId";
             }
             // creates a new index page...
             $page = (new Page($pageId))->setPath('')->setVariable('title', 'Home');

@@ -35,7 +35,7 @@ class Alias extends AbstractGenerator implements GeneratorInterface
                     $pageId = $path = Page::slugify($alias);
                     // i18n
                     if ($page->getVariable('language') != $this->config->getLanguageDefault()) {
-                        $pageId = sprintf('%s.%s', $pageId, $page->getVariable('language'));
+                        $pageId = sprintf('%s/%s', $page->getVariable('language'), $pageId);
                     }
                     $aliasPage = (new Page($pageId))
                         ->setPath($path)
