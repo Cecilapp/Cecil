@@ -113,7 +113,7 @@ class Url
                 // force language?
                 $lang = '';
                 if ($language !== null && $language != $this->config->getLanguageDefault()) {
-                    $pageId = "$pageId.$language";
+                    $pageId = "$language/$pageId";
                     $lang = "$language/";
                 }
                 switch (true) {

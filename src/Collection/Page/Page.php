@@ -110,23 +110,27 @@ class Page extends Item
     {
         $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
-        // case of "README" -> index
+        // if file is "README.md", ID is "index"
         $basename = (string) str_ireplace('readme', 'index', $basename);
-        // case of section's index: "section/index" -> "section"
+        // if file is section's index: "section/index.md", ID is "section"
         if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
-            // case of a localized section: "section/index.fr" -> "section.fr"
+            // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
             if (PrefixSuffix::hasSuffix($basename)) {
-                return $relativePath . '.' . PrefixSuffix::getSuffix($basename);
+                return PrefixSuffix::getSuffix($basename) . '/' . $relativePath;
             }
 
             return $relativePath;
+        }
+        // localized page
+        if (PrefixSuffix::hasSuffix($basename)) {
+            return trim(Util::joinPath(PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename)), '/');
         }
 
         return trim(Util::joinPath($relativePath, $basename), '/');
     }
 
     /**
-     * Returns the ID of a page without language suffix.
+     * Returns the ID of a page without language.
      */
     public function getIdWithoutLang(): string
     {

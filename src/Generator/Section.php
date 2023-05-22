@@ -53,7 +53,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 foreach ($languages as $language => $pagesAsArray) {
                     $pageId = $path = Page::slugify($section);
                     if ($language != $this->config->getLanguageDefault()) {
-                        $pageId = sprintf('%s.%s', $pageId, $language);
+                        $pageId = "$language/$pageId";
                     }
                     $page = (new Page($pageId))->setVariable('title', ucfirst($section))
                         ->setPath($path);
