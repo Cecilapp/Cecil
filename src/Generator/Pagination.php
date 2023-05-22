@@ -46,7 +46,6 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             $path = $page->getPath();
-            $sortby = $page->getVariable('sortby');
             // site pagination configuration
             $paginationPerPage = \intval($this->config->get('pagination.max') ?? 5);
             $paginationPath = (string) $this->config->get('pagination.path') ?? 'page';
