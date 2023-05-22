@@ -305,7 +305,7 @@ _Example:_
   {% for paginator_index in 1..page.paginator.count %}
     {% if paginator_index != page.paginator.current %}
       {% if paginator_index == 1 %}
-  <a href="{{ url(pagination.links.first) }}">{{ paginator_index }}</a>
+  <a href="{{ url(page.paginator.links.first) }}">{{ paginator_index }}</a>
       {% else %}
   <a href="{{ url(page.paginator.links.path ~ '/' ~ paginator_index) }}">{{ paginator_index }}</a>
       {% endif %}
