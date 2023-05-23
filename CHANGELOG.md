@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.38.0...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.39.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,15 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.39.0](https://github.com/Cecilapp/Cecil/compare/7.38.0...7.39.0)
+
+> 24 May 2023
+
+- feat: enhances timing info [`#1701`](https://github.com/Cecilapp/Cecil/pull/1701)
+- chore(deps): bump dependabot/fetch-metadata from 1.4.0 to 1.5.0 [`#1700`](https://github.com/Cecilapp/Cecil/pull/1700)
+- refactor: enhances code [`2dc7638`](https://github.com/Cecilapp/Cecil/commit/2dc7638c245319be8998646d5820ffc51b026dfc)
+- chore: update markdownlint-cli [`ad05eec`](https://github.com/Cecilapp/Cecil/commit/ad05eecf756708c276aba01868a5b8d44721c85e)
 
 #### [7.38.0](https://github.com/Cecilapp/Cecil/compare/7.37.1...7.38.0)
 
