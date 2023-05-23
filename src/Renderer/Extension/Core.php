@@ -29,6 +29,7 @@ use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use SVG\SVG;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -140,6 +141,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
+            new \Twig\TwigFilter('svg_to_png', [$this, 'svgToPng']),
             // deprecated
             new \Twig\TwigFilter(
                 'filterBySection',
@@ -911,6 +913,23 @@ class Core extends SlugifyExtension
         $variable = $variable ?? '';
 
         return preg_split("/.{0,{$max}}\K(\s+|$)/", $variable, 0, PREG_SPLIT_NO_EMPTY);
+    }
+
+    /**
+     * Converts a SVG to a PNG.
+     */
+    public function svgToPng(?string $variable, $width = 1200, $height = 628): string
+    {
+        $variable = $variable ?? '';
+
+        $image = SVG::fromString($variable);
+        ob_start();
+        header('Content-Type: image/png');
+        imagepng($image->toRasterImage($width, $height));
+        $imageData = ob_get_contents();
+        ob_end_clean();
+
+        return 'data:image/png;base64,' . base64_encode($imageData);
     }
 
     /**
