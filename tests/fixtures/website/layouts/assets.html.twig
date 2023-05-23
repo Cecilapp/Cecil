@@ -108,16 +108,28 @@ pre {
     <pre>asset('css/style.css')|html</pre>
     <pre>{{ asset('css/style.css')|html|e }}</pre>
   </p>
+  <p>
+    <pre>asset('js/script.js')|html</pre>
+    <pre>{{ asset('js/script.js')|html|e }}</pre>
+  </p>
 
   <h2>Image as HTML element</h2>
   <p>
-    <pre>asset('images/cecil-logo.png')|html({title: 'title', alt: 'alternative', lazyloading: ''})</pre>
+    <pre>asset('cecil-logo-1000.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
     <blockquote>
-      {{- asset('images/cecil-logo.png')|html({title: 'title', alt: 'alternative', lazyloading: ''}) }}
+      {{- asset('cecil-logo-1000.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'}) }}
     </blockquote>
     <pre>
-      {{~ asset('images/cecil-logo.png')|html({title: 'title', alt: 'alternative', lazyloading: ''})|e -}}
+      {{~ asset('cecil-logo-1000.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})|e -}}
     </pre>
+  </p>
+
+  <h2>Image PNG to WebP</h2>
+  <p>
+    <pre>asset('images/cecil-logo.png')|webp</pre>
+    <blockquote>
+      {{- asset('images/cecil-logo.png')|webp }}
+    </blockquote>
   </p>
 
   <h2>Image URL</h2>
