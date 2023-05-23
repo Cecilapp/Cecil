@@ -163,7 +163,7 @@ class Builder implements LoggerAwareInterface
             $stepStartTime = microtime(true);
             $stepStartMemory = memory_get_usage();
             $step->process();
-            $this->getLogger()->info(sprintf('%s done in %s (%s)', $step->getName(), Util::convertMicrotime($stepStartTime), Util::convertMemory(memory_get_usage() - $stepStartMemory)));
+            $this->getLogger()->info(sprintf('%s done in %s (%s)', $step->getName(), Util::convertMicrotime((float) $stepStartTime), Util::convertMemory(memory_get_usage() - $stepStartMemory)));
         }
 
         // process duration
