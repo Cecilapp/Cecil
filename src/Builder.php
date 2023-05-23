@@ -160,12 +160,14 @@ class Builder implements LoggerAwareInterface
             $stepNumber++;
             /** @var Step\StepInterface $step */
             $this->getLogger()->notice($step->getName(), ['step' => [$stepNumber, $stepsTotal]]);
+            $stepStartTime = microtime(true);
+            $stepStartMemory = memory_get_usage();
             $step->process();
+            $this->getLogger()->info(sprintf('%s done in %s (%s)', $step->getName(), Util::convertMicrotime($stepStartTime), Util::convertMemory(memory_get_usage() - $stepStartMemory)));
         }
 
         // process duration
-        $message = sprintf('Built in %s s (%s)', round(microtime(true) - $startTime, 2), Util::convertMemory(memory_get_usage() - $startMemory));
-        $this->getLogger()->notice($message);
+        $this->getLogger()->notice(sprintf('Built in %s (%s)', Util::convertMicrotime($startTime), Util::convertMemory(memory_get_usage() - $startMemory)));
 
         return $this;
     }
