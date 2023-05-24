@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Shows the configuration.
@@ -49,38 +50,20 @@ class ShowConfig extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('<info>Configuration:</info>');
-
         try {
-            $output->writeln($this->printArray($this->getBuilder()->getConfig()->getAsArray()));
+            $output->writeln($this->arrayToYaml($this->getBuilder()->getConfig()->getAsArray()));
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf($e->getMessage()));
+            throw new RuntimeException($e->getMessage());
         }
 
         return 0;
     }
 
     /**
-     * Prints an array in console.
+     * Converts an array to YAML.
      */
-    private function printArray(array $array, int $column = -2): string
+    private function arrayToYaml(array $array): string
     {
-        $output = '';
-
-        $column += 2;
-        foreach ($array as $key => $val) {
-            switch (\gettype($val)) {
-                case 'array':
-                    $output .= str_repeat(' ', $column) . "$key:\n" . $this->printArray($val, $column);
-                    break;
-                case 'boolean':
-                    $output .= str_repeat(' ', $column) . "$key: " . ($val ? 'true' : 'false') . "\n";
-                    break;
-                default:
-                    $output .= str_repeat(' ', $column) . "$key: $val\n";
-            }
-        }
-
-        return $output;
+        return trim(Yaml::dump($array, 6, 2));
     }
 }
