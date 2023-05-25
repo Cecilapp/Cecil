@@ -143,7 +143,6 @@ function logger(bool $return): bool
 function getPathInfo(string $path): array
 {
     $filename = $_SERVER['DOCUMENT_ROOT'] . $path;
-    $extension = pathinfo($path, PATHINFO_EXTENSION);
     $mediaType = \mime_content_type($filename); // e.g.: "text/html"
     $info = [
         'media_maintype' => explode('/', $mediaType)[0], // e.g.: "text"
@@ -152,8 +151,8 @@ function getPathInfo(string $path): array
     $info['headers'] = [
         "Content-Type: {$info['media_maintype']}/{$info['media_subtype']}",
     ];
-    // forces the info according to the extension
-    switch ($extension) {
+    // forces info according to the extension
+    switch (pathinfo($path, PATHINFO_EXTENSION)) {
         case 'htm':
         case 'html':
             $info = [
@@ -170,8 +169,12 @@ function getPathInfo(string $path): array
             ];
             break;
         case 'js':
-            $info['headers'] = [
-                'Content-Type: application/javascript',
+            $info = [
+                'media_maintype' => 'application',
+                'media_subtype'  => 'javascript',
+                'headers'        => [
+                    'Content-Type: application/javascript',
+                ],
             ];
             break;
         case 'svg':
@@ -197,7 +200,7 @@ function getPathInfo(string $path): array
             ];
             break;
     }
-    // forces the info according to the media main type
+    // forces info according to the media main type
     switch ($info['media_maintype']) {
         case 'video':
         case 'audio':
