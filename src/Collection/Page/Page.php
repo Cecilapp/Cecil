@@ -26,7 +26,7 @@ class Page extends Item
 {
     public const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
 
-    /** @var bool True if page is not created from a Markdown file. */
+    /** @var bool True if page is not created from a file. */
     protected $virtual;
 
     /** @var SplFileInfo */
@@ -41,7 +41,7 @@ class Page extends Item
     /** @var string */
     protected $slug;
 
-    /** @var string folder + slug. */
+    /** @var string path = folder + slug. */
     protected $path;
 
     /** @var string */
@@ -56,13 +56,13 @@ class Page extends Item
     /** @var string Body before conversion. */
     protected $body;
 
-    /** @var string Body after Markdown conversion. */
+    /** @var string Body after conversion. */
     protected $html;
 
-    /** @var array Output by format */
+    /** @var array Output, by format */
     protected $rendered = [];
 
-    /** @var \Cecil\Collection\Page\Collection Subpages of a section */
+    /** @var Collection Subpages of a list page */
     protected $subPages;
 
     /** @var array */
@@ -79,7 +79,6 @@ class Page extends Item
         parent::__construct($id);
         $this->setVirtual(true);
         $this->setType(Type::PAGE);
-        // default variables
         $this->setVariables([
             'title'            => 'Page Title',
             'date'             => new \DateTime(),
@@ -156,20 +155,12 @@ class Page extends Item
         $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.' . $fileExtension);
-        // case of "README" -> "index"
-        $fileName = (string) str_ireplace('readme', 'index', $fileName);
-        // case of "index" = home page
-        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
-            $this->setType(Type::HOMEPAGE);
-        }
-        /*
-         * Set protected variables
-         */
+        $fileName = (string) str_ireplace('readme', 'index', $fileName); // converts "README" to "index"
         $this->setFolder($fileRelativePath); // ie: "blog"
         $this->setSlug($fileName); // ie: "post-1"
         $this->setPath($this->getFolder() . '/' . $this->getSlug()); // ie: "blog/post-1"
         /*
-         * Set default variables
+         * Update default variables
          */
         $this->setVariables([
             'title'    => PrefixSuffix::sub($fileName),
@@ -177,9 +168,15 @@ class Page extends Item
             'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
-        /*
-         * Set specific variables
-         */
+        // is the home page?
+        if (PrefixSuffix::sub($fileName) == 'index' && empty($this->file->getRelativePath())) {
+            $this->setType(Type::HOMEPAGE);
+        }
+        // is a section?
+        if (PrefixSuffix::sub($fileName) == 'index' && !empty($this->getFolder())) {
+            $this->setType(Type::SECTION);
+            $this->setVariable('title', explode('/', $fileRelativePath)[count(explode('/', $fileRelativePath)) - 1]);
+        }
         // is file has a prefix?
         if (PrefixSuffix::hasPrefix($fileName)) {
             $prefix = PrefixSuffix::getPrefix($fileName);
@@ -324,6 +321,8 @@ class Page extends Item
      */
     public function setPath(string $path): self
     {
+        $path = trim($path, '/');
+
         // case of homepage
         if ($path == 'index') {
             $this->path = '';
