@@ -1,0 +1,41 @@
+<table style="position:absolute;left:0;width:100vw;">
+  <caption>All pages</caption>
+  <tr style="position:-webkit-sticky;position:sticky;top:0;">
+    <th>title</th>
+    <th>filepath</th>
+    <th>id</th>
+    <th>type</th>
+    <th>virtual</th>
+    <th>section</th>
+    <th>path</th>
+    <th>folder</th>
+    <th>slug</th>
+    <th style="width:125px;">menu</th>
+    <th>lang</th>
+  </tr>
+  {%- for item in site.pages ~%}
+  <tr>
+    <td>
+      <a href="{{ url(item) }}">{{ item.title }}</a><br>
+      {{ item.date|date("d/m/Y") }}<br>
+      {{ item.updated|date("d/m/Y") }}
+    </td>
+    <td>{{ item.filepath }}</td>
+    <td>{{ item.id }}</td>
+    <td>{{ item.type|upper  }}</td>
+    <td>{{ item.virtual ? '<em>virtual</em>' : '<em>file</em>' }}</td>
+    <td>{{ item.section ?? '<em>root</em>' }}</td>
+    <td>{{ item.path }}</td>
+    <td>{{ item.folder }}</td>
+    <td>{{ item.slug }}</td>
+    <td>
+      {%- if item.menu is defined %}
+      {{- dump(item.menu) ~}}
+      {%- endif ~%}
+    </td>
+    <td>
+      {{- item.language|default ~}}
+    </td>
+  </tr>
+  {%- endfor ~%}
+</table>

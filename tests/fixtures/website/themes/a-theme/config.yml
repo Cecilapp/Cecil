@@ -1,3 +1,2 @@
-site:
-  title: Imported config
-  foo: bar
+title: Imported config
+foo: bar

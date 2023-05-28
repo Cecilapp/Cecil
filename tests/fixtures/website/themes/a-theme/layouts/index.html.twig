@@ -1,14 +1,17 @@
 {% extends '_default/page.html.twig' %}
 
 {% block content %}
-
+{#
 All pages:
 <ul>
-{% for item in site.pages|sort_by_title %}
-{% include 'includes/page_li.html.twig' %}
-{% endfor %}
+  {% for item in site.pages|sort_by_title %}
+  {% include 'includes/page_li.html.twig' %}
+  {% endfor %}
 </ul>
+#}
+{% include 'partials/pages_as_table.html.twig' %}
 
+{#
 {% if site.foo is defined %}
 Imported config (from theme(s)):
 <p>Variable `foo`=`{{ site.foo }}`</p>
@@ -29,5 +32,5 @@ Alternates:
 {{ dump(page.alternates) }}
 </pre>
 {% endif %}
-
+#}
 {% endblock %}
