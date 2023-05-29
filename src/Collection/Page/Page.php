@@ -168,14 +168,15 @@ class Page extends Item
             'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
-        // is the home page?
-        if (PrefixSuffix::sub($fileName) == 'index' && empty($this->file->getRelativePath())) {
-            $this->setType(Type::HOMEPAGE);
-        }
         // is a section?
-        if (PrefixSuffix::sub($fileName) == 'index' && !empty($this->getFolder())) {
+        if (PrefixSuffix::sub($fileName) == 'index') {
             $this->setType(Type::SECTION);
-            $this->setVariable('title', explode('/', $fileRelativePath)[count(explode('/', $fileRelativePath)) - 1]);
+            $this->setVariable('title', ucfirst(explode('/', $fileRelativePath)[count(explode('/', $fileRelativePath)) - 1]));
+            // is the home page?
+            if (empty($this->getFolder())) {
+                $this->setType(Type::HOMEPAGE);
+                $this->setVariable('title', 'Homepage');
+            }
         }
         // is file has a prefix?
         if (PrefixSuffix::hasPrefix($fileName)) {
