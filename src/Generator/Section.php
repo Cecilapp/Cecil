@@ -31,21 +31,18 @@ class Section extends AbstractGenerator implements GeneratorInterface
         $sections = [];
 
         // identifying sections
-        /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
+            /** @var Page $page */
             if ($page->getSection()) {
-                // excludes page from its section?
+                // do not add not published and not excluded pages to its section
                 if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
-                    $alteredPage = clone $page;
-                    $alteredPage->setSection('');
-                    $this->builder->getPages()->replace($page->getId(), $alteredPage);
                     continue;
                 }
                 $sections[$page->getSection()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;
             }
         }
 
-        // adds section to pages collection
+        // adds each section to pages collection
         if (\count($sections) > 0) {
             $menuWeight = 100;
 
@@ -61,8 +58,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $page = clone $this->builder->getPages()->get($pageId);
                     }
                     $pages = new PagesCollection("section-$pageId", $pagesAsArray);
-                    // cascade
-                    /** @var \Cecil\Collection\Page\Page $page */
+                    // cascade variables
                     if ($page->hasVariable('cascade')) {
                         $cascade = $page->getVariable('cascade');
                         $pages->map(function (Page $page) use ($cascade) {
@@ -87,7 +83,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setVariable('language', $language)
                         ->setVariable('date', $pages->first()->getVariable('date'))
                         ->setVariable('langref', $path);
-                    // clean title
+                    // human readable title
                     if ($page->getVariable('title') == 'index') {
                         $page->setVariable('title', $section);
                     }
@@ -136,7 +132,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Adds navigation (next and prev) to section sub pages.
+     * Adds navigation (next and prev) to section subpages.
      */
     protected function addNavigationLinks(PagesCollection $pages, string $sort = null, $circular = false): void
     {
