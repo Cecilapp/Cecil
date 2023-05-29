@@ -36,9 +36,6 @@ class Section extends AbstractGenerator implements GeneratorInterface
             if ($page->getSection()) {
                 // do not add not published and not excluded pages to its section
                 if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
-                    $alteredPage = clone $page;
-                    $alteredPage->setSection('');
-                    $this->builder->getPages()->replace($page->getId(), $alteredPage);
                     continue;
                 }
                 $sections[$page->getSection()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;
