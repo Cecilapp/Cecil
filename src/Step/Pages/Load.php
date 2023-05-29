@@ -61,7 +61,18 @@ class Load extends AbstractStep
         $content = Finder::create()
             ->files()
             ->in($this->config->getPagesPath())
-            ->sortByName(true);
+            //->sortByName(true)
+            ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
+                // section's index first
+                if ($a->getBasename('.' . $a->getExtension()) == 'index' && $b->getBasename('.' . $b->getExtension()) != 'index') {
+                    return -1;
+                }
+                if ($b->getBasename('.' . $b->getExtension()) == 'index' && $a->getBasename('.' . $a->getExtension()) != 'index') {
+                    return 1;
+                }
+
+                return strnatcmp($a->getRealPath(), $b->getRealPath());
+            });
         // load only one page?
         if ($this->page) {
             // is the page path starts with the `pages.dir` configuration option?
