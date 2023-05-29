@@ -38,10 +38,14 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
         });
         /** @var Page $page */
         foreach ($filteredPages as $page) {
-            $pages = $page->getPages()->filter(function (Page $page) {
-                return $page->getVariable('published');
-            });
             // if no sub-pages: by-pass
+            if ($page->getPages() === null) {
+                continue;
+            }
+            $pages = $page->getPages()->filter(function (Page $page) {
+                return $page->getType() == Type::PAGE && $page->getVariable('published');
+            });
+            // if no published sub-pages: by-pass
             if ($pages === null) {
                 continue;
             }
