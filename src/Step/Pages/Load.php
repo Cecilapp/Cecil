@@ -61,17 +61,17 @@ class Load extends AbstractStep
         $content = Finder::create()
             ->files()
             ->in($this->config->getPagesPath())
-            //->sortByName(true)
-            ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
+            //->sortByName(true);
+            ->sort(function (\Symfony\Component\Finder\SplFileInfo $a, \Symfony\Component\Finder\SplFileInfo $b) {
                 // section's index first
-                if ($a->getBasename('.' . $a->getExtension()) == 'index' && $b->getBasename('.' . $b->getExtension()) != 'index') {
+                if ($a->getRelativePath() == $b->getRelativePath() && $a->getBasename('.' . $a->getExtension()) == 'index') {
                     return -1;
                 }
-                if ($b->getBasename('.' . $b->getExtension()) == 'index' && $a->getBasename('.' . $a->getExtension()) != 'index') {
+                if ($b->getRelativePath() == $a->getRelativePath() && $b->getBasename('.' . $b->getExtension()) == 'index') {
                     return 1;
                 }
 
-                return strnatcmp($a->getRealPath(), $b->getRealPath());
+                return strnatcasecmp($a->getRealPath(), $b->getRealPath());
             });
         // load only one page?
         if ($this->page) {

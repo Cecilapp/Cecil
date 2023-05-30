@@ -71,6 +71,9 @@ class Page extends Item
     /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary */
     protected $terms;
 
+    /** @var self */
+    protected $parent;
+
     /** @var Slugify */
     private static $slugifier;
 
@@ -661,5 +664,25 @@ class Page extends Item
     public function setId(string $id): self
     {
         return parent::setId($id);
+    }
+
+    /**
+     * Set parent page.
+     */
+    public function setParent(self $page): self
+    {
+        if ($page->getId() != $this->getId()) {
+            $this->parent = $page;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns parent page if exists.
+     */
+    public function getParent(): ?self
+    {
+        return $this->parent;
     }
 }
