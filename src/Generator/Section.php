@@ -40,14 +40,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     continue;
                 }
                 $sections[$page->getSection()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;
-
-                // DEBUG
+                // nested sections
                 if ($page->getParent() !== null) {
-                    dump([
-                        'pid'  => $page->getId(),
-                        'ppid' => $page->getParent()->getId()
-                    ]);
-                    //$sections[$page->getParent()->getId()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;
+                    $sections[$page->getParent()->getId()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;
                 }
             }
         }
@@ -101,7 +96,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     if (!$page->getVariable('menu')) {
                         $page->setVariable('menu', ['main' => ['weight' => $menuWeight]]);
                     }
-                    $this->generatedPages->add($page);
+
+                    try {
+                        $this->generatedPages->add($page);
+                    } catch (\DomainException $e) {
+                        $this->generatedPages->replace($page->getId(), $page);
+                    }
                 }
                 $menuWeight += 10;
             }
