@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.39.3...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.39.4...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,18 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.39.4](https://github.com/Cecilapp/Cecil/compare/7.39.3...7.39.4)
+
+> 29 May 2023
+
+- chore(deps): bump symfony/translation from 5.4.22 to 5.4.24 [`#1710`](https://github.com/Cecilapp/Cecil/pull/1710)
+- chore(deps): bump symfony/console from 5.4.23 to 5.4.24 [`#1709`](https://github.com/Cecilapp/Cecil/pull/1709)
+- chore(deps-dev): bump symfony/var-dumper from 5.4.23 to 5.4.24 [`#1707`](https://github.com/Cecilapp/Cecil/pull/1707)
+- chore(deps): bump wapmorgan/mp3info from 0.0.8 to 0.0.10 [`#1706`](https://github.com/Cecilapp/Cecil/pull/1706)
+- chore(deps): bump symfony/process from 5.4.23 to 5.4.24 [`#1705`](https://github.com/Cecilapp/Cecil/pull/1705)
+- refactor: better code comments [`47e97b6`](https://github.com/Cecilapp/Cecil/commit/47e97b6cf9607c1b37b36f1f68408f6393198c1c)
+- fix: do not remove section of excluded pages [`5fa069a`](https://github.com/Cecilapp/Cecil/commit/5fa069ace326e6be9d1aac7119caf5b0115d6431)
 
 #### [7.39.3](https://github.com/Cecilapp/Cecil/compare/7.39.2...7.39.3)
 
