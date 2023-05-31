@@ -62,16 +62,16 @@ class Page extends Item
     /** @var array Output, by format */
     protected $rendered = [];
 
-    /** @var Collection Subpages of a list page */
+    /** @var Collection Subpages of a list page. */
     protected $subPages;
 
     /** @var array */
     protected $paginator = [];
 
-    /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary */
+    /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary. */
     protected $terms;
 
-    /** @var self */
+    /** @var self Parent page of a PAGE page or a SECTION page */
     protected $parent;
 
     /** @var Slugify */
@@ -106,7 +106,7 @@ class Page extends Item
     }
 
     /**
-     * Creates the ID from the file path.
+     * Creates the ID from the file (path).
      */
     public static function createIdFromFile(SplFileInfo $file): string
     {
@@ -149,8 +149,8 @@ class Page extends Item
      */
     public function setFile(SplFileInfo $file): self
     {
-        $this->setVirtual(false);
         $this->file = $file;
+        $this->setVirtual(false);
 
         /*
          * File path components
@@ -163,8 +163,11 @@ class Page extends Item
         $this->setSlug($fileName); // ie: "post-1"
         $this->setPath($this->getFolder() . '/' . $this->getSlug()); // ie: "blog/post-1"
         /*
-         * Update default variables
+         * Set page properties and variables
          */
+        $this->setFolder($fileRelativePath);
+        $this->setSlug($fileName);
+        $this->setPath($this->getFolder() . '/' . $this->getSlug());
         $this->setVariables([
             'title'    => PrefixSuffix::sub($fileName),
             'date'     => (new \DateTime())->setTimestamp($this->file->getMTime()),
@@ -174,7 +177,7 @@ class Page extends Item
         // is a section?
         if (PrefixSuffix::sub($fileName) == 'index') {
             $this->setType(Type::SECTION);
-            $this->setVariable('title', ucfirst(explode('/', $fileRelativePath)[count(explode('/', $fileRelativePath)) - 1]));
+            $this->setVariable('title', ucfirst(explode('/', $fileRelativePath)[\count(explode('/', $fileRelativePath)) - 1]));
             // is the home page?
             if (empty($this->getFolder())) {
                 $this->setType(Type::HOMEPAGE);
@@ -334,23 +337,26 @@ class Page extends Item
             return $this;
         }
 
-        // case of custom sections' index (ie: content/section/index.md)
+        // case of custom sections' index (ie: file: section/index.md -> path: section)
         if (substr($path, -6) == '/index') {
             $path = substr($path, 0, \strlen($path) - 6);
         }
-        $this->path = $path;
 
-        // case of root pages
+        $this->path = $path;
         $lastslash = strrpos($this->path, '/');
+
+        // case of root/top-level pages
         if ($lastslash === false) {
             $this->slug = $this->path;
 
             return $this;
         }
 
+        // case of sections' pages: set section
         if (!$this->virtual && $this->getSection() === null) {
             $this->section = explode('/', $this->path)[0];
         }
+        // set/update folder and slug
         $this->folder = substr($this->path, 0, $lastslash);
         $this->slug = substr($this->path, -(\strlen($this->path) - $lastslash - 1));
 
