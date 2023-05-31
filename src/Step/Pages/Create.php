@@ -61,7 +61,7 @@ class Create extends AbstractStep
             // parse frontmatter and body
             $page->parse();
             // has a parent page?
-            if (count(explode('/', $page->getFolder())) > 1) {
+            if (\count(explode('/', $page->getFolder())) > 1) {
                 if ($this->builder->getPages()->has($page->getFolder())) {
                     $page->setParent($this->builder->getPages()->get($page->getFolder()));
                 }
