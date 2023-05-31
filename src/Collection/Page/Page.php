@@ -110,7 +110,14 @@ class Page extends Item
      */
     public static function createIdFromFile(SplFileInfo $file): string
     {
-        $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
+        $fileComponents = self::getFileComponents($file);
+
+        $fileComponents['path'];
+        $fileComponents['name'];
+        $fileComponents['ext'];
+
+
+        $relativePath = self::slugify($fileComponents['path']);
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
         // if file is "README.md", ID is "index"
         $basename = (string) str_ireplace('readme', 'index', $basename);
@@ -158,10 +165,9 @@ class Page extends Item
         $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.' . $fileExtension);
-        $fileName = (string) str_ireplace('readme', 'index', $fileName); // converts "README" to "index"
-        $this->setFolder($fileRelativePath); // ie: "blog"
-        $this->setSlug($fileName); // ie: "post-1"
-        $this->setPath($this->getFolder() . '/' . $this->getSlug()); // ie: "blog/post-1"
+        // renames "README" to "index"
+        $fileName = (string) str_ireplace('readme', 'index', $fileName);
+
         /*
          * Set page properties and variables
          */
@@ -690,5 +696,23 @@ class Page extends Item
         if (\is_array($value)) {
             array_walk_recursive($value, '\Cecil\Util\Str::strToBool');
         }
+    }
+
+    /**
+     * Get file components.
+     *
+     * [
+     *   path => relative path,
+     *   name => name,
+     *   ext  => extension,
+     * ]
+     */
+    private static function getFileComponents(SplFileInfo $file): array
+    {
+        return [
+            'path' => str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()),
+            'name' => (string) str_ireplace('readme', 'index', $file->getBasename('.' . $file->getExtension())),
+            'ext'  => $file->getExtension(),
+        ];
     }
 }
