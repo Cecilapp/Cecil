@@ -332,17 +332,17 @@ class Builder implements LoggerAwareInterface
     /**
      * Set taxonomies collection.
      */
-    public function setTaxonomies(Collection\Taxonomy\Collection $taxonomies): void
+    public function setTaxonomies(array $taxonomies): void
     {
         $this->taxonomies = $taxonomies;
     }
 
     /**
-     * Returns taxonomies collection.
+     * Returns taxonomies collection, for a language.
      */
-    public function getTaxonomies(): ?Collection\Taxonomy\Collection
+    public function getTaxonomies(string $language): ?Collection\Taxonomy\Collection
     {
-        return $this->taxonomies;
+        return $this->taxonomies[$language];
     }
 
     /**
