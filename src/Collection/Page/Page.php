@@ -648,23 +648,6 @@ class Page extends Item
     }
 
     /**
-     * Cast "boolean" string (or array of strings) to boolean.
-     *
-     * @param mixed $value Value to filter
-     *
-     * @return bool|mixed
-     *
-     * @see strToBool()
-     */
-    private function filterBool(&$value)
-    {
-        \Cecil\Util\Str::strToBool($value);
-        if (\is_array($value)) {
-            array_walk_recursive($value, '\Cecil\Util\Str::strToBool');
-        }
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function setId(string $id): self
@@ -690,5 +673,22 @@ class Page extends Item
     public function getParent(): ?self
     {
         return $this->parent;
+    }
+
+    /**
+     * Cast "boolean" string (or array of strings) to boolean.
+     *
+     * @param mixed $value Value to filter
+     *
+     * @return bool|mixed
+     *
+     * @see strToBool()
+     */
+    private function filterBool(&$value)
+    {
+        \Cecil\Util\Str::strToBool($value);
+        if (\is_array($value)) {
+            array_walk_recursive($value, '\Cecil\Util\Str::strToBool');
+        }
     }
 }
