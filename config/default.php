@@ -27,7 +27,7 @@ return [
         'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
     ],
     //'date' => [
-    //    'format'   => 'j F Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
+    //    'format'   => 'F j, Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
     //    'timezone' => 'Europe/Paris',
     //],
     'output' => [ // https://cecil.app/documentation/configuration/#formats
