@@ -48,7 +48,17 @@
       {%- block content ~%}
       {%- block content_header %}{% endblock content_header ~%}
       {{ page.content }}
-      {%- block content_footer %}{% endblock content_footer ~%}
+      {%- block content_footer ~%}
+      <div>
+      {% for vocab in site.taxonomies %}
+        {%- if attribute(page, vocab.id) is defined ~%}
+          {%- for term in attribute(page, vocab.id) ~%}
+        <a href="{{ url(vocab.id ~ '/' ~ term, {language: site.language}) }}">#{{ term }}</a>&nbsp;
+          {%- endfor ~%}
+        {%- endif ~%}
+      {% endfor %}
+      </div>
+      {%- endblock content_footer ~%}
       {%- endblock content ~%}
     </main>
     <footer>
