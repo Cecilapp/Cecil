@@ -71,16 +71,13 @@ class Create extends AbstractStep
             $this->vocabCollection[$language['code']] = new VocabulariesCollection('taxonomies');
             /*
              * Adds each vocabulary to the collection.
-             *   taxonomies:
-             *     tags: tag
-             *     categories: category
+             * e.g.:
+             * taxonomies:
+             *   tags: tag
+             *   categories: category
+             * -> tags, categories
              */
             foreach (array_keys((array) $this->config->get('taxonomies', $language['code'], false)) as $vocabulary) {
-                /*
-                 * Disabled vocabulary?
-                 *   taxonomies:
-                 *     tags: disabled
-                 */
                 if ($this->config->get("taxonomies.$vocabulary", $language['code'], false) == 'disabled') {
                     continue;
                 }
@@ -108,15 +105,15 @@ class Create extends AbstractStep
                  * tags: Tag 1, Tag 2
                  */
                 if ($page->hasVariable($plural)) {
-                    // converts a string list to an array
+                    // converts a string list to an array...
                     if (!\is_array($page->getVariable($plural))) {
                         $page->setVariable($plural, [$page->getVariable($plural)]);
                     }
-                    // removes duplicate terms
+                    // ... and removes duplicate terms
                     $page->setVariable($plural, array_unique($page->getVariable($plural)));
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
-                        if (null === $termName) {
+                        if ($termName === null) {
                             throw new RuntimeException(sprintf(
                                 'Taxonomy "%s" of "%s" can\'t be empty.',
                                 $plural,
