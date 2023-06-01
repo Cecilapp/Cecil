@@ -78,9 +78,9 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                             ->setTerms($vocabulary)
                             ->setVariable('title', ucfirst($plural))
                             ->setVariable('date', $date)
+                            ->setVariable('language', $language)
                             ->setVariable('plural', $plural)
-                            ->setVariable('singular', $singular)
-                            ->setVariable('language', $language);
+                            ->setVariable('singular', $singular);
                         // adds page only if a template exist
                         try {
                             $this->generatedPages->add($page);
