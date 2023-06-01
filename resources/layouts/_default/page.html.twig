@@ -50,13 +50,7 @@
       {{ page.content }}
       {%- block content_footer ~%}
       <div>
-      {%- for vocab in site.taxonomies ~%}
-        {%- if attribute(page, vocab.id) is defined ~%}
-          {%- for term in attribute(page, vocab.id) ~%}
-        <a href="{{ url(vocab.id ~ '/' ~ term, {language: site.language}) }}">#{{ term }}</a>&nbsp;
-          {%- endfor ~%}
-        {%- endif ~%}
-      {%- endfor ~%}
+        {%- include 'partials/terms-list.html.twig' with {'page': page, 'vocabulary': 'tags'} only ~%}
       </div>
       {%- endblock content_footer ~%}
       {%- endblock content ~%}
