@@ -41,7 +41,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         * e.g.: /tags/tag-1/
                         */
                         foreach ($vocabulary as $term) {
-                            $pageId = $path = Page::slugify(sprintf('%s/%s', $plural, $term->getId()));
+                            $pageId = $path = Page::slugify($term->getId());
                             if ($language != $this->config->getLanguageDefault()) {
                                 $pageId = "$language/$pageId";
                             }
