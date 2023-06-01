@@ -76,6 +76,9 @@ return [
                         ],
                     ],
                 ],
+                'taxonomies' => [
+                    'tags' => 'tag',
+                ],
             ],
         ],
     ],
