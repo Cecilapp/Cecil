@@ -82,7 +82,7 @@ class Builder implements LoggerAwareInterface
     /** @var array Menus collection. */
     protected $menus;
 
-    /** @var Collection\Taxonomy\Collection Taxonomies collection. */
+    /** @var array Taxonomies collection. */
     protected $taxonomies;
 
     /** @var Renderer\RendererInterface Renderer. */
