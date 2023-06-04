@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Cecil\Generator;
 
-use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 use Cecil\Collection\Taxonomy\Vocabulary;
@@ -28,56 +27,67 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        if ($this->config->get('taxonomies') && $this->builder->getTaxonomies() !== null) {
-            /** @var Vocabulary $vocabulary */
-            foreach ($this->builder->getTaxonomies() as $vocabulary) {
-                $plural = $vocabulary->getId();
-                $singular = $this->config->get("taxonomies.$plural");
-                if (\count($vocabulary) > 0) {
-                    $date = date('Y-m-d');
-                    /*
-                     * Creates $plural/$term pages (list of pages)
-                     * ie: /tags/tag-1/
-                     */
-                    foreach ($vocabulary as $term) {
-                        $pageId = $path = Page::slugify(sprintf('%s/%s', $plural, $term->getId()));
-                        $pages = $term->sortByDate();
-                        $date = $pages->first()->getVariable('date');
-                        $page = (new Page($pageId))
-                            ->setPath($path)
-                            ->setVariable('title', $term->getName())
-                            ->setVariable('date', $date);
-                        if ($this->builder->getPages()->has($pageId)) {
-                            $page = clone $this->builder->getPages()->get($pageId);
+        foreach ($this->config->getLanguages() as $lang) {
+            $language = $lang['code'];
+            if ($this->config->get('taxonomies', $language, false) && $this->builder->getTaxonomies($language) !== null) {
+                /** @var Vocabulary $vocabulary */
+                foreach ($this->builder->getTaxonomies($language) as $vocabulary) {
+                    $plural = $vocabulary->getId();
+                    $singular = $this->config->get("taxonomies.$plural", $language, false);
+                    if (\count($vocabulary) > 0) {
+                        $date = date('Y-m-d');
+                        /*
+                        * Creates $plural/$term pages (list of pages)
+                        * e.g.: /tags/tag-1/
+                        */
+                        foreach ($vocabulary as $term) {
+                            $pageId = $path = Page::slugify($term->getId());
+                            if ($language != $this->config->getLanguageDefault()) {
+                                $pageId = "$language/$pageId";
+                            }
+                            $pages = $term->sortByDate();
+                            $date = $pages->first()->getVariable('date');
+                            $page = (new Page($pageId))
+                                ->setPath($path)
+                                ->setVariable('title', $term->getName())
+                                ->setVariable('date', $date)
+                                ->setVariable('language', $language);
+                            if ($this->builder->getPages()->has($pageId)) {
+                                $page = clone $this->builder->getPages()->get($pageId);
+                            }
+                            /** @var Page $page */
+                            $page
+                                ->setType(Type::TERM)
+                                ->setPages($pages)
+                                ->setVariable('term', $term->getId())
+                                ->setVariable('plural', $plural)
+                                ->setVariable('singular', $singular);
+                            $this->generatedPages->add($page);
                         }
-                        /** @var Page $page */
-                        $page
-                            ->setType(Type::TERM)
-                            ->setPages($pages)
-                            ->setVariable('term', $term->getId())
+                        /*
+                        * Creates $plural pages (list of terms)
+                        * e.g.: /tags/
+                        */
+                        $pageId = $path = Page::slugify($plural);
+                        if ($language != $this->config->getLanguageDefault()) {
+                            $pageId = "$language/$pageId";
+                        }
+                        $page = (new Page($pageId))
+                            ->setType(Type::VOCABULARY)
+                            ->setPath($path)
+                            ->setTerms($vocabulary)
+                            ->setVariable('title', ucfirst($plural))
+                            ->setVariable('date', $date)
+                            ->setVariable('language', $language)
                             ->setVariable('plural', $plural)
                             ->setVariable('singular', $singular);
-                        $this->generatedPages->add($page);
-                    }
-                    /*
-                     * Creates $plural pages (list of terms)
-                     * ex: /tags/
-                     */
-                    $pageId = $path = Page::slugify($plural);
-                    $page = (new Page($pageId))
-                        ->setType(Type::VOCABULARY)
-                        ->setPath($path)
-                        ->setTerms($vocabulary)
-                        ->setVariable('title', ucfirst($plural))
-                        ->setVariable('date', $date)
-                        ->setVariable('plural', $plural)
-                        ->setVariable('singular', $singular);
-                    // adds page only if a template exist
-                    try {
-                        $this->generatedPages->add($page);
-                    } catch (\Exception $e) {
-                        printf("%s\n", $e->getMessage());
-                        unset($page); // do not adds page
+                        // adds page only if a template exist
+                        try {
+                            $this->generatedPages->add($page);
+                        } catch (\Exception $e) {
+                            printf("%s\n", $e->getMessage());
+                            unset($page); // do not adds page
+                        }
                     }
                 }
             }

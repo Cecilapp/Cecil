@@ -48,7 +48,11 @@
       {%- block content ~%}
       {%- block content_header %}{% endblock content_header ~%}
       {{ page.content }}
-      {%- block content_footer %}{% endblock content_footer ~%}
+      {%- block content_footer ~%}
+      <div>
+        {%- include 'partials/terms-list.html.twig' with {'page': page, 'vocabulary': 'tags'} only ~%}
+      </div>
+      {%- endblock content_footer ~%}
       {%- endblock content ~%}
     </main>
     <footer>

@@ -558,7 +558,10 @@ menu:
 
 ### Taxonomy
 
-Taxonomies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
+Taxonomy allows you to connect, relate and classify your website’s content.  
+In Cecil, these terms are gathered within vocabularies.
+
+Vocabularies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
 A page can contain several vocabularies (e.g.: `tags`) and terms (e.g.: `Tag 1`).
 

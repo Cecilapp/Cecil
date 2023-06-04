@@ -7,6 +7,7 @@
             </div>
             {%- endblock content_header ~%}
             {%- block content_footer ~%}
+            {{- parent() ~}}
             {%- if page.prev is defined or page.next is defined ~%}
             <nav>
               <ul>

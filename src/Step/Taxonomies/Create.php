@@ -25,7 +25,7 @@ use Cecil\Step\AbstractStep;
  */
 class Create extends AbstractStep
 {
-    /** @var VocabulariesCollection */
+    /** @var array */
     protected $vocabCollection;
 
     /**
@@ -66,27 +66,23 @@ class Create extends AbstractStep
      */
     protected function createVocabulariesCollection(): void
     {
-        // creates an empty a vocabularies collection
-        $this->vocabCollection = new VocabulariesCollection('taxonomies');
-        /*
-         * Adds each vocabulary to the collection.
-         * ie:
-         *   taxonomies:
-         *     - tags: tag
-         *     - categories: category
-         */
-        foreach (array_keys((array) $this->config->get('taxonomies')) as $vocabulary) {
+        // creates a vocabularies collection for each language
+        foreach ($this->config->getLanguages() as $language) {
+            $this->vocabCollection[$language['code']] = new VocabulariesCollection('taxonomies');
             /*
-             * Disabled vocabulary?
-             * ie:
-             *   taxonomies:
-             *     tags: disabled
+             * Adds each vocabulary to the collection.
+             * e.g.:
+             * taxonomies:
+             *   tags: tag
+             *   categories: category
+             * -> tags, categories
              */
-            if ($this->config->get("taxonomies.$vocabulary") == 'disabled') {
-                continue;
+            foreach (array_keys((array) $this->config->get('taxonomies', $language['code'], false)) as $vocabulary) {
+                if ($this->config->get("taxonomies.$vocabulary", $language['code'], false) == 'disabled') {
+                    continue;
+                }
+                $this->vocabCollection[$language['code']]->add(new Vocabulary($vocabulary));
             }
-
-            $this->vocabCollection->add(new Vocabulary($vocabulary));
         }
     }
 
@@ -95,41 +91,43 @@ class Create extends AbstractStep
      */
     protected function collectTermsFromPages(): void
     {
-        /** @var \Cecil\Collection\Page\Collection $pages */
-        $pages = $this->builder->getPages()->filter(function (Page $page) {
-            return $page->getVariable('published');
+        $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
+            return $page->getVariable('published')
+                && \in_array($page->getVariable('language', $this->config->getLanguageDefault()), array_column($this->config->getLanguages(), 'code'));
         })->sortByDate();
-        foreach ($pages as $page) {
-            // ie: tags
-            foreach ($this->vocabCollection as $vocabulary) {
+        foreach ($filteredPages as $page) {
+            $language = (string) $page->getVariable('language', $this->config->getLanguageDefault());
+            // e.g.:tags
+            foreach ($this->vocabCollection[$language] as $vocabulary) {
                 $plural = $vocabulary->getId();
                 /*
-                 * ie:
-                 *   tags: Tag 1, Tag 2
+                 * e.g.:
+                 * tags: Tag 1, Tag 2
                  */
                 if ($page->hasVariable($plural)) {
-                    // converts a string list to an array
+                    // converts a string list to an array...
                     if (!\is_array($page->getVariable($plural))) {
                         $page->setVariable($plural, [$page->getVariable($plural)]);
                     }
-                    // removes duplicate terms
+                    // ... and removes duplicate terms
                     $page->setVariable($plural, array_unique($page->getVariable($plural)));
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
-                        if (null === $termName) {
+                        if ($termName === null) {
                             throw new RuntimeException(sprintf(
                                 'Taxonomy "%s" of "%s" can\'t be empty.',
                                 $plural,
                                 $page->getId()
                             ));
                         }
-                        $termId = Page::slugify((string) $termName);
+                        // e.g.: "Tag 1" -> "tags/tag-1"
+                        $termId = Page::slugify($plural . '/' . (string) $termName);
                         $term = (new Term($termId))->setName((string) $termName);
-                        $this->vocabCollection
+                        $this->vocabCollection[$language]
                             ->get($plural)
                             ->add($term);
                         // ... and adds page to the term collection
-                        $this->vocabCollection
+                        $this->vocabCollection[$language]
                             ->get($plural)
                             ->get($termId)
                             ->add($page);
@@ -145,9 +143,11 @@ class Create extends AbstractStep
     private function hasTaxonomies(): bool
     {
         $taxonomiesCount = 0;
-        foreach (array_keys((array) $this->config->get('taxonomies')) as $vocabulary) {
-            if ($this->config->get("taxonomies.$vocabulary") != 'disabled') {
-                $taxonomiesCount++;
+        foreach ($this->config->getLanguages() as $language) {
+            foreach (array_keys((array) $this->config->get('taxonomies')) as $vocabulary) {
+                if ($this->config->get("taxonomies.$vocabulary", $language['code'], false) != 'disabled') {
+                    $taxonomiesCount++;
+                }
             }
         }
 
