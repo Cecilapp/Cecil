@@ -128,6 +128,10 @@ class Site implements \ArrayAccess
             $pageId = "$language/$id";
         }
 
+        if ($this->builder->getPages()->has($pageId) === false) {
+            return null;
+        }
+
         return $this->builder->getPages()->get($pageId);
     }
 
