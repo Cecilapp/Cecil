@@ -105,6 +105,7 @@
     "post-update-cmd": "cd ./tests/fixtures/website && composer update",
     "box": "@build",
     "build": "box compile",
+    "code": ["@code:analyse", "@code:style", "@code:fix"],
     "code:analyse": "phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=raw",
     "code:analyse:gh": "phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=github",
     "code:style": "phpcs ./src/ --standard=PSR12 -n",
@@ -125,6 +126,7 @@
   "scripts-descriptions": {
     "box": "Alias of build.",
     "build": "Builds the PHAR file.",
+    "code": "Runs code quality checks.",
     "code:analyse": "Analyses code with PHPStan (PHP Static Analysis Tool).",
     "code:style": "Corrects coding standard violations with PHP_CodeSniffer",
     "code:fix": "Fix code according to the PSR12",
