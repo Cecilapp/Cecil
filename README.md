@@ -24,14 +24,15 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button "Deploy with Vercel")](https://cecil.app/hosting/vercel/deploy/) [![Import to Forestry](https://assets.forestry.io/import-to-forestryK.svg "Import to Forestry")](https://cecil.app/cms/forestry/import/)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button "Deploy with Vercel")](https://cecil.app/hosting/vercel/deploy/)
 
 ## Features
 
 - No database, no server, no dependency: performance and security
-- Your content is stored in [Markdown](https://daringfireball.net/projects/markdown/) flat files with a [YAML front matter](https://cecil.app/documentation/content/#front-matter)
+- Your pages are stored in [Markdown](https://daringfireball.net/projects/markdown/) flat files with a [YAML front matter](https://cecil.app/documentation/content/#front-matter)
 - Powered by [Twig](https://twig.symfony.com/doc/templates.html), a flexible template engine, with [themes](https://cecil.app/themes) support
 - Pagination, sitemap, redirections, robots.txt, taxonomies, RSS are generated automatically
+- Handles and optimizes assets for you
 - [Download](https://cecil.app/download/) one file and run it
 - Easy to deploy
 
