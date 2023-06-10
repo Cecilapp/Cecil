@@ -708,7 +708,7 @@ class Asset implements \ArrayAccess
             $urlQuery = parse_url($path, PHP_URL_QUERY);
             $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
             // Google Fonts hack
-            if (strpos($urlPath, '/css') !== false) {
+            if (Util\Str::endsWith($urlPath, '/css') || Util\Str::endsWith($urlPath, '/css2')) {
                 $extension = 'css';
             }
             $relativePath = Page::slugify(sprintf(
