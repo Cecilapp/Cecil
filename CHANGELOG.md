@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.40.1...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.40.2...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,16 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.40.2](https://github.com/Cecilapp/Cecil/compare/7.40.1...7.40.2)
+
+> 10 June 2023
+
+- chore(deps): bump twig/twig from 3.6.0 to 3.6.1 [`#1715`](https://github.com/Cecilapp/Cecil/pull/1715)
+- chore(deps): bump matthiasmullie/minify from 1.3.70 to 1.3.71 [`#1714`](https://github.com/Cecilapp/Cecil/pull/1714)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.16 to 1.10.18 [`#1713`](https://github.com/Cecilapp/Cecil/pull/1713)
+- fix: Google Fonts hack extension [`4578df4`](https://github.com/Cecilapp/Cecil/commit/4578df4eac4b1454524fc79e2231751dd9b0c308)
+- chore: add "code" script [`3120c05`](https://github.com/Cecilapp/Cecil/commit/3120c0506029335fc648d82cdcebd8acfeaf79a5)
 
 #### [7.40.1](https://github.com/Cecilapp/Cecil/compare/7.40.0...7.40.1)
 
