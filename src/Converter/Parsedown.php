@@ -325,11 +325,10 @@ class Parsedown extends \ParsedownToC
 
         $image = $InlineImage;
 
-        // converts image to WebP and put it in picture > source
+        // converts image (JPEG, PNG or GIF) to WebP and put it in picture > source
         if (
-            (bool) $this->config->get('body.images.webp.enabled') ?? false
-            && (($InlineImage['element']['attributes']['src'])['type'] == 'image'
-            && ($InlineImage['element']['attributes']['src'])['subtype'] != 'image/webp')
+            ((bool) $this->config->get('body.images.webp.enabled') ?? false)
+            && \in_array(($InlineImage['element']['attributes']['src'])['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
                 // InlineImage src must be an Asset instance
