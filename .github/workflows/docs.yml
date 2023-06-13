@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Markdown lint
-        uses: DavidAnson/markdownlint-cli2-action@v10
+        uses: DavidAnson/markdownlint-cli2-action@v11
         with:
           command: config
           globs: |
