@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cecil/theme-hyde",
-            "version": "2.3.1",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/theme-hyde.git",
-                "reference": "1dfde5c26006744c3d79c0cb2d8b3bb46e69d1f3"
+                "reference": "110dcdeb2b1ba354ba1bef72fa36d3033927f0d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/1dfde5c26006744c3d79c0cb2d8b3bb46e69d1f3",
-                "reference": "1dfde5c26006744c3d79c0cb2d8b3bb46e69d1f3",
+                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/110dcdeb2b1ba354ba1bef72fa36d3033927f0d4",
+                "reference": "110dcdeb2b1ba354ba1bef72fa36d3033927f0d4",
                 "shasum": ""
             },
             "require": {
@@ -42,13 +42,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Cecilapp/theme-hyde/issues",
-                "source": "https://github.com/Cecilapp/theme-hyde/tree/2.3.1"
+                "source": "https://github.com/Cecilapp/theme-hyde/tree/2.4.0"
             },
             "funding": [
-                {
-                    "url": "https://www.paypal.me/narno",
-                    "type": "custom"
-                },
                 {
                     "url": "https://github.com/ArnaudLigny",
                     "type": "github"
@@ -58,7 +54,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-04-06T22:30:37+00:00"
+            "time": "2023-06-04T21:59:02+00:00"
         },
         {
             "name": "cecil/theme-installer",
