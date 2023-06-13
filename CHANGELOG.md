@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.40.3...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.41.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,14 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.41.0](https://github.com/Cecilapp/Cecil/compare/7.40.3...7.41.0)
+
+> 13 June 2023
+
+- chore(deps-dev): bump phpunit/phpunit from 9.6.8 to 9.6.9 [`#1716`](https://github.com/Cecilapp/Cecil/pull/1716)
+- chore: update deps [`b44f88f`](https://github.com/Cecilapp/Cecil/commit/b44f88f401a04db0d78bd24d4c31f9691334f15e)
+- feat: add SVG format support CDN Image [`1a3e5db`](https://github.com/Cecilapp/Cecil/commit/1a3e5db2cdbea0e158f8aa0d30e86b3380ec99df)
 
 #### [7.40.3](https://github.com/Cecilapp/Cecil/compare/7.40.2...7.40.3)
 
