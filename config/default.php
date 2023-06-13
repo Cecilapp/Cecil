@@ -303,9 +303,10 @@ return [
                 'enabled' => false, // `html` filter: creates and adds a WebP image as a `source` (`false` by default)
             ],
             'cdn' => [
-                'enabled'   => false,  // enables Image CDN (`false` by default)
-                'canonical' => true,   // is `image_url` must be canonical or not (`true` by default)
-                'remote'    => true,   // includes remote images (`true` by default)
+                'enabled'   => false, // enables Image CDN (`false` by default)
+                'canonical' => true,  // is `image_url` must be canonical or not (`true` by default)
+                'remote'    => true,  // includes remote images (`true` by default)
+                'svg'       => true,  // should support SVG format? (`true` by default)
                 //'account'   => 'xxxx', // provider account
                 // Cloudinary
                 //'url'       => 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%',
