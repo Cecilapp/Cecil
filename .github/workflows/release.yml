@@ -128,7 +128,7 @@ jobs:
 
     - name: Generate changelog
       id: changelog
-      uses: jaywcjlove/changelog-generator@v1.6.4
+      uses: jaywcjlove/changelog-generator@v1.7.0
       with:
         base-ref: ${{ needs.build.outputs.previous_release }}
         token: ${{ secrets.GITHUB_TOKEN }}
