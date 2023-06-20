@@ -1,9 +1,16 @@
 {#- param: vocabulary ~#}
-{%- for vocab in site.taxonomies|filter(v => v.id == vocabulary|default or vocabulary|default is empty) ~%}
-  {%- set vocabulary = vocab.id ~%}
-  {%- if attribute(page, vocabulary) is defined ~%}
-    {%- for term in attribute(page, vocabulary) ~%}
-        <a href="{{ url(vocabulary ~ '/' ~ term, {language: site.language}) }}">#{{ term }}</a>{% if not loop.last %}&nbsp;{% endif %}
-    {%- endfor ~%}
-  {%- endif ~%}
-{%- endfor ~%}
+{%- set vocabs = site.taxonomies|filter(v => v.id == vocabulary|default or vocabulary|default is empty) ~%}
+        {%- if vocabs|length > 0 ~%}
+          <nav class="terms">
+            <ul>
+          {%- for vocab in vocabs ~%}
+            {%- set vocabulary = vocab.id ~%}
+            {%- if attribute(page, vocabulary) is defined ~%}
+              {%- for term in attribute(page, vocabulary) ~%}
+              <li><a class="term" href="{{ url(vocabulary ~ '/' ~ term, {language: site.language}) }}">{{ term }}</a></li>
+              {%- endfor ~%}
+            {%- endif ~%}
+          {%- endfor ~%}
+            </ul>
+          </nav>
+        {%- endif ~%}

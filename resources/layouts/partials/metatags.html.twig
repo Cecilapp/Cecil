@@ -1,4 +1,4 @@
-{# title #}
+{#- title ~#}
 {% if title is not defined or title is empty %}
   {%- set title_divider = page.metatags.title.divider|default(site.metatags.title.divider|default(' &middot; ')) %}
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
@@ -188,4 +188,4 @@
     <meta name="twitter:creator" content="@{{ twitter.creator }}" />
 {%- endif ~%}
 {#- template: json-ld ~#}
-{%~ include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset|default} %}
+{%- include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset|default} ~%}
