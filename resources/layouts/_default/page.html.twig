@@ -9,7 +9,7 @@
     {%- include 'partials/metatags.html.twig' with {page, site} only ~%}
     <style>{% apply minify_css %}
       {%- include 'partials/new.css.twig' ~%}
-      /* new.css enhancement */
+      /* new.css enhancements */
       body {
         overflow-y: scroll;
       }
@@ -44,6 +44,27 @@
       nav a:hover:not(main) {
         text-decoration: underline;
       }
+      main header {
+        background: unset;
+        border-bottom: unset;
+        padding: unset;
+        margin: unset;
+        padding-left: unset;
+        padding-right: unset;
+      }
+      main header h1,
+      main header h2,
+      main header h3 {
+        padding-bottom: unset;
+        border-bottom: unset;
+      }
+      main header > *:first-child {
+        margin-top: unset;
+        padding-top: unset;
+      }
+      main header > *:last-child {
+        margin-bottom: unset;
+      }
       main img {
         height: auto;
       }
@@ -58,6 +79,7 @@
         padding-top: 1rem;
         margin-top: 2rem;
       }
+      /* Cecil features */
       .page-nav {
         display: flex;
       }
@@ -77,7 +99,6 @@
       }
       .term:before {
         content: "#";
-
       }
     {% endapply %}</style>
     {%- endblock head ~%}
