@@ -1,4 +1,4 @@
-{% if page.metatags.jsonld|default(site.metatags.jsonld|default(false)) %}
+{%- if page.metatags.jsonld|default(site.metatags.jsonld|default(false)) ~%}
     <script type="application/ld+json">{%- apply minify_js ~%}
       [
         {#- WebSite ~#}
@@ -97,4 +97,4 @@
         {%- endif ~%}
       ]
     {% endapply %}</script>
-{%- endif %}
+{%- endif ~%}
