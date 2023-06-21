@@ -45,6 +45,7 @@
     "symfony/serializer": "^5.4",
     "symfony/translation": "^5.4",
     "symfony/twig-bridge": "^5.4",
+    "symfony/var-dumper": "^5.4",
     "symfony/yaml": "^5.4",
     "twig/intl-extra": "^3.5",
     "twig/twig": "^3.5",
@@ -60,8 +61,7 @@
     "phpmd/phpmd": "^2.13",
     "phpstan/phpstan": "^1.10",
     "phpunit/phpunit": "^9.6",
-    "squizlabs/php_codesniffer": "^3.7",
-    "symfony/var-dumper": "^5.4"
+    "squizlabs/php_codesniffer": "^3.7"
   },
   "provide": {
     "psr/log-implementation": "1.0",
@@ -105,7 +105,7 @@
     "post-update-cmd": "cd ./tests/fixtures/website && composer update",
     "box": "@build",
     "build": "box compile",
-    "code": ["@code:analyse", "@code:style", "@code:fix"],
+    "code": ["@code:analyse", "@code:fix", "@code:style"],
     "code:analyse": "phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=raw",
     "code:analyse:gh": "phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=github",
     "code:style": "phpcs ./src/ --standard=PSR12 -n",
