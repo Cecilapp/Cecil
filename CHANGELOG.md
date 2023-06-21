@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.42.0...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.43.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,18 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.43.0](https://github.com/Cecilapp/Cecil/compare/7.42.0...7.43.0)
+
+> 22 June 2023
+
+- chore(deps): bump jaywcjlove/changelog-generator from 1.9.1 to 1.9.2 [`#1724`](https://github.com/Cecilapp/Cecil/pull/1724)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.19 to 1.10.20 [`#1723`](https://github.com/Cecilapp/Cecil/pull/1723)
+- refactor: skeleton templates [`c25b446`](https://github.com/Cecilapp/Cecil/commit/c25b446dd9595803fc3b62ad9983e8a84c196a92)
+- feat: new dump function [`24f848a`](https://github.com/Cecilapp/Cecil/commit/24f848a8ffc2546ac61d0d9e5391c092859e792a)
+- refactor: default templates [`be7f21e`](https://github.com/Cecilapp/Cecil/commit/be7f21eb7513d3e5f98c295d8c122b4d0f1c0be8)
+- chore: update deps [`2f90105`](https://github.com/Cecilapp/Cecil/commit/2f90105d065e5c24f945886496e9f9f0c0dbf034)
+- chore: update translation file [`c3946e4`](https://github.com/Cecilapp/Cecil/commit/c3946e48c25b94cb71c52031772a5001dc605b8e)
 
 #### [7.42.0](https://github.com/Cecilapp/Cecil/compare/7.41.1...7.42.0)
 
