@@ -105,7 +105,7 @@
   </head>
   <body>
     <header>
-    {%- block header ~%}
+      {%- block header ~%}
       {%- if page.type == 'homepage' ~%}
       <h1>{{ site.title }}</h1>
       {%- else ~%}
@@ -114,20 +114,20 @@
       </div>
       {%- endif ~%}
       {%- include 'partials/navigation.html.twig' with {menu: site.menus.main} only ~%}
-    {%- endblock header ~%}
+      {%- endblock header ~%}
     </header>
     <main>
-    {%- block content ~%}
+      {%- block content ~%}
       {{ page.content }}
-    {%- endblock content ~%}
+      {%- endblock content ~%}
     </main>
     <footer>
-    {%- block footer ~%}
+      {%- block footer ~%}
       {%- set powered_by -%}
       <a href="{{ cecil.url }}">Cecil</a> &amp; <a href="https://newcss.net">new.css</a>
       {%- endset ~%}
       <small>{% trans %}Powered by %powered_by%{% endtrans %}</small>
-    {%- endblock footer ~%}
+      {%- endblock footer ~%}
     </footer>
     {%- include 'partials/googleanalytics.js.twig' with {site} only ~%}
   </body>
