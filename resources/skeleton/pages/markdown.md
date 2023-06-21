@@ -87,7 +87,7 @@ Cecil::create(
 
 ### Image
 
-![Cecil favicon](/favicon.png "Cecil favicon")
+![Cecil favicon](../assets/favicon.png "Cecil favicon")
 
 ### Definition lists
 
