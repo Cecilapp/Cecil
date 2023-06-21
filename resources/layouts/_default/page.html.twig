@@ -120,6 +120,8 @@
       {%- block content ~%}
       {{ page.content }}
       {%- endblock content ~%}
+      {#- debug ~#}
+      {%- if getenv('CECIL_DEBUG') %}{{ d(page) }}{% endif ~%}
     </main>
     <footer>
       {%- block footer ~%}

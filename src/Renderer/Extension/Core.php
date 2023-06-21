@@ -29,6 +29,8 @@ use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -82,6 +84,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             // others
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
+            new \Twig\TwigFunction('d', [$this, 'varDump'], ['needs_context' => true, 'needs_environment' => true]),
             // deprecated
             new \Twig\TwigFunction(
                 'hash',
@@ -836,6 +839,32 @@ class Core extends SlugifyExtension
         $var = $var ?? '';
 
         return getenv($var) ?: null;
+    }
+
+    /**
+     * Dump variable (or Twig context).
+     */
+    public function varDump(\Twig\Environment $env, $context, $var, ?array $options = null): void
+    {
+        if (!$env->isDebug()) {
+            return;
+        }
+
+        if (!$var) {
+            foreach ($context as $key => $value) {
+                if (!$value instanceof \Twig\Template && !$value instanceof \Twig\TemplateWrapper) {
+                    $var[$key] = $value;
+                }
+            }
+        }
+
+        $cloner = new VarCloner();
+        $cloner->setMinDepth(4);
+        $dumper = new HtmlDumper();
+        $dumper->setTheme($options['theme'] ?? 'light');
+
+        $data = $cloner->cloneVar($var)->withMaxDepth(4);
+        $dumper->dump($data, null, ['maxDepth' => 4]);
     }
 
     /**
