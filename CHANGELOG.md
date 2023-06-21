@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.41.1...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.42.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,16 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.42.0](https://github.com/Cecilapp/Cecil/compare/7.41.1...7.42.0)
+
+> 21 June 2023
+
+- feat: better default templates [`#1722`](https://github.com/Cecilapp/Cecil/pull/1722)
+- chore(deps): bump jaywcjlove/changelog-generator from 1.7.0 to 1.9.1 [`#1721`](https://github.com/Cecilapp/Cecil/pull/1721)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.17.0 to 3.18.0 [`#1720`](https://github.com/Cecilapp/Cecil/pull/1720)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.18 to 1.10.19 [`#1719`](https://github.com/Cecilapp/Cecil/pull/1719)
+- chore(deps): bump jaywcjlove/changelog-generator from 1.6.4 to 1.7.0 [`#1718`](https://github.com/Cecilapp/Cecil/pull/1718)
 
 #### [7.41.1](https://github.com/Cecilapp/Cecil/compare/7.41.0...7.41.1)
 
