@@ -82,6 +82,7 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - chore(deps): bump jaywcjlove/changelog-generator from 1.9.1 to 1.9.2 [`#1724`](https://github.com/Cecilapp/Cecil/pull/1724)
 - chore(deps-dev): bump phpstan/phpstan from 1.10.19 to 1.10.20 [`#1723`](https://github.com/Cecilapp/Cecil/pull/1723)
+- fix: dependencies [`874bd8a`](https://github.com/Cecilapp/Cecil/commit/874bd8a353677f0ee89bee2593943d738bcfad40)
 - refactor: skeleton templates [`c25b446`](https://github.com/Cecilapp/Cecil/commit/c25b446dd9595803fc3b62ad9983e8a84c196a92)
 - feat: new dump function [`24f848a`](https://github.com/Cecilapp/Cecil/commit/24f848a8ffc2546ac61d0d9e5391c092859e792a)
 - refactor: default templates [`be7f21e`](https://github.com/Cecilapp/Cecil/commit/be7f21eb7513d3e5f98c295d8c122b4d0f1c0be8)
