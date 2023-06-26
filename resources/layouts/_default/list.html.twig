@@ -24,7 +24,6 @@
         {%- for p in pages ~%}
         <article>
           <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
-          {{ p.content|excerpt_html }}
         </article>
         {%- endfor ~%}
         <footer>

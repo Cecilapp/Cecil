@@ -8,7 +8,7 @@ menu:
 
 Text can be **bold**, _italic_, or ~~strikethrough~~.
 
-[Link to another page](another-page.md).
+[Link to about page](about.md).
 
 There should be whitespace between paragraphs.
 

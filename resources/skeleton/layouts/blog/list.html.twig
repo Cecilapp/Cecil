@@ -17,6 +17,9 @@
                 <time>{{ p.date|format_date('long') }}</time>
               </header>
               {{ p.content|excerpt_html }}
+              <footer class="page-nav">
+                <a class="page-nav next" href="{{ url(p) }}#more">Read more</a>
+              </footer>
             </article>
             {%- endfor ~%}
             <footer>
