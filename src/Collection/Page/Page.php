@@ -208,6 +208,10 @@ class Page extends Item
      */
     public function getFilePath(): ?string
     {
+        if ($this->file === null) {
+            return null;
+        }
+
         return $this->file->getRealPath() === false ? null : $this->file->getRealPath();
     }
 
