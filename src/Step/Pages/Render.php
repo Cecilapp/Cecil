@@ -315,7 +315,7 @@ class Render extends AbstractStep
             // https://regex101.com/r/ycWMe4/1
             '/href="(\/|)([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9_\-]+)?"/is',
             function ($matches) use ($page) {
-                // section spage
+                // section page
                 $hrefPattern = 'href="../%s/%s"';
                 // root page
                 if (empty($page->getFolder())) {
