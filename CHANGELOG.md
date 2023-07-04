@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.43.0...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.43.1...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,23 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.43.1](https://github.com/Cecilapp/Cecil/compare/7.43.0...7.43.1)
+
+> 3 July 2023
+
+- chore(deps): bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 [`#1731`](https://github.com/Cecilapp/Cecil/pull/1731)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.19.2 to 3.20.0 [`#1730`](https://github.com/Cecilapp/Cecil/pull/1730)
+- chore(deps): bump symfony/filesystem from 5.4.23 to 5.4.25 [`#1728`](https://github.com/Cecilapp/Cecil/pull/1728)
+- chore(deps): bump symfony/serializer from 5.4.24 to 5.4.25 [`#1727`](https://github.com/Cecilapp/Cecil/pull/1727)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.18.0 to 3.19.2 [`#1726`](https://github.com/Cecilapp/Cecil/pull/1726)
+- Create authoring-content.md [`d110863`](https://github.com/Cecilapp/Cecil/commit/d110863e910c0d92c7e964191c81b8b31e01c530)
+- Delete markdown.md [`9377e9b`](https://github.com/Cecilapp/Cecil/commit/9377e9bac07bfe8a1763ab217f24db8135736fb6)
+- chore: update deps [`98172c0`](https://github.com/Cecilapp/Cecil/commit/98172c003b0554d9fe31aae0a3fd12e2fc557ca9)
+- fix: default layouts [`089f862`](https://github.com/Cecilapp/Cecil/commit/089f86204333396994a4d2ae5d033f81705cf29b)
+- chore: update deps [`f963d1a`](https://github.com/Cecilapp/Cecil/commit/f963d1a53d1672712b2e121ce161bb9514ee31b8)
+- fix: page.filepath if virtual page [`d3e2790`](https://github.com/Cecilapp/Cecil/commit/d3e27901db1c0bcc3ef6a114da93206cbe22b0d6)
+- chore: update skeleton about page [`2c8862f`](https://github.com/Cecilapp/Cecil/commit/2c8862f27ef1eeb4f3a5b54b445c45efc6b57a53)
 
 #### [7.43.0](https://github.com/Cecilapp/Cecil/compare/7.42.0...7.43.0)
 
