@@ -10,6 +10,14 @@
     <style>{% apply minify_css %}
       {%- include 'partials/new.css.twig' ~%}
       /* new.css enhancements */
+      :root body > header {
+        --nc-lk-1: #006be9;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root body > header {
+          --nc-lk-1: var(--nc-d-lk-1);
+        }
+      }
       body {
         overflow-y: scroll;
       }
@@ -36,7 +44,7 @@
       }
       nav li:not(main) {
         display: inline-block;
-        margin: 0 .5rem 0 0;
+        margin: 0 .5rem .5rem 0;
       }
       nav a:not(main) {
         text-decoration: none;
