@@ -247,6 +247,8 @@ metatags:
     pagination:
       shownumber: true      # displays page number in title (`true` by default)
       label: "Page %s"      # how to display page number (`Page %s` by default)
+  image:
+    enabled: true         # injects image (`true` by default)
   robots: "index,follow"  # web crawlers directives (`index,follow` by default)
   articles: "blog"        # articles' section (`blog` by default)
   jsonld:
