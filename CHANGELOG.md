@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.43.2...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.44.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,30 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.44.0](https://github.com/Cecilapp/Cecil/compare/7.43.2...7.44.0)
+
+> 2 August 2023
+
+- chore(deps): bump symfony/process from 5.4.24 to 5.4.26 [`#1747`](https://github.com/Cecilapp/Cecil/pull/1747)
+- chore(deps): bump symfony/var-dumper from 5.4.25 to 5.4.26 [`#1752`](https://github.com/Cecilapp/Cecil/pull/1752)
+- chore(deps): bump symfony/finder from 5.4.21 to 5.4.27 [`#1751`](https://github.com/Cecilapp/Cecil/pull/1751)
+- chore(deps): bump symfony/serializer from 5.4.25 to 5.4.26 [`#1750`](https://github.com/Cecilapp/Cecil/pull/1750)
+- chore(deps): bump symfony/config from 5.4.21 to 5.4.26 [`#1749`](https://github.com/Cecilapp/Cecil/pull/1749)
+- chore(deps): bump symfony/console from 5.4.24 to 5.4.26 [`#1748`](https://github.com/Cecilapp/Cecil/pull/1748)
+- chore(deps): bump symfony/property-access from 5.4.22 to 5.4.26 [`#1746`](https://github.com/Cecilapp/Cecil/pull/1746)
+- chore(deps): bump symfony/twig-bridge from 5.4.22 to 5.4.26 [`#1745`](https://github.com/Cecilapp/Cecil/pull/1745)
+- chore(deps): bump spatie/image-optimizer from 1.7.0 to 1.7.1 [`#1744`](https://github.com/Cecilapp/Cecil/pull/1744)
+- chore(deps): bump twig/twig from 3.6.1 to 3.7.0 [`#1743`](https://github.com/Cecilapp/Cecil/pull/1743)
+- chore(deps): bump spatie/image-optimizer from 1.6.4 to 1.7.0 [`#1741`](https://github.com/Cecilapp/Cecil/pull/1741)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.25 to 1.10.26 [`#1740`](https://github.com/Cecilapp/Cecil/pull/1740)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.21.0 to 3.22.0 [`#1739`](https://github.com/Cecilapp/Cecil/pull/1739)
+- chore(deps): bump jaywcjlove/changelog-generator from 1.9.2 to 1.9.3 [`#1738`](https://github.com/Cecilapp/Cecil/pull/1738)
+- chore(deps-dev): bump phpunit/phpunit from 9.6.9 to 9.6.10 [`#1737`](https://github.com/Cecilapp/Cecil/pull/1737)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.24 to 1.10.25 [`#1736`](https://github.com/Cecilapp/Cecil/pull/1736)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.23 to 1.10.24 [`#1735`](https://github.com/Cecilapp/Cecil/pull/1735)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.20.0 to 3.21.0 [`#1734`](https://github.com/Cecilapp/Cecil/pull/1734)
+- feat: option to disable default metatag image [`47c729d`](https://github.com/Cecilapp/Cecil/commit/47c729d2f47610a0c5a72e80928afd6df03fd55f)
 
 #### [7.43.2](https://github.com/Cecilapp/Cecil/compare/7.43.1...7.43.2)
 
