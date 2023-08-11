@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.44.0...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.44.1...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,17 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.44.1](https://github.com/Cecilapp/Cecil/compare/7.44.0...7.44.1)
+
+> 10 August 2023
+
+- chore(deps-dev): bump phpstan/phpstan from 1.10.27 to 1.10.28 [`#1757`](https://github.com/Cecilapp/Cecil/pull/1757)
+- chore(deps): bump cocur/slugify from 4.3.0 to 4.4.0 [`#1756`](https://github.com/Cecilapp/Cecil/pull/1756)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.26 to 1.10.27 [`#1755`](https://github.com/Cecilapp/Cecil/pull/1755)
+- chore(deps): bump jaywcjlove/changelog-generator from 1.9.4 to 1.9.5 [`#1754`](https://github.com/Cecilapp/Cecil/pull/1754)
+- chore(deps): bump jaywcjlove/changelog-generator from 1.9.3 to 1.9.4 [`#1753`](https://github.com/Cecilapp/Cecil/pull/1753)
+- fix: alternates feed link [`cf257a6`](https://github.com/Cecilapp/Cecil/commit/cf257a62b742fc2a0b4003da061d24fc296297bc)
 
 #### [7.44.0](https://github.com/Cecilapp/Cecil/compare/7.43.2...7.44.0)
 
