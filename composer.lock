@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
-            "version": "1.4.3",
+            "version": "1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BenjaminHoegh/ParsedownToc.git",
-                "reference": "31550a0c9151a1428b199335e31bea8344745879"
+                "reference": "7dc0e82f09c46fb43b49b280eb27cf08603a42a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenjaminHoegh/ParsedownToc/zipball/31550a0c9151a1428b199335e31bea8344745879",
-                "reference": "31550a0c9151a1428b199335e31bea8344745879",
+                "url": "https://api.github.com/repos/BenjaminHoegh/ParsedownToc/zipball/7dc0e82f09c46fb43b49b280eb27cf08603a42a4",
+                "reference": "7dc0e82f09c46fb43b49b280eb27cf08603a42a4",
                 "shasum": ""
             },
             "require": {
@@ -26,9 +26,9 @@
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "ParsedownToc.php"
-                ]
+                "psr-0": {
+                    "": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -50,7 +50,7 @@
             ],
             "support": {
                 "issues": "https://github.com/BenjaminHoegh/ParsedownToc/issues",
-                "source": "https://github.com/BenjaminHoegh/ParsedownToc/tree/1.4.3"
+                "source": "https://github.com/BenjaminHoegh/ParsedownToc/tree/1.5"
             },
             "funding": [
                 {
@@ -62,7 +62,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-01-18T11:20:41+00:00"
+            "time": "2023-08-13T05:59:35+00:00"
         },
         {
             "name": "cocur/slugify",
