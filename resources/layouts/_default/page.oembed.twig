@@ -1,0 +1,24 @@
+{
+  "type": "video",
+  "version": "1.0",
+  "url": "{{ url(page, {canonical: true}) }}",
+  "title": "{{ page.title }}",
+  "description": "{{ page.description|default|e }}",
+  {%- if page.image is defined ~%}
+  {%- set image_asset = asset(page.image) ~%}
+  "thumbnail_url": "{{ url(image_asset, {canonical: true}) }}",
+  "thumbnail_width": "{{ image_asset.width }}",
+  "thumbnail_height": "{{ image_asset.height }}",
+  "image": "{{ url(image_asset, {canonical: true}) }}",
+  {%- endif ~%}
+  {%- if page.videos is defined ~%}
+  {%- set video_asset = asset(page.videos[0]) ~%}
+  "html": "<iframe width=\"{{ video_asset.video.width }}\" height=\"{{ video_asset.video.height }}\" src=\"{{ url(page, {canonical: true, format:'iframe'}) }}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"{{ page.title }}\"></iframe>",
+  "width": "{{ video_asset.video.width }}",
+  "height": "{{ video_asset.video.height }}",
+  {%- endif ~%}
+  "author_name": "{{ site.author.name }}",
+  "author_url": "{{ url('/', {canonical: true}) }}",
+  "provider_name": "{{ site.title }}",
+  "provider_url": "{{ url('/', {canonical: true}) }}"
+}
