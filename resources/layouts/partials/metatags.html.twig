@@ -82,7 +82,7 @@
   {%- set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
 {% endif %}
 {% if video ?? false %}
-  {% set video_asset = asset(video) %}
+  {%- set video_asset = asset(video) %}
   {%- set opengraph = opengraph|merge({'type': 'video.other'}) %}
   {%- set opengraph = opengraph|merge({'video': video_asset}) %}
 {% endif %}
