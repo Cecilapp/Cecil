@@ -585,6 +585,20 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Returns MP4 file infos.
+     *
+     * @see https://github.com/clwu88/php-read-mp4info
+     */
+    public function getVideo(): array
+    {
+        if ($this->data['type'] !== 'video') {
+            throw new RuntimeException(sprintf('Not able to get video infos of "%s"', $this->data['path']));
+        }
+
+        return \Clwu\Mp4::getInfo($this->data['file']);
+    }
+
+    /**
      * Returns the data URL (encoded in Base64).
      *
      * @throws RuntimeException

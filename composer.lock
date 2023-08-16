@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14116b994f03501f5a8564fe69374e10",
+    "content-hash": "9343b8781da5014426bf81c16807a30e",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -63,6 +63,56 @@
                 }
             ],
             "time": "2023-01-18T11:20:41+00:00"
+        },
+        {
+            "name": "clwu/php-read-mp4info",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/clwu88/php-read-mp4info.git",
+                "reference": "286726a66ce6e743f1de118557ce1528645fe106"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/clwu88/php-read-mp4info/zipball/286726a66ce6e743f1de118557ce1528645fe106",
+                "reference": "286726a66ce6e743f1de118557ce1528645fe106",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Clwu\\": "src/Clwu"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "clwu",
+                    "email": "chaolong.wu@qq.com",
+                    "homepage": "https://github.com/clwu88"
+                }
+            ],
+            "description": "detect the rotate/width/height ... of MP4 video",
+            "homepage": "https://github.com/clwu88/php-read-mp4info",
+            "keywords": [
+                "height",
+                "mp4",
+                "rotate",
+                "rotation",
+                "video",
+                "width"
+            ],
+            "support": {
+                "issues": "https://github.com/clwu88/php-read-mp4info/issues",
+                "source": "https://github.com/clwu88/php-read-mp4info/tree/master"
+            },
+            "time": "2020-02-12T08:06:12+00:00"
         },
         {
             "name": "cocur/slugify",
