@@ -1,28 +1,39 @@
 {% extends 'partials/metatags.html.twig' %}
 {% block content %}
 {
-  "type": "video",
   "version": "1.0",
-  "url": "{{ opengraph.url }}",
   "title": "{{ opengraph.title }}",
-  "description": "{{ opengraph.description }}",
-  {%- if opengraph.image is defined ~%}
-  "thumbnail_url": "{{ url(opengraph.image, {canonical: true}) }}",
-  "thumbnail_width": {{ opengraph.image.width }},
-  "thumbnail_height": {{ opengraph.image.height }},
-  "image": "{{ url(opengraph.image, {canonical: true}) }}",
-  {%- endif ~%}
-  {%- if opengraph.video is defined ~%}
+  {%- if opengraph.image is defined or opengraph.video is defined ~%}
+  "thumbnail_url": "{{ url(opengraph.image|resize(640), {canonical: true}) }}",
+  "thumbnail_width": {{ opengraph.image|resize(640).width }},
+  "thumbnail_height": {{ opengraph.image|resize(640).height }},
+    {%- if opengraph.video is defined ~%}
+  "type": "video",
   "html": "<iframe width=\"{{ opengraph.video.video.width }}\" height=\"{{ opengraph.video.video.height }}\" src=\"{{ url(page, {canonical: true, format:'iframe'}) }}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"{{ opengraph.title }}\"></iframe>",
   "width": {{ opengraph.video.video.width }},
   "height": {{ opengraph.video.video.height }},
+    {%- else ~%}
+      {%- if opengraph.image is defined ~%}
+  "type": "photo",
+  "url": "{{ url(opengraph.image, {canonical: true}) }}",
+  "width": {{ opengraph.image.width }},
+  "height": {{ opengraph.image.height }},
+      {%- else ~%}
+  "type": "link",
+      {%- endif ~%}
+    {%- endif ~%}
   {%- endif ~%}
+  "provider_name": "{{ site.title }}",
+  "provider_url": "{{ url('/', {canonical: true}) }}",
   "author_name": "{{ author.name }}",
   {%- if author.url is defined ~%}
   "author_url": "{{ author.url }}",
   {%- endif ~%}
-  "provider_name": "{{ site.title }}",
-  "provider_url": "{{ url('/', {canonical: true}) }}",
-  "cache_age": 3600
+  "cache_age": 3600,
+  {# extend #}
+  {%- if 'iframe' in page.output ~%}
+  "embed_url": "{{ url(page, {canonical: true, format: 'iframe'}) }}",
+  {%- endif ~%}
+  "description": "{{ opengraph.description }}"
 }
 {% endblock %}
