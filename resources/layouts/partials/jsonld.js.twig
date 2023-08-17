@@ -29,8 +29,8 @@
             {
               "@type": "SiteNavigationElement",
               "position": {{ loop.index }},
-              "name": "{{ site.pages[item.id].title|default(item.name) }}",
-              "description": "{{ site.pages[item.id].description|default('') }}",
+              "name": "{{ site.page(item.id).title|default(item.name) }}",
+              "description": "{{ site.pages(item.id).description|default('') }}",
               "url": "{{ url(item.url, {canonical: true}) }}"
             }{%- if not loop.last %},{% endif -%}
             {%~ endfor ~%}
@@ -45,7 +45,7 @@
           "itemListElement": [{
             "@type": "ListItem",
             "position": 1,
-            "name": "{{ site.pages[page.section].title }}",
+            "name": "{{ site.page(page.section).title }}",
             "item": "{{ url(page.section, {canonical: true}) }}"
           },{
             "@type": "ListItem",
