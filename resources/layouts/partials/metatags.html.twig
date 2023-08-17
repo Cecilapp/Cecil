@@ -1,4 +1,4 @@
-{#- title ~#}
+{#- title -#}
 {% if title is not defined or title is empty %}
   {%- set title_divider = page.metatags.title.divider|default(site.metatags.title.divider|default(' &middot; ')) %}
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
@@ -108,8 +108,8 @@
     {%- set twitter = twitter|merge(page.social.twitter|default(site.social.twitter)) %}
   {%- endif %}
 {% endif %}
-
-    {#- template #}
+{%- block content %}
+    {#~ template ~#}
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
 {%- if keywords ~%}
@@ -153,15 +153,21 @@
 {%- include 'partials/feeds-from-section.html.twig' with {'title': title, 'page': page} only ~%}
 {#- template: alternates languages ~#}
 {%- include 'partials/alternates-languages.html.twig' with {'page': page} only ~%}
+{#- template: preload ~#}
+{%- if page.poster is defined ~%}
+    <link rel="preload" href="{{ url(asset(page.poster)) }}" as="image" type="{{ asset(page.poster).subtype }}" />
+{%- endif ~%}
+{%- if page.videos[0] is defined ~%}
+    <link rel="preload" href="{{ url(asset(page.videos[0])) }}" as="video" type="{{ asset(page.videos[0]).subtype }}" />
+{%- endif ~%}
 {#- template: Open Graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}" />
     <meta property="og:site_name" content="{{ opengraph.site_name }}" />
     <meta property="og:type" content="{{ opengraph.type }}" />
     <meta property="og:title" content="{{ opengraph.title }}" />
     <meta property="og:description" content="{{ opengraph.description }}" />
-    <meta property="og:url" content="{{ url(page, {'canonical': true}) }}" />
+    <meta property="og:url" content="{{ opengraph.url }}" />
 {%- if opengraph.image is defined ~%}
-    <link rel="preload" href="{{ url(opengraph.image) }}" as="image" type="{{ opengraph.image.subtype }}" />
     <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}" />
     <meta property="og:image:type" content="{{ opengraph.image.subtype }}" />
     <meta property="og:image:width" content="{{ opengraph.image.width }}" />
@@ -169,7 +175,6 @@
     <meta property="og:image:alt" content="{{ opengraph.title }}" />
 {%- endif ~%}
 {%- if opengraph.video is defined ~%}
-    <link rel="preload" href="{{ url(opengraph.video) }}" as="video" type="{{ opengraph.video.subtype }}" />
     <meta property="og:video" content="{{ url(opengraph.video, {'canonical': true}) }}" />
     <meta property="og:video:url" content="{{ url(opengraph.video, {'canonical': true}) }}" />
     <meta property="og:video:secure_url" content="{{ url(opengraph.video, {'canonical': true}) }}" />
@@ -215,3 +220,4 @@
 {%- endif ~%}
 {#- template: json-ld ~#}
 {%- include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset|default} ~%}
+{%- endblock ~%}
