@@ -1,6 +1,6 @@
 {%- set feed_formats = ['atom', 'rss', 'jsonfeed'] -%}
 {%- if page.section|default and page.type == 'page' -%}
-  {%- set section_page = site.pages[page.section]|default -%}
+  {%- set section_page = site.page(page.section)|default -%}
   {%- if section_page -%}
     {%- include 'partials/alternates.html.twig' with {'title': section_page.title|e ~ ' - ' ~ site.title|e , 'page': section_page, 'alternates': section_page.alternates|filter(a => a.format in feed_formats)} only ~%}
   {%- endif -%}

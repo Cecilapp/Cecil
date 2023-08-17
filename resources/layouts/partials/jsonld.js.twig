@@ -9,14 +9,12 @@
           "description": "{{ site.description }}",
           "url": "{{ url('/', {canonical: true}) }}"
           {%- if site.image is defined ~%},
-          "image": ["{{ url(site.image, {canonical: true}) }}"]
+          "image": ["{{ url(asset(site.image), {canonical: true}) }}"]
           {%- endif ~%}
-          {%- if site.social is defined ~%},
+          {%- if page.social|default(site.social|default) ~%},
           "sameAs": [
-            {%- for social in site.social ~%}
-              {%- if social.url is defined ~%}
+            {%- for social in page.social|default(site.social)|filter((v) => v['url'] is defined) ~%}
             "{{ social.url }}"{% if not loop.last %},{% endif %}
-              {%- endif ~%}
             {%- endfor ~%}
           ]
           {%- endif ~%}
@@ -31,23 +29,23 @@
             {
               "@type": "SiteNavigationElement",
               "position": {{ loop.index }},
-              "name": "{{ site.pages[item.id].title|default(item.name) }}",
-              "description": "{{ site.pages[item.id].description|default('') }}",
-              "url":"{{ url(item.url, {canonical: true}) }}"
+              "name": "{{ site.page(item.id).title|default(item.name) }}",
+              "description": "{{ site.pages(item.id).description|default('') }}",
+              "url": "{{ url(item.url, {canonical: true}) }}"
             }{%- if not loop.last %},{% endif -%}
             {%~ endfor ~%}
           ]
         }
-        {%- endif ~%}
-        {#- BreadcrumbList ~#}
+        {%- endif -%}
         {%- if page.section -%}
+          {#- BreadcrumbList -#}
         ,{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [{
             "@type": "ListItem",
             "position": 1,
-            "name": "{{ page.section|capitalize }}",
+            "name": "{{ site.page(page.section).title }}",
             "item": "{{ url(page.section, {canonical: true}) }}"
           },{
             "@type": "ListItem",
@@ -88,12 +86,31 @@
             {%- if favicon_asset and not favicon_asset.missing ~%},
             "logo": {
               "@type": "ImageObject",
-              "url": "{{ url(favicon_asset) }}"
+              "url": "{{ url(favicon_asset, {canonical: true}) }}"
             }
             {%- endif ~%}
           }
         }
           {%- endif ~%}
+        {%- endif ~%}
+
+        {#- VideoObject ~#}
+        {%- if opengraph.video is defined -%}
+	      ,{
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "name": "{{ page.title }}",
+          "description": "{{ page.description }}",
+          {%- if page.poster is defined ~%}
+          "thumbnailUrl": [
+            "{{ url(asset(page.poster), {canonical: true}) }}"
+          ],
+          {%- endif ~%}
+          "uploadDate": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          "duration": "PT1M54S",
+          "contentUrl": "{{ url(opengraph.video, {canonical: true}) }}",
+          "embedUrl": "{{ url(page, {canonical: true, format: 'iframe'}) }}"
+        }
         {%- endif ~%}
       ]
     {% endapply %}</script>
