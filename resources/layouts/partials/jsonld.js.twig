@@ -47,15 +47,17 @@
             "position": 1,
             "name": "{{ site.page(page.section).title }}",
             "item": "{{ url(page.section, {canonical: true}) }}"
+          {%- if page.type != 'section' ~%}
           },{
             "@type": "ListItem",
             "position": 2,
             "name": "{{ page.title|e }}",
             "item": "{{ url(page, {canonical: true}) }}"
+          {%- endif ~%}
           }]
         }
           {#- NewsArticle ~#}
-          {%- if page.section == site.metatags.articles|default('blog') -%}
+          {%- if page.section == site.metatags.articles|default('blog') and page.type != 'section' -%}
         ,{
           "@context": "https://schema.org",
           "@type": "NewsArticle",
@@ -96,7 +98,7 @@
 
         {#- VideoObject ~#}
         {%- if opengraph.video is defined -%}
-	      ,{
+        ,{
           "@context": "https://schema.org",
           "@type": "VideoObject",
           "name": "{{ page.title }}",
