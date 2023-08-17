@@ -154,11 +154,8 @@
 {#- template: alternates languages ~#}
 {%- include 'partials/alternates-languages.html.twig' with {'page': page} only ~%}
 {#- template: preload ~#}
-{%- if page.poster is defined ~%}
-    <link rel="preload" href="{{ url(asset(page.poster)) }}" as="image" type="{{ asset(page.poster).subtype }}" />
-{%- endif ~%}
-{%- if page.videos[0] is defined ~%}
-    <link rel="preload" href="{{ url(asset(page.videos[0])) }}" as="video" type="{{ asset(page.videos[0]).subtype }}" />
+{%- if video_asset is defined ~%}
+    <link rel="preload" href="{{ url(video_asset) }}" as="video" type="{{ video_asset.subtype }}" />
 {%- endif ~%}
 {#- template: Open Graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}" />
