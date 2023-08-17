@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-05-09
+updated: 2023-08-02
 -->
 # Configuration
 

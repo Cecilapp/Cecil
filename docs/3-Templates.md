@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-05-22
+updated: 2023-08-17
 alias: documentation/layouts
 -->
 # Templates
@@ -458,6 +458,7 @@ Assets created with the `asset()` function expose some useful attributes:
 - `height`: image height
 - `exif`: image EXIF data as array
 - `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) object
+- `video`: array of video dimensions (width and height)
 
 _Examples:_
 
