@@ -83,7 +83,7 @@
 {% endif %}
 {% if video ?? false %}
   {%- set video_asset = asset(video) %}
-  {%- set opengraph = opengraph|merge({'type': 'video.other'}) %}
+  {%- set opengraph = opengraph|merge({'type': 'video'}) %}
   {%- set opengraph = opengraph|merge({'video': video_asset}) %}
 {% endif %}
 {# Facebook #}
