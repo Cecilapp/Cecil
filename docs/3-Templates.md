@@ -157,7 +157,7 @@ Can be displayed in a template with:
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 
 :::tip
-You can get any page, regardless of their language, with `site.pages['id']` where `id` is the _ID_ of a page.
+You can get any page, regardless of their language, with `site.allpages['id']` where `id` is the _ID_ of a page.
 :::
 
 #### site.menus
