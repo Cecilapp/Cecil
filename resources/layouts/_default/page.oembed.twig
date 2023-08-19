@@ -30,7 +30,6 @@
   "author_url": "{{ author.url }}",
   {%- endif ~%}
   "cache_age": 3600,
-  {# extend #}
   {%- if 'iframe' in page.output ~%}
   "embed_url": "{{ url(page, {canonical: true, format: 'iframe'}) }}",
   {%- endif ~%}
