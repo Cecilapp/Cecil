@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.46.3...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.46.4...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,14 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.46.4](https://github.com/Cecilapp/Cecil/compare/7.46.3...7.46.4)
+
+> 18 August 2023
+
+- fix: oembed template [`827aa7b`](https://github.com/Cecilapp/Cecil/commit/827aa7b1e89f6ef33ff8371f78fd760bc547c7f4)
+- fix: JSON-LD template [`e811846`](https://github.com/Cecilapp/Cecil/commit/e8118463f7d2b50a986e0eb628679415ca868f88)
+- fix: iframe video poster [`ce6865b`](https://github.com/Cecilapp/Cecil/commit/ce6865b881fa3216c0fd9e76fe0bf1df12f85f47)
 
 #### [7.46.3](https://github.com/Cecilapp/Cecil/compare/7.46.2...7.46.3)
 
