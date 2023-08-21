@@ -1,4 +1,5 @@
 {#- title -#}
+{% set title_html = title|default %}
 {% if title is not defined or title is empty %}
   {%- set title_divider = page.metatags.title.divider|default(site.metatags.title.divider|default(' &middot; ')) %}
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
