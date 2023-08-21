@@ -4,21 +4,25 @@
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
   {%- set title_pagination_shownumber = page.metatags.title.pagination.shownumber|default(site.metatags.title.pagination.shownumber ?? true) %}
   {%- set title_pagination_label = page.metatags.title.pagination.label|default(site.metatags.title.pagination.label|default('Page %s')) %}
-  {%- set title = page.title|e ~ title_divider ~ site.title|e %}
+  {%- set title = page.title|e %}
+  {%- set title_html = title ~ title_divider ~ site.title|e %}
   {%- if title_only %}
-    {%- set title = page.title|e %}
+    {%- set title_html = title %}
   {%- endif %}
   {%- if page.type == 'homepage' %}
     {%- set title = site.title|e ~ title_divider ~ site.baseline|default('')|e %}
+    {%- set title_html = title %}
     {%- if title_only or site.baseline|default('') is empty %}
       {%- set title = site.title|e %}
+      {%- set title_html = title %}
     {%- endif %}
   {%- endif %}
   {%- if page.paginator.current|default(0) > 1 %}
     {%- if title_pagination_shownumber %}
-      {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) ~ title_divider ~ site.title|e %}
+      {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) %}
+      {%- set title_html = title ~ title_divider ~ site.title|e %}
       {%- if title_only %}
-        {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) %}
+        {%- set title_html = title %}
       {%- endif %}
     {%- endif %}
   {%- endif %}
@@ -63,7 +67,7 @@
   'locale': site.language.locale,
   'site_name': site.title,
   'type': 'website',
-  'title': block('title'),
+  'title': title,
   'description': block('description'),
   'url': url(page, {canonical: true}),
 } %}
@@ -110,7 +114,7 @@
 {% endif %}
 {%- block content %}
     {#~ template ~#}
-    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <title>{% block title %}{{ title_html }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
 {%- if keywords ~%}
     <meta name="keywords" content="{{ keywords|join(', ') }}" />
