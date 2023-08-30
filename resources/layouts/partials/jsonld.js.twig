@@ -5,8 +5,8 @@
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "name": "{{ site.title }}",
-          "description": "{{ site.description }}",
+          "name": "{{ site.title|e }}",
+          "description": "{{ site.description|e }}",
           "url": "{{ url('/', {canonical: true}) }}"
           {%- if site.image is defined ~%},
           "image": ["{{ url(asset(site.image), {canonical: true}) }}"]
@@ -29,8 +29,8 @@
             {
               "@type": "SiteNavigationElement",
               "position": {{ loop.index }},
-              "name": "{{ site.page(item.id).title|default(item.name) }}",
-              "description": "{{ site.pages(item.id).description|default('') }}",
+              "name": "{{ site.page(item.id).title|default(item.name)|e }}",
+              "description": "{{ site.page(item.id).description|default|e }}",
               "url": "{{ url(item.url, {canonical: true}) }}"
             }{%- if not loop.last %},{% endif -%}
             {%~ endfor ~%}
@@ -45,7 +45,7 @@
           "itemListElement": [{
             "@type": "ListItem",
             "position": 1,
-            "name": "{{ site.page(page.section).title }}",
+            "name": "{{ site.page(page.section).title|default(page.section)|e }}",
             "item": "{{ url(page.section, {canonical: true}) }}"
           {%- if page.type != 'section' ~%}
           },{
@@ -76,7 +76,7 @@
           {%- if author.name|default('') is not empty ~%}
           "author": {
             "@type": "Person",
-            "name": "{{ author.name }}"
+            "name": "{{ author.name|e }}"
             {%- if author.url|default('') is not empty ~%},
             "url": "{{ author.url }}"
             {%- endif ~%}
@@ -84,7 +84,7 @@
           {%- endif ~%}
           "publisher": {
             "@type": "Organization",
-            "name": "{{ site.title }}"
+            "name": "{{ site.title|e }}"
             {%- if favicon_asset and not favicon_asset.missing ~%},
             "logo": {
               "@type": "ImageObject",
@@ -101,8 +101,8 @@
         ,{
           "@context": "https://schema.org",
           "@type": "VideoObject",
-          "name": "{{ page.title }}",
-          "description": "{{ page.description }}",
+          "name": "{{ page.title|e }}",
+          "description": "{{ page.description|e }}",
           {%- if page.poster is defined ~%}
           "thumbnailUrl": [
             "{{ url(asset(page.poster), {canonical: true}) }}"
