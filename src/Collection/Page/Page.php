@@ -538,12 +538,13 @@ class Page extends Item
         switch ($name) {
             case 'date':
             case 'updated':
+            case 'lastmod':
                 try {
                     $date = Util\Date::toDatetime($value);
                 } catch (\Exception $e) {
                     throw new \Exception(sprintf('Expected date format for variable "%s" must be "YYYY-MM-DD" instead of "%s".', $name, (string) $value));
                 }
-                $this->offsetSet($name, $date);
+                $this->offsetSet($name == 'lastmod' ? 'updated' : $name, $date);
                 break;
 
             case 'schedule':
