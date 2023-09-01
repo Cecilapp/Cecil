@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9343b8781da5014426bf81c16807a30e",
+    "content-hash": "6f8987784608dce005155cd98b06bcc7",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -852,16 +852,16 @@
         },
         {
             "name": "laravel-zero/phar-updater",
-            "version": "v1.1.1",
+            "version": "dev-hotfix",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel-zero/phar-updater.git",
-                "reference": "ac583f0983f91df9ca18c31ef6fd44dd51820495"
+                "url": "https://github.com/Cecilapp/phar-updater.git",
+                "reference": "f9e8a3711eb7083a43d9d06587af604e776683b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-zero/phar-updater/zipball/ac583f0983f91df9ca18c31ef6fd44dd51820495",
-                "reference": "ac583f0983f91df9ca18c31ef6fd44dd51820495",
+                "url": "https://api.github.com/repos/Cecilapp/phar-updater/zipball/f9e8a3711eb7083a43d9d06587af604e776683b8",
+                "reference": "f9e8a3711eb7083a43d9d06587af604e776683b8",
                 "shasum": ""
             },
             "require": {
@@ -881,7 +881,18 @@
                     "Humbug\\SelfUpdate\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "test:types": [
+                    "phpstan analyse --ansi --memory-limit=0"
+                ],
+                "test:unit": [
+                    "phpunit --colors=always"
+                ],
+                "test": [
+                    "@test:types",
+                    "@test:unit"
+                ]
+            },
             "license": [
                 "BSD-3-Clause"
             ],
@@ -900,10 +911,19 @@
                 "update"
             ],
             "support": {
-                "issues": "https://github.com/laravel-zero/phar-updater/issues",
-                "source": "https://github.com/laravel-zero/phar-updater/tree/v1.1.1"
+                "source": "https://github.com/Cecilapp/phar-updater/tree/hotfix"
             },
-            "time": "2021-08-03T08:29:40+00:00"
+            "funding": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/ArnaudLigny"
+                },
+                {
+                    "type": "open_collective",
+                    "url": "https://opencollective.com/cecil"
+                }
+            ],
+            "time": "2023-09-01T13:25:58+00:00"
         },
         {
             "name": "matthiasmullie/minify",
@@ -8969,7 +8989,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "laravel-zero/phar-updater": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
