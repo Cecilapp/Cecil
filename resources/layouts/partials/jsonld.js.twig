@@ -51,7 +51,7 @@
           },{
             "@type": "ListItem",
             "position": 2,
-            "name": "{{ page.title|e }}",
+            "name": "{{ title|default(page.title)|e }}",
             "item": "{{ url(page, {canonical: true}) }}"
           {%- endif ~%}
           }]
@@ -65,8 +65,12 @@
             "@type": "WebPage",
             "@id": "{{ url(page, {canonical: true}) }}"
           },
-          "headline": "{{ page.title|e }}",
-          {%- if page.image is defined ~%}
+          "headline": "{{ title|default(page.title)|e }}",
+          {%- if image is defined ~%}
+          "image": [
+            "{{ url(image, {canonical: true}) }}"
+          ],
+          {%- elseif page.image is defined ~%}
           "image": [
             "{{ url(page.image, {canonical: true}) }}"
           ],
@@ -101,7 +105,7 @@
         ,{
           "@context": "https://schema.org",
           "@type": "VideoObject",
-          "name": "{{ page.title|e }}",
+          "name": "{{ title|default(page.title)|e }}",
           "description": "{{ page.description|e }}",
           {%- if page.poster is defined ~%}
           "thumbnailUrl": [
