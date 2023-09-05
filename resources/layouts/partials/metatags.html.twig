@@ -33,7 +33,9 @@
 {# keywords / tags #}
 {% set keywords = page.tags|default([])|merge(site.keywords|default([]))|e %}
 {# author #}
+{% if author is not defined or author is empty %}
 {% set author = page.author|default(site.author|default(''))|e %}
+{% endif %}
 {% if author is not empty %}
   {%- if author is not iterable %}
     {%- set author = {'name': author} %}
