@@ -164,6 +164,10 @@
 {%- if video_asset is defined ~%}
     <link rel="preload" href="{{ url(video_asset) }}" as="video" type="{{ video_asset.subtype }}" />
 {%- endif ~%}
+{#- template: rel me ~#}
+{%- for social in page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) ~%}
+    <link rel="me" href="{{ social.url }}"/>
+{%- endfor ~%}
 {#- template: Open Graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}" />
     <meta property="og:site_name" content="{{ opengraph.site_name }}" />
