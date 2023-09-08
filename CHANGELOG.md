@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.46.10...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.47.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,13 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.47.0](https://github.com/Cecilapp/Cecil/compare/7.46.10...7.47.0)
+
+> 5 September 2023
+
+- feat: add rel="me" links in metatags template [`bdd8fd4`](https://github.com/Cecilapp/Cecil/commit/bdd8fd4460d45b0ee649a6e96beda3778574a009)
+- feat: option to override author in metatags [`ec4a2b0`](https://github.com/Cecilapp/Cecil/commit/ec4a2b06200dd038fd32a4d765a66b2c126072e0)
 
 #### [7.46.10](https://github.com/Cecilapp/Cecil/compare/7.46.9...7.46.10)
 
