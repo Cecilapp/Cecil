@@ -6,5 +6,5 @@ Note we have a [code of conduct](https://github.com/Cecilapp/Cecil/blob/master/C
 
 ## Pull Request process
 
- 1. Ensure dependecies are updated. Run `composer update`
- 2. You may request the main reviewer to merge the Pull Request for you
+1. Ensure dependecies are updated. Run `composer update`
+2. You may request the main reviewer to merge the Pull Request for you
