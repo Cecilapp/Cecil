@@ -50,7 +50,7 @@ if ((empty(pathinfo($path, PATHINFO_EXTENSION)) || $path[-1] == '/') && file_exi
 $filename = $_SERVER['DOCUMENT_ROOT'] . $path;
 
 // HTTP response: 404
-if (!file_exists($filename) || is_dir($filename)) {
+if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SERVER['DOCUMENT_ROOT'])) !== 0) || !file_exists($filename) || is_dir($filename)) {
     http_response_code(404);
     // favicon.ico
     if ($path == '/favicon.ico') {
