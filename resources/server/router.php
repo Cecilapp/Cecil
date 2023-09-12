@@ -25,7 +25,7 @@ define('ERROR_404', '/404.html');
 $isIndex = null;
 $mediaSubtypeText = ['javascript', 'xml', 'json', 'ld+json', 'csv'];
 
-$path = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+$path = htmlspecialchars(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
 
 // watcher (called by 'livereload.js')
 if ($path == '/watcher') {
@@ -50,7 +50,7 @@ if ((empty(pathinfo($path, PATHINFO_EXTENSION)) || $path[-1] == '/') && file_exi
 $filename = $_SERVER['DOCUMENT_ROOT'] . $path;
 
 // HTTP response: 404
-if (!file_exists($filename) || is_dir($filename)) {
+if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SERVER['DOCUMENT_ROOT'])) !== 0) || !file_exists($filename) || is_dir($filename)) {
     http_response_code(404);
     // favicon.ico
     if ($path == '/favicon.ico') {
