@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.47.0...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.47.1...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,19 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.47.1](https://github.com/Cecilapp/Cecil/compare/7.47.0...7.47.1)
+
+> 12 September 2023
+
+- Fix security issues [`#1782`](https://github.com/Cecilapp/Cecil/pull/1782)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.26.0 to 3.26.1 [`#1781`](https://github.com/Cecilapp/Cecil/pull/1781)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.25.1 to 3.26.0 [`#1779`](https://github.com/Cecilapp/Cecil/pull/1779)
+- chore: update deps [`6356dc3`](https://github.com/Cecilapp/Cecil/commit/6356dc34190877dbbbd27de63e54680c8574b6f6)
+- chore: update Markdown files [`e145738`](https://github.com/Cecilapp/Cecil/commit/e145738a721e789eb93862bb1cdb1560b3c3c130)
+- Create SECURITY.md [`f2c394c`](https://github.com/Cecilapp/Cecil/commit/f2c394caaed9a9f269d54fc91b88738c6a016ca3)
+- docs: fix CONTRIBUTING.md [`34fa42f`](https://github.com/Cecilapp/Cecil/commit/34fa42f0c933e99b432d86dd12ad33bd2617269d)
+- docs: update SECURITY.md [`02c9953`](https://github.com/Cecilapp/Cecil/commit/02c995342d4f352eae5b778c6d048c310c317073)
 
 #### [7.47.0](https://github.com/Cecilapp/Cecil/compare/7.46.10...7.47.0)
 
