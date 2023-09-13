@@ -400,12 +400,13 @@ Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL 
 {{ asset(path, {options}) }}
 ```
 
-| Option         | Description                                         | Type    | Default |
-| -------------- | --------------------------------------------------- | ------- | ------- |
-| fingerprint    | Add the file content finger print to the file name. | boolean | `true`  |
-| minify         | Compress file content (CSS or JavaScript).          | boolean | `true`  |
-| filename       | File where to save content.                         | string  | `styles.css` or `scripts.js` |
-| ignore_missing | Do not stop build if file don't exists.             | boolean | `false` |
+| Option          | Description                                         | Type    | Default |
+| --------------- | --------------------------------------------------- | ------- | ------- |
+| fingerprint     | Add the file content finger print to the file name. | boolean | `true`  |
+| minify          | Compress file content (CSS or JavaScript).          | boolean | `true`  |
+| filename        | File where to save content.                         | string  | `styles.css` or `scripts.js` |
+| ignore_missing  | Do not stop build if file don't exists.             | boolean | `false` |
+| remote_fallback | Load a local asset if the remote one don't exists.  | string  | `null`  |
 
 :::info
 Refers to [assets configuration](4-Configuration.md#assets) to define the global behavior.  
