@@ -65,16 +65,16 @@ class Plateform
     public static function openBrowser(string $url): void
     {
         if (self::isWindows()) {
-            passthru('start "web" explorer "' . $url . '"');
+            passthru('start "web" explorer "'.$url.'"');
 
             return;
         }
         passthru('which xdg-open', $linux);
         passthru('which open', $osx);
         if (0 === $linux) {
-            passthru('xdg-open ' . $url);
+            passthru('xdg-open '.$url);
         } elseif (0 === $osx) {
-            passthru('open ' . $url);
+            passthru('open '.$url);
         }
     }
 

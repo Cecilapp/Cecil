@@ -33,7 +33,7 @@ class Application extends BaseApplication
      */
     public function getHelp()
     {
-        return self::$banner . parent::getHelp();
+        return self::$banner.parent::getHelp();
     }
 
     /**

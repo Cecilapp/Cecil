@@ -80,7 +80,7 @@ class Config
                     $path[] = $iterator->getSubIterator($depth)->key();
                 }
                 $sPath = implode('_', $path);
-                if ($getEnv = getenv('CECIL_' . strtoupper($sPath))) {
+                if ($getEnv = getenv('CECIL_'.strtoupper($sPath))) {
                     $data->set(str_replace('_', '.', strtolower($sPath)), $this->castSetValue($getEnv));
                 }
                 $iterator->next();

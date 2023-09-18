@@ -80,7 +80,7 @@ class Util
         }
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
-        return sprintf('%s %s', round($size / pow(1024, ($i = floor(log($size, 1024)))), 2), $unit[$i]);
+        return sprintf('%s %s', round($size / pow(1024, $i = floor(log($size, 1024))), 2), $unit[$i]);
     }
 
     /**

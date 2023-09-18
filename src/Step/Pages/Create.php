@@ -75,7 +75,7 @@ class Create extends AbstractStep
                     if (isset($entry['section'])) {
                         /** @var Page $page */
                         if ($page->getSection() == Page::slugify($entry['section'])) {
-                            if ((isset($entry['language']) && $entry['language'] != $page->getVariable('language'))) {
+                            if (isset($entry['language']) && $entry['language'] != $page->getVariable('language')) {
                                 break;
                             }
                             if (isset($entry['path'])) {

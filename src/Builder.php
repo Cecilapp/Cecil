@@ -369,9 +369,9 @@ class Builder implements LoggerAwareInterface
     public static function getVersion(): string
     {
         if (!isset(self::$version)) {
-            $filePath = __DIR__ . '/../VERSION';
+            $filePath = __DIR__.'/../VERSION';
             if (Plateform::isPhar()) {
-                $filePath = Plateform::getPharPath() . '/VERSION';
+                $filePath = Plateform::getPharPath().'/VERSION';
             }
 
             try {
@@ -401,7 +401,7 @@ class Builder implements LoggerAwareInterface
             $this->getLogger()->error('Config: `baseurl` is required in production (e.g.: "baseurl: https://example.com/").');
         }
         // default language
-        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', (string) $this->config->get('language'))) {
+        if (!preg_match('/^'.Config::LANG_CODE_PATTERN.'$/', (string) $this->config->get('language'))) {
             throw new RuntimeException(sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->get('language')));
         }
         // locales
@@ -409,7 +409,7 @@ class Builder implements LoggerAwareInterface
             if (!isset($lang['locale'])) {
                 throw new RuntimeException('Config: a language locale is not defined.');
             }
-            if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
+            if (!preg_match('/^'.Config::LANG_LOCALE_PATTERN.'$/', $lang['locale'])) {
                 throw new RuntimeException(sprintf('Config: the language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
             }
         }
