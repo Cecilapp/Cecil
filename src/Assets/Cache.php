@@ -207,7 +207,7 @@ class Cache implements CacheInterface
             );
             foreach ($iterator as $file) {
                 if ($file->isFile()) {
-                    if (preg_match('/'.$pattern.'/i', $file->getPathname())) {
+                    if (preg_match('/' . $pattern . '/i', $file->getPathname())) {
                         Util\File::getFS()->remove($file->getPathname());
                         $fileCount++;
                         $this->builder->getLogger()->debug(sprintf('Cache file "%s" removed', $file->getPathname()));
@@ -239,7 +239,7 @@ class Cache implements CacheInterface
         try {
             $keyAsArray = explode('__', $this->prepareKey($key), -1);
             if (!empty($keyAsArray)) {
-                $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]).'*';
+                $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
                 foreach (glob($pattern) as $filename) {
                     Util\File::getFS()->remove($filename);
                 }

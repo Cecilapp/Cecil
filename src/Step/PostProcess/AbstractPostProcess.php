@@ -63,8 +63,8 @@ abstract class AbstractPostProcess extends AbstractStep
         $files = Finder::create()
             ->files()
             ->in($this->config->getOutputPath())
-            ->name('/\.('.implode('|', $extensions).')$/')
-            ->notName('/\.min\.('.implode('|', $extensions).')$/')
+            ->name('/\.(' . implode('|', $extensions) . ')$/')
+            ->notName('/\.min\.(' . implode('|', $extensions) . ')$/')
             ->sortByName(true);
         $max = \count($files);
 

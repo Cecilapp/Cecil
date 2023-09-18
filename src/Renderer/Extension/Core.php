@@ -222,7 +222,7 @@ class Core extends SlugifyExtension
     {
         $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
             // is a dedicated getter exists?
-            $method = 'get'.ucfirst($variable);
+            $method = 'get' . ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
                 return $page->getType() == Type::PAGE() && !$page->isVirtual() && true;
             }
@@ -562,7 +562,7 @@ class Core extends SlugifyExtension
 
             // <img> element
             $img = sprintf(
-                '<img src="%s" width="'.($asset['width'] ?: '').'" height="'.($asset['height'] ?: '').'"%s>',
+                '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
                 $this->url($asset, $options),
                 $htmlAttributes
             );
@@ -678,8 +678,8 @@ class Core extends SlugifyExtension
         extract($options, EXTR_IF_EXISTS);
 
         // https://regex101.com/r/n9TWHF/1
-        $pattern = '(.*)<!--[[:blank:]]?('.$separator.')[[:blank:]]?-->(.*)';
-        preg_match('/'.$pattern.'/is', $string, $matches);
+        $pattern = '(.*)<!--[[:blank:]]?(' . $separator . ')[[:blank:]]?-->(.*)';
+        preg_match('/' . $pattern . '/is', $string, $matches);
 
         if (empty($matches)) {
             return $string;
@@ -922,7 +922,7 @@ class Core extends SlugifyExtension
         }
         $hex = ltrim($variable, '#');
         if (\strlen($hex) == 3) {
-            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
         }
         $c = hexdec($hex);
 
