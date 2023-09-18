@@ -1,12 +1,10 @@
-php:
-  risky: false
-  version: 7.4
-  preset: psr12
-  monolithic: true
-  tab-width: 4
-  use-tabs: false
-  finder:
-    exclude:
-      - "tests"
-      - "vendor"
-    name: "*.php"
+risky: false
+version: 7.4
+preset: psr12
+tab-width: 4
+use-tabs: false
+finder:
+  exclude:
+    - "tests"
+    - "vendor"
+  name: "*.php"
