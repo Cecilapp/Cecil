@@ -32,22 +32,22 @@ if ($path == '/watcher') {
     header("Content-Type: text/event-stream\n\n");
     header('Cache-Control: no-cache');
     header('Access-Control-Allow-Origin: *');
-    $flagFile = $_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/changes.flag';
+    $flagFile = $_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/changes.flag';
     if (file_exists($flagFile)) {
         echo "event: reload\n";
         printf("data: %s\n\n", file_get_contents($flagFile));
         unlink($flagFile);
     }
-    exit();
+    exit;
 }
 
 // 'path' or 'path/' = 'path/index.html'?
-if ((empty(pathinfo($path, PATHINFO_EXTENSION)) || $path[-1] == '/') && file_exists($_SERVER['DOCUMENT_ROOT'] . rtrim($path, '/') . DIRECTORY_INDEX)) {
-    $path = rtrim($path, '/') . DIRECTORY_INDEX;
+if ((empty(pathinfo($path, PATHINFO_EXTENSION)) || $path[-1] == '/') && file_exists($_SERVER['DOCUMENT_ROOT'].rtrim($path, '/').DIRECTORY_INDEX)) {
+    $path = rtrim($path, '/').DIRECTORY_INDEX;
 }
 
 // file absolute path
-$filename = $_SERVER['DOCUMENT_ROOT'] . $path;
+$filename = $_SERVER['DOCUMENT_ROOT'].$path;
 
 // HTTP response: 404
 if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SERVER['DOCUMENT_ROOT'])) !== 0) || !file_exists($filename) || is_dir($filename)) {
@@ -60,7 +60,7 @@ if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SER
     }
 
     // 404.html exists?
-    if (!file_exists($_SERVER['DOCUMENT_ROOT'] . ERROR_404)) {
+    if (!file_exists($_SERVER['DOCUMENT_ROOT'].ERROR_404)) {
         echo <<<END
         <!doctype html>
         <html>
@@ -85,7 +85,7 @@ if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SER
         return logger(true);
     }
     $path = ERROR_404;
-    $filename = $_SERVER['DOCUMENT_ROOT'] . ERROR_404;
+    $filename = $_SERVER['DOCUMENT_ROOT'].ERROR_404;
 }
 
 // HTTP response: 200
@@ -94,14 +94,14 @@ $pathInfo = getPathInfo($path);
 // text content
 if ($pathInfo['media_maintype'] == 'text' || in_array($pathInfo['media_subtype'], $mediaSubtypeText)) {
     // replaces the "live" baseurl by the "local" baseurl
-    $baseurl = explode(';', trim(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/baseurl')));
+    $baseurl = explode(';', trim(file_get_contents($_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/baseurl')));
     if (strstr($baseurl[0], 'http') !== false || $baseurl[0] != '/') {
         $content = str_replace($baseurl[0], $baseurl[1], $content);
     }
     // HTML content: injects live reload script
     if ($pathInfo['media_subtype'] == 'html') {
-        if (file_exists(__DIR__ . '/livereload.js')) {
-            $script = file_get_contents(__DIR__ . '/livereload.js');
+        if (file_exists(__DIR__.'/livereload.js')) {
+            $script = file_get_contents(__DIR__.'/livereload.js');
             $content = str_ireplace('</body>', "  <script>$script    </script>\n  </body>", $content);
             if (stristr($content, '</body>') === false) {
                 $content .= "\n<script>$script    </script>";
@@ -111,11 +111,11 @@ if ($pathInfo['media_maintype'] == 'text' || in_array($pathInfo['media_subtype']
 }
 
 // returns result
-header('Etag: ' . md5_file($filename));
+header('Etag: '.md5_file($filename));
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
-header('X-Powered-By: Cecil,PHP/' . phpversion());
+header('X-Powered-By: Cecil,PHP/'.phpversion());
 foreach ($pathInfo['headers'] as $header) {
     header($header);
 }
@@ -133,7 +133,7 @@ function logger(bool $return): bool
     \error_log(
         \sprintf("%s:%d [%d]: %s\n", $_SERVER['REMOTE_ADDR'], $_SERVER['REMOTE_PORT'], \http_response_code(), $_SERVER['REQUEST_URI']),
         3,
-        $_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/server.log'
+        $_SERVER['DOCUMENT_ROOT'].'/../'.SERVER_TMP_DIR.'/server.log'
     );
 
     return $return;
@@ -142,7 +142,7 @@ function logger(bool $return): bool
 // get path info (media type + headers)
 function getPathInfo(string $path): array
 {
-    $filename = $_SERVER['DOCUMENT_ROOT'] . $path;
+    $filename = $_SERVER['DOCUMENT_ROOT'].$path;
     $mediaType = \mime_content_type($filename); // e.g.: "text/html"
     $info = [
         'media_maintype' => explode('/', $mediaType)[0], // e.g.: "text"
@@ -206,7 +206,7 @@ function getPathInfo(string $path): array
         case 'audio':
             $info['headers'] += [
                 'Content-Transfer-Encoding: binary',
-                'Content-Length: ' . filesize($filename),
+                'Content-Length: '.filesize($filename),
                 'Accept-Ranges: bytes',
             ];
             break;

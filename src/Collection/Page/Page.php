@@ -109,14 +109,14 @@ class Page extends Item
     public static function createIdFromFile(SplFileInfo $file): string
     {
         $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
+        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.'.$file->getExtension())));
         // if file is "README.md", ID is "index"
         $basename = (string) str_ireplace('readme', 'index', $basename);
         // if file is section's index: "section/index.md", ID is "section"
         if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
             // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
             if (PrefixSuffix::hasSuffix($basename)) {
-                return PrefixSuffix::getSuffix($basename) . '/' . $relativePath;
+                return PrefixSuffix::getSuffix($basename).'/'.$relativePath;
             }
 
             return $relativePath;
@@ -134,7 +134,7 @@ class Page extends Item
      */
     public function getIdWithoutLang(): string
     {
-        $langPrefix = $this->getVariable('language') . '/';
+        $langPrefix = $this->getVariable('language').'/';
         if ($this->hasVariable('language') && Util\Str::startsWith($this->getId(), $langPrefix)) {
             return substr($this->getId(), \strlen($langPrefix));
         }
@@ -155,7 +155,7 @@ class Page extends Item
          */
         $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
         $fileExtension = $this->file->getExtension();
-        $fileName = $this->file->getBasename('.' . $fileExtension);
+        $fileName = $this->file->getBasename('.'.$fileExtension);
         // case of "README" -> "index"
         $fileName = (string) str_ireplace('readme', 'index', $fileName);
         // case of "index" = home page
@@ -167,7 +167,7 @@ class Page extends Item
          */
         $this->setFolder($fileRelativePath); // ie: "blog"
         $this->setSlug($fileName); // ie: "post-1"
-        $this->setPath($this->getFolder() . '/' . $this->getSlug()); // ie: "blog/post-1"
+        $this->setPath($this->getFolder().'/'.$this->getSlug()); // ie: "blog/post-1"
         /*
          * Set default variables
          */
@@ -308,7 +308,7 @@ class Page extends Item
         }
         // force slug and update path
         if ($this->slug && $this->slug != $slug) {
-            $this->setPath($this->getFolder() . '/' . $slug);
+            $this->setPath($this->getFolder().'/'.$slug);
         }
         $this->slug = $slug;
 
@@ -574,7 +574,7 @@ class Page extends Item
                 if ($value != $slugify) {
                     throw new RuntimeException(sprintf('"%s" variable should be "%s" (not "%s") in "%s".', $name, $slugify, (string) $value, $this->getId()));
                 }
-                $method = 'set' . ucfirst($name);
+                $method = 'set'.ucfirst($name);
                 $this->$method($value);
                 break;
             default:

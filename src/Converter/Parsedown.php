@@ -148,14 +148,14 @@ class Parsedown extends \ParsedownToC
         // GitHub Gist link?
         // https://regex101.com/r/QmCiAL/1
         $pattern = 'https:\/\/gist\.github.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
-        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
+        if (preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
             $gist = [
                 'extent'  => $link['extent'],
                 'element' => [
                     'name'       => 'script',
                     'text'       => $link['element']['text'],
                     'attributes' => [
-                        'src'   => $matches[0] . '.js',
+                        'src'   => $matches[0].'.js',
                         'title' => $link['element']['attributes']['title'],
                     ],
                 ],
@@ -169,7 +169,7 @@ class Parsedown extends \ParsedownToC
         // Youtube link?
         // https://regex101.com/r/gznM1j/1
         $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
-        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
+        if (preg_match('/'.$pattern.'/is', (string) $link['element']['attributes']['href'], $matches)) {
             $iframe = [
                 'element' => [
                     'name'       => 'iframe',
@@ -178,7 +178,7 @@ class Parsedown extends \ParsedownToC
                         'width'           => '560',
                         'height'          => '315',
                         'title'           => $link['element']['text'],
-                        'src'             => 'https://www.youtube.com/embed/' . $matches[1],
+                        'src'             => 'https://www.youtube.com/embed/'.$matches[1],
                         'frameborder'     => '0',
                         'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
                         'allowfullscreen' => '',
@@ -236,7 +236,7 @@ class Parsedown extends \ParsedownToC
             if (!\array_key_exists('class', $InlineImage['element']['attributes'])) {
                 $InlineImage['element']['attributes']['class'] = '';
             }
-            $InlineImage['element']['attributes']['class'] .= ' ' . (string) $this->config->get('body.images.class');
+            $InlineImage['element']['attributes']['class'] .= ' '.(string) $this->config->get('body.images.class');
             $InlineImage['element']['attributes']['class'] = trim($InlineImage['element']['attributes']['class']);
         }
 
@@ -328,7 +328,7 @@ class Parsedown extends \ParsedownToC
         // converts image (JPEG, PNG or GIF) to WebP and put it in picture > source
         if (
             ((bool) $this->config->get('body.images.webp.enabled') ?? false)
-            && \in_array(($InlineImage['element']['attributes']['src'])['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
+            && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
                 // InlineImage src must be an Asset instance
@@ -339,7 +339,7 @@ class Parsedown extends \ParsedownToC
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
                     throw new RuntimeException(sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
                 }
-                $assetWebp = ($InlineImage['element']['attributes']['src'])->webp();
+                $assetWebp = $InlineImage['element']['attributes']['src']->webp();
                 $srcset = '';
                 // build responsives WebP?
                 if ((bool) $this->config->get('body.images.responsive.enabled')) {
@@ -450,7 +450,7 @@ class Parsedown extends \ParsedownToC
 
             return $block;
         }
-        $block['element']['text'] .= $line['text'] . "\n";
+        $block['element']['text'] .= $line['text']."\n";
 
         return $block;
     }
@@ -545,7 +545,7 @@ class Parsedown extends \ParsedownToC
             (string) $this->config->get('assets.dir')
         );
         $path = Util::joinPath($path);
-        if (!preg_match('/' . $pattern . '/is', $path, $matches)) {
+        if (!preg_match('/'.$pattern.'/is', $path, $matches)) {
             return $path;
         }
 

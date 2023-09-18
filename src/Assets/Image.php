@@ -58,7 +58,7 @@ class Image
         $classArray = explode(' ', $class);
         foreach ($classArray as $class) {
             if (\array_key_exists($class, $sizes)) {
-                $result = $sizes[$class] . ', ';
+                $result = $sizes[$class].', ';
             }
         }
         if (!empty($result)) {
@@ -115,6 +115,7 @@ class Image
 
         $assetLqip = clone $asset;
         $assetLqip = $assetLqip->resize(100);
+
         return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
     }
 }

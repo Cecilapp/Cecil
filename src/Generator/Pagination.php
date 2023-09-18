@@ -16,7 +16,6 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Exception\RuntimeException;
 
 /**
  * Class Generator\Pagination.
@@ -72,9 +71,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             // builds paginator
             $paginatorPagesCount = \intval(ceil($pagesTotal / $paginationPerPage));
             for ($i = 0; $i < $paginatorPagesCount; $i++) {
-                $itPagesInPagination = new \LimitIterator($pages->getIterator(), ($i * $paginationPerPage), $paginationPerPage);
+                $itPagesInPagination = new \LimitIterator($pages->getIterator(), $i * $paginationPerPage, $paginationPerPage);
                 $pagesInPagination = new PagesCollection(
-                    $page->getId() . '-page-' . ($i + 1),
+                    $page->getId().'-page-'.($i + 1),
                     iterator_to_array($itPagesInPagination)
                 );
                 $alteredPage = clone $page;

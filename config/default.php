@@ -225,7 +225,7 @@ return [
             'responsive' => [
                 'enabled' => false, // creates responsive images and adds them to the `srcset` attribute (`false` by default)
             ],
-            'class' => '',          // puts default CSS class to each image (empty by default)
+            'class'   => '',          // puts default CSS class to each image (empty by default)
             'caption' => [
                 'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
             ],
@@ -285,8 +285,8 @@ return [
         ],
     ],
     'assets' => [
-        'dir'    => 'assets', // assets files directory (`assets` by default)
-        'target' => 'assets', // where remote and resized assets are saved
+        'dir'         => 'assets', // assets files directory (`assets` by default)
+        'target'      => 'assets', // where remote and resized assets are saved
         'fingerprint' => [
             'enabled' => true, // enables fingerprinting (`true` by default)
         ],
@@ -332,7 +332,7 @@ return [
                 //'url'       => 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%',
                 // imgix
                 //'url'       => 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
-            ]
+            ],
         ],
     ],
     'postprocess' => [

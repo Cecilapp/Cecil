@@ -87,7 +87,7 @@ class Serve extends AbstractCommand
             $php,
             $host,
             $port,
-            $this->getPath() . '/' . (string) $this->getBuilder()->getConfig()->get('output.dir'),
+            $this->getPath().'/'.(string) $this->getBuilder()->getConfig()->get('output.dir'),
             Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);
@@ -119,7 +119,7 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = $clearcache;
         }
         if ($verbose) {
-            $buildProcessArguments[] = '-' . str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
+            $buildProcessArguments[] = '-'.str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
         }
         if (!empty($page)) {
             $buildProcessArguments[] = '--page';
@@ -213,17 +213,17 @@ class Serve extends AbstractCommand
         try {
             $root = Util::joinFile(__DIR__, '../../');
             if (Util\Plateform::isPhar()) {
-                $root = Util\Plateform::getPharPath() . '/';
+                $root = Util\Plateform::getPharPath().'/';
             }
             // copying router
             Util\File::getFS()->copy(
-                $root . '/resources/server/router.php',
+                $root.'/resources/server/router.php',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
             // copying livereload JS
             Util\File::getFS()->copy(
-                $root . '/resources/server/livereload.js',
+                $root.'/resources/server/livereload.js',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js'),
                 true
             );

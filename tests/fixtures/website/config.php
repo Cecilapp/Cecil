@@ -182,10 +182,10 @@ return [
                 'enabled' => true,
             ],
             'remote' => [
-                'enabled' => true,
+                'enabled'  => true,
                 'fallback' => [
                     'enabled' => true,
-                    'path' => 'images/cecil-logo.png',
+                    'path'    => 'images/cecil-logo.png',
                 ],
             ],
             'class' => 'img',

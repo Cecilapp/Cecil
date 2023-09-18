@@ -57,7 +57,7 @@ class Load extends AbstractStep
      */
     public function process(): void
     {
-        $namePattern = '/\.(' . implode('|', (array) $this->config->get('pages.ext')) . ')$/';
+        $namePattern = '/\.('.implode('|', (array) $this->config->get('pages.ext')).')$/';
         $content = Finder::create()
             ->files()
             ->in($this->config->getPagesPath())
@@ -80,7 +80,7 @@ class Load extends AbstractStep
                 $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
             }
             $content->path('.')->path(\dirname($this->page));
-            $content->name('/index\.(' . implode('|', (array) $this->config->get('pages.ext')) . ')$/');
+            $content->name('/index\.('.implode('|', (array) $this->config->get('pages.ext')).')$/');
             $namePattern = basename($this->page);
         }
         $content->name($namePattern);

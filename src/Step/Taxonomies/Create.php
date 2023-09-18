@@ -121,7 +121,7 @@ class Create extends AbstractStep
                             ));
                         }
                         // e.g.: "Tag 1" -> "tags/tag-1"
-                        $termId = Page::slugify($plural . '/' . (string) $termName);
+                        $termId = Page::slugify($plural.'/'.(string) $termName);
                         $term = (new Term($termId))->setName((string) $termName);
                         $this->vocabCollection[$language]
                             ->get($plural)

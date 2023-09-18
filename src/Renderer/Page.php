@@ -67,7 +67,7 @@ class Page
             $language = '';
         }
 
-        return \Cecil\Util::joinPath($language, $path, $subpath, $filename) . $extension;
+        return \Cecil\Util::joinPath($language, $path, $subpath, $filename).$extension;
     }
 
     /**

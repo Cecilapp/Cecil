@@ -76,13 +76,13 @@ class Load extends AbstractStep
             $staticFiles[$count]['date'] = (new \DateTime())->setTimestamp($file->getCTime());
             $staticFiles[$count]['updated'] = (new \DateTime())->setTimestamp($file->getMTime());
             $staticFiles[$count]['name'] = $file->getBasename();
-            $staticFiles[$count]['basename'] = $file->getBasename('.' . $file->getExtension());
+            $staticFiles[$count]['basename'] = $file->getBasename('.'.$file->getExtension());
             $staticFiles[$count]['ext'] = $file->getExtension();
             if ($subtype == 'jpeg') {
                 $staticFiles[$count]['exif'] = Util\File::readExif($file->getRealPath());
             }
             if ($type == 'audio') {
-                $staticFiles[$count]['audio'] =  new Mp3Info($file->getRealPath());
+                $staticFiles[$count]['audio'] = new Mp3Info($file->getRealPath());
             }
             $count++;
 
