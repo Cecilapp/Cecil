@@ -87,7 +87,7 @@
       "contributions": [
         "bug",
         "code"
-       ]
+      ]
     },
     {
       "login": "peter279k",
@@ -107,6 +107,27 @@
       "contributions": [
         "bug",
         "code"
+      ]
+    },
+    {
+      "login": "ArnaudLigny",
+      "name": "Arnaud Ligny",
+      "avatar_url": "https://avatars.githubusercontent.com/u/80580?v=4",
+      "profile": "https://ligny.fr",
+      "contributions": [
+        "bug",
+        "content",
+        "doc",
+        "example",
+        "ideas",
+        "maintenance",
+        "promotion",
+        "question",
+        "review",
+        "translation",
+        "test",
+        "tutorial",
+        "talk"
       ]
     }
   ],
