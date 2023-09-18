@@ -19,6 +19,15 @@
       ]
     },
     {
+      "login": "joevallender",
+      "name": "Joe Vallender",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1137938?v=4",
+      "profile": "https://aboutweb.dev",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
       "login": "FunkyM",
       "name": "Martin Szulecki",
       "avatar_url": "https://avatars.githubusercontent.com/u/1871867?v=4",
@@ -27,7 +36,7 @@
         "bug",
         "code",
         "ideas"
-                 ]
+      ]
     },
     {
       "login": "DirtyF",
@@ -40,7 +49,7 @@
         "promotion",
         "translation",
         "mentoring"
-              ]
+      ]
     },
     {
       "login": "BackEndTea",
@@ -50,7 +59,7 @@
       "contributions": [
         "bug",
         "infra"
-           ]
+      ]
     },
     {
       "login": "ouuan",
@@ -59,7 +68,7 @@
       "profile": "https://ouuan.moe/about",
       "contributions": [
         "security"
-        ]
+      ]
     },
     {
       "login": "jawira",
