@@ -17,6 +17,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "jawira",
+      "name": "Jawira Portugal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/496541?v=4",
+      "profile": "https://jawira.com/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
