@@ -26,6 +26,16 @@
       "contributions": [
         "bug",
         "code"
+       ]
+    },
+    {
+      "login": "benjaminhirsch",
+      "name": "Benjamin Hirsch",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2293943?v=4",
+      "profile": "https://www.benjaminhirsch.net",
+      "contributions": [
+        "bug",
+        "code"
       ]
     }
   ],
