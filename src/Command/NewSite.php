@@ -67,7 +67,7 @@ class NewSite extends AbstractCommand
             // define root path
             $root = realpath(Util::joinFile(__DIR__, '/../../'));
             if (Util\Plateform::isPhar()) {
-                $root = Util\Plateform::getPharPath().'/';
+                $root = Util\Plateform::getPharPath() . '/';
             }
             // ask for basic configuration
             $output->writeln('Creating a new website...');

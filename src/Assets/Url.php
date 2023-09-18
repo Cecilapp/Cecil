@@ -76,7 +76,7 @@ class Url
 
         // value is empty (i.e.: `url()`)
         if (\is_null($value) || empty($value) || $value == '/') {
-            $this->url = $base.'/';
+            $this->url = $base . '/';
 
             return;
         }
@@ -94,14 +94,14 @@ class Url
                         $format = 'html';
                     }
                 }
-                $this->url = $base.'/'.ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
+                $this->url = $base . '/' . ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
                 if ($canonical && $value->hasVariable('canonical') && $value->getVariable('canonical')['url']) { // canonical URL
                     $this->url = $value->getVariable('canonical')['url'];
                 }
                 break;
             case $value instanceof Asset:
                 /** @var Asset $value */
-                $this->url = $base.'/'.ltrim($value['path'], '/');
+                $this->url = $base . '/' . ltrim($value['path'], '/');
                 if ($value->isImageInCdn()) {
                     $this->url = (string) $value;
                 }
@@ -128,7 +128,7 @@ class Url
                         );
                         break;
                     default:
-                        $this->url = $base.'/'.$lang.ltrim($value, '/');
+                        $this->url = $base . '/' . $lang . ltrim($value, '/');
                 }
         }
     }

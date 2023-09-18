@@ -58,7 +58,7 @@ class Image
         $classArray = explode(' ', $class);
         foreach ($classArray as $class) {
             if (\array_key_exists($class, $sizes)) {
-                $result = $sizes[$class].', ';
+                $result = $sizes[$class] . ', ';
             }
         }
         if (!empty($result)) {

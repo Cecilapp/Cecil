@@ -239,7 +239,7 @@ class Render extends AbstractStep
         // ```yaml
         // page: [html, json]
         // ```
-        $formats = $this->config->get('output.pagetypeformats.'.$page->getType());
+        $formats = $this->config->get('output.pagetypeformats.' . $page->getType());
         if (empty($formats)) {
             throw new RuntimeException('Configuration key "pagetypeformats" can\'t be empty.');
         }
@@ -299,14 +299,14 @@ class Render extends AbstractStep
                 if (!preg_match('/<meta name="generator".*/i', $output)) {
                     $meta = sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
                     $output = preg_replace_callback('/([[:blank:]]*)(<\/head>)/i', function ($matches) use ($meta) {
-                        return str_repeat($matches[1] ?: ' ', 2).$meta."\n".$matches[1].$matches[2];
+                        return str_repeat($matches[1] ?: ' ', 2) . $meta . "\n" . $matches[1] . $matches[2];
                     }, $output);
                 }
                 // replace excerpt or break tag by HTML anchor
                 // https://regex101.com/r/Xl7d5I/3
                 $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
                 $replacement = '$1<span id="more"></span>$4';
-                $excerpt = preg_replace('/'.$pattern.'/is', $replacement, $output, 1);
+                $excerpt = preg_replace('/' . $pattern . '/is', $replacement, $output, 1);
                 $output = $excerpt ?? $output;
         }
 

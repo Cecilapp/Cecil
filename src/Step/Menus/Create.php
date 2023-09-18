@@ -74,8 +74,8 @@ class Create extends AbstractStep
                 $page404 = '404.html';
 
                 if ($language['code'] !== $this->config->getLanguageDefault()) {
-                    $langPrefix = $language['code'].'/';
-                    $page404 = $language['code'].'/404.html';
+                    $langPrefix = $language['code'] . '/';
+                    $page404 = $language['code'] . '/404.html';
                 }
 
                 foreach ($menusConfig as $menuConfig => $entry) {
