@@ -17,6 +17,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "joevallender",
+      "name": "Joe Vallender",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1137938?v=4",
+      "profile": "https://aboutweb.dev",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
