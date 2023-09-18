@@ -8,34 +8,24 @@
   "commitConvention": "angular",
   "contributors": [
     {
-      "login": "ahnlak",
-      "name": "Pete Favelle",
-      "avatar_url": "https://avatars.githubusercontent.com/u/730245?v=4",
-      "profile": "http://kavlak.uk/@ahnlak",
+      "login": "ArnaudLigny",
+      "name": "Arnaud Ligny",
+      "avatar_url": "https://avatars.githubusercontent.com/u/80580?v=4",
+      "profile": "https://ligny.fr",
       "contributions": [
         "bug",
-        "code",
-        "ideas"
-      ]
-    },
-    {
-      "login": "joevallender",
-      "name": "Joe Vallender",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1137938?v=4",
-      "profile": "https://aboutweb.dev",
-      "contributions": [
-        "bug"
-      ]
-    },
-    {
-      "login": "FunkyM",
-      "name": "Martin Szulecki",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1871867?v=4",
-      "profile": "https://mirell.com",
-      "contributions": [
-        "bug",
-        "code",
-        "ideas"
+        "content",
+        "doc",
+        "example",
+        "ideas",
+        "maintenance",
+        "promotion",
+        "question",
+        "review",
+        "translation",
+        "test",
+        "tutorial",
+        "talk"
       ]
     },
     {
@@ -52,31 +42,14 @@
       ]
     },
     {
-      "login": "BackEndTea",
-      "name": "Gert de Pagter",
-      "avatar_url": "https://avatars.githubusercontent.com/u/14289961?v=4",
-      "profile": "https://backendtea.com",
+      "login": "FunkyM",
+      "name": "Martin Szulecki",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1871867?v=4",
+      "profile": "https://mirell.com",
       "contributions": [
         "bug",
-        "infra"
-      ]
-    },
-    {
-      "login": "ouuan",
-      "name": "Yufan You",
-      "avatar_url": "https://avatars.githubusercontent.com/u/30581822?v=4",
-      "profile": "https://ouuan.moe/about",
-      "contributions": [
-        "security"
-      ]
-    },
-    {
-      "login": "jawira",
-      "name": "Jawira Portugal",
-      "avatar_url": "https://avatars.githubusercontent.com/u/496541?v=4",
-      "profile": "https://jawira.com/",
-      "contributions": [
-        "bug"
+        "code",
+        "ideas"
       ]
     },
     {
@@ -110,24 +83,51 @@
       ]
     },
     {
-      "login": "ArnaudLigny",
-      "name": "Arnaud Ligny",
-      "avatar_url": "https://avatars.githubusercontent.com/u/80580?v=4",
-      "profile": "https://ligny.fr",
+      "login": "ahnlak",
+      "name": "Pete Favelle",
+      "avatar_url": "https://avatars.githubusercontent.com/u/730245?v=4",
+      "profile": "http://kavlak.uk/@ahnlak",
       "contributions": [
         "bug",
-        "content",
-        "doc",
-        "example",
-        "ideas",
-        "maintenance",
-        "promotion",
-        "question",
-        "review",
-        "translation",
-        "test",
-        "tutorial",
-        "talk"
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "BackEndTea",
+      "name": "Gert de Pagter",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14289961?v=4",
+      "profile": "https://backendtea.com",
+      "contributions": [
+        "bug",
+        "infra"
+      ]
+    },
+    {
+      "login": "joevallender",
+      "name": "Joe Vallender",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1137938?v=4",
+      "profile": "https://aboutweb.dev",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "jawira",
+      "name": "Jawira Portugal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/496541?v=4",
+      "profile": "https://jawira.com/",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "ouuan",
+      "name": "Yufan You",
+      "avatar_url": "https://avatars.githubusercontent.com/u/30581822?v=4",
+      "profile": "https://ouuan.moe/about",
+      "contributions": [
+        "security"
       ]
     }
   ],
