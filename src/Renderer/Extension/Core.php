@@ -63,7 +63,7 @@ class Core extends SlugifyExtension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'CoreExtension';
     }
@@ -107,7 +107,7 @@ class Core extends SlugifyExtension
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new \Twig\TwigFilter('url', [$this, 'url']),
