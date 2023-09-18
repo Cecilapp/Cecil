@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2023-03-15
+updated: 2023-09-18
 -->
 # Content
 
@@ -651,15 +651,10 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 
 ### File prefix
 
-The filename can contain a prefix to define `date` or `weight` of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
+The filename can contain a prefix to define `date` or `weight` variables of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
 
 :::info
-The prefix is not included in `title`.  
-For example in « 2019-04-23-My blog post.md » the `title` contains « My blog post ».
-:::
-
-:::info
-Available prefix separator are `-` and `_`.
+Available prefix separator are `_` and `-`.
 :::
 
 #### date
@@ -668,7 +663,7 @@ The _date prefix_ is used to set the `date` of the page, and must be a valid dat
 
 _Example:_
 
-In « 2019-04-23-My blog post.md »:
+In « 2019-04-23_My blog post.md »:
 
 - the prefix is « 2019-04-23 »
 - the `date` of the page is « 2019-04-23 »
@@ -680,7 +675,7 @@ The _weight prefix_ is used to set the sort order of the page, and must be a val
 
 _Example:_
 
-In « 1-The first project.md »:
+In « 1_The first project.md »:
 
 - the prefix is « 1 »
 - the `weight` of the page is « 1 »
