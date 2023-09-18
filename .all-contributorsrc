@@ -17,6 +17,16 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "BackEndTea",
+      "name": "Gert de Pagter",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14289961?v=4",
+      "profile": "https://backendtea.com",
+      "contributions": [
+        "bug",
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
