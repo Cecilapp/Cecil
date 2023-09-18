@@ -17,6 +17,16 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "peter279k",
+      "name": "Chun-Sheng, Li",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9021747?v=4",
+      "profile": "https://github.com/peter279k",
+      "contributions": [
+        "security",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
