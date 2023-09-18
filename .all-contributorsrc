@@ -17,6 +17,16 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "magentix",
+      "name": "Matthieu Vion",
+      "avatar_url": "https://avatars.githubusercontent.com/u/346889?v=4",
+      "profile": "https://www.magentix.fr",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
