@@ -19,6 +19,19 @@
       ]
     },
     {
+      "login": "DirtyF",
+      "name": "Frank Taillandier",
+      "avatar_url": "https://avatars.githubusercontent.com/u/103008?v=4",
+      "profile": "https://frank.taillandier.me",
+      "contributions": [
+        "doc",
+        "ideas",
+        "promotion",
+        "translation",
+        "mentoring"
+              ]
+    },
+    {
       "login": "BackEndTea",
       "name": "Gert de Pagter",
       "avatar_url": "https://avatars.githubusercontent.com/u/14289961?v=4",
