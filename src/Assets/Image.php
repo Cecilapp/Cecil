@@ -31,16 +31,18 @@ class Image
         }
 
         $srcset = '';
+        $widthMax = 0;
         foreach ($widths as $width) {
             if ($asset['width'] < $width) {
                 break;
             }
             $img = $asset->resize($width);
             $srcset .= sprintf('%s %sw, ', (string) $img, $width);
+            $widthMax = $width;
         }
         rtrim($srcset, ', ');
         // adds source image?
-        if (!empty($srcset) && ($asset['width'] < max($widths))) {
+        if (!empty($srcset) && $asset['width'] != $widthMax && $asset['width'] < max($widths)) {
             $srcset .= sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 
