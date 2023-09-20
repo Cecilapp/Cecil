@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2023-09-18
+updated: 2023-09-20
 -->
 # Content
 
@@ -32,7 +32,7 @@ Project files organization.
 |  |  ├─ post-1.md    <- Page in Section
 |  |  └─ post-2.md
 |  ├─ projects
-|  |  └─ project-1.md
+|  |  └─ project-a.md
 |  └─ about.md        <- Root page
 ├─ assets
 |  ├─ styles.scss     <- Asset file
@@ -68,7 +68,7 @@ Result of the build.
    |  └─ post-2/index.html
    ├─ projects/
    |  ├─ index.html
-   |  └─ project-1/index.html
+   |  └─ project-a/index.html
    ├─ about/index.html
    ├─ styles.css
    ├─ logo.png
@@ -85,17 +85,21 @@ To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true
 
 ### File based routing
 
-Markdown files in the `pages` directory enable file based routing. Meaning that adding a `pages/my-projects/project-1.md` for instance will make it available at `/project-1` in your browser.
+Markdown files in the `pages` directory enable file based routing. Meaning that adding a `pages/my-projects/project-a.md` for instance will make it available at `/project-a` in your browser.
 
 ```plaintext
 File:
-                   pages/my-projects/project-1.md
+                   pages/my-projects/project-a.md
                         └───── filepath ──────┘
 URL:
     ┌───── baseurl ─────┬─────── path ────────┐
-     https://example.com/my-projects/project-1/index.html
+     https://example.com/my-projects/project-a/index.html
                         └─ section ─┴─ slug ──┘
 ```
+
+:::important
+Two kind of prefix can alter URL, see [File prefix section](#file-prefix) below.
+:::
 
 ## Pages
 
