@@ -257,14 +257,25 @@ class Parsedown extends \ParsedownToC
         /*
          * Should be resized?
          */
+        $shouldResize = false;
         $assetResized = null;
         if (
-            isset($InlineImage['element']['attributes']['width'])
+            (bool) $this->config->get('body.images.resize.enabled')
+            && isset($InlineImage['element']['attributes']['width'])
             && (int) $InlineImage['element']['attributes']['width'] < $width
-            && (bool) $this->config->get('body.images.resize.enabled')
         ) {
+            $shouldResize = true;
             $width = (int) $InlineImage['element']['attributes']['width'];
-
+        }
+        if (
+            !$shouldResize
+            && (bool) $this->config->get('body.images.responsive.enabled')
+            && max($this->config->getAssetsImagesWidths()) < $width
+        ) {
+            $shouldResize = true;
+            $width = max($this->config->getAssetsImagesWidths());
+        }
+        if ($shouldResize) {
             try {
                 $assetResized = $asset->resize($width);
                 $InlineImage['element']['attributes']['src'] = $assetResized;
