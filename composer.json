@@ -121,7 +121,7 @@
     "test:bin": "cd bin && php cecil --version && mkdir skeleton && php cecil new:site skeleton -f -n && php cecil new:page test skeleton && php cecil build skeleton -v && rm -rf skeleton",
     "test:coverage": "phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml",
     "test:coverage:install": [
-      "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/latest/download/php-coveralls.phar -O coveralls.phar",
+      "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.3/php-coveralls.phar -O coveralls.phar",
       "chmod +x coveralls.phar",
       "php coveralls.phar --version"
     ],
