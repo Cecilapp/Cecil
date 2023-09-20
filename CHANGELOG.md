@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.47.1...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.48.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,39 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.48.0](https://github.com/Cecilapp/Cecil/compare/7.47.1...7.48.0)
+
+> 20 September 2023
+
+- feat: better responsive image handling [`#1804`](https://github.com/Cecilapp/Cecil/pull/1804)
+- chore(deps-dev): bump phpunit/phpunit from 9.6.12 to 9.6.13 [`#1803`](https://github.com/Cecilapp/Cecil/pull/1803)
+- docs: add ArnaudLigny as a contributor for projectManagement [`#1801`](https://github.com/Cecilapp/Cecil/pull/1801)
+- docs: add ArnaudLigny as a contributor for bug, content, and 11 more [`#1800`](https://github.com/Cecilapp/Cecil/pull/1800)
+- Apply fixes from StyleCI [`#1799`](https://github.com/Cecilapp/Cecil/pull/1799)
+- Apply fixes from StyleCI [`#1798`](https://github.com/Cecilapp/Cecil/pull/1798)
+- docs: add joevallender as a contributor for bug [`#1792`](https://github.com/Cecilapp/Cecil/pull/1792)
+- docs: add FunkyM as a contributor for bug, code, and ideas [`#1793`](https://github.com/Cecilapp/Cecil/pull/1793)
+- docs: add DirtyF as a contributor for doc, ideas, and 3 more [`#1794`](https://github.com/Cecilapp/Cecil/pull/1794)
+- docs: add BackEndTea as a contributor for bug, and infra [`#1795`](https://github.com/Cecilapp/Cecil/pull/1795)
+- docs: add ouuan as a contributor for security [`#1796`](https://github.com/Cecilapp/Cecil/pull/1796)
+- docs: add jawira as a contributor for bug [`#1790`](https://github.com/Cecilapp/Cecil/pull/1790)
+- docs: add magentix as a contributor for bug, and code [`#1789`](https://github.com/Cecilapp/Cecil/pull/1789)
+- docs: add peter279k as a contributor for security, and code [`#1791`](https://github.com/Cecilapp/Cecil/pull/1791)
+- docs: add benjaminhirsch as a contributor for bug, and code [`#1788`](https://github.com/Cecilapp/Cecil/pull/1788)
+- docs: add ahnlak as a contributor for bug, code, and ideas [`#1787`](https://github.com/Cecilapp/Cecil/pull/1787)
+- chore(deps): bump cocur/slugify from 4.4.0 to 4.5.0 [`#1785`](https://github.com/Cecilapp/Cecil/pull/1785)
+- chore(deps-dev): bump phpunit/phpunit from 9.6.11 to 9.6.12 [`#1784`](https://github.com/Cecilapp/Cecil/pull/1784)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.33 to 1.10.34 [`#1783`](https://github.com/Cecilapp/Cecil/pull/1783)
+- chore: update (and fix) dependencies [`76ae68f`](https://github.com/Cecilapp/Cecil/commit/76ae68f1de01ed3ca2fabd1473f2920d85a9f2ee)
+- chore: update deps [`fe390db`](https://github.com/Cecilapp/Cecil/commit/fe390dbceac458dcd80e7f7476117f38980b2d66)
+- chore: fix deps [`1adb67b`](https://github.com/Cecilapp/Cecil/commit/1adb67b20cc6ebed30ca9c75dcf824893755aaed)
+- chore: cleaning code [`da2e8eb`](https://github.com/Cecilapp/Cecil/commit/da2e8eb998a61832c96c7f08564d05542a9cd820)
+- docs: minor update of File Prefix [`16c2793`](https://github.com/Cecilapp/Cecil/commit/16c279393e5140e4955f170ceaf1d7b1e82ad242)
+- docs: update asset options [`d60cbad`](https://github.com/Cecilapp/Cecil/commit/d60cbad9ea1336ae81561416fbde552c11bc7111)
+- chore: update deps [`59ab175`](https://github.com/Cecilapp/Cecil/commit/59ab17501a3896eb75e3451d958966a6be355097)
+- Create .styleci.yml [`35ab637`](https://github.com/Cecilapp/Cecil/commit/35ab6375ba32216b1ba0c84f6355d189f798dd92)
+- chore: update deps [`7bbfb03`](https://github.com/Cecilapp/Cecil/commit/7bbfb039d31aee48d58d380ae827f0469d5c21ff)
 
 #### [7.47.1](https://github.com/Cecilapp/Cecil/compare/7.47.0...7.47.1)
 
