@@ -3153,16 +3153,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v5.4.28",
+            "version": "v5.4.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "701e2b8d48a3a627ffe128b38fbe6c4cf3ddcb3c"
+                "reference": "b893175000155839170d589f3a3593f2ce601829"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/701e2b8d48a3a627ffe128b38fbe6c4cf3ddcb3c",
-                "reference": "701e2b8d48a3a627ffe128b38fbe6c4cf3ddcb3c",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/b893175000155839170d589f3a3593f2ce601829",
+                "reference": "b893175000155839170d589f3a3593f2ce601829",
                 "shasum": ""
             },
             "require": {
@@ -3236,7 +3236,7 @@
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/serializer/tree/v5.4.28"
+                "source": "https://github.com/symfony/serializer/tree/v5.4.29"
             },
             "funding": [
                 {
@@ -3252,7 +3252,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-24T14:14:18+00:00"
+            "time": "2023-09-20T07:40:46+00:00"
         },
         {
             "name": "symfony/service-contracts",
