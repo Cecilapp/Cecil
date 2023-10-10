@@ -510,6 +510,12 @@ There is 2 others way to enable the _debug mode_:
 1. Run a command with the `-vvv` option
 2. Set the `CECIL_DEBUG` environment variable to `true`
 
+When `debug` is enabled, you can easily dump a variable in your templates using:
+
+```twig
+{{ d(variable) }}
+```
+
 ## Default configuration
 
 The website configuration (`config.yml`) overrides the [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
