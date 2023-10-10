@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-08-02
+updated: 2023-10-10
 -->
 # Configuration
 
@@ -510,10 +510,12 @@ There is 2 others way to enable the _debug mode_:
 1. Run a command with the `-vvv` option
 2. Set the `CECIL_DEBUG` environment variable to `true`
 
-When `debug` is enabled, you can easily dump a variable in your templates using:
+When `debug` is enabled, you can easily [dump a variable in your templates](3-Templates.md#dump) using:
 
 ```twig
-{{ d(variable) }}
+{{ dump(variable) }}
+# or
+{{ d(variable) }} # HTML dump
 ```
 
 ## Default configuration

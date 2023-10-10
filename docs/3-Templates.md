@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-08-17
+updated: 2023-10-10
 alias: documentation/layouts
 -->
 # Templates
@@ -548,6 +548,33 @@ _Example:_
 ```twig
 {{ getenv('VAR') }}
 ```
+
+### dump
+
+> The `dump` function dumps information about a template variable. This is mostly useful to debug a template that does not behave as expected by introspecting its variables:
+
+```twig
+{{ dump(user) }}
+```
+
+:::important
+The [_debug mode_](4-Configuration.md#debug) must be enabled.
+:::
+
+### d
+
+The `d()` function is the HTML version of [`dump()`](#dump) and use the [Symfony VarDumper Component](https://symfony.com/doc/5.4/components/var_dumper.html) behind the scenes.
+
+```twig
+{{ d(variable, {theme: light}) }}
+```
+
+- If _variable_ is not provided then the function returns the current Twig context
+- Available themes are « light » (default) and « dark »
+
+:::important
+The [_debug mode_](4-Configuration.md#debug) must be enabled.
+:::
 
 ## Sorts
 
