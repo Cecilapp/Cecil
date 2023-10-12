@@ -180,11 +180,30 @@ class Serve extends AbstractCommand
                     Util\Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
-                    if ($resourceWatcher->findChanges()->hasChanges()) {
-                        // re-builds
+                    $watcher = $resourceWatcher->findChanges();
+                    if ($watcher->hasChanges()) {
+                        // prints deleted/new/updated files in debug mode
                         $output->writeln('<comment>Changes detected.</comment>');
+                        if (\count($watcher->getDeletedFiles()) > 0) {
+                            $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getDeletedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        if (\count($watcher->getNewFiles()) > 0) {
+                            $output->writeln('<comment>New files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getNewFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        if (\count($watcher->getUpdatedFiles()) > 0) {
+                            $output->writeln('<comment>Updated files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getUpdatedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
                         $output->writeln('');
-
+                        // re-builds
                         $buildProcess->run($processOutputCallback);
                         if ($buildProcess->isSuccessful()) {
                             Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
