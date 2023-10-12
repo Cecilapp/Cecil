@@ -78,7 +78,9 @@ All notable changes to this project will be documented in this file. Dates are d
 
 #### [7.49.0](https://github.com/Cecilapp/Cecil/compare/7.48.3...7.49.0)
 
-> 11 October 2023
+> 12 October 2023
+
+- refactor: better debug output for server watcher [`#1820`](https://github.com/Cecilapp/Cecil/pull/1820)
 
 #### [7.48.3](https://github.com/Cecilapp/Cecil/compare/7.48.2...7.48.3)
 
