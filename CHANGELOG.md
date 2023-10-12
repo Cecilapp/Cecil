@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.48.2...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.49.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,35 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.49.0](https://github.com/Cecilapp/Cecil/compare/7.48.3...7.49.0)
+
+> 11 October 2023
+
+#### [7.48.3](https://github.com/Cecilapp/Cecil/compare/7.48.2...7.48.3)
+
+> 11 October 2023
+
+- docs: add welcoMattic as a contributor for doc, and bug [`#1819`](https://github.com/Cecilapp/Cecil/pull/1819)
+- doc: add a `d()` Twig function call example [`#1818`](https://github.com/Cecilapp/Cecil/pull/1818)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.37 to 1.10.38 [`#1817`](https://github.com/Cecilapp/Cecil/pull/1817)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.34.0 to 3.34.1 [`#1815`](https://github.com/Cecilapp/Cecil/pull/1815)
+- chore(deps): bump symfony/serializer from 5.4.28 to 5.4.29 [`#1814`](https://github.com/Cecilapp/Cecil/pull/1814)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.35 to 1.10.36 [`#1813`](https://github.com/Cecilapp/Cecil/pull/1813)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.30.0 to 3.34.0 [`#1812`](https://github.com/Cecilapp/Cecil/pull/1812)
+- chore(deps): bump symfony/twig-bridge from 5.4.26 to 5.4.29 [`#1811`](https://github.com/Cecilapp/Cecil/pull/1811)
+- chore(deps): bump symfony/var-dumper from 5.4.28 to 5.4.29 [`#1810`](https://github.com/Cecilapp/Cecil/pull/1810)
+- chore(deps-dev): bump phpmd/phpmd from 2.14.0 to 2.14.1 [`#1809`](https://github.com/Cecilapp/Cecil/pull/1809)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.28.0 to 3.30.0 [`#1808`](https://github.com/Cecilapp/Cecil/pull/1808)
+- chore(deps-dev): bump phpmd/phpmd from 2.13.0 to 2.14.0 [`#1807`](https://github.com/Cecilapp/Cecil/pull/1807)
+- chore(deps): bump scssphp/scssphp from 1.11.0 to 1.11.1 [`#1806`](https://github.com/Cecilapp/Cecil/pull/1806)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.27.0 to 3.28.0 [`#1805`](https://github.com/Cecilapp/Cecil/pull/1805)
+- chore: update deps [`be9e679`](https://github.com/Cecilapp/Cecil/commit/be9e679689f97130c0971bf5ba7c407c8bf96d99)
+- refactor: show content command [`7e2a365`](https://github.com/Cecilapp/Cecil/commit/7e2a36526eba9b7f37e330da91ee0bb962d63a06)
+- doc: enhances debug mode and template functions [`3e97851`](https://github.com/Cecilapp/Cecil/commit/3e97851f6a599fa536c1e52916ec0943e36e4058)
+- chore: update deps [`6c187df`](https://github.com/Cecilapp/Cecil/commit/6c187dfbc343f81c34a40beab0e7c61fab20cd4c)
+- chore: update deps [`b31a152`](https://github.com/Cecilapp/Cecil/commit/b31a1526a05effb908f02d16a108230986d09152)
+- chore: update all-contributors config [`ffa912f`](https://github.com/Cecilapp/Cecil/commit/ffa912f6ef4bd8e3faba005e9bcf214131daf1dd)
 
 #### [7.48.2](https://github.com/Cecilapp/Cecil/compare/7.48.1...7.48.2)
 
