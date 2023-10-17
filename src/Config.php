@@ -516,15 +516,13 @@ class Config
             return $this->languages;
         }
 
-        $languages = (array) $this->get('languages');
+        $languages = array_filter((array) $this->get('languages'), function ($language) {
+            return !(isset($language['enabled']) && $language['enabled'] === false);
+        });
 
         if (!\is_int(array_search($this->getLanguageDefault(), array_column($languages, 'code')))) {
             throw new RuntimeException(sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
         }
-
-        $languages = array_filter($languages, function ($language) {
-            return !(isset($language['enabled']) && $language['enabled'] === false);
-        });
 
         $this->languages = $languages;
 

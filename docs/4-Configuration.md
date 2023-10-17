@@ -276,9 +276,10 @@ List of available languages, used for [pages](2-Content.md#multilingual) and [te
 
 ```yaml
 languages:
-  - code: <code>     # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
-    name: <name>     # human readable name (e.g.: `Français`)
-    locale: <locale> # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
+  - code: <code>          # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
+    name: <name>          # human readable name (e.g.: `Français`)
+    locale: <locale>      # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
+    enabled: <true|false> # enabled or not (`true` by default)
 ```
 
 :::info
