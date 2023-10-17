@@ -155,7 +155,7 @@ class Serve extends AbstractCommand
             $finder = new Finder();
             $finder->files()
                 ->in($this->getPath())
-                ->exclude($this->getBuilder()->getConfig()->getOutputPath());
+                ->exclude((string) $this->getBuilder()->getConfig()->get('output.dir'));
             if (file_exists(Util::joinFile($this->getPath(), '.gitignore'))) {
                 $finder->ignoreVCSIgnored(true);
             }
