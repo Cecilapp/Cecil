@@ -540,6 +540,10 @@ class Config
             throw new RuntimeException('There is no default "language" key in configuration.');
         }
 
+        if ($this->get('language.code')) {
+            return $this->get('language.code');
+        }
+
         return $this->get('language');
     }
 
@@ -560,7 +564,7 @@ class Config
     }
 
     /**
-     * Returns the property value of a (specified or default) language.
+     * Returns the property value of a (specified or the default) language.
      *
      * @throws RuntimeException
      */
