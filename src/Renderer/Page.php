@@ -62,12 +62,8 @@ class Page
         if (empty($path) && empty($filename)) {
             $path = 'index';
         }
-        // do not prefix path with language code for the default language
-        if ($language === null || ($language == $this->config->getLanguageDefault() && !$this->config->get('language.prefix'))) {
-            $language = '';
-        }
-        // do not prefix path of the home page with language code for the default language
-        if ($language == $this->config->getLanguageDefault() && $page->getType() == 'homepage') {
+        // do not prefix path with language code for the default language (and default language home page)
+        if ($language === null || ($language == $this->config->getLanguageDefault() && (!$this->config->get('language.prefix') || $page->getType() == 'homepage'))) {
             $language = '';
         }
 
