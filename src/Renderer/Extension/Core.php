@@ -845,13 +845,14 @@ class Core extends SlugifyExtension
     /**
      * Dump variable (or Twig context).
      */
-    public function varDump(\Twig\Environment $env, $context, $var, ?array $options = null): void
+    public function varDump(\Twig\Environment $env, array $context, $var = null, ?array $options = null): void
     {
         if (!$env->isDebug()) {
             return;
         }
 
-        if (!$var) {
+        if ($var === null) {
+            $var = array();
             foreach ($context as $key => $value) {
                 if (!$value instanceof \Twig\Template && !$value instanceof \Twig\TemplateWrapper) {
                     $var[$key] = $value;
