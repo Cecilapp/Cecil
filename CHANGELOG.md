@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.50.0...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.50.2...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,18 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.50.2](https://github.com/Cecilapp/Cecil/compare/7.50.1...7.50.2)
+
+> 22 October 2023
+
+- fix: url() function language [`4cf5460`](https://github.com/Cecilapp/Cecil/commit/4cf5460304df8fc57671d2b1c4c9d850603d5ec0)
+
+#### [7.50.1](https://github.com/Cecilapp/Cecil/compare/7.50.0...7.50.1)
+
+> 22 October 2023
+
+- fix: d() function without arg [`e1404db`](https://github.com/Cecilapp/Cecil/commit/e1404dbdb392c82c805530fe30c34d22ae875aa4)
 
 #### [7.50.0](https://github.com/Cecilapp/Cecil/compare/7.50.0-beta.2...7.50.0)
 
