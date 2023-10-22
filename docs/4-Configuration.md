@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-10-10
+updated: 2023-10-23
 -->
 # Configuration
 
@@ -267,27 +267,10 @@ metatags:
 The main language, defined by its code.
 
 ```yaml
-language: <language code> # unique code (`en` by default)
+language: <code> # unique code (`en` by default)
 ```
 
-### languages
-
-List of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
-
-```yaml
-languages:
-  - code: <code>          # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
-    name: <name>          # human readable name (e.g.: `Français`)
-    locale: <locale>      # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
-    enabled: <true|false> # enabled or not (`true` by default)
-```
-
-:::info
-The language code is used to prefix the path of others languages pages (e.g.: `/fr/a-propos/`).  
-You can check [locales code page](configuration/locale-codes.md) if needed.
-:::
-
-You can also prefix the path of the main language pages with the following option:
+By default only others [languages](#languages) pages path are prefixed with its language code, but you can prefix the path of the main language pages with the following option:
 
 ```yaml
 #language: <code>
@@ -297,7 +280,36 @@ language:
 ```
 
 :::info
-An alias is automatically created for the home page that redirect from `/` to `/<code>/`.
+When `prefix` is set to `true`, an alias is automatically created for the home page that redirect from`/` to `/<code>/`.
+:::
+
+### languages
+
+Options of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
+
+```yaml
+languages:
+  - code: <code>          # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
+    name: <name>          # human readable name (e.g.: `Français`)
+    locale: <locale>      # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
+    enabled: <true|false> # enabled or not (`true` by default)
+```
+
+_Example:_
+
+```yaml
+language: en
+languages:
+  - code: en
+    name: English
+    locale: en_EN
+  - code: fr
+    name: Fançais
+    locale: fr_FR
+```
+
+:::info
+There is a [locales code list](configuration/locale-codes.md) if needed.
 :::
 
 #### Localize configuration options
