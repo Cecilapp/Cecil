@@ -82,7 +82,7 @@ class Site implements \ArrayAccess
             case 'language':
                 return new Language($this->config, $this->language);
             case 'home':
-                return $this->language != $this->config->getLanguageDefault() ? sprintf('%s/index', $this->language) : 'index';
+                return 'index';
         }
 
         return $this->config->get($offset, $this->language);
