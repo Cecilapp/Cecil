@@ -283,11 +283,21 @@ languages:
 ```
 
 :::info
-The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`).  
+The language code is used to prefix the path of others languages pages (e.g.: `/fr/a-propos/`).  
+You can check [locales code page](configuration/locale-codes.md) if needed.
 :::
 
+You can also prefix the path of the main language pages with the following option:
+
+```yaml
+#language: <code>
+language:
+  code: <code>
+  prefix: true
+```
+
 :::info
-A list of [locales code](configuration/locale-codes.md) is available.
+An alias is automatically created for the home page that redirect from `/` to `/<code>/`.
 :::
 
 #### Localize configuration options

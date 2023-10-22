@@ -136,11 +136,15 @@ return [
             'term'       => ['html', 'atom'],
         ],
     ],
-    'language'  => 'en', // main language code (`en` by default)
+    'language'  => 'en',  // main language code (`en` by default)
+    //'language'  => [
+    //    'code'   => 'en',
+    //    'prefix' => true, // prefix main language pages path with language code (`false` by default)
+    //],
     'languages' => [
         [
             'code'   => 'en',
-            'name'   => 'English',
+            'name'   => 'English', // should use `language_name ` filter instead (https://twig.symfony.com/doc/filters/language_name.html)
             'locale' => 'en_US',
         ],
     ],

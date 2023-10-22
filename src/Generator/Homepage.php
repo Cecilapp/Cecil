@@ -72,6 +72,10 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             if (!$page->getVariable('menu')) {
                 $page->setVariable('menu', ['main' => ['weight' => 0]]);
             }
+            // add an alias redirection from the root if language path prefix is forced for the default language
+            if ($language == $this->config->getLanguageDefault() && $this->config->get('language.prefix')) {
+                $page->setVariable('alias', '../');
+            }
             $this->generatedPages->add($page);
         }
     }

@@ -401,11 +401,11 @@ class Builder implements LoggerAwareInterface
             $this->getLogger()->error('Config: `baseurl` is required in production (e.g.: "baseurl: https://example.com/").');
         }
         // default language
-        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', (string) $this->config->get('language'))) {
-            throw new RuntimeException(sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->get('language')));
+        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->config->getLanguageDefault())) {
+            throw new RuntimeException(sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->getLanguageDefault()));
         }
         // locales
-        foreach ((array) $this->config->get('languages') as $lang) {
+        foreach ($this->config->getLanguages() as $lang) {
             if (!isset($lang['locale'])) {
                 throw new RuntimeException('Config: a language locale is not defined.');
             }

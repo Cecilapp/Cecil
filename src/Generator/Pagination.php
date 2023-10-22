@@ -37,6 +37,9 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
         });
         /** @var Page $page */
         foreach ($filteredPages as $page) {
+            if ($page->getPages() === null) {
+                return;
+            }
             $pages = $page->getPages()->filter(function (Page $page) {
                 return $page->getVariable('published');
             });
