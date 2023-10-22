@@ -312,6 +312,7 @@ class Core extends SlugifyExtension
      */
     public function url(array $context, $value = null, array $options = null): string
     {
+        $optionsLang = array();
         $optionsLang['language'] = $context['site']['language'];
         $options = array_merge($optionsLang, $options ?? []);
 
