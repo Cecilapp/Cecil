@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.49.0...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.50.0-beta.2...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,27 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.50.0-beta.2](https://github.com/Cecilapp/Cecil/compare/7.50.0-beta.1...7.50.0-beta.2)
+
+> 20 October 2023
+
+#### [7.50.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.49.1...7.50.0-beta.1)
+
+> 20 October 2023
+
+- feat: path prefix for default language [`87e460a`](https://github.com/Cecilapp/Cecil/commit/87e460a18c778395d1ba5655d3e094e6e641df05)
+
+#### [7.49.1](https://github.com/Cecilapp/Cecil/compare/7.49.0...7.49.1)
+
+> 17 October 2023
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.34.1 to 3.35.1 [`#1821`](https://github.com/Cecilapp/Cecil/pull/1821)
+- fix: languages filter and check [`37a2fde`](https://github.com/Cecilapp/Cecil/commit/37a2fde2ef4de4879876b0b9b924273e5499afb9)
+- chore: update deps [`767180f`](https://github.com/Cecilapp/Cecil/commit/767180fc13a7d83380cc3abff7f5b923f35b2720)
+- chore: update deps [`9150907`](https://github.com/Cecilapp/Cecil/commit/9150907e7f5a94c657342cdffec01ce96bbcf74b)
+- refactor: better cache clear logs [`1d68769`](https://github.com/Cecilapp/Cecil/commit/1d687699278370615b58400e8f6f3c34ee0610ec)
+- fix: server watcher [`393af9e`](https://github.com/Cecilapp/Cecil/commit/393af9edbe4ed3ea0a00a8a9abc6da9182afe78c)
 
 #### [7.49.0](https://github.com/Cecilapp/Cecil/compare/7.48.3...7.49.0)
 

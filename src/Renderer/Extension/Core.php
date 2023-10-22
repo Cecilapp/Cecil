@@ -74,7 +74,7 @@ class Core extends SlugifyExtension
     public function getFunctions()
     {
         return [
-            new \Twig\TwigFunction('url', [$this, 'url']),
+            new \Twig\TwigFunction('url', [$this, 'url'], ['needs_context' => true]),
             // assets
             new \Twig\TwigFunction('asset', [$this, 'asset']),
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
@@ -110,14 +110,14 @@ class Core extends SlugifyExtension
     public function getFilters(): array
     {
         return [
-            new \Twig\TwigFilter('url', [$this, 'url']),
+            new \Twig\TwigFilter('url', [$this, 'url'], ['needs_context' => true]),
             // collections
             new \Twig\TwigFilter('sort_by_title', [$this, 'sortByTitle']),
             new \Twig\TwigFilter('sort_by_weight', [$this, 'sortByWeight']),
             new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
             new \Twig\TwigFilter('filter_by', [$this, 'filterBy']),
             // assets
-            new \Twig\TwigFilter('html', [$this, 'html']),
+            new \Twig\TwigFilter('html', [$this, 'html'], ['needs_context' => true]),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('fingerprint', [$this, 'fingerprint']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
@@ -306,11 +306,16 @@ class Core extends SlugifyExtension
      *     'language'  => null,
      * ];
      *
+     * @param array                  $context
      * @param Page|Asset|string|null $value
      * @param array|null             $options
      */
-    public function url($value = null, array $options = null): string
+    public function url(array $context, $value = null, array $options = null): string
     {
+        $optionsLang = array();
+        $optionsLang['language'] = $context['site']['language'];
+        $options = array_merge($optionsLang, $options ?? []);
+
         return (new Url($this->builder, $value, $options))->getUrl();
     }
 
@@ -510,7 +515,7 @@ class Core extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function html(Asset $asset, array $attributes = [], array $options = []): string
+    public function html(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
         $htmlAttributes = '';
         $preload = false;
@@ -536,14 +541,14 @@ class Core extends SlugifyExtension
                 if ($preload) {
                     return sprintf(
                         '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
-                        $this->url($asset, $options),
+                        $this->url($context, $asset, $options),
                         $htmlAttributes
                     );
                 }
 
-                return sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($asset, $options), $htmlAttributes);
+                return sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
             case 'js':
-                return sprintf('<script src="%s"%s></script>', $this->url($asset, $options), $htmlAttributes);
+                return sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
         }
         // image
         if ($asset['type'] == 'image') {
@@ -563,7 +568,7 @@ class Core extends SlugifyExtension
             // <img> element
             $img = sprintf(
                 '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
-                $this->url($asset, $options),
+                $this->url($context, $asset, $options),
                 $htmlAttributes
             );
 
@@ -845,13 +850,14 @@ class Core extends SlugifyExtension
     /**
      * Dump variable (or Twig context).
      */
-    public function varDump(\Twig\Environment $env, $context, $var, ?array $options = null): void
+    public function varDump(\Twig\Environment $env, array $context, $var = null, ?array $options = null): void
     {
         if (!$env->isDebug()) {
             return;
         }
 
-        if (!$var) {
+        if ($var === null) {
+            $var = array();
             foreach ($context as $key => $value) {
                 if (!$value instanceof \Twig\Template && !$value instanceof \Twig\TemplateWrapper) {
                     $var[$key] = $value;

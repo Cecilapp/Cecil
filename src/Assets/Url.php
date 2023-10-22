@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Assets;
 
 use Cecil\Builder;
+use Cecil\Collection\Menu\Entry as MenuEntry;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Renderer\Page as PageRenderer;
@@ -98,6 +99,10 @@ class Url
                 if ($canonical && $value->hasVariable('canonical') && $value->getVariable('canonical')['url']) { // canonical URL
                     $this->url = $value->getVariable('canonical')['url'];
                 }
+                break;
+            case $value instanceof MenuEntry:
+                /** @var MenuEntry $value */
+                $this->url = $base . '/' . ltrim($value['url'], '/');
                 break;
             case $value instanceof Asset:
                 /** @var Asset $value */

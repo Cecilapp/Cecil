@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-10-10
+updated: 2023-10-21
 alias: documentation/layouts
 -->
 # Templates
@@ -151,14 +151,10 @@ Can be displayed in a template with:
 | `site.home`           | ID of the home page.                                   |
 | `site.pages`          | Collection of pages, in the current language.          |
 | `site.pages.showable` | Same as `site.pages` but filtered by "showable" status (published pages and not virtual/redirect/excluded). |
-| `site.page('id')`     | A page with the given ID in the current language.      |
+| `site.page('id')`     | A page with the given ID.                              |
 | `site.allpages`       | Collection of all pages, regardless of their language. |
 | `site.taxonomies`     | Collection of vocabularies.                            |
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
-
-:::tip
-You can get any page, regardless of their language, with `site.allpages['id']` where `id` is the _ID_ of a page.
-:::
 
 #### site.menus
 
