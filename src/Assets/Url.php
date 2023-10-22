@@ -133,6 +133,10 @@ class Url
                         );
                         break;
                     default:
+                        // remove double language prefix
+                        if ($lang && Util\Str::startsWith($value, $lang)) {
+                            $value = substr($value, \strlen($lang));
+                        }
                         $this->url = $base . '/' . $lang . ltrim($value, '/');
                 }
         }
