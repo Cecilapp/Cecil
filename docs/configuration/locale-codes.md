@@ -5,7 +5,9 @@ date: 2020-12-19
 weight: 4
 exclude: true
 ---
-List of availables locale codes (`language_COUNTRY`).
+# Locale codes
+
+Availables locale codes (`language_COUNTRY`).
 
 | Locale                           | Code     |
 | -------------------------------- | -------- |

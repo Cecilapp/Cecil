@@ -5,6 +5,10 @@ date: 2023-10-23
 weight: 4
 exclude: true
 ---
+# CDN providers
+
+Examples of CDN providers configuration.
+
 ## [Cloudinary](https://cloudinary.com)
 
 ```yaml
