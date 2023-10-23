@@ -62,7 +62,7 @@ baseurl: http://localhost:8000/
 If set to `true` the [`url()`](3-Templates.md#url) function will return the absolute URL (`false` by default).
 
 ```yaml
-canonicalurl: <bool> # false by default
+canonicalurl: <true|false> # false by default
 ```
 
 ### description
@@ -122,10 +122,10 @@ A menu is made up of a unique name and entry’s properties.
 ```yaml
 menus:
   <name>:
-    - id: <unique id> # unique identifier (required)
-      name: "<name>"  # name usable in templates
-      url: <url>      # relative or absolute URL
-      weight: <int>   # integer value used to sort entries (lighter first)
+    - id: <unique id>   # unique identifier (required)
+      name: "<name>"    # name usable in templates
+      url: <url>        # relative or absolute URL
+      weight: <integer> # integer value used to sort entries (lighter first)
 ```
 
 By default a `main` menu is created and contains the home page and sections entries.
@@ -333,7 +333,7 @@ languages:
 
 :::info
 In [templates](3-Templates.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.  
-If an option is not available in the current language (e.g.: `fr`) it fallback to the global one.
+If an option is not available in the current language (e.g.: `fr`) it fallback to the global one (e.g.: `en`).
 :::
 
 ### theme
@@ -372,8 +372,8 @@ Pagination is available for list pages (_type_ is `homepage`, `section` or `term
 
 ```yaml
 pagination:
-  max: <int>   # maximum number of entries per page (`5` by default)
-  path: <path> # path to the paginated page (`page` by default)
+  max: <integer> # maximum number of entries per page (`5` by default)
+  path: <path>   # path to the paginated page (`page` by default)
 ```
 
 _Example:_
@@ -814,59 +814,9 @@ assets:
 - `%quality%` replaced by the `assets.images.quality` option
 - `%format%` replaced by the image format
 
-##### CDN provider examples
-
-###### [Cloudinary](https://cloudinary.com)
-
-```yaml
-assets:
-  images:
-    cdn:
-      enabled: true
-      account: 'xxxx'
-      url: 'https://res.cloudinary.com/%account%/image/fetch/c_limit,w_%width%,q_%quality%,f_%format%,d_default/%image_url%'
-```
-
-###### [Cloudimage](https://www.cloudimage.io)
-
-```yaml
-assets:
-  images:
-    cdn:
-      enabled: true
-      account: 'xxxx'
-      url: 'https://%account%.cloudimg.io/%image_url%?w=%width%&q=%quality%&force_format=%format%'
-```
-
-###### [TwicPics](https://www.twicpics.com)
-
-```yaml
-assets:
-  images:
-    cdn:
-      enabled: true
-      account: 'xxxx'
-      canonical: false
-      remote: false
-      url: 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%'
-```
-
-`Source URL`: Your website `baseurl`.
-
-###### [imgix](https://imgix.com)
-
-```yaml
-assets:
-  images:
-    cdn:
-      enabled: true
-      account: 'xxxx'
-      canonical: false
-      remote: false
-      url: 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
-```
-
-`Base URL`: Your website `baseurl`.
+:::tip
+[CDN provider examples](configuration/cdn-providers.md).
+:::
 
 ### postprocess
 
