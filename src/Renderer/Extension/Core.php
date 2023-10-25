@@ -526,7 +526,7 @@ class Core extends SlugifyExtension
         // builds HTML attributes
         foreach ($attributes as $name => $value) {
             $attribute = sprintf(' %s="%s"', $name, $value);
-            if (empty($value)) {
+            if (!isset($value)) {
                 $attribute = sprintf(' %s', $name);
             }
             $htmlAttributes .= $attribute;
