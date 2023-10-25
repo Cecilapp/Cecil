@@ -619,7 +619,7 @@ class Core extends SlugifyExtension
      */
     public function imageSizes(string $class): string
     {
-        return Image::getSizes($class, $this->config->getAssetsImagesWidths());
+        return Image::getSizes($class, $this->config->getAssetsImagesSizes());
     }
 
     /**
