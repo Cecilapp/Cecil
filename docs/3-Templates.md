@@ -258,20 +258,20 @@ _Example:_
 
 #### page.paginator
 
-_Paginator_ help you to build a navigation for list pages: homepage, sections, and taxonomies.
+_Paginator_ help you to build a navigation for list's pages: homepage, sections, and taxonomies.
 
-| Variable                     | Description                   |
-| ---------------------------- | ----------------------------- |
-| `page.paginator.pages`       | Paginated pages collection.   |
-| `page.paginator.pages_total` | Paginated total pages.        |
-| `page.paginator.count`       | Number of pages.              |
-| `page.paginator.current`     | Position of the current page. |
-| `page.paginator.links.first` | Page ID of the first page.    |
-| `page.paginator.links.prev`  | Page ID of the previous page. |
-| `page.paginator.links.self`  | Page ID of the current page.  |
-| `page.paginator.links.next`  | Page ID of the next page.     |
-| `page.paginator.links.last`  | Page ID of the last page.     |
-| `page.paginator.links.path`  | Page ID without position.     |
+| Variable                     | Description                         |
+| ---------------------------- | ----------------------------------- |
+| `page.paginator.pages`       | Pages Collection.                   |
+| `page.paginator.pages_total` | Number total of pages.              |
+| `page.paginator.count`       | Number of paginator's pages.        |
+| `page.paginator.current`     | Position index of the current page. |
+| `page.paginator.links.first` | Page ID of the first page.          |
+| `page.paginator.links.prev`  | Page ID of the previous page.       |
+| `page.paginator.links.self`  | Page ID of the current page.        |
+| `page.paginator.links.next`  | Page ID of the next page.           |
+| `page.paginator.links.last`  | Page ID of the last page.           |
+| `page.paginator.links.path`  | Page ID without the position index. |
 
 :::important
 Because links entries are Page ID you must use the `url()` function to create working links.  
