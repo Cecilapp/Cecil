@@ -51,6 +51,7 @@ class Site implements \ArrayAccess
         switch ($offset) {
             case 'menus':
             case 'home':
+            case 'debug':
                 return true;
         }
 
@@ -83,6 +84,8 @@ class Site implements \ArrayAccess
                 return new Language($this->config, $this->language);
             case 'home':
                 return 'index';
+            case 'debug':
+                return $this->builder->isDebug();
         }
 
         return $this->config->get($offset, $this->language);

@@ -155,6 +155,7 @@ Can be displayed in a template with:
 | `site.allpages`       | Collection of all pages, regardless of their language. |
 | `site.taxonomies`     | Collection of vocabularies.                            |
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
+| `site.debug`          | Debug mode: `true` or `false`.                         |
 
 #### site.menus
 
