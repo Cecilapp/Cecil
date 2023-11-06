@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.51.2...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.52.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,21 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.52.0](https://github.com/Cecilapp/Cecil/compare/7.51.2...7.52.0)
+
+> 6 November 2023
+
+- feat: new `site.debug` variable [`#1833`](https://github.com/Cecilapp/Cecil/pull/1833)
+- chore(deps): bump spatie/image-optimizer from 1.7.1 to 1.7.2 [`#1832`](https://github.com/Cecilapp/Cecil/pull/1832)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.39 to 1.10.40 [`#1830`](https://github.com/Cecilapp/Cecil/pull/1830)
+- chore(deps): bump symfony/yaml from 5.4.23 to 5.4.30 [`#1829`](https://github.com/Cecilapp/Cecil/pull/1829)
+- chore(deps): bump symfony/serializer from 5.4.29 to 5.4.30 [`#1828`](https://github.com/Cecilapp/Cecil/pull/1828)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.36.0 to 3.37.1 [`#1827`](https://github.com/Cecilapp/Cecil/pull/1827)
+- chore(deps): bump symfony/translation from 5.4.24 to 5.4.30 [`#1826`](https://github.com/Cecilapp/Cecil/pull/1826)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.35.1 to 3.36.0 [`#1825`](https://github.com/Cecilapp/Cecil/pull/1825)
+- doc: minor update about paginator [`25e6ded`](https://github.com/Cecilapp/Cecil/commit/25e6ded512f6ca1df3342efeac8e3febfd95eaa8)
+- chore: update deps [`6016045`](https://github.com/Cecilapp/Cecil/commit/6016045265ffee177a29ef1d2c5a252c5ac6a3d0)
 
 #### [7.51.2](https://github.com/Cecilapp/Cecil/compare/7.51.1...7.51.2)
 
