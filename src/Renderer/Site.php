@@ -117,21 +117,25 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Returns a page in the current language or the one provided.
+     * Returns a page for the provided language or the current one provided.
      *
      * @throws \DomainException
      */
     public function getPage(string $id, string $language = null): ?CollectionPage
     {
         $pageId = $id;
-        if ($language === null && $this->language != $this->config->getLanguageDefault()) {
-            $pageId = sprintf('%s/%s', $this->language, $id);
-        }
+        $language = $language ?? $this->language;
+
         if ($language !== null && $language != $this->config->getLanguageDefault()) {
             $pageId = "$language/$id";
         }
 
         if ($this->builder->getPages()->has($pageId) === false) {
+            // if multilingual == false
+            if ($this->builder->getPages()->has($id) && $this->builder->getPages()->get($id)->getVariable('multilingual') === false) {
+                return $this->builder->getPages()->get($id);
+            }
+
             return null;
         }
 
