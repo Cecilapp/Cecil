@@ -47,6 +47,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                             }
                             $pages = $term->sortByDate();
                             $date = $pages->first()->getVariable('date');
+                            // creates page for each term
                             $page = (new Page($pageId))
                                 ->setPath($path)
                                 ->setVariable('title', $term->getName())
@@ -55,9 +56,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                             if ($this->builder->getPages()->has($pageId)) {
                                 $page = clone $this->builder->getPages()->get($pageId);
                             }
-                            /** @var Page $page */
-                            $page
-                                ->setType(Type::TERM)
+                            $page->setType(Type::TERM)
                                 ->setPages($pages)
                                 ->setVariable('term', $term->getId())
                                 ->setVariable('plural', $plural)
@@ -72,15 +71,23 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         if ($language != $this->config->getLanguageDefault()) {
                             $pageId = "$language/$pageId";
                         }
-                        $page = (new Page($pageId))
-                            ->setType(Type::VOCABULARY)
+                        $page = (new Page($pageId))->setVariable('title', ucfirst($plural))
+                            ->setPath($path);
+                        if ($this->builder->getPages()->has($pageId)) {
+                            $page = clone $this->builder->getPages()->get($pageId);
+                        }
+                        // creates page for each plural
+                        $page->setType(Type::VOCABULARY)
                             ->setPath($path)
                             ->setTerms($vocabulary)
-                            ->setVariable('title', ucfirst($plural))
                             ->setVariable('date', $date)
                             ->setVariable('language', $language)
                             ->setVariable('plural', $plural)
                             ->setVariable('singular', $singular);
+                        // human readable title
+                        if ($page->getVariable('title') == 'index') {
+                            $page->setVariable('title', $plural);
+                        }
                         // adds page only if a template exist
                         try {
                             $this->generatedPages->add($page);
