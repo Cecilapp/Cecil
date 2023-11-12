@@ -43,7 +43,7 @@ layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 `<type>`
 :  The page type: `home` (or `index`) for _homepage_, `list` for _list_, `page` for _page_, etc. (See [_Lookup rules_](#lookup-rules) for details).
 
-`<layout>`
+`<layout>` (optional)
 :  The custom layout name defined in the [front matter](2-Content.md#front-matter) of the page (e.g.: `layout: my-layout`).
 
 `<language>` (optional)
@@ -53,7 +53,7 @@ layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 :  The [output format](4-Configuration.md#formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
 
 ".twig"
-:  The mandatory file extension.
+:  The mandatory Twig file extension.
 
 _Examples:_
 
