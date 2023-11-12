@@ -34,7 +34,7 @@ There is two kinds of templates, **_layouts_** and **_others templates_**: _layo
 Templates files are stored in the `layouts/` directory and must be named according to the following convention:
 
 ```plaintext
-layouts/(<section>/)<type>|<layout>(.<language>).<format>.twig
+layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 ```
 
 `<section>` (optional)
@@ -60,7 +60,7 @@ _Examples:_
 ```plaintext
 layouts/home.html.twig       # home page (`type` is "home")
 layouts/my-layout.html.twig  # custom layout (`layout` is "my-layout")
-layouts/page.fr.html.twig    # page in french (`language` is "fr")
+layouts/page.html.fr.twig    # page in french (`language` is "fr")
 layouts/blog/list.html.twig  # blog posts list (`section` is "blog")
 layouts/blog/list.rss.twig   # blog RSS feed (`format` is "rss")
 ```
@@ -92,9 +92,9 @@ layouts/blog/list.rss.twig   # blog RSS feed (`format` is "rss")
 
 In most of cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the page _type_.
 
-For example, the HTML output of _home page_ will be rendered in the following order:
+For example, the HTML output of _home page_ (`index.md`) will be rendered:
 
-1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" in the front matter of `index.md`
+1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" (in the front matter)
 2. if not, with `home.html.twig` if the file exists
 3. if not, with `index.html.twig` if the file exists
 4. if not, with `list.html.twig` if the file exists
@@ -105,11 +105,11 @@ All rules are detailed below, for each page type, in the priority order.
 ### Type _homepage_
 
 1. `<layout>.<format>.twig`
-2. `home.<format>.twig`
-3. `index.<format>.twig`
+2. `index.<format>.twig`
+3. `home.<format>.twig`
 4. `list.<format>.twig`
-5. `_default/home.<format>.twig`
-6. `_default/index.<format>.twig`
+5. `_default/index.<format>.twig`
+6. `_default/home.<format>.twig`
 7. `_default/list.<format>.twig`
 8. `_default/page.<format>.twig`
 
