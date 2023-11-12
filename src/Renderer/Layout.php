@@ -97,36 +97,25 @@ class Layout
                     "_default/page.$format.$ext",
                 ];
                 if ($page->hasVariable('layout')) {
-                    $layouts = array_merge(
-                        ["$layout.$format.$ext"],
-                        $layouts
-                    );
+                    $layouts = array_merge(["$layout.$format.$ext"], $layouts);
                 }
                 break;
             case PageType::SECTION:
                 $layouts = [
                     // "$layout.$format.$ext",
+                    // "$section/index.$format.$ext",
                     // "$section/list.$format.$ext",
                     // "section/$section.$format.$ext",
                     "_default/section.$format.$ext",
                     "_default/list.$format.$ext",
                 ];
                 if ($page->getPath()) {
-                    $section = $page->getSection();
-                    $layouts = array_merge(
-                        ["section/$section.$format.$ext"],
-                        $layouts
-                    );
-                    $layouts = array_merge(
-                        ["$section/list.$format.$ext"],
-                        $layouts
-                    );
+                    $layouts = array_merge(["section/{$page->getSection()}.$format.$ext"], $layouts);
+                    $layouts = array_merge(["{$page->getSection()}/list.$format.$ext"], $layouts);
+                    $layouts = array_merge(["{$page->getSection()}/index.$format.$ext"], $layouts);
                 }
                 if ($page->hasVariable('layout')) {
-                    $layouts = array_merge(
-                        ["$layout.$format.$ext"],
-                        $layouts
-                    );
+                    $layouts = array_merge(["$layout.$format.$ext"], $layouts);
                 }
                 break;
             case PageType::VOCABULARY:
@@ -135,10 +124,7 @@ class Layout
                     "_default/vocabulary.$format.$ext", // e.g.: _default/vocabulary.html.twig
                 ];
                 if ($page->hasVariable('plural')) {
-                    $layouts = array_merge(
-                        ["taxonomy/{$page->getVariable('plural')}.$format.$ext"],
-                        $layouts
-                    );
+                    $layouts = array_merge(["taxonomy/{$page->getVariable('plural')}.$format.$ext"], $layouts);
                 }
                 break;
             case PageType::TERM:
@@ -149,16 +135,10 @@ class Layout
                     "_default/list.$format.$ext",         // e.g.: _default/list.html.twig
                 ];
                 if ($page->hasVariable('term')) {
-                    $layouts = array_merge(
-                        ["taxonomy/{$page->getVariable('term')}.$format.$ext"],
-                        $layouts
-                    );
+                    $layouts = array_merge(["taxonomy/{$page->getVariable('term')}.$format.$ext"], $layouts);
                 }
                 if ($page->hasVariable('singular')) {
-                    $layouts = array_merge(
-                        ["taxonomy/{$page->getVariable('singular')}.$format.$ext"],
-                        $layouts
-                    );
+                    $layouts = array_merge(["taxonomy/{$page->getVariable('singular')}.$format.$ext"], $layouts);
                 }
                 break;
             default:
@@ -171,31 +151,16 @@ class Layout
                     "_default/page.$format.$ext",
                 ];
                 if ($page->hasVariable('layout')) {
-                    $layouts = array_merge(
-                        ["_default/$layout.$format.$ext"],
-                        $layouts
-                    );
+                    $layouts = array_merge(["_default/$layout.$format.$ext"], $layouts);
                 }
-                $layouts = array_merge(
-                    ["page.$format.$ext"],
-                    $layouts
-                );
+                $layouts = array_merge(["page.$format.$ext"], $layouts);
                 if ($page->getSection()) {
-                    $layouts = array_merge(
-                        ["{$page->getSection()}/page.$format.$ext"],
-                        $layouts
-                    );
+                    $layouts = array_merge(["{$page->getSection()}/page.$format.$ext"], $layouts);
                 }
                 if ($page->hasVariable('layout')) {
-                    $layouts = array_merge(
-                        ["$layout.$format.$ext"],
-                        $layouts
-                    );
+                    $layouts = array_merge(["$layout.$format.$ext"], $layouts);
                     if ($page->getSection()) {
-                        $layouts = array_merge(
-                            ["{$page->getSection()}/$layout.$format.$ext"],
-                            $layouts
-                        );
+                        $layouts = array_merge(["{$page->getSection()}/$layout.$format.$ext"], $layouts);
                     }
                 }
         }
