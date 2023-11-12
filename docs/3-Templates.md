@@ -31,7 +31,7 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 
 There is two kinds of templates, **_layouts_** and **_others templates_**: _layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include templates](https://twig.symfony.com/doc/templates.html#including-other-templates).
 
-Files are stored in the `layouts/` directory and must be named according to the following convention:
+Templates files are stored in the `layouts/` directory and must be named according to the following convention:
 
 ```plaintext
 layouts/(<section>/)<type>|<layout>(.<language>).<format>.twig
@@ -41,7 +41,7 @@ layouts/(<section>/)<type>|<layout>(.<language>).<format>.twig
 :  The section of the page (e.g.: `blog`).
 
 `<type>`
-:  The page type: `home` (or `index`) for _homepage_, `list` for section list, `page` for page, etc. (See below for details).
+:  The page type: `home` (or `index`) for _homepage_, `list` for _list_, `page` for _page_, etc. (See [_Lookup rules_](#lookup-rules) for details).
 
 `<layout>`
 :  The custom layout name defined in the [front matter](2-Content.md#front-matter) of the page (e.g.: `layout: my-layout`).
@@ -125,10 +125,11 @@ All rules are detailed below, for each page type, in the priority order.
 ### Type _section_
 
 1. `<layout>.<format>.twig`
-2. `<section>/list.<format>.twig`
-3. `section/<section>.<format>.twig`
-4. `_default/section.<format>.twig`
-5. `_default/list.<format>.twig`
+2. `<section>/index.<format>.twig`
+3. `<section>/list.<format>.twig`
+4. `section/<section>.<format>.twig`
+5. `_default/section.<format>.twig`
+6. `_default/list.<format>.twig`
 
 ### Type _vocabulary_
 
