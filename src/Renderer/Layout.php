@@ -168,7 +168,7 @@ class Layout
         // add localized layouts
         if ($page->getVariable('language') !== $config->getLanguageDefault()) {
             foreach ($layouts as $key => $value) {
-                $layouts = array_merge(array_slice($layouts, 0, $key), [str_replace(".$ext", ".{$page->getVariable('language')}.$ext", $value)], array_slice($layouts, $key));
+                $layouts = array_merge(\array_slice($layouts, 0, $key), [str_replace(".$ext", ".{$page->getVariable('language')}.$ext", $value)], \array_slice($layouts, $key));
             }
         }
 
