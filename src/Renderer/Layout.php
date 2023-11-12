@@ -36,7 +36,7 @@ class Layout
         $layout = 'unknown';
 
         // what layouts, in what format, could be use for the page?
-        $layouts = self::fallback($page, $format);
+        $layouts = self::fallback($page, $format, $config);
 
         // take the first available layout
         foreach ($layouts as $layout) {
@@ -77,7 +77,7 @@ class Layout
      *
      * @see finder()
      */
-    protected static function fallback(CollectionPage $page, string $format): array
+    protected static function fallback(CollectionPage $page, string $format, Config $config): array
     {
         $ext = self::EXT;
 
@@ -88,11 +88,11 @@ class Layout
             case PageType::HOMEPAGE:
                 $layouts = [
                     // "$layout.$format.$ext",
-                    "home.$format.$ext",
                     "index.$format.$ext",
+                    "home.$format.$ext",
                     "list.$format.$ext",
-                    "_default/home.$format.$ext",
                     "_default/index.$format.$ext",
+                    "_default/home.$format.$ext",
                     "_default/list.$format.$ext",
                     "_default/page.$format.$ext",
                 ];
@@ -163,6 +163,13 @@ class Layout
                         $layouts = array_merge(["{$page->getSection()}/$layout.$format.$ext"], $layouts);
                     }
                 }
+        }
+
+        // add localized layouts
+        if ($page->getVariable('language') !== $config->getLanguageDefault()) {
+            foreach ($layouts as $key => $value) {
+                $layouts = array_merge(array_slice($layouts, 0, $key), [str_replace(".$ext", ".{$page->getVariable('language')}.$ext", $value)], array_slice($layouts, $key));
+            }
         }
 
         return $layouts;
