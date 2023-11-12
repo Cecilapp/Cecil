@@ -58,11 +58,12 @@ layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 _Examples:_
 
 ```plaintext
-layouts/home.html.twig       # home page (`type` is "home")
-layouts/my-layout.html.twig  # custom layout (`layout` is "my-layout")
-layouts/page.html.fr.twig    # page in french (`language` is "fr")
-layouts/blog/list.html.twig  # blog posts list (`section` is "blog")
-layouts/blog/list.rss.twig   # blog RSS feed (`format` is "rss")
+layouts/home.html.twig       # `type` is "homepage"
+layouts/page.html.twig       # `type` is "page"
+layouts/page.html.fr.twig    # `type` is "page" and `language` is "fr"
+layouts/my-layout.html.twig  # `layout` is "my-layout"
+layouts/blog/list.html.twig  # `section` is "blog"
+layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 ```
 
 ```plaintext
