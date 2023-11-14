@@ -29,19 +29,42 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 
 ## Files organization
 
-There is two kinds of templates: _layouts_ and _others templates_.
+There is two kinds of templates, **_layouts_** and **_others templates_**: _layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include templates](https://twig.symfony.com/doc/templates.html#including-other-templates).
 
-_Layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include](https://twig.symfony.com/doc/templates.html#including-other-templates) templates.
-
-_Layouts_ files are stored in the `layouts/` directory and must be named according to the following convention:
+Templates files are stored in the `layouts/` directory and must be named according to the following convention:
 
 ```plaintext
-<layout>.<format>.twig
+layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 ```
 
-- `<layout>` is the name of the layout, the same as the one defined in [front matter](2-Content.md#front-matter) of a page (e.g.: `layout: my-layout`) or the name of a generic layout (i.e.: `index`, `page`, `list`, etc. See below for details)
-- `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `rss`, `json`, `xml`, etc.)
-- `.twig` is the mandatory file extension
+`<section>` (optional)
+:  The section of the page (e.g.: `blog`).
+
+`<type>`
+:  The page type: `home` (or `index`) for _homepage_, `list` for _list_, `page` for _page_, etc. (See [_Lookup rules_](#lookup-rules) for details).
+
+`<layout>` (optional)
+:  The custom layout name defined in the [front matter](2-Content.md#front-matter) of the page (e.g.: `layout: my-layout`).
+
+`<language>` (optional)
+:  The language of the page (e.g.: `fr`).
+
+`<format>`
+:  The [output format](4-Configuration.md#formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
+
+".twig"
+:  The mandatory Twig file extension.
+
+_Examples:_
+
+```plaintext
+layouts/home.html.twig       # `type` is "homepage"
+layouts/page.html.twig       # `type` is "page"
+layouts/page.html.fr.twig    # `type` is "page" and `language` is "fr"
+layouts/my-layout.html.twig  # `layout` is "my-layout"
+layouts/blog/list.html.twig  # `section` is "blog"
+layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
+```
 
 ```plaintext
 <mywebsite>
@@ -53,7 +76,7 @@ _Layouts_ files are stored in the `layouts/` directory and must be named accordi
 |  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
 |  ├─ page.html.twig        <- Used by type "page"
 |  ├─ ...
-|  ├─ _default              <- Default layouts, that can be easily extended by "root" layouts
+|  ├─ _default              <- Default layouts, that can be easily extended
 |  |  ├─ list.html.twig
 |  |  ├─ page.html.twig
 |  |  └─ ...
@@ -68,14 +91,15 @@ _Layouts_ files are stored in the `layouts/` directory and must be named accordi
 
 ## Lookup rules
 
-In most of cases **you don’t need to specify a layout name** (in the [front matter](2-Content.md#front-matter) of the page) : **Cecil selects the most appropriate layout**, according to the page _type_.
+In most of cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the page _type_.
 
-For example, the HTML output of _home page_ will be rendered in the following order:
+For example, the HTML output of _home page_ (`index.md`) will be rendered:
 
-1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" in the front matter of `index.md`
-2. if not, with `index.html.twig` if the file exists
-3. if not, with `list.html.twig` if the file exists
-4. etc.
+1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" (in the front matter)
+2. if not, with `home.html.twig` if the file exists
+3. if not, with `index.html.twig` if the file exists
+4. if not, with `list.html.twig` if the file exists
+5. etc.
 
 All rules are detailed below, for each page type, in the priority order.
 
@@ -83,10 +107,12 @@ All rules are detailed below, for each page type, in the priority order.
 
 1. `<layout>.<format>.twig`
 2. `index.<format>.twig`
-3. `list.<format>.twig`
-4. `_default/index.<format>.twig`
-5. `_default/list.<format>.twig`
-6. `_default/page.<format>.twig`
+3. `home.<format>.twig`
+4. `list.<format>.twig`
+5. `_default/index.<format>.twig`
+6. `_default/home.<format>.twig`
+7. `_default/list.<format>.twig`
+8. `_default/page.<format>.twig`
 
 ### Type _page_
 
@@ -94,15 +120,17 @@ All rules are detailed below, for each page type, in the priority order.
 2. `<layout>.<format>.twig`
 3. `<section>/page.<format>.twig`
 4. `page.<format>.twig`
-5. `_default/page.<format>.twig`
+5. `_default/<layout>.<format>.twig`
+6. `_default/page.<format>.twig`
 
 ### Type _section_
 
 1. `<layout>.<format>.twig`
-2. `<section>/list.<format>.twig`
-3. `section/<section>.<format>.twig`
-4. `_default/section.<format>.twig`
-5. `_default/list.<format>.twig`
+2. `<section>/index.<format>.twig`
+3. `<section>/list.<format>.twig`
+4. `section/<section>.<format>.twig`
+5. `_default/section.<format>.twig`
+6. `_default/list.<format>.twig`
 
 ### Type _vocabulary_
 

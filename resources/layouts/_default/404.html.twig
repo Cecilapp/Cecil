@@ -1,4 +1,4 @@
-{% extends '_default/page.html.twig' %}
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
 
       {%- block content ~%}
       {% trans %}Page not found.{% endtrans %}

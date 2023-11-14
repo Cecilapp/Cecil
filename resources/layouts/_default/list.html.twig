@@ -9,7 +9,7 @@
 	{%- set pages = page.paginator.pages -%}
 {% endif %}
 
-{% extends '_default/page.html.twig' %}
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
 
       {%- block content ~%}
       <article>
