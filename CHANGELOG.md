@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.52.1...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.53.0...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,14 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.53.0](https://github.com/Cecilapp/Cecil/compare/7.52.1...7.53.0)
+
+> 8 November 2023
+
+- feat: customize the title of a taxonomy terms list page [`#1831`](https://github.com/Cecilapp/Cecil/pull/1831)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.37.1 to 3.38.0 [`#1834`](https://github.com/Cecilapp/Cecil/pull/1834)
+- chore: update deps [`4bcd73d`](https://github.com/Cecilapp/Cecil/commit/4bcd73d20e32523cce3e3bf19ed174e1385976ab)
 
 #### [7.52.1](https://github.com/Cecilapp/Cecil/compare/7.52.0...7.52.1)
 
