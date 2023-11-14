@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.53.0...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.53.1...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,19 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.53.1](https://github.com/Cecilapp/Cecil/compare/7.53.0...7.53.1)
+
+> 14 November 2023
+
+- chore(deps): bump symfony/config from 5.4.26 to 5.4.31 [`#1841`](https://github.com/Cecilapp/Cecil/pull/1841)
+- chore(deps): bump symfony/console from 5.4.28 to 5.4.31 [`#1840`](https://github.com/Cecilapp/Cecil/pull/1840)
+- chore(deps): bump symfony/yaml from 5.4.30 to 5.4.31 [`#1839`](https://github.com/Cecilapp/Cecil/pull/1839)
+- chore(deps): bump symfony/translation from 5.4.30 to 5.4.31 [`#1838`](https://github.com/Cecilapp/Cecil/pull/1838)
+- chore(deps): bump symfony/serializer from 5.4.30 to 5.4.31 [`#1837`](https://github.com/Cecilapp/Cecil/pull/1837)
+- chore(deps): bump symfony/twig-bridge from 5.4.29 to 5.4.31 [`#1836`](https://github.com/Cecilapp/Cecil/pull/1836)
+- chore: update deps [`8b2ca3b`](https://github.com/Cecilapp/Cecil/commit/8b2ca3b9cc3100ed612d73e909a263c437d67561)
+- refactor: canonicalize joinPath [`6f762d8`](https://github.com/Cecilapp/Cecil/commit/6f762d83cfdad712025b4c530e5ea2996c7b8acc)
 
 #### [7.53.0](https://github.com/Cecilapp/Cecil/compare/7.52.1...7.53.0)
 
