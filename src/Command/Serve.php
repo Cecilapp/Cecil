@@ -126,7 +126,11 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = $page;
         }
 
-        $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
+        $buildProcess = new Process(
+            array_merge($buildProcessArguments, [$this->getPath()]),
+            null,
+            ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
+        );
 
         if ($this->getBuilder()->isDebug()) {
             $output->writeln(sprintf('<comment>Process: %s</comment>', implode(' ', $buildProcessArguments)));
