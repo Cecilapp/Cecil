@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Symfony\Component\Filesystem\Path;
+
 class Util
 {
     /**
@@ -49,7 +51,7 @@ class Util
             $value = $key == 0 ? $value : ltrim($value, '/');
         });
 
-        return implode('/', $path);
+        return Path::canonicalize(implode('/', $path));
     }
 
     /**
