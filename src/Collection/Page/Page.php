@@ -393,6 +393,16 @@ class Page extends Item
     }
 
     /**
+     * Unset section.
+     */
+    public function unSection(): self
+    {
+        $this->section = null;
+
+        return $this;
+    }
+
+    /**
      * Set body as HTML.
      */
     public function setBodyHtml(string $html): self

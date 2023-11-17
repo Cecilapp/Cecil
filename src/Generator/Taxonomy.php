@@ -75,6 +75,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                             ->setPath($path);
                         if ($this->builder->getPages()->has($pageId)) {
                             $page = clone $this->builder->getPages()->get($pageId);
+                            $page->unSection();
                         }
                         // creates page for each plural
                         $page->setType(Type::VOCABULARY)
