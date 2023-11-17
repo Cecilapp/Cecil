@@ -1203,7 +1203,7 @@ If you want to use the `format_date` filter **with other locales than "en"**, yo
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
 
 :::tips
-If you need to modify the default templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
+If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
 
 ```bash
 php cecil.phar util:extract
@@ -1213,22 +1213,32 @@ php cecil.phar util:extract
 
 ### Default templates
 
+[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
+:   A very simple error 404 ("Page not found") template.
+
 [`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
 :   A simple default main template with a clean CSS.
 
 [`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
 :   A pages list with (optional) pagination.
 
+[`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
+:   An Atom feed.
+
+[`_default/list.rss.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.rss.twig)
+:   A RSS feed.
+
 [`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
 :   A simple list of all terms of a vocabulary.
 
-### Utility templates
-
-[`sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/sitemap.xml.twig)
+[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/sitemap.xml.twig)
 :   The `sitemap.xml` template: list all pages sorted by date.
 
-[`robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/robots.txt.twig)
+[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/robots.txt.twig)
 :   The `robots.txt` template: allow all pages except 404, with a reference to the XML sitemap.
+
+[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig)
+:   The default redirect template.
 
 ### Partial templates
 
@@ -1243,9 +1253,6 @@ php cecil.phar util:extract
 
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
 :   Switcher between [languages](4-Configuration.md#languages).
-
-[`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
-:   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).
 
 ## Custom extension
 
