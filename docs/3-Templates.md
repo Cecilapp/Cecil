@@ -1213,14 +1213,11 @@ php cecil.phar util:extract
 
 ### Default templates
 
-[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
-:   A very simple error 404 ("Page not found") template.
-
 [`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
-:   A simple default main template with a clean CSS.
+:   A simple main template with a clean CSS.
 
 [`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
-:   A pages list with (optional) pagination.
+:   A pages list with (an optional) pagination.
 
 [`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
 :   An Atom feed.
@@ -1231,19 +1228,22 @@ php cecil.phar util:extract
 [`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
 :   A simple list of all terms of a vocabulary.
 
-[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/sitemap.xml.twig)
+[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
 :   The `sitemap.xml` template: list all pages sorted by date.
 
-[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/robots.txt.twig)
+[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
 :   The `robots.txt` template: allow all pages except 404, with a reference to the XML sitemap.
 
-[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig)
-:   The default redirect template.
+[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
+:   A basic error 404 ("Page not found") template.
+
+[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
+:   The redirect template.
 
 ### Partial templates
 
 [`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
-:   Main menu navigation.
+:   A main menu navigation.
 
 [`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
 :   A simple paginated navigation for list templates with "Previous" and "Next" links.
@@ -1252,7 +1252,7 @@ php cecil.phar util:extract
 :   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
 
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   Switcher between [languages](4-Configuration.md#languages).
+:   A basic switcher between [languages](4-Configuration.md#languages).
 
 ## Custom extension
 
