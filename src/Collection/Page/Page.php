@@ -92,6 +92,16 @@ class Page extends Item
     }
 
     /**
+     * toString magic method to prevent Twig get_attribute fatal error.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getId();
+    }
+
+    /**
      * Turns a path (string) into a slug (URI).
      */
     public static function slugify(string $path): string
