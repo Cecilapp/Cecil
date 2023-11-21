@@ -72,7 +72,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // sorts pages
                     $pages = self::sortSubPages($page, $pages);
                     // adds navigation links (excludes taxonomy pages)
-                    $sortby = $page->getVariable('sortby')['variable'] ?? (string) $page->getVariable('sortby') ?? 'date';
+                    $sortby = $page->getVariable('sortby')['variable'] ?? $page->getVariable('sortby') ?? 'date';
                     if (!\in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
                         $this->addNavigationLinks($pages, $sortby, $page->getVariable('circular'));
                     }
