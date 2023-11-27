@@ -64,7 +64,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete 7-Library.md [`80fb5bb`](https://github.com/Cecilapp/Cecil/commit/80fb5bb137441d4da5f247e97e18bcdb0cdf01e9)
 - Create ConfigException.php [`ac8d818`](https://github.com/Cecilapp/Cecil/commit/ac8d818473fa887b0e2eb93b85ab87b1f6eec161)
 
-#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.54.2...8.0.0-beta.1)
+#### [8.0.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.54.3...8.0.0-beta.1)
 
 > 19 April 2023
 
@@ -75,6 +75,20 @@ All notable changes to this project will be documented in this file. Dates are d
 - Create Config.php [`44da29c`](https://github.com/Cecilapp/Cecil/commit/44da29c458c61dec219ccab39df8e4b2f7aacad4)
 - Create cdn-providers.md [`59e7060`](https://github.com/Cecilapp/Cecil/commit/59e70604a7b1ed026041c20bd98dc695e9fd1f2b)
 - Create Test.php [`c4b8a6e`](https://github.com/Cecilapp/Cecil/commit/c4b8a6e907c333a5a2157c075dea28490b68b929)
+
+#### [7.54.3](https://github.com/Cecilapp/Cecil/compare/7.54.2...7.54.3)
+
+> 21 November 2023
+
+- chore(deps-dev): bump phpstan/phpstan from 1.10.41 to 1.10.43 [`#1843`](https://github.com/Cecilapp/Cecil/pull/1843)
+- chore(deps): bump scssphp/scssphp from 1.11.1 to 1.12.0 [`#1842`](https://github.com/Cecilapp/Cecil/pull/1842)
+- chore: update deps [`90a02ee`](https://github.com/Cecilapp/Cecil/commit/90a02eebec9b169765b45c61aa8eda11bb1f09cf)
+- doc: minor updates [`c4e588d`](https://github.com/Cecilapp/Cecil/commit/c4e588db5d503f50eed64a325d8d1697273aa6e3)
+- chore: update deps [`f527d34`](https://github.com/Cecilapp/Cecil/commit/f527d3401660d69e0228f65f5fd43ac540013d07)
+- doc: cleaning templates [`b301edd`](https://github.com/Cecilapp/Cecil/commit/b301edd663ef5658868ba30cf3086a3c0e085c86)
+- chore: update deps [`8abb495`](https://github.com/Cecilapp/Cecil/commit/8abb495a5c5a5e957a32402f9e9fa740d60156fe)
+- fix: error when trying to print Page in template [`ee97492`](https://github.com/Cecilapp/Cecil/commit/ee97492aad71d376bdaeb05659053e52af6e271c)
+- fix: section pages navigation [`e356512`](https://github.com/Cecilapp/Cecil/commit/e356512b6c47937d96bbca3fbdd92fba043def76)
 
 #### [7.54.2](https://github.com/Cecilapp/Cecil/compare/7.54.1...7.54.2)
 
