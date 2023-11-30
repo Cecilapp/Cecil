@@ -40,10 +40,10 @@ class Converter implements ConverterInterface
      */
     public function convertFrontmatter(string $string, string $format = 'yaml'): array
     {
-        if (!in_array($format, ['yaml', 'ini', 'toml', 'json'])) {
-            throw new RuntimeException(\sprintf('The front matter format "%s" is not supported ("yaml", "ini", "toml" or "json").', $format));
+        if (!\in_array($format, ['yaml', 'ini', 'toml', 'json'])) {
+            throw new RuntimeException(sprintf('The front matter format "%s" is not supported ("yaml", "ini", "toml" or "json").', $format));
         }
-        $method = \sprintf('convert%sToArray', ucfirst($format));
+        $method = sprintf('convert%sToArray', ucfirst($format));
 
         return self::$method($string);
     }
@@ -67,7 +67,7 @@ class Converter implements ConverterInterface
     {
         try {
             $result = Yaml::parse((string) $string) ?? [];
-            if (!is_array($result)) {
+            if (!\is_array($result)) {
                 throw new RuntimeException('Can\'t parse YAML front matter.');
             }
 
@@ -103,7 +103,7 @@ class Converter implements ConverterInterface
     {
         try {
             $result = Toml::Parse((string) $string) ?? [];
-            if (!is_array($result)) {
+            if (!\is_array($result)) {
                 throw new RuntimeException('Can\'t parse TOML front matter.');
             }
 

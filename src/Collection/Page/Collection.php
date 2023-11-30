@@ -53,7 +53,7 @@ class Collection extends CecilCollection
     public function sortByDate($options = null): self
     {
         // backward compatibility
-        if (is_string($options)) {
+        if (\is_string($options)) {
             $options['variable'] = $options;
         }
         // options

@@ -51,7 +51,7 @@ class PrintLogger extends AbstractLogger
     public function log($level, string|\Stringable $message, array $context = []): void
     {
         if (!isset($this->verbosityLevelMap[$level])) {
-            throw new InvalidArgumentException(\sprintf('The log level "%s" does not exist.', $level));
+            throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
         }
 
         if ($this->printLevelMax !== null && $this->verbosityLevelMap[$level] > $this->printLevelMax) {
@@ -88,7 +88,7 @@ class PrintLogger extends AbstractLogger
 
         $replacements = [];
         foreach ($context as $key => $val) {
-            if (null === $val || is_scalar($val) || (\is_object($val) && method_exists($val, '__toString'))) {
+            if (null === $val || \is_scalar($val) || (\is_object($val) && method_exists($val, '__toString'))) {
                 $replacements["{{$key}}"] = $val;
             } elseif ($val instanceof \DateTimeInterface) {
                 $replacements["{{$key}}"] = $val->format(\DateTime::RFC3339);

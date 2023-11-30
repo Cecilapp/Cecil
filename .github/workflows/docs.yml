@@ -17,14 +17,13 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Markdown lint
-        uses: DavidAnson/markdownlint-cli2-action@v9
+        uses: DavidAnson/markdownlint-cli2-action@v14
         with:
-          command: config
+          config: .markdownlint.yaml
           globs: |
-            .markdownlint.yaml
             'docs/**.md'
         continue-on-error: true
 

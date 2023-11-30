@@ -123,7 +123,7 @@ class Cache implements CacheInterface
      */
     public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
-        throw new \Exception(\sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -131,7 +131,7 @@ class Cache implements CacheInterface
      */
     public function setMultiple(iterable $values, \Dateinterval|int|null $ttl = null): bool
     {
-        throw new \Exception(\sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -139,7 +139,7 @@ class Cache implements CacheInterface
      */
     public function deleteMultiple(iterable $keys): bool
     {
-        throw new \Exception(\sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
+        throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
 
     /**
@@ -171,10 +171,10 @@ class Cache implements CacheInterface
     public function createKeyFromPath(string $path, string $relativePath): string
     {
         if (false === $content = Util\File::fileGetContents($path)) {
-            throw new RuntimeException(\sprintf('Can\'t create cache key for "%s"', $path));
+            throw new RuntimeException(sprintf('Can\'t create cache key for "%s"', $path));
         }
 
-        return $this->prepareKey(\sprintf('%s__%s', $relativePath, $this->createKeyFromString($content)));
+        return $this->prepareKey(sprintf('%s__%s', $relativePath, $this->createKeyFromString($content)));
     }
 
     /**
@@ -184,7 +184,7 @@ class Cache implements CacheInterface
     {
         $tags = implode('_', $tags ?? []);
 
-        return $this->prepareKey(\sprintf(
+        return $this->prepareKey(sprintf(
             '%s%s%s__%s__%s',
             $asset['filename'],
             "_{$asset['ext']}",
@@ -210,7 +210,7 @@ class Cache implements CacheInterface
                     if (preg_match('/' . $pattern . '/i', $file->getPathname())) {
                         Util\File::getFS()->remove($file->getPathname());
                         $fileCount++;
-                        $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', $file->getPathname()));
+                        $this->builder->getLogger()->debug(sprintf('Cache file "%s" removed', $file->getPathname()));
                     }
                 }
             }
@@ -228,7 +228,7 @@ class Cache implements CacheInterface
      */
     private function getFilePathname(string $key): string
     {
-        return Util::joinFile($this->cacheDir, \sprintf('%s.ser', $key));
+        return Util::joinFile($this->cacheDir, sprintf('%s.ser', $key));
     }
 
     /**

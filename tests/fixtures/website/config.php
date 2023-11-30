@@ -36,6 +36,9 @@ return [
                         ],
                     ],
                 ],
+                'taxonomies' => [
+                    'tags' => 'tag',
+                ],
             ],
         ],
     ],
@@ -194,6 +197,23 @@ return [
             'webp' => [
                 'enabled' => true,
             ],
+            'caption' => [
+                'enabled' => true,
+            ],
+            'remote' => [
+                'enabled'  => true,
+                'fallback' => [
+                    'enabled' => true,
+                    'path'    => 'images/cecil-logo.png',
+                ],
+            ],
+            'class' => 'img',
+        ],
+        'notes' => [
+            'enabled' => true,
+        ],
+        'highlight' => [
+            'enabled' => true,
         ],
     ],
     'layouts' => [

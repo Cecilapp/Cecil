@@ -9,20 +9,25 @@
 	{%- set pages = page.paginator.pages -%}
 {% endif %}
 
-{% extends '_default/page.html.twig' %}
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
 
       {%- block content ~%}
-      <section>
-        {% if page.type != 'homepage' %}<h1>{{ page.title }}</h1>{% endif %}
-        {{- page.content ~}}
+      <article>
+        <header>
+          {% if page.type != 'homepage' %}<h1>{{ page.title }}</h1>{% endif ~%}
+        </header>
+        {%- if page.content ~%}
+        <section>
+          {{- page.content ~}}
+        </section>
+        {%- endif ~%}
         {%- for p in pages ~%}
         <article>
-          {%- block content_header ~%}
           <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
-          {%- endblock content_header ~%}
-          {{ p.content|excerpt_html }}
         </article>
         {%- endfor ~%}
-        {%- include 'partials/paginator.html.twig' with {'page': page} only ~%}
-      </section>
+        <footer>
+          {%- include 'partials/paginator.html.twig' with {'page': page} only ~%}
+        </footer>
+      </article>
       {%- endblock content ~%}

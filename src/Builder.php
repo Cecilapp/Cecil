@@ -81,7 +81,7 @@ class Builder implements LoggerAwareInterface
     /** @var array Menus collection. */
     protected $menus;
 
-    /** @var Collection\Taxonomy\Collection Taxonomies collection. */
+    /** @var array Taxonomies collection. */
     protected $taxonomies;
 
     /** @var Renderer\RendererInterface Renderer. */
@@ -113,9 +113,9 @@ class Builder implements LoggerAwareInterface
      */
     public static function create(): self
     {
-        $class = new \ReflectionClass(get_called_class());
+        $class = new \ReflectionClass(\get_called_class());
 
-        return $class->newInstanceArgs(func_get_args());
+        return $class->newInstanceArgs(\func_get_args());
     }
 
     /**
@@ -152,17 +152,19 @@ class Builder implements LoggerAwareInterface
         }
         // ...and process!
         $stepNumber = 0;
-        $stepsTotal = count($steps);
+        $stepsTotal = \count($steps);
         foreach ($steps as $step) {
             $stepNumber++;
             /** @var Step\StepInterface $step */
             $this->getLogger()->notice($step->getName(), ['step' => [$stepNumber, $stepsTotal]]);
+            $stepStartTime = microtime(true);
+            $stepStartMemory = memory_get_usage();
             $step->process();
+            $this->getLogger()->info(sprintf('%s done in %s (%s)', $step->getName(), Util::convertMicrotime((float) $stepStartTime), Util::convertMemory(memory_get_usage() - $stepStartMemory)));
         }
 
         // process duration
-        $message = \sprintf('Built in %s s (%s)', round(microtime(true) - $startTime, 2), Util::convertMemory(memory_get_usage() - $startMemory));
-        $this->getLogger()->notice($message);
+        $this->getLogger()->notice(sprintf('Built in %s (%s)', Util::convertMicrotime($startTime), Util::convertMemory(memory_get_usage() - $startMemory)));
 
         return $this;
     }
@@ -325,17 +327,17 @@ class Builder implements LoggerAwareInterface
     /**
      * Set taxonomies collection.
      */
-    public function setTaxonomies(Collection\Taxonomy\Collection $taxonomies): void
+    public function setTaxonomies(array $taxonomies): void
     {
         $this->taxonomies = $taxonomies;
     }
 
     /**
-     * Returns taxonomies collection.
+     * Returns taxonomies collection, for a language.
      */
-    public function getTaxonomies(): ?Collection\Taxonomy\Collection
+    public function getTaxonomies(string $language): ?Collection\Taxonomy\Collection
     {
-        return $this->taxonomies;
+        return $this->taxonomies[$language];
     }
 
     /**
@@ -369,11 +371,11 @@ class Builder implements LoggerAwareInterface
 
             try {
                 if (!file_exists($filePath)) {
-                    throw new RuntimeException(\sprintf('%s file doesn\'t exist!', $filePath));
+                    throw new RuntimeException(sprintf('%s file doesn\'t exist!', $filePath));
                 }
                 $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
-                    throw new RuntimeException(\sprintf('Can\'t get %s file!', $filePath));
+                    throw new RuntimeException(sprintf('Can\'t get %s file!', $filePath));
                 }
                 self::$version = trim($version);
             } catch (\Exception $e) {
@@ -382,5 +384,29 @@ class Builder implements LoggerAwareInterface
         }
 
         return self::$version;
+    }
+
+    /**
+     * Checks the configuration.
+     */
+    protected function validConfig(): void
+    {
+        // baseurl
+        if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
+            $this->getLogger()->error('Config: `baseurl` is required in production (e.g.: "baseurl: https://example.com/").');
+        }
+        // default language
+        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->config->getLanguageDefault())) {
+            throw new RuntimeException(sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->getLanguageDefault()));
+        }
+        // locales
+        foreach ($this->config->getLanguages() as $lang) {
+            if (!isset($lang['locale'])) {
+                throw new RuntimeException('Config: a language locale is not defined.');
+            }
+            if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
+                throw new RuntimeException(sprintf('Config: the language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
+            }
+        }
     }
 }

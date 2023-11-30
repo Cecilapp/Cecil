@@ -21,38 +21,46 @@ use RecursiveFilterIterator;
 class FileExtensionFilter extends RecursiveFilterIterator
 {
     /** @var array */
-    protected $allowedExt = ['md'];
+    protected $allowedExt = ['md', 'yml'];
 
     /** @var array */
-    protected $excludedDir = ['.git', '.cecil', '.cache', '_site'];
+    protected $excludedDir = ['.git', '.cecil', '.cache', '_site', 'vendor', 'node_modules'];
 
     /**
      * @param \RecursiveIterator $iterator
-     * @param string|array       $extensions
+     * @param string|array|null  $extensions
      */
-    public function __construct(\RecursiveIterator $iterator, $extensions = '')
+    public function __construct(\RecursiveIterator $iterator, $extensions = null)
     {
-        parent::__construct($iterator);
-        if (!empty($extensions)) {
-            if (!is_array($extensions)) {
+        if (!\is_null($extensions)) {
+            if (!\is_array($extensions)) {
                 $extensions = [$extensions];
             }
             $this->allowedExt = $extensions;
         }
+        parent::__construct($iterator);
     }
 
     /**
-     * Valid file.
+     * Get children with allowed extensions.
+     */
+    public function getChildren(): ?RecursiveFilterIterator
+    {
+        return new self($this->getInnerIterator()->getChildren(), $this->allowedExt); // @phpstan-ignore-line
+    }
+
+    /**
+     * Valid file with allowed extensions.
      */
     public function accept(): bool
     {
         /** @var \SplFileInfo $file */
         $file = $this->current();
         if ($file->isFile()) {
-            return in_array($file->getExtension(), $this->allowedExt);
+            return \in_array($file->getExtension(), $this->allowedExt);
         }
         if ($file->isDir()) {
-            return !in_array($file->getBasename(), $this->excludedDir);
+            return !\in_array($file->getBasename(), $this->excludedDir);
         }
 
         return true;

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Symfony\Component\Filesystem\Path;
+
 class Util
 {
     /**
@@ -27,7 +29,7 @@ class Util
         $lowercase = false;
         extract($options, EXTR_IF_EXISTS);
 
-        $className = substr(strrchr(get_class($class), '\\'), 1);
+        $className = substr(strrchr(\get_class($class), '\\'), 1);
         if ($lowercase) {
             $className = strtolower($className);
         }
@@ -41,7 +43,7 @@ class Util
     public static function joinPath(string ...$path): string
     {
         $path = array_filter($path, function ($path) {
-            return !empty($path) && !is_null($path);
+            return !empty($path) && !\is_null($path);
         });
         array_walk($path, function (&$value, $key) {
             $value = str_replace('\\', '/', $value);
@@ -49,7 +51,7 @@ class Util
             $value = $key == 0 ? $value : ltrim($value, '/');
         });
 
-        return implode('/', $path);
+        return Path::canonicalize(implode('/', $path));
     }
 
     /**
@@ -75,9 +77,25 @@ class Util
      */
     public static function convertMemory($size): string
     {
+        if ($size === 0) {
+            return '0';
+        }
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
-        return \sprintf('%s %s', round($size / pow(1024, ($i = floor(log($size, 1024)))), 2), $unit[$i]);
+        return sprintf('%s %s', round($size / pow(1024, $i = floor(log($size, 1024))), 2), $unit[$i]);
+    }
+
+    /**
+     * Converts microtime interval for human.
+     */
+    public static function convertMicrotime(float $start): string
+    {
+        $time = microtime(true) - $start;
+        if ($time < 1) {
+            return sprintf('%s ms', round($time * 1000, 0));
+        }
+
+        return sprintf('%s s', round($time, 2));
     }
 
     /**

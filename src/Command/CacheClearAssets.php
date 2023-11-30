@@ -52,7 +52,7 @@ class CacheClearAssets extends AbstractCommand
         }
         $output->writeln('Removing assets cache directory...');
         $output->writeln(
-            \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCacheAssetsPath()),
+            sprintf('<comment>Path: %s</comment>', $this->getBuilder()->getConfig()->getCacheAssetsPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheAssetsPath());

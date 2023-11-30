@@ -55,11 +55,11 @@ class Convert extends AbstractStep
      */
     public function process(): void
     {
-        if (count($this->builder->getPages()) == 0) {
+        if (\count($this->builder->getPages()) == 0) {
             return;
         }
 
-        $total = count($this->builder->getPages());
+        $total = \count($this->builder->getPages());
         $count = 0;
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
@@ -73,15 +73,15 @@ class Convert extends AbstractStep
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
                 } catch (RuntimeException $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
+                    $this->builder->getLogger()->error(sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative($page->getFilePath(), $this->config->getPagesPath())), $e->getMessage()));
+                    $this->builder->getLogger()->error(sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative($page->getFilePath(), $this->config->getPagesPath())), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 }
-                $message = \sprintf('Page "%s" converted', $page->getId());
+                $message = sprintf('Page "%s" converted', $page->getId());
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
                     $page->setVariable('published', true);

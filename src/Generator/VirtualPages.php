@@ -40,13 +40,13 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             if (!isset($frontmatter['path'])) {
-                throw new RuntimeException(\sprintf('Each pages in "%s" config\'s section must have a "path".', $this->configKey));
+                throw new RuntimeException(sprintf('Each pages in "%s" config\'s section must have a "path".', $this->configKey));
             }
             $path = Page::slugify($frontmatter['path']);
             foreach ($this->config->getLanguages() as $language) {
                 $pageId = !empty($path) ? $path : 'index';
                 if ($language['code'] !== $this->config->getLanguageDefault()) {
-                    $pageId .= '.' . $language['code'];
+                    $pageId = sprintf('%s/%s', $language['code'], $pageId);
                     // disable multilingual support
                     if (isset($frontmatter['multilingual']) && $frontmatter['multilingual'] === false) {
                         continue;

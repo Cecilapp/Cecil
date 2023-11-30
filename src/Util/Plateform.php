@@ -56,7 +56,7 @@ class Plateform
      */
     public static function isWindows(): bool
     {
-        return defined('PHP_WINDOWS_VERSION_BUILD');
+        return \defined('PHP_WINDOWS_VERSION_BUILD');
     }
 
     /**

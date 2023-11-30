@@ -31,29 +31,26 @@ class Section extends AbstractGenerator implements GeneratorInterface
         $sections = [];
 
         // identifying sections
-        /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
+            /** @var Page $page */
             if ($page->getSection()) {
-                // excludes page from its section?
+                // do not add not published and not excluded pages to its section
                 if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
-                    $alteredPage = clone $page;
-                    $alteredPage->setSection('');
-                    $this->builder->getPages()->replace($page->getId(), $alteredPage);
                     continue;
                 }
                 $sections[$page->getSection()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;
             }
         }
 
-        // adds section to pages collection
-        if (count($sections) > 0) {
+        // adds each section to pages collection
+        if (\count($sections) > 0) {
             $menuWeight = 100;
 
             foreach ($sections as $section => $languages) {
                 foreach ($languages as $language => $pagesAsArray) {
                     $pageId = $path = Page::slugify($section);
                     if ($language != $this->config->getLanguageDefault()) {
-                        $pageId = \sprintf('%s.%s', $pageId, $language);
+                        $pageId = "$language/$pageId";
                     }
                     $page = (new Page($pageId))->setVariable('title', ucfirst($section))
                         ->setPath($path);
@@ -61,8 +58,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $page = clone $this->builder->getPages()->get($pageId);
                     }
                     $pages = new PagesCollection("section-$pageId", $pagesAsArray);
-                    // cascade
-                    /** @var \Cecil\Collection\Page\Page $page */
+                    // cascade variables
                     if ($page->hasVariable('cascade')) {
                         $cascade = $page->getVariable('cascade');
                         $pages->map(function (Page $page) use ($cascade) {
@@ -73,32 +69,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
                             }
                         });
                     }
-                    // sorts (by date by default)
-                    $pages = $pages->sortByDate();
-                    /*
-                     * sortby: date|updated|title|weight
-                     *
-                     * sortby:
-                     *   variable: date|updated
-                     *   desc_title: false|true
-                     *   reverse: false|true
-                     */
-                    if ($page->hasVariable('sortby')) {
-                        $sortby = (string) $page->getVariable('sortby');
-                        // options?
-                        $sortby = $page->getVariable('sortby')['variable'] ?? $sortby;
-                        $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
-                        $reverse = $page->getVariable('sortby')['reverse'] ?? false;
-                        // sortby: date, title or weight
-                        $sortMethod = \sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortby)));
-                        if (!method_exists($pages, $sortMethod)) {
-                            throw new RuntimeException(\sprintf('In "%s" section "%s" is not a valid value for "sortby" variable.', $page->getId(), $sortby));
-                        }
-                        $pages = $pages->$sortMethod(['variable' => $sortby, 'descTitle' => $descTitle, 'reverse' => $reverse]);
-                    }
+                    // sorts pages
+                    $pages = self::sortSubPages($page, $pages);
                     // adds navigation links (excludes taxonomy pages)
-                    if (!in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
-                        $this->addNavigationLinks($pages, $sortby ?? 'date', $page->getVariable('circular'));
+                    $sortby = $page->getVariable('sortby')['variable'] ?? $page->getVariable('sortby') ?? 'date';
+                    if (!\in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
+                        $this->addNavigationLinks($pages, $sortby, $page->getVariable('circular'));
                     }
                     // creates page for each section
                     $page->setType(Type::SECTION)
@@ -107,7 +83,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setVariable('language', $language)
                         ->setVariable('date', $pages->first()->getVariable('date'))
                         ->setVariable('langref', $path);
-                    // clean title
+                    // human readable title
                     if ($page->getVariable('title') == 'index') {
                         $page->setVariable('title', $section);
                     }
@@ -123,7 +99,40 @@ class Section extends AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Adds navigation (next and prev) to section sub pages.
+     * Sorts subpages.
+     */
+    public static function sortSubPages(Page $page, PagesCollection $pages): PagesCollection
+    {
+        // sorts (by date by default)
+        $pages = $pages->sortByDate();
+        /*
+         * sortby: date|updated|title|weight
+         *
+         * sortby:
+         *   variable: date|updated
+         *   desc_title: false|true
+         *   reverse: false|true
+         */
+        if ($page->hasVariable('sortby')) {
+            $sortby = (string) $page->getVariable('sortby');
+            // options?
+            $sortby = $page->getVariable('sortby')['variable'] ?? $sortby;
+            $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
+            $reverse = $page->getVariable('sortby')['reverse'] ?? false;
+            // sortby: date, title or weight
+            $sortMethod = sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortby)));
+            if (!method_exists($pages, $sortMethod)) {
+                throw new RuntimeException(sprintf('In "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $sortby));
+            }
+
+            return $pages->$sortMethod(['variable' => $sortby, 'descTitle' => $descTitle, 'reverse' => $reverse]);
+        }
+
+        return $pages;
+    }
+
+    /**
+     * Adds navigation (next and prev) to section subpages.
      */
     protected function addNavigationLinks(PagesCollection $pages, string $sort = null, $circular = false): void
     {
@@ -131,7 +140,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
         if ($sort === null || $sort == 'date' || $sort == 'updated') {
             $pagesAsArray = array_reverse($pagesAsArray);
         }
-        $count = count($pagesAsArray);
+        $count = \count($pagesAsArray);
         if ($count > 1) {
             foreach ($pagesAsArray as $position => $page) {
                 switch ($position) {

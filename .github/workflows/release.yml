@@ -19,14 +19,14 @@ jobs:
 
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Get previous release
       id: previous_release
       run: |
-        echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1  --max-count=1`)" >> $GITHUB_OUTPUT
+        echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
 
     - name: Install PHP
       uses: shivammathur/setup-php@v2
@@ -128,7 +128,7 @@ jobs:
 
     - name: Generate changelog
       id: changelog
-      uses: jaywcjlove/changelog-generator@v1.6.4
+      uses: jaywcjlove/changelog-generator@v1.9.6
       with:
         base-ref: ${{ needs.build.outputs.previous_release }}
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -142,7 +142,6 @@ jobs:
       with:
         body: |
           ${{ steps.changelog.outputs.changelog }}
-          ${{ steps.changelog.outputs.compareurl }}
 
   deploy_to_website:
     name: Deploy cecil.phar to website
@@ -152,7 +151,7 @@ jobs:
 
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 1
 

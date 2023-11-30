@@ -66,7 +66,7 @@ abstract class AbstractOptimize extends AbstractStep
             ->name('/\.(' . implode('|', $extensions) . ')$/')
             ->notName('/\.min\.(' . implode('|', $extensions) . ')$/')
             ->sortByName(true);
-        $max = count($files);
+        $max = \count($files);
 
         if ($max <= 0) {
             $this->builder->getLogger()->info('No files');
@@ -87,7 +87,7 @@ abstract class AbstractOptimize extends AbstractStep
             $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
             if (!$cache->has($cacheKey)) {
                 $processed = $this->processFile($file);
-                $sizeAfter = strlen($processed);
+                $sizeAfter = \strlen($processed);
                 if ($sizeAfter < $sizeBefore) {
                     $message = \sprintf(
                         'File "%s" optimized (%s Ko -> %s Ko)',

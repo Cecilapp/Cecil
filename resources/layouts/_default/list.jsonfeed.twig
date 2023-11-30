@@ -30,6 +30,7 @@
   "items": [
     {%- for item in pages|sort_by_date ~%}
     {
+      {%- block item ~%}
       "id": {{ url(item, {canonical: true})|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
       "url": "{{ url(item, {canonical: true}) }}",
       "title": {{ item.title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
@@ -56,6 +57,7 @@
       ],
       {%- endif ~%}
       "language": "{{ item.language|default(site.language|default('en')) }}"
+      {%- endblock ~%}
     }
     {%- if not loop.last %},{% endif -%}
     {%- endfor ~%}

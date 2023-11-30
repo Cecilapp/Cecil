@@ -64,7 +64,7 @@ class Collection implements CollectionInterface
     public function has(string $id): bool
     {
         $result = $this->searchItem($id);
-        if (is_array($result) && !empty($result)) {
+        if (\is_array($result) && !empty($result)) {
             return true;
         }
 
@@ -79,7 +79,7 @@ class Collection implements CollectionInterface
     public function add(ItemInterface $item): CollectionInterface
     {
         if ($this->has($item->getId())) {
-            throw new \DomainException(\sprintf('Failed adding "%s" in "%s" collection: item already exists.', $item->getId(), $this->getId()));
+            throw new \DomainException(sprintf('Failed adding "%s" in "%s" collection: item already exists.', $item->getId(), $this->getId()));
         }
         $this->items[] = $item;
 
@@ -93,10 +93,8 @@ class Collection implements CollectionInterface
      */
     public function replace(string $id, ItemInterface $item): CollectionInterface
     {
-        try {
-            $this->items[$this->getPosition($id)] = $item;
-        } catch (\Throwable $th) {
-            throw new \DomainException(\sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $item->getId(), $this->getId()));
+        if (!$this->has($id)) {
+            throw new \DomainException(sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $item->getId(), $this->getId()));
         }
 
         return $this;
@@ -109,10 +107,8 @@ class Collection implements CollectionInterface
      */
     public function remove(string $id): CollectionInterface
     {
-        try {
-            unset($this->items[$this->getPosition($id)]);
-        } catch (\Throwable $th) {
-            throw new \DomainException(\sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
+        if (!$this->has($id)) {
+            throw new \DomainException(sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
         return $this;
@@ -125,10 +121,8 @@ class Collection implements CollectionInterface
      */
     public function get(string $id): ItemInterface
     {
-        try {
-            return $this->items[$this->getPosition($id)];
-        } catch (\Throwable $th) {
-            throw new \DomainException(\sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
+        if (!$this->has($id)) {
+            throw new \DomainException(sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
     }
 
@@ -141,8 +135,8 @@ class Collection implements CollectionInterface
     {
         $result = $this->searchItem($id);
         $position = key($result);
-        if (!is_int($position)) {
-            throw new \DomainException(\sprintf('Failed getting position of "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
+        if (!\is_int($position)) {
+            throw new \DomainException(sprintf('Failed getting position of "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
         return $position;
@@ -161,7 +155,7 @@ class Collection implements CollectionInterface
      */
     public function first(): ?ItemInterface
     {
-        if (count($this->items) < 1) {
+        if (\count($this->items) < 1) {
             return null;
         }
         $items = $this->items;
@@ -174,7 +168,7 @@ class Collection implements CollectionInterface
      */
     public function last(): ?ItemInterface
     {
-        if (count($this->items) < 1) {
+        if (\count($this->items) < 1) {
             return null;
         }
         $items = $this->items;
@@ -187,7 +181,7 @@ class Collection implements CollectionInterface
      */
     public function count(): int
     {
-        return count($this->items);
+        return \count($this->items);
     }
 
     /**
@@ -203,7 +197,7 @@ class Collection implements CollectionInterface
      */
     public function toJson(): string
     {
-        return \sprintf("%s\n", json_encode($this->items));
+        return sprintf("%s\n", json_encode($this->items));
     }
 
     /**

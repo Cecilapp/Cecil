@@ -69,7 +69,7 @@ class ConsoleLogger extends PrintLogger
         $output->getFormatter()->setStyle('debug', new OutputFormatterStyle('blue', 'yellow'));
 
         if (!isset($this->verbosityLevelMap[$level])) {
-            throw new InvalidArgumentException(\sprintf('The log level "%s" does not exist.', $level));
+            throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
         }
 
         // default pattern: <level>message</level>
@@ -78,13 +78,13 @@ class ConsoleLogger extends PrintLogger
 
         // steps prefix
         if (isset($context['step'])) {
-            $prefix = \sprintf('%s. ', $this->padPrefix((string) $context['step'][0], (string) $context['step'][1]));
+            $prefix = sprintf('%s. ', $this->padPrefix((string) $context['step'][0], (string) $context['step'][1]));
         }
 
         // sub steps progress
         if (isset($context['progress'])) {
             // prefix
-            $prefix = \sprintf(
+            $prefix = sprintf(
                 '[%s/%s] ',
                 $this->padPrefix((string) $context['progress'][0], (string) $context['progress'][1]),
                 $context['progress'][1]
@@ -92,7 +92,7 @@ class ConsoleLogger extends PrintLogger
         }
 
         $output->writeln(
-            \sprintf($pattern, $this->formatLevelMap[$level], $prefix, $this->interpolate($message, $context)),
+            sprintf($pattern, $this->formatLevelMap[$level], $prefix, $this->interpolate($message, $context)),
             $this->verbosityLevelMap[$level]
         );
     }
@@ -102,6 +102,6 @@ class ConsoleLogger extends PrintLogger
      */
     private function padPrefix(string $prefix, string $max): string
     {
-        return str_pad($prefix, strlen($max), ' ', STR_PAD_LEFT);
+        return str_pad($prefix, \strlen($max), ' ', STR_PAD_LEFT);
     }
 }
