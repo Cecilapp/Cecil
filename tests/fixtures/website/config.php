@@ -23,6 +23,9 @@ return [
                 'url'    => 'https://ligny.fr',
                 'weight' => 9999,
             ],
+            [
+                'id'     => '404'
+            ],
         ],
     ],
     'pagination' => [
@@ -73,6 +76,9 @@ return [
                             'id'     => 'menu-fr',
                             'name'   => 'Arnaud (FR)',
                             'url'    => 'https://arnaudligny.fr',
+                        ],
+                        [
+                            'id'     => '404 fr'
                         ],
                     ],
                 ],
