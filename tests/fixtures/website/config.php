@@ -20,7 +20,7 @@ return [
             [
                 'id'     => 'aligny',
                 'name'   => 'The author',
-                'url'    => 'https://arnaudligny.fr',
+                'url'    => 'https://ligny.fr',
                 'weight' => 9999,
             ],
         ],

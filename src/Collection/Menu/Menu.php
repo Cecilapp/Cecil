@@ -23,7 +23,7 @@ use Cecil\Collection\ItemInterface;
 class Menu extends CecilCollection implements ItemInterface
 {
     /**
-     * Add menu entry.
+     * Add or replace menu entry.
      * {@inheritdoc}
      */
     public function add(ItemInterface $item): CollectionInterface
