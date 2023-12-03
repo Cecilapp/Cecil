@@ -88,7 +88,8 @@ class Create extends AbstractStep
 
                         // ID is required
                         if (!isset($properties['id'])) {
-                            throw new RuntimeException(sprintf('Key "id" is required for entry at position %s in "%s" menu', $key, $menu));
+                            $this->builder->getLogger()->error(sprintf('Config menu entry: key "id" is required for entry at position %s in "%s" menu', $key, $menu), ['progress' => [$countConfig, $totalConfig]]);
+                            continue;
                         }
                         /** @var \Cecil\Collection\Menu\Entry $item */
                         $item = (new Entry($properties['id']))
