@@ -149,9 +149,9 @@ class Create extends AbstractStep
             /**
              * Array case.
              *
-             * ie 1:
+             * case 1:
              *   menu: [main, navigation]
-             * ie 2:
+             * case 2:
              *   menu:
              *     main:
              *       weight: 999
@@ -190,7 +190,7 @@ class Create extends AbstractStep
             /**
              * String case.
              *
-             * ie:
+             * e.g.:
              *   menu: main
              */
             $item = (new Entry($page->getIdWithoutLang()))
