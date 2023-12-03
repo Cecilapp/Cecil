@@ -2,15 +2,16 @@
 slug: slugwithmenu
 menu:
   main:
-    weight: 99999
+    weight: 999
 ---
 
 # Custom `slug` + menu entry
 
-From:
+- From: `slug-with-menu`
+- To: `slugwithmenu`
 
-`slug-with-menu`
-
-To:
-
-`slugwithmenu`
+```yaml
+menu:
+  main:
+    weight: 999
+```
