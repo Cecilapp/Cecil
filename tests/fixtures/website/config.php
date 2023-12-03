@@ -11,7 +11,7 @@ return [
             [
                 'id'     => 'index',
                 'name'   => 'Homepage',
-                'weight' => -9999,
+                'weight' => -999,
             ],
             [
                 'id'      => 'about',
@@ -21,7 +21,7 @@ return [
                 'id'     => 'aligny',
                 'name'   => 'The author',
                 'url'    => 'https://ligny.fr',
-                'weight' => 9999,
+                'weight' => 777,
             ],
             [
                 'id'     => '404'
@@ -70,15 +70,16 @@ return [
                     'main' => [
                         [
                             'id'     => 'index',
-                            'weight' => -9999,
+                            'weight' => -999,
                         ],
                         [
                             'id'     => 'menu-fr',
                             'name'   => 'Arnaud (FR)',
                             'url'    => 'https://arnaudligny.fr',
+                            'weight' => 777,
                         ],
                         [
-                            'id'     => '404 fr'
+                            'id'     => '404 (FR)'
                         ],
                     ],
                 ],
