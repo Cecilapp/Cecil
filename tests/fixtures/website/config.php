@@ -68,25 +68,6 @@ return [
             ],
         ],
     ],
-    'menus' => [
-        'main' => [
-            [
-                'id'     => 'index',
-                'name'   => 'Homepage',
-                'weight' => -9999,
-            ],
-            [
-                'id'      => 'about',
-                'enabled' => false,
-            ],
-            [
-                'id'     => 'aligny',
-                'name'   => 'The author',
-                'url'    => 'https://arnaudligny.fr',
-                'weight' => 9999,
-            ],
-        ],
-    ],
     'theme' => [
         'a-theme',
         //'hyde',
