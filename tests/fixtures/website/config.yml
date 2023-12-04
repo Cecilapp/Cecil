@@ -14,3 +14,7 @@ languages:
 generators:
   99: Cecil\Generator\Test
   100: Cecil\Generator\TitleReplace
+
+layouts:
+  extensions:
+    Test: 'Cecil\Renderer\Extension\Test'

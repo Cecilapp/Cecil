@@ -49,7 +49,8 @@ class Site implements \ArrayAccess
     {
         // special cases
         switch ($offset) {
-            case 'config':
+            //case 'config':
+            case 'menus':
             case 'home':
             case 'debug':
                 return true;
@@ -70,10 +71,10 @@ class Site implements \ArrayAccess
     {
         // If it's a built-in variable: dot not fetchs data from config raw
         switch ($offset) {
-            case 'home':
-                return $this->language != $this->config->getLanguageDefault() ? sprintf('index.%s', $this->language) : 'index';
-            case 'language':
-                return new Language($this->config, $this->language);
+            case 'pages':
+                return $this->getPages();
+            case 'menus':
+                return $this->builder->getMenus($this->language);
             case 'taxonomies':
                 return $this->builder->getTaxonomies($this->language);
             case 'data':

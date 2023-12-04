@@ -199,8 +199,10 @@ class Core extends SlugifyExtension
 
     /**
      * Sorts a collection by weight.
+     *
+     * @param \Traversable|array $collection
      */
-    public function sortByWeight(\Traversable $collection): array
+    public function sortByWeight($collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['weight'])) {
@@ -216,7 +218,9 @@ class Core extends SlugifyExtension
             return $a['weight'] < $b['weight'] ? -1 : 1;
         };
 
-        $collection = iterator_to_array($collection);
+        if (!is_array($collection)) {
+            $collection = iterator_to_array($collection);
+        }
         usort(/** @scrutinizer ignore-type */ $collection, $callback);
 
         return $collection;
