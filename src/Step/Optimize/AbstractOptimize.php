@@ -38,7 +38,7 @@ abstract class AbstractOptimize extends AbstractStep
         if ($options['dry-run']) {
             return;
         }
-        if (false === $this->config->get(\sprintf('optimize.%s.enabled', $this->type))) {
+        if (false === $this->config->get(sprintf('optimize.%s.enabled', $this->type))) {
             return;
         }
         if (true === $this->config->get('optimize.enabled')) {
@@ -55,9 +55,9 @@ abstract class AbstractOptimize extends AbstractStep
     {
         $this->setProcessor();
 
-        $extensions = (array) $this->config->get(\sprintf('optimize.%s.ext', $this->type));
+        $extensions = (array) $this->config->get(sprintf('optimize.%s.ext', $this->type));
         if (empty($extensions)) {
-            throw new RuntimeException(\sprintf('The config key "optimize.%s.ext" is empty', $this->type));
+            throw new RuntimeException(sprintf('The config key "optimize.%s.ext" is empty', $this->type));
         }
 
         $files = Finder::create()
@@ -82,14 +82,14 @@ abstract class AbstractOptimize extends AbstractStep
         foreach ($files as $file) {
             $count++;
             $sizeBefore = $file->getSize();
-            $message = \sprintf('File "%s" processed', $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname());
+            $message = sprintf('File "%s" processed', $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname());
 
             $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
             if (!$cache->has($cacheKey)) {
                 $processed = $this->processFile($file);
                 $sizeAfter = \strlen($processed);
                 if ($sizeAfter < $sizeBefore) {
-                    $message = \sprintf(
+                    $message = sprintf(
                         'File "%s" optimized (%s Ko -> %s Ko)',
                         $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname(),
                         ceil($sizeBefore / 1000),

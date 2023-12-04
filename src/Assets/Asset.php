@@ -161,7 +161,7 @@ class Asset implements \ArrayAccess
                                 $filename = '/scripts.js';
                                 break;
                             default:
-                                throw new RuntimeException(\sprintf('Asset bundle supports "%s" files only.', '.scss, .css and .js'));
+                                throw new RuntimeException(sprintf('Asset bundle supports "%s" files only.', '.scss, .css and .js'));
                         }
                     }
                     // bundle: filename and path
@@ -174,7 +174,7 @@ class Asset implements \ArrayAccess
                 $this->data['files'][] = $file[$i]['filepath'];
             }
             // bundle: define path
-            if ($pathsCount > 1 && empty($filename)) { /** @phpstan-ignore-line */
+            if ($pathsCount > 1 && empty($filename)) {
                 switch ($this->data['ext']) {
                     case 'scss':
                     case 'css':
@@ -759,13 +759,13 @@ class Asset implements \ArrayAccess
             if (!file_exists($filePath)) {
                 try {
                     if (!Util\Url::isRemoteFileExists($url)) {
-                        throw new RuntimeException(\sprintf('File "%s" doesn\'t exists', $url));
+                        throw new RuntimeException(sprintf('File "%s" doesn\'t exists', $url));
                     }
                     if (false === $content = Util\File::fileGetContents($url, true)) {
-                        throw new RuntimeException(\sprintf('Can\'t get content of file "%s"', $url));
+                        throw new RuntimeException(sprintf('Can\'t get content of file "%s"', $url));
                     }
-                    if (strlen($content) <= 1) {
-                        throw new RuntimeException(\sprintf('File "%s" is empty', $url));
+                    if (\strlen($content) <= 1) {
+                        throw new RuntimeException(sprintf('File "%s" is empty', $url));
                     }
                 } catch (RuntimeException $e) {
                     // is there a fallback in assets/
@@ -774,7 +774,7 @@ class Asset implements \ArrayAccess
                         if (Util\File::getFS()->exists($filePath)) {
                             return $filePath;
                         }
-                        throw new RuntimeException(\sprintf('Fallback file "%s" doesn\'t exists', $filePath));
+                        throw new RuntimeException(sprintf('Fallback file "%s" doesn\'t exists', $filePath));
                     }
 
                     return false;
@@ -820,7 +820,7 @@ class Asset implements \ArrayAccess
             }
         }
 
-        throw new RuntimeException(\sprintf('Can\'t find file "%s"', $path));
+        throw new RuntimeException(sprintf('Can\'t find file "%s"', $path));
     }
 
     /**

@@ -140,7 +140,7 @@ class Render extends AbstractStep
                     }
                     foreach ($this->config->get('output.postprocessors') as $processor) {
                         if (!class_exists($processor)) {
-                            $this->builder->getLogger()->error(\sprintf('Can\'t load output post processor "%s"', $processor));
+                            $this->builder->getLogger()->error(sprintf('Can\'t load output post processor "%s"', $processor));
                             break;
                         }
                         $output = (new $processor($this->builder))->process($page, $output, $format);
