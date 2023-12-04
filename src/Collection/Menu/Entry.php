@@ -31,6 +31,14 @@ class Entry extends Item
     }
 
     /**
+     * Get menu entry name.
+     */
+    public function getName(): ?string
+    {
+        return $this->offsetGet('name');
+    }
+
+    /**
      * Set the menu entry URL.
      */
     public function setUrl(string $value = null): self
@@ -38,6 +46,14 @@ class Entry extends Item
         $this->offsetSet('url', $value);
 
         return $this;
+    }
+
+    /**
+     * Get menu entry URL.
+     */
+    public function getUrl(): ?string
+    {
+        return $this->offsetGet('url');
     }
 
     /**
