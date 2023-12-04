@@ -71,7 +71,7 @@ class Site implements \ArrayAccess
         // If it's a built-in variable: dot not fetchs data from config raw
         switch ($offset) {
             case 'home':
-                return $this->language != $this->config->getLanguageDefault() ? \sprintf('index.%s', $this->language) : 'index';
+                return $this->language != $this->config->getLanguageDefault() ? sprintf('index.%s', $this->language) : 'index';
             case 'language':
                 return new Language($this->config, $this->language);
             case 'taxonomies':

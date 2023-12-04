@@ -116,7 +116,7 @@ class Parsedown extends \ParsedownToC
         }
         // video or audio?
         $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
-        if (in_array($extension, (array) $this->config->get('pages.body.links.embed.video.ext'))) {
+        if (\in_array($extension, (array) $this->config->get('pages.body.links.embed.video.ext'))) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
@@ -129,7 +129,7 @@ class Parsedown extends \ParsedownToC
 
             return $video;
         }
-        if (in_array($extension, (array) $this->config->get('pages.body.links.embed.audio.ext'))) {
+        if (\in_array($extension, (array) $this->config->get('pages.body.links.embed.audio.ext'))) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
@@ -233,7 +233,7 @@ class Parsedown extends \ParsedownToC
         }
         // add default class?
         if ((string) $this->config->get('pages.body.images.class')) {
-            if (!array_key_exists('class', $InlineImage['element']['attributes'])) {
+            if (!\array_key_exists('class', $InlineImage['element']['attributes'])) {
                 $InlineImage['element']['attributes']['class'] = '';
             }
             $InlineImage['element']['attributes']['class'] .= ' ' . (string) $this->config->get('pages.body.images.class');

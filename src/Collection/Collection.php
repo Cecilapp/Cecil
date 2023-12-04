@@ -124,6 +124,8 @@ class Collection implements CollectionInterface
         if (!$this->has($id)) {
             throw new \DomainException(sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
+
+        return $this->items[$this->getPosition($id)];
     }
 
     /**

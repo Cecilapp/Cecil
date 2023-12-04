@@ -329,36 +329,6 @@ class Config
     }
 
     /**
-     * Returns asset image widths.
-     */
-    public function getAssetsImagesWidths(): array
-    {
-        return \count((array) $this->get('assets.images.responsive.widths')) > 0 ? (array) $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
-    }
-
-    /**
-     * Returns asset image sizes.
-     */
-    public function getAssetsImagesSizes(): array
-    {
-        return \count((array) $this->get('assets.images.responsive.sizes')) > 0 ? (array) $this->get('assets.images.responsive.sizes') : ['default' => '100vw'];
-    }
-
-    /**
-     * Is cache dir is absolute to system files
-     * or relative to project destination?
-     */
-    public function isCacheDirIsAbsolute(): bool
-    {
-        $path = (string) $this->get('cache.dir');
-        if (Util::joinFile($path) == realpath(Util::joinFile($path))) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Returns cache path.
      *
      * @throws RuntimeException
@@ -442,7 +412,7 @@ class Config
      */
     public function getAssetsImagesWidths(): array
     {
-        return count((array) $this->get('assets.images.responsive.widths')) > 0 ? (array) $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
+        return \count((array) $this->get('assets.images.responsive.widths')) > 0 ? (array) $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
     }
 
     /**
@@ -450,7 +420,7 @@ class Config
      */
     public function getAssetsImagesSizes(): array
     {
-        return count((array) $this->get('assets.images.responsive.sizes')) > 0 ? (array) $this->get('assets.images.responsive.sizes') : ['default' => '100vw'];
+        return \count((array) $this->get('assets.images.responsive.sizes')) > 0 ? (array) $this->get('assets.images.responsive.sizes') : ['default' => '100vw'];
     }
 
     /*
@@ -627,7 +597,7 @@ class Config
     {
         // default language must be valid
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', (string) $this->get('language'))) {
-            throw new ConfigException(\sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->get('language')));
+            throw new ConfigException(sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->get('language')));
         }
         // if language is set then the locale is required
         foreach ((array) $this->get('languages') as $lang) {
@@ -635,7 +605,7 @@ class Config
                 throw new ConfigException('A language locale is not defined.');
             }
             if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
-                throw new ConfigException(\sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
+                throw new ConfigException(sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
             }
         }
         // Version 8.x breaking changes
@@ -661,28 +631,5 @@ class Config
                 throw new ConfigException("Option `$from:` must be moved to:\n```\n$formatedPath\n```");
             }
         });
-    }
-
-    /**
-     * Casts boolean value given to set() as string.
-     *
-     * @param mixed $value
-     *
-     * @return bool|mixed
-     */
-    private function castSetValue($value)
-    {
-        if (is_string($value)) {
-            switch ($value) {
-                case 'true':
-                    return true;
-                case 'false':
-                    return false;
-                default:
-                    return $value;
-            }
-        }
-
-        return $value;
     }
 }

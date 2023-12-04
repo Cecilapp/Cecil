@@ -76,7 +76,7 @@ class Layout
      *
      * @see finder()
      */
-    protected static function fallback(CollectionPage $page, string $format, Config $config): array
+    protected static function fallback(CollectionPage $page, string $format, \Cecil\Config $config): array
     {
         $ext = self::EXT;
 
