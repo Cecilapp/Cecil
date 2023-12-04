@@ -1,24 +1,29 @@
-{# title #}
+{#- title -#}
+{% set title_html = title|default %}
 {% if title is not defined or title is empty %}
   {%- set title_divider = page.metatags.title.divider|default(site.metatags.title.divider|default(' &middot; ')) %}
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
   {%- set title_pagination_shownumber = page.metatags.title.pagination.shownumber|default(site.metatags.title.pagination.shownumber ?? true) %}
   {%- set title_pagination_label = page.metatags.title.pagination.label|default(site.metatags.title.pagination.label|default('Page %s')) %}
-  {%- set title = page.title|e ~ title_divider ~ site.title|e %}
+  {%- set title = page.title|e %}
+  {%- set title_html = title ~ title_divider ~ site.title|e %}
   {%- if title_only %}
-    {%- set title = page.title|e %}
+    {%- set title_html = title %}
   {%- endif %}
   {%- if page.type == 'homepage' %}
     {%- set title = site.title|e ~ title_divider ~ site.baseline|default('')|e %}
+    {%- set title_html = title %}
     {%- if title_only or site.baseline|default('') is empty %}
       {%- set title = site.title|e %}
+      {%- set title_html = title %}
     {%- endif %}
   {%- endif %}
   {%- if page.paginator.current|default(0) > 1 %}
     {%- if title_pagination_shownumber %}
-      {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) ~ title_divider ~ site.title|e %}
+      {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) %}
+      {%- set title_html = title ~ title_divider ~ site.title|e %}
       {%- if title_only %}
-        {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) %}
+        {%- set title_html = title %}
       {%- endif %}
     {%- endif %}
   {%- endif %}
@@ -28,7 +33,9 @@
 {# keywords / tags #}
 {% set keywords = page.tags|default([])|merge(site.keywords|default([]))|e %}
 {# author #}
+{% if author is not defined or author is empty %}
 {% set author = page.author|default(site.author|default(''))|e %}
+{% endif %}
 {% if author is not empty %}
   {%- if author is not iterable %}
     {%- set author = {'name': author} %}
@@ -51,19 +58,23 @@
   } -%}
 {% endif %}
 {# image #}
-{% if image is not defined or image is empty %}
+{% if (image is not defined or image is empty) and page.metatags.image.enabled ?? site.metatags.image.enabled ?? true %}
   {%- set image = page.image|default(site.image|default()) %}
 {% endif %}
-{# open graph #}
+{# video #}
+{% if page.videos is defined and page.videos[0] %}
+  {%- set video = page.videos[0] %}
+{% endif %}
+{# Open Graph #}
 {% set opengraph = {
   'locale': site.language.locale,
   'site_name': site.title,
   'type': 'website',
-  'title': block('title'),
+  'title': title,
   'description': block('description'),
   'url': url(page, {canonical: true}),
 } %}
-{% if image %}
+{% if image ?? false %}
   {%- if image is not asset %}
     {%- set image_asset = asset(image) %}
   {%- else %}
@@ -76,6 +87,11 @@
 {% endif %}
 {% if page.opengraph is defined or site.opengraph is defined %}
   {%- set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
+{% endif %}
+{% if video ?? false %}
+  {%- set video_asset = asset(video) %}
+  {%- set opengraph = opengraph|merge({'type': 'video'}) %}
+  {%- set opengraph = opengraph|merge({'video': video_asset}) %}
 {% endif %}
 {# Facebook #}
 {% set facebook = {
@@ -99,9 +115,9 @@
     {%- set twitter = twitter|merge(page.social.twitter|default(site.social.twitter)) %}
   {%- endif %}
 {% endif %}
-
-    {#- template #}
-    <title>{% block title %}{{ title }}{% endblock %}</title>
+{%- block content %}
+    {#~ template ~#}
+    <title>{% block title %}{{ title_html }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
 {%- if keywords ~%}
     <meta name="keywords" content="{{ keywords|join(', ') }}" />
@@ -116,7 +132,7 @@
   {%- if not favicon_asset.missing -%}
     {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
       {%- for size in favicon_sizes|filter(size => favicon_asset.width >= size) ~%}
-    <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ favicon_asset|resize(size)|url({canonical: true}) }}" type="{{ favicon_asset.subtype }}" />
+    <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ url(favicon_asset|resize(size), {'canonical': true}) }}" type="{{ favicon_asset.subtype }}" />
       {%- endfor -%}
     {%- endfor -%}
   {%- endif -%}
@@ -144,19 +160,35 @@
 {%- include 'partials/feeds-from-section.html.twig' with {'title': title, 'page': page} only ~%}
 {#- template: alternates languages ~#}
 {%- include 'partials/alternates-languages.html.twig' with {'page': page} only ~%}
+{#- template: preload ~#}
+{%- if video_asset is defined ~%}
+    <link rel="preload" href="{{ url(video_asset) }}" as="video" type="{{ video_asset.subtype }}" />
+{%- endif ~%}
+{#- template: rel me ~#}
+{%- for social in page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) ~%}
+    <link rel="me" href="{{ social.url }}"/>
+{%- endfor ~%}
 {#- template: Open Graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}" />
     <meta property="og:site_name" content="{{ opengraph.site_name }}" />
     <meta property="og:type" content="{{ opengraph.type }}" />
     <meta property="og:title" content="{{ opengraph.title }}" />
     <meta property="og:description" content="{{ opengraph.description }}" />
-    <meta property="og:url" content="{{ url(page, {canonical: true}) }}" />
+    <meta property="og:url" content="{{ opengraph.url }}" />
 {%- if opengraph.image is defined ~%}
-    <meta property="og:image" content="{{ opengraph.image|url({canonical: true}) }}" />
+    <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}" />
     <meta property="og:image:type" content="{{ opengraph.image.subtype }}" />
     <meta property="og:image:width" content="{{ opengraph.image.width }}" />
     <meta property="og:image:height" content="{{ opengraph.image.height }}" />
     <meta property="og:image:alt" content="{{ opengraph.title }}" />
+{%- endif ~%}
+{%- if opengraph.video is defined ~%}
+    <meta property="og:video" content="{{ url(opengraph.video, {'canonical': true}) }}" />
+    <meta property="og:video:url" content="{{ url(opengraph.video, {'canonical': true}) }}" />
+    <meta property="og:video:secure_url" content="{{ url(opengraph.video, {'canonical': true}) }}" />
+    <meta property="og:video:type" content="{{ opengraph.video.subtype }}" />
+    <meta property="og:video:width" content="{{ opengraph.video.video.width }}" />
+    <meta property="og:video:height" content="{{ opengraph.video.video.height }}" />
 {%- endif -%}
 {#- template: Facebook ~#}
 {%- if facebook.id ~%}
@@ -175,9 +207,16 @@
     <meta name="twitter:title" content="{{ opengraph.title }}" />
     <meta name="twitter:description" content="{{ opengraph.description }}" />
 {%- if opengraph.image is defined and opengraph.image.width > 500 ~%}
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="{{ opengraph.image|url({canonical: true}) }}" />
+    <meta name="twitter:image" content="{{ opengraph.image|url({'canonical': true}) }}" />
     <meta name="twitter:image:alt" content="{{ opengraph.title }}" />
+    {%- if opengraph.video is defined ~%}
+    <meta name="twitter:card" content="player" />
+    <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'iframe'}) }}" />
+    <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}" />
+    <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}" />
+    {%- else ~%}
+    <meta name="twitter:card" content="summary_large_image" />
+    {%- endif ~%}
 {%- else ~%}
     <meta name="twitter:card" content="summary" />
 {%- endif -%}
@@ -188,4 +227,5 @@
     <meta name="twitter:creator" content="@{{ twitter.creator }}" />
 {%- endif ~%}
 {#- template: json-ld ~#}
-{%~ include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset} %}
+{%- include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset|default} ~%}
+{%- endblock ~%}

@@ -101,7 +101,7 @@ class NewSite extends AbstractCommand
             }
             $output->writeln('<info>Done</info>');
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf($e->getMessage()));
+            throw new RuntimeException(sprintf($e->getMessage()));
         }
 
         return 0;

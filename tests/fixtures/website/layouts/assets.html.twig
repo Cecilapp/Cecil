@@ -144,49 +144,31 @@
     <pre>{% verbatim %}{{ asset('css/style.css')|html }}{% endverbatim %}</pre>
     <pre>{{ asset('css/style.css')|html|e }}</pre>
   </p>
-  <h3>Custom attributes CSS</h3>
   <p>
-    <pre>{% verbatim %}{{ asset('css/style.css')|html({foo: '', bar: 'bar'}) }}{% endverbatim %}</pre>
-    <pre>{{ asset('css/style.css')|html({foo: '', bar: 'bar'})|e }}</pre>
+    <pre>asset('js/script.js')|html</pre>
+    <pre>{{ asset('js/script.js')|html|e }}</pre>
   </p>
-  <h3>Preload CSS</h3>
+
+  <h2>Image as HTML element</h2>
   <p>
-    <pre>{% verbatim %}{{ asset('css/styleA.css')|html({}, {preload: true}) }}{% endverbatim %}</pre>
-    <pre>{{ asset('css/styleA.css')|html({}, {preload: true})|e }}</pre>
-  </p>
-  <h3>Image as HTML element</h3>
-  <p>
-    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'}) }}{% endverbatim %}</pre>
+    <pre>asset('cecil-logo-1000.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
     <blockquote>
-      {{- asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'}, {responsive: false, webp: false}) }}
+      {{- asset('cecil-logo-1000.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'}) }}
     </blockquote>
     <pre>
-      {{~ asset('images/cecil-logo.png')|html({alt: 'Description', title: 'Title'}, {responsive: false, webp: false})|e -}}
-    </pre>
-  </p>
-  <h3>WebP</h3>
-  <p>
-    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|html({alt: 'Description'}, {webp: true}) }}{% endverbatim %}</pre>
-    <blockquote>
-      {{- asset('images/cecil-logo.png')|html({alt: 'Description'}, {responsive: false, webp: true}) }}
-    </blockquote>
-    <pre>
-      {{~ asset('images/cecil-logo.png')|html({alt: 'Description'}, {responsive: false, webp: true})|e -}}
-    </pre>
-  </p>
-  <h3>Responsive and WebP</h2>
-  <p>
-    <pre>{% verbatim %}{{ asset('cecil-logo-1000.png')|html({alt: 'Responsive logo'}, {responsive: true, webp: true}) }}{% endverbatim %}</pre>
-    <blockquote>
-      {{- asset('cecil-logo-1000.png')|html({alt: 'Responsive logo'}, {responsive: true, webp: true}) }}
-    </blockquote>
-    <pre>
-      {{~ asset('cecil-logo-1000.png')|html({alt: 'Responsive logo'}, {responsive: true, webp: true})|e -}}
+      {{~ asset('cecil-logo-1000.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})|e -}}
     </pre>
   </p>
 
-  <h2>Image handling<h2>
-  <h3>Image width x height</h3>
+  {#<h2>Image PNG to WebP</h2>
+  <p>
+    <pre>asset('images/cecil-logo.png')|webp</pre>
+    <blockquote>
+      {{- asset('images/cecil-logo.png')|webp }}
+    </blockquote>
+  </p>#}
+
+  <h2>Image URL</h2>
   <p>
     <pre>{% verbatim %}{{ asset('images/cecil-logo.png').width x asset('images/cecil-logo.png').height }}{% endverbatim %}</pre>
     <blockquote>

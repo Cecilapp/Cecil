@@ -56,7 +56,7 @@ class Load extends AbstractStep
             ->in($this->config->getDataPath())
             ->name('/\.(' . implode('|', (array) $this->config->get('data.ext')) . ')$/')
             ->sortByName(true);
-        $total = count($files);
+        $total = \count($files);
 
         if ($total < 1) {
             $message = 'No files';
@@ -116,7 +116,7 @@ class Load extends AbstractStep
             );
             $this->builder->setData($dataAsArray);
 
-            $message = \sprintf('File "%s.%s" loaded', Util::joinFile($path), $file->getExtension());
+            $message = sprintf('File "%s.%s" loaded', Util::joinFile($path), $file->getExtension());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

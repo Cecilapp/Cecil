@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-05-09
+updated: 2023-10-23
 -->
 # Configuration
 
@@ -62,7 +62,7 @@ baseurl: http://localhost:8000/
 If set to `true` the [`url()`](3-Templates.md#url) function will return the absolute URL (`false` by default).
 
 ```yaml
-canonicalurl: <bool> # false by default
+canonicalurl: <true|false> # false by default
 ```
 
 ### description
@@ -200,10 +200,10 @@ A menu is made up of a unique name and entry’s properties.
 ```yaml
 menus:
   <name>:
-    - id: <unique id> # unique identifier (required)
-      name: "<name>"  # name usable in templates
-      url: <url>      # relative or absolute URL
-      weight: <int>   # integer value used to sort entries (lighter first)
+    - id: <unique id>   # unique identifier (required)
+      name: "<name>"    # name usable in templates
+      url: <url>        # relative or absolute URL
+      weight: <integer> # integer value used to sort entries (lighter first)
 ```
 
 By default a `main` menu is created and contains the home page and sections entries.
@@ -325,6 +325,8 @@ metatags:
     pagination:
       shownumber: true      # displays page number in title (`true` by default)
       label: "Page %s"      # how to display page number (`Page %s` by default)
+  image:
+    enabled: true         # injects image (`true` by default)
   robots: "index,follow"  # web crawlers directives (`index,follow` by default)
   articles: "blog"        # articles' section (`blog` by default)
   jsonld:
@@ -337,6 +339,80 @@ metatags:
       - "shortcut icon": [196]                  # Android
       - "apple-touch-icon": [120, 152, 180]     # iOS
 ```
+
+### language
+
+The main language, defined by its code.
+
+```yaml
+language: <code> # unique code (`en` by default)
+```
+
+By default only others [languages](#languages) pages path are prefixed with its language code, but you can prefix the path of the main language pages with the following option:
+
+```yaml
+#language: <code>
+language:
+  code: <code>
+  prefix: true
+```
+
+:::info
+When `prefix` is set to `true`, an alias is automatically created for the home page that redirect from`/` to `/<code>/`.
+:::
+
+### languages
+
+Options of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
+
+```yaml
+languages:
+  - code: <code>          # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
+    name: <name>          # human readable name (e.g.: `Français`)
+    locale: <locale>      # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
+    enabled: <true|false> # enabled or not (`true` by default)
+```
+
+_Example:_
+
+```yaml
+language: en
+languages:
+  - code: en
+    name: English
+    locale: en_EN
+  - code: fr
+    name: Fançais
+    locale: fr_FR
+```
+
+:::info
+There is a [locales code list](configuration/locale-codes.md) if needed.
+:::
+
+#### Localize configuration options
+
+To localize configuration options you must store them under the `config` key of the language.
+
+_Example:_
+
+```yaml
+title: "Cecil in english"
+languages:
+  - code: en
+    name: English
+    locale: en_US
+  - code: fr
+    name: Français
+    locale: fr_FR
+    config:
+      title: "Cecil en français"
+```
+
+:::info
+In [templates](3-Templates.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.  
+If an option is not available in the current language (e.g.: `fr`) it fallback to the global one (e.g.: `en`).
+:::
 
 ### theme
 
@@ -370,7 +446,44 @@ See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or 
 
 ### virtual pages
 
-Virtual pages is the best way to create pages without body (**front matter only**).
+Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
+
+```yaml
+pagination:
+  max: <integer> # maximum number of entries per page (`5` by default)
+  path: <path>   # path to the paginated page (`page` by default)
+```
+
+_Example:_
+
+```yaml
+pagination:
+  max: 10
+  path: page
+```
+
+#### Disable pagination
+
+Pagination can be disabled:
+
+```yaml
+pagination:
+  enabled: false
+```
+
+### googleanalytics
+
+[Google Analytics](https://wikipedia.org/wiki/Google_Analytics) user identifier:
+
+```yaml
+googleanalytics: UA-XXXXX
+```
+
+The _Universal Analytics_ ID is used by the built-in partial template [`googleanalytics.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig).
+
+### virtualpages
+
+Virtual pages is the best way to create pages without content (**front matter only**).
 
 It consists of a list of pages with a `path` and some front matter variables.
 
@@ -502,6 +615,14 @@ There is 2 others way to enable the _debug mode_:
 
 1. Run a command with the `-vvv` option
 2. Set the `CECIL_DEBUG` environment variable to `true`
+
+When `debug` is enabled, you can easily [dump a variable in your templates](3-Templates.md#dump) using:
+
+```twig
+{{ dump(variable) }}
+# or
+{{ d(variable) }} # HTML dump
+```
 
 ## Default configuration
 

@@ -52,7 +52,7 @@ class CacheClearTemplates extends AbstractCommand
         }
         $output->writeln('Removing templates cache directory...');
         $output->writeln(
-            \sprintf('<comment>Path %s</comment>', $this->getBuilder()->getConfig()->getCacheTemplatesPath()),
+            sprintf('<comment>Path: %s</comment>', $this->getBuilder()->getConfig()->getCacheTemplatesPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheTemplatesPath());

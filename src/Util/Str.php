@@ -31,7 +31,7 @@ class Str
         $string = '';
 
         foreach ($array as $subArray) {
-            $string .= \sprintf('%s%s%s, ', $subArray[$keyToKey], $separator, $subArray[$keyToValue]);
+            $string .= sprintf('%s%s%s, ', $subArray[$keyToKey], $separator, $subArray[$keyToValue]);
         }
 
         return substr($string, 0, -2);
@@ -46,11 +46,11 @@ class Str
      */
     public static function strToBool($value)
     {
-        if (is_string($value)) {
-            if (in_array($value, ['true', 'on', 'yes'])) {
+        if (\is_string($value)) {
+            if (\in_array($value, ['true', 'on', 'yes'])) {
                 return true;
             }
-            if (in_array($value, ['false', 'off', 'no'])) {
+            if (\in_array($value, ['false', 'off', 'no'])) {
                 return false;
             }
         }
@@ -63,7 +63,7 @@ class Str
      */
     public static function startsWith(string $haystack, string $needle): bool
     {
-        $length = strlen($needle);
+        $length = \strlen($needle);
 
         return substr($haystack, 0, $length) === $needle;
     }
@@ -73,7 +73,7 @@ class Str
      */
     public static function endsWith(string $haystack, string $needle): bool
     {
-        $length = strlen($needle);
+        $length = \strlen($needle);
         if (!$length) {
             return true;
         }

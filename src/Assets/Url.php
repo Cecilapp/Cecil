@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Assets;
 
 use Cecil\Builder;
+use Cecil\Collection\Menu\Entry as MenuEntry;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Renderer\Page as PageRenderer;
@@ -63,7 +64,7 @@ class Url
         $canonical = null; // if true, add prefix URL with baseurl
         $format = null;    // set output format
         $language = null;  // force language
-        extract(is_array($options) ? $options : [], EXTR_IF_EXISTS);
+        extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // canonical URL?
         $base = '';
@@ -75,7 +76,7 @@ class Url
         }
 
         // value is empty (i.e.: `url()`)
-        if (is_null($value) || empty($value) || $value == '/') {
+        if (\is_null($value) || empty($value) || $value == '/') {
             $this->url = $base . '/';
 
             return;
@@ -86,7 +87,7 @@ class Url
                 /** @var Page $value */
                 if (!$format) {
                     $format = $value->getVariable('output');
-                    if (is_array($value->getVariable('output'))) {
+                    if (\is_array($value->getVariable('output'))) {
                         $default = array_search('html', $value->getVariable('output')) ?: 0;
                         $format = $value->getVariable('output')[$default];
                     }
@@ -99,6 +100,10 @@ class Url
                     $this->url = $value->getVariable('canonical')['url'];
                 }
                 break;
+            case $value instanceof MenuEntry:
+                /** @var MenuEntry $value */
+                $this->url = $base . '/' . ltrim($value['url'], '/');
+                break;
             case $value instanceof Asset:
                 /** @var Asset $value */
                 $this->url = $base . '/' . ltrim($value['path'], '/');
@@ -106,14 +111,14 @@ class Url
                     $this->url = (string) $value;
                 }
                 break;
-            case is_string($value):
+            case \is_string($value):
                 /** @var string $value */
                 // potential Page ID
                 $pageId = self::$slugifier->slugify($value);
                 // force language?
                 $lang = '';
                 if ($language !== null && $language != $this->config->getLanguageDefault()) {
-                    $pageId = "$pageId.$language";
+                    $pageId = "$language/$pageId";
                     $lang = "$language/";
                 }
                 switch (true) {
@@ -128,6 +133,10 @@ class Url
                         );
                         break;
                     default:
+                        // remove double language prefix
+                        if ($lang && Util\Str::startsWith($value, $lang)) {
+                            $value = substr($value, \strlen($lang));
+                        }
                         $this->url = $base . '/' . $lang . ltrim($value, '/');
                 }
         }

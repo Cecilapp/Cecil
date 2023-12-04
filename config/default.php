@@ -322,6 +322,22 @@ return [
                 'extension' => 'json',
                 'exclude'   => ['redirect', 'paginated'],
             ],
+            // e.g.: video/embed.html
+            -12 => [
+                'name'      => 'iframe',
+                'mediatype' => 'text/html',
+                'filename'  => 'embed',
+                'extension' => 'html',
+                'exclude'   => ['redirect', 'paginated'],
+            ],
+            // e.g.: video/embed.json
+            -13 => [
+                'name'      => 'oembed',
+                'mediatype' => 'application/json+oembed',
+                'filename'  => 'embed',
+                'extension' => 'json',
+                'exclude'   => ['redirect', 'paginated'],
+            ],
         ],
         'pagetypeformats' => [ // formats applied by page type
             'page'       => ['html'],

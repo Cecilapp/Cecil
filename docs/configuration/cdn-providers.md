@@ -1,12 +1,14 @@
 <!--
 title: CDN providers
-description: Examples of CDN providers.
-date: 2023-04-19
-updated: 2023-04-20
+description: Examples of CDN providers configuration.
+date: 2023-10-23
+updated: 2023-10-24
 weight: 4
 exclude: true
 -->
-Examples of [Image CDN](../4-Configuration.md#image-cdn) configuration.
+# CDN providers
+
+Examples of CDN providers [`configuration`](../4-Configuration.md#image-cdn).
 
 ## [Cloudinary](https://cloudinary.com)
 
@@ -43,7 +45,7 @@ assets:
       url: 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%'
 ```
 
-Path `Source URL`: Your website `baseurl`.
+`Source URL`: Your website `baseurl`.
 
 ## [imgix](https://imgix.com)
 
@@ -58,4 +60,4 @@ assets:
       url: 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
 ```
 
-Web Folder Settings `Base URL`: Your website `baseurl`.
+`Base URL`: Your website `baseurl`.

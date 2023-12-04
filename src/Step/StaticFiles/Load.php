@@ -49,11 +49,11 @@ class Load extends AbstractStep
         $files = Finder::create()
             ->files()
             ->in($this->config->getStaticPath());
-        if (is_array($this->config->get('static.exclude'))) {
+        if (\is_array($this->config->get('static.exclude'))) {
             $files->notName($this->config->get('static.exclude'));
         }
         $files->sortByName(true);
-        $total = count($files);
+        $total = \count($files);
 
         if ($total < 1) {
             $message = 'No files';
@@ -62,7 +62,7 @@ class Load extends AbstractStep
             return;
         }
 
-        if (extension_loaded('exif')) {
+        if (\extension_loaded('exif')) {
             $this->builder->getLogger()->debug('EXIF extension is loaded');
         }
 
@@ -82,11 +82,11 @@ class Load extends AbstractStep
                 $staticFiles[$count]['exif'] = Util\File::readExif($file->getRealPath());
             }
             if ($type == 'audio') {
-                $staticFiles[$count]['audio'] =  new Mp3Info($file->getRealPath());
+                $staticFiles[$count]['audio'] = new Mp3Info($file->getRealPath());
             }
             $count++;
 
-            $message = \sprintf('File "%s" loaded', $file->getRelativePathname());
+            $message = sprintf('File "%s" loaded', $file->getRelativePathname());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
 

@@ -57,7 +57,7 @@ class Item implements ItemInterface
     #[\ReturnTypeWillChange]
     public function offsetExists($offset): bool
     {
-        return array_key_exists($offset, $this->properties);
+        return \array_key_exists($offset, $this->properties);
     }
 
     /**

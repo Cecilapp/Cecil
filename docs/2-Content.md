@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2023-04-19
+updated: 2023-09-20
 -->
 # Content
 
@@ -21,20 +21,6 @@ There is different kinds of content in Cecil:
 
 ## Files organization
 
-### File based routing
-
-Markdown files in the `pages` directory enable file based routing. Meaning that adding `pages/my-projects/project-1.md` for instance will make it available at `/project-1` in your browser.
-
-```plaintext
-File:
-                   pages/my-projects/project-1.md
-                        └───── filepath ──────┘
-URL:
-    ┌───── baseurl ─────┬─────── path ────────┐
-     https://example.com/my-projects/project-1/index.html
-                        └─ section ─┴─ slug ──┘
-```
-
 ### File system tree
 
 Project files organization.
@@ -46,7 +32,7 @@ Project files organization.
 |  |  ├─ post-1.md    <- Page in Section
 |  |  └─ post-2.md
 |  ├─ projects
-|  |  └─ project-1.md
+|  |  └─ project-a.md
 |  └─ about.md        <- Root page
 ├─ assets
 |  ├─ styles.scss     <- Asset file
@@ -82,7 +68,7 @@ Result of the build.
    |  └─ post-2/index.html
    ├─ projects/
    |  ├─ index.html
-   |  └─ project-1/index.html
+   |  └─ project-a/index.html
    ├─ about/index.html
    ├─ styles.css
    ├─ logo.png
@@ -93,6 +79,28 @@ Result of the build.
 By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/section/slugified-filename/`.
 
 To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in page [front matter](#front-matter).
+:::
+
+:::tip
+To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in [front matter](#front-matter).
+:::
+
+### File based routing
+
+Markdown files in the `pages` directory enable file based routing. Meaning that adding a `pages/my-projects/project-a.md` for instance will make it available at `/project-a` in your browser.
+
+```plaintext
+File:
+                   pages/my-projects/project-a.md
+                        └───── filepath ──────┘
+URL:
+    ┌───── baseurl ─────┬─────── path ────────┐
+     https://example.com/my-projects/project-a/index.html
+                        └─ section ─┴─ slug ──┘
+```
+
+:::important
+Two kind of prefix can alter URL, see [File prefix section](#file-prefix) below.
 :::
 
 ## Pages
@@ -556,7 +564,10 @@ menu:
 
 ### Taxonomy
 
-Taxonomies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
+Taxonomy allows you to connect, relate and classify your website’s content.  
+In Cecil, these terms are gathered within vocabularies.
+
+Vocabularies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
 A page can contain several vocabularies (e.g.: `tags`) and terms (e.g.: `Tag 1`).
 
@@ -646,15 +657,10 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 
 ### File prefix
 
-The filename can contain a prefix to define `date` or `weight` of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
+The filename can contain a prefix to define `date` or `weight` variables of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
 
 :::info
-The prefix is not included in `title`.  
-For example in « 2019-04-23-My blog post.md » the `title` contains « My blog post ».
-:::
-
-:::info
-Available prefix separator are `-` and `_`.
+Available prefix separator are `_` and `-`.
 :::
 
 #### date
@@ -663,7 +669,7 @@ The _date prefix_ is used to set the `date` of the page, and must be a valid dat
 
 _Example:_
 
-In « 2019-04-23-My blog post.md »:
+In « 2019-04-23_My blog post.md »:
 
 - the prefix is « 2019-04-23 »
 - the `date` of the page is « 2019-04-23 »
@@ -675,7 +681,7 @@ The _weight prefix_ is used to set the sort order of the page, and must be a val
 
 _Example:_
 
-In « 1-The first project.md »:
+In « 1_The first project.md »:
 
 - the prefix is « 1 »
 - the `weight` of the page is « 1 »

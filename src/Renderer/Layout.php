@@ -35,19 +35,19 @@ class Layout
         $layout = 'unknown';
 
         // what layouts, in what format, could be use for the page?
-        $layouts = self::fallback($page, $format);
+        $layouts = self::fallback($page, $format, $config);
 
         // take the first available layout
         foreach ($layouts as $layout) {
             $layout = Util::joinFile($layout);
-            // is it in layouts/ dir?
+            // is it in `layouts/` dir?
             if (Util\File::getFS()->exists(Util::joinFile($config->getLayoutsPath(), $layout))) {
                 return [
                     'scope' => 'site',
                     'file'  => $layout,
                 ];
             }
-            // is it in <theme>/layouts/ dir?
+            // is it in `<theme>/layouts/` dir?
             if ($config->hasTheme()) {
                 $themes = $config->getTheme();
                 foreach ($themes as $theme) {
@@ -68,7 +68,7 @@ class Layout
             }
         }
 
-        throw new RuntimeException(\sprintf('Layout "%s" not found (page: %s).', $layout, $page->getId()));
+        throw new RuntimeException(sprintf('Layout "%s" not found (page: %s).', $layout, $page->getId()));
     }
 
     /**
@@ -76,7 +76,7 @@ class Layout
      *
      * @see finder()
      */
-    protected static function fallback(CollectionPage $page, string $format): array
+    protected static function fallback(CollectionPage $page, string $format, Config $config): array
     {
         $ext = self::EXT;
 
@@ -88,42 +88,33 @@ class Layout
                 $layouts = [
                     // "$layout.$format.$ext",
                     "index.$format.$ext",
+                    "home.$format.$ext",
                     "list.$format.$ext",
                     "_default/index.$format.$ext",
+                    "_default/home.$format.$ext",
                     "_default/list.$format.$ext",
                     "_default/page.$format.$ext",
                 ];
                 if ($page->hasVariable('layout')) {
-                    $layouts = array_merge(
-                        [sprintf('%s.%s.%s', $layout, $format, $ext)],
-                        $layouts
-                    );
+                    $layouts = array_merge(["$layout.$format.$ext"], $layouts);
                 }
                 break;
             case PageType::SECTION:
                 $layouts = [
                     // "$layout.$format.$ext",
+                    // "$section/index.$format.$ext",
                     // "$section/list.$format.$ext",
                     // "section/$section.$format.$ext",
                     "_default/section.$format.$ext",
                     "_default/list.$format.$ext",
                 ];
                 if ($page->getPath()) {
-                    $section = $page->getSection();
-                    $layouts = array_merge(
-                        [sprintf('section/%s.%s.%s', $section, $format, $ext)],
-                        $layouts
-                    );
-                    $layouts = array_merge(
-                        [sprintf('%s/list.%s.%s', $section, $format, $ext)],
-                        $layouts
-                    );
+                    $layouts = array_merge(["section/{$page->getSection()}.$format.$ext"], $layouts);
+                    $layouts = array_merge(["{$page->getSection()}/list.$format.$ext"], $layouts);
+                    $layouts = array_merge(["{$page->getSection()}/index.$format.$ext"], $layouts);
                 }
                 if ($page->hasVariable('layout')) {
-                    $layouts = array_merge(
-                        [sprintf('%s.%s.%s', $layout, $format, $ext)],
-                        $layouts
-                    );
+                    $layouts = array_merge(["$layout.$format.$ext"], $layouts);
                 }
                 break;
             case PageType::VOCABULARY:
@@ -132,10 +123,7 @@ class Layout
                     "_default/vocabulary.$format.$ext", // e.g.: _default/vocabulary.html.twig
                 ];
                 if ($page->hasVariable('plural')) {
-                    $layouts = array_merge(
-                        [sprintf('taxonomy/%s.%s.%s', $page->getVariable('plural'), $format, $ext)],
-                        $layouts
-                    );
+                    $layouts = array_merge(["taxonomy/{$page->getVariable('plural')}.$format.$ext"], $layouts);
                 }
                 break;
             case PageType::TERM:
@@ -146,16 +134,10 @@ class Layout
                     "_default/list.$format.$ext",         // e.g.: _default/list.html.twig
                 ];
                 if ($page->hasVariable('term')) {
-                    $layouts = array_merge(
-                        [sprintf('taxonomy/%s.%s.%s', $page->getVariable('term'), $format, $ext)],
-                        $layouts
-                    );
+                    $layouts = array_merge(["taxonomy/{$page->getVariable('term')}.$format.$ext"], $layouts);
                 }
                 if ($page->hasVariable('singular')) {
-                    $layouts = array_merge(
-                        [sprintf('taxonomy/%s.%s.%s', $page->getVariable('singular'), $format, $ext)],
-                        $layouts
-                    );
+                    $layouts = array_merge(["taxonomy/{$page->getVariable('singular')}.$format.$ext"], $layouts);
                 }
                 break;
             default:
@@ -164,30 +146,29 @@ class Layout
                     // "$layout.$format.$ext",
                     // "$section/page.$format.$ext",
                     // "page.$format.$ext",
+                    // "_default/$layout.$format.$ext",
                     "_default/page.$format.$ext",
                 ];
-                $layouts = array_merge(
-                    ["page.$format.$ext"],
-                    $layouts
-                );
+                if ($page->hasVariable('layout')) {
+                    $layouts = array_merge(["_default/$layout.$format.$ext"], $layouts);
+                }
+                $layouts = array_merge(["page.$format.$ext"], $layouts);
                 if ($page->getSection()) {
-                    $layouts = array_merge(
-                        [sprintf('%s/page.%s.%s', $page->getSection(), $format, $ext)],
-                        $layouts
-                    );
+                    $layouts = array_merge(["{$page->getSection()}/page.$format.$ext"], $layouts);
                 }
                 if ($page->hasVariable('layout')) {
-                    $layouts = array_merge(
-                        [sprintf('%s.%s.%s', $layout, $format, $ext)],
-                        $layouts
-                    );
+                    $layouts = array_merge(["$layout.$format.$ext"], $layouts);
                     if ($page->getSection()) {
-                        $layouts = array_merge(
-                            [sprintf('%s/%s.%s.%s', $page->getSection(), $layout, $format, $ext)],
-                            $layouts
-                        );
+                        $layouts = array_merge(["{$page->getSection()}/$layout.$format.$ext"], $layouts);
                     }
                 }
+        }
+
+        // add localized layouts
+        if ($page->getVariable('language') !== $config->getLanguageDefault()) {
+            foreach ($layouts as $key => $value) {
+                $layouts = array_merge(\array_slice($layouts, 0, $key), [str_replace(".$ext", ".{$page->getVariable('language')}.$ext", $value)], \array_slice($layouts, $key));
+            }
         }
 
         return $layouts;

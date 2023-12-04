@@ -51,7 +51,7 @@ class Site implements \ArrayAccess
         switch ($offset) {
             case 'config':
             case 'home':
-            case 'menus':
+            case 'debug':
                 return true;
         }
 
@@ -75,15 +75,17 @@ class Site implements \ArrayAccess
             case 'language':
                 return new Language($this->config, $this->language);
             case 'taxonomies':
-                return $this->builder->getTaxonomies();
-            case 'menus':
-                return $this->builder->getMenus($this->language);
-            case 'pages':
-                return $this->getPages();
+                return $this->builder->getTaxonomies($this->language);
             case 'data':
                 return $this->builder->getData();
             case 'static':
                 return $this->builder->getStatic();
+            case 'language':
+                return new Language($this->config, $this->language);
+            case 'home':
+                return 'index';
+            case 'debug':
+                return $this->builder->isDebug();
         }
 
         return $this->config->get($offset, $this->language);
@@ -115,18 +117,26 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Returns a page in the current language or the one provided.
+     * Returns a page for the provided language or the current one provided.
      *
      * @throws \DomainException
      */
     public function getPage(string $id, string $language = null): ?CollectionPage
     {
         $pageId = $id;
-        if ($language === null && $this->language != $this->config->getLanguageDefault()) {
-            $pageId = \sprintf('%s.%s', $id, $this->language);
-        }
+        $language = $language ?? $this->language;
+
         if ($language !== null && $language != $this->config->getLanguageDefault()) {
-            $pageId = \sprintf('%s.%s', $id, $language);
+            $pageId = "$language/$id";
+        }
+
+        if ($this->builder->getPages()->has($pageId) === false) {
+            // if multilingual == false
+            if ($this->builder->getPages()->has($id) && $this->builder->getPages()->get($id)->getVariable('multilingual') === false) {
+                return $this->builder->getPages()->get($id);
+            }
+
+            return null;
         }
 
         return $this->builder->getPages()->get($pageId);

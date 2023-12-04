@@ -6,6 +6,28 @@ return [
     'taxonomies' => [
         'tests' => 'disabled',
     ],
+    'menus' => [
+        'main' => [
+            [
+                'id'     => 'index',
+                'name'   => 'Homepage',
+                'weight' => -999,
+            ],
+            [
+                'id'      => 'about',
+                'enabled' => false,
+            ],
+            [
+                'id'     => 'aligny',
+                'name'   => 'The author',
+                'url'    => 'https://ligny.fr',
+                'weight' => 777,
+            ],
+            [
+                'id'     => '404'
+            ],
+        ],
+    ],
     'pagination' => [
         'enabled' => true,
     ],
@@ -27,34 +49,22 @@ return [
                     'main' => [
                         [
                             'id'     => 'index',
-                            'weight' => -9999,
+                            'weight' => -999,
                         ],
                         [
                             'id'     => 'menu-fr',
                             'name'   => 'Arnaud (FR)',
                             'url'    => 'https://arnaudligny.fr',
+                            'weight' => 777,
+                        ],
+                        [
+                            'id'     => '404 (FR)'
                         ],
                     ],
                 ],
-            ],
-        ],
-    ],
-    'menus' => [
-        'main' => [
-            [
-                'id'     => 'index',
-                'name'   => 'Homepage',
-                'weight' => -9999,
-            ],
-            [
-                'id'      => 'about',
-                'enabled' => false,
-            ],
-            [
-                'id'     => 'aligny',
-                'name'   => 'The author',
-                'url'    => 'https://arnaudligny.fr',
-                'weight' => 9999,
+                'taxonomies' => [
+                    'tags' => 'tag',
+                ],
             ],
         ],
     ],
@@ -194,6 +204,23 @@ return [
             'webp' => [
                 'enabled' => true,
             ],
+            'caption' => [
+                'enabled' => true,
+            ],
+            'remote' => [
+                'enabled'  => true,
+                'fallback' => [
+                    'enabled' => true,
+                    'path'    => 'images/cecil-logo.png',
+                ],
+            ],
+            'class' => 'img',
+        ],
+        'notes' => [
+            'enabled' => true,
+        ],
+        'highlight' => [
+            'enabled' => true,
         ],
     ],
     'layouts' => [

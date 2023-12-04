@@ -26,7 +26,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
-        $this->sourceDir = (__DIR__ . '/fixtures/website');
+        $this->sourceDir = (__DIR__.'/fixtures/website');
         $this->destDir = $this->sourceDir;
         $this->iterator = $this->createContentIterator();
         $this->file = $this->createFile();
@@ -35,7 +35,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
     public function tearDown(): void
     {
         $fs = new Filesystem();
-        $fs->remove($this->destDir . '/_site');
+        $fs->remove($this->destDir.'/_site');
     }
 
     public function createContentIterator()
@@ -81,7 +81,7 @@ class UnitTests extends \PHPUnit\Framework\TestCase
 
     public function testParsePage()
     {
-        $preParsedPath = __DIR__ . '/fixtures/pages_parsed/Page1.md';
+        $preParsedPath = __DIR__.'/fixtures/pages_parsed/Page1.md';
         $parsed = (new Page($this->file))->parse();
         $this->assertStringEqualsFile(\sprintf("$preParsedPath/%s", 'frontmatter.yaml'), $parsed->getFrontmatter());
         $this->assertStringEqualsFile(\sprintf("$preParsedPath/%s", 'body.md'), $parsed->getBody());

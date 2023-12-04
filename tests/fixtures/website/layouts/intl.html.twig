@@ -4,10 +4,10 @@
       <h1 class="page-title">{{ page.title }}</h1>
 {% if page.date is defined %}
       {# localized date #}
-      <span class="post-date">{% trans %}Publication date:{% endtrans %} {{ page.date|localizeddate('long', 'none') }} (localizeddate)</span><br />
+      <div class="post-date">{% trans %}Publication date:{% endtrans %} {{ page.date|localizeddate('long', 'none') }} (localizeddate)</div>
       {# formated date #}
-      <span class="post-date">{% trans %}Publication date:{% endtrans %} {{ page.date|format_date('long') }} (format_date)</span><br />
-      <span class="post-date">{% trans %}Publication date:{% endtrans %} {{ page.date|format_date('long', locale='en') }} (format_date, locale=en)</span><br />
+      <div class="post-date">{% trans %}Publication date:{% endtrans %} {{ page.date|format_date('long') }} (format_date)</div>
+      <div class="post-date">{% trans %}Publication date:{% endtrans %} {{ page.date|format_date('long', locale='en') }} (format_date, locale=en)</div>
 {% endif %}
 {% if page.image is defined %}
       <img src="{{ page.image }}" />

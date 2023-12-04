@@ -82,7 +82,7 @@ class Serve extends AbstractCommand
             throw new RuntimeException('Can\'t find a local PHP executable.');
         }
 
-        $command = \sprintf(
+        $command = sprintf(
             '%s -S %s:%d -t %s %s',
             $php,
             $host,
@@ -126,10 +126,14 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = $page;
         }
 
-        $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
+        $buildProcess = new Process(
+            array_merge($buildProcessArguments, [$this->getPath()]),
+            null,
+            ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
+        );
 
         if ($this->getBuilder()->isDebug()) {
-            $output->writeln(\sprintf('<comment>Process: %s</comment>', implode(' ', $buildProcessArguments)));
+            $output->writeln(sprintf('<comment>Process: %s</comment>', implode(' ', $buildProcessArguments)));
         }
 
         $buildProcess->setTty(Process::isTtySupported());
@@ -155,7 +159,7 @@ class Serve extends AbstractCommand
             $finder = new Finder();
             $finder->files()
                 ->in($this->getPath())
-                ->exclude($this->getBuilder()->getConfig()->getOutputPath());
+                ->exclude((string) $this->getBuilder()->getConfig()->get('output.dir'));
             if (file_exists(Util::joinFile($this->getPath(), '.gitignore'))) {
                 $finder->ignoreVCSIgnored(true);
             }
@@ -166,25 +170,44 @@ class Serve extends AbstractCommand
 
             // starts server
             try {
-                if (function_exists('\pcntl_signal')) {
-                    \pcntl_async_signals(true);
-                    \pcntl_signal(SIGINT, [$this, 'tearDownServer']);
-                    \pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
+                if (\function_exists('\pcntl_signal')) {
+                    pcntl_async_signals(true);
+                    pcntl_signal(SIGINT, [$this, 'tearDownServer']);
+                    pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
                 $output->writeln(
-                    \sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
+                    sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
                 );
                 $process->start();
                 if ($open) {
                     $output->writeln('Opening web browser...');
-                    Util\Plateform::openBrowser(\sprintf('http://%s:%s', $host, $port));
+                    Util\Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
-                    if ($resourceWatcher->findChanges()->hasChanges()) {
-                        // re-builds
+                    $watcher = $resourceWatcher->findChanges();
+                    if ($watcher->hasChanges()) {
+                        // prints deleted/new/updated files in debug mode
                         $output->writeln('<comment>Changes detected.</comment>');
+                        if (\count($watcher->getDeletedFiles()) > 0) {
+                            $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getDeletedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        if (\count($watcher->getNewFiles()) > 0) {
+                            $output->writeln('<comment>New files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getNewFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        if (\count($watcher->getUpdatedFiles()) > 0) {
+                            $output->writeln('<comment>Updated files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getUpdatedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
                         $output->writeln('');
-
+                        // re-builds
                         $buildProcess->run($processOutputCallback);
                         if ($buildProcess->isSuccessful()) {
                             Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
@@ -196,7 +219,7 @@ class Serve extends AbstractCommand
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
 
-                throw new RuntimeException(\sprintf($e->getMessage()));
+                throw new RuntimeException(sprintf($e->getMessage()));
             }
         }
 
@@ -230,17 +253,17 @@ class Serve extends AbstractCommand
             // copying baseurl text file
             Util\File::getFS()->dumpFile(
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
-                \sprintf(
+                sprintf(
                     '%s;%s',
                     (string) $this->getBuilder()->getConfig()->get('baseurl'),
-                    \sprintf('http://%s:%s/', $host, $port)
+                    sprintf('http://%s:%s/', $host, $port)
                 )
             );
         } catch (IOExceptionInterface $e) {
-            throw new RuntimeException(\sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
+            throw new RuntimeException(sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
         }
         if (!is_file(Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'))) {
-            throw new RuntimeException(\sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
+            throw new RuntimeException(sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
         }
     }
 

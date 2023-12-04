@@ -31,7 +31,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             $language = $lang['code'];
             $pageId = 'index';
             if ($language != $this->config->getLanguageDefault()) {
-                $pageId = \sprintf('index.%s', $language);
+                $pageId = "$language/$pageId";
             }
             // creates a new index page...
             $page = (new Page($pageId))->setPath('')->setVariable('title', 'Home');
@@ -57,9 +57,9 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 // sorts
                 $pages = $subPages->sortByDate();
                 if ($page->hasVariable('sortby')) {
-                    $sortMethod = \sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
+                    $sortMethod = sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
                     if (!method_exists($pages, $sortMethod)) {
-                        throw new RuntimeException(\sprintf('In page "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
+                        throw new RuntimeException(sprintf('In page "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
                     }
                     $pages = $pages->$sortMethod();
                 }
@@ -71,6 +71,10 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             // set default "main" menu
             if (!$page->getVariable('menu')) {
                 $page->setVariable('menu', ['main' => ['weight' => 0]]);
+            }
+            // add an alias redirection from the root if language path prefix is forced for the default language
+            if ($language == $this->config->getLanguageDefault() && $this->config->get('language.prefix')) {
+                $page->setVariable('alias', '../');
             }
             $this->generatedPages->add($page);
         }
