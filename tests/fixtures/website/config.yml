@@ -11,6 +11,12 @@ languages:
       title: Cecil FR
       description: En français !
 
+theme:
+  - a-theme
+
 generators:
   99: Cecil\Generator\Test
   100: Cecil\Generator\TitleReplace
+
+extensions:
+  Test: 'Cecil\Renderer\Extension\Test'
