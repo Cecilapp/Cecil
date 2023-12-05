@@ -284,10 +284,10 @@ class Config
     public function getTranslationsInternalPath(): string
     {
         if (Util\Plateform::isPhar()) {
-            return Util::joinPath(Plateform::getPharPath(), (string) $this->get('translations.internal.dir'));
+            return Util::joinPath(Plateform::getPharPath(), (string) $this->get('layouts.translations.internal.dir'));
         }
 
-        return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('translations.internal.dir')));
+        return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('layouts.translations.internal.dir')));
     }
 
     /**

@@ -84,7 +84,7 @@ class Twig implements RendererInterface
             $this->builder->isDebug()
         );
         if (\count($this->builder->getConfig()->getLanguages()) > 0) {
-            foreach ((array) $this->builder->getConfig()->get('translations.formats') as $format) {
+            foreach ((array) $this->builder->getConfig()->get('layouts.translations.formats') as $format) {
                 $loader = sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
                 if (class_exists($loader)) {
                     $this->translator->addLoader($format, new $loader());
@@ -177,7 +177,7 @@ class Twig implements RendererInterface
             array_unshift($locales, substr($locale, 0, 2));
         }
         foreach ($locales as $locale) {
-            foreach ((array) $this->builder->getConfig()->get('translations.formats') as $format) {
+            foreach ((array) $this->builder->getConfig()->get('layouts.translations.formats') as $format) {
                 $translationFile = Util::joinPath($translationsDir, sprintf('messages.%s.%s', $locale, $format));
                 if (Util\File::getFS()->exists($translationFile)) {
                     $this->translator->addResource($format, $translationFile, $locale);
