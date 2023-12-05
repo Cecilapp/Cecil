@@ -96,6 +96,7 @@ class Collection implements CollectionInterface
         if (!$this->has($id)) {
             throw new \DomainException(sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $item->getId(), $this->getId()));
         }
+        $this->items[$this->getPosition($id)] = $item;
 
         return $this;
     }
@@ -110,6 +111,7 @@ class Collection implements CollectionInterface
         if (!$this->has($id)) {
             throw new \DomainException(sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
+        unset($this->items[$this->getPosition($id)]);
 
         return $this;
     }

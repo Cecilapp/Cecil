@@ -132,10 +132,8 @@ class Builder implements LoggerAwareInterface
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
 
-        // baseurl is required in production
-        if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
-            $this->getLogger()->error(sprintf('The current `baseurl` ("%s") is not valid for production (should be something like "baseurl: https://example.com/").', $this->config->get('baseurl')));
-        }
+        // checks the configuration
+        $this->validConfig();
 
         // prepare options
         $this->options = array_merge([

@@ -218,7 +218,7 @@ class Core extends SlugifyExtension
             return $a['weight'] < $b['weight'] ? -1 : 1;
         };
 
-        if (!is_array($collection)) {
+        if (!\is_array($collection)) {
             $collection = iterator_to_array($collection);
         }
         usort(/** @scrutinizer ignore-type */ $collection, $callback);
