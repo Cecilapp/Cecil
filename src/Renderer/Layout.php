@@ -91,14 +91,17 @@ class Layout
                     "index.$format.$ext",
                     "home.$format.$ext",
                     "list.$format.$ext",
+                ];
+                if ($page->hasVariable('layout')) {
+                    $layouts = array_merge(["$layout.$format.$ext"], $layouts, ["_default/$layout.$format.$ext"]);
+                }
+                $layouts = array_merge($layouts, [
+                    // "_default/$layout.$format.$ext",
                     "_default/index.$format.$ext",
                     "_default/home.$format.$ext",
                     "_default/list.$format.$ext",
                     "_default/page.$format.$ext",
-                ];
-                if ($page->hasVariable('layout')) {
-                    $layouts = array_merge(["$layout.$format.$ext"], $layouts);
-                }
+                ]);
                 break;
             case PageType::SECTION:
                 $layouts = [

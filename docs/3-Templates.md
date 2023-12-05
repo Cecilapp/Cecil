@@ -109,10 +109,11 @@ All rules are detailed below, for each page type, in the priority order.
 2. `index.<format>.twig`
 3. `home.<format>.twig`
 4. `list.<format>.twig`
-5. `_default/index.<format>.twig`
-6. `_default/home.<format>.twig`
-7. `_default/list.<format>.twig`
-8. `_default/page.<format>.twig`
+5. `_default/<layout>.<format>.twig`
+6. `_default/index.<format>.twig`
+7. `_default/home.<format>.twig`
+8. `_default/list.<format>.twig`
+9. `_default/page.<format>.twig`
 
 ### Type _page_
 
