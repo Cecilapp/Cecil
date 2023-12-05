@@ -63,7 +63,7 @@ class Page
             $path = 'index';
         }
         // do not prefix path with language code for the default language (and default language home page)
-        if ($language === null || ($language == $this->config->getLanguageDefault() && !$this->config->get('language.prefix'))) {
+        if ($language === null || ($language == $this->config->getLanguageDefault() && (bool) $this->config->get('language.prefix') === false)) {
             $language = '';
         }
         // do not prefix "not multilingual" virtual pages
