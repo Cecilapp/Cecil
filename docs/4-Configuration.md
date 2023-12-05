@@ -446,43 +446,6 @@ See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or 
 
 ### virtual pages
 
-Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
-
-```yaml
-pagination:
-  max: <integer> # maximum number of entries per page (`5` by default)
-  path: <path>   # path to the paginated page (`page` by default)
-```
-
-_Example:_
-
-```yaml
-pagination:
-  max: 10
-  path: page
-```
-
-#### Disable pagination
-
-Pagination can be disabled:
-
-```yaml
-pagination:
-  enabled: false
-```
-
-### googleanalytics
-
-[Google Analytics](https://wikipedia.org/wiki/Google_Analytics) user identifier:
-
-```yaml
-googleanalytics: UA-XXXXX
-```
-
-The _Universal Analytics_ ID is used by the built-in partial template [`googleanalytics.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig).
-
-### virtualpages
-
 Virtual pages is the best way to create pages without content (**front matter only**).
 
 It consists of a list of pages with a `path` and some front matter variables.
@@ -494,6 +457,38 @@ pages:
   virtual:
     - path: code
       redirect: https://github.com/ArnaudLigny
+```
+
+### pages path
+
+Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
+
+```yaml
+pages:
+  paths:
+    - section: <section’s name>
+      language: <language> # optional
+      path: <path of pages, with palceholders>
+```
+
+#### Placeholders
+
+- `:year`
+- `:month`
+- `:day`
+- `:section`
+- `:slug`
+
+_Example:_
+
+```yaml
+pages:
+  paths:
+    - section: Blog
+      path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
+    - section: Blog
+      language: fr
+      path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
 ```
 
 ### output
@@ -572,36 +567,6 @@ output:
 :::tip
 You can extend Cecil with [output post processor](7-Extend.md#output-post-processor).
 :::
-
-### paths
-
-Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
-
-```yaml
-paths:
-  - section: <section’s name>
-    language: <language> # optional
-    path: <path of pages, with palceholders>
-```
-
-#### Placeholders
-
-- `:year`
-- `:month`
-- `:day`
-- `:section`
-- `:slug`
-
-_Example:_
-
-```yaml
-paths:
-  - section: Blog
-    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
-  - section: Blog
-    language: fr
-    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
-```
 
 ### debug
 

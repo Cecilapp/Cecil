@@ -615,6 +615,7 @@ class Config
             'defaultpages' => 'pages:default',
             'virtualpages' => 'pages:virtual',
             'generators'   => 'pages:generators',
+            'paths'        => 'pages:paths',
             'translations' => 'layouts:translations',
             'extensions'   => 'layouts:extensions',
             'postprocess'  => 'optimize',

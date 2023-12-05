@@ -72,12 +72,6 @@ return [
         'a-theme',
         //'hyde',
     ],
-    'paths' => [
-        [
-            'section' => 'Blog',
-            'path'    => ':section/:year/:month/:day/:slug',
-        ],
-    ],
     'podcast' => [
         'author' => 'Cecil',
         'owner'  => [
@@ -148,6 +142,12 @@ return [
             ],
             'highlight' => [
                 'enabled' => true,
+            ],
+        ],
+        'paths' => [
+            [
+                'section' => 'Blog',
+                'path'    => ':section/:year/:month/:day/:slug',
             ],
         ],
     ],
