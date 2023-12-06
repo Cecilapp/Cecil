@@ -1,7 +1,7 @@
 name: 'Release'
 
 env:
-  PHP_VERSION: '7.4'
+  PHP_VERSION: '8.1'
 
 on:
   release:
