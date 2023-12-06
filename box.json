@@ -4,6 +4,7 @@
     "KevinGH\\Box\\Compactor\\Json",
     "KevinGH\\Box\\Compactor\\Php"
   ],
+  "dump-autoload": false,
   "directories": [
     "config",
     "src",
