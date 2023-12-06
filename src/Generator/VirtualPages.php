@@ -58,7 +58,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
                 }
                 $page = (new Page($pageId))
                     ->setPath($path)
-                    ->setType(Type::PAGE)
+                    ->setType(Type::PAGE->value)
                     ->setVariable('language', $language['code'])
                     ->setVariable('langref', $path);
                 $page->setVariables($frontmatter);

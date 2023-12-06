@@ -40,10 +40,10 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 $page = clone $this->builder->getPages()->get($pageId);
             }
             /** @var \Cecil\Collection\Page\Page $page */
-            $page->setType(Type::HOMEPAGE);
+            $page->setType(Type::HOMEPAGE->value);
             // collects all pages
             $subPages = $this->builder->getPages()->filter(function (Page $page) use ($language) {
-                return $page->getType() == TYPE::PAGE
+                return $page->getType() == Type::PAGE
                     && $page->isVirtual() === false
                     && $page->getVariable('exclude') !== true
                     && $page->getVariable('language') == $language;

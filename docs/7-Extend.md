@@ -34,7 +34,7 @@ class DummyPage extends AbstractGenerator implements GeneratorInterface
     {
         // create a new page $page, then add it to the site collection
         $page = (new Page('my-page'))
-            ->setType(Type::PAGE)
+            ->setType(Type::PAGE->value)
             ->setPath('mypage')
             ->setBodyHtml('<p>My page body</p>')
             ->setVariable('language', 'en')
@@ -64,7 +64,7 @@ class Database extends AbstractGenerator implements GeneratorInterface
         $result = $statement->execute();
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $page = (new Page($row['page-id']))
-              ->setType(Type::PAGE)
+              ->setType(Type::PAGE->value)
               ->setPath($row['path'])
               ->setBodyHtml($row['html'])
               ->setVariable('title', $row['title'])

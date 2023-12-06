@@ -85,7 +85,7 @@ class Layout
         $layout = str_replace(".$ext", '', (string) $page->getVariable('layout'));
 
         switch ($page->getType()) {
-            case PageType::HOMEPAGE:
+            case PageType::HOMEPAGE->value:
                 $layouts = [
                     // "$layout.$format.$ext",
                     "index.$format.$ext",
@@ -100,7 +100,7 @@ class Layout
                     $layouts = array_merge(["$layout.$format.$ext"], $layouts);
                 }
                 break;
-            case PageType::SECTION:
+            case PageType::SECTION->value:
                 $layouts = [
                     // "$layout.$format.$ext",
                     // "$section/index.$format.$ext",
@@ -118,7 +118,7 @@ class Layout
                     $layouts = array_merge(["$layout.$format.$ext"], $layouts);
                 }
                 break;
-            case PageType::VOCABULARY:
+            case PageType::VOCABULARY->value:
                 $layouts = [
                     // "taxonomy/$plural.$format.$ext", // e.g.: taxonomy/tags.html.twig
                     "_default/vocabulary.$format.$ext", // e.g.: _default/vocabulary.html.twig
@@ -127,7 +127,7 @@ class Layout
                     $layouts = array_merge(["taxonomy/{$page->getVariable('plural')}.$format.$ext"], $layouts);
                 }
                 break;
-            case PageType::TERM:
+            case PageType::TERM->value:
                 $layouts = [
                     // "taxonomy/$term.$format.$ext",     // e.g.: taxonomy/velo.html.twig
                     // "taxonomy/$singular.$format.$ext", // e.g.: taxonomy/tag.html.twig

@@ -32,7 +32,7 @@ class Page extends Item
     /** @var SplFileInfo */
     protected $file;
 
-    /** @var string Homepage, Page, Section, etc. */
+    /** @var Type Type */
     protected $type;
 
     /** @var string */
@@ -78,7 +78,7 @@ class Page extends Item
     {
         parent::__construct($id);
         $this->setVirtual(true);
-        $this->setType(Type::PAGE);
+        $this->setType(Type::PAGE->value);
         // default variables
         $this->setVariables([
             'title'            => 'Page Title',
@@ -170,7 +170,7 @@ class Page extends Item
         $fileName = (string) str_ireplace('readme', 'index', $fileName);
         // case of "index" = home page
         if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
-            $this->setType(Type::HOMEPAGE);
+            $this->setType(Type::HOMEPAGE->value);
         }
         /*
          * Set protected variables
@@ -277,7 +277,7 @@ class Page extends Item
      */
     public function setType(string $type): self
     {
-        $this->type = new Type($type);
+        $this->type = Type::from($type);
 
         return $this;
     }
@@ -287,7 +287,7 @@ class Page extends Item
      */
     public function getType(): string
     {
-        return (string) $this->type;
+        return $this->type->value;
     }
 
     /**
