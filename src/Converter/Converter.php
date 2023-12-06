@@ -73,7 +73,7 @@ class Converter implements ConverterInterface
 
             return $result;
         } catch (ParseException $e) {
-            throw new RuntimeException($e->getMessage(), $e->getParsedFile(), $e->getParsedLine());
+            throw new RuntimeException($e->getMessage(), null, $e->getParsedLine());
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }

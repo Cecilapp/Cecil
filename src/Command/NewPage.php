@@ -96,6 +96,7 @@ class NewPage extends AbstractCommand
                     $fileRelativePath
                 ));
                 // ask to override file
+                /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
                 $helper = $this->getHelper('question');
                 $question = new ConfirmationQuestion('Do you want to override it? [y/n]', false);
                 if (!$helper->ask($input, $output, $question)) {
