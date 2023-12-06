@@ -34,8 +34,8 @@ class Layout
     {
         $layout = 'unknown';
 
-        // what layouts, in what format, could be use for the page?
-        $layouts = self::fallback($page, $format, $config);
+        // which layouts, in what format, could be used for the page?
+        $layouts = self::lookup($page, $format, $config);
 
         // take the first available layout
         foreach ($layouts as $layout) {
@@ -72,11 +72,11 @@ class Layout
     }
 
     /**
-     * Layout fall-back.
+     * Templates lookup rules.
      *
-     * @see finder()
+     * @see self::finder()
      */
-    protected static function fallback(CollectionPage $page, string $format, \Cecil\Config $config): array
+    protected static function lookup(CollectionPage $page, string $format, \Cecil\Config $config): array
     {
         $ext = self::EXT;
 
