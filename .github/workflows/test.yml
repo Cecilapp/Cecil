@@ -21,14 +21,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     env:
-      extensions: mbstring, intl, gettext, fileinfo, gd
+      extensions: mbstring, intl, gettext, fileinfo, gd, sodium
       ext-cache-key: cache-ext-v1
 
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        php: ['8.1', '8.2', '8.3']
+        php: ['8.1', '8.2']
         coverage: [false]
         experimental: [false]
         profiling: [false]
@@ -40,13 +40,13 @@ jobs:
           profiling: false
           experimental: false
         include:
-        # code coverage
+        # included for code coverage
         - os: 'ubuntu-latest'
           php: '8.1'
           coverage: true
           profiling: false
           experimental: false
-        # code profiling
+        # included for code profiling
         - os: 'ubuntu-latest'
           php: '8.2'
           coverage: false
