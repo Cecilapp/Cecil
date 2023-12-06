@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
-use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 
 /**
@@ -27,7 +26,7 @@ class Language
     /** @var string Current language. */
     protected $language;
 
-    public function __construct(Config $config, string $language = null)
+    public function __construct(\Cecil\Config $config, string $language = null)
     {
         $this->config = $config;
         $this->language = $language;

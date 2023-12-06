@@ -15,7 +15,6 @@ namespace Cecil\Renderer;
 
 use Cecil\Collection\Page\Page as CollectionPage;
 use Cecil\Collection\Page\Type as PageType;
-use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
@@ -31,7 +30,7 @@ class Layout
      *
      * @throws RuntimeException
      */
-    public static function finder(CollectionPage $page, string $format, Config $config): array
+    public static function finder(CollectionPage $page, string $format, \Cecil\Config $config): array
     {
         $layout = 'unknown';
 
@@ -77,7 +76,7 @@ class Layout
      *
      * @see finder()
      */
-    protected static function fallback(CollectionPage $page, string $format, Config $config): array
+    protected static function fallback(CollectionPage $page, string $format, \Cecil\Config $config): array
     {
         $ext = self::EXT;
 
@@ -91,14 +90,17 @@ class Layout
                     "index.$format.$ext",
                     "home.$format.$ext",
                     "list.$format.$ext",
+                ];
+                if ($page->hasVariable('layout')) {
+                    $layouts = array_merge(["$layout.$format.$ext"], $layouts, ["_default/$layout.$format.$ext"]);
+                }
+                $layouts = array_merge($layouts, [
+                    // "_default/$layout.$format.$ext",
                     "_default/index.$format.$ext",
                     "_default/home.$format.$ext",
                     "_default/list.$format.$ext",
                     "_default/page.$format.$ext",
-                ];
-                if ($page->hasVariable('layout')) {
-                    $layouts = array_merge(["$layout.$format.$ext"], $layouts);
-                }
+                ]);
                 break;
             case PageType::SECTION->value:
                 $layouts = [
