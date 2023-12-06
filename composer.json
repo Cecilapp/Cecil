@@ -73,9 +73,6 @@
     "psr/log-implementation": "3.0",
     "psr/simple-cache-implementation": "3.0"
   },
-  "conflict": {
-    "ext-psr": "*"
-  },
   "suggest": {
     "ext-intl": "Intl locales support."
   },
@@ -85,7 +82,8 @@
       "ergebnis/composer-normalize": true
     },
     "platform": {
-      "php": "8.1.26"
+      "php": "8.1.26",
+      "ext-psr": false
     },
     "sort-packages": true
   },
