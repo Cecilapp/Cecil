@@ -82,8 +82,7 @@
       "ergebnis/composer-normalize": true
     },
     "platform": {
-      "php": "8.1.26",
-      "ext-psr": false
+      "php": "8.1.26"
     },
     "sort-packages": true
   },
