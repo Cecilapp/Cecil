@@ -21,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     env:
-      extensions: mbstring, intl, gettext, fileinfo, gd, sodium
+      extensions: none, mbstring, intl, gettext, fileinfo, gd, sodium
       ext-cache-key: cache-ext-v1
 
     strategy:
