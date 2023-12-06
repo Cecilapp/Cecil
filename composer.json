@@ -73,6 +73,9 @@
     "psr/log-implementation": "3.0",
     "psr/simple-cache-implementation": "3.0"
   },
+  "conflict": {
+    "ext-psr": "*"
+  },
   "suggest": {
     "ext-intl": "Intl locales support."
   },
