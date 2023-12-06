@@ -17,7 +17,8 @@ on:
 
 jobs:
   test:
-    name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }}, p=${{ matrix.profiling }}, e=${{ matrix.experimental }})'
+    #name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }}, p=${{ matrix.profiling }}, e=${{ matrix.experimental }})'
+    name: PHP ${{ join(matrix.*, ' ') }}
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     env:
