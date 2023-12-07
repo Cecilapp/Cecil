@@ -688,7 +688,7 @@ class Asset implements \ArrayAccess
                 return $file;
             }
 
-            throw new RuntimeException(sprintf('Asset file "%s" doesn\'t exist', $path));
+            throw new RuntimeException(sprintf('Can\'t load asset file "%s" (%s)', $path, $e->getMessage()));
         }
 
         if (Util\Url::isUrl($path)) {
@@ -777,10 +777,10 @@ class Asset implements \ArrayAccess
                         throw new RuntimeException(sprintf('Fallback file "%s" doesn\'t exists', $filePath));
                     }
 
-                    return false;
+                    throw new RuntimeException($e->getMessage());
                 }
                 if (false === $content = Util\File::fileGetContents($url, true)) {
-                    return false;
+                    throw new RuntimeException(sprintf('Can\'t get content of "%s"', $url));
                 }
                 if (\strlen($content) <= 1) {
                     throw new RuntimeException(sprintf('Asset at "%s" is empty', $url));
