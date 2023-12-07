@@ -170,14 +170,23 @@ jobs:
     name: Update Homebrew Formulae
     runs-on: macos-latest
     needs: [build, deploy_to_github]
+    env:
+      HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.REPOS_TOKEN }}
 
     steps:
-    - name: Bump Formula PR
-      env:
-        HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.REPOS_TOKEN }}
+    - name: Bump Formula
+      if: "!github.event.release.prerelease"
       run: |
         brew tap cecilapp/cecil
         brew bump-formula-pr -f --version=${{ needs.build.outputs.version }} --no-browse --no-audit \
         --sha256=${{ needs.build.outputs.shasum }} \
         --url="https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar" \
         cecilapp/cecil/cecil
+    - name: Bump Beta Formula
+      if: "github.event.release.prerelease"
+      run: |
+        brew tap cecilapp/cecil
+        brew bump-formula-pr -f --version=${{ needs.build.outputs.version }} --no-browse --no-audit \
+        --sha256=${{ needs.build.outputs.shasum }} \
+        --url="https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar" \
+        cecilapp/cecil/cecil-beta
