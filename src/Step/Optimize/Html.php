@@ -36,7 +36,7 @@ class Html extends AbstractOptimize
     {
         $this->type = 'html';
         // https://github.com/voku/HtmlMin/issues/93
-        if (version_compare(PHP_VERSION, '8.3.0', '<')) {
+        if (version_compare(PHP_VERSION, '8.3.0', '>=')) {
             $this->builder->getLogger()->debug("{$this->getName()} is disabled for PHP 8.3");
 
             return;
