@@ -45,7 +45,7 @@ case $RUNNING_ON in
     echo "Installing Gettext..."
     yum install -y gettext
     echo "Installing PHP extensions..."
-    yum install -y php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick}
+    yum install -y php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick,sodium}
     if [ "$CECIL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
       yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
