@@ -44,8 +44,10 @@ case $RUNNING_ON in
     amazon-linux-extras install -y php$PHP_VERSION
     echo "Installing Gettext..."
     yum install -y gettext
+    echo "Installing Sodium..."
+    yum install -y sodium
     echo "Installing PHP extensions..."
-    yum install -y php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick,sodium}
+    yum install -y php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick}
     if [ "$CECIL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
       yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
