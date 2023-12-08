@@ -1,7 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2023-04-19
+updated: 2023-12-08
 alias: documentation/publish
 -->
 # Deploy
@@ -24,7 +24,7 @@ _netlify.toml_:
   command = "curl -sSOL https://cecil.app/build.sh && bash ./build.sh"
 
 [build.environment]
-  PHP_VERSION = "7.4"
+  PHP_VERSION = "8.1"
 
 [context.production.environment]
   CECIL_ENV = "production"
@@ -159,7 +159,7 @@ jobs:
 _.gitlab-ci.yml_:
 
 ```yml
-image: phpdocker/phpdocker:7.4
+image: phpdocker/phpdocker:8.1
 
 before_script:
   - |
