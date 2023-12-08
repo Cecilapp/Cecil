@@ -45,7 +45,7 @@ case $RUNNING_ON in
     echo "Installing Gettext..."
     yum install -y gettext
     echo "Installing Sodium..."
-    yum install -y sodium
+    yum install -y libsodium
     echo "Installing PHP extensions..."
     yum install -y php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick}
     if [ "$CECIL_INSTALL_OPTIM" = "true" ]; then
