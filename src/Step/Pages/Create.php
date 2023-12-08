@@ -64,15 +64,14 @@ class Create extends AbstractStep
              * Apply an - optional - custom path to pages of a section.
              *
              * ```yaml
-             * pages:
-             *   paths:
-             *     - section: Blog
-             *       language: fr # optional
-             *       path: :section/:year/:month/:day/:slug
+             * paths:
+             *   - section: Blog
+             *     language: fr # optional
+             *     path: :section/:year/:month/:day/:slug
              * ```
              */
-            if (\is_array($this->config->get('pages.paths'))) {
-                foreach ($this->config->get('pages.paths') as $entry) {
+            if (\is_array($this->config->get('paths'))) {
+                foreach ($this->config->get('paths') as $entry) {
                     if (isset($entry['section'])) {
                         /** @var Page $page */
                         if ($page->getSection() == Page::slugify($entry['section'])) {

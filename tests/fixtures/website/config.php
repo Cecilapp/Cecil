@@ -31,6 +31,12 @@ return [
     'pagination' => [
         'enabled' => true,
     ],
+    'paths' => [
+        [
+            'section' => 'Blog',
+            'path'    => ':section/:year/:month/:day/:slug',
+        ],
+    ],
     'language'  => 'en',
     'languages' => [
         [
@@ -142,12 +148,6 @@ return [
             ],
             'highlight' => [
                 'enabled' => true,
-            ],
-        ],
-        'paths' => [
-            [
-                'section' => 'Blog',
-                'path'    => ':section/:year/:month/:day/:slug',
             ],
         ],
     ],

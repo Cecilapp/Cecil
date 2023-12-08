@@ -246,6 +246,36 @@ menus:
       enabled: false
 ```
 
+### sections' pages path
+
+Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
+
+```yaml
+paths:
+  - section: <section’s name>
+    language: <language> # optional
+    path: <path of pages, with palceholders>
+```
+
+#### Placeholders
+
+- `:year`
+- `:month`
+- `:day`
+- `:section`
+- `:slug`
+
+_Example:_
+
+```yaml
+paths:
+  - section: Blog
+    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
+  - section: Blog
+    language: fr
+    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
+```
+
 ### metatags
 
 _metatags_ are SEO helpers that can be injected automatically in the `<head>` by including the [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig) template.
@@ -457,38 +487,6 @@ pages:
   virtual:
     - path: code
       redirect: https://github.com/ArnaudLigny
-```
-
-### pages path
-
-Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
-
-```yaml
-pages:
-  paths:
-    - section: <section’s name>
-      language: <language> # optional
-      path: <path of pages, with palceholders>
-```
-
-#### Placeholders
-
-- `:year`
-- `:month`
-- `:day`
-- `:section`
-- `:slug`
-
-_Example:_
-
-```yaml
-pages:
-  paths:
-    - section: Blog
-      path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
-    - section: Blog
-      language: fr
-      path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
 ```
 
 ### output
