@@ -57,6 +57,7 @@ class NewSite extends AbstractCommand
 
         try {
             // ask to override site?
+            /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
             $helper = $this->getHelper('question');
             if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), self::CONFIG_FILE)) && !$force) {
                 $output->writeln('<comment>Website already exists.</comment>');

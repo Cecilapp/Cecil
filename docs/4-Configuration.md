@@ -79,8 +79,8 @@ Date format and timezone.
 
 ```yaml
 date:
-  format: <format>     # date format (`j F Y` by default)
-  timezone: <timezone> # date timezone (`Europe/Paris` by default)
+  format: <format>     # date format (`F j, Y` by default)
+  timezone: <timezone> # date timezone (local time zone by default)
 ```
 
 - `format`: [PHP date](https://php.net/date) format specifier
@@ -90,9 +90,60 @@ _Example:_
 
 ```yaml
 date:
-  format: 'Y-m-d'
-  timezone: 'UTC'
+  format: 'j F Y'
+  timezone: 'Europe/Paris'
 ```
+
+### language
+
+The main language, defined by its code.
+
+```yaml
+language: <language code> # unique code (`en` by default)
+```
+
+### languages
+
+List of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
+
+```yaml
+languages:
+  - code: <code>     # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
+    name: <name>     # human readable name (e.g.: `Français`)
+    locale: <locale> # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
+```
+
+:::info
+The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`).
+:::
+
+:::info
+A list of [locales code is available](configuration/locale-codes.md).
+:::
+
+#### Localize configuration options
+
+To localize configuration options you must store them under the `config` key of the language.
+
+_Example:_
+
+```yaml
+title: "Cecil in english"
+languages:
+  - code: en
+    name: English
+    locale: en_US
+  - code: fr
+    name: Français
+    locale: fr_FR
+    config:
+      title: "Cecil en français"
+```
+
+:::info
+In [templates](3-Templates.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.
+If an option is not available in the current language (e.g.: `fr`) it fallback to the global one.
+:::
 
 ### taxonomies
 
@@ -114,6 +165,33 @@ taxonomies:
 :::tip
 A vocabulary can be disabled with the special value `disabled`. Example: `tags: disabled`.
 :::
+
+### pagination
+
+Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
+
+```yaml
+pagination:
+  max: <int>   # maximum number of entries per page (`5` by default)
+  path: <path> # path to the paginated page (`page` by default)
+```
+
+_Example:_
+
+```yaml
+pagination:
+  max: 10
+  path: page
+```
+
+#### Disable pagination
+
+Pagination can be disabled:
+
+```yaml
+pagination:
+  enabled: false
+```
 
 ### menus
 
@@ -168,6 +246,36 @@ menus:
       enabled: false
 ```
 
+### sections' pages path
+
+Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
+
+```yaml
+paths:
+  - section: <section’s name>
+    language: <language> # optional
+    path: <path of pages, with palceholders>
+```
+
+#### Placeholders
+
+- `:year`
+- `:month`
+- `:day`
+- `:section`
+- `:slug`
+
+_Example:_
+
+```yaml
+paths:
+  - section: Blog
+    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
+  - section: Blog
+    language: fr
+    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
+```
+
 ### metatags
 
 _metatags_ are SEO helpers that can be injected automatically in the `<head>` by including the [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig) template.
@@ -181,9 +289,9 @@ _Example:_
   <head>
     <meta charset="utf-8">
     {%~ include 'partials/metatags.html.twig' ~%}
-    [... other head elements ...]
   </head>
-  [...]
+  <body>
+  </body>
 </html>
 ```
 
@@ -366,44 +474,7 @@ theme:
 See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or website [themes section](https://cecil.app/themes/).
 :::
 
-### pagination
-
-Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
-
-```yaml
-pagination:
-  max: <integer> # maximum number of entries per page (`5` by default)
-  path: <path>   # path to the paginated page (`page` by default)
-```
-
-_Example:_
-
-```yaml
-pagination:
-  max: 10
-  path: page
-```
-
-#### Disable pagination
-
-Pagination can be disabled:
-
-```yaml
-pagination:
-  enabled: false
-```
-
-### googleanalytics
-
-[Google Analytics](https://wikipedia.org/wiki/Google_Analytics) user identifier:
-
-```yaml
-googleanalytics: UA-XXXXX
-```
-
-The _Universal Analytics_ ID is used by the built-in partial template [`googleanalytics.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig).
-
-### virtualpages
+### virtual pages
 
 Virtual pages is the best way to create pages without content (**front matter only**).
 
@@ -412,9 +483,10 @@ It consists of a list of pages with a `path` and some front matter variables.
 _Example:_
 
 ```yaml
-virtualpages:
-  - path: code
-    redirect: https://github.com/ArnaudLigny
+pages:
+  virtual:
+    - path: code
+      redirect: https://github.com/ArnaudLigny
 ```
 
 ### output
@@ -490,35 +562,9 @@ output:
     term: [html, atom]
 ```
 
-### paths
-
-Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
-
-```yaml
-paths:
-  - section: <section’s name>
-    language: <language> # optional
-    path: <path of pages, with palceholders>
-```
-
-#### Placeholders
-
-- `:year`
-- `:month`
-- `:day`
-- `:section`
-- `:slug`
-
-_Example:_
-
-```yaml
-paths:
-  - section: Blog
-    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
-  - section: Blog
-    language: fr
-    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
-```
+:::tip
+You can extend Cecil with [output post processor](7-Extend.md#output-post-processor).
+:::
 
 ### debug
 
@@ -543,75 +589,7 @@ When `debug` is enabled, you can easily [dump a variable in your templates](3-Te
 
 ## Default configuration
 
-The website configuration (`config.yml`) overrides the [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
-
-### defaultpages
-
-Default pages are pages created automatically by Cecil, from built-in templates:
-
-- _index.html_ (home page)
-- _404.html_
-- _robots.txt_
-- _sitemaps.xml_
-- _atom.xsl_
-- _rss.xsl_
-
-:::info
-The structure is almost identical of [`virtualpages`](#virtualpages), except the named key.
-:::
-
-```yaml
-defaultpages:
-  index:
-    path: ''
-    title: Home
-    published: true
-  404:
-    path: 404
-    title: Page not found
-    layout: 404
-    uglyurl: true
-    published: true
-    exclude: true
-  robots:
-    path: robots
-    title: Robots.txt
-    layout: robots
-    output: txt
-    published: true
-    exclude: true
-    multilingual: false
-  sitemap:
-    path: sitemap
-    title: XML sitemap
-    layout: sitemap
-    output: xml
-    changefreq: monthly
-    priority: 0.5
-    published: true
-    exclude: true
-    multilingual: false
-  atom:
-    path: atom
-    layout: feed
-    output: xsl
-    uglyurl: true
-    published: true
-    exclude: true
-  rss:
-    path: rss
-    layout: feed
-    output: xsl
-    uglyurl: true
-    published: true
-    exclude: true
-```
-
-Each one can be:
-
-1. disabled: `published: false`
-2. excluded from list pages: `exclude: true`
-3. excluded from localization: `multilingual: false`
+Your site configuration (`config.yml`) overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
 
 ### pages
 
@@ -629,8 +607,9 @@ pages:
 Pages’ variables format (YAML by default).
 
 ```yaml
-frontmatter:
-  format: yaml # front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
+pages:
+  frontmatter:
+    format: yaml # front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
 ```
 
 #### body
@@ -638,47 +617,134 @@ frontmatter:
 Pages’ content format and converter’s options.
 
 ```yaml
-body:
-  format: md          # page body format (only `md`, Markdown, is supported)
-  toc: [h2, h3]       # headers used to build the table of contents
-  highlight:
-    enabled: false    # enables code syntax highlighting (`false` by default)
-  images:             # how to handle images
-    lazy:
-      enabled: true   # adds `loading="lazy"` attribute (`true` by default)
-    decoding:
-      enabled: true   # adds `decoding="async"` attribute (`true` by default)
-    resize:
-      enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)
-    webp:
-      enabled: false  # adds a WebP image as a `source` (`false` by default)
-    responsive:
-      enabled: false  # creates responsive images and add them to the `srcset` attribute (`false` by default)
-    class: ''         # put default class to each image (empty by default)
-    caption:
-      enabled: false  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
-    remote:
-      enabled: true   # enables remote image handling (`true` by default)
-      fallback:
-        enabled: false # enables a fallback if image is not found (`false` by default)
-        path: ''       # path to the fallback image, stored in assets dir (empty by default)
-  links:
-    embed:
-      enabled: false # turns links in embedded content if possible (`false` by default)
-      video:
-        ext: [mp4, 'webm'] # video files extensions
-      audio:
-        ext: [mp3] # audio files extensions
-  excerpt:
-    separator: excerpt|break # string to use as separator (`excerpt|break` by default)
-    capture: before          # part to capture, `before` or `after` the separator (`before` by default)
+pages:
+  body:
+    format: md          # page body format (only `md`, Markdown, is supported)
+    toc: [h2, h3]       # headers used to build the table of contents
+    highlight:
+      enabled: false    # enables code syntax highlighting (`false` by default)
+    images:             # how to handle images
+      lazy:
+        enabled: true   # adds `loading="lazy"` attribute (`true` by default)
+      decoding:
+        enabled: true   # adds `decoding="async"` attribute (`true` by default)
+      resize:
+        enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)
+      webp:
+        enabled: false  # adds a WebP image as a `source` (`false` by default)
+      responsive:
+        enabled: false  # creates responsive images and add them to the `srcset` attribute (`false` by default)
+      class: ''         # put default class to each image (empty by default)
+      caption:
+        enabled: false  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+      remote:
+        enabled: true   # enables remote image handling (`true` by default)
+        fallback:
+          enabled: false # enables a fallback if image is not found (`false` by default)
+          path: ''       # path to the fallback image, stored in assets dir (empty by default)
+    links:
+      embed:
+        enabled: false # turns links in embedded content if possible (`false` by default)
+        video:
+          ext: [mp4, 'webm'] # video files extensions
+        audio:
+          ext: [mp3] # audio files extensions
+    excerpt:
+      separator: excerpt|break # string to use as separator (`excerpt|break` by default)
+      capture: before          # part to capture, `before` or `after` the separator (`before` by default)
 ```
 
 To know how those options impacts your content see _[Content > Markdown](2-Content.md#markdown)_ documentation.
 
 :::info
-Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `body.images.remote.enabled` to `false`.
+Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
 :::
+
+#### generators
+
+Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
+
+Below the list of Generators provided by Cecil, in a defined order:
+
+```yaml
+pages:
+  generators:
+    10: 'Cecil\Generator\DefaultPages'
+    20: 'Cecil\Generator\VirtualPages'
+    30: 'Cecil\Generator\ExternalBody'
+    40: 'Cecil\Generator\Section'
+    50: 'Cecil\Generator\Taxonomy'
+    60: 'Cecil\Generator\Homepage'
+    70: 'Cecil\Generator\Pagination'
+    80: 'Cecil\Generator\Alias'
+    90: 'Cecil\Generator\Redirect'
+```
+
+:::tip
+You can extend Cecil with [custom generator](7-Extend.md#pages-generator).
+:::
+
+#### default pages
+
+Default pages are pages created automatically by Cecil (from built-in templates):
+
+```yaml
+pages:
+  default:
+    index:
+      path: ''
+      title: Home
+      published: true
+    404:
+      path: 404
+      title: Page not found
+      layout: 404
+      uglyurl: true
+      published: true
+      exclude: true
+    robots:
+      path: robots
+      title: Robots.txt
+      layout: robots
+      output: txt
+      published: true
+      exclude: true
+      multilingual: false
+    sitemap:
+      path: sitemap
+      title: XML sitemap
+      layout: sitemap
+      output: xml
+      changefreq: monthly
+      priority: 0.5
+      published: true
+      exclude: true
+      multilingual: false
+    atom:
+      path: atom
+      layout: feed
+      output: xsl
+      uglyurl: true
+      published: true
+      exclude: true
+    rss:
+      path: rss
+      layout: feed
+      output: xsl
+      uglyurl: true
+      published: true
+      exclude: true
+```
+
+:::info
+The structure is almost identical of [`virtual pages`](#virtual-pages), except the named key.
+:::
+
+Each one can be:
+
+1. disabled: `published: false`
+2. excluded from list pages: `exclude: true`
+3. excluded from localization: `multilingual: false`
 
 ### data
 
@@ -720,34 +786,6 @@ static:
     - '*.scss'
     - '/\.bck$/'
   load: true
-```
-
-### layouts
-
-Where templates files are stored.
-
-```yaml
-layouts:
-  dir: layouts # layouts directory
-```
-
-### themes
-
-Where themes are stored.
-
-```yaml
-themes:
-  dir: themes # themes directory
-```
-
-### translations
-
-Where and in what format translations files are stored.
-
-```yaml
-translations:
-  dir: translations       # translations directory
-  formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
 ### assets
@@ -814,32 +852,28 @@ assets:
 - `%quality%` replaced by the `assets.images.quality` option
 - `%format%` replaced by the image format
 
-:::tip
-[CDN provider examples](configuration/cdn-providers.md).
-:::
+See [**CDN providers**](configuration/cdn-providers.md).
 
-### postprocess
+### layouts
 
-Options of files optimizations after build step (post process).
+Where templates and translations files are stored.
 
 ```yaml
-postprocess:
-  enabled: false     # enables (`false` by default)
-  html:
-    ext: [html, htm] # list of files extensions
-    enabled: true    # enables HTML post processing
-  css:
-    ext: [css]       # list of files extensions
-    enabled: true    # enables CSS post processing
-  js:
-    ext: [js]        # list of files extensions
-    enabled: true    # enables JS post processing
-  images:
-    ext: [jpeg, jpg, png, gif, webp, svg] # list of files extensions
-    enabled: true                         # enables images post processing
+layouts:
+  dir: layouts # layouts directory
+  translations:
+    dir: translations       # translations directory
+    formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
-Images compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/) and [cwebp](https://developers.google.com/speed/webp/docs/cwebp).
+### themes
+
+Where themes are stored.
+
+```yaml
+themes:
+  dir: themes # themes directory
+```
 
 ### cache
 
@@ -847,71 +881,44 @@ Cache options.
 
 ```yaml
 cache:
-  dir: '.cache' # cache directory
-  enabled: true # enables cache
-  templates:    # Twig templates cache
-    dir: templates # templates cache directory
-    enabled: true  # enables templates cache
-  assets:       # assets cache
-    dir: 'assets/remote' # the subdirectory of remote assets cache
+  enabled: true # enables cache support (`true` by default)
+  dir: '.cache' # cache files directory (`.cache` by default)
+  templates:
+    enabled: true  # enables cache for Twig templates
+    dir: templates # templates files cache directory (`templates` by default)
+  assets:
+    dir: 'assets' # assets files cache directory (`assets` by default)
+    remote:
+      dir: remote # remote files cache directory (`remote` by default)
   translations:
-    dir: 'translations' # translations cache directory
-    enabled: true       # enables translations cache
+    enabled: true       # enables cache for translations dictionary
+    dir: 'translations' # translations files cache directory (`assets` by default)
 ```
 
-### generators
+### optimize
 
-Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
-
-Below the list of Generators provided by Cecil, in a defined order:
+Options of files optimizations after build.
 
 ```yaml
-generators:
-  10: 'Cecil\Generator\DefaultPages'
-  20: 'Cecil\Generator\VirtualPages'
-  30: 'Cecil\Generator\ExternalBody'
-  40: 'Cecil\Generator\Section'
-  50: 'Cecil\Generator\Taxonomy'
-  60: 'Cecil\Generator\Homepage'
-  70: 'Cecil\Generator\Pagination'
-  80: 'Cecil\Generator\Alias'
-  90: 'Cecil\Generator\Redirect'
+optimize:
+  enabled: false # enables files optimization (`false` by default)
+  html:
+    enabled: true    # enables HTML files optimization
+    ext: [html, htm] # supported files extensions
+  css:
+    enabled: true # enables CSS files optimization
+    ext: [css]    # supported files extensions
+  js:
+    enabled: true # enables JavaScript files optimization
+    ext: [js]     # supported files extensions
+  images:
+    enabled: true # enables images files optimization
+    ext: [jpeg, jpg, png, gif, webp, svg] # supported files extensions
 ```
 
-#### Custom generator
-
-It is possible to create a custom Generator, just add it to the list above, and create a new class in the `Cecil\Generator` namespace.
-
-**Example:**
-
-_/generators/Cecil/Generator/MyGenerator.php_
-
-```php
-<?php
-namespace Cecil\Generator;
-
-use Cecil\Collection\Page\Page;
-use Cecil\Collection\Page\Type;
-
-class MyGenerator extends AbstractGenerator implements GeneratorInterface
-{
-    public function generate(): void
-    {
-        // create a new page $page, then add it to the site collection
-
-        $page = (new Page('my-page'))
-          ->setType(Type::PAGE)
-          ->setPath('mypage')
-          ->setBodyHtml('<p>My page body</p>')
-          ->setVariable('language', 'en')
-          ->setVariable('title', 'My page')
-          ->setVariable('date', now())
-          ->setVariable('menu', ['main' => ['weight' => 99]]);
-
-        $this->generatedPages->add($page);
-    }
-}
-```
+:::important
+Images compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/) and [cwebp](https://developers.google.com/speed/webp/docs/cwebp).
+:::
 
 ## Override configuration
 

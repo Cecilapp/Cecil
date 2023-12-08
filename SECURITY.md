@@ -4,8 +4,9 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 7.47.x  | :white_check_mark: |
-| < 7.0   | :x:                |
+| 8.0     | :white_check_mark: |
+| 7.55    | :white_check_mark: |
+| < 7.55  | :x:                |
 
 ## Reporting a vulnerability
 

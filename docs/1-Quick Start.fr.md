@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site et prévisualiser le localement."
 date: 2021-11-03
-updated: 2023-02-11
+updated: 2023-12-08
 slug: demarrage-rapide
 menu: home
 -->
@@ -42,7 +42,7 @@ curl -LO https://cecil.app/cecil.phar
 
 Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement.
 
-> [PHP](https://php.net/manual/fr/install.php) 7.4+ est requis.
+> [PHP](https://php.net/manual/fr/install.php) 8.1+ est requis.
 
 ### Créer un nouveau site
 

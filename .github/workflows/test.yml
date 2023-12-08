@@ -17,44 +17,45 @@ on:
 
 jobs:
   test:
-    name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }}, p=${{ matrix.profiling }}, e=${{ matrix.experimental }})'
+    #name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }}, p=${{ matrix.profiling }}, e=${{ matrix.experimental }})'
+    name: PHP ${{ join(matrix.*, ' ') }}
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     env:
-      extensions: mbstring, intl, gettext, fileinfo, gd
+      extensions: :psr, mbstring, intl, gettext, fileinfo, gd, sodium
       ext-cache-key: cache-ext-v1
 
     strategy:
       fail-fast: false
       matrix:
+        php: ['8.1', '8.2', '8.3']
         os: [ubuntu-latest, windows-latest, macos-latest]
-        php: ['7.4', '8.0', '8.1', '8.2']
         coverage: [false]
         experimental: [false]
         profiling: [false]
         exclude:
         # excluded for code coverage
-        - os: 'ubuntu-latest'
-          php: '7.4'
+        - php: '8.1'
+          os: 'ubuntu-latest'
           coverage: false
           profiling: false
           experimental: false
         include:
-        # code coverage
-        - os: 'ubuntu-latest'
-          php: '7.4'
+        # included for code coverage
+        - php: '8.1'
+          os: 'ubuntu-latest'
           coverage: true
           profiling: false
           experimental: false
-        # code profiling
-        - os: 'ubuntu-latest'
-          php: '8.1'
+        # included for code profiling
+        - php: '8.2'
+          os: 'ubuntu-latest'
           coverage: false
           profiling: true
           experimental: false
-        # PHP 8.2 JIT experimental
-        - os: 'ubuntu-latest'
-          php: '8.2'
+        # experimental
+        - php: '8.3'
+          os: 'ubuntu-latest'
           coverage: false
           profiling: false
           experimental: true

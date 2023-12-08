@@ -16,8 +16,8 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 <span>{{ page.date|date('j M Y') }}</span>
 <p>{{ page.content }}</p>
 <ul>
-{% for variable in page.my_variables %}
-  <li>{{ variable }}</li>
+{% for tag in page.tags %}
+  <li>{{ tag }}</li>
 {% endfor %}
 </ul>
 ```
@@ -159,7 +159,7 @@ You can use variables from different scopes: [`site`](#site), [`page`](#page), [
 
 ### site
 
-The `site` variable contains all variables from the configuration and some built-in variables.
+The `site` variable contains all variables from the configuration and built-in variables.
 
 _Example:_
 
@@ -185,6 +185,17 @@ Can be displayed in a template with:
 | `site.taxonomies`     | Collection of vocabularies.                            |
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 | `site.debug`          | Debug mode: `true` or `false`.                         |
+
+:::info
+In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.xxxx` (with `xxxx` is the variable name) to access directly to the raw configuration).
+
+Example:
+
+```twig
+{{ config.pages.default.sitemap.priority }}
+```
+
+:::
 
 #### site.menus
 
@@ -835,7 +846,6 @@ _Examples:_
 
 ```twig
 {{ asset('styles.scss')|to_css }}
-{{ 'styles.scss'|to_css }} {# deprecated #}
 ```
 
 ### fingerprint
@@ -851,7 +861,6 @@ _Examples:_
 
 ```twig
 {{ asset('styles.css')|fingerprint }}
-{{ 'styles.css'|fingerprint }} {# deprecated #}
 ```
 
 ### minify
@@ -860,14 +869,12 @@ Minifying a CSS or a JavaScript file.
 
 ```twig
 {{ asset(path)|minify }}
-{{ path|minify }} {# deprecated #}
 ```
 
 _Examples:_
 
 ```twig
 {{ asset('styles.css')|minify }}
-{{ 'styles.css'|minify }} {# deprecated #}
 {{ asset('scripts.js')|minify }}
 ```
 
@@ -973,7 +980,6 @@ Resizes an image to a specified with.
 
 ```twig
 {{ asset(image_path)|resize(integer) }}
-{{ <image_path>|resize(integer) }} {# deprecated #}
 ```
 
 :::info
@@ -1067,7 +1073,7 @@ _Examples:_
 ```
 
 ```twig
-{{ asset('styles.css')|html({media: print}) }}
+{{ asset('styles.css')|html({media: 'print'}) }}
 ```
 
 ```twig
@@ -1257,34 +1263,6 @@ php cecil.phar util:extract
 
 ## Custom extension
 
-It is possible to use custom [functions](#functions) and [filters](#filters):
-
-1. [create a Twig extension](https://twig.symfony.com/doc/advanced.html#creating-an-extension) in the `Cecil\Renderer\Extension` namespace
-2. add the PHP file in the `extensions` directory
-3. add the class name to the configuration
-
-**Example:**
-
-_/extensions/Cecil/Renderer/Extension/MyExtension.php_
-
-```php
-<?php
-namespace Cecil\Renderer\Extension;
-
-class MyExtension extends \Twig\Extension\AbstractExtension
-{
-    public function getFilters()
-    {
-        return [
-            new \Twig\TwigFilter('rot13', 'str_rot13'),
-        ];
-    }
-}
-```
-
-_configuration_
-
-```yaml
-extensions:
-  MyExtension: Cecil\Renderer\Extension\MyExtension
-```
+:::tip
+You can extend Cecil with [custom extension](7-Extend.md#templates-extension).
+:::

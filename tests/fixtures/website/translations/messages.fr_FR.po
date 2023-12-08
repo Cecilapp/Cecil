@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Cecil fixtures\n"
-"POT-Creation-Date: 2022-09-08 13:02+0200\n"
-"PO-Revision-Date: 2022-09-08 13:03+0200\n"
+"POT-Creation-Date: 2023-12-05 11:51+0100\n"
+"PO-Revision-Date: 2023-12-05 11:51+0100\n"
 "Last-Translator: Arnaud Ligny <arnaud@ligny.org>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -10,37 +10,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.1.1\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-SearchPath-0: layouts\n"
-"X-Poedit-SearchPath-1: themes\n"
+"X-Generator: Poedit 3.4.1\n"
+"X-Poedit-Basepath: ../layouts\n"
+"X-Poedit-SearchPath-0: .\n"
 
-#: layouts/intl.html.twig:7 layouts/intl.html.twig:9 layouts/intl.html.twig:10
+#: intl.html.twig:7 intl.html.twig:9 intl.html.twig:10
 msgid "Publication date:"
 msgstr "Date de publication :"
 
-#: layouts/intl.html.twig:17
+#: intl.html.twig:17
 msgid "Translation examples"
 msgstr "Exemples de traduction"
 
-#: layouts/intl.html.twig:19
+#: intl.html.twig:19
 msgid "Simple text"
 msgstr "Texte simple"
 
-#: layouts/intl.html.twig:20
+#: intl.html.twig:20
 msgid "Simple text in fr_FR"
 msgstr "Texte simple en fr_FR"
 
-#: layouts/intl.html.twig:21
+#: intl.html.twig:21
 msgid "Simple text with variable \"%site_title%\""
 msgstr "Contenu avec une variable : « %site_title% »"
 
-#: layouts/intl.html.twig:23
+#: intl.html.twig:23
 msgid "Plural form"
 msgstr "Forme plurielle"
 
-#: layouts/intl.html.twig:26 layouts/intl.html.twig:29
-#: layouts/intl.html.twig:32
+#: intl.html.twig:26 intl.html.twig:29 intl.html.twig:32
 msgid ""
 "{0}%name% has no apples|{1}%name% has one apple|]1,Inf[%name% has %count% "
 "apples"
@@ -48,18 +46,18 @@ msgstr ""
 "{0}%name% n’a pas de pommes|{1}%name% a une pomme|]1,Inf[%name% a %count% "
 "pommes"
 
-#: layouts/intl.html.twig:35
+#: intl.html.twig:35
 msgid "{0}I don't have apples|{1}I have one apple|]1,Inf[I have %count% apples"
 msgstr "{0}Je n’ai pas de pommes|{1}J’ai une pomme|]1,Inf[J’ai %count% pommes"
 
-#: layouts/intl.html.twig:39
+#: intl.html.twig:39
 msgid "Page's language"
 msgstr "Langue de la page"
 
-#: layouts/intl.html.twig:47
+#: intl.html.twig:47
 msgid "Default language:"
 msgstr "Langue par défaut :"
 
-#: layouts/intl.html.twig:50
+#: intl.html.twig:50
 msgid "Available translations:"
 msgstr "Traductions disponibles :"

@@ -67,7 +67,7 @@ class Twig implements RendererInterface
         // set timezone
         if ($this->builder->getConfig()->has('date.timezone')) {
             $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
-                ->setTimezone((string) $this->builder->getConfig()->get('date.timezone'));
+                ->setTimezone((string) $this->builder->getConfig()->get('date.timezone') ?? date_default_timezone_get());
         }
         /*
          * adds extensions
@@ -84,7 +84,7 @@ class Twig implements RendererInterface
             $this->builder->isDebug()
         );
         if (\count($this->builder->getConfig()->getLanguages()) > 0) {
-            foreach ((array) $this->builder->getConfig()->get('translations.formats') as $format) {
+            foreach ((array) $this->builder->getConfig()->get('layouts.translations.formats') as $format) {
                 $loader = sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
                 if (class_exists($loader)) {
                     $this->translator->addLoader($format, new $loader());
@@ -93,7 +93,7 @@ class Twig implements RendererInterface
             }
             foreach ($this->builder->getConfig()->getLanguages() as $lang) {
                 // internal
-                $this->addTransResource($this->builder->getConfig()->getInternalTranslationsPath(), $lang['locale']);
+                $this->addTransResource($this->builder->getConfig()->getTranslationsInternalPath(), $lang['locale']);
                 // themes
                 if ($themes = $this->builder->getConfig()->getTheme()) {
                     foreach ($themes as $theme) {
@@ -129,10 +129,10 @@ class Twig implements RendererInterface
             $this->profile = new \Twig\Profiler\Profile();
             $this->twig->addExtension(new \Twig\Extension\ProfilerExtension($this->profile));
         }
-        // local extensions
-        if ($this->builder->getConfig()->has('extensions')) {
+        // loads custom extensions
+        if ($this->builder->getConfig()->has('layouts.extensions')) {
             Util::autoload($builder, 'extensions');
-            foreach ((array) $this->builder->getConfig()->get('extensions') as $name => $class) {
+            foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $name => $class) {
                 $this->twig->addExtension(new $class($this->builder));
                 $this->builder->getLogger()->debug(sprintf('Extension "%s" (%s) added.', $name, $class));
             }
@@ -171,13 +171,13 @@ class Twig implements RendererInterface
      */
     public function addTransResource(string $translationsDir, string $locale): void
     {
-        $locales[] = $locale;
+        $locales = [$locale];
         // if locale is 'fr_FR', trying to load ['fr', 'fr_FR']
         if (\strlen($locale) > 2) {
             array_unshift($locales, substr($locale, 0, 2));
         }
         foreach ($locales as $locale) {
-            foreach ((array) $this->builder->getConfig()->get('translations.formats') as $format) {
+            foreach ((array) $this->builder->getConfig()->get('layouts.translations.formats') as $format) {
                 $translationFile = Util::joinPath($translationsDir, sprintf('messages.%s.%s', $locale, $format));
                 if (Util\File::getFS()->exists($translationFile)) {
                     $this->translator->addResource($format, $translationFile, $locale);

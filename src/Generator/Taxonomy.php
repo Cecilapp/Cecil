@@ -56,7 +56,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                             if ($this->builder->getPages()->has($pageId)) {
                                 $page = clone $this->builder->getPages()->get($pageId);
                             }
-                            $page->setType(Type::TERM)
+                            $page->setType(Type::TERM->value)
                                 ->setPages($pages)
                                 ->setVariable('term', $term->getId())
                                 ->setVariable('plural', $plural)
@@ -78,7 +78,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                             $page->unSection();
                         }
                         // creates page for each plural
-                        $page->setType(Type::VOCABULARY)
+                        $page->setType(Type::VOCABULARY->value)
                             ->setPath($path)
                             ->setTerms($vocabulary)
                             ->setVariable('date', $date)

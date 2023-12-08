@@ -99,7 +99,7 @@ class AbstractCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         // disable debug mode if a verbosity level is specified
         if ($output->getVerbosity() != OutputInterface::VERBOSITY_NORMAL) {

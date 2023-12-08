@@ -3,6 +3,6 @@
 {% block content %}
 {{ page.content }}
 <p>
-  "This is a test" become "{{ "This is a test"|rot13 }}".
+  "This is a test"|md5 become "{{ "This is a test"|md5 }}".
 </p>
 {% endblock %}

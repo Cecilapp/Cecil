@@ -3,7 +3,7 @@ title: Cecil test
 languages:
   - code: en
     name: English
-    locale: en_US
+    locale: en
   - code: fr
     name: Français
     locale: fr_FR
@@ -14,9 +14,11 @@ languages:
 theme:
   - a-theme
 
-generators:
-  99: Cecil\Generator\Test
-  100: Cecil\Generator\TitleReplace
+pages:
+  generators:
+    99: Cecil\Generator\Test
+    100: Cecil\Generator\TitleReplace
 
-extensions:
-  Test: 'Cecil\Renderer\Extension\Test'
+layouts:
+  extensions:
+    Test: 'Cecil\Renderer\Extension\Test'

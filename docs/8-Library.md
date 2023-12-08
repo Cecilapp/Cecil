@@ -1,6 +1,6 @@
 <!--
 description: "Use Cecil as a PHP library."
-date: 2020-12-19
+date: 2023-04-19
 -->
 # Library
 
@@ -25,12 +25,10 @@ Cecil::create()->build();
 Build with custom configuration :
 
 ```php
-Cecil::create(
-    [
-        'title'   => "My website",
-        'baseurl' => 'http://localhost:8000/',
-    ]
-)->build();
+Cecil::create([
+    'title'   => "My website",
+    'baseurl' => 'http://localhost:8000/',
+])->build();
 ```
 
 The main parameter of the `create` method should be a PHP array or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
@@ -55,6 +53,7 @@ Cecil::create()
 
 ```php
 <?php
+
 date_default_timezone_set('Europe/Paris');
 require_once 'vendor/autoload.php';
 

@@ -77,7 +77,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $this->addNavigationLinks($pages, $sortby, $page->getVariable('circular'));
                     }
                     // creates page for each section
-                    $page->setType(Type::SECTION)
+                    $page->setType(Type::SECTION->value)
                         ->setSection($path)
                         ->setPages($pages)
                         ->setVariable('language', $language)

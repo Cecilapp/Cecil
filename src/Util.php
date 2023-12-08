@@ -20,7 +20,7 @@ class Util
     /**
      * Formats a class name.
      *
-     * ie: "Cecil\Step\PostProcessHtml" become "PostProcessHtml"
+     * ie: "Cecil\Step\OptimizeHtml" become "OptimizeHtml"
      *
      * @param object $class
      */
@@ -107,6 +107,15 @@ class Util
             $classFile = Util::joinFile($builder->getConfig()->getSourceDir(), $dir, "$className.php");
             if (file_exists($classFile)) {
                 require $classFile;
+                return;
+            }
+            // in themes
+            foreach ($builder->getConfig()->getTheme() ?? [] as $theme) {
+                $classFile = Util::joinFile($builder->getConfig()->getThemeDirPath($theme, $dir), "$className.php");
+                if (file_exists($classFile)) {
+                    require $classFile;
+                    return;
+                }
             }
         });
     }

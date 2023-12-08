@@ -59,10 +59,8 @@ class ConsoleLogger extends PrintLogger
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         $output = $this->output;
         $output->getFormatter()->setStyle('text', new OutputFormatterStyle('white'));

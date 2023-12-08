@@ -1,4 +1,4 @@
-php_version: 7.4
+php_version: 8.1
 commit_failure_conditions:
     - "project.severity.critical > 0"
 exclude_patterns:

@@ -11,22 +11,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Step\PostProcess;
+namespace Cecil\Step\Optimize;
 
-use Cecil\Util;
-use voku\helper\HtmlMin;
+use Cecil\Assets\Image\Optimizer;
 
 /**
- * Post process HTML files.
+ * Optimize image files.
  */
-class Html extends AbstractPostProcess
+class Images extends AbstractOptimize
 {
     /**
      * {@inheritdoc}
      */
     public function getName(): string
     {
-        return 'Post-processing HTML';
+        return 'Optimizing images';
     }
 
     /**
@@ -34,7 +33,7 @@ class Html extends AbstractPostProcess
      */
     public function init(array $options): void
     {
-        $this->type = 'html';
+        $this->type = 'images';
         parent::init($options);
     }
 
@@ -43,7 +42,7 @@ class Html extends AbstractPostProcess
      */
     public function setProcessor(): void
     {
-        $this->processor = new HtmlMin();
+        $this->processor = Optimizer::create($this->config->get('assets.images.quality') ?? 75);
     }
 
     /**
@@ -51,9 +50,13 @@ class Html extends AbstractPostProcess
      */
     public function processFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
-        $html = Util\File::fileGetContents($file->getPathname());
+        try {
+            $this->processor->optimize($file->getPathname());
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->error(sprintf('Can\'t optimize image "%s": "%s"', $file->getPathname(), $e->getMessage()));
+        }
 
-        return $this->processor->minify($html);
+        return $file->getContents();
     }
 
     /**
@@ -61,7 +64,7 @@ class Html extends AbstractPostProcess
      */
     public function encode(string $content = null): ?string
     {
-        return json_encode($content);
+        return base64_encode((string) $content);
     }
 
     /**
@@ -69,6 +72,6 @@ class Html extends AbstractPostProcess
      */
     public function decode(string $content = null): ?string
     {
-        return json_decode((string) $content);
+        return base64_decode((string) $content);
     }
 }

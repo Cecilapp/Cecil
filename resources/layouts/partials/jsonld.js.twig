@@ -1,4 +1,4 @@
-{%- if page.metatags.jsonld|default(site.metatags.jsonld|default(false)) ~%}
+{%- if page.metatags.jsonld|default(config.metatags.jsonld|default(false)) ~%}
     <script type="application/ld+json">{%- apply minify_js ~%}
       [
         {#- WebSite ~#}
@@ -57,7 +57,7 @@
           }]
         }
           {#- NewsArticle ~#}
-          {%- if page.section == site.metatags.articles|default('blog') and page.type != 'section' -%}
+          {%- if page.section == config.metatags.articles|default('blog') and page.type != 'section' -%}
         ,{
           "@context": "https://schema.org",
           "@type": "NewsArticle",

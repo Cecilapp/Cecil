@@ -49,8 +49,8 @@ class Load extends AbstractStep
         $files = Finder::create()
             ->files()
             ->in($this->config->getStaticPath());
-        if (\is_array($this->config->get('static.exclude'))) {
-            $files->notName($this->config->get('static.exclude'));
+        if (\is_array($exclude = $this->config->get('static.exclude'))) {
+            $files->notName($exclude);
         }
         $files->sortByName(true);
         $total = \count($files);

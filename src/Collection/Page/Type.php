@@ -13,22 +13,15 @@ declare(strict_types=1);
 
 namespace Cecil\Collection\Page;
 
-use MyCLabs\Enum\Enum;
-
 /**
  * Type enum.
  *
- * @method static Type PAGE()
- * @method static Type HOMEPAGE()
- * @method static Type SECTION()
- * @method static Type VOCABULARY()
- * @method static Type TERM()
  */
-class Type extends Enum
+enum Type: string
 {
-    public const PAGE = 'page';
-    public const HOMEPAGE = 'homepage';
-    public const SECTION = 'section';
-    public const VOCABULARY = 'vocabulary';
-    public const TERM = 'term';
+    case PAGE = 'page';
+    case HOMEPAGE = 'homepage';
+    case SECTION = 'section';
+    case VOCABULARY = 'vocabulary';
+    case TERM = 'term';
 }

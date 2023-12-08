@@ -15,7 +15,6 @@ namespace Cecil\Renderer;
 
 use Cecil\Collection\Page\Page as CollectionPage;
 use Cecil\Collection\Page\Type as PageType;
-use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
@@ -31,12 +30,12 @@ class Layout
      *
      * @throws RuntimeException
      */
-    public static function finder(CollectionPage $page, string $format, Config $config): array
+    public static function finder(CollectionPage $page, string $format, \Cecil\Config $config): array
     {
         $layout = 'unknown';
 
-        // what layouts, in what format, could be use for the page?
-        $layouts = self::fallback($page, $format, $config);
+        // which layouts, in what format, could be used for the page?
+        $layouts = self::lookup($page, $format, $config);
 
         // take the first available layout
         foreach ($layouts as $layout) {
@@ -60,8 +59,8 @@ class Layout
                     }
                 }
             }
-            // is it in `resources/layouts/` dir?
-            if (Util\File::getFS()->exists(Util::joinPath($config->getInternalLayoutsPath(), $layout))) {
+            // is it in resources/layouts/ dir?
+            if (Util\File::getFS()->exists(Util::joinPath($config->getLayoutsInternalPath(), $layout))) {
                 return [
                     'scope' => 'cecil',
                     'file'  => $layout,
@@ -73,11 +72,11 @@ class Layout
     }
 
     /**
-     * Layout fall-back.
+     * Templates lookup rules.
      *
-     * @see finder()
+     * @see self::finder()
      */
-    protected static function fallback(CollectionPage $page, string $format, Config $config): array
+    protected static function lookup(CollectionPage $page, string $format, \Cecil\Config $config): array
     {
         $ext = self::EXT;
 
@@ -85,7 +84,7 @@ class Layout
         $layout = str_replace(".$ext", '', (string) $page->getVariable('layout'));
 
         switch ($page->getType()) {
-            case PageType::HOMEPAGE:
+            case PageType::HOMEPAGE->value:
                 $layouts = [
                     // "$layout.$format.$ext",
                     "index.$format.$ext",
@@ -103,7 +102,7 @@ class Layout
                     "_default/page.$format.$ext",
                 ]);
                 break;
-            case PageType::SECTION:
+            case PageType::SECTION->value:
                 $layouts = [
                     // "$layout.$format.$ext",
                     // "$section/index.$format.$ext",
@@ -121,7 +120,7 @@ class Layout
                     $layouts = array_merge(["$layout.$format.$ext"], $layouts);
                 }
                 break;
-            case PageType::VOCABULARY:
+            case PageType::VOCABULARY->value:
                 $layouts = [
                     // "taxonomy/$plural.$format.$ext", // e.g.: taxonomy/tags.html.twig
                     "_default/vocabulary.$format.$ext", // e.g.: _default/vocabulary.html.twig
@@ -130,7 +129,7 @@ class Layout
                     $layouts = array_merge(["taxonomy/{$page->getVariable('plural')}.$format.$ext"], $layouts);
                 }
                 break;
-            case PageType::TERM:
+            case PageType::TERM->value:
                 $layouts = [
                     // "taxonomy/$term.$format.$ext",     // e.g.: taxonomy/velo.html.twig
                     // "taxonomy/$singular.$format.$ext", // e.g.: taxonomy/tag.html.twig

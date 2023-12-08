@@ -39,11 +39,6 @@ class Load extends AbstractStep
      */
     public function init(array $options): void
     {
-        // legacy support
-        if (is_dir(Util::joinFile($this->config->getSourceDir(), 'content'))) {
-            $this->builder->getLogger()->alert('"content" directory is deprecated, please rename it to "pages"');
-        }
-
         if (!is_dir($this->config->getPagesPath())) {
             throw new RuntimeException(sprintf('Pages path "%s" not found.', $this->config->getPagesPath()));
         }
@@ -84,10 +79,10 @@ class Load extends AbstractStep
             $namePattern = basename($this->page);
         }
         $content->name($namePattern);
-        if (\is_array($this->config->get('pages.exclude'))) {
-            $content->exclude($this->config->get('pages.exclude'));
-            $content->notPath($this->config->get('pages.exclude'));
-            $content->notName($this->config->get('pages.exclude'));
+        if (\is_array($exclude = $this->config->get('pages.exclude'))) {
+            $content->exclude($exclude);
+            $content->notPath($exclude);
+            $content->notName($exclude);
         }
         if (file_exists(Util::joinFile($this->config->getPagesPath(), '.gitignore'))) {
             $content->ignoreVCSIgnored(true);

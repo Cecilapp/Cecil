@@ -46,8 +46,6 @@ class Asset implements \ArrayAccess
 
     /** @var bool */
     protected $optimize = false;
-    /** @var bool */
-    protected $optimized = false;
 
     /** @var bool */
     protected $ignore_missing = false;
@@ -141,9 +139,6 @@ class Asset implements \ArrayAccess
                     $this->data['filename'] = $file[$i]['path'];
                     $this->data['path_source'] = $file[$i]['path'];
                     $this->data['path'] = $file[$i]['path'];
-                    if (!empty($filename)) { /** @phpstan-ignore-line */
-                        $this->data['path'] = '/' . ltrim($filename, '/');
-                    }
                     $this->data['url'] = $file[$i]['url'];
                     $this->data['ext'] = $file[$i]['ext'];
                     $this->data['type'] = $file[$i]['type'];
@@ -155,12 +150,31 @@ class Asset implements \ArrayAccess
                             $this->data['exif'] = Util\File::readExif($file[$i]['filepath']);
                         }
                     }
+                    // bundle: default filename
+                    if ($pathsCount > 1 && empty($filename)) {
+                        switch ($this->data['ext']) {
+                            case 'scss':
+                            case 'css':
+                                $filename = '/styles.css';
+                                break;
+                            case 'js':
+                                $filename = '/scripts.js';
+                                break;
+                            default:
+                                throw new RuntimeException(sprintf('Asset bundle supports "%s" files only.', '.scss, .css and .js'));
+                        }
+                    }
+                    // bundle: filename and path
+                    if (!empty($filename)) {
+                        $this->data['filename'] = $filename;
+                        $this->data['path'] = '/' . ltrim($filename, '/');
+                    }
                 }
-                // bundle files path
+                // bundle: files path
                 $this->data['files'][] = $file[$i]['filepath'];
             }
             // bundle: define path
-            if ($pathsCount > 1 && empty($filename)) { /** @phpstan-ignore-line */
+            if ($pathsCount > 1 && empty($filename)) {
                 switch ($this->data['ext']) {
                     case 'scss':
                     case 'css':
@@ -412,8 +426,7 @@ class Asset implements \ArrayAccess
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(sprintf('Asset "%s" optimized', $message));
         }
-        $this->data = $cache->get($cacheKey);
-        $this->optimized = true;
+        $this->data = $cache->get($cacheKey, $this->data);
 
         return $this;
     }
@@ -665,7 +678,9 @@ class Asset implements \ArrayAccess
             'url' => null,
         ];
 
-        if (false === $filePath = $this->findFile($path, $remote_fallback)) {
+        try {
+            $filePath = $this->findFile($path, $remote_fallback);
+        } catch (\Exception $e) {
             if ($ignore_missing) {
                 $file['path'] = $path;
                 $file['missing'] = true;
@@ -673,13 +688,22 @@ class Asset implements \ArrayAccess
                 return $file;
             }
 
-            throw new RuntimeException(sprintf('Asset file "%s" doesn\'t exist', $path));
+            throw new RuntimeException(sprintf('Can\'t load asset file "%s" (%s)', $path, $e->getMessage()));
         }
 
         if (Util\Url::isUrl($path)) {
             $file['url'] = $path;
-            $path = Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath());
-            $path = Util::joinPath((string) $this->config->get('assets.target'), $path);
+            $path = Util::joinPath(
+                (string) $this->config->get('assets.target'),
+                Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath())
+            );
+            // remote_fallback in assets/ ont in cache/assets/remote/
+            if (substr(Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath()), 0, 2) == '..') {
+                $path = Util::joinPath(
+                    (string) $this->config->get('assets.target'),
+                    Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsPath())
+                );
+            }
             $force_slash = true;
         }
         if ($force_slash) {
@@ -706,13 +730,11 @@ class Asset implements \ArrayAccess
      *   1. remote (if $path is a valid URL)
      *   2. in static/
      *   3. in themes/<theme>/static/
-     * Returns local file path or false if file don't exists.
+     * Returns local file path or throw an exception.
      *
      * @throws RuntimeException
-     *
-     * @return string|false
      */
-    private function findFile(string $path, ?string $remote_fallback = null)
+    private function findFile(string $path, ?string $remote_fallback = null): string
     {
         // in case of remote file: save it and returns cached file path
         if (Util\Url::isUrl($path)) {
@@ -733,24 +755,37 @@ class Asset implements \ArrayAccess
                 $urlQuery && $extension ? ".$extension" : ''
             ));
             $filePath = Util::joinFile($this->config->getCacheAssetsRemotePath(), $relativePath);
+            // not already in cache
             if (!file_exists($filePath)) {
-                if (!Util\Url::isRemoteFileExists($url)) {
+                try {
+                    if (!Util\Url::isRemoteFileExists($url)) {
+                        throw new RuntimeException(sprintf('File "%s" doesn\'t exists', $url));
+                    }
+                    if (false === $content = Util\File::fileGetContents($url, true)) {
+                        throw new RuntimeException(sprintf('Can\'t get content of file "%s"', $url));
+                    }
+                    if (\strlen($content) <= 1) {
+                        throw new RuntimeException(sprintf('File "%s" is empty', $url));
+                    }
+                } catch (RuntimeException $e) {
                     // is there a fallback in assets/
                     if ($remote_fallback) {
                         $filePath = Util::joinFile($this->config->getAssetsPath(), $remote_fallback);
                         if (Util\File::getFS()->exists($filePath)) {
                             return $filePath;
                         }
+                        throw new RuntimeException(sprintf('Fallback file "%s" doesn\'t exists', $filePath));
                     }
 
-                    return false;
+                    throw new RuntimeException($e->getMessage());
                 }
                 if (false === $content = Util\File::fileGetContents($url, true)) {
-                    return false;
+                    throw new RuntimeException(sprintf('Can\'t get content of "%s"', $url));
                 }
                 if (\strlen($content) <= 1) {
                     throw new RuntimeException(sprintf('Asset at "%s" is empty', $url));
                 }
+                // put file in cache
                 Util\File::getFS()->dumpFile($filePath, $content);
             }
 
@@ -785,7 +820,7 @@ class Asset implements \ArrayAccess
             }
         }
 
-        return false;
+        throw new RuntimeException(sprintf('Can\'t find file "%s"', $path));
     }
 
     /**

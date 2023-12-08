@@ -14,7 +14,7 @@ There is different kinds of content in Cecil:
 : Assets are manipulated files (i.e.: resized images, compiled Sass, minified scripts, etc.).
 
 **Static files**
-: Static files are copied as is in the generated site.
+: Static files are copied as is in the built site.
 
 **Data files**
 : Data files are custom variables collections.
@@ -48,9 +48,9 @@ Project files organization.
 
 - Pages should be organized in a manner that reflects the rendered website
 - Each folder in the root of `pages/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
-- You can override a _Section_’s default variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
-- Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function in templates
-- Files in `static/` are copied as is in the root of the built website (e.g.: `static/file.pdf` -> `file.pdf`)
+- You can set _Section_’s variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
+- Files in `assets/` are handled with the template [`asset()`](3-Templates.md#asset) function
+- Files in `static/` are copied as is in the built site (e.g.: `static/file.pdf` -> `file.pdf`)
 - Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
 :::
 
@@ -76,7 +76,9 @@ Result of the build.
 ```
 
 :::info
-By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.
+By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/section/slugified-filename/`.
+
+To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in page [front matter](#front-matter).
 :::
 
 :::tip
@@ -201,7 +203,7 @@ _Example:_
 
 #### Embedded links
 
-You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `body.links.embed.enabled` to `true`.
+You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `pages.body.links.embed.enabled` to `true`.
 
 _Example:_
 
@@ -470,7 +472,7 @@ Is converted to:
 
 ### Syntax highlight
 
-Enables code block syntax highlighter by setting the [body.highlight.enabled](4-Configuration.md#body) option to `true`.
+Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#body) option to `true`.
 
 _Example:_
 
@@ -631,7 +633,7 @@ In the previous example `contact/` redirects to `about/`.
 
 ### output
 
-Defines the output (rendred) format(s). See [`formats` configuration](4-Configuration.md#formats) for more details.
+Defines the output (rendered) format(s). See [`formats` configuration](4-Configuration.md#formats) for more details.
 
 _Example:_
 
@@ -751,7 +753,7 @@ Existing variables are not overridden.
 
 #### circular
 
-Set `circular` to `true` to enable circular pagination with [_page.<prev/next>_](3-Templates.md#page-prev-next).
+Set `circular` to `true` to enable circular navigation with [_page.<prev/next>_](3-Templates.md#page-prev-next).
 
 _Example:_
 
@@ -768,6 +770,14 @@ Like another section, _Home page_ support `sortby` and `pagination` configuratio
 #### pagesfrom
 
 Set a valid _Section_ name in `pagesfrom` to use pages collection from this _Section_ in _Home page_.
+
+_Example:_
+
+```yaml
+---
+pagesfrom: blog
+---
+```
 
 ### exclude
 
@@ -791,19 +801,19 @@ If your pages are available in multiple [languages](4-Configuration.md#languages
 
 ### Language in the file name
 
-This is the common way when you want to translate a page from the main [language](4-Configuration.md#language) to others languages.
+This is the common way to translate a page from the main [language](4-Configuration.md#language) to another language.
 
-So you just need to duplicate the reference page and suffix it with the target language `code` (e.g.: `fr`).
+You just need to duplicate the reference page and suffix it with the target language `code` (e.g.: `fr`).
 
 _Example:_
 
 ```plaintext
-├─ about.md    # the reference page in english (`en`)
+├─ about.md    # the reference page
 └─ about.fr.md # the french version (`fr`)
 ```
 
 :::tip
-You can change the URL of the translated page by adding a `slug` variable in the front matter. For example:
+You can change the URL of the translated page with the `slug` variable in the front matter. For example:
 
 ```yml
 ---

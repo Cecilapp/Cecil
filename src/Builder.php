@@ -27,7 +27,7 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder implements LoggerAwareInterface
 {
-    public const VERSION = '7.x-dev';
+    public const VERSION = '8.x-dev';
     public const VERBOSITY_QUIET = -1;
     public const VERBOSITY_NORMAL = 0;
     public const VERBOSITY_VERBOSE = 1;
@@ -49,10 +49,10 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\StaticFiles\Copy',
         'Cecil\Step\Pages\Render',
         'Cecil\Step\Pages\Save',
-        'Cecil\Step\PostProcess\Html',
-        'Cecil\Step\PostProcess\Css',
-        'Cecil\Step\PostProcess\Js',
-        'Cecil\Step\PostProcess\Images',
+        'Cecil\Step\Optimize\Html',
+        'Cecil\Step\Optimize\Css',
+        'Cecil\Step\Optimize\Js',
+        'Cecil\Step\Optimize\Images',
     ];
 
     /** @var Config Configuration. */
@@ -220,7 +220,7 @@ class Builder implements LoggerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }

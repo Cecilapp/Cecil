@@ -1,11 +1,11 @@
----
+<!--
 title: Locale codes
 description: List of availables locale codes (`language_COUNTRY`).
 date: 2020-12-19
 updated: 2023-10-24
 weight: 4
 exclude: true
----
+-->
 # Locale codes
 
 Availables locale codes (`language_COUNTRY`) used by [`languages`](../4-Configuration.md#languages) option.

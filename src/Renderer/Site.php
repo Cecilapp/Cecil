@@ -68,7 +68,7 @@ class Site implements \ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        // Fetchs data from builder instead of config raw data
+        // If it's a built-in variable: dot not fetchs data from config raw
         switch ($offset) {
             case 'pages':
                 return $this->getPages();

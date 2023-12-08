@@ -1,9 +1,1 @@
-{% if site.googleanalytics is defined %}
-    <!-- Google Analytics -->
-    <script>{% apply minify_js %}
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', '{{ site.googleanalytics }}', 'auto');
-      ga('send', 'pageview');
-    {% endapply %}</script>
-    <script async src='https://www.google-analytics.com/analytics.js'></script>
-{% endif %}
+{% deprecated 'The "partials/googleanalytics.js.twig" template is deprecated.' %}

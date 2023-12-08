@@ -31,7 +31,7 @@ class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
-    public function getHelp()
+    public function getHelp(): string
     {
         return self::$banner . parent::getHelp();
     }
@@ -39,7 +39,7 @@ class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultCommands()
+    protected function getDefaultCommands(): array
     {
         $commands = [
             new \Symfony\Component\Console\Command\HelpCommand(),

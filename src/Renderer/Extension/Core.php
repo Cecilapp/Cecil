@@ -143,57 +143,6 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
-            // deprecated
-            new \Twig\TwigFilter(
-                'filterBySection',
-                [$this, 'filterBySection'],
-                ['deprecated' => true, 'alternative' => 'filter_by']
-            ),
-            new \Twig\TwigFilter(
-                'filterBy',
-                [$this, 'filterBy'],
-                ['deprecated' => true, 'alternative' => 'filter_by']
-            ),
-            new \Twig\TwigFilter(
-                'sortByTitle',
-                [$this, 'sortByTitle'],
-                ['deprecated' => true, 'alternative' => 'sort_by_title']
-            ),
-            new \Twig\TwigFilter(
-                'sortByWeight',
-                [$this, 'sortByWeight'],
-                ['deprecated' => true, 'alternative' => 'sort_by_weight']
-            ),
-            new \Twig\TwigFilter(
-                'sortByDate',
-                [$this, 'sortByDate'],
-                ['deprecated' => true, 'alternative' => 'sort_by_date']
-            ),
-            new \Twig\TwigFilter(
-                'minifyCSS',
-                [$this, 'minifyCss'],
-                ['deprecated' => true, 'alternative' => 'minifyCss']
-            ),
-            new \Twig\TwigFilter(
-                'minifyJS',
-                [$this, 'minifyJs'],
-                ['deprecated' => true, 'alternative' => 'minifyJs']
-            ),
-            new \Twig\TwigFilter(
-                'SCSStoCSS',
-                [$this, 'scssToCss'],
-                ['deprecated' => true, 'alternative' => 'scss_to_css']
-            ),
-            new \Twig\TwigFilter(
-                'excerptHtml',
-                [$this, 'excerptHtml'],
-                ['deprecated' => true, 'alternative' => 'excerpt_html']
-            ),
-            new \Twig\TwigFilter(
-                'urlize',
-                [$this, 'slugifyFilter'],
-                ['deprecated' => true, 'alternative' => 'slugify']
-            ),
         ];
     }
 
@@ -224,11 +173,11 @@ class Core extends SlugifyExtension
             // is a dedicated getter exists?
             $method = 'get' . ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
-                return $page->getType() == Type::PAGE() && !$page->isVirtual() && true;
+                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
             }
             // or a classic variable
             if ($page->getVariable($variable) == $value) {
-                return $page->getType() == Type::PAGE() && !$page->isVirtual() && true;
+                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
             }
         });
 
@@ -250,8 +199,10 @@ class Core extends SlugifyExtension
 
     /**
      * Sorts a collection by weight.
+     *
+     * @param \Traversable|array $collection
      */
-    public function sortByWeight(\Traversable $collection): array
+    public function sortByWeight($collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['weight'])) {
@@ -267,7 +218,9 @@ class Core extends SlugifyExtension
             return $a['weight'] < $b['weight'] ? -1 : 1;
         };
 
-        $collection = iterator_to_array($collection);
+        if (!\is_array($collection)) {
+            $collection = iterator_to_array($collection);
+        }
         usort(/** @scrutinizer ignore-type */ $collection, $callback);
 
         return $collection;
@@ -579,11 +532,7 @@ class Core extends SlugifyExtension
                     // <source> element
                     $source = sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
                     // responsive
-                    if ($responsive) {
-                        $srcset = Image::buildSrcset(
-                            $assetWebp,
-                            $this->config->getAssetsImagesWidths()
-                        ) ?: (string) $assetWebp;
+                    if ($responsive && $srcset = Image::buildSrcset($assetWebp, $this->config->getAssetsImagesWidths())) {
                         // <source> element
                         $source = sprintf(
                             '<source type="image/webp" srcset="%s" sizes="%s">',
@@ -678,8 +627,8 @@ class Core extends SlugifyExtension
     {
         $string = $string ?? '';
 
-        $separator = (string) $this->config->get('body.excerpt.separator');
-        $capture = (string) $this->config->get('body.excerpt.capture');
+        $separator = (string) $this->config->get('pages.body.excerpt.separator');
+        $capture = (string) $this->config->get('pages.body.excerpt.capture');
         extract($options, EXTR_IF_EXISTS);
 
         // https://regex101.com/r/n9TWHF/1
