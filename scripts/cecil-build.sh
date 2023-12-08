@@ -2,11 +2,11 @@
 
 # This script build a Cecil website (locally, on Netlify / Vercel / Cloudflare Pages / Render).
 # It is intended to be used on CI / CD.
-export PHP_MIN_VERSION="7.4"
+export PHP_MIN_VERSION="8.1"
 
 # Default variables
 if [ -z "${PHP_VERSION}" ]; then
-  export PHP_VERSION="7.4"
+  export PHP_VERSION="8.1"
 fi
 if [ -z "${CECIL_INSTALL_OPTIM}" ]; then
   export CECIL_INSTALL_OPTIM="false"
