@@ -140,7 +140,7 @@ if [ ! -z "${URL}" ]; then
 fi
 if [ "$CONTEXT" = "production" ]; then
   export CECIL_ENV="production"
-  CECIL_CMD_OPTIONS="-v --postprocess ${CECIL_CMD_OPTIONS}"
+  CECIL_CMD_OPTIONS="-v ${CECIL_CMD_OPTIONS}"
 else
   CECIL_CMD_OPTIONS="-vv --drafts ${CECIL_CMD_OPTIONS}"
 fi
