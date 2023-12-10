@@ -128,8 +128,7 @@
     ],
     "test:coverage:upload": "php coveralls.phar -v",
     "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
-    "test:phar": "box compile && cd dist && php cecil.phar --version && mkdir skeleton && php cecil.phar new:site skeleton -f -n && php cecil.phar new:page test skeleton && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton",
-    "test:unit": "phpunit -c ./ --testsuite=UnitTests"
+    "test:phar": "box compile && cd dist && php cecil.phar --version && mkdir skeleton && php cecil.phar new:site skeleton -f -n && php cecil.phar new:page test skeleton && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton"
   },
   "scripts-descriptions": {
     "box": "Alias of build.",
