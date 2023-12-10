@@ -144,8 +144,7 @@
     "test:coverage:install": "Installs the php-coveralls binary.",
     "test:coverage:upload": "Uploads tests coverage results.",
     "test:integration": "Runs integration tests suite.",
-    "test:phar": "Builds the PHAR file to create a new skeleton site.",
-    "test:unit": "Runs unit tests suite."
+    "test:phar": "Builds the PHAR file to create a new skeleton site."
   },
   "support": {
     "issues": "https://github.com/Cecilapp/Cecil/issues",
