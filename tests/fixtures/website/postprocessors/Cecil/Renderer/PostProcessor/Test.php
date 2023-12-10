@@ -16,7 +16,7 @@ namespace Cecil\Renderer\PostProcessor;
 use Cecil\Collection\Page\Page;
 
 /**
- * Test class.
+ * Class Test.
  */
 class Test extends AbstractPostProcessor
 {
