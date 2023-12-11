@@ -168,6 +168,7 @@ return [
         ],
         'postprocessors' => [
             'Cecil\Renderer\PostProcessor\Test',
+            'Cecil\Renderer\PostProcessor\Error',
         ],
     ],
     'static' => [
