@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-10-23
+updated: 2023-12-11
 -->
 # Configuration
 
@@ -563,7 +563,7 @@ output:
 ```
 
 :::tip
-You can extend Cecil with [output post processor](7-Extend.md#output-post-processor).
+You can extend Cecil with [Output post processor](7-Extend.md#output-post-processor).
 :::
 
 ### debug
@@ -681,7 +681,7 @@ pages:
 ```
 
 :::tip
-You can extend Cecil with [custom generator](7-Extend.md#pages-generator).
+You can extend Cecil with [Pages generator](7-Extend.md#pages-generator).
 :::
 
 #### default pages

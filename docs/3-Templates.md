@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-10-21
+updated: 2023-12-11
 alias: documentation/layouts
 -->
 # Templates
@@ -1261,8 +1261,8 @@ php cecil.phar util:extract
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
 :   A basic switcher between [languages](4-Configuration.md#languages).
 
-## Custom extension
+## Extend
 
 :::tip
-You can extend Cecil with [custom extension](7-Extend.md#templates-extension).
+You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters) with a [_Renderer extension_](7-Extend.md#renderer-extension).
 :::

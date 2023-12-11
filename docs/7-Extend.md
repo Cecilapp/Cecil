@@ -1,19 +1,17 @@
 <!--
 description: "Extend Cecil."
 date: 2023-04-17
-updated: 2023-04-19
+updated: 2023-12-11
 -->
 # Extend
 
 There is several way to extend Cecil:
 
-1. Pages Generator
-2. Template extension
-3. Output post processor
+[toc]
 
 ## Pages Generator
 
-A Generator help you to create pages without Markdown files (with data from a database or an API) or alter existing pages.
+A Generator help you to create pages without Markdown files (with data from a database or an API for example) or alter existing pages.
 
 Just add your Generator to the [`pages.generators`](4-Configuration.md#generators) list, and create a new class in the `Cecil\Generator` namespace.
 
@@ -86,7 +84,7 @@ pages:
     99: Cecil\Generator\DummyPage
 ```
 
-## Templates extension
+## Renderer extension
 
 You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters):
 
