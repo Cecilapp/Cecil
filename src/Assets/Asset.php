@@ -409,7 +409,7 @@ class Asset implements \ArrayAccess
         }
         $cacheKey = $cache->createKeyFromAsset($this, $tags);
         if (!$cache->has($cacheKey)) {
-            $message = $this->data['path'];
+            $message = $filepath;
             $sizeBefore = filesize($filepath);
             Optimizer::create($quality)->optimize($filepath);
             $sizeAfter = filesize($filepath);

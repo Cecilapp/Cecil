@@ -134,7 +134,7 @@ class Twig implements RendererInterface
             Util::autoload($builder, 'extensions');
             foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $name => $class) {
                 $this->twig->addExtension(new $class($this->builder));
-                $this->builder->getLogger()->debug(sprintf('Extension "%s" (%s) added.', $name, $class));
+                $this->builder->getLogger()->debug(sprintf('Extension "%s" (%s) added', $name, $class));
             }
         }
     }
