@@ -77,7 +77,7 @@ class GeneratorManager extends \SplPriorityQueue
                     try {
                         $pagesCollection->add($page);
                         $countPagesAdded++;
-                    } catch (\DomainException $e) {
+                    } catch (\DomainException) {
                         $pagesCollection->replace($page->getId(), $page);
                         $countPagesUpdated++;
                     }

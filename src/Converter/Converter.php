@@ -129,7 +129,7 @@ class Converter implements ConverterInterface
             }
 
             return $result;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('Can\'t parse JSON front matter.');
         }
     }

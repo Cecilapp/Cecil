@@ -561,7 +561,7 @@ class Page extends Item
             case 'lastmod':
                 try {
                     $date = Util\Date::toDatetime($value);
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     throw new \Exception(sprintf('Expected date format for variable "%s" must be "YYYY-MM-DD" instead of "%s".', $name, (string) $value));
                 }
                 $this->offsetSet($name == 'lastmod' ? 'updated' : $name, $date);

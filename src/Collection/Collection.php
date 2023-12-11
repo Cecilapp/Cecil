@@ -111,7 +111,7 @@ class Collection implements CollectionInterface
     {
         try {
             $this->items[$this->getPosition($id)] = $item;
-        } catch (\DomainException $e) {
+        } catch (\DomainException) {
             throw new \DomainException(sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
@@ -127,7 +127,7 @@ class Collection implements CollectionInterface
     {
         try {
             unset($this->items[$this->getPosition($id)]);
-        } catch (\DomainException $e) {
+        } catch (\DomainException) {
             throw new \DomainException(sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
@@ -143,7 +143,7 @@ class Collection implements CollectionInterface
     {
         try {
             return $this->items[$this->getPosition($id)];
-        } catch (\DomainException $e) {
+        } catch (\DomainException) {
             throw new \DomainException(sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
     }

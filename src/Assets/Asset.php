@@ -204,7 +204,7 @@ class Asset implements \ArrayAccess
     {
         try {
             $this->save();
-        } catch (\Exception $e) {
+        } catch (RuntimeException $e) {
             $this->builder->getLogger()->error($e->getMessage());
         }
 
@@ -627,7 +627,7 @@ class Asset implements \ArrayAccess
                 if ($this->optimize) {
                     $this->optimize($filepath);
                 }
-            } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
+            } catch (\Symfony\Component\Filesystem\Exception\IOException) {
                 if (!$this->ignore_missing) {
                     throw new RuntimeException(sprintf('Can\'t save asset "%s".', $filepath));
                 }
@@ -666,7 +666,7 @@ class Asset implements \ArrayAccess
 
         try {
             $filePath = $this->findFile($path, $remote_fallback);
-        } catch (\Exception $e) {
+        } catch (RuntimeException $e) {
             if ($ignore_missing) {
                 $file['path'] = $path;
                 $file['missing'] = true;

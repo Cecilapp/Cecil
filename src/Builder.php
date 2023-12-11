@@ -383,7 +383,7 @@ class Builder implements LoggerAwareInterface
                     throw new RuntimeException(sprintf('Can\'t get file "%s".', $filePath));
                 }
                 self::$version = trim($version);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 self::$version = self::VERSION;
             }
         }

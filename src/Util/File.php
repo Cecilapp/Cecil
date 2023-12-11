@@ -64,7 +64,7 @@ class File
             }
 
             return file_get_contents($filename);
-        } catch (\ErrorException $e) {
+        } catch (\ErrorException) {
             return false;
         } finally {
             restore_error_handler();
@@ -106,7 +106,7 @@ class File
 
         try {
             return exif_read_data($filename, null, true);
-        } catch (\ErrorException $e) {
+        } catch (\ErrorException) {
             return [];
         } finally {
             restore_error_handler();

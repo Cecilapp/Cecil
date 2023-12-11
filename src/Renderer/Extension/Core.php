@@ -658,7 +658,7 @@ class Core extends SlugifyExtension
         try {
             $parsedown = new Parsedown($this->builder);
             $html = $parsedown->text($markdown);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"markdown_to_html" filter can not convert supplied Markdown.');
         }
 
@@ -679,7 +679,7 @@ class Core extends SlugifyExtension
             $parsedown = new Parsedown($this->builder, ['selectors' => ['h2'], 'url' => $url]);
             $parsedown->body($markdown);
             $return = $parsedown->contentsList($format);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"toc" filter can not convert supplied Markdown.');
         }
 
@@ -700,7 +700,7 @@ class Core extends SlugifyExtension
             if ($array === null && json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('JSON error.');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"json_decode" filter can not parse supplied JSON.');
         }
 
@@ -742,7 +742,7 @@ class Core extends SlugifyExtension
             if ($array === false) {
                 throw new RuntimeException('PREG split error.');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"preg_split" filter can not split supplied string.');
         }
 
@@ -763,7 +763,7 @@ class Core extends SlugifyExtension
             if ($array === false) {
                 throw new RuntimeException('PREG match all error.');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"preg_match_all" filter can not match in supplied string.');
         }
 
