@@ -260,10 +260,10 @@ class Serve extends AbstractCommand
                 )
             );
         } catch (IOExceptionInterface $e) {
-            throw new RuntimeException(sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
+            throw new RuntimeException(sprintf('An error occurred while copying server\'s files to "%s".', $e->getPath()));
         }
         if (!is_file(Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'))) {
-            throw new RuntimeException(sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
+            throw new RuntimeException(sprintf('Router not found: "%s".', Util::joinFile(self::TMP_DIR, 'router.php')));
         }
     }
 

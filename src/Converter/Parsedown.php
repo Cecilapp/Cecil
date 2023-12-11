@@ -345,11 +345,11 @@ class Parsedown extends \ParsedownToC
             try {
                 // InlineImage src must be an Asset instance
                 if (!$InlineImage['element']['attributes']['src'] instanceof Asset) {
-                    throw new RuntimeException(sprintf('Asset "%s" can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
+                    throw new RuntimeException(sprintf('Asset "%s" can\'t be converted to WebP.', $InlineImage['element']['attributes']['src']));
                 }
                 // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-                    throw new RuntimeException(sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP', $InlineImage['element']['attributes']['src']));
+                    throw new RuntimeException(sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP.', $InlineImage['element']['attributes']['src']));
                 }
                 $assetWebp = $InlineImage['element']['attributes']['src']->webp();
                 $srcset = '';

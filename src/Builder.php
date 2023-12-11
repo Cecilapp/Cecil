@@ -376,11 +376,11 @@ class Builder implements LoggerAwareInterface
 
             try {
                 if (!file_exists($filePath)) {
-                    throw new RuntimeException(sprintf('%s file doesn\'t exist!', $filePath));
+                    throw new RuntimeException(sprintf('File "%s" doesn\'t exist.', $filePath));
                 }
                 $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
-                    throw new RuntimeException(sprintf('Can\'t get %s file!', $filePath));
+                    throw new RuntimeException(sprintf('Can\'t get file "%s".', $filePath));
                 }
                 self::$version = trim($version);
             } catch (\Exception $e) {

@@ -171,7 +171,7 @@ class Cache implements CacheInterface
     public function createKeyFromPath(string $path, string $relativePath): string
     {
         if (false === $content = Util\File::fileGetContents($path)) {
-            throw new RuntimeException(sprintf('Can\'t create cache key for "%s"', $path));
+            throw new RuntimeException(sprintf('Can\'t create cache key for "%s".', $path));
         }
 
         return $this->prepareKey(sprintf('%s__%s', $relativePath, $this->createKeyFromString($content)));

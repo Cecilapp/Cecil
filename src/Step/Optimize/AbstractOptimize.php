@@ -57,7 +57,7 @@ abstract class AbstractOptimize extends AbstractStep
 
         $extensions = (array) $this->config->get(sprintf('optimize.%s.ext', $this->type));
         if (empty($extensions)) {
-            throw new RuntimeException(sprintf('The config key "optimize.%s.ext" is empty', $this->type));
+            throw new RuntimeException(sprintf('The config key "optimize.%s.ext" is empty.', $this->type));
         }
 
         $files = Finder::create()
