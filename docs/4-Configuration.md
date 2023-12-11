@@ -471,7 +471,7 @@ theme:
 ```
 
 :::info
-See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or website [themes section](https://cecil.app/themes/).
+See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or on website [themes section](https://cecil.app/themes/).
 :::
 
 ### virtual pages

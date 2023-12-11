@@ -1266,3 +1266,18 @@ php cecil.phar util:extract
 :::tip
 You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters) with a [_Renderer extension_](7-Extend.md#renderer-extension).
 :::
+
+## Theme
+
+It’s easy to build a Cecil theme: you just have to create a folder `<theme>` with the following structure:
+
+```plaintext
+<mywebsite>
+└─ themes
+   └─ <theme>
+      ├─ config.yml
+      ├─ assets
+      ├─ layouts
+      ├─ static
+      └─ translations
+```
