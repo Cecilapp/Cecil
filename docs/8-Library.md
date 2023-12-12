@@ -1,6 +1,6 @@
 <!--
 description: "Use Cecil as a PHP library."
-date: 2023-04-19
+date: 2023-12-13
 -->
 # Library
 
@@ -19,37 +19,29 @@ composer require cecil/cecil
 Build with the default configuration.
 
 ```php
-Cecil::create()->build();
+use Cecil\Builder;
+
+Builder::create()->build();
 ```
 
-Build with custom configuration :
+Build with custom configuration:
 
 ```php
-Cecil::create([
+$config = [
     'title'   => "My website",
     'baseurl' => 'http://localhost:8000/',
-])->build();
+];
+
+Builder::create($config)->build();
 ```
 
-The main parameter of the `create` method should be a PHP array or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
+> The main parameter of the `create` method should be an array or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
 
-### Change _source_ directory
+:::info
+Full code of _Builder_ available on [GitHub](https://github.com/Cecilapp/Cecil/blob/master/src/Builder.php).
+:::
 
-```php
-Cecil::create()
-    ->setSourceDir(__DIR__.'/source')
-    ->build();
-```
-
-### Change _destination_ directory
-
-```php
-Cecil::create()
-    ->setDestinationDir(__DIR__.'/destination')
-    ->build();
-```
-
-## Example
+### Example
 
 ```php
 <?php
@@ -60,12 +52,7 @@ require_once 'vendor/autoload.php';
 use Cecil\Builder;
 
 // Run the builder
-Cecil::create(
-    [
-        'title'   => "My website",
-        'baseurl' => 'http://localhost:8000/',
-    ]
-)->build();
+Cecil::create(require('config.php'))->build();
 
 // Run a local server
 exec('php -S localhost:8000 -t _site');
