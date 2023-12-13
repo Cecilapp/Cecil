@@ -144,6 +144,10 @@ Help:
 
 Builds and serves the site locally.
 
+:::important
+The web server is designed to aid website testing. It is not intended to be a full-featured web server and it should not be used on a public network.
+:::
+
 ```plaintext
 Description:
   Starts the built-in server
