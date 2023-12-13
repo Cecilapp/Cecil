@@ -2,20 +2,24 @@
 
 # This script build a Cecil website (locally, on Netlify / Vercel / Cloudflare Pages / Render).
 # It is intended to be used on CI / CD.
+
+# Requirements
 export PHP_MIN_VERSION="8.1"
 
-# Default variables
+# Specify the PHP version with `PHP_VERSION`
 if [ -z "${PHP_VERSION}" ]; then
   export PHP_VERSION="8.1"
 fi
-if [ -z "${CECIL_INSTALL_OPTIM}" ]; then
-  export CECIL_INSTALL_OPTIM="false"
-fi
+# Specify Cecil CLI options with `CECIL_CMD_OPTIONS` (e.g.: `--optimize`)
 if [ -z "${CECIL_CMD_OPTIONS}" ]; then
   export CECIL_CMD_OPTIONS=""
 fi
+# Enable installation of images optimization libraries on Vercel
+if [ -z "${VERCEL_INSTALL_OPTIM}" ]; then
+  export VERCEL_INSTALL_OPTIM="false"
+fi
 
-# Running on
+# Running on?
 RUNNING_ON="unknown"
 URL=""
 if [ "$NETLIFY" = "true" ]; then
@@ -45,10 +49,10 @@ case $RUNNING_ON in
     echo "Installing Gettext..."
     yum install -y gettext
     echo "Installing Sodium..."
-    yum install -y libsodium
+    yum install -y libsodium # required by Box
     echo "Installing PHP extensions..."
     yum install -y php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick,sodium}
-    if [ "$CECIL_INSTALL_OPTIM" = "true" ]; then
+    if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
       yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
       yum install -y jpegoptim
@@ -56,7 +60,7 @@ case $RUNNING_ON in
       yum install -y gifsicle
       yum install -y libwebp-tools
     fi
-    URL="https://$VERCEL_URL" # https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
+    URL="https://$VERCEL_URL" # see https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
     if [ "$VERCEL_ENV" = "production" ]; then
       CONTEXT="production"
     fi
@@ -77,7 +81,7 @@ case $RUNNING_ON in
     ;;
 esac
 
-# PHP
+# Checks PHP version
 php --version > /dev/null 2>&1
 PHP_IS_INSTALLED=$?
 if [ $PHP_IS_INSTALLED -ne 0 ]; then
@@ -92,7 +96,7 @@ if [ "$PHP_OK" != "1" ]; then
   exit 1;
 fi
 
-# Cecil
+# Installs Cecil is needed
 cecil --version > /dev/null 2>&1
 CECIL_IS_INSTALLED=$?
 CECIL_CMD="cecil"
@@ -118,7 +122,7 @@ else
   echo "$($CECIL_CMD --version) is already installed."
 fi
 
-# Themes
+# Installs Cecil components if needed
 if [ -f "./composer.json" ]; then
   composer --version > /dev/null 2>&1
   COMPOSER_IS_INSTALLED=$?
@@ -134,7 +138,7 @@ if [ -f "./composer.json" ]; then
   $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
 fi
 
-# Options
+# Adds CLI options
 if [ ! -z "${URL}" ]; then
   CECIL_CMD_OPTIONS="--baseurl=${URL} ${CECIL_CMD_OPTIONS}"
 fi
