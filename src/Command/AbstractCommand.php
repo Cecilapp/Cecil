@@ -17,10 +17,12 @@ use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
+use Cecil\Util\File;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -39,8 +41,8 @@ class AbstractCommand extends Command
     /** @var SymfonyStyle */
     protected $io;
 
-    /** @var string */
-    private $path;
+    /** @var null|string */
+    private $path = null;
 
     /** @var array */
     private $configFiles;
@@ -60,37 +62,29 @@ class AbstractCommand extends Command
         $this->output = $output;
         $this->io = new SymfonyStyle($input, $output);
 
-        if (!\in_array($this->getName(), ['self-update'])) {
-            // working directory
-            $this->path = getcwd();
-            if ($input->getArgument('path') !== null) {
-                $this->path = (string) $input->getArgument('path');
-            }
-            if (realpath($this->getPath()) === false) {
-                Util\File::getFS()->mkdir($this->getPath());
-            }
-            $this->path = realpath($this->getPath());
-            // config file(s)
-            if (!\in_array($this->getName(), ['new:site'])) {
-                // default
-                $this->configFiles[self::CONFIG_FILE] = realpath(Util::joinFile($this->getPath(), self::CONFIG_FILE));
-                // from --config=<file>
-                if ($input->hasOption('config') && $input->getOption('config') !== null) {
-                    foreach (explode(',', (string) $input->getOption('config')) as $configFile) {
-                        $this->configFiles[$configFile] = realpath($configFile);
-                        if (!Util\File::getFS()->isAbsolutePath($configFile)) {
-                            $this->configFiles[$configFile] = realpath(Util::joinFile($this->getPath(), $configFile));
-                        }
-                    }
-                }
-                // checks file(s)
-                foreach ($this->configFiles as $fileName => $filePath) {
-                    if ($filePath === false || !file_exists($filePath)) {
-                        unset($this->configFiles[$fileName]);
-                        $this->getBuilder()->getLogger()->error(sprintf('Could not find configuration file "%s".', $fileName));
+        // checks config
+        if (!\in_array($this->getName(), ['new:site', 'self-update'])) {
+            // config file
+            $this->configFiles[self::CONFIG_FILE] = realpath(Util::joinFile($this->getPath(), self::CONFIG_FILE));
+            // from --config=<file>
+            if ($input->hasOption('config') && $input->getOption('config') !== null) {
+                foreach (explode(',', (string) $input->getOption('config')) as $configFile) {
+                    $this->configFiles[$configFile] = realpath($configFile);
+                    if (!Util\File::getFS()->isAbsolutePath($configFile)) {
+                        $this->configFiles[$configFile] = realpath(Util::joinFile($this->getPath(), $configFile));
                     }
                 }
             }
+            // checks file(s)
+            foreach ($this->configFiles as $fileName => $filePath) {
+                if ($filePath === false || !file_exists($filePath)) {
+                    unset($this->configFiles[$fileName]);
+                    $this->getBuilder()->getLogger()->error(sprintf('Could not find configuration file "%s".', $fileName));
+                }
+            }
+        }
+        if ($this->getName() == 'new:site') {
+            Util\File::getFS()->mkdir($this->getPath(true));
         }
 
         parent::initialize($input, $output);
@@ -129,10 +123,32 @@ class AbstractCommand extends Command
     }
 
     /**
-     * Returns the working directory.
+     * Returns the working path.
      */
-    protected function getPath(): ?string
+    protected function getPath(bool $create = false): ?string
     {
+        if ($this->path === null) {
+            try {
+                // get working directory by default
+                if (false === $this->path = getcwd()) {
+                    throw new \Exception('Can\'t get current working directory.');
+                }
+                // ... or path
+                if ($this->input->getArgument('path') !== null) {
+                    $this->path = Path::canonicalize($this->input->getArgument('path'));
+                }
+                // try to get canonicalized absolute path
+                if (!$create) {
+                    if (realpath($this->path) === false) {
+                        throw new \Exception(sprintf('The given path "%s" is not valid.', $this->path));
+                    }
+                    $this->path = realpath($this->path);
+                }
+            } catch (\Exception $e) {
+                throw new \Exception($e->getMessage());
+            }
+        }
+
         return $this->path;
     }
 

@@ -84,16 +84,15 @@ class ShowContent extends AbstractCommand
                         $count++;
                     }
                 }
+                if ($count < 1) {
+                    $output->writeln(sprintf('<comment>Nothing in "%s".</comment>', $dir));
+                }
             }
+
+            return 0;
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf($e->getMessage()));
         }
-
-        if ($count < 1) {
-            $output->writeln(sprintf('<comment>Nothing in "%s".</comment>', implode(', ', $dir)));
-        }
-
-        return 0;
     }
 
     /**
