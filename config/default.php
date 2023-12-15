@@ -14,10 +14,22 @@ declare(strict_types=1);
 // Website default configuration
 return [
     'title'        => 'Site title',
-    //'baseline'     => 'Site baseline',
+    'baseline'     => '',
     'baseurl'      => 'http://localhost:8000/',
     'canonicalurl' => false, // if true then `url()` function prepends URL with `baseurl`
     'description'  => 'Site description',
+    'author'       => [
+        //'name'   => '',
+        //'url'   => '',
+        //'email' => '',
+    ],
+    //'image'        => '', // OG image
+    'social'       => [
+        //'social_network' => [
+        //    'username' => '',
+        //    'url'      => '',
+        //]
+    ],
     'date' => [
         'format'   => 'F j, Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
         //'timezone' => 'Europe/Paris',
@@ -30,6 +42,7 @@ return [
             'locale' => 'en_US',
         ],
     ],
+    'theme' => [],
     'taxonomies'   => [ // default taxonomies
         'tags'       => 'tag',
         'categories' => 'category', // can be disabled with the special "disabled" value
