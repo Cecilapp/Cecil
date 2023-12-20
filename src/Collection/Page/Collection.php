@@ -49,7 +49,7 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by.
      */
-    public function sortBy(array|string $options): self
+    public function sortBy(array|string|null $options): self
     {
         /*
          * $options: date|updated|title|weight
