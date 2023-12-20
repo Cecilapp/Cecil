@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.0.1](https://github.com/Cecilapp/Cecil/compare/8.0.0...8.0.1)
+
+> 15 December 2023
+
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.41.0 to 2.41.1 [`#1861`](https://github.com/Cecilapp/Cecil/pull/1861)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.49 to 1.10.50 [`#1860`](https://github.com/Cecilapp/Cecil/pull/1860)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.40.0 to 2.41.0 [`#1859`](https://github.com/Cecilapp/Cecil/pull/1859)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.48 to 1.10.49 [`#1858`](https://github.com/Cecilapp/Cecil/pull/1858)
+- chore(deps-dev): bump phpmd/phpmd from 2.14.1 to 2.15.0 [`#1857`](https://github.com/Cecilapp/Cecil/pull/1857)
+- test: remove useless unit tests [`6e57a6d`](https://github.com/Cecilapp/Cecil/commit/6e57a6d3a483f3c7a5e0b2b36eb9d6186fa072a3)
+- fix: CLI path argument [`f7067e6`](https://github.com/Cecilapp/Cecil/commit/f7067e69ca7b76abc3893a9f13cbff6d6ed38d48)
+- chore: update deps [`caa3849`](https://github.com/Cecilapp/Cecil/commit/caa384900df3bb2b36e28784ebb1c141c30a97f5)
+- refactor: better Exception messages [`fbf425e`](https://github.com/Cecilapp/Cecil/commit/fbf425e8b411fdb71770381710d2fe1dce86deef)
+- doc: update library page [`dc25319`](https://github.com/Cecilapp/Cecil/commit/dc253194de2374d1065f87153239b69429e36d21)
+- refactor: PHP 8 Exception [`5841cef`](https://github.com/Cecilapp/Cecil/commit/5841cef1623f698ea6931b0e05ca50eca122371f)
+- doc: cleaning docs [`9a21bcb`](https://github.com/Cecilapp/Cecil/commit/9a21bcb9a64fa8100b55c31e391af7a50d0f662c)
+- test: cleaning code [`8253884`](https://github.com/Cecilapp/Cecil/commit/82538840641614bee3ff69a3e0cd623dc98172ef)
+- refactor: remove "asset bundle" useless code [`ae495ef`](https://github.com/Cecilapp/Cecil/commit/ae495efb5906a27f52c669b6a9643e9225f20bfb)
+- perf: postprocessors loading [`b6e38ee`](https://github.com/Cecilapp/Cecil/commit/b6e38ee53beb6906db490b30928577d7e2fc2d5d)
+- doc: more details about themes [`706af6c`](https://github.com/Cecilapp/Cecil/commit/706af6ca4f3cf7986ca713f42c0b499bd1396121)
+- refactor: default config [`1de1389`](https://github.com/Cecilapp/Cecil/commit/1de1389e4a4225b04ecd9a7a162fa8217d868474)
+- chore: update deps [`90d3822`](https://github.com/Cecilapp/Cecil/commit/90d382289fc4dbb500471f7b589a99ec2379f7d1)
+- chore: update deps [`5878fad`](https://github.com/Cecilapp/Cecil/commit/5878fadca9647c03b13aa6d47f90d15dc86003fa)
+- refactor: better debug message [`49fc819`](https://github.com/Cecilapp/Cecil/commit/49fc819ffd13146a55874bf727fe42d7defcc66d)
+- test: update deps [`60a1768`](https://github.com/Cecilapp/Cecil/commit/60a1768ab6f88fdeffbbddbe240b382f4dff6a93)
+- chore: update composer [`38bf07e`](https://github.com/Cecilapp/Cecil/commit/38bf07ec3e4da7f51a67b2f6cd5a5a5266fe4a65)
+
 ### [8.0.0](https://github.com/Cecilapp/Cecil/compare/8.0.0-beta.7...8.0.0)
 
 > 8 December 2023
