@@ -54,14 +54,14 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 $subPages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getPages();
             }
             if ($subPages instanceof \Cecil\Collection\Page\Collection) {
-                // sorts
-                $pages = $subPages->sortByDate();
+                // sorts pages
+                $pages = $subPages->sortBy($this->config->get('pages.sortby'));
                 if ($page->hasVariable('sortby')) {
-                    $sortMethod = sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
-                    if (!method_exists($pages, $sortMethod)) {
-                        throw new RuntimeException(sprintf('In page "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
+                    try {
+                        $pages = $pages->sortBy($page->getVariable('sortby'));
+                    } catch (RuntimeException $e) {
+                        throw new RuntimeException(sprintf('In page "%s", %s', $page->getId(), $e->getMessage()));
                     }
-                    $pages = $pages->$sortMethod();
                 }
                 $page->setPages($pages);
                 if ($pages->first()) {
