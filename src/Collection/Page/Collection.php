@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Collection\Page;
 
 use Cecil\Collection\Collection as CecilCollection;
+use Cecil\Exception\RuntimeException;
 
 /**
  * Class Collection.
@@ -46,34 +47,54 @@ class Collection extends CecilCollection
     }
 
     /**
-     * Sorts pages by date (or 'updated' date): the most recent first.
-     *
-     * @param array|string $options
+     * Sorts pages by.
      */
-    public function sortByDate($options = null): self
+    public function sortBy(array|string|null $options): self
     {
-        // backward compatibility
+        /*
+         * $options: date|updated|title|weight
+         * $options:
+         *   variable: date|updated|title|weight
+         *   desc_title: false|true
+         *   reverse: false|true
+         */
+        $sortBy = \is_string($options) ? $options : $options['variable'] ?? 'date';
+        $sortMethod = sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortBy)));
+        if (!method_exists($this, $sortMethod)) {
+            throw new RuntimeException(sprintf('"%s" is not a valid value for `sortby` to sort collection "%s".', $sortBy, $this->getId()));
+        }
+
+        return $this->$sortMethod($options);
+    }
+
+    /**
+     * Sorts pages by date (or 'updated'): the most recent first.
+     */
+    public function sortByDate(array|string|null $options = null): self
+    {
+        $opt = [];
+        // backward compatibility (i.e. $options = 'updated')
         if (\is_string($options)) {
-            $options['variable'] = $options;
+            $opt['variable'] = $options;
         }
         // options
-        $options['variable'] = $options['variable'] ?? 'date';
-        $options['descTitle'] = $options['descTitle'] ?? false;
-        $options['reverse'] = $options['reverse'] ?? false;
-
-        $pages = $this->usort(function ($a, $b) use ($options) {
-            if ($a[$options['variable']] == $b[$options['variable']]) {
+        $opt['variable'] = $options['variable'] ?? 'date';
+        $opt['descTitle'] = $options['descTitle'] ?? false;
+        $opt['reverse'] = $options['reverse'] ?? false;
+        // sort
+        $pages = $this->usort(function ($a, $b) use ($opt) {
+            if ($a[$opt['variable']] == $b[$opt['variable']]) {
                 // if dates are equal and "descTitle" is true
-                if ($options['descTitle'] && (isset($a['title']) && isset($b['title']))) {
+                if ($opt['descTitle'] && (isset($a['title']) && isset($b['title']))) {
                     return strnatcmp($b['title'], $a['title']);
                 }
 
                 return 0;
             }
 
-            return $a[$options['variable']] > $b[$options['variable']] ? -1 : 1;
+            return $a[$opt['variable']] > $b[$opt['variable']] ? -1 : 1;
         });
-        if ($options['reverse']) {
+        if ($opt['reverse']) {
             $pages = $pages->reverse();
         }
 
@@ -83,34 +104,32 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by title (natural sort).
      */
-    public function sortByTitle($options = null): self
+    public function sortByTitle(array|string|null $options = null): self
     {
+        $opt = [];
         // options
-        if (!isset($options['reverse'])) {
-            $options['reverse'] = false;
-        }
-
-        return $this->usort(function ($a, $b) use ($options) {
-            return ($options['reverse'] ? -1 : 1) * strnatcmp($a['title'], $b['title']);
+        $opt['reverse'] = $options['reverse'] ?? false;
+        // sort
+        return $this->usort(function ($a, $b) use ($opt) {
+            return ($opt['reverse'] ? -1 : 1) * strnatcmp($a['title'], $b['title']);
         });
     }
 
     /**
      * Sorts by weight (the heaviest first).
      */
-    public function sortByWeight($options = null): self
+    public function sortByWeight(array|string|null $options = null): self
     {
+        $opt = [];
         // options
-        if (!isset($options['reverse'])) {
-            $options['reverse'] = false;
-        }
-
-        return $this->usort(function ($a, $b) use ($options) {
+        $opt['reverse'] = $options['reverse'] ?? false;
+        // sort
+        return $this->usort(function ($a, $b) use ($opt) {
             if ($a['weight'] == $b['weight']) {
                 return 0;
             }
 
-            return ($options['reverse'] ? -1 : 1) * ($a['weight'] < $b['weight'] ? -1 : 1);
+            return ($opt['reverse'] ? -1 : 1) * ($a['weight'] < $b['weight'] ? -1 : 1);
         });
     }
 

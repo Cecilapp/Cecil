@@ -57,11 +57,11 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     if ($this->builder->getPages()->has($pageId)) {
                         $page = clone $this->builder->getPages()->get($pageId);
                     }
-                    $pages = new PagesCollection("section-$pageId", $pagesAsArray);
+                    $subPages = new PagesCollection("section-$pageId", $pagesAsArray);
                     // cascade variables
                     if ($page->hasVariable('cascade')) {
                         $cascade = $page->getVariable('cascade');
-                        $pages->map(function (Page $page) use ($cascade) {
+                        $subPages->map(function (Page $page) use ($cascade) {
                             foreach ($cascade as $key => $value) {
                                 if (!$page->hasVariable($key)) {
                                     $page->setVariable($key, $value);
@@ -70,11 +70,18 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         });
                     }
                     // sorts pages
-                    $pages = self::sortSubPages($page, $pages);
+                    $pages = $subPages->sortBy($this->config->get('pages.sortby'));
+                    if ($page->hasVariable('sortby')) {
+                        try {
+                            $pages = $pages->sortBy($page->getVariable('sortby'));
+                        } catch (RuntimeException $e) {
+                            throw new RuntimeException(sprintf('In page "%s", %s', $page->getId(), $e->getMessage()));
+                        }
+                    }
                     // adds navigation links (excludes taxonomy pages)
-                    $sortby = $page->getVariable('sortby')['variable'] ?? $page->getVariable('sortby') ?? 'date';
+                    $sortBy = $page->getVariable('sortby')['variable'] ?? $page->getVariable('sortby') ?? $this->config->get('pages.sortby') ?? 'date';
                     if (!\in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
-                        $this->addNavigationLinks($pages, $sortby, $page->getVariable('circular'));
+                        $this->addNavigationLinks($pages, $sortBy, $page->getVariable('circular') ?? false);
                     }
                     // creates page for each section
                     $page->setType(Type::SECTION->value)
@@ -134,10 +141,10 @@ class Section extends AbstractGenerator implements GeneratorInterface
     /**
      * Adds navigation (next and prev) to section subpages.
      */
-    protected function addNavigationLinks(PagesCollection $pages, string $sort = null, $circular = false): void
+    protected function addNavigationLinks(PagesCollection $pages, string|null $sortBy = null, bool $circular = false): void
     {
         $pagesAsArray = $pages->toArray();
-        if ($sort === null || $sort == 'date' || $sort == 'updated') {
+        if ($sortBy === null || $sortBy == 'date' || $sortBy == 'updated') {
             $pagesAsArray = array_reverse($pagesAsArray);
         }
         $count = \count($pagesAsArray);

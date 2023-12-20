@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2023-09-20
+updated: 2023-12-20
 -->
 # Content
 
@@ -709,13 +709,13 @@ sortby: title
 ---
 ```
 
-**Options:**
+**More options:**
 
 ```yaml
 ---
 sortby:
-  variable: date    # date, updated, title or weight
-  desc_title: false # used with date or updated variable to sort by desc title order if items have same date
+  variable: date    # "date", "updated", "title" or "weight"
+  desc_title: false # used with "date" or "updated" variable value to sort by desc title order if items have the same date
   reverse: false    # reversed if true
 ---
 ```

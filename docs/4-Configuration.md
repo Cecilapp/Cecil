@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-12-11
+updated: 2023-12-20
 -->
 # Configuration
 
@@ -600,6 +600,11 @@ pages:
   dir: pages                                       # pages files directory (`pages` by default, previously `content`)
   ext: [md, markdown, mdown, mkdn, mkd, text, txt] # supported files formats, by extension
   exclude: [vendor, node_modules]                  # directories, paths and files name to exclude (accepts globs, strings and regexes)
+  sortby: date                                     # default collections sort method ("date" by default)
+  #sortby:
+  #  variable: date    # date|updated|title|weight
+  #  desc_title: false # false|true
+  #  reverse: false    # false|true
 ```
 
 #### frontmatter
