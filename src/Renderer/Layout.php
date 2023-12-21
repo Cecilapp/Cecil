@@ -148,14 +148,14 @@ class Layout
                     // "$section/$layout.$format.$ext",
                     // "$layout.$format.$ext",
                     // "$section/page.$format.$ext",
-                    // "page.$format.$ext",
                     // "_default/$layout.$format.$ext",
+                    // "page.$format.$ext",
                     "_default/page.$format.$ext",
                 ];
+                $layouts = array_merge(["page.$format.$ext"], $layouts);
                 if ($page->hasVariable('layout')) {
                     $layouts = array_merge(["_default/$layout.$format.$ext"], $layouts);
                 }
-                $layouts = array_merge(["page.$format.$ext"], $layouts);
                 if ($page->getSection()) {
                     $layouts = array_merge(["{$page->getSection()}/page.$format.$ext"], $layouts);
                 }
