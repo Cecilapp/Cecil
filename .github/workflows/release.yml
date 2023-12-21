@@ -106,7 +106,7 @@ jobs:
 
     steps:
     - name: Download cecil.phar
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: cecil.phar
 
@@ -156,7 +156,7 @@ jobs:
         fetch-depth: 1
 
     - name: Download cecil.phar
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: cecil.phar
         path: dist
