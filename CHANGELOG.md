@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.1.0](https://github.com/Cecilapp/Cecil/compare/8.0.1...8.1.0)
+
+> 20 December 2023
+
+- feat: config to define a default sort method [`#1864`](https://github.com/Cecilapp/Cecil/pull/1864)
+- chore(deps): bump actions/upload-artifact from 3 to 4 [`#1862`](https://github.com/Cecilapp/Cecil/pull/1862)
+- chore: update deps [`633e3ac`](https://github.com/Cecilapp/Cecil/commit/633e3ac37511f5e787e22cecf4ea2191abe29f8b)
+- ci: rollback to upload-artifact v3 [`6a1f09a`](https://github.com/Cecilapp/Cecil/commit/6a1f09a831a48d052140eea5c998c812180cdd6e)
+
 #### [8.0.1](https://github.com/Cecilapp/Cecil/compare/8.0.0...8.0.1)
 
 > 15 December 2023
