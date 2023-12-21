@@ -93,7 +93,7 @@ jobs:
         echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
 
     - name: Upload cecil.phar
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: cecil.phar
         path: dist/cecil.phar
