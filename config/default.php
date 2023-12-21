@@ -172,7 +172,7 @@ return [
                 'layout'    => 'feed',
                 'output'    => 'xsl',
                 'uglyurl'   => true,
-                'published' => true,
+                'published' => false,
                 'exclude'   => true,
             ],
         ],
