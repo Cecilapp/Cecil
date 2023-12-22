@@ -174,7 +174,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Return current time.
+     * Returns current time.
      */
     public function getTime(): int
     {

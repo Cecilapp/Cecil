@@ -386,10 +386,8 @@ class Config
      * Returns the property value of an output format.
      *
      * @throws RuntimeException
-     *
-     * @return string|array|null
      */
-    public function getOutputFormatProperty(string $name, string $property)
+    public function getOutputFormatProperty(string $name, string $property): string|array|null
     {
         $properties = array_column((array) $this->get('output.formats'), $property, 'name');
 
