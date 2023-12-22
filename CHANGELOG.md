@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.1.1](https://github.com/Cecilapp/Cecil/compare/8.1.0...8.1.1)
+
+> 21 December 2023
+
+- chore(deps): bump actions/upload-artifact from 3 to 4 [`#1865`](https://github.com/Cecilapp/Cecil/pull/1865)
+- refactor: disable RSS XSL by default [`8ff8412`](https://github.com/Cecilapp/Cecil/commit/8ff84120fc6108f4cf76ff56bcfbec3f11f9aaf4)
+- ci: update release workflow [`3431f68`](https://github.com/Cecilapp/Cecil/commit/3431f68a21c55aa234790bc2bfd01fb21b4f4fbb)
+- fix: layout lookup for type page [`7f60aa3`](https://github.com/Cecilapp/Cecil/commit/7f60aa3f8c6525dda12dac259e54f31351cca12b)
+- refactor: minor change on Redirect generator [`e39d8ba`](https://github.com/Cecilapp/Cecil/commit/e39d8ba7c441bdf5cc1476f9ddf147f0d2f02c63)
+
 #### [8.1.0](https://github.com/Cecilapp/Cecil/compare/8.0.1...8.1.0)
 
 > 20 December 2023
