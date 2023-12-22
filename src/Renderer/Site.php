@@ -180,4 +180,12 @@ class Site implements \ArrayAccess
     {
         return time();
     }
+
+    /**
+     * Returns the property value of an output format.
+     */
+    public function getOutputProperty(string $name, string $property): string|array|null
+    {
+        return $this->config->getOutputFormatProperty($name, $property);
+    }
 }

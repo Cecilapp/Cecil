@@ -5,7 +5,7 @@
   {%- set pages = page.pages -%}
 {% endif %}
 {# in case of a paginated list page, take the paginator list pages #}
-{% if page.paginator.pages is defined and paginator ?? true != false %}
+{% if page.paginator.pages is defined and 'paginated' not in site.outputproperty('json', 'exclude') %}
   {%- set pages = page.paginator.pages -%}
 {% endif %}
 

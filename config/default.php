@@ -286,14 +286,14 @@ return [
                 'extension' => 'xml',
                 'exclude'   => ['redirect', 'paginated'],
             ],
-            // e.g.: blog/post-1.json
+            // e.g.: blog.json
             -4 => [
                 'name'      => 'json',
                 'mediatype' => 'application/json',
                 'extension' => 'json',
                 'exclude'   => ['redirect'],
             ],
-            // e.g.: blog/post-1.xml
+            // e.g.: blog.xml
             -5 => [
                 'name'      => 'xml',
                 'mediatype' => 'application/xml',
