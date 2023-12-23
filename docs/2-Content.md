@@ -470,6 +470,32 @@ Is converted to:
 **Tip:** This is an advice.
 :::
 
+_Others examples:_
+
+:::
+empty
+:::
+
+:::info
+info
+:::
+
+:::tip
+tip
+:::
+
+:::important
+important
+:::
+
+:::warning
+warning
+:::
+
+:::caution
+caution
+:::
+
 ### Syntax highlight
 
 Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#body) option to `true`.
