@@ -136,7 +136,7 @@ class Create extends AbstractStep
     {
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
             return $page->hasVariable('menu')
-                && $page->getVariable('published')
+                && $page->getVariable('published') === true
                 && \in_array($page->getVariable('language', $this->config->getLanguageDefault()), array_column($this->config->getLanguages(), 'code'));
         });
 

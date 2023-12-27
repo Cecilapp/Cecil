@@ -41,7 +41,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 return;
             }
             $pages = $page->getPages()->filter(function (Page $page) {
-                return $page->getVariable('published');
+                return $page->getVariable('published') === true;
             });
             // if no sub-pages: by-pass
             if ($pages === null) {

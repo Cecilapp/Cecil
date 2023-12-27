@@ -26,7 +26,7 @@ class TitleReplace extends AbstractGenerator implements GeneratorInterface
     public function generate(): void
     {
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
-            return null !== $page->getVariable('title');
+            return $page->getVariable('title') !== null;
         });
 
         /** @var Page $page */

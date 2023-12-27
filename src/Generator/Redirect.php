@@ -26,7 +26,8 @@ class Redirect extends AbstractGenerator implements GeneratorInterface
     public function generate(): void
     {
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
-            return $page->getVariable('redirect') !== null && $page->getVariable('layout') != 'redirect';
+            return $page->getVariable('redirect') !== null
+                && $page->getVariable('layout') != 'redirect';
         });
 
         /** @var Page $page */
