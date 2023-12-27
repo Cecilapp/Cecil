@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-12-20
+updated: 2023-12-27
 -->
 # Configuration
 
@@ -514,7 +514,7 @@ output:
       subpath: <sub path>     # sub path, e.g.: `amp` in `path/amp/index.html` (optional)
       filename: <file name>   # file name, e.g.: `index` in `path/index.html` (optional)
       extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
-      exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect]` (optional)
+      exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
 ```
 
 Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).

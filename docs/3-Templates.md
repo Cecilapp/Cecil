@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-12-11
+updated: 2023-12-27
 alias: documentation/layouts
 -->
 # Templates
@@ -186,8 +186,8 @@ Can be displayed in a template with:
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 | `site.debug`          | Debug mode: `true` or `false`.                         |
 
-:::info
-In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.xxxx` (with `xxxx` is the variable name) to access directly to the raw configuration).
+:::important
+In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.<variable>` (with `<variable>` is the name/path of the variable) to access directly to the raw configuration).
 
 Example:
 

@@ -182,7 +182,7 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Returns the property value of an output format.
+     * Returns the property value(s) of an output format.
      */
     public function getOutputProperty(string $name, string $property): string|array|null
     {
