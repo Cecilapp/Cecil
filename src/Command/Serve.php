@@ -97,6 +97,7 @@ class Serve extends AbstractCommand
             $_SERVER['argv'][0],
         ];
         $buildProcessArguments[] = 'build';
+        $buildProcessArguments[] = $this->getPath();
         if (!empty($this->getConfigFiles())) {
             $buildProcessArguments[] = '--config';
             $buildProcessArguments[] = implode(',', $this->getConfigFiles());
@@ -127,7 +128,7 @@ class Serve extends AbstractCommand
         }
 
         $buildProcess = new Process(
-            array_merge($buildProcessArguments, [$this->getPath()]),
+            $buildProcessArguments,
             null,
             ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
         );

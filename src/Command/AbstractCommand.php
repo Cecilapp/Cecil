@@ -74,6 +74,7 @@ class AbstractCommand extends Command
                         $this->configFiles[$configFile] = realpath(Util::joinFile($this->getPath(), $configFile));
                     }
                 }
+                $this->configFiles = array_unique($this->configFiles);
             }
             // checks file(s)
             foreach ($this->configFiles as $fileName => $filePath) {
@@ -155,9 +156,9 @@ class AbstractCommand extends Command
     /**
      * Returns config file(s) path.
      */
-    protected function getConfigFiles(): array
+    protected function getConfigFiles(): ?array
     {
-        return array_unique((array) $this->configFiles);
+        return $this->configFiles;
     }
 
     /**
