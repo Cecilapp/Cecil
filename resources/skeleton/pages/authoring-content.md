@@ -6,7 +6,15 @@ menu:
 ---
 # Authoring Content in Markdown
 
-Cecil supports [Markdown](http://daringfireball.net/projects/markdown/syntax) and [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/) syntax in `.md` files as well as [front matter](https://cecil.app/documentation/content/#front-matter) to define variables.
+Cecil supports [Markdown](https://cecil.app/documentation/content/#markdown) syntax in `.md` files as well as [front matter](https://cecil.app/documentation/content/#front-matter) to define variables.
+
+**Table of content:**
+
+[toc]
+
+```markdown
+[toc]
+```
 
 ## Inline style
 
@@ -16,10 +24,10 @@ Text can be **bold**, _italic_, or ~~strikethrough~~.
 Text can be **bold**, _italic_, or ~~strikethrough~~.
 ```
 
-You can [link to another page](/about.md).
+You can [link to a page](/about.md) or [to another page](page:index).
 
 ```markdown
-You can [link to another page](/about.md).
+You can [link to a page](/about.md) or [to another page](page:index).
 ```
 
 You can highlight `inline code` with backticks.
@@ -76,8 +84,8 @@ Cecil search images in `assets/` and `static/` folders, but relative path is als
 * Level 1
   * Level 2
   * Level 2
-      * Level 3
-      * Level 3
+    * Level 3
+    * Level 3
 
 ## Blockquote
 
@@ -96,14 +104,30 @@ Cecil search images in `assets/` and `static/` folders, but relative path is als
 A code block is indicated by a block with three backticks ` ``` ` at the start and end. You can indicate the programming language being used after the opening backticks.
 
 ```php
-echo "Hello world";
+// PHP code
+$config = [
+    'title'   => "My website",
+    'baseurl' => 'http://localhost:8000/',
+];
+
+Builder::create($config)->build();
 ```
 
 <pre>
 ```php
-echo "Hello world";
+// PHP code
+$config = [
+    'title'   => "My website",
+    'baseurl' => 'http://localhost:8000/',
+];
+
+Builder::create($config)->build();
 ```
 </pre>
+
+## There is a horizontal rule below this
+
+---
 
 ## Definition list
 
@@ -122,3 +146,65 @@ Second Term
 | out of stock | good and plenty   | nice   |
 | ok           | good `oreos`      | hmm    |
 | ok           | good `zoute` drop | yumm   |
+
+## Notes
+
+:::
+empty
+:::
+
+```markdown
+:::
+empty
+:::
+```
+
+:::info
+info
+:::
+
+```markdown
+:::info
+info
+:::
+```
+
+:::tip
+tip
+:::
+
+```markdown
+:::tip
+tip
+:::
+```
+
+:::important
+important
+:::
+
+```markdown
+:::important
+important
+:::
+```
+
+:::warning
+warning
+:::
+
+```markdown
+:::warning
+warning
+:::
+```
+
+:::caution
+caution
+:::
+
+```markdown
+:::caution
+caution
+:::
+```

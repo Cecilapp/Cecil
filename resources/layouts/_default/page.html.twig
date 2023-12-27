@@ -108,6 +108,38 @@
       .term:before {
         content: "#";
       }
+      /* Notes */
+      main .note {
+        position: relative;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid var(--nc-bg-3);
+        border-left-width: 4px;
+      }
+      main .note > p {
+        margin: 0;
+      }
+      main .note-info {
+        border: 1px solid blue;
+        border-left-width: 4px;
+      }
+      main .note-tip {
+        border: 1px solid green;
+        border-left-width: 4px;
+      }
+      main .note-important {
+        border: 1px solid purple;
+        border-left-width: 4px;
+      }
+      main .note-warning {
+        border: 1px solid orange;
+        border-left-width: 4px;
+      }
+      main .note-caution {
+        border: 1px solid red;
+        border-left-width: 4px;
+      }
     {% endapply %}</style>
     {%- endblock head ~%}
   </head>

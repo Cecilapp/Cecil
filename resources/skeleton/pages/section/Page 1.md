@@ -4,5 +4,5 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ## Links
 
-- [Link to about page](../about.md)
-- [Link to home page](/)
+- [Link to about page](page:about)
+- [Link to home page](page:index)
