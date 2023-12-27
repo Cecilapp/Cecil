@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.1.2](https://github.com/Cecilapp/Cecil/compare/8.1.1...8.1.2)
+
+> 22 December 2023
+
+- chore: update deps [`4cb6d4a`](https://github.com/Cecilapp/Cecil/commit/4cb6d4ae45f3015a0a7196cbf0812e9288e0372c)
+- fix: disable pagination on json output if excluded [`e5da52a`](https://github.com/Cecilapp/Cecil/commit/e5da52a0805d9cdf5cac9211a63940e11e3e2dc2)
+- refactor: PHP 8 compatibility [`116b283`](https://github.com/Cecilapp/Cecil/commit/116b2831d9114de8c608ad71b7812571dc4abfd2)
+
 #### [8.1.1](https://github.com/Cecilapp/Cecil/compare/8.1.0...8.1.1)
 
 > 21 December 2023
