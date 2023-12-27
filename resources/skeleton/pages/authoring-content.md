@@ -153,58 +153,28 @@ Second Term
 empty
 :::
 
-```markdown
-:::
-empty
-:::
-```
-
 :::info
 info
 :::
-
-```markdown
-:::info
-info
-:::
-```
 
 :::tip
 tip
 :::
 
-```markdown
-:::tip
-tip
-:::
-```
-
 :::important
 important
 :::
 
-```markdown
-:::important
-important
-:::
-```
-
 :::warning
 warning
 :::
-
-```markdown
-:::warning
-warning
-:::
-```
 
 :::caution
 caution
 :::
 
 ```markdown
-:::caution
+:::info|tip|important|warning|caution
 caution
 :::
 ```
