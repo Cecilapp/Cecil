@@ -1,11 +1,11 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2023-03-18
+updated: 2023-12-29
 -->
 # Commands
 
-List of all available commands.
+List of available commands.
 
 ```plaintext
 Available commands:
@@ -30,9 +30,7 @@ Available commands:
   util:extract              Extracts built-in templates
 ```
 
-## Main commands
-
-### new:site
+## new:site
 
 Creates a new skeleton site.
 
@@ -59,7 +57,7 @@ Help:
   Creates a new website in the current directory, or in <path> if provided
 ```
 
-### new:page
+## new:page
 
 Creates a new page.
 
@@ -90,7 +88,7 @@ Help:
   Creates a new page file (with filename as title)
 ```
 
-#### Page’s models
+### Page’s models
 
 You can define your own models for your new pages in the `models` directory:
 
@@ -102,11 +100,11 @@ Two dynamic variables are available:
 1. `%title%`: the file’s name
 2. `%date%`: the curent date
 
-#### Open with your editor
+### Open with your editor
 
 With the `--open` option, the editor will be opened automatically. So use `editor` key in your configuration file to define the default editor (e.g.: `editor: typora`).
 
-### build
+## build
 
 Builds the site.
 
@@ -140,11 +138,11 @@ Help:
   Builds the website in the output directory
 ```
 
-### serve
+## serve
 
 Builds and serves the site locally.
 
-:::important
+:::warning
 The web server is designed to aid website testing. It is not intended to be a full-featured web server and it should not be used on a public network.
 :::
 
