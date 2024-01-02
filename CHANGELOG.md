@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.1.3](https://github.com/Cecilapp/Cecil/compare/8.1.2...8.1.3)
+
+> 27 December 2023
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.41.1 to 3.42.0 [`#1866`](https://github.com/Cecilapp/Cecil/pull/1866)
+- feat: enhances Skeleton and default CSS [`97b33c5`](https://github.com/Cecilapp/Cecil/commit/97b33c5fc4aa44d264312aeeaf9c908d4921c9b3)
+- refactor: enhances Skeleton [`a79174d`](https://github.com/Cecilapp/Cecil/commit/a79174d3ef57b0c7e9874299791044d8bc236ac7)
+- docs: add note examples [`967e936`](https://github.com/Cecilapp/Cecil/commit/967e93632732049ada16165841c6fada665cb608)
+- refactor: code quality [`b8a87ae`](https://github.com/Cecilapp/Cecil/commit/b8a87ae29b8484fe5efcf123d2605d2a303d0eff)
+- docs: minor updates [`7ecb3fd`](https://github.com/Cecilapp/Cecil/commit/7ecb3fdb67d8b8ae337a05c795e61da2ba9f1254)
+- fix: serve cmd path argument [`35a9af1`](https://github.com/Cecilapp/Cecil/commit/35a9af1d67f1510f51d4e5dbd31c87eb10926404)
+
 #### [8.1.2](https://github.com/Cecilapp/Cecil/compare/8.1.1...8.1.2)
 
 > 22 December 2023
