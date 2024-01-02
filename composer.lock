@@ -5778,7 +5778,7 @@
         },
         {
             "name": "yosymfony/resource-watcher",
-            "version": "3.0.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/resource-watcher.git",
@@ -5832,7 +5832,7 @@
                 "watcher"
             ],
             "support": {
-                "source": "https://github.com/Cecilapp/resource-watcher/tree/3.0.0"
+                "source": "https://github.com/Cecilapp/resource-watcher/tree/v3.0.0"
             },
             "funding": [
                 {
