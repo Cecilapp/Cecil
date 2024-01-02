@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.1.4](https://github.com/Cecilapp/Cecil/compare/8.1.3...8.1.4)
+
+> 2 January 2024
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.43.1 to 3.45.0 [`#1875`](https://github.com/Cecilapp/Cecil/pull/1875)
+- chore(deps): bump symfony/process from 6.4.0 to 6.4.2 [`#1871`](https://github.com/Cecilapp/Cecil/pull/1871)
+- chore(deps): bump symfony/translation from 6.4.0 to 6.4.2 [`#1870`](https://github.com/Cecilapp/Cecil/pull/1870)
+- chore(deps): bump symfony/twig-bridge from 6.4.0 to 6.4.2 [`#1869`](https://github.com/Cecilapp/Cecil/pull/1869)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.42.0 to 3.43.1 [`#1867`](https://github.com/Cecilapp/Cecil/pull/1867)
+- chore: update deps [`0d157da`](https://github.com/Cecilapp/Cecil/commit/0d157da73266ceb19048ddf4803bc74f00a4584c)
+- doc: minor update of commands page [`c0daf78`](https://github.com/Cecilapp/Cecil/commit/c0daf7881f5a4a468660214450158cbf80bdaea4)
+- chore: bump Composer platform-overrides [`d43a616`](https://github.com/Cecilapp/Cecil/commit/d43a616e8badf390ed006a29f17f8c9b9d0d1295)
+- fix: "!" is not necessary :-) [`ef50040`](https://github.com/Cecilapp/Cecil/commit/ef50040c516feee91b7292d364de4b2b522706fb)
+
 #### [8.1.3](https://github.com/Cecilapp/Cecil/compare/8.1.2...8.1.3)
 
 > 27 December 2023
