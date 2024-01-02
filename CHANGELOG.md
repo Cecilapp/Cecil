@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. Dates are d
 > 2 January 2024
 
 - fix: resource-watcher fork stable version [`a3d1e60`](https://github.com/Cecilapp/Cecil/commit/a3d1e609dbd0a0590dc94e2a30dabebfa03ec93c)
+- chore: bump deps [`d7ab445`](https://github.com/Cecilapp/Cecil/commit/d7ab445d870938926c28e425844526dd74163465)
 
 #### [8.1.4](https://github.com/Cecilapp/Cecil/compare/8.1.3...8.1.4)
 
