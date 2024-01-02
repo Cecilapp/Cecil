@@ -113,7 +113,7 @@ class Build extends AbstractCommand
         }
 
         $builder->build($options);
-        $output->writeln('Done! 🎉');
+        $output->writeln('Done 🎉');
 
         return 0;
     }
