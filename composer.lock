@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "130c941aa3a6629c0bb0cd6386fa8fbd",
+    "content-hash": "a5de62f3aee3898d758b35344d010a4c",
     "packages": [
         {
             "name": "amphp/amp",
@@ -5778,15 +5778,15 @@
         },
         {
             "name": "yosymfony/resource-watcher",
-            "version": "dev-master",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lucassabreu/resource-watcher.git",
+                "url": "https://github.com/Cecilapp/resource-watcher.git",
                 "reference": "6f1787827218d753d2eb5dc26e38387b8ebbb558"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucassabreu/resource-watcher/zipball/6f1787827218d753d2eb5dc26e38387b8ebbb558",
+                "url": "https://api.github.com/repos/Cecilapp/resource-watcher/zipball/6f1787827218d753d2eb5dc26e38387b8ebbb558",
                 "reference": "6f1787827218d753d2eb5dc26e38387b8ebbb558",
                 "shasum": ""
             },
@@ -5798,7 +5798,6 @@
                 "phpunit/phpunit": "^5.7|^8",
                 "symfony/filesystem": "^2.7|^3.0|^4.0|^5.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -5833,8 +5832,18 @@
                 "watcher"
             ],
             "support": {
-                "source": "https://github.com/lucassabreu/resource-watcher/tree/master"
+                "source": "https://github.com/Cecilapp/resource-watcher/tree/3.0.0"
             },
+            "funding": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/ArnaudLigny"
+                },
+                {
+                    "type": "open_collective",
+                    "url": "https://opencollective.com/cecil"
+                }
+            ],
             "time": "2023-12-29T15:13:41+00:00"
         },
         {

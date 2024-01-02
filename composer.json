@@ -20,7 +20,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/lucassabreu/resource-watcher"
+      "url": "https://github.com/Cecilapp/resource-watcher"
     }
   ],
   "require": {
