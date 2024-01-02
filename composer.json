@@ -20,7 +20,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/Cecilapp/resource-watcher"
+      "url": "https://github.com/lucassabreu/resource-watcher"
     }
   ],
   "require": {
@@ -57,7 +57,7 @@
     "twig/twig": "^3.8",
     "voku/html-min": "^4.5",
     "wapmorgan/mp3info": "^0.1",
-    "yosymfony/resource-watcher": "^3.0",
+    "yosymfony/resource-watcher": "dev-master as 3.0.0",
     "yosymfony/toml": "^1.0"
   },
   "require-dev": {
