@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.1.6](https://github.com/Cecilapp/Cecil/compare/8.1.5...8.1.6)
+
+> 2 January 2024
+
+- Trying to fix resource-watcher fork dependency [`755ce57`](https://github.com/Cecilapp/Cecil/commit/755ce57d5e7da847f44c34d35659508f77660516)
+
 #### [8.1.5](https://github.com/Cecilapp/Cecil/compare/8.1.4...8.1.5)
 
 > 2 January 2024
