@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31eaa662f6477f462249cd0cadffe60b",
+    "content-hash": "f9fd86bc21db779ee62d80007b71d9c0",
     "packages": [
         {
             "name": "amphp/amp",
@@ -614,6 +614,72 @@
                 }
             ],
             "time": "2023-01-18T11:20:41+00:00"
+        },
+        {
+            "name": "cecil/resource-watcher",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Cecilapp/resource-watcher.git",
+                "reference": "6050bf4cd0bacff3396cdbee595ef3fa6ab063fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Cecilapp/resource-watcher/zipball/6050bf4cd0bacff3396cdbee595ef3fa6ab063fb",
+                "reference": "6050bf4cd0bacff3396cdbee595ef3fa6ab063fb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "symfony/finder": "^2.7|^3.0|^4.0|^5.0|^6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7|^8",
+                "symfony/filesystem": "^2.7|^3.0|^4.0|^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yosymfony\\ResourceWatcher\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Victor Puertas",
+                    "email": "vpgugr@gmail.com"
+                }
+            ],
+            "description": "A simple resource watcher using Symfony Finder",
+            "homepage": "http://yosymfony.com",
+            "keywords": [
+                "finder",
+                "resources",
+                "symfony",
+                "watcher"
+            ],
+            "support": {
+                "source": "https://github.com/Cecilapp/resource-watcher/tree/4.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ArnaudLigny",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/cecil",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2024-01-04T09:44:14+00:00"
         },
         {
             "name": "clwu/php-read-mp4info",
@@ -5777,67 +5843,6 @@
             "time": "2018-06-29T15:31:11+00:00"
         },
         {
-            "name": "yosymfony/resource-watcher",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lucassabreu/resource-watcher.git",
-                "reference": "6f1787827218d753d2eb5dc26e38387b8ebbb558"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lucassabreu/resource-watcher/zipball/6f1787827218d753d2eb5dc26e38387b8ebbb558",
-                "reference": "6f1787827218d753d2eb5dc26e38387b8ebbb558",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1",
-                "symfony/finder": "^2.7|^3.0|^4.0|^5.0|^6.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7|^8",
-                "symfony/filesystem": "^2.7|^3.0|^4.0|^5.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Yosymfony\\ResourceWatcher\\": "src/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Victor Puertas",
-                    "email": "vpgugr@gmail.com"
-                }
-            ],
-            "description": "A simple resource watcher using Symfony Finder",
-            "homepage": "http://yosymfony.com",
-            "keywords": [
-                "finder",
-                "resources",
-                "symfony",
-                "watcher"
-            ],
-            "support": {
-                "source": "https://github.com/lucassabreu/resource-watcher/tree/master"
-            },
-            "time": "2023-12-29T15:13:41+00:00"
-        },
-        {
             "name": "yosymfony/toml",
             "version": "v1.0.4",
             "source": {
@@ -6381,21 +6386,22 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.45.0",
+            "version": "v3.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "c0daa33cb2533cd73f48dde1c70c2afa3e7953b5"
+                "reference": "be6831c9af1740470d2a773119b9273f8ac1c3d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/c0daa33cb2533cd73f48dde1c70c2afa3e7953b5",
-                "reference": "c0daa33cb2533cd73f48dde1c70c2afa3e7953b5",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/be6831c9af1740470d2a773119b9273f8ac1c3d2",
+                "reference": "be6831c9af1740470d2a773119b9273f8ac1c3d2",
                 "shasum": ""
             },
             "require": {
                 "composer/semver": "^3.4",
                 "composer/xdebug-handler": "^3.0.3",
+                "ext-filter": "*",
                 "ext-json": "*",
                 "ext-tokenizer": "*",
                 "php": "^7.4 || ^8.0",
@@ -6459,7 +6465,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.45.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.46.0"
             },
             "funding": [
                 {
@@ -6467,7 +6473,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-12-30T02:07:07+00:00"
+            "time": "2024-01-03T21:38:46+00:00"
         },
         {
             "name": "localheinz/diff",
@@ -8723,18 +8729,9 @@
             "time": "2023-11-20T00:12:19+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "yosymfony/resource-watcher",
-            "version": "9999999-dev",
-            "alias": "3.0.0",
-            "alias_normalized": "3.0.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "yosymfony/resource-watcher": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

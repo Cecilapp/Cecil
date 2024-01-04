@@ -17,18 +17,13 @@
       "role": "Developer"
     }
   ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/lucassabreu/resource-watcher"
-    }
-  ],
   "require": {
     "php": "^8.1||^8.2||^8.3",
     "ext-fileinfo": "*",
     "ext-gd": "*",
     "ext-mbstring": "*",
     "benjaminhoegh/parsedown-toc": "~1.4.3",
+    "cecil/resource-watcher": "^4.0",
     "clwu/php-read-mp4info": "^2.0",
     "cocur/slugify": "^4.5",
     "dflydev/dot-access-data": "^3.0",
@@ -57,7 +52,6 @@
     "twig/twig": "^3.8",
     "voku/html-min": "^4.5",
     "wapmorgan/mp3info": "^0.1",
-    "yosymfony/resource-watcher": "dev-master as 3.0.0",
     "yosymfony/toml": "^1.0"
   },
   "require-dev": {
