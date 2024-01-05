@@ -59,7 +59,7 @@ class Asset implements \ArrayAccess
      *
      * @throws RuntimeException
      */
-    public function __construct(Builder $builder, $paths, array $options = null)
+    public function __construct(Builder $builder, string|array $paths, array|null $options = null)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();

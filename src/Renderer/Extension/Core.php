@@ -280,8 +280,12 @@ class Core extends SlugifyExtension
      *
      * @return Asset
      */
-    public function asset($path, array $options = null): Asset
+    public function asset($path, array|null $options = null): Asset
     {
+        if (!\is_string($path) && !\is_array($path)) {
+            throw new RuntimeException(sprintf('Argument of "%s()" must a string or an array.', \Cecil\Util::formatMethodName(__METHOD__)));
+        }
+
         return new Asset($this->builder, $path, $options);
     }
 

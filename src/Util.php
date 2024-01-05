@@ -38,6 +38,20 @@ class Util
     }
 
     /**
+     * Formats a method name.
+     *
+     * ie: "Cecil\Renderer\Extension\Core::asset()" become "asset()"
+     *
+     * @param string $method
+     */
+    public static function formatMethodName(string $method): string
+    {
+        $methodName = explode('::', $method)[1];
+
+        return $methodName;
+    }
+
+    /**
      * Converts an array of strings into a path.
      */
     public static function joinPath(string ...$path): string
