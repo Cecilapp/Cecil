@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.1.7](https://github.com/Cecilapp/Cecil/compare/8.1.6...8.1.7)
+
+> 4 January 2024
+
+- chore: dedicated package for resource watcher [`e80f861`](https://github.com/Cecilapp/Cecil/commit/e80f86137a50ea1a737b4c0f64f48532f7477747)
+
 #### [8.1.6](https://github.com/Cecilapp/Cecil/compare/8.1.5...8.1.6)
 
 > 2 January 2024
