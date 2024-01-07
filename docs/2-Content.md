@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2023-12-20
+updated: 2024-01-07
 -->
 # Content
 
@@ -79,10 +79,6 @@ Result of the build.
 By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/section/slugified-filename/`.
 
 To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in page [front matter](#front-matter).
-:::
-
-:::tip
-To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in [front matter](#front-matter).
 :::
 
 ### File based routing
@@ -169,7 +165,7 @@ For instance, put the desired attribute(s) after a header, a fenced code block, 
 ## Header {#id .class attribute=value}
 ```
 
-:::important
+:::warning
 For an inline element, like a link, you must use a line break after the closing brace:
 
 ```markdown
@@ -211,7 +207,7 @@ _Example:_
 [An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed}
 ```
 
-:::info
+:::important
 Only **YouTube** and **GitHub Gits** links are supported for the moment.
 :::
 
