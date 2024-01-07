@@ -40,13 +40,12 @@ class Image
             $srcset .= sprintf('%s %sw, ', (string) $img, $width);
             $widthMax = $width;
         }
-        rtrim($srcset, ', ');
         // adds source image?
         if (!empty($srcset) && ($asset['width'] != $widthMax || $asset['width'] < max($widths))) {
             $srcset .= sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 
-        return $srcset;
+        return rtrim($srcset, ', ');
     }
 
     /**
