@@ -505,8 +505,11 @@ class Config
         if (!$this->get('language')) {
             throw new RuntimeException('There is no default "language" key in configuration.');
         }
+        if (\is_array($this->get('language'))) {
+            if (!$this->get('language.code')) {
+                throw new RuntimeException('There is no "language.code" key in configuration.');
+            }
 
-        if ($this->get('language.code')) {
             return $this->get('language.code');
         }
 
@@ -591,8 +594,8 @@ class Config
     private function valid(): void
     {
         // default language must be valid
-        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', (string) $this->get('language'))) {
-            throw new ConfigException(sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->get('language')));
+        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->getLanguageDefault())) {
+            throw new ConfigException(sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
         }
         // if language is set then the locale is required
         foreach ((array) $this->get('languages') as $lang) {

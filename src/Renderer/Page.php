@@ -61,8 +61,8 @@ class Page
         if (empty($path) && empty($filename)) {
             $path = 'index';
         }
-        // do not prefix path with language code for the default language (and default language home page)
-        if ($language === null || ($language == $this->config->getLanguageDefault() && (bool) $this->config->get('language.prefix') === false)) {
+        // do not prefix path with language code for the default language
+        if ($language === null || ($language == $this->config->getLanguageDefault() && (bool) $this->config->get('language.prefix') !== true)) {
             $language = '';
         }
         // do not prefix "not multilingual" virtual pages

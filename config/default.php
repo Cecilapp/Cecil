@@ -35,6 +35,10 @@ return [
         //'timezone' => 'Europe/Paris',
     ],
     'language'  => 'en', // main language code (`en` by default)
+    //'language'  => [
+    //    'code'   => 'en',
+    //    'prefix' => false, // use `true` to apply language code prefix to default language pages path (`false` by default)
+    //],
     'languages' => [
         [
             'code'   => 'en',
