@@ -119,14 +119,14 @@ class Util
     {
         spl_autoload_register(function ($className) use ($builder, $dir) {
             $classFile = Util::joinFile($builder->getConfig()->getSourceDir(), $dir, "$className.php");
-            if (file_exists($classFile)) {
+            if (is_readable($classFile)) {
                 require $classFile;
                 return;
             }
             // in themes
             foreach ($builder->getConfig()->getTheme() ?? [] as $theme) {
                 $classFile = Util::joinFile($builder->getConfig()->getThemeDirPath($theme, $dir), "$className.php");
-                if (file_exists($classFile)) {
+                if (is_readable($classFile)) {
                     require $classFile;
                     return;
                 }

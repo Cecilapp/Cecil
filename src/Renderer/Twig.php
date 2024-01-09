@@ -131,10 +131,11 @@ class Twig implements RendererInterface
         }
         // loads custom extensions
         if ($this->builder->getConfig()->has('layouts.extensions')) {
-            Util::autoload($builder, 'extensions');
-            foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $name => $class) {
+            foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $class) {
+                $name = $class;
+                $class = "Cecil\Renderer\Extension\\$class";
                 $this->twig->addExtension(new $class($this->builder));
-                $this->builder->getLogger()->debug(sprintf('Extension "%s" (%s) added', $name, $class));
+                $this->builder->getLogger()->debug(sprintf('Extension "%s" added', $name));
             }
         }
     }

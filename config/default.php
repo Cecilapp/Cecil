@@ -119,15 +119,15 @@ return [
             ],
         ],
         'generators' => [ // list of pages generators, ordered by weight
-            10 => 'Cecil\Generator\DefaultPages',
-            20 => 'Cecil\Generator\VirtualPages',
-            30 => 'Cecil\Generator\ExternalBody',
-            40 => 'Cecil\Generator\Section',
-            50 => 'Cecil\Generator\Taxonomy',
-            60 => 'Cecil\Generator\Homepage',
-            70 => 'Cecil\Generator\Pagination',
-            80 => 'Cecil\Generator\Alias',
-            90 => 'Cecil\Generator\Redirect',
+            10 => 'DefaultPages',
+            20 => 'VirtualPages',
+            30 => 'ExternalBody',
+            40 => 'Section',
+            50 => 'Taxonomy',
+            60 => 'Homepage',
+            70 => 'Pagination',
+            80 => 'Alias',
+            90 => 'Redirect',
         ],
         'default' => [ // default generated pages
             'index' => [
@@ -370,9 +370,9 @@ return [
             'term'       => ['html', 'atom'],
         ],
         'postprocessors' => [ // list of output post processors
-            -1 => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
-            -2 => 'Cecil\Renderer\PostProcessor\HtmlExcerpt',
-            -3 => 'Cecil\Renderer\PostProcessor\MarkdownLink',
+            -1 => 'GeneratorMetaTag',
+            -2 => 'HtmlExcerpt',
+            -3 => 'MarkdownLink',
         ],
     ],
     'cache' => [
