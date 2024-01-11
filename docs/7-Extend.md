@@ -5,25 +5,17 @@ updated: 2024-01-11
 -->
 # Extend
 
+Because Cecil is powered by PHP it's easy to extend its capabilities.
+
 [toc]
 
 ## Pages Generator
 
 A Generator help you to create pages without Markdown files (with data from an API or a database for example) or alter existing pages.
 
-Just add your Generator PHP class name to the [`pages.generators`](4-Configuration.md#generators) list, and create a new class in the `Cecil\Generator` namespace.
+Just create a new PHP class in the `Cecil\Generator` namespace and add the class name to the [`pages.generators`](4-Configuration.md#generators) list.
 
 **Example:**
-
-_configuration_
-
-```yaml
-pages:
-  generators:
-    # priority: class name
-    35: Cecil\Generator\Database
-    99: Cecil\Generator\DummyPage
-```
 
 _/extensions/Cecil/Generator/DummyPage.php_
 
@@ -83,6 +75,16 @@ class Database extends AbstractGenerator implements GeneratorInterface
 }
 ```
 
+_configuration_
+
+```yaml
+pages:
+  generators:
+    # priority: class name
+    99: Cecil\Generator\DummyPage
+    35: Cecil\Generator\Database
+```
+
 ## Renderer (Twig) extension
 
 You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters):
@@ -122,7 +124,7 @@ layouts:
 
 You can post process page output.
 
-Just add your Post Processor PHP class name to the `output.postprocessors` list, and create a new class in the `Cecil\Renderer\PostProcessor` namespace.
+Just create a new PHP class in the `Cecil\Renderer\PostProcessor` namespace and add the class name to the `output.postprocessors list.
 
 **Example:**
 
