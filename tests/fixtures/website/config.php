@@ -98,8 +98,8 @@ return [
     ],
     'pages' => [
         'generators' => [
-            99  => 'TestError',
-            100 => 'TitleReplace',
+            99  => 'Cecil\Generator\TestError',
+            100 => 'Cecil\Generator\TitleReplace',
         ],
         'default'    => [
             'sitemap' => [
@@ -167,8 +167,8 @@ return [
             'term'       => ['html', 'atom', 'rss'],
         ],
         'postprocessors' => [
-            'Test',
-            'Error',
+            'Cecil\Renderer\PostProcessor\Test',
+            'Cecil\Renderer\PostProcessor\Error',
         ],
     ],
     'static' => [
@@ -226,7 +226,8 @@ return [
     ],
     'layouts' => [
         'extensions' => [
-            'Test',
+            'Test'       => 'Cecil\Renderer\Extension\Test',
+            'Test error' => 'Cecil\Renderer\Extension\TestError',
         ],
     ],
     'cache' => [

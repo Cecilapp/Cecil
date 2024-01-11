@@ -118,16 +118,16 @@ return [
                 'capture'   => 'before', // part to capture, `before` or `after` the separator (`before` by default)
             ],
         ],
-        'generators' => [ // list of pages generators, ordered by weight
-            10 => 'DefaultPages',
-            20 => 'VirtualPages',
-            30 => 'ExternalBody',
-            40 => 'Section',
-            50 => 'Taxonomy',
-            60 => 'Homepage',
-            70 => 'Pagination',
-            80 => 'Alias',
-            90 => 'Redirect',
+        'generators' => [ // list of pages generators class, ordered by weight
+            10 => 'Cecil\Generator\DefaultPages',
+            20 => 'Cecil\Generator\VirtualPages',
+            30 => 'Cecil\Generator\ExternalBody',
+            40 => 'Cecil\Generator\Section',
+            50 => 'Cecil\Generator\Taxonomy',
+            60 => 'Cecil\Generator\Homepage',
+            70 => 'Cecil\Generator\Pagination',
+            80 => 'Cecil\Generator\Alias',
+            90 => 'Cecil\Generator\Redirect',
         ],
         'default' => [ // default generated pages
             'index' => [
@@ -258,7 +258,9 @@ return [
                 'dir' => 'resources/translations', // internal translations directory
             ],
         ],
-        'extensions' => [], // Twig extensions
+        'extensions' => [ // list of Twig extensions class
+            //'Name' => 'Cecil\Renderer\Extension\Class',
+        ],
     ],
     // themes
     'themes' => [
@@ -369,10 +371,10 @@ return [
             'vocabulary' => ['html'],
             'term'       => ['html', 'atom'],
         ],
-        'postprocessors' => [ // list of output post processors
-            -1 => 'GeneratorMetaTag',
-            -2 => 'HtmlExcerpt',
-            -3 => 'MarkdownLink',
+        'postprocessors' => [ // list of output post processors class
+            'GeneratorMetaTag' => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
+            'HtmlExcerpt'      => 'Cecil\Renderer\PostProcessor\HtmlExcerpt',
+            'MarkdownLink'     => 'Cecil\Renderer\PostProcessor\MarkdownLink',
         ],
     ],
     'cache' => [

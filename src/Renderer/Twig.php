@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
+use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Extension\Core as CoreExtension;
 use Cecil\Util;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
@@ -108,7 +109,7 @@ class Twig implements RendererInterface
         // intl
         $this->twig->addExtension(new IntlExtension());
         if (\extension_loaded('intl')) {
-            $this->builder->getLogger()->debug('Intl extension is loaded');
+            $this->builder->getLogger()->debug('PHP Intl extension is loaded');
         }
         // filters fallback
         $this->twig->registerUndefinedFilterCallback(function ($name) {
@@ -131,11 +132,13 @@ class Twig implements RendererInterface
         }
         // loads custom extensions
         if ($this->builder->getConfig()->has('layouts.extensions')) {
-            foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $class) {
-                $name = $class;
-                $class = "Cecil\Renderer\Extension\\$class";
-                $this->twig->addExtension(new $class($this->builder));
-                $this->builder->getLogger()->debug(sprintf('Extension "%s" added', $name));
+            foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $name => $class) {
+                try {
+                    $this->twig->addExtension(new $class($this->builder));
+                    $this->builder->getLogger()->debug(sprintf('Twig extension "%s" added', $name));
+                } catch (\Exception|\Error $e) {
+                    $this->builder->getLogger()->error(sprintf('Unable to add Twig extension "%s": %s', $class, $e->getMessage()));
+                }
             }
         }
     }

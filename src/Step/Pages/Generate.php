@@ -48,9 +48,8 @@ class Generate extends AbstractStep
         $generatorManager = new GeneratorManager($this->builder);
         $generators = (array) $this->config->get('pages.generators');
         array_walk($generators, function ($generator, $priority) use ($generatorManager) {
-            $generator = "Cecil\Generator\\$generator";
             if (!class_exists($generator)) {
-                $message = sprintf('Unable to load generator "%s".', $generator);
+                $message = sprintf('Unable to load generator "%s" (priority: %s).', $generator, $priority);
                 $this->builder->getLogger()->error($message);
 
                 return;
