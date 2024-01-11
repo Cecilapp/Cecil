@@ -111,6 +111,8 @@ class Builder implements LoggerAwareInterface
         if (getenv('CECIL_DEBUG') == 'true' || (bool) $this->getConfig()->get('debug')) {
             $this->debug = true;
         }
+        // autoloads local extensions
+        Util::autoload($this, 'extensions');
     }
 
     /**

@@ -85,15 +85,14 @@ class Render extends AbstractStep
 
         // renders each page
         $count = 0;
-        Util::autoload($this->builder, 'postprocessors');
         $postprocessors = [];
-        foreach ($this->config->get('output.postprocessors') as $postprocessor) {
+        foreach ($this->config->get('output.postprocessors') as $name => $postprocessor) {
             if (!class_exists($postprocessor)) {
-                $this->builder->getLogger()->error(sprintf('Can\'t load output post processor "%s"', $postprocessor));
+                $this->builder->getLogger()->error(sprintf('Unable to load output post processor "%s"', $postprocessor));
                 break;
             }
             $postprocessors[] = new $postprocessor($this->builder);
-            $this->builder->getLogger()->debug(sprintf('Output post processor "%s" loaded', $postprocessor));
+            $this->builder->getLogger()->debug(sprintf('Output post processor "%s" loaded', $name));
         }
         /** @var Page $page */
         foreach ($pages as $page) {

@@ -1,23 +1,31 @@
 <!--
 description: "Extend Cecil."
 date: 2023-04-17
-updated: 2023-12-11
+updated: 2024-01-11
 -->
 # Extend
-
-There is several way to extend Cecil:
 
 [toc]
 
 ## Pages Generator
 
-A Generator help you to create pages without Markdown files (with data from a database or an API for example) or alter existing pages.
+A Generator help you to create pages without Markdown files (with data from an API or a database for example) or alter existing pages.
 
-Just add your Generator to the [`pages.generators`](4-Configuration.md#generators) list, and create a new class in the `Cecil\Generator` namespace.
+Just add your Generator PHP class name to the [`pages.generators`](4-Configuration.md#generators) list, and create a new class in the `Cecil\Generator` namespace.
 
 **Example:**
 
-_/generators/Cecil/Generator/DummyPage.php_
+_configuration_
+
+```yaml
+pages:
+  generators:
+    # priority: class name
+    35: Cecil\Generator\Database
+    99: Cecil\Generator\DummyPage
+```
+
+_/extensions/Cecil/Generator/DummyPage.php_
 
 ```php
 <?php
@@ -44,7 +52,7 @@ class DummyPage extends AbstractGenerator implements GeneratorInterface
 }
 ```
 
-_/generators/Cecil/Generator/Database.php_
+_/extensions/Cecil/Generator/Database.php_
 
 ```php
 <?php
@@ -75,16 +83,7 @@ class Database extends AbstractGenerator implements GeneratorInterface
 }
 ```
 
-_configuration_
-
-```yaml
-pages:
-  generators:
-    35: Cecil\Generator\Database
-    99: Cecil\Generator\DummyPage
-```
-
-## Renderer extension
+## Renderer (Twig) extension
 
 You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters):
 
@@ -119,15 +118,15 @@ layouts:
     MyExtension: Cecil\Renderer\Extension\MyExtension
 ```
 
-## Output post processor
+## Output Post Processor
 
 You can post process page output.
 
-Just add your post processor to the `output.postprocessors` list, and create a new class in the `Cecil\Renderer\PostProcessor` namespace.
+Just add your Post Processor PHP class name to the `output.postprocessors` list, and create a new class in the `Cecil\Renderer\PostProcessor` namespace.
 
 **Example:**
 
-_/postprocessors/Cecil/Renderer/PostProcessor/MyProcessor.php_
+_/extensions/Cecil/Renderer/PostProcessor/MyProcessor.php_
 
 ```php
 <?php
@@ -151,5 +150,5 @@ _configuration_
 ```yaml
 output:
   postprocessors:
-    - Cecil\Renderer\PostProcessor\MyProcessor
+    MyProcessor: Cecil\Renderer\PostProcessor\MyProcessor
 ```

@@ -98,7 +98,7 @@ return [
     ],
     'pages' => [
         'generators' => [
-            99  => 'Cecil\Generator\Test',
+            99  => 'Cecil\Generator\TestError',
             100 => 'Cecil\Generator\TitleReplace',
         ],
         'default'    => [
@@ -226,7 +226,8 @@ return [
     ],
     'layouts' => [
         'extensions' => [
-            'Test' => 'Cecil\Renderer\Extension\Test',
+            'Test'       => 'Cecil\Renderer\Extension\Test',
+            'Test error' => 'Cecil\Renderer\Extension\TestError',
         ],
     ],
     'cache' => [

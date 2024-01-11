@@ -42,7 +42,9 @@ curl -LO https://cecil.app/cecil.phar
 
 Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement.
 
-> [PHP](https://php.net/manual/fr/install.php) 8.1+ est requis.
+:::important
+[PHP](https://php.net/manual/fr/install.php) 8.1+ est requis.
+:::
 
 ### Créer un nouveau site
 

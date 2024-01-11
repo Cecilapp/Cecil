@@ -118,7 +118,7 @@ return [
                 'capture'   => 'before', // part to capture, `before` or `after` the separator (`before` by default)
             ],
         ],
-        'generators' => [ // list of pages generators, ordered by weight
+        'generators' => [ // list of pages generators class, ordered by weight
             10 => 'Cecil\Generator\DefaultPages',
             20 => 'Cecil\Generator\VirtualPages',
             30 => 'Cecil\Generator\ExternalBody',
@@ -258,7 +258,9 @@ return [
                 'dir' => 'resources/translations', // internal translations directory
             ],
         ],
-        'extensions' => [], // Twig extensions
+        'extensions' => [ // list of Twig extensions class
+            //'Name' => 'Cecil\Renderer\Extension\Class',
+        ],
     ],
     // themes
     'themes' => [
@@ -369,10 +371,10 @@ return [
             'vocabulary' => ['html'],
             'term'       => ['html', 'atom'],
         ],
-        'postprocessors' => [ // list of output post processors
-            -1 => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
-            -2 => 'Cecil\Renderer\PostProcessor\HtmlExcerpt',
-            -3 => 'Cecil\Renderer\PostProcessor\MarkdownLink',
+        'postprocessors' => [ // list of output post processors class
+            'GeneratorMetaTag' => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
+            'HtmlExcerpt'      => 'Cecil\Renderer\PostProcessor\HtmlExcerpt',
+            'MarkdownLink'     => 'Cecil\Renderer\PostProcessor\MarkdownLink',
         ],
     ],
     'cache' => [
