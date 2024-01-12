@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.2.0](https://github.com/Cecilapp/Cecil/compare/8.1.7...8.2.0)
+
+> 11 January 2024
+
+- refactor: autoload extensions [`#1877`](https://github.com/Cecilapp/Cecil/pull/1877)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.54 to 1.10.55 [`#1876`](https://github.com/Cecilapp/Cecil/pull/1876)
+- chore: update deps [`e406135`](https://github.com/Cecilapp/Cecil/commit/e406135b5c2e6bd4d6ca12e43825baf8f4ff5fef)
+- refactor: better handling of empty asset [`b33fac4`](https://github.com/Cecilapp/Cecil/commit/b33fac4e88675ecb2dc33ba417122f64a17afa54)
+- refactor: better default language check [`66ee808`](https://github.com/Cecilapp/Cecil/commit/66ee8089125e8968a9dd11bcc9fdcf7b452fcadd)
+- doc: minor changes [`d43c78e`](https://github.com/Cecilapp/Cecil/commit/d43c78e549acbcce6995b8a89463b4ceb3def8cc)
+- fix: trim correctly image srcset [`2fceaa1`](https://github.com/Cecilapp/Cecil/commit/2fceaa1b26cee2a94fa648d34f0f0020977d6ab6)
+
 #### [8.1.7](https://github.com/Cecilapp/Cecil/compare/8.1.6...8.1.7)
 
 > 4 January 2024
