@@ -3,7 +3,7 @@
 Cecil, your content driven static site generator.
 
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
-[![Latest Preview Version](https://poser.pugx.org/cecil/cecil/v/unstable)](https://github.com/Cecilapp/Cecil/releases)
+[![PHP Version Require](http://poser.pugx.org/cecil/cecil/require/php)](https://packagist.org/packages/cecil/cecil)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
 [![Tests suite](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml)
 [![Release cecil.phar](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml)
@@ -50,14 +50,14 @@ Then install the binary globally:
 mv cecil.phar /usr/local/bin/cecil
 chmod +x /usr/local/bin/cecil
 ```
-
+> [!IMPORTANT]
 > [PHP](https://www.php.net) 8.1+ is required.
 
 ## Usage
 
 - Get help: `cecil help`
-- Create new website: `cecil new:site`
-- Build and serve it: `cecil serve`
+- Create a new website: `cecil new:site`
+- Preview your website: `cecil serve`
 
 ## Contributing
 
