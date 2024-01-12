@@ -182,7 +182,7 @@ class Serve extends AbstractCommand
                 if ($this->getBuilder()->isDebug()) {
                     $output->writeln(sprintf('<comment>Process: %s</comment>', $command));
                 }
-                $process->start(function ($type, $buffer) use(&$output) {
+                $process->start(function ($type, $buffer) use (&$output) {
                     if ($this->getBuilder()->isDebug() && $type === Process::ERR) {
                         $output->writeln($buffer);
                     }
