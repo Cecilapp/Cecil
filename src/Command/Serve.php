@@ -224,7 +224,7 @@ class Serve extends AbstractCommand
                     }
                 }
                 if ($process->getExitCode() > 0) {
-                    $output->writeln(sprintf('<comment>Server stopped: %s.</comment>', trim($process->getErrorOutput())));
+                    $output->writeln(sprintf('<comment>%s</comment>', trim($process->getErrorOutput())));
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
