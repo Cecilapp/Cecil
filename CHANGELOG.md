@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.3.0](https://github.com/Cecilapp/Cecil/compare/8.2.0...8.3.0)
+
+> 12 January 2024
+
+- feat: better `serve` command feedback [`#1879`](https://github.com/Cecilapp/Cecil/pull/1879)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.8.0 to 3.8.1 [`#1878`](https://github.com/Cecilapp/Cecil/pull/1878)
+- doc: Update Extend page [`bbec310`](https://github.com/Cecilapp/Cecil/commit/bbec31041350add7387b8c530013a50479f53ee1)
+- chore: update deps [`f6031b0`](https://github.com/Cecilapp/Cecil/commit/f6031b0be406c67079673e302944d554c26cb0f1)
+
 #### [8.2.0](https://github.com/Cecilapp/Cecil/compare/8.1.7...8.2.0)
 
 > 11 January 2024
