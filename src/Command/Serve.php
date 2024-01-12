@@ -133,10 +133,6 @@ class Serve extends AbstractCommand
             ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
         );
 
-        if ($this->getBuilder()->isDebug()) {
-            $output->writeln(sprintf('<comment>Process: %s</comment>', implode(' ', $buildProcessArguments)));
-        }
-
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
         $buildProcess->setTimeout(3600 * 2); // timeout = 2 minutes
@@ -146,6 +142,9 @@ class Serve extends AbstractCommand
         };
 
         // (re)builds before serve
+        if ($this->getBuilder()->isDebug()) {
+            $output->writeln(sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)));
+        }
         $buildProcess->run($processOutputCallback);
         if ($buildProcess->isSuccessful()) {
             Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
@@ -176,15 +175,11 @@ class Serve extends AbstractCommand
                     pcntl_signal(SIGINT, [$this, 'tearDownServer']);
                     pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
-                $output->writeln(
-                    sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
-                );
-                if ($this->getBuilder()->isDebug()) {
-                    $output->writeln(sprintf('<comment>Process: %s</comment>', $command));
-                }
+                $output->writeln(sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
+                $output->writeln(sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port));
                 $process->start(function ($type, $buffer) use (&$output) {
-                    if ($this->getBuilder()->isDebug() && $type === Process::ERR) {
-                        $output->writeln($buffer);
+                    if ($type === Process::ERR) {
+                        $output->writeln($buffer, OutputInterface::VERBOSITY_DEBUG);
                     }
                 });
                 if ($open) {
@@ -192,6 +187,12 @@ class Serve extends AbstractCommand
                     Util\Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
+                    sleep(1); // wait for server is ready
+                    if (!fsockopen($host, (int) $port)) {
+                        $output->writeln('<info>Server is not ready.</info>');
+
+                        return 1;
+                    }
                     $watcher = $resourceWatcher->findChanges();
                     if ($watcher->hasChanges()) {
                         // prints deleted/new/updated files in debug mode
@@ -225,7 +226,7 @@ class Serve extends AbstractCommand
                     }
                 }
                 if ($process->getExitCode() > 0) {
-                    $output->writeln('<info>Server is failing...</info>');
+                    $output->writeln(sprintf('<comment>Server stopped: %s.</comment>', trim($process->getErrorOutput())));
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
