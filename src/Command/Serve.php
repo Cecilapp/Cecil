@@ -179,7 +179,14 @@ class Serve extends AbstractCommand
                 $output->writeln(
                     sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
                 );
-                $process->start();
+                if ($this->getBuilder()->isDebug()) {
+                    $output->writeln(sprintf('<comment>Process: %s</comment>', $command));
+                }
+                $process->start(function ($type, $buffer) use(&$output) {
+                    if ($this->getBuilder()->isDebug() && $type === Process::ERR) {
+                        $output->writeln($buffer);
+                    }
+                });
                 if ($open) {
                     $output->writeln('Opening web browser...');
                     Util\Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
@@ -216,6 +223,9 @@ class Serve extends AbstractCommand
 
                         $output->writeln('<info>Server is runnning...</info>');
                     }
+                }
+                if ($process->getExitCode() > 0) {
+                    $output->writeln('<info>Server is failing...</info>');
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
