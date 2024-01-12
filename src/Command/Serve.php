@@ -137,14 +137,12 @@ class Serve extends AbstractCommand
         $buildProcess->setPty(Process::isPtySupported());
         $buildProcess->setTimeout(3600 * 2); // timeout = 2 minutes
 
-        $processOutputCallback = function ($type, $data) use ($output) {
-            $output->write($data, false, OutputInterface::OUTPUT_RAW);
+        $processOutputCallback = function ($type, $buffer) use ($output) {
+            $output->write($buffer, false, OutputInterface::OUTPUT_RAW);
         };
 
         // (re)builds before serve
-        if ($this->getBuilder()->isDebug()) {
-            $output->writeln(sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)));
-        }
+        $output->writeln(sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
         $buildProcess->run($processOutputCallback);
         if ($buildProcess->isSuccessful()) {
             Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
@@ -177,7 +175,7 @@ class Serve extends AbstractCommand
                 }
                 $output->writeln(sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
                 $output->writeln(sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port));
-                $process->start(function ($type, $buffer) use (&$output) {
+                $process->start(function ($type, $buffer) {
                     if ($type === Process::ERR) {
                         error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
                     }
