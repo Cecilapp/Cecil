@@ -14,19 +14,14 @@
       "profile": "https://ligny.fr",
       "contributions": [
         "bug",
-        "content",
         "doc",
-        "example",
         "ideas",
         "maintenance",
         "promotion",
         "question",
         "review",
         "translation",
-        "test",
-        "tutorial",
-        "talk",
-        "projectManagement"
+        "talk"
       ]
     },
     {
