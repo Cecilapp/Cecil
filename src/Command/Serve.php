@@ -179,7 +179,7 @@ class Serve extends AbstractCommand
                 $output->writeln(sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port));
                 $process->start(function ($type, $buffer) use (&$output) {
                     if ($type === Process::ERR) {
-                        $output->writeln($buffer, OutputInterface::VERBOSITY_DEBUG);
+                        error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
                     }
                 });
                 if ($open) {
@@ -287,7 +287,7 @@ class Serve extends AbstractCommand
     public function tearDownServer(): void
     {
         $this->output->writeln('');
-        $this->output->writeln('<comment>Server stopped.</comment>');
+        $this->output->writeln('<info>Server stopped.</info>');
 
         try {
             Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
