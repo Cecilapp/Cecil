@@ -1,11 +1,15 @@
 {
-  "files": [
-    "README.md"
-  ],
+  "projectName": "Cecil",
+  "projectOwner": "Cecilapp",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": ["README.md"],
   "imageSize": 100,
   "commit": false,
   "commitType": "docs",
   "commitConvention": "angular",
+  "contributorsPerLine": 5,
+  "skipCi": true,
   "contributors": [
     {
       "login": "ArnaudLigny",
@@ -136,11 +140,5 @@
         "bug"
       ]
     }
-  ],
-  "contributorsPerLine": 5,
-  "skipCi": true,
-  "repoType": "github",
-  "repoHost": "https://github.com",
-  "projectName": "Cecil",
-  "projectOwner": "Cecilapp"
+  ]
 }
