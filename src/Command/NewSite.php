@@ -59,7 +59,7 @@ class NewSite extends AbstractCommand
             // ask to override site?
             /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
             $helper = $this->getHelper('question');
-            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), $this->findConfigFile('name'))) && !$force) {
+            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), $this->findConfigFile('name') ?: self::CONFIG_FILE[0])) && !$force) {
                 $output->writeln('<comment>Website already exists.</comment>');
                 if (!$helper->ask($input, $output, new ConfirmationQuestion('Do you want to override it? [y/n]', false))) {
                     return 0;
@@ -85,7 +85,7 @@ class NewSite extends AbstractCommand
                 'description' => $description,
             ]);
             $configYaml = Yaml::dump($config);
-            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->findConfigFile('name')), $configYaml);
+            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->findConfigFile('name') ?: self::CONFIG_FILE[0]), $configYaml);
             // files copy
             foreach (
                 [
