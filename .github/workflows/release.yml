@@ -143,6 +143,11 @@ jobs:
         body: |
           ${{ steps.changelog.outputs.changelog }}
 
+          ---
+          - Documentation: <https://cecil.app/documentation/>
+          - Download: <https://cecil.app/download/>
+          - Self Update: `php cecil.phar self-update`
+
   deploy_to_website:
     name: Deploy cecil.phar to website
     runs-on: ubuntu-latest
