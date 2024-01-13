@@ -8,7 +8,7 @@
   "commit": false,
   "commitType": "docs",
   "commitConvention": "angular",
-  "contributorsPerLine": 5,
+  "contributorsPerLine": 4,
   "skipCi": true,
   "contributors": [
     {
