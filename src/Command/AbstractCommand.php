@@ -17,7 +17,6 @@ use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
-use Cecil\Util\File;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,7 +28,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class AbstractCommand extends Command
 {
-    public const CONFIG_FILE = 'config.yml';
+    public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
     public const TMP_DIR = '.cecil';
 
     /** @var InputInterface */
@@ -62,10 +61,10 @@ class AbstractCommand extends Command
         $this->output = $output;
         $this->io = new SymfonyStyle($input, $output);
 
-        // checks config
-        if (!\in_array($this->getName(), ['new:site', 'self-update'])) {
-            // config file
-            $this->configFiles[self::CONFIG_FILE] = realpath(Util::joinFile($this->getPath(), self::CONFIG_FILE));
+        // set up configuration
+        if (!\in_array($this->getName(), ['serve', 'new:site', 'self-update'])) {
+            // default configuration file
+            $this->configFiles[$this->findConfigFile('name')] = $this->findConfigFile('path');
             // from --config=<file>
             if ($input->hasOption('config') && $input->getOption('config') !== null) {
                 foreach (explode(',', (string) $input->getOption('config')) as $configFile) {
@@ -151,6 +150,27 @@ class AbstractCommand extends Command
         }
 
         return $this->path;
+    }
+
+    /**
+     * Returns the configuration file name or path, if file exists, otherwise default name or false.
+     */
+    protected function findConfigFile(string $nameOrPath): string|false
+    {
+        $config = [
+            'name' => self::CONFIG_FILE[0],
+            'path' => false,
+        ];
+        foreach (self::CONFIG_FILE as $configFileName) {
+            if (($configFilePath = realpath(Util::joinFile($this->getPath(), $configFileName))) !== false) {
+                $config = [
+                    'name' => $configFileName,
+                    'path' => $configFilePath,
+                ];
+            }
+        }
+
+        return $config[$nameOrPath];
     }
 
     /**

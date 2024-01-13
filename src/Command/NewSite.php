@@ -59,7 +59,7 @@ class NewSite extends AbstractCommand
             // ask to override site?
             /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
             $helper = $this->getHelper('question');
-            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), self::CONFIG_FILE)) && !$force) {
+            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), $this->findConfigFile('name'))) && !$force) {
                 $output->writeln('<comment>Website already exists.</comment>');
                 if (!$helper->ask($input, $output, new ConfirmationQuestion('Do you want to override it? [y/n]', false))) {
                     return 0;
@@ -77,7 +77,7 @@ class NewSite extends AbstractCommand
             $baseurl = $helper->ask($input, $output, new Question('- baseurl (e.g.: https://cecil.app/): ', 'http://localhost:8000/'));
             $description = $helper->ask($input, $output, new Question('- description (~ 250 characters): ', 'Site description.'));
             // override skeleton default config
-            $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE));
+            $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]));
             $config = array_replace_recursive($config, [
                 'title'       => $title,
                 'baseline'    => $baseline,
@@ -85,7 +85,7 @@ class NewSite extends AbstractCommand
                 'description' => $description,
             ]);
             $configYaml = Yaml::dump($config);
-            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), self::CONFIG_FILE), $configYaml);
+            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->findConfigFile('name')), $configYaml);
             // files copy
             foreach (
                 [
