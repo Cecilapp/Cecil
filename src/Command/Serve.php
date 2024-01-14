@@ -83,11 +83,11 @@ class Serve extends AbstractCommand
         }
 
         $command = sprintf(
-            '%s -S %s:%d -t %s %s',
+            '"%s" -S %s:%d -t "%s" "%s"',
             $php,
             $host,
             $port,
-            $this->getPath() . '/' . (string) $this->getBuilder()->getConfig()->get('output.dir'),
+            Util::joinFile($this->getPath(), (string) $this->getBuilder()->getConfig()->get('output.dir')),
             Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);
