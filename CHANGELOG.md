@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.3.1](https://github.com/Cecilapp/Cecil/compare/8.3.0...8.3.1)
+
+> 14 January 2024
+
+- fix: serve command with PHP bin path with space(s) [`#1882`](https://github.com/Cecilapp/Cecil/pull/1882)
+- chore: update contributors [`f84f549`](https://github.com/Cecilapp/Cecil/commit/f84f549ae401d7d4e9a4d4b00e39c579fecb54f2)
+- chore: update contributors [`20ffcf5`](https://github.com/Cecilapp/Cecil/commit/20ffcf52012968adfe76a2a71990fac580dcc159)
+- chore: update release.yml [`70a8c4c`](https://github.com/Cecilapp/Cecil/commit/70a8c4cd78f24b0e9f4aa7e416de5ad8f184cb3a)
+
 #### [8.3.0](https://github.com/Cecilapp/Cecil/compare/8.2.0...8.3.0)
 
 > 12 January 2024
