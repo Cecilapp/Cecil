@@ -1,12 +1,14 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2023-12-08
+updated: 2024-01-15
 alias: documentation/publish
 -->
 # Deploy
 
+:::info
 By default your static site is built in the `_site` directory, and can be deployed as is.
+:::
 
 Below are some recipes to automate build and/or deployment of a static site.
 
@@ -107,24 +109,15 @@ name: Build and deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches: [master, main]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -132,22 +125,24 @@ jobs:
           extensions: mbstring, gd, imagick, intl, gettext
       - name: Build with Cecil
         uses: Cecilapp/Cecil-Action@v3
-        env:
-          CECIL_BASEURL: ${{ secrets.CECIL_BASEURL }}
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: _site
+        uses: actions/upload-pages-artifact@v3
   deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
 ```
 
 [Official documentation](https://about.gitlab.com/stages-devops-lifecycle/pages/)
