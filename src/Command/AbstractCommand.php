@@ -62,7 +62,7 @@ class AbstractCommand extends Command
         $this->io = new SymfonyStyle($input, $output);
 
         // set up configuration
-        if (!\in_array($this->getName(), ['serve', 'new:site', 'self-update'])) {
+        if (!\in_array($this->getName(), ['new:site', 'self-update'])) {
             // default configuration file
             $this->configFiles[$this->findConfigFile('name')] = $this->findConfigFile('path');
             // from --config=<file>
