@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.5.1](https://github.com/Cecilapp/Cecil/compare/8.5.0...8.5.1)
+
+> 15 January 2024
+
+- chore(deps): bump scssphp/scssphp from 1.12.0 to 1.12.1 [`#1884`](https://github.com/Cecilapp/Cecil/pull/1884)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.55 to 1.10.56 [`#1883`](https://github.com/Cecilapp/Cecil/pull/1883)
+- fix: pages sort and pagination [`aa75e7c`](https://github.com/Cecilapp/Cecil/commit/aa75e7c05647480f7d43022f3a184cd32004c483)
+- chore: update deps [`897cee4`](https://github.com/Cecilapp/Cecil/commit/897cee45017e8768e5ddab935d63706d406ae0bc)
+- website: Cecil publish Cecil ? ^^ [`15091a8`](https://github.com/Cecilapp/Cecil/commit/15091a8c4e2815e439be07f2abd952e422c76ee6)
+- chore: update deps [`9975c4a`](https://github.com/Cecilapp/Cecil/commit/9975c4a85f41cd4568b691d4012e87cb580e6bf1)
+- fix: default homepage layout [`a354f80`](https://github.com/Cecilapp/Cecil/commit/a354f8049ee4e9dfb50f1e7537728a0433c78046)
+- fix: handle case of config file exists but empty [`2295f90`](https://github.com/Cecilapp/Cecil/commit/2295f904bed365ded592b15e928b9256684793bb)
+- fix: default layout homepage [`999d7aa`](https://github.com/Cecilapp/Cecil/commit/999d7aa61fdf4b56861d027ce5cad5ca11586510)
+
 #### [8.5.0](https://github.com/Cecilapp/Cecil/compare/8.4.0...8.5.0)
 
 > 15 January 2024
