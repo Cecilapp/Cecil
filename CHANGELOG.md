@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.5.0](https://github.com/Cecilapp/Cecil/compare/8.4.0...8.5.0)
+
+> 15 January 2024
+
+- refactor: new site command [`b1e00f2`](https://github.com/Cecilapp/Cecil/commit/b1e00f228e54d4b0c7e899808cee4491b088872d)
+
 #### [8.4.0](https://github.com/Cecilapp/Cecil/compare/8.3.1...8.4.0)
 
 > 15 January 2024
