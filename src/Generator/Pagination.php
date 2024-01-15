@@ -70,7 +70,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             // sorts pages
-            $pages = Section::sortSubPages($page, $pages);
+            $pages = Section::sortSubPages($this->config, $page, $pages);
             // builds paginator
             $paginatorPagesCount = \intval(ceil($pagesTotal / $paginationPerPage));
             for ($i = 0; $i < $paginatorPagesCount; $i++) {

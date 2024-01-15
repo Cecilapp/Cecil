@@ -56,14 +56,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             }
             if ($subPages instanceof \Cecil\Collection\Page\Collection) {
                 // sorts pages
-                $pages = $subPages->sortBy($this->config->get('pages.sortby'));
-                if ($page->hasVariable('sortby')) {
-                    try {
-                        $pages = $pages->sortBy($page->getVariable('sortby'));
-                    } catch (RuntimeException $e) {
-                        throw new RuntimeException(sprintf('In page "%s", %s', $page->getId(), $e->getMessage()));
-                    }
-                }
+                $pages = Section::sortSubPages($this->config, $page, $subPages);
                 $page->setPages($pages);
                 if ($pages->first()) {
                     $page->setVariable('date', $pages->first()->getVariable('date'));

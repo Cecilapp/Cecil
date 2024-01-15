@@ -70,16 +70,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         });
                     }
                     // sorts pages
-                    $pages = $subPages->sortBy($this->config->get('pages.sortby'));
-                    if ($page->hasVariable('sortby')) {
-                        try {
-                            $pages = $pages->sortBy($page->getVariable('sortby'));
-                        } catch (RuntimeException $e) {
-                            throw new RuntimeException(sprintf('In page "%s", %s', $page->getId(), $e->getMessage()));
-                        }
-                    }
+                    $pages = Section::sortSubPages($this->config, $page, $subPages);
                     // adds navigation links (excludes taxonomy pages)
-                    $sortBy = $page->getVariable('sortby')['variable'] ?? $page->getVariable('sortby') ?? $this->config->get('pages.sortby') ?? 'date';
+                    $sortBy = $page->getVariable('sortby')['variable'] ?? $page->getVariable('sortby') ?? $this->config->get('pages.sortby')['variable'] ?? $this->config->get('pages.sortby') ?? 'date';
                     if (!\in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
                         $this->addNavigationLinks($pages, $sortBy, $page->getVariable('circular') ?? false);
                     }
@@ -108,34 +101,18 @@ class Section extends AbstractGenerator implements GeneratorInterface
     /**
      * Sorts subpages.
      */
-    public static function sortSubPages(Page $page, PagesCollection $pages): PagesCollection
+    public static function sortSubPages(\Cecil\Config $config, Page $page, PagesCollection $subPages): PagesCollection
     {
-        // sorts (by date by default)
-        $pages = $pages->sortByDate();
-        /*
-         * sortby: date|updated|title|weight
-         *
-         * sortby:
-         *   variable: date|updated
-         *   desc_title: false|true
-         *   reverse: false|true
-         */
+        $subPages = $subPages->sortBy($config->get('pages.sortby'));
         if ($page->hasVariable('sortby')) {
-            $sortby = (string) $page->getVariable('sortby');
-            // options?
-            $sortby = $page->getVariable('sortby')['variable'] ?? $sortby;
-            $descTitle = $page->getVariable('sortby')['desc_title'] ?? false;
-            $reverse = $page->getVariable('sortby')['reverse'] ?? false;
-            // sortby: date, title or weight
-            $sortMethod = sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortby)));
-            if (!method_exists($pages, $sortMethod)) {
-                throw new RuntimeException(sprintf('In "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $sortby));
+            try {
+                $subPages = $subPages->sortBy($page->getVariable('sortby'));
+            } catch (RuntimeException $e) {
+                throw new RuntimeException(sprintf('In page "%s", %s', $page->getId(), $e->getMessage()));
             }
-
-            return $pages->$sortMethod(['variable' => $sortby, 'descTitle' => $descTitle, 'reverse' => $reverse]);
         }
 
-        return $pages;
+        return $subPages;
     }
 
     /**
