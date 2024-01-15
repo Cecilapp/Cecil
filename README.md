@@ -24,7 +24,7 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 
 Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button "Deploy with Vercel")](https://cecil.app/hosting/vercel/deploy/)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button/default.svg "Deploy with Vercel")](https://cecil.app/hosting/vercel/deploy/)
 
 ## Features
 
