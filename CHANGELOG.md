@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.4.0](https://github.com/Cecilapp/Cecil/compare/8.3.1...8.4.0)
+
+> 15 January 2024
+
+- feat: use `cecil.yml` as configuration file name [`#1881`](https://github.com/Cecilapp/Cecil/pull/1881)
+
 #### [8.3.1](https://github.com/Cecilapp/Cecil/compare/8.3.0...8.3.1)
 
 > 14 January 2024
