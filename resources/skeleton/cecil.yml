@@ -1,7 +1,7 @@
 title: Cecil
-baseline: Your content driven static site generator.
-baseurl: https://cecil.local/
-description: "Cecil is a CLI application, powered by PHP, that merge plain text files (written in Markdown), images and Twig templates to generate a static website."
+baseline: ''
+baseurl: http://localhost:8000/
+description: Site description.
 author:
   name: Arnaud Ligny
   url: https://arnaudligny.fr

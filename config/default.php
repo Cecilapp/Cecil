@@ -17,7 +17,7 @@ return [
     'baseline'     => '',
     'baseurl'      => 'http://localhost:8000/',
     'canonicalurl' => false, // if true then `url()` function prepends URL with `baseurl`
-    'description'  => 'Site description',
+    'description'  => 'Site description.',
     'author'       => [
         //'name'   => '',
         //'url'   => '',
