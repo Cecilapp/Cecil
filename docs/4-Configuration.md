@@ -829,7 +829,7 @@ assets:
 :::
 **Notes:**
 
-- See [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting) for details about `style` compilation and `variables`
+- For details about SCSS compilation (`compile`) see the [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting)
 - `minify` is available for file with a `text/css` or `text/javascript` MIME Type
 - Enables sourcemap output requires [debug mode](#debug) is enabled
 :::

@@ -1053,10 +1053,6 @@ Converts an asset into an HTML element.
 {{ asset(path)|html({attributes, options}) }}
 ```
 
-:::info
-The `html` filter is available for images, CSS and JavaScript. The `attributes` and `options` parameters are optional.
-:::
-
 | Option     | Description                                     | Type  | Default |
 | ---------- | ----------------------------------------------- | ----- | ------- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |         |
@@ -1078,6 +1074,10 @@ _Examples:_
 
 ```twig
 {{ asset('styles.css')|html({title: 'Main theme'}, {preload: true}) }}
+```
+
+```twig
+{{ asset('script.js')|html }}
 ```
 
 ### preg_split
