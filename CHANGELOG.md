@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.5.2](https://github.com/Cecilapp/Cecil/compare/8.5.1...8.5.2)
+
+> 15 January 2024
+
+- doc: update deploy page [`4dd3996`](https://github.com/Cecilapp/Cecil/commit/4dd39968b1ddd9fd028d395178ebf11abd168bed)
+- fix: config when serve... [`e0a78ca`](https://github.com/Cecilapp/Cecil/commit/e0a78cada8c59e0cffb3ee8ab7fdb4179f23a4d4)
+
 #### [8.5.1](https://github.com/Cecilapp/Cecil/compare/8.5.0...8.5.1)
 
 > 15 January 2024
