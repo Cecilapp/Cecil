@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-12-27
+updated: 2024-01-18
 alias: documentation/layouts
 -->
 # Templates
@@ -1056,16 +1056,23 @@ Converts an asset into an HTML element.
 | Option     | Description                                     | Type  | Default |
 | ---------- | ----------------------------------------------- | ----- | ------- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |         |
-| options    | `{responsive: true}`: creates responsives images.<br>`{webp: true}`: creates WebP versions of the image.<br>`{preload: true}`: preloads CSS. | array |         |
+| options    | `{preload: true}`: preloads CSS.<br>`{responsive: true}`: creates responsives images.<br>`{webp: true}`: creates WebP versions of the image. | array |         |
 
 _Examples:_
 
 ```twig
+{# image without specific attributes nor options #}
 {{ asset('image.png')|html }}
 ```
 
 ```twig
+{# image with specific attributes and options #}
 {{ asset('image.jpg')|html({alt: 'Description', loading: 'lazy'}, {responsive: true, webp: true}) }}
+```
+
+```twig
+{# with named argument `options` #}
+{{ asset('image.jpg')|html(options={responsive: true}) }}
 ```
 
 ```twig

@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2023-12-27
+updated: 2024-01-18
 -->
 # Configuration
 
@@ -821,17 +821,18 @@ assets:
       widths: []         # `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
       sizes:
         default: '100vw' # default `sizes` attribute (`100vw` by default)
-      enabled: false     # `html` filter: creates responsive images (`false` by default)
+      enabled: false     # used by `html` filter: creates responsive images by default (`false` by default)
     webp:
-      enabled: false     # `html` filter: creates and adds a WebP image as a `source` (`false` by default)
+      enabled: false     # used by `html` filter: creates and adds a WebP image as a `source` by default (`false` by default)
 ```
 
 :::
 **Notes:**
 
-- For details about SCSS compilation (`compile`) see the [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting)
-- `minify` is available for file with a `text/css` or `text/javascript` MIME Type
-- Enables sourcemap output requires [debug mode](#debug) is enabled
+- `compile` is used for [SCSS](https://sass-lang.com) compilation. See the [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting) for options details
+- `sourcemap` is used to debug SCSS compilation ([debug mode](#debug) must be enabled
+- `minify` is available for file with a `text/css` or `text/javascript` [MIME Type](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types)
+- Generated `responsive` images default widths are: 480, 640, 768, 1024, 1366, 1600 and 1920
 :::
 
 #### Image CDN
