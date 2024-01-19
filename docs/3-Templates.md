@@ -1098,7 +1098,7 @@ Splits a string into an array using a regular expression.
 _Example:_
 
 ```twig
-{% set headers = page.content|preg_split('/<h3[^>]*>/') %}
+{% set headers = page.content|preg_split('/<br[^>]*>/') %}
 ```
 
 ### preg_match_all
@@ -1112,7 +1112,7 @@ Performs a regular expression match and return the group for all matches.
 _Example:_
 
 ```twig
-{% set tags = page.content|preg_match_all('/<[^>]+>(.*)<\\/[^>]+>/') %}
+{% set tags = page.content|preg_match_all('/<[^>]+>(.*)<\/[^>]+>/') %}
 ```
 
 ### hex_to_rgb
