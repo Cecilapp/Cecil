@@ -203,7 +203,7 @@ return [
         ],
         'compile' => [
             'enabled'   => true, // enables Sass files compilation (`true` by default)
-            'style'     => 'expanded', // compilation style (`expanded` or `compressed`. `expanded`
+            'style'     => 'expanded', // compilation style (`expanded` or `compressed`, `expanded` by default)
             'import'    => ['sass', 'scss', 'node_modules'], // list of imported paths (`[sass, scss, node_modules]` by default)
             'sourcemap' => false, // enables sourcemap in debug mode (`false` by default)
             //'variables' => ['var' => 'value'], // list of preset variables (empty by default)

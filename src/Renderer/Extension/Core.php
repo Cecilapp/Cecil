@@ -24,6 +24,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 use Cecil\Config;
 use Cecil\Converter\Parsedown;
+use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
@@ -446,7 +447,7 @@ class Core extends SlugifyExtension
             $outputStyles = ['expanded', 'compressed'];
             $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
             if (!\in_array($outputStyle, $outputStyles)) {
-                throw new RuntimeException(sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
+                throw new ConfigException(sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
             }
             $scssPhp->setOutputStyle($outputStyle);
             $variables = $this->config->get('assets.compile.variables') ?? [];

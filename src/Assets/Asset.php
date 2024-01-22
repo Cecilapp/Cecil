@@ -17,6 +17,7 @@ use Cecil\Assets\Image\Optimizer;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
+use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Intervention\Image\ImageManagerStatic as ImageManager;
@@ -296,7 +297,7 @@ class Asset implements \ArrayAccess
             $outputStyles = ['expanded', 'compressed'];
             $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
             if (!\in_array($outputStyle, $outputStyles)) {
-                throw new RuntimeException(sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
+                throw new ConfigException(sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
             }
             $scssPhp->setOutputStyle($outputStyle);
             // variables
