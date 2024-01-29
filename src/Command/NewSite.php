@@ -71,7 +71,7 @@ class NewSite extends AbstractCommand
             // setup questions
             $title = $this->io->ask('Give a title to your new site', 'Site title');
             $baseline = $this->io->ask('Describe your site in few words', '');
-            $baseurl = $this->io->ask('Base URL?', 'https://cecil.app/', [$this, 'validateUrl']);
+            $baseurl = $this->io->ask('Base URL?', 'https://domain.tld/', [$this, 'validateUrl']);
             $description = $this->io->ask('Write a full description of your site', 'Site description.');
             $authorName = $this->io->ask('What is the author name?', 'Cecil');
             $authorUrl = $this->io->ask('What is the author URL?', 'https://cecil.app', [$this, 'validateUrl']);
