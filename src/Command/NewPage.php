@@ -20,7 +20,6 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Creates a new page.
@@ -37,8 +36,8 @@ class NewPage extends AbstractCommand
             ->setDescription('Creates a new page')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('name', InputArgument::REQUIRED, 'New page name'),
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                    new InputOption('name', null, InputOption::VALUE_REQUIRED, 'Page path name'),
                     new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
@@ -55,12 +54,23 @@ class NewPage extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name = (string) $input->getArgument('name');
+        $name = (string) $input->getOption('name');
+        $prefix = $input->getOption('prefix');
         $force = $input->getOption('force');
         $open = $input->getOption('open');
-        $prefix = $input->getOption('prefix');
+        $editor = $input->getOption('editor');
 
         try {
+            // ask
+            if (empty($name)) {
+                $name = $this->io->ask('What is the name of the page file?', 'new-page.md');
+                $prefix = $this->io->confirm('Add date prefix to the filename?', false);
+                $open = $this->io->confirm('Do you want open the created file with your editor?', false);
+                if ($open && !$this->getBuilder()->getConfig()->has('editor')) {
+                    $editor = $this->io->ask('Which editor?');
+                }
+            }
+            // parse given path name
             $nameParts = pathinfo($name);
             $dirname = trim($nameParts['dirname'], '.');
             $basename = $nameParts['basename'];
@@ -73,7 +83,7 @@ class NewPage extends AbstractCommand
             }
             $title = ucfirst(str_replace('-', ' ', $title));
             $date = date('Y-m-d');
-            // has date prefix?
+            // date prefix?
             $datePrefix = '';
             if ($prefix) {
                 $datePrefix = sprintf('%s-', $date);
@@ -89,17 +99,10 @@ class NewPage extends AbstractCommand
             );
             $filePath = Util::joinFile($this->getPath(), $fileRelativePath);
 
-            // file already exists?
+            // ask to override existing file?
             if (Util\File::getFS()->exists($filePath) && !$force) {
-                $output->writeln(sprintf(
-                    '<comment>The file "%s" already exists.</comment>',
-                    $fileRelativePath
-                ));
-                // ask to override file
-                /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
-                $helper = $this->getHelper('question');
-                $question = new ConfirmationQuestion('Do you want to override it? [y/n]', false);
-                if (!$helper->ask($input, $output, $question)) {
+                $output->writeln(sprintf('<comment>The file "%s" already exists.</comment>', $fileRelativePath));
+                if (!$this->io->confirm('Do you want to override it?', false)) {
                     return 0;
                 }
             }
@@ -116,7 +119,7 @@ class NewPage extends AbstractCommand
 
             // open editor?
             if ($open) {
-                if (null === $editor = $input->getOption('editor')) {
+                if ($editor === null) {
                     if (!$this->getBuilder()->getConfig()->has('editor')) {
                         $output->writeln('<comment>No editor configured.</comment>');
 
