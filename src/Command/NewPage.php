@@ -64,10 +64,10 @@ class NewPage extends AbstractCommand
             // ask
             if (empty($name)) {
                 $name = $this->io->ask('What is the name of the page file?', 'new-page.md');
-                $prefix = ($prefix === false) ?: $this->io->confirm('Add date prefix to the filename?', false);
-                $open = ($open === false) ?: $this->io->confirm('Do you want open the created file with your editor?', false);
+                $prefix = ($prefix !== false) ?: $this->io->confirm('Add date prefix to the filename?', false);
+                $open = ($open !== false) ?: $this->io->confirm('Do you want open the created file with your editor?', false);
                 if ($open && !$this->getBuilder()->getConfig()->has('editor')) {
-                    $editor = ($editor === false) ?: $this->io->ask('Which editor?');
+                    $editor = ($editor !== null) ? $editor : $this->io->ask('Which editor?');
                 }
             }
             // parse given path name
