@@ -1,8 +1,8 @@
-title: Cecil
+title: Site title
 baseline: ''
-baseurl: http://localhost:8000/
+baseurl: https://cecil.app/
 description: Site description.
 author:
   name: Arnaud Ligny
-  url: https://arnaudligny.fr
+  url: https://ligny.fr
 image: cecil-card.png
