@@ -3,6 +3,6 @@ baseline: ''
 baseurl: https://cecil.app/
 description: Site description.
 author:
-  name: Arnaud Ligny
-  url: https://ligny.fr
+  name: Cecil
+  url: https://cecil.app
 image: cecil-card.png
