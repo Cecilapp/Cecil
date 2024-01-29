@@ -72,7 +72,7 @@ class NewSite extends AbstractCommand
             $description = $this->io->ask('Write a full description of your site', 'Site description.');
             $authorName = $this->io->ask('What is the author name?', 'Cecil');
             $authorUrl = $this->io->ask('What is the author URL?', 'https://cecil.app', [$this, 'validateUrl']);
-            $demo = $this->io->confirm('Add demo content?', false);
+            $demo = ($demo === false) ?: $this->io->confirm('Add demo content?', false);
             // override skeleton default config
             $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]));
             $config = array_replace_recursive($config, [
