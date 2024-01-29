@@ -106,7 +106,7 @@ class NewSite extends AbstractCommand
             $this->io->newLine();
             $this->io->listing([
                 'You can download a theme from https://cecil.app/themes/',
-                'You can create a new page with "cecil new:page <section>/<filename>.md"',
+                'You can create a new page with "cecil new:page"',
                 'Start the built-in preview server via "cecil serve"',
             ]);
             $this->io->text('Visit https://cecil.app for full documentation.');
