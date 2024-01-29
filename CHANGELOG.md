@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.6.0](https://github.com/Cecilapp/Cecil/compare/8.5.2...8.6.0)
+
+> 29 January 2024
+
+- refactor: `new` commands [`#1895`](https://github.com/Cecilapp/Cecil/pull/1895)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.56 to 1.10.57 [`#1894`](https://github.com/Cecilapp/Cecil/pull/1894)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.47.1 to 3.48.0 [`#1891`](https://github.com/Cecilapp/Cecil/pull/1891)
+- chore(deps-dev): bump phpunit/phpunit from 9.6.15 to 9.6.16 [`#1890`](https://github.com/Cecilapp/Cecil/pull/1890)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.47.0 to 3.47.1 [`#1886`](https://github.com/Cecilapp/Cecil/pull/1886)
+- doc: minor updates [`b793d31`](https://github.com/Cecilapp/Cecil/commit/b793d318599694ad49592e048c507e0e55a9923c)
+- chore: update dev deps [`b24539a`](https://github.com/Cecilapp/Cecil/commit/b24539a7bcd9b73043cf8938e580b51c811dde31)
+- doc: minor changes [`c00380d`](https://github.com/Cecilapp/Cecil/commit/c00380d8ff9d5abe6056344ffd03af8e4e025c0a)
+- chore: minor changes in default config [`e26ddf8`](https://github.com/Cecilapp/Cecil/commit/e26ddf8d1dd8ec525990e12bd93ae6d89158f370)
+- refactor: enhances Scss compile error message [`3e5ac63`](https://github.com/Cecilapp/Cecil/commit/3e5ac632948cc9c69faababdc9bd7f01427b5223)
+- doc: minor fix [`42fe8ed`](https://github.com/Cecilapp/Cecil/commit/42fe8edb03ecb338ca4d515996f3c884bcdfac80)
+- chore: fix PHP CS fixer command [`8e2d0fa`](https://github.com/Cecilapp/Cecil/commit/8e2d0fa9c82f66b9ea166f7ebeca4aa7f57739f3)
+
 #### [8.5.2](https://github.com/Cecilapp/Cecil/compare/8.5.1...8.5.2)
 
 > 15 January 2024
