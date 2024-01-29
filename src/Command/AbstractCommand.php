@@ -23,6 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\Validator\Validation;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -239,5 +241,22 @@ class AbstractCommand extends Command
         if (!$process->isSuccessful()) {
             throw new RuntimeException(sprintf('Can\'t use "%s" editor.', $editor));
         }
+    }
+
+    /**
+     * Validate URL.
+     *
+     * @throws RuntimeException
+     */
+    public static function validateUrl(string $url): string
+    {
+        $validator = Validation::createValidator();
+        $violations = $validator->validate($url, new Url());
+        if (\count($violations) > 0) {
+            foreach ($violations as $violation) {
+                throw new RuntimeException($violation->getMessage());
+            }
+        }
+        return rtrim($url, '/') . '/';
     }
 }
