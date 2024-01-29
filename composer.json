@@ -111,7 +111,7 @@
     "code:md": "phpmd src text codesize, naming, unusedcode",
     "code:md:gh": "phpmd src github codesize, naming, unusedcode",
     "code:style": "phpcs ./src/ --standard=PSR12 -n",
-    "code:fix": "php-cs-fixer fix ./src/ --rules=@PSR12,native_function_invocation --allow-risky=yes",
+    "code:fix": "php-cs-fixer fix ./src/ --rules=@PSR12,native_function_invocation --allow-risky=yes --show-progress=none",
     "test": "@test:integration",
     "test:bin": "cd bin && php cecil --version && mkdir skeleton && php cecil new:site skeleton -f -n && php cecil new:page test skeleton && php cecil build skeleton -v && rm -rf skeleton",
     "test:coverage": "phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml",
