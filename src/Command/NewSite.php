@@ -39,6 +39,7 @@ class NewSite extends AbstractCommand
                 new InputDefinition([
                     new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                     new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override directory if it already exists'),
+                    new InputOption('demo', null, InputOption::VALUE_NONE, 'Add demo content (pages, templates and assets)'),
                 ])
             )
             ->setHelp('Creates a new website in the current directory, or in <path> if provided');
@@ -52,6 +53,7 @@ class NewSite extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $force = $input->getOption('force');
+        $demo = $input->getOption('demo');
 
         try {
             // ask to override existing site?
@@ -66,13 +68,16 @@ class NewSite extends AbstractCommand
             if (Util\Plateform::isPhar()) {
                 $root = Util\Plateform::getPharPath() . '/';
             }
-            // ask for basic configuration
+            // setup questions
             $title = $this->io->ask('Give a title to your new site', 'Site title');
             $baseline = $this->io->ask('Describe your site in few words', '');
             $baseurl = $this->io->ask('Base URL?', 'https://cecil.app/', [$this, 'validateUrl']);
-            $description = $this->io->ask('Write a description of your site', 'Site description.');
-            $authorName = $this->io->ask('What is the author name?', 'Arnaud Ligny');
-            $authorUrl = $this->io->ask('What is the author URL?', 'https://ligny.fr', [$this, 'validateUrl']);
+            $description = $this->io->ask('Write a full description of your site', 'Site description.');
+            $authorName = $this->io->ask('What is the author name?', 'Cecil');
+            $authorUrl = $this->io->ask('What is the author URL?', 'https://cecil.app', [$this, 'validateUrl']);
+            if ($this->io->confirm('Add demo content?', false)) {
+                $demo = true;
+            }
             // override skeleton default config
             $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]));
             $config = array_replace_recursive($config, [
@@ -87,19 +92,45 @@ class NewSite extends AbstractCommand
             ]);
             $configYaml = Yaml::dump($config, 2, 2);
             Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->findConfigFile('name') ?: self::CONFIG_FILE[0]), $configYaml);
-            // files copy
+            // creates dir
             foreach (
                 [
-                    (string) $this->getBuilder()->getConfig()->get('pages.dir'),
-                    (string) $this->getBuilder()->getConfig()->get('layouts.dir'),
-                    (string) $this->getBuilder()->getConfig()->get('static.dir'),
                     (string) $this->getBuilder()->getConfig()->get('assets.dir'),
+                    (string) $this->getBuilder()->getConfig()->get('layouts.dir'),
+                    (string) $this->getBuilder()->getConfig()->get('pages.dir'),
+                    (string) $this->getBuilder()->getConfig()->get('static.dir'),
                 ] as $value
             ) {
-                Util\File::getFS()->mirror(
+                Util\File::getFS()->mkdir(Util::joinPath($this->getPath(), $value));
+            }
+            // copy files
+            foreach(
+                [
+                    'assets/favicon.png',
+                    'pages/index.md',
+                    'static/cecil-card.png',
+                ] as $value
+            ) {
+                Util\File::getFS()->copy(
                     Util::joinPath($root, 'resources/skeleton', $value),
                     Util::joinPath($this->getPath(), $value)
                 );
+            }
+            // demo: copy files
+            if ($demo) {
+                foreach (
+                    [
+                        (string) $this->getBuilder()->getConfig()->get('assets.dir'),
+                        (string) $this->getBuilder()->getConfig()->get('layouts.dir'),
+                        (string) $this->getBuilder()->getConfig()->get('pages.dir'),
+                        (string) $this->getBuilder()->getConfig()->get('static.dir'),
+                    ] as $value
+                ) {
+                    Util\File::getFS()->mirror(
+                        Util::joinPath($root, 'resources/skeleton', $value),
+                        Util::joinPath($this->getPath(), $value)
+                    );
+                }
             }
             // done
             $output->writeln(sprintf('<info>Your new Cecil site is created in %s.</info>', realpath($this->getPath())));
