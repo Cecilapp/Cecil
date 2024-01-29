@@ -20,8 +20,6 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -56,12 +54,10 @@ class NewSite extends AbstractCommand
         $force = $input->getOption('force');
 
         try {
-            // ask to override site?
-            /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
-            $helper = $this->getHelper('question');
+            // ask to override existing site?
             if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), $this->findConfigFile('name') ?: self::CONFIG_FILE[0])) && !$force) {
                 $output->writeln('<comment>Website already exists.</comment>');
-                if (!$helper->ask($input, $output, new ConfirmationQuestion('Do you want to override it? [y/n]', false))) {
+                if (!$this->io->confirm('Do you want to override it?', false)) {
                     return 0;
                 }
             }
@@ -71,13 +67,12 @@ class NewSite extends AbstractCommand
                 $root = Util\Plateform::getPharPath() . '/';
             }
             // ask for basic configuration
-            $output->writeln('Creating a new website...');
-            $title = $helper->ask($input, $output, new Question('- title: ', 'Site title'));
-            $baseline = $helper->ask($input, $output, new Question('- baseline (~ 20 characters): ', ''));
-            $baseurl = $helper->ask($input, $output, new Question('- baseurl (e.g.: https://cecil.app/): ', 'http://localhost:8000/'));
-            $description = $helper->ask($input, $output, new Question('- description (~ 250 characters): ', 'Site description.'));
-            $authorName = $helper->ask($input, $output, new Question('- author:name: ', 'Arnaud Ligny'));
-            $authorUrl = $helper->ask($input, $output, new Question('- author:url: ', 'https://arnaudligny.fr'));
+            $title = $this->io->ask('Give a title to your new site', 'Site title');
+            $baseline = $this->io->ask('Describe your site in few words', '');
+            $baseurl = $this->io->ask('Base URL?', 'https://cecil.app/', [$this, 'validateUrl']);
+            $description = $this->io->ask('Write a description of your site', 'Site description.');
+            $authorName = $this->io->ask('What is the author name?', 'Arnaud Ligny');
+            $authorUrl = $this->io->ask('What is the author URL?', 'https://ligny.fr', [$this, 'validateUrl']);
             // override skeleton default config
             $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]));
             $config = array_replace_recursive($config, [
@@ -90,7 +85,7 @@ class NewSite extends AbstractCommand
                     'url'  => $authorUrl,
                 ],
             ]);
-            $configYaml = Yaml::dump($config);
+            $configYaml = Yaml::dump($config, 2, 2);
             Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->findConfigFile('name') ?: self::CONFIG_FILE[0]), $configYaml);
             // files copy
             foreach (
@@ -106,7 +101,15 @@ class NewSite extends AbstractCommand
                     Util::joinPath($this->getPath(), $value)
                 );
             }
-            $output->writeln('<info>Done</info>');
+            // done
+            $output->writeln(sprintf('<info>Your new Cecil site is created in %s.</info>', realpath($this->getPath())));
+            $this->io->newLine();
+            $this->io->listing([
+                'You can download a theme from https://cecil.app/themes/',
+                'You can create a new page with "cecil new:page <section>/<filename>.md"',
+                'Start the built-in preview server via "cecil serve"',
+            ]);
+            $this->io->text('Visit https://cecil.app for full documentation.');
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf($e->getMessage()));
         }
