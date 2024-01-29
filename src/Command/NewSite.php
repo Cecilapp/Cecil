@@ -64,10 +64,7 @@ class NewSite extends AbstractCommand
                 }
             }
             // define root path
-            $root = realpath(Util::joinFile(__DIR__, '/../../'));
-            if (Util\Plateform::isPhar()) {
-                $root = Util\Plateform::getPharPath() . '/';
-            }
+            $root = Util\Plateform::isPhar() ? Util\Plateform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // setup questions
             $title = $this->io->ask('Give a title to your new site', 'Site title');
             $baseline = $this->io->ask('Describe your site in few words', '');
@@ -75,9 +72,7 @@ class NewSite extends AbstractCommand
             $description = $this->io->ask('Write a full description of your site', 'Site description.');
             $authorName = $this->io->ask('What is the author name?', 'Cecil');
             $authorUrl = $this->io->ask('What is the author URL?', 'https://cecil.app', [$this, 'validateUrl']);
-            if ($this->io->confirm('Add demo content?', false)) {
-                $demo = true;
-            }
+            $demo = $this->io->confirm('Add demo content?', false);
             // override skeleton default config
             $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]));
             $config = array_replace_recursive($config, [
