@@ -104,7 +104,7 @@ class NewSite extends AbstractCommand
                 Util\File::getFS()->mkdir(Util::joinPath($this->getPath(), $value));
             }
             // copy files
-            foreach(
+            foreach (
                 [
                     'assets/favicon.png',
                     'pages/index.md',
