@@ -84,11 +84,8 @@ class NewPage extends AbstractCommand
             $title = ucfirst(str_replace('-', ' ', $title));
             $date = date('Y-m-d');
             // date prefix?
-            $datePrefix = '';
-            if ($prefix) {
-                $datePrefix = sprintf('%s-', $date);
-            }
-            // path
+            $datePrefix = $prefix ? sprintf('%s-', $date) : '';
+            // define target path
             $fileRelativePath = sprintf(
                 '%s%s%s%s%s',
                 (string) $this->getBuilder()->getConfig()->get('pages.dir'),
@@ -98,7 +95,6 @@ class NewPage extends AbstractCommand
                 $filename
             );
             $filePath = Util::joinFile($this->getPath(), $fileRelativePath);
-
             // ask to override existing file?
             if (Util\File::getFS()->exists($filePath) && !$force) {
                 $output->writeln(sprintf('<comment>The file "%s" already exists.</comment>', $fileRelativePath));
@@ -106,7 +102,6 @@ class NewPage extends AbstractCommand
                     return 0;
                 }
             }
-
             // creates a new file
             $model = $this->findModel(sprintf('%s%s', empty($dirname) ? '' : $dirname . DIRECTORY_SEPARATOR, $filename));
             $fileContent = str_replace(
@@ -116,7 +111,6 @@ class NewPage extends AbstractCommand
             );
             Util\File::getFS()->dumpFile($filePath, $fileContent);
             $output->writeln(sprintf('<info>File "%s" created (with model "%s").</info>', $fileRelativePath, $model['name']));
-
             // open editor?
             if ($open) {
                 if ($editor === null) {
