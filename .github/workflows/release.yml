@@ -192,7 +192,7 @@ jobs:
     - name: Download cecil.phar
       uses: actions/download-artifact@v4
       with:
-        name: cecil.phar
+        name: cecil_phar
         path: dist
 
     - name: Push files
