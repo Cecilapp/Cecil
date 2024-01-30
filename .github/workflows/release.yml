@@ -72,7 +72,7 @@ jobs:
       run: |
         cd dist
         mkdir skeleton
-        php cecil.phar new:site skeleton -f
+        php cecil.phar new:site skeleton --demo -f -n
         php cecil.phar build skeleton
         php cecil.phar show:content skeleton
         rm -rf skeleton
@@ -83,7 +83,7 @@ jobs:
       run: |
         cd dist
         mkdir skeleton
-        php cecil.phar new:site skeleton -f
+        php cecil.phar new:site skeleton --demo -f -n
         php cecil.phar build skeleton -vvv
         php cecil.phar show:content skeleton
 
