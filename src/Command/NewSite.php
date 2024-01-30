@@ -131,11 +131,11 @@ class NewSite extends AbstractCommand
             $output->writeln(sprintf('<info>Your new Cecil site is created in %s.</info>', realpath($this->getPath())));
             $this->io->newLine();
             $this->io->listing([
-                'You can download a theme from https://cecil.app/themes/',
+                'You can download a theme from <href=https://cecil.app/themes/>https://cecil.app/themes/</>',
                 'You can create a new page with "cecil new:page"',
                 'Start the built-in preview server via "cecil serve"',
             ]);
-            $this->io->text('Visit https://cecil.app for full documentation.');
+            $this->io->text('Visit <href=https://cecil.app>https://cecil.app</> for full documentation.');
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf($e->getMessage()));
         }
