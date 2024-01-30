@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.6.1](https://github.com/Cecilapp/Cecil/compare/8.6.0...8.6.1)
+
+> 29 January 2024
+
+- fix: new commands with options [`212f930`](https://github.com/Cecilapp/Cecil/commit/212f93063b48e139b8f10dc157b170d4eeff637b)
+- fix: minor commands fix [`0ab8ba9`](https://github.com/Cecilapp/Cecil/commit/0ab8ba991c8fcf9be8452ba27cc0823335c722d5)
+- ci: change name of the Homebrew tap repo [`55496bc`](https://github.com/Cecilapp/Cecil/commit/55496bc0ec440769c22305acfe98b84de44b8cef)
+
 #### [8.6.0](https://github.com/Cecilapp/Cecil/compare/8.5.2...8.6.0)
 
 > 29 January 2024
