@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2023-12-29
+updated: 2024-01-30
 -->
 # Commands
 
@@ -32,7 +32,7 @@ Available commands:
 
 ## new:site
 
-Creates a new skeleton site.
+Creates a new site.
 
 ```plaintext
 Description:
@@ -46,6 +46,7 @@ Arguments:
 
 Options:
   -f, --force           Override directory if it already exists
+      --demo            Add demo content (pages, templates and assets)
   -h, --help            Display help for the given command. When no command is given display help for the list command
   -q, --quiet           Do not output any message
   -V, --version         Display this application version
@@ -66,13 +67,13 @@ Description:
   Creates a new page
 
 Usage:
-  new:page [options] [--] <name> [<path>]
+  new:page [options] [--] [<path>]
 
 Arguments:
-  name                  New page name
   path                  Use the given path as working directory
 
 Options:
+      --name=NAME       Page path name
   -p, --prefix          Prefix the file name with the current date (`YYYY-MM-DD`)
   -f, --force           Override the file if already exist
   -o, --open            Open editor automatically
