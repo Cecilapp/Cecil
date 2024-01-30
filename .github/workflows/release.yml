@@ -92,11 +92,29 @@ jobs:
       run: |
         echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
 
-    - name: Upload cecil.phar
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@v6
+      with:
+        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+    - name: Sign the cecil.phar
+      run: |
+        gpg --local-user arnaud@ligny.fr \
+            --batch \
+            --yes \
+            --passphrase="${{ secrets.GPG_PASSPHRASE }}" \
+            --detach-sign \
+            --output dist/cecil.phar.asc \
+            dist/cecil.phar
+
+    - name: Upload files
       uses: actions/upload-artifact@v4
       with:
-        name: cecil.phar
-        path: dist/cecil.phar
+        name: cecil_phar
+        path: |
+          dist/cecil.phar
+          dist/cecil.phar.asc
         if-no-files-found: error
 
   deploy_to_github:
@@ -108,7 +126,8 @@ jobs:
     - name: Download cecil.phar
       uses: actions/download-artifact@v4
       with:
-        name: cecil.phar
+        name: cecil_phar
+        path: .
 
     - name: Get release
       id: release
@@ -124,6 +143,16 @@ jobs:
         upload_url: ${{ steps.release.outputs.upload_url }}
         asset_path: cecil.phar
         asset_name: cecil.phar
+        asset_content_type: application/octet-stream
+
+    - name: Add cecil.phar.asc to release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: cecil.phar.asc
+        asset_name: cecil.phar.asc
         asset_content_type: application/octet-stream
 
     - name: Generate changelog
