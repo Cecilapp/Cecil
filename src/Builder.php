@@ -240,7 +240,7 @@ class Builder implements LoggerAwareInterface
      */
     public function isDebug(): bool
     {
-        return $this->debug;
+        return (bool) $this->debug;
     }
 
     /**

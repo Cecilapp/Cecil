@@ -104,7 +104,11 @@ class Save extends AbstractStep
     private function clearCache(): void
     {
         if ($this->config->get('cache.enabled') === false) {
-            Util\File::getFS()->remove($this->config->getCachePath());
+            try {
+                Util\File::getFS()->remove($this->config->getCachePath());
+            } catch (\Exception) {
+                throw new RuntimeException(sprintf('Can\'t remove cache directory "%s".', $this->config->getCachePath()));
+            }
         }
     }
 }
