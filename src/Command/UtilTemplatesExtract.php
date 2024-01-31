@@ -23,9 +23,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Extract built-in templates.
+ * Extracts built-in templates.
  */
-class UtilExtractTemplates extends AbstractCommand
+class UtilTemplatesExtract extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -33,7 +33,7 @@ class UtilExtractTemplates extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('util:extract')
+            ->setName('util:templates:extract')
             ->setDescription('Extracts built-in templates')
             ->setDefinition(
                 new InputDefinition([
@@ -63,6 +63,8 @@ class UtilExtractTemplates extends AbstractCommand
             foreach ($templates as $template) {
                 $templatesList[] = Util::joinPath((string) $this->getBuilder()->getConfig()->get('layouts.internal.dir'), Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getLayoutsInternalPath()));
             }
+
+            $force = ($force !== false) ?: $this->io->confirm('Do you want to override existing files?', false);
 
             $phar->extractTo($this->getBuilder()->getConfig()->getLayoutsPath(), $templatesList, $force);
             Util\File::getFS()->mirror(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), (string) $this->getBuilder()->getConfig()->get('layouts.internal.dir')), $this->getBuilder()->getConfig()->getLayoutsPath());

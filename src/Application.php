@@ -59,7 +59,7 @@ class Application extends BaseApplication
         ];
         if (Util\Plateform::isPhar()) {
             $commands[] = new Command\SelfUpdate();
-            $commands[] = new Command\UtilExtractTemplates();
+            $commands[] = new Command\UtilTemplatesExtract();
         }
 
         return $commands;
