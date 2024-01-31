@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.6.4](https://github.com/Cecilapp/Cecil/compare/8.6.3...8.6.4)
+
+> 30 January 2024
+
+- ci: fix deploy to website [`3e4c6cd`](https://github.com/Cecilapp/Cecil/commit/3e4c6cd10f4da75b586ab9c4fb64f6b490e4d810)
+
+#### [8.6.3](https://github.com/Cecilapp/Cecil/compare/8.6.2...8.6.3)
+
+> 30 January 2024
+
+- ci: prepare release for Phive [`281f1ed`](https://github.com/Cecilapp/Cecil/commit/281f1edcac8c0d199edd309ae4172955ffc0f6f4)
+- doc: update new:page command doc [`9eb6d7e`](https://github.com/Cecilapp/Cecil/commit/9eb6d7e58c464c129de8ec66ddfbf66cfdf6f322)
+- ci: minor release tests changes [`98c466a`](https://github.com/Cecilapp/Cecil/commit/98c466a5559d220e2c30d22568893f726cb11212)
+
+#### [8.6.2](https://github.com/Cecilapp/Cecil/compare/8.6.1...8.6.2)
+
+> 30 January 2024
+
+- chore: update deps [`4023812`](https://github.com/Cecilapp/Cecil/commit/4023812b4e3a944d2192e39a44ade767b0a1d1b8)
+- refactor: add URL to commands links [`1bef0d4`](https://github.com/Cecilapp/Cecil/commit/1bef0d4c99fb98ce2867068cd5dd00fd62665cf7)
+
 #### [8.6.1](https://github.com/Cecilapp/Cecil/compare/8.6.0...8.6.1)
 
 > 29 January 2024
