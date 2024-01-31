@@ -104,7 +104,6 @@
   "scripts": {
     "post-install-cmd": "cd ./tests/fixtures/website && composer install",
     "post-update-cmd": "cd ./tests/fixtures/website && composer update",
-    "box": "@build",
     "build": "box compile",
     "code": ["@code:analyse", "@code:fix", "@code:style"],
     "code:analyse": "phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=raw",
@@ -114,7 +113,7 @@
     "code:style": "phpcs ./src/ --standard=PSR12 -n",
     "code:fix": "php-cs-fixer fix ./src/ --rules=@PSR12,native_function_invocation --allow-risky=yes --show-progress=none",
     "test": "@test:integration",
-    "test:bin": "cd bin && php cecil --version && mkdir skeleton && php cecil new:site skeleton -f -n && php cecil new:page skeleton -f -n && php cecil build skeleton -v && rm -rf skeleton",
+    "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
     "test:coverage": "phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml",
     "test:coverage:install": [
       "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.3/php-coveralls.phar -O coveralls.phar",
@@ -122,24 +121,26 @@
       "php coveralls.phar --version"
     ],
     "test:coverage:upload": "php coveralls.phar -v",
-    "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
-    "test:phar": "box compile && cd dist && php cecil.phar --version && mkdir skeleton && php cecil.phar new:site skeleton -f -n && php cecil.phar new:page skeleton -f -n && php cecil.phar build skeleton -v && php cecil.phar show:content skeleton && rm -rf skeleton"
+    "test:bin": "cd bin && php cecil --version && mkdir demo && php cecil new:site demo --demo -f -n && php cecil new:page demo -f -n && php cecil build demo -v && rm -rf demo",
+    "test:phar": "box compile && cd dist && php cecil.phar --version && mkdir demo && php cecil.phar new:site demo --demo -f -n && php cecil.phar new:page demo -f -n && php cecil.phar build demo -v && php cecil.phar show:content demo && rm -rf demo"
   },
   "scripts-descriptions": {
-    "box": "Alias of build.",
-    "build": "Builds the PHAR file.",
-    "code": "Runs code quality checks.",
-    "code:analyse": "Analyses code with PHPStan (PHP Static Analysis Tool).",
-    "code:md": "Look for several potential problems in source code.",
-    "code:style": "Corrects coding standard violations with PHP_CodeSniffer.",
-    "code:fix": "Fix code according to the PSR12.",
-    "test": "Runs tests suite.",
-    "test:bin": "Runs the binary to create a new skeleton site.",
-    "test:coverage": "Runs tests suite with code coverage.",
-    "test:coverage:install": "Installs the php-coveralls binary.",
-    "test:coverage:upload": "Uploads tests coverage results.",
-    "test:integration": "Runs integration tests suite.",
-    "test:phar": "Builds the PHAR file to create a new skeleton site."
+    "build": "Builds cecil.phar",
+    "code": "Runs code quality checks",
+    "code:analyse": "Analyses code with PHPStan",
+    "code:md": "Look for several potential problems in code with PHP Mess Detector",
+    "code:style": "Corrects coding standard violations with PHP CodeSniffer",
+    "code:fix": "Fix code according to the PSR12",
+    "test": "Runs tests suite",
+    "test:integration": "Runs integration tests suite",
+    "test:coverage": "Runs tests suite with code coverage",
+    "test:coverage:install": "Installs the php-coveralls binary",
+    "test:coverage:upload": "Uploads tests coverage results",
+    "test:bin": "Runs bin/cecil to create a new demo site",
+    "test:phar": "Builds cecil.phar then create a new demo site"
+  },
+  "scripts-aliases": {
+    "build": ["box"]
   },
   "support": {
     "issues": "https://github.com/Cecilapp/Cecil/issues",
