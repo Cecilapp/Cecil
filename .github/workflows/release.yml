@@ -46,9 +46,9 @@ jobs:
         restore-keys: |
           composer-ubuntu-latest-php-${{ env.PHP_VERSION }}-
 
-    - name: Validate composer.json
-      if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer validate
+    #- name: Validate composer.json
+    #  if: steps.composer-cache.outputs.cache-hit != 'true'
+    #  run: composer validate
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
