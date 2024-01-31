@@ -85,9 +85,6 @@ class AbstractCommand extends Command
                 }
             }
         }
-        if ($this->getName() == 'new:site') {
-            Util\File::getFS()->mkdir($this->getPath(true));
-        }
 
         parent::initialize($input, $output);
     }
@@ -127,7 +124,7 @@ class AbstractCommand extends Command
     /**
      * Returns the working path.
      */
-    protected function getPath(bool $create = false): ?string
+    protected function getPath(bool $exist = true): ?string
     {
         if ($this->path === null) {
             try {
@@ -140,7 +137,7 @@ class AbstractCommand extends Command
                     $this->path = Path::canonicalize($this->input->getArgument('path'));
                 }
                 // try to get canonicalized absolute path
-                if (!$create) {
+                if ($exist) {
                     if (realpath($this->path) === false) {
                         throw new \Exception(sprintf('The given path "%s" is not valid.', $this->path));
                     }
