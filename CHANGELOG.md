@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.6.5](https://github.com/Cecilapp/Cecil/compare/8.6.4...8.6.5)
+
+> 31 January 2024
+
+- chore(deps): bump symfony/filesystem from 6.4.0 to 6.4.3 [`#1900`](https://github.com/Cecilapp/Cecil/pull/1900)
+- chore(deps): bump symfony/config from 6.4.0 to 6.4.3 [`#1899`](https://github.com/Cecilapp/Cecil/pull/1899)
+- chore(deps): bump symfony/process from 6.4.2 to 6.4.3 [`#1898`](https://github.com/Cecilapp/Cecil/pull/1898)
+- chore(deps): bump symfony/twig-bridge from 6.4.2 to 6.4.3 [`#1897`](https://github.com/Cecilapp/Cecil/pull/1897)
+- chore: cleaning composer file [`259ba58`](https://github.com/Cecilapp/Cecil/commit/259ba584a26210c70a58d12175e0ae72afa9e89a)
+- fix: create new:site path dir after questions [`34a0d2e`](https://github.com/Cecilapp/Cecil/commit/34a0d2e00f44161749c84b137691acf3ffbd1ad6)
+- ci: disable composer validate temporary [`eec3a91`](https://github.com/Cecilapp/Cecil/commit/eec3a9145e4a7da94281759c2e9886b6db78925f)
+- refactor: confirmation before extract templates [`8f0dceb`](https://github.com/Cecilapp/Cecil/commit/8f0dceb040d4381c0521eee9bbc10972026ba6bd)
+
 #### [8.6.4](https://github.com/Cecilapp/Cecil/compare/8.6.3...8.6.4)
 
 > 30 January 2024
