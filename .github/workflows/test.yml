@@ -128,11 +128,6 @@ jobs:
         key: composer-${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: composer-${{ runner.os }}-php-${{ matrix.php }}-
 
-    - name: Validate composer.json
-      if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: |
-        composer validate
-
     #- name: Validate composer.json
     #  if: steps.composer-cache.outputs.cache-hit != 'true'
     #  run: composer validate
