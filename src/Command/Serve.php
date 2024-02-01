@@ -53,6 +53,7 @@ class Serve extends AbstractCommand
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
                     new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
                     new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
+                    new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
                 ])
             )
             ->setHelp('Starts the live-reloading-built-in web server');
@@ -73,6 +74,7 @@ class Serve extends AbstractCommand
         $clearcache = $input->getOption('clear-cache');
         $verbose = $input->getOption('verbose');
         $page = $input->getOption('page');
+        $noignorevcs = $input->getOption('no-ignore-vcs');
 
         $this->setUpServer($host, $port);
 
@@ -158,7 +160,7 @@ class Serve extends AbstractCommand
             $finder->files()
                 ->in($this->getPath())
                 ->exclude((string) $this->getBuilder()->getConfig()->get('output.dir'));
-            if (file_exists(Util::joinFile($this->getPath(), '.gitignore'))) {
+            if (file_exists(Util::joinFile($this->getPath(), '.gitignore')) && $noignorevcs === false) {
                 $finder->ignoreVCSIgnored(true);
             }
             $hashContent = new Crc32ContentHash();
