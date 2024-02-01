@@ -176,7 +176,7 @@ class Serve extends AbstractCommand
                     pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
                 $output->writeln(sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
-                $output->writeln(sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port));
+                $output->writeln(sprintf('Starting server (<href=http://%s:%d>http://%s:%d</>)...', $host, $port, $host, $port));
                 $process->start(function ($type, $buffer) {
                     if ($type === Process::ERR) {
                         error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
