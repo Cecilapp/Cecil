@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.7.0](https://github.com/Cecilapp/Cecil/compare/8.6.5...8.7.0)
+
+> 1 February 2024
+
+- refactor: better code [`76b9780`](https://github.com/Cecilapp/Cecil/commit/76b9780a55e3b98ec109d0dde33bd50fe9c80728)
+- feat: serve option to "no ignore VCS" [`67fb9bd`](https://github.com/Cecilapp/Cecil/commit/67fb9bd107c4931eb03c28eb651d7b9e91355501)
+
 #### [8.6.5](https://github.com/Cecilapp/Cecil/compare/8.6.4...8.6.5)
 
 > 31 January 2024
