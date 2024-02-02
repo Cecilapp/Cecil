@@ -202,8 +202,6 @@ class Cache implements CacheInterface
         try {
             if (!Util\File::getFS()->exists($this->cacheDir)) {
                 throw new RuntimeException(sprintf('Can\'t remove cache directory "%s".', $this->cacheDir));
-
-                return 0;
             }
             $fileCount = 0;
             $iterator = new \RecursiveIteratorIterator(
