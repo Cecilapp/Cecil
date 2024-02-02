@@ -215,7 +215,7 @@ jobs:
         brew bump-formula-pr -f --version=${{ needs.build.outputs.version }} --no-browse --no-audit \
         --sha256=${{ needs.build.outputs.shasum }} \
         --url="https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar" \
-        cecilapp/tap/cecil
+        cecilapp/cecil/cecil
     - name: Bump Beta Formula
       if: "github.event.release.prerelease"
       run: |
@@ -223,4 +223,4 @@ jobs:
         brew bump-formula-pr -f --version=${{ needs.build.outputs.version }} --no-browse --no-audit \
         --sha256=${{ needs.build.outputs.shasum }} \
         --url="https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar" \
-        cecilapp/tap/cecil-beta
+        cecilapp/cecil/cecil-beta
