@@ -205,32 +205,30 @@ jobs:
     runs-on: macos-latest
     needs: [build, deploy_to_github]
     env:
-      #HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.REPOS_TOKEN }}
       COMMITTER_TOKEN: ${{ secrets.REPOS_TOKEN }}
 
     steps:
-    #- name: Bump Formula
-    #  if: "!github.event.release.prerelease"
-    #  run: |
-    #    brew tap cecilapp/tap
-    #    brew bump-formula-pr -f --version=${{ needs.build.outputs.version }} --no-browse --no-audit \
-    #    --sha256=${{ needs.build.outputs.shasum }} \
-    #    --url="https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar" \
-    #    cecilapp/homebrew-tap/cecil
-    #- name: Bump Beta Formula
-    #  if: "github.event.release.prerelease"
-    #  run: |
-    #    brew tap cecilapp/tap
-    #    brew bump-formula-pr -f --version=${{ needs.build.outputs.version }} --no-browse --no-audit \
-    #    --sha256=${{ needs.build.outputs.shasum }} \
-    #    --url="https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar" \
-    #    cecilapp/homebrew-tap/cecil-beta
-
     - name: Bump Formula
+      if: "!github.event.release.prerelease"
       uses: mislav/bump-homebrew-formula-action@v3
       with:
         formula-name: cecil
         formula-path: Formula/cecil.rb
+        homebrew-tap: Cecilapp/homebrew-tap
+        base-branch: main
+        tag-name: ${{ needs.build.outputs.version }}
+        download-url: https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar
+        download-sha256: ${{ needs.build.outputs.shasum }}
+        commit-message: |
+          {{formulaName}} {{version}}
+
+          Created by https://github.com/mislav/bump-homebrew-formula-action
+    - name: Bump Beta Formula
+      if: "github.event.release.prerelease"
+      uses: mislav/bump-homebrew-formula-action@v3
+      with:
+        formula-name: cecil-beta
+        formula-path: Formula/cecil-beta.rb
         homebrew-tap: Cecilapp/homebrew-tap
         base-branch: main
         tag-name: ${{ needs.build.outputs.version }}
