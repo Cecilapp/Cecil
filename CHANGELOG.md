@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.7.6](https://github.com/Cecilapp/Cecil/compare/8.7.5...8.7.6)
+
+> 3 February 2024
+
+- ci: new way to handle Homebrew Formula update [`158d2d3`](https://github.com/Cecilapp/Cecil/commit/158d2d3cad6067c2ec932d3c1536b192eed24c4a)
+
+#### [8.7.5](https://github.com/Cecilapp/Cecil/compare/8.7.4...8.7.5)
+
+> 3 February 2024
+
+- ci: last tentative... [`f598597`](https://github.com/Cecilapp/Cecil/commit/f598597dcb14d257b4986a3c91051c6d83bfe792)
+
+#### [8.7.4](https://github.com/Cecilapp/Cecil/compare/8.7.3...8.7.4)
+
+> 3 February 2024
+
+- ci: trying to debug Brew Formula PR... [`8a8f582`](https://github.com/Cecilapp/Cecil/commit/8a8f5821470b8c564c463fbd4351a0f423791c99)
+
+#### [8.7.3](https://github.com/Cecilapp/Cecil/compare/8.7.2...8.7.3)
+
+> 3 February 2024
+
+#### [8.7.2](https://github.com/Cecilapp/Cecil/compare/8.7.1...8.7.2)
+
+> 2 February 2024
+
+- Revert "ci: fix Homebrew PR?" [`d52e043`](https://github.com/Cecilapp/Cecil/commit/d52e0431b875991327b43eb40b57249ea8647302)
+
+#### [8.7.1](https://github.com/Cecilapp/Cecil/compare/8.7.0...8.7.1)
+
+> 2 February 2024
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.48.0 to 3.49.0 [`#1906`](https://github.com/Cecilapp/Cecil/pull/1906)
+- ci: disable composer validate temporary [`7d76fd2`](https://github.com/Cecilapp/Cecil/commit/7d76fd2a5358ad1fc504c93d550d33b4c6150a73)
+- ci: fix Homebrew PR? [`76b7102`](https://github.com/Cecilapp/Cecil/commit/76b7102875e2df2d7233b2ddc42d4d960729aaba)
+- fix: minor fix [`4e01fe5`](https://github.com/Cecilapp/Cecil/commit/4e01fe5a3d68cde0097bf18613c168a4f57bcb68)
+- doc: minor fix [`7407123`](https://github.com/Cecilapp/Cecil/commit/7407123b883327ddd076df044c215426672af23d)
+- fix: server command [`fd6ad4d`](https://github.com/Cecilapp/Cecil/commit/fd6ad4d0bb84b8b64d44ede5f23e660a98f7c90e)
+
 #### [8.7.0](https://github.com/Cecilapp/Cecil/compare/8.6.5...8.7.0)
 
 > 1 February 2024
