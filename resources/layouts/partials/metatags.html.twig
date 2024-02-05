@@ -166,7 +166,7 @@
 {%- endif ~%}
 {#- template: rel me ~#}
 {%- for social in page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) ~%}
-    <link rel="me" href="{{ social.url }}"/>
+    <link rel="me" href="{{ social.url }}" />
 {%- endfor ~%}
 {#- template: Open Graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}" />
