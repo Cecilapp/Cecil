@@ -40,7 +40,7 @@
     "symfony/console": "^6.4",
     "symfony/filesystem": "^6.4",
     "symfony/finder": "^6.4",
-    "symfony/polyfill-intl-icu": "^1.28",
+    "symfony/polyfill-intl-icu": "^1.29",
     "symfony/process": "^6.4",
     "symfony/property-access": "^6.4",
     "symfony/serializer": "^6.4",
@@ -56,8 +56,8 @@
     "yosymfony/toml": "^1.0"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.41",
-    "friendsofphp/php-cs-fixer": "^3.41",
+    "ergebnis/composer-normalize": "^2.42",
+    "friendsofphp/php-cs-fixer": "^3.49",
     "humbug/box": "^4.5",
     "phpmd/phpmd": "^2.15",
     "phpstan/phpstan": "^1.10",
