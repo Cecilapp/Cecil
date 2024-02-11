@@ -53,10 +53,20 @@ class Load extends AbstractStep
     public function process(): void
     {
         $namePattern = '/\.(' . implode('|', (array) $this->config->get('pages.ext')) . ')$/';
-        $content = Finder::create()
+        $pages = Finder::create()
             ->files()
             ->in($this->config->getPagesPath())
-            ->sortByName(true);
+            ->sort(function (\SplFileInfo $a, \SplFileInfo $b): int {
+                // section's index first
+                if ($a->getRelativePath() == $b->getRelativePath() && $a->getBasename('.' . $a->getExtension()) == 'index') {
+                    return -1;
+                }
+                if ($b->getRelativePath() == $a->getRelativePath() && $b->getBasename('.' . $b->getExtension()) == 'index') {
+                    return 1;
+                }
+                // sort by name
+                return strnatcasecmp($a->getRealPath(), $b->getRealPath());
+            });
         // load only one page?
         if ($this->page) {
             // is the page path starts with the `pages.dir` configuration option?
@@ -74,27 +84,31 @@ class Load extends AbstractStep
             if (!util\File::getFS()->exists(Util::joinFile($this->config->getPagesPath(), $this->page))) {
                 $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
             }
-            $content->path('.')->path(\dirname($this->page));
-            $content->name('/index\.(' . implode('|', (array) $this->config->get('pages.ext')) . ')$/');
+            $pages->path('.')->path(\dirname($this->page));
+            $pages->name('/index\.(' . implode('|', (array) $this->config->get('pages.ext')) . ')$/');
             $namePattern = basename($this->page);
         }
-        $content->name($namePattern);
+        $pages->name($namePattern);
         if (\is_array($exclude = $this->config->get('pages.exclude'))) {
-            $content->exclude($exclude);
-            $content->notPath($exclude);
-            $content->notName($exclude);
+            $pages->exclude($exclude);
+            $pages->notPath($exclude);
+            $pages->notName($exclude);
         }
         if (file_exists(Util::joinFile($this->config->getPagesPath(), '.gitignore'))) {
-            $content->ignoreVCSIgnored(true);
+            $pages->ignoreVCSIgnored(true);
         }
-        $this->builder->setPagesFiles($content);
+        $this->builder->setPagesFiles($pages);
 
-        $count = $content->count();
-        if ($count === 0) {
+        $total = $pages->count();
+        $count = 0;
+        if ($total === 0) {
             $this->builder->getLogger()->info('Nothing to load');
 
             return;
         }
-        $this->builder->getLogger()->info('Files loaded', ['progress' => [$count, $count]]);
+        foreach ($pages as $file) {
+            $count++;
+            $this->builder->getLogger()->info(sprintf('File "%s" loaded', $file->getRelativePathname()), ['progress' => [$count, $total]]);
+        }
     }
 }
