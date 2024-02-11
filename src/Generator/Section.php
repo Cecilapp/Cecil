@@ -30,11 +30,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
     {
         $sections = [];
 
-        // identifying sections
+        // identifying sections from all pages
+        /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
-            /** @var Page $page */
+            // top level (root) sections
             if ($page->getSection()) {
-                // do not add not published and not excluded pages to its section
+                // do not add "not published" and "not excluded" pages to its section
                 if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
                     continue;
                 }
@@ -91,7 +92,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     if (!$page->getVariable('menu')) {
                         $page->setVariable('menu', ['main' => ['weight' => $menuWeight]]);
                     }
-                    $this->generatedPages->add($page);
+
+                    try {
+                        $this->generatedPages->add($page);
+                    } catch (\DomainException) {
+                        $this->generatedPages->replace($page->getId(), $page);
+                    }
                 }
                 $menuWeight += 10;
             }

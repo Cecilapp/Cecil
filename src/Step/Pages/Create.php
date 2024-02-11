@@ -53,12 +53,14 @@ class Create extends AbstractStep
 
         $total = \count($this->builder->getPagesFiles());
         $count = 0;
-        /** @var \Symfony\Component\Finder\SplFileInfo $file */
+
         foreach ($this->builder->getPagesFiles() as $file) {
             $count++;
-            /** @var Page $page */
+            // create a page from its (Markdown) file
             $page = new Page(Page::createIdFromFile($file));
-            $page->setFile($file)->parse();
+            $page->setFile($file);
+            // parse frontmatter and body
+            $page->parse();
 
             /*
              * Apply an - optional - custom path to pages of a section.

@@ -26,7 +26,7 @@ class Page extends Item
 {
     public const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
 
-    /** @var bool True if page is not created from a Markdown file. */
+    /** @var bool True if page is not created from a file. */
     protected $virtual;
 
     /** @var SplFileInfo */
@@ -41,7 +41,7 @@ class Page extends Item
     /** @var string */
     protected $slug;
 
-    /** @var string folder + slug. */
+    /** @var string path = folder + slug. */
     protected $path;
 
     /** @var string */
@@ -56,19 +56,19 @@ class Page extends Item
     /** @var string Body before conversion. */
     protected $body;
 
-    /** @var string Body after Markdown conversion. */
+    /** @var string Body after conversion. */
     protected $html;
 
-    /** @var array Output by format */
+    /** @var array Output, by format */
     protected $rendered = [];
 
-    /** @var \Cecil\Collection\Page\Collection Subpages of a section */
+    /** @var Collection Subpages of a list page. */
     protected $subPages;
 
     /** @var array */
     protected $paginator = [];
 
-    /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary */
+    /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary. */
     protected $terms;
 
     /** @var Slugify */
@@ -114,7 +114,7 @@ class Page extends Item
     }
 
     /**
-     * Creates the ID from the file path.
+     * Creates the ID from the file (path).
      */
     public static function createIdFromFile(SplFileInfo $file): string
     {
@@ -157,8 +157,8 @@ class Page extends Item
      */
     public function setFile(SplFileInfo $file): self
     {
-        $this->setVirtual(false);
         $this->file = $file;
+        $this->setVirtual(false);
 
         /*
          * File path components
@@ -166,21 +166,18 @@ class Page extends Item
         $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.' . $fileExtension);
-        // case of "README" -> "index"
+        // renames "README" to "index"
         $fileName = (string) str_ireplace('readme', 'index', $fileName);
         // case of "index" = home page
         if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
             $this->setType(Type::HOMEPAGE->value);
         }
         /*
-         * Set protected variables
+         * Set page properties and variables
          */
-        $this->setFolder($fileRelativePath); // ie: "blog"
-        $this->setSlug($fileName); // ie: "post-1"
-        $this->setPath($this->getFolder() . '/' . $this->getSlug()); // ie: "blog/post-1"
-        /*
-         * Set default variables
-         */
+        $this->setFolder($fileRelativePath);
+        $this->setSlug($fileName);
+        $this->setPath($this->getFolder() . '/' . $this->getSlug());
         $this->setVariables([
             'title'    => PrefixSuffix::sub($fileName),
             'date'     => (new \DateTime())->setTimestamp($this->file->getMTime()),
@@ -338,6 +335,8 @@ class Page extends Item
      */
     public function setPath(string $path): self
     {
+        $path = trim($path, '/');
+
         // case of homepage
         if ($path == 'index') {
             $this->path = '';
@@ -345,23 +344,26 @@ class Page extends Item
             return $this;
         }
 
-        // case of custom sections' index (ie: content/section/index.md)
+        // case of custom sections' index (ie: section/index.md -> section)
         if (substr($path, -6) == '/index') {
             $path = substr($path, 0, \strlen($path) - 6);
         }
         $this->path = $path;
 
-        // case of root pages
         $lastslash = strrpos($this->path, '/');
+
+        // case of root/top-level pages
         if ($lastslash === false) {
             $this->slug = $this->path;
 
             return $this;
         }
 
+        // case of sections' pages: set section
         if (!$this->virtual && $this->getSection() === null) {
             $this->section = explode('/', $this->path)[0];
         }
+        // set/update folder and slug
         $this->folder = substr($this->path, 0, $lastslash);
         $this->slug = substr($this->path, -(\strlen($this->path) - $lastslash - 1));
 
