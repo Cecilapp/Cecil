@@ -17,6 +17,7 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Loads pages.
@@ -56,7 +57,7 @@ class Load extends AbstractStep
         $pages = Finder::create()
             ->files()
             ->in($this->config->getPagesPath())
-            ->sort(function (\SplFileInfo $a, \SplFileInfo $b): int {
+            ->sort(function (SplFileInfo $a, SplFileInfo $b): int {
                 // section's index first
                 if ($a->getRelativePath() == $b->getRelativePath() && $a->getBasename('.' . $a->getExtension()) == 'index') {
                     return -1;
