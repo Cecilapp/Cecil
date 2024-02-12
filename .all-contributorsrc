@@ -1,0 +1,144 @@
+{
+  "projectName": "Cecil",
+  "projectOwner": "Cecilapp",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": ["README.md"],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 4,
+  "skipCi": true,
+  "contributors": [
+    {
+      "login": "ArnaudLigny",
+      "name": "Arnaud Ligny",
+      "avatar_url": "https://avatars.githubusercontent.com/u/80580?v=4",
+      "profile": "https://ligny.fr",
+      "contributions": [
+        "bug",
+        "doc",
+        "ideas",
+        "maintenance",
+        "promotion",
+        "question",
+        "review",
+        "translation",
+        "talk"
+      ]
+    },
+    {
+      "login": "DirtyF",
+      "name": "Frank Taillandier",
+      "avatar_url": "https://avatars.githubusercontent.com/u/103008?v=4",
+      "profile": "https://frank.taillandier.me",
+      "contributions": [
+        "doc",
+        "ideas",
+        "promotion",
+        "translation",
+        "mentoring"
+      ]
+    },
+    {
+      "login": "FunkyM",
+      "name": "Martin Szulecki",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1871867?v=4",
+      "profile": "https://mirell.com",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "magentix",
+      "name": "Matthieu Vion",
+      "avatar_url": "https://avatars.githubusercontent.com/u/346889?v=4",
+      "profile": "https://www.magentix.fr",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "peter279k",
+      "name": "Chun-Sheng, Li",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9021747?v=4",
+      "profile": "https://github.com/peter279k",
+      "contributions": [
+        "code",
+        "security"
+      ]
+    },
+    {
+      "login": "benjaminhirsch",
+      "name": "Benjamin Hirsch",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2293943?v=4",
+      "profile": "https://www.benjaminhirsch.net",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "ahnlak",
+      "name": "Pete Favelle",
+      "avatar_url": "https://avatars.githubusercontent.com/u/730245?v=4",
+      "profile": "http://kavlak.uk/@ahnlak",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "BackEndTea",
+      "name": "Gert de Pagter",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14289961?v=4",
+      "profile": "https://backendtea.com",
+      "contributions": [
+        "bug",
+        "infra"
+      ]
+    },
+    {
+      "login": "joevallender",
+      "name": "Joe Vallender",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1137938?v=4",
+      "profile": "https://aboutweb.dev",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "jawira",
+      "name": "Jawira Portugal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/496541?v=4",
+      "profile": "https://jawira.com/",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "ouuan",
+      "name": "Yufan You",
+      "avatar_url": "https://avatars.githubusercontent.com/u/30581822?v=4",
+      "profile": "https://ouuan.moe/about",
+      "contributions": [
+        "security"
+      ]
+    },
+    {
+      "login": "welcoMattic",
+      "name": "Mathieu Santostefano",
+      "avatar_url": "https://avatars.githubusercontent.com/u/773875?v=4",
+      "profile": "https://blog.welcomattic.com",
+      "contributions": [
+        "doc",
+        "bug"
+      ]
+    }
+  ]
+}

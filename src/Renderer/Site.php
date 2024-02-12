@@ -51,6 +51,7 @@ class Site implements \ArrayAccess
         switch ($offset) {
             case 'menus':
             case 'home':
+            case 'debug':
                 return true;
         }
 
@@ -67,14 +68,14 @@ class Site implements \ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        // Fetchs data from builder instead of config raw data
+        // If it's a built-in variable: dot not fetchs data from config raw
         switch ($offset) {
             case 'pages':
                 return $this->getPages();
             case 'menus':
                 return $this->builder->getMenus($this->language);
             case 'taxonomies':
-                return $this->builder->getTaxonomies();
+                return $this->builder->getTaxonomies($this->language);
             case 'data':
                 return $this->builder->getData();
             case 'static':
@@ -82,7 +83,9 @@ class Site implements \ArrayAccess
             case 'language':
                 return new Language($this->config, $this->language);
             case 'home':
-                return $this->language != $this->config->getLanguageDefault() ? sprintf('%s/index', $this->language) : 'index';
+                return 'index';
+            case 'debug':
+                return $this->builder->isDebug();
         }
 
         return $this->config->get($offset, $this->language);
@@ -114,18 +117,26 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Returns a page in the current language or the one provided.
+     * Returns a page for the provided language or the current one provided.
      *
      * @throws \DomainException
      */
     public function getPage(string $id, string $language = null): ?CollectionPage
     {
         $pageId = $id;
-        if ($language === null && $this->language != $this->config->getLanguageDefault()) {
-            $pageId = sprintf('%s/%s', $this->language, $id);
-        }
+        $language = $language ?? $this->language;
+
         if ($language !== null && $language != $this->config->getLanguageDefault()) {
             $pageId = "$language/$id";
+        }
+
+        if ($this->builder->getPages()->has($pageId) === false) {
+            // if multilingual == false
+            if ($this->builder->getPages()->has($id) && $this->builder->getPages()->get($id)->getVariable('multilingual') === false) {
+                return $this->builder->getPages()->get($id);
+            }
+
+            return null;
         }
 
         return $this->builder->getPages()->get($pageId);
@@ -138,7 +149,10 @@ class Site implements \ArrayAccess
     {
         return $this->builder->getPages()->filter(function (CollectionPage $page) {
             // We should fix case of virtual pages without language
-            if ($page->getVariable('language') === null && $this->language == $this->config->getLanguageDefault()) {
+            if (
+                $page->getVariable('language') === null
+                && $this->language == $this->config->getLanguageDefault()
+            ) {
                 return true;
             }
 
@@ -163,10 +177,18 @@ class Site implements \ArrayAccess
     }
 
     /**
-     * Return current time.
+     * Returns current time.
      */
     public function getTime(): int
     {
         return time();
+    }
+
+    /**
+     * Returns the property value(s) of an output format.
+     */
+    public function getOutputProperty(string $name, string $property): string|array|null
+    {
+        return $this->config->getOutputFormatProperty($name, $property);
     }
 }

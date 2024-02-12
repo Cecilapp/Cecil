@@ -1,7 +1,7 @@
 ---
 menu:
   main:
-    weight: 99999
+    weight: 999
 ---
 
 # Menu 2
@@ -9,5 +9,5 @@ menu:
 ```yaml
 menu:
   main:
-    weight: 99999
+    weight: 999
 ```

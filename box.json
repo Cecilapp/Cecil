@@ -1,9 +1,8 @@
 {
   "alias": "cecil.phar",
-  "compactors": [
-    "KevinGH\\Box\\Compactor\\Json",
-    "KevinGH\\Box\\Compactor\\Php"
-  ],
+  "output": "dist/cecil.phar",
+  "git-version": "git_version",
+  "compression": "GZ",
   "directories": [
     "config",
     "src",
@@ -11,6 +10,9 @@
   ],
   "finder": [
     {
+      "in": [
+        "."
+      ],
       "name": [
         "*.php",
         "*.twig",
@@ -33,13 +35,19 @@
       "exclude": [
         "phpunit",
         "Tests",
-        "tests"
-      ],
-      "in": [
-        "."
+        "tests",
+        "php-scoper",
+        "box",
+        "phpmd",
+        "phpstan",
+        "php_codesniffer",
+        "php-cs-fixer",
+        "composer-normalize"
       ]
     }
   ],
-  "git-version": "git_version",
-  "output": "dist/cecil.phar"
+  "compactors": [
+    "KevinGH\\Box\\Compactor\\Json",
+    "KevinGH\\Box\\Compactor\\Php"
+  ]
 }

@@ -11,7 +11,7 @@ return [
             [
                 'id'     => 'index',
                 'name'   => 'Homepage',
-                'weight' => -9999,
+                'weight' => -999,
             ],
             [
                 'id'      => 'about',
@@ -20,33 +20,21 @@ return [
             [
                 'id'     => 'aligny',
                 'name'   => 'The author',
-                'url'    => 'https://arnaudligny.fr',
-                'weight' => 9999,
+                'url'    => 'https://ligny.fr',
+                'weight' => 777,
+            ],
+            [
+                'id'     => '404'
             ],
         ],
     ],
     'pagination' => [
         'enabled' => true,
     ],
-    'theme' => [
-        'a-theme',
-        //'hyde',
-    ],
-    'googleanalytics' => 'UA-XXXXX',
-    'output'          => [
-        'formats' => [
-            [
-                'name'      => 'netlify_redirects',
-                'mediatype' => 'text/plain',
-                'extension' => '',
-            ],
-        ],
-        'pagetypeformats' => [
-            'page'       => ['html', 'json'],
-            'homepage'   => ['html', 'atom', 'rss', 'json'],
-            'section'    => ['html', 'atom', 'rss', 'json', 'jsonfeed'],
-            'vocabulary' => ['html'],
-            'term'       => ['html', 'atom', 'rss'],
+    'paths' => [
+        [
+            'section' => 'Blog',
+            'path'    => ':section/:year/:month/:day/:slug',
         ],
     ],
     'language'  => 'en',
@@ -67,81 +55,28 @@ return [
                     'main' => [
                         [
                             'id'     => 'index',
-                            'weight' => -9999,
+                            'weight' => -999,
                         ],
                         [
                             'id'     => 'menu-fr',
                             'name'   => 'Arnaud (FR)',
                             'url'    => 'https://arnaudligny.fr',
+                            'weight' => 777,
+                        ],
+                        [
+                            'id'     => '404 (FR)'
                         ],
                     ],
                 ],
-            ],
-        ],
-    ],
-    'virtualpages' => [
-        [
-            'path'   => '_redirects',
-            'output' => 'netlify_redirects',
-        ],
-        [
-            'path'      => 'rss',
-            'published' => false,
-        ],
-    ],
-    'defaultpages'    => [
-        'sitemap' => [
-            'published' => false,
-            'priority'  => 99,
-        ],
-    ],
-    'static' => [
-        'exclude' => [
-            'test*.txt',
-            '/\.php$/',
-            '*.scss',
-            'path',
-        ],
-        'load' => true,
-    ],
-    'cache' => [
-        'enabled' => true,
-    ],
-    'assets' => [
-        'compile' => [
-            'enabled'   => true,
-            'style'     => 'expanded',
-            'variables' => ['test' => '#FFF'],
-        ],
-        'minify' => [
-            'enabled' => true,
-        ],
-        'fingerprint' => [
-            'enabled' => true,
-        ],
-        'images' => [
-            'optimize' => [
-                'enabled' => true,
-            ],
-            'responsive' => [
-                'enabled' => true,
-                'sizes'   => [
-                    'img' => '100vw',
+                'taxonomies' => [
+                    'tags' => 'tag',
                 ],
             ],
-            'webp' => [
-                'enabled' => true,
-            ],
         ],
     ],
-    'postprocess' => [
-        'enabled' => true,
-    ],
-    'paths' => [
-        [
-            'section' => 'Blog',
-            'path'    => ':section/:year/:month/:day/:slug',
-        ],
+    'theme' => [
+        'a-theme',
+        //'hyde',
     ],
     'podcast' => [
         'author' => 'Cecil',
@@ -161,16 +96,111 @@ return [
             'articles' => 'blog',
         ],
     ],
-    'body' => [
-        'images' => [
-            'lazy' => [
+    'pages' => [
+        'generators' => [
+            99  => 'Cecil\Generator\TestError',
+            100 => 'Cecil\Generator\TitleReplace',
+        ],
+        'default'    => [
+            'sitemap' => [
+                'published' => false,
+                'priority'  => 99,
+            ],
+        ],
+        'virtual' => [
+            [
+                'path'   => '_redirects',
+                'output' => 'netlify_redirects',
+            ],
+            [
+                'path'      => 'rss',
+                'published' => false,
+            ],
+        ],
+        'body' => [
+            'images' => [
+                'lazy' => [
+                    'enabled' => true,
+                ],
+                'resize' => [
+                    'enabled' => true,
+                ],
+                'responsive' => [
+                    'enabled' => true,
+                ],
+                'webp' => [
+                    'enabled' => true,
+                ],
+                'caption' => [
+                    'enabled' => true,
+                ],
+                'remote' => [
+                    'enabled' => true,
+                    'fallback' => [
+                        'enabled' => true,
+                        'path' => 'images/cecil-logo.png',
+                    ],
+                ],
+                'class' => 'img',
+            ],
+            'notes' => [
                 'enabled' => true,
             ],
-            'resize' => [
+            'highlight' => [
+                'enabled' => true,
+            ],
+        ],
+    ],
+    'output' => [
+        'formats' => [
+            [
+                'name'      => 'netlify_redirects',
+                'mediatype' => 'text/plain',
+                'extension' => '',
+            ],
+        ],
+        'pagetypeformats' => [
+            'page'       => ['html', 'json'],
+            'homepage'   => ['html', 'atom', 'rss', 'json'],
+            'section'    => ['html', 'atom', 'rss', 'json', 'jsonfeed'],
+            'vocabulary' => ['html'],
+            'term'       => ['html', 'atom', 'rss'],
+        ],
+        'postprocessors' => [
+            'Cecil\Renderer\PostProcessor\Test',
+            'Cecil\Renderer\PostProcessor\Error',
+        ],
+    ],
+    'static' => [
+        'exclude' => [
+            'test*.txt',
+            '/\.php$/',
+            '*.scss',
+            'path',
+        ],
+        'load' => true,
+    ],
+    'assets' => [
+        'compile' => [
+            'enabled'   => true,
+            'style'     => 'expanded',
+            'variables' => ['test' => '#FFF'],
+        ],
+        'minify' => [
+            'enabled' => false,
+        ],
+        'fingerprint' => [
+            'enabled' => false,
+        ],
+        'images' => [
+            'optimize' => [
                 'enabled' => true,
             ],
             'responsive' => [
                 'enabled' => true,
+                'sizes'   => [
+                    'img' => '100vw',
+                ],
             ],
             'webp' => [
                 'enabled' => true,
@@ -179,10 +209,10 @@ return [
                 'enabled' => true,
             ],
             'remote' => [
-                'enabled' => true,
+                'enabled'  => true,
                 'fallback' => [
                     'enabled' => true,
-                    'path' => 'images/cecil-logo.png',
+                    'path'    => 'images/cecil-logo.png',
                 ],
             ],
             'class' => 'img',
@@ -194,11 +224,16 @@ return [
             'enabled' => true,
         ],
     ],
-    'generators' => [
-        99  => 'Cecil\Generator\Test',
-        100 => 'Cecil\Generator\TitleReplace',
+    'layouts' => [
+        'extensions' => [
+            'Test'       => 'Cecil\Renderer\Extension\Test',
+            'Test error' => 'Cecil\Renderer\Extension\TestError',
+        ],
     ],
-    'extensions' => [
-        'Test' => 'Cecil\Renderer\Extension\Test',
+    'cache' => [
+        'enabled' => true,
+    ],
+    'optimize' => [
+        'enabled' => true,
     ],
 ];

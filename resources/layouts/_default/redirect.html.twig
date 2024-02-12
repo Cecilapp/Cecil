@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head lang="{{ site.language }}">
+    <meta charset="utf-8">
+    <title>{% trans %}Redirecting…{% endtrans %}</title>
+    <link rel="canonical" href="{{ url(page.redirect, {canonical: true}) }}" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="refresh" content="0;url={{ url(page.redirect, {canonical: true}) }}" />
+    <script>
+      window.location.assign("{{ url(page.redirect, {canonical: true}) }}");
+    </script>
+  </head>
+  <body>
+    <h1>{% trans %}Redirecting…{% endtrans %}</h1>
+    <a href="{{ url(page.redirect) }}">{% trans %}Click here if you are not redirected.{% endtrans %}</a>
+  </body>
+</html>

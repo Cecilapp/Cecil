@@ -1,0 +1,15 @@
+title: Cecil
+baseline: Your content driven static site generator
+description: Cecil, your content driven static site generator.
+pages:
+  dir: ./
+  exclude: ['tests', 'resources']
+  sortby: weight
+pagination:
+  enabled: false
+assets:
+  dir: docs
+menus:
+  main:
+    - id: index
+      name: Home

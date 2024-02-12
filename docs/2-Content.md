@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2023-03-15
+updated: 2024-01-07
 -->
 # Content
 
@@ -14,7 +14,7 @@ There is different kinds of content in Cecil:
 : Assets are manipulated files (i.e.: resized images, compiled Sass, minified scripts, etc.).
 
 **Static files**
-: Static files are copied as is in the generated site.
+: Static files are copied as is in the built site.
 
 **Data files**
 : Data files are custom variables collections.
@@ -32,7 +32,7 @@ Project files organization.
 |  |  ├─ post-1.md    <- Page in Section
 |  |  └─ post-2.md
 |  ├─ projects
-|  |  └─ project-1.md
+|  |  └─ project-a.md
 |  └─ about.md        <- Root page
 ├─ assets
 |  ├─ styles.scss     <- Asset file
@@ -48,9 +48,9 @@ Project files organization.
 
 - Pages should be organized in a manner that reflects the rendered website
 - Each folder in the root of `pages/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
-- You can override a _Section_’s default variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
-- Files in `assets/` are handled with the [`asset()`](3-Templates.md#asset) function in templates
-- Files in `static/` are copied as is in the root of the built website (e.g.: `static/file.pdf` -> `file.pdf`)
+- You can set _Section_’s variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
+- Files in `assets/` are handled with the template [`asset()`](3-Templates.md#asset) function
+- Files in `static/` are copied as is in the built site (e.g.: `static/file.pdf` -> `file.pdf`)
 - Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
 :::
 
@@ -68,7 +68,7 @@ Result of the build.
    |  └─ post-2/index.html
    ├─ projects/
    |  ├─ index.html
-   |  └─ project-1/index.html
+   |  └─ project-a/index.html
    ├─ about/index.html
    ├─ styles.css
    ├─ logo.png
@@ -76,26 +76,28 @@ Result of the build.
 ```
 
 :::info
-By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/blog/post-1/`.
-:::
+By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/section/slugified-filename/`.
 
-:::tip
-To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in [front matter](#front-matter).
+To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in page [front matter](#front-matter).
 :::
 
 ### File based routing
 
-Markdown files in the `pages` directory enable file based routing. Meaning that adding a `pages/my-projects/project-1.md` for instance will make it available at `/project-1` in your browser.
+Markdown files in the `pages` directory enable file based routing. Meaning that adding a `pages/my-projects/project-a.md` for instance will make it available at `/project-a` in your browser.
 
 ```plaintext
 File:
-                   pages/my-projects/project-1.md
+                   pages/my-projects/project-a.md
                         └───── filepath ──────┘
 URL:
     ┌───── baseurl ─────┬─────── path ────────┐
-     https://example.com/my-projects/project-1/index.html
+     https://example.com/my-projects/project-a/index.html
                         └─ section ─┴─ slug ──┘
 ```
+
+:::important
+Two kind of prefix can alter URL, see [File prefix section](#file-prefix) below.
+:::
 
 ## Pages
 
@@ -163,7 +165,7 @@ For instance, put the desired attribute(s) after a header, a fenced code block, 
 ## Header {#id .class attribute=value}
 ```
 
-:::important
+:::warning
 For an inline element, like a link, you must use a line break after the closing brace:
 
 ```markdown
@@ -197,7 +199,7 @@ _Example:_
 
 #### Embedded links
 
-You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `body.links.embed.enabled` to `true`.
+You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `pages.body.links.embed.enabled` to `true`.
 
 _Example:_
 
@@ -205,7 +207,7 @@ _Example:_
 [An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed}
 ```
 
-:::info
+:::important
 Only **YouTube** and **GitHub Gits** links are supported for the moment.
 :::
 
@@ -464,9 +466,35 @@ Is converted to:
 **Tip:** This is an advice.
 :::
 
+_Others examples:_
+
+:::
+empty
+:::
+
+:::info
+info
+:::
+
+:::tip
+tip
+:::
+
+:::important
+important
+:::
+
+:::warning
+warning
+:::
+
+:::caution
+caution
+:::
+
 ### Syntax highlight
 
-Enables code block syntax highlighter by setting the [body.highlight.enabled](4-Configuration.md#body) option to `true`.
+Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#body) option to `true`.
 
 _Example:_
 
@@ -558,7 +586,10 @@ menu:
 
 ### Taxonomy
 
-Taxonomies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
+Taxonomy allows you to connect, relate and classify your website’s content.  
+In Cecil, these terms are gathered within vocabularies.
+
+Vocabularies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
 A page can contain several vocabularies (e.g.: `tags`) and terms (e.g.: `Tag 1`).
 
@@ -624,7 +655,7 @@ In the previous example `contact/` redirects to `about/`.
 
 ### output
 
-Defines the output (rendred) format(s). See [`formats` configuration](4-Configuration.md#formats) for more details.
+Defines the output (rendered) format(s). See [`formats` configuration](4-Configuration.md#formats) for more details.
 
 _Example:_
 
@@ -648,15 +679,10 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 
 ### File prefix
 
-The filename can contain a prefix to define `date` or `weight` of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
+The filename can contain a prefix to define `date` or `weight` variables of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
 
 :::info
-The prefix is not included in `title`.  
-For example in « 2019-04-23-My blog post.md » the `title` contains « My blog post ».
-:::
-
-:::info
-Available prefix separator are `-` and `_`.
+Available prefix separator are `_` and `-`.
 :::
 
 #### date
@@ -665,7 +691,7 @@ The _date prefix_ is used to set the `date` of the page, and must be a valid dat
 
 _Example:_
 
-In « 2019-04-23-My blog post.md »:
+In « 2019-04-23_My blog post.md »:
 
 - the prefix is « 2019-04-23 »
 - the `date` of the page is « 2019-04-23 »
@@ -677,7 +703,7 @@ The _weight prefix_ is used to set the sort order of the page, and must be a val
 
 _Example:_
 
-In « 1-The first project.md »:
+In « 1_The first project.md »:
 
 - the prefix is « 1 »
 - the `weight` of the page is « 1 »
@@ -705,13 +731,13 @@ sortby: title
 ---
 ```
 
-**Options:**
+**More options:**
 
 ```yaml
 ---
 sortby:
-  variable: date    # date, updated, title or weight
-  desc_title: false # used with date or updated variable to sort by desc title order if items have same date
+  variable: date    # "date", "updated", "title" or "weight"
+  desc_title: false # used with "date" or "updated" variable value to sort by desc title order if items have the same date
   reverse: false    # reversed if true
 ---
 ```
@@ -749,7 +775,7 @@ Existing variables are not overridden.
 
 #### circular
 
-Set `circular` to `true` to enable circular pagination with [_page.<prev/next>_](3-Templates.md#page-prev-next).
+Set `circular` to `true` to enable circular navigation with [_page.<prev/next>_](3-Templates.md#page-prev-next).
 
 _Example:_
 
@@ -766,6 +792,14 @@ Like another section, _Home page_ support `sortby` and `pagination` configuratio
 #### pagesfrom
 
 Set a valid _Section_ name in `pagesfrom` to use pages collection from this _Section_ in _Home page_.
+
+_Example:_
+
+```yaml
+---
+pagesfrom: blog
+---
+```
 
 ### exclude
 
@@ -789,19 +823,19 @@ If your pages are available in multiple [languages](4-Configuration.md#languages
 
 ### Language in the file name
 
-This is the common way when you want to translate a page from the main [language](4-Configuration.md#language) to others languages.
+This is the common way to translate a page from the main [language](4-Configuration.md#language) to another language.
 
-So you just need to duplicate the reference page and suffix it with the target language `code` (e.g.: `fr`).
+You just need to duplicate the reference page and suffix it with the target language `code` (e.g.: `fr`).
 
 _Example:_
 
 ```plaintext
-├─ about.md    # the reference page in english (`en`)
+├─ about.md    # the reference page
 └─ about.fr.md # the french version (`fr`)
 ```
 
 :::tip
-You can change the URL of the translated page by adding a `slug` variable in the front matter. For example:
+You can change the URL of the translated page with the `slug` variable in the front matter. For example:
 
 ```yml
 ---

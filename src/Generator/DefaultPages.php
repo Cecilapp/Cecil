@@ -18,7 +18,7 @@ namespace Cecil\Generator;
  */
 class DefaultPages extends VirtualPages
 {
-    protected $configKey = 'defaultpages';
+    protected $configKey = 'pages.default';
 
     /**
      * {@inheritdoc}

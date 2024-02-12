@@ -31,7 +31,7 @@ class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
-    public function getHelp()
+    public function getHelp(): string
     {
         return self::$banner . parent::getHelp();
     }
@@ -39,7 +39,7 @@ class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultCommands()
+    protected function getDefaultCommands(): array
     {
         $commands = [
             new \Symfony\Component\Console\Command\HelpCommand(),
@@ -59,7 +59,7 @@ class Application extends BaseApplication
         ];
         if (Util\Plateform::isPhar()) {
             $commands[] = new Command\SelfUpdate();
-            $commands[] = new Command\UtilExtractTemplates();
+            $commands[] = new Command\UtilTemplatesExtract();
         }
 
         return $commands;

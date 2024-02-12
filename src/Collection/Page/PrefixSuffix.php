@@ -134,7 +134,7 @@ class PrefixSuffix
             case 'suffix':
                 return self::SUFFIX_PATTERN;
             default:
-                throw new \InvalidArgumentException('Argument must be "prefix" or "suffix"');
+                throw new \InvalidArgumentException('Argument must be "prefix" or "suffix".');
         }
     }
 }

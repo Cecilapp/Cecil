@@ -51,8 +51,9 @@ class Serve extends AbstractCommand
                     new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
                     new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                     new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
-                    new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),
+                    new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
                     new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
+                    new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
                 ])
             )
             ->setHelp('Starts the live-reloading-built-in web server');
@@ -69,10 +70,11 @@ class Serve extends AbstractCommand
         $open = $input->getOption('open');
         $host = $input->getOption('host') ?? 'localhost';
         $port = $input->getOption('port') ?? '8000';
-        $postprocess = $input->getOption('postprocess');
+        $optimize = $input->getOption('optimize');
         $clearcache = $input->getOption('clear-cache');
         $verbose = $input->getOption('verbose');
         $page = $input->getOption('page');
+        $noignorevcs = $input->getOption('no-ignore-vcs');
 
         $this->setUpServer($host, $port);
 
@@ -83,11 +85,11 @@ class Serve extends AbstractCommand
         }
 
         $command = sprintf(
-            '%s -S %s:%d -t %s %s',
+            '"%s" -S %s:%d -t "%s" "%s"',
             $php,
             $host,
             $port,
-            $this->getPath() . '/' . (string) $this->getBuilder()->getConfig()->get('output.dir'),
+            Util::joinFile($this->getPath(), (string) $this->getBuilder()->getConfig()->get('output.dir')),
             Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);
@@ -97,6 +99,7 @@ class Serve extends AbstractCommand
             $_SERVER['argv'][0],
         ];
         $buildProcessArguments[] = 'build';
+        $buildProcessArguments[] = $this->getPath();
         if (!empty($this->getConfigFiles())) {
             $buildProcessArguments[] = '--config';
             $buildProcessArguments[] = implode(',', $this->getConfigFiles());
@@ -104,12 +107,12 @@ class Serve extends AbstractCommand
         if ($drafts) {
             $buildProcessArguments[] = '--drafts';
         }
-        if ($postprocess === null) {
-            $buildProcessArguments[] = '--postprocess';
+        if ($optimize === null) {
+            $buildProcessArguments[] = '--optimize';
         }
-        if (!empty($postprocess)) {
-            $buildProcessArguments[] = '--postprocess';
-            $buildProcessArguments[] = $postprocess;
+        if (!empty($optimize)) {
+            $buildProcessArguments[] = '--optimize';
+            $buildProcessArguments[] = $optimize;
         }
         if ($clearcache === null) {
             $buildProcessArguments[] = '--clear-cache';
@@ -126,21 +129,22 @@ class Serve extends AbstractCommand
             $buildProcessArguments[] = $page;
         }
 
-        $buildProcess = new Process(array_merge($buildProcessArguments, [$this->getPath()]));
-
-        if ($this->getBuilder()->isDebug()) {
-            $output->writeln(sprintf('<comment>Process: %s</comment>', implode(' ', $buildProcessArguments)));
-        }
+        $buildProcess = new Process(
+            $buildProcessArguments,
+            null,
+            ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
+        );
 
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
         $buildProcess->setTimeout(3600 * 2); // timeout = 2 minutes
 
-        $processOutputCallback = function ($type, $data) use ($output) {
-            $output->write($data, false, OutputInterface::OUTPUT_RAW);
+        $processOutputCallback = function ($type, $buffer) use ($output) {
+            $output->write($buffer, false, OutputInterface::OUTPUT_RAW);
         };
 
         // (re)builds before serve
+        $output->writeln(sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
         $buildProcess->run($processOutputCallback);
         if ($buildProcess->isSuccessful()) {
             Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
@@ -155,8 +159,8 @@ class Serve extends AbstractCommand
             $finder = new Finder();
             $finder->files()
                 ->in($this->getPath())
-                ->exclude($this->getBuilder()->getConfig()->getOutputPath());
-            if (file_exists(Util::joinFile($this->getPath(), '.gitignore'))) {
+                ->exclude((string) $this->getBuilder()->getConfig()->get('output.dir'));
+            if (file_exists(Util::joinFile($this->getPath(), '.gitignore')) && $noignorevcs === false) {
                 $finder->ignoreVCSIgnored(true);
             }
             $hashContent = new Crc32ContentHash();
@@ -171,20 +175,48 @@ class Serve extends AbstractCommand
                     pcntl_signal(SIGINT, [$this, 'tearDownServer']);
                     pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
-                $output->writeln(
-                    sprintf('Starting server (<href=http://%s:%d>%s:%d</>)...', $host, $port, $host, $port)
-                );
-                $process->start();
+                $output->writeln(sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
+                $output->writeln(sprintf('Starting server (<href=http://%s:%d>http://%s:%d</>)...', $host, $port, $host, $port));
+                $process->start(function ($type, $buffer) {
+                    if ($type === Process::ERR) {
+                        error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
+                    }
+                });
                 if ($open) {
                     $output->writeln('Opening web browser...');
                     Util\Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
-                    if ($resourceWatcher->findChanges()->hasChanges()) {
-                        // re-builds
-                        $output->writeln('<comment>Changes detected.</comment>');
-                        $output->writeln('');
+                    sleep(1); // wait for server is ready
+                    if (!fsockopen($host, (int) $port)) {
+                        $output->writeln('<info>Server is not ready.</info>');
 
+                        return 1;
+                    }
+                    $watcher = $resourceWatcher->findChanges();
+                    if ($watcher->hasChanges()) {
+                        // prints deleted/new/updated files in debug mode
+                        $output->writeln('<comment>Changes detected.</comment>');
+                        if (\count($watcher->getDeletedFiles()) > 0) {
+                            $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getDeletedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        if (\count($watcher->getNewFiles()) > 0) {
+                            $output->writeln('<comment>New files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getNewFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        if (\count($watcher->getUpdatedFiles()) > 0) {
+                            $output->writeln('<comment>Updated files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getUpdatedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        $output->writeln('');
+                        // re-builds
                         $buildProcess->run($processOutputCallback);
                         if ($buildProcess->isSuccessful()) {
                             Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
@@ -192,6 +224,9 @@ class Serve extends AbstractCommand
 
                         $output->writeln('<info>Server is runnning...</info>');
                     }
+                }
+                if ($process->getExitCode() > 0) {
+                    $output->writeln(sprintf('<comment>%s</comment>', trim($process->getErrorOutput())));
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
@@ -237,10 +272,10 @@ class Serve extends AbstractCommand
                 )
             );
         } catch (IOExceptionInterface $e) {
-            throw new RuntimeException(sprintf('An error occurred while copying server\'s files to "%s"', $e->getPath()));
+            throw new RuntimeException(sprintf('An error occurred while copying server\'s files to "%s".', $e->getPath()));
         }
         if (!is_file(Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'))) {
-            throw new RuntimeException(sprintf('Router not found: "%s"', Util::joinFile(self::TMP_DIR, 'router.php')));
+            throw new RuntimeException(sprintf('Router not found: "%s".', Util::joinFile(self::TMP_DIR, 'router.php')));
         }
     }
 
@@ -252,7 +287,7 @@ class Serve extends AbstractCommand
     public function tearDownServer(): void
     {
         $this->output->writeln('');
-        $this->output->writeln('<comment>Server stopped.</comment>');
+        $this->output->writeln('<info>Server stopped.</info>');
 
         try {
             Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR));

@@ -17,8 +17,8 @@
       <li>name: {{ file.name }}</li>
       <li>basename: {{ file.basename }}</li>
       <li>ext: {{ file.ext }}</li>
-      <li>exif: <pre>{{ dump(file.exif|default({})) }}</pre></li>
-      <li>audio: <pre>{{ dump(file.audio|default) }}</pre></li>
+      <li>exif: <pre>{{ d(file.exif|default({})) }}</pre></li>
+      <li>audio: <pre>{{ d(file.audio|default) }}</pre></li>
     </ul>
   </li>
 {% endfor %}

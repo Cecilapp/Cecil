@@ -55,8 +55,7 @@ class ShowContent extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $count = 0;
-        $contentDir = (string) $this->getBuilder()->getConfig()->get('pages.dir');
-        $dataDir = (string) $this->getBuilder()->getConfig()->get('data.dir');
+        $contentTypes = ['pages', 'data'];
 
         // formating output
         $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
@@ -72,39 +71,28 @@ class ShowContent extends AbstractCommand
         };
 
         try {
-            // pages content
-            if (is_dir(Util::joinFile($this->getPath(), $contentDir))) {
-                $output->writeln(sprintf('<info>%s/</info>', $contentDir));
-                $pages = $this->getFilesTree('pages');
-                if (!Util\Plateform::isWindows()) {
-                    $unicodeTreePrefix($pages);
+            foreach ($contentTypes as $type) {
+                $dir = (string) $this->getBuilder()->getConfig()->get("$type.dir");
+                if (is_dir(Util::joinFile($this->getPath(), $dir))) {
+                    $output->writeln(sprintf('<info>%s:</info>', $dir));
+                    $pages = $this->getFilesTree($type);
+                    if (!Util\Plateform::isWindows()) {
+                        $unicodeTreePrefix($pages);
+                    }
+                    foreach ($pages as $page) {
+                        $output->writeln($page);
+                        $count++;
+                    }
                 }
-                foreach ($pages as $page) {
-                    $output->writeln($page);
-                    $count++;
-                }
-            }
-            // data content
-            if (is_dir(Util::joinFile($this->getPath(), $dataDir))) {
-                $output->writeln(sprintf('<info>%s/</info>', $dataDir));
-                $datas = $this->getFilesTree('data');
-                if (!Util\Plateform::isWindows()) {
-                    $unicodeTreePrefix($datas);
-                }
-                foreach ($datas as $data) {
-                    $output->writeln($data);
-                    $count++;
+                if ($count < 1) {
+                    $output->writeln(sprintf('<comment>Nothing in "%s".</comment>', $dir));
                 }
             }
+
+            return 0;
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf($e->getMessage()));
         }
-
-        if ($count < 1) {
-            $output->writeln(sprintf('<comment>Nothing in "%s" nor "%s".</comment>', $contentDir, $dataDir));
-        }
-
-        return 0;
     }
 
     /**
@@ -112,10 +100,10 @@ class ShowContent extends AbstractCommand
      *
      * @throws RuntimeException
      */
-    private function getFilesTree(string $directory): FilenameRecursiveTreeIterator
+    private function getFilesTree(string $contentType): FilenameRecursiveTreeIterator
     {
-        $dir = (string) $this->getBuilder()->getConfig()->get("$directory.dir");
-        $ext = (array) $this->getBuilder()->getConfig()->get("$directory.ext");
+        $dir = (string) $this->getBuilder()->getConfig()->get("$contentType.dir");
+        $ext = (array) $this->getBuilder()->getConfig()->get("$contentType.ext");
         $path = Util::joinFile($this->getPath(), $dir);
 
         if (!is_dir($path)) {

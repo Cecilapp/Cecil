@@ -40,13 +40,12 @@ class Image
             $srcset .= sprintf('%s %sw, ', (string) $img, $width);
             $widthMax = $width;
         }
-        rtrim($srcset, ', ');
-        // adds original image
-        if (!empty($srcset) && ($asset['width'] != $widthMax)) {
+        // adds source image?
+        if (!empty($srcset) && ($asset['width'] != $widthMax || $asset['width'] < max($widths))) {
             $srcset .= sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 
-        return $srcset;
+        return rtrim($srcset, ', ');
     }
 
     /**
@@ -115,6 +114,7 @@ class Image
 
         $assetLqip = clone $asset;
         $assetLqip = $assetLqip->resize(100);
+
         return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
     }
 }

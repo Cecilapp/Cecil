@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2023-05-22
+updated: 2024-01-18
 alias: documentation/layouts
 -->
 # Templates
@@ -16,8 +16,8 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 <span>{{ page.date|date('j M Y') }}</span>
 <p>{{ page.content }}</p>
 <ul>
-{% for variable in page.my_variables %}
-  <li>{{ variable }}</li>
+{% for tag in page.tags %}
+  <li>{{ tag }}</li>
 {% endfor %}
 </ul>
 ```
@@ -29,19 +29,42 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 
 ## Files organization
 
-There is two kinds of templates: _layouts_ and _others templates_.
+There is two kinds of templates, **_layouts_** and **_others templates_**: _layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include templates](https://twig.symfony.com/doc/templates.html#including-other-templates).
 
-_Layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include](https://twig.symfony.com/doc/templates.html#including-other-templates) templates.
-
-_Layouts_ files are stored in the `layouts/` directory and must be named according to the following convention:
+Templates files are stored in the `layouts/` directory and must be named according to the following convention:
 
 ```plaintext
-<layout>.<format>.twig
+layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 ```
 
-- `<layout>` is the name of the layout, the same as the one defined in [front matter](2-Content.md#front-matter) of a page (e.g.: `layout: my-layout`) or the name of a generic layout (i.e.: `index`, `page`, `list`, etc. See below for details)
-- `<format>` of the [output](4-Configuration.md#formats) of the generated page (e.g.: `html`, `rss`, `json`, `xml`, etc.)
-- `.twig` is the mandatory file extension
+`<section>` (optional)
+:  The section of the page (e.g.: `blog`).
+
+`<type>`
+:  The page type: `home` (or `index`) for _homepage_, `list` for _list_, `page` for _page_, etc. (See [_Lookup rules_](#lookup-rules) for details).
+
+`<layout>` (optional)
+:  The custom layout name defined in the [front matter](2-Content.md#front-matter) of the page (e.g.: `layout: my-layout`).
+
+`<language>` (optional)
+:  The language of the page (e.g.: `fr`).
+
+`<format>`
+:  The [output format](4-Configuration.md#formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
+
+".twig"
+:  The mandatory Twig file extension.
+
+_Examples:_
+
+```plaintext
+layouts/home.html.twig       # `type` is "homepage"
+layouts/page.html.twig       # `type` is "page"
+layouts/page.html.fr.twig    # `type` is "page" and `language` is "fr"
+layouts/my-layout.html.twig  # `layout` is "my-layout"
+layouts/blog/list.html.twig  # `section` is "blog"
+layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
+```
 
 ```plaintext
 <mywebsite>
@@ -53,7 +76,7 @@ _Layouts_ files are stored in the `layouts/` directory and must be named accordi
 |  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
 |  ├─ page.html.twig        <- Used by type "page"
 |  ├─ ...
-|  ├─ _default              <- Default layouts, that can be easily extended by "root" layouts
+|  ├─ _default              <- Default layouts, that can be easily extended
 |  |  ├─ list.html.twig
 |  |  ├─ page.html.twig
 |  |  └─ ...
@@ -68,14 +91,15 @@ _Layouts_ files are stored in the `layouts/` directory and must be named accordi
 
 ## Lookup rules
 
-In most of cases **you don’t need to specify a layout name** (in the [front matter](2-Content.md#front-matter) of the page) : **Cecil selects the most appropriate layout**, according to the page _type_.
+In most of cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the page _type_.
 
-For example, the HTML output of _home page_ will be rendered in the following order:
+For example, the HTML output of _home page_ (`index.md`) will be rendered:
 
-1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" in the front matter of `index.md`
-2. if not, with `index.html.twig` if the file exists
-3. if not, with `list.html.twig` if the file exists
-4. etc.
+1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" (in the front matter)
+2. if not, with `home.html.twig` if the file exists
+3. if not, with `index.html.twig` if the file exists
+4. if not, with `list.html.twig` if the file exists
+5. etc.
 
 All rules are detailed below, for each page type, in the priority order.
 
@@ -83,10 +107,13 @@ All rules are detailed below, for each page type, in the priority order.
 
 1. `<layout>.<format>.twig`
 2. `index.<format>.twig`
-3. `list.<format>.twig`
-4. `_default/index.<format>.twig`
-5. `_default/list.<format>.twig`
-6. `_default/page.<format>.twig`
+3. `home.<format>.twig`
+4. `list.<format>.twig`
+5. `_default/<layout>.<format>.twig`
+6. `_default/index.<format>.twig`
+7. `_default/home.<format>.twig`
+8. `_default/list.<format>.twig`
+9. `_default/page.<format>.twig`
 
 ### Type _page_
 
@@ -94,15 +121,17 @@ All rules are detailed below, for each page type, in the priority order.
 2. `<layout>.<format>.twig`
 3. `<section>/page.<format>.twig`
 4. `page.<format>.twig`
-5. `_default/page.<format>.twig`
+5. `_default/<layout>.<format>.twig`
+6. `_default/page.<format>.twig`
 
 ### Type _section_
 
 1. `<layout>.<format>.twig`
-2. `<section>/list.<format>.twig`
-3. `section/<section>.<format>.twig`
-4. `_default/section.<format>.twig`
-5. `_default/list.<format>.twig`
+2. `<section>/index.<format>.twig`
+3. `<section>/list.<format>.twig`
+4. `section/<section>.<format>.twig`
+5. `_default/section.<format>.twig`
+6. `_default/list.<format>.twig`
 
 ### Type _vocabulary_
 
@@ -130,7 +159,7 @@ You can use variables from different scopes: [`site`](#site), [`page`](#page), [
 
 ### site
 
-The `site` variable contains all variables from the configuration and some built-in variables.
+The `site` variable contains all variables from the configuration and built-in variables.
 
 _Example:_
 
@@ -151,13 +180,21 @@ Can be displayed in a template with:
 | `site.home`           | ID of the home page.                                   |
 | `site.pages`          | Collection of pages, in the current language.          |
 | `site.pages.showable` | Same as `site.pages` but filtered by "showable" status (published pages and not virtual/redirect/excluded). |
-| `site.page('id')`     | A page with the given ID in the current language.      |
+| `site.page('id')`     | A page with the given ID.                              |
 | `site.allpages`       | Collection of all pages, regardless of their language. |
 | `site.taxonomies`     | Collection of vocabularies.                            |
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
+| `site.debug`          | Debug mode: `true` or `false`.                         |
 
-:::tip
-You can get any page, regardless of their language, with `site.pages['id']` where `id` is the _ID_ of a page.
+:::important
+In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.<variable>` (with `<variable>` is the name/path of the variable) to access directly to the raw configuration).
+
+Example:
+
+```twig
+{{ config.pages.default.sitemap.priority }}
+```
+
 :::
 
 #### site.menus
@@ -262,20 +299,20 @@ _Example:_
 
 #### page.paginator
 
-_Paginator_ help you to build a navigation for list pages: homepage, sections, and taxonomies.
+_Paginator_ help you to build a navigation for list's pages: homepage, sections, and taxonomies.
 
-| Variable                     | Description                   |
-| ---------------------------- | ----------------------------- |
-| `page.paginator.pages`       | Paginated pages collection.   |
-| `page.paginator.pages_total` | Paginated total pages.        |
-| `page.paginator.count`       | Number of pages.              |
-| `page.paginator.current`     | Position of the current page. |
-| `page.paginator.links.first` | Page ID of the first page.    |
-| `page.paginator.links.prev`  | Page ID of the previous page. |
-| `page.paginator.links.self`  | Page ID of the current page.  |
-| `page.paginator.links.next`  | Page ID of the next page.     |
-| `page.paginator.links.last`  | Page ID of the last page.     |
-| `page.paginator.links.path`  | Page ID without position.     |
+| Variable                     | Description                         |
+| ---------------------------- | ----------------------------------- |
+| `page.paginator.pages`       | Pages Collection.                   |
+| `page.paginator.pages_total` | Number total of pages.              |
+| `page.paginator.count`       | Number of paginator's pages.        |
+| `page.paginator.current`     | Position index of the current page. |
+| `page.paginator.links.first` | Page ID of the first page.          |
+| `page.paginator.links.prev`  | Page ID of the previous page.       |
+| `page.paginator.links.self`  | Page ID of the current page.        |
+| `page.paginator.links.next`  | Page ID of the next page.           |
+| `page.paginator.links.last`  | Page ID of the last page.           |
+| `page.paginator.links.path`  | Page ID without the position index. |
 
 :::important
 Because links entries are Page ID you must use the `url()` function to create working links.  
@@ -400,12 +437,13 @@ Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL 
 {{ asset(path, {options}) }}
 ```
 
-| Option         | Description                                         | Type    | Default |
-| -------------- | --------------------------------------------------- | ------- | ------- |
-| fingerprint    | Add the file content finger print to the file name. | boolean | `true`  |
-| minify         | Compress file content (CSS or JavaScript).          | boolean | `true`  |
-| filename       | File where to save content.                         | string  | `styles.css` or `scripts.js` |
-| ignore_missing | Do not stop build if file don't exists.             | boolean | `false` |
+| Option          | Description                                         | Type    | Default |
+| --------------- | --------------------------------------------------- | ------- | ------- |
+| fingerprint     | Add the file content finger print to the file name. | boolean | `true`  |
+| minify          | Compress file content (CSS or JavaScript).          | boolean | `true`  |
+| filename        | File where to save content.                         | string  | `styles.css` or `scripts.js` |
+| ignore_missing  | Do not stop build if file don't exists.             | boolean | `false` |
+| remote_fallback | Load a local asset if the remote one don't exists.  | string  | `null`  |
 
 :::info
 Refers to [assets configuration](4-Configuration.md#assets) to define the global behavior.  
@@ -458,6 +496,7 @@ Assets created with the `asset()` function expose some useful attributes:
 - `height`: image height
 - `exif`: image EXIF data as array
 - `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) object
+- `video`: array of video dimensions (width and height)
 
 _Examples:_
 
@@ -546,6 +585,33 @@ _Example:_
 ```twig
 {{ getenv('VAR') }}
 ```
+
+### dump
+
+> The `dump` function dumps information about a template variable. This is mostly useful to debug a template that does not behave as expected by introspecting its variables:
+
+```twig
+{{ dump(user) }}
+```
+
+:::important
+The [_debug mode_](4-Configuration.md#debug) must be enabled.
+:::
+
+### d
+
+The `d()` function is the HTML version of [`dump()`](#dump) and use the [Symfony VarDumper Component](https://symfony.com/doc/5.4/components/var_dumper.html) behind the scenes.
+
+```twig
+{{ d(variable, {theme: light}) }}
+```
+
+- If _variable_ is not provided then the function returns the current Twig context
+- Available themes are « light » (default) and « dark »
+
+:::important
+The [_debug mode_](4-Configuration.md#debug) must be enabled.
+:::
 
 ## Sorts
 
@@ -780,7 +846,6 @@ _Examples:_
 
 ```twig
 {{ asset('styles.scss')|to_css }}
-{{ 'styles.scss'|to_css }} {# deprecated #}
 ```
 
 ### fingerprint
@@ -796,7 +861,6 @@ _Examples:_
 
 ```twig
 {{ asset('styles.css')|fingerprint }}
-{{ 'styles.css'|fingerprint }} {# deprecated #}
 ```
 
 ### minify
@@ -805,14 +869,12 @@ Minifying a CSS or a JavaScript file.
 
 ```twig
 {{ asset(path)|minify }}
-{{ path|minify }} {# deprecated #}
 ```
 
 _Examples:_
 
 ```twig
 {{ asset('styles.css')|minify }}
-{{ 'styles.css'|minify }} {# deprecated #}
 {{ asset('scripts.js')|minify }}
 ```
 
@@ -918,7 +980,6 @@ Resizes an image to a specified with.
 
 ```twig
 {{ asset(image_path)|resize(integer) }}
-{{ <image_path>|resize(integer) }} {# deprecated #}
 ```
 
 :::info
@@ -992,31 +1053,38 @@ Converts an asset into an HTML element.
 {{ asset(path)|html({attributes, options}) }}
 ```
 
-:::info
-The `html` filter is available for images, CSS and JavaScript. The `attributes` and `options` parameters are optional.
-:::
-
 | Option     | Description                                     | Type  | Default |
 | ---------- | ----------------------------------------------- | ----- | ------- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |         |
-| options    | `{responsive: true}`: creates responsives images.<br>`{webp: true}`: creates WebP versions of the image.<br>`{preload: true}`: preloads CSS. | array |         |
+| options    | `{preload: true}`: preloads CSS.<br>`{responsive: true}`: creates responsives images.<br>`{webp: true}`: creates WebP versions of the image. | array |         |
 
 _Examples:_
 
 ```twig
+{# image without specific attributes nor options #}
 {{ asset('image.png')|html }}
 ```
 
 ```twig
+{# image with specific attributes and options #}
 {{ asset('image.jpg')|html({alt: 'Description', loading: 'lazy'}, {responsive: true, webp: true}) }}
 ```
 
 ```twig
-{{ asset('styles.css')|html({media: print}) }}
+{# with named argument `options` #}
+{{ asset('image.jpg')|html(options={responsive: true}) }}
+```
+
+```twig
+{{ asset('styles.css')|html({media: 'print'}) }}
 ```
 
 ```twig
 {{ asset('styles.css')|html({title: 'Main theme'}, {preload: true}) }}
+```
+
+```twig
+{{ asset('script.js')|html }}
 ```
 
 ### preg_split
@@ -1030,7 +1098,7 @@ Splits a string into an array using a regular expression.
 _Example:_
 
 ```twig
-{% set headers = page.content|preg_split('/<h3[^>]*>/') %}
+{% set headers = page.content|preg_split('/<br[^>]*>/') %}
 ```
 
 ### preg_match_all
@@ -1044,7 +1112,7 @@ Performs a regular expression match and return the group for all matches.
 _Example:_
 
 ```twig
-{% set tags = page.content|preg_match_all('/<[^>]+>(.*)<\\/[^>]+>/') %}
+{% set tags = page.content|preg_match_all('/<[^>]+>(.*)<\/[^>]+>/') %}
 ```
 
 ### hex_to_rgb
@@ -1149,7 +1217,7 @@ If you want to use the `format_date` filter **with other locales than "en"**, yo
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
 
 :::tips
-If you need to modify the default templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
+If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
 
 ```bash
 php cecil.phar util:extract
@@ -1160,26 +1228,36 @@ php cecil.phar util:extract
 ### Default templates
 
 [`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
-:   A simple default main template with a clean CSS.
+:   A simple main template with a clean CSS.
 
 [`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
-:   A pages list with (optional) pagination.
+:   A pages list with (an optional) pagination.
+
+[`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
+:   An Atom feed.
+
+[`_default/list.rss.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.rss.twig)
+:   A RSS feed.
 
 [`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
 :   A simple list of all terms of a vocabulary.
 
-### Utility templates
-
-[`sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/sitemap.xml.twig)
+[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
 :   The `sitemap.xml` template: list all pages sorted by date.
 
-[`robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/robots.txt.twig)
+[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
 :   The `robots.txt` template: allow all pages except 404, with a reference to the XML sitemap.
+
+[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
+:   A basic error 404 ("Page not found") template.
+
+[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
+:   The redirect template.
 
 ### Partial templates
 
 [`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
-:   Main menu navigation.
+:   A main menu navigation.
 
 [`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
 :   A simple paginated navigation for list templates with "Previous" and "Next" links.
@@ -1188,41 +1266,25 @@ php cecil.phar util:extract
 :   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
 
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   Switcher between [languages](4-Configuration.md#languages).
+:   A basic switcher between [languages](4-Configuration.md#languages).
 
-[`partials/googleanalytics.js.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/googleanalytics.js.twig)
-:   Google Analytics traking script. See [configuration](4-Configuration.md#googleanalytics).
+## Extend
 
-## Custom extension
+:::tip
+You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters) with a [_Renderer extension_](7-Extend.md#renderer-extension).
+:::
 
-It is possible to use custom [functions](#functions) and [filters](#filters):
+## Theme
 
-1. [create a Twig extension](https://twig.symfony.com/doc/advanced.html#creating-an-extension) in the `Cecil\Renderer\Extension` namespace
-2. add the PHP file in the `extensions` directory
-3. add the class name to the configuration
+It’s easy to build a Cecil theme: you just have to create a folder `<theme>` with the following structure:
 
-**Example:**
-
-_/extensions/Cecil/Renderer/Extension/MyExtension.php_
-
-```php
-<?php
-namespace Cecil\Renderer\Extension;
-
-class MyExtension extends \Twig\Extension\AbstractExtension
-{
-    public function getFilters()
-    {
-        return [
-            new \Twig\TwigFilter('rot13', 'str_rot13'),
-        ];
-    }
-}
-```
-
-_configuration_
-
-```yaml
-extensions:
-  MyExtension: Cecil\Renderer\Extension\MyExtension
+```plaintext
+<mywebsite>
+└─ themes
+   └─ <theme>
+      ├─ config.yml
+      ├─ assets
+      ├─ layouts
+      ├─ static
+      └─ translations
 ```

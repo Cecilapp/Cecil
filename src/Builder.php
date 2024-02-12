@@ -27,7 +27,7 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder implements LoggerAwareInterface
 {
-    public const VERSION = '7.x-dev';
+    public const VERSION = '8.x-dev';
     public const VERBOSITY_QUIET = -1;
     public const VERBOSITY_NORMAL = 0;
     public const VERBOSITY_VERBOSE = 1;
@@ -49,10 +49,10 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\StaticFiles\Copy',
         'Cecil\Step\Pages\Render',
         'Cecil\Step\Pages\Save',
-        'Cecil\Step\PostProcess\Html',
-        'Cecil\Step\PostProcess\Css',
-        'Cecil\Step\PostProcess\Js',
-        'Cecil\Step\PostProcess\Images',
+        'Cecil\Step\Optimize\Html',
+        'Cecil\Step\Optimize\Css',
+        'Cecil\Step\Optimize\Js',
+        'Cecil\Step\Optimize\Images',
     ];
 
     /** @var Config Configuration. */
@@ -82,7 +82,7 @@ class Builder implements LoggerAwareInterface
     /** @var array Menus collection. */
     protected $menus;
 
-    /** @var Collection\Taxonomy\Collection Taxonomies collection. */
+    /** @var array Taxonomies collection. */
     protected $taxonomies;
 
     /** @var Renderer\RendererInterface Renderer. */
@@ -111,6 +111,8 @@ class Builder implements LoggerAwareInterface
         if (getenv('CECIL_DEBUG') == 'true' || (bool) $this->getConfig()->get('debug')) {
             $this->debug = true;
         }
+        // autoloads local extensions
+        Util::autoload($this, 'extensions');
     }
 
     /**
@@ -220,7 +222,7 @@ class Builder implements LoggerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
@@ -238,7 +240,7 @@ class Builder implements LoggerAwareInterface
      */
     public function isDebug(): bool
     {
-        return $this->debug;
+        return (bool) $this->debug;
     }
 
     /**
@@ -332,17 +334,17 @@ class Builder implements LoggerAwareInterface
     /**
      * Set taxonomies collection.
      */
-    public function setTaxonomies(Collection\Taxonomy\Collection $taxonomies): void
+    public function setTaxonomies(array $taxonomies): void
     {
         $this->taxonomies = $taxonomies;
     }
 
     /**
-     * Returns taxonomies collection.
+     * Returns taxonomies collection, for a language.
      */
-    public function getTaxonomies(): ?Collection\Taxonomy\Collection
+    public function getTaxonomies(string $language): ?Collection\Taxonomy\Collection
     {
-        return $this->taxonomies;
+        return $this->taxonomies[$language];
     }
 
     /**
@@ -376,14 +378,14 @@ class Builder implements LoggerAwareInterface
 
             try {
                 if (!file_exists($filePath)) {
-                    throw new RuntimeException(sprintf('%s file doesn\'t exist!', $filePath));
+                    throw new RuntimeException(sprintf('File "%s" doesn\'t exist.', $filePath));
                 }
                 $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
-                    throw new RuntimeException(sprintf('Can\'t get %s file!', $filePath));
+                    throw new RuntimeException(sprintf('Can\'t get file "%s".', $filePath));
                 }
                 self::$version = trim($version);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 self::$version = self::VERSION;
             }
         }
@@ -401,11 +403,11 @@ class Builder implements LoggerAwareInterface
             $this->getLogger()->error('Config: `baseurl` is required in production (e.g.: "baseurl: https://example.com/").');
         }
         // default language
-        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', (string) $this->config->get('language'))) {
-            throw new RuntimeException(sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->get('language')));
+        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->config->getLanguageDefault())) {
+            throw new RuntimeException(sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->getLanguageDefault()));
         }
         // locales
-        foreach ((array) $this->config->get('languages') as $lang) {
+        foreach ($this->config->getLanguages() as $lang) {
             if (!isset($lang['locale'])) {
                 throw new RuntimeException('Config: a language locale is not defined.');
             }

@@ -32,7 +32,7 @@ class Page extends Item
     /** @var SplFileInfo */
     protected $file;
 
-    /** @var string Homepage, Page, Section, etc. */
+    /** @var Type Type */
     protected $type;
 
     /** @var string */
@@ -81,7 +81,8 @@ class Page extends Item
     {
         parent::__construct($id);
         $this->setVirtual(true);
-        $this->setType(Type::PAGE);
+        $this->setType(Type::PAGE->value);
+        // default variables
         $this->setVariables([
             'title'            => 'Page Title',
             'date'             => new \DateTime(),
@@ -91,6 +92,16 @@ class Page extends Item
             'published'        => true,
             'content_template' => 'page.content.twig',
         ]);
+    }
+
+    /**
+     * toString magic method to prevent Twig get_attribute fatal error.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getId();
     }
 
     /**
@@ -167,7 +178,10 @@ class Page extends Item
         $fileName = $this->file->getBasename('.' . $fileExtension);
         // renames "README" to "index"
         $fileName = (string) str_ireplace('readme', 'index', $fileName);
-
+        // case of "index" = home page
+        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
+            $this->setType(Type::HOMEPAGE->value);
+        }
         /*
          * Set page properties and variables
          */
@@ -218,6 +232,10 @@ class Page extends Item
      */
     public function getFilePath(): ?string
     {
+        if ($this->file === null) {
+            return null;
+        }
+
         return $this->file->getRealPath() === false ? null : $this->file->getRealPath();
     }
 
@@ -273,7 +291,7 @@ class Page extends Item
      */
     public function setType(string $type): self
     {
-        $this->type = new Type($type);
+        $this->type = Type::from($type);
 
         return $this;
     }
@@ -283,7 +301,7 @@ class Page extends Item
      */
     public function getType(): string
     {
-        return (string) $this->type;
+        return $this->type->value;
     }
 
     /**
@@ -343,12 +361,11 @@ class Page extends Item
             return $this;
         }
 
-        // case of custom sections' index (ie: file: section/index.md -> path: section)
+        // case of custom sections' index (ie: section/index.md -> section)
         if (substr($path, -6) == '/index') {
-            $path = substr($path, 0, \strlen($path) - 6);
+            $this->path = substr($path, 0, \strlen($path) - 6);
         }
 
-        $this->path = $path;
         $lastslash = strrpos($this->path, '/');
 
         // case of root/top-level pages
@@ -401,6 +418,16 @@ class Page extends Item
     public function getSection(): ?string
     {
         return !empty($this->section) ? $this->section : null;
+    }
+
+    /**
+     * Unset section.
+     */
+    public function unSection(): self
+    {
+        $this->section = null;
+
+        return $this;
     }
 
     /**
@@ -549,12 +576,13 @@ class Page extends Item
         switch ($name) {
             case 'date':
             case 'updated':
+            case 'lastmod':
                 try {
                     $date = Util\Date::toDatetime($value);
-                } catch (\Exception $e) {
-                    throw new \Exception(sprintf('Expected date format for variable "%s" must be "YYYY-MM-DD" instead of "%s".', $name, (string) $value));
+                } catch (\Exception) {
+                    throw new \Exception(sprintf('The value of "%s" is not a valid date: "%s".', $name, var_export($value, true)));
                 }
-                $this->offsetSet($name, $date);
+                $this->offsetSet($name == 'lastmod' ? 'updated' : $name, $date);
                 break;
 
             case 'schedule':

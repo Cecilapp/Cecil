@@ -1,0 +1,43 @@
+{% extends 'partials/metatags.html.twig' %}
+{% block content %}
+{
+  "version": "1.0",
+  "title": "{{ opengraph.title }}",
+  {#- thumbnail ~#}
+  {%- if opengraph.image is defined ~%}
+  "thumbnail_url": "{{ url(opengraph.image|resize(640), {canonical: true}) }}",
+  "thumbnail_width": {{ opengraph.image|resize(640).width }},
+  "thumbnail_height": {{ opengraph.image|resize(640).height }},
+  {%- endif ~%}
+  {#- type: video ~#}
+  {%- if opengraph.video is defined ~%}
+  "type": "video",
+  "html": "<iframe width=\"{{ opengraph.video.video.width }}\" height=\"{{ opengraph.video.video.height }}\" src=\"{{ url(page, {canonical: true, format:'iframe'}) }}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"{{ opengraph.title }}\"></iframe>",
+  "width": {{ opengraph.video.video.width }},
+  "height": {{ opengraph.video.video.height }},
+  {%- else ~%}
+    {#- type: photo ~#}
+    {%- if page.photo is defined ~%}
+    {% set photo_asset = asset(page.photo) %}
+  "type": "photo",
+  "url": "{{ url(photo_asset, {canonical: true}) }}",
+  "width": {{ photo_asset.width }},
+  "height": {{ photo_asset.height }},
+    {%- else ~%}
+    {#- type: link ~#}
+  "type": "link",
+    {%- endif ~%}
+  {%- endif ~%}
+  "provider_name": "{{ site.title }}",
+  "provider_url": "{{ url('/', {canonical: true}) }}",
+  "author_name": "{{ author.name }}",
+  {%- if author.url is defined ~%}
+  "author_url": "{{ author.url }}",
+  {%- endif ~%}
+  "cache_age": 3600,
+  {%- if 'iframe' in page.output ~%}
+  "embed_url": "{{ url(page, {canonical: true, format: 'iframe'}) }}",
+  {%- endif ~%}
+  "description": "{{ opengraph.description }}"
+}
+{% endblock %}

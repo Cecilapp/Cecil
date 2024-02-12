@@ -33,7 +33,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
 
         // filters list pages (home, sections and terms)
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
-            return \in_array($page->getType(), [Type::HOMEPAGE, Type::SECTION, Type::TERM]);
+            return \in_array($page->getType(), [Type::HOMEPAGE->value, Type::SECTION->value, Type::TERM->value]);
         });
         /** @var Page $page */
         foreach ($filteredPages as $page) {
@@ -42,7 +42,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             $pages = $page->getPages()->filter(function (Page $page) {
-                return $page->getType() == Type::PAGE && $page->getVariable('published');
+                return $page->getType() == Type::PAGE->value && $page->getVariable('published');
             });
             // if no published sub-pages: by-pass
             if ($pages === null) {
@@ -71,11 +71,11 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             // sorts pages
-            $pages = Section::sortSubPages($page, $pages);
+            $pages = Section::sortSubPages($this->config, $page, $pages);
             // builds paginator
             $paginatorPagesCount = \intval(ceil($pagesTotal / $paginationPerPage));
             for ($i = 0; $i < $paginatorPagesCount; $i++) {
-                $itPagesInPagination = new \LimitIterator($pages->getIterator(), ($i * $paginationPerPage), $paginationPerPage);
+                $itPagesInPagination = new \LimitIterator($pages->getIterator(), $i * $paginationPerPage, $paginationPerPage);
                 $pagesInPagination = new PagesCollection(
                     $page->getId() . '-page-' . ($i + 1),
                     iterator_to_array($itPagesInPagination)

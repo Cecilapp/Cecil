@@ -16,8 +16,8 @@ namespace Cecil\Step\Pages;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
-use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Exception\RuntimeException;
+use Cecil\Renderer\Config;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
@@ -85,6 +85,15 @@ class Render extends AbstractStep
 
         // renders each page
         $count = 0;
+        $postprocessors = [];
+        foreach ($this->config->get('output.postprocessors') as $name => $postprocessor) {
+            if (!class_exists($postprocessor)) {
+                $this->builder->getLogger()->error(sprintf('Unable to load output post processor "%s"', $postprocessor));
+                break;
+            }
+            $postprocessors[] = new $postprocessor($this->builder);
+            $this->builder->getLogger()->debug(sprintf('Output post processor "%s" loaded', $name));
+        }
         /** @var Page $page */
         foreach ($pages as $page) {
             $count++;
@@ -97,6 +106,9 @@ class Render extends AbstractStep
 
             // global site variables
             $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $language));
+
+            // global config raw variables
+            $this->builder->getRenderer()->addGlobal('config', new Config($this->builder, $language));
 
             // excluded format(s)?
             $formats = (array) $page->getVariable('output');
@@ -134,13 +146,15 @@ class Render extends AbstractStep
                     foreach ($deprecations as $value) {
                         $this->builder->getLogger()->warning($value);
                     }
-                    $output = $this->postProcessOutput($output, $page, $format);
+                    foreach ($postprocessors as $postprocessor) {
+                        $output = $postprocessor->process($page, $output, $format);
+                    }
                     $rendered[$format] = [
                         'output'   => $output,
                         'template' => [
                             'scope' => $layout['scope'],
                             'file'  => $layout['file'],
-                        ]
+                        ],
                     ];
                     $page->addRendered($rendered);
                     // profiler
@@ -168,7 +182,7 @@ class Render extends AbstractStep
             $templates = array_column($rendered, 'template');
             $message = sprintf(
                 'Page "%s" rendered with [%s]',
-                ($page->getId() ?: 'index'),
+                $page->getId() ?: 'index',
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
             );
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
@@ -194,8 +208,8 @@ class Render extends AbstractStep
             }
         }
         // resources/layouts/
-        if (is_dir($this->config->getInternalLayoutsPath())) {
-            $paths[] = $this->config->getInternalLayoutsPath();
+        if (is_dir($this->config->getLayoutsInternalPath())) {
+            $paths[] = $this->config->getLayoutsInternalPath();
         }
 
         return $paths;
@@ -286,51 +300,5 @@ class Render extends AbstractStep
         });
 
         return $pages;
-    }
-
-    /**
-     * Apply post rendering on output.
-     */
-    private function postProcessOutput(string $output, Page $page, string $format): string
-    {
-        switch ($format) {
-            case 'html':
-                // add generator meta tag
-                if (!preg_match('/<meta name="generator".*/i', $output)) {
-                    $meta = sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
-                    $output = preg_replace_callback('/([[:blank:]]*)(<\/head>)/i', function ($matches) use ($meta) {
-                        return str_repeat($matches[1] ?: ' ', 2) . $meta . "\n" . $matches[1] . $matches[2];
-                    }, $output);
-                }
-                // replace excerpt or break tag by HTML anchor
-                // https://regex101.com/r/Xl7d5I/3
-                $pattern = '(.*)(<!--[[:blank:]]?(excerpt|break)[[:blank:]]?-->)(.*)';
-                $replacement = '$1<span id="more"></span>$4';
-                $excerpt = preg_replace('/' . $pattern . '/is', $replacement, $output, 1);
-                $output = $excerpt ?? $output;
-        }
-
-        // replace internal link to *.md files with the right URL
-        $output = preg_replace_callback(
-            // https://regex101.com/r/ycWMe4/1
-            '/href="(\/|)([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9_\-]+)?"/is',
-            function ($matches) use ($page) {
-                // section spage
-                $hrefPattern = 'href="../%s/%s"';
-                // root page
-                if (empty($page->getFolder())) {
-                    $hrefPattern = 'href="%s/%s"';
-                }
-                // root link
-                if ($matches[1] == '/') {
-                    $hrefPattern = 'href="/%s/%s"';
-                }
-
-                return sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
-            },
-            $output
-        );
-
-        return $output;
     }
 }

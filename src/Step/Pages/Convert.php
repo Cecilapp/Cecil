@@ -105,7 +105,7 @@ class Convert extends AbstractStep
      */
     public function convertPage(Builder $builder, Page $page, ?string $format = null, ?ConverterInterface $converter = null): Page
     {
-        $format = $format ?? (string) $builder->getConfig()->get('frontmatter.format') ?? 'yaml';
+        $format = $format ?? (string) $builder->getConfig()->get('pages.frontmatter.format') ?? 'yaml';
         $converter = $converter ?? new Converter($builder);
 
         // converts front matter

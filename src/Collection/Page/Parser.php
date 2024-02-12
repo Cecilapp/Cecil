@@ -54,7 +54,7 @@ class Parser
     {
         if ($this->file->isFile()) {
             if (!$this->file->isReadable()) {
-                throw new RuntimeException('Cannot read file');
+                throw new RuntimeException('Cannot read file.');
             }
             preg_match(
                 '/' . self::PATTERN . '/s',

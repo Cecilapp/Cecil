@@ -21,13 +21,16 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\Validator\Validation;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 class AbstractCommand extends Command
 {
-    public const CONFIG_FILE = 'config.yml';
+    public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
     public const TMP_DIR = '.cecil';
 
     /** @var InputInterface */
@@ -39,8 +42,8 @@ class AbstractCommand extends Command
     /** @var SymfonyStyle */
     protected $io;
 
-    /** @var string */
-    private $path;
+    /** @var null|string */
+    private $path = null;
 
     /** @var array */
     private $configFiles;
@@ -60,35 +63,25 @@ class AbstractCommand extends Command
         $this->output = $output;
         $this->io = new SymfonyStyle($input, $output);
 
-        if (!\in_array($this->getName(), ['self-update'])) {
-            // working directory
-            $this->path = getcwd();
-            if ($input->getArgument('path') !== null) {
-                $this->path = (string) $input->getArgument('path');
-            }
-            if (realpath($this->getPath()) === false) {
-                Util\File::getFS()->mkdir($this->getPath());
-            }
-            $this->path = realpath($this->getPath());
-            // config file(s)
-            if (!\in_array($this->getName(), ['new:site'])) {
-                // default
-                $this->configFiles[self::CONFIG_FILE] = realpath(Util::joinFile($this->getPath(), self::CONFIG_FILE));
-                // from --config=<file>
-                if ($input->hasOption('config') && $input->getOption('config') !== null) {
-                    foreach (explode(',', (string) $input->getOption('config')) as $configFile) {
-                        $this->configFiles[$configFile] = realpath($configFile);
-                        if (!Util\File::getFS()->isAbsolutePath($configFile)) {
-                            $this->configFiles[$configFile] = realpath(Util::joinFile($this->getPath(), $configFile));
-                        }
+        // set up configuration
+        if (!\in_array($this->getName(), ['new:site', 'self-update'])) {
+            // default configuration file
+            $this->configFiles[$this->findConfigFile('name')] = $this->findConfigFile('path');
+            // from --config=<file>
+            if ($input->hasOption('config') && $input->getOption('config') !== null) {
+                foreach (explode(',', (string) $input->getOption('config')) as $configFile) {
+                    $this->configFiles[$configFile] = realpath($configFile);
+                    if (!Util\File::getFS()->isAbsolutePath($configFile)) {
+                        $this->configFiles[$configFile] = realpath(Util::joinFile($this->getPath(), $configFile));
                     }
                 }
-                // checks file(s)
-                foreach ($this->configFiles as $fileName => $filePath) {
-                    if ($filePath === false || !file_exists($filePath)) {
-                        unset($this->configFiles[$fileName]);
-                        $this->getBuilder()->getLogger()->error(sprintf('Could not find configuration file "%s".', $fileName));
-                    }
+                $this->configFiles = array_unique($this->configFiles);
+            }
+            // checks file(s)
+            foreach ($this->configFiles as $fileName => $filePath) {
+                if ($filePath === false || !file_exists($filePath)) {
+                    unset($this->configFiles[$fileName]);
+                    $this->getBuilder()->getLogger()->error(sprintf('Could not find configuration file "%s".', $fileName));
                 }
             }
         }
@@ -99,7 +92,7 @@ class AbstractCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         // disable debug mode if a verbosity level is specified
         if ($output->getVerbosity() != OutputInterface::VERBOSITY_NORMAL) {
@@ -129,19 +122,62 @@ class AbstractCommand extends Command
     }
 
     /**
-     * Returns the working directory.
+     * Returns the working path.
      */
-    protected function getPath(): ?string
+    protected function getPath(bool $exist = true): ?string
     {
+        if ($this->path === null) {
+            try {
+                // get working directory by default
+                if (false === $this->path = getcwd()) {
+                    throw new \Exception('Can\'t get current working directory.');
+                }
+                // ... or path
+                if ($this->input->getArgument('path') !== null) {
+                    $this->path = Path::canonicalize($this->input->getArgument('path'));
+                }
+                // try to get canonicalized absolute path
+                if ($exist) {
+                    if (realpath($this->path) === false) {
+                        throw new \Exception(sprintf('The given path "%s" is not valid.', $this->path));
+                    }
+                    $this->path = realpath($this->path);
+                }
+            } catch (\Exception $e) {
+                throw new \Exception($e->getMessage());
+            }
+        }
+
         return $this->path;
+    }
+
+    /**
+     * Returns the configuration file name or path, if file exists, otherwise default name or false.
+     */
+    protected function findConfigFile(string $nameOrPath): string|false
+    {
+        $config = [
+            'name' => self::CONFIG_FILE[0],
+            'path' => false,
+        ];
+        foreach (self::CONFIG_FILE as $configFileName) {
+            if (($configFilePath = realpath(Util::joinFile($this->getPath(), $configFileName))) !== false) {
+                $config = [
+                    'name' => $configFileName,
+                    'path' => $configFilePath,
+                ];
+            }
+        }
+
+        return $config[$nameOrPath];
     }
 
     /**
      * Returns config file(s) path.
      */
-    protected function getConfigFiles(): array
+    protected function getConfigFiles(): ?array
     {
-        return array_unique((array) $this->configFiles);
+        return $this->configFiles;
     }
 
     /**
@@ -159,7 +195,7 @@ class AbstractCommand extends Command
                     if ($filePath === false || false === $configContent = Util\File::fileGetContents($filePath)) {
                         throw new RuntimeException(sprintf('Can\'t read configuration file "%s".', $fileName));
                     }
-                    $siteConfig = array_replace_recursive($siteConfig, Yaml::parse($configContent));
+                    $siteConfig = array_replace_recursive($siteConfig, (array) Yaml::parse($configContent, Yaml::PARSE_DATETIME));
                 }
                 $this->config = array_replace_recursive($siteConfig, $config);
             }
@@ -202,5 +238,22 @@ class AbstractCommand extends Command
         if (!$process->isSuccessful()) {
             throw new RuntimeException(sprintf('Can\'t use "%s" editor.', $editor));
         }
+    }
+
+    /**
+     * Validate URL.
+     *
+     * @throws RuntimeException
+     */
+    public static function validateUrl(string $url): string
+    {
+        $validator = Validation::createValidator();
+        $violations = $validator->validate($url, new Url());
+        if (\count($violations) > 0) {
+            foreach ($violations as $violation) {
+                throw new RuntimeException($violation->getMessage());
+            }
+        }
+        return rtrim($url, '/') . '/';
     }
 }

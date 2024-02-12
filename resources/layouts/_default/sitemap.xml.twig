@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  {%- for page in site.pages.showable|sort_by_date ~%}
+  <url>
+    <loc>{{ url(page, {canonical: true}) }}</loc>
+    <lastmod>{{ page.date|date('Y-m-d') }}</lastmod>
+    <changefreq>{{ page.sitemap.changefreq|default(config.pages.default.sitemap.changefreq) }}</changefreq>
+    <priority>{{ page.sitemap.priority|default(config.pages.default.sitemap.priority) }}</priority>
+    {%- if page.translations|default({})|length >= 1 and page.language is defined -%}
+    {%- for alternate in page.translations ~%}
+    <xhtml:link rel="alternate" hreflang="{{ alternate.language }}" href="{{ url(alternate, {canonical: true}) }}" />
+    {%- endfor ~%}
+    <xhtml:link rel="alternate" hreflang="{{ page.language }}" href="{{ url(page, {canonical: true}) }}" />
+    {%- endif ~%}
+  </url>
+  {%- endfor ~%}
+</urlset>

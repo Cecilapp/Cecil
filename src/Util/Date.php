@@ -39,11 +39,15 @@ class Date
         if ($date instanceof \DateTime) {
             return $date;
         }
-        // timestamp or 'AAAA-MM-DD'
-        if (is_numeric($date)) {
+        // DateTimeImmutable
+        if ($date instanceof \DateTimeImmutable) {
+            return \DateTime::createFromImmutable($date);
+        }
+        // timestamp
+        if (\is_int($date)) {
             return (new \DateTime())->setTimestamp($date);
         }
-        // string (ie: '01/01/2019', 'today')
+
         return new \DateTime($date);
     }
 }

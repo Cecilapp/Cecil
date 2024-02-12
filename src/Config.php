@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util\Plateform;
 use Dflydev\DotAccessData\Data;
@@ -62,7 +63,7 @@ class Config
      */
     private function importSiteConfig(): void
     {
-        $this->data->import($this->siteConfig);
+        $this->data->import($this->siteConfig, Data::REPLACE);
 
         /**
          * Overrides configuration with environment variables.
@@ -117,30 +118,13 @@ class Config
      */
     public function import(array $config): void
     {
-        $this->data->import($config);
+        $this->data->import($config, Data::REPLACE);
 
         // re-import site config
         $this->importSiteConfig();
-    }
 
-    /**
-     * Set a Data object as configuration.
-     */
-    protected function setData(Data $data): self
-    {
-        if ($this->data !== $data) {
-            $this->data = $data;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get configuration as a Data object.
-     */
-    protected function getData(): Data
-    {
-        return $this->data;
+        // checks the configuration
+        $this->valid();
     }
 
     /**
@@ -198,7 +182,7 @@ class Config
             $sourceDir = getcwd();
         }
         if (!is_dir($sourceDir)) {
-            throw new \InvalidArgumentException(sprintf('The directory "%s" is not a valid source!', $sourceDir));
+            throw new \InvalidArgumentException(sprintf('The directory "%s" is not a valid source.', $sourceDir));
         }
         $this->sourceDir = $sourceDir;
 
@@ -224,10 +208,7 @@ class Config
             $destinationDir = $this->sourceDir;
         }
         if (!is_dir($destinationDir)) {
-            throw new \InvalidArgumentException(sprintf(
-                'The directory "%s" is not a valid destination!',
-                $destinationDir
-            ));
+            throw new \InvalidArgumentException(sprintf('The directory "%s" is not a valid destination.', $destinationDir));
         }
         $this->destinationDir = $destinationDir;
 
@@ -242,7 +223,7 @@ class Config
         return $this->destinationDir;
     }
 
-    /**
+    /*
      * Path helpers.
      */
 
@@ -251,14 +232,15 @@ class Config
      */
     public function getPagesPath(): string
     {
-        $path = Util::joinFile($this->getSourceDir(), (string) $this->get('pages.dir'));
+        return Util::joinFile($this->getSourceDir(), (string) $this->get('pages.dir'));
+    }
 
-        // legacy support
-        if (!is_dir($path)) {
-            $path = Util::joinFile($this->getSourceDir(), 'content');
-        }
-
-        return $path;
+    /**
+     * Returns the path of the output directory.
+     */
+    public function getOutputPath(): string
+    {
+        return Util::joinFile($this->getDestinationDir(), (string) $this->get('output.dir'));
     }
 
     /**
@@ -278,17 +260,9 @@ class Config
     }
 
     /**
-     * Returns the path of themes directory.
-     */
-    public function getThemesPath(): string
-    {
-        return Util::joinFile($this->getSourceDir(), (string) $this->get('themes.dir'));
-    }
-
-    /**
      * Returns the path of internal templates directory.
      */
-    public function getInternalLayoutsPath(): string
+    public function getLayoutsInternalPath(): string
     {
         return Util::joinPath(__DIR__, '..', (string) $this->get('layouts.internal.dir'));
     }
@@ -298,27 +272,27 @@ class Config
      */
     public function getTranslationsPath(): string
     {
-        return Util::joinFile($this->getSourceDir(), (string) $this->get('translations.dir'));
+        return Util::joinFile($this->getSourceDir(), (string) $this->get('layouts.translations.dir'));
     }
 
     /**
      * Returns the path of internal translations directory.
      */
-    public function getInternalTranslationsPath(): string
+    public function getTranslationsInternalPath(): string
     {
         if (Util\Plateform::isPhar()) {
-            return Util::joinPath(Plateform::getPharPath(), (string) $this->get('translations.internal.dir'));
+            return Util::joinPath(Plateform::getPharPath(), (string) $this->get('layouts.translations.internal.dir'));
         }
 
-        return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('translations.internal.dir')));
+        return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('layouts.translations.internal.dir')));
     }
 
     /**
-     * Returns the path of the output directory.
+     * Returns the path of themes directory.
      */
-    public function getOutputPath(): string
+    public function getThemesPath(): string
     {
-        return Util::joinFile($this->getDestinationDir(), (string) $this->get('output.dir'));
+        return Util::joinFile($this->getSourceDir(), (string) $this->get('themes.dir'));
     }
 
     /**
@@ -349,36 +323,6 @@ class Config
     public function getAssetsPath(): string
     {
         return Util::joinFile($this->getSourceDir(), (string) $this->get('assets.dir'));
-    }
-
-    /**
-     * Returns asset image widths.
-     */
-    public function getAssetsImagesWidths(): array
-    {
-        return \count((array) $this->get('assets.images.responsive.widths')) > 0 ? (array) $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
-    }
-
-    /**
-     * Returns asset image sizes.
-     */
-    public function getAssetsImagesSizes(): array
-    {
-        return \count((array) $this->get('assets.images.responsive.sizes')) > 0 ? (array) $this->get('assets.images.responsive.sizes') : ['default' => '100vw'];
-    }
-
-    /**
-     * Is cache dir is absolute to system files
-     * or relative to project destination?
-     */
-    public function isCacheDirIsAbsolute(): bool
-    {
-        $path = (string) $this->get('cache.dir');
-        if (Util::joinFile($path) == realpath(Util::joinFile($path))) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -434,14 +378,16 @@ class Config
         return Util::joinFile($this->getCacheAssetsPath(), (string) $this->get('cache.assets.remote.dir'));
     }
 
+    /*
+     * Output helpers.
+     */
+
     /**
      * Returns the property value of an output format.
      *
      * @throws RuntimeException
-     *
-     * @return string|array|null
      */
-    public function getOutputFormatProperty(string $name, string $property)
+    public function getOutputFormatProperty(string $name, string $property): string|array|null
     {
         $properties = array_column((array) $this->get('output.formats'), $property, 'name');
 
@@ -452,7 +398,27 @@ class Config
         return $properties[$name] ?? null;
     }
 
+    /*
+     * Assets helpers.
+     */
+
     /**
+     * Returns asset image widths.
+     */
+    public function getAssetsImagesWidths(): array
+    {
+        return \count((array) $this->get('assets.images.responsive.widths')) > 0 ? (array) $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
+    }
+
+    /**
+     * Returns asset image sizes.
+     */
+    public function getAssetsImagesSizes(): array
+    {
+        return \count((array) $this->get('assets.images.responsive.sizes')) > 0 ? (array) $this->get('assets.images.responsive.sizes') : ['default' => '100vw'];
+    }
+
+    /*
      * Theme helpers.
      */
 
@@ -501,7 +467,7 @@ class Config
         return Util::joinFile($this->getThemesPath(), $theme, $dir);
     }
 
-    /**
+    /*
      * Language helpers.
      */
 
@@ -516,15 +482,13 @@ class Config
             return $this->languages;
         }
 
-        $languages = (array) $this->get('languages');
+        $languages = array_filter((array) $this->get('languages'), function ($language) {
+            return !(isset($language['enabled']) && $language['enabled'] === false);
+        });
 
         if (!\is_int(array_search($this->getLanguageDefault(), array_column($languages, 'code')))) {
             throw new RuntimeException(sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
         }
-
-        $languages = array_filter($languages, function ($language) {
-            return !(isset($language['enabled']) && $language['enabled'] === false);
-        });
 
         $this->languages = $languages;
 
@@ -540,6 +504,13 @@ class Config
     {
         if (!$this->get('language')) {
             throw new RuntimeException('There is no default "language" key in configuration.');
+        }
+        if (\is_array($this->get('language'))) {
+            if (!$this->get('language.code')) {
+                throw new RuntimeException('There is no "language.code" key in configuration.');
+            }
+
+            return $this->get('language.code');
         }
 
         return $this->get('language');
@@ -562,7 +533,7 @@ class Config
     }
 
     /**
-     * Returns the property value of a (specified or default) language.
+     * Returns the property value of a (specified or the default) language.
      *
      * @throws RuntimeException
      */
@@ -577,5 +548,86 @@ class Config
         }
 
         return $properties[$code];
+    }
+
+    /*
+     * Cache helpers.
+     */
+
+    /**
+     * Is cache dir is absolute to system files
+     * or relative to project destination?
+     */
+    public function isCacheDirIsAbsolute(): bool
+    {
+        $path = (string) $this->get('cache.dir');
+        if (Util::joinFile($path) == realpath(Util::joinFile($path))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Set a Data object as configuration.
+     */
+    protected function setData(Data $data): self
+    {
+        if ($this->data !== $data) {
+            $this->data = $data;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get configuration as a Data object.
+     */
+    protected function getData(): Data
+    {
+        return $this->data;
+    }
+
+    /**
+     * Valid the configuration.
+     */
+    private function valid(): void
+    {
+        // default language must be valid
+        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->getLanguageDefault())) {
+            throw new ConfigException(sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
+        }
+        // if language is set then the locale is required
+        foreach ((array) $this->get('languages') as $lang) {
+            if (!isset($lang['locale'])) {
+                throw new ConfigException('A language locale is not defined.');
+            }
+            if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
+                throw new ConfigException(sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
+            }
+        }
+        // Version 8.x breaking changes
+        $toV8 = [
+            'frontmatter'  => 'pages:frontmatter',
+            'body'         => 'pages:body',
+            'defaultpages' => 'pages:default',
+            'virtualpages' => 'pages:virtual',
+            'generators'   => 'pages:generators',
+            'translations' => 'layouts:translations',
+            'extensions'   => 'layouts:extensions',
+            'postprocess'  => 'optimize',
+        ];
+        array_walk($toV8, function ($to, $from) {
+            if ($this->has($from)) {
+                $path = explode(':', $to);
+                $step = 0;
+                $formatedPath = '';
+                foreach ($path as $fragment) {
+                    $step = $step + 2;
+                    $formatedPath .= "$fragment:\n" . str_pad(' ', $step);
+                }
+                throw new ConfigException("Option `$from:` must be moved to:\n```\n$formatedPath\n```");
+            }
+        });
     }
 }

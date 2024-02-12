@@ -2,7 +2,9 @@
 
 {% block feed %}
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="{{ url('xsl/rss', {'language': lang}) }}" media="all"?>
+{%- if site.page('xsl/rss') ~%}
+<?xml-stylesheet type="text/xsl" href="{{ url('xsl/rss') }}" media="all"?>
+{%- endif ~%}
 <rss version="2.0">
   <channel>
     <title>{{ title|e }}</title>
@@ -12,11 +14,13 @@
     <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
     {%- for p in pages|sort_by_date ~%}
     <item>
+      {%- block item ~%}
       <guid>{{ url(p, {canonical: true}) }}</guid>
       <title>{{ p.title|e }}</title>
       <description><![CDATA[{{ p.content }}]]></description>
       <pubDate>{{ p.date|date('c') }}</pubDate>
       <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
+      {%- endblock ~%}
     </item>
     {%- endfor ~%}
   </channel>

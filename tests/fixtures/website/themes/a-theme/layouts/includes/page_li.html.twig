@@ -12,7 +12,7 @@
           <li>folder: {{ item.folder }}</li>
           <li>slug: {{ item.slug }}</li>
 {% if item.menu is defined %}
-          <li>menu: {{ dump(item.menu) }}</li>
+          <li>menu: {{ d(item.menu) }}</li>
 {% endif %}
 {% if item.weight is defined %}
           <li>weight: {{ item.weight }}</li>

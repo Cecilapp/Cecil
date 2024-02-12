@@ -5,7 +5,9 @@
 
 {% block feed %}
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="{{ url('xsl/atom', {'language': lang}) }}" media="all"?>
+{%- if site.page('xsl/atom') ~%}
+<?xml-stylesheet type="text/xsl" href="{{ url('xsl/atom') }}" media="all"?>
+{%- endif ~%}
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ lang }}">
   <id>{{ url(page, {canonical: true}) }}</id>
   <title>{{ title|e }}</title>
@@ -19,6 +21,7 @@
   </author>
   {%- for p in pages|sort_by_date ~%}
   <entry xml:lang="{{ lang }}">
+    {%- block entry ~%}
     <id>{{ url(p, {canonical: true}) }}</id>
     <title>{{ p.title|e }}</title>
     {%- if 'txt' in p.output|default('html') ~%}
@@ -33,6 +36,7 @@
     <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
     <published>{{ p.date|date('c') }}</published>
     <updated>{{ p.updated|date('c') }}</updated>
+    {%- endblock ~%}
   </entry>
   {%- endfor ~%}
 </feed>

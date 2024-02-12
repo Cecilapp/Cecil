@@ -60,6 +60,22 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \DomainException
+     */
+    public function getPosition(string $id): int
+    {
+        $result = $this->searchItem($id);
+        $position = key($result);
+        if (!\is_int($position)) {
+            throw new \DomainException(sprintf('"%s" does not exist in "%s" collection.', $id, $this->getId()));
+        }
+
+        return $position;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function has(string $id): bool
     {
@@ -93,10 +109,11 @@ class Collection implements CollectionInterface
      */
     public function replace(string $id, ItemInterface $item): CollectionInterface
     {
-        if (!$this->has($id)) {
-            throw new \DomainException(sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $item->getId(), $this->getId()));
+        try {
+            $this->items[$this->getPosition($id)] = $item;
+        } catch (\DomainException) {
+            throw new \DomainException(sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
-        $this->items[$this->getPosition($id)] = $item;
 
         return $this;
     }
@@ -108,10 +125,11 @@ class Collection implements CollectionInterface
      */
     public function remove(string $id): CollectionInterface
     {
-        if (!$this->has($id)) {
+        try {
+            unset($this->items[$this->getPosition($id)]);
+        } catch (\DomainException) {
             throw new \DomainException(sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
-        unset($this->items[$this->getPosition($id)]);
 
         return $this;
     }
@@ -123,27 +141,11 @@ class Collection implements CollectionInterface
      */
     public function get(string $id): ItemInterface
     {
-        if (!$this->has($id)) {
+        try {
+            return $this->items[$this->getPosition($id)];
+        } catch (\DomainException) {
             throw new \DomainException(sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
-
-        return $this->items[$this->getPosition($id)];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \DomainException
-     */
-    public function getPosition(string $id): int
-    {
-        $result = $this->searchItem($id);
-        $position = key($result);
-        if (!\is_int($position)) {
-            throw new \DomainException(sprintf('Failed getting position of "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
-        }
-
-        return $position;
     }
 
     /**

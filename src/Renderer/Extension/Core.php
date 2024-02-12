@@ -24,11 +24,14 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 use Cecil\Config;
 use Cecil\Converter\Parsedown;
+use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -61,7 +64,7 @@ class Core extends SlugifyExtension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'CoreExtension';
     }
@@ -72,7 +75,7 @@ class Core extends SlugifyExtension
     public function getFunctions()
     {
         return [
-            new \Twig\TwigFunction('url', [$this, 'url']),
+            new \Twig\TwigFunction('url', [$this, 'url'], ['needs_context' => true]),
             // assets
             new \Twig\TwigFunction('asset', [$this, 'asset']),
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
@@ -82,6 +85,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             // others
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
+            new \Twig\TwigFunction('d', [$this, 'varDump'], ['needs_context' => true, 'needs_environment' => true]),
             // deprecated
             new \Twig\TwigFunction(
                 'hash',
@@ -104,17 +108,17 @@ class Core extends SlugifyExtension
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
-            new \Twig\TwigFilter('url', [$this, 'url']),
+            new \Twig\TwigFilter('url', [$this, 'url'], ['needs_context' => true]),
             // collections
             new \Twig\TwigFilter('sort_by_title', [$this, 'sortByTitle']),
             new \Twig\TwigFilter('sort_by_weight', [$this, 'sortByWeight']),
             new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
             new \Twig\TwigFilter('filter_by', [$this, 'filterBy']),
             // assets
-            new \Twig\TwigFilter('html', [$this, 'html']),
+            new \Twig\TwigFilter('html', [$this, 'html'], ['needs_context' => true]),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('fingerprint', [$this, 'fingerprint']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
@@ -140,57 +144,6 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
-            // deprecated
-            new \Twig\TwigFilter(
-                'filterBySection',
-                [$this, 'filterBySection'],
-                ['deprecated' => true, 'alternative' => 'filter_by']
-            ),
-            new \Twig\TwigFilter(
-                'filterBy',
-                [$this, 'filterBy'],
-                ['deprecated' => true, 'alternative' => 'filter_by']
-            ),
-            new \Twig\TwigFilter(
-                'sortByTitle',
-                [$this, 'sortByTitle'],
-                ['deprecated' => true, 'alternative' => 'sort_by_title']
-            ),
-            new \Twig\TwigFilter(
-                'sortByWeight',
-                [$this, 'sortByWeight'],
-                ['deprecated' => true, 'alternative' => 'sort_by_weight']
-            ),
-            new \Twig\TwigFilter(
-                'sortByDate',
-                [$this, 'sortByDate'],
-                ['deprecated' => true, 'alternative' => 'sort_by_date']
-            ),
-            new \Twig\TwigFilter(
-                'minifyCSS',
-                [$this, 'minifyCss'],
-                ['deprecated' => true, 'alternative' => 'minifyCss']
-            ),
-            new \Twig\TwigFilter(
-                'minifyJS',
-                [$this, 'minifyJs'],
-                ['deprecated' => true, 'alternative' => 'minifyJs']
-            ),
-            new \Twig\TwigFilter(
-                'SCSStoCSS',
-                [$this, 'scssToCss'],
-                ['deprecated' => true, 'alternative' => 'scss_to_css']
-            ),
-            new \Twig\TwigFilter(
-                'excerptHtml',
-                [$this, 'excerptHtml'],
-                ['deprecated' => true, 'alternative' => 'excerpt_html']
-            ),
-            new \Twig\TwigFilter(
-                'urlize',
-                [$this, 'slugifyFilter'],
-                ['deprecated' => true, 'alternative' => 'slugify']
-            ),
         ];
     }
 
@@ -221,11 +174,11 @@ class Core extends SlugifyExtension
             // is a dedicated getter exists?
             $method = 'get' . ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
-                return $page->getType() == Type::PAGE() && !$page->isVirtual() && true;
+                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
             }
             // or a classic variable
             if ($page->getVariable($variable) == $value) {
-                return $page->getType() == Type::PAGE() && !$page->isVirtual() && true;
+                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
             }
         });
 
@@ -247,8 +200,10 @@ class Core extends SlugifyExtension
 
     /**
      * Sorts a collection by weight.
+     *
+     * @param \Traversable|array $collection
      */
-    public function sortByWeight(\Traversable $collection): array
+    public function sortByWeight($collection): array
     {
         $callback = function ($a, $b) {
             if (!isset($a['weight'])) {
@@ -264,7 +219,9 @@ class Core extends SlugifyExtension
             return $a['weight'] < $b['weight'] ? -1 : 1;
         };
 
-        $collection = iterator_to_array($collection);
+        if (!\is_array($collection)) {
+            $collection = iterator_to_array($collection);
+        }
         usort(/** @scrutinizer ignore-type */ $collection, $callback);
 
         return $collection;
@@ -303,11 +260,16 @@ class Core extends SlugifyExtension
      *     'language'  => null,
      * ];
      *
+     * @param array                  $context
      * @param Page|Asset|string|null $value
      * @param array|null             $options
      */
-    public function url($value = null, array $options = null): string
+    public function url(array $context, $value = null, array $options = null): string
     {
+        $optionsLang = array();
+        $optionsLang['language'] = $context['site']['language'];
+        $options = array_merge($optionsLang, $options ?? []);
+
         return (new Url($this->builder, $value, $options))->getUrl();
     }
 
@@ -319,8 +281,12 @@ class Core extends SlugifyExtension
      *
      * @return Asset
      */
-    public function asset($path, array $options = null): Asset
+    public function asset($path, array|null $options = null): Asset
     {
+        if (!\is_string($path) && !\is_array($path)) {
+            throw new RuntimeException(sprintf('Argument of "%s()" must a string or an array.', \Cecil\Util::formatMethodName(__METHOD__)));
+        }
+
         return new Asset($this->builder, $path, $options);
     }
 
@@ -481,7 +447,7 @@ class Core extends SlugifyExtension
             $outputStyles = ['expanded', 'compressed'];
             $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
             if (!\in_array($outputStyle, $outputStyles)) {
-                throw new RuntimeException(sprintf('Scss output style "%s" doesn\'t exists.', $outputStyle));
+                throw new ConfigException(sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
             }
             $scssPhp->setOutputStyle($outputStyle);
             $variables = $this->config->get('assets.compile.variables') ?? [];
@@ -507,7 +473,7 @@ class Core extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function html(Asset $asset, array $attributes = [], array $options = []): string
+    public function html(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
         $htmlAttributes = '';
         $preload = false;
@@ -518,7 +484,7 @@ class Core extends SlugifyExtension
         // builds HTML attributes
         foreach ($attributes as $name => $value) {
             $attribute = sprintf(' %s="%s"', $name, $value);
-            if (empty($value)) {
+            if (!isset($value)) {
                 $attribute = sprintf(' %s', $name);
             }
             $htmlAttributes .= $attribute;
@@ -533,14 +499,14 @@ class Core extends SlugifyExtension
                 if ($preload) {
                     return sprintf(
                         '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
-                        $this->url($asset, $options),
+                        $this->url($context, $asset, $options),
                         $htmlAttributes
                     );
                 }
 
-                return sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($asset, $options), $htmlAttributes);
+                return sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
             case 'js':
-                return sprintf('<script src="%s"%s></script>', $this->url($asset, $options), $htmlAttributes);
+                return sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
         }
         // image
         if ($asset['type'] == 'image') {
@@ -560,7 +526,7 @@ class Core extends SlugifyExtension
             // <img> element
             $img = sprintf(
                 '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
-                $this->url($asset, $options),
+                $this->url($context, $asset, $options),
                 $htmlAttributes
             );
 
@@ -571,11 +537,7 @@ class Core extends SlugifyExtension
                     // <source> element
                     $source = sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
                     // responsive
-                    if ($responsive) {
-                        $srcset = Image::buildSrcset(
-                            $assetWebp,
-                            $this->config->getAssetsImagesWidths()
-                        ) ?: (string) $assetWebp;
+                    if ($responsive && $srcset = Image::buildSrcset($assetWebp, $this->config->getAssetsImagesWidths())) {
                         // <source> element
                         $source = sprintf(
                             '<source type="image/webp" srcset="%s" sizes="%s">',
@@ -611,7 +573,7 @@ class Core extends SlugifyExtension
      */
     public function imageSizes(string $class): string
     {
-        return Image::getSizes($class, $this->config->getAssetsImagesWidths());
+        return Image::getSizes($class, $this->config->getAssetsImagesSizes());
     }
 
     /**
@@ -627,6 +589,7 @@ class Core extends SlugifyExtension
         if (Image::isAnimatedGif($asset)) {
             throw new RuntimeException(sprintf('Can\'t convert the animated GIF "%s" to WebP.', $asset['path']));
         }
+
         try {
             return $asset->webp($quality);
         } catch (\Exception $e) {
@@ -669,8 +632,8 @@ class Core extends SlugifyExtension
     {
         $string = $string ?? '';
 
-        $separator = (string) $this->config->get('body.excerpt.separator');
-        $capture = (string) $this->config->get('body.excerpt.capture');
+        $separator = (string) $this->config->get('pages.body.excerpt.separator');
+        $capture = (string) $this->config->get('pages.body.excerpt.capture');
         extract($options, EXTR_IF_EXISTS);
 
         // https://regex101.com/r/n9TWHF/1
@@ -700,7 +663,7 @@ class Core extends SlugifyExtension
         try {
             $parsedown = new Parsedown($this->builder);
             $html = $parsedown->text($markdown);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"markdown_to_html" filter can not convert supplied Markdown.');
         }
 
@@ -721,7 +684,7 @@ class Core extends SlugifyExtension
             $parsedown = new Parsedown($this->builder, ['selectors' => ['h2'], 'url' => $url]);
             $parsedown->body($markdown);
             $return = $parsedown->contentsList($format);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"toc" filter can not convert supplied Markdown.');
         }
 
@@ -742,7 +705,7 @@ class Core extends SlugifyExtension
             if ($array === null && json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('JSON error.');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"json_decode" filter can not parse supplied JSON.');
         }
 
@@ -759,7 +722,7 @@ class Core extends SlugifyExtension
         $yaml = $yaml ?? '';
 
         try {
-            $array = Yaml::parse($yaml);
+            $array = Yaml::parse($yaml, Yaml::PARSE_DATETIME);
             if (!\is_array($array)) {
                 throw new ParseException('YAML error.');
             }
@@ -784,7 +747,7 @@ class Core extends SlugifyExtension
             if ($array === false) {
                 throw new RuntimeException('PREG split error.');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"preg_split" filter can not split supplied string.');
         }
 
@@ -805,7 +768,7 @@ class Core extends SlugifyExtension
             if ($array === false) {
                 throw new RuntimeException('PREG match all error.');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('"preg_match_all" filter can not match in supplied string.');
         }
 
@@ -836,6 +799,33 @@ class Core extends SlugifyExtension
         $var = $var ?? '';
 
         return getenv($var) ?: null;
+    }
+
+    /**
+     * Dump variable (or Twig context).
+     */
+    public function varDump(\Twig\Environment $env, array $context, $var = null, ?array $options = null): void
+    {
+        if (!$env->isDebug()) {
+            return;
+        }
+
+        if ($var === null) {
+            $var = array();
+            foreach ($context as $key => $value) {
+                if (!$value instanceof \Twig\Template && !$value instanceof \Twig\TemplateWrapper) {
+                    $var[$key] = $value;
+                }
+            }
+        }
+
+        $cloner = new VarCloner();
+        $cloner->setMinDepth(4);
+        $dumper = new HtmlDumper();
+        $dumper->setTheme($options['theme'] ?? 'light');
+
+        $data = $cloner->cloneVar($var)->withMaxDepth(4);
+        $dumper->dump($data, null, ['maxDepth' => 4]);
     }
 
     /**

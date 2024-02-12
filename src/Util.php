@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Symfony\Component\Filesystem\Path;
+
 class Util
 {
     /**
      * Formats a class name.
      *
-     * ie: "Cecil\Step\PostProcessHtml" become "PostProcessHtml"
+     * ie: "Cecil\Step\OptimizeHtml" become "OptimizeHtml"
      *
      * @param object $class
      */
@@ -36,6 +38,20 @@ class Util
     }
 
     /**
+     * Formats a method name.
+     *
+     * ie: "Cecil\Renderer\Extension\Core::asset()" become "asset()"
+     *
+     * @param string $method
+     */
+    public static function formatMethodName(string $method): string
+    {
+        $methodName = explode('::', $method)[1];
+
+        return $methodName;
+    }
+
+    /**
      * Converts an array of strings into a path.
      */
     public static function joinPath(string ...$path): string
@@ -49,7 +65,7 @@ class Util
             $value = $key == 0 ? $value : ltrim($value, '/');
         });
 
-        return implode('/', $path);
+        return Path::canonicalize(implode('/', $path));
     }
 
     /**
@@ -80,7 +96,7 @@ class Util
         }
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
-        return sprintf('%s %s', round($size / pow(1024, ($i = floor(log($size, 1024)))), 2), $unit[$i]);
+        return sprintf('%s %s', round($size / pow(1024, $i = floor(log($size, 1024))), 2), $unit[$i]);
     }
 
     /**
@@ -103,8 +119,17 @@ class Util
     {
         spl_autoload_register(function ($className) use ($builder, $dir) {
             $classFile = Util::joinFile($builder->getConfig()->getSourceDir(), $dir, "$className.php");
-            if (file_exists($classFile)) {
+            if (is_readable($classFile)) {
                 require $classFile;
+                return;
+            }
+            // in themes
+            foreach ($builder->getConfig()->getTheme() ?? [] as $theme) {
+                $classFile = Util::joinFile($builder->getConfig()->getThemeDirPath($theme, $dir), "$className.php");
+                if (is_readable($classFile)) {
+                    require $classFile;
+                    return;
+                }
             }
         });
     }

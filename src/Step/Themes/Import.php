@@ -61,7 +61,7 @@ class Import extends AbstractStep
                 if (false === $config = Util\File::fileGetContents($themeConfigFile)) {
                     throw new RuntimeException('Can\'t read the configuration file.');
                 }
-                $themeConfig = Yaml::parse($config);
+                $themeConfig = Yaml::parse($config, Yaml::PARSE_DATETIME);
                 $this->config->import($themeConfig);
                 $message = sprintf('Theme "%s" imported', $theme);
             }

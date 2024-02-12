@@ -40,10 +40,11 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 $page = clone $this->builder->getPages()->get($pageId);
             }
             /** @var \Cecil\Collection\Page\Page $page */
-            $page->setType(Type::HOMEPAGE);
+            $page->setType(Type::HOMEPAGE->value);
             // collects all pages
             $subPages = $this->builder->getPages()->filter(function (Page $page) use ($language) {
-                return $page->getType() == TYPE::PAGE
+                return $page->getType() == Type::PAGE->value
+                    && $page->getVariable('published') === true
                     && $page->isVirtual() === false
                     && $page->getVariable('exclude') !== true
                     && $page->getVariable('language') == $language;
@@ -54,15 +55,8 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 $subPages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getPages();
             }
             if ($subPages instanceof \Cecil\Collection\Page\Collection) {
-                // sorts
-                $pages = $subPages->sortByDate();
-                if ($page->hasVariable('sortby')) {
-                    $sortMethod = sprintf('sortBy%s', ucfirst((string) $page->getVariable('sortby')));
-                    if (!method_exists($pages, $sortMethod)) {
-                        throw new RuntimeException(sprintf('In page "%s" "%s" is not a valid value for "sortby" variable.', $page->getId(), $page->getVariable('sortby')));
-                    }
-                    $pages = $pages->$sortMethod();
-                }
+                // sorts pages
+                $pages = Section::sortSubPages($this->config, $page, $subPages);
                 $page->setPages($pages);
                 if ($pages->first()) {
                     $page->setVariable('date', $pages->first()->getVariable('date'));
@@ -71,6 +65,10 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             // set default "main" menu
             if (!$page->getVariable('menu')) {
                 $page->setVariable('menu', ['main' => ['weight' => 0]]);
+            }
+            // add an alias redirection from the root directory if language path prefix is enabled for the default language
+            if ($language == $this->config->getLanguageDefault() && (bool) $this->config->get('language.prefix') === true) {
+                $page->setVariable('alias', '../');
             }
             $this->generatedPages->add($page);
         }

@@ -1,0 +1,11 @@
+{#- navigation between list/pages ~#}
+{%- if page.prev is defined or page.next is defined ~%}
+          <div class="page-nav">
+            {%- if page.prev is defined ~%}
+            <a class="page-nav prev" href="{{ url(page.prev) }}">{{ page.prev.title }}</a>
+            {%- endif ~%}
+            {%- if page.next is defined ~%}
+            <a class="page-nav next" href="{{ url(page.next) }}">{{ page.next.title }}</a>
+            {%- endif ~%}
+          </div>
+{%- endif ~%}

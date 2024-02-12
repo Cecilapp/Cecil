@@ -1,6 +1,6 @@
 {
   "require": {
-    "cecil/theme-hyde": "^2.0"
+    "cecil/theme-hyde": "^2.5"
   },
   "config": {
     "allow-plugins": {

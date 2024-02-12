@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="{{ site.language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="googlebot" content="noindex,indexifembedded">
+    <link rel="canonical" href="{{ url(page, {canonical: true, format: 'iframe'}) }}">
+    <title>{{ page.title }}</title>
+    <style type="text/css">
+      body {
+        background-color: black;
+        margin: 0;
+        padding: 0;
+      }
+      video {
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    {%- if page.videos is defined ~%}
+    <video id="player" playsinline controls preload="auto"{% if page.poster|default(page.image|default) %} poster="{{ asset(page.poster|default(page.image|default)) }}"{% endif %}>
+      {%- for video in page.videos ~%}
+      {%- set asset = asset(video) ~%}
+      <source src="{{ url(asset) }}" type="{{ asset.subtype }}"/>
+      {%- endfor ~%}
+    </video>
+    {%- else ~%}
+    {#- Only video type is supported ~#}
+    Nothing here.
+    {%- endif ~%}
+  </body>
+</html>

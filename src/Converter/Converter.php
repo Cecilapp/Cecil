@@ -66,14 +66,14 @@ class Converter implements ConverterInterface
     private static function convertYamlToArray(string $string): array
     {
         try {
-            $result = Yaml::parse((string) $string) ?? [];
+            $result = Yaml::parse((string) $string, Yaml::PARSE_DATETIME) ?? [];
             if (!\is_array($result)) {
                 throw new RuntimeException('Can\'t parse YAML front matter.');
             }
 
             return $result;
         } catch (ParseException $e) {
-            throw new RuntimeException($e->getMessage(), $e->getParsedFile(), $e->getParsedLine());
+            throw new RuntimeException($e->getMessage(), null, $e->getParsedLine());
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -129,7 +129,7 @@ class Converter implements ConverterInterface
             }
 
             return $result;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new RuntimeException('Can\'t parse JSON front matter.');
         }
     }

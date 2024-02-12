@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Assets;
 
 use Cecil\Builder;
+use Cecil\Collection\Menu\Entry as MenuEntry;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Renderer\Page as PageRenderer;
@@ -99,6 +100,10 @@ class Url
                     $this->url = $value->getVariable('canonical')['url'];
                 }
                 break;
+            case $value instanceof MenuEntry:
+                /** @var MenuEntry $value */
+                $this->url = $base . '/' . ltrim($value['url'], '/');
+                break;
             case $value instanceof Asset:
                 /** @var Asset $value */
                 $this->url = $base . '/' . ltrim($value['path'], '/');
@@ -128,6 +133,10 @@ class Url
                         );
                         break;
                     default:
+                        // remove double language prefix
+                        if ($lang && Util\Str::startsWith($value, $lang)) {
+                            $value = substr($value, \strlen($lang));
+                        }
                         $this->url = $base . '/' . $lang . ltrim($value, '/');
                 }
         }

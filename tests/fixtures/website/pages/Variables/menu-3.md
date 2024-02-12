@@ -1,7 +1,7 @@
 ---
 menu:
   main:
-    weight: 99999
+    weight: 999
   navigation:
 layout: menus-debug
 ---
@@ -11,6 +11,6 @@ layout: menus-debug
 ```yaml
 menu:
   main:
-    weight: 99999
+    weight: 999
   navigation:
 ```

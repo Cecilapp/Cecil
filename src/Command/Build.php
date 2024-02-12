@@ -42,7 +42,7 @@ class Build extends AbstractCommand
                     new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                     new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                     new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
-                    new InputOption('postprocess', null, InputOption::VALUE_OPTIONAL, 'Post-process output (disable with "no")', false),
+                    new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
                     new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 ])
             )
@@ -65,11 +65,11 @@ class Build extends AbstractCommand
             $config['output']['dir'] = $input->getOption('output');
             Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'), (string) $input->getOption('output'));
         }
-        if ($input->getOption('postprocess') === null) {
-            $config['postprocess']['enabled'] = true;
+        if ($input->getOption('optimize') === null) {
+            $config['optimize']['enabled'] = true;
         }
-        if ($input->getOption('postprocess') == 'no') {
-            $config['postprocess']['enabled'] = false;
+        if ($input->getOption('optimize') == 'no') {
+            $config['optimize']['enabled'] = false;
         }
         if ($input->getOption('clear-cache') === null) {
             $config['cache']['enabled'] = false;
@@ -89,7 +89,7 @@ class Build extends AbstractCommand
             $options['page'] = $input->getOption('page');
         }
         if ($input->getOption('clear-cache')) {
-            if (0 < $removedFiles = (new \Cecil\Assets\Cache($this->getBuilder()))->clearByPattern($input->getOption('clear-cache'))) {
+            if (0 < $removedFiles = (new \Cecil\Assets\Cache($this->getBuilder()))->clearByPattern((string) $input->getOption('clear-cache'))) {
                 $output->writeln(sprintf('<info>%s cache files removed by regular expression "%s"</info>', $removedFiles, $input->getOption('clear-cache')));
             }
         }
@@ -113,7 +113,7 @@ class Build extends AbstractCommand
         }
 
         $builder->build($options);
-        $output->writeln('Done! 🎉');
+        $output->writeln('Done 🎉');
 
         return 0;
     }

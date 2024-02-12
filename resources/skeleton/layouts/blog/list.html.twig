@@ -1,6 +1,29 @@
 {% extends '_default/list.html.twig' %}
 
-          {%- block content_header ~%}
-          <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
-          <time>{{ p.date|format_date('long') }}</time>
-          {%- endblock content_header ~%}
+          {%- block content ~%}
+          <article>
+            <header>
+              <h1>{{ page.title }}</h1>
+            </header>
+            {%- if page.content ~%}
+            <section>
+              {{- page.content ~}}
+            </section>
+            {%- endif ~%}
+            {%- for p in pages ~%}
+            <article>
+              <header>
+                <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
+                <time>{{ p.date|format_date('long') }}</time>
+              </header>
+              {{ p.content|excerpt_html }}
+              <footer class="page-nav">
+                <a class="page-nav next" href="{{ url(p) }}#more">Read more</a>
+              </footer>
+            </article>
+            {%- endfor ~%}
+            <footer>
+              {%- include 'partials/paginator.html.twig' with {'page': page} only ~%}
+            </footer>
+          </article>
+          {%- endblock content ~%}

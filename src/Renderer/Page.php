@@ -14,17 +14,16 @@ declare(strict_types=1);
 namespace Cecil\Renderer;
 
 use Cecil\Collection\Page\Page as PageItem;
-use Cecil\Config;
 
 /**
  * Class Renderer\Page.
  */
 class Page
 {
-    /** @var Config */
+    /** @var \Cecil\Config */
     protected $config;
 
-    public function __construct(Config $config)
+    public function __construct(\Cecil\Config $config)
     {
         $this->config = $config;
     }
@@ -34,15 +33,15 @@ class Page
      *
      * Use cases:
      *   - default: path + filename + extension (e.g.: 'blog/post-1/index.html')
-     *   - subpath: path + subpath + filename + extension (e.g.: 'blog/post-1/amp/index.html')
-     *   - ugly: path + extension (e.g.: '404.html', 'sitemap.xml', 'robots.txt')
+     *   - with subpath: path + subpath + filename + extension (e.g.: 'blog/post-1/amp/index.html')
+     *   - ugly URL: path + extension (e.g.: '404.html', 'sitemap.xml', 'robots.txt')
      *   - path only (e.g.: '_redirects')
-     *   - language (e.g.: 'fr/blog/page/index.html')
+     *   - i18n: language code + default (e.g.: 'fr/blog/page/index.html')
      *
      * @param PageItem $page
      * @param string   $format Output format (ie: 'html', 'amp', 'json', etc.)
      */
-    public function getOutputFile(PageItem $page, string $format): string
+    public function getOutputFilePath(PageItem $page, string $format): string
     {
         $path = $page->getPath();
         $subpath = (string) $this->config->getOutputFormatProperty($format, 'subpath');
@@ -50,7 +49,7 @@ class Page
         $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
         $uglyurl = (bool) $page->getVariable('uglyurl');
         $language = $page->getVariable('language');
-        // if ugly URL
+        // is ugly URL?
         if ($uglyurl) {
             $filename = '';
         }
@@ -58,12 +57,16 @@ class Page
         if ($extension) {
             $extension = sprintf('.%s', $extension);
         }
-        // homepage special case
+        // homepage special case (need "index")
         if (empty($path) && empty($filename)) {
             $path = 'index';
         }
-        // do not prefix URL for the default language
-        if ($language == $this->config->getLanguageDefault() || $language === null) {
+        // do not prefix path with language code for the default language
+        if ($language === null || ($language == $this->config->getLanguageDefault() && (bool) $this->config->get('language.prefix') !== true)) {
+            $language = '';
+        }
+        // do not prefix "not multilingual" virtual pages
+        if ($page->getVariable('multilingual') === false) {
             $language = '';
         }
 
@@ -78,7 +81,9 @@ class Page
      */
     public function getUrl(PageItem $page, string $format = 'html'): string
     {
-        $output = $this->getOutputFile($page, $format);
+        $output = $this->getOutputFilePath($page, $format);
+
+        // remove "index.html" if not uglyurl
         if (!($page->getVariable('uglyurl') ?? false)) {
             $output = str_replace('index.html', '', $output);
         }

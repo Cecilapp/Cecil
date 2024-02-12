@@ -1,11 +1,11 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2023-03-18
+updated: 2024-01-30
 -->
 # Commands
 
-List of all available commands.
+List of available commands.
 
 ```plaintext
 Available commands:
@@ -30,11 +30,9 @@ Available commands:
   util:extract              Extracts built-in templates
 ```
 
-## Main commands
+## new:site
 
-### new:site
-
-Creates a new skeleton site.
+Creates a new site.
 
 ```plaintext
 Description:
@@ -48,6 +46,7 @@ Arguments:
 
 Options:
   -f, --force           Override directory if it already exists
+      --demo            Add demo content (pages, templates and assets)
   -h, --help            Display help for the given command. When no command is given display help for the list command
   -q, --quiet           Do not output any message
   -V, --version         Display this application version
@@ -59,7 +58,7 @@ Help:
   Creates a new website in the current directory, or in <path> if provided
 ```
 
-### new:page
+## new:page
 
 Creates a new page.
 
@@ -68,13 +67,13 @@ Description:
   Creates a new page
 
 Usage:
-  new:page [options] [--] <name> [<path>]
+  new:page [options] [--] [<path>]
 
 Arguments:
-  name                  New page name
   path                  Use the given path as working directory
 
 Options:
+      --name=NAME       Page path name
   -p, --prefix          Prefix the file name with the current date (`YYYY-MM-DD`)
   -f, --force           Override the file if already exist
   -o, --open            Open editor automatically
@@ -90,7 +89,7 @@ Help:
   Creates a new page file (with filename as title)
 ```
 
-#### Page’s models
+### Page’s models
 
 You can define your own models for your new pages in the `models` directory:
 
@@ -102,11 +101,11 @@ Two dynamic variables are available:
 1. `%title%`: the file’s name
 2. `%date%`: the curent date
 
-#### Open with your editor
+### Open with your editor
 
 With the `--open` option, the editor will be opened automatically. So use `editor` key in your configuration file to define the default editor (e.g.: `editor: typora`).
 
-### build
+## build
 
 Builds the site.
 
@@ -127,7 +126,7 @@ Options:
       --dry-run                    Build without saving
       --baseurl=BASEURL            Set the base URL
       --output=OUTPUT              Set the output directory
-      --postprocess[=POSTPROCESS]  Post-process output (disable with "no") [default: false]
+      --optimize[=OPTIMIZE]        Optimize files (disable with "no") [default: false]
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
@@ -140,9 +139,13 @@ Help:
   Builds the website in the output directory
 ```
 
-### serve
+## serve
 
 Builds and serves the site locally.
+
+:::warning
+The web server is designed to aid website testing. It is not intended to be a full-featured web server and it should not be used on a public network.
+:::
 
 ```plaintext
 Description:
@@ -161,7 +164,7 @@ Options:
   -o, --open                       Open web browser automatically
       --host=HOST                  Server host
       --port=PORT                  Server port
-      --postprocess[=POSTPROCESS]  Post-process output (disable with "no") [default: false]
+      --optimize[=OPTIMIZE]        Optimize files (disable with "no") [default: false]
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message

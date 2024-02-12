@@ -29,7 +29,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
     public function generate(): void
     {
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
-            return null !== $page->getVariable('external');
+            return $page->getVariable('external') !== null;
         });
 
         /** @var Page $page */

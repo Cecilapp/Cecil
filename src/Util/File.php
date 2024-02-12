@@ -64,7 +64,7 @@ class File
             }
 
             return file_get_contents($filename);
-        } catch (\ErrorException $e) {
+        } catch (\ErrorException) {
             return false;
         } finally {
             restore_error_handler();
@@ -79,7 +79,7 @@ class File
     public static function getMimeType(string $filename): array
     {
         if (false === $subtype = mime_content_type($filename)) {
-            throw new RuntimeException(sprintf('Can\'t get MIME content type of "%s"', $filename));
+            throw new RuntimeException(sprintf('Can\'t get MIME content type of "%s".', $filename));
         }
         $type = explode('/', $subtype)[0];
 
@@ -106,7 +106,7 @@ class File
 
         try {
             return exif_read_data($filename, null, true);
-        } catch (\ErrorException $e) {
+        } catch (\ErrorException) {
             return [];
         } finally {
             restore_error_handler();

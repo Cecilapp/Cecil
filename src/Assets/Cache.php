@@ -45,7 +45,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function get($key, $default = null)
+    public function get($key, $default = null): mixed
     {
         try {
             $key = $this->prepareKey($key);
@@ -65,7 +65,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function set($key, $value, $ttl = null)
+    public function set($key, $value, $ttl = null): bool
     {
         try {
             $key = $this->prepareKey($key);
@@ -87,7 +87,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function delete($key)
+    public function delete($key): bool
     {
         try {
             $key = $this->prepareKey($key);
@@ -105,7 +105,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function clear(): bool
     {
         try {
             Util\File::getFS()->remove($this->cacheDir);
@@ -121,7 +121,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function getMultiple($keys, $default = null)
+    public function getMultiple($keys, $default = null): iterable
     {
         throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
@@ -129,7 +129,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function setMultiple($values, $ttl = null)
+    public function setMultiple($values, $ttl = null): bool
     {
         throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
@@ -137,7 +137,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteMultiple($keys)
+    public function deleteMultiple($keys): bool
     {
         throw new \Exception(sprintf('%s::%s not yet implemented.', __CLASS__, __FUNCTION__));
     }
@@ -145,7 +145,7 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function has($key)
+    public function has($key): bool
     {
         $key = $this->prepareKey($key);
         if (!Util\File::getFS()->exists($this->getFilePathname($key))) {
@@ -171,7 +171,7 @@ class Cache implements CacheInterface
     public function createKeyFromPath(string $path, string $relativePath): string
     {
         if (false === $content = Util\File::fileGetContents($path)) {
-            throw new RuntimeException(sprintf('Can\'t create cache key for "%s"', $path));
+            throw new RuntimeException(sprintf('Can\'t create cache key for "%s".', $path));
         }
 
         return $this->prepareKey(sprintf('%s__%s', $relativePath, $this->createKeyFromString($content)));
@@ -200,6 +200,9 @@ class Cache implements CacheInterface
     public function clearByPattern(string $pattern): int
     {
         try {
+            if (!Util\File::getFS()->exists($this->cacheDir)) {
+                throw new RuntimeException(sprintf('Can\'t remove cache directory "%s".', $this->cacheDir));
+            }
             $fileCount = 0;
             $iterator = new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator($this->cacheDir),
