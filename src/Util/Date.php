@@ -30,24 +30,24 @@ class Date
      *
      * @param mixed $date
      */
-    public static function toDatetime($date): \DateTimeImmutable
+    public static function toDatetime($date): \DateTime
     {
         if ($date === null) {
             throw new \Exception('$date can\'t be null.');
         }
-        // DateTimeImmutable
-        if ($date instanceof \DateTimeImmutable) {
-            return $date;
-        }
         // DateTime
         if ($date instanceof \DateTime) {
-            return \DateTimeImmutable::createFromMutable($date);
+            return $date;
+        }
+        // DateTimeImmutable
+        if ($date instanceof \DateTimeImmutable) {
+            return \DateTime::createFromImmutable($date);
         }
         // timestamp
         if (\is_int($date)) {
-            return (new \DateTimeImmutable())->setTimestamp($date);
+            return (new \DateTime())->setTimestamp($date);
         }
 
-        return new \DateTimeImmutable($date);
+        return new \DateTime($date);
     }
 }
