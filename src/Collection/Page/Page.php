@@ -196,11 +196,11 @@ class Page extends Item
         ]);
         // is a section?
         if (PrefixSuffix::sub($fileName) == 'index') {
-            $this->setType(Type::SECTION);
+            $this->setType(Type::SECTION->value);
             $this->setVariable('title', ucfirst(explode('/', $fileRelativePath)[\count(explode('/', $fileRelativePath)) - 1]));
             // is the home page?
             if (empty($this->getFolder())) {
-                $this->setType(Type::HOMEPAGE);
+                $this->setType(Type::HOMEPAGE->value);
                 $this->setVariable('title', 'Homepage');
             }
         }
@@ -363,8 +363,9 @@ class Page extends Item
 
         // case of custom sections' index (ie: section/index.md -> section)
         if (substr($path, -6) == '/index') {
-            $this->path = substr($path, 0, \strlen($path) - 6);
+            $path = substr($path, 0, \strlen($path) - 6);
         }
+        $this->path = $path;
 
         $lastslash = strrpos($this->path, '/');
 
