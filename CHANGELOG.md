@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.7.7](https://github.com/Cecilapp/Cecil/compare/8.7.6...8.7.7)
+
+> 11 February 2024
+
+- chore(deps): bump symfony/polyfill-intl-icu from 1.28.0 to 1.29.0 [`#1907`](https://github.com/Cecilapp/Cecil/pull/1907)
+- chore: update deps [`f5fe199`](https://github.com/Cecilapp/Cecil/commit/f5fe1998b5a91e09a22020c01fcbde051998bcaa)
+- refactor: minor changes [`65fe4c3`](https://github.com/Cecilapp/Cecil/commit/65fe4c3e9a0daa50e6fdfca9ddb0a1eff0c59a41)
+- refactor: better sort of loaded pages [`c1d2d29`](https://github.com/Cecilapp/Cecil/commit/c1d2d29ba5ab69c677915fb51b543189bf9f18e6)
+- ci: cleaning workflow file [`6d78682`](https://github.com/Cecilapp/Cecil/commit/6d786829feda0217679ce7a9b2855b94b4ce9e91)
+- fix: pagination of pages only [`fa6f38f`](https://github.com/Cecilapp/Cecil/commit/fa6f38fd8347b9c9898a47418897521457790fce)
+- ci: update deps [`d1c6a88`](https://github.com/Cecilapp/Cecil/commit/d1c6a881fe52c5ad44e317f508a5f4a2a301c036)
+- fix: minor fix in metatags template [`a7b8bad`](https://github.com/Cecilapp/Cecil/commit/a7b8bad56f05a4359e58eeb6b24778eddff067b4)
+- fix: use SplFileInfo of Finder [`c93284e`](https://github.com/Cecilapp/Cecil/commit/c93284e5f2fe30c0fe3d191ad2f16bba88bbccf5)
+
 #### [8.7.6](https://github.com/Cecilapp/Cecil/compare/8.7.5...8.7.6)
 
 > 3 February 2024
