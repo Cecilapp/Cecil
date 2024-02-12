@@ -722,7 +722,7 @@ class Core extends SlugifyExtension
         $yaml = $yaml ?? '';
 
         try {
-            $array = Yaml::parse($yaml);
+            $array = Yaml::parse($yaml, Yaml::PARSE_DATETIME);
             if (!\is_array($array)) {
                 throw new ParseException('YAML error.');
             }

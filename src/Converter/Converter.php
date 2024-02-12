@@ -66,7 +66,7 @@ class Converter implements ConverterInterface
     private static function convertYamlToArray(string $string): array
     {
         try {
-            $result = Yaml::parse((string) $string) ?? [];
+            $result = Yaml::parse((string) $string, Yaml::PARSE_DATETIME) ?? [];
             if (!\is_array($result)) {
                 throw new RuntimeException('Can\'t parse YAML front matter.');
             }

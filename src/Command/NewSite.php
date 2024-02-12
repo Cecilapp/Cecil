@@ -74,7 +74,7 @@ class NewSite extends AbstractCommand
             $authorUrl = $this->io->ask('What is the author URL?', 'https://cecil.app', [$this, 'validateUrl']);
             $demo = ($demo !== false) ?: $this->io->confirm('Add demo content?', false);
             // override skeleton default config
-            $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]));
+            $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]), Yaml::PARSE_DATETIME);
             $config = array_replace_recursive($config, [
                 'title'       => $title,
                 'baseline'    => $baseline,

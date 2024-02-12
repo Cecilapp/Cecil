@@ -564,7 +564,7 @@ class Page extends Item
                 try {
                     $date = Util\Date::toDatetime($value);
                 } catch (\Exception) {
-                    throw new \Exception(sprintf('Expected date format for variable "%s" must be "YYYY-MM-DD" instead of "%s".', $name, (string) $value));
+                    throw new \Exception(sprintf('The value of "%s" is not a valid date: "%s".', $name, var_export($value, true)));
                 }
                 $this->offsetSet($name == 'lastmod' ? 'updated' : $name, $date);
                 break;
