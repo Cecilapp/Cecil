@@ -122,12 +122,6 @@ class Page extends Item
     public static function createIdFromFile(SplFileInfo $file): string
     {
         $fileComponents = self::getFileComponents($file);
-
-        $fileComponents['path'];
-        $fileComponents['name'];
-        $fileComponents['ext'];
-
-
         $relativePath = self::slugify($fileComponents['path']);
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
         // if file is "README.md", ID is "index"
@@ -687,9 +681,7 @@ class Page extends Item
      */
     public function setParent(self $page): self
     {
-        //if ($page->getId() != $this->getId()) {
         $this->parent = $page;
-        //}
 
         return $this;
     }
@@ -705,14 +697,16 @@ class Page extends Item
     /**
      * Returns array of ancestors pages.
      */
-    public function getAncestors(): ?array
+    public function getAncestors(): array
     {
-        $parent = $this->getParent();
-        $ancestors[] = $parent;
-        do {
-            $parent = $parent->getParent();
+        $ancestors = [];
+
+        if (null !== $parent = $this->getParent()) {
             $ancestors[] = $parent;
-        } while ($parent !== null && !empty($parent->getParent()));
+            while (null !== $parent = $parent->getParent()) {
+                $ancestors[] = $parent;
+            };
+        }
 
         return $ancestors;
     }

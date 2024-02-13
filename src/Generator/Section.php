@@ -102,6 +102,13 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     } catch (\DomainException) {
                         $this->generatedPages->replace($page->getId(), $page);
                     }
+                    // set section as parent page
+                    $subPages->map(function (Page $page) use ($pageId) {
+                        if ($page->getParent() === null && \count(explode('/', $page->getFolder())) == 1) {
+                            $page->setParent($this->generatedPages->get($pageId));
+                        }
+                    });
+                    $this->generatedPages->replace($page->getId(), $page);
                 }
                 $menuWeight += 10;
             }

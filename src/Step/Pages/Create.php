@@ -62,10 +62,15 @@ class Create extends AbstractStep
             $page->parse();
             // set parent page
             // if section: home
-            if ($page->getType() == \Cecil\Collection\Page\Type::SECTION->value) {
-                //$page->setParent($this->builder->getPages()->get('index'));
+            // @todo
+            /*if ($page->getType() == \Cecil\Collection\Page\Type::SECTION->value) {
+                $page->setParent($this->builder->getPages()->get('index'));
+            }*/
+            // if section page: parent is section
+            if ($page->getSection() !== null && $this->builder->getPages()->has($page->getSection())) {
+                $page->setParent($this->builder->getPages()->get($page->getSection()));
             }
-            // if subpage: folder
+            // if sub page: parent is "folder"
             if (!empty($page->getFolder()) && $this->builder->getPages()->has($page->getFolder())) {
                 $page->setParent($this->builder->getPages()->get($page->getFolder()));
             }
