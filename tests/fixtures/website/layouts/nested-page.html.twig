@@ -1,0 +1,16 @@
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
+
+{% block content %}
+
+Parent page : {{ d(page.parent) }}
+
+<div>
+  <h3>Ancestors</h3>
+  {#{{ page.ancestors|join(' > ') }}#}
+  Home
+  {% for item in page.ancestors|reverse %}
+    > <a href="{{ url(item) }}">{{ item.title }}</a>
+  {% endfor %}
+</div>
+
+{% endblock %}

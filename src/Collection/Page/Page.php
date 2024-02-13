@@ -353,29 +353,22 @@ class Page extends Item
     public function setPath(string $path): self
     {
         $path = trim($path, '/');
-
         // case of homepage
         if ($path == 'index') {
             $this->path = '';
-
             return $this;
         }
-
         // case of custom sections' index (ie: section/index.md -> section)
         if (substr($path, -6) == '/index') {
             $path = substr($path, 0, \strlen($path) - 6);
         }
         $this->path = $path;
-
         $lastslash = strrpos($this->path, '/');
-
         // case of root/top-level pages
         if ($lastslash === false) {
             $this->slug = $this->path;
-
             return $this;
         }
-
         // case of sections' pages: set section
         if (!$this->virtual && $this->getSection() === null) {
             $this->section = explode('/', $this->path)[0];
@@ -383,7 +376,6 @@ class Page extends Item
         // set/update folder and slug
         $this->folder = substr($this->path, 0, $lastslash);
         $this->slug = substr($this->path, -(\strlen($this->path) - $lastslash - 1));
-
         return $this;
     }
 
@@ -695,9 +687,9 @@ class Page extends Item
      */
     public function setParent(self $page): self
     {
-        if ($page->getId() != $this->getId()) {
-            $this->parent = $page;
-        }
+        //if ($page->getId() != $this->getId()) {
+        $this->parent = $page;
+        //}
 
         return $this;
     }
@@ -708,6 +700,21 @@ class Page extends Item
     public function getParent(): ?self
     {
         return $this->parent;
+    }
+
+    /**
+     * Returns array of ancestors pages.
+     */
+    public function getAncestors(): ?array
+    {
+        $parent = $this->getParent();
+        $ancestors[] = $parent;
+        do {
+            $parent = $parent->getParent();
+            $ancestors[] = $parent;
+        } while ($parent !== null && !empty($parent->getParent()));
+
+        return $ancestors;
     }
 
     /**
