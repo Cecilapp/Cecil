@@ -58,6 +58,13 @@ class Load extends AbstractStep
             ->files()
             ->in($this->config->getPagesPath())
             ->sort(function (SplFileInfo $a, SplFileInfo $b): int {
+                // root pages first
+                if (empty($a->getRelativePath()) && !empty($b->getRelativePath())) {
+                    return -1;
+                }
+                if (empty($b->getRelativePath()) && !empty($a->getRelativePath())) {
+                    return 1;
+                }
                 // section's index first
                 if ($a->getRelativePath() == $b->getRelativePath() && $a->getBasename('.' . $a->getExtension()) == 'index') {
                     return -1;
@@ -66,7 +73,7 @@ class Load extends AbstractStep
                     return 1;
                 }
                 // sort by name
-                return strnatcasecmp($a->getRealPath(), $b->getRealPath());
+                return strnatcasecmp($a->getRelativePath(), $b->getRelativePath());
             });
         // load only one page?
         if ($this->page) {
