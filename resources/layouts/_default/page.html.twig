@@ -52,9 +52,20 @@
       nav a:hover:not(main) {
         text-decoration: underline;
       }
+      nav.breadcrumb ol {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      nav.breadcrumb li {
+        margin: 0;
+        font-size: 0.875rem;
+      }
       nav.breadcrumb li:not(:last-child)::after {
-        display: inline-block;
-        content: "→";
+        margin: .25rem;
+        content: "›";
         opacity: .5;
       }
       main header {
@@ -162,23 +173,7 @@
       {%- endblock header ~%}
     </header>
     <main>
-      {%- if page.type != 'homepage' ~%}
-      <nav aria-label="breadcrumb" class="breadcrumb">
-        <ol>
-          <li>
-            <a href="{{ url(site.home) }}">{% trans %}Home{% endtrans %}</a>
-          </li>
-          {%- for item in page.ancestors|reverse ~%}
-          <li>
-            <a href="{{ url(item) }}">{{ item.title }}</a>
-          </li>
-          {%- endfor ~%}
-          <li class="active">
-            <a aria-current="page" href="{{ url(page) }}">{{ page.title }}</a>
-          </li>
-        </ol>
-      </nav>
-      {%- endif ~%}
+      {%- include 'partials/breadcrumb.html.twig' with {page: page} only ~%}
       {%- block content ~%}
       {{ page.content }}
       {%- endblock content ~%}
