@@ -121,21 +121,18 @@ class Page extends Item
      */
     public static function createIdFromFile(SplFileInfo $file): string
     {
-        $fileComponents = self::getFileComponents($file);
-        $relativePath = self::slugify($fileComponents['path']);
-        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
-        // if file is "README.md", ID is "index"
-        $basename = (string) str_ireplace('readme', 'index', $basename);
-        // if file is section's index: "section/index.md", ID is "section"
+        $relativePath = self::slugify(self::getFileComponents($file)['path']);
+        $basename = self::slugify(PrefixSuffix::subPrefix(self::getFileComponents($file)['name']));
+        // if file is a section's index: "<section>/index.md", "<section>" is the ID
         if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
-            // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
+            // case of a localized section's index: "<section>/index.fr.md", "<fr/section>" is the ID
             if (PrefixSuffix::hasSuffix($basename)) {
                 return PrefixSuffix::getSuffix($basename) . '/' . $relativePath;
             }
 
             return $relativePath;
         }
-        // localized page
+        // localized page: "<page>.fr.md" -> "fr/<page>"
         if (PrefixSuffix::hasSuffix($basename)) {
             return trim(Util::joinPath(PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename)), '/');
         }
@@ -167,15 +164,9 @@ class Page extends Item
         /*
          * File path components
          */
-        $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
-        $fileExtension = $this->file->getExtension();
-        $fileName = $this->file->getBasename('.' . $fileExtension);
-        // renames "README" to "index"
-        $fileName = (string) str_ireplace('readme', 'index', $fileName);
-        // case of "index" = home page
-        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
-            $this->setType(Type::HOMEPAGE->value);
-        }
+        $fileRelativePath = self::getFileComponents($file)['path'];
+        $fileExtension = self::getFileComponents($file)['ext'];
+        $fileName = self::getFileComponents($file)['name'];
         /*
          * Set page properties and variables
          */
@@ -669,14 +660,6 @@ class Page extends Item
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setId(string $id): self
-    {
-        return parent::setId($id);
-    }
-
-    /**
      * Set parent page.
      */
     public function setParent(self $page): self
@@ -709,6 +692,14 @@ class Page extends Item
         }
 
         return $ancestors;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId(string $id): self
+    {
+        return parent::setId($id);
     }
 
     /**
