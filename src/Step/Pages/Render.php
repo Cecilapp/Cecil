@@ -16,6 +16,7 @@ namespace Cecil\Step\Pages;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Type;
 use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Config;
 use Cecil\Renderer\Layout;
@@ -69,15 +70,44 @@ class Render extends AbstractStep
             ->filter(function (Page $page) {
                 return (bool) $page->getVariable('published');
             })
-            // enrichs some variables
+            // enriched some variables
             ->map(function (Page $page) {
                 $formats = $this->getOutputFormats($page);
-                // output formats
-                $page->setVariable('output', $formats);
                 // alternates formats
+                $page->setVariable('output', $formats);
                 $page->setVariable('alternates', $this->getAlternates($formats));
                 // translations
                 $page->setVariable('translations', $this->getTranslations($page));
+                // parent
+                if ($page->getType() != Type::HOMEPAGE->value) {
+                    //$page->setParent($this->builder->getPages()->get('index'));
+                }
+                /*
+                if (!empty($page->getFolder())) {
+                    $folderAsArray = explode('/', $page->getFolder());
+                    do {
+                        $parentFolder = implode('/', $folderAsArray);
+                        array_pop($folderAsArray);
+                    } while (!$this->builder->getPages()->has($parentFolder));
+                    $parent = $this->builder->getPages()->get($parentFolder);
+                    $page->setParent($parent);
+                }
+                */
+
+                // if root page or section: home
+                /*if (empty($page->getFolder()) || $page->getType() == \Cecil\Collection\Page\Type::SECTION->value) {
+                    $page->setParent($this->builder->getPages()->get('index'));
+                }*/
+                /*
+                // if section page: parent is section
+                if ($page->getSection() !== null && $this->builder->getPages()->has($page->getSection())) {
+                    $page->setParent($this->builder->getPages()->get($page->getSection()));
+                }
+                // if sub page: parent is "folder"
+                if (!empty($page->getFolder()) && $this->builder->getPages()->has($page->getFolder())) {
+                    $page->setParent($this->builder->getPages()->get($page->getFolder()));
+                }
+                */
 
                 return $page;
             });
