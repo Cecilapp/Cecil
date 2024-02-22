@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.7.8](https://github.com/Cecilapp/Cecil/compare/8.7.7...8.7.8)
+
+> 12 February 2024
+
+- refactor: better YAML date parsing [`52ce5a7`](https://github.com/Cecilapp/Cecil/commit/52ce5a7fddec59f70b5f7f81c1a73a1fad57dab2)
+- fix: \DateTimeImmutable -&gt; \DateTime [`7fa9d35`](https://github.com/Cecilapp/Cecil/commit/7fa9d356efea796a4328cf3df499ec716d4377eb)
+- fix: resource template [`1be9c65`](https://github.com/Cecilapp/Cecil/commit/1be9c650f878503ad2660e674c637c45b619562e)
+
 #### [8.7.7](https://github.com/Cecilapp/Cecil/compare/8.7.6...8.7.7)
 
 > 11 February 2024
