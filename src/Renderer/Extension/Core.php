@@ -820,12 +820,12 @@ class Core extends SlugifyExtension
         }
 
         $cloner = new VarCloner();
-        $cloner->setMinDepth(4);
+        $cloner->setMinDepth(3);
         $dumper = new HtmlDumper();
         $dumper->setTheme($options['theme'] ?? 'light');
 
-        $data = $cloner->cloneVar($var)->withMaxDepth(4);
-        $dumper->dump($data, null, ['maxDepth' => 4]);
+        $data = $cloner->cloneVar($var)->withMaxDepth(3);
+        $dumper->dump($data, null, ['maxDepth' => 3]);
     }
 
     /**
