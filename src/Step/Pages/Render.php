@@ -85,7 +85,7 @@ class Render extends AbstractStep
                 }
                 $page->setParent($this->builder->getPages()->get($langPrefix . 'index'));
                 $folderAsArray = explode('/', (string) $page->getFolder());
-                while (\count($folderAsArray) >= 1 && !empty($folderAsArray[0]) ) {
+                while (\count($folderAsArray) >= 1 && !empty($folderAsArray[0])) {
                     $parentFolder = implode('/', $folderAsArray);
                     if ($this->builder->getPages()->has($langPrefix . $parentFolder) && ($parent = $this->builder->getPages()->get($langPrefix . $parentFolder))->getId() !== $page->getId()) {
                         $page->setParent($parent);
