@@ -3,11 +3,12 @@
 {% block content %}
 
 <h3>Ancestors</h3>
-<a href="{{ url(site.home) }}">Home</a>
-{% for item in page.ancestors|reverse %}
-  > <a href="{{ url(item) }}">{{ item.title }}</a>
-{% endfor %}
 
-<br />
+<blockquote>
+{% for item in page.ancestors|reverse %}
+  {% if loop.index != 1 %} > {% endif %}
+  <a href="{{ url(item) }}">{{ item.title }}</a>
+{% endfor %}
+</blockquote>
 
 {% endblock %}

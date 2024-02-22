@@ -684,9 +684,9 @@ class Page extends Item
     {
         $ancestors = [];
 
-        if (null !== $parent = $this->getParent()) {
+        if (($parent = $this->getParent()) !== null) {
             $ancestors[] = $parent;
-            while (null !== $parent = $parent->getParent()) {
+            while ($parent->getId() !== $parent->getParent()->getId() && ($parent = $parent->getParent()) !== null) {
                 $ancestors[] = $parent;
             };
         }

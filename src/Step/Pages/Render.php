@@ -64,13 +64,13 @@ class Render extends AbstractStep
         // adds global variables
         $this->addGlobals();
 
-        /** @var Collection $pages */
+        // prepares pages collections
         $pages = $this->builder->getPages()
             // published only
             ->filter(function (Page $page) {
                 return (bool) $page->getVariable('published');
             })
-            // enriched some variables
+            // enriched variables
             ->map(function (Page $page) {
                 $formats = $this->getOutputFormats($page);
                 // alternates formats
@@ -79,42 +79,25 @@ class Render extends AbstractStep
                 // translations
                 $page->setVariable('translations', $this->getTranslations($page));
                 // parent
-                if ($page->getType() != Type::HOMEPAGE->value) {
-                    //$page->setParent($this->builder->getPages()->get('index'));
+                $langPrefix = '';
+                if ($page->getVariable('language') !== null && $page->getVariable('language') != $this->config->getLanguageDefault()) {
+                    $langPrefix = $page->getVariable('language') . "/";
                 }
-                /*
-                if (!empty($page->getFolder())) {
-                    $folderAsArray = explode('/', $page->getFolder());
-                    do {
-                        $parentFolder = implode('/', $folderAsArray);
-                        array_pop($folderAsArray);
-                    } while (!$this->builder->getPages()->has($parentFolder));
-                    $parent = $this->builder->getPages()->get($parentFolder);
-                    $page->setParent($parent);
+                $page->setParent($this->builder->getPages()->get($langPrefix . 'index'));
+                $folderAsArray = explode('/', (string) $page->getFolder());
+                while (\count($folderAsArray) >= 1 && !empty($folderAsArray[0]) ) {
+                    $parentFolder = implode('/', $folderAsArray);
+                    if ($this->builder->getPages()->has($langPrefix . $parentFolder) && ($parent = $this->builder->getPages()->get($langPrefix . $parentFolder))->getId() !== $page->getId()) {
+                        $page->setParent($parent);
+                        break;
+                    }
+                    array_pop($folderAsArray);
                 }
-                */
-
-                // if root page or section: home
-                /*if (empty($page->getFolder()) || $page->getType() == \Cecil\Collection\Page\Type::SECTION->value) {
-                    $page->setParent($this->builder->getPages()->get('index'));
-                }*/
-                /*
-                // if section page: parent is section
-                if ($page->getSection() !== null && $this->builder->getPages()->has($page->getSection())) {
-                    $page->setParent($this->builder->getPages()->get($page->getSection()));
-                }
-                // if sub page: parent is "folder"
-                if (!empty($page->getFolder()) && $this->builder->getPages()->has($page->getFolder())) {
-                    $page->setParent($this->builder->getPages()->get($page->getFolder()));
-                }
-                */
 
                 return $page;
             });
-        $total = \count($pages);
 
-        // renders each page
-        $count = 0;
+        // loads post processors
         $postprocessors = [];
         foreach ($this->config->get('output.postprocessors') as $name => $postprocessor) {
             if (!class_exists($postprocessor)) {
@@ -124,7 +107,10 @@ class Render extends AbstractStep
             $postprocessors[] = new $postprocessor($this->builder);
             $this->builder->getLogger()->debug(sprintf('Output post processor "%s" loaded', $name));
         }
-        /** @var Page $page */
+
+        // renders each page
+        $total = \count($pages);
+        $count = 0;
         foreach ($pages as $page) {
             $count++;
             $rendered = [];
@@ -137,7 +123,7 @@ class Render extends AbstractStep
             // global site variables
             $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $language));
 
-            // global config raw variables
+            // global config variables
             $this->builder->getRenderer()->addGlobal('config', new Config($this->builder, $language));
 
             // excluded format(s)?
