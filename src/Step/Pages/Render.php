@@ -79,11 +79,14 @@ class Render extends AbstractStep
                 // translations
                 $page->setVariable('translations', $this->getTranslations($page));
                 // parent
+                $parent = null;
                 $langPrefix = '';
                 if ($page->getVariable('language') !== null && $page->getVariable('language') != $this->config->getLanguageDefault()) {
                     $langPrefix = $page->getVariable('language') . "/";
                 }
-                $page->setParent($this->builder->getPages()->get($langPrefix . 'index'));
+                if ($page->getType() !== \Cecil\Collection\Page\Type::HOMEPAGE->value) {
+                    $page->setParent($this->builder->getPages()->get($langPrefix . 'index'));
+                }
                 $folderAsArray = explode('/', (string) $page->getFolder());
                 while (\count($folderAsArray) >= 1 && !empty($folderAsArray[0]) ) {
                     $parentFolder = implode('/', $folderAsArray);
