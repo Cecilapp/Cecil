@@ -683,12 +683,9 @@ class Page extends Item
     public function getAncestors(): array
     {
         $ancestors = [];
-
-        if (($parent = $this->getParent()) !== null) {
-            $ancestors[] = $parent;
-            while ($parent->getId() !== $parent->getParent()->getId() && ($parent = $parent->getParent()) !== null) {
-                $ancestors[] = $parent;
-            };
+        $currentPage = $this;
+        while ($currentPage->getParent() !== null) {
+            $ancestors[] = $currentPage = $currentPage->getParent();
         }
 
         return $ancestors;
