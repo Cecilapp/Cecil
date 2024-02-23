@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil\Step\Pages;
 
 use Cecil\Builder;
-use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 use Cecil\Exception\RuntimeException;
@@ -84,7 +83,7 @@ class Render extends AbstractStep
                 if ($page->getVariable('language') !== null && $page->getVariable('language') != $this->config->getLanguageDefault()) {
                     $langPrefix = $page->getVariable('language') . "/";
                 }
-                if ($page->getType() !== \Cecil\Collection\Page\Type::HOMEPAGE->value) {
+                if ($page->getType() !== Type::HOMEPAGE->value) {
                     $page->setParent($this->builder->getPages()->get($langPrefix . 'index'));
                 }
                 $folderAsArray = explode('/', (string) $page->getFolder());
