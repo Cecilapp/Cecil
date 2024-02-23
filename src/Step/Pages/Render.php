@@ -78,22 +78,8 @@ class Render extends AbstractStep
                 // translations
                 $page->setVariable('translations', $this->getTranslations($page));
                 // parent
-                $parent = null;
-                $langPrefix = '';
-                if ($page->getVariable('language') !== null && $page->getVariable('language') != $this->config->getLanguageDefault()) {
-                    $langPrefix = $page->getVariable('language') . "/";
-                }
-                if ($page->getType() !== Type::HOMEPAGE->value) {
-                    $page->setParent($this->builder->getPages()->get($langPrefix . 'index'));
-                }
-                $folderAsArray = explode('/', (string) $page->getFolder());
-                while (\count($folderAsArray) >= 1 && !empty($folderAsArray[0])) {
-                    $parentFolder = implode('/', $folderAsArray);
-                    if ($this->builder->getPages()->has($langPrefix . $parentFolder) && ($parent = $this->builder->getPages()->get($langPrefix . $parentFolder))->getId() !== $page->getId()) {
-                        $page->setParent($parent);
-                        break;
-                    }
-                    array_pop($folderAsArray);
+                if (($parent = $this->findParent($page)) !== null) {
+                    $page->setParent($parent);
                 }
 
                 return $page;
@@ -318,5 +304,33 @@ class Render extends AbstractStep
         });
 
         return $pages;
+    }
+
+    /**
+     * Find page parent or null.
+     */
+    protected function findParent(Page $page): ?Page
+    {
+        $parent = null;
+        $langPrefix = '';
+        if ($page->getVariable('language') !== null && $page->getVariable('language') != $this->config->getLanguageDefault()) {
+            $langPrefix = $page->getVariable('language') . "/";
+        }
+        // home page by default
+        if ($page->getType() !== Type::HOMEPAGE->value) {
+            $parent = $this->builder->getPages()->get($langPrefix . 'index');
+        }
+        // recursive folder search
+        $folderAsArray = explode('/', (string) $page->getFolder());
+        while (\count($folderAsArray) >= 1 && !empty($folderAsArray[0])) {
+            $parentFolder = implode('/', $folderAsArray);
+            if ($this->builder->getPages()->has($langPrefix . $parentFolder) && $this->builder->getPages()->get($langPrefix . $parentFolder)->getId() !== $page->getId()) {
+                $parent = $this->builder->getPages()->get($langPrefix . $parentFolder);
+                break;
+            }
+            array_pop($folderAsArray);
+        }
+
+        return $parent;
     }
 }
