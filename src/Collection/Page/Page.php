@@ -165,7 +165,6 @@ class Page extends Item
          * File path components
          */
         $fileRelativePath = self::getFileComponents($file)['path'];
-        $fileExtension = self::getFileComponents($file)['ext'];
         $fileName = self::getFileComponents($file)['name'];
         /*
          * Set page properties and variables
