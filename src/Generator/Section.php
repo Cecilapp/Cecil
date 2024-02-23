@@ -39,6 +39,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
                     continue;
                 }
+                // $sections[section][language][] = $page
                 $sections[$page->getSection()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;
                 // nested sections
                 /*if ($page->getParent() !== null) {
