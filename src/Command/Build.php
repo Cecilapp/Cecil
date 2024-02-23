@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Util;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,6 +45,7 @@ class Build extends AbstractCommand
                     new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
                     new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
                     new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
+                    new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show built pages as table'),
                 ])
             )
             ->setHelp('Builds the website in the output directory');
@@ -114,6 +116,30 @@ class Build extends AbstractCommand
 
         $builder->build($options);
         $output->writeln('Done 🎉');
+
+        if ($input->getOption('show-pages')) {
+            $pagesAsArray = [];
+            foreach (
+                $this->getBuilder()->getPages()->filter(function (\Cecil\Collection\Page\Page $page) {
+                    return $page->getVariable('published');
+                }) as $page
+            ) {
+                $pagesAsArray[] = [
+                    $page->getId(),
+                    $page->getVariable('language'),
+                    sprintf("%s %s", $page->getType(), $page->getType() !== \Cecil\Collection\Page\Type::PAGE->value ? "(" . \count($page->getPages() ?: []) . ")" : ''),
+                    $page->getParent()?->getId(),
+                    $page->isVirtual() ? 'False' : 'true',
+                ];
+            }
+            $table = new Table($output);
+            $table
+                ->setHeaderTitle(sprintf("Built pages (%s)", \count($pagesAsArray)))
+                ->setHeaders(['ID', 'Lang', 'Type', 'Parent', 'File'])
+                ->setRows($pagesAsArray)
+            ;
+            $table->setStyle('box')->render();
+        }
 
         return 0;
     }
