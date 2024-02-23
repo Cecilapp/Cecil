@@ -30,12 +30,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
     {
         $sections = [];
 
-        // identifying sections from all pages
+        // identifying sections from pages collection
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             // top level (root) sections
             if ($page->getSection()) {
-                // do not add "not published" and "not excluded" pages to its section
+                // do not add "draft" and "excluded" pages to its section
                 if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
                     continue;
                 }
