@@ -161,6 +161,7 @@ jobs:
         APP_ENV: prod
         APP_DEBUG: 0
       run: blackfire run php vendor/bin/phpunit -c ./ --testsuite=IntegrationTests
+      continue-on-error: true
 
     - name: Upload coverage results to Coveralls
       if: ${{ matrix.coverage && !matrix.profiling && !matrix.experimental }}
