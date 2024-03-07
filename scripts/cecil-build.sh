@@ -88,7 +88,7 @@ if [ $PHP_IS_INSTALLED -ne 0 ]; then
   echo "PHP is not installed. Please install PHP ${PHP_MIN_VERSION} or higher before running this script."
   exit 1;
 else
-  php -r '"PHP installed version is ".PHP_VERSION.".".PHP_EOL;'
+  php -r 'echo "PHP " . PHP_VERSION . " is available." . PHP_EOL;'
 fi
 PHP_OK=$(php -r 'echo (bool) version_compare(phpversion(), getenv("PHP_MIN_VERSION"), ">=");')
 if [ "$PHP_OK" != "1" ]; then
@@ -96,30 +96,30 @@ if [ "$PHP_OK" != "1" ]; then
   exit 1;
 fi
 
-# Installs Cecil is needed
+# Download Cecil if needed
 cecil --version > /dev/null 2>&1
 CECIL_IS_INSTALLED=$?
 CECIL_CMD="cecil"
 if [ $CECIL_IS_INSTALLED -ne 0 ]; then
   if [ -z $CECIL_VERSION ]; then
-    echo "Installing Cecil..."
+    echo "Downloading Cecil..."
     curl -sSOL https://cecil.app/cecil.phar
   else
-    echo "Installing Cecil ${CECIL_VERSION}..."
+    echo "Downloading Cecil ${CECIL_VERSION}..."
     if [ $(curl -LI https://cecil.app/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) == '200' ]; then
       curl -sSOL https://cecil.app/download/$CECIL_VERSION/cecil.phar
     else
-      echo "Installer can't download version $CECIL_VERSION. Trying from GitHub's release.";
+      echo "Can't download Cecil $CECIL_VERSION from Cecil.app. Trying from GitHub's release.";
       if [ $(curl -LI https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) != '200' ]; then
-      echo "Installer can't download version $CECIL_VERSION from GitHub"; exit 1
+      echo "Can't download Cecil $CECIL_VERSION from GitHub"; exit 1
       fi
       curl -sSOL https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar
     fi
   fi
   CECIL_CMD="php cecil.phar"
-  echo "$($CECIL_CMD --version) is now available."
+  echo "$($CECIL_CMD --version) is available."
 else
-  echo "$($CECIL_CMD --version) is installed."
+  echo "$($CECIL_CMD --version) is available."
 fi
 
 # Installs Cecil components if needed
@@ -132,7 +132,7 @@ if [ -f "./composer.json" ]; then
     curl -sS https://getcomposer.org/installer | php
     COMPOSER_CMD="php composer.phar"
   else
-    echo "$($COMPOSER_CMD --version) is now available."
+    echo "$($COMPOSER_CMD --version) is available."
   fi
   echo "Installing themes..."
   $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
