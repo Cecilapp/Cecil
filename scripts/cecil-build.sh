@@ -85,10 +85,10 @@ esac
 php --version > /dev/null 2>&1
 PHP_IS_INSTALLED=$?
 if [ $PHP_IS_INSTALLED -ne 0 ]; then
-  echo "PHP is not installed. Please install it before running this script."
+  echo "PHP is not installed. Please install PHP ${PHP_MIN_VERSION} or higher before running this script."
   exit 1;
 else
-  php -r 'echo "PHP ".PHP_VERSION." is already installed.".PHP_EOL;'
+  php -r '"PHP installed version is ".PHP_VERSION.".".PHP_EOL;'
 fi
 PHP_OK=$(php -r 'echo (bool) version_compare(phpversion(), getenv("PHP_MIN_VERSION"), ">=");')
 if [ "$PHP_OK" != "1" ]; then
@@ -117,9 +117,9 @@ if [ $CECIL_IS_INSTALLED -ne 0 ]; then
     fi
   fi
   CECIL_CMD="php cecil.phar"
-  echo "$($CECIL_CMD --version) is installed."
+  echo "$($CECIL_CMD --version) is now available."
 else
-  echo "$($CECIL_CMD --version) is already installed."
+  echo "$($CECIL_CMD --version) is installed."
 fi
 
 # Installs Cecil components if needed
@@ -128,11 +128,11 @@ if [ -f "./composer.json" ]; then
   COMPOSER_IS_INSTALLED=$?
   COMPOSER_CMD="composer"
   if [ $COMPOSER_IS_INSTALLED -ne 0 ]; then
-    echo "Installing Composer"
+    echo "Composer is required. Downloading..."
     curl -sS https://getcomposer.org/installer | php
     COMPOSER_CMD="php composer.phar"
   else
-    echo "$($COMPOSER_CMD --version) is already installed."
+    echo "$($COMPOSER_CMD --version) is now available."
   fi
   echo "Installing themes..."
   $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
