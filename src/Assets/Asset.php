@@ -115,13 +115,10 @@ class Asset implements \ArrayAccess
             for ($i = 0; $i < $pathsCount; $i++) {
                 // loads file(s)
                 $file[$i] = $this->loadFile($paths[$i], $ignore_missing, $remote_fallback, $force_slash);
-                // bundle: same type/ext only
+                // bundle: same type only
                 if ($i > 0) {
                     if ($file[$i]['type'] != $file[$i - 1]['type']) {
                         throw new RuntimeException(sprintf('Asset bundle type error (%s != %s).', $file[$i]['type'], $file[$i - 1]['type']));
-                    }
-                    if ($file[$i]['ext'] != $file[$i - 1]['ext']) {
-                        throw new RuntimeException(sprintf('Asset bundle extension error (%s != %s).', $file[$i]['ext'], $file[$i - 1]['ext']));
                     }
                 }
                 // missing allowed = empty path
