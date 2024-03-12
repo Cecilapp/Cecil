@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2024-01-18
+updated: 2024-03-12
 -->
 # Configuration
 
@@ -837,15 +837,15 @@ assets:
 
 #### Image CDN
 
-If the option `assets.images.cdn` is enabled then URL of assets will be replaced by the provided CDN `url`.
+URL of image assets can be easily replaced by a provided CDN `url`.
 
 ```yaml
 assets:
   images:
     cdn:
       enabled: false  # enables Image CDN (`false` by default)
-      canonical: true # is `image_url` must be canonical or not (`true` by default)
-      remote: true    # includes remote images (`true` by default)
+      canonical: true # `image_url` is canonical (instead of a relative path) (`true` by default)
+      remote: true    # handles not local images too (`true` by default)
       account: 'xxxx' # provider account
       url: 'https://provider.tld/%account%/%image_url%?w=%width%&q=%quality%&format=%format%'
 ```
@@ -853,7 +853,7 @@ assets:
 `url` is a pattern that contains variables:
 
 - `%account%` replaced by the `assets.images.cdn.account` option
-- `%image_url%` replaced by the asset `path` or the URL of the remote image
+- `%image_url%` replaced by the image canonical URL or `path`
 - `%width%` replaced by the image width
 - `%quality%` replaced by the `assets.images.quality` option
 - `%format%` replaced by the image format
