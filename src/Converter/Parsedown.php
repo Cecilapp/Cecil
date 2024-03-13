@@ -296,21 +296,26 @@ class Parsedown extends \ParsedownToC
         }
 
         // placeholder
-        if (!empty($this->config->get('pages.body.images.placeholder')) || isset($InlineImage['element']['attributes']['placeholder'])) {
+        if (
+            (!empty($this->config->get('pages.body.images.placeholder')) || isset($InlineImage['element']['attributes']['placeholder']))
+            && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
+        ) {
             if (!\array_key_exists('placeholder', $InlineImage['element']['attributes'])) {
                 $InlineImage['element']['attributes']['placeholder'] = (string) $this->config->get('pages.body.images.placeholder');
             }
             if (!\array_key_exists('style', $InlineImage['element']['attributes'])) {
                 $InlineImage['element']['attributes']['style'] = '';
             }
+            $InlineImage['element']['attributes']['style'] = trim($InlineImage['element']['attributes']['style'], ';');
             switch ($InlineImage['element']['attributes']['placeholder']) {
                 case 'color':
-                    $InlineImage['element']['attributes']['style'] .= sprintf(' max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
+                    $InlineImage['element']['attributes']['style'] .= sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
                     break;
                 case 'lqip':
-                    $InlineImage['element']['attributes']['style'] .= sprintf(' max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($InlineImage['element']['attributes']['src']));
+                    $InlineImage['element']['attributes']['style'] .= sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($InlineImage['element']['attributes']['src']));
                     break;
             }
+            unset($InlineImage['element']['attributes']['placeholder']);
             $InlineImage['element']['attributes']['style'] = trim($InlineImage['element']['attributes']['style']);
         }
 
