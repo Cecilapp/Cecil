@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.7.10](https://github.com/Cecilapp/Cecil/compare/8.7.9...8.7.10)
+
+> 9 March 2024
+
+- chore: update deps [`a8aac5f`](https://github.com/Cecilapp/Cecil/commit/a8aac5f070e4af5e516a58d8075bd77c5b922f4f)
+- fix: bundle CSS without extension [`2af5184`](https://github.com/Cecilapp/Cecil/commit/2af51845ecc59b88bd97386aa8bbd760cb61f117)
+
+#### [8.7.9](https://github.com/Cecilapp/Cecil/compare/8.7.8...8.7.9)
+
+> 9 March 2024
+
+- chore(deps-dev): bump phpstan/phpstan from 1.10.59 to 1.10.60 [`#1923`](https://github.com/Cecilapp/Cecil/pull/1923)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.50.0 to 3.51.0 [`#1921`](https://github.com/Cecilapp/Cecil/pull/1921)
+- chore(deps): bump symfony/translation from 6.4.3 to 6.4.4 [`#1920`](https://github.com/Cecilapp/Cecil/pull/1920)
+- chore(deps): bump symfony/validator from 6.4.3 to 6.4.4 [`#1919`](https://github.com/Cecilapp/Cecil/pull/1919)
+- chore(deps): bump symfony/serializer from 6.4.3 to 6.4.4 [`#1918`](https://github.com/Cecilapp/Cecil/pull/1918)
+- chore(deps): bump symfony/console from 6.4.3 to 6.4.4 [`#1915`](https://github.com/Cecilapp/Cecil/pull/1915)
+- chore(deps): bump symfony/process from 6.4.3 to 6.4.4 [`#1916`](https://github.com/Cecilapp/Cecil/pull/1916)
+- chore(deps-dev): bump phpunit/phpunit from 9.6.16 to 9.6.17 [`#1914`](https://github.com/Cecilapp/Cecil/pull/1914)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.49.0 to 3.50.0 [`#1913`](https://github.com/Cecilapp/Cecil/pull/1913)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.58 to 1.10.59 [`#1910`](https://github.com/Cecilapp/Cecil/pull/1910)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.8.1 to 3.9.0 [`#1909`](https://github.com/Cecilapp/Cecil/pull/1909)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.57 to 1.10.58 [`#1908`](https://github.com/Cecilapp/Cecil/pull/1908)
+- doc: update diagrams [`821004f`](https://github.com/Cecilapp/Cecil/commit/821004fa9277483557ed042497de5f0885a7e3f4)
+- chore: update deps [`3ea9dc6`](https://github.com/Cecilapp/Cecil/commit/3ea9dc64c92648853b7a6d20e4aa038eed679e0e)
+- feat: option to show built pages [`b284c55`](https://github.com/Cecilapp/Cecil/commit/b284c55857dc3a416e6c70c01b8e6e9d069e4c80)
+- fix: dumper max depth [`4ab41d4`](https://github.com/Cecilapp/Cecil/commit/4ab41d48ea33f017f35a4dbc366808aeae99bece)
+- fix: endline of default templates [`07bda70`](https://github.com/Cecilapp/Cecil/commit/07bda7052b7ef33a353e85da20141c7b4b98388a)
+- test: fixtures updates [`584bdf4`](https://github.com/Cecilapp/Cecil/commit/584bdf4b4f0a8451906ff43178ed4ce39c901153)
+- ci: continue if error during profiling [`9c62e28`](https://github.com/Cecilapp/Cecil/commit/9c62e28b4f66173c783e7192aa01ea65d92d3380)
+
 #### [8.7.8](https://github.com/Cecilapp/Cecil/compare/8.7.7...8.7.8)
 
 > 12 February 2024
