@@ -101,6 +101,7 @@ return [
                         'path'    => '', // path to the fallback image, stored in assets dir (empty by default)
                     ],
                 ],
+                'placeholder' => '', // fill <img> background before loading ('color' or 'lqip', empty by default)
             ],
             'links' => [
                 'embed' => [

@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2024-03-12
+updated: 2024-03-13
 -->
 # Configuration
 
@@ -647,6 +647,7 @@ pages:
         fallback:
           enabled: false # enables a fallback if image is not found (`false` by default)
           path: ''       # path to the fallback image, stored in assets dir (empty by default)
+      placeholder: ''   # fill <img> background before loading ('color' or 'lqip', empty by default)
     links:
       embed:
         enabled: false # turns links in embedded content if possible (`false` by default)

@@ -295,6 +295,25 @@ class Parsedown extends \ParsedownToC
             $InlineImage['element']['attributes']['height'] = $assetResized['height'] ?? $asset['height'];
         }
 
+        // placeholder
+        if (!empty($this->config->get('pages.body.images.placeholder')) || isset($InlineImage['element']['attributes']['placeholder'])) {
+            if (!\array_key_exists('placeholder', $InlineImage['element']['attributes'])) {
+                $InlineImage['element']['attributes']['placeholder'] = (string) $this->config->get('pages.body.images.placeholder');
+            }
+            if (!\array_key_exists('style', $InlineImage['element']['attributes'])) {
+                $InlineImage['element']['attributes']['style'] = '';
+            }
+            switch ($InlineImage['element']['attributes']['placeholder']) {
+                case 'color':
+                    $InlineImage['element']['attributes']['style'] .= sprintf(' max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
+                    break;
+                case 'lqip':
+                    $InlineImage['element']['attributes']['style'] .= sprintf(' max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($InlineImage['element']['attributes']['src']));
+                    break;
+            }
+            $InlineImage['element']['attributes']['style'] = trim($InlineImage['element']['attributes']['style']);
+        }
+
         /*
          * Should be responsive?
          */

@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2024-01-07
+updated: 2024-03-13
 -->
 # Content
 
@@ -412,6 +412,21 @@ Is converted to:
 
 :::info
 Caption supports Markdown content.
+:::
+
+#### Placeholder
+
+As images are typically heavier and slower resources, and they don’t block rendering, we should attempt to give users something to look at while they wait for the image to arrive. So the `placeholder` attribute show a colored background (image dominant color) or a [LQIP](https://www.guypo.com/introducing-lqip-low-quality-image-placeholders) (Low-Quality Image Placeholder).
+
+_Examples:_
+
+```markdown
+![](/images/img.jpg){placeholder=color}
+![](/images/img.jpg){placeholder=lqip}
+```
+
+:::tips
+You can set a value to the `placeholder` attribute for each image with the [`placeholder` option](4-Configuration.md#body).
 :::
 
 ### Table of contents
