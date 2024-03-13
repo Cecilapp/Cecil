@@ -260,10 +260,9 @@ class Parsedown extends \ParsedownToC
         $shouldResize = false;
         $assetResized = null;
         if (
-            (bool) $this->config->get('body.images.resize.enabled')
+            (bool) $this->config->get('pages.body.images.resize.enabled')
             && isset($InlineImage['element']['attributes']['width'])
             && (int) $InlineImage['element']['attributes']['width'] < $width
-            && (bool) $this->config->get('pages.body.images.resize.enabled')
         ) {
             $shouldResize = true;
             $width = (int) $InlineImage['element']['attributes']['width'];
@@ -293,7 +292,7 @@ class Parsedown extends \ParsedownToC
         }
         // set height
         if (!isset($InlineImage['element']['attributes']['height'])) {
-            $InlineImage['element']['attributes']['height'] = $assetResized !== null ? $assetResized['height'] : $asset['height'];
+            $InlineImage['element']['attributes']['height'] = $assetResized['height'] ?? $asset['height'];
         }
 
         /*
@@ -385,6 +384,8 @@ class Parsedown extends \ParsedownToC
                             'type'   => 'image/webp',
                             'srcset' => $srcset,
                             'sizes'  => $sizes,
+                            'width'  => $InlineImage['element']['attributes']['width'],
+                            'height' => $InlineImage['element']['attributes']['height'],
                         ],
                     ],
                 ];
