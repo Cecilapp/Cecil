@@ -102,19 +102,27 @@ class Image
     }
 
     /**
-     * Returns a Low Quality Image Placeholder (LQIP) as data URL.
+     * Returns a Low Quality Image Placeholder (LQIP) as data URL or Asset.
      *
      * @throws RuntimeException
      */
-    public static function getLqip(Asset $asset): string
+    public static function getLqip(Asset $asset, string $type = 'data'): string|Asset
     {
         if ($asset['type'] !== 'image') {
             throw new RuntimeException(sprintf('can\'t create LQIP of "%s": it\'s not an image file.', $asset['path']));
         }
 
         $assetLqip = clone $asset;
-        $assetLqip = $assetLqip->resize(100);
 
-        return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
+        if ($type == 'data') {
+            $assetLqip = $assetLqip->resize(100);
+
+            return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
+        }
+
+        $assetLqip = $assetLqip->resize((int) round((70 / 100) * $assetLqip['width']), 10);
+        $assetLqip['content'] = (string) ImageManager::make($assetLqip['content'])->encode($assetLqip['ext']);
+
+        return $assetLqip;
     }
 }

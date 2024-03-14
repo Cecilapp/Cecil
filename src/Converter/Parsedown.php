@@ -312,11 +312,15 @@ class Parsedown extends \ParsedownToC
                     $InlineImage['element']['attributes']['style'] .= sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
                     break;
                 case 'lqip':
-                    $InlineImage['element']['attributes']['style'] .= sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($InlineImage['element']['attributes']['src']));
+                    $InlineImage['element']['attributes']['style'] .= sprintf(
+                        ';max-width:100%%;height:auto;background-image:url(%s),url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;',
+                        Image::getLqip($InlineImage['element']['attributes']['src'], 'asset'),
+                        Image::getLqip($InlineImage['element']['attributes']['src'])
+                    );
                     break;
             }
             unset($InlineImage['element']['attributes']['placeholder']);
-            $InlineImage['element']['attributes']['style'] = trim($InlineImage['element']['attributes']['style']);
+            $InlineImage['element']['attributes']['style'] = trim($InlineImage['element']['attributes']['style'], ' ;');
         }
 
         /*

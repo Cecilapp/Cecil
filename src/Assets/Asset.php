@@ -420,7 +420,7 @@ class Asset implements \ArrayAccess
      *
      * @throws RuntimeException
      */
-    public function resize(int $width): self
+    public function resize(int $width, ?int $quality = null): self
     {
         if ($this->data['missing']) {
             throw new RuntimeException(sprintf('Not able to resize "%s": file not found.', $this->data['path']));
@@ -428,7 +428,7 @@ class Asset implements \ArrayAccess
         if ($this->data['type'] != 'image') {
             throw new RuntimeException(sprintf('Not able to resize "%s": not an image.', $this->data['path']));
         }
-        if ($width >= $this->data['width']) {
+        if ($width >= $this->data['width'] && $quality === null) {
             return $this;
         }
 
@@ -439,7 +439,7 @@ class Asset implements \ArrayAccess
             return $assetResized; // returns the asset with the new width only: CDN do the rest of the job
         }
 
-        $quality = $this->config->get('assets.images.quality');
+        $quality = $quality ?? $this->config->get('assets.images.quality');
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x", "q$quality"]);
         if (!$cache->has($cacheKey)) {
@@ -463,6 +463,7 @@ class Asset implements \ArrayAccess
                 (string) $this->config->get('assets.target'),
                 (string) $this->config->get('assets.images.resize.dir'),
                 (string) $width,
+                (string) $quality,
                 $assetResized->data['path']
             );
 
