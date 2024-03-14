@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.8.2](https://github.com/Cecilapp/Cecil/compare/8.8.1...8.8.2)
+
+> 14 March 2024
+
+- perf: cache WebP conversion [`#1925`](https://github.com/Cecilapp/Cecil/pull/1925)
+
 #### [8.8.1](https://github.com/Cecilapp/Cecil/compare/8.8.0...8.8.1)
 
 > 13 March 2024
