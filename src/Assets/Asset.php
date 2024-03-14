@@ -508,12 +508,19 @@ class Asset implements \ArrayAccess
             return $assetWebp; // returns the asset with the new extension ('webp') only: CDN do the rest of the job
         }
 
-        $img = ImageManager::make($assetWebp['content']);
-        $assetWebp['content'] = (string) $img->encode($format, $quality);
-        $img->destroy();
-        $assetWebp['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
-        $assetWebp['subtype'] = "image/$format";
-        $assetWebp['size'] = \strlen($assetWebp['content']);
+        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
+        $cacheKey = $cache->createKeyFromAsset($assetWebp, ["q$quality"]);
+        if (!$cache->has($cacheKey)) {
+            $img = ImageManager::make($assetWebp['content']);
+            $assetWebp['content'] = (string) $img->encode($format, $quality);
+            $img->destroy();
+            $assetWebp['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
+            $assetWebp['subtype'] = "image/$format";
+            $assetWebp['size'] = \strlen($assetWebp['content']);
+
+            $cache->set($cacheKey, $assetWebp->data);
+        }
+        $assetWebp->data = $cache->get($cacheKey);
 
         return $assetWebp;
     }
