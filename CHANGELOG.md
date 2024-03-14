@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.8.1](https://github.com/Cecilapp/Cecil/compare/8.8.0...8.8.1)
+
+> 13 March 2024
+
+- fix: image placeholder [`d6b03ea`](https://github.com/Cecilapp/Cecil/commit/d6b03eac19ce0d72e7521fcebf248f35abaf9acb)
+
+#### [8.8.0](https://github.com/Cecilapp/Cecil/compare/8.7.11...8.8.0)
+
+> 13 March 2024
+
+- feat: image placeholder in page body [`a950fdc`](https://github.com/Cecilapp/Cecil/commit/a950fdc495f16d33363cae2fc3ab60aad17e27a3)
+
+#### [8.7.11](https://github.com/Cecilapp/Cecil/compare/8.7.10...8.7.11)
+
+> 13 March 2024
+
+- chore(deps-dev): bump phpstan/phpstan from 1.10.60 to 1.10.61 [`#1924`](https://github.com/Cecilapp/Cecil/pull/1924)
+- chore: update deps [`e857f9e`](https://github.com/Cecilapp/Cecil/commit/e857f9ee17dea5a07a5ad301b4cc97783baa48ec)
+- docs: update Image CDN configuration details [`86d0689`](https://github.com/Cecilapp/Cecil/commit/86d06890bca75e60fcd3f6bd2afc9b4b5feca6bc)
+- fix: image resize in page body [`6d0ba08`](https://github.com/Cecilapp/Cecil/commit/6d0ba08f2c6789d533989838ad187b70a2049da6)
+
 #### [8.7.10](https://github.com/Cecilapp/Cecil/compare/8.7.9...8.7.10)
 
 > 9 March 2024
