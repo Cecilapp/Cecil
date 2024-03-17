@@ -94,6 +94,7 @@ class Image
 
         $assetColor = clone $asset;
         $assetColor = $assetColor->resize(100);
+        ImageManager::configure(['driver' => 'imagick']);
         $img = ImageManager::make($assetColor['content']);
         $color = $img->limitColors(1)->pickColor(0, 0, 'hex');
         $img->destroy();
@@ -114,6 +115,7 @@ class Image
 
         $assetLqip = clone $asset;
         $assetLqip = $assetLqip->resize(100);
+        ImageManager::configure(['driver' => 'imagick']);
 
         return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
     }

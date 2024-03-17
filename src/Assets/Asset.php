@@ -451,6 +451,7 @@ class Asset implements \ArrayAccess
             }
 
             try {
+                ImageManager::configure(['driver' => 'imagick']);
                 $img = ImageManager::make($assetResized->data['content_source'])->encode($assetResized->data['ext']);
                 $img->resize($width, null, function (\Intervention\Image\Constraint $constraint) {
                     $constraint->aspectRatio();
@@ -511,6 +512,7 @@ class Asset implements \ArrayAccess
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($assetWebp, ["q$quality"]);
         if (!$cache->has($cacheKey)) {
+            ImageManager::configure(['driver' => 'imagick']);
             $img = ImageManager::make($assetWebp['content']);
             $assetWebp['content'] = (string) $img->encode($format, $quality);
             $img->destroy();
@@ -610,6 +612,8 @@ class Asset implements \ArrayAccess
     public function dataurl(): string
     {
         if ($this->data['type'] == 'image' && !$this->isSVG()) {
+            ImageManager::configure(['driver' => 'imagick']);
+
             return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
         }
 
