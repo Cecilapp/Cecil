@@ -71,6 +71,8 @@
         <pre>site.page('about', 'fr').title</pre>
       </p>
       <p>
+        {% if site.page('about', 'fr') is defined and site.page('about', 'fr') is not null %}
         {{ site.page('about', 'fr').title }}
+        {% endif %}
       </p>
 {% endblock content %}

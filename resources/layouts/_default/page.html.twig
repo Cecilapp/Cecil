@@ -52,6 +52,22 @@
       nav a:hover:not(main) {
         text-decoration: underline;
       }
+      nav.breadcrumb ol {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      nav.breadcrumb li {
+        margin: 0;
+        font-size: 0.875rem;
+      }
+      nav.breadcrumb li:not(:last-child)::after {
+        margin: .25rem;
+        content: "›";
+        opacity: .5;
+      }
       main header {
         background: unset;
         border-bottom: unset;
@@ -157,6 +173,7 @@
       {%- endblock header ~%}
     </header>
     <main>
+      {%- include 'partials/breadcrumb.html.twig' with {page: page} only ~%}
       {%- block content ~%}
       {{ page.content }}
       {%- endblock content ~%}
