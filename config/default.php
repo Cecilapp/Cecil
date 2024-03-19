@@ -113,6 +113,12 @@ return [
                         'ext' => ['mp3'], // supported audio file types, extensions
                     ],
                 ],
+                'external' => [
+                    'blank'      => false, // if true open external link in new tab
+                    'noopener'   => true,  // add "noopener" to `rel`  attribute
+                    'noreferrer' => true,  // add "noreferrer" to `rel`  attribute
+                    'nofollow'   => true,  // add "nofollow" to `rel`  attribute
+                ]
             ],
             'excerpt' => [
                 'separator' => 'excerpt|break', // string to use as separator (`excerpt|break` by default)
