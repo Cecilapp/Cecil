@@ -102,6 +102,26 @@ class Parsedown extends \ParsedownToC
             return $link;
         }
 
+        // External link
+        if (str_starts_with($link['element']['attributes']['href'], 'http') && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl'))) {
+            if ($this->config->get('pages.body.links.external.blank') ?? false) {
+                $link['element']['attributes']['target'] = '_blank';
+            }
+            if (!\array_key_exists('rel', $link['element']['attributes'])) {
+                $link['element']['attributes']['rel'] = '';
+            }
+            if ($this->config->get('pages.body.links.external.noopener') ?? true) {
+                $link['element']['attributes']['rel'] .= ' noopener';
+            }
+            if ($this->config->get('pages.body.links.external.noreferrer') ?? true) {
+                $link['element']['attributes']['rel'] .= ' noreferrer';
+            }
+            if ($this->config->get('pages.body.links.external.nofollow') ?? true) {
+                $link['element']['attributes']['rel'] .= ' nofollow';
+            }
+            $link['element']['attributes']['rel'] = trim($link['element']['attributes']['rel']);
+        }
+
         /*
          * Embed link?
          */

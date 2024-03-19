@@ -197,6 +197,18 @@ _Example:_
 [Link to a blog post](page:blog/post-1)
 ```
 
+#### External
+
+By default external links have the following value for `rel` attribute: "noopener noreferrer nofollow".
+
+_Example:_
+
+```html
+<a href="<url>" rel="noopener noreferrer nofollow">Link to another website</a>
+```
+
+You can change this behavior with [`pages.body.links.external` options](4-Configuration.md#body).
+
 #### Embedded links
 
 You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `pages.body.links.embed.enabled` to `true`.
