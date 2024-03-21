@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.9.0](https://github.com/Cecilapp/Cecil/compare/8.8.2...8.9.0)
+
+> 19 March 2024
+
+- feat: add attributes to external links [`#1928`](https://github.com/Cecilapp/Cecil/pull/1928)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.62 to 1.10.63 [`#1927`](https://github.com/Cecilapp/Cecil/pull/1927)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.51.0 to 3.52.0 [`#1926`](https://github.com/Cecilapp/Cecil/pull/1926)
+- chore: update deps [`6d169a5`](https://github.com/Cecilapp/Cecil/commit/6d169a5bdd4b24123e4d6ff14a0f815d60d75bae)
+- ci: memory limit [`ffcdd9f`](https://github.com/Cecilapp/Cecil/commit/ffcdd9f29be9c2cbd8158024a8b3fce5ecddc9cc)
+
 #### [8.8.2](https://github.com/Cecilapp/Cecil/compare/8.8.1...8.8.2)
 
 > 14 March 2024
