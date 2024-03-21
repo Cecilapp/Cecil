@@ -2,5 +2,6 @@
   {%- for alternate in page.translations ~%}
     <link rel="alternate" hreflang="{{ alternate.language }}" href="{{ url(alternate, {canonical: true}) }}" />
   {%- endfor ~%}
-    <link rel="alternate" hreflang="x-default" href="{{ url(page, {canonical: true}) }}" />
+    {#- default language ~#}
+    <link rel="alternate" hreflang="x-default" href="{{ url(page.path, {language: config.language, canonical: true}) }}" />
 {%- endif -%}
