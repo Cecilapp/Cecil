@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.9.1](https://github.com/Cecilapp/Cecil/compare/8.9.0...8.9.1)
+
+> 21 March 2024
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.52.0 to 3.52.1 [`#1929`](https://github.com/Cecilapp/Cecil/pull/1929)
+- refactor: template url function [`12ab491`](https://github.com/Cecilapp/Cecil/commit/12ab49171f20cb5011c96c896fa197239c679138)
+- fix: alternate x-default language [`71b80d0`](https://github.com/Cecilapp/Cecil/commit/71b80d0a0cacb1e61508208cf444c4d932cef354)
+
 #### [8.9.0](https://github.com/Cecilapp/Cecil/compare/8.8.2...8.9.0)
 
 > 19 March 2024
