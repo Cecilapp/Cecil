@@ -521,8 +521,8 @@ class Core extends SlugifyExtension
                 $htmlAttributes .= sprintf(' srcset="%s"', $srcset);
                 $sizes = Image::getSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
                 $htmlAttributes .= sprintf(' sizes="%s"', $sizes);
-                if ($asset['width'] > max($this->config->getAssetsImagesSizes())) {
-                    $asset->resize(max($this->config->getAssetsImagesSizes()));
+                if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
+                    $asset->resize(max($this->config->getAssetsImagesWidths()));
                 }
             }
 
