@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.9.2](https://github.com/Cecilapp/Cecil/compare/8.9.1...8.9.2)
+
+> 10 April 2024
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.52.1 to 3.53.0 [`#1945`](https://github.com/Cecilapp/Cecil/pull/1945)
+- chore(deps-dev): bump phpunit/phpunit from 9.6.18 to 9.6.19 [`#1943`](https://github.com/Cecilapp/Cecil/pull/1943)
+- chore(deps): bump symfony/validator from 6.4.4 to 6.4.6 [`#1942`](https://github.com/Cecilapp/Cecil/pull/1942)
+- chore(deps): bump symfony/property-access from 6.4.4 to 6.4.6 [`#1941`](https://github.com/Cecilapp/Cecil/pull/1941)
+- chore(deps): bump symfony/twig-bridge from 6.4.4 to 6.4.6 [`#1940`](https://github.com/Cecilapp/Cecil/pull/1940)
+- chore(deps): bump symfony/serializer from 6.4.4 to 6.4.6 [`#1939`](https://github.com/Cecilapp/Cecil/pull/1939)
+- chore(deps): bump symfony/config from 6.4.4 to 6.4.6 [`#1937`](https://github.com/Cecilapp/Cecil/pull/1937)
+- chore(deps): bump symfony/console from 6.4.4 to 6.4.6 [`#1936`](https://github.com/Cecilapp/Cecil/pull/1936)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.9.0 to 3.9.1 [`#1935`](https://github.com/Cecilapp/Cecil/pull/1935)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.65 to 1.10.66 [`#1934`](https://github.com/Cecilapp/Cecil/pull/1934)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.64 to 1.10.65 [`#1933`](https://github.com/Cecilapp/Cecil/pull/1933)
+- chore(deps-dev): bump phpunit/phpunit from 9.6.17 to 9.6.18 [`#1932`](https://github.com/Cecilapp/Cecil/pull/1932)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.63 to 1.10.64 [`#1930`](https://github.com/Cecilapp/Cecil/pull/1930)
+- chore: update deps [`7eb037e`](https://github.com/Cecilapp/Cecil/commit/7eb037e3363c40ef4fc4f70a1cc626c1f71d6ecf)
+- fix: responsive image widths [`6afa068`](https://github.com/Cecilapp/Cecil/commit/6afa0685900b99b4e7a626be6ee98eff5c7bb10f)
+- refactor: more code comments [`9101c03`](https://github.com/Cecilapp/Cecil/commit/9101c03b1b368b0284b4c2b81195c2bf3ec500fe)
+
 #### [8.9.1](https://github.com/Cecilapp/Cecil/compare/8.9.0...8.9.1)
 
 > 21 March 2024
