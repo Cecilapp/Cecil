@@ -282,15 +282,14 @@ class Parsedown extends \ParsedownToC
         if (
             (bool) $this->config->get('pages.body.images.resize.enabled')
             && isset($InlineImage['element']['attributes']['width'])
-            && (int) $InlineImage['element']['attributes']['width'] < $width
+            && $width > (int) $InlineImage['element']['attributes']['width']
         ) {
             $shouldResize = true;
             $width = (int) $InlineImage['element']['attributes']['width'];
         }
         if (
-            !$shouldResize
-            && (bool) $this->config->get('body.images.responsive.enabled')
-            && max($this->config->getAssetsImagesWidths()) < $width
+            (bool) $this->config->get('pages.body.images.responsive.enabled')
+            && $width > max($this->config->getAssetsImagesWidths())
         ) {
             $shouldResize = true;
             $width = max($this->config->getAssetsImagesWidths());
@@ -307,13 +306,9 @@ class Parsedown extends \ParsedownToC
         }
 
         // set width
-        if (!isset($InlineImage['element']['attributes']['width'])) {
-            $InlineImage['element']['attributes']['width'] = $width;
-        }
+        $InlineImage['element']['attributes']['width'] = $width;
         // set height
-        if (!isset($InlineImage['element']['attributes']['height'])) {
-            $InlineImage['element']['attributes']['height'] = $assetResized['height'] ?? $asset['height'];
-        }
+        $InlineImage['element']['attributes']['height'] = $assetResized['height'] ?? $asset['height'];
 
         // placeholder
         if (
