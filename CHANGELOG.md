@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.9.3](https://github.com/Cecilapp/Cecil/compare/8.9.2...8.9.3)
+
+> 10 April 2024
+
+- fix: html image responsive resize [`7011553`](https://github.com/Cecilapp/Cecil/commit/7011553773f6d72f48f8e3a3697bcc8236214b04)
+
 #### [8.9.2](https://github.com/Cecilapp/Cecil/compare/8.9.1...8.9.2)
 
 > 10 April 2024
