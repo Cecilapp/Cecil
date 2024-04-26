@@ -257,6 +257,7 @@ A data collection can be accessed via `site.data.<filename>` (without file exten
 _Examples:_
 
 - `data/authors.yml` : `site.data.authors`
+- `data/authors.fr.yml` : `site.data.authors` (if `site.language` = "fr")
 - `data/galleries/gallery-1.json` : `site.data.galleries.gallery-1`
 
 ### page
