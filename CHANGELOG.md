@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.9.4](https://github.com/Cecilapp/Cecil/compare/8.9.3...8.9.4)
+
+> 10 April 2024
+
+- fix: Twig html() function [`ed763b9`](https://github.com/Cecilapp/Cecil/commit/ed763b952cbecb65cdc39b4b4396d4da1a76c7b6)
+
 #### [8.9.3](https://github.com/Cecilapp/Cecil/compare/8.9.2...8.9.3)
 
 > 10 April 2024
