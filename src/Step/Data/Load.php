@@ -113,7 +113,7 @@ class Load extends AbstractStep
             $subpath = trim($subpath, './');
             $array = [];
             $path = !empty($subpath) ? Util::joinFile($subpath, $basename) : $basename;
-            $localizedPath = Util::joinFile($lang, PrefixSuffix::sub($path));
+            $localizedPath = Util::joinFile((string) $lang, PrefixSuffix::sub($path));
             $this->pathToArray($array, $localizedPath, $dataAsArray);
 
             $dataAsArray = array_merge_recursive(
