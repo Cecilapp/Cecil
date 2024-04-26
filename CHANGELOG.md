@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.10.0](https://github.com/Cecilapp/Cecil/compare/8.9.4...8.10.0)
+
+> 26 April 2024
+
+- feat: data file localization [`#1955`](https://github.com/Cecilapp/Cecil/pull/1955)
+- chore(deps): bump twig/twig from 3.9.2 to 3.9.3 [`#1952`](https://github.com/Cecilapp/Cecil/pull/1952)
+- chore(deps): bump twig/twig from 3.9.1 to 3.9.2 [`#1951`](https://github.com/Cecilapp/Cecil/pull/1951)
+- chore(deps): bump twig/intl-extra from 3.9.0 to 3.9.2 [`#1950`](https://github.com/Cecilapp/Cecil/pull/1950)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.53.0 to 3.54.0 [`#1949`](https://github.com/Cecilapp/Cecil/pull/1949)
+- chore(deps): bump twig/twig from 3.8.0 to 3.9.1 [`#1948`](https://github.com/Cecilapp/Cecil/pull/1948)
+- chore(deps): bump twig/intl-extra from 3.8.0 to 3.9.0 [`#1947`](https://github.com/Cecilapp/Cecil/pull/1947)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.66 to 1.10.67 [`#1946`](https://github.com/Cecilapp/Cecil/pull/1946)
+
 #### [8.9.4](https://github.com/Cecilapp/Cecil/compare/8.9.3...8.9.4)
 
 > 10 April 2024
