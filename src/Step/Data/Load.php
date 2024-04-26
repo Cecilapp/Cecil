@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Data;
 
+use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
@@ -100,6 +101,10 @@ class Load extends AbstractStep
                     return;
             }
 
+            $lang = $this->config->getLanguageDefault();
+            if (PrefixSuffix::hasSuffix($file->getBasename('.' . $file->getExtension()))) {
+                $lang = PrefixSuffix::getSuffix($file->getBasename('.' . $file->getExtension()));
+            }
             $basename = $file->getBasename('.' . $file->getExtension());
             $subpath = \Cecil\Util\File::getFS()->makePathRelative(
                 $file->getPath(),
@@ -108,7 +113,8 @@ class Load extends AbstractStep
             $subpath = trim($subpath, './');
             $array = [];
             $path = !empty($subpath) ? Util::joinFile($subpath, $basename) : $basename;
-            $this->pathToArray($array, $path, $dataAsArray);
+            $localizedPath = Util::joinFile((string) $lang, PrefixSuffix::sub($path));
+            $this->pathToArray($array, $localizedPath, $dataAsArray);
 
             $dataAsArray = array_merge_recursive(
                 $this->builder->getData(),
@@ -117,6 +123,7 @@ class Load extends AbstractStep
             $this->builder->setData($dataAsArray);
 
             $message = sprintf('File "%s.%s" loaded', Util::joinFile($path), $file->getExtension());
+            //$message = sprintf('File "%s" loaded', $file->getBasename());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

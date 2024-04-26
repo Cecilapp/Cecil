@@ -77,7 +77,7 @@ class Site implements \ArrayAccess
             case 'taxonomies':
                 return $this->builder->getTaxonomies($this->language);
             case 'data':
-                return $this->builder->getData();
+                return $this->builder->getData($this->language);
             case 'static':
                 return $this->builder->getStatic();
             case 'language':
