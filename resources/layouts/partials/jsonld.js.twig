@@ -84,6 +84,18 @@
             {%- if author.url|default('') is not empty ~%},
             "url": "{{ author.url }}"
             {%- endif ~%}
+            {%- if author.image|default('') is not empty ~%},
+            "image": "{{ author.image }}"
+            {%- endif ~%}
+            {%- if author.title|default('') is not empty ~%},
+            "jobTitle": "{{ author.title }}"
+            {%- endif ~%}
+            {%- if author.email|default('') is not empty ~%},
+            "email": "{{ author.email }}"
+            {%- endif ~%}
+            {%- if author.telephone|default('') is not empty ~%},
+            "telephone": "{{ author.telephone }}"
+            {%- endif ~%}
           },
           {%- endif ~%}
           "publisher": {
