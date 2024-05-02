@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.11.0](https://github.com/Cecilapp/Cecil/compare/8.10.0...8.11.0)
+
+> 2 May 2024
+
+- chore(deps): bump symfony/config from 6.4.6 to 6.4.7 [`#1965`](https://github.com/Cecilapp/Cecil/pull/1965)
+- chore(deps): bump symfony/translation from 6.4.4 to 6.4.7 [`#1964`](https://github.com/Cecilapp/Cecil/pull/1964)
+- chore(deps): bump symfony/twig-bridge from 6.4.6 to 6.4.7 [`#1962`](https://github.com/Cecilapp/Cecil/pull/1962)
+- chore(deps): bump symfony/serializer from 6.4.6 to 6.4.7 [`#1961`](https://github.com/Cecilapp/Cecil/pull/1961)
+- chore(deps): bump symfony/validator from 6.4.6 to 6.4.7 [`#1960`](https://github.com/Cecilapp/Cecil/pull/1960)
+- chore(deps): bump symfony/finder from 6.4.0 to 6.4.7 [`#1959`](https://github.com/Cecilapp/Cecil/pull/1959)
+- chore(deps): bump symfony/yaml from 6.4.3 to 6.4.7 [`#1957`](https://github.com/Cecilapp/Cecil/pull/1957)
+- chore: update deps [`7433a6e`](https://github.com/Cecilapp/Cecil/commit/7433a6e152e7894d8ebd7ba3e340738fdc351ce9)
+- feat: better JSON LD schema [`9d69e14`](https://github.com/Cecilapp/Cecil/commit/9d69e148a99d74cb90d4315bbaa50ed4916e0e62)
+- chore: cleaning code [`1e337f5`](https://github.com/Cecilapp/Cecil/commit/1e337f5531bbe55d6bb414e45b74246a71d186c8)
+
 #### [8.10.0](https://github.com/Cecilapp/Cecil/compare/8.9.4...8.10.0)
 
 > 26 April 2024
