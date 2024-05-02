@@ -49,20 +49,20 @@
     "symfony/validator": "^6.4",
     "symfony/var-dumper": "^6.4",
     "symfony/yaml": "^6.4",
-    "twig/intl-extra": "^3.8",
-    "twig/twig": "^3.8",
+    "twig/intl-extra": "^3.9",
+    "twig/twig": "^3.9",
     "voku/html-min": "^4.5",
     "wapmorgan/mp3info": "^0.1",
     "yosymfony/toml": "^1.0"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.42",
-    "friendsofphp/php-cs-fixer": "^3.49",
+    "friendsofphp/php-cs-fixer": "^3.54",
     "humbug/box": "^4.5",
     "phpmd/phpmd": "^2.15",
     "phpstan/phpstan": "^1.10",
     "phpunit/phpunit": "^9.6",
-    "squizlabs/php_codesniffer": "^3.8"
+    "squizlabs/php_codesniffer": "^3.9"
   },
   "provide": {
     "psr/log-implementation": "3.0",
