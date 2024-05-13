@@ -1,5 +1,9 @@
 {% extends ['page.html.twig', '_default/page.html.twig'] %}
 
       {%- block content ~%}
-      {% trans %}Page not found.{% endtrans %}
+      {%- if page.content is not empty ~%}
+      {{- page.content ~}}
+      {%- else ~%}
+      {%- trans %}Page not found.{% endtrans ~%}
+      {%- endif ~%}
       {%- endblock ~%}
