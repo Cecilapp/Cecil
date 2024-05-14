@@ -105,7 +105,12 @@ class File
         );
 
         try {
-            return exif_read_data($filename, null, true);
+            $exif = exif_read_data($filename, null, true);
+            if ($exif === false) {
+                return [];
+            }
+
+            return $exif;
         } catch (\ErrorException) {
             return [];
         } finally {

@@ -78,7 +78,9 @@ class Load extends AbstractStep
             $staticFiles[$count]['name'] = $file->getBasename();
             $staticFiles[$count]['basename'] = $file->getBasename('.' . $file->getExtension());
             $staticFiles[$count]['ext'] = $file->getExtension();
-            if ($subtype == 'jpeg') {
+            $staticFiles[$count]['type'] = $type;
+            $staticFiles[$count]['subtype'] = $subtype;
+            if ($subtype == 'image/jpeg') {
                 $staticFiles[$count]['exif'] = Util\File::readExif($file->getRealPath());
             }
             if ($type == 'audio') {
