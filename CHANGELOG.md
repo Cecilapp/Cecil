@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.0](https://github.com/Cecilapp/Cecil/compare/8.11.0...8.12.0)
+
+> 13 May 2024
+
+- chore(deps): bump twig/twig from 3.9.3 to 3.10.1 [`#1973`](https://github.com/Cecilapp/Cecil/pull/1973)
+- chore(deps-dev): bump phpstan/phpstan from 1.10.67 to 1.11.0 [`#1972`](https://github.com/Cecilapp/Cecil/pull/1972)
+- chore(deps): bump twig/intl-extra from 3.9.2 to 3.10.0 [`#1971`](https://github.com/Cecilapp/Cecil/pull/1971)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.56.0 to 3.56.1 [`#1970`](https://github.com/Cecilapp/Cecil/pull/1970)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.55.0 to 3.56.0 [`#1968`](https://github.com/Cecilapp/Cecil/pull/1968)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.54.0 to 3.55.0 [`#1967`](https://github.com/Cecilapp/Cecil/pull/1967)
+- chore(deps): bump spatie/image-optimizer from 1.7.2 to 1.7.4 [`#1966`](https://github.com/Cecilapp/Cecil/pull/1966)
+- chore: update default FR translation [`35e641c`](https://github.com/Cecilapp/Cecil/commit/35e641c730bead7655770cf2c54f32cb5b29b866)
+- chore: update deps [`864d0ea`](https://github.com/Cecilapp/Cecil/commit/864d0ea5d60697f5a19b81db435334d5a6959ee4)
+- refactor: enhance default 404 template [`f5fd320`](https://github.com/Cecilapp/Cecil/commit/f5fd320136570f79c9495b789ef73849c925cfd7)
+
 #### [8.11.0](https://github.com/Cecilapp/Cecil/compare/8.10.0...8.11.0)
 
 > 2 May 2024
