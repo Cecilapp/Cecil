@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.2](https://github.com/Cecilapp/Cecil/compare/8.12.1...8.12.2)
+
+> 15 May 2024
+
+- chore: update deps [`6caa97e`](https://github.com/Cecilapp/Cecil/commit/6caa97eb0fc1f54bed2aefee03a7c25f1cc4cc0d)
+- refactor: add image width to webp asset cache key [`e0dd13c`](https://github.com/Cecilapp/Cecil/commit/e0dd13ccc5b2f5bef888567b9fd6cc0720ee760d)
+
 #### [8.12.1](https://github.com/Cecilapp/Cecil/compare/8.12.0...8.12.1)
 
 > 14 May 2024
