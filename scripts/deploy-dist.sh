@@ -4,10 +4,10 @@ set -e
 # Deploy releases files to website
 
 # params
-REF=$(echo $GITHUB_REF | cut -d'/' -f 3)
+VERSION=$(echo $GITHUB_REF | cut -d'/' -f 3)
 TARGET_REPO="Cecilapp/website"
 TARGET_BRANCH="master"
-TARGET_RELEASE_DIR="download/$REF"
+TARGET_RELEASE_DIR="download/$VERSION"
 TARGET_DIST_DIR="static"
 DIST_FILE="cecil.phar"
 DIST_FILE_SHA1="cecil.phar.sha1"
@@ -42,11 +42,11 @@ cd ../..
 
 # create VERSION file
 [ -e VERSION ] && rm -- VERSION
-echo $REF > VERSION
+echo $VERSION > VERSION
 
 # create Scoop manifest
-rm -f SCOOP_FILE_JSON
-cat <<EOT >> SCOOP_FILE_JSON
+rm -f $SCOOP_FILE_JSON
+cat <<EOT >> $SCOOP_FILE_JSON
 {
   "description": "Your content driven static site generator.",
   "homepage": "https://cecil.app",
@@ -55,8 +55,8 @@ cat <<EOT >> SCOOP_FILE_JSON
   "suggest": {
     "PHP": ["php"]
   },
-  "url": "https://cecil.app/download/$REF/cecil.phar",
-  "version": "$REF",
+  "url": "https://cecil.app/download/$VERSION/cecil.phar",
+  "version": "$VERSION",
   "hash": "sha1:$sha1hash",
   "checkver": {
     "url": "https://cecil.app/VERSION",
