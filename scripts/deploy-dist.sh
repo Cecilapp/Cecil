@@ -63,9 +63,9 @@ cat <<EOT >> $SCOOP_FILE_JSON
     "regex": "([\\d.]+)"
   },
   "autoupdate": {
-    "url": "https://cecil.app/download/$version/cecil.phar",
+    "url": "https://cecil.app/download/\$version/cecil.phar",
     "hash": {
-      "url": "$url.sha1"
+      "url": "\$url.sha1"
     }
   }
 }
