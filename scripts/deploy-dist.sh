@@ -11,6 +11,7 @@ TARGET_RELEASE_DIR="download/$REF"
 TARGET_DIST_DIR="static"
 DIST_FILE="cecil.phar"
 DIST_FILE_SHA1="cecil.phar.sha1"
+SCOOP_FILE_JSON="scoop.json"
 TARGET_PAGES_DIR="pages"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
@@ -35,11 +36,40 @@ cp $HOME/$DIST_FILE $TARGET_RELEASE_DIR/$DIST_FILE
 # .sha1
 cd $TARGET_RELEASE_DIR
 sha1sum $DIST_FILE > $DIST_FILE_SHA1
+sha1hash=$(sha1sum $DIST_FILE)
+sha1hash=${sha1hash%% *}
 cd ../..
 
 # create VERSION file
 [ -e VERSION ] && rm -- VERSION
 echo $REF > VERSION
+
+# create Scoop manifest
+rm -f SCOOP_FILE_JSON
+cat <<EOT >> SCOOP_FILE_JSON
+{
+  "description": "Your content driven static site generator.",
+  "homepage": "https://cecil.app",
+  "license": "MIT",
+  "bin": "$DIST_FILE",
+  "suggest": {
+    "PHP": ["php"]
+  },
+  "url": "https://cecil.app/download/$REF/cecil.phar",
+  "version": "$REF",
+  "hash": "sha1:$sha1hash",
+  "checkver": {
+    "url": "https://cecil.app/VERSION",
+    "regex": "([\\d.]+)"
+  },
+  "autoupdate": {
+    "url": "https://cecil.app/download/$version/cecil.phar",
+    "hash": {
+      "url": "$url.sha1"
+    }
+  }
+}
+EOT
 
 # create website redirections files
 now=$(date +"%Y-%m-%d")
