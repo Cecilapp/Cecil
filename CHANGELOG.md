@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.3](https://github.com/Cecilapp/Cecil/compare/8.12.2...8.12.3)
+
+> 15 May 2024
+
+- ci: create Scoop manifest file [`3233db2`](https://github.com/Cecilapp/Cecil/commit/3233db20f1670a37b870af8591d6a7f8762fd4a0)
+- chore: cleaning deploy script [`e3e7662`](https://github.com/Cecilapp/Cecil/commit/e3e7662fcac22a5f43149b1bf41aa8709fee85f9)
+
 #### [8.12.2](https://github.com/Cecilapp/Cecil/compare/8.12.1...8.12.2)
 
 > 15 May 2024
