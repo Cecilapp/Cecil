@@ -509,7 +509,11 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $cacheKey = $cache->createKeyFromAsset($assetWebp, ["q$quality"]);
+        $tags = ["q$quality"];
+        if ($this->data['width']) {
+            array_unshift($tags, "{$this->data['width']}x");
+        }
+        $cacheKey = $cache->createKeyFromAsset($assetWebp, $tags);
         if (!$cache->has($cacheKey)) {
             $img = ImageManager::make($assetWebp['content']);
             $assetWebp['content'] = (string) $img->encode($format, $quality);
