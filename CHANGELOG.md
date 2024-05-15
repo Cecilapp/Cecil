@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.1](https://github.com/Cecilapp/Cecil/compare/8.12.0...8.12.1)
+
+> 14 May 2024
+
+- fix: static files exif read [`62d0f17`](https://github.com/Cecilapp/Cecil/commit/62d0f178aa1cef917eaa640db3f9bba2a9f4c374)
+
 #### [8.12.0](https://github.com/Cecilapp/Cecil/compare/8.11.0...8.12.0)
 
 > 13 May 2024
