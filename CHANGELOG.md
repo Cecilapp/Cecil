@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.4](https://github.com/Cecilapp/Cecil/compare/8.12.3...8.12.4)
+
+> 15 May 2024
+
+- ci: fix variables [`2845541`](https://github.com/Cecilapp/Cecil/commit/284554121a945a5b8e66595743c675309a6f568c)
+
 #### [8.12.3](https://github.com/Cecilapp/Cecil/compare/8.12.2...8.12.3)
 
 > 15 May 2024
