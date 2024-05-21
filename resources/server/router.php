@@ -52,6 +52,7 @@ $filename = $_SERVER['DOCUMENT_ROOT'] . $path;
 // HTTP response: 404
 if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SERVER['DOCUMENT_ROOT'])) !== 0) || !file_exists($filename) || is_dir($filename)) {
     http_response_code(404);
+
     // favicon.ico
     if ($path == '/favicon.ico') {
         header('Content-Type: image/vnd.microsoft.icon');
@@ -59,8 +60,23 @@ if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SER
         return logger(false);
     }
 
-    // 404.html exists?
-    if (!file_exists($_SERVER['DOCUMENT_ROOT'] . ERROR_404)) {
+    // is 404.html exists?
+    $path404 = '';
+    $subDir = '';
+    if (file_exists($_SERVER['DOCUMENT_ROOT'] . ERROR_404)) {
+        $path404 = ERROR_404;
+    }
+    // is 404.html exists in a (language) sub dir?
+    $pathAsArray = explode('/', $path);
+    if (count($pathAsArray) > 2) {
+        $subDir = '/' . $pathAsArray[1];
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . $subDir . ERROR_404)) {
+            $path404 = $subDir . ERROR_404;
+        }
+    }
+
+    // default 404 page
+    if (empty($path404)) {
         echo <<<END
         <!doctype html>
         <html>
@@ -84,8 +100,9 @@ if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SER
 
         return logger(true);
     }
-    $path = ERROR_404;
-    $filename = $_SERVER['DOCUMENT_ROOT'] . ERROR_404;
+
+    $path = $path404;
+    $filename = $_SERVER['DOCUMENT_ROOT'] . $path404;
 }
 
 // HTTP response: 200
