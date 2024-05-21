@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.6](https://github.com/Cecilapp/Cecil/compare/8.12.5...8.12.6)
+
+> 21 May 2024
+
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.9.2 to 3.10.0 [`#1978`](https://github.com/Cecilapp/Cecil/pull/1978)
+- chore(deps): bump twig/twig from 3.10.2 to 3.10.3 [`#1977`](https://github.com/Cecilapp/Cecil/pull/1977)
+- chore(deps): bump spatie/image-optimizer from 1.7.4 to 1.7.5 [`#1975`](https://github.com/Cecilapp/Cecil/pull/1975)
+- chore: update deps [`326aa2f`](https://github.com/Cecilapp/Cecil/commit/326aa2f7bb0362da26feb8f774f98b1379f98fb4)
+- fix: custom 404 error page with multiple languages [`7eb0547`](https://github.com/Cecilapp/Cecil/commit/7eb0547f6eae5633e4335b6cb55768ac5840d3f9)
+- refactor: update comments in router.php [`dc8eeae`](https://github.com/Cecilapp/Cecil/commit/dc8eeaec4646af4f361e6fa543518d4ffae9d522)
+
 #### [8.12.5](https://github.com/Cecilapp/Cecil/compare/8.12.4...8.12.5)
 
 > 15 May 2024
