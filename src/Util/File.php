@@ -105,7 +105,7 @@ class File
         );
 
         try {
-            if (!function_exists('exif_read_data')) {
+            if (!\function_exists('exif_read_data')) {
                 throw new \ErrorException('`exif` extension is not available.');
             }
             $exif = exif_read_data($filename, null, true);
