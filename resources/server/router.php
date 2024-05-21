@@ -27,7 +27,7 @@ $mediaSubtypeText = ['javascript', 'xml', 'json', 'ld+json', 'csv'];
 
 $path = htmlspecialchars(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
 
-// watcher (called by 'livereload.js')
+// watcher (called by `livereload.js`)
 if ($path == '/watcher') {
     header("Content-Type: text/event-stream\n\n");
     header('Cache-Control: no-cache');
@@ -41,7 +41,7 @@ if ($path == '/watcher') {
     exit;
 }
 
-// 'path' or 'path/' = 'path/index.html'?
+// `path` or `path/` are converted to `path/index.html`
 if ((empty(pathinfo($path, PATHINFO_EXTENSION)) || $path[-1] == '/') && file_exists($_SERVER['DOCUMENT_ROOT'] . rtrim($path, '/') . DIRECTORY_INDEX)) {
     $path = rtrim($path, '/') . DIRECTORY_INDEX;
 }
