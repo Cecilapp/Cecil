@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.5](https://github.com/Cecilapp/Cecil/compare/8.12.4...8.12.5)
+
+> 15 May 2024
+
+- ci: fix deploy script [`eef807b`](https://github.com/Cecilapp/Cecil/commit/eef807b82ec1a8451edb540b354f518e573bc6c0)
+
 #### [8.12.4](https://github.com/Cecilapp/Cecil/compare/8.12.3...8.12.4)
 
 > 15 May 2024
