@@ -5704,16 +5704,16 @@
         },
         {
             "name": "voku/html-min",
-            "version": "4.5.0",
+            "version": "4.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/HtmlMin.git",
-                "reference": "2c79e17121bdce16844b1190423bfe0c9537885b"
+                "reference": "872dac444652d30791ca5d0c23fbe1e6b9cab5bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/2c79e17121bdce16844b1190423bfe0c9537885b",
-                "reference": "2c79e17121bdce16844b1190423bfe0c9537885b",
+                "url": "https://api.github.com/repos/voku/HtmlMin/zipball/872dac444652d30791ca5d0c23fbe1e6b9cab5bc",
+                "reference": "872dac444652d30791ca5d0c23fbe1e6b9cab5bc",
                 "shasum": ""
             },
             "require": {
@@ -5751,7 +5751,7 @@
             ],
             "support": {
                 "issues": "https://github.com/voku/HtmlMin/issues",
-                "source": "https://github.com/voku/HtmlMin/tree/4.5.0"
+                "source": "https://github.com/voku/HtmlMin/tree/4.5.1"
             },
             "funding": [
                 {
@@ -5767,20 +5767,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-06-09T07:37:14+00:00"
+            "time": "2024-05-25T08:01:45+00:00"
         },
         {
             "name": "voku/simple_html_dom",
-            "version": "4.8.8",
+            "version": "4.8.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/simple_html_dom.git",
-                "reference": "9ef90f0280fe16054c117e04ea86617ce0fcdd35"
+                "reference": "e477d316aa0ea9d4d482d9f542af81b617d46ad2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/simple_html_dom/zipball/9ef90f0280fe16054c117e04ea86617ce0fcdd35",
-                "reference": "9ef90f0280fe16054c117e04ea86617ce0fcdd35",
+                "url": "https://api.github.com/repos/voku/simple_html_dom/zipball/e477d316aa0ea9d4d482d9f542af81b617d46ad2",
+                "reference": "e477d316aa0ea9d4d482d9f542af81b617d46ad2",
                 "shasum": ""
             },
             "require": {
@@ -5788,7 +5788,7 @@
                 "ext-libxml": "*",
                 "ext-simplexml": "*",
                 "php": ">=7.0.0",
-                "symfony/css-selector": "~3.0 || ~4.0 || ~5.0 || ~6.0"
+                "symfony/css-selector": "~3.0 || ~4.0 || ~5.0 || ~6.0 || ~7.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
@@ -5828,7 +5828,7 @@
             ],
             "support": {
                 "issues": "https://github.com/voku/simple_html_dom/issues",
-                "source": "https://github.com/voku/simple_html_dom/tree/4.8.8"
+                "source": "https://github.com/voku/simple_html_dom/tree/4.8.9"
             },
             "funding": [
                 {
@@ -5848,7 +5848,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-12T16:15:15+00:00"
+            "time": "2024-05-25T07:52:26+00:00"
         },
         {
             "name": "wapmorgan/mp3info",
