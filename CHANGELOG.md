@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.7](https://github.com/Cecilapp/Cecil/compare/8.12.6...8.12.7)
+
+> 23 May 2024
+
+- fix: checks if exist is not available [`8987596`](https://github.com/Cecilapp/Cecil/commit/89875967ffb632f48998be5914fa59dc04e80dd8)
+
 #### [8.12.6](https://github.com/Cecilapp/Cecil/compare/8.12.5...8.12.6)
 
 > 21 May 2024
