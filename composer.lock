@@ -553,27 +553,35 @@
         },
         {
             "name": "benjaminhoegh/parsedown-toc",
-            "version": "1.4.3",
+            "version": "v1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BenjaminHoegh/ParsedownToc.git",
-                "reference": "31550a0c9151a1428b199335e31bea8344745879"
+                "reference": "1d3fb7b103b3cda137bfe6c8909b81e72916b58d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenjaminHoegh/ParsedownToc/zipball/31550a0c9151a1428b199335e31bea8344745879",
-                "reference": "31550a0c9151a1428b199335e31bea8344745879",
+                "url": "https://api.github.com/repos/BenjaminHoegh/ParsedownToc/zipball/1d3fb7b103b3cda137bfe6c8909b81e72916b58d",
+                "reference": "1d3fb7b103b3cda137bfe6c8909b81e72916b58d",
                 "shasum": ""
             },
             "require": {
                 "erusev/parsedown": "^1.7",
-                "php": ">=7.1.0"
+                "erusev/parsedown-extra": "^0.8.1",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "9.6.16",
+                "vimeo/psalm": ">=5.21.1"
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "ParsedownToc.php"
-                ]
+                "psr-0": {
+                    "": [
+                        "src/",
+                        "tests/"
+                    ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -595,7 +603,7 @@
             ],
             "support": {
                 "issues": "https://github.com/BenjaminHoegh/ParsedownToc/issues",
-                "source": "https://github.com/BenjaminHoegh/ParsedownToc/tree/1.4.3"
+                "source": "https://github.com/BenjaminHoegh/ParsedownToc/tree/v1.5.3"
             },
             "funding": [
                 {
@@ -607,7 +615,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-01-18T11:20:41+00:00"
+            "time": "2024-02-03T19:37:23+00:00"
         },
         {
             "name": "cecil/resource-watcher",
