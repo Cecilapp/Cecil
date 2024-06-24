@@ -22,7 +22,7 @@
     "ext-fileinfo": "*",
     "ext-gd": "*",
     "ext-mbstring": "*",
-    "benjaminhoegh/parsedown-toc": "~1.4.3",
+    "benjaminhoegh/parsedown-toc": "1.4.3",
     "cecil/resource-watcher": "^4.0",
     "clwu/php-read-mp4info": "^2.0",
     "cocur/slugify": "^4.5",
