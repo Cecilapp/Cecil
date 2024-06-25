@@ -19,6 +19,122 @@ use Intervention\Image\ImageManagerStatic as ImageManager;
 class Image
 {
     /**
+     * Resize an image Asset.
+     *
+     * @throws RuntimeException
+     */
+    public static function resize(Asset $asset, int $width, int $quality): string
+    {
+        try {
+            // is image Asset?
+            if ($asset['type'] !== 'image') {
+                throw new RuntimeException(sprintf('Not an image.'));
+            }
+            // is GD is installed
+            if (!\extension_loaded('gd')) {
+                throw new RuntimeException('GD extension is required.');
+            }
+            // creates image object from source
+            $image = ImageManager::make($asset['content_source']);
+            // resizes to $width with constraint the aspect-ratio and unwanted upsizing
+            $image->resize($width, null, function (\Intervention\Image\Constraint $constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            // interlaces (PNG) or progressives (JPEG) image
+            $image->interlace();
+            // save image in extension format and given quality
+            $imageAsString = (string) $image->encode($asset['ext'], $quality);
+            // destroy image object
+            $image->destroy();
+
+            return $imageAsString;
+        } catch (\Exception $e) {
+            throw new RuntimeException(sprintf('Not able to resize "%s": %s', $asset['path'], $e->getMessage()));
+        }
+    }
+
+    /**
+     * Converts an image Asset to the target format.
+     *
+     * @throws RuntimeException
+     */
+    static public function convert(Asset $asset, string $format, int $quality): string
+    {
+        try {
+            if ($asset['type'] !== 'image') {
+                throw new RuntimeException(sprintf('Not an image.'));
+            }
+            $image = ImageManager::make($asset['content']);
+            $imageAsString = (string) $image->encode($format, $quality);
+            $image->destroy();
+
+            return $imageAsString;
+        } catch (\Exception $e) {
+            throw new RuntimeException(sprintf('Not able to resize "%s": %s', $asset['path'], $e->getMessage()));
+        }
+    }
+
+    /**
+     * Returns the Data URL (encoded in Base64).
+     *
+     * @throws RuntimeException
+     */
+    public static function getDataUrl(Asset $asset, int $quality): string
+    {
+        try {
+            if ($asset['type'] != 'image' || self::isSVG($asset)) {
+                throw new RuntimeException(sprintf('Not an image.'));
+            }
+
+            return (string) ImageManager::make($asset['content'])->encode('data-url', $quality);
+        } catch (\Exception $e) {
+            throw new RuntimeException(sprintf('Can\'t get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
+        }
+    }
+
+    /**
+     * Returns the dominant hexadecimal color of an image asset.
+     *
+     * @throws RuntimeException
+     */
+    public static function getDominantColor(Asset $asset): string
+    {
+        try {
+            if ($asset['type'] != 'image' || self::isSVG($asset)) {
+                throw new RuntimeException(sprintf('Not an image.'));
+            }
+
+            $assetColor = clone $asset;
+            $assetColor = $assetColor->resize(100);
+            $image = ImageManager::make($assetColor['content']);
+            $color = $image->limitColors(1)->pickColor(0, 0, 'hex');
+            $image->destroy();
+
+            return $color;
+        } catch (\Exception $e) {
+            throw new RuntimeException(sprintf('Can\'t get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
+        }
+    }
+
+    /**
+     * Returns a Low Quality Image Placeholder (LQIP) as data URL.
+     *
+     * @throws RuntimeException
+     */
+    public static function getLqip(Asset $asset): string
+    {
+        if ($asset['type'] !== 'image') {
+            throw new RuntimeException(sprintf('can\'t create LQIP of "%s": it\'s not an image.', $asset['path']));
+        }
+
+        $assetLqip = clone $asset;
+        $assetLqip = $assetLqip->resize(100);
+
+        return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
+    }
+
+    /**
      * Build the `srcset` attribute for responsive images.
      * e.g.: `srcset="/img-480.jpg 480w, /img-800.jpg 800w"`.
      *
@@ -82,39 +198,28 @@ class Image
     }
 
     /**
-     * Returns the dominant hexadecimal color of an image asset.
-     *
-     * @throws RuntimeException
+     * Returns true if asset is a SVG.
      */
-    public static function getDominantColor(Asset $asset): string
+    public static function isSVG(Asset $asset): bool
     {
-        if ($asset['type'] !== 'image') {
-            throw new RuntimeException(sprintf('can\'t get dominant color of "%s": it\'s not an image file.', $asset['path']));
-        }
-
-        $assetColor = clone $asset;
-        $assetColor = $assetColor->resize(100);
-        $img = ImageManager::make($assetColor['content']);
-        $color = $img->limitColors(1)->pickColor(0, 0, 'hex');
-        $img->destroy();
-
-        return $color;
+        return \in_array($asset['subtype'], ['image/svg', 'image/svg+xml']) || $asset['ext'] == 'svg';
     }
 
     /**
-     * Returns a Low Quality Image Placeholder (LQIP) as data URL.
+     * Returns SVG attributes.
      *
-     * @throws RuntimeException
+     * @return \SimpleXMLElement|false
      */
-    public static function getLqip(Asset $asset): string
+    public static function getSvgAttributes(Asset $asset)
     {
-        if ($asset['type'] !== 'image') {
-            throw new RuntimeException(sprintf('can\'t create LQIP of "%s": it\'s not an image file.', $asset['path']));
+        if (!self::isSVG($asset)) {
+            return false;
         }
 
-        $assetLqip = clone $asset;
-        $assetLqip = $assetLqip->resize(100);
+        if (false === $xml = simplexml_load_string($asset['content_source'])) {
+            return false;
+        }
 
-        return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
+        return $xml->attributes();
     }
 }

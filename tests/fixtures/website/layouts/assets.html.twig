@@ -160,15 +160,15 @@
     </pre>
   </p>
 
-  {#<h2>Image PNG to WebP</h2>
+  <h2>Image PNG to WebP</h2>
   <p>
     <pre>asset('images/cecil-logo.png')|webp</pre>
     <blockquote>
       {{- asset('images/cecil-logo.png')|webp }}
     </blockquote>
-  </p>#}
+  </p>
 
-  <h2>Image URL</h2>
+  <h2>Image properties</h2>
   <p>
     <pre>{% verbatim %}{{ asset('images/cecil-logo.png').width x asset('images/cecil-logo.png').height }}{% endverbatim %}</pre>
     <blockquote>
@@ -204,9 +204,15 @@
   </p>
   <h3>Read EXIF data</h3>
   <p>
-    <pre>{% verbatim %}{{ asset('ISS.jpg').exif }}{% endverbatim %}</pre>
+    <pre>{% verbatim %}{{ asset('japon_sample.jpg').exif.EXIF }}{% endverbatim %}</pre>
     <blockquote>
-      {{- d(asset('ISS.jpg').exif) -}}
+      {{- d(asset('images/japon_sample.jpg').exif.EXIF) -}}
+    </blockquote>
+  </p>
+  <p>
+    <pre>{% verbatim %}{{ asset('japon_sample.jpg').exif.GPS }}{% endverbatim %}</pre>
+    <blockquote>
+      {{- d(asset('images/japon_sample.jpg').exif.GPS) -}}
     </blockquote>
   </p>
   <h3>Image `srcset`</h3>
@@ -225,6 +231,7 @@
   </p>
 
   <h2>Data URL</h2>
+  <h3>Data URL of a file</h3>
   <p>
     <pre>{% verbatim %}{{ asset('css/style.css')|dataurl }}{% endverbatim %}</pre>
     <blockquote>
@@ -291,6 +298,10 @@
   <p>
     <pre>{% verbatim %}{{ asset('asssset.css', {ignore_missing: true})) }}{% endverbatim %}</pre>
     <blockquote>{{ asset('asssset.css', {ignore_missing: true}) }}</blockquote>
+  </p>
+  <p>
+    <pre>{% verbatim %}{{ asset('asssset.css', {ignore_missing: true}).missing) }}{% endverbatim %}</pre>
+    <blockquote>{{ asset('asssset.css', {ignore_missing: true}).missing }}</blockquote>
   </p>
 
   <h2>Access to wrong properties</h2>
