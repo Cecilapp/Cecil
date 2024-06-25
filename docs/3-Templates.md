@@ -505,7 +505,7 @@ _Examples:_
 # image width in pixels
 {{ asset('image.png').width }}px
 # photo's date in seconds
-{{ asset('photo.jpeg').exif.DateTimeOriginal|date('U') }}
+{{ asset('photo.jpeg').exif.EXIF.DateTimeOriginal|date('U') }}
 # MP3 song duration in minutes
 {{ asset('title.mp3').audio.duration|round }} min
 # file integrity hash

@@ -144,7 +144,7 @@ class Asset implements \ArrayAccess
                     if ($this->data['type'] == 'image') {
                         $this->data['width'] = $this->getWidth();
                         $this->data['height'] = $this->getHeight();
-                        if ($this->data['subtype'] == 'jpeg') {
+                        if ($this->data['subtype'] == 'image/jpeg') {
                             $this->data['exif'] = Util\File::readExif($file[$i]['filepath']);
                         }
                     }
@@ -436,47 +436,22 @@ class Asset implements \ArrayAccess
         $assetResized->data['width'] = $width;
 
         if ($this->isImageInCdn()) {
-            return $assetResized; // returns the asset with the new width only: CDN do the rest of the job
+            return $assetResized; // returns asset with the new width only: CDN do the rest of the job
         }
 
-        $quality = $this->config->get('assets.images.quality');
+        $quality = $this->config->get('assets.images.quality') ?? 75;
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x", "q$quality"]);
         if (!$cache->has($cacheKey)) {
-            if ($assetResized->data['type'] !== 'image') {
-                throw new RuntimeException(sprintf('Not able to resize "%s".', $assetResized->data['path']));
-            }
-            if (!\extension_loaded('gd')) {
-                throw new RuntimeException('GD extension is required to use images resize.');
-            }
-
-            try {
-                $img = ImageManager::make($assetResized->data['content_source'])->encode($assetResized->data['ext']);
-                $img->resize($width, null, function (\Intervention\Image\Constraint $constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                });
-            } catch (\Exception $e) {
-                throw new RuntimeException(sprintf('Not able to resize image "%s": %s', $assetResized->data['path'], $e->getMessage()));
-            }
+            $assetResized->data['content'] = Image::resize($assetResized, $width, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 (string) $this->config->get('assets.images.resize.dir'),
                 (string) $width,
                 $assetResized->data['path']
             );
-
-            try {
-                if ($assetResized->data['subtype'] == 'image/jpeg') {
-                    $img->interlace();
-                }
-                $assetResized->data['content'] = (string) $img->encode($assetResized->data['ext'], $quality);
-                $img->destroy();
-                $assetResized->data['height'] = $assetResized->getHeight();
-                $assetResized->data['size'] = \strlen($assetResized->data['content']);
-            } catch (\Exception $e) {
-                throw new RuntimeException(sprintf('Not able to encode image "%s": %s', $assetResized->data['path'], $e->getMessage()));
-            }
+            $assetResized->data['height'] = $assetResized->getHeight();
+            $assetResized->data['size'] = \strlen($assetResized->data['content']);
 
             $cache->set($cacheKey, $assetResized->data);
         }
@@ -492,8 +467,8 @@ class Asset implements \ArrayAccess
      */
     public function webp(?int $quality = null): self
     {
-        if ($this->data['type'] !== 'image') {
-            throw new RuntimeException(sprintf('can\'t convert "%s" (%s) to WebP: it\'s not an image file.', $this->data['path'], $this->data['type']));
+        if ($this->data['type'] != 'image') {
+            throw new RuntimeException(sprintf('Not able to convert "%s" (%s) to WebP: not an image.', $this->data['path'], $this->data['type']));
         }
 
         if ($quality === null) {
@@ -505,7 +480,7 @@ class Asset implements \ArrayAccess
         $assetWebp['ext'] = $format;
 
         if ($this->isImageInCdn()) {
-            return $assetWebp; // returns the asset with the new extension ('webp') only: CDN do the rest of the job
+            return $assetWebp; // returns the asset with the new extension only: CDN do the rest of the job
         }
 
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
@@ -515,12 +490,10 @@ class Asset implements \ArrayAccess
         }
         $cacheKey = $cache->createKeyFromAsset($assetWebp, $tags);
         if (!$cache->has($cacheKey)) {
-            $img = ImageManager::make($assetWebp['content']);
-            $assetWebp['content'] = (string) $img->encode($format, $quality);
-            $img->destroy();
-            $assetWebp['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
-            $assetWebp['subtype'] = "image/$format";
-            $assetWebp['size'] = \strlen($assetWebp['content']);
+            $assetWebp->data['content'] = Image::convert($assetWebp, $format, $quality);
+            $assetWebp->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
+            $assetWebp->data['subtype'] = "image/$format";
+            $assetWebp->data['size'] = \strlen($assetWebp->data['content']);
 
             $cache->set($cacheKey, $assetWebp->data);
         }
@@ -607,14 +580,14 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns the data URL (encoded in Base64).
+     * Returns the Data URL (encoded in Base64).
      *
      * @throws RuntimeException
      */
     public function dataurl(): string
     {
-        if ($this->data['type'] == 'image' && !$this->isSVG()) {
-            return (string) ImageManager::make($this->data['content'])->encode('data-url', $this->config->get('assets.images.quality'));
+        if ($this->data['type'] == 'image' && !Image::isSVG($this)) {
+            return Image::getDataUrl($this, $this->config->get('assets.images.quality') ?? 75);
         }
 
         return sprintf('data:%s;base64,%s', $this->data['subtype'], base64_encode($this->data['content']));
@@ -651,7 +624,7 @@ class Asset implements \ArrayAccess
      */
     public function isImageInCdn()
     {
-        if ($this->data['type'] != 'image' || (bool) $this->config->get('assets.images.cdn.enabled') !== true || ($this->isSVG() && (bool) $this->config->get('assets.images.cdn.svg') !== true)) {
+        if ($this->data['type'] != 'image' || (bool) $this->config->get('assets.images.cdn.enabled') !== true || (Image::isSVG($this) && (bool) $this->config->get('assets.images.cdn.svg') !== true)) {
             return false;
         }
         // remote image?
@@ -828,7 +801,7 @@ class Asset implements \ArrayAccess
         if ($this->data['type'] != 'image') {
             return 0;
         }
-        if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
+        if (Image::isSVG($this) && false !== $svg = Image::getSvgAttributes($this)) {
             return (int) $svg->width;
         }
         if (false === $size = $this->getImageSize()) {
@@ -848,7 +821,7 @@ class Asset implements \ArrayAccess
         if ($this->data['type'] != 'image') {
             return 0;
         }
-        if ($this->isSVG() && false !== $svg = $this->getSvgAttributes()) {
+        if (Image::isSVG($this) && false !== $svg = Image::getSvgAttributes($this)) {
             return (int) $svg->height;
         }
         if (false === $size = $this->getImageSize()) {
@@ -880,28 +853,6 @@ class Asset implements \ArrayAccess
         }
 
         return $size;
-    }
-
-    /**
-     * Returns true if asset is a SVG.
-     */
-    private function isSVG(): bool
-    {
-        return \in_array($this->data['subtype'], ['image/svg', 'image/svg+xml']) || $this->data['ext'] == 'svg';
-    }
-
-    /**
-     * Returns SVG attributes.
-     *
-     * @return \SimpleXMLElement|false
-     */
-    private function getSvgAttributes()
-    {
-        if (false === $xml = simplexml_load_string($this->data['content_source'])) {
-            return false;
-        }
-
-        return $xml->attributes();
     }
 
     /**
