@@ -59,7 +59,7 @@ class Image
      *
      * @throws RuntimeException
      */
-    static public function convert(Asset $asset, string $format, int $quality): string
+    public static function convert(Asset $asset, string $format, int $quality): string
     {
         try {
             if ($asset['type'] !== 'image') {

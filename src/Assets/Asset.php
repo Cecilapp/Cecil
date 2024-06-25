@@ -586,7 +586,7 @@ class Asset implements \ArrayAccess
      */
     public function dataurl(): string
     {
-        if ($this->data['type'] == 'image' && !Image::isSVG($this) ) {
+        if ($this->data['type'] == 'image' && !Image::isSVG($this)) {
             return Image::getDataUrl($this, $this->config->get('assets.images.quality') ?? 75);
         }
 
