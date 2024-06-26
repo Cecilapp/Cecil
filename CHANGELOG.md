@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.8](https://github.com/Cecilapp/Cecil/compare/8.12.7...8.12.8)
+
+> 25 June 2024
+
+- chore(deps): bump benjaminhoegh/parsedown-toc from 1.4.3 to 1.5.3 [`#1999`](https://github.com/Cecilapp/Cecil/pull/1999)
+- chore(deps): bump benjaminhoegh/parsedown-toc from 1.4.3 to 1.5.3 [`#1997`](https://github.com/Cecilapp/Cecil/pull/1997)
+- chore(deps): bump benjaminhoegh/parsedown-toc from 1.4.3 to 1.5.3 [`#1996`](https://github.com/Cecilapp/Cecil/pull/1996)
+- chore(deps-dev): bump phpstan/phpstan from 1.11.4 to 1.11.5 [`#1995`](https://github.com/Cecilapp/Cecil/pull/1995)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.42.0 to 2.43.0 [`#1993`](https://github.com/Cecilapp/Cecil/pull/1993)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.58.1 to 3.59.3 [`#1992`](https://github.com/Cecilapp/Cecil/pull/1992)
+- chore(deps-dev): bump phpstan/phpstan from 1.11.3 to 1.11.4 [`#1991`](https://github.com/Cecilapp/Cecil/pull/1991)
+- chore(deps): bump symfony/yaml from 6.4.7 to 6.4.8 [`#1989`](https://github.com/Cecilapp/Cecil/pull/1989)
+- chore(deps): bump symfony/serializer from 6.4.7 to 6.4.8 [`#1988`](https://github.com/Cecilapp/Cecil/pull/1988)
+- chore(deps): bump symfony/property-access from 6.4.7 to 6.4.8 [`#1987`](https://github.com/Cecilapp/Cecil/pull/1987)
+- chore(deps): bump symfony/translation from 6.4.7 to 6.4.8 [`#1986`](https://github.com/Cecilapp/Cecil/pull/1986)
+- chore(deps): bump symfony/finder from 6.4.7 to 6.4.8 [`#1985`](https://github.com/Cecilapp/Cecil/pull/1985)
+- chore(deps): bump symfony/var-dumper from 6.4.7 to 6.4.8 [`#1984`](https://github.com/Cecilapp/Cecil/pull/1984)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.58.0 to 3.58.1 [`#1983`](https://github.com/Cecilapp/Cecil/pull/1983)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.57.2 to 3.58.0 [`#1982`](https://github.com/Cecilapp/Cecil/pull/1982)
+- chore(deps): bump voku/html-min from 4.5.0 to 4.5.1 [`#1981`](https://github.com/Cecilapp/Cecil/pull/1981)
+- chore(deps-dev): bump phpstan/phpstan from 1.11.1 to 1.11.2 [`#1980`](https://github.com/Cecilapp/Cecil/pull/1980)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.10.0 to 3.10.1 [`#1979`](https://github.com/Cecilapp/Cecil/pull/1979)
+- chore: update deps [`bfab927`](https://github.com/Cecilapp/Cecil/commit/bfab9271e81ee68dd0f4e92e3a7d3e3d38ce6259)
+- ci: fix parsedown toc dep [`c34ddf7`](https://github.com/Cecilapp/Cecil/commit/c34ddf7a2ac9c0688907d734101cccdbbeb68b3b)
+- chore: update deps [`3c1072f`](https://github.com/Cecilapp/Cecil/commit/3c1072feb6a7f4a337c3d8ffeadf03dc9226c279)
+- ci: update release workflow [`f1ff3f3`](https://github.com/Cecilapp/Cecil/commit/f1ff3f33000435a897727df4a53298ec45817fab)
+- chore: fix deps [`89c4966`](https://github.com/Cecilapp/Cecil/commit/89c49663253f0622ede9fd23eba96b0a4a5949ae)
+- Create tag.yml [`cf17a3c`](https://github.com/Cecilapp/Cecil/commit/cf17a3c49c5fe143d1743fd6ce1f1abeb70b2a8a)
+- chore: update deps [`9f7ee14`](https://github.com/Cecilapp/Cecil/commit/9f7ee141e3f777dfd09bfa6c49e14b11cc015cd0)
+- ci: fix tag release [`6348fdc`](https://github.com/Cecilapp/Cecil/commit/6348fdcc675cd327225e617dc72d778bf6c2501a)
+- fix: checks if exif extension is not available [`3edbbc5`](https://github.com/Cecilapp/Cecil/commit/3edbbc5624bf0d35d73ae3a39ab27d42e2b8f572)
+
 #### [8.12.7](https://github.com/Cecilapp/Cecil/compare/8.12.6...8.12.7)
 
 > 23 May 2024
