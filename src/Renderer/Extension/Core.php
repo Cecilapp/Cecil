@@ -684,7 +684,7 @@ class Core extends SlugifyExtension
         $markdown = $markdown ?? '';
 
         try {
-            $parsedown = new Parsedown($this->builder, ['selectors' => ['h2'], 'url' => $url]);
+            $parsedown = new Parsedown($this->builder, ['selectors' => (array) $this->config->get('pages.body.toc'), 'url' => $url]);
             $parsedown->body($markdown);
             $return = $parsedown->contentsList($format);
         } catch (\Exception) {
