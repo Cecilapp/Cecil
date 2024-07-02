@@ -53,7 +53,6 @@ class Create extends AbstractStep
 
         $total = \count($this->builder->getPagesFiles());
         $count = 0;
-
         foreach ($this->builder->getPagesFiles() as $file) {
             $count++;
             // create a page from its (Markdown) file
@@ -110,7 +109,7 @@ class Create extends AbstractStep
                 $this->builder->getPages()->add($page);
             }
 
-            $message = sprintf('Page "%s" created', $page->getId());
+            $message = sprintf('Page "%s" (%s) created', $page->getId(), $page->getType());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

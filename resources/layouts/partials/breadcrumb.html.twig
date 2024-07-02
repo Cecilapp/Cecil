@@ -1,0 +1,19 @@
+      {%- if page.type != 'homepage' and page.ancestors|default([])|length > 0 ~%}
+      <nav aria-label="breadcrumb" class="breadcrumb">
+        <ol>
+          {%- for item in page.ancestors|reverse ~%}
+          <li>
+            {%- if loop.index == 1 ~%}
+            <a aria-label="{% trans %}Home page{% endtrans %}" href="{{ url(site.home) }}">
+            {%- else ~%}
+            <a href="{{ url(item) }}">
+            {%- endif ~%}
+            {{ item.title }}</a>
+          </li>
+          {%- endfor ~%}
+          <li class="active">
+            <a aria-current="page" href="{{ url(page) }}">{{ page.title }}</a>
+          </li>
+        </ol>
+      </nav>
+      {%- endif ~%}
