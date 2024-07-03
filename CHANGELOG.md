@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.12.9](https://github.com/Cecilapp/Cecil/compare/8.12.8...8.12.9)
+
+> 3 July 2024
+
+- fix: parsedown toc [`#2009`](https://github.com/Cecilapp/Cecil/pull/2009)
+- chore(deps-dev): bump phpstan/phpstan from 1.11.5 to 1.11.6 [`#2008`](https://github.com/Cecilapp/Cecil/pull/2008)
+- chore(deps): bump symfony/validator from 6.4.8 to 6.4.9 [`#2007`](https://github.com/Cecilapp/Cecil/pull/2007)
+- chore(deps): bump symfony/serializer from 6.4.8 to 6.4.9 [`#2006`](https://github.com/Cecilapp/Cecil/pull/2006)
+- chore(deps): bump symfony/console from 6.4.8 to 6.4.9 [`#2005`](https://github.com/Cecilapp/Cecil/pull/2005)
+- chore(deps): bump symfony/var-dumper from 6.4.8 to 6.4.9 [`#2003`](https://github.com/Cecilapp/Cecil/pull/2003)
+- chore(deps): bump benjaminhoegh/parsedown-toc from 1.4.3 to 1.5.3 [`#2002`](https://github.com/Cecilapp/Cecil/pull/2002)
+- chore: update deps [`2aef209`](https://github.com/Cecilapp/Cecil/commit/2aef2094d811ec1949dc7fd5e79a26b270252d87)
+- chore: update Parsedown ToC to 1.5 [`e71a022`](https://github.com/Cecilapp/Cecil/commit/e71a022ae04b96a081560e722f21e3075eb367d5)
+
 #### [8.12.8](https://github.com/Cecilapp/Cecil/compare/8.12.7...8.12.8)
 
 > 25 June 2024
