@@ -22,7 +22,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     env:
-      extensions: :psr, mbstring, intl, gettext, fileinfo, gd, sodium
+      extensions: :psr, mbstring, intl, gettext, fileinfo, gd, sodium, exif
       ext-cache-key: cache-ext-v1
 
     strategy:
