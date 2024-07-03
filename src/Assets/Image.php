@@ -225,7 +225,7 @@ class Image
             return false;
         }
 
-        if (false === $xml = simplexml_load_string($asset['content_source'])) {
+        if (false === $xml = simplexml_load_string($asset['content_source'] ?? '')) {
             return false;
         }
 
