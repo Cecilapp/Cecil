@@ -679,12 +679,13 @@ class Core extends SlugifyExtension
      *
      * @throws RuntimeException
      */
-    public function markdownToToc(?string $markdown, $format = 'html', $url = ''): ?string
+    public function markdownToToc(?string $markdown, $format = 'html', ?array $selectors = null, string $url = ''): ?string
     {
         $markdown = $markdown ?? '';
+        $selectors = $selectors ?? (array) $this->config->get('pages.body.toc');
 
         try {
-            $parsedown = new Parsedown($this->builder, ['selectors' => ['h2'], 'url' => $url]);
+            $parsedown = new Parsedown($this->builder, ['selectors' => $selectors, 'url' => $url]);
             $parsedown->body($markdown);
             $return = $parsedown->contentsList($format);
         } catch (\Exception) {

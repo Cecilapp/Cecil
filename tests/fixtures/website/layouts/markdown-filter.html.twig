@@ -4,6 +4,8 @@
 
 {{ page.content }}
 
+<h2><code>markdown_to_html</code> filter</h2>
+
 {% set md = '**This is bold text.**' %}
 {{ md|markdown_to_html }}
 
@@ -11,6 +13,24 @@
 
 {% apply markdown_to_html %}
 [This a link to arnaudligny.fr](https://arnaudligny.fr)
+{% endapply %}
+
+<h2><code>toc</code> filter</h2>
+
+Table of content:
+
+{% apply toc %}
+## H2 header
+
+text
+
+### H3 header
+
+text
+
+#### H4 header
+
+text
 {% endapply %}
 
 {% endblock %}

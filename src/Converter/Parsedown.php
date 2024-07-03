@@ -20,7 +20,13 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Highlight\Highlighter;
 
-class Parsedown extends \ParsedownToC
+/**
+ * @property array $InlineTypes
+ * @property string $inlineMarkerList
+ * @property array $specialCharacters
+ * @property array $BlockTypes
+ */
+class Parsedown extends \ParsedownToc
 {
     /** @var Builder */
     protected $builder;
@@ -59,7 +65,8 @@ class Parsedown extends \ParsedownToC
         // options
         $options = array_merge(['selectors' => (array) $this->config->get('pages.body.toc')], $options ?? []);
 
-        parent::__construct($options);
+        parent::__construct();
+        parent::setOptions($options);
     }
 
     /**
@@ -89,7 +96,7 @@ class Parsedown extends \ParsedownToC
      */
     protected function inlineLink($Excerpt)
     {
-        $link = parent::inlineLink($Excerpt);
+        $link = parent::inlineLink($Excerpt); // @phpstan-ignore staticMethod.notFound
 
         if (!isset($link)) {
             return null;
@@ -235,7 +242,7 @@ class Parsedown extends \ParsedownToC
      */
     protected function inlineImage($Excerpt)
     {
-        $InlineImage = parent::inlineImage($Excerpt);
+        $InlineImage = parent::inlineImage($Excerpt); // @phpstan-ignore staticMethod.notFound
         if (!isset($InlineImage)) {
             return null;
         }
@@ -429,7 +436,7 @@ class Parsedown extends \ParsedownToC
                     ],
                 ];
                 $picture['element']['text'][] = $source['element'];
-                unset($image['element']['attributes']['title']);
+                unset($image['element']['attributes']['title']); // @phpstan-ignore unset.offset
                 $picture['element']['text'][] = $image['element'];
                 $image = $picture;
             } catch (\Exception $e) {
@@ -648,7 +655,7 @@ class Parsedown extends \ParsedownToC
             return $inline;
         }
 
-        $titleRawHtml = $this->line($inline['element']['attributes']['title']);
+        $titleRawHtml = $this->line($inline['element']['attributes']['title']); // @phpstan-ignore method.notFound
         $inline['element']['attributes']['title'] = strip_tags($titleRawHtml);
 
         $figcaption = [
