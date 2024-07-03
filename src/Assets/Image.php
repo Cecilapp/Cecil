@@ -71,7 +71,7 @@ class Image
 
             return $imageAsString;
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Not able to resize "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(sprintf('Not able to convert "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
