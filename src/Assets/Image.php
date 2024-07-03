@@ -86,8 +86,11 @@ class Image
             if ($asset['type'] != 'image' || self::isSVG($asset)) {
                 throw new RuntimeException(sprintf('Not an image.'));
             }
+            $image = ImageManager::make($asset['content']);
+            $imageAsDataUrl = (string) $image->encode('data-url', $quality);
+            $image->destroy();
 
-            return (string) ImageManager::make($asset['content'])->encode('data-url', $quality);
+            return $imageAsDataUrl;
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Can\'t get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
         }
@@ -113,7 +116,7 @@ class Image
 
             return $color;
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Can\'t get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -124,14 +127,20 @@ class Image
      */
     public static function getLqip(Asset $asset): string
     {
-        if ($asset['type'] !== 'image') {
-            throw new RuntimeException(sprintf('can\'t create LQIP of "%s": it\'s not an image.', $asset['path']));
+        try {
+            if ($asset['type'] !== 'image') {
+                throw new RuntimeException(sprintf('Not an image.'));
+            }
+            $assetLqip = clone $asset;
+            $assetLqip = $assetLqip->resize(100);
+            $image = ImageManager::make($assetLqip['content']);
+            $imageAsString = (string) $image->blur(50)->encode('data-url');
+            $image->destroy();
+
+            return $imageAsString;
+        } catch (\Exception $e) {
+            throw new RuntimeException(sprintf('can\'t create LQIP of "%s": %s', $asset['path'], $e->getMessage()));
         }
-
-        $assetLqip = clone $asset;
-        $assetLqip = $assetLqip->resize(100);
-
-        return (string) ImageManager::make($assetLqip['content'])->blur(50)->encode('data-url');
     }
 
     /**
