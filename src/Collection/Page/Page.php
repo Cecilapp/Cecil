@@ -71,6 +71,9 @@ class Page extends Item
     /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary. */
     protected $terms;
 
+    /** @var self Parent page of a PAGE page or a SECTION page */
+    protected $parent;
+
     /** @var Slugify */
     private static $slugifier;
 
@@ -118,20 +121,18 @@ class Page extends Item
      */
     public static function createIdFromFile(SplFileInfo $file): string
     {
-        $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
-        // if file is "README.md", ID is "index"
-        $basename = (string) str_ireplace('readme', 'index', $basename);
-        // if file is section's index: "section/index.md", ID is "section"
+        $relativePath = self::slugify(self::getFileComponents($file)['path']);
+        $basename = self::slugify(PrefixSuffix::subPrefix(self::getFileComponents($file)['name']));
+        // if file is a section's index: "<section>/index.md", "<section>" is the ID
         if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
-            // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
+            // case of a localized section's index: "<section>/index.fr.md", "<fr/section>" is the ID
             if (PrefixSuffix::hasSuffix($basename)) {
                 return PrefixSuffix::getSuffix($basename) . '/' . $relativePath;
             }
 
             return $relativePath;
         }
-        // localized page
+        // localized page: "<page>.fr.md" -> "fr/<page>"
         if (PrefixSuffix::hasSuffix($basename)) {
             return trim(Util::joinPath(PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename)), '/');
         }
@@ -163,15 +164,8 @@ class Page extends Item
         /*
          * File path components
          */
-        $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
-        $fileExtension = $this->file->getExtension();
-        $fileName = $this->file->getBasename('.' . $fileExtension);
-        // renames "README" to "index"
-        $fileName = (string) str_ireplace('readme', 'index', $fileName);
-        // case of "index" = home page
-        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
-            $this->setType(Type::HOMEPAGE->value);
-        }
+        $fileRelativePath = self::getFileComponents($file)['path'];
+        $fileName = self::getFileComponents($file)['name'];
         /*
          * Set page properties and variables
          */
@@ -184,9 +178,16 @@ class Page extends Item
             'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
-        /*
-         * Set specific variables
-         */
+        // is a section?
+        if (PrefixSuffix::sub($fileName) == 'index') {
+            $this->setType(Type::SECTION->value);
+            $this->setVariable('title', ucfirst(explode('/', $fileRelativePath)[\count(explode('/', $fileRelativePath)) - 1]));
+            // is the home page?
+            if (empty($this->getFolder())) {
+                $this->setType(Type::HOMEPAGE->value);
+                $this->setVariable('title', 'Homepage');
+            }
+        }
         // is file has a prefix?
         if (PrefixSuffix::hasPrefix($fileName)) {
             $prefix = PrefixSuffix::getPrefix($fileName);
@@ -336,29 +337,22 @@ class Page extends Item
     public function setPath(string $path): self
     {
         $path = trim($path, '/');
-
         // case of homepage
         if ($path == 'index') {
             $this->path = '';
-
             return $this;
         }
-
         // case of custom sections' index (ie: section/index.md -> section)
         if (substr($path, -6) == '/index') {
             $path = substr($path, 0, \strlen($path) - 6);
         }
         $this->path = $path;
-
         $lastslash = strrpos($this->path, '/');
-
         // case of root/top-level pages
         if ($lastslash === false) {
             $this->slug = $this->path;
-
             return $this;
         }
-
         // case of sections' pages: set section
         if (!$this->virtual && $this->getSection() === null) {
             $this->section = explode('/', $this->path)[0];
@@ -366,7 +360,6 @@ class Page extends Item
         // set/update folder and slug
         $this->folder = substr($this->path, 0, $lastslash);
         $this->slug = substr($this->path, -(\strlen($this->path) - $lastslash - 1));
-
         return $this;
     }
 
@@ -666,6 +659,46 @@ class Page extends Item
     }
 
     /**
+     * Set parent page.
+     */
+    public function setParent(self $page): self
+    {
+        $this->parent = $page;
+
+        return $this;
+    }
+
+    /**
+     * Returns parent page if exists.
+     */
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Returns array of ancestors pages.
+     */
+    public function getAncestors(): array
+    {
+        $ancestors = [];
+        $currentPage = $this;
+        while ($currentPage->getParent() !== null) {
+            $ancestors[] = $currentPage = $currentPage->getParent();
+        }
+
+        return $ancestors;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId(string $id): self
+    {
+        return parent::setId($id);
+    }
+
+    /**
      * Cast "boolean" string (or array of strings) to boolean.
      *
      * @param mixed $value Value to filter
@@ -683,10 +716,20 @@ class Page extends Item
     }
 
     /**
-     * {@inheritdoc}
+     * Get file components.
+     *
+     * [
+     *   path => relative path,
+     *   name => name,
+     *   ext  => extension,
+     * ]
      */
-    public function setId(string $id): self
+    private static function getFileComponents(SplFileInfo $file): array
     {
-        return parent::setId($id);
+        return [
+            'path' => str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()),
+            'name' => (string) str_ireplace('readme', 'index', $file->getBasename('.' . $file->getExtension())),
+            'ext'  => $file->getExtension(),
+        ];
     }
 }
