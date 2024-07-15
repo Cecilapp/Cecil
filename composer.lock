@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccdea8cccceb04d89d481eac5a15a164",
+    "content-hash": "e8dbdc34a2393043fb37d929032a476b",
     "packages": [
         {
             "name": "amphp/amp",
@@ -553,21 +553,20 @@
         },
         {
             "name": "benjaminhoegh/parsedown-toc",
-            "version": "v1.5.3",
+            "version": "v1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BenjaminHoegh/ParsedownToc.git",
-                "reference": "1d3fb7b103b3cda137bfe6c8909b81e72916b58d"
+                "reference": "5495e00273d53a3bf28b98cdfd3e4662eafd0b09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenjaminHoegh/ParsedownToc/zipball/1d3fb7b103b3cda137bfe6c8909b81e72916b58d",
-                "reference": "1d3fb7b103b3cda137bfe6c8909b81e72916b58d",
+                "url": "https://api.github.com/repos/BenjaminHoegh/ParsedownToc/zipball/5495e00273d53a3bf28b98cdfd3e4662eafd0b09",
+                "reference": "5495e00273d53a3bf28b98cdfd3e4662eafd0b09",
                 "shasum": ""
             },
             "require": {
                 "erusev/parsedown": "^1.7",
-                "erusev/parsedown-extra": "^0.8.1",
                 "php": ">=7.4"
             },
             "require-dev": {
@@ -603,7 +602,7 @@
             ],
             "support": {
                 "issues": "https://github.com/BenjaminHoegh/ParsedownToc/issues",
-                "source": "https://github.com/BenjaminHoegh/ParsedownToc/tree/v1.5.3"
+                "source": "https://github.com/BenjaminHoegh/ParsedownToc/tree/v1.5.4"
             },
             "funding": [
                 {
@@ -615,7 +614,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-02-03T19:37:23+00:00"
+            "time": "2024-07-14T04:55:10+00:00"
         },
         {
             "name": "cecil/resource-watcher",
@@ -880,16 +879,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "3.4.0",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "35e8d0af4486141bc745f23a29cc2091eb624a32"
+                "reference": "c51258e759afdb17f1fd1fe83bc12baaef6309d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/35e8d0af4486141bc745f23a29cc2091eb624a32",
-                "reference": "35e8d0af4486141bc745f23a29cc2091eb624a32",
+                "url": "https://api.github.com/repos/composer/semver/zipball/c51258e759afdb17f1fd1fe83bc12baaef6309d6",
+                "reference": "c51258e759afdb17f1fd1fe83bc12baaef6309d6",
                 "shasum": ""
             },
             "require": {
@@ -941,7 +940,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.4.0"
+                "source": "https://github.com/composer/semver/tree/3.4.2"
             },
             "funding": [
                 {
@@ -957,7 +956,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-31T09:50:34+00:00"
+            "time": "2024-07-12T11:35:52+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -3136,23 +3135,23 @@
         },
         {
             "name": "seld/jsonlint",
-            "version": "1.10.2",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/jsonlint.git",
-                "reference": "9bb7db07b5d66d90f6ebf542f09fc67d800e5259"
+                "reference": "1748aaf847fc731cfad7725aec413ee46f0cc3a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/9bb7db07b5d66d90f6ebf542f09fc67d800e5259",
-                "reference": "9bb7db07b5d66d90f6ebf542f09fc67d800e5259",
+                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/1748aaf847fc731cfad7725aec413ee46f0cc3a2",
+                "reference": "1748aaf847fc731cfad7725aec413ee46f0cc3a2",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.3 || ^7.0 || ^8.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.5",
+                "phpstan/phpstan": "^1.11",
                 "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0 || ^8.5.13"
             },
             "bin": [
@@ -3184,7 +3183,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/jsonlint/issues",
-                "source": "https://github.com/Seldaek/jsonlint/tree/1.10.2"
+                "source": "https://github.com/Seldaek/jsonlint/tree/1.11.0"
             },
             "funding": [
                 {
@@ -3196,7 +3195,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-07T12:57:50+00:00"
+            "time": "2024-07-11T14:55:45+00:00"
         },
         {
             "name": "spatie/image-optimizer",
