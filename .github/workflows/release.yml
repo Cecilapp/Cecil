@@ -54,6 +54,18 @@ jobs:
     - name: Run tests
       run: composer run-script test
 
+    - name: Get previous release
+      id: previous_release
+      run: |
+        echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
+
+    - name: Set current version
+      id: get_version
+      run: |
+        echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        echo "${GITHUB_REF#refs/tags/}" > VERSION
+        echo "VERSION: ${GITHUB_REF#refs/tags/}"
+
     - name: Build cecil.phar
       run: composer run-script build
 
@@ -75,17 +87,6 @@ jobs:
         php cecil.phar new:site skeleton --demo -f -n
         php cecil.phar build skeleton -vvv
         php cecil.phar show:content skeleton
-
-    - name: Get previous release
-      id: previous_release
-      run: |
-        echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
-
-    - name: Set current version
-      id: get_version
-      run: |
-        echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-        echo "${GITHUB_REF#refs/tags/}" > VERSION
 
     - name: Calculate SHA256 checksum
       id: sha256
