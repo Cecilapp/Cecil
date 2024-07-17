@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.13.2](https://github.com/Cecilapp/Cecil/compare/8.13.1...8.13.2)
+
+> 16 July 2024
+
+- ci: fix release workflow [`bad3c55`](https://github.com/Cecilapp/Cecil/commit/bad3c55b05e1299d84b0f83b2bebc6ea2aa20f1c)
+
+#### [8.13.1](https://github.com/Cecilapp/Cecil/compare/8.13.0...8.13.1)
+
+> 15 July 2024
+
+- chore(deps): bump dflydev/dot-access-data from 3.0.2 to 3.0.3 [`#2012`](https://github.com/Cecilapp/Cecil/pull/2012)
+- chore(deps-dev): bump phpstan/phpstan from 1.11.6 to 1.11.7 [`#2011`](https://github.com/Cecilapp/Cecil/pull/2011)
+- chore: update deps [`8b0d64c`](https://github.com/Cecilapp/Cecil/commit/8b0d64cd0d020599076e02f5de3ca0485c29d1f2)
+- chore: update deps [`91f3509`](https://github.com/Cecilapp/Cecil/commit/91f35092588a1615dd093724819b87030e53f028)
+
 #### [8.13.0](https://github.com/Cecilapp/Cecil/compare/8.12.9...8.13.0)
 
 > 3 July 2024
