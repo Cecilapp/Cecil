@@ -1,6 +1,6 @@
 [![Cecil's logo, created by Cécile Ricordeau](https://cecil.app/images/logo-cecil.png)](https://cecil.app)
 
-Cecil, your content driven static site generator.
+Cecil, a simple and powerful content-driven static site generator.
 
 [![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
 [![PHP Version Require](http://poser.pugx.org/cecil/cecil/require/php)](https://packagist.org/packages/cecil/cecil)
