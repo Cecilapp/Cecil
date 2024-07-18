@@ -14,10 +14,26 @@ declare(strict_types=1);
 namespace Cecil\Assets;
 
 use Cecil\Exception\RuntimeException;
-use Intervention\Image\ImageManagerStatic as ImageManager;
+use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\ImageManager;
 
 class Image
 {
+    /**
+     * Create new manager instance with desired driver.
+     */
+    private static function manager(): ImageManager
+    {
+        if (\extension_loaded('gd') && \function_exists('gd_info')) {
+            return ImageManager::gd();
+        }
+        if (\extension_loaded('imagick') && class_exists('Imagick')) {
+            return ImageManager::imagick();
+        }
+
+        throw new RuntimeException('PHP GD extension is required.');
+    }
+
     /**
      * Resize an image Asset.
      *
@@ -30,25 +46,12 @@ class Image
             if ($asset['type'] !== 'image') {
                 throw new RuntimeException(sprintf('Not an image.'));
             }
-            // is GD is installed
-            if (!\extension_loaded('gd')) {
-                throw new RuntimeException('GD extension is required.');
-            }
             // creates image object from source
-            $image = ImageManager::make($asset['content_source']);
+            $image = self::manager()->read($asset['content_source']);
             // resizes to $width with constraint the aspect-ratio and unwanted upsizing
-            $image->resize($width, null, function (\Intervention\Image\Constraint $constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            // interlaces (PNG) or progressives (JPEG) image
-            $image->interlace();
-            // save image in extension format and given quality
-            $imageAsString = (string) $image->encode($asset['ext'], $quality);
-            // destroy image object
-            $image->destroy();
-
-            return $imageAsString;
+            $image->scaleDown(width: $width);
+            // return image data
+            return (string)$image->encodeByMediaType($asset['subtype'], progressive: true, interlaced: true, quality: $quality);
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Not able to resize "%s": %s', $asset['path'], $e->getMessage()));
         }
@@ -65,11 +68,9 @@ class Image
             if ($asset['type'] !== 'image') {
                 throw new RuntimeException(sprintf('Not an image.'));
             }
-            $image = ImageManager::make($asset['content']);
-            $imageAsString = (string) $image->encode($format, $quality);
-            $image->destroy();
+            $image = self::manager()->read($asset['content']);
 
-            return $imageAsString;
+            return (string)$image->encodeByExtension($format, progressive: true, interlaced: true, quality: $quality);
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Not able to convert "%s": %s', $asset['path'], $e->getMessage()));
         }
@@ -86,11 +87,9 @@ class Image
             if ($asset['type'] != 'image' || self::isSVG($asset)) {
                 throw new RuntimeException(sprintf('Not an image.'));
             }
-            $image = ImageManager::make($asset['content']);
-            $imageAsDataUrl = (string) $image->encode('data-url', $quality);
-            $image->destroy();
+            $image = self::manager()->read($asset['content']);
 
-            return $imageAsDataUrl;
+            return (string) $image->encode(new AutoEncoder(quality: $quality))->toDataUri();
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Can\'t get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
         }
@@ -107,14 +106,11 @@ class Image
             if ($asset['type'] != 'image' || self::isSVG($asset)) {
                 throw new RuntimeException(sprintf('Not an image.'));
             }
-
             $assetColor = clone $asset;
             $assetColor = $assetColor->resize(100);
-            $image = ImageManager::make($assetColor['content']);
-            $color = $image->limitColors(1)->pickColor(0, 0, 'hex');
-            $image->destroy();
+            $image = self::manager()->read($assetColor['content']);
 
-            return $color;
+            return $image->reduceColors(1)->pickColor(0, 0)->toHex();
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
         }
@@ -133,11 +129,9 @@ class Image
             }
             $assetLqip = clone $asset;
             $assetLqip = $assetLqip->resize(100);
-            $image = ImageManager::make($assetLqip['content']);
-            $imageAsString = (string) $image->blur(50)->encode('data-url');
-            $image->destroy();
+            $image = self::manager()->read($assetLqip['content']);
 
-            return $imageAsString;
+            return (string) $image->blur(50)->encode()->toDataUri();
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('can\'t create LQIP of "%s": %s', $asset['path'], $e->getMessage()));
         }
