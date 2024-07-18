@@ -51,7 +51,7 @@ class Image
             // resizes to $width with constraint the aspect-ratio and unwanted upsizing
             $image->scaleDown(width: $width);
             // return image data
-            return (string)$image->encodeByMediaType($asset['subtype'], progressive: true, interlaced: true, quality: $quality);
+            return (string) $image->encodeByMediaType($asset['subtype'], progressive: true, interlaced: true, quality: $quality);
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Not able to resize "%s": %s', $asset['path'], $e->getMessage()));
         }
@@ -70,7 +70,7 @@ class Image
             }
             $image = self::manager()->read($asset['content']);
 
-            return (string)$image->encodeByExtension($format, progressive: true, interlaced: true, quality: $quality);
+            return (string) $image->encodeByExtension($format, progressive: true, interlaced: true, quality: $quality);
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Not able to convert "%s": %s', $asset['path'], $e->getMessage()));
         }
