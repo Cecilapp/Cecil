@@ -2,35 +2,36 @@
 
 Cecil, a simple and powerful content-driven static site generator.
 
-[![Latest Stable Version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
-[![PHP Version Require](http://poser.pugx.org/cecil/cecil/require/php)](https://packagist.org/packages/cecil/cecil)
+[![Latest stable version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
+[![PHP version require](http://poser.pugx.org/cecil/cecil/require/php)](https://packagist.org/packages/cecil/cecil)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
-[![Tests suite](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml)
-[![Release cecil.phar](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml)
-[![Deploy documentation](https://github.com/Cecilapp/Cecil/actions/workflows/docs.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/docs.yml)  
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/07232d3c7ff34f3da5abdac8f3ad2cee)](https://app.codacy.com/gh/Cecilapp/Cecil/dashboard)
-[![Coverage Status](https://coveralls.io/repos/github/Cecilapp/Cecil/badge.svg?branch=master)](https://coveralls.io/github/Cecilapp/Cecil?branch=master)
-[![StyleCI](https://github.styleci.io/repos/7548986/shield?style=plastic)](https://styleci.io/repos/12738012)
-[![SymfonyInsight](https://insight.symfony.com/projects/ada27715-6342-43f8-a1e7-4d5a8fe78e62/mini.svg)](https://insight.symfony.com/projects/ada27715-6342-43f8-a1e7-4d5a8fe78e62)
+[![Tests status](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml)
+[![Release status](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml)
+[![Documentation status](https://github.com/Cecilapp/Cecil/actions/workflows/docs.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/docs.yml)  
+[![Scrutinizer score](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
+[![Codacy badge](https://app.codacy.com/project/badge/Grade/07232d3c7ff34f3da5abdac8f3ad2cee)](https://app.codacy.com/gh/Cecilapp/Cecil/dashboard)
+[![Coverage score](https://coveralls.io/repos/github/Cecilapp/Cecil/badge.svg?branch=master)](https://coveralls.io/github/Cecilapp/Cecil?branch=master)
+[![StyleCI status](https://github.styleci.io/repos/7548986/shield?style=plastic)](https://styleci.io/repos/12738012)
+[![SymfonyInsight badge](https://insight.symfony.com/projects/ada27715-6342-43f8-a1e7-4d5a8fe78e62/mini.svg)](https://insight.symfony.com/projects/ada27715-6342-43f8-a1e7-4d5a8fe78e62)
 
 Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
 📄 [Documentation](https://cecil.app/documentation) | 💻 [Demo](https://demo.cecil.app) | 🐛 [Issue tracker](https://github.com/Cecilapp/Cecil/issues) | 💬 [Discussion](https://github.com/Cecilapp/Cecil/discussions)
 
-![Cecil CLI demo](docs/cecil-cli-demo.gif "Cecil CLI demo")
+![Cecil CLI animated demo](docs/cecil-cli-demo.gif "Cecil CLI demo")
 
 ## Quick Start
 
 Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
 
+Create and deploy a blog site:  
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button/default.svg "Deploy with Vercel")](https://cecil.app/hosting/vercel/deploy/)
 
 ## Features
 
 - No database, no server, no dependency: performance and security
-- Your pages are stored in [Markdown](https://daringfireball.net/projects/markdown/) flat files with a [YAML front matter](https://cecil.app/documentation/content/#front-matter)
-- Powered by [Twig](https://twig.symfony.com/doc/templates.html), a flexible template engine, with [themes](https://cecil.app/themes) support
+- Your pages are stored in [Markdown](https://cecil.app/documentation/content/#body) flat files with a [YAML front matter](https://cecil.app/documentation/content/#front-matter)
+- Powered by [Twig](https://cecil.app/documentation/templates/), a flexible template engine, with [themes](https://cecil.app/themes) support
 - Pagination, sitemap, redirections, robots.txt, taxonomies, RSS are generated automatically
 - Handles and optimizes assets for you
 - [Download](https://cecil.app/download/) one file and run it
