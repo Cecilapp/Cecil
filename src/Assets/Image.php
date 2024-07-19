@@ -70,6 +70,10 @@ class Image
             }
             $image = self::manager()->read($asset['content']);
 
+            if (!function_exists("image$format")) {
+                throw new RuntimeException(sprintf('Function "image%s" is not available.', $format));
+            }
+
             return (string) $image->encodeByExtension($format, progressive: true, interlaced: true, quality: $quality);
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Not able to convert "%s": %s', $asset['path'], $e->getMessage()));
