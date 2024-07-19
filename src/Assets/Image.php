@@ -31,7 +31,7 @@ class Image
             return ImageManager::imagick();
         }
 
-        throw new RuntimeException('PHP GD extension is required.');
+        throw new RuntimeException('PHP GD or Imagick extension is required.');
     }
 
     /**
