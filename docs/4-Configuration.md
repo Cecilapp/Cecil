@@ -821,7 +821,7 @@ assets:
     resize:
       dir: thumbnails    # where resized images are stored (`thumbnails` by default)
     optimize:
-      enabled: false     # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
+      enabled: false     # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc (`false` by default)
     quality: 75          # image quality after optimization or resize (`75` by default)
     responsive:
       widths: []         # `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
@@ -925,11 +925,11 @@ optimize:
     ext: [js]     # supported files extensions
   images:
     enabled: true # enables images files optimization
-    ext: [jpeg, jpg, png, gif, webp, svg] # supported files extensions
+    ext: [jpeg, jpg, png, gif, webp, svg, avif] # supported files extensions
 ```
 
 :::important
-Images compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/) and [cwebp](https://developers.google.com/speed/webp/docs/cwebp).
+Images compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/), [cwebp](https://developers.google.com/speed/webp/docs/cwebp) and [avifenc](https://github.com/AOMediaCodec/libavif).
 :::
 
 ## Override configuration
