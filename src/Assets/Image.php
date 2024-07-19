@@ -70,7 +70,7 @@ class Image
             }
             $image = self::manager()->read($asset['content']);
 
-            if (!function_exists("image$format")) {
+            if (!\function_exists("image$format")) {
                 throw new RuntimeException(sprintf('Function "image%s" is not available.', $format));
             }
 
