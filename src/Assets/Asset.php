@@ -20,7 +20,6 @@ use Cecil\Config;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
-use Intervention\Image\ImageManagerStatic as ImageManager;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
 use wapmorgan\Mp3Info\Mp3Info;
