@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Assets\Image;
 
 use Spatie\ImageOptimizer\OptimizerChain;
+use Spatie\ImageOptimizer\Optimizers\Avifenc;
 use Spatie\ImageOptimizer\Optimizers\Cwebp;
 use Spatie\ImageOptimizer\Optimizers\Gifsicle;
 use Spatie\ImageOptimizer\Optimizers\Jpegoptim;
@@ -56,6 +57,16 @@ class Optimizer
                 '-pass 10',
                 '-mt',
                 '-q $quality',
+            ]))
+            ->addOptimizer(new Avifenc([
+                '-a cq-level=' . round(63 - $quality * 0.63),
+                '-j all',
+                '--min 0',
+                '--max 63',
+                '--minalpha 0',
+                '--maxalpha 63',
+                '-a end-usage=q',
+                '-a tune=ssim',
             ]));
     }
 }

@@ -223,7 +223,7 @@ return [
                 'dir' => 'thumbnails', // where resized images are stored (`thumbnails` by default)
             ],
             'optimize' => [
-                'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp (`false` by default)
+                'enabled' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc (`false` by default)
             ],
             'quality'    => 75, // image quality after optimization or resize (`75` by default)
             'responsive' => [
