@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.14.0](https://github.com/Cecilapp/Cecil/compare/8.13.2...8.14.0)
+
+> 19 July 2024
+
+- refactor: migration to Intervention/Image v3 [`#2013`](https://github.com/Cecilapp/Cecil/pull/2013)
+- ci: update CI deps [`1946200`](https://github.com/Cecilapp/Cecil/commit/1946200fff1b418ec35d9b8fc78405b0b5c108e6)
+
 #### [8.13.2](https://github.com/Cecilapp/Cecil/compare/8.13.1...8.13.2)
 
 > 16 July 2024
