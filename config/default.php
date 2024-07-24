@@ -84,7 +84,7 @@ return [
                 'resize' => [
                     'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
                 ],
-                'formats' => ['webp'], // creates and adds formats images as `source` (`webp` by default)
+                'formats' => [], // creates and adds formats images as `source` (empty by default)
                 'responsive' => [
                     'enabled' => false, // creates responsive images and adds them to the `srcset` attribute (`false` by default)
                 ],
@@ -231,7 +231,7 @@ return [
                 ],
                 'enabled' => false, // `html` filter: creates responsive images (`false` by default)
             ],
-            'formats' => ['avif', 'webp'], // `html` filter: creates and adds formats images as `source` (`webp` by default)
+            'formats' => [], // `html` filter: creates and adds formats images as `source` (empty by default)
             'cdn' => [
                 'enabled'   => false,  // enables Image CDN (`false` by default)
                 'canonical' => true,   // is `image_url` must be canonical or not (`true` by default)
