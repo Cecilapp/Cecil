@@ -400,6 +400,7 @@ class Parsedown extends \ParsedownToc
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
                     throw new RuntimeException(sprintf('Asset "%s" is an animated GIF.', $InlineImage['element']['attributes']['src']));
                 }
+                $sources = [];
                 foreach ($formats as $format) {
                     $assetConverted = $InlineImage['element']['attributes']['src']->$format();
                     $srcset = '';
