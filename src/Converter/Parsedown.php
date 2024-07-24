@@ -388,7 +388,7 @@ class Parsedown extends \ParsedownToc
 
         // converts image to formats and put them in picture > source
         if (
-            \count($formats = ((array) $this->config->get('pages.body.images.formats') ?? ['webp'])) > 0
+            \count($formats = ((array) $this->config->get('pages.body.images.formats') ?? [])) > 0
             && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
@@ -427,20 +427,22 @@ class Parsedown extends \ParsedownToc
                         ],
                     ];
                 }
-                $picture = [
-                    'extent'  => $InlineImage['extent'],
-                    'element' => [
-                        'name'       => 'picture',
-                        'handler'    => 'elements',
-                        'attributes' => [
-                            'title' => $image['element']['attributes']['title'],
+                if (count($sources) > 0) {
+                    $picture = [
+                        'extent'  => $InlineImage['extent'],
+                        'element' => [
+                            'name'       => 'picture',
+                            'handler'    => 'elements',
+                            'attributes' => [
+                                'title' => $image['element']['attributes']['title'],
+                            ],
                         ],
-                    ],
-                ];
-                $picture['element']['text'] = $sources;
-                unset($image['element']['attributes']['title']); // @phpstan-ignore unset.offset
-                $picture['element']['text'][] = $image['element'];
-                $image = $picture;
+                    ];
+                    $picture['element']['text'] = $sources;
+                    unset($image['element']['attributes']['title']); // @phpstan-ignore unset.offset
+                    $picture['element']['text'][] = $image['element'];
+                    $image = $picture;
+                }
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
             }
