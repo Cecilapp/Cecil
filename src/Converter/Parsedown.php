@@ -365,8 +365,12 @@ class Parsedown extends \ParsedownToc
         /*
         <!-- if title: a <figure> is required to put in it a <figcaption> -->
         <figure>
-            <!-- if WebP is enabled: a <picture> is required for the WebP <source> -->
+            <!-- if formats: a <picture> is required for each <source> -->
             <picture>
+                <source type="image/avif"
+                    srcset="..."
+                    sizes="..."
+                >
                 <source type="image/webp"
                     srcset="..."
                     sizes="..."
@@ -382,36 +386,45 @@ class Parsedown extends \ParsedownToc
 
         $image = $InlineImage;
 
-        // converts image (JPEG, PNG or GIF) to WebP and put it in picture > source
+        // converts image to formats and put them in picture > source
         if (
-            ((bool) $this->config->get('pages.body.images.webp.enabled') ?? false)
+            count($formats = ((array) $this->config->get('pages.body.images.formats') ?? ['webp'])) > 0
             && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
                 // InlineImage src must be an Asset instance
                 if (!$InlineImage['element']['attributes']['src'] instanceof Asset) {
-                    throw new RuntimeException(sprintf('Asset "%s" can\'t be converted to WebP.', $InlineImage['element']['attributes']['src']));
+                    throw new RuntimeException(sprintf('Asset "%s" can\'t be converted.', $InlineImage['element']['attributes']['src']));
                 }
                 // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-                    throw new RuntimeException(sprintf('Asset "%s" is an animated GIF and can\'t be converted to WebP.', $InlineImage['element']['attributes']['src']));
+                    throw new RuntimeException(sprintf('Asset "%s" is an animated GIF.', $InlineImage['element']['attributes']['src']));
                 }
-                $assetWebp = $InlineImage['element']['attributes']['src']->webp();
-                $srcset = '';
-                // build responsives WebP?
-                if ((bool) $this->config->get('pages.body.images.responsive.enabled')) {
-                    try {
-                        $srcset = Image::buildSrcset(
-                            $assetWebp,
-                            $this->config->getAssetsImagesWidths()
-                        );
-                    } catch (\Exception $e) {
-                        $this->builder->getLogger()->debug($e->getMessage());
+                foreach ($formats as $format) {
+                    $assetConverted = $InlineImage['element']['attributes']['src']->$format();
+                    $srcset = '';
+                    // build responsive images?
+                    if ((bool) $this->config->get('pages.body.images.responsive.enabled')) {
+                        try {
+                            $srcset = Image::buildSrcset($assetConverted, $this->config->getAssetsImagesWidths());
+                        } catch (\Exception $e) {
+                            $this->builder->getLogger()->debug($e->getMessage());
+                        }
                     }
-                }
-                // if not, default image as srcset
-                if (empty($srcset)) {
-                    $srcset = (string) $assetWebp;
+                    // if not, use default image as srcset
+                    if (empty($srcset)) {
+                        $srcset = (string) $assetConverted;
+                    }
+                    $sources[] = [
+                        'name'       => 'source',
+                        'attributes' => [
+                            'type'   => "image/$format",
+                            'srcset' => $srcset,
+                            'sizes'  => $sizes,
+                            'width'  => $InlineImage['element']['attributes']['width'],
+                            'height' => $InlineImage['element']['attributes']['height'],
+                        ],
+                    ];
                 }
                 $picture = [
                     'extent'  => $InlineImage['extent'],
@@ -423,19 +436,7 @@ class Parsedown extends \ParsedownToc
                         ],
                     ],
                 ];
-                $source = [
-                    'element' => [
-                        'name'       => 'source',
-                        'attributes' => [
-                            'type'   => 'image/webp',
-                            'srcset' => $srcset,
-                            'sizes'  => $sizes,
-                            'width'  => $InlineImage['element']['attributes']['width'],
-                            'height' => $InlineImage['element']['attributes']['height'],
-                        ],
-                    ],
-                ];
-                $picture['element']['text'][] = $source['element'];
+                $picture['element']['text'] = $sources;
                 unset($image['element']['attributes']['title']); // @phpstan-ignore unset.offset
                 $picture['element']['text'][] = $image['element'];
                 $image = $picture;
