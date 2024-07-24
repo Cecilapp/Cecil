@@ -330,9 +330,9 @@ Ratio is preserved (`height` attribute is calculated automatically), the origina
 This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
 :::
 
-#### WebP
+#### Formats
 
-If the [`webp` option](4-Configuration.md#body) is enabled, an alterative image in the [WebP](https://developers.google.com/speed/webp) format is created.
+If the [`formats` option](4-Configuration.md#body) is defined, alternatives images are created and added.
 
 _Example:_
 
@@ -344,13 +344,14 @@ Is converted to:
 
 ```html
 <picture>
+  <source srcset="/image.avif" type="image/avif">
   <source srcset="/image.webp" type="image/webp">
   <img src="/image.jpg">
 </picture>
 ```
 
 :::important
-This feature requires [WebP](https://developers.google.com/speed/webp) be supported by PHP installation.
+Please note that **not all image formats** are always included in the PHP image extensions.
 :::
 
 #### Responsive
@@ -396,7 +397,7 @@ assets:
 ```
 
 :::info
-You can combine `webp` and `responsive` options.
+You can combine `formats` and `responsive` options.
 :::
 
 #### CSS class
