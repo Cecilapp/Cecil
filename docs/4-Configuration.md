@@ -635,8 +635,7 @@ pages:
         enabled: true   # adds `decoding="async"` attribute (`true` by default)
       resize:
         enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)
-      webp:
-        enabled: false  # adds a WebP image as a `source` (`false` by default)
+      formats: [] # creates and adds formats images as `source` (empty by default)
       responsive:
         enabled: false  # creates responsive images and add them to the `srcset` attribute (`false` by default)
       class: ''         # put default class to each image (empty by default)
@@ -828,8 +827,7 @@ assets:
       sizes:
         default: '100vw' # default `sizes` attribute (`100vw` by default)
       enabled: false     # used by `html` filter: creates responsive images by default (`false` by default)
-    webp:
-      enabled: false     # used by `html` filter: creates and adds a WebP image as a `source` by default (`false` by default)
+    formats: []          # used by `html` filter: creates and adds formats images as `source` (empty by default)
 ```
 
 :::
