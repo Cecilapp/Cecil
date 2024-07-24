@@ -535,7 +535,7 @@ class Core extends SlugifyExtension
             );
 
             // multiple <source>?
-            if (count($formats) > 0) {
+            if (\count($formats) > 0) {
                 $source = '';
                 foreach ($formats as $format) {
                     if ($asset['subtype'] != "image/$format" && !Image::isAnimatedGif($asset)) {

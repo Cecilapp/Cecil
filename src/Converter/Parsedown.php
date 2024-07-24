@@ -388,7 +388,7 @@ class Parsedown extends \ParsedownToc
 
         // converts image to formats and put them in picture > source
         if (
-            count($formats = ((array) $this->config->get('pages.body.images.formats') ?? ['webp'])) > 0
+            \count($formats = ((array) $this->config->get('pages.body.images.formats') ?? ['webp'])) > 0
             && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
