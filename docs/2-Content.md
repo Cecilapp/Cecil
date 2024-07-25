@@ -340,7 +340,7 @@ _Example:_
 ![](/image.jpg)
 ```
 
-Is converted to:
+Could be converted to:
 
 ```html
 <picture>
