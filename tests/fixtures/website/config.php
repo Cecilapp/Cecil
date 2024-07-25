@@ -128,9 +128,7 @@ return [
                 'responsive' => [
                     'enabled' => true,
                 ],
-                'webp' => [
-                    'enabled' => true,
-                ],
+                'formats' => ['avif', 'webp'],
                 'caption' => [
                     'enabled' => true,
                 ],
@@ -202,9 +200,7 @@ return [
                     'img' => '100vw',
                 ],
             ],
-            'webp' => [
-                'enabled' => true,
-            ],
+            'formats' => ['avif', 'webp'],
             'caption' => [
                 'enabled' => true,
             ],
