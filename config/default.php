@@ -84,9 +84,7 @@ return [
                 'resize' => [
                     'enabled' => false, // enables image resizing by using the `width` extra attribute (`false` by default)
                 ],
-                'webp' => [
-                    'enabled' => false, // creates and adds a WebP image as a `source` (`false` by default)
-                ],
+                'formats' => [], // creates and adds formats images as `source` (empty by default)
                 'responsive' => [
                     'enabled' => false, // creates responsive images and adds them to the `srcset` attribute (`false` by default)
                 ],
@@ -233,9 +231,7 @@ return [
                 ],
                 'enabled' => false, // `html` filter: creates responsive images (`false` by default)
             ],
-            'webp' => [
-                'enabled' => false, // `html` filter: creates and adds a WebP image as a `source` (`false` by default)
-            ],
+            'formats' => [], // `html` filter: creates and adds formats images as `source` (empty by default)
             'cdn' => [
                 'enabled'   => false,  // enables Image CDN (`false` by default)
                 'canonical' => true,   // is `image_url` must be canonical or not (`true` by default)
@@ -418,7 +414,7 @@ return [
         ],
         'images' => [
             'enabled' => true, // enables images files optimization
-            'ext'     => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'], // supported files extensions
+            'ext'     => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg', 'avif'], // supported files extensions
         ],
     ],
 ];

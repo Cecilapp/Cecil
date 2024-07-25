@@ -51,7 +51,7 @@ class Image
             // resizes to $width with constraint the aspect-ratio and unwanted upsizing
             $image->scaleDown(width: $width);
             // return image data
-            return (string) $image->encodeByMediaType($asset['subtype'], /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: true, quality: $quality);
+            return (string) $image->encodeByMediaType($asset['subtype'], /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Not able to resize "%s": %s', $asset['path'], $e->getMessage()));
         }
@@ -74,7 +74,7 @@ class Image
                 throw new RuntimeException(sprintf('Function "image%s" is not available.', $format));
             }
 
-            return (string) $image->encodeByExtension($format, /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: true, quality: $quality);
+            return (string) $image->encodeByExtension($format, /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Not able to convert "%s": %s', $asset['path'], $e->getMessage()));
         }
@@ -100,7 +100,7 @@ class Image
     }
 
     /**
-     * Returns the dominant hexadecimal color of an image asset.
+     * Returns the dominant RGB color of an image asset.
      *
      * @throws RuntimeException
      */
@@ -114,7 +114,7 @@ class Image
             $assetColor = $assetColor->resize(100);
             $image = self::manager()->read($assetColor['content']);
 
-            return $image->reduceColors(1)->pickColor(0, 0)->toHex();
+            return $image->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
             throw new RuntimeException(sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
         }

@@ -995,13 +995,26 @@ _Example:_
 
 ### webp
 
-Converts an image to WebP format.
+Converts an image to [WebP](https://developers.google.com/speed/webp) format.
 
 _Example:_
 
 ```twig
 <picture>
     <source type="image/webp" srcset="{{ asset(image_path)|webp }}">
+    <img src="{{ url(asset(image_path)) }}" width="{{ asset(image_path).width }}" height="{{ asset(image_path).height }}" alt="">
+</picture>
+```
+
+### avif
+
+Converts an image to [AVIF](https://github.com/AOMediaCodec/libavif) format.
+
+_Example:_
+
+```twig
+<picture>
+    <source type="image/avif" srcset="{{ asset(image_path)|avif }}">
     <img src="{{ url(asset(image_path)) }}" width="{{ asset(image_path).width }}" height="{{ asset(image_path).height }}" alt="">
 </picture>
 ```
@@ -1054,10 +1067,10 @@ Converts an asset into an HTML element.
 {{ asset(path)|html({attributes, options}) }}
 ```
 
-| Option     | Description                                     | Type  | Default |
-| ---------- | ----------------------------------------------- | ----- | ------- |
-| attributes | Adds `name="value"` couple to the HTML element. | array |         |
-| options    | `{preload: true}`: preloads CSS.<br>`{responsive: true}`: creates responsives images.<br>`{webp: true}`: creates WebP versions of the image. | array |         |
+| Option     | Description                                     | Type  |
+| ---------- | ----------------------------------------------- | ----- |
+| attributes | Adds `name="value"` couple to the HTML element. | array |
+| options    | `{preload: boolean}`: preloads CSS.<br>`{responsive: boolean}`: creates responsives images.<br>`{formats: array}`: creates image alternative formats. | array |
 
 _Examples:_
 
@@ -1068,7 +1081,7 @@ _Examples:_
 
 ```twig
 {# image with specific attributes and options #}
-{{ asset('image.jpg')|html({alt: 'Description', loading: 'lazy'}, {responsive: true, webp: true}) }}
+{{ asset('image.jpg')|html({alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif','webp']}) }}
 ```
 
 ```twig

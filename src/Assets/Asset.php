@@ -460,26 +460,25 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Converts an image asset to WebP format.
+     * Converts an image asset to $format format.
      *
      * @throws RuntimeException
      */
-    public function webp(?int $quality = null): self
+    public function convert(string $format, ?int $quality = null): self
     {
         if ($this->data['type'] != 'image') {
-            throw new RuntimeException(sprintf('Not able to convert "%s" (%s) to WebP: not an image.', $this->data['path'], $this->data['type']));
+            throw new RuntimeException(sprintf('Not able to convert "%s" (%s) to %s: not an image.', $this->data['path'], $this->data['type'], $format));
         }
 
         if ($quality === null) {
             $quality = (int) $this->config->get('assets.images.quality') ?? 75;
         }
 
-        $assetWebp = clone $this;
-        $format = 'webp';
-        $assetWebp['ext'] = $format;
+        $asset = clone $this;
+        $asset['ext'] = $format;
 
         if ($this->isImageInCdn()) {
-            return $assetWebp; // returns the asset with the new extension only: CDN do the rest of the job
+            return $asset; // returns the asset with the new extension only: CDN do the rest of the job
         }
 
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
@@ -487,18 +486,38 @@ class Asset implements \ArrayAccess
         if ($this->data['width']) {
             array_unshift($tags, "{$this->data['width']}x");
         }
-        $cacheKey = $cache->createKeyFromAsset($assetWebp, $tags);
+        $cacheKey = $cache->createKeyFromAsset($asset, $tags);
         if (!$cache->has($cacheKey)) {
-            $assetWebp->data['content'] = Image::convert($assetWebp, $format, $quality);
-            $assetWebp->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
-            $assetWebp->data['subtype'] = "image/$format";
-            $assetWebp->data['size'] = \strlen($assetWebp->data['content']);
+            $asset->data['content'] = Image::convert($asset, $format, $quality);
+            $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
+            $asset->data['subtype'] = "image/$format";
+            $asset->data['size'] = \strlen($asset->data['content']);
 
-            $cache->set($cacheKey, $assetWebp->data);
+            $cache->set($cacheKey, $asset->data);
         }
-        $assetWebp->data = $cache->get($cacheKey);
+        $asset->data = $cache->get($cacheKey);
 
-        return $assetWebp;
+        return $asset;
+    }
+
+    /**
+     * Converts an image asset to WebP format.
+     *
+     * @throws RuntimeException
+     */
+    public function webp(?int $quality = null): self
+    {
+        return $this->convert('webp', $quality);
+    }
+
+    /**
+     * Converts an image asset to AVIF format.
+     *
+     * @throws RuntimeException
+     */
+    public function avif(?int $quality = null): self
+    {
+        return $this->convert('avif', $quality);
     }
 
     /**

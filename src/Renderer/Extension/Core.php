@@ -132,6 +132,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('dominant_color', [$this, 'dominantColor']),
             new \Twig\TwigFilter('lqip', [$this, 'lqip']),
             new \Twig\TwigFilter('webp', [$this, 'webp']),
+            new \Twig\TwigFilter('avif', [$this, 'avif']),
             // content
             new \Twig\TwigFilter('slugify', [$this, 'slugifyFilter']),
             new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
@@ -468,7 +469,7 @@ class Core extends SlugifyExtension
      * $options[
      *     'preload'    => false,
      *     'responsive' => false,
-     *     'webp'       => false,
+     *     'formats'    => [],
      * ];
      *
      * @throws RuntimeException
@@ -478,7 +479,7 @@ class Core extends SlugifyExtension
         $htmlAttributes = '';
         $preload = false;
         $responsive = (bool) $this->config->get('assets.images.responsive.enabled') ?? false;
-        $webp = (bool) $this->config->get('assets.images.webp.enabled') ?? false;
+        $formats = (array) $this->config->get('assets.images.formats') ?? [];
         extract($options, EXTR_IF_EXISTS);
 
         // builds HTML attributes
@@ -533,26 +534,32 @@ class Core extends SlugifyExtension
                 $htmlAttributes
             );
 
-            // WebP conversion?
-            if ($webp && $asset['subtype'] != 'image/webp' && !Image::isAnimatedGif($asset)) {
-                try {
-                    $assetWebp = $asset->webp();
-                    // <source> element
-                    $source = sprintf('<source type="image/webp" srcset="%s">', $assetWebp);
-                    // responsive
-                    if ($responsive && $srcset = Image::buildSrcset($assetWebp, $this->config->getAssetsImagesWidths())) {
-                        // <source> element
-                        $source = sprintf(
-                            '<source type="image/webp" srcset="%s" sizes="%s">',
-                            $srcset,
-                            $sizes
-                        );
+            // multiple <source>?
+            if (\count($formats) > 0) {
+                $source = '';
+                foreach ($formats as $format) {
+                    if ($asset['subtype'] != "image/$format" && !Image::isAnimatedGif($asset)) {
+                        try {
+                            $assetConverted = $asset->convert($format);
+                            // responsive?
+                            if ($responsive && $srcset = Image::buildSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
+                                // <source> element
+                                $source .= sprintf(
+                                    "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
+                                    $srcset,
+                                    $sizes
+                                );
+                                continue;
+                            }
+                            // <source> element
+                            $source .= sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
+                        } catch (\Exception $e) {
+                            $this->builder->getLogger()->error($e->getMessage());
+                        }
                     }
-
-                    return sprintf("<picture>\n  %s\n  %s\n</picture>", $source, $img);
-                } catch (\Exception $e) {
-                    $this->builder->getLogger()->debug($e->getMessage());
                 }
+
+                return sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
             }
 
             return $img;
@@ -581,22 +588,38 @@ class Core extends SlugifyExtension
 
     /**
      * Converts an image Asset to WebP format.
-     *
-     * @throws RuntimeException
      */
     public function webp(Asset $asset, ?int $quality = null): Asset
     {
-        if ($asset['subtype'] == 'image/webp') {
+        return $this->convert($asset, 'webp', $quality);
+    }
+
+    /**
+     * Converts an image Asset to AVIF format.
+     */
+    public function avif(Asset $asset, ?int $quality = null): Asset
+    {
+        return $this->convert($asset, 'avif', $quality);
+    }
+
+    /**
+     * Converts an image Asset to the given format.
+     *
+     * @throws RuntimeException
+     */
+    private function convert(Asset $asset, string $format, ?int $quality = null): Asset
+    {
+        if ($asset['subtype'] == "image/$format") {
             return $asset;
         }
         if (Image::isAnimatedGif($asset)) {
-            throw new RuntimeException(sprintf('Can\'t convert the animated GIF "%s" to WebP.', $asset['path']));
+            throw new RuntimeException(sprintf('Can\'t convert the animated GIF "%s" to %s.', $asset['path'], $format));
         }
 
         try {
-            return $asset->webp($quality);
+            return $asset->$format($quality);
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Can\'t convert "%s" to WebP (%s).', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(sprintf('Can\'t convert "%s" to %s (%s).', $asset['path'], $format, $e->getMessage()));
         }
     }
 
