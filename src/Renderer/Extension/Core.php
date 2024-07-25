@@ -469,7 +469,7 @@ class Core extends SlugifyExtension
      * $options[
      *     'preload'    => false,
      *     'responsive' => false,
-     *     'formats'    => ['webp'],
+     *     'formats'    => [],
      * ];
      *
      * @throws RuntimeException
