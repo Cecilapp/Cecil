@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2024-03-13
+updated: 2024-07-25
 -->
 # Configuration
 
@@ -318,13 +318,13 @@ Cecil uses page’s front matter to feed meta tags, and fallbacks to the site co
 ```yaml
 title: "Page/site title"
 description: "Page/site description"
-tags: [tag1, tag2] # feeds keywords meta
-keywords: [keyword1, keyword2] # obsolete
+tags: [tag1, tag2]                   # feeds keywords meta
+keywords: [keyword1, keyword2]       # obsolete
 author: "Author name"
-image: image.jpg # used by OpenGraph and Twitter Card
-canonical: # used to override the generated canonical URL
+image: image.jpg                     # used by OpenGraph and Twitter Card
+canonical:                           # used to override the generated canonical URL
   url: <URL>
-  title: "<URL title>" # optional
+  title: "<URL title>"               # optional
 social:
   twitter:
     site: username
@@ -349,21 +349,21 @@ If needed `title` and `image` can be overridden:
 
 ```yaml
 metatags:
-  title:                  # title options
-    divider: " &middot; "   # string between page title and site title
-    only: false             # displays page title only (`false` by default)
+  title:                 # title options
+    divider: " &middot; "  # string between page title and site title
+    only: false            # displays page title only (`false` by default)
     pagination:
-      shownumber: true      # displays page number in title (`true` by default)
-      label: "Page %s"      # how to display page number (`Page %s` by default)
+      shownumber: true     # displays page number in title (`true` by default)
+      label: "Page %s"     # how to display page number (`Page %s` by default)
   image:
-    enabled: true         # injects image (`true` by default)
-  robots: "index,follow"  # web crawlers directives (`index,follow` by default)
-  articles: "blog"        # articles' section (`blog` by default)
+    enabled: true        # injects image (`true` by default)
+  robots: "index,follow" # web crawlers directives (`index,follow` by default)
+  articles: "blog"       # articles' section (`blog` by default)
   jsonld:
-    enabled: false        # injects JSON-LD structured data (`false` by default)
+    enabled: false       # injects JSON-LD structured data (`false` by default)
   favicon:
-    enabled: true         # injects favicon (`true` by default)
-    image: favicon.png    # path to favicon image
+    enabled: true        # injects favicon (`true` by default)
+    image: favicon.png     # path to favicon image
     sizes:
       - "icon": [32, 57, 76, 96, 128, 192, 228] # web browsers
       - "shortcut icon": [196]                  # Android
@@ -624,36 +624,36 @@ Pages’ content format and converter’s options.
 ```yaml
 pages:
   body:
-    format: md          # page body format (only `md`, Markdown, is supported)
-    toc: [h2, h3]       # headers used to build the table of contents
+    format: md         # page body format (only `md`, Markdown, is supported)
+    toc: [h2, h3]      # headers used to build the table of contents
     highlight:
-      enabled: false    # enables code syntax highlighting (`false` by default)
-    images:             # how to handle images
+      enabled: false   # enables code syntax highlighting (`false` by default)
+    images:            # how to handle images
       lazy:
-        enabled: true   # adds `loading="lazy"` attribute (`true` by default)
+        enabled: true  # adds `loading="lazy"` attribute (`true` by default)
       decoding:
-        enabled: true   # adds `decoding="async"` attribute (`true` by default)
+        enabled: true  # adds `decoding="async"` attribute (`true` by default)
       resize:
-        enabled: false  # enables image resizing by using the `width` extra attribute (`false` by default)
-      formats: [] # creates and adds formats images as `source` (empty by default)
+        enabled: false # enables image resizing by using the `width` extra attribute (`false` by default)
+      formats: []      # creates and adds formats images as `source` (empty by default)
       responsive:
-        enabled: false  # creates responsive images and add them to the `srcset` attribute (`false` by default)
-      class: ''         # put default class to each image (empty by default)
+        enabled: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
+      class: ''        # put default class to each image (empty by default)
       caption:
-        enabled: false  # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+        enabled: false # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
       remote:
-        enabled: true   # enables remote image handling (`true` by default)
+        enabled: true  # enables remote image handling (`true` by default)
         fallback:
           enabled: false # enables a fallback if image is not found (`false` by default)
           path: ''       # path to the fallback image, stored in assets dir (empty by default)
-      placeholder: ''   # fill <img> background before loading ('color' or 'lqip', empty by default)
+      placeholder: ''  # fill <img> background before loading ('color' or 'lqip', empty by default)
     links:
       embed:
         enabled: false # turns links in embedded content if possible (`false` by default)
         video:
           ext: [mp4, 'webm'] # video files extensions
         audio:
-          ext: [mp3] # audio files extensions
+          ext: [mp3]         # audio files extensions
       external:
         blank: false     # if true open external link in new tab
         noopener: true   # add "noopener" to `rel`  attribute
@@ -810,24 +810,24 @@ assets:
     enabled: true        # enables fingerprinting (`true` by default)
   compile:
     enabled: true        # enables Sass files compilation (`true` by default)
-    style: expanded      # compilation style (`expanded` or `compressed`. `expanded` by default)
-    import: [sass, scss] # list of imported paths (`[sass, scss, node_modules]` by default)
-    sourcemap: false     # enables sourcemap in debug mode (`false` by default)
-    variables: []        # list of preset variables (empty by default)
+    style: expanded        # compilation style (`expanded` or `compressed`. `expanded` by default)
+    import: [sass, scss]   # list of imported paths (`[sass, scss, node_modules]` by default)
+    sourcemap: false       # enables sourcemap in debug mode (`false` by default)
+    variables: []          # list of preset variables (empty by default)
   minify:
     enabled: true        # enables CSS et JS minification (`true` by default)
   images:
     resize:
-      dir: thumbnails    # where resized images are stored (`thumbnails` by default)
+      dir: thumbnails      # where resized images are stored (`thumbnails` by default)
     optimize:
-      enabled: false     # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc (`false` by default)
-    quality: 75          # image quality after optimization or resize (`75` by default)
+      enabled: false       # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc (`false` by default)
+    quality: 75            # image quality after optimization or resize (`75` by default)
     responsive:
-      widths: []         # `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
+      widths: []           # `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
       sizes:
-        default: '100vw' # default `sizes` attribute (`100vw` by default)
-      enabled: false     # used by `html` filter: creates responsive images by default (`false` by default)
-    formats: []          # used by `html` filter: creates and adds formats images as `source` (empty by default)
+        default: '100vw'   # default `sizes` attribute (`100vw` by default)
+      enabled: false       # used by `html` filter: creates responsive images by default (`false` by default)
+    formats: []            # used by `html` filter: creates and adds formats images as `source` (empty by default)
 ```
 
 :::
@@ -891,15 +891,15 @@ Cache options.
 
 ```yaml
 cache:
-  enabled: true # enables cache support (`true` by default)
-  dir: '.cache' # cache files directory (`.cache` by default)
+  enabled: true         # enables cache support (`true` by default)
+  dir: '.cache'         # cache files directory (`.cache` by default)
   templates:
-    enabled: true  # enables cache for Twig templates
-    dir: templates # templates files cache directory (`templates` by default)
+    enabled: true       # enables cache for Twig templates
+    dir: templates      # templates files cache directory (`templates` by default)
   assets:
-    dir: 'assets' # assets files cache directory (`assets` by default)
+    dir: 'assets'       # assets files cache directory (`assets` by default)
     remote:
-      dir: remote # remote files cache directory (`remote` by default)
+      dir: remote       # remote files cache directory (`remote` by default)
   translations:
     enabled: true       # enables cache for translations dictionary
     dir: 'translations' # translations files cache directory (`assets` by default)
@@ -911,18 +911,18 @@ Options of files optimizations after build.
 
 ```yaml
 optimize:
-  enabled: false # enables files optimization (`false` by default)
+  enabled: false     # enables files optimization (`false` by default)
   html:
     enabled: true    # enables HTML files optimization
-    ext: [html, htm] # supported files extensions
+    ext: [html, htm]   # supported files extensions
   css:
-    enabled: true # enables CSS files optimization
-    ext: [css]    # supported files extensions
+    enabled: true    # enables CSS files optimization
+    ext: [css]         # supported files extensions
   js:
-    enabled: true # enables JavaScript files optimization
-    ext: [js]     # supported files extensions
+    enabled: true    # enables JavaScript files optimization
+    ext: [js]          # supported files extensions
   images:
-    enabled: true # enables images files optimization
+    enabled: true    # enables images files optimization
     ext: [jpeg, jpg, png, gif, webp, svg, avif] # supported files extensions
 ```
 
