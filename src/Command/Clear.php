@@ -73,7 +73,7 @@ class Clear extends AbstractCommand
 
         $output->writeln('Removing output directory...');
         $output->writeln(
-            sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), $outputDir)),
+            \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), $outputDir)),
             OutputInterface::VERBOSITY_VERBOSE
         );
         Util\File::getFS()->remove(Util::joinFile($this->getPath(), $outputDir));
@@ -93,7 +93,7 @@ class Clear extends AbstractCommand
 
         $output->writeln('Removing temporary directory...');
         $output->writeln(
-            sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), self::TMP_DIR)),
+            \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), self::TMP_DIR)),
             OutputInterface::VERBOSITY_VERBOSE
         );
         Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR));

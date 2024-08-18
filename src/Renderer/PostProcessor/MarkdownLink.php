@@ -43,7 +43,7 @@ class MarkdownLink extends AbstractPostProcessor
                     $hrefPattern = 'href="/%s/%s"';
                 }
 
-                return sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
+                return \sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
             },
             $output
         );

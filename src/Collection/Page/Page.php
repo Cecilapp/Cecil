@@ -564,7 +564,7 @@ class Page extends Item
                 try {
                     $date = Util\Date::toDatetime($value);
                 } catch (\Exception) {
-                    throw new \Exception(sprintf('The value of "%s" is not a valid date: "%s".', $name, var_export($value, true)));
+                    throw new \Exception(\sprintf('The value of "%s" is not a valid date: "%s".', $name, var_export($value, true)));
                 }
                 $this->offsetSet($name == 'lastmod' ? 'updated' : $name, $date);
                 break;
@@ -594,7 +594,7 @@ class Page extends Item
             case 'slug':
                 $slugify = self::slugify((string) $value);
                 if ($value != $slugify) {
-                    throw new RuntimeException(sprintf('"%s" variable should be "%s" (not "%s") in "%s".', $name, $slugify, (string) $value, $this->getId()));
+                    throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s".', $name, $slugify, (string) $value, $this->getId()));
                 }
                 $method = 'set' . ucfirst($name);
                 $this->$method($value);

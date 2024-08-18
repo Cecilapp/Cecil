@@ -114,7 +114,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
             try {
                 $subPages = $subPages->sortBy($page->getVariable('sortby'));
             } catch (RuntimeException $e) {
-                throw new RuntimeException(sprintf('In page "%s", %s', $page->getId(), $e->getMessage()));
+                throw new RuntimeException(\sprintf('In page "%s", %s', $page->getId(), $e->getMessage()));
             }
         }
 

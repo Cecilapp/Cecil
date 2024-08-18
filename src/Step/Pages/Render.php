@@ -43,7 +43,7 @@ class Render extends AbstractStep
     public function init(array $options): void
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
-            $message = sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
+            $message = \sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
             $this->builder->getLogger()->debug($message);
         }
 
@@ -88,11 +88,11 @@ class Render extends AbstractStep
         $postprocessors = [];
         foreach ($this->config->get('output.postprocessors') as $name => $postprocessor) {
             if (!class_exists($postprocessor)) {
-                $this->builder->getLogger()->error(sprintf('Unable to load output post processor "%s"', $postprocessor));
+                $this->builder->getLogger()->error(\sprintf('Unable to load output post processor "%s"', $postprocessor));
                 break;
             }
             $postprocessors[] = new $postprocessor($this->builder);
-            $this->builder->getLogger()->debug(sprintf('Output post processor "%s" loaded', $name));
+            $this->builder->getLogger()->debug(\sprintf('Output post processor "%s" loaded', $name));
         }
         /** @var Page $page */
         foreach ($pages as $page) {
@@ -168,10 +168,10 @@ class Render extends AbstractStep
                 } catch (\Twig\Error\Error $e) {
                     $template = !empty($e->getSourceContext()->getPath()) ? $e->getSourceContext()->getPath() : $e->getSourceContext()->getName();
 
-                    throw new RuntimeException(sprintf(
+                    throw new RuntimeException(\sprintf(
                         'Template "%s%s" (page: %s): %s',
                         $template,
-                        $e->getTemplateLine() >= 0 ? sprintf(':%s', $e->getTemplateLine()) : '',
+                        $e->getTemplateLine() >= 0 ? \sprintf(':%s', $e->getTemplateLine()) : '',
                         $page->getId(),
                         $e->getMessage()
                     ));
@@ -180,7 +180,7 @@ class Render extends AbstractStep
             $this->builder->getPages()->replace($page->getId(), $page);
 
             $templates = array_column($rendered, 'template');
-            $message = sprintf(
+            $message = \sprintf(
                 'Page "%s" rendered with [%s]',
                 $page->getId() ?: 'index',
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
@@ -221,9 +221,9 @@ class Render extends AbstractStep
     protected function addGlobals()
     {
         $this->builder->getRenderer()->addGlobal('cecil', [
-            'url'       => sprintf('https://cecil.app/#%s', Builder::getVersion()),
+            'url'       => \sprintf('https://cecil.app/#%s', Builder::getVersion()),
             'version'   => Builder::getVersion(),
-            'poweredby' => sprintf('Cecil v%s', Builder::getVersion()),
+            'poweredby' => \sprintf('Cecil v%s', Builder::getVersion()),
         ]);
     }
 

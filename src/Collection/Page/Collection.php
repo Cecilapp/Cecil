@@ -59,9 +59,9 @@ class Collection extends CecilCollection
          *   reverse: false|true
          */
         $sortBy = \is_string($options) ? $options : $options['variable'] ?? 'date';
-        $sortMethod = sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortBy)));
+        $sortMethod = \sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortBy)));
         if (!method_exists($this, $sortMethod)) {
-            throw new RuntimeException(sprintf('"%s" is not a valid value for `sortby` to sort collection "%s".', $sortBy, $this->getId()));
+            throw new RuntimeException(\sprintf('"%s" is not a valid value for `sortby` to sort collection "%s".', $sortBy, $this->getId()));
         }
 
         return $this->$sortMethod($options);

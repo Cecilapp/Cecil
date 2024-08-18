@@ -82,7 +82,7 @@ class GeneratorManager extends \SplPriorityQueue
                         $countPagesUpdated++;
                     }
                 }
-                $message = sprintf('%s "%s" pages generated and %s pages updated', $countPagesAdded, Util::formatClassName($generator), $countPagesUpdated);
+                $message = \sprintf('%s "%s" pages generated and %s pages updated', $countPagesAdded, Util::formatClassName($generator), $countPagesUpdated);
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
 
                 $this->next();

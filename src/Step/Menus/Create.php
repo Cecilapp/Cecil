@@ -88,7 +88,7 @@ class Create extends AbstractStep
 
                         // ID is required
                         if (!isset($properties['id'])) {
-                            $this->builder->getLogger()->error(sprintf('Config menu entry: key "id" is required for entry at position %s in "%s" menu', $key, $menu), ['progress' => [$countConfig, $totalConfig]]);
+                            $this->builder->getLogger()->error(\sprintf('Config menu entry: key "id" is required for entry at position %s in "%s" menu', $key, $menu), ['progress' => [$countConfig, $totalConfig]]);
                             continue;
                         }
                         /** @var \Cecil\Collection\Menu\Entry $item */
@@ -102,7 +102,7 @@ class Create extends AbstractStep
                             if (isset($properties['enabled']) && $properties['enabled'] === false) {
                                 $menu->remove($properties['id']);
 
-                                $message = sprintf('Config menu entry "%s (%s) > %s" removed', (string) $menu, $language['code'], $properties['id']);
+                                $message = \sprintf('Config menu entry "%s (%s) > %s" removed', (string) $menu, $language['code'], $properties['id']);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                                 continue;
                             }
@@ -119,7 +119,7 @@ class Create extends AbstractStep
                         // adds/replaces entry
                         $menu->add($item);
 
-                        $message = sprintf('Config menu entry "%s (%s) > %s" %s {name: %s, url: %s, weight: %s}', (string) $menu, $language['code'], $item->getId(), $updated ? 'updated' : 'created', $item-> getName(), $item->getUrl(), $item->getWeight());
+                        $message = \sprintf('Config menu entry "%s (%s) > %s" %s {name: %s, url: %s, weight: %s}', (string) $menu, $language['code'], $item->getId(), $updated ? 'updated' : 'created', $item-> getName(), $item->getUrl(), $item->getWeight());
                         $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                     }
                 }
@@ -165,7 +165,7 @@ class Create extends AbstractStep
                         $properties = null;
                     }
                     if (!\is_string($menuName)) {
-                        $this->builder->getLogger()->error(sprintf('Menu\'s name of page "%s" must be a string, not "%s"', $page->getId(), PrintLogger::format($menuName)), ['progress' => [$count, $total]]);
+                        $this->builder->getLogger()->error(\sprintf('Menu\'s name of page "%s" must be a string, not "%s"', $page->getId(), PrintLogger::format($menuName)), ['progress' => [$count, $total]]);
                         continue;
                     }
                     $item = (new Entry($page->getIdWithoutLang()))
@@ -182,7 +182,7 @@ class Create extends AbstractStep
                     $menu = $this->menus[$language]->get($menuName);
                     $menu->add($item);
 
-                    $message = sprintf('Page menu entry "%s (%s) > %s" created {name: %s, weight: %s}', $menu->getId(), $language, $item->getId(), $item->getName(), $properties['weight'] ?? 'N/A');
+                    $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s, weight: %s}', $menu->getId(), $language, $item->getId(), $item->getName(), $properties['weight'] ?? 'N/A');
                     $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
                 }
                 continue;
@@ -204,7 +204,7 @@ class Create extends AbstractStep
             $menu = $this->menus[$language]->get($page->getVariable('menu'));
             $menu->add($item);
 
-            $message = sprintf('Page menu entry "%s (%s) > %s" created {name: %s}', $menu->getId(), $language, $item->getId(), $item->getName());
+            $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s}', $menu->getId(), $language, $item->getId(), $item->getName());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

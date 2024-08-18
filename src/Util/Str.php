@@ -31,7 +31,7 @@ class Str
         $string = '';
 
         foreach ($array as $subArray) {
-            $string .= sprintf('%s%s%s, ', $subArray[$keyToKey], $separator, $subArray[$keyToValue]);
+            $string .= \sprintf('%s%s%s, ', $subArray[$keyToKey], $separator, $subArray[$keyToValue]);
         }
 
         return substr($string, 0, -2);

@@ -88,7 +88,7 @@ class Load extends AbstractStep
             }
             $count++;
 
-            $message = sprintf('File "%s" loaded', $file->getRelativePathname());
+            $message = \sprintf('File "%s" loaded', $file->getRelativePathname());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
 

@@ -68,7 +68,7 @@ class Collection implements CollectionInterface
         $result = $this->searchItem($id);
         $position = key($result);
         if (!\is_int($position)) {
-            throw new \DomainException(sprintf('"%s" does not exist in "%s" collection.', $id, $this->getId()));
+            throw new \DomainException(\sprintf('"%s" does not exist in "%s" collection.', $id, $this->getId()));
         }
 
         return $position;
@@ -95,7 +95,7 @@ class Collection implements CollectionInterface
     public function add(ItemInterface $item): CollectionInterface
     {
         if ($this->has($item->getId())) {
-            throw new \DomainException(sprintf('Failed adding "%s" in "%s" collection: item already exists.', $item->getId(), $this->getId()));
+            throw new \DomainException(\sprintf('Failed adding "%s" in "%s" collection: item already exists.', $item->getId(), $this->getId()));
         }
         $this->items[] = $item;
 
@@ -112,7 +112,7 @@ class Collection implements CollectionInterface
         try {
             $this->items[$this->getPosition($id)] = $item;
         } catch (\DomainException) {
-            throw new \DomainException(sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
+            throw new \DomainException(\sprintf('Failed replacing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
         return $this;
@@ -128,7 +128,7 @@ class Collection implements CollectionInterface
         try {
             unset($this->items[$this->getPosition($id)]);
         } catch (\DomainException) {
-            throw new \DomainException(sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
+            throw new \DomainException(\sprintf('Failed removing "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
 
         return $this;
@@ -144,7 +144,7 @@ class Collection implements CollectionInterface
         try {
             return $this->items[$this->getPosition($id)];
         } catch (\DomainException) {
-            throw new \DomainException(sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
+            throw new \DomainException(\sprintf('Failed getting "%s" in "%s" collection: item does not exist.', $id, $this->getId()));
         }
     }
 
@@ -203,7 +203,7 @@ class Collection implements CollectionInterface
      */
     public function toJson(): string
     {
-        return sprintf("%s\n", json_encode($this->items));
+        return \sprintf("%s\n", json_encode($this->items));
     }
 
     /**

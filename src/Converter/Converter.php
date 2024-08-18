@@ -41,9 +41,9 @@ class Converter implements ConverterInterface
     public function convertFrontmatter(string $string, string $format = 'yaml'): array
     {
         if (!\in_array($format, ['yaml', 'ini', 'toml', 'json'])) {
-            throw new RuntimeException(sprintf('The front matter format "%s" is not supported ("yaml", "ini", "toml" or "json").', $format));
+            throw new RuntimeException(\sprintf('The front matter format "%s" is not supported ("yaml", "ini", "toml" or "json").', $format));
         }
-        $method = sprintf('convert%sToArray', ucfirst($format));
+        $method = \sprintf('convert%sToArray', ucfirst($format));
 
         return self::$method($string);
     }

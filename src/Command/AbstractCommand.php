@@ -81,7 +81,7 @@ class AbstractCommand extends Command
             foreach ($this->configFiles as $fileName => $filePath) {
                 if ($filePath === false || !file_exists($filePath)) {
                     unset($this->configFiles[$fileName]);
-                    $this->getBuilder()->getLogger()->error(sprintf('Could not find configuration file "%s".', $fileName));
+                    $this->getBuilder()->getLogger()->error(\sprintf('Could not find configuration file "%s".', $fileName));
                 }
             }
         }
@@ -139,7 +139,7 @@ class AbstractCommand extends Command
                 // try to get canonicalized absolute path
                 if ($exist) {
                     if (realpath($this->path) === false) {
-                        throw new \Exception(sprintf('The given path "%s" is not valid.', $this->path));
+                        throw new \Exception(\sprintf('The given path "%s" is not valid.', $this->path));
                     }
                     $this->path = realpath($this->path);
                 }
@@ -193,7 +193,7 @@ class AbstractCommand extends Command
                 $siteConfig = [];
                 foreach ($this->getConfigFiles() as $fileName => $filePath) {
                     if ($filePath === false || false === $configContent = Util\File::fileGetContents($filePath)) {
-                        throw new RuntimeException(sprintf('Can\'t read configuration file "%s".', $fileName));
+                        throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
                     }
                     $siteConfig = array_replace_recursive($siteConfig, (array) Yaml::parse($configContent, Yaml::PARSE_DATETIME));
                 }
@@ -206,7 +206,7 @@ class AbstractCommand extends Command
                     ->setDestinationDir($this->getPath());
             }
         } catch (ParseException $e) {
-            throw new RuntimeException(sprintf('Configuration parsing error: %s', $e->getMessage()));
+            throw new RuntimeException(\sprintf('Configuration parsing error: %s', $e->getMessage()));
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -221,22 +221,22 @@ class AbstractCommand extends Command
      */
     protected function openEditor(string $path, string $editor): void
     {
-        $command = sprintf('%s "%s"', $editor, $path);
+        $command = \sprintf('%s "%s"', $editor, $path);
         switch (Util\Plateform::getOS()) {
             case Util\Plateform::OS_WIN:
-                $command = sprintf('start /B "" %s "%s"', $editor, $path);
+                $command = \sprintf('start /B "" %s "%s"', $editor, $path);
                 break;
             case Util\Plateform::OS_OSX:
                 // Typora on macOS
                 if ($editor == 'typora') {
-                    $command = sprintf('open -a typora "%s"', $path);
+                    $command = \sprintf('open -a typora "%s"', $path);
                 }
                 break;
         }
         $process = Process::fromShellCommandline($command);
         $process->run();
         if (!$process->isSuccessful()) {
-            throw new RuntimeException(sprintf('Can\'t use "%s" editor.', $editor));
+            throw new RuntimeException(\sprintf('Can\'t use "%s" editor.', $editor));
         }
     }
 

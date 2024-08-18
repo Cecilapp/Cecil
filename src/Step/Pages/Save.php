@@ -68,7 +68,7 @@ class Save extends AbstractStep
 
             foreach ($page->getRendered() as $format => $rendered) {
                 if (false === $pathname = (new PageRenderer($this->config))->getOutputFilePath($page, $format)) {
-                    throw new RuntimeException(sprintf("Can't get pathname of page '%s' (format: '%s').", $page->getId(), $format));
+                    throw new RuntimeException(\sprintf("Can't get pathname of page '%s' (format: '%s').", $page->getId(), $format));
                 }
                 $pathname = $this->cleanPath(Util::joinFile($this->config->getOutputPath(), $pathname));
 
@@ -81,7 +81,7 @@ class Save extends AbstractStep
                 $files[] = $this->builder->isDebug() ? $pathname : substr($pathname, \strlen($this->config->getDestinationDir()) + 1);
             }
 
-            $message = sprintf('File(s) "%s" saved', implode(', ', $files));
+            $message = \sprintf('File(s) "%s" saved', implode(', ', $files));
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }
@@ -107,7 +107,7 @@ class Save extends AbstractStep
             try {
                 Util\File::getFS()->remove($this->config->getCachePath());
             } catch (\Exception) {
-                throw new RuntimeException(sprintf('Can\'t remove cache directory "%s".', $this->config->getCachePath()));
+                throw new RuntimeException(\sprintf('Can\'t remove cache directory "%s".', $this->config->getCachePath()));
             }
         }
     }

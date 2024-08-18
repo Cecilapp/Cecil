@@ -74,7 +74,7 @@ class ShowContent extends AbstractCommand
             foreach ($contentTypes as $type) {
                 $dir = (string) $this->getBuilder()->getConfig()->get("$type.dir");
                 if (is_dir(Util::joinFile($this->getPath(), $dir))) {
-                    $output->writeln(sprintf('<info>%s:</info>', $dir));
+                    $output->writeln(\sprintf('<info>%s:</info>', $dir));
                     $pages = $this->getFilesTree($type);
                     if (!Util\Plateform::isWindows()) {
                         $unicodeTreePrefix($pages);
@@ -85,13 +85,13 @@ class ShowContent extends AbstractCommand
                     }
                 }
                 if ($count < 1) {
-                    $output->writeln(sprintf('<comment>Nothing in "%s".</comment>', $dir));
+                    $output->writeln(\sprintf('<comment>Nothing in "%s".</comment>', $dir));
                 }
             }
 
             return 0;
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf($e->getMessage()));
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
     }
 
@@ -107,7 +107,7 @@ class ShowContent extends AbstractCommand
         $path = Util::joinFile($this->getPath(), $dir);
 
         if (!is_dir($path)) {
-            throw new RuntimeException(sprintf('Invalid directory: %s.', $path));
+            throw new RuntimeException(\sprintf('Invalid directory: %s.', $path));
         }
 
         $dirIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);

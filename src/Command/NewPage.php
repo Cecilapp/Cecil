@@ -84,9 +84,9 @@ class NewPage extends AbstractCommand
             $title = ucfirst(str_replace('-', ' ', $title));
             $date = date('Y-m-d');
             // date prefix?
-            $datePrefix = $prefix ? sprintf('%s-', $date) : '';
+            $datePrefix = $prefix ? \sprintf('%s-', $date) : '';
             // define target path
-            $fileRelativePath = sprintf(
+            $fileRelativePath = \sprintf(
                 '%s%s%s%s%s',
                 (string) $this->getBuilder()->getConfig()->get('pages.dir'),
                 DIRECTORY_SEPARATOR,
@@ -97,20 +97,20 @@ class NewPage extends AbstractCommand
             $filePath = Util::joinFile($this->getPath(), $fileRelativePath);
             // ask to override existing file?
             if (Util\File::getFS()->exists($filePath) && !$force) {
-                $output->writeln(sprintf('<comment>The file "%s" already exists.</comment>', $fileRelativePath));
+                $output->writeln(\sprintf('<comment>The file "%s" already exists.</comment>', $fileRelativePath));
                 if (!$this->io->confirm('Do you want to override it?', false)) {
                     return 0;
                 }
             }
             // creates a new file
-            $model = $this->findModel(sprintf('%s%s', empty($dirname) ? '' : $dirname . DIRECTORY_SEPARATOR, $filename));
+            $model = $this->findModel(\sprintf('%s%s', empty($dirname) ? '' : $dirname . DIRECTORY_SEPARATOR, $filename));
             $fileContent = str_replace(
                 ['%title%', '%date%'],
                 [$title, $date],
                 $model['content']
             );
             Util\File::getFS()->dumpFile($filePath, $fileContent);
-            $output->writeln(sprintf('<info>File "%s" created (with model "%s").</info>', $fileRelativePath, $model['name']));
+            $output->writeln(\sprintf('<info>File "%s" created (with model "%s").</info>', $fileRelativePath, $model['name']));
             // open editor?
             if ($open) {
                 if ($editor === null) {
@@ -121,11 +121,11 @@ class NewPage extends AbstractCommand
                     }
                     $editor = (string) $this->getBuilder()->getConfig()->get('editor');
                 }
-                $output->writeln(sprintf('<info>Opening file with %s...</info>', ucfirst($editor)));
+                $output->writeln(\sprintf('<info>Opening file with %s...</info>', ucfirst($editor)));
                 $this->openEditor($filePath, $editor);
             }
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf($e->getMessage()));
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
         return 0;

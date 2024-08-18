@@ -285,7 +285,7 @@ class Core extends SlugifyExtension
     public function asset($path, array|null $options = null): Asset
     {
         if (!\is_string($path) && !\is_array($path)) {
-            throw new RuntimeException(sprintf('Argument of "%s()" must a string or an array.', \Cecil\Util::formatMethodName(__METHOD__)));
+            throw new RuntimeException(\sprintf('Argument of "%s()" must a string or an array.', \Cecil\Util::formatMethodName(__METHOD__)));
         }
 
         return new Asset($this->builder, $path, $options);
@@ -448,7 +448,7 @@ class Core extends SlugifyExtension
             $outputStyles = ['expanded', 'compressed'];
             $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
             if (!\in_array($outputStyle, $outputStyles)) {
-                throw new ConfigException(sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
+                throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
             }
             $scssPhp->setOutputStyle($outputStyle);
             $variables = $this->config->get('assets.compile.variables') ?? [];
@@ -484,9 +484,9 @@ class Core extends SlugifyExtension
 
         // builds HTML attributes
         foreach ($attributes as $name => $value) {
-            $attribute = sprintf(' %s="%s"', $name, $value);
+            $attribute = \sprintf(' %s="%s"', $name, $value);
             if (!isset($value)) {
-                $attribute = sprintf(' %s', $name);
+                $attribute = \sprintf(' %s', $name);
             }
             $htmlAttributes .= $attribute;
         }
@@ -498,16 +498,16 @@ class Core extends SlugifyExtension
         switch ($asset['ext']) {
             case 'css':
                 if ($preload) {
-                    return sprintf(
+                    return \sprintf(
                         '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
                         $this->url($context, $asset, $options),
                         $htmlAttributes
                     );
                 }
 
-                return sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
+                return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
             case 'js':
-                return sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
+                return \sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
         }
         // image
         if ($asset['type'] == 'image') {
@@ -519,16 +519,16 @@ class Core extends SlugifyExtension
                     $this->config->getAssetsImagesWidths()
                 )
             ) {
-                $htmlAttributes .= sprintf(' srcset="%s"', $srcset);
+                $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
                 $sizes = Image::getSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
-                $htmlAttributes .= sprintf(' sizes="%s"', $sizes);
+                $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
                 if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
                     $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
                 }
             }
 
             // <img> element
-            $img = sprintf(
+            $img = \sprintf(
                 '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
                 $this->url($context, $asset, $options),
                 $htmlAttributes
@@ -544,7 +544,7 @@ class Core extends SlugifyExtension
                             // responsive?
                             if ($responsive && $srcset = Image::buildSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
                                 // <source> element
-                                $source .= sprintf(
+                                $source .= \sprintf(
                                     "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
                                     $srcset,
                                     $sizes
@@ -552,20 +552,20 @@ class Core extends SlugifyExtension
                                 continue;
                             }
                             // <source> element
-                            $source .= sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
+                            $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
                         } catch (\Exception $e) {
                             $this->builder->getLogger()->error($e->getMessage());
                         }
                     }
                 }
 
-                return sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
+                return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
             }
 
             return $img;
         }
 
-        throw new RuntimeException(sprintf('%s is available for CSS, JavaScript and images files only.', '"html" filter'));
+        throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and images files only.', '"html" filter'));
     }
 
     /**
@@ -613,13 +613,13 @@ class Core extends SlugifyExtension
             return $asset;
         }
         if (Image::isAnimatedGif($asset)) {
-            throw new RuntimeException(sprintf('Can\'t convert the animated GIF "%s" to %s.', $asset['path'], $format));
+            throw new RuntimeException(\sprintf('Can\'t convert the animated GIF "%s" to %s.', $asset['path'], $format));
         }
 
         try {
             return $asset->$format($quality);
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Can\'t convert "%s" to %s (%s).', $asset['path'], $format, $e->getMessage()));
+            throw new RuntimeException(\sprintf('Can\'t convert "%s" to %s (%s).', $asset['path'], $format, $e->getMessage()));
         }
     }
 
@@ -754,7 +754,7 @@ class Core extends SlugifyExtension
                 throw new ParseException('YAML error.');
             }
         } catch (ParseException $e) {
-            throw new RuntimeException(sprintf('"yaml_parse" filter can not parse supplied YAML: %s', $e->getMessage()));
+            throw new RuntimeException(\sprintf('"yaml_parse" filter can not parse supplied YAML: %s', $e->getMessage()));
         }
 
         return $array;
@@ -905,7 +905,7 @@ class Core extends SlugifyExtension
         $variable = $variable ?? '';
 
         if (!self::isHex($variable)) {
-            throw new RuntimeException(sprintf('"%s" is not a valid hexadecimal value.', $variable));
+            throw new RuntimeException(\sprintf('"%s" is not a valid hexadecimal value.', $variable));
         }
         $hex = ltrim($variable, '#');
         if (\strlen($hex) == 3) {

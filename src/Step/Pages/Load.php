@@ -41,7 +41,7 @@ class Load extends AbstractStep
     public function init(array $options): void
     {
         if (!is_dir($this->config->getPagesPath())) {
-            throw new RuntimeException(sprintf('Pages path "%s" not found.', $this->config->getPagesPath()));
+            throw new RuntimeException(\sprintf('Pages path "%s" not found.', $this->config->getPagesPath()));
         }
 
         $this->page = $options['page'];
@@ -83,7 +83,7 @@ class Load extends AbstractStep
                 $this->page = implode(DIRECTORY_SEPARATOR, $pagePathAsArray);
             }
             if (!util\File::getFS()->exists(Util::joinFile($this->config->getPagesPath(), $this->page))) {
-                $this->builder->getLogger()->error(sprintf('File "%s" doesn\'t exist.', $this->page));
+                $this->builder->getLogger()->error(\sprintf('File "%s" doesn\'t exist.', $this->page));
             }
             $pages->path('.')->path(\dirname($this->page));
             $pages->name('/index\.(' . implode('|', (array) $this->config->get('pages.ext')) . ')$/');
@@ -109,7 +109,7 @@ class Load extends AbstractStep
         }
         foreach ($pages as $file) {
             $count++;
-            $this->builder->getLogger()->info(sprintf('File "%s" loaded', $file->getRelativePathname()), ['progress' => [$count, $total]]);
+            $this->builder->getLogger()->info(\sprintf('File "%s" loaded', $file->getRelativePathname()), ['progress' => [$count, $total]]);
         }
     }
 }

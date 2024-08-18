@@ -182,7 +182,7 @@ class Config
             $sourceDir = getcwd();
         }
         if (!is_dir($sourceDir)) {
-            throw new \InvalidArgumentException(sprintf('The directory "%s" is not a valid source.', $sourceDir));
+            throw new \InvalidArgumentException(\sprintf('The directory "%s" is not a valid source.', $sourceDir));
         }
         $this->sourceDir = $sourceDir;
 
@@ -208,7 +208,7 @@ class Config
             $destinationDir = $this->sourceDir;
         }
         if (!is_dir($destinationDir)) {
-            throw new \InvalidArgumentException(sprintf('The directory "%s" is not a valid destination.', $destinationDir));
+            throw new \InvalidArgumentException(\sprintf('The directory "%s" is not a valid destination.', $destinationDir));
         }
         $this->destinationDir = $destinationDir;
 
@@ -333,7 +333,7 @@ class Config
     public function getCachePath(): string
     {
         if (empty((string) $this->get('cache.dir'))) {
-            throw new RuntimeException(sprintf('The cache directory ("%s") is not defined in configuration.', 'cache.dir'));
+            throw new RuntimeException(\sprintf('The cache directory ("%s") is not defined in configuration.', 'cache.dir'));
         }
 
         if ($this->isCacheDirIsAbsolute()) {
@@ -392,7 +392,7 @@ class Config
         $properties = array_column((array) $this->get('output.formats'), $property, 'name');
 
         if (empty($properties)) {
-            throw new RuntimeException(sprintf('Property "%s" is not defined for format "%s".', $property, $name));
+            throw new RuntimeException(\sprintf('Property "%s" is not defined for format "%s".', $property, $name));
         }
 
         return $properties[$name] ?? null;
@@ -448,7 +448,7 @@ class Config
         if ($themes = $this->getTheme()) {
             foreach ($themes as $theme) {
                 if (!Util\File::getFS()->exists($this->getThemeDirPath($theme, 'layouts')) && !Util\File::getFS()->exists(Util::joinFile($this->getThemesPath(), $theme, 'config.yml'))) {
-                    throw new RuntimeException(sprintf('Theme "%s" not found. Did you forgot to install it?', $theme));
+                    throw new RuntimeException(\sprintf('Theme "%s" not found. Did you forgot to install it?', $theme));
                 }
             }
 
@@ -487,7 +487,7 @@ class Config
         });
 
         if (!\is_int(array_search($this->getLanguageDefault(), array_column($languages, 'code')))) {
-            throw new RuntimeException(sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
+            throw new RuntimeException(\sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
         }
 
         $this->languages = $languages;
@@ -526,7 +526,7 @@ class Config
         $array = array_column($this->getLanguages(), 'code');
 
         if (false === $index = array_search($code, $array)) {
-            throw new RuntimeException(sprintf('The language code "%s" is not defined.', $code));
+            throw new RuntimeException(\sprintf('The language code "%s" is not defined.', $code));
         }
 
         return $index;
@@ -544,7 +544,7 @@ class Config
         $properties = array_column($this->getLanguages(), $property, 'code');
 
         if (empty($properties)) {
-            throw new RuntimeException(sprintf('Property "%s" is not defined for language "%s".', $property, $code));
+            throw new RuntimeException(\sprintf('Property "%s" is not defined for language "%s".', $property, $code));
         }
 
         return $properties[$code];
@@ -595,7 +595,7 @@ class Config
     {
         // default language must be valid
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->getLanguageDefault())) {
-            throw new ConfigException(sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
+            throw new ConfigException(\sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
         }
         // if language is set then the locale is required
         foreach ((array) $this->get('languages') as $lang) {
@@ -603,7 +603,7 @@ class Config
                 throw new ConfigException('A language locale is not defined.');
             }
             if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
-                throw new ConfigException(sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
+                throw new ConfigException(\sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
             }
         }
         // Version 8.x breaking changes

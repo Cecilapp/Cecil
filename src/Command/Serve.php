@@ -84,7 +84,7 @@ class Serve extends AbstractCommand
             throw new RuntimeException('Can\'t find a local PHP executable.');
         }
 
-        $command = sprintf(
+        $command = \sprintf(
             '"%s" -S %s:%d -t "%s" "%s"',
             $php,
             $host,
@@ -144,7 +144,7 @@ class Serve extends AbstractCommand
         };
 
         // (re)builds before serve
-        $output->writeln(sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
+        $output->writeln(\sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
         $buildProcess->run($processOutputCallback);
         if ($buildProcess->isSuccessful()) {
             Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
@@ -175,8 +175,8 @@ class Serve extends AbstractCommand
                     pcntl_signal(SIGINT, [$this, 'tearDownServer']);
                     pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
-                $output->writeln(sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
-                $output->writeln(sprintf('Starting server (<href=http://%s:%d>http://%s:%d</>)...', $host, $port, $host, $port));
+                $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
+                $output->writeln(\sprintf('Starting server (<href=http://%s:%d>http://%s:%d</>)...', $host, $port, $host, $port));
                 $process->start(function ($type, $buffer) {
                     if ($type === Process::ERR) {
                         error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
@@ -184,7 +184,7 @@ class Serve extends AbstractCommand
                 });
                 if ($open) {
                     $output->writeln('Opening web browser...');
-                    Util\Plateform::openBrowser(sprintf('http://%s:%s', $host, $port));
+                    Util\Plateform::openBrowser(\sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
                     sleep(1); // wait for server is ready
@@ -226,12 +226,12 @@ class Serve extends AbstractCommand
                     }
                 }
                 if ($process->getExitCode() > 0) {
-                    $output->writeln(sprintf('<comment>%s</comment>', trim($process->getErrorOutput())));
+                    $output->writeln(\sprintf('<comment>%s</comment>', trim($process->getErrorOutput())));
                 }
             } catch (ProcessFailedException $e) {
                 $this->tearDownServer();
 
-                throw new RuntimeException(sprintf($e->getMessage()));
+                throw new RuntimeException(\sprintf($e->getMessage()));
             }
         }
 
@@ -265,17 +265,17 @@ class Serve extends AbstractCommand
             // copying baseurl text file
             Util\File::getFS()->dumpFile(
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
-                sprintf(
+                \sprintf(
                     '%s;%s',
                     (string) $this->getBuilder()->getConfig()->get('baseurl'),
-                    sprintf('http://%s:%s/', $host, $port)
+                    \sprintf('http://%s:%s/', $host, $port)
                 )
             );
         } catch (IOExceptionInterface $e) {
-            throw new RuntimeException(sprintf('An error occurred while copying server\'s files to "%s".', $e->getPath()));
+            throw new RuntimeException(\sprintf('An error occurred while copying server\'s files to "%s".', $e->getPath()));
         }
         if (!is_file(Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'))) {
-            throw new RuntimeException(sprintf('Router not found: "%s".', Util::joinFile(self::TMP_DIR, 'router.php')));
+            throw new RuntimeException(\sprintf('Router not found: "%s".', Util::joinFile(self::TMP_DIR, 'router.php')));
         }
     }
 

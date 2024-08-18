@@ -114,7 +114,7 @@ class Create extends AbstractStep
                     // adds each term to the vocabulary collection...
                     foreach ($page->getVariable($plural) as $termName) {
                         if ($termName === null) {
-                            throw new RuntimeException(sprintf(
+                            throw new RuntimeException(\sprintf(
                                 'Taxonomy "%s" of "%s" can\'t be empty.',
                                 $plural,
                                 $page->getId()

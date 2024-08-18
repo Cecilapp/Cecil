@@ -55,7 +55,7 @@ class Page
         }
         // add extension if exists
         if ($extension) {
-            $extension = sprintf('.%s', $extension);
+            $extension = \sprintf('.%s', $extension);
         }
         // homepage special case (need "index")
         if (empty($path) && empty($filename)) {

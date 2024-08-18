@@ -44,7 +44,7 @@ class Image
         try {
             // is image Asset?
             if ($asset['type'] !== 'image') {
-                throw new RuntimeException(sprintf('Not an image.'));
+                throw new RuntimeException(\sprintf('Not an image.'));
             }
             // creates image object from source
             $image = self::manager()->read($asset['content_source']);
@@ -53,7 +53,7 @@ class Image
             // return image data
             return (string) $image->encodeByMediaType($asset['subtype'], /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Not able to resize "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Not able to resize "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -66,17 +66,17 @@ class Image
     {
         try {
             if ($asset['type'] !== 'image') {
-                throw new RuntimeException(sprintf('Not an image.'));
+                throw new RuntimeException(\sprintf('Not an image.'));
             }
             $image = self::manager()->read($asset['content']);
 
             if (!\function_exists("image$format")) {
-                throw new RuntimeException(sprintf('Function "image%s" is not available.', $format));
+                throw new RuntimeException(\sprintf('Function "image%s" is not available.', $format));
             }
 
             return (string) $image->encodeByExtension($format, /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Not able to convert "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Not able to convert "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -89,13 +89,13 @@ class Image
     {
         try {
             if ($asset['type'] != 'image' || self::isSVG($asset)) {
-                throw new RuntimeException(sprintf('Not an image.'));
+                throw new RuntimeException(\sprintf('Not an image.'));
             }
             $image = self::manager()->read($asset['content']);
 
             return (string) $image->encode(new AutoEncoder(quality: $quality))->toDataUri();
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Can\'t get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Can\'t get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -108,7 +108,7 @@ class Image
     {
         try {
             if ($asset['type'] != 'image' || self::isSVG($asset)) {
-                throw new RuntimeException(sprintf('Not an image.'));
+                throw new RuntimeException(\sprintf('Not an image.'));
             }
             $assetColor = clone $asset;
             $assetColor = $assetColor->resize(100);
@@ -116,7 +116,7 @@ class Image
 
             return $image->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -129,7 +129,7 @@ class Image
     {
         try {
             if ($asset['type'] !== 'image') {
-                throw new RuntimeException(sprintf('Not an image.'));
+                throw new RuntimeException(\sprintf('Not an image.'));
             }
             $assetLqip = clone $asset;
             $assetLqip = $assetLqip->resize(100);
@@ -137,7 +137,7 @@ class Image
 
             return (string) $image->blur(50)->encode()->toDataUri();
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf('can\'t create LQIP of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('can\'t create LQIP of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -150,7 +150,7 @@ class Image
     public static function buildSrcset(Asset $asset, array $widths): string
     {
         if ($asset['type'] !== 'image') {
-            throw new RuntimeException(sprintf('can\'t build "srcset" of "%s": it\'s not an image file.', $asset['path']));
+            throw new RuntimeException(\sprintf('can\'t build "srcset" of "%s": it\'s not an image file.', $asset['path']));
         }
 
         $srcset = '';
@@ -160,12 +160,12 @@ class Image
                 break;
             }
             $img = $asset->resize($width);
-            $srcset .= sprintf('%s %sw, ', (string) $img, $width);
+            $srcset .= \sprintf('%s %sw, ', (string) $img, $width);
             $widthMax = $width;
         }
         // adds source image
         if (!empty($srcset) && ($asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
-            $srcset .= sprintf('%s %sw', (string) $asset, $asset['width']);
+            $srcset .= \sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 
         return rtrim($srcset, ', ');

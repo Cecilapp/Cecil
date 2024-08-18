@@ -331,10 +331,10 @@ class Parsedown extends \ParsedownToc
             $InlineImage['element']['attributes']['style'] = trim($InlineImage['element']['attributes']['style'], ';');
             switch ($InlineImage['element']['attributes']['placeholder']) {
                 case 'color':
-                    $InlineImage['element']['attributes']['style'] .= sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
+                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
                     break;
                 case 'lqip':
-                    $InlineImage['element']['attributes']['style'] .= sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($InlineImage['element']['attributes']['src']));
+                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($InlineImage['element']['attributes']['src']));
                     break;
             }
             unset($InlineImage['element']['attributes']['placeholder']);
@@ -394,11 +394,11 @@ class Parsedown extends \ParsedownToc
             try {
                 // InlineImage src must be an Asset instance
                 if (!$InlineImage['element']['attributes']['src'] instanceof Asset) {
-                    throw new RuntimeException(sprintf('Asset "%s" can\'t be converted.', $InlineImage['element']['attributes']['src']));
+                    throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted.', $InlineImage['element']['attributes']['src']));
                 }
                 // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-                    throw new RuntimeException(sprintf('Asset "%s" is an animated GIF.', $InlineImage['element']['attributes']['src']));
+                    throw new RuntimeException(\sprintf('Asset "%s" is an animated GIF.', $InlineImage['element']['attributes']['src']));
                 }
                 $sources = [];
                 foreach ($formats as $format) {
@@ -427,7 +427,7 @@ class Parsedown extends \ParsedownToc
                         ],
                     ];
                 }
-                if (count($sources) > 0) {
+                if (\count($sources) > 0) {
                     $picture = [
                         'extent'  => $InlineImage['extent'],
                         'element' => [
@@ -602,7 +602,7 @@ class Parsedown extends \ParsedownToc
     private function normalizePath(string $path): string
     {
         // https://regex101.com/r/Rzguzh/1
-        $pattern = sprintf(
+        $pattern = \sprintf(
             '(\.\.\/)+(\b%s|%s\b)+(\/.*)',
             (string) $this->config->get('static.dir'),
             (string) $this->config->get('assets.dir')
@@ -647,7 +647,7 @@ class Parsedown extends \ParsedownToc
                 return $block;
         }
 
-        throw new \Exception(sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
+        throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
     }
 
     /**

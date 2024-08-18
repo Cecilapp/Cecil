@@ -92,24 +92,24 @@ class Build extends AbstractCommand
         }
         if ($input->getOption('clear-cache')) {
             if (0 < $removedFiles = (new \Cecil\Assets\Cache($this->getBuilder()))->clearByPattern((string) $input->getOption('clear-cache'))) {
-                $output->writeln(sprintf('<info>%s cache files removed by regular expression "%s"</info>', $removedFiles, $input->getOption('clear-cache')));
+                $output->writeln(\sprintf('<info>%s cache files removed by regular expression "%s"</info>', $removedFiles, $input->getOption('clear-cache')));
             }
         }
 
-        $output->writeln(sprintf('Building website%s...', $messageOpt));
+        $output->writeln(\sprintf('Building website%s...', $messageOpt));
         $output->writeln(
-            sprintf('<comment>Path: %s</comment>', $this->getPath()),
+            \sprintf('<comment>Path: %s</comment>', $this->getPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         if (!empty($this->getConfigFiles())) {
             $output->writeln(
-                sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())),
+                \sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
         if ((bool) $builder->getConfig()->get('cache.enabled')) {
             $output->writeln(
-                sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()),
+                \sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
@@ -127,14 +127,14 @@ class Build extends AbstractCommand
                 $pagesAsArray[] = [
                     $page->getId(),
                     $page->getVariable('language'),
-                    sprintf("%s %s", $page->getType(), $page->getType() !== \Cecil\Collection\Page\Type::PAGE->value ? "(" . \count($page->getPages() ?: []) . ")" : ''),
+                    \sprintf("%s %s", $page->getType(), $page->getType() !== \Cecil\Collection\Page\Type::PAGE->value ? "(" . \count($page->getPages() ?: []) . ")" : ''),
                     $page->getParent()?->getId(),
                     $page->isVirtual() ? 'False' : 'true',
                 ];
             }
             $table = new Table($output);
             $table
-                ->setHeaderTitle(sprintf("Built pages (%s)", \count($pagesAsArray)))
+                ->setHeaderTitle(\sprintf("Built pages (%s)", \count($pagesAsArray)))
                 ->setHeaders(['ID', 'Lang', 'Type', 'Parent', 'File'])
                 ->setRows($pagesAsArray)
             ;

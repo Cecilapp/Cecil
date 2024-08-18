@@ -53,7 +53,7 @@ class Images extends AbstractOptimize
         try {
             $this->processor->optimize($file->getPathname());
         } catch (\Exception $e) {
-            $this->builder->getLogger()->error(sprintf('Can\'t optimize image "%s": "%s"', $file->getPathname(), $e->getMessage()));
+            $this->builder->getLogger()->error(\sprintf('Can\'t optimize image "%s": "%s"', $file->getPathname(), $e->getMessage()));
         }
 
         return $file->getContents();

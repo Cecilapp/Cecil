@@ -130,7 +130,7 @@ class NewSite extends AbstractCommand
                 }
             }
             // done
-            $output->writeln(sprintf('<info>Your new Cecil site is created in %s.</info>', realpath($this->getPath())));
+            $output->writeln(\sprintf('<info>Your new Cecil site is created in %s.</info>', realpath($this->getPath())));
             $this->io->newLine();
             $this->io->listing([
                 'You can download a theme from <href=https://cecil.app/themes/>https://cecil.app/themes/</>',
@@ -139,7 +139,7 @@ class NewSite extends AbstractCommand
             ]);
             $this->io->text('Visit <href=https://cecil.app>https://cecil.app</> for full documentation.');
         } catch (\Exception $e) {
-            throw new RuntimeException(sprintf($e->getMessage()));
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
         return 0;

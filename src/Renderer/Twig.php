@@ -86,10 +86,10 @@ class Twig implements RendererInterface
         );
         if (\count($this->builder->getConfig()->getLanguages()) > 0) {
             foreach ((array) $this->builder->getConfig()->get('layouts.translations.formats') as $format) {
-                $loader = sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
+                $loader = \sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
                 if (class_exists($loader)) {
                     $this->translator->addLoader($format, new $loader());
-                    $this->builder->getLogger()->debug(sprintf('Translation loader for format "%s" found', $format));
+                    $this->builder->getLogger()->debug(\sprintf('Translation loader for format "%s" found', $format));
                 }
             }
             foreach ($this->builder->getConfig()->getLanguages() as $lang) {
@@ -135,9 +135,9 @@ class Twig implements RendererInterface
             foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $name => $class) {
                 try {
                     $this->twig->addExtension(new $class($this->builder));
-                    $this->builder->getLogger()->debug(sprintf('Twig extension "%s" added', $name));
+                    $this->builder->getLogger()->debug(\sprintf('Twig extension "%s" added', $name));
                 } catch (\Exception | \Error $e) {
-                    $this->builder->getLogger()->error(sprintf('Unable to add Twig extension "%s": %s', $class, $e->getMessage()));
+                    $this->builder->getLogger()->error(\sprintf('Unable to add Twig extension "%s": %s', $class, $e->getMessage()));
                 }
             }
         }
@@ -182,10 +182,10 @@ class Twig implements RendererInterface
         }
         foreach ($locales as $locale) {
             foreach ((array) $this->builder->getConfig()->get('layouts.translations.formats') as $format) {
-                $translationFile = Util::joinPath($translationsDir, sprintf('messages.%s.%s', $locale, $format));
+                $translationFile = Util::joinPath($translationsDir, \sprintf('messages.%s.%s', $locale, $format));
                 if (Util\File::getFS()->exists($translationFile)) {
                     $this->translator->addResource($format, $translationFile, $locale);
-                    $this->builder->getLogger()->debug(sprintf('Translation file "%s" added', $translationFile));
+                    $this->builder->getLogger()->debug(\sprintf('Translation file "%s" added', $translationFile));
                 }
             }
         }
