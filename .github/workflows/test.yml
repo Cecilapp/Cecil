@@ -74,6 +74,7 @@ jobs:
     - name: Install optimizers (macOS)
       if: ${{ matrix.os == 'macos-latest' }}
       run: |
+        brew update || brew update
         brew install jpegoptim
         brew install pngquant
         brew install gifsicle
