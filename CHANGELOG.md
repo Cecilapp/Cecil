@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.15.0](https://github.com/Cecilapp/Cecil/compare/8.14.0...8.15.0)
+
+> 25 July 2024
+
+- feat: multiple image formats support (webp, avif) [`#2017`](https://github.com/Cecilapp/Cecil/pull/2017)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.59.3 to 3.60.0 [`#2018`](https://github.com/Cecilapp/Cecil/pull/2018)
+- chore(deps-dev): bump phpstan/phpstan from 1.11.7 to 1.11.8 [`#2016`](https://github.com/Cecilapp/Cecil/pull/2016)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.10.1 to 3.10.2 [`#2015`](https://github.com/Cecilapp/Cecil/pull/2015)
+- perf: add AVIF optimizer [`#2014`](https://github.com/Cecilapp/Cecil/pull/2014)
+
 #### [8.14.0](https://github.com/Cecilapp/Cecil/compare/8.13.2...8.14.0)
 
 > 19 July 2024
