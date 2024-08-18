@@ -165,8 +165,8 @@ return [
             'term'       => ['html', 'atom', 'rss'],
         ],
         'postprocessors' => [
-            'Cecil\Renderer\PostProcessor\Test',
-            'Cecil\Renderer\PostProcessor\Error',
+            'Test'  => 'Cecil\Renderer\PostProcessor\Test',
+            'Error' => 'Cecil\Renderer\PostProcessor\Error',
         ],
     ],
     'static' => [

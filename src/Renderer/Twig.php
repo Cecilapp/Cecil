@@ -137,7 +137,7 @@ class Twig implements RendererInterface
                     $this->twig->addExtension(new $class($this->builder));
                     $this->builder->getLogger()->debug(\sprintf('Twig extension "%s" added', $name));
                 } catch (\Exception | \Error $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to add Twig extension "%s": %s', $class, $e->getMessage()));
+                    $this->builder->getLogger()->error(\sprintf('Unable to add Twig extension "%s": %s', $name, $e->getMessage()));
                 }
             }
         }

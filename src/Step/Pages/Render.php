@@ -87,12 +87,15 @@ class Render extends AbstractStep
         $count = 0;
         $postprocessors = [];
         foreach ($this->config->get('output.postprocessors') as $name => $postprocessor) {
-            if (!class_exists($postprocessor)) {
-                $this->builder->getLogger()->error(\sprintf('Unable to load output post processor "%s"', $postprocessor));
-                break;
+            try {
+                if (!class_exists($postprocessor)) {
+                    throw new RuntimeException(\sprintf('Class "%s" not found', $postprocessor));
+                }
+                $postprocessors[] = new $postprocessor($this->builder);
+                $this->builder->getLogger()->debug(\sprintf('Output post processor "%s" loaded', $name));
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->error(\sprintf('Unable to load output post processor "%s": %s', $name, $e->getMessage()));
             }
-            $postprocessors[] = new $postprocessor($this->builder);
-            $this->builder->getLogger()->debug(\sprintf('Output post processor "%s" loaded', $name));
         }
         /** @var Page $page */
         foreach ($pages as $page) {
