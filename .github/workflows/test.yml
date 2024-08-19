@@ -19,7 +19,7 @@ jobs:
   test:
     name: PHP ${{ join(matrix.*, ' ') }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ join(matrix.type) == 'experimental' }}
     env:
       extensions: :psr, mbstring, intl, gettext, fileinfo, gd, sodium, exif
       ext-cache-key: cache-ext-v1
