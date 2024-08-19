@@ -17,7 +17,6 @@ on:
 
 jobs:
   test:
-    #name: 'PHP ${{ matrix.php }} on ${{ matrix.os }} (c=${{ matrix.coverage }}, p=${{ matrix.profiling }}, e=${{ matrix.experimental }})'
     name: PHP ${{ join(matrix.*, ' ') }}
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
@@ -30,35 +29,25 @@ jobs:
       matrix:
         php: ['8.1', '8.2', '8.3', '8.4']
         os: [ubuntu-latest, windows-latest, macos-latest]
-        coverage: [false]
-        experimental: [false]
-        profiling: [false]
+        type: [standart]
         exclude:
         # excluded for code coverage
         - php: '8.1'
           os: 'ubuntu-latest'
-          coverage: false
-          profiling: false
-          experimental: false
+          type: [standart]
         include:
         # included for code coverage
         - php: '8.1'
           os: 'ubuntu-latest'
-          coverage: true
-          profiling: false
-          experimental: false
+          type: [coverage]
         # included for code profiling
         - php: '8.2'
           os: 'ubuntu-latest'
-          coverage: false
-          profiling: true
-          experimental: false
+          type: [profiling]
         # experimental
         - php: '8.4'
           os: 'ubuntu-latest'
-          coverage: false
-          profiling: false
-          experimental: true
+          type: [experimental]
 
     steps:
     - name: Checkout source code
@@ -99,7 +88,7 @@ jobs:
         restore-keys: ${{ steps.extcache.outputs.key }}
 
     - name: Install PHP (standart)
-      if: ${{ !matrix.coverage && !matrix.profiling && !matrix.experimental }}
+      if: ${{ join(matrix.type) == 'standart' }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -107,7 +96,7 @@ jobs:
         coverage: none
 
     - name: Install PHP (coverage)
-      if: ${{ matrix.coverage && !matrix.profiling && !matrix.experimental }}
+      if: ${{ join(matrix.type) == 'coverage' }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -115,7 +104,7 @@ jobs:
         coverage: xdebug
 
     - name: Install PHP (profiling)
-      if: ${{ !matrix.coverage && matrix.profiling && !matrix.experimental }}
+      if: ${{ join(matrix.type) == 'profiling' }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -129,7 +118,7 @@ jobs:
         BLACKFIRE_CLIENT_TOKEN: ${{ secrets.BLACKFIRE_CLIENT_TOKEN }}
 
     - name: Install PHP (experimental with JIT)
-      if: ${{ !matrix.coverage && !matrix.profiling && matrix.experimental }}
+      if: ${{ join(matrix.type) == 'experimental' }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
@@ -165,17 +154,17 @@ jobs:
         composer run-script code:style
 
     - name: Run build test
-      if: ${{ !matrix.coverage && !matrix.profiling }}
+      if: ${{ contains(matrix.type, 'standart') || contains(matrix.type, 'experimental') }}
       run: |
         composer run-script test
 
     - name: Run build test (coverage)
-      if: ${{ matrix.coverage && !matrix.profiling && !matrix.experimental }}
+      if: ${{ contains(matrix.type, 'coverage') }}
       run: |
         composer run-script test:coverage
 
     - name: Run build test (profiling)
-      if: ${{ !matrix.coverage && matrix.profiling && !matrix.experimental }}
+      if: ${{ contains(matrix.type, 'profiling') }}
       env:
         APP_ENV: prod
         APP_DEBUG: 0
@@ -183,7 +172,7 @@ jobs:
       continue-on-error: true
 
     - name: Upload coverage results to Coveralls
-      if: ${{ matrix.coverage && !matrix.profiling && !matrix.experimental }}
+      if: ${{ contains(matrix.type, 'coverage') }}
       continue-on-error: true
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -192,6 +181,6 @@ jobs:
         composer run-script test:coverage:upload
 
     - name: Build skeleton site from phar
-      if: ${{ !matrix.coverage && !matrix.profiling }}
+      if: ${{ contains(matrix.type, 'standart') || contains(matrix.type, 'experimental') }}
       run: |
         composer run-script test:phar
