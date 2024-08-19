@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.15.1](https://github.com/Cecilapp/Cecil/compare/8.15.0...8.15.1)
+
+> 19 August 2024
+
+- chore(deps): bump twig/intl-extra from 3.10.0 to 3.11.0 [`#2027`](https://github.com/Cecilapp/Cecil/pull/2027)
+- chore(deps): bump twig/twig from 3.10.3 to 3.11.0 [`#2026`](https://github.com/Cecilapp/Cecil/pull/2026)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.61.1 to 3.62.0 [`#2025`](https://github.com/Cecilapp/Cecil/pull/2025)
+- chore(deps-dev): bump phpstan/phpstan from 1.11.9 to 1.11.10 [`#2024`](https://github.com/Cecilapp/Cecil/pull/2024)
+- chore(deps): bump jaywcjlove/changelog-generator from 2.1.0 to 2.2.1 [`#2023`](https://github.com/Cecilapp/Cecil/pull/2023)
+- chore(deps-dev): bump phpstan/phpstan from 1.11.8 to 1.11.9 [`#2022`](https://github.com/Cecilapp/Cecil/pull/2022)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.61.0 to 3.61.1 [`#2021`](https://github.com/Cecilapp/Cecil/pull/2021)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.60.0 to 3.61.0 [`#2019`](https://github.com/Cecilapp/Cecil/pull/2019)
+- chore: update deps [`39086d6`](https://github.com/Cecilapp/Cecil/commit/39086d6d6321217af9b96d3c8d052afc0cb037cb)
+
 #### [8.15.0](https://github.com/Cecilapp/Cecil/compare/8.14.0...8.15.0)
 
 > 25 July 2024
