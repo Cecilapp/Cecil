@@ -38,7 +38,7 @@ jobs:
         # excluded for code profiling
         - php: '8.2'
           os: 'ubuntu-latest'
-          type: 'profiling'
+          type: ''
         include:
         # included for code coverage
         - php: '8.1'
