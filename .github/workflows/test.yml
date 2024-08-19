@@ -34,20 +34,20 @@ jobs:
         # excluded for code coverage
         - php: '8.1'
           os: 'ubuntu-latest'
-          type: [standart]
+          type: 'standart'
         include:
         # included for code coverage
         - php: '8.1'
           os: 'ubuntu-latest'
-          type: [coverage]
+          type: 'coverage'
         # included for code profiling
         - php: '8.2'
           os: 'ubuntu-latest'
-          type: [profiling]
+          type: 'profiling'
         # experimental
         - php: '8.4'
           os: 'ubuntu-latest'
-          type: [experimental]
+          type: 'experimental'
 
     steps:
     - name: Checkout source code
