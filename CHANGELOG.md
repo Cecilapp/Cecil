@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.16.0](https://github.com/Cecilapp/Cecil/compare/8.15.1...8.16.0)
+
+> 19 August 2024
+
+- perf: compiler optim with sprintf + PHP 8.4 [`a9936f9`](https://github.com/Cecilapp/Cecil/commit/a9936f95358fa89e5a246c923bf1d4ffe160ef3d)
+- ci: tests workflow enhancement [`bc3a48f`](https://github.com/Cecilapp/Cecil/commit/bc3a48fb03ace96e38f4d7e9bc92a83330b52451)
+- refactor: better errors handler [`605144a`](https://github.com/Cecilapp/Cecil/commit/605144a6210c06565f63aa297d7053d0886408e6)
+- ci: Install optimizers [`138d462`](https://github.com/Cecilapp/Cecil/commit/138d462bdf991079b5dbe3376b97583783060b2b)
+- ci: better CI jobs name [`9fce488`](https://github.com/Cecilapp/Cecil/commit/9fce488e436599c370186b97b7d955afeda9de70)
+- ci: fix CI config [`1e3cec3`](https://github.com/Cecilapp/Cecil/commit/1e3cec38ee5a114251aa9c21cd550e91b8c853cf)
+- feat: add support of PHP 8.4 [`4505875`](https://github.com/Cecilapp/Cecil/commit/450587543612161308cba6530cdddc312c28511c)
+- test: include PHP 8.4 as experimental [`83c40da`](https://github.com/Cecilapp/Cecil/commit/83c40da7dfca0726efe7247b6bb37b8654062354)
+- Revert "feat: add support of PHP 8.4" [`9f76b23`](https://github.com/Cecilapp/Cecil/commit/9f76b2311f92e005c13eb6a2fc6feb34912c5c7d)
+- feat: add support of PHP 8.4 [`3026214`](https://github.com/Cecilapp/Cecil/commit/30262145710890aca862cb2580a2e00ee58d9bfa)
+- ci: fix GH config file [`7c18783`](https://github.com/Cecilapp/Cecil/commit/7c18783dabcc539140fa50749ff38edb8b6bee02)
+
 #### [8.15.1](https://github.com/Cecilapp/Cecil/compare/8.15.0...8.15.1)
 
 > 19 August 2024
