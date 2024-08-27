@@ -176,7 +176,7 @@ class Config
      *
      * @throws \InvalidArgumentException
      */
-    public function setSourceDir(string $sourceDir = null): self
+    public function setSourceDir(?string $sourceDir = null): self
     {
         if ($sourceDir === null) {
             $sourceDir = getcwd();
@@ -202,7 +202,7 @@ class Config
      *
      * @throws \InvalidArgumentException
      */
-    public function setDestinationDir(string $destinationDir = null): self
+    public function setDestinationDir(?string $destinationDir = null): self
     {
         if ($destinationDir === null) {
             $destinationDir = $this->sourceDir;

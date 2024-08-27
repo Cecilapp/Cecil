@@ -41,7 +41,7 @@ class Entry extends Item
     /**
      * Set the menu entry URL.
      */
-    public function setUrl(string $value = null): self
+    public function setUrl(?string $value = null): self
     {
         $this->offsetSet('url', $value);
 

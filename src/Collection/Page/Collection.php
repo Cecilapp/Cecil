@@ -160,7 +160,7 @@ class Collection extends CecilCollection
     /**
      * {@inheritdoc}
      */
-    public function usort(\Closure $callback = null): self
+    public function usort(?\Closure $callback = null): self
     {
         return parent::usort($callback);
     }

@@ -217,7 +217,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function usort(\Closure $callback = null): CollectionInterface
+    public function usort(?\Closure $callback = null): CollectionInterface
     {
         $callback ? usort($this->items, $callback) : usort($this->items, function ($a, $b) {
             if ($a == $b) {

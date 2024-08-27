@@ -51,7 +51,7 @@ class Url
      * @param Page|Asset|string|null $value
      * @param array|null             $options Rendering options, e.g.: ['canonical' => true, 'format' => 'html', 'language' => 'fr']
      */
-    public function __construct(Builder $builder, $value, array $options = null)
+    public function __construct(Builder $builder, $value, ?array $options = null)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();

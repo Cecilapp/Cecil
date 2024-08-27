@@ -38,7 +38,7 @@ class PrintLogger extends AbstractLogger
     /**
      * Print only the $printLevelMax.
      */
-    public function __construct(int $printLevelMax = null)
+    public function __construct(?int $printLevelMax = null)
     {
         $this->printLevelMax = $printLevelMax;
     }

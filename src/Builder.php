@@ -98,7 +98,7 @@ class Builder implements LoggerAwareInterface
      * @param Config|array|null    $config
      * @param LoggerInterface|null $logger
      */
-    public function __construct($config = null, LoggerInterface $logger = null)
+    public function __construct($config = null, ?LoggerInterface $logger = null)
     {
         // set logger
         if ($logger === null) {
@@ -202,7 +202,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Config::setSourceDir() alias.
      */
-    public function setSourceDir(string $sourceDir = null): self
+    public function setSourceDir(?string $sourceDir = null): self
     {
         $this->config->setSourceDir($sourceDir);
 
@@ -212,7 +212,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Config::setDestinationDir() alias.
      */
-    public function setDestinationDir(string $destinationDir = null): self
+    public function setDestinationDir(?string $destinationDir = null): self
     {
         $this->config->setDestinationDir($destinationDir);
 
@@ -278,7 +278,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns data collection.
      */
-    public function getData(string $language = null): array
+    public function getData(?string $language = null): array
     {
         if ($language) {
             if (empty($this->data[$language])) {

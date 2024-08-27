@@ -121,7 +121,7 @@ class Site implements \ArrayAccess
      *
      * @throws \DomainException
      */
-    public function getPage(string $id, string $language = null): ?CollectionPage
+    public function getPage(string $id, ?string $language = null): ?CollectionPage
     {
         $pageId = $id;
         $language = $language ?? $this->language;

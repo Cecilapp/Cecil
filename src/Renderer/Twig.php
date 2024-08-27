@@ -115,7 +115,7 @@ class Twig implements RendererInterface
         $this->twig->registerUndefinedFilterCallback(function ($name) {
             switch ($name) {
                 case 'localizeddate':
-                    return new \Twig\TwigFilter($name, function (\DateTime $value = null) {
+                    return new \Twig\TwigFilter($name, function (?\DateTime $value = null) {
                         return date($this->builder->getConfig()->get('date.format') ?? 'F j, Y', $value->getTimestamp());
                     });
             }

@@ -180,7 +180,7 @@ class Cache implements CacheInterface
     /**
      * Creates key from an Asset source: "$filename_$ext_$tag__VERSION__MD5".
      */
-    public function createKeyFromAsset(Asset $asset, array $tags = null): string
+    public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
     {
         $tags = implode('_', $tags ?? []);
 

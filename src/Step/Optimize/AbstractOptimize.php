@@ -122,7 +122,7 @@ abstract class AbstractOptimize extends AbstractStep
     /**
      * Encode file content.
      */
-    public function encode(string $content = null): ?string
+    public function encode(?string $content = null): ?string
     {
         return $content;
     }
@@ -130,7 +130,7 @@ abstract class AbstractOptimize extends AbstractStep
     /**
      * Decode file content.
      */
-    public function decode(string $content = null): ?string
+    public function decode(?string $content = null): ?string
     {
         return $content;
     }
