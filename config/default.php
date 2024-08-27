@@ -46,7 +46,7 @@ return [
             'locale' => 'en_US',
         ],
     ],
-    'theme' => [],
+    'theme' => [], // no theme(s) by default
     'taxonomies'   => [ // default taxonomies
         'tags'       => 'tag',
         'categories' => 'category', // can be disabled with the special "disabled" value
@@ -55,6 +55,7 @@ return [
         'max'  => 5, // number of pages by each paginated pages
         'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
     ],
+    // Markdown content management
     'pages' => [
         'dir'     => 'pages', // pages files directory (`pages` by default, previously `content`)
         'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // supported files formats, by extension
@@ -248,7 +249,7 @@ return [
             ]
         ],
     ],
-    // templates
+    // layouts and templates
     'layouts' => [
         'dir'      => 'layouts', // Twig templates directory (`layouts` by default)
         'internal' => [
@@ -269,6 +270,7 @@ return [
     'themes' => [
         'dir' => 'themes', // where themes are stored (`themes` by default)
     ],
+    // output formats and post process
     'output' => [
         'dir'      => '_site', // output directory (`_site` by default)
         'formats'  => [ // https://cecil.app/documentation/configuration/#formats
@@ -380,6 +382,7 @@ return [
             'MarkdownLink'     => 'Cecil\Renderer\PostProcessor\MarkdownLink',
         ],
     ],
+    // cache management
     'cache' => [
         'enabled'   => true, // enables cache support (`true` by default)
         'dir'       => '.cache', // cache files directory (`.cache` by default)
@@ -398,6 +401,7 @@ return [
             'dir'     => 'translations', // translations files cache directory (`assets` by default)
         ],
     ],
+    // files optimization
     'optimize' => [
         'enabled' => false, // enables files optimization (`false` by default)
         'html'    => [
