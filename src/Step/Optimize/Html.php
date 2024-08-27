@@ -65,7 +65,7 @@ class Html extends AbstractOptimize
     /**
      * {@inheritdoc}
      */
-    public function encode(string $content = null): ?string
+    public function encode(?string $content = null): ?string
     {
         return json_encode($content);
     }
@@ -73,7 +73,7 @@ class Html extends AbstractOptimize
     /**
      * {@inheritdoc}
      */
-    public function decode(string $content = null): ?string
+    public function decode(?string $content = null): ?string
     {
         return json_decode((string) $content);
     }

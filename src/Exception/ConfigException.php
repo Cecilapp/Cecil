@@ -15,7 +15,7 @@ namespace Cecil\Exception;
 
 class ConfigException extends \RuntimeException implements ExceptionInterface
 {
-    public function __construct(string $message, int $code = 0, \Throwable $previous = null)
+    public function __construct(string $message, int $code = 0, ?\Throwable $previous = null)
     {
         parent::__construct("Configuration: $message", $code, $previous);
     }

@@ -265,7 +265,7 @@ class Core extends SlugifyExtension
      * @param Page|Asset|string|null $value
      * @param array|null             $options
      */
-    public function url(array $context, $value = null, array $options = null): string
+    public function url(array $context, $value = null, ?array $options = null): string
     {
         $optionsLang = [];
         $optionsLang['language'] = (string) $context['site']['language'];

@@ -62,7 +62,7 @@ class Images extends AbstractOptimize
     /**
      * {@inheritdoc}
      */
-    public function encode(string $content = null): ?string
+    public function encode(?string $content = null): ?string
     {
         return base64_encode((string) $content);
     }
@@ -70,7 +70,7 @@ class Images extends AbstractOptimize
     /**
      * {@inheritdoc}
      */
-    public function decode(string $content = null): ?string
+    public function decode(?string $content = null): ?string
     {
         return base64_decode((string) $content);
     }

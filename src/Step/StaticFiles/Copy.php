@@ -100,7 +100,7 @@ class Copy extends AbstractStep
     /**
      * Copying (mirror) files.
      */
-    protected function copy(string $from, string $to = null, array $exclude = null): bool
+    protected function copy(string $from, ?string $to = null, ?array $exclude = null): bool
     {
         if (Util\File::getFS()->exists($from)) {
             $finder = Finder::create()

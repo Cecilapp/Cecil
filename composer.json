@@ -111,7 +111,7 @@
     "code:md": "phpmd src text codesize, naming, unusedcode",
     "code:md:gh": "phpmd src github codesize, naming, unusedcode",
     "code:style": "phpcs ./src/ --standard=PSR12 -n",
-    "code:fix": "php-cs-fixer fix ./src/ --rules=@PSR12,native_function_invocation --allow-risky=yes --show-progress=none",
+    "code:fix": "php-cs-fixer fix ./src/ --rules=@PSR12,native_function_invocation,nullable_type_declaration_for_default_null_value --allow-risky=yes --show-progress=none",
     "test": "@test:integration",
     "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
     "test:coverage": "phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml",

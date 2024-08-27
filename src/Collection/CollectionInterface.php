@@ -93,7 +93,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
      *
      * @param \Closure|null $callback
      */
-    public function usort(\Closure $callback = null): self;
+    public function usort(?\Closure $callback = null): self;
 
     /**
      * Reverse items.
