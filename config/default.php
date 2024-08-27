@@ -270,6 +270,10 @@ return [
     'themes' => [
         'dir' => 'themes', // where themes are stored (`themes` by default)
     ],
+    // SEO robots default directive
+    'metatags' => [
+        'robots' => 'index,follow',
+    ],
     // output formats and post process
     'output' => [
         'dir'      => '_site', // output directory (`_site` by default)
