@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.17.0](https://github.com/Cecilapp/Cecil/compare/8.16.0...8.17.0)
+
+> 27 August 2024
+
+- refactor: better PHP 8.4 compatibility [`#2030`](https://github.com/Cecilapp/Cecil/pull/2030)
+- chore(deps): bump psr/log from 3.0.0 to 3.0.1 [`#2029`](https://github.com/Cecilapp/Cecil/pull/2029)
+- chore(deps-dev): bump phpstan/phpstan from 1.11.10 to 1.11.11 [`#2028`](https://github.com/Cecilapp/Cecil/pull/2028)
+- chore: update deps [`c2fc037`](https://github.com/Cecilapp/Cecil/commit/c2fc03791ed7ab4781f23a2e67dd2ecb5cf5c8c4)
+- chore: update deps [`7efd7e8`](https://github.com/Cecilapp/Cecil/commit/7efd7e854c6435003ae6955513b22e1f796b4e19)
+- chore: update deps [`7a298f8`](https://github.com/Cecilapp/Cecil/commit/7a298f8f9b9be4c7e8bf171a3929b0c4b6847a5d)
+- refactor: add comments in default config file [`a0a3d90`](https://github.com/Cecilapp/Cecil/commit/a0a3d907723eba79751b068a23906c6a091025c3)
+- refactor: add robots default config [`aacafa7`](https://github.com/Cecilapp/Cecil/commit/aacafa744860329c517ad10343c6e3ce57d525ff)
+- ci: minor changes [`bf78865`](https://github.com/Cecilapp/Cecil/commit/bf78865f9650058bdbdfc05e94766c299d3a0aed)
+
 #### [8.16.0](https://github.com/Cecilapp/Cecil/compare/8.15.1...8.16.0)
 
 > 19 August 2024
