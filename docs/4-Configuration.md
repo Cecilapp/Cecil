@@ -907,7 +907,23 @@ cache:
 
 ### optimize
 
-Options of files optimizations after build.
+The optimization options allow to enable compression of output files: HTML, CSS, JavaScript and image.
+
+This option is disabled by default and can be enabled via:
+
+```yaml
+optimize:
+  enabled: true
+```
+
+Once the global option is enabled, the 4 file types will be processed.  
+It is possible to disable each of them via `enabled: false` and modify processed files extension via `ext`.
+
+:::tips
+It is also possible to enable this option through CLI when using the "build" and "serve" commands via the `--optimize` option.
+:::
+
+_Example:_
 
 ```yaml
 optimize:
@@ -927,7 +943,7 @@ optimize:
 ```
 
 :::important
-Images compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/), [cwebp](https://developers.google.com/speed/webp/docs/cwebp) and [avifenc](https://github.com/AOMediaCodec/libavif).
+**Images** compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/), [cwebp](https://developers.google.com/speed/webp/docs/cwebp) and [avifenc](https://github.com/AOMediaCodec/libavif).
 :::
 
 ## Override configuration
