@@ -19,9 +19,9 @@ if (!date_default_timezone_get()) {
 }
 mb_internal_encoding('UTF-8');
 
-define('SERVER_TMP_DIR', '.cecil');
-define('DIRECTORY_INDEX', '/index.html');
-define('ERROR_404', '/404.html');
+\define('SERVER_TMP_DIR', '.cecil');
+\define('DIRECTORY_INDEX', '/index.html');
+\define('ERROR_404', '/404.html');
 $isIndex = null;
 $mediaSubtypeText = ['javascript', 'xml', 'json', 'ld+json', 'csv'];
 
@@ -68,7 +68,7 @@ if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SER
     }
     // is 404.html exists in a (language) sub dir?
     $pathAsArray = explode('/', $path);
-    if (count($pathAsArray) > 2) {
+    if (\count($pathAsArray) > 2) {
         $subDir = '/' . $pathAsArray[1];
         if (file_exists($_SERVER['DOCUMENT_ROOT'] . $subDir . ERROR_404)) {
             $path404 = $subDir . ERROR_404;
@@ -109,7 +109,7 @@ if ((realpath($filename) === false || strpos(realpath($filename), realpath($_SER
 $content = file_get_contents($filename);
 $pathInfo = getPathInfo($path);
 // text content
-if ($pathInfo['media_maintype'] == 'text' || in_array($pathInfo['media_subtype'], $mediaSubtypeText)) {
+if ($pathInfo['media_maintype'] == 'text' || \in_array($pathInfo['media_subtype'], $mediaSubtypeText)) {
     // replaces the "live" baseurl by the "local" baseurl
     $baseurl = explode(';', trim(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/baseurl')));
     if (strstr($baseurl[0], 'http') !== false || $baseurl[0] != '/') {
@@ -147,8 +147,8 @@ return logger(true);
 // logger + return
 function logger(bool $return): bool
 {
-    \error_log(
-        \sprintf("%s:%d [%d]: %s\n", $_SERVER['REMOTE_ADDR'], $_SERVER['REMOTE_PORT'], \http_response_code(), $_SERVER['REQUEST_URI']),
+    error_log(
+        \sprintf("%s:%d [%d]: %s\n", $_SERVER['REMOTE_ADDR'], $_SERVER['REMOTE_PORT'], http_response_code(), $_SERVER['REQUEST_URI']),
         3,
         $_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/server.log'
     );
@@ -160,7 +160,7 @@ function logger(bool $return): bool
 function getPathInfo(string $path): array
 {
     $filename = $_SERVER['DOCUMENT_ROOT'] . $path;
-    $mediaType = \mime_content_type($filename); // e.g.: "text/html"
+    $mediaType = mime_content_type($filename); // e.g.: "text/html"
     $info = [
         'media_maintype' => explode('/', $mediaType)[0], // e.g.: "text"
         'media_subtype'  => explode('/', $mediaType)[1], // e.g.: "html"
