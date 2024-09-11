@@ -56,6 +56,7 @@ class Application extends BaseApplication
             new Command\ShowContent(),
             new Command\ShowConfig(),
             new Command\ListCommand(),
+            new Command\TranslationsExtract()
         ];
         if (Util\Plateform::isPhar()) {
             $commands[] = new Command\SelfUpdate();
