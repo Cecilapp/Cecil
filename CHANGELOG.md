@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.17.1](https://github.com/Cecilapp/Cecil/compare/8.17.0...8.17.1)
+
+> 28 August 2024
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.63.1 to 3.63.2 [`#2031`](https://github.com/Cecilapp/Cecil/pull/2031)
+- tests: dedicated config file for PHP CS Fixer [`66dd0ec`](https://github.com/Cecilapp/Cecil/commit/66dd0ecae3a37e2a6765fd0f5b16e7cd4263744d)
+- refactor: enhances code [`622b92f`](https://github.com/Cecilapp/Cecil/commit/622b92f4b322a518d0190afca59466c4915cd4d1)
+- chore: update deps [`82e045b`](https://github.com/Cecilapp/Cecil/commit/82e045b4741db122dc05dd68db5498ffc7e64774)
+- fix: HtmlMin works again with PHP 8.3+ [`22cd649`](https://github.com/Cecilapp/Cecil/commit/22cd649c959677284beb4925fdb76573cb2a11e4)
+- ci: fix PHP MD script [`53fb719`](https://github.com/Cecilapp/Cecil/commit/53fb719ca937758bda97a348ab8873ae52e58c9b)
+
 #### [8.17.0](https://github.com/Cecilapp/Cecil/compare/8.16.0...8.17.0)
 
 > 27 August 2024
