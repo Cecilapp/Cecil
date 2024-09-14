@@ -60,7 +60,7 @@ cat <<EOT >> $SCOOP_FILE_JSON
   "hash": "sha1:$sha1hash",
   "checkver": {
     "url": "https://cecil.app/VERSION",
-    "regex": "([\\d.]+)"
+    "regex": "([\\\d.]+)"
   },
   "autoupdate": {
     "url": "https://cecil.app/download/\$version/cecil.phar",
