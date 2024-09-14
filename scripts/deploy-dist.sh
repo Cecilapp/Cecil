@@ -11,7 +11,7 @@ TARGET_RELEASE_DIR="download/$VERSION"
 TARGET_DIST_DIR="static"
 DIST_FILE="cecil.phar"
 DIST_FILE_SHA1="cecil.phar.sha1"
-SCOOP_FILE_JSON="scoop.json"
+SCOOP_FILE_JSON="cecil.json"
 TARGET_PAGES_DIR="pages"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
@@ -48,7 +48,7 @@ echo $VERSION > VERSION
 rm -f $SCOOP_FILE_JSON
 cat <<EOT >> $SCOOP_FILE_JSON
 {
-  "description": "Your content driven static site generator.",
+  "description": "A simple and powerful content-driven static site generator.",
   "homepage": "https://cecil.app",
   "license": "MIT",
   "bin": "$DIST_FILE",
