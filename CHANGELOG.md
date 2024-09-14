@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.17.2](https://github.com/Cecilapp/Cecil/compare/8.17.1...8.17.2)
+
+> 14 September 2024
+
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 16 to 17 [`#2043`](https://github.com/Cecilapp/Cecil/pull/2043)
+- chore(deps): bump cocur/slugify from 4.5.1 to 4.6.0 [`#2044`](https://github.com/Cecilapp/Cecil/pull/2044)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.30.0 to 1.31.0 [`#2042`](https://github.com/Cecilapp/Cecil/pull/2042)
+- chore(deps): bump twig/twig from 3.13.0 to 3.14.0 [`#2041`](https://github.com/Cecilapp/Cecil/pull/2041)
+- chore(deps): bump twig/twig from 3.12.0 to 3.13.0 [`#2040`](https://github.com/Cecilapp/Cecil/pull/2040)
+- chore(deps): bump twig/intl-extra from 3.12.0 to 3.13.0 [`#2039`](https://github.com/Cecilapp/Cecil/pull/2039)
+- chore(deps-dev): bump phpstan/phpstan from 1.12.2 to 1.12.3 [`#2038`](https://github.com/Cecilapp/Cecil/pull/2038)
+- chore(deps-dev): bump phpstan/phpstan from 1.12.1 to 1.12.2 [`#2037`](https://github.com/Cecilapp/Cecil/pull/2037)
+- chore(deps-dev): bump phpstan/phpstan from 1.12.0 to 1.12.1 [`#2036`](https://github.com/Cecilapp/Cecil/pull/2036)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.63.2 to 3.64.0 [`#2035`](https://github.com/Cecilapp/Cecil/pull/2035)
+- chore(deps): bump twig/intl-extra from 3.11.0 to 3.12.0 [`#2033`](https://github.com/Cecilapp/Cecil/pull/2033)
+- chore(deps): bump twig/twig from 3.11.0 to 3.12.0 [`#2032`](https://github.com/Cecilapp/Cecil/pull/2032)
+- chore: update deps [`f1ffa3d`](https://github.com/Cecilapp/Cecil/commit/f1ffa3d5ce470ce416c4aa5011fc3b37ee9e5b4d)
+- docs: update config &gt; optimize [`11aec68`](https://github.com/Cecilapp/Cecil/commit/11aec68a3ac19b29698beb2cdfd3f2747826f9ea)
+- docs: adds explanation about optimize [`4c8fa8e`](https://github.com/Cecilapp/Cecil/commit/4c8fa8ec29daf05c88381e89fa151ac0a129faa0)
+
 #### [8.17.1](https://github.com/Cecilapp/Cecil/compare/8.17.0...8.17.1)
 
 > 28 August 2024
