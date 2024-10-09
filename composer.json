@@ -56,7 +56,7 @@
     "yosymfony/toml": "^1.0"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.43",
+    "ergebnis/composer-normalize": "^2.44",
     "friendsofphp/php-cs-fixer": "^3.64",
     "humbug/box": "^4.5",
     "phpmd/phpmd": "^2.15",
