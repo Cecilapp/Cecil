@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.17.3](https://github.com/Cecilapp/Cecil/compare/8.17.2...8.17.3)
+
+> 17 September 2024
+
 #### [8.17.2](https://github.com/Cecilapp/Cecil/compare/8.17.1...8.17.2)
 
 > 14 September 2024
