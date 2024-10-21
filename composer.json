@@ -106,7 +106,7 @@
     "post-update-cmd": "cd ./tests/fixtures/website && composer update",
     "build": "box compile",
     "code": ["@code:analyse", "@code:fix", "@code:style"],
-    "code:analyse": "phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=raw",
+    "code:analyse": "phpstan analyse ./src/ --memory-limit=1G --level=3 --no-progress --error-format=raw",
     "code:analyse:gh": "phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=github",
     "code:md": "phpmd ./src text codesize,unusedcode,naming",
     "code:md:gh": "phpmd ./src github codesize,unusedcode,naming",
