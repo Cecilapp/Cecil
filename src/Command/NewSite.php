@@ -66,10 +66,10 @@ class NewSite extends AbstractCommand
             // define root path
             $root = Util\Plateform::isPhar() ? Util\Plateform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // setup questions
-            $title = $this->io->ask('Give a title to your new site', 'Site title');
-            $baseline = $this->io->ask('Describe your site in few words', '');
+            $title = $this->io->ask('Give a title to your website', 'New website');
+            $baseline = $this->io->ask('Describe your website in few words', '');
             $baseurl = $this->io->ask('Base URL?', 'https://domain.tld/', [$this, 'validateUrl']);
-            $description = $this->io->ask('Write a full description of your site', 'Site description.');
+            $description = $this->io->ask('Write a full description of your site', 'Website created with Cecil.');
             $authorName = $this->io->ask('What is the author name?', 'Cecil');
             $authorUrl = $this->io->ask('What is the author URL?', 'https://cecil.app', [$this, 'validateUrl']);
             $demo = ($demo !== false) ?: $this->io->confirm('Add demo content?', false);
@@ -130,14 +130,13 @@ class NewSite extends AbstractCommand
                 }
             }
             // done
-            $output->writeln(\sprintf('<info>Your new Cecil site is created in %s.</info>', realpath($this->getPath())));
+            $output->writeln(\sprintf('<info>Your new website is created in %s.</info>', realpath($this->getPath())));
             $this->io->newLine();
             $this->io->listing([
-                'You can download a theme from <href=https://cecil.app/themes/>https://cecil.app/themes/</>',
-                'You can create a new page with "cecil new:page"',
-                'Start the built-in preview server via "cecil serve"',
+                'Start the built-in preview server with `' . $_SERVER['argv'][0] . ' serve`',
+                'You can create a new page with `' . $_SERVER['argv'][0] . ' new:page`',
             ]);
-            $this->io->text('Visit <href=https://cecil.app>https://cecil.app</> for full documentation.');
+            $this->io->text('Visit <href=https://cecil.app>https://cecil.app</> for documentation and more.');
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));
         }
