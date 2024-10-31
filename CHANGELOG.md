@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.17.4](https://github.com/Cecilapp/Cecil/compare/8.17.3...8.17.4)
+
+> 31 October 2024
+
+- chore(deps): bump intervention/image from 3.9.0 to 3.9.1 [`#2055`](https://github.com/Cecilapp/Cecil/pull/2055)
+- chore(deps): bump intervention/image from 3.8.0 to 3.9.0 [`#2054`](https://github.com/Cecilapp/Cecil/pull/2054)
+- chore(deps-dev): bump phpstan/phpstan from 1.12.6 to 1.12.7 [`#2053`](https://github.com/Cecilapp/Cecil/pull/2053)
+- chore(deps-dev): bump phpstan/phpstan from 1.12.5 to 1.12.6 [`#2051`](https://github.com/Cecilapp/Cecil/pull/2051)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.43.0 to 2.44.0 [`#2050`](https://github.com/Cecilapp/Cecil/pull/2050)
+- chore(deps): bump jaywcjlove/changelog-generator from 2.2.1 to 2.2.2 [`#2049`](https://github.com/Cecilapp/Cecil/pull/2049)
+- chore(deps-dev): bump phpstan/phpstan from 1.12.4 to 1.12.5 [`#2048`](https://github.com/Cecilapp/Cecil/pull/2048)
+- chore(deps-dev): bump phpstan/phpstan from 1.12.3 to 1.12.4 [`#2047`](https://github.com/Cecilapp/Cecil/pull/2047)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.10.2 to 3.10.3 [`#2046`](https://github.com/Cecilapp/Cecil/pull/2046)
+- chore: update deps [`0ef4909`](https://github.com/Cecilapp/Cecil/commit/0ef4909bd5ecc0f733dae968a587c4e652633f8d)
+- chore: update deps [`b7be542`](https://github.com/Cecilapp/Cecil/commit/b7be54257fb5446fe12a13170eefcc86a0900fbb)
+- fix new site command [`ba2e297`](https://github.com/Cecilapp/Cecil/commit/ba2e2971b2e836587e1b9f3486c993a454777b0b)
+
 #### [8.17.3](https://github.com/Cecilapp/Cecil/compare/8.17.2...8.17.3)
 
 > 17 September 2024
