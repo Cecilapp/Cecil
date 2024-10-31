@@ -1,8 +1,8 @@
 <!--
 title: Démarrage rapide
-description: "Créez un nouveau site et prévisualiser le localement."
+description: "Créez un nouveau site web et prévisualiser le localement."
 date: 2021-11-03
-updated: 2023-12-08
+updated: 2024-10-31
 slug: demarrage-rapide
 menu: home
 -->
@@ -22,15 +22,13 @@ Le moyen le plus simple de déployer et de gérer votre blog est certainement av
 
 [![Déployer sur Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/) [![Déployer sur Vercel](https://vercel.com/button/default.svg)](https://cecil.app/hosting/vercel/deploy/)
 
+[![Exemple de nouveau blog](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
+
 ----
 
 ## Créer un site web
 
 Comment créer un site Web en quelques étapes.
-
-:::info
-Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
-:::
 
 ### Télécharger Cecil
 
@@ -40,7 +38,11 @@ Téléchargez `cecil.phar` depuis votre terminal:
 curl -LO https://cecil.app/cecil.phar
 ```
 
-Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement.
+Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement, ou utiliser :
+
+- [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
+- [Scoop](https://scoop.sh): `scoop install https://cecil.app/cecil.json`
+- [PHIVE](https://phar.io): `phive install cecil`
 
 :::important
 [PHP](https://php.net/manual/fr/install.php) 8.1+ est requis.
@@ -53,6 +55,12 @@ Créez un répertoire pour le site Web (ex : `<monsiteweb>`), placez y `cecil.ph
 ```bash
 php cecil.phar new:site
 ```
+
+[![Example de nouveau site](/docs/cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
+
+:::info
+Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
+:::
 
 ### Ajouter du contenu
 

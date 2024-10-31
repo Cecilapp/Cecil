@@ -32,7 +32,11 @@ Download `cecil.phar` from your terminal:
 curl -LO https://cecil.app/cecil.phar
 ```
 
-You can also [download Cecil](https://cecil.app/download/) manually.
+You can also [download Cecil](https://cecil.app/download/) manually, or use:
+
+- [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
+- [Scoop](https://scoop.sh): `scoop install https://cecil.app/cecil.json`
+- [PHIVE](https://phar.io): `phive install cecil`
 
 :::important
 [PHP](https://php.net/manual/en/install.php) 8.1+ is required.
