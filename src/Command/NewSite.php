@@ -133,8 +133,8 @@ class NewSite extends AbstractCommand
             $output->writeln(\sprintf('<info>Your new website is created in %s.</info>', realpath($this->getPath())));
             $this->io->newLine();
             $this->io->listing([
-                'Start the built-in preview server with `' . $_SERVER['argv'][0] . ' serve`',
-                'You can create a new page with `' . $_SERVER['argv'][0] . ' new:page`',
+                'Start the built-in preview server with `' . basename($_SERVER['argv'][0]) . ' serve`',
+                'You can create a new page with `' . basename($_SERVER['argv'][0]) . ' new:page`',
             ]);
             $this->io->text('Visit <href=https://cecil.app>https://cecil.app</> for documentation and more.');
         } catch (\Exception $e) {
