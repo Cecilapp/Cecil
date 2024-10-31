@@ -16,7 +16,7 @@ The easiest way to deploy and manage your blog is certainly with [Netlify](https
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/) [![Deploy to Vercel](https://vercel.com/button/default.svg)](https://cecil.app/hosting/vercel/deploy/)
 
-[![New blog example](./cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
+[![New blog example](cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
 
 ----
 
@@ -46,7 +46,7 @@ Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it
 php cecil.phar new:site
 ```
 
-[![New website example](./cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
+[![New website example](cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
 
 :::info
 Demo of the expected result: <https://cecilapp.github.io/skeleton/>.
