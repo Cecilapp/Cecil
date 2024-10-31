@@ -22,7 +22,6 @@ mb_internal_encoding('UTF-8');
 \define('SERVER_TMP_DIR', '.cecil');
 \define('DIRECTORY_INDEX', '/index.html');
 \define('ERROR_404', '/404.html');
-$isIndex = null;
 $mediaSubtypeText = ['javascript', 'xml', 'json', 'ld+json', 'csv'];
 
 $path = htmlspecialchars(urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
