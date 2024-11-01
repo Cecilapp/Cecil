@@ -1,7 +1,7 @@
 <!--
 description: "Create a new website and preview it locally."
 date: 2020-12-19
-updated: 2024-10-31
+updated: 2024-11-01
 menu: home
 -->
 # Quick Start
@@ -23,6 +23,12 @@ The easiest way to deploy and manage your blog is certainly with [Netlify](https
 ## Create a website
 
 How to create create a website in a few steps.
+
+[![New website example](/docs/cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
+
+:::info
+Demo of the expected result: <https://cecilapp.github.io/skeleton/>.
+:::
 
 ### Download Cecil
 
@@ -49,12 +55,6 @@ Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it
 ```bash
 php cecil.phar new:site
 ```
-
-[![New website example](/docs/cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
-
-:::info
-Demo of the expected result: <https://cecilapp.github.io/skeleton/>.
-:::
 
 ### Add a page
 

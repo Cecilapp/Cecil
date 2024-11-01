@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site web et prévisualiser le localement."
 date: 2021-11-03
-updated: 2024-10-31
+updated: 2024-11-01
 slug: demarrage-rapide
 menu: home
 -->
@@ -30,6 +30,12 @@ Le moyen le plus simple de déployer et de gérer votre blog est certainement av
 
 Comment créer un site Web en quelques étapes.
 
+[![Example de nouveau site](/docs/cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
+
+:::info
+Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
+:::
+
 ### Télécharger Cecil
 
 Téléchargez `cecil.phar` depuis votre terminal:
@@ -55,12 +61,6 @@ Créez un répertoire pour le site Web (ex : `<monsiteweb>`), placez y `cecil.ph
 ```bash
 php cecil.phar new:site
 ```
-
-[![Example de nouveau site](/docs/cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
-
-:::info
-Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
-:::
 
 ### Ajouter du contenu
 
