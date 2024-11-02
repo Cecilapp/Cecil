@@ -44,21 +44,23 @@ case $RUNNING_ON in
     fi
     ;;
   "Vercel")
+    yum install -y amazon-linux-extras
     echo "Installing PHP ${PHP_VERSION}..."
-    amazon-linux-extras install -y php$PHP_VERSION
+    amazon-linux-extras enable php$PHP_VERSION
+    yum clean metadata
     echo "Installing Gettext..."
-    yum install -y gettext
+    yum install gettext
     echo "Installing Sodium..."
-    yum install -y libsodium # required by Box
+    yum install libsodium # required by Box
     echo "Installing PHP extensions..."
-    yum install -y php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick,sodium}
+    yum install php php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick,sodium}
     if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
-      yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-      yum install -y jpegoptim
-      yum install -y pngquant
-      yum install -y gifsicle
-      yum install -y libwebp-tools
+      yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      yum install jpegoptim
+      yum install pngquant
+      yum install gifsicle
+      yum install libwebp-tools
     fi
     if [ "$VERCEL_ENV" = "production" ]; then
       CONTEXT="production"
