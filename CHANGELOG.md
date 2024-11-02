@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.17.5](https://github.com/Cecilapp/Cecil/compare/8.17.4...8.17.5)
+
+> 31 October 2024
+
+- docs: Update Quick Start [`509825c`](https://github.com/Cecilapp/Cecil/commit/509825c118baae3780695c3f9fe036f7c1e1de7a)
+- docs: enhances Quick Start [`a7f057a`](https://github.com/Cecilapp/Cecil/commit/a7f057a65e5199abc001e9187eeac4b5c36330e6)
+- fix: new:site command minor fix [`c9df497`](https://github.com/Cecilapp/Cecil/commit/c9df497abf834d84e6242f8688620066f7ecc142)
+- chore: cleaning code [`e5bd04e`](https://github.com/Cecilapp/Cecil/commit/e5bd04e5649d9de3b2599c1cb6d4db67e9e137bb)
+- docs: update screenshots [`bede6bb`](https://github.com/Cecilapp/Cecil/commit/bede6bb207ea47e882c982244062730117ff60e0)
+
 #### [8.17.4](https://github.com/Cecilapp/Cecil/compare/8.17.3...8.17.4)
 
 > 31 October 2024
