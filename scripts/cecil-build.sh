@@ -56,7 +56,7 @@ case $RUNNING_ON in
     yum install php php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick,sodium}
     if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
-      yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      yum install https://extras.getpagespeed.com/release-latest.rpm
       yum install jpegoptim
       yum install pngquant
       yum install gifsicle
