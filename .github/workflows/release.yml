@@ -228,8 +228,8 @@ jobs:
       if: "github.event.release.prerelease"
       uses: mislav/bump-homebrew-formula-action@v3
       with:
-        formula-name: cecil-beta
-        formula-path: Formula/cecil-beta.rb
+        formula-name: cecil@beta
+        formula-path: Formula/cecil@beta.rb
         homebrew-tap: Cecilapp/homebrew-tap
         base-branch: main
         tag-name: ${{ needs.build.outputs.version }}
