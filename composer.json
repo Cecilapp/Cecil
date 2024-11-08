@@ -1,7 +1,7 @@
 {
   "name": "cecil/cecil",
   "type": "library",
-  "description": "Your content driven static site generator.",
+  "description": "A simple and powerful content-driven static site generator.",
   "keywords": [
     "static site generator",
     "markdown",
