@@ -1,14 +1,14 @@
 title: Cecil
-baseline: Your content driven static site generator
-description: Cecil, your content driven static site generator.
+baseline: A simple and powerful content-driven static site generator
+description: Cecil, a simple and powerful content-driven static site generator.
 pages:
   dir: ./
-  exclude: ['tests', 'resources']
+  exclude: ['bin', 'config', 'dist', 'resources', 'scripts', 'src', 'tests', 'vendor']
   sortby: weight
 pagination:
   enabled: false
 assets:
-  dir: docs
+  dir: ./
 menus:
   main:
     - id: index
