@@ -30,6 +30,12 @@ How to create create a website in a few steps.
 Demo of the expected result: <https://cecilapp.github.io/skeleton/>.
 :::
 
+### Prerequisites
+
+- [PHP](https://php.net/manual/en/install.php) 8.1+
+- Terminal (a basic understanding of [terminal](https://wikipedia.org/wiki/Terminal_emulator))
+- Text editor, like [VS Code](https://code.visualstudio.com) and/or [Typora](https://typora.io)
+
 ### Download Cecil
 
 Download `cecil.phar` from your terminal:
@@ -43,10 +49,6 @@ You can also [download Cecil](https://cecil.app/download/) manually, or use:
 - [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/cecil.json`
 - [PHIVE](https://phar.io): `phive install cecil`
-
-:::important
-[PHP](https://php.net/manual/en/install.php) 8.1+ is required.
-:::
 
 ### Create a new website
 

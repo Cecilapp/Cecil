@@ -36,6 +36,12 @@ Comment créer un site Web en quelques étapes.
 Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
 :::
 
+### Prérequis
+
+- [PHP](https://php.net/manual/en/install.php) 8.1+
+- Terminal (une compréhension de base du [terminal](https://fr.wikipedia.org/wiki/%C3%89mulateur_de_terminal))
+- Éditeur de texte, comme [VS Code](https://code.visualstudio.com) et/ou [Typora](https://typora.io)
+
 ### Télécharger Cecil
 
 Téléchargez `cecil.phar` depuis votre terminal:
@@ -49,10 +55,6 @@ Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuel
 - [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/cecil.json`
 - [PHIVE](https://phar.io): `phive install cecil`
-
-:::important
-[PHP](https://php.net/manual/fr/install.php) 8.1+ est requis.
-:::
 
 ### Créer un nouveau site
 
