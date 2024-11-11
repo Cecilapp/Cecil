@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site web et prévisualiser le localement."
 date: 2021-11-03
-updated: 2024-11-01
+updated: 2024-11-11
 slug: demarrage-rapide
 menu: home
 -->
@@ -38,7 +38,7 @@ Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
 
 ### Prérequis
 
-- [PHP](https://php.net/manual/en/install.php) 8.1+
+- [PHP](https://php.net/manual/fr/install.php) 8.1+
 - Terminal (une compréhension de base du [terminal](https://fr.wikipedia.org/wiki/%C3%89mulateur_de_terminal))
 - Éditeur de texte, comme [VS Code](https://code.visualstudio.com) et/ou [Typora](https://typora.io)
 
