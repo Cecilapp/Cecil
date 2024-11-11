@@ -14,9 +14,11 @@ Below are some recipes to automate build and/or deployment of a static site.
 
 ## Jamstack platforms
 
-### [Netlify](https://www.netlify.com)
+### Netlify
 
 > A powerful serverless platform with an intuitive git-based workflow. Automated deployments, shareable previews, and much more.
+
+➡️ <https://www.netlify.com>
 
 _netlify.toml_:
 
@@ -37,9 +39,11 @@ _netlify.toml_:
 
 [Official documentation](https://www.netlify.com/docs/continuous-deployment/)
 
-### [Vercel](https://vercel.com)
+### Vercel
 
 > Vercel combines the best developer experience with an obsessive focus on end-user performance.
+
+➡️ <https://vercel.com>
 
 _vercel.json_:
 
@@ -65,9 +69,11 @@ _package.json_:
 
 [Official documentation](https://vercel.com/docs/concepts/deployments/build-step#build-command)
 
-### [Cloudflare Pages](https://pages.cloudflare.com)
+### Cloudflare Pages
 
 > Cloudflare Pages is a JAMstack platform for frontend developers to collaborate and deploy websites.
+
+➡️ <https://pages.cloudflare.com>
 
 Build configurations:
 
@@ -77,9 +83,11 @@ Build configurations:
 
 [Official documentation](https://developers.cloudflare.com/pages/)
 
-### [Render](https://render.com)
+### Render
 
 > Render is a unified cloud to build and run all your apps and websites with free TLS certificates, global CDN, private networks and auto deploys from Git.
+
+➡️ <https://render.com>
 
 _render.yaml_:
 
@@ -98,9 +106,11 @@ services:
 
 ## Continuous build & hosting
 
-### [GitHub Pages](https://pages.github.com)
+### GitHub Pages
 
 > Websites for you and your projects, hosted directly from your GitHub repository. Just edit, push, and your changes are live.
+
+➡️ <https://pages.github.com>
 
 _.github/workflows/build-and-deploy.yml_:
 
@@ -147,9 +157,11 @@ jobs:
 
 [Official documentation](https://about.gitlab.com/stages-devops-lifecycle/pages/)
 
-### [GitLab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
+### GitLab CI
 
 > With GitLab Pages, you can publish static websites directly from a repository in GitLab.
+
+➡️ <https://about.gitlab.com/solutions/continuous-integration/>
 
 _.gitlab-ci.yml_:
 
@@ -198,9 +210,11 @@ cache:
 
 ## Static hosting
 
-### [Surge](https://surge.sh)
+### Surge
 
 > Shipping web projects should be fast, easy, and low risk. Surge is static web publishing for Front-End Developers, right from the CLI.
+
+➡️ <https://surge.sh>
 
 Terminal:
 
