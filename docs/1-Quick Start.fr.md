@@ -18,9 +18,9 @@ La documentation complète est disponible, en anglais, à l’adresse suivante :
 
 Si vous souhaiter créer un blog sans vous casser la tête, le [starter blog](https://github.com/Cecilapp/the-butler#readme) est fait pour vous.
 
-Le moyen le plus simple de déployer et de gérer votre blog est certainement avec [Netlify](https://cecil.app/hosting/netlify/deploy/) ou [Vercel](https://cecil.app/hosting/vercel/deploy/).
-
 [![Exemple de nouveau blog](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
+
+Le moyen le plus simple de déployer et de gérer votre blog est certainement avec [Netlify](https://cecil.app/hosting/netlify/deploy/) ou [Vercel](https://cecil.app/hosting/vercel/deploy/).
 
 ### Déployer sur Netlify
 

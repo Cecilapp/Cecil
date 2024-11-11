@@ -12,9 +12,9 @@ Cecil is a CLI application, powered by [PHP](https://www.php.net), that merge pl
 
 If you want to create a no-hassle blog, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you.
 
-The easiest way to deploy and manage your blog is certainly with [Netlify](https://cecil.app/hosting/netlify/deploy/) or [Vercel](https://cecil.app/hosting/vercel/deploy/).
-
 [![New blog example](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
+
+The easiest way to deploy and manage your blog is certainly with [Netlify](https://cecil.app/hosting/netlify/deploy/) or [Vercel](https://cecil.app/hosting/vercel/deploy/).
 
 ### Deploy to Netlify
 
