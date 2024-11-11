@@ -56,7 +56,7 @@ Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuel
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/cecil.json`
 - [PHIVE](https://phar.io): `phive install cecil`
 
-### Créer un nouveau site
+### Créer un site
 
 Créez un répertoire pour le site Web (ex : `<monsiteweb>`), placez y `cecil.phar`, puis exécutez la commande `new:site` :
 
@@ -64,7 +64,7 @@ Créez un répertoire pour le site Web (ex : `<monsiteweb>`), placez y `cecil.ph
 php cecil.phar new:site
 ```
 
-### Ajouter du contenu
+### Ajouter une page
 
 Exécutez la commande `new:page` :
 
@@ -78,7 +78,7 @@ Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur
 Nous vous recommandons d’utiliser [Typora](https://www.typora.io) pour éditer vos fichiers Markdown.
 :::
 
-### Vérifier l’aperçu
+### Contrôler l’aperçu
 
 Exécutez la commande suivante pour créer un aperçu du site Web :
 

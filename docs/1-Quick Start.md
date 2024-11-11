@@ -50,7 +50,7 @@ You can also [download Cecil](https://cecil.app/download/) manually, or use:
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/cecil.json`
 - [PHIVE](https://phar.io): `phive install cecil`
 
-### Create a new website
+### Create a site
 
 Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it, then run the `new:site` command:
 
