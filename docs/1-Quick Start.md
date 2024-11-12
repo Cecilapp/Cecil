@@ -69,7 +69,7 @@ php cecil.phar new:site
 Run the `new:page` command:
 
 ```bash
-php cecil.phar new:page my-first-page.md
+php cecil.phar new:page --name=my-first-page.md
 ```
 
 Now you can edit the newly created page with your Markdown editor: `<mywebsite>/pages/my-first-page.md`.

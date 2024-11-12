@@ -75,7 +75,7 @@ php cecil.phar new:site
 Exécutez la commande `new:page` :
 
 ```bash
-php cecil.phar new:page ma-premiere-page.md
+php cecil.phar new:page --name=ma-premiere-page.md
 ```
 
 Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown : `<monsiteweb>/pages/ma-premiere-page.md`.
