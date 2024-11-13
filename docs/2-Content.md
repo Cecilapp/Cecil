@@ -8,9 +8,9 @@ updated: 2024-11-13
 There is different kinds of content in Cecil:
 
 **Pages**
-: Pages are the main content of the site, written in [Markdown](#markdown).  
-Pages should be organized in a manner that reflects the rendered website.  
-Pages can be organized in _Sections_ (root folders) (e.g.: “Blog“, “Project“, etc.).
+: Pages are the main content of the site, written in [Markdown](#markdown).
+: Pages should be organized in a manner that reflects the rendered website.
+: Pages can be organized in _Sections_ (root folders) (e.g.: “Blog“, “Project“, etc.).
 
 **Assets**
 : Assets are manipulated files (i.e.: resized images, compiled Sass, minified scripts, etc.) with the template [`asset()`](3-Templates.md#asset) function.
