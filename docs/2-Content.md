@@ -1,23 +1,25 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2024-03-13
+updated: 2024-11-13
 -->
 # Content
 
 There is different kinds of content in Cecil:
 
 **Pages**
-: Pages are the main content of the site, written in [Markdown](#markdown).
+: Pages are the main content of the site, written in [Markdown](#markdown).  
+Pages should be organized in a manner that reflects the rendered website.  
+Pages can be organized in _Sections_ (root folders) (e.g.: “Blog“, “Project“, etc.).
 
 **Assets**
-: Assets are manipulated files (i.e.: resized images, compiled Sass, minified scripts, etc.).
+: Assets are manipulated files (i.e.: resized images, compiled Sass, minified scripts, etc.) with the template [`asset()`](3-Templates.md#asset) function.
 
 **Static files**
-: Static files are copied as is in the built site.
+: Static files are copied as is in the built site (e.g.: `static/file.pdf` -> `file.pdf`).
 
 **Data files**
-: Data files are custom variables collections.
+: Data files are custom variables collections, exposed in [templates](3-Templates.md) with [`site.data`](3-Templates.md#site-data).
 
 ## Files organization
 
@@ -42,17 +44,6 @@ Project files organization.
 └─ data
    └─ authors.yml     <- Data collection
 ```
-
-:::
-**Explanations:**
-
-- Pages should be organized in a manner that reflects the rendered website
-- Each folder in the root of `pages/` is called a **_Section_** (e.g.: “Blog“, “Project“, etc.)
-- You can set _Section_’s variables by creating an `index.md` file in its directory (e.g.: `blog/index.md`)
-- Files in `assets/` are handled with the template [`asset()`](3-Templates.md#asset) function
-- Files in `static/` are copied as is in the built site (e.g.: `static/file.pdf` -> `file.pdf`)
-- Content of files in `data/` is exposed in [templates](3-Templates.md) with [`{{ site.data }}`](3-Templates.md#site-data)
-:::
 
 ### Built website tree
 
