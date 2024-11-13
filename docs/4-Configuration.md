@@ -218,7 +218,7 @@ menus:
 ```
 
 :::info
-A `main` menu is automatically created with a home page entry and all [sections](2-Content.md/#files-organization) entries.
+A `main` menu is automatically created with a home page entry and all [sections](2-Content.md) entries.
 :::
 
 #### Override entry properties
