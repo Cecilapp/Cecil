@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2024-08-29
+updated: 2024-11-13
 -->
 # Configuration
 
@@ -206,8 +206,6 @@ menus:
       weight: <integer> # integer value used to sort entries (lighter first)
 ```
 
-By default a `main` menu is created and contains the home page and sections entries.
-
 _Example:_
 
 ```yaml
@@ -218,6 +216,10 @@ menus:
       url: https://arnaudligny.fr
       weight: 99
 ```
+
+:::info
+A `main` menu is automatically created with a home page entry and all [sections](2-Content.md/#files-organization) entries.
+:::
 
 #### Override entry properties
 
