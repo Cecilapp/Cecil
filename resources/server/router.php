@@ -148,7 +148,7 @@ if (file_exists($headersFile)) {
     $pathParts = explode('/', pathinfo($path, PATHINFO_DIRNAME));
     $previous = '';
     for ($i = 0; $i < \count($pathParts); $i++) {
-        $headersSectionKey = $previous . \sprintf('/%s/*', $pathParts[$i]);
+        $headersSectionKey = $previous . \sprintf('/%s/*', trim($pathParts[$i], '\\'));
         $previous .= '/' . $pathParts[$i];
         $headersSectionKey = '/' . trim($headersSectionKey, '/');
         if (\array_key_exists($headersSectionKey, $headersArray)) {
