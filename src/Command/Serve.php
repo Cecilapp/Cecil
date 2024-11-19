@@ -147,7 +147,7 @@ class Serve extends AbstractCommand
         $output->writeln(\sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
         $buildProcess->run($processOutputCallback);
         if ($buildProcess->isSuccessful()) {
-            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+            $this->buildSuccess($output);
         }
         if ($buildProcess->getExitCode() !== 0) {
             return 1;
@@ -219,7 +219,7 @@ class Serve extends AbstractCommand
                         // re-builds
                         $buildProcess->run($processOutputCallback);
                         if ($buildProcess->isSuccessful()) {
-                            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+                            $this->buildSuccess($output);
                         }
 
                         $output->writeln('<info>Server is runnning...</info>');
@@ -236,6 +236,25 @@ class Serve extends AbstractCommand
         }
 
         return 0;
+    }
+
+    /**
+     * Build success.
+     */
+    private function buildSuccess(OutputInterface $output): void
+    {
+        // writes `changes.flag` file
+        Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+        // writes `headers.ini` file
+        if (null !== $headers = $this->getBuilder()->getConfig()->get('headers')) {
+            $output->writeln('Writing headers file...');
+            foreach ($headers as $header) {
+                Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "[{$header['source']}]\n");
+                foreach ($header['headers'] as $h) {
+                    Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "{$h['key']} = \"{$h['value']}\"\n");
+                }
+            }
+        }
     }
 
     /**

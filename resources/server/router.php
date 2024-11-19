@@ -126,15 +126,48 @@ if ($pathInfo['media_maintype'] == 'text' || \in_array($pathInfo['media_subtype'
     }
 }
 
-// returns result
+/**
+ * Returns result
+ */
+
+// local server headers
 header('Etag: ' . md5_file($filename));
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
 header('X-Powered-By: Cecil,PHP/' . phpversion());
+// file type headers
 foreach ($pathInfo['headers'] as $header) {
     header($header);
 }
+// custom headers based on path
+$headersFile = $_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/headers.ini';
+if (file_exists($headersFile)) {
+    $headersArray = parse_ini_file($headersFile, true);
+    // joker path tree
+    $pathParts = explode('/', pathinfo($path, PATHINFO_DIRNAME));
+    $previous = '';
+    for ($i = 0; $i < \count($pathParts); $i++) {
+        $headersSectionKey = $previous . \sprintf('/%s/*', trim($pathParts[$i], '\\'));
+        $previous .= '/' . $pathParts[$i];
+        $headersSectionKey = '/' . trim($headersSectionKey, '/');
+        if (\array_key_exists($headersSectionKey, $headersArray)) {
+            foreach ($headersArray[$headersSectionKey] as $key => $value) {
+                header("$key: " . $value);
+            }
+        }
+        if (empty($pathParts[1])) {
+            break;
+        }
+    }
+    // exact file path
+    if (\array_key_exists($path, $headersArray)) {
+        foreach ($headersArray[$path] as $key => $value) {
+            header("$key: " . $value);
+        }
+    }
+}
+// file content
 echo $content;
 
 return logger(true);
