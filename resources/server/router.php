@@ -140,11 +140,11 @@ header('X-Powered-By: Cecil,PHP/' . phpversion());
 foreach ($pathInfo['headers'] as $header) {
     header($header);
 }
-// custom headers
+// custom headers based on path
 $headersFile = $_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/headers.ini';
 if (file_exists($headersFile)) {
     $headersArray = parse_ini_file($headersFile, true);
-    // joker path
+    // joker path tree
     $pathParts = explode('/', pathinfo($path, PATHINFO_DIRNAME));
     $previous = '';
     for ($i = 0; $i < \count($pathParts); $i++) {
@@ -160,7 +160,7 @@ if (file_exists($headersFile)) {
             break;
         }
     }
-    // file path
+    // exact file path
     if (\array_key_exists($path, $headersArray)) {
         foreach ($headersArray[$path] as $key => $value) {
             header("$key: " . $value);
