@@ -589,6 +589,50 @@ When `debug` is enabled, you can easily [dump a variable in your templates](3-Te
 {{ d(variable) }} # HTML dump
 ```
 
+### headers
+
+You can define custom HTTP headers used by the local preview server.
+
+It's useful to test custom Content Security or Cache Policy.
+
+```yaml
+headers:
+  - source: <path prefixed with a slash>
+    headers:
+      - key: <key>
+        value: "<value>"
+```
+
+_Example:_
+
+```yaml
+headers:
+  - source: /*
+    headers:
+      - key: X-Frame-Options
+        value: "SAMEORIGIN"
+      - key: X-XSS-Protection
+        value: "1; mode=block"
+      - key: X-Content-Type-Options
+        value: "nosniff"
+      - key: Content-Security-Policy
+        value: "default-src 'self'; object-src 'self'; img-src 'self'"
+      - key: Strict-Transport-Security
+        value: "max-age=31536000; includeSubDomains; preload"
+  - source: /images/*
+    headers:
+      - key: Cache-Control
+        value: "public, max-age=31536000"
+  - source: /assets/*
+    headers:
+      - key: Cache-Control
+        value: "public, max-age=31536000"
+  - source: /test.html
+    headers:
+      - key: Foo
+        value: "bar"
+```
+
 ## Default configuration
 
 Your site configuration (`config.yml`) overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
