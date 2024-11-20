@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.18.0](https://github.com/Cecilapp/Cecil/compare/8.17.5...8.18.0)
+
+> 19 November 2024
+
+- feat: custom headers [`#2062`](https://github.com/Cecilapp/Cecil/pull/2062)
+- chore(deps): bump twig/intl-extra from 3.13.0 to 3.15.0 [`#2065`](https://github.com/Cecilapp/Cecil/pull/2065)
+- chore(deps): bump twig/twig from 3.14.2 to 3.15.0 [`#2064`](https://github.com/Cecilapp/Cecil/pull/2064)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.11.0 to 3.11.1 [`#2063`](https://github.com/Cecilapp/Cecil/pull/2063)
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 17 to 18 [`#2061`](https://github.com/Cecilapp/Cecil/pull/2061)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.10.3 to 3.11.0 [`#2060`](https://github.com/Cecilapp/Cecil/pull/2060)
+- chore(deps): bump twig/twig from 3.14.1 to 3.14.2 [`#2059`](https://github.com/Cecilapp/Cecil/pull/2059)
+- chore(deps-dev): bump phpstan/phpstan from 1.12.7 to 1.12.8 [`#2058`](https://github.com/Cecilapp/Cecil/pull/2058)
+- chore(deps): bump twig/twig from 3.14.0 to 3.14.1 [`#2057`](https://github.com/Cecilapp/Cecil/pull/2057)
+- chore(deps): bump spatie/image-optimizer from 1.7.5 to 1.8.0 [`#2056`](https://github.com/Cecilapp/Cecil/pull/2056)
+- chore: update deps [`ac65976`](https://github.com/Cecilapp/Cecil/commit/ac65976ed2cb718122043c0b4ef659c432de0de7)
+- chore: update deps [`18c6a9a`](https://github.com/Cecilapp/Cecil/commit/18c6a9a7170fa6f4219a372eb654fef3483f1aa8)
+- docs: fix Deploy titles [`173b4a3`](https://github.com/Cecilapp/Cecil/commit/173b4a3d2ee8d6e787180f83010a757f62e45346)
+- docs: minor updates [`5f0c833`](https://github.com/Cecilapp/Cecil/commit/5f0c833cf97af12c488f86245032800ceeec8ed7)
+- docs: update Quick Start [`7ea1174`](https://github.com/Cecilapp/Cecil/commit/7ea11741b38ea2ad1833e1ff9dd801bba54414dd)
+- docs: better description of files organization [`3ccd10f`](https://github.com/Cecilapp/Cecil/commit/3ccd10fc42a45a06563862a136b433c391ff3619)
+- docs: update Quick Start [`ade7bc8`](https://github.com/Cecilapp/Cecil/commit/ade7bc82c934882232b07e559a1321052508e3f3)
+- fix: build script for Vercel [`d68093b`](https://github.com/Cecilapp/Cecil/commit/d68093bd705eccf952bb30456c644b7202739d5c)
+- chore: update supported versions [`341d0f2`](https://github.com/Cecilapp/Cecil/commit/341d0f2145d6b95d27351000d8fcffd806ef743c)
+- docs: clarify main menu creation [`17cc555`](https://github.com/Cecilapp/Cecil/commit/17cc55578d61893c21768eaf825385d1b0944d60)
+- docs: update Quick Start [`128f5bf`](https://github.com/Cecilapp/Cecil/commit/128f5bf148f6a04081e18de49c158eb9036ee440)
+- docs: update Quick Start [`42cdbad`](https://github.com/Cecilapp/Cecil/commit/42cdbadb27b6922d0d7f04d34d1ef3756ec3ed21)
+- docs: minor fix [`ad80d5d`](https://github.com/Cecilapp/Cecil/commit/ad80d5da092937125e2e579e292bd048fe436ec8)
+- docs: update Quick Start [`bf23d20`](https://github.com/Cecilapp/Cecil/commit/bf23d203eec2f44168053d3a3ace37a939aa66dc)
+- docs: fix Quick Start new:page example [`2dccc82`](https://github.com/Cecilapp/Cecil/commit/2dccc82be85c91750f3e1c62aa606f0a44d56113)
+- chore: Update Formulae flow [`935704c`](https://github.com/Cecilapp/Cecil/commit/935704c703cd158da4f860ac95ed66506d0a21e5)
+- docs: minor fix [`93a82fa`](https://github.com/Cecilapp/Cecil/commit/93a82fa19534df12d41d73eaa2748e2b617a3e8f)
+- chore: fix composer description [`32cf842`](https://github.com/Cecilapp/Cecil/commit/32cf8426a467c92ab172fcd344020b6f72f85d14)
+
 #### [8.17.5](https://github.com/Cecilapp/Cecil/compare/8.17.4...8.17.5)
 
 > 31 October 2024
