@@ -591,23 +591,25 @@ When `debug` is enabled, you can easily [dump a variable in your templates](3-Te
 
 ### headers
 
-You can define custom HTTP headers used by the local preview server.
-
-It's useful to test custom Content Security or Cache Policy.
+You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
 
 ```yaml
 headers:
-  - source: <path prefixed with a slash>
+  - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
     headers:
       - key: <key>
         value: "<value>"
 ```
 
+:::tips
+It's useful to test custom [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) or [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
+:::
+
 _Example:_
 
 ```yaml
 headers:
-  - source: /*
+  - path: /*
     headers:
       - key: X-Frame-Options
         value: "SAMEORIGIN"
@@ -619,15 +621,11 @@ headers:
         value: "default-src 'self'; object-src 'self'; img-src 'self'"
       - key: Strict-Transport-Security
         value: "max-age=31536000; includeSubDomains; preload"
-  - source: /images/*
+  - path: /assets/*
     headers:
       - key: Cache-Control
         value: "public, max-age=31536000"
-  - source: /assets/*
-    headers:
-      - key: Cache-Control
-        value: "public, max-age=31536000"
-  - source: /test.html
+  - path: /foo.html
     headers:
       - key: Foo
         value: "bar"
