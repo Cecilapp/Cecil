@@ -144,26 +144,19 @@ foreach ($pathInfo['headers'] as $header) {
 $headersFile = $_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/headers.ini';
 if (file_exists($headersFile)) {
     $headersArray = parse_ini_file($headersFile, true);
-    // joker path tree
-    $pathParts = explode('/', pathinfo($path, PATHINFO_DIRNAME));
-    $previous = '';
-    for ($i = 0; $i < \count($pathParts); $i++) {
-        $headersSectionKey = $previous . \sprintf('/%s/*', trim($pathParts[$i], '\\'));
-        $previous .= '/' . $pathParts[$i];
-        $headersSectionKey = '/' . trim($headersSectionKey, '/');
-        if (\array_key_exists($headersSectionKey, $headersArray)) {
-            foreach ($headersArray[$headersSectionKey] as $key => $value) {
-                header("$key: " . $value);
+    // path with wildcard
+    foreach ($headersArray as $source => $headers) {
+        list($match) = sscanf($path, str_replace('*', '%s', $source));
+        if ($match !== null) {
+            foreach ($headers as $key => $value) {
+                header("$key: $value");
             }
-        }
-        if (empty($pathParts[1])) {
-            break;
         }
     }
     // exact file path
     if (\array_key_exists($path, $headersArray)) {
         foreach ($headersArray[$path] as $key => $value) {
-            header("$key: " . $value);
+            header("$key: $value");
         }
     }
 }
