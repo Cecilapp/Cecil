@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.18.1](https://github.com/Cecilapp/Cecil/compare/8.18.0...8.18.1)
+
+> 20 November 2024
+
+- fix: custom headers handling by local server [`d492822`](https://github.com/Cecilapp/Cecil/commit/d4928224625cf0c0d73041c9f97e973abf12bee3)
+
 #### [8.18.0](https://github.com/Cecilapp/Cecil/compare/8.17.5...8.18.0)
 
 > 19 November 2024
