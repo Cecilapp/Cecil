@@ -249,10 +249,10 @@ class Serve extends AbstractCommand
         if (null !== $headers = $this->getBuilder()->getConfig()->get('headers')) {
             $output->writeln('Writing headers file...');
             Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'));
-            foreach ($headers as $header) {
-                Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "[{$header['source']}]\n");
-                foreach ($header['headers'] as $h) {
-                    Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "{$h['key']} = \"{$h['value']}\"\n");
+            foreach ($headers as $entry) {
+                Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "[{$entry['path']}]\n");
+                foreach ($entry['headers'] as $header) {
+                    Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "{$header['key']} = \"{$header['value']}\"\n");
                 }
             }
         }
