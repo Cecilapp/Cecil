@@ -48,7 +48,7 @@ class Config
      */
     public function __construct(?array $config = null)
     {
-        $this->data = new Data;
+        $this->data = new Data();
 
         // import config
         $this->import($config ?? []);
