@@ -408,7 +408,7 @@ class Builder implements LoggerAwareInterface
     protected function logConfigError(): void
     {
         // baseurl
-        if (empty(trim((string) $this->config->get('baseurl', default: ''), '/'))) {
+        if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
             $this->getLogger()->error('`baseurl` configuration key is required in production (e.g.: "baseurl: https://example.com/").');
         }
     }

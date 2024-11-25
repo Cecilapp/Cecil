@@ -353,7 +353,7 @@ class Config
      */
     public function getAssetsImagesWidths(): array
     {
-        return $this->get('assets.images.responsive.widths', default: [480, 640, 768, 1024, 1366, 1600, 1920]);
+        return $this->get('assets.images.responsive.widths');
     }
 
     /**
@@ -361,7 +361,7 @@ class Config
      */
     public function getAssetsImagesSizes(): array
     {
-        return $this->get('assets.images.responsive.sizes', default: ['default' => '100vw']);
+        return $this->get('assets.images.responsive.sizes');
     }
 
     /*

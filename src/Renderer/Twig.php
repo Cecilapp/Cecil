@@ -116,7 +116,7 @@ class Twig implements RendererInterface
             switch ($name) {
                 case 'localizeddate':
                     return new \Twig\TwigFilter($name, function (?\DateTime $value = null) {
-                        return date($this->builder->getConfig()->get('date.format', default: 'F j, Y'), $value->getTimestamp());
+                        return date($this->builder->getConfig()->get('date.format'), $value->getTimestamp());
                     });
             }
 

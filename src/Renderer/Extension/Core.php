@@ -451,7 +451,7 @@ class Core extends SlugifyExtension
                 throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
             }
             $scssPhp->setOutputStyle($outputStyle);
-            $variables = $this->config->get('assets.compile.variables', default: []);
+            $variables = $this->config->get('assets.compile.variables');
             if (!empty($variables)) {
                 $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
                 $scssPhp->replaceVariables($variables);
@@ -478,8 +478,8 @@ class Core extends SlugifyExtension
     {
         $htmlAttributes = '';
         $preload = false;
-        $responsive = (bool) $this->config->get('assets.images.responsive.enabled', default: false);
-        $formats = (array) $this->config->get('assets.images.formats', default: []);
+        $responsive = (bool) $this->config->get('assets.images.responsive.enabled');
+        $formats = (array) $this->config->get('assets.images.formats');
         extract($options, EXTR_IF_EXISTS);
 
         // builds HTML attributes
@@ -705,7 +705,7 @@ class Core extends SlugifyExtension
     public function markdownToToc(?string $markdown, $format = 'html', ?array $selectors = null, string $url = ''): ?string
     {
         $markdown = $markdown ?? '';
-        $selectors = $selectors ?? (array) $this->config->get('pages.body.toc', default: ['h2', 'h3']);
+        $selectors = $selectors ?? (array) $this->config->get('pages.body.toc');
 
         try {
             $parsedown = new Parsedown($this->builder, ['selectors' => $selectors, 'url' => $url]);

@@ -42,7 +42,7 @@ class Images extends AbstractOptimize
      */
     public function setProcessor(): void
     {
-        $this->processor = Optimizer::create($this->config->get('assets.images.quality', default: 75));
+        $this->processor = Optimizer::create($this->config->get('assets.images.quality'));
     }
 
     /**

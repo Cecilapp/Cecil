@@ -63,7 +63,7 @@ class Parsedown extends \ParsedownToc
         $this->highlighter = new Highlighter();
 
         // options
-        $options = array_merge(['selectors' => (array) $this->config->get('pages.body.toc', default: ['h2', 'h3'])], $options ?? []);
+        $options = array_merge(['selectors' => (array) $this->config->get('pages.body.toc')], $options ?? []);
 
         parent::__construct();
         parent::setOptions($options);
@@ -111,19 +111,19 @@ class Parsedown extends \ParsedownToc
 
         // External link
         if (str_starts_with($link['element']['attributes']['href'], 'http') && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl'))) {
-            if ($this->config->get('pages.body.links.external.blank', default: false)) {
+            if ($this->config->get('pages.body.links.external.blank')) {
                 $link['element']['attributes']['target'] = '_blank';
             }
             if (!\array_key_exists('rel', $link['element']['attributes'])) {
                 $link['element']['attributes']['rel'] = '';
             }
-            if ($this->config->get('pages.body.links.external.noopener', default: true)) {
+            if ($this->config->get('pages.body.links.external.noopener')) {
                 $link['element']['attributes']['rel'] .= ' noopener';
             }
-            if ($this->config->get('pages.body.links.external.noreferrer', default: true)) {
+            if ($this->config->get('pages.body.links.external.noreferrer')) {
                 $link['element']['attributes']['rel'] .= ' noreferrer';
             }
-            if ($this->config->get('pages.body.links.external.nofollow', default: true)) {
+            if ($this->config->get('pages.body.links.external.nofollow')) {
                 $link['element']['attributes']['rel'] .= ' nofollow';
             }
             $link['element']['attributes']['rel'] = trim($link['element']['attributes']['rel']);
@@ -133,7 +133,7 @@ class Parsedown extends \ParsedownToc
          * Embed link?
          */
         $embed = false;
-        $embed = (bool) $this->config->get('pages.body.links.embed.enabled', default: false);
+        $embed = (bool) $this->config->get('pages.body.links.embed.enabled');
         if (isset($link['element']['attributes']['embed'])) {
             $embed = true;
             if ($link['element']['attributes']['embed'] == 'false') {
@@ -268,7 +268,7 @@ class Parsedown extends \ParsedownToc
         }
 
         // disable remote image handling?
-        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !(bool) $this->config->get('pages.body.images.remote.enabled', default: true)) {
+        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !(bool) $this->config->get('pages.body.images.remote.enabled')) {
             return $InlineImage;
         }
 
@@ -389,7 +389,7 @@ class Parsedown extends \ParsedownToc
 
         // converts image to formats and put them in picture > source
         if (
-            \count($formats = ((array) $this->config->get('pages.body.images.formats', default: []))) > 0
+            \count($formats = ((array) $this->config->get('pages.body.images.formats'))) > 0
             && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
