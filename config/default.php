@@ -15,7 +15,7 @@ declare(strict_types=1);
 return [
     'title'        => 'Site title',
     'baseline'     => '',
-    'baseurl'      => 'http://localhost:8000/',
+    'baseurl'      => '', // e.g.: https://cecil.app/
     'canonicalurl' => false, // if true then `url()` function prepends URL with `baseurl`
     'description'  => 'Site description.',
     'author'       => [
@@ -51,10 +51,10 @@ return [
         'tags'       => 'tag',
         'categories' => 'category', // can be disabled with the special "disabled" value
     ],
-    'pagination' => [
-        'max'  => 5, // number of pages by each paginated pages
-        'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
-    ],
+    //'pagination' => [
+    //    'max'  => 5, // number of pages by each paginated pages
+    //    'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
+    //],
     // Markdown content management
     'pages' => [
         'dir'     => 'pages', // pages files directory (`pages` by default, previously `content`)
@@ -71,7 +71,7 @@ return [
         ],
         'body' => [
             'format'    => 'markdown', // page body format (only Markdown is supported)
-            'toc'       => ['h2', 'h3'], // headers used to build the table of contents
+            //'toc'       => ['h2', 'h3'], // headers used to build the table of contents (`['h2', 'h3']` by default)
             'highlight' => [
                 'enabled' => false, // enables code syntax highlighting (`false` by default)
             ],
@@ -226,11 +226,9 @@ return [
             ],
             'quality'    => 75, // image quality after optimization or resize (`75` by default)
             'responsive' => [
-                'widths'  => [], // `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]`
-                'sizes'   => [
-                    'default' => '100vw', // default `sizes` attribute (`100vw` by default)
-                ],
                 'enabled' => false, // `html` filter: creates responsive images (`false` by default)
+                //'widths'  => [], // `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
+                //'sizes'   => ['default' => '100vw'] // default `sizes` attribute (`100vw` by default)
             ],
             'formats' => [], // `html` filter: creates and adds formats images as `source` (empty by default)
             'cdn' => [
@@ -279,14 +277,14 @@ return [
         'dir'      => '_site', // output directory (`_site` by default)
         'formats'  => [ // https://cecil.app/documentation/configuration/#formats
             // e.g.: blog/post-1/index.html
-            -1 => [
+            [
                 'name'      => 'html',
                 'mediatype' => 'text/html',
                 'filename'  => 'index',
                 'extension' => 'html',
             ],
             // e.g.: blog/atom.xml
-            -2 => [
+            [
                 'name'      => 'atom',
                 'mediatype' => 'application/atom+xml',
                 'filename'  => 'atom',
@@ -294,7 +292,7 @@ return [
                 'exclude'   => ['redirect', 'paginated'],
             ],
             // e.g.: blog/rss.xml
-            -3 => [
+            [
                 'name'      => 'rss',
                 'mediatype' => 'application/rss+xml',
                 'filename'  => 'rss',
@@ -302,28 +300,28 @@ return [
                 'exclude'   => ['redirect', 'paginated'],
             ],
             // e.g.: blog.json
-            -4 => [
+            [
                 'name'      => 'json',
                 'mediatype' => 'application/json',
                 'extension' => 'json',
                 'exclude'   => ['redirect'],
             ],
             // e.g.: blog.xml
-            -5 => [
+            [
                 'name'      => 'xml',
                 'mediatype' => 'application/xml',
                 'extension' => 'xml',
                 'exclude'   => ['redirect'],
             ],
             // e.g.: robots.txt
-            -6 => [
+            [
                 'name'      => 'txt',
                 'mediatype' => 'text/plain',
                 'extension' => 'txt',
                 'exclude'   => ['redirect'],
             ],
             // e.g.: blog/post-1/amp/index.html
-            -7 => [
+            [
                 'name'      => 'amp',
                 'mediatype' => 'text/html',
                 'subpath'   => 'amp',
@@ -331,25 +329,25 @@ return [
                 'extension' => 'html',
             ],
             // e.g.: sw.js
-            -8 => [
+            [
                 'name'      => 'js',
                 'mediatype' => 'application/javascript',
                 'extension' => 'js',
             ],
             // e.g.: manifest.webmanifest
-            -9 => [
+            [
                 'name'      => 'webmanifest',
                 'mediatype' => 'application/manifest+json',
                 'extension' => 'webmanifest',
             ],
             // e.g.: atom.xsl
-            -10 => [
+            [
                 'name'      => 'xsl',
                 'mediatype' => 'application/xml',
                 'extension' => 'xsl',
             ],
             // e.g.: blog/feed.json
-            -11 => [
+            [
                 'name'      => 'jsonfeed',
                 'mediatype' => 'application/json',
                 'filename'  => 'feed',
@@ -357,7 +355,7 @@ return [
                 'exclude'   => ['redirect', 'paginated'],
             ],
             // e.g.: video/embed.html
-            -12 => [
+            [
                 'name'      => 'iframe',
                 'mediatype' => 'text/html',
                 'filename'  => 'embed',
@@ -365,7 +363,7 @@ return [
                 'exclude'   => ['redirect', 'paginated'],
             ],
             // e.g.: video/embed.json
-            -13 => [
+            [
                 'name'      => 'oembed',
                 'mediatype' => 'application/json+oembed',
                 'filename'  => 'embed',

@@ -95,9 +95,9 @@ class Asset implements \ArrayAccess
         ];
 
         // handles options
-        $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
-        $minify = (bool) $this->config->get('assets.minify.enabled');
-        $optimize = (bool) $this->config->get('assets.images.optimize.enabled');
+        $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled', default: ['enabled' => true]);
+        $minify = (bool) $this->config->get('assets.minify.enabled', default: ['enabled' => true]);
+        $optimize = (bool) $this->config->get('assets.images.optimize.enabled', default: ['enabled' => false]);
         $filename = '';
         $ignore_missing = false;
         $remote_fallback = null;
@@ -179,7 +179,7 @@ class Asset implements \ArrayAccess
             $this->fingerprint();
         }
         // compiling (Sass files)
-        if ((bool) $this->config->get('assets.compile.enabled')) {
+        if ((bool) $this->config->get('assets.compile.enabled', default: ['enabled' => true])) {
             $this->compile();
         }
         // minifying (CSS and JavScript files)
@@ -259,7 +259,7 @@ class Asset implements \ArrayAccess
             $importDir = [];
             $importDir[] = Util::joinPath($this->config->getStaticPath());
             $importDir[] = Util::joinPath($this->config->getAssetsPath());
-            $scssDir = $this->config->get('assets.compile.import') ?? [];
+            $scssDir = $this->config->get('assets.compile.import', default: []);
             $themes = $this->config->getTheme() ?? [];
             foreach ($scssDir as $dir) {
                 $importDir[] = Util::joinPath($this->config->getStaticPath(), $dir);
@@ -272,9 +272,9 @@ class Asset implements \ArrayAccess
             }
             $scssPhp->setImportPaths(array_unique($importDir));
             // source map
-            if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+            if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap', default: false)) {
                 $importDir = [];
-                $assetDir = (string) $this->config->get('assets.dir');
+                $assetDir = (string) $this->config->get('assets.dir', default: 'assets');
                 $assetDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR . $assetDir . DIRECTORY_SEPARATOR);
                 $fileRelPath = substr($this->data['file'], $assetDirPos + 8);
                 $filePath = Util::joinFile($this->config->getOutputPath(), $fileRelPath);
@@ -291,13 +291,13 @@ class Asset implements \ArrayAccess
             }
             // output style
             $outputStyles = ['expanded', 'compressed'];
-            $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
+            $outputStyle = strtolower((string) $this->config->get('assets.compile.style', default: 'expanded'));
             if (!\in_array($outputStyle, $outputStyles)) {
                 throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
             }
             $scssPhp->setOutputStyle($outputStyle);
             // variables
-            $variables = $this->config->get('assets.compile.variables') ?? [];
+            $variables = $this->config->get('assets.compile.variables', default: []);
             if (!empty($variables)) {
                 $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
                 $scssPhp->replaceVariables($variables);
@@ -325,7 +325,7 @@ class Asset implements \ArrayAccess
     public function minify(): self
     {
         // disable minify to preserve inline source map
-        if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+        if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap', default: false)) {
             return $this;
         }
 
@@ -384,7 +384,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $quality = $this->config->get('assets.images.quality') ?? 75;
+        $quality = $this->config->get('assets.images.quality', default: 75);
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $tags = ["q$quality", 'optimized'];
         if ($this->data['width']) {
@@ -438,14 +438,14 @@ class Asset implements \ArrayAccess
             return $assetResized; // returns asset with the new width only: CDN do the rest of the job
         }
 
-        $quality = $this->config->get('assets.images.quality') ?? 75;
+        $quality = $this->config->get('assets.images.quality', default: 75);
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x", "q$quality"]);
         if (!$cache->has($cacheKey)) {
             $assetResized->data['content'] = Image::resize($assetResized, $width, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
-                (string) $this->config->get('assets.target'),
-                (string) $this->config->get('assets.images.resize.dir'),
+                (string) $this->config->get('assets.target', default: 'assets'),
+                (string) $this->config->get('assets.images.resize.dir', default: 'thumbnails'),
                 (string) $width,
                 $assetResized->data['path']
             );
@@ -471,7 +471,7 @@ class Asset implements \ArrayAccess
         }
 
         if ($quality === null) {
-            $quality = (int) $this->config->get('assets.images.quality') ?? 75;
+            $quality = (int) $this->config->get('assets.images.quality', default: 75);
         }
 
         $asset = clone $this;
@@ -605,7 +605,7 @@ class Asset implements \ArrayAccess
     public function dataurl(): string
     {
         if ($this->data['type'] == 'image' && !Image::isSVG($this)) {
-            return Image::getDataUrl($this, $this->config->get('assets.images.quality') ?? 75);
+            return Image::getDataUrl($this, $this->config->get('assets.images.quality', default: 75));
         }
 
         return \sprintf('data:%s;base64,%s', $this->data['subtype'], base64_encode($this->data['content']));
@@ -642,11 +642,11 @@ class Asset implements \ArrayAccess
      */
     public function isImageInCdn()
     {
-        if ($this->data['type'] != 'image' || (bool) $this->config->get('assets.images.cdn.enabled') !== true || (Image::isSVG($this) && (bool) $this->config->get('assets.images.cdn.svg') !== true)) {
+        if ($this->data['type'] != 'image' || (bool) $this->config->get('assets.images.cdn.enabled', default: false) !== true || (Image::isSVG($this) && (bool) $this->config->get('assets.images.cdn.svg', default: false) !== true)) {
             return false;
         }
         // remote image?
-        if ($this->data['url'] !== null && (bool) $this->config->get('assets.images.cdn.remote') !== true) {
+        if ($this->data['url'] !== null && (bool) $this->config->get('assets.images.cdn.remote', default: true) !== true) {
             return false;
         }
 
@@ -896,9 +896,9 @@ class Asset implements \ArrayAccess
             ],
             [
                 $this->config->get('assets.images.cdn.account'),
-                ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical') ?? true]), '/'),
+                ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical', default: true)]), '/'),
                 $this->data['width'],
-                $this->config->get('assets.images.quality') ?? 75,
+                $this->config->get('assets.images.quality', default: 75),
                 $this->data['ext'],
             ],
             (string) $this->config->get('assets.images.cdn.url')

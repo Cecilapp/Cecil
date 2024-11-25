@@ -134,8 +134,8 @@ class Builder implements LoggerAwareInterface
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
 
-        // checks the configuration
-        $this->validConfig();
+        // log configuration errors
+        $this->logConfigError();
 
         // prepare options
         $this->options = array_merge([
@@ -403,26 +403,13 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Checks the configuration.
+     * Log configuration errors.
      */
-    protected function validConfig(): void
+    protected function logConfigError(): void
     {
         // baseurl
-        if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
-            $this->getLogger()->error('Config: `baseurl` is required in production (e.g.: "baseurl: https://example.com/").');
-        }
-        // default language
-        if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->config->getLanguageDefault())) {
-            throw new RuntimeException(\sprintf('Config: default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->config->getLanguageDefault()));
-        }
-        // locales
-        foreach ($this->config->getLanguages() as $lang) {
-            if (!isset($lang['locale'])) {
-                throw new RuntimeException('Config: a language locale is not defined.');
-            }
-            if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
-                throw new RuntimeException(\sprintf('Config: the language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
-            }
+        if (empty(trim((string) $this->config->get('baseurl', default: ''), '/'))) {
+            $this->getLogger()->error('`baseurl` configuration key is required in production (e.g.: "baseurl: https://example.com/").');
         }
     }
 }

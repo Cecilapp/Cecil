@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Themes;
 
+use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
@@ -50,7 +51,7 @@ class Import extends AbstractStep
      */
     public function process(): void
     {
-        $themes = array_reverse((array) $this->config->getTheme());
+        $themes = (array) $this->config->getTheme();
         $count = 0;
         $total = \count($themes);
         foreach ($themes as $theme) {
@@ -62,7 +63,7 @@ class Import extends AbstractStep
                     throw new RuntimeException('Can\'t read the configuration file.');
                 }
                 $themeConfig = Yaml::parse($config, Yaml::PARSE_DATETIME);
-                $this->config->import($themeConfig);
+                $this->config->import($themeConfig, Config::PRESERVE);
                 $message = \sprintf('Theme "%s" imported', $theme);
             }
 
