@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-// Website default configuration
+// Default configuration
 return [
     'title'        => 'Site title',
     'baseline'     => '',
@@ -47,16 +47,14 @@ return [
         ],
     ],
     'theme' => [], // no theme(s) by default
-    'taxonomies'   => [
-        'tags'       => 'tag', // can be disabled with the special "disabled" value
-        'categories' => 'category',
-    ],
+    //'taxonomies'   => [ // can be disabled with the special "disabled" value
+    //    '<plural>' => '<vocabulary>',
+    //],
     'pagination' => [
         'max'  => 5, // number of pages by each paginated pages
         'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
     ],
-    // Markdown content management
-    'pages' => [
+    'pages' => [ // Markdown content management
         'dir'     => 'pages', // pages files directory
         'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // supported files formats, by extension
         'exclude' => ['vendor', 'node_modules'], // directories, paths and files name to exclude (accepts globs, strings and regexes)
@@ -124,84 +122,22 @@ return [
                 'capture'   => 'before', // part to capture, `before` or `after` the separator
             ],
         ],
-        'generators' => [ // list of pages generators class, ordered by weight
-            10 => 'Cecil\Generator\DefaultPages',
-            20 => 'Cecil\Generator\VirtualPages',
-            30 => 'Cecil\Generator\ExternalBody',
-            40 => 'Cecil\Generator\Section',
-            50 => 'Cecil\Generator\Taxonomy',
-            60 => 'Cecil\Generator\Homepage',
-            70 => 'Cecil\Generator\Pagination',
-            80 => 'Cecil\Generator\Alias',
-            90 => 'Cecil\Generator\Redirect',
-        ],
-        'default' => [ // default pages
-            'index' => [
-                'path'      => '',
-                'title'     => 'Home',
-                'published' => true,
-            ],
-            '404' => [
-                'path'      => '404',
-                'title'     => 'Page not found',
-                'layout'    => '404',
-                'uglyurl'   => true,
-                'published' => true,
-                'exclude'   => true,
-            ],
-            'robots' => [
-                'path'         => 'robots',
-                'title'        => 'Robots.txt',
-                'layout'       => 'robots',
-                'output'       => 'txt',
-                'published'    => true,
-                'exclude'      => true,
-                'multilingual' => false,
-            ],
-            'sitemap' => [
-                'path'         => 'sitemap',
-                'title'        => 'XML sitemap',
-                'layout'       => 'sitemap',
-                'output'       => 'xml',
-                'changefreq'   => 'monthly',
-                'priority'     => '0.5',
-                'published'    => true,
-                'exclude'      => true,
-                'multilingual' => false,
-            ],
-            'xsl/atom' => [
-                'path'      => 'xsl/atom',
-                'layout'    => 'feed',
-                'output'    => 'xsl',
-                'uglyurl'   => true,
-                'published' => true,
-                'exclude'   => true,
-            ],
-            'xsl/rss' => [
-                'path'      => 'xsl/rss',
-                'layout'    => 'feed',
-                'output'    => 'xsl',
-                'uglyurl'   => true,
-                'published' => false,
-                'exclude'   => true,
-            ],
-        ],
+        //'generators' => [ // list of pages generators class, ordered by weight
+        //    <position> => 'Cecil\Generator\<class>',
+        //],
     ],
-    // data files
-    'data' => [
+    'data' => [ // data files
         'dir'  => 'data', // data files directory
         'ext'  => ['yaml', 'yml', 'json', 'xml', 'csv'], // loaded files by extension
         'load' => true, // enables `site.data` collection
     ],
-    // static files
-    'static' => [
+    'static' => [ // static files
         'dir'     => 'static', // static files directory
         'target'  => '', // subdirectory where files are copied
         'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'], // excluded files by extension or pattern
         'load'    => false, // enables `site.static` collection
     ],
-    // assets: CSS, JS, images...
-    'assets' => [
+    'assets' => [ // assets: CSS, JS, images, etc.
         'dir'    => 'assets', // assets files directory
         'target' => 'assets', // where remote and resized assets are saved
         'fingerprint' => [
@@ -212,7 +148,7 @@ return [
             'style'     => 'expanded', // compilation style (`expanded` or `compressed`)
             'import'    => ['sass', 'scss', 'node_modules'], // list of imported paths
             'sourcemap' => false, // enables sourcemap in debug mode
-            //'variables' => ['var' => 'value'], // list of preset variables (empty by default)
+            //'variables' => ['<name>' => '<value>'], // list of preset variables
         ],
         'minify' => [
             'enabled' => true, // enables CSS et JS minification
@@ -247,8 +183,7 @@ return [
             ]
         ],
     ],
-    // layouts and templates
-    'layouts' => [
+    'layouts' => [ // layouts and templates
         'dir'      => 'layouts', // Twig templates directory
         'internal' => [
             'dir' => 'resources/layouts', // internal templates directory
@@ -261,116 +196,26 @@ return [
             ],
         ],
         'extensions' => [ // list of Twig extensions class
-            //'Name' => 'Cecil\Renderer\Extension\Class',
+            //'<name>' => 'Cecil\Renderer\Extension\<class>',
         ],
     ],
-    // themes
     'themes' => [
         'dir' => 'themes', // where themes are stored
     ],
-    // SEO robots default directive
     'metatags' => [
-        'robots' => 'index,follow',
+        'robots' => 'index,follow', // SEO robots default directive
     ],
-    // output formats and post process
-    'output' => [
+    'output' => [ // output formats and post process
         'dir'      => '_site', // output directory
-        'formats'  => [ // https://cecil.app/documentation/configuration/#formats
-            // e.g.: blog/post-1/index.html
-            [
-                'name'      => 'html',
-                'mediatype' => 'text/html',
-                'filename'  => 'index',
-                'extension' => 'html',
-            ],
-            // e.g.: blog/atom.xml
-            [
-                'name'      => 'atom',
-                'mediatype' => 'application/atom+xml',
-                'filename'  => 'atom',
-                'extension' => 'xml',
-                'exclude'   => ['redirect', 'paginated'],
-            ],
-            // e.g.: blog/rss.xml
-            [
-                'name'      => 'rss',
-                'mediatype' => 'application/rss+xml',
-                'filename'  => 'rss',
-                'extension' => 'xml',
-                'exclude'   => ['redirect', 'paginated'],
-            ],
-            // e.g.: blog.json
-            [
-                'name'      => 'json',
-                'mediatype' => 'application/json',
-                'extension' => 'json',
-                'exclude'   => ['redirect'],
-            ],
-            // e.g.: blog.xml
-            [
-                'name'      => 'xml',
-                'mediatype' => 'application/xml',
-                'extension' => 'xml',
-                'exclude'   => ['redirect'],
-            ],
-            // e.g.: robots.txt
-            [
-                'name'      => 'txt',
-                'mediatype' => 'text/plain',
-                'extension' => 'txt',
-                'exclude'   => ['redirect'],
-            ],
-            // e.g.: blog/post-1/amp/index.html
-            [
-                'name'      => 'amp',
-                'mediatype' => 'text/html',
-                'subpath'   => 'amp',
-                'filename'  => 'index',
-                'extension' => 'html',
-            ],
-            // e.g.: sw.js
-            [
-                'name'      => 'js',
-                'mediatype' => 'application/javascript',
-                'extension' => 'js',
-            ],
-            // e.g.: manifest.webmanifest
-            [
-                'name'      => 'webmanifest',
-                'mediatype' => 'application/manifest+json',
-                'extension' => 'webmanifest',
-            ],
-            // e.g.: atom.xsl
-            [
-                'name'      => 'xsl',
-                'mediatype' => 'application/xml',
-                'extension' => 'xsl',
-            ],
-            // e.g.: blog/feed.json
-            [
-                'name'      => 'jsonfeed',
-                'mediatype' => 'application/json',
-                'filename'  => 'feed',
-                'extension' => 'json',
-                'exclude'   => ['redirect', 'paginated'],
-            ],
-            // e.g.: video/embed.html
-            [
-                'name'      => 'iframe',
-                'mediatype' => 'text/html',
-                'filename'  => 'embed',
-                'extension' => 'html',
-                'exclude'   => ['redirect', 'paginated'],
-            ],
-            // e.g.: video/embed.json
-            [
-                'name'      => 'oembed',
-                'mediatype' => 'application/json+oembed',
-                'filename'  => 'embed',
-                'extension' => 'json',
-                'exclude'   => ['redirect', 'paginated'],
-            ],
-        ],
+        //'formats'  => [ // https://cecil.app/documentation/configuration/#formats
+        //    [
+        //        'name'      => '<name>',
+        //        'mediatype' => '<media/type>',
+        //        'filename'  => '<filename>',
+        //        'extension' => '<extension>',
+        //        'exclude'   => ['variable1', 'variable2'],
+        //    ],
+        //],
         'pagetypeformats' => [ // formats applied by page type
             'page'       => ['html'],
             'homepage'   => ['html', 'atom'],
@@ -378,14 +223,11 @@ return [
             'vocabulary' => ['html'],
             'term'       => ['html', 'atom'],
         ],
-        'postprocessors' => [ // list of output post processors class
-            'GeneratorMetaTag' => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
-            'HtmlExcerpt'      => 'Cecil\Renderer\PostProcessor\HtmlExcerpt',
-            'MarkdownLink'     => 'Cecil\Renderer\PostProcessor\MarkdownLink',
-        ],
+        //'postprocessors' => [ // list of output post processors class
+        //    '<name>' => 'Cecil\Renderer\PostProcessor\<class>',
+        //],
     ],
-    // cache management
-    'cache' => [
+    'cache' => [ // cache management
         'enabled'   => true, // enables cache support
         'dir'       => '.cache', // cache files directory
         'templates' => [
@@ -403,8 +245,7 @@ return [
             'dir'     => 'translations', // translations files cache directory
         ],
     ],
-    // files optimization
-    'optimize' => [
+    'optimize' => [ // files optimization
         'enabled' => false, // enables files optimization
         'html'    => [
             'enabled' => true, // enables HTML files optimization

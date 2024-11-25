@@ -48,17 +48,22 @@ class Config
      */
     public function __construct(?array $config = null)
     {
-        $this->data = new Data();
-
-        // import config
-        $this->import($config ?? []);
-
-        // load default configuration
+        // default configuration
         $defaultConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
         if (Plateform::isPhar()) {
             $defaultConfigFile = Util::joinPath(Plateform::getPharPath(), 'config/default.php');
         }
         $this->default = new Data(include $defaultConfigFile);
+
+        // base configuration
+        $baseConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/base.php'));
+        if (Plateform::isPhar()) {
+            $baseConfigFile = Util::joinPath(Plateform::getPharPath(), 'config/base.php');
+        }
+        $this->data = new Data(include $baseConfigFile);
+
+        // import config
+        $this->import($config ?? []);
     }
 
     /**
@@ -98,7 +103,7 @@ class Config
      */
     public function get(string $key, ?string $language = null, bool $fallback = true)
     {
-        $default = $this->data->has($key) ? $this->data->get($key) : null;
+        $default = $this->default->has($key) ? $this->default->get($key) : null;
 
         if ($language !== null) {
             $langIndex = $this->getLanguageIndex($language);
