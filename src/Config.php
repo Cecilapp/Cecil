@@ -86,10 +86,30 @@ class Config
 
     /**
      * Is configuration's key exists?
+     *
+     * @param string $key      Configuration key
+     * @param string $language Language code (optional)
+     * @param bool   $fallback Set to false to not return the value in the default language as fallback
      */
-    public function has(string $key): bool
+    public function has(string $key, ?string $language = null, bool $fallback = true): bool
     {
-        return $this->data->has($key);
+        $default = $this->default->has($key);
+
+        if ($language !== null) {
+            $langIndex = $this->getLanguageIndex($language);
+            $keyLang = "languages.$langIndex.config.$key";
+            if ($this->data->has($keyLang)) {
+                return true;
+            }
+            if ($language !== $this->getLanguageDefault() && $fallback === false) {
+                return $default;
+            }
+        }
+        if ($this->data->has($key)) {
+            return true;
+        }
+
+        return $default;
     }
 
     /**
