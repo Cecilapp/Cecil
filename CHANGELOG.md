@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.18.2](https://github.com/Cecilapp/Cecil/compare/8.18.1...8.18.2)
+
+> 20 November 2024
+
+- doc: update custom headers [`7adf841`](https://github.com/Cecilapp/Cecil/commit/7adf84107de813ef06ab5c6157537b2f053ce182)
+- chore: update deps [`41b47b1`](https://github.com/Cecilapp/Cecil/commit/41b47b1919698a7a0dfa071ca7d0eb9ae5eca0f1)
+- refactor: minor change [`205d72e`](https://github.com/Cecilapp/Cecil/commit/205d72e57f96cd2a6def73f60f6027d11e5df56c)
+
 #### [8.18.1](https://github.com/Cecilapp/Cecil/compare/8.18.0...8.18.1)
 
 > 20 November 2024
