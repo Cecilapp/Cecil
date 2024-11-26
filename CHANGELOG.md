@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.19.0](https://github.com/Cecilapp/Cecil/compare/8.18.2...8.19.0)
+
+> 26 November 2024
+
+- refactor: rebuild configuration [`#2068`](https://github.com/Cecilapp/Cecil/pull/2068)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.64.0 to 3.65.0 [`#2066`](https://github.com/Cecilapp/Cecil/pull/2066)
+- chore: update deps [`90e0a08`](https://github.com/Cecilapp/Cecil/commit/90e0a0806e5c80117e964a76ab7f31b57f7b7826)
+
 #### [8.18.2](https://github.com/Cecilapp/Cecil/compare/8.18.1...8.18.2)
 
 > 20 November 2024
