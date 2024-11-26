@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil;
 
 use Cecil\Exception\ConfigException;
-use Cecil\Util\Plateform;
+use Cecil\Util\Platform;
 use Dflydev\DotAccessData\Data;
 
 /**
@@ -50,15 +50,15 @@ class Config
     {
         // default configuration
         $defaultConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
-        if (Plateform::isPhar()) {
-            $defaultConfigFile = Util::joinPath(Plateform::getPharPath(), 'config/default.php');
+        if (Platform::isPhar()) {
+            $defaultConfigFile = Util::joinPath(Platform::getPharPath(), 'config/default.php');
         }
         $this->default = new Data(include $defaultConfigFile);
 
         // base configuration
         $baseConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/base.php'));
-        if (Plateform::isPhar()) {
-            $baseConfigFile = Util::joinPath(Plateform::getPharPath(), 'config/base.php');
+        if (Platform::isPhar()) {
+            $baseConfigFile = Util::joinPath(Platform::getPharPath(), 'config/base.php');
         }
         $this->data = new Data(include $baseConfigFile);
 
@@ -251,8 +251,8 @@ class Config
      */
     public function getTranslationsInternalPath(): string
     {
-        if (Util\Plateform::isPhar()) {
-            return Util::joinPath(Plateform::getPharPath(), (string) $this->get('layouts.translations.internal.dir'));
+        if (Util\Platform::isPhar()) {
+            return Util::joinPath(Platform::getPharPath(), (string) $this->get('layouts.translations.internal.dir'));
         }
 
         return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('layouts.translations.internal.dir')));

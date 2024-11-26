@@ -54,7 +54,7 @@ class UtilTemplatesExtract extends AbstractCommand
         $force = $input->getOption('force');
 
         try {
-            $phar = new \Phar(Util\Plateform::getPharPath());
+            $phar = new \Phar(Util\Platform::getPharPath());
 
             $templatesList = [];
             $templates = Finder::create()

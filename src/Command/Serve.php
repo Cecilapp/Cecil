@@ -184,7 +184,7 @@ class Serve extends AbstractCommand
                 });
                 if ($open) {
                     $output->writeln('Opening web browser...');
-                    Util\Plateform::openBrowser(\sprintf('http://%s:%s', $host, $port));
+                    Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
                 }
                 while ($process->isRunning()) {
                     sleep(1); // wait for server is ready
@@ -267,8 +267,8 @@ class Serve extends AbstractCommand
     {
         try {
             $root = Util::joinFile(__DIR__, '../../');
-            if (Util\Plateform::isPhar()) {
-                $root = Util\Plateform::getPharPath() . '/';
+            if (Util\Platform::isPhar()) {
+                $root = Util\Platform::getPharPath() . '/';
             }
             // copying router
             Util\File::getFS()->copy(

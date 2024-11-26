@@ -64,7 +64,7 @@ class NewSite extends AbstractCommand
                 }
             }
             // define root path
-            $root = Util\Plateform::isPhar() ? Util\Plateform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
+            $root = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // setup questions
             $title = $this->io->ask('Give a title to your website', 'New website');
             $baseline = $this->io->ask('Describe your website in few words', '');

@@ -17,7 +17,7 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
-use Cecil\Util\Plateform;
+use Cecil\Util\Platform;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
@@ -381,8 +381,8 @@ class Builder implements LoggerAwareInterface
     {
         if (!isset(self::$version)) {
             $filePath = __DIR__ . '/../VERSION';
-            if (Plateform::isPhar()) {
-                $filePath = Plateform::getPharPath() . '/VERSION';
+            if (Platform::isPhar()) {
+                $filePath = Platform::getPharPath() . '/VERSION';
             }
 
             try {

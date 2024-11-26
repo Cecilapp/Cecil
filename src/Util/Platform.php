@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Util;
 
-class Plateform
+class Platform
 {
     public const OS_UNKNOWN = 1;
     public const OS_WIN = 2;
