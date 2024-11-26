@@ -23,7 +23,7 @@ return [
         'url'   => 'https://cecil.app',
         //'email' => '',
     ],
-    'image'        => '', // `og:image`
+    //'image'        => '', // `og:image`
     //'social'       => [
     //    'social_network' => [
     //        'username' => '',
