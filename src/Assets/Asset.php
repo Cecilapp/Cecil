@@ -259,7 +259,7 @@ class Asset implements \ArrayAccess
             $importDir = [];
             $importDir[] = Util::joinPath($this->config->getStaticPath());
             $importDir[] = Util::joinPath($this->config->getAssetsPath());
-            $scssDir = $this->config->get('assets.compile.import') ?? [];
+            $scssDir = $this->config->get('assets.compile.import');
             $themes = $this->config->getTheme() ?? [];
             foreach ($scssDir as $dir) {
                 $importDir[] = Util::joinPath($this->config->getStaticPath(), $dir);
@@ -297,7 +297,7 @@ class Asset implements \ArrayAccess
             }
             $scssPhp->setOutputStyle($outputStyle);
             // variables
-            $variables = $this->config->get('assets.compile.variables') ?? [];
+            $variables = $this->config->get('assets.compile.variables');
             if (!empty($variables)) {
                 $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
                 $scssPhp->replaceVariables($variables);
@@ -384,7 +384,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $quality = $this->config->get('assets.images.quality') ?? 75;
+        $quality = $this->config->get('assets.images.quality');
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $tags = ["q$quality", 'optimized'];
         if ($this->data['width']) {
@@ -438,7 +438,7 @@ class Asset implements \ArrayAccess
             return $assetResized; // returns asset with the new width only: CDN do the rest of the job
         }
 
-        $quality = $this->config->get('assets.images.quality') ?? 75;
+        $quality = $this->config->get('assets.images.quality');
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
         $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x", "q$quality"]);
         if (!$cache->has($cacheKey)) {
@@ -471,7 +471,7 @@ class Asset implements \ArrayAccess
         }
 
         if ($quality === null) {
-            $quality = (int) $this->config->get('assets.images.quality') ?? 75;
+            $quality = (int) $this->config->get('assets.images.quality');
         }
 
         $asset = clone $this;
@@ -605,7 +605,7 @@ class Asset implements \ArrayAccess
     public function dataurl(): string
     {
         if ($this->data['type'] == 'image' && !Image::isSVG($this)) {
-            return Image::getDataUrl($this, $this->config->get('assets.images.quality') ?? 75);
+            return Image::getDataUrl($this, $this->config->get('assets.images.quality'));
         }
 
         return \sprintf('data:%s;base64,%s', $this->data['subtype'], base64_encode($this->data['content']));
@@ -896,9 +896,9 @@ class Asset implements \ArrayAccess
             ],
             [
                 $this->config->get('assets.images.cdn.account'),
-                ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical') ?? true]), '/'),
+                ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical')]), '/'),
                 $this->data['width'],
-                $this->config->get('assets.images.quality') ?? 75,
+                $this->config->get('assets.images.quality'),
                 $this->data['ext'],
             ],
             (string) $this->config->get('assets.images.cdn.url')

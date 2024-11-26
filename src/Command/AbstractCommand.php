@@ -190,14 +190,14 @@ class AbstractCommand extends Command
         try {
             // config
             if ($this->config === null) {
-                $siteConfig = [];
+                $filesConfig = [];
                 foreach ($this->getConfigFiles() as $fileName => $filePath) {
                     if ($filePath === false || false === $configContent = Util\File::fileGetContents($filePath)) {
                         throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
                     }
-                    $siteConfig = array_replace_recursive($siteConfig, (array) Yaml::parse($configContent, Yaml::PARSE_DATETIME));
+                    $filesConfig = array_replace_recursive($filesConfig, (array) Yaml::parse($configContent, Yaml::PARSE_DATETIME));
                 }
-                $this->config = array_replace_recursive($siteConfig, $config);
+                $this->config = array_replace_recursive($filesConfig, $config);
             }
             // builder
             if ($this->builder === null) {

@@ -264,7 +264,7 @@ class Render extends AbstractStep
             $formats = [$formats];
         }
 
-        return $formats;
+        return array_unique($formats);
     }
 
     /**

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil;
 
 use Cecil\Exception\ConfigException;
-use Cecil\Exception\RuntimeException;
 use Cecil\Util\Plateform;
 use Dflydev\DotAccessData\Data;
 
@@ -23,21 +22,24 @@ use Dflydev\DotAccessData\Data;
  */
 class Config
 {
-    /** @var Data Configuration is a Data object. */
-    protected $data;
+    /** Configuration is a Data object. */
+    protected Data $data;
 
-    /** @var array Configuration. */
-    protected $siteConfig;
+    /** Default configuration is a Data object. */
+    protected Data $default;
 
-    /** @var string Source directory. */
-    protected $sourceDir;
+    /** Source directory. */
+    protected string $sourceDir;
 
-    /** @var string Destination directory. */
-    protected $destinationDir;
+    /** Destination directory. */
+    protected string $destinationDir;
 
-    /** @var array Languages. */
-    protected $languages = null;
+    /** Languages list as array. */
+    protected ?array $languages = null;
 
+    public const PRESERVE = 0;
+    public const REPLACE = 1;
+    public const MERGE = 2;
     public const LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
     public const LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
 
@@ -46,85 +48,32 @@ class Config
      */
     public function __construct(?array $config = null)
     {
-        // load default configuration
-        $defaultConfig = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
+        // default configuration
+        $defaultConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
         if (Plateform::isPhar()) {
-            $defaultConfig = Util::joinPath(Plateform::getPharPath(), 'config/default.php');
+            $defaultConfigFile = Util::joinPath(Plateform::getPharPath(), 'config/default.php');
         }
-        $this->data = new Data(include $defaultConfig);
+        $this->default = new Data(include $defaultConfigFile);
 
-        // import site config
-        $this->siteConfig = $config;
-        $this->importSiteConfig();
-    }
-
-    /**
-     * Imports site configuration.
-     */
-    private function importSiteConfig(): void
-    {
-        $this->data->import($this->siteConfig, Data::REPLACE);
-
-        /**
-         * Overrides configuration with environment variables.
-         */
-        $data = $this->getData();
-        $applyEnv = function ($array) use ($data) {
-            $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveArrayIterator($array),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
-            $iterator->rewind();
-            while ($iterator->valid()) {
-                $path = [];
-                foreach (range(0, $iterator->getDepth()) as $depth) {
-                    $path[] = $iterator->getSubIterator($depth)->key();
-                }
-                $sPath = implode('_', $path);
-                if ($getEnv = getenv('CECIL_' . strtoupper($sPath))) {
-                    $data->set(str_replace('_', '.', strtolower($sPath)), $this->castSetValue($getEnv));
-                }
-                $iterator->next();
-            }
-        };
-        $applyEnv($data->export());
-    }
-
-    /**
-     * Casts boolean value given to set() as string.
-     *
-     * @param mixed $value
-     *
-     * @return bool|mixed
-     */
-    private function castSetValue($value)
-    {
-        if (\is_string($value)) {
-            switch ($value) {
-                case 'true':
-                    return true;
-                case 'false':
-                    return false;
-                default:
-                    return $value;
-            }
+        // base configuration
+        $baseConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/base.php'));
+        if (Plateform::isPhar()) {
+            $baseConfigFile = Util::joinPath(Plateform::getPharPath(), 'config/base.php');
         }
+        $this->data = new Data(include $baseConfigFile);
 
-        return $value;
+        // import config
+        $this->import($config ?? []);
     }
 
     /**
-     * Imports (theme) configuration.
+     * Imports (and validate) configuration.
      */
-    public function import(array $config): void
+    public function import(array $config, $mode = self::MERGE): void
     {
-        $this->data->import($config, Data::REPLACE);
-
-        // re-import site config
-        $this->importSiteConfig();
-
-        // checks the configuration
-        $this->valid();
+        $this->data->import($config, $mode);
+        $this->validate();
+        $this->override();
     }
 
     /**
@@ -137,23 +86,45 @@ class Config
 
     /**
      * Is configuration's key exists?
+     *
+     * @param string $key      Configuration key
+     * @param string $language Language code (optional)
+     * @param bool   $fallback Set to false to not return the value in the default language as fallback
      */
-    public function has(string $key): bool
+    public function has(string $key, ?string $language = null, bool $fallback = true): bool
     {
-        return $this->data->has($key);
+        $default = $this->default->has($key);
+
+        if ($language !== null) {
+            $langIndex = $this->getLanguageIndex($language);
+            $keyLang = "languages.$langIndex.config.$key";
+            if ($this->data->has($keyLang)) {
+                return true;
+            }
+            if ($language !== $this->getLanguageDefault() && $fallback === false) {
+                return $default;
+            }
+        }
+        if ($this->data->has($key)) {
+            return true;
+        }
+
+        return $default;
     }
 
     /**
      * Get the value of a configuration's key.
      *
      * @param string $key      Configuration key
-     * @param string $language Language code (optionnal)
+     * @param string $language Language code (optional)
      * @param bool   $fallback Set to false to not return the value in the default language as fallback
      *
      * @return mixed|null
      */
     public function get(string $key, ?string $language = null, bool $fallback = true)
     {
+        $default = $this->default->has($key) ? $this->default->get($key) : null;
+
         if ($language !== null) {
             $langIndex = $this->getLanguageIndex($language);
             $keyLang = "languages.$langIndex.config.$key";
@@ -161,14 +132,14 @@ class Config
                 return $this->data->get($keyLang);
             }
             if ($language !== $this->getLanguageDefault() && $fallback === false) {
-                return null;
+                return $default;
             }
         }
         if ($this->data->has($key)) {
             return $this->data->get($key);
         }
 
-        return null;
+        return $default;
     }
 
     /**
@@ -328,12 +299,12 @@ class Config
     /**
      * Returns cache path.
      *
-     * @throws RuntimeException
+     * @throws ConfigException
      */
     public function getCachePath(): string
     {
         if (empty((string) $this->get('cache.dir'))) {
-            throw new RuntimeException(\sprintf('The cache directory ("%s") is not defined in configuration.', 'cache.dir'));
+            throw new ConfigException(\sprintf('The cache directory ("%s") is not defined.', 'cache.dir'));
         }
 
         if ($this->isCacheDirIsAbsolute()) {
@@ -385,14 +356,14 @@ class Config
     /**
      * Returns the property value of an output format.
      *
-     * @throws RuntimeException
+     * @throws ConfigException
      */
     public function getOutputFormatProperty(string $name, string $property): string|array|null
     {
         $properties = array_column((array) $this->get('output.formats'), $property, 'name');
 
         if (empty($properties)) {
-            throw new RuntimeException(\sprintf('Property "%s" is not defined for format "%s".', $property, $name));
+            throw new ConfigException(\sprintf('Property "%s" is not defined for format "%s".', $property, $name));
         }
 
         return $properties[$name] ?? null;
@@ -407,7 +378,7 @@ class Config
      */
     public function getAssetsImagesWidths(): array
     {
-        return \count((array) $this->get('assets.images.responsive.widths')) > 0 ? (array) $this->get('assets.images.responsive.widths') : [480, 640, 768, 1024, 1366, 1600, 1920];
+        return $this->get('assets.images.responsive.widths');
     }
 
     /**
@@ -415,7 +386,7 @@ class Config
      */
     public function getAssetsImagesSizes(): array
     {
-        return \count((array) $this->get('assets.images.responsive.sizes')) > 0 ? (array) $this->get('assets.images.responsive.sizes') : ['default' => '100vw'];
+        return $this->get('assets.images.responsive.sizes');
     }
 
     /*
@@ -441,14 +412,14 @@ class Config
     /**
      * Has a (valid) theme(s)?
      *
-     * @throws RuntimeException
+     * @throws ConfigException
      */
     public function hasTheme(): bool
     {
         if ($themes = $this->getTheme()) {
             foreach ($themes as $theme) {
                 if (!Util\File::getFS()->exists($this->getThemeDirPath($theme, 'layouts')) && !Util\File::getFS()->exists(Util::joinFile($this->getThemesPath(), $theme, 'config.yml'))) {
-                    throw new RuntimeException(\sprintf('Theme "%s" not found. Did you forgot to install it?', $theme));
+                    throw new ConfigException(\sprintf('Theme "%s" not found. Did you forgot to install it?', $theme));
                 }
             }
 
@@ -474,7 +445,7 @@ class Config
     /**
      * Returns an array of available languages.
      *
-     * @throws RuntimeException
+     * @throws ConfigException
      */
     public function getLanguages(): array
     {
@@ -487,7 +458,7 @@ class Config
         });
 
         if (!\is_int(array_search($this->getLanguageDefault(), array_column($languages, 'code')))) {
-            throw new RuntimeException(\sprintf('The default language "%s" is not listed in "languages" key configuration.', $this->getLanguageDefault()));
+            throw new ConfigException(\sprintf('The default language "%s" is not listed in "languages".', $this->getLanguageDefault()));
         }
 
         $this->languages = $languages;
@@ -498,16 +469,16 @@ class Config
     /**
      * Returns the default language code (ie: "en", "fr-FR", etc.).
      *
-     * @throws RuntimeException
+     * @throws ConfigException
      */
     public function getLanguageDefault(): string
     {
         if (!$this->get('language')) {
-            throw new RuntimeException('There is no default "language" key in configuration.');
+            throw new ConfigException('There is no default "language" key.');
         }
         if (\is_array($this->get('language'))) {
             if (!$this->get('language.code')) {
-                throw new RuntimeException('There is no "language.code" key in configuration.');
+                throw new ConfigException('There is no "language.code" key.');
             }
 
             return $this->get('language.code');
@@ -519,14 +490,14 @@ class Config
     /**
      * Returns a language code index.
      *
-     * @throws RuntimeException
+     * @throws ConfigException
      */
     public function getLanguageIndex(string $code): int
     {
         $array = array_column($this->getLanguages(), 'code');
 
         if (false === $index = array_search($code, $array)) {
-            throw new RuntimeException(\sprintf('The language code "%s" is not defined.', $code));
+            throw new ConfigException(\sprintf('The language code "%s" is not defined.', $code));
         }
 
         return $index;
@@ -535,7 +506,7 @@ class Config
     /**
      * Returns the property value of a (specified or the default) language.
      *
-     * @throws RuntimeException
+     * @throws ConfigException
      */
     public function getLanguageProperty(string $property, ?string $code = null): string
     {
@@ -544,7 +515,7 @@ class Config
         $properties = array_column($this->getLanguages(), $property, 'code');
 
         if (empty($properties)) {
-            throw new RuntimeException(\sprintf('Property "%s" is not defined for language "%s".', $property, $code));
+            throw new ConfigException(\sprintf('Property "%s" is not defined for language "%s".', $property, $code));
         }
 
         return $properties[$code];
@@ -569,35 +540,62 @@ class Config
     }
 
     /**
-     * Set a Data object as configuration.
+     * Overrides configuration with environment variables.
      */
-    protected function setData(Data $data): self
+    private function override(): void
     {
-        if ($this->data !== $data) {
-            $this->data = $data;
+        $data = $this->data;
+        $applyEnv = function ($array) use ($data) {
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveArrayIterator($array),
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
+            $iterator->rewind();
+            while ($iterator->valid()) {
+                $path = [];
+                foreach (range(0, $iterator->getDepth()) as $depth) {
+                    $path[] = $iterator->getSubIterator($depth)->key();
+                }
+                $sPath = implode('_', $path);
+                if ($getEnv = getenv('CECIL_' . strtoupper($sPath))) {
+                    $data->set(str_replace('_', '.', strtolower($sPath)), $this->castSetValue($getEnv));
+                }
+                $iterator->next();
+            }
+        };
+        $applyEnv($data->export());
+    }
+
+    /**
+     * Casts boolean value given to set() as string.
+     *
+     * @param mixed $value
+     *
+     * @return bool|mixed
+     */
+    private function castSetValue($value)
+    {
+        $filteredValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        if ($filteredValue !== null) {
+            return $filteredValue;
         }
 
-        return $this;
+        return $value;
     }
 
     /**
-     * Get configuration as a Data object.
+     * Validate the configuration.
+     *
+     * @throws ConfigException
      */
-    protected function getData(): Data
-    {
-        return $this->data;
-    }
-
-    /**
-     * Valid the configuration.
-     */
-    private function valid(): void
+    private function validate(): void
     {
         // default language must be valid
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->getLanguageDefault())) {
             throw new ConfigException(\sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
         }
-        // if language is set then the locale is required
+        // if language is set then the locale is required and must be valid
         foreach ((array) $this->get('languages') as $lang) {
             if (!isset($lang['locale'])) {
                 throw new ConfigException('A language locale is not defined.');
@@ -606,7 +604,8 @@ class Config
                 throw new ConfigException(\sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
             }
         }
-        // Version 8.x breaking changes
+
+        // version 8.x breaking changes detection
         $toV8 = [
             'frontmatter'  => 'pages:frontmatter',
             'body'         => 'pages:body',
