@@ -117,25 +117,29 @@ class Build extends AbstractCommand
         $builder->build($options);
         $output->writeln('Done 🎉');
 
+        // show built pages as table
         if ($input->getOption('show-pages')) {
             $pagesAsArray = [];
             foreach (
                 $this->getBuilder()->getPages()->filter(function (\Cecil\Collection\Page\Page $page) {
                     return $page->getVariable('published');
+                })->usort(function (\Cecil\Collection\Page\Page $pageA, \Cecil\Collection\Page\Page $pageB) {
+                    return strnatcmp($pageA['language'], $pageB['language']);
                 }) as $page
             ) {
+                /** @var \Cecil\Collection\Page\Page $page */
                 $pagesAsArray[] = [
                     $page->getId(),
                     $page->getVariable('language'),
                     \sprintf("%s %s", $page->getType(), $page->getType() !== \Cecil\Collection\Page\Type::PAGE->value ? "(" . \count($page->getPages() ?: []) . ")" : ''),
-                    $page->getParent()?->getId(),
-                    $page->isVirtual() ? 'False' : 'true',
+                    $page->getSection(),
+                    $page->isVirtual() ? 'true' : 'false',
                 ];
             }
             $table = new Table($output);
             $table
                 ->setHeaderTitle(\sprintf("Built pages (%s)", \count($pagesAsArray)))
-                ->setHeaders(['ID', 'Lang', 'Type', 'Parent', 'File'])
+                ->setHeaders(['ID', 'Lang', 'Type', 'Section', 'Virtual'])
                 ->setRows($pagesAsArray)
             ;
             $table->setStyle('box')->render();
