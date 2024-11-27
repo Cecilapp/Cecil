@@ -97,21 +97,12 @@ class Build extends AbstractCommand
         }
 
         $output->writeln(\sprintf('Building website%s...', $messageOpt));
-        $output->writeln(
-            \sprintf('<comment>Path: %s</comment>', $this->getPath()),
-            OutputInterface::VERBOSITY_VERBOSE
-        );
+        $output->writeln(\sprintf('<comment>Path: %s</comment>', $this->getPath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         if (!empty($this->getConfigFiles())) {
-            $output->writeln(
-                \sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())),
-                OutputInterface::VERBOSITY_VERBOSE
-            );
+            $output->writeln(\sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
         if ((bool) $builder->getConfig()->get('cache.enabled')) {
-            $output->writeln(
-                \sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()),
-                OutputInterface::VERBOSITY_VERBOSE
-            );
+            $output->writeln(\sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
 
         $builder->build($options);
