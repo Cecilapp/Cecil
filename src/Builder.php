@@ -37,7 +37,6 @@ class Builder implements LoggerAwareInterface
      * @var array Steps processed by build().
      */
     protected $steps = [
-        //'Cecil\Step\Themes\Import',
         'Cecil\Step\Pages\Load',
         'Cecil\Step\Data\Load',
         'Cecil\Step\StaticFiles\Load',
