@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.19.1](https://github.com/Cecilapp/Cecil/compare/8.19.0...8.19.1)
+
+> 27 November 2024
+
+- fix: import themes config [`#2069`](https://github.com/Cecilapp/Cecil/pull/2069)
+- refactor: "Plateform" to "Platform" [`33ff991`](https://github.com/Cecilapp/Cecil/commit/33ff9916833997f89900708f9f5c1d2fa40f1495)
+- refactor: cleaning code [`3557d5f`](https://github.com/Cecilapp/Cecil/commit/3557d5ff712a1712dccee5889e065e4053762db7)
+
 #### [8.19.0](https://github.com/Cecilapp/Cecil/compare/8.18.2...8.19.0)
 
 > 26 November 2024
