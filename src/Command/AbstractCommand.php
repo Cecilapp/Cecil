@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Cecil\Config;
+use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
@@ -32,6 +34,7 @@ class AbstractCommand extends Command
 {
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
     public const TMP_DIR = '.cecil';
+    public const THEME_CONFIG_FILE = 'config.yml';
 
     /** @var InputInterface */
     protected $input;
@@ -195,7 +198,11 @@ class AbstractCommand extends Command
                     if ($filePath === false || false === $configContent = Util\File::fileGetContents($filePath)) {
                         throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
                     }
-                    $filesConfig = array_replace_recursive($filesConfig, (array) Yaml::parse($configContent, Yaml::PARSE_DATETIME));
+                    try {
+                        $filesConfig = array_replace_recursive($filesConfig, (array) Yaml::parse($configContent, Yaml::PARSE_DATETIME));
+                    } catch (ParseException $e) {
+                        throw new RuntimeException(\sprintf('"%s" parsing error: %s', $filePath, $e->getMessage()));
+                    }
                 }
                 $this->config = array_replace_recursive($filesConfig, $config);
             }
@@ -204,9 +211,19 @@ class AbstractCommand extends Command
                 $this->builder = (new Builder($this->config, new ConsoleLogger($this->output)))
                     ->setSourceDir($this->getPath())
                     ->setDestinationDir($this->getPath());
+                // import themes config
+                $themes = (array) $this->builder->getConfig()->getTheme();
+                foreach ($themes as $theme) {
+                    $themeConfigFile = Util::joinFile($this->builder->getConfig()->getThemesPath(), $theme, self::THEME_CONFIG_FILE);
+                    if (Util\File::getFS()->exists($themeConfigFile)) {
+                        if (false === $themeConfigFile = Util\File::fileGetContents($themeConfigFile)) {
+                            throw new ConfigException(\sprintf('Can\'t read file "%s/%s/%s".', (string) $this->builder->getConfig()->get('themes.dir'), $theme, self::THEME_CONFIG_FILE));
+                        }
+                        $themeConfig = Yaml::parse($themeConfigFile, Yaml::PARSE_DATETIME);
+                        $this->builder->getConfig()->import($themeConfig, Config::PRESERVE);
+                    }
+                }
             }
-        } catch (ParseException $e) {
-            throw new RuntimeException(\sprintf('Configuration parsing error: %s', $e->getMessage()));
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
