@@ -48,16 +48,15 @@ class Collection extends CecilCollection
 
     /**
      * Sorts pages by.
+     *
+     * $options: date|updated|title|weight
+     * $options:
+     *   variable: date|updated|title|weight
+     *   desc_title: false|true
+     *   reverse: false|true
      */
     public function sortBy(array|string|null $options): self
     {
-        /*
-         * $options: date|updated|title|weight
-         * $options:
-         *   variable: date|updated|title|weight
-         *   desc_title: false|true
-         *   reverse: false|true
-         */
         $sortBy = \is_string($options) ? $options : $options['variable'] ?? 'date';
         $sortMethod = \sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortBy)));
         if (!method_exists($this, $sortMethod)) {
