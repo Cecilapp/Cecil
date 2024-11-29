@@ -1234,7 +1234,7 @@ Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil
 If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
 
 ```bash
-php cecil.phar util:extract
+php cecil.phar util:templates:extract
 ```
 
 :::

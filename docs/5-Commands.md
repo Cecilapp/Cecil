@@ -27,7 +27,7 @@ Available commands:
   show:config               Shows the configuration
   show:content              Shows content as tree
  util
-  util:extract              Extracts built-in templates
+  util:templates:extract    Extracts built-in templates
 ```
 
 ## new:site
