@@ -27,7 +27,7 @@ Available commands:
   show:config               Shows the configuration
   show:content              Shows content as tree
  util
-  util:extract              Extracts built-in templates
+  util:templates:extract    Extracts built-in templates
 ```
 
 ## new:site
@@ -128,6 +128,7 @@ Options:
       --output=OUTPUT              Set the output directory
       --optimize[=OPTIMIZE]        Optimize files (disable with "no") [default: false]
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
+      --show-pages                 Show built pages as table
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version
@@ -166,6 +167,7 @@ Options:
       --port=PORT                  Server port
       --optimize[=OPTIMIZE]        Optimize files (disable with "no") [default: false]
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
+      --no-ignore-vcs              Changes watcher must not ignore VCS directories
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version
