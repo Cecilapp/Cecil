@@ -3,7 +3,9 @@
   "projectOwner": "Cecilapp",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "files": ["README.md"],
+  "files": [
+    "README.md"
+  ],
   "imageSize": 100,
   "commit": false,
   "commitType": "docs",
@@ -138,6 +140,15 @@
       "contributions": [
         "doc",
         "bug"
+      ]
+    },
+    {
+      "login": "maxalmonte14",
+      "name": "Max",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12385704?v=4",
+      "profile": "https://github.com/maxalmonte14",
+      "contributions": [
+        "doc"
       ]
     }
   ]
