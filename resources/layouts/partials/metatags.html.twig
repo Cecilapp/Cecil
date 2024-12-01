@@ -5,7 +5,7 @@
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
   {%- set title_pagination_shownumber = page.metatags.title.pagination.shownumber|default(site.metatags.title.pagination.shownumber ?? true) %}
   {%- set title_pagination_label = page.metatags.title.pagination.label|default(site.metatags.title.pagination.label|default('Page %s')) %}
-  {%- set title = page.title|e %}
+  {%- set title = page.title|trans|e %}
   {%- set title_html = title ~ title_divider ~ site.title|e %}
   {%- if title_only %}
     {%- set title_html = title %}

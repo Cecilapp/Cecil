@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-05-13 14:14+0200\n"
-"PO-Revision-Date: 2024-05-13 14:14+0200\n"
+"POT-Creation-Date: 2024-12-01 03:32+0100\n"
+"PO-Revision-Date: 2024-12-01 03:32+0100\n"
 "Last-Translator: Arnaud Ligny <arnaud@ligny.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -15,12 +15,25 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: _default/404.html.twig:7
-msgid "Page not found."
-msgstr "Page non trouvée."
+msgid "Page not found"
+msgstr "Page non trouvée"
+
+#: _default/404.html.twig:8
+msgid ""
+"Looks like you've followed a broken link or entered a URL that doesn't exist "
+"on this site."
+msgstr ""
+"Il semblerait que vous ayez suivi un lien cassé ou saisi une URL qui "
+"n'existe pas sur ce site."
+
+#: _default/404.html.twig:9
+msgid "Back to home page"
+msgstr "Retour à la page d’accueil"
 
 #: _default/feed.xsl.twig:102
 msgid "To subscribe to this web feed, copy its URL to your feed reader."
-msgstr "Pour vous abonner à ce flux Web, copiez son URL dans votre lecteur de flux."
+msgstr ""
+"Pour vous abonner à ce flux Web, copiez son URL dans votre lecteur de flux."
 
 #: _default/feed.xsl.twig:104
 msgid "Feed URL:"
