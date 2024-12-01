@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.19.2](https://github.com/Cecilapp/Cecil/compare/8.19.1...8.19.2)
+
+> 30 November 2024
+
+- refactor: minor change [`ff00d79`](https://github.com/Cecilapp/Cecil/commit/ff00d7998a0d54454cd11f476e092a2c22fd323f)
+- fix: show-pages build option [`3469297`](https://github.com/Cecilapp/Cecil/commit/3469297de6fc95fea49b5d35458fbc42adec0974)
+
 #### [8.19.1](https://github.com/Cecilapp/Cecil/compare/8.19.0...8.19.1)
 
 > 27 November 2024
