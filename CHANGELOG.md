@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.19.4](https://github.com/Cecilapp/Cecil/compare/8.19.3...8.19.4)
+
+> 2 December 2024
+
+- fix: 404 template HP link [`eecb97f`](https://github.com/Cecilapp/Cecil/commit/eecb97f05f69d515895661d50b2f25080a90a386)
+
 #### [8.19.3](https://github.com/Cecilapp/Cecil/compare/8.19.2...8.19.3)
 
 > 1 December 2024
