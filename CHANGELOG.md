@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.20.0](https://github.com/Cecilapp/Cecil/compare/8.19.4...8.20.0)
+
+> 2 December 2024
+
+- feat: add `fediverse:creator` meta support [`#2075`](https://github.com/Cecilapp/Cecil/pull/2075)
+
 #### [8.19.4](https://github.com/Cecilapp/Cecil/compare/8.19.3...8.19.4)
 
 > 2 December 2024
