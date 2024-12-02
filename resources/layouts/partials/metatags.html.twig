@@ -115,6 +115,17 @@
     {%- set twitter = twitter|merge(page.social.twitter|default(site.social.twitter)) %}
   {%- endif %}
 {% endif %}
+{# Mastodon #}
+{% set mastodon = {
+  'creator': '',
+} %}
+{% if page.social.mastodon is defined or site.social.mastodon is defined %}
+  {%- if page.social.mastodon|default(site.social.mastodon) is not iterable %}
+    {%- set mastodon = mastodon|merge({'creator': page.social.mastodon|default(site.social.mastodon)}) %}
+  {%- else %}
+    {%- set mastodon = mastodon|merge(page.social.mastodon|default(site.social.mastodon)) %}
+  {%- endif %}
+{% endif %}
 {%- block content %}
     {#~ template ~#}
     <title>{% block title %}{{ title_html }}{% endblock %}</title>
@@ -225,6 +236,10 @@
 {%- endif -%}
 {%- if twitter.creator ~%}
     <meta name="twitter:creator" content="@{{ twitter.creator }}" />
+{%- endif ~%}
+{#- template: Mastodon ~#}
+{%- if mastodon.creator ~%}
+    <meta name="fediverse:creator" content="{{ mastodon.creator }}">
 {%- endif ~%}
 {#- template: json-ld ~#}
 {%- include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset|default} ~%}
