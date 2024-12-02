@@ -331,9 +331,9 @@ canonical:                           # used to override the generated canonical 
   title: "<URL title>"               # optional
 social:
   twitter:
-    site: username
-    creator: username
-    url: URL
+    site: username                   # main account
+    creator: username                # content author account
+    url: URL                         # URL used for `rel=me` meta
   mastodon:
     creator: handle
     url: URL
