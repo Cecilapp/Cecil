@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.19.3](https://github.com/Cecilapp/Cecil/compare/8.19.2...8.19.3)
+
+> 1 December 2024
+
+- docs: add maxalmonte14 as a contributor for doc [`#2073`](https://github.com/Cecilapp/Cecil/pull/2073)
+- doc: update references to now missing command util:extract [`#2072`](https://github.com/Cecilapp/Cecil/pull/2072)
+- chore(deps): bump twig/twig from 3.15.0 to 3.16.0 [`#2071`](https://github.com/Cecilapp/Cecil/pull/2071)
+- chore(deps): bump twig/intl-extra from 3.15.0 to 3.16.0 [`#2070`](https://github.com/Cecilapp/Cecil/pull/2070)
+- fix: import themes config [`#2069`](https://github.com/Cecilapp/Cecil/pull/2069)
+- refactor: enhances 404 [`298b276`](https://github.com/Cecilapp/Cecil/commit/298b2763f6fb20baa7e73410cc22486d9147dda8)
+- refactor: cleaning code [`3557d5f`](https://github.com/Cecilapp/Cecil/commit/3557d5ff712a1712dccee5889e065e4053762db7)
+- doc: fix commands page [`25c547e`](https://github.com/Cecilapp/Cecil/commit/25c547e6f34868b1695863089f283107ce14637c)
+
 #### [8.19.2](https://github.com/Cecilapp/Cecil/compare/8.19.1...8.19.2)
 
 > 30 November 2024
