@@ -239,7 +239,7 @@
 {%- endif ~%}
 {#- template: Mastodon ~#}
 {%- if mastodon.creator ~%}
-    <meta name="fediverse:creator" content="{{ mastodon.creator }}">
+    <meta name="fediverse:creator" content="{{ mastodon.creator }}" />
 {%- endif ~%}
 {#- template: json-ld ~#}
 {%- include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset|default} ~%}
