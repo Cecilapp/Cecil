@@ -280,7 +280,7 @@ paths:
 
 ### metatags
 
-_metatags_ are SEO helpers that can be injected automatically in the `<head>` by including the [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig) template.
+_metatags_ are SEO and social helpers that can be automatically  injected in the `<head>`, with the _partial_ template [`metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
 
 *[SEO]: Search Engine Optimization
 
@@ -290,16 +290,18 @@ _Example:_
 <html lang="{{ site.language }}">
   <head>
     <meta charset="utf-8">
-    {%~ include 'partials/metatags.html.twig' ~%}
+    [...]
+    {%- include 'partials/metatags.html.twig' ~%}
   </head>
   <body>
+    [...]
   </body>
 </html>
 ```
 
 This template adds the following meta tags:
 
-- Page title + site title or site title + site baseline
+- Page title + site title, or site title + site baseline
 - Page/site description
 - Page/site keywords
 - Page/site author
@@ -309,15 +311,16 @@ This template adds the following meta tags:
 - Pagination links (first, previous, next, last)
 - Canonical URL
 - Links to alternate versions (i.e.: RSS feed, others languages)
-- `rel=me` support
+- `rel=me` links
 - Open Graph
+- Facebook meta
 - Twitter Card
 - Mastodon meta
 - Structured data (JSON-LD)
 
 #### metatags options and front matter
 
-Cecil uses page’s front matter to feed meta tags, and fallbacks to the site configuration if needed.
+Cecil uses page’s front matter to feed meta tags, and fallbacks to site options if needed.
 
 ```yaml
 title: "Page/site title"
@@ -325,28 +328,28 @@ description: "Page/site description"
 tags: [tag1, tag2]                   # feeds keywords meta
 keywords: [keyword1, keyword2]       # obsolete
 author: "Author name"
-image: image.jpg                     # used by OpenGraph and Twitter Card
-canonical:                           # used to override the generated canonical URL
+image: image.jpg                     # for OpenGraph and Twitter Card
+canonical:                           # to override the generated canonical URL
   url: <URL>
   title: "<URL title>"               # optional
 social:
   twitter:
+    url: <URL>                       # used for `rel=me` link
     site: username                   # main account
     creator: username                # content author account
-    url: URL                         # URL used for `rel=me` meta
   mastodon:
+    url: <URL>
     creator: handle
-    url: URL
   facebook:
+    url: <URL>
     id: 123456789
     firstname: Firstname
     lastname: Lastname
     username: username
-    url: URL
 ```
 
 :::tip
-If needed `title` and `image` can be overridden:
+If needed, `title` and `image` can be overridden:
 
 ```twig
 {% include 'partials/metatags.html.twig' with {title: 'Custom title', image: og_image} %}
