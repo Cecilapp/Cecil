@@ -309,8 +309,10 @@ This template adds the following meta tags:
 - Pagination links (first, previous, next, last)
 - Canonical URL
 - Links to alternate versions (i.e.: RSS feed, others languages)
+- `rel=me` support
 - Open Graph
 - Twitter Card
+- Mastodon meta
 - Structured data (JSON-LD)
 
 #### metatags options and front matter
@@ -331,11 +333,16 @@ social:
   twitter:
     site: username
     creator: username
+    url: URL
+  mastodon:
+    creator: handle
+    url: URL
   facebook:
     id: 123456789
     firstname: Firstname
     lastname: Lastname
     username: username
+    url: URL
 ```
 
 :::tip
