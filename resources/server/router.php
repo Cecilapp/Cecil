@@ -146,8 +146,8 @@ if (file_exists($headersFile)) {
     $headersArray = parse_ini_file($headersFile, true);
     // path with wildcard
     foreach ($headersArray as $source => $headers) {
-        list($match) = sscanf($path, str_replace('*', '%s', $source));
-        if ($match !== null) {
+        $match = sscanf($path, str_replace('*', '%s', $source));
+        if (!empty($match) && $match[0] !== null) {
             foreach ($headers as $key => $value) {
                 header("$key: $value");
             }
