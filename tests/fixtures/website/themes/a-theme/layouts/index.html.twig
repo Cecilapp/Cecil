@@ -8,7 +8,7 @@
   <summary>All pages</summary>
   <ul>
     {% for item in site.pages|sort_by_title %}
-    {% include 'includes/page_li.html.twig' %}
+    {{ include('includes/page_li.html.twig') }}
     {% endfor %}
   </ul>
 </details>

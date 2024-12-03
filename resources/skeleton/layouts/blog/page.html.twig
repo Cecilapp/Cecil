@@ -8,8 +8,8 @@
                 </header>
                 {{ page.content }}
                 <footer>
-                  {%- include 'partials/terms-list.html.twig' with {'page': page, 'vocabulary': 'tags'} only ~%}
-                  {%- include 'partials/page-navigation.html.twig' with {'page': page} only ~%}
+                  {{- include('partials/terms-list.html.twig', {page, vocabulary: 'tags'}, with_context = false) ~}}
+                  {{- include('partials/page-navigation.html.twig', {page}, with_context = false) ~}}
                 </footer>
               </article>
             {%- endblock content ~%}

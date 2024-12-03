@@ -2,6 +2,6 @@
 {%- if page.section|default and page.type == 'page' -%}
   {%- set section_page = site.page(page.section)|default -%}
   {%- if section_page and section_page.alternates is defined -%}
-    {%- include 'partials/alternates.html.twig' with {'title': section_page.title|e ~ ' - ' ~ site.title|e , 'page': section_page, 'alternates': section_page.alternates|filter(a => a.format in feed_formats)} only ~%}
+    {{- include('partials/alternates.html.twig', {title: section_page.title|e ~ ' - ' ~ site.title|e , page: section_page, alternates: section_page.alternates|filter(a => a.format in feed_formats)}, with_context = false) ~}}
   {%- endif -%}
 {%- endif -%}

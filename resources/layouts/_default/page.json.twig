@@ -3,10 +3,10 @@
   "data": [
 {% if items is defined %}
 {% for item in items %}
-{% include 'partials/data.json.twig' with {'item': item} only %}{% if not loop.last %},{% endif ~%}
+{{ include('partials/data.json.twig', {item: item}, with_context = false) }}{% if not loop.last %},{% endif ~%}
 {% endfor %}
 {% else %}
-{% include 'partials/data.json.twig' with {'item': page} only -%}
+{{ include('partials/data.json.twig', {item: page}, with_context = false) -}}
 {% endif %}
   ]
 {#- meta #}

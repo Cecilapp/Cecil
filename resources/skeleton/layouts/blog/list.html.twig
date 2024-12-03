@@ -23,7 +23,7 @@
             </article>
             {%- endfor ~%}
             <footer>
-              {%- include 'partials/paginator.html.twig' with {'page': page} only ~%}
+              {{- include('partials/paginator.html.twig', {page}, with_context = false) ~}}
             </footer>
           </article>
           {%- endblock content ~%}

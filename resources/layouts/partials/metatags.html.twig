@@ -167,10 +167,10 @@
     <link rel="last" href="{{ url(page.paginator.links.last, {'canonical': true}) }}" />
 {%- endif -%}
 {#- template: alternates ~#}
-{%- include 'partials/alternates.html.twig' with {'title': title, 'page': page} only ~%}
-{%- include 'partials/feeds-from-section.html.twig' with {'title': title, 'page': page} only ~%}
+{{- include('partials/alternates.html.twig', {title, page}, with_context = false) ~}}
+{{- include('partials/feeds-from-section.html.twig', {title, page}, with_context = false) ~}}
 {#- template: alternates languages ~#}
-{%- include 'partials/alternates-languages.html.twig' with {'page': page} only ~%}
+{{- include('partials/alternates-languages.html.twig', {page}, with_context = false) ~}}
 {#- template: preload ~#}
 {%- if video_asset is defined ~%}
     <link rel="preload" href="{{ url(video_asset) }}" as="video" type="{{ video_asset.subtype }}" />
@@ -242,5 +242,5 @@
     <meta name="fediverse:creator" content="{{ mastodon.creator }}" />
 {%- endif ~%}
 {#- template: json-ld ~#}
-{%- include 'partials/jsonld.js.twig' with {'author': author, 'favicon_asset': favicon_asset|default} ~%}
+{{- include('partials/jsonld.js.twig', {author, favicon_asset: favicon_asset|default}) ~}}
 {%- endblock ~%}

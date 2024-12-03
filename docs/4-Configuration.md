@@ -291,7 +291,7 @@ _Example:_
   <head>
     <meta charset="utf-8">
     [...]
-    {%- include 'partials/metatags.html.twig' ~%}
+    {{- include('partials/metatags.html.twig') ~}}
   </head>
   <body>
     [...]
@@ -352,7 +352,7 @@ social:
 If needed, `title` and `image` can be overridden:
 
 ```twig
-{% include 'partials/metatags.html.twig' with {title: 'Custom title', image: og_image} %}
+{{ include('partials/metatags.html.twig', {title: 'Custom title', image: og_image}) }}
 ```
 
 :::
