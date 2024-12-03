@@ -5,8 +5,8 @@
             <ul>
           {%- for vocab in vocabs ~%}
             {%- set vocabulary = vocab.id ~%}
-            {%- if attribute(page, vocabulary) is defined ~%}
-              {%- for term in attribute(page, vocabulary) ~%}
+            {%- if page[vocabulary] is defined ~%}
+              {%- for term in page[vocabulary] ~%}
               <li><a class="term" href="{{ url(vocabulary ~ '/' ~ term, {language: site.language}) }}">{{ term }}</a></li>
               {%- endfor ~%}
             {%- endif ~%}

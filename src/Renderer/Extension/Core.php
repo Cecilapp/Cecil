@@ -34,6 +34,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
+use Twig\DeprecatedCallableInfo;
 
 /**
  * Class Renderer\Extension\Core.
@@ -90,17 +91,17 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction(
                 'hash',
                 [$this, 'integrity'],
-                ['deprecated' => true, 'alternative' => 'integrity']
+                ['deprecation_info' => new DeprecatedCallableInfo('Cecil', '8.0', 'integrity')]
             ),
             new \Twig\TwigFunction(
                 'minify',
                 [$this, 'minify'],
-                ['deprecated' => true, 'alternative' => 'minify filter']
+                ['deprecation_info' => new DeprecatedCallableInfo('Cecil', '8.0', 'minify filter')]
             ),
             new \Twig\TwigFunction(
                 'toCSS',
                 [$this, 'toCss'],
-                ['deprecated' => true, 'alternative' => 'to_css filter']
+                ['deprecation_info' => new DeprecatedCallableInfo('Cecil', '8.0', 'to_css filter')]
             ),
         ];
     }

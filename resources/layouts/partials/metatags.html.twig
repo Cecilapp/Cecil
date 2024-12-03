@@ -58,7 +58,7 @@
   } -%}
 {% endif %}
 {# image #}
-{% if (image is not defined or image is empty) and page.metatags.image.enabled ?? site.metatags.image.enabled ?? true %}
+{% if (image is not defined or image is empty) and (page.metatags.image.enabled ?? site.metatags.image.enabled ?? true) %}
   {%- set image = page.image|default(site.image|default()) %}
 {% endif %}
 {# video #}
