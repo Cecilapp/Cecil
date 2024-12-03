@@ -42,8 +42,8 @@ class Image
     public static function resize(Asset $asset, int $width, int $quality): string
     {
         try {
-            // is image Asset?
-            if ($asset['type'] !== 'image') {
+            // is image?
+            if (!self::isImage($asset)) {
                 throw new RuntimeException(\sprintf('Not an image.'));
             }
             // creates image object from source
@@ -88,7 +88,8 @@ class Image
     public static function getDataUrl(Asset $asset, int $quality): string
     {
         try {
-            if ($asset['type'] != 'image' || self::isSVG($asset)) {
+            // is image?
+            if (!self::isImage($asset)) {
                 throw new RuntimeException(\sprintf('Not an image.'));
             }
             $image = self::manager()->read($asset['content']);
@@ -107,7 +108,8 @@ class Image
     public static function getDominantColor(Asset $asset): string
     {
         try {
-            if ($asset['type'] != 'image' || self::isSVG($asset)) {
+            // is image?
+            if (!self::isImage($asset)) {
                 throw new RuntimeException(\sprintf('Not an image.'));
             }
             $assetColor = clone $asset;
@@ -210,6 +212,18 @@ class Image
     public static function isSVG(Asset $asset): bool
     {
         return \in_array($asset['subtype'], ['image/svg', 'image/svg+xml']) || $asset['ext'] == 'svg';
+    }
+
+    /**
+     * Asset is a valid image?
+     */
+    public static function isImage(Asset $asset): bool
+    {
+        if ($asset['type'] !== 'image' || self::isSVG($asset)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
