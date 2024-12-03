@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.20.1](https://github.com/Cecilapp/Cecil/compare/8.20.0...8.20.1)
+
+> 2 December 2024
+
+- doc: update metatags section [`9425bd8`](https://github.com/Cecilapp/Cecil/commit/9425bd8cb860a322a49626330402970f644c8d4d)
+- refactor: minor fix [`291ef20`](https://github.com/Cecilapp/Cecil/commit/291ef20b034001ca1c31b85c62925547b5f54245)
+
 #### [8.20.0](https://github.com/Cecilapp/Cecil/compare/8.19.4...8.20.0)
 
 > 2 December 2024
