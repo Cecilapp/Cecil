@@ -91,17 +91,17 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction(
                 'hash',
                 [$this, 'integrity'],
-                ['deprecation_info' => new DeprecatedCallableInfo('Cecil', '8.0', 'integrity')]
+                ['deprecation_info' => new DeprecatedCallableInfo('', '', 'integrity')]
             ),
             new \Twig\TwigFunction(
                 'minify',
                 [$this, 'minify'],
-                ['deprecation_info' => new DeprecatedCallableInfo('Cecil', '8.0', 'minify filter')]
+                ['deprecation_info' => new DeprecatedCallableInfo('', '', 'minify filter')]
             ),
             new \Twig\TwigFunction(
                 'toCSS',
                 [$this, 'toCss'],
-                ['deprecation_info' => new DeprecatedCallableInfo('Cecil', '8.0', 'to_css filter')]
+                ['deprecation_info' => new DeprecatedCallableInfo('', '', 'to_css filter')]
             ),
         ];
     }
