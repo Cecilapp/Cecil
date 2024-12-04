@@ -59,7 +59,7 @@ class Date
     {
         $time = new \DateTime($duration);
         $midnight = new \DateTime();
-        $midnight->setTime(0,0);
+        $midnight->setTime(0, 0);
         $period = $midnight->diff($time);
 
         return $period->format('T%iM%SS');
