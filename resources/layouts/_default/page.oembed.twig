@@ -30,7 +30,9 @@
   {%- endif ~%}
   "provider_name": "{{ site.title }}",
   "provider_url": "{{ url('/', {canonical: true}) }}",
+  {%- if author.name is defined ~%}
   "author_name": "{{ author.name }}",
+  {%- endif ~%}
   {%- if author.url is defined ~%}
   "author_url": "{{ author.url }}",
   {%- endif ~%}
@@ -38,6 +40,8 @@
   {%- if 'iframe' in page.output ~%}
   "embed_url": "{{ url(page, {canonical: true, format: 'iframe'}) }}",
   {%- endif ~%}
+  {%- if opengraph.description is defined ~%}
   "description": "{{ opengraph.description }}"
+  {%- endif ~%}
 }
 {% endblock %}

@@ -22,8 +22,8 @@
     {%- if page.videos is defined ~%}
     <video id="player" playsinline controls preload="auto"{% if page.poster|default(page.image|default) %} poster="{{ asset(page.poster|default(page.image|default)) }}"{% endif %}>
       {%- for video in page.videos ~%}
-      {%- set asset = asset(video) ~%}
-      <source src="{{ url(asset) }}" type="{{ asset.subtype }}"/>
+        {%- set asset_video = asset(video) ~%}
+      <source src="{{ url(asset_video) }}" type="{{ asset_video.subtype }}"/>
       {%- endfor ~%}
     </video>
     {%- else ~%}
