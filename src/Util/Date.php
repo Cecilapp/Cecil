@@ -50,4 +50,18 @@ class Date
 
         return new \DateTime($date);
     }
+
+    /**
+     * Duration in seconds to ISO 8601.
+     * e.g.: '00:00:46.70' -> 'T0M46S'
+     */
+    public static function durationToIso8601(string $duration): string
+    {
+        $time = new \DateTime($duration);
+        $midnight = new \DateTime();
+        $midnight->setTime(0,0);
+        $period = $midnight->diff($time);
+
+        return $period->format('T%iM%SS');
+    }
 }

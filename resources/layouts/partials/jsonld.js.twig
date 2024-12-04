@@ -118,14 +118,16 @@
           "@context": "https://schema.org",
           "@type": "VideoObject",
           "name": "{{ title|default(page.title)|e }}",
+          {%- if page.description is defined ~%}
           "description": "{{ page.description|e }}",
-          {%- if page.poster is defined ~%}
+          {%- endif ~%}
           "thumbnailUrl": [
             "{{ url(asset(page.poster), {canonical: true}) }}"
           ],
-          {%- endif ~%}
           "uploadDate": "{{ page.date|date('Y-m-dTH:i:sP') }}",
-          "duration": "PT1M54S",
+          {%- if page.duration is defined ~%}
+          "duration": "{{ page.duration|duration_to_iso8601 }}",
+          {%- endif ~%}
           "contentUrl": "{{ url(opengraph.video, {canonical: true}) }}",
           "embedUrl": "{{ url(page, {canonical: true, format: 'iframe'}) }}"
         }
