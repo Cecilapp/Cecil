@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.20.2](https://github.com/Cecilapp/Cecil/compare/8.20.1...8.20.2)
+
+> 3 December 2024
+
+- chore: update deps [`465ad2b`](https://github.com/Cecilapp/Cecil/commit/465ad2b52abca12018e0bcb5cbd4ab44a1749f15)
+- refactor: use include function instead of tag [`9079d6c`](https://github.com/Cecilapp/Cecil/commit/9079d6c64b68a9eef284cc18b3229371746a828c)
+- refactor: enhances Image class methods [`e78162b`](https://github.com/Cecilapp/Cecil/commit/e78162bcbc94f7733e30384cc54300866451b9f3)
+- refactor: fix deprecated Twig code [`7b4ce7f`](https://github.com/Cecilapp/Cecil/commit/7b4ce7f921deb7aef5f4c4753a2c71658293708b)
+- refactor: update Twig deprecated messages [`4a91d05`](https://github.com/Cecilapp/Cecil/commit/4a91d058b3d38a0d325f24bf78b28212f26d0500)
+- fix: router headers [`870d7b5`](https://github.com/Cecilapp/Cecil/commit/870d7b5a07efc3ac9da1c192f508812f029b284e)
+
 #### [8.20.1](https://github.com/Cecilapp/Cecil/compare/8.20.0...8.20.1)
 
 > 2 December 2024
