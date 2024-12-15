@@ -72,8 +72,8 @@ class Config
     public function import(array $config, $mode = self::MERGE): void
     {
         $this->data->import($config, $mode);
+        $this->setFromEnv();
         $this->validate();
-        $this->override();
     }
 
     /**
@@ -540,30 +540,15 @@ class Config
     }
 
     /**
-     * Overrides configuration with environment variables.
+     * Set configuration from environment variables.
      */
-    private function override(): void
+    private function setFromEnv(): void
     {
-        $data = $this->data;
-        $applyEnv = function ($array) use ($data) {
-            $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveArrayIterator($array),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
-            $iterator->rewind();
-            while ($iterator->valid()) {
-                $path = [];
-                foreach (range(0, $iterator->getDepth()) as $depth) {
-                    $path[] = $iterator->getSubIterator($depth)->key();
-                }
-                $sPath = implode('_', $path);
-                if ($getEnv = getenv('CECIL_' . strtoupper($sPath))) {
-                    $data->set(str_replace('_', '.', strtolower($sPath)), $this->castSetValue($getEnv));
-                }
-                $iterator->next();
+        foreach (getenv() as $key => $value) {
+            if (str_starts_with($key, 'CECIL_')) {
+                $this->data->set(str_replace(['cecil_', '_'], ['', '.'], strtolower($key)), $this->castSetValue($value));
             }
-        };
-        $applyEnv($data->export());
+        }
     }
 
     /**

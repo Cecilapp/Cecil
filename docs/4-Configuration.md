@@ -1011,7 +1011,3 @@ For example, the following command set the website’s `baseurl`:
 ```bash
 export CECIL_BASEURL="https://example.com/"
 ```
-
-:::important
-Only existing configuration options can be overridden: you can’t create new configuration options with environment variables.
-:::
