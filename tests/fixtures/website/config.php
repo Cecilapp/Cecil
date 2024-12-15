@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'debug'      => true,
     'title'      => 'Cecil test',
     'taxonomies' => [
         'tests' => 'disabled',
