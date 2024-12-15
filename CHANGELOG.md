@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.20.3](https://github.com/Cecilapp/Cecil/compare/8.20.2...8.20.3)
+
+> 4 December 2024
+
+- refactor: better video support [`#2077`](https://github.com/Cecilapp/Cecil/pull/2077)
+
 #### [8.20.2](https://github.com/Cecilapp/Cecil/compare/8.20.1...8.20.2)
 
 > 3 December 2024
