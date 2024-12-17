@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.20.4](https://github.com/Cecilapp/Cecil/compare/8.20.3...8.20.4)
+
+> 15 December 2024
+
+- refactor: set config from env. variable [`#2084`](https://github.com/Cecilapp/Cecil/pull/2084)
+- chore(deps): bump twig/twig from 3.17.0 to 3.17.1 [`#2083`](https://github.com/Cecilapp/Cecil/pull/2083)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.11.1 to 3.11.2 [`#2082`](https://github.com/Cecilapp/Cecil/pull/2082)
+- chore(deps): bump twig/twig from 3.16.0 to 3.17.0 [`#2080`](https://github.com/Cecilapp/Cecil/pull/2080)
+- chore(deps): bump twig/intl-extra from 3.16.0 to 3.17.0 [`#2079`](https://github.com/Cecilapp/Cecil/pull/2079)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.44.0 to 2.45.0 [`#2078`](https://github.com/Cecilapp/Cecil/pull/2078)
+
 #### [8.20.3](https://github.com/Cecilapp/Cecil/compare/8.20.2...8.20.3)
 
 > 4 December 2024
