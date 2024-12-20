@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.21.0](https://github.com/Cecilapp/Cecil/compare/8.20.5...8.21.0)
+
+> 17 December 2024
+
+- feat: add link rel for favicon.ico [`ec10b6c`](https://github.com/Cecilapp/Cecil/commit/ec10b6c3c393d2030e25a9c9e000aac53c50a637)
+
+#### [8.20.5](https://github.com/Cecilapp/Cecil/compare/8.20.4...8.20.5)
+
+> 17 December 2024
+
+- chore: update deps [`82f72ad`](https://github.com/Cecilapp/Cecil/commit/82f72ad19679d45d78373628f7eeb6a3a1d7fa4b)
+
 #### [8.20.4](https://github.com/Cecilapp/Cecil/compare/8.20.3...8.20.4)
 
 > 15 December 2024
