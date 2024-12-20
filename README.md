@@ -3,7 +3,6 @@
 Cecil, a simple and powerful content-driven static site generator.
 
 [![Latest stable version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
-[![PHP version require](http://poser.pugx.org/cecil/cecil/require/php)](https://packagist.org/packages/cecil/cecil)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
 [![Tests status](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/test.yml)
 [![Release status](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml)
