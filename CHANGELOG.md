@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.21.1](https://github.com/Cecilapp/Cecil/compare/8.21.0...8.21.1)
+
+> 20 December 2024
+
+- fix: background color to video (if offline) [`1120b10`](https://github.com/Cecilapp/Cecil/commit/1120b10409e72823c90491b4c4bb068f8c2d1402)
+
 #### [8.21.0](https://github.com/Cecilapp/Cecil/compare/8.20.5...8.21.0)
 
 > 17 December 2024
