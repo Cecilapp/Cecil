@@ -57,16 +57,17 @@ class Database extends AbstractGenerator implements GeneratorInterface
 {
     public function generate(): void
     {
+        // create pages from a SQLite database
         $db = new SQLite3('database.sqlite');
-        $statement = $db->prepare('SELECT ...');
+        $statement = $db->prepare('SELECT * FROM blog');
         $result = $statement->execute();
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $page = (new Page($row['page-id']))
-              ->setType(Type::PAGE->value)
-              ->setPath($row['path'])
-              ->setBodyHtml($row['html'])
-              ->setVariable('title', $row['title'])
-              ->setVariable('date', $row['date'])
+                ->setType(Type::PAGE->value)
+                ->setPath($row['path'])
+                ->setBodyHtml($row['html'])
+                ->setVariable('title', $row['title'])
+                ->setVariable('date', $row['date']);
             $this->generatedPages->add($page);
         }
         $result->finalize();
@@ -95,16 +96,17 @@ You can add custom [functions](3-Templates.md#functions) and [filters](3-Templat
 
 **Example:**
 
-_/extensions/Cecil/Renderer/Extension/MyExtension.php_
+_/extensions/Cecil/Renderer/Extension/MyTwigExtension.php_
 
 ```php
 <?php
 namespace Cecil\Renderer\Extension;
 
-class MyExtension extends \Twig\Extension\AbstractExtension
+class MyTwigExtension extends \Twig\Extension\AbstractExtension
 {
     public function getFilters()
     {
+        // add a new filter named 'md5'
         return [
             new \Twig\TwigFilter('md5', 'md5'),
         ];
@@ -117,7 +119,7 @@ _configuration_
 ```yaml
 layouts:
   extensions:
-    MyExtension: Cecil\Renderer\Extension\MyExtension
+    MyExtension: Cecil\Renderer\Extension\MyTwigExtension
 ```
 
 ## Output Post Processor
@@ -140,7 +142,15 @@ class MyProcessor extends AbstractPostProcessor
 {
     public function process(Page $page, string $output, string $format): string
     {
-        // handle $output here
+        // add a meta tag to the head of the HTML output
+        if ($format == 'html') {
+            if (!preg_match('/<meta name="test".*/i', $output)) {
+                $meta = \sprintf('<meta name="test" content="Test" />');
+                $output = preg_replace_callback('/([[:blank:]]*)(<\/head>)/i', function ($matches) use ($meta) {
+                    return str_repeat($matches[1] ?: ' ', 2) . $meta . "\n" . $matches[1] . $matches[2];
+                }, $output);
+            }
+        }
 
         return $output;
     }
