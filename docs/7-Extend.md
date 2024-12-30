@@ -1,7 +1,7 @@
 <!--
 description: "Extend Cecil."
 date: 2023-04-17
-updated: 2024-01-11
+updated: 2024-12-30
 -->
 # Extend
 
@@ -85,7 +85,7 @@ pages:
     35: Cecil\Generator\Database
 ```
 
-## Renderer (Twig) extension
+## Twig extension
 
 You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters):
 
