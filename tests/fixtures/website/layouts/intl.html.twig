@@ -38,19 +38,19 @@
       <hr />
       <h2>{% trans %}Page's language{% endtrans %}</h2>
       <p>
-        - code: {{ site.language }}<br>
-        - name: {{ site.language.name }} ({{ site.language.locale|language_name|capitalize }})<br>
-        - locale: {{ site.language.locale }}<br>
-        - weight: {{ site.language.weight }}<br>
+        - code: {{ site.language }}<br />
+        - name: {{ site.language.name }} ({{ site.language.locale|language_name|capitalize }})<br />
+        - locale: {{ site.language.locale }}<br />
+        - weight: {{ site.language.weight }}<br />
       </p>
       <p>
-        {% trans %}Default language:{% endtrans %} {{ site.languages.0.name }} ({{ site.languages.0.locale|language_name|capitalize }})<br>
+        {% trans %}Default language:{% endtrans %} {{ site.languages.0.name }} ({{ site.languages.0.locale|language_name|capitalize }})<br />
       </p>
       <hr />
       <h2>{% trans %}Available translations:{% endtrans %}</h2>
       <p>
 {% for p in site.allpages|filter_by('langref', page.langref) %}
-        - <a href="{{ url(p) }}">{{ p.title }}</a><br>
+        - <a href="{{ url(p) }}">{{ p.title }}</a><br />
 {% endfor %}
       </p>
       <hr />
