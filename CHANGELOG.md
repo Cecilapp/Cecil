@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.22.0](https://github.com/Cecilapp/Cecil/compare/8.21.1...8.22.0)
+
+> 31 December 2024
+
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 18 to 19 [`#2089`](https://github.com/Cecilapp/Cecil/pull/2089)
+- chore(deps): bump twig/twig from 3.17.1 to 3.18.0 [`#2088`](https://github.com/Cecilapp/Cecil/pull/2088)
+- chore(deps): bump twig/intl-extra from 3.17.0 to 3.18.0 [`#2087`](https://github.com/Cecilapp/Cecil/pull/2087)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.65.0 to 3.66.0 [`#2085`](https://github.com/Cecilapp/Cecil/pull/2085)
+- chore: update deps [`832ccf4`](https://github.com/Cecilapp/Cecil/commit/832ccf408c9a852174156b1b72eaeb7ff30b5953)
+- chore: update deps [`30e38df`](https://github.com/Cecilapp/Cecil/commit/30e38df6682603abbeef84613126d71cd1146f18)
+- doc: update extend [`3057cb7`](https://github.com/Cecilapp/Cecil/commit/3057cb77d78bb3c4157097ee805513a2c297d8bd)
+- feat: support SVG favicon [`150d8a0`](https://github.com/Cecilapp/Cecil/commit/150d8a06baa4c3d41162a3f78e7834ca7a9dab64)
+- doc: minor change [`e933ab6`](https://github.com/Cecilapp/Cecil/commit/e933ab69e803e9d550c05cacda1d8c301f90c85c)
+
 #### [8.21.1](https://github.com/Cecilapp/Cecil/compare/8.21.0...8.21.1)
 
 > 20 December 2024
