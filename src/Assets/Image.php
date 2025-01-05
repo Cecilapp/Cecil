@@ -116,7 +116,7 @@ class Image
             $assetColor = $assetColor->resize(100);
             $image = self::manager()->read($assetColor['content']);
 
-            return $image->pickColor(0, 0)->toString();
+            return $image->reduceColors(1)->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
         }
