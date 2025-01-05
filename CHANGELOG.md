@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.22.1](https://github.com/Cecilapp/Cecil/compare/8.22.0...8.22.1)
+
+> 4 January 2025
+
+- chore: update deps [`aa91b8d`](https://github.com/Cecilapp/Cecil/commit/aa91b8d3acf357c4cf47549c402b493079eae443)
+- chore: cleaning fixtures [`aa03f39`](https://github.com/Cecilapp/Cecil/commit/aa03f3983b88048bc3aaf072a8747f8684337185)
+- chore: update deps [`1be8735`](https://github.com/Cecilapp/Cecil/commit/1be87351ea5b130508159d97166aa5b27eb6c3f9)
+- refactor: livereload script [`28215c5`](https://github.com/Cecilapp/Cecil/commit/28215c50d05d9168d9639874580d424b448eb9d8)
+
 #### [8.22.0](https://github.com/Cecilapp/Cecil/compare/8.21.1...8.22.0)
 
 > 31 December 2024
