@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.22.2](https://github.com/Cecilapp/Cecil/compare/8.22.1...8.22.2)
+
+> 5 January 2025
+
+- fix: image placeholder color [`ee5a907`](https://github.com/Cecilapp/Cecil/commit/ee5a90785d3ae05dbfddc67d71e5897745c8589e)
+
 #### [8.22.1](https://github.com/Cecilapp/Cecil/compare/8.22.0...8.22.1)
 
 > 4 January 2025
