@@ -35,7 +35,7 @@ class Cache implements CacheInterface
     protected $cacheDir;
 
     /** @var int */
-    protected $duration = 31536000;
+    protected $duration;
 
     public function __construct(Builder $builder, string $pool = '')
     {
@@ -43,6 +43,7 @@ class Cache implements CacheInterface
         $this->config = $builder->getConfig();
         $this->pool = $pool;
         $this->cacheDir = Util::joinFile($this->config->getCachePath(), $pool);
+        $this->duration = 31536000; // 1 year
     }
 
     /**
