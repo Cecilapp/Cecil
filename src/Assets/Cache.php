@@ -34,6 +34,9 @@ class Cache implements CacheInterface
     /** @var string */
     protected $cacheDir;
 
+    /** @var int */
+    protected $duration = 31536000;
+
     public function __construct(Builder $builder, string $pool = '')
     {
         $this->builder = $builder;
@@ -53,6 +56,13 @@ class Cache implements CacheInterface
                 return $default;
             }
             $data = unserialize($content);
+
+            // check expiration
+            if ($data['expiration'] <= time()) {
+                $this->delete($key);
+
+                return $default;
+            }
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -71,7 +81,7 @@ class Cache implements CacheInterface
             $key = $this->prepareKey($key);
             $data = serialize([
                 'value'      => $value,
-                'expiration' => time() + $ttl,
+                'expiration' => time() + $this->duration($ttl),
             ]);
             $this->prune($key);
             Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
@@ -268,5 +278,23 @@ class Cache implements CacheInterface
         $key = substr($key, 0, 200); // Maximum filename length in NTFS?
 
         return $key;
+    }
+
+    /**
+     * Convert the various expressions of a TTL value into duration in seconds.
+     */
+    protected function duration(\DateInterval|int|null $ttl): int
+    {
+        if ($ttl === null) {
+            return $this->duration;
+        }
+        if (is_int($ttl)) {
+            return $ttl;
+        }
+        if ($ttl instanceof \DateInterval) {
+            return (int)$ttl->format('%s');
+        }
+
+        throw new \InvalidArgumentException('TTL values must be one of null, int, \DateInterval');
     }
 }
