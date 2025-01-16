@@ -1,0 +1,15 @@
+{% extends 'page.html.twig' %}
+
+{% block content %}
+    <div>
+      {{ page.content}}
+
+      {% x:button with {'class': 'example-1'} %}
+        <strong>Click me 1</strong>
+      {% endx %}
+
+      <x-button class="example-2">
+        <em>Click me 2</em>
+      </x-button>
+    </div>
+{% endblock %}
