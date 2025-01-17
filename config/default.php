@@ -198,6 +198,9 @@ return [
         'extensions' => [ // list of Twig extensions class
             //'<name>' => 'Cecil\Renderer\Extension\<class>',
         ],
+        'components' => [ // components
+            'dir' => 'components', // components directory
+        ],
     ],
     'themes' => [
         'dir' => 'themes', // where themes are stored

@@ -17,6 +17,7 @@ use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Extension\Core as CoreExtension;
 use Cecil\Util;
+use Performing\TwigComponents\Configuration;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
@@ -122,6 +123,11 @@ class Twig implements RendererInterface
 
             return false;
         });
+        // components
+        Configuration::make($this->twig)
+            ->setTemplatesPath($this->builder->getConfig()->get('layouts.components.dir') ?? 'components')
+            ->useCustomTags()
+            ->setup();
         // debug
         if ($this->builder->isDebug()) {
             // dump()
@@ -136,7 +142,7 @@ class Twig implements RendererInterface
                 try {
                     $this->twig->addExtension(new $class($this->builder));
                     $this->builder->getLogger()->debug(\sprintf('Twig extension "%s" added', $name));
-                } catch (\Exception | \Error $e) {
+                } catch (RuntimeException | \Error $e) {
                     $this->builder->getLogger()->error(\sprintf('Unable to add Twig extension "%s": %s', $name, $e->getMessage()));
                 }
             }

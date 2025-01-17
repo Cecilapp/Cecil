@@ -1,0 +1,4 @@
+---
+layout: components
+---
+Components examples:

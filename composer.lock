@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dec6695647664ec080701d636030038f",
+    "content-hash": "34abb90541747371d11936d88e678053",
     "packages": [
         {
             "name": "amphp/amp",
@@ -2281,6 +2281,61 @@
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
             "time": "2024-05-08T12:18:48+00:00"
+        },
+        {
+            "name": "performing/twig-components",
+            "version": "0.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giorgiopogliani/twig-components.git",
+                "reference": "66d0409032b354b37dbcca66f83bc30c16a9433a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giorgiopogliani/twig-components/zipball/66d0409032b354b37dbcca66f83bc30c16a9433a",
+                "reference": "66d0409032b354b37dbcca66f83bc30c16a9433a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0",
+                "twig/twig": "^3.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "pestphp/pest": "^1.0",
+                "phpunit/phpunit": "^9.3",
+                "symfony/var-dumper": "^5.2",
+                "vimeo/psalm": "^3.11"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Performing\\TwigComponents\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Giorgio Pogliani",
+                    "email": "giorgiopogliani94@gmail.com",
+                    "homepage": "https://performingdigital.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Twig components extension",
+            "homepage": "https://github.com/giorgiopogliani/twig-components",
+            "keywords": [
+                "digital",
+                "twig-components"
+            ],
+            "support": {
+                "issues": "https://github.com/giorgiopogliani/twig-components/issues",
+                "source": "https://github.com/giorgiopogliani/twig-components/tree/0.6.1"
+            },
+            "time": "2024-10-01T12:57:59+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -9446,7 +9501,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -9455,9 +9510,9 @@
         "ext-gd": "*",
         "ext-mbstring": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.1.27"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
