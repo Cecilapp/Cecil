@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.23.1](https://github.com/Cecilapp/Cecil/compare/8.23.0...8.23.1)
+
+> 15 January 2025
+
+- refactor: move cache duration set [`1439236`](https://github.com/Cecilapp/Cecil/commit/1439236c37b9347c039157a8243d9c1b69f0dd0e)
+
+#### [8.23.0](https://github.com/Cecilapp/Cecil/compare/8.22.2...8.23.0)
+
+> 15 January 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.66.2 to 3.67.0 [`#2092`](https://github.com/Cecilapp/Cecil/pull/2092)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.66.1 to 3.66.2 [`#2091`](https://github.com/Cecilapp/Cecil/pull/2091)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.66.0 to 3.66.1 [`#2090`](https://github.com/Cecilapp/Cecil/pull/2090)
+- refactor: implement cache duration [`3806bbd`](https://github.com/Cecilapp/Cecil/commit/3806bbd4d176e5ad77191eb9d00ba92828bfd308)
+- chore: update deps [`3ab10e5`](https://github.com/Cecilapp/Cecil/commit/3ab10e5de1ce228b96ff21b418b002e70e684ad2)
+- chore: update deps [`300f874`](https://github.com/Cecilapp/Cecil/commit/300f8749afa41d8695ceb1df3b15fba48827f51a)
+
 #### [8.22.2](https://github.com/Cecilapp/Cecil/compare/8.22.1...8.22.2)
 
 > 5 January 2025
