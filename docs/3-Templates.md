@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts and templates."
 date: 2021-05-07
-updated: 2024-01-18
+updated: 2025-01-17
 alias: documentation/layouts
 -->
 # Templates
@@ -1225,6 +1225,29 @@ Supported values are: `short`, `medium`, `long`, and `full`.
 :::important
 If you want to use the `format_date` filter **with other locales than "en"**, you should [install the intl PHP extension](https://php.net/intl.setup).
 :::
+
+## Components
+
+Cecil provides a components logic to help you build your templates.
+
+```twig
+{# /components/button.twig #}
+<button {{ attributes.merge({class: 'rounded px-4'}) }}>
+    {{ slot }}
+</button>
+
+{# /index.twig #}
+{% x:button with {class: 'text-white'} %}
+    <strong>Click me</strong>
+{% endx %}
+
+{# Rendered #}
+<button class="text-white rounded px-4">
+    <strong>Click me</strong>
+</button>
+```
+
+See official _Twig components extension_ documentation: <https://github.com/giorgiopogliani/twig-components#readme>.
 
 ## Built-in templates
 
