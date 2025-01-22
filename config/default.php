@@ -200,6 +200,7 @@ return [
         ],
         'components' => [ // components
             'dir' => 'components', // components directory
+            'ext' => 'twig', // components files extension
         ],
     ],
     'themes' => [

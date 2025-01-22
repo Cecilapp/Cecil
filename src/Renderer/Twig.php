@@ -126,6 +126,7 @@ class Twig implements RendererInterface
         // components
         Configuration::make($this->twig)
             ->setTemplatesPath($this->builder->getConfig()->get('layouts.components.dir') ?? 'components')
+            ->setTemplatesExtension($this->builder->getConfig()->get('layouts.components.ext') ?? 'twig')
             ->useCustomTags()
             ->setup();
         // debug
