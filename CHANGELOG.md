@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.24.0](https://github.com/Cecilapp/Cecil/compare/8.23.1...8.24.0)
+
+> 17 January 2025
+
+- feat: Add support of Twig components extension [`#2094`](https://github.com/Cecilapp/Cecil/pull/2094)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.68.0 to 3.68.1 [`#2095`](https://github.com/Cecilapp/Cecil/pull/2095)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.67.1 to 3.68.0 [`#2093`](https://github.com/Cecilapp/Cecil/pull/2093)
+
 #### [8.23.1](https://github.com/Cecilapp/Cecil/compare/8.23.0...8.23.1)
 
 > 15 January 2025
