@@ -1290,7 +1290,9 @@ If you want to use the `format_date` filter **with other locales than "en"**, yo
 
 ## Components
 
-Cecil provides a components logic to help you build your templates.
+Cecil provides a components logic to help you build your templates with the _Twig components extension_.
+
+### Twig components extension
 
 ```twig
 {# /components/button.twig #}
@@ -1309,13 +1311,11 @@ Cecil provides a components logic to help you build your templates.
 </button>
 ```
 
-### Twig components extension
-
 See official _Twig components extension_ documentation: <https://github.com/giorgiopogliani/twig-components#readme>.
 
 ## Extend
 
-### Twig extensions
+### Functions and filters
 
 :::tip
 You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters) with a [_Twig extension_](7-Extend.md#twig-extension).
@@ -1323,7 +1323,7 @@ You can add custom [functions](3-Templates.md#functions) and [filters](3-Templat
 
 ### Theme
 
-It’s easy to build a Cecil theme: you just have to create a folder `<theme>` with the following structure:
+It’s easy to build a theme: you just have to create a folder `<theme>` with the following structure:
 
 ```plaintext
 <mywebsite>
