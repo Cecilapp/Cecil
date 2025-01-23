@@ -1,7 +1,7 @@
 <!--
-description: "Working with layouts and templates."
+description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-01-17
+updated: 2025-01-23
 alias: documentation/layouts
 -->
 # Templates
@@ -29,7 +29,11 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 
 ## Files organization
 
-There is two kinds of templates, **_layouts_** and **_others templates_**: _layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include templates](https://twig.symfony.com/doc/templates.html#including-other-templates).
+### Kinds of templates
+
+There is three kinds of templates, **_layouts_**, **_components_** and **_others templates_**: _layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include templates](https://twig.symfony.com/doc/templates.html#including-other-templates) and [components](#components).
+
+### Naming convention
 
 Templates files are stored in the `layouts/` directory and must be named according to the following convention:
 
@@ -89,9 +93,67 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
          └─ ...
 ```
 
+### Built-in templates
+
+Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
+
+:::tips
+If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
+
+```bash
+php cecil.phar util:templates:extract
+```
+
+:::
+
+#### Default templates
+
+[`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
+:   A simple main template with a clean CSS.
+
+[`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
+:   A pages list with (an optional) pagination.
+
+[`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
+:   An Atom feed.
+
+[`_default/list.rss.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.rss.twig)
+:   A RSS feed.
+
+[`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
+:   A simple list of all terms of a vocabulary.
+
+[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
+:   The `sitemap.xml` template: list all pages sorted by date.
+
+[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
+:   The `robots.txt` template: allow all pages except 404, with a reference to the XML sitemap.
+
+[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
+:   A basic error 404 ("Page not found") template.
+
+[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
+:   The redirect template.
+
+#### Partial templates
+
+[`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
+:   A main menu navigation.
+
+[`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
+:   A simple paginated navigation for list templates with "Previous" and "Next" links.
+
+[`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
+:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
+
+[`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
+:   A basic switcher between [languages](4-Configuration.md#languages).
+
 ## Lookup rules
 
 In most of cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the page _type_.
+
+### Homepage template lookup
 
 For example, the HTML output of _home page_ (`index.md`) will be rendered:
 
@@ -1185,7 +1247,7 @@ Pluralize:
 {% trans with {'%count%': 42}%}{0}I don't have apples|{1}I have one apple|]1,Inf[I have %count% apples{% endtrans %}
 ```
 
-#### Translation files
+### Translation files
 
 Translation files must be named `messages.<locale>.<format>` and stored in the [`translations`](4-Configuration.md#translations) directory.  
 Cecil supports `yaml` and `mo` (Gettext) file [formats by default](4-Configuration.md#translations).
@@ -1247,71 +1309,19 @@ Cecil provides a components logic to help you build your templates.
 </button>
 ```
 
+### Twig components extension
+
 See official _Twig components extension_ documentation: <https://github.com/giorgiopogliani/twig-components#readme>.
-
-## Built-in templates
-
-Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
-
-:::tips
-If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
-
-```bash
-php cecil.phar util:templates:extract
-```
-
-:::
-
-### Default templates
-
-[`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
-:   A simple main template with a clean CSS.
-
-[`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
-:   A pages list with (an optional) pagination.
-
-[`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
-:   An Atom feed.
-
-[`_default/list.rss.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.rss.twig)
-:   A RSS feed.
-
-[`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
-:   A simple list of all terms of a vocabulary.
-
-[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
-:   The `sitemap.xml` template: list all pages sorted by date.
-
-[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
-:   The `robots.txt` template: allow all pages except 404, with a reference to the XML sitemap.
-
-[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
-:   A basic error 404 ("Page not found") template.
-
-[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
-:   The redirect template.
-
-### Partial templates
-
-[`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
-:   A main menu navigation.
-
-[`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
-:   A simple paginated navigation for list templates with "Previous" and "Next" links.
-
-[`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
-
-[`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   A basic switcher between [languages](4-Configuration.md#languages).
 
 ## Extend
 
+### Twig extensions
+
 :::tip
-You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters) with a [_Renderer extension_](7-Extend.md#renderer-extension).
+You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters) with a [_Twig extension_](7-Extend.md#twig-extension).
 :::
 
-## Theme
+### Theme
 
 It’s easy to build a Cecil theme: you just have to create a folder `<theme>` with the following structure:
 
