@@ -289,7 +289,7 @@ class Cache implements CacheInterface
         if ($ttl === null) {
             return $this->duration;
         }
-        if (is_int($ttl)) {
+        if (\is_int($ttl)) {
             return $ttl;
         }
         if ($ttl instanceof \DateInterval) {
