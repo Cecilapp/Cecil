@@ -34,16 +34,14 @@ class NewPage extends AbstractCommand
         $this
             ->setName('new:page')
             ->setDescription('Creates a new page')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('name', null, InputOption::VALUE_REQUIRED, 'Page path name'),
-                    new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
-                    new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
-                    new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
-                    new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use with open option'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                new InputOption('name', null, InputOption::VALUE_REQUIRED, 'Page path name'),
+                new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
+                new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
+                new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
+                new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use with open option'),
+            ])
             ->setHelp('Creates a new page file (with filename as title)');
     }
 

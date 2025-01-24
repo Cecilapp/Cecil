@@ -42,20 +42,18 @@ class Serve extends AbstractCommand
         $this
             ->setName('serve')
             ->setDescription('Starts the built-in server')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
-                    new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
-                    new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
-                    new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
-                    new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
-                    new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
-                    new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
-                    new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
-                    new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
+                new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
+                new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
+                new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
+                new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
+                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
+                new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
+                new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
+                new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
+            ])
             ->setHelp('Starts the live-reloading-built-in web server');
     }
 

@@ -35,13 +35,11 @@ class NewSite extends AbstractCommand
         $this
             ->setName('new:site')
             ->setDescription('Creates a new website')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override directory if it already exists'),
-                    new InputOption('demo', null, InputOption::VALUE_NONE, 'Add demo content (pages, templates and assets)'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override directory if it already exists'),
+                new InputOption('demo', null, InputOption::VALUE_NONE, 'Add demo content (pages, templates and assets)'),
+            ])
             ->setHelp('Creates a new website in the current directory, or in <path> if provided');
     }
 

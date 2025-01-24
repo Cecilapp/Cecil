@@ -32,11 +32,11 @@ class SelfUpdate extends AbstractCommand
         $this
             ->setName('self-update')
             ->setDescription('Updates Cecil to the latest version')
-            ->setDefinition(new InputDefinition([
+            ->setDefinition([
                 new InputOption('rollback', null, InputOption::VALUE_NONE, 'Revert to an older installation'),
                 new InputOption('stable', null, InputOption::VALUE_NONE, 'Force an update to the last stable version'),
                 new InputOption('preview', null, InputOption::VALUE_NONE, 'Force an update to the last unstable version'),
-            ]))
+            ])
             ->setHelp('The self-update command checks for a newer version and, if found, downloads and installs the latest');
     }
 

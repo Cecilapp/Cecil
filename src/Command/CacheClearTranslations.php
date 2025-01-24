@@ -32,11 +32,9 @@ class CacheClearTranslations extends AbstractCommand
         $this
             ->setName('cache:clear:translations')
             ->setDescription('Removes translations cache')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+            ])
             ->setHelp('Removes cached translations files');
     }
 

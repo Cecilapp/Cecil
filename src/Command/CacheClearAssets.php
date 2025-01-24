@@ -32,11 +32,9 @@ class CacheClearAssets extends AbstractCommand
         $this
             ->setName('cache:clear:assets')
             ->setDescription('Removes assets cache')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+            ])
             ->setHelp('Removes cached assets files');
     }
 

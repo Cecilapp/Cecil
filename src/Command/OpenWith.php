@@ -34,12 +34,10 @@ class OpenWith extends AbstractCommand
         $this
             ->setName('open')
             ->setDescription('Open pages directory with the editor')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use'),
+            ])
             ->setHelp('Open pages directory with the editor defined in the configuration file.');
     }
 

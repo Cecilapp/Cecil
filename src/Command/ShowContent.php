@@ -38,12 +38,10 @@ class ShowContent extends AbstractCommand
         $this
             ->setName('show:content')
             ->setDescription('Shows content as tree')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
+            ])
             ->setHelp('Shows the website\'s content as a tree');
     }
 

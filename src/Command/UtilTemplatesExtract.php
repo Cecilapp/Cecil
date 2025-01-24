@@ -35,12 +35,10 @@ class UtilTemplatesExtract extends AbstractCommand
         $this
             ->setName('util:templates:extract')
             ->setDescription('Extracts built-in templates')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override files if they already exist'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override files if they already exist'),
+            ])
             ->setHelp('Extracts built-in templates in the "layouts" directory.');
     }
 

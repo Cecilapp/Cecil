@@ -34,12 +34,10 @@ class ShowConfig extends AbstractCommand
         $this
             ->setName('show:config')
             ->setDescription('Shows the configuration')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
+            ])
             ->setHelp('Shows the website\'s configuration in YAML format');
     }
 

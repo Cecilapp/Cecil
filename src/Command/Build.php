@@ -34,20 +34,18 @@ class Build extends AbstractCommand
         $this
             ->setName('build')
             ->setDescription('Builds the website')
-            ->setDefinition(
-                new InputDefinition([
-                    new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                    new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
-                    new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
-                    new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
-                    new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
-                    new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
-                    new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
-                    new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
-                    new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
-                    new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show built pages as table'),
-                ])
-            )
+            ->setDefinition([
+                new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
+                new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
+                new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
+                new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
+                new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
+                new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
+                new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
+                new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
+                new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show built pages as table'),
+            ])
             ->setHelp('Builds the website in the output directory');
     }
 
