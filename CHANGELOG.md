@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.25.0](https://github.com/Cecilapp/Cecil/compare/8.24.0...8.25.0)
+
+> 22 January 2025
+
+- chore(deps): bump intervention/image from 3.10.2 to 3.11.0 [`#2096`](https://github.com/Cecilapp/Cecil/pull/2096)
+- feat: components custom extension [`c58fd00`](https://github.com/Cecilapp/Cecil/commit/c58fd0030e7d7765927cb879e4251c5a90e81d4e)
+
 #### [8.24.0](https://github.com/Cecilapp/Cecil/compare/8.23.1...8.24.0)
 
 > 17 January 2025
