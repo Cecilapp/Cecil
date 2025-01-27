@@ -30,6 +30,7 @@ use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\OutputStyle;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -453,7 +454,7 @@ class Core extends SlugifyExtension
             if (!\in_array($outputStyle, $outputStyles)) {
                 throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
             }
-            $scssPhp->setOutputStyle($outputStyle);
+            $scssPhp->setOutputStyle($outputStyle == 'compressed' ? OutputStyle::COMPRESSED : OutputStyle::EXPANDED);
             $variables = $this->config->get('assets.compile.variables');
             if (!empty($variables)) {
                 $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);

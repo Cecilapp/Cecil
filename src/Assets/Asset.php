@@ -22,6 +22,7 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\OutputStyle;
 use wapmorgan\Mp3Info\Mp3Info;
 
 class Asset implements \ArrayAccess
@@ -256,6 +257,7 @@ class Asset implements \ArrayAccess
         $cacheKey = $cache->createKeyFromAsset($this, ['compiled']);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
+            $scssPhp->setQuietDeps(true);
             $importDir = [];
             $importDir[] = Util::joinPath($this->config->getStaticPath());
             $importDir[] = Util::joinPath($this->config->getAssetsPath());
@@ -295,12 +297,17 @@ class Asset implements \ArrayAccess
             if (!\in_array($outputStyle, $outputStyles)) {
                 throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
             }
-            $scssPhp->setOutputStyle($outputStyle);
+            $scssPhp->setOutputStyle($outputStyle == 'compressed' ? OutputStyle::COMPRESSED : OutputStyle::EXPANDED);
             // variables
             $variables = $this->config->get('assets.compile.variables');
             if (!empty($variables)) {
                 $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
                 $scssPhp->replaceVariables($variables);
+            }
+            // debug
+            if ($this->builder->isDebug()) {
+                $scssPhp->setQuietDeps(false);
+                $this->builder->getLogger()->debug(\sprintf("SCSS imported dir:\n%s", print_r($importDir, true)));
             }
             // update data
             $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
