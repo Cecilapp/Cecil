@@ -307,7 +307,7 @@ class Asset implements \ArrayAccess
             // debug
             if ($this->builder->isDebug()) {
                 $scssPhp->setQuietDeps(false);
-                $this->builder->getLogger()->debug(\sprintf("SCSS imported dir:\n%s", print_r($importDir, true)));
+                $this->builder->getLogger()->debug(\sprintf("SCSS imported dir:\n%s", (string) print_r($importDir, true)));
             }
             // update data
             $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
