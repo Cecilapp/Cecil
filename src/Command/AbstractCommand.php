@@ -220,7 +220,7 @@ class AbstractCommand extends Command
                             throw new ConfigException(\sprintf('Can\'t read file "%s/%s/%s".', (string) $this->builder->getConfig()->get('themes.dir'), $theme, self::THEME_CONFIG_FILE));
                         }
                         $themeConfig = Yaml::parse($themeConfigFile, Yaml::PARSE_DATETIME);
-                        $this->builder->getConfig()->import($themeConfig, Config::PRESERVE);
+                        $this->builder->getConfig()->import($themeConfig ?? [], Config::PRESERVE);
                     }
                 }
             }
