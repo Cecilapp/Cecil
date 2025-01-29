@@ -835,7 +835,7 @@ static:
   load: false # enables `site.static` collection (`false` by default)
 ```
 
-:::tips
+:::tip
 If you use [Bootstrap](https://getbootstrap.com) (or [Bootstrap Icons](https://icons.getbootstrap.com)) you can exclude the `node_modules` except specific directories, like `node_modules/bootstrap`, with a regular expression:
 
 ```yaml
