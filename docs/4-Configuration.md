@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2024-11-13
+updated: 2025-01-29
 -->
 # Configuration
 
@@ -831,9 +831,18 @@ Where static files are stored (CSS, images, PDF, etc.).
 static:
   dir: static # files directory
   target: ''  # target directory
-  exclude: [sass, scss, '*.scss', 'package*.json', 'node_modules'] # list of excluded files (accepts globs, strings and regexes)
+  exclude: ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'] # list of excluded files (accepts globs, strings and regexes)
   load: false # enables `site.static` collection (`false` by default)
 ```
+
+:::tips
+If you use [Bootstrap](https://getbootstrap.com) (or [Bootstrap Icons](https://icons.getbootstrap.com)) you can exclude the `node_modules` except specific directories, like `node_modules/bootstrap`, with a regular expression:
+
+```yaml
+exclude: ['sass', 'scss', '*.scss', 'package*.json', '#node_modules/(?!bootstrap.*)#']
+```
+
+:::
 
 :::important
 You should put your assets files, used by [`asset()`](3-Templates.md#asset), in the [`assets` directory](4-Configuration.md#assets) to avoid unnecessary files copy.
@@ -845,10 +854,7 @@ _Example:_
 static:
   dir: docs
   target: docs
-  exclude:
-    - 'sass'
-    - '*.scss'
-    - '/\.bck$/'
+  exclude: ['sass', '*.scss', '/\.bck$/']
   load: true
 ```
 
