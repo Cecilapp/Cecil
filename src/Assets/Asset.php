@@ -257,7 +257,7 @@ class Asset implements \ArrayAccess
         $cacheKey = $cache->createKeyFromAsset($this, ['compiled']);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
-            $scssPhp->setQuietDeps(true);
+            // import paths
             $importDir = [];
             $importDir[] = Util::joinPath($this->config->getStaticPath());
             $importDir[] = Util::joinPath($this->config->getAssetsPath());
@@ -272,6 +272,7 @@ class Asset implements \ArrayAccess
                     $importDir[] = Util::joinPath($this->config->getThemeDirPath($theme, "assets/$dir"));
                 }
             }
+            $scssPhp->setQuietDeps(true);
             $scssPhp->setImportPaths(array_unique($importDir));
             // source map
             if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
@@ -307,7 +308,7 @@ class Asset implements \ArrayAccess
             // debug
             if ($this->builder->isDebug()) {
                 $scssPhp->setQuietDeps(false);
-                $this->builder->getLogger()->debug(\sprintf("SCSS imported dir:\n%s", (string) print_r($importDir, true)));
+                $this->builder->getLogger()->debug(\sprintf("SCSS compiler imported paths:\n%s", (string) implode("\n", array_unique($importDir))));
             }
             // update data
             $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);

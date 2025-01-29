@@ -146,7 +146,7 @@ return [
         'compile' => [
             'enabled'   => true, // enables Sass files compilation
             'style'     => 'expanded', // compilation style (`expanded` or `compressed`)
-            'import'    => ['sass', 'scss', 'node_modules'], // list of imported paths
+            'import'    => ['sass', 'scss', 'node_modules'], // list of imported directories
             'sourcemap' => false, // enables sourcemap in debug mode
             //'variables' => ['<name>' => '<value>'], // list of preset variables
         ],
