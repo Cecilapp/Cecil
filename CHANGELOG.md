@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.26.0](https://github.com/Cecilapp/Cecil/compare/8.25.2...8.26.0)
+
+> 27 January 2025
+
+- refactor: upgrade to scssphp v2 [`#2098`](https://github.com/Cecilapp/Cecil/pull/2098)
+
+#### [8.25.2](https://github.com/Cecilapp/Cecil/compare/8.25.1...8.25.2)
+
+> 27 January 2025
+
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.11.2 to 3.11.3 [`#2097`](https://github.com/Cecilapp/Cecil/pull/2097)
+- chore: update deps [`3f0b134`](https://github.com/Cecilapp/Cecil/commit/3f0b134e0b290eb0b1ded7b1b8806c6aee6ca2be)
+- refactor: code quality [`89aa267`](https://github.com/Cecilapp/Cecil/commit/89aa26799c5476a03993d05a6388decd0c7b54cf)
+
+#### [8.25.1](https://github.com/Cecilapp/Cecil/compare/8.25.0...8.25.1)
+
+> 27 January 2025
+
+- chore: cleaning code [`5692bc6`](https://github.com/Cecilapp/Cecil/commit/5692bc619f7f61e6144af611e648c176e0fd9fe4)
+
 #### [8.25.0](https://github.com/Cecilapp/Cecil/compare/8.24.0...8.25.0)
 
 > 22 January 2025
