@@ -1,7 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2024-01-15
+updated: 2025-01-29
 alias: documentation/publish
 -->
 # Deploy
@@ -122,6 +122,13 @@ on:
     branches: [master, main]
   workflow_dispatch:
 
+permissions:
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -139,12 +146,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
   deploy:
     needs: build
-    permissions:
-      pages: write
-      id-token: write
-    concurrency:
-      group: pages
-      cancel-in-progress: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

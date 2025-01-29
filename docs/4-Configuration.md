@@ -840,7 +840,7 @@ You should put your assets files, used by [`asset()`](3-Templates.md#asset), in 
 :::
 
 :::tips
-If you use [Bootstrap](https://getbootstrap.com) (or [Bootstrap Icons](https://icons.getbootstrap.com)) you can exclude the `node_modules` except specific directories, like `node_modules/bootstrap`, with a regular expression:
+If you use [Bootstrap](https://getbootstrap.com) you can exclude the `node_modules` except specific directories, like `node_modules/bootstrap`, with a regular expression:
 
 ```yaml
 exclude: ['sass', 'scss', '*.scss', 'package*.json', '#node_modules/(?!bootstrap.*)#']
