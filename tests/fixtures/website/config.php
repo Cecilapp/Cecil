@@ -176,6 +176,9 @@ return [
             'path',
         ],
         'load' => true,
+        'mounts' => [
+            'video' => 'mount_test',
+        ],
     ],
     'assets' => [
         'compile' => [
