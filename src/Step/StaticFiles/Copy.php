@@ -69,6 +69,13 @@ class Copy extends AbstractStep
             }
         }
 
+        // copying mounts
+        if ($this->config->get('static.mounts')) {
+            foreach ($this->config->get('static.mounts') as $source => $destination) {
+                $this->copy($source, $destination);
+            }
+        }
+
         // copying content of 'static/' dir if exists
         $this->copy($this->config->getStaticPath(), $target, $exclude);
 
