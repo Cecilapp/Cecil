@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.26.1](https://github.com/Cecilapp/Cecil/compare/8.26.0...8.26.1)
+
+> 3 February 2025
+
+- chore(deps): bump intervention/image from 3.11.0 to 3.11.1 [`#2107`](https://github.com/Cecilapp/Cecil/pull/2107)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.68.4 to 3.68.5 [`#2106`](https://github.com/Cecilapp/Cecil/pull/2106)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.68.3 to 3.68.4 [`#2104`](https://github.com/Cecilapp/Cecil/pull/2104)
+- chore(deps): bump twig/twig from 3.18.0 to 3.19.0 [`#2102`](https://github.com/Cecilapp/Cecil/pull/2102)
+- chore(deps): bump twig/intl-extra from 3.18.0 to 3.19.0 [`#2101`](https://github.com/Cecilapp/Cecil/pull/2101)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.68.2 to 3.68.3 [`#2100`](https://github.com/Cecilapp/Cecil/pull/2100)
+- chore(deps): bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 [`#2099`](https://github.com/Cecilapp/Cecil/pull/2099)
+- chore: update deps [`3988298`](https://github.com/Cecilapp/Cecil/commit/3988298f56a782097f16ddb72174e54e4ce1526b)
+- ci: disable cecil.phar signing temporary [`517ba00`](https://github.com/Cecilapp/Cecil/commit/517ba00a394f35b97d3f7d233cbc7e2463204111)
+- fix: do not exclude static copy if debug [`3bca62a`](https://github.com/Cecilapp/Cecil/commit/3bca62aadc59ea9b114ece2269f7019eb2028445)
+- chore: update deps [`d57ed21`](https://github.com/Cecilapp/Cecil/commit/d57ed21eb8b0b9aab20b84998fa3826446945ca6)
+- doc: tips about static files copy with regexp [`fa9dbe1`](https://github.com/Cecilapp/Cecil/commit/fa9dbe1b9cb94e47716b3fb09f0fcc0a596855f7)
+- chore: release action comments [`11c66d0`](https://github.com/Cecilapp/Cecil/commit/11c66d0aee44f359ac0d8d9b35243a364598cb81)
+- doc: minor fox [`492df3e`](https://github.com/Cecilapp/Cecil/commit/492df3eb6946fb9b75108796a95c8bf5e2ccbd23)
+- refactor: minor changes [`f01f8f0`](https://github.com/Cecilapp/Cecil/commit/f01f8f0802a605acace45de74fc570be6dee5b98)
+- doc: minor fix [`789b298`](https://github.com/Cecilapp/Cecil/commit/789b2983f2b70317c77f5b8091f35c800ff06906)
+- doc: minor fix [`817c444`](https://github.com/Cecilapp/Cecil/commit/817c4446c8a3244a5a8b06bef39420a45ea1cc81)
+- doc: minor fix [`1577132`](https://github.com/Cecilapp/Cecil/commit/15771322765eb1cd314d8644cf7eb88cb2b616b0)
+
 #### [8.26.0](https://github.com/Cecilapp/Cecil/compare/8.25.2...8.26.0)
 
 > 27 January 2025
