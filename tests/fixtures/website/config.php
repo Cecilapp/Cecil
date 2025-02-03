@@ -177,7 +177,8 @@ return [
         ],
         'load' => true,
         'mounts' => [
-            'video' => 'mount_test',
+            'ISS.jpg' => 'mount_test/iss.jpg', // file
+            'video' => 'mount_test', // directory
         ],
     ],
     'assets' => [
