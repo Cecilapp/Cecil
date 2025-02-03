@@ -54,12 +54,12 @@ jobs:
     - name: Run tests
       run: composer run-script test
 
-    - name: Get previous release
+    - name: Get previous release # for changelog generation
       id: previous_release
       run: |
         echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
 
-    - name: Set current version
+    - name: Set current version # variable and create `VERSION` file
       id: get_version
       run: |
         echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
@@ -88,7 +88,7 @@ jobs:
         php cecil.phar build skeleton -vvv
         php cecil.phar show:content skeleton
 
-    - name: Calculate SHA256 checksum
+    - name: Calculate SHA256 checksum # for Brew formula
       id: sha256
       run: |
         echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
@@ -118,7 +118,7 @@ jobs:
           dist/cecil.phar.asc
         if-no-files-found: error
 
-  deploy_to_github:
+  deploy_to_github: # GitHub release
     name: Deploy to GitHub
     runs-on: ubuntu-latest
     needs: build
@@ -164,7 +164,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter: (^[U|u]pdate|Merge)
 
-    - name: Update release
+    - name: Update release # with changelog
       id: update_release
       uses: tubone24/update_release@v1.3.1
       env:
@@ -178,7 +178,7 @@ jobs:
           - Download: <https://cecil.app/download/>
           - Self Update: `php cecil.phar self-update`
 
-  deploy_to_website:
+  deploy_to_website: # https://cecil.app
     name: Deploy to website
     runs-on: ubuntu-latest
     needs: build
