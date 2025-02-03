@@ -833,6 +833,7 @@ static:
   target: ''  # target directory
   exclude: ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'] # list of excluded files (accepts globs, strings and regexes)
   load: false # enables `site.static` collection (`false` by default)
+  mounts: [] # allows to copy specific files or directories to a specific destination
 ```
 
 :::important
@@ -844,6 +845,20 @@ If you use [Bootstrap Icons](https://icons.getbootstrap.com) you can exclude the
 
 ```yaml
 exclude: ['sass', 'scss', '*.scss', 'package*.json', '#node_modules/(?!bootstrap-icons)#']
+```
+
+:::
+
+:::info
+You can copy some files from `static/` directory to a specific destination with the `mounts` option.
+
+Examples:
+
+```yaml
+mounts:
+  - source/path/file.ext: destination/path/file.ext
+  - source/path: destination/path
+  - node_modules/bootstrap-icons/font/fonts: fonts
 ```
 
 :::

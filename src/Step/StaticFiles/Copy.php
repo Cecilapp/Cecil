@@ -69,6 +69,13 @@ class Copy extends AbstractStep
             }
         }
 
+        // copying mounts
+        if ($this->config->get('static.mounts')) {
+            foreach ($this->config->get('static.mounts') as $source => $destination) {
+                $this->copy(Util::joinFile($this->config->getStaticPath(), (string) $source), (string) $destination);
+            }
+        }
+
         // copying content of 'static/' dir if exists
         $this->copy($this->config->getStaticPath(), $target, $exclude);
 
@@ -98,15 +105,28 @@ class Copy extends AbstractStep
     }
 
     /**
-     * Copying (mirror) files.
+     * Copying a file or files in a directory from $from to $to (relative to output path).
+     * Exclude files or directories with $exclude array.
      */
     protected function copy(string $from, ?string $to = null, ?array $exclude = null): bool
     {
         if (Util\File::getFS()->exists($from)) {
+            // copy a file
+            if (is_file($from)) {
+                Util\File::getFS()->copy(
+                    $from,
+                    Util::joinFile($this->config->getOutputPath(), $to ?? ''),
+                    true
+                );
+
+                return true;
+            }
+            // copy a directory
             $finder = Finder::create()
                 ->files()
                 ->in($from)
                 ->ignoreDotFiles(false);
+            // exclude files or directories
             if (\is_array($exclude)) {
                 $finder->notPath($exclude);
                 $finder->notName($exclude);

@@ -176,6 +176,10 @@ return [
             'path',
         ],
         'load' => true,
+        'mounts' => [
+            'ISS.jpg' => 'mount_test/iss.jpg', // file
+            'video' => 'mount_test', // directory
+        ],
     ],
     'assets' => [
         'compile' => [
