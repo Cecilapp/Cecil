@@ -93,21 +93,21 @@ jobs:
       run: |
         echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
 
-    - name: Import GPG key
-      uses: crazy-max/ghaction-import-gpg@v6
-      with:
-        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-        passphrase: ${{ secrets.GPG_PASSPHRASE }}
+    #- name: Import GPG key # to sign cecil.phar
+    #  uses: crazy-max/ghaction-import-gpg@v6
+    #  with:
+    #    gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+    #    passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-    - name: Sign cecil.phar with GPG
-      run: |
-        gpg --local-user arnaud@ligny.fr \
-            --batch \
-            --yes \
-            --passphrase="${{ secrets.GPG_PASSPHRASE }}" \
-            --detach-sign \
-            --output dist/cecil.phar.asc \
-            dist/cecil.phar
+    #- name: Sign cecil.phar with GPG # for GitHub release verification by PHIVE users
+    #  run: |
+    #    gpg --local-user arnaud@ligny.fr \
+    #        --batch \
+    #        --yes \
+    #        --passphrase="${{ secrets.GPG_PASSPHRASE }}" \
+    #        --detach-sign \
+    #        --output dist/cecil.phar.asc \
+    #        dist/cecil.phar
 
     - name: Upload files
       uses: actions/upload-artifact@v4
@@ -115,7 +115,7 @@ jobs:
         name: cecil_phar
         path: |
           dist/cecil.phar
-          dist/cecil.phar.asc
+    #      dist/cecil.phar.asc
         if-no-files-found: error
 
   deploy_to_github: # GitHub release
@@ -146,15 +146,15 @@ jobs:
         asset_name: cecil.phar
         asset_content_type: application/octet-stream
 
-    - name: Add cecil.phar.asc to release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: cecil.phar.asc
-        asset_name: cecil.phar.asc
-        asset_content_type: application/octet-stream
+    #- name: Add cecil.phar.asc to release
+    #  uses: actions/upload-release-asset@v1
+    #  env:
+    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #  with:
+    #    upload_url: ${{ steps.release.outputs.upload_url }}
+    #    asset_path: cecil.phar.asc
+    #    asset_name: cecil.phar.asc
+    #    asset_content_type: application/octet-stream
 
     - name: Generate changelog
       id: changelog
