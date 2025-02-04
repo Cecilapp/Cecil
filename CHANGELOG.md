@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.27.0](https://github.com/Cecilapp/Cecil/compare/8.26.1...8.27.0)
+
+> 3 February 2025
+
+- Support for mounts points in static configuration [`#2103`](https://github.com/Cecilapp/Cecil/pull/2103)
+
 #### [8.26.1](https://github.com/Cecilapp/Cecil/compare/8.26.0...8.26.1)
 
 > 3 February 2025
