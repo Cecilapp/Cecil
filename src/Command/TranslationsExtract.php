@@ -21,7 +21,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Translation\Catalogue\AbstractOperation;
 use Symfony\Component\Translation\Catalogue\OperationInterface;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
 use Symfony\Component\Translation\Dumper\PoFileDumper;
@@ -39,10 +38,6 @@ use Twig\Loader\FilesystemLoader;
 
 class TranslationsExtract extends AbstractCommand
 {
-    private const AVAILABLE_FORMATS = [
-        'po' => ['po'],
-        'yaml' => ['yaml'],
-    ];
     private TranslationWriterInterface $writer;
     private TranslationReaderInterface $reader;
     private TwigExtractor $extractor;
@@ -145,7 +140,7 @@ EOF
 
         // @phpstan-ignore-next-line
         if (!\in_array($format, $this->writer->getFormats(), true)) {
-            throw new RuntimeException(\sprintf('Supported formats are: %s', implode(', ', array_keys(self::AVAILABLE_FORMATS))));
+            throw new RuntimeException(\sprintf('Supported formats are: %s', implode(', ', $this->writer->getFormats())));
         }
     }
 
