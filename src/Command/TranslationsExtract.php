@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
+use Cecil\Exception\RuntimeException;
+use Cecil\Renderer\Extension\Core as CoreExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Bridge\Twig\Translation\TwigExtractor;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,11 +22,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Translation\Catalogue\AbstractOperation;
-use Symfony\Component\Translation\Catalogue\MergeOperation;
 use Symfony\Component\Translation\Catalogue\OperationInterface;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
 use Symfony\Component\Translation\Dumper\PoFileDumper;
-use Symfony\Component\Translation\Dumper\XliffFileDumper;
 use Symfony\Component\Translation\Dumper\YamlFileDumper;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
@@ -32,25 +32,17 @@ use Symfony\Component\Translation\Reader\TranslationReader;
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\Writer\TranslationWriterInterface;
+use Symfony\Component\Translation\Loader\PoFileLoader;
+use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 class TranslationsExtract extends AbstractCommand
 {
-    private const SORT_ASC = 'asc';
-    private const SORT_DESC = 'desc';
-    private const SORT_ORDERS = [self::SORT_ASC, self::SORT_DESC];
     private const AVAILABLE_FORMATS = [
-        'xlf12' => ['xlf', '1.2'],
-        'xlf20' => ['xlf', '2.0'],
         'po' => ['po'],
         'yaml' => ['yaml'],
     ];
-    private const ERROR_OPTION_SELECTION = 'You must choose one of --force or --dump-messages option';
-    private const ERROR_MISSING_THEME_NAME = 'You must specify a theme name with --name option';
-    private const ERROR_WRONG_FORMAT = 'Wrong output format. Supported formats are: %s';
-    private const ERROR_WRONG_SORT = 'Wrong sort format. Supported sorts are: %s';
-
     private TranslationWriterInterface $writer;
     private TranslationReaderInterface $reader;
     private TwigExtractor $extractor;
@@ -61,186 +53,116 @@ class TranslationsExtract extends AbstractCommand
             ->setName('translations:extract')
             ->setDescription('Extracts translations from layouts')
             ->setDefinition([
-                new InputArgument('locale', InputArgument::OPTIONAL, 'The locale', 'fr'),
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                new InputOption('as-tree', null, InputOption::VALUE_OPTIONAL, 'Dump the messages as a tree-like structure: The given value defines the level where to switch to inline YAML'),
-                new InputOption('clean', null, InputOption::VALUE_NONE, 'Clean not found messages'),
-                new InputOption('domain', null, InputOption::VALUE_OPTIONAL, 'Specify the domain to extract'),
-                new InputOption('dump-messages', null, InputOption::VALUE_NONE, 'Should the messages be dumped in the console'),
-                new InputOption('force', null, InputOption::VALUE_NONE, 'Should the extract be done'),
+                new InputOption('locale', null, InputOption::VALUE_OPTIONAL, 'The locale', 'fr'),
+                new InputOption('show', null, InputOption::VALUE_NONE, 'Should the messages be displayed in the console'),
+                new InputOption('save', null, InputOption::VALUE_NONE, 'Should the extract be done'),
                 new InputOption('format', null, InputOption::VALUE_OPTIONAL, 'Override the default output format', 'po'),
-                new InputOption('is-theme', null, InputOption::VALUE_NONE, 'Use if you want to translate a theme layout'),
-                new InputOption('name', null, InputOption::VALUE_OPTIONAL, 'The theme name (only works with <info>--is-theme</>)'),
-                new InputOption('prefix', null, InputOption::VALUE_OPTIONAL, 'Override the default prefix', '__'),
-                new InputOption('sort', null, InputOption::VALUE_OPTIONAL, 'Return list of messages sorted alphabetically (only works with <info>--dump-messages</>)', 'asc'),
+                new InputOption('theme', null, InputOption::VALUE_OPTIONAL, 'Use if you want to translate a theme layout'),
             ])
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</info> command extracts translation strings from your layouts. It can display them or merge
 the new ones into the translation files.
-When new translation strings are found it can automatically add a prefix to the translation message.
+When new translation strings are found it automatically add a <info>NEW_</info> prefix to the translation message.
 
-Example running against default directory:
+Example running against working directory:
 
-  <info>php %command.full_name% --dump-messages</info>
-  <info>php %command.full_name% --force --prefix="new_" en</info>
+  <info>php %command.full_name% --show</info>
+  <info>php %command.full_name% --save --locale=en</info>
 
-You can sort the output with the <comment>--sort</> flag:
+You can extract translations from a given theme with <comment>--theme</> option:
 
-    <info>php %command.full_name% --dump-messages --sort=desc fr</info>
-    <info>php %command.full_name% --dump-messages --sort=asc en path/to/sources</info>
-
-You can dump a tree-like structure using the yaml format with <comment>--as-tree</> flag:
-
-    <info>php %command.full_name% --force --format=yaml --as-tree=3 fr</info>
-    <info>php %command.full_name% --force --format=yaml --as-tree=3 en path/to/sources</info>
-
-You can extract translations from a given theme with <comment>--is-theme</> and <comment>--name</> flags:
-
-    <info>php %command.full_name% --force --is-theme --name=hyde</info>
+  <info>php %command.full_name% --theme=hyde</info>
 EOF
             )
         ;
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->initializeTranslationComponents();
-
-        $errorIo = $this->io->getErrorStyle();
-
-        $xliffVersion = '1.2';
         $format = $input->getOption('format');
+        $domain = 'messages';
 
-        $config = $this->getBuilder()->getConfig();
-        $layoutsPath = $config->getSourceDir();
-        $translationsPath = $config->getTranslationsPath();
-
-        try {
-            [$format, $xliffVersion] = $this->checkOptions($input, $format, $xliffVersion);
-        } catch (\Exception $exception) {
-            $errorIo->error($exception->getMessage());
-            return self::FAILURE;
+        if (true !== $input->getOption('save') && true !== $input->getOption('show')) {
+            throw new RuntimeException('You must choose to display (`--show`) or save (`--save`) the translations');
         }
 
-        if ($input->getOption('is-theme')) {
-            $layoutsPath = $config->getThemeDirPath($input->getOption('name'));
+        $config = $this->getBuilder()->getConfig();
+        $layoutsPath = $config->getLayoutsPath();
+        $translationsPath = $config->getTranslationsPath();
+
+        $this->initializeTranslationComponents();
+
+        $supportedFormats = $this->writer->getFormats();
+
+        if (!\in_array($format, $supportedFormats, true)) {
+            throw new RuntimeException(\sprintf('Supported formats are: %s', implode(', ', array_keys(self::AVAILABLE_FORMATS))));
+        }
+
+        if ($input->getOption('theme')) {
+            $layoutsPath = $config->getThemeDirPath($input->getOption('theme'));
         }
 
         $this->initializeTwigExtractor($layoutsPath);
 
-        $this->io->title('Translation Messages Extractor and Dumper');
-        $this->io->comment(\sprintf('Generating "<info>%s</info>" translation files', $input->getArgument('locale')));
+        $this->io->writeln(\sprintf('Generating "<info>%s</info>" translation files', $input->getOption('locale')));
+        $this->io->writeln('Parsing templates...');
+        $extractedCatalogue = $this->extractMessages($input->getOption('locale'), $layoutsPath, 'NEW_');
+        $this->io->writeln('Loading translation files...');
+        $currentCatalogue = $this->loadCurrentMessages($input->getOption('locale'), $translationsPath);
 
-        $this->io->comment('Parsing templates...');
-        $extractedCatalogue = $this->extractMessages(
-            $input->getArgument('locale'),
-            $layoutsPath,
-            $input->getOption('prefix')
-        );
-
-        $this->io->comment('Loading translation files...');
-        $currentCatalogue = $this->loadCurrentMessages($input->getArgument('locale'), $translationsPath);
-
-        if (null !== $domain = $input->getOption('domain')) {
-            $currentCatalogue = $this->filterCatalogue($currentCatalogue, $domain);
-            $extractedCatalogue = $this->filterCatalogue($extractedCatalogue, $domain);
-        }
-
+        $currentCatalogue = $this->filterCatalogue($currentCatalogue, $domain);
+        $extractedCatalogue = $this->filterCatalogue($extractedCatalogue, $domain);
         try {
-            $operation = $this->getOperation($input->getOption('clean'), $currentCatalogue, $extractedCatalogue);
+            $operation = $this->getOperation($currentCatalogue, $extractedCatalogue);
         } catch (\Exception $exception) {
-            $errorIo->error($exception->getMessage());
-            return self::SUCCESS;
+            throw new RuntimeException($exception->getMessage());
         }
 
-        if ('xlf' === $format) {
-            $this->io->comment(\sprintf('Xliff output version is <info>%s</info>', $xliffVersion));
-        }
-
-        // Show compiled list of messages
-        if (true === $input->getOption('dump-messages')) {
+        // show compiled list of messages
+        if (true === $input->getOption('show')) {
             try {
-                $this->dumpMessages($operation, $input->getOption('sort'));
-            } catch (\Exception) {
-                $errorIo->error(\sprintf(self::ERROR_WRONG_SORT, implode(', ', self::SORT_ORDERS)));
-                return self::FAILURE;
+                $this->dumpMessages($operation);
+            } catch (\Exception $e) {
+                throw new RuntimeException('Error while displaying messages: ' . $e->getMessage());
             }
         }
 
-        // Save the files
-        if (true === $input->getOption('force')) {
+        // save the files
+        if (true === $input->getOption('save')) {
             try {
                 $this->saveDump(
                     $operation->getResult(),
                     $format,
                     $translationsPath,
-                    $config->getLanguageDefault(),
-                    $xliffVersion,
-                    $input->getOption('as-tree')
+                    $config->getLanguageDefault()
                 );
-            } catch (\InvalidArgumentException $exception) {
-                $this->io->error('Error while updating translations files: ' . $exception->getMessage());
-                return self::FAILURE;
+            } catch (\InvalidArgumentException $e) {
+                throw new RuntimeException('Error while saving translations files: ' . $e->getMessage());
             }
         }
 
-        return self::SUCCESS;
-    }
-
-    /**
-     * Checks the provided options and validates the format and xliff version.
-     *
-     * @return array<string, string> An array containing the validated format and xliff version.
-     *
-     * @throws \Exception If required options are not provided or if the format is not supported.
-     */
-    private function checkOptions(InputInterface $input, string $format, string $xliffVersion): array
-    {
-        if (true !== $input->getOption('force') && true !== $input->getOption('dump-messages')) {
-            throw new \Exception(self::ERROR_OPTION_SELECTION);
-        }
-
-        if (true === $input->getOption('is-theme') && null === $input->getOption('name')) {
-            throw new \Exception(self::ERROR_MISSING_THEME_NAME);
-        }
-
-        // Get Xliff version
-        if (\array_key_exists($format, self::AVAILABLE_FORMATS)) {
-            [$format, $xliffVersion] = self::AVAILABLE_FORMATS[$format];
-        }
-
-        // Check format
-        // @phpstan-ignore-next-line
-        $supportedFormats = $this->writer->getFormats();
-
-        if (!\in_array($format, $supportedFormats, true)) {
-            throw new \Exception(
-                \sprintf(self::ERROR_WRONG_FORMAT, implode(', ', array_keys(self::AVAILABLE_FORMATS)))
-            );
-        }
-
-        return [$format, $xliffVersion];
+        return 0;
     }
 
     private function initializeTranslationComponents(): void
     {
+        // readers
+        $this->reader = new TranslationReader();
+        $this->reader->addLoader('po', new PoFileLoader());
+        $this->reader->addLoader('yaml', new YamlFileLoader());
+        // writers
         $this->writer = new TranslationWriter();
-        $this->writer->addDumper('xlf', new XliffFileDumper());
         $this->writer->addDumper('po', new PoFileDumper());
         $this->writer->addDumper('yaml', new YamlFileDumper());
-
-        $this->reader = new TranslationReader();
     }
 
     private function initializeTwigExtractor(string $layoutsPath): void
     {
         $twig = new Environment(new FilesystemLoader($layoutsPath));
         $twig->addExtension(new TranslationExtension());
-
+        $twig->addExtension(new CoreExtension($this->getBuilder()));
         $this->extractor = new TwigExtractor($twig);
     }
 
@@ -248,7 +170,6 @@ EOF
     {
         $extractedCatalogue = new MessageCatalogue($locale);
         $this->extractor->setPrefix($prefix);
-
         if (is_dir($codePath) || is_file($codePath)) {
             $this->extractor->extract($codePath, $extractedCatalogue);
         }
@@ -259,7 +180,6 @@ EOF
     private function loadCurrentMessages(string $locale, string $translationsPath): MessageCatalogue
     {
         $currentCatalogue = new MessageCatalogue($locale);
-
         if (is_dir($translationsPath)) {
             $this->reader->read($translationsPath, $currentCatalogue);
         }
@@ -305,64 +225,38 @@ EOF
      *
      * @throws \Exception If no translation messages are found.
      */
-    private function getOperation(
-        ?bool $mustClean,
-        MessageCatalogue $currentCatalogue,
-        MessageCatalogue $extractedCatalogue
-    ): AbstractOperation {
-        $operation = $this->processCatalogues($mustClean, $currentCatalogue, $extractedCatalogue);
-
-        // Exit if no messages found.
+    private function getOperation(MessageCatalogue $currentCatalogue, MessageCatalogue $extractedCatalogue): AbstractOperation {
+        $operation = $this->processCatalogues($currentCatalogue, $extractedCatalogue);
         if (!\count($operation->getDomains())) {
-            throw new \Exception('No translation messages were found.');
+            throw new RuntimeException('No translation messages were found.');
         }
-
-        $operation->moveMessagesToIntlDomainsIfPossible('new');
 
         return $operation;
     }
 
-    private function processCatalogues(
-        ?bool $mustClean,
-        MessageCatalogueInterface $currentCatalogue,
-        MessageCatalogueInterface $extractedCatalogue
-    ): AbstractOperation {
-        return $mustClean
-            ? new TargetOperation($currentCatalogue, $extractedCatalogue)
-            : new MergeOperation($currentCatalogue, $extractedCatalogue);
+    private function processCatalogues(MessageCatalogueInterface $currentCatalogue, MessageCatalogueInterface $extractedCatalogue): AbstractOperation {
+        return new TargetOperation($currentCatalogue, $extractedCatalogue);
     }
 
-    private function saveDump(
-        MessageCatalogueInterface $messageCatalogue,
-        string $format,
-        string $translationsPath,
-        string $defaultLocale,
-        ?string $xliffVersion = '1.2',
-        ?bool $asTree = false
-    ): void {
+    private function saveDump(MessageCatalogueInterface $messageCatalogue, string $format, string $translationsPath, string $defaultLocale): void {
         $this->io->newLine();
-        $this->io->comment('Writing files...');
+        $this->io->writeln('Writing files...');
 
         $this->writer->write($messageCatalogue, $format, [
             'path' => $translationsPath,
             'default_locale' => $defaultLocale,
-            'xliff_version' => $xliffVersion,
-            'as_tree' => $asTree,
-            'inline' => $asTree ?? 0
         ]);
 
         $this->io->success('Translations files have been successfully updated.');
     }
 
-    private function dumpMessages(OperationInterface $operation, ?string $sort): void
+    private function dumpMessages(OperationInterface $operation): void
     {
         $messagesCount = 0;
         $this->io->newLine();
-
         foreach ($operation->getDomains() as $domain) {
             $newKeys = array_keys($operation->getNewMessages($domain));
             $allKeys = array_keys($operation->getMessages($domain));
-
             $list = array_merge(
                 array_diff($allKeys, $newKeys),
                 array_map(fn ($key) => \sprintf('<fg=green>%s</>', $key), $newKeys),
@@ -371,33 +265,9 @@ EOF
                     array_keys($operation->getObsoleteMessages($domain))
                 )
             );
-
             $domainMessagesCount = \count($list);
-
-            if ($sort) {
-                $sort = strtolower($sort);
-                if (!\in_array($sort, self::SORT_ORDERS, true)) {
-                    throw new \Exception();
-                }
-
-                sort($list); // default sort ASC
-
-                if (self::SORT_DESC === $sort) {
-                    rsort($list);
-                }
-            }
-
-            $this->io->section(
-                \sprintf(
-                    'Messages extracted for domain "<info>%s</info>" (%d message%s)',
-                    $domain,
-                    $domainMessagesCount,
-                    $domainMessagesCount > 1 ? 's' : ''
-                )
-            );
-
+            sort($list); // default sort ASC
             $this->io->listing($list);
-
             $messagesCount += $domainMessagesCount;
         }
 
