@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step\StaticFiles;
 
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
@@ -56,8 +57,18 @@ class Copy extends AbstractStep
         $target = $this->config->get('static.target');
         $exclude = $this->config->get('static.exclude');
 
-        // abord exclude if in debug mode + sourcemap
+        // copying assets in debug mode (for source maps)
         if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+            // copying content of '<theme>/assets/' dir if exists
+            if ($this->config->hasTheme()) {
+                $themes = array_reverse($this->config->getTheme());
+                foreach ($themes as $theme) {
+                    $this->copy($this->config->getThemeDirPath($theme, 'assets'));
+                }
+            }
+            // copying content of 'assets/' dir if exists
+            $this->copy($this->config->getAssetsPath());
+            // cancel exclusion for static files (see below)
             $exclude = [];
         }
 
@@ -69,31 +80,14 @@ class Copy extends AbstractStep
             }
         }
 
+        // copying content of 'static/' dir if exists
+        $this->copy($this->config->getStaticPath(), $target, $exclude);
+
         // copying mounts
         if ($this->config->get('static.mounts')) {
             foreach ($this->config->get('static.mounts') as $source => $destination) {
                 $this->copy(Util::joinFile($this->config->getStaticPath(), (string) $source), (string) $destination);
             }
-        }
-
-        // copying content of 'static/' dir if exists
-        $this->copy($this->config->getStaticPath(), $target, $exclude);
-
-        // copying assets in debug mode (for source maps)
-        if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
-            // copying content of '<theme>/assets/' dir if exists
-            if ($this->config->hasTheme()) {
-                $themes = array_reverse($this->config->getTheme());
-                foreach ($themes as $theme) {
-                    $this->copy(
-                        $this->config->getThemeDirPath($theme, 'assets')
-                    );
-                }
-            }
-            // copying content of 'assets/' dir if exists
-            $this->copy(
-                $this->config->getAssetsPath()
-            );
         }
 
         if ($this->count === 0) {
@@ -105,43 +99,39 @@ class Copy extends AbstractStep
     }
 
     /**
-     * Copying a file or files in a directory from $from to $to (relative to output path).
+     * Copying a file or files in a directory from $from (if exists) to $to (relative to output path).
      * Exclude files or directories with $exclude array.
      */
-    protected function copy(string $from, ?string $to = null, ?array $exclude = null): bool
+    protected function copy(string $from, ?string $to = null, ?array $exclude = null): void
     {
-        if (Util\File::getFS()->exists($from)) {
-            // copy a file
-            if (is_file($from)) {
-                Util\File::getFS()->copy(
+        try {
+            if (Util\File::getFS()->exists($from)) {
+                // copy a file
+                if (is_file($from)) {
+                    Util\File::getFS()->copy($from, Util::joinFile($this->config->getOutputPath(), $to), true);
+
+                    return;
+                }
+                // copy a directory
+                $finder = Finder::create()
+                    ->files()
+                    ->in($from)
+                    ->ignoreDotFiles(false);
+                // exclude files or directories
+                if (\is_array($exclude)) {
+                    $finder->notPath($exclude);
+                    $finder->notName($exclude);
+                }
+                $this->count += $finder->count();
+                Util\File::getFS()->mirror(
                     $from,
                     Util::joinFile($this->config->getOutputPath(), $to ?? ''),
-                    true
+                    $finder,
+                    ['override' => true]
                 );
-
-                return true;
             }
-            // copy a directory
-            $finder = Finder::create()
-                ->files()
-                ->in($from)
-                ->ignoreDotFiles(false);
-            // exclude files or directories
-            if (\is_array($exclude)) {
-                $finder->notPath($exclude);
-                $finder->notName($exclude);
-            }
-            $this->count += $finder->count();
-            Util\File::getFS()->mirror(
-                $from,
-                Util::joinFile($this->config->getOutputPath(), $to ?? ''),
-                $finder,
-                ['override' => true]
-            );
-
-            return true;
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Error during static files copy: %s', $e->getMessage()));
         }
-
-        return false;
     }
 }
