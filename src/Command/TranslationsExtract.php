@@ -62,8 +62,8 @@ class TranslationsExtract extends AbstractCommand
             ])
             ->setHelp(
                 <<<'EOF'
-The <info>%command.name%</info> command extracts translation strings from your layouts. It can display them or merge
-the new ones into the translation files.
+The <info>%command.name%</info> command extracts translation strings from your layouts.
+It can display them or merge the new ones into the translation file.
 When new translation strings are found it automatically add a <info>NEW_</info> prefix to the translation message.
 
 Example running against working directory:
@@ -73,7 +73,7 @@ Example running against working directory:
 
 You can extract translations from a given theme with <comment>--theme</> option:
 
-  <info>php %command.full_name% --theme=hyde</info>
+  <info>php %command.full_name% --show --save --theme=hyde</info>
 EOF
             )
         ;
@@ -81,25 +81,15 @@ EOF
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $format = $input->getOption('format');
-        $domain = 'messages';
-
-        if (true !== $input->getOption('save') && true !== $input->getOption('show')) {
-            throw new RuntimeException('You must choose to display (`--show`) or save (`--save`) the translations');
-        }
-
         $config = $this->getBuilder()->getConfig();
         $layoutsPath = $config->getLayoutsPath();
         $translationsPath = $config->getTranslationsPath();
 
+        $format = $input->getOption('format');
+
         $this->initializeTranslationComponents();
 
-        // @phpstan-ignore-next-line
-        $supportedFormats = $this->writer->getFormats();
-
-        if (!\in_array($format, $supportedFormats, true)) {
-            throw new RuntimeException(\sprintf('Supported formats are: %s', implode(', ', array_keys(self::AVAILABLE_FORMATS))));
-        }
+        $this->checkOptions($input, $format);
 
         if ($input->getOption('theme')) {
             $layoutsPath = $config->getThemeDirPath($input->getOption('theme'));
@@ -107,18 +97,18 @@ EOF
 
         $this->initializeTwigExtractor($layoutsPath);
 
-        $this->io->writeln(\sprintf('Generating "<info>%s</info>" translation files', $input->getOption('locale')));
-        $this->io->writeln('Parsing templates...');
+        $output->writeln(\sprintf('Generating "<info>%s</info>" translation file', $input->getOption('locale')));
+
+        $output->writeln('Parsing templates...');
         $extractedCatalogue = $this->extractMessages($input->getOption('locale'), $layoutsPath, 'NEW_');
-        $this->io->writeln('Loading translation files...');
+
+        $output->writeln('Loading translation file...');
         $currentCatalogue = $this->loadCurrentMessages($input->getOption('locale'), $translationsPath);
 
-        $currentCatalogue = $this->filterCatalogue($currentCatalogue, $domain);
-        $extractedCatalogue = $this->filterCatalogue($extractedCatalogue, $domain);
         try {
-            $operation = $this->getOperation($currentCatalogue, $extractedCatalogue);
-        } catch (\Exception $exception) {
-            throw new RuntimeException($exception->getMessage());
+            $operation = new TargetOperation($currentCatalogue, $extractedCatalogue);
+        } catch (\Exception $e) {
+            throw new RuntimeException($e->getMessage());
         }
 
         // show compiled list of messages
@@ -130,7 +120,7 @@ EOF
             }
         }
 
-        // save the files
+        // save the file
         if (true === $input->getOption('save')) {
             try {
                 $this->saveDump(
@@ -140,11 +130,23 @@ EOF
                     $config->getLanguageDefault()
                 );
             } catch (\InvalidArgumentException $e) {
-                throw new RuntimeException('Error while saving translations files: ' . $e->getMessage());
+                throw new RuntimeException('Error while saving translation file: ' . $e->getMessage());
             }
         }
 
         return 0;
+    }
+
+    private function checkOptions(InputInterface $input, $format): void
+    {
+        if (true !== $input->getOption('save') && true !== $input->getOption('show')) {
+            throw new RuntimeException('You must choose to display (`--show`) and/or save (`--save`) the translations');
+        }
+
+        // @phpstan-ignore-next-line
+        if (!\in_array($format, $this->writer->getFormats(), true)) {
+            throw new RuntimeException(\sprintf('Supported formats are: %s', implode(', ', array_keys(self::AVAILABLE_FORMATS))));
+        }
     }
 
     private function initializeTranslationComponents(): void
@@ -188,70 +190,14 @@ EOF
         return $currentCatalogue;
     }
 
-    private function filterCatalogue(MessageCatalogue $catalogue, string $domain): MessageCatalogue
-    {
-        $filteredCatalogue = new MessageCatalogue($catalogue->getLocale());
-
-        // extract intl-icu messages only
-        $intlDomain = $domain . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
-        if ($intlMessages = $catalogue->all($intlDomain)) {
-            $filteredCatalogue->add($intlMessages, $intlDomain);
-        }
-
-        // extract all messages and subtract intl-icu messages
-        if ($messages = array_diff($catalogue->all($domain), $intlMessages)) {
-            $filteredCatalogue->add($messages, $domain);
-        }
-        foreach ($catalogue->getResources() as $resource) {
-            $filteredCatalogue->addResource($resource);
-        }
-
-        if ($metadata = $catalogue->getMetadata('', $intlDomain)) {
-            foreach ($metadata as $k => $v) {
-                $filteredCatalogue->setMetadata($k, $v, $intlDomain);
-            }
-        }
-
-        if ($metadata = $catalogue->getMetadata('', $domain)) {
-            foreach ($metadata as $k => $v) {
-                $filteredCatalogue->setMetadata($k, $v, $domain);
-            }
-        }
-
-        return $filteredCatalogue;
-    }
-
-    /**
-     * Retrieves the operation that processes the current and extracted message catalogues.
-     *
-     * @throws \Exception If no translation messages are found.
-     */
-    private function getOperation(MessageCatalogue $currentCatalogue, MessageCatalogue $extractedCatalogue): AbstractOperation
-    {
-        $operation = $this->processCatalogues($currentCatalogue, $extractedCatalogue);
-        if (!\count($operation->getDomains())) {
-            throw new RuntimeException('No translation messages were found.');
-        }
-
-        return $operation;
-    }
-
-    private function processCatalogues(MessageCatalogueInterface $currentCatalogue, MessageCatalogueInterface $extractedCatalogue): AbstractOperation
-    {
-        return new TargetOperation($currentCatalogue, $extractedCatalogue);
-    }
-
     private function saveDump(MessageCatalogueInterface $messageCatalogue, string $format, string $translationsPath, string $defaultLocale): void
     {
-        $this->io->newLine();
-        $this->io->writeln('Writing files...');
-
+        $this->io->writeln('Writing file...');
         $this->writer->write($messageCatalogue, $format, [
             'path' => $translationsPath,
             'default_locale' => $defaultLocale,
         ]);
-
-        $this->io->success('Translations files have been successfully updated.');
+        $this->io->success('Translation file have been successfully updated.');
     }
 
     private function dumpMessages(OperationInterface $operation): void
@@ -270,7 +216,7 @@ EOF
                 )
             );
             $domainMessagesCount = \count($list);
-            sort($list); // default sort ASC
+            sort($list);
             $this->io->listing($list);
             $messagesCount += $domainMessagesCount;
         }
