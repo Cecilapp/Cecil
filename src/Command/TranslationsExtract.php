@@ -94,6 +94,7 @@ EOF
 
         $this->initializeTranslationComponents();
 
+        // @phpstan-ignore-next-line
         $supportedFormats = $this->writer->getFormats();
 
         if (!\in_array($format, $supportedFormats, true)) {
@@ -225,7 +226,8 @@ EOF
      *
      * @throws \Exception If no translation messages are found.
      */
-    private function getOperation(MessageCatalogue $currentCatalogue, MessageCatalogue $extractedCatalogue): AbstractOperation {
+    private function getOperation(MessageCatalogue $currentCatalogue, MessageCatalogue $extractedCatalogue): AbstractOperation
+    {
         $operation = $this->processCatalogues($currentCatalogue, $extractedCatalogue);
         if (!\count($operation->getDomains())) {
             throw new RuntimeException('No translation messages were found.');
@@ -234,11 +236,13 @@ EOF
         return $operation;
     }
 
-    private function processCatalogues(MessageCatalogueInterface $currentCatalogue, MessageCatalogueInterface $extractedCatalogue): AbstractOperation {
+    private function processCatalogues(MessageCatalogueInterface $currentCatalogue, MessageCatalogueInterface $extractedCatalogue): AbstractOperation
+    {
         return new TargetOperation($currentCatalogue, $extractedCatalogue);
     }
 
-    private function saveDump(MessageCatalogueInterface $messageCatalogue, string $format, string $translationsPath, string $defaultLocale): void {
+    private function saveDump(MessageCatalogueInterface $messageCatalogue, string $format, string $translationsPath, string $defaultLocale): void
+    {
         $this->io->newLine();
         $this->io->writeln('Writing files...');
 
