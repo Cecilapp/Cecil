@@ -36,7 +36,7 @@ use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-class TranslationsExtract extends AbstractCommand
+class UtilTranslationsExtract extends AbstractCommand
 {
     private TranslationWriterInterface $writer;
     private TranslationReaderInterface $reader;
@@ -45,7 +45,7 @@ class TranslationsExtract extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setName('translations:extract')
+            ->setName('util:translations:extract')
             ->setDescription('Extracts translations from layouts')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
