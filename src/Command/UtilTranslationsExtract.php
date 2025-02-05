@@ -75,7 +75,7 @@ EOF
         $layoutsPath = $config->getLayoutsPath();
         $translationsPath = $config->getTranslationsPath();
 
-        $this->initializeTranslationComponents();
+        $this->initTranslationComponents();
 
         $this->checkOptions($input);
 
@@ -83,7 +83,7 @@ EOF
             $layoutsPath = [$layoutsPath, $config->getThemeDirPath($input->getOption('theme'))];
         }
 
-        $this->initializeTwigExtractor($layoutsPath);
+        $this->initTwigExtractor($layoutsPath);
 
         $output->writeln(\sprintf('Generating "<info>%s</info>" translation file', $input->getOption('locale')));
 
@@ -93,6 +93,7 @@ EOF
         $output->writeln('Loading translation file...');
         $currentCatalogue = $this->loadCurrentMessages($input->getOption('locale'), $translationsPath);
 
+        // processing translations catalogues
         try {
             $operation = $input->getOption('theme')
                 ? new MergeOperation($currentCatalogue, $extractedCatalogue)
@@ -132,7 +133,7 @@ EOF
         }
     }
 
-    private function initializeTranslationComponents(): void
+    private function initTranslationComponents(): void
     {
         $this->reader = new TranslationReader();
         $this->reader->addLoader('po', new PoFileLoader());
@@ -142,7 +143,7 @@ EOF
         $this->writer->addDumper('yaml', new YamlFileDumper());
     }
 
-    private function initializeTwigExtractor($layoutsPath = []): void
+    private function initTwigExtractor($layoutsPath = []): void
     {
         $twig = (new \Cecil\Renderer\Twig($this->getBuilder(), $layoutsPath))->getTwig();
         $this->extractor = new TwigExtractor($twig);
@@ -199,11 +200,7 @@ EOF
         }
 
         $this->io->success(
-            \sprintf(
-                '%d message%s successfully extracted.',
-                $messagesCount,
-                $messagesCount > 1 ? 's were' : ' was'
-            )
+            \sprintf('%d message%s successfully extracted.', $messagesCount, $messagesCount > 1 ? 's were' : ' was')
         );
     }
 }
