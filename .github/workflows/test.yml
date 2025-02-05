@@ -16,7 +16,7 @@ on:
       - 'scripts/**'
 
 env:
-  COMPOSER_VERSION: '2.8.0'
+  COMPOSER_VERSION: '2.8.0' # cause of a bug with Box on Windows...
 
 jobs:
   test:
