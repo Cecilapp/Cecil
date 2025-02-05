@@ -159,11 +159,11 @@ EOF
         $this->extractor = new TwigExtractor($twig);
     }
 
-    private function extractMessages(string $locale, $layoutsPath = [], string $prefix): MessageCatalogue
+    private function extractMessages(string $locale, $layoutsPath, string $prefix): MessageCatalogue
     {
         $extractedCatalogue = new MessageCatalogue($locale);
         $this->extractor->setPrefix($prefix);
-        $layoutsPath = is_array($layoutsPath) ? $layoutsPath : [$layoutsPath];
+        $layoutsPath = \is_array($layoutsPath) ? $layoutsPath : [$layoutsPath];
         foreach ($layoutsPath as $path) {
             $this->extractor->extract($path, $extractedCatalogue);
         }
