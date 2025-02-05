@@ -52,7 +52,7 @@ class UtilTranslationsExtract extends AbstractCommand
                 new InputOption('show', null, InputOption::VALUE_NONE, 'Should the messages be displayed in the console'),
                 new InputOption('save', null, InputOption::VALUE_NONE, 'Should the extract be done'),
                 new InputOption('format', null, InputOption::VALUE_OPTIONAL, 'Override the default output format', 'po'),
-                new InputOption('theme', null, InputOption::VALUE_OPTIONAL, 'Use if you want to translate a theme layouts'),
+                new InputOption('theme', null, InputOption::VALUE_OPTIONAL, 'Use if you want to translate a theme layouts too'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -65,7 +65,7 @@ Example running against working directory:
   <info>php %command.full_name% --show</info>
   <info>php %command.full_name% --save --locale=en</info>
 
-You can extract translations from a given theme with <comment>--theme</> option:
+You can extract, and merge, translations from a given theme with <comment>--theme</> option:
 
   <info>php %command.full_name% --show --theme=hyde</info>
 EOF
@@ -86,7 +86,7 @@ EOF
         $this->checkOptions($input, $format);
 
         if ($input->getOption('theme')) {
-            $layoutsPath = $config->getThemeDirPath($input->getOption('theme'));
+            $layoutsPath = [$layoutsPath, $config->getThemeDirPath($input->getOption('theme'))];
         }
 
         $this->initializeTwigExtractor($layoutsPath);
@@ -153,7 +153,7 @@ EOF
         $this->writer->addDumper('yaml', new YamlFileDumper());
     }
 
-    private function initializeTwigExtractor(string $layoutsPath): void
+    private function initializeTwigExtractor($layoutsPath = []): void
     {
         $twig = new Environment(new FilesystemLoader($layoutsPath));
         $twig->addExtension(new TranslationExtension());
@@ -161,12 +161,13 @@ EOF
         $this->extractor = new TwigExtractor($twig);
     }
 
-    private function extractMessages(string $locale, string $codePath, string $prefix): MessageCatalogue
+    private function extractMessages(string $locale, $layoutsPath = [], string $prefix): MessageCatalogue
     {
         $extractedCatalogue = new MessageCatalogue($locale);
         $this->extractor->setPrefix($prefix);
-        if (is_dir($codePath) || is_file($codePath)) {
-            $this->extractor->extract($codePath, $extractedCatalogue);
+        $layoutsPath = is_array($layoutsPath) ? $layoutsPath : [$layoutsPath];
+        foreach ($layoutsPath as $path) {
+            $this->extractor->extract($path, $extractedCatalogue);
         }
 
         return $extractedCatalogue;
