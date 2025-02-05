@@ -15,6 +15,9 @@ on:
       - '.github/**'
       - 'scripts/**'
 
+env:
+  COMPOSER_VERSION: '2.8.0'
+
 jobs:
   test:
     name: PHP ${{ join(matrix.*, ' ') }}
@@ -98,6 +101,7 @@ jobs:
         php-version: ${{ matrix.php }}
         extensions: ${{ env.extensions }}
         coverage: none
+        tools: composer:$COMPOSER_VERSION
 
     - name: Install PHP (coverage)
       if: ${{ join(matrix.type) == 'coverage' }}
@@ -106,6 +110,7 @@ jobs:
         php-version: ${{ matrix.php }}
         extensions: ${{ env.extensions }}
         coverage: xdebug
+        tools: composer:$COMPOSER_VERSION
 
     - name: Install PHP (profiling)
       if: ${{ join(matrix.type) == 'profiling' }}
@@ -114,7 +119,7 @@ jobs:
         php-version: ${{ matrix.php }}
         extensions: ${{ env.extensions }}, blackfire, :xdebug
         coverage: none
-        tools: blackfire
+        tools: blackfire, composer:$COMPOSER_VERSION
       env:
         BLACKFIRE_SERVER_ID: ${{ secrets.BLACKFIRE_SERVER_ID }}
         BLACKFIRE_SERVER_TOKEN: ${{ secrets.BLACKFIRE_SERVER_TOKEN }}
@@ -129,6 +134,7 @@ jobs:
         extensions: ${{ env.extensions }}
         ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
         coverage: none
+        tools: composer:$COMPOSER_VERSION
 
     - name: Cache Composer packages
       id: composer-cache
