@@ -155,9 +155,7 @@ EOF
 
     private function initializeTwigExtractor($layoutsPath = []): void
     {
-        $twig = new Environment(new FilesystemLoader($layoutsPath));
-        $twig->addExtension(new TranslationExtension());
-        $twig->addExtension(new CoreExtension($this->getBuilder()));
+        $twig = (new \Cecil\Renderer\Twig($this->getBuilder(), $layoutsPath))->getTwig();
         $this->extractor = new TwigExtractor($twig);
     }
 
