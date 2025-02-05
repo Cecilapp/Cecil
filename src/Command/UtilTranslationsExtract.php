@@ -113,12 +113,7 @@ EOF
         // save the file
         if (true === $input->getOption('save')) {
             try {
-                $this->saveDump(
-                    $operation->getResult(),
-                    $input->getOption('format'),
-                    $translationsPath,
-                    $config->getLanguageDefault()
-                );
+                $this->saveDump($operation->getResult(), $input->getOption('format'), $translationsPath);
             } catch (\InvalidArgumentException $e) {
                 throw new RuntimeException('Error while saving translation file: ' . $e->getMessage());
             }
@@ -175,13 +170,10 @@ EOF
         return $currentCatalogue;
     }
 
-    private function saveDump(MessageCatalogueInterface $messageCatalogue, string $format, string $translationsPath, string $defaultLocale): void
+    private function saveDump(MessageCatalogueInterface $messageCatalogue, string $format, string $translationsPath): void
     {
         $this->io->writeln('Writing file...');
-        $this->writer->write($messageCatalogue, $format, [
-            'path' => $translationsPath,
-            'default_locale' => $defaultLocale,
-        ]);
+        $this->writer->write($messageCatalogue, $format, ['path' => $translationsPath]);
         $this->io->success('Translation file have been successfully updated.');
     }
 
