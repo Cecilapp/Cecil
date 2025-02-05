@@ -52,7 +52,7 @@ class UtilTranslationsExtract extends AbstractCommand
                 new InputOption('show', null, InputOption::VALUE_NONE, 'Should the messages be displayed in the console'),
                 new InputOption('save', null, InputOption::VALUE_NONE, 'Should the extract be done'),
                 new InputOption('format', null, InputOption::VALUE_OPTIONAL, 'Override the default output format', 'po'),
-                new InputOption('theme', null, InputOption::VALUE_OPTIONAL, 'Use if you want to translate a theme layout'),
+                new InputOption('theme', null, InputOption::VALUE_OPTIONAL, 'Use if you want to translate a theme layouts'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -67,7 +67,7 @@ Example running against working directory:
 
 You can extract translations from a given theme with <comment>--theme</> option:
 
-  <info>php %command.full_name% --show --save --theme=hyde</info>
+  <info>php %command.full_name% --show --theme=hyde</info>
 EOF
             )
         ;
