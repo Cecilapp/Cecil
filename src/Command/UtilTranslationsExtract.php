@@ -28,9 +28,7 @@ use Symfony\Component\Translation\Dumper\YamlFileDumper;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\Reader\TranslationReader;
-use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Symfony\Component\Translation\Writer\TranslationWriter;
-use Symfony\Component\Translation\Writer\TranslationWriterInterface;
 use Symfony\Component\Translation\Loader\PoFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Twig\Environment;
@@ -38,8 +36,8 @@ use Twig\Loader\FilesystemLoader;
 
 class UtilTranslationsExtract extends AbstractCommand
 {
-    private TranslationWriterInterface $writer;
-    private TranslationReaderInterface $reader;
+    private TranslationWriter $writer;
+    private TranslationReader $reader;
     private TwigExtractor $extractor;
 
     protected function configure(): void
@@ -137,8 +135,6 @@ EOF
         if (true !== $input->getOption('save') && true !== $input->getOption('show')) {
             throw new RuntimeException('You must choose to display (`--show`) and/or save (`--save`) the translations');
         }
-
-        // @phpstan-ignore-next-line
         if (!\in_array($format, $this->writer->getFormats(), true)) {
             throw new RuntimeException(\sprintf('Supported formats are: %s', implode(', ', $this->writer->getFormats())));
         }
