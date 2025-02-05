@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
-use Cecil\Renderer\Extension\Core as CoreExtension;
-use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Bridge\Twig\Translation\TwigExtractor;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,8 +30,6 @@ use Symfony\Component\Translation\Reader\TranslationReader;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\Loader\PoFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
 class UtilTranslationsExtract extends AbstractCommand
 {
@@ -79,11 +75,9 @@ EOF
         $layoutsPath = $config->getLayoutsPath();
         $translationsPath = $config->getTranslationsPath();
 
-        $format = $input->getOption('format');
-
         $this->initializeTranslationComponents();
 
-        $this->checkOptions($input, $format);
+        $this->checkOptions($input);
 
         if ($input->getOption('theme')) {
             $layoutsPath = [$layoutsPath, $config->getThemeDirPath($input->getOption('theme'))];
@@ -100,7 +94,9 @@ EOF
         $currentCatalogue = $this->loadCurrentMessages($input->getOption('locale'), $translationsPath);
 
         try {
-            $operation = $input->getOption('theme') ? new MergeOperation($currentCatalogue, $extractedCatalogue) : new TargetOperation($currentCatalogue, $extractedCatalogue);
+            $operation = $input->getOption('theme')
+                ? new MergeOperation($currentCatalogue, $extractedCatalogue)
+                : new TargetOperation($currentCatalogue, $extractedCatalogue);
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -119,7 +115,7 @@ EOF
             try {
                 $this->saveDump(
                     $operation->getResult(),
-                    $format,
+                    $input->getOption('format'),
                     $translationsPath,
                     $config->getLanguageDefault()
                 );
@@ -131,23 +127,21 @@ EOF
         return 0;
     }
 
-    private function checkOptions(InputInterface $input, $format): void
+    private function checkOptions(InputInterface $input): void
     {
         if (true !== $input->getOption('save') && true !== $input->getOption('show')) {
             throw new RuntimeException('You must choose to display (`--show`) and/or save (`--save`) the translations');
         }
-        if (!\in_array($format, $this->writer->getFormats(), true)) {
+        if (!\in_array($input->getOption('format'), $this->writer->getFormats(), true)) {
             throw new RuntimeException(\sprintf('Supported formats are: %s', implode(', ', $this->writer->getFormats())));
         }
     }
 
     private function initializeTranslationComponents(): void
     {
-        // readers
         $this->reader = new TranslationReader();
         $this->reader->addLoader('po', new PoFileLoader());
         $this->reader->addLoader('yaml', new YamlFileLoader());
-        // writers
         $this->writer = new TranslationWriter();
         $this->writer->addDumper('po', new PoFileDumper());
         $this->writer->addDumper('yaml', new YamlFileDumper());
