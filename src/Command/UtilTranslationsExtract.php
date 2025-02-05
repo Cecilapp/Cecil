@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Translation\Catalogue\OperationInterface;
+use Symfony\Component\Translation\Catalogue\MergeOperation;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
 use Symfony\Component\Translation\Dumper\PoFileDumper;
 use Symfony\Component\Translation\Dumper\YamlFileDumper;
@@ -99,7 +100,7 @@ EOF
         $currentCatalogue = $this->loadCurrentMessages($input->getOption('locale'), $translationsPath);
 
         try {
-            $operation = new TargetOperation($currentCatalogue, $extractedCatalogue);
+            $operation = $input->getOption('theme') ? new MergeOperation($currentCatalogue, $extractedCatalogue) : new TargetOperation($currentCatalogue, $extractedCatalogue);
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
