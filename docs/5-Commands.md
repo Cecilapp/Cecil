@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2024-01-30
+updated: 2025-02-06
 -->
 # Commands
 
@@ -28,6 +28,7 @@ Available commands:
   show:content              Shows content as tree
  util
   util:templates:extract    Extracts built-in templates
+  util:translations:extract  Extracts translations from layouts
 ```
 
 ## new:site

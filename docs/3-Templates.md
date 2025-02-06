@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-01-23
+updated: 2025-02-06
 alias: documentation/layouts
 -->
 # Templates
@@ -1252,6 +1252,8 @@ Pluralize:
 Translation files must be named `messages.<locale>.<format>` and stored in the [`translations`](4-Configuration.md#translations) directory.  
 Cecil supports `yaml` and `mo` (Gettext) file [formats by default](4-Configuration.md#translations).
 
+The locale code (e.g.: `fr_FR`) of a language is defined in the [`languages`](4-Configuration.md#languages) entries of the configuration.
+
 _Example:_
 
 ```plaintext
@@ -1262,15 +1264,27 @@ _Example:_
 ```
 
 :::info
-The locale code (e.g.: `fr_FR`) of a language is defined in the [`languages`](4-Configuration.md#languages) entries of the configuration.
+You can easyly extract translations from your templates with the following command:
+
+```bash
+php cecil.phar util:translations:extract
+```
+
 :::
 
 :::tip
-[_Poedit Pro_](https://poedit.net/pro) is recommended to easily translate your templates.
+[_Poedit_](https://poedit.net) is a simple and cross platform translation editor for gettext (PO), and [_Poedit Pro_](https://poedit.net/pro) supports extraction of translation strings from templates out of the box.
 :::
 
 :::important
-Be carreful about the cache ([enabled by default](4-Configuration.md#cache)) when you update translations files.  Cache can be cleared with with the following command: `php cecil.phar cache:clear:translations`.
+Be carreful about the cache ([enabled by default](4-Configuration.md#cache)) when you update translations files.
+
+Cache can be cleared with with the following command:
+
+```bash
+php cecil.phar cache:clear:translations`
+```
+
 :::
 
 ### Date localization
