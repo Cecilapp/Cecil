@@ -50,6 +50,7 @@ Then install the binary globally:
 mv cecil.phar /usr/local/bin/cecil
 chmod +x /usr/local/bin/cecil
 ```
+
 > [!IMPORTANT]
 > [PHP](https://www.php.net) 8.1+ is required.
 
