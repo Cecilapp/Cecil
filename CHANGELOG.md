@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.28.0](https://github.com/Cecilapp/Cecil/compare/8.27.0...8.28.0)
+
+> 6 February 2025
+
+- feat: translations extraction command [`#2045`](https://github.com/Cecilapp/Cecil/pull/2045)
+- refactor: static files copy [`e65f7af`](https://github.com/Cecilapp/Cecil/commit/e65f7af2e2648db0c47b07f06a2fe41ec432ab47)
+- doc: simplification about mounts [`ea5be8e`](https://github.com/Cecilapp/Cecil/commit/ea5be8e64ec30eee76976687010a7fb772dbadd6)
+- ci: test Composer previous version [`3c8b090`](https://github.com/Cecilapp/Cecil/commit/3c8b090ee0561b30500775df4cee0375db4ce91b)
+- composer: update deps [`39257c3`](https://github.com/Cecilapp/Cecil/commit/39257c3d9e16e320ce64c1649c30aeed8379d769)
+- ci: phpstan ignore env [`de2a5da`](https://github.com/Cecilapp/Cecil/commit/de2a5da2c526f37e007b8c9a6c8deda76792eebc)
+
 #### [8.27.0](https://github.com/Cecilapp/Cecil/compare/8.26.1...8.27.0)
 
 > 3 February 2025
