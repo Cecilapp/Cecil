@@ -1249,8 +1249,8 @@ Pluralize:
 
 ### Translation files
 
-Translation files must be named `messages.<locale>.<format>` and stored in the [`translations`](4-Configuration.md#translations) directory.  
-Cecil supports `yaml` and `mo` (Gettext) file [formats by default](4-Configuration.md#translations).
+Translation files must be named `messages.<locale>.<format>` and stored in the [`translations`](4-Configuration.md#layouts) directory.  
+Cecil supports `yaml` and `mo` (Gettext) file [formats by default](4-Configuration.md#layouts).
 
 The locale code (e.g.: `fr_FR`) of a language is defined in the [`languages`](4-Configuration.md#languages) entries of the configuration.
 
