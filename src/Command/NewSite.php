@@ -39,7 +39,8 @@ class NewSite extends AbstractCommand
                 new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override directory if it already exists'),
                 new InputOption('demo', null, InputOption::VALUE_NONE, 'Add demo content (pages, templates and assets)'),
             ])
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command creates a new website in the current directory, or in <comment><path></> if provided.
 
 To create a new website, run:

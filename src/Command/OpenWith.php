@@ -37,7 +37,8 @@ class OpenWith extends AbstractCommand
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use'),
             ])
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command open pages directory with the editor defined in the configuration file.
 
 To open pages directory with the editor, run:

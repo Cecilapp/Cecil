@@ -30,7 +30,8 @@ class About extends AbstractCommand
         $this
             ->setName('about')
             ->setDescription('Shows a short description about Cecil')
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command displays a short description about Cecil.
 EOF
             );
@@ -44,8 +45,8 @@ EOF
         $version = Builder::VERSION;
 
         $this->io->text([
-"<info>Cecil - A simple and powerful content-driven static site generator - version $version</>",
-"See <href=https://cecil.app>https://cecil.app</> for more information."
+            "<info>Cecil - A simple and powerful content-driven static site generator - version $version</>",
+            "See <href=https://cecil.app>https://cecil.app</> for more information."
         ]);
 
         return 0;

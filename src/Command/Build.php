@@ -45,7 +45,8 @@ class Build extends AbstractCommand
                 new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show built pages as table'),
             ])
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command generates the website in the <comment>output</comment> directory.
 
 To build the website, run:
