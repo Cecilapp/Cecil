@@ -15,7 +15,6 @@ namespace Cecil\Command;
 
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -35,7 +34,11 @@ class CacheClearTranslations extends AbstractCommand
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
             ])
-            ->setHelp('Removes cached translations files');
+            ->setHelp(
+                <<<'EOF'
+The <info>%command.name%</> command removes cached translations files.
+EOF
+            );
     }
 
     /**

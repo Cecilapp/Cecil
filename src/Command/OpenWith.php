@@ -16,7 +16,6 @@ namespace Cecil\Command;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,7 +37,23 @@ class OpenWith extends AbstractCommand
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use'),
             ])
-            ->setHelp('Open pages directory with the editor defined in the configuration file.');
+            ->setHelp(
+                <<<'EOF'
+The <info>%command.name%</> command open pages directory with the editor defined in the configuration file.
+
+To open pages directory with the editor, run:
+
+  <info>%command.full_name%</>
+
+To open pages directory with the editor from a specific directory, run:
+
+  <info>%command.full_name% path/to/directory</>
+
+To open pages directory with a specific editor, run:
+
+  <info>%command.full_name% --editor=editor</>
+EOF
+            );
     }
 
     /**

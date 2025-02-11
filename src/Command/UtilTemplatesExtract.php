@@ -16,7 +16,6 @@ namespace Cecil\Command;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,7 +38,23 @@ class UtilTemplatesExtract extends AbstractCommand
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override files if they already exist'),
             ])
-            ->setHelp('Extracts built-in templates in the "layouts" directory.');
+            ->setHelp(
+                <<<'EOF'
+The <info>%command.name%</> command extracts built-in templates in the "layouts" directory.
+
+To extract built-in templates, run:
+
+  <info>%command.full_name%</>
+
+To extract built-in templates in a specific directory, run:
+
+  <info>%command.full_name% path/to/directory</>
+
+To override existing files, run:
+
+  <info>%command.full_name% --force</>
+EOF
+            );
     }
 
     /**

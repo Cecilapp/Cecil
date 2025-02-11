@@ -16,7 +16,6 @@ namespace Cecil\Command;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -42,7 +41,35 @@ class NewPage extends AbstractCommand
                 new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
                 new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use with open option'),
             ])
-            ->setHelp('Creates a new page file (with filename as title)');
+            ->setHelp(
+                <<<'EOF'
+The <info>%command.name%</> command creates a new page file.
+
+To create a new page, run:
+
+  <info>%command.full_name%</>
+
+To create a new page with a specific name, run:
+
+  <info>%command.full_name% --name=path/to/page.md</>
+
+To create a new page with a date prefix (i.e: YYYY-MM-DD), run:
+
+  <info>%command.full_name% --prefix</>
+
+To create a new page and open it with an editor, run:
+
+  <info>%command.full_name% --open</>
+
+To create a new page and open it with a specific editor, run:
+
+  <info>%command.full_name% --open --editor=editor</>
+
+To override an existing page, run:
+
+  <info>%command.full_name% --force</>
+EOF
+            );
     }
 
     /**
@@ -108,7 +135,7 @@ class NewPage extends AbstractCommand
                 $model['content']
             );
             Util\File::getFS()->dumpFile($filePath, $fileContent);
-            $output->writeln(\sprintf('<info>File "%s" created (with model "%s").</info>', $fileRelativePath, $model['name']));
+            $output->writeln(\sprintf('<info>File %s created (with "%s" model).</info>', $filePath, $model['name']));
             // open editor?
             if ($open) {
                 if ($editor === null) {
@@ -153,7 +180,7 @@ _Your content here_
 EOT;
 
         return [
-            'name'    => 'cecil',
+            'name'    => $name,
             'content' => $content,
         ];
     }

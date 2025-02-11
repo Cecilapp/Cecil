@@ -16,7 +16,6 @@ namespace Cecil\Command;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -54,7 +53,39 @@ class Serve extends AbstractCommand
                 new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
             ])
-            ->setHelp('Starts the live-reloading-built-in web server');
+            ->setHelp(
+                <<<'EOF'
+The <info>%command.name%</> command starts the live-reloading-built-in web server.
+
+To start the server, run:
+
+  <info>%command.full_name%</>
+
+To start the server from a specific directory, run:
+
+  <info>%command.full_name% path/to/directory</>
+
+To start the server with a specific configuration file, run:
+
+  <info>%command.full_name% --config=config.yml</>
+
+To start the server and open web browser automatically, run:
+
+  <info>%command.full_name% --open</>
+
+To start the server with a specific host, run:
+
+  <info>%command.full_name% --host=127.0.0.1
+
+To start the server with a specific port, run:
+
+  <info>%command.full_name% --port=8080
+
+To start the server with changes watcher not ignoring VCS directories, run:
+
+  <info>%command.full_name% --no-ignore-vcs</>
+EOF
+            );
     }
 
     /**

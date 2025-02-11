@@ -43,6 +43,7 @@ class Application extends BaseApplication
     {
         $commands = [
             new \Symfony\Component\Console\Command\HelpCommand(),
+            new Command\About(),
             new Command\NewSite(),
             new Command\NewPage(),
             new Command\OpenWith(),
