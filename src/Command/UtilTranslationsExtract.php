@@ -49,7 +49,12 @@ class UtilTranslationsExtract extends AbstractCommand
                 new InputOption('save', null, InputOption::VALUE_NONE, 'Should the extract be done'),
                 new InputOption('format', null, InputOption::VALUE_OPTIONAL, 'Override the default output format', 'po'),
                 new InputOption('theme', null, InputOption::VALUE_OPTIONAL, 'Use if you want to translate a theme layouts too'),
-                new InputOption('theme', null, InputOption::VALUE_REQUIRED, 'Merge translation messages from a given theme', null,
+                new InputOption(
+                    'theme',
+                    null,
+                    InputOption::VALUE_REQUIRED,
+                    'Merge translation messages from a given theme',
+                    null,
                     function (): array {
                         $availableThemes = $this->getBuilder()->getConfig()->getTheme();
                         return $availableThemes;
