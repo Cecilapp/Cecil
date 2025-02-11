@@ -41,7 +41,8 @@ class ShowContent extends AbstractCommand
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
             ])
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command shows the website\'s content as a tree.
 
 To show the content, run:

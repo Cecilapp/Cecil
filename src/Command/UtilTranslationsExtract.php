@@ -50,7 +50,8 @@ class UtilTranslationsExtract extends AbstractCommand
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'Override the default output format', 'po'),
                 new InputOption('theme', null, InputOption::VALUE_REQUIRED, 'Merge translation messages from a given theme'),
             ])
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command extracts translation strings from your templates.
 
 To extract translations from a specific directory, run:

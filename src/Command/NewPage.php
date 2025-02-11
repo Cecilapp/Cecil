@@ -41,7 +41,8 @@ class NewPage extends AbstractCommand
                 new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
                 new InputOption('editor', null, InputOption::VALUE_REQUIRED, 'Editor to use with open option'),
             ])
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command creates a new page file.
 
 To create a new page, run:

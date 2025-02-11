@@ -30,7 +30,8 @@ class About extends AbstractCommand
         $this
             ->setName('about')
             ->setDescription('Shows a short description about Cecil')
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command displays a short description about Cecil.
 EOF
             );

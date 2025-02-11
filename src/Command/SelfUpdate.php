@@ -36,7 +36,8 @@ class SelfUpdate extends AbstractCommand
                 new InputOption('stable', null, InputOption::VALUE_NONE, 'Force an update to the last stable version'),
                 new InputOption('preview', null, InputOption::VALUE_NONE, 'Force an update to the last unstable version'),
             ])
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command checks for a newer version and, if found, downloads and installs the latest.
 
 To update Cecil, run:

@@ -38,7 +38,8 @@ class UtilTemplatesExtract extends AbstractCommand
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override files if they already exist'),
             ])
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command extracts built-in templates in the "layouts" directory.
 
 To extract built-in templates, run:

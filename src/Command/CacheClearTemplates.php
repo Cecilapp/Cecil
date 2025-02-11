@@ -34,7 +34,8 @@ class CacheClearTemplates extends AbstractCommand
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
             ])
-            ->setHelp(<<<'EOF'
+            ->setHelp(
+                <<<'EOF'
 The <info>%command.name%</> command removes cached templates files.
 EOF
             );
