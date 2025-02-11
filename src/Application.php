@@ -41,8 +41,10 @@ class Application extends BaseApplication
      */
     protected function getDefaultCommands(): array
     {
-        $commands = [
+        //$commands = [
+        $commands = array_merge(parent::getDefaultCommands(), [
             new \Symfony\Component\Console\Command\HelpCommand(),
+            new \Symfony\Component\Console\Command\CompleteCommand(),
             new Command\NewSite(),
             new Command\NewPage(),
             new Command\OpenWith(),
@@ -57,7 +59,8 @@ class Application extends BaseApplication
             new Command\ShowConfig(),
             new Command\ListCommand(),
             new Command\UtilTranslationsExtract()
-        ];
+        //];
+        ]);
         if (Util\Platform::isPhar()) {
             $commands[] = new Command\SelfUpdate();
             $commands[] = new Command\UtilTemplatesExtract();
