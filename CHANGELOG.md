@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.29.1](https://github.com/Cecilapp/Cecil/compare/8.29.0...8.29.1)
+
+> 11 February 2025
+
+- fix: about command version [`184e881`](https://github.com/Cecilapp/Cecil/commit/184e881479f1cf9e82e37282b2078d62ced47e06)
+
+#### [8.29.0](https://github.com/Cecilapp/Cecil/compare/8.28.0...8.29.0)
+
+> 11 February 2025
+
+- refactor: better commands help [`#2113`](https://github.com/Cecilapp/Cecil/pull/2113)
+- docs: add fmatsos as a contributor for code [`#2109`](https://github.com/Cecilapp/Cecil/pull/2109)
+- docs: add Progi1984 as a contributor for code, and ideas [`#2108`](https://github.com/Cecilapp/Cecil/pull/2108)
+- doc: minor fix [`b72485d`](https://github.com/Cecilapp/Cecil/commit/b72485dfe1857acf4ed8e0cc4a9af735de3eec98)
+- doc: add translations new command [`b070d01`](https://github.com/Cecilapp/Cecil/commit/b070d01a43a7abbd70373f08a66b5217a16dd1fa)
+- doc: fix translation [`afc6b7a`](https://github.com/Cecilapp/Cecil/commit/afc6b7a60376cd502dff6a4ac54f79d1aab68c1f)
+
 #### [8.28.0](https://github.com/Cecilapp/Cecil/compare/8.27.0...8.28.0)
 
 > 6 February 2025
