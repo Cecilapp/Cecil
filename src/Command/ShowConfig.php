@@ -15,7 +15,6 @@ namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,7 +37,22 @@ class ShowConfig extends AbstractCommand
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
             ])
-            ->setHelp('Shows the website\'s configuration in YAML format');
+            ->setHelp(<<<'EOF'
+The <info>%command.name%</> command shows the website\'s configuration in YAML format.
+
+To show the configuration, run:
+
+  <info>%command.full_name%</>
+
+To show the configuration from a specific directory, run:
+
+  <info>%command.full_name% path/to/directory</>
+
+To show the configuration from a specific configuration file, run:
+
+  <info>%command.full_name% --config=config.yml</>
+EOF
+            );
     }
 
     /**

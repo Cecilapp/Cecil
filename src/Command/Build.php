@@ -16,7 +16,6 @@ namespace Cecil\Command;
 use Cecil\Util;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,7 +45,58 @@ class Build extends AbstractCommand
                 new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show built pages as table'),
             ])
-            ->setHelp('Builds the website in the output directory');
+            ->setHelp(<<<'EOF'
+The <info>%command.name%</> command generates the website in the <comment>output</comment> directory.
+
+To build the website, run:
+
+  <info>%command.full_name%</>
+
+To build the website from a specific directory, run:
+
+  <info>%command.full_name% path/to/directory</>
+
+To build the website with a specific configuration file, run:
+
+  <info>%command.full_name% --config=config.yml</>
+
+To build the website with drafts, run:
+
+  <info>%command.full_name% --drafts</>
+
+To build the website without saving, run:
+
+  <info>%command.full_name% --dry-run</>
+
+To build the website with a specific page, run:
+
+  <info>%command.full_name% --page=page-id</>
+
+To build the website with a specific base URL, run:
+
+  <info>%command.full_name% --baseurl=https://example.com/</>
+
+To build the website with a specific output directory, run:
+
+  <info>%command.full_name% --output=_site</>
+
+To build the website with optimization, run:
+
+  <info>%command.full_name% --optimize</>
+
+To clear the cache before building the website, run:
+
+  <info>%command.full_name% --clear-cache</>
+
+To clear the cache before building the website with a specific cache key regular expression, run:
+
+  <info>%command.full_name% --clear-cache=cache-key</>
+
+To show built pages as table, run:
+
+  <info>%command.full_name% --show-pages</>
+EOF
+            );
     }
 
     /**

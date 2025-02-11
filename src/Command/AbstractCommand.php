@@ -35,6 +35,7 @@ class AbstractCommand extends Command
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
     public const TMP_DIR = '.cecil';
     public const THEME_CONFIG_FILE = 'config.yml';
+    public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
 
     /** @var InputInterface */
     protected $input;
@@ -67,7 +68,7 @@ class AbstractCommand extends Command
         $this->io = new SymfonyStyle($input, $output);
 
         // set up configuration
-        if (!\in_array($this->getName(), ['new:site', 'self-update'])) {
+        if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {
             // default configuration file
             $this->configFiles[$this->findConfigFile('name')] = $this->findConfigFile('path');
             // from --config=<file>
@@ -272,5 +273,33 @@ class AbstractCommand extends Command
             }
         }
         return rtrim($url, '/') . '/';
+    }
+
+    /**
+     * Returns the "binary name" in the console context.
+     */
+    protected function binName(): string
+    {
+        return basename($_SERVER['argv'][0]);
+    }
+
+    /**
+     * Override default help message.
+     *
+     * @return string
+     */
+    public function getProcessedHelp(): string
+    {
+        $name = $this->getName();
+        $placeholders = [
+            '%command.name%',
+            '%command.full_name%',
+        ];
+        $replacements = [
+            $name,
+            $this->binName() . ' ' . $name,
+        ];
+
+        return str_replace($placeholders, $replacements, $this->getHelp() ?: $this->getDescription());
     }
 }

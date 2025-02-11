@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Humbug\SelfUpdate\Updater;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,7 +36,26 @@ class SelfUpdate extends AbstractCommand
                 new InputOption('stable', null, InputOption::VALUE_NONE, 'Force an update to the last stable version'),
                 new InputOption('preview', null, InputOption::VALUE_NONE, 'Force an update to the last unstable version'),
             ])
-            ->setHelp('The self-update command checks for a newer version and, if found, downloads and installs the latest');
+            ->setHelp(<<<'EOF'
+The <info>%command.name%</> command checks for a newer version and, if found, downloads and installs the latest.
+
+To update Cecil, run:
+
+  <info>%command.full_name%</>
+
+To rollback to the previous version, run:
+
+  <info>%command.full_name% --rollback</>
+
+  To update Cecil to the last stable version, run:
+
+  <info>%command.full_name% --stable</>
+
+To update Cecil to the last unstable version, run:
+
+  <info>%command.full_name% --preview</>
+EOF
+            );
     }
 
     /**

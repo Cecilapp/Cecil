@@ -16,7 +16,6 @@ namespace Cecil\Command;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,7 +39,26 @@ class NewSite extends AbstractCommand
                 new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override directory if it already exists'),
                 new InputOption('demo', null, InputOption::VALUE_NONE, 'Add demo content (pages, templates and assets)'),
             ])
-            ->setHelp('Creates a new website in the current directory, or in <path> if provided');
+            ->setHelp(<<<'EOF'
+The <info>%command.name%</> command creates a new website in the current directory, or in <comment><path></> if provided.
+
+To create a new website, run:
+
+  <info>%command.full_name%</>
+
+To create a new website in a specific directory, run:
+
+  <info>%command.full_name% path/to/directory</>
+
+To create a new website with demo content, run:
+
+  <info>%command.full_name% --demo</>
+
+To override an existing website, run:
+
+  <info>%command.full_name% --force</>
+EOF
+            );
     }
 
     /**
@@ -131,9 +149,10 @@ class NewSite extends AbstractCommand
             $output->writeln(\sprintf('<info>Your new website is created in %s.</info>', realpath($this->getPath())));
             $this->io->newLine();
             $this->io->listing([
-                'Start the built-in preview server with `' . basename($_SERVER['argv'][0]) . ' serve`',
-                'You can create a new page with `' . basename($_SERVER['argv'][0]) . ' new:page`',
+                'Start the built-in preview server with <info>' . $this->binName() . ' serve</info>',
+                'You can create a new page with <info>' . $this->binName() . ' new:page</info>',
             ]);
+
             $this->io->text('Visit <href=https://cecil.app>https://cecil.app</> for documentation and more.');
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));

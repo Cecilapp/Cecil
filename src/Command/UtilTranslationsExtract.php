@@ -41,32 +41,47 @@ class UtilTranslationsExtract extends AbstractCommand
     {
         $this
             ->setName('util:translations:extract')
-            ->setDescription('Extracts translations from layouts')
+            ->setDescription('Extracts translations from templates')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                new InputOption('locale', null, InputOption::VALUE_OPTIONAL, 'The locale', 'fr'),
-                new InputOption('show', null, InputOption::VALUE_NONE, 'Should the messages be displayed in the console'),
-                new InputOption('save', null, InputOption::VALUE_NONE, 'Should the extract be done'),
-                new InputOption('format', null, InputOption::VALUE_OPTIONAL, 'Override the default output format', 'po'),
-                new InputOption('theme', null, InputOption::VALUE_OPTIONAL, 'Use if you want to translate a theme layouts too'),
+                new InputOption('locale', null, InputOption::VALUE_REQUIRED, 'Set the locale', 'fr'),
+                new InputOption('show', null, InputOption::VALUE_NONE, 'Display translation messages in the console, as a list'),
+                new InputOption('save', null, InputOption::VALUE_NONE, 'Save translation messages into the translation file'),
+                new InputOption('format', null, InputOption::VALUE_REQUIRED, 'Override the default output format', 'po'),
+                new InputOption('theme', null, InputOption::VALUE_REQUIRED, 'Merge translation messages from a given theme'),
             ])
-            ->setHelp(
-                <<<'EOF'
-The <info>%command.name%</info> command extracts translation strings from your layouts.
-It can display them or merge the new ones into the translation file.
-When new translation strings are found it automatically add a <info>NEW_</info> prefix to the translation message.
+            ->setHelp(<<<'EOF'
+The <info>%command.name%</> command extracts translation strings from your templates.
 
-Example running against working directory:
+To extract translations from a specific directory, run:
 
-  <info>php %command.full_name% --show</info>
-  <info>php %command.full_name% --save --locale=en</info>
+  <info>%command.full_name% path/to/directory</>
 
-You can extract, and merge, translations from a given theme with <comment>--theme</> option:
+To display translations in the console, run:
 
-  <info>php %command.full_name% --show --theme=hyde</info>
+  <info>%command.full_name% --show</>
+
+To save translations into the translation file, run:
+
+  <info>%command.full_name% --save</>
+
+To display and save translations, run:
+
+  <info>%command.full_name% --show --save</>
+
+To extract translations for a specific locale, run:
+
+  <info>%command.full_name% --locale=en</>
+
+To save translations into a specific format, run:
+
+  <info>%command.full_name% --format=po</>
+
+To extract and merge translations from a specific theme, run:
+
+  <info>%command.full_name% --theme=theme-name</>
 EOF
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
