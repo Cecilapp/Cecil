@@ -42,7 +42,7 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $version = Builder::VERSION;
+        $version = Builder::getVersion();
 
         $this->io->text([
             "<info>Cecil - A simple and powerful content-driven static site generator - version $version</>",
