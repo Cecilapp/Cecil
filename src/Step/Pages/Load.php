@@ -41,7 +41,10 @@ class Load extends AbstractStep
     public function init(array $options): void
     {
         if (!is_dir($this->config->getPagesPath())) {
-            throw new RuntimeException(\sprintf('Pages path "%s" not found.', $this->config->getPagesPath()));
+            $this->builder->getLogger()->debug(\sprintf('"%s" is not a valid pages directory', $this->config->getPagesPath()));
+            $this->canProcess = false;
+
+            return;
         }
 
         $this->page = $options['page'];

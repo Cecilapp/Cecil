@@ -53,6 +53,9 @@ class AbstractCommand extends Command
     private $configFiles;
 
     /** @var array */
+    private $configFilesNotFound;
+
+    /** @var array */
     private $config;
 
     /** @var Builder */
@@ -85,7 +88,7 @@ class AbstractCommand extends Command
             foreach ($this->configFiles as $fileName => $filePath) {
                 if ($filePath === false || !file_exists($filePath)) {
                     unset($this->configFiles[$fileName]);
-                    $this->getBuilder()->getLogger()->error(\sprintf('Could not find configuration file "%s".', $fileName));
+                    $this->configFilesNotFound[] = $fileName;
                 }
             }
         }
@@ -212,6 +215,10 @@ class AbstractCommand extends Command
                 $this->builder = (new Builder($this->config, new ConsoleLogger($this->output)))
                     ->setSourceDir($this->getPath())
                     ->setDestinationDir($this->getPath());
+                // config files not found
+                foreach($this->configFilesNotFound as $fileName) {
+                    $this->io->warning(\sprintf('Could not find configuration file "%s".', $fileName));
+                }
                 // import themes config
                 $themes = (array) $this->builder->getConfig()->getTheme();
                 foreach ($themes as $theme) {
