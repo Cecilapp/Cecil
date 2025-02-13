@@ -216,7 +216,7 @@ class AbstractCommand extends Command
                     ->setSourceDir($this->getPath())
                     ->setDestinationDir($this->getPath());
                 // config files not found
-                foreach($this->configFilesNotFound as $fileName) {
+                foreach ($this->configFilesNotFound as $fileName) {
                     $this->io->warning(\sprintf('Could not find configuration file "%s".', $fileName));
                 }
                 // import themes config
