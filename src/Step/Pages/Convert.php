@@ -45,7 +45,7 @@ class Convert extends AbstractStep
     {
         parent::init($options);
 
-        if (is_null($this->builder->getPages())) {
+        if (\is_null($this->builder->getPages())) {
             $this->canProcess = false;
         }
     }
