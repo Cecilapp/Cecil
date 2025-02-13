@@ -408,7 +408,7 @@ class Builder implements LoggerAwareInterface
     {
         // baseurl
         if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
-            $this->getLogger()->error('`baseurl` configuration key is required in production (e.g.: "baseurl: https://example.com/").');
+            $this->getLogger()->error('`baseurl` configuration key is required in production.');
         }
     }
 }

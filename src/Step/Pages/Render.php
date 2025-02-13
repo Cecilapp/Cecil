@@ -43,7 +43,7 @@ class Render extends AbstractStep
     public function init(array $options): void
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
-            $message = \sprintf("'%s' is not a valid layouts directory", $this->config->getLayoutsPath());
+            $message = \sprintf('"%s" is not a valid layouts directory', $this->config->getLayoutsPath());
             $this->builder->getLogger()->debug($message);
         }
 
