@@ -277,7 +277,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns data collection.
      */
-    public function getData(?string $language = null): array
+    public function getData(?string $language = null): ?array
     {
         if ($language) {
             if (empty($this->data[$language])) {
