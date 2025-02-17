@@ -82,6 +82,8 @@ class Layout
 
         // remove potential redundant extension
         $layout = str_replace(".$ext", '', (string) $page->getVariable('layout'));
+        // page section or layout mapping
+        $section = $config->getLayoutSection($page->getSection());
 
         switch ($page->getType()) {
             case PageType::HOMEPAGE->value:
@@ -112,9 +114,9 @@ class Layout
                     "_default/list.$format.$ext",
                 ];
                 if ($page->getPath()) {
-                    $layouts = array_merge(["section/{$page->getSection()}.$format.$ext"], $layouts);
-                    $layouts = array_merge(["{$page->getSection()}/list.$format.$ext"], $layouts);
-                    $layouts = array_merge(["{$page->getSection()}/index.$format.$ext"], $layouts);
+                    $layouts = array_merge(["section/{$section}.$format.$ext"], $layouts);
+                    $layouts = array_merge(["{$section}/list.$format.$ext"], $layouts);
+                    $layouts = array_merge(["{$section}/index.$format.$ext"], $layouts);
                 }
                 if ($page->hasVariable('layout')) {
                     $layouts = array_merge(["$layout.$format.$ext"], $layouts);
@@ -156,13 +158,13 @@ class Layout
                 if ($page->hasVariable('layout')) {
                     $layouts = array_merge(["_default/$layout.$format.$ext"], $layouts);
                 }
-                if ($page->getSection()) {
-                    $layouts = array_merge(["{$page->getSection()}/page.$format.$ext"], $layouts);
+                if ($section) {
+                    $layouts = array_merge(["{$section}/page.$format.$ext"], $layouts);
                 }
                 if ($page->hasVariable('layout')) {
                     $layouts = array_merge(["$layout.$format.$ext"], $layouts);
-                    if ($page->getSection()) {
-                        $layouts = array_merge(["{$page->getSection()}/$layout.$format.$ext"], $layouts);
+                    if ($section) {
+                        $layouts = array_merge(["{$section}/$layout.$format.$ext"], $layouts);
                     }
                 }
         }

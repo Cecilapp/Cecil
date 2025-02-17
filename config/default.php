@@ -202,6 +202,9 @@ return [
             'dir' => 'components', // components directory
             'ext' => 'twig', // components files extension
         ],
+        //'sections' => [ // override layout name of sections (optional)
+        //    '<section>' => '<layout>',
+        //]
     ],
     'themes' => [
         'dir' => 'themes', // where themes are stored

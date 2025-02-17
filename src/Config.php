@@ -239,6 +239,18 @@ class Config
     }
 
     /**
+     * Returns the layout for a section.
+     */
+    public function getLayoutSection(?string $section): ?string
+    {
+        if ($layout = $this->get('layouts.sections')[$section] ?? null) {
+            return $layout;
+        }
+
+        return $section;
+    }
+
+    /**
      * Returns the path of translations directory.
      */
     public function getTranslationsPath(): string
