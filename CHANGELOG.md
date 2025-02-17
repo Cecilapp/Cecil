@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.29.2](https://github.com/Cecilapp/Cecil/compare/8.29.1...8.29.2)
+
+> 13 February 2025
+
+- refactor: better log/console messages [`#2117`](https://github.com/Cecilapp/Cecil/pull/2117)
+- chore(deps): bump twig/intl-extra from 3.19.0 to 3.20.0 [`#2115`](https://github.com/Cecilapp/Cecil/pull/2115)
+- chore(deps): bump twig/twig from 3.19.0 to 3.20.0 [`#2114`](https://github.com/Cecilapp/Cecil/pull/2114)
+- chore: update deps [`355231f`](https://github.com/Cecilapp/Cecil/commit/355231fa6d3bb364fa11a8915f7c842202464859)
+
 #### [8.29.1](https://github.com/Cecilapp/Cecil/compare/8.29.0...8.29.1)
 
 > 11 February 2025
