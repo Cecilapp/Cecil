@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.30.0](https://github.com/Cecilapp/Cecil/compare/8.29.3...8.30.0)
+
+> 17 February 2025
+
+- feat: override sections layout [`259ef11`](https://github.com/Cecilapp/Cecil/commit/259ef110316f4b0b1e11d35ea7d4986936977242)
+
+#### [8.29.3](https://github.com/Cecilapp/Cecil/compare/8.29.2...8.29.3)
+
+> 17 February 2025
+
+- fix: case of data is empty (null) [`0ae7a0a`](https://github.com/Cecilapp/Cecil/commit/0ae7a0af98fea1149e93926bbb3bc12edd88116d)
+
 #### [8.29.2](https://github.com/Cecilapp/Cecil/compare/8.29.1...8.29.2)
 
 > 13 February 2025
