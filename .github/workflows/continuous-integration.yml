@@ -1,0 +1,196 @@
+name: Continuous Integration
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
+      - 'scripts/**'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
+      - 'scripts/**'
+
+env:
+  COMPOSER_VERSION: 'v2'
+
+jobs:
+  test:
+    name: PHP ${{ join(matrix.*, ' ') }}
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ join(matrix.type) == 'experimental' }}
+    env:
+      extensions: :psr, mbstring, intl, gettext, fileinfo, gd, sodium, exif
+      ext-cache-key: cache-ext-v1
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        type: ['']
+        exclude:
+          # excluded for code coverage
+          - php: '8.1'
+            os: 'ubuntu-latest'
+            type: ''
+          # excluded for code profiling
+          - php: '8.2'
+            os: 'ubuntu-latest'
+            type: ''
+          include:
+          # included for code coverage
+          - php: '8.1'
+            os: 'ubuntu-latest'
+            type: 'coverage'
+          # included for code profiling
+          - php: '8.2'
+            os: 'ubuntu-latest'
+            type: 'profiling'
+          # experimental
+          - php: '8.4'
+            os: 'ubuntu-latest'
+            type: 'experimental'
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Install image files optimizers (Ubuntu)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y jpegoptim pngquant gifsicle optipng libjpeg-progs webp libavif-bin
+          sudo npm install -g svgo
+
+      - name: Install image files optimizers (macOS)
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          brew update || brew update
+          brew install jpegoptim
+          brew install pngquant
+          brew install gifsicle
+          brew install optipng
+          brew install webp
+          brew install libavif
+          npm install -g svgo
+
+      - name: Setup cache of PHP extensions
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.extensions }}
+          key: ${{ env.ext-cache-key }}
+
+      - name: Cache PHP extensions
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+
+      - name: Install PHP
+        if: ${{ join(matrix.type) == '' }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.extensions }}
+          coverage: none
+          tools: composer:${{ env.COMPOSER_VERSION }}
+
+      - name: Install PHP for code coverage
+        if: ${{ join(matrix.type) == 'coverage' }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.extensions }}
+          coverage: xdebug
+          tools: composer:${{ env.COMPOSER_VERSION }}
+
+      - name: Install PHP for code profiling
+        if: ${{ join(matrix.type) == 'profiling' }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.extensions }}, blackfire, :xdebug
+          coverage: none
+          tools: blackfire, composer:${{ env.COMPOSER_VERSION }}
+        env:
+          BLACKFIRE_SERVER_ID: ${{ secrets.BLACKFIRE_SERVER_ID }}
+          BLACKFIRE_SERVER_TOKEN: ${{ secrets.BLACKFIRE_SERVER_TOKEN }}
+          BLACKFIRE_CLIENT_ID: ${{ secrets.BLACKFIRE_CLIENT_ID }}
+          BLACKFIRE_CLIENT_TOKEN: ${{ secrets.BLACKFIRE_CLIENT_TOKEN }}
+
+      - name: Install experimental PHP
+        if: ${{ join(matrix.type) == 'experimental' }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.extensions }}
+          ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
+          coverage: none
+          tools: composer:${{ env.COMPOSER_VERSION }}
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            tests/fixtures/website/themes
+          key: composer-${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-php-${{ matrix.php }}-
+
+      - name: Validate composer.json
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer validate
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: |
+          composer install --prefer-dist --no-progress
+
+      - name: Run code analysis
+        run: |
+          composer run-script code:analyse:gh
+
+      - name: Run code style checker
+        run: |
+          composer run-script code:style
+
+      - name: Run test build
+        if: ${{ contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
+        run: |
+          composer run-script test
+
+      - name: Run test build for code coverage
+        if: ${{ contains(matrix.type, 'coverage') }}
+        run: |
+          composer run-script test:coverage
+
+      - name: Run test build for code profiling
+        if: ${{ contains(matrix.type, 'profiling') }}
+        env:
+          APP_ENV: prod
+          APP_DEBUG: 0
+        run: blackfire run php vendor/bin/phpunit -c ./ --testsuite=IntegrationTests
+        continue-on-error: true
+
+      - name: Upload code coverage results to Coveralls
+        if: ${{ contains(matrix.type, 'coverage') }}
+        continue-on-error: true
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer run-script test:coverage:install
+          composer run-script test:coverage:upload
+
+      - name: Build a skeleton site from Cecil binary
+        if: ${{ contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
+        run: |
+          composer run-script test:phar

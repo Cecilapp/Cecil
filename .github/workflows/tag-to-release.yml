@@ -1,4 +1,4 @@
-name: 'Tag'
+name: Tag to Release
 
 on:
   push:
@@ -7,13 +7,15 @@ on:
 
 jobs:
   build:
-    name: Create release on tag
+    name: Create a release on tag
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         env:
