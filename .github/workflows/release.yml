@@ -2,6 +2,8 @@ name: Release
 
 env:
   PHP_VERSION: '8.1'
+  GPG_SIGNATURE: 'true'
+  GPG_EMAIL: 'arnaud@ligny.fr'
 
 on:
   release:
@@ -10,12 +12,15 @@ on:
 
 jobs:
   build:
-    name: Release and deploy `cecil.phar` binary
+    name: Build and deploy `cecil.phar` binary
     runs-on: ubuntu-latest
     outputs:
       previous_release: ${{ steps.previous_release.outputs.tag }}
       version: ${{ steps.get_version.outputs.version }}
       shasum: ${{ steps.sha256.outputs.shasum }}
+    permissions:
+      id-token: write # required for build provenance attestation
+      attestations: write # required for build provenance attestation
 
     steps:
       - name: Checkout source code
@@ -28,6 +33,7 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: :psr, mbstring, intl, gettext, fileinfo, gd
+          tools: composer, box
           coverage: none
 
       - name: Restore/Cache Composer packages
@@ -41,7 +47,7 @@ jobs:
           restore-keys: |
             composer-ubuntu-latest-php-${{ env.PHP_VERSION }}-
 
-      - name: Validate composer.json
+      - name: Validate `composer.json`
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer validate
 
@@ -66,10 +72,10 @@ jobs:
           echo "${GITHUB_REF#refs/tags/}" > VERSION
           echo "VERSION: ${GITHUB_REF#refs/tags/}"
 
-      - name: Build cecil.phar
+      - name: Build `cecil.phar` binary
         run: composer run-script build
 
-      - name: Test cecil.phar
+      - name: Test `cecil.phar`
         run: |
           cd dist
           mkdir skeleton
@@ -78,7 +84,7 @@ jobs:
           php cecil.phar show:content skeleton
           rm -rf skeleton
 
-      - name: Test cecil.phar (debug mode)
+      - name: Test `cecil.phar` in debug mode
         env:
           CECIL_DEBUG: 'true'
         run: |
@@ -93,29 +99,36 @@ jobs:
         run: |
           echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
 
-      #- name: Import GPG key # to sign cecil.phar
-      #  uses: crazy-max/ghaction-import-gpg@v6
-      #  with:
-      #    gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-      #    passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Import GPG key # to sign `cecil.phar`
+        if: env.GPG_SIGNATURE == 'true' && github.event_name != 'pull_request'
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      #- name: Sign cecil.phar with GPG # for GitHub release verification by PHIVE users
-      #  run: |
-      #    gpg --local-user arnaud@ligny.fr \
-      #        --batch \
-      #        --yes \
-      #        --passphrase="${{ secrets.GPG_PASSPHRASE }}" \
-      #        --detach-sign \
-      #        --output dist/cecil.phar.asc \
-      #        dist/cecil.phar
+      - name: Sign `cecil.phar` with GPG # for GitHub release verification by PHIVE users
+        if: env.GPG_SIGNATURE == 'true'
+        run: |
+          gpg --local-user ${{ env.GPG_EMAIL }} \
+              --batch \
+              --yes \
+              --passphrase="${{ secrets.GPG_PASSPHRASE }}" \
+              --detach-sign \
+              --output dist/cecil.phar.asc \
+              dist/cecil.phar
+
+      - name: Generate build provenance attestation
+        if: github.event_name != 'pull_request'
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: dist/cecil.phar
 
       - name: Upload files
         uses: actions/upload-artifact@v4
         with:
-          name: cecil_phar
+          name: cecil-${{ github.sha }}.phar
           path: |
-            dist/cecil.phar
-      #      dist/cecil.phar.asc
+            dist/cecil.*
           if-no-files-found: error
 
   deploy_to_github: # GitHub release
@@ -127,7 +140,7 @@ jobs:
       - name: Download files
         uses: actions/download-artifact@v4
         with:
-          name: cecil_phar
+          name: cecil-${{ github.sha }}.phar
           path: .
 
       - name: Get release
@@ -136,7 +149,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Add cecil.phar to release
+      - name: Add `cecil.phar` to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -146,15 +159,16 @@ jobs:
           asset_name: cecil.phar
           asset_content_type: application/octet-stream
 
-      #- name: Add cecil.phar.asc to release
-      #  uses: actions/upload-release-asset@v1
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  with:
-      #    upload_url: ${{ steps.release.outputs.upload_url }}
-      #    asset_path: cecil.phar.asc
-      #    asset_name: cecil.phar.asc
-      #    asset_content_type: application/octet-stream
+      - name: Add `cecil.phar.asc` to release
+        continue-on-error: true
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: cecil.phar.asc
+          asset_name: cecil.phar.asc
+          asset_content_type: application/octet-stream
 
       - name: Generate changelog
         id: changelog
@@ -193,7 +207,7 @@ jobs:
       - name: Download files
         uses: actions/download-artifact@v4
         with:
-          name: cecil_phar
+          name: cecil-${{ github.sha }}.phar
           path: dist
 
       - name: Prepare and deploy files
