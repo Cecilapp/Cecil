@@ -2,7 +2,7 @@ name: Release
 
 env:
   PHP_VERSION: '8.1'
-  GPG_SIGNATURE: 'true'
+  GPG_SIGNATURE: 'false'
   GPG_EMAIL: 'arnaud@ligny.fr'
 
 on:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: Build and deploy `cecil.phar` binary
+    name: Build `cecil.phar` binary
     runs-on: ubuntu-latest
     outputs:
       previous_release: ${{ steps.previous_release.outputs.tag }}
