@@ -75,6 +75,11 @@ jobs:
       - name: Build `cecil.phar` binary
         run: composer run-script build
 
+      - name: Verify the `cecil.phar` binary
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh attestation verify dist/cecil.phar --repo ${{ github.repository }}
+
       - name: Test `cecil.phar`
         run: |
           cd dist
