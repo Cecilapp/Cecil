@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   dependabot:
+    name: Auto-merge dependencies updates
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
 
