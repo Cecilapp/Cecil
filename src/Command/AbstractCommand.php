@@ -50,10 +50,10 @@ class AbstractCommand extends Command
     private $path = null;
 
     /** @var array */
-    private $configFiles;
+    private $configFiles = [];
 
     /** @var array */
-    private $configFilesNotFound;
+    private $configFilesNotFound = [];
 
     /** @var array */
     private $config;
@@ -182,9 +182,9 @@ class AbstractCommand extends Command
     /**
      * Returns config file(s) path.
      */
-    protected function getConfigFiles(): ?array
+    protected function getConfigFiles(): array
     {
-        return $this->configFiles;
+        return $this->configFiles ?? [];
     }
 
     /**
