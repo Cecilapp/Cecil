@@ -75,12 +75,7 @@ jobs:
       - name: Build `cecil.phar` binary
         run: composer run-script build
 
-      - name: Verify the `cecil.phar` binary
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh attestation verify dist/cecil.phar --repo ${{ github.repository }}
-
-      - name: Test `cecil.phar`
+      - name: Check `cecil.phar`
         run: |
           cd dist
           mkdir skeleton
@@ -89,7 +84,7 @@ jobs:
           php cecil.phar show:content skeleton
           rm -rf skeleton
 
-      - name: Test `cecil.phar` in debug mode
+      - name: Check `cecil.phar` in debug mode
         env:
           CECIL_DEBUG: 'true'
         run: |
@@ -123,10 +118,14 @@ jobs:
               dist/cecil.phar
 
       - name: Generate build provenance attestation
-        if: github.event_name != 'pull_request'
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: dist/cecil.phar
+
+      - name: Verify the `cecil.phar` binary
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh attestation verify dist/cecil.phar --repo ${{ github.repository }}
 
       - name: Upload files
         uses: actions/upload-artifact@v4
