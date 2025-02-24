@@ -6552,9 +6552,18 @@ All notable changes to this project will be documented in this file. Dates are d
 - 4.1.0 [`#192`](https://github.com/Cecilapp/Cecil/pull/192)
 - Add console demo (gif). [`81f81ae`](https://github.com/Cecilapp/Cecil/commit/81f81ae454453e844f954e51d7faf8a51c772166)
 
-### [4.0.0](https://github.com/Cecilapp/Cecil/compare/3.30.1...4.0.0)
+### [4.0.0](https://github.com/Cecilapp/Cecil/compare/3.30.2...4.0.0)
 
 > 2 December 2018
+
+#### [3.30.2](https://github.com/Cecilapp/Cecil/compare/3.30.1...3.30.2)
+
+> 22 February 2025
+
+- ci: fix release [`8ebed1a`](https://github.com/Cecilapp/Cecil/commit/8ebed1a0b59bf516339329f7cdf4d35955a0b300)
+- fix: minor fix [`a8705d3`](https://github.com/Cecilapp/Cecil/commit/a8705d3529971335685d63845a41096650221450)
+- ci:  Verify the `cecil.phar` binary [`403ffaf`](https://github.com/Cecilapp/Cecil/commit/403ffaf9704b7354f85ee2a11ee12b18b46e475f)
+- refactor: warning instead of error [`084c2d0`](https://github.com/Cecilapp/Cecil/commit/084c2d0b1496e41d0d9008b24329babfcd227152)
 
 #### [3.30.1](https://github.com/Cecilapp/Cecil/compare/3.15.0...3.30.1)
 
