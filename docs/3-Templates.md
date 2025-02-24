@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-02-06
+updated: 2025-02-24
 alias: documentation/layouts
 -->
 # Templates
@@ -494,7 +494,11 @@ For convenience the `url` function is also available as a filter:
 
 ### asset
 
-Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL or an array of files path (bundle).
+An asset is a resource useable in templates, i.e.: CSS, JavaScript, image, audio, etc.
+
+The `asset()` function creates an _asset_ object from a file path, an array of files path (bundle) or an URL (remote file), and are processed (minified, fingerprinted, etc.) according to the [configuration](4-Configuration.md#assets).
+
+Local files must be stored in the `assets/` (or `static/`)  directory.
 
 ```twig
 {{ asset(path, {options}) }}
@@ -507,10 +511,6 @@ Creates an asset (CSS, JavaScript, image, audio, etc.) from a file path, an URL 
 | filename        | File where to save content.                         | string  | `styles.css` or `scripts.js` |
 | ignore_missing  | Do not stop build if file don't exists.             | boolean | `false` |
 | remote_fallback | Load a local asset if the remote one don't exists.  | string  | `null`  |
-
-:::info
-Refers to [assets configuration](4-Configuration.md#assets) to define the global behavior.  
-:::
 
 :::tip
 Uses [filters](#filters) to manipulate assets.
