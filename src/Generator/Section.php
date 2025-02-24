@@ -62,7 +62,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // cascade variables
                     if ($page->hasVariable('cascade')) {
                         $cascade = $page->getVariable('cascade');
-                        if (is_array($cascade)) {
+                        if (\is_array($cascade)) {
                             $subPages->map(function (Page $page) use ($cascade) {
                                 foreach ($cascade as $key => $value) {
                                     if (!$page->hasVariable($key)) {
