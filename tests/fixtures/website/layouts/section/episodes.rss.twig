@@ -25,10 +25,10 @@
       <itunes:name>{{ site.podcast.owner.name }}</itunes:name>
       <itunes:email>{{ site.podcast.owner.email }}</itunes:email>
     </itunes:owner>
-    <googleplay:image href="{{ url(site.podcast.image,{canonical:true}) }}" />
-    <itunes:image href="{{ url(site.podcast.image,{canonical:true}) }}" />
+    <googleplay:image href="{{ url(site.podcast.image,{canonical:true}) }}">
+    <itunes:image href="{{ url(site.podcast.image,{canonical:true}) }}">
 {% for category in site.podcast.categories %}{# https://help.apple.com/itc/podcasts_connect/#/itc9267a2f12 #}
-    <itunes:category text="{{ category|e }}" />
+    <itunes:category text="{{ category|e }}">
 {% endfor %}
     <itunes:explicit>{{ site.podcast.explicit|default('false') }}</itunes:explicit>
 {# /podcast #}
@@ -41,7 +41,7 @@
       <pubDate>{{ item.date|date('c') }}</pubDate>
       <link>{{ url(item, {canonical:true}) }}</link>
 {# episode #}
-      <enclosure url="{{ url(file, {canonical:true}) }}" length="{{ file.size }}" type="{{ file.subtype }}" />
+      <enclosure url="{{ url(file, {canonical:true}) }}" length="{{ file.size }}" type="{{ file.subtype }}">
       <googleplay:explicit>{{ item.episode.explicit|default('no')|capitalize }}</googleplay:explicit>
       <itunes:explicit>{{ item.episode.explicit|default('no')|lower }}</itunes:explicit>
       <googleplay:block>{{ item.episode.block|default('no') }}</googleplay:block>

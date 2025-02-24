@@ -3,9 +3,9 @@
   {%- if title is not defined %}{% set title = page.title %}{% endif -%}
   {%- for alternate in alternates ~%}
     {%- if alternate.rel == 'canonical' and page.canonical.url|default %}{# custom canonical URL  ~#}
-    <link rel="canonical" type="text/html" title="{{ page.canonical.title|default(title|trim) }}" href="{{ url(page.canonical.url) }}" />
+    <link rel="canonical" type="text/html" title="{{ page.canonical.title|default(title|trim) }}" href="{{ url(page.canonical.url) }}">
     {%- else ~%}
-    <link rel="{{ alternate.rel }}" type="{{ alternate.type }}" title="{{ title|trim }}{% if alternate.format != 'html' %} ({{ alternate.title }}){% endif %}" href="{{ url(page, {canonical: true, format: alternate.format}) }}" />
+    <link rel="{{ alternate.rel }}" type="{{ alternate.type }}" title="{{ title|trim }}{% if alternate.format != 'html' %} ({{ alternate.title }}){% endif %}" href="{{ url(page, {canonical: true, format: alternate.format}) }}">
     {%- endif ~%}
   {%- endfor -%}
 {%- endif -%}

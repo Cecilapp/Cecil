@@ -26,7 +26,7 @@ class Test extends AbstractPostProcessor
     public function process(Page $page, string $output, string $format): string
     {
         if ($format == 'html') {
-            $test = \sprintf('<meta name="test" content="TEST" />');
+            $test = \sprintf('<meta name="test" content="TEST">');
             $output = preg_replace_callback('/([[:blank:]]*)(<\/head>)/i', function ($matches) use ($test) {
                 return str_repeat($matches[1] ?: ' ', 2) . $test . "\n" . $matches[1] . $matches[2];
             }, $output);

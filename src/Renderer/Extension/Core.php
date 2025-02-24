@@ -642,8 +642,8 @@ class Core extends SlugifyExtension
     {
         $string = $string ?? '';
 
-        $string = str_replace('</p>', '<br /><br />', $string);
-        $string = trim(strip_tags($string, '<br>'), '<br />');
+        $string = str_replace('</p>', '<br><br>', $string);
+        $string = trim(strip_tags($string, '<br>'));
         if (mb_strlen($string) > $length) {
             $string = mb_substr($string, 0, $length);
             $string .= $suffix;

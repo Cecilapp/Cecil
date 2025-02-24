@@ -4,7 +4,7 @@
   <video controls width="100%">
   {%- for video in page.videos ~%}
     {%- set asset_video = asset(video) ~%}
-    <source src="{{ url(asset_video) }}" type="{{ asset_video.subtype }}" />
+    <source src="{{ url(asset_video) }}" type="{{ asset_video.subtype }}">
   {%- endfor ~%}
   </video>
 {% endblock %}

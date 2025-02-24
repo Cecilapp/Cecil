@@ -594,6 +594,26 @@ class Parsedown extends \ParsedownToc
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * '<br />' to '<br>'
+     */
+    protected function unmarkedText($text)
+    {
+        return str_replace("<br />", "<br>", parent::unmarkedText($text));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * '<br />' to '<br>'
+     */
+    protected function element(array $Element)
+    {
+        return str_replace(" />", ">", parent::element($Element));
+    }
+
+    /**
      * Turns a path relative to static or assets into a website relative path.
      *
      *   "../../assets/images/img.jpeg"
