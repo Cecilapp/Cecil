@@ -6552,9 +6552,16 @@ All notable changes to this project will be documented in this file. Dates are d
 - 4.1.0 [`#192`](https://github.com/Cecilapp/Cecil/pull/192)
 - Add console demo (gif). [`81f81ae`](https://github.com/Cecilapp/Cecil/commit/81f81ae454453e844f954e51d7faf8a51c772166)
 
-### [4.0.0](https://github.com/Cecilapp/Cecil/compare/3.30.2...4.0.0)
+### [4.0.0](https://github.com/Cecilapp/Cecil/compare/3.31.0...4.0.0)
 
 > 2 December 2018
+
+#### [3.31.0](https://github.com/Cecilapp/Cecil/compare/3.30.2...3.31.0)
+
+> 24 February 2025
+
+- refactor: W3C markup validation (XHTML to HTML) [`#2123`](https://github.com/Cecilapp/Cecil/pull/2123)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.69.1 to 3.70.0 [`#2122`](https://github.com/Cecilapp/Cecil/pull/2122)
 
 #### [3.30.2](https://github.com/Cecilapp/Cecil/compare/3.30.1...3.30.2)
 
