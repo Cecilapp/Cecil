@@ -32,7 +32,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
 
         // identifying sections from all pages
         /** @var Page $page */
-        foreach ($this->builder->getPages() as $page) {
+        foreach ($this->builder->getPages() ?? [] as $page) {
             // top level (root) sections
             if ($page->getSection()) {
                 // do not add "not published" and "not excluded" pages to its section
@@ -62,13 +62,15 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // cascade variables
                     if ($page->hasVariable('cascade')) {
                         $cascade = $page->getVariable('cascade');
-                        $subPages->map(function (Page $page) use ($cascade) {
-                            foreach ($cascade as $key => $value) {
-                                if (!$page->hasVariable($key)) {
-                                    $page->setVariable($key, $value);
+                        if (is_array($cascade)) {
+                            $subPages->map(function (Page $page) use ($cascade) {
+                                foreach ($cascade as $key => $value) {
+                                    if (!$page->hasVariable($key)) {
+                                        $page->setVariable($key, $value);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                     // sorts pages
                     $pages = Section::sortSubPages($this->config, $page, $subPages);

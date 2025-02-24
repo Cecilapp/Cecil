@@ -50,7 +50,7 @@ class Layout
             // is it in `<theme>/layouts/` dir?
             if ($config->hasTheme()) {
                 $themes = $config->getTheme();
-                foreach ($themes as $theme) {
+                foreach ($themes ?? [] as $theme) {
                     if (Util\File::getFS()->exists(Util::joinFile($config->getThemeDirPath($theme, 'layouts'), $layout))) {
                         return [
                             'scope' => $theme,

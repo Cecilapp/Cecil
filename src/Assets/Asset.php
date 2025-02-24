@@ -261,7 +261,7 @@ class Asset implements \ArrayAccess
             $importDir = [];
             $importDir[] = Util::joinPath($this->config->getStaticPath());
             $importDir[] = Util::joinPath($this->config->getAssetsPath());
-            $scssDir = $this->config->get('assets.compile.import');
+            $scssDir = (array) $this->config->get('assets.compile.import');
             $themes = $this->config->getTheme() ?? [];
             foreach ($scssDir as $dir) {
                 $importDir[] = Util::joinPath($this->config->getStaticPath(), $dir);
@@ -602,7 +602,7 @@ class Asset implements \ArrayAccess
             throw new RuntimeException(\sprintf('Not able to get video infos of "%s".', $this->data['path']));
         }
 
-        return \Clwu\Mp4::getInfo($this->data['file']);
+        return (array) \Clwu\Mp4::getInfo($this->data['file']);
     }
 
     /**
@@ -665,6 +665,8 @@ class Asset implements \ArrayAccess
      * Load file data.
      *
      * @throws RuntimeException
+     *
+     * @return string[]
      */
     private function loadFile(string $path, bool $ignore_missing = false, ?string $remote_fallback = null, bool $force_slash = true): array
     {
@@ -793,7 +795,7 @@ class Asset implements \ArrayAccess
         }
 
         // checks in each themes/<theme>/assets/
-        foreach ($this->config->getTheme() as $theme) {
+        foreach ($this->config->getTheme() ?? [] as $theme) {
             $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $path);
             if (Util\File::getFS()->exists($filePath)) {
                 return $filePath;
@@ -807,7 +809,7 @@ class Asset implements \ArrayAccess
         }
 
         // checks in each themes/<theme>/static/
-        foreach ($this->config->getTheme() as $theme) {
+        foreach ($this->config->getTheme() ?? [] as $theme) {
             $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
             if (Util\File::getFS()->exists($filePath)) {
                 return $filePath;

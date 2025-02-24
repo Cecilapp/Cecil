@@ -55,7 +55,7 @@ class Convert extends AbstractStep
      */
     public function process(): void
     {
-        if (\count($this->builder->getPages()) == 0) {
+        if (!is_iterable($this->builder->getPages()) || \count($this->builder->getPages()) == 0) {
             return;
         }
 

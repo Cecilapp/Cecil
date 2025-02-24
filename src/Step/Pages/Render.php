@@ -86,7 +86,7 @@ class Render extends AbstractStep
         // renders each page
         $count = 0;
         $postprocessors = [];
-        foreach ($this->config->get('output.postprocessors') as $name => $postprocessor) {
+        foreach ($this->config->get('output.postprocessors') ?? [] as $name => $postprocessor) {
             try {
                 if (!class_exists($postprocessor)) {
                     throw new RuntimeException(\sprintf('Class "%s" not found', $postprocessor));
@@ -205,8 +205,7 @@ class Render extends AbstractStep
         }
         // <theme>/layouts/
         if ($this->config->hasTheme()) {
-            $themes = $this->config->getTheme();
-            foreach ($themes as $theme) {
+            foreach ($this->config->getTheme() ?? [] as $theme) {
                 $paths[] = $this->config->getThemeDirPath($theme);
             }
         }

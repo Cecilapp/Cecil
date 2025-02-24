@@ -254,7 +254,7 @@ class Cache implements CacheInterface
             $keyAsArray = explode('__', $this->prepareKey($key), -1);
             if (!empty($keyAsArray)) {
                 $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
-                foreach (glob($pattern) as $filename) {
+                foreach (glob($pattern) ?: [] as $filename) {
                     Util\File::getFS()->remove($filename);
                 }
             }

@@ -47,7 +47,7 @@ class Create extends AbstractStep
      */
     public function process(): void
     {
-        if (\count($this->builder->getPagesFiles()) == 0) {
+        if (!is_iterable($this->builder->getPagesFiles()) || \count($this->builder->getPagesFiles()) == 0) {
             return;
         }
 

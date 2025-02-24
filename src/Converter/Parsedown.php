@@ -567,26 +567,28 @@ class Parsedown extends \ParsedownToc
         $Data = [];
         $HtmlAtt = [];
 
-        foreach ($attributes as $attribute) {
-            switch ($attribute[0]) {
-                case '#': // ID
-                    $Data['id'] = substr($attribute, 1);
-                    break;
-                case '.': // Classes
-                    $classes[] = substr($attribute, 1);
-                    break;
-                default:  // Attributes
-                    parse_str($attribute, $parsed);
-                    $HtmlAtt = array_merge($HtmlAtt, $parsed);
+        if (is_iterable($attributes)) {
+            foreach ($attributes as $attribute) {
+                switch ($attribute[0]) {
+                    case '#': // ID
+                        $Data['id'] = substr($attribute, 1);
+                        break;
+                    case '.': // Classes
+                        $classes[] = substr($attribute, 1);
+                        break;
+                    default:  // Attributes
+                        parse_str($attribute, $parsed);
+                        $HtmlAtt = array_merge($HtmlAtt, $parsed);
+                }
             }
-        }
 
-        if (isset($classes)) {
-            $Data['class'] = implode(' ', $classes);
-        }
-        if (!empty($HtmlAtt)) {
-            foreach ($HtmlAtt as $a => $v) {
-                $Data[$a] = trim($v, '"');
+            if (isset($classes)) {
+                $Data['class'] = implode(' ', $classes);
+            }
+            if (!empty($HtmlAtt)) {
+                foreach ($HtmlAtt as $a => $v) {
+                    $Data[$a] = trim($v, '"');
+                }
             }
         }
 
@@ -597,20 +599,24 @@ class Parsedown extends \ParsedownToc
      * {@inheritdoc}
      *
      * Converts XHTML '<br />' tag to '<br>'.
+     *
+     * @return string
      */
     protected function unmarkedText($text)
     {
-        return str_replace("<br />", "<br>", parent::unmarkedText($text)); // @phpstan-ignore staticMethod.notFound
+        return str_replace('<br />', '<br>', parent::unmarkedText($text)); // @phpstan-ignore staticMethod.notFound
     }
 
     /**
      * {@inheritdoc}
      *
      * XHTML closing tag to HTML5 closing tag.
+     *
+     * @return string
      */
     protected function element(array $Element)
     {
-        return str_replace(" />", ">", parent::element($Element)); // @phpstan-ignore staticMethod.notFound
+        return str_replace(' />', '>', parent::element($Element)); // @phpstan-ignore staticMethod.notFound
     }
 
     /**

@@ -76,6 +76,9 @@ class Create extends AbstractStep
                 $countConfig = 0;
 
                 foreach ($menusConfig as $menuConfig => $entry) {
+                    if (!is_array($entry)) {
+                        break;
+                    }
                     // add Menu if not exists
                     if (!$this->menus[$language['code']]->has($menuConfig)) {
                         $this->menus[$language['code']]->add(new Menu($menuConfig));

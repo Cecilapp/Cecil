@@ -275,12 +275,13 @@ EOF
         // writes `changes.flag` file
         Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
         // writes `headers.ini` file
-        if (null !== $headers = $this->getBuilder()->getConfig()->get('headers')) {
+        $headers = $this->getBuilder()->getConfig()->get('headers');
+        if (is_iterable($headers)) {
             $output->writeln('Writing headers file...');
             Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'));
             foreach ($headers as $entry) {
                 Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "[{$entry['path']}]\n");
-                foreach ($entry['headers'] as $header) {
+                foreach ($entry['headers'] ?? [] as $header) {
                     Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "{$header['key']} = \"{$header['value']}\"\n");
                 }
             }
