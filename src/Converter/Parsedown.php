@@ -600,7 +600,7 @@ class Parsedown extends \ParsedownToc
      */
     protected function unmarkedText($text)
     {
-        return str_replace("<br />", "<br>", parent::unmarkedText($text));
+        return str_replace("<br />", "<br>", parent::unmarkedText($text)); // @phpstan-ignore staticMethod.notFound
     }
 
     /**
@@ -610,7 +610,7 @@ class Parsedown extends \ParsedownToc
      */
     protected function element(array $Element)
     {
-        return str_replace(" />", ">", parent::element($Element));
+        return str_replace(" />", ">", parent::element($Element)); // @phpstan-ignore staticMethod.notFound
     }
 
     /**
