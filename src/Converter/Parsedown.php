@@ -596,7 +596,7 @@ class Parsedown extends \ParsedownToc
     /**
      * {@inheritdoc}
      *
-     * '<br />' to '<br>'
+     * Converts XHTML '<br />' tag to '<br>'.
      */
     protected function unmarkedText($text)
     {
@@ -606,7 +606,7 @@ class Parsedown extends \ParsedownToc
     /**
      * {@inheritdoc}
      *
-     * '<br />' to '<br>'
+     * XHTML closing tag to HTML5 closing tag.
      */
     protected function element(array $Element)
     {
