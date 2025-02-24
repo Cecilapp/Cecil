@@ -594,6 +594,26 @@ class Parsedown extends \ParsedownToc
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * Converts XHTML '<br />' tag to '<br>'.
+     */
+    protected function unmarkedText($text)
+    {
+        return str_replace("<br />", "<br>", parent::unmarkedText($text)); // @phpstan-ignore staticMethod.notFound
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * XHTML closing tag to HTML5 closing tag.
+     */
+    protected function element(array $Element)
+    {
+        return str_replace(" />", ">", parent::element($Element)); // @phpstan-ignore staticMethod.notFound
+    }
+
+    /**
      * Turns a path relative to static or assets into a website relative path.
      *
      *   "../../assets/images/img.jpeg"

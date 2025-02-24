@@ -2,10 +2,10 @@
 <html lang="{{ site.language }}">
   <head>
     {%- block head ~%}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
     {{- include('partials/metatags.html.twig', {page, site}, with_context = false) ~}}
     <style>{% apply minify_css %}
       {{- include('partials/new.css.twig') ~}}

@@ -30,7 +30,7 @@ class GeneratorMetaTag extends AbstractPostProcessor
     {
         if ($format == 'html') {
             if (!preg_match('/<meta name="generator".*/i', $output)) {
-                $meta = \sprintf('<meta name="generator" content="Cecil %s" />', Builder::getVersion());
+                $meta = \sprintf('<meta name="generator" content="Cecil %s">', Builder::getVersion());
                 $output = preg_replace_callback('/([[:blank:]]*)(<\/head>)/i', function ($matches) use ($meta) {
                     return str_repeat($matches[1] ?: ' ', 2) . $meta . "\n" . $matches[1] . $matches[2];
                 }, $output);

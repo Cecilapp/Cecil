@@ -129,54 +129,54 @@
 {%- block content %}
     {#~ template ~#}
     <title>{% block title %}{{ title_html }}{% endblock %}</title>
-    <meta name="description" content="{% block description %}{{ description }}{% endblock %}" />
+    <meta name="description" content="{% block description %}{{ description }}{% endblock %}">
 {%- if keywords ~%}
-    <meta name="keywords" content="{{ keywords|join(', ') }}" />
+    <meta name="keywords" content="{{ keywords|join(', ') }}">
 {%- endif ~%}
 {%- if author ~%}
-    <meta name="author" content="{{ author.name|e }}" />
+    <meta name="author" content="{{ author.name|e }}">
 {%- endif ~%}
-    <meta name="robots" content="{{ robots }}" />
+    <meta name="robots" content="{{ robots }}">
 {#- template: favicon ~#}
 {%- if site.metatags.favicon.enabled ?? true ~%}
   {#- favicon.ico ~#}
   {%- set favicon_ico = asset('favicon.ico', {'ignore_missing': true}) -%}
   {%- if not favicon_ico.missing ~%}
-    <link rel="icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon" />
-    <link rel="shortcut icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon" />
+    <link rel="icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon">
   {%- endif -%}
   {#- favicon.svg ~#}
   {%- set favicon_svg = asset('favicon.svg', {'ignore_missing': true}) -%}
   {%- if not favicon_svg.missing ~%}
-    <link rel="icon" sizes="any" href="{{ url(favicon_svg, {'canonical': true}) }}" type="image/svg+xml" />
+    <link rel="icon" sizes="any" href="{{ url(favicon_svg, {'canonical': true}) }}" type="image/svg+xml">
   {%- endif -%}
   {#- favicon.png ~#}
   {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
   {%- if not favicon_asset.missing -%}
     {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
       {%- for size in favicon_sizes|filter(size => favicon_asset.width >= size) ~%}
-    <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ url(favicon_asset|resize(size), {'canonical': true}) }}" type="{{ favicon_asset.subtype }}" />
+    <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ url(favicon_asset|resize(size), {'canonical': true}) }}" type="{{ favicon_asset.subtype }}">
       {%- endfor -%}
     {%- endfor -%}
   {%- endif -%}
 {%- endif ~%}
 {#- template: prev/next ~#}
 {%- if page.prev.path is defined ~%}
-    <link rel="prev" href="{{ url(page.prev, {'canonical': true}) }}" />
+    <link rel="prev" href="{{ url(page.prev, {'canonical': true}) }}">
 {%- endif -%}
 {%- if page.next.path is defined ~%}
-    <link rel="next" href="{{ url(page.next, {'canonical': true}) }}" />
+    <link rel="next" href="{{ url(page.next, {'canonical': true}) }}">
 {%- endif -%}
 {#- template: paginator ~#}
 {%- if page.paginator.pages is defined ~%}
-    <link rel="first" href="{{ url(page.paginator.links.first, {'canonical': true}) }}" />
+    <link rel="first" href="{{ url(page.paginator.links.first, {'canonical': true}) }}">
     {%- if page.paginator.links.prev is defined ~%}
-    <link rel="prev" href="{{ url(page.paginator.links.prev, {'canonical': true}) }}" />
+    <link rel="prev" href="{{ url(page.paginator.links.prev, {'canonical': true}) }}">
     {%- endif ~%}
     {%- if page.paginator.links.next is defined ~%}
-    <link rel="next" href="{{ url(page.paginator.links.next, {'canonical': true}) }}" />
+    <link rel="next" href="{{ url(page.paginator.links.next, {'canonical': true}) }}">
     {%- endif ~%}
-    <link rel="last" href="{{ url(page.paginator.links.last, {'canonical': true}) }}" />
+    <link rel="last" href="{{ url(page.paginator.links.last, {'canonical': true}) }}">
 {%- endif -%}
 {#- template: alternates ~#}
 {{- include('partials/alternates.html.twig', {title, page}, with_context = false) ~}}
@@ -185,73 +185,73 @@
 {{- include('partials/alternates-languages.html.twig', {page}, with_context = false) ~}}
 {#- template: preload ~#}
 {%- if video_asset is defined ~%}
-    <link rel="preload" href="{{ url(video_asset) }}" as="video" type="{{ video_asset.subtype }}" />
+    <link rel="preload" href="{{ url(video_asset) }}" as="video" type="{{ video_asset.subtype }}">
 {%- endif ~%}
 {#- template: rel me ~#}
 {%- for social in page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) ~%}
-    <link rel="me" href="{{ social.url }}" />
+    <link rel="me" href="{{ social.url }}">
 {%- endfor ~%}
 {#- template: Open Graph ~#}
-    <meta property="og:locale" content="{{ opengraph.locale }}" />
-    <meta property="og:site_name" content="{{ opengraph.site_name }}" />
-    <meta property="og:type" content="{{ opengraph.type }}" />
-    <meta property="og:title" content="{{ opengraph.title }}" />
-    <meta property="og:description" content="{{ opengraph.description }}" />
-    <meta property="og:url" content="{{ opengraph.url }}" />
+    <meta property="og:locale" content="{{ opengraph.locale }}">
+    <meta property="og:site_name" content="{{ opengraph.site_name }}">
+    <meta property="og:type" content="{{ opengraph.type }}">
+    <meta property="og:title" content="{{ opengraph.title }}">
+    <meta property="og:description" content="{{ opengraph.description }}">
+    <meta property="og:url" content="{{ opengraph.url }}">
 {%- if opengraph.image is defined ~%}
-    <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}" />
-    <meta property="og:image:type" content="{{ opengraph.image.subtype }}" />
-    <meta property="og:image:width" content="{{ opengraph.image.width }}" />
-    <meta property="og:image:height" content="{{ opengraph.image.height }}" />
-    <meta property="og:image:alt" content="{{ opengraph.title }}" />
+    <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}">
+    <meta property="og:image:type" content="{{ opengraph.image.subtype }}">
+    <meta property="og:image:width" content="{{ opengraph.image.width }}">
+    <meta property="og:image:height" content="{{ opengraph.image.height }}">
+    <meta property="og:image:alt" content="{{ opengraph.title }}">
 {%- endif ~%}
 {%- if opengraph.video is defined ~%}
-    <meta property="og:video" content="{{ url(opengraph.video, {'canonical': true}) }}" />
-    <meta property="og:video:url" content="{{ url(opengraph.video, {'canonical': true}) }}" />
-    <meta property="og:video:secure_url" content="{{ url(opengraph.video, {'canonical': true}) }}" />
-    <meta property="og:video:type" content="{{ opengraph.video.subtype }}" />
-    <meta property="og:video:width" content="{{ opengraph.video.video.width }}" />
-    <meta property="og:video:height" content="{{ opengraph.video.video.height }}" />
+    <meta property="og:video" content="{{ url(opengraph.video, {'canonical': true}) }}">
+    <meta property="og:video:url" content="{{ url(opengraph.video, {'canonical': true}) }}">
+    <meta property="og:video:secure_url" content="{{ url(opengraph.video, {'canonical': true}) }}">
+    <meta property="og:video:type" content="{{ opengraph.video.subtype }}">
+    <meta property="og:video:width" content="{{ opengraph.video.video.width }}">
+    <meta property="og:video:height" content="{{ opengraph.video.video.height }}">
 {%- endif -%}
 {#- template: Facebook ~#}
 {%- if facebook.id ~%}
-    <meta property="fb:profile_id" content="{{ facebook.id }}" />
+    <meta property="fb:profile_id" content="{{ facebook.id }}">
 {%- endif -%}
 {%- if facebook.firstname ~%}
-    <meta property="profile:first_name" content="{{ facebook.firstname }}" />
+    <meta property="profile:first_name" content="{{ facebook.firstname }}">
 {%- endif -%}
 {%- if facebook.lastname ~%}
-    <meta property="profile:last_name" content="{{ facebook.lastname }}" />
+    <meta property="profile:last_name" content="{{ facebook.lastname }}">
 {%- endif -%}
 {%- if facebook.username ~%}
-    <meta property="profile:username" content="{{ facebook.username }}" />
+    <meta property="profile:username" content="{{ facebook.username }}">
 {%- endif ~%}
 {#- template: Twitter ~#}
-    <meta name="twitter:title" content="{{ opengraph.title }}" />
-    <meta name="twitter:description" content="{{ opengraph.description }}" />
+    <meta name="twitter:title" content="{{ opengraph.title }}">
+    <meta name="twitter:description" content="{{ opengraph.description }}">
 {%- if opengraph.image is defined and opengraph.image.width > 500 ~%}
-    <meta name="twitter:image" content="{{ opengraph.image|url({'canonical': true}) }}" />
-    <meta name="twitter:image:alt" content="{{ opengraph.title }}" />
+    <meta name="twitter:image" content="{{ opengraph.image|url({'canonical': true}) }}">
+    <meta name="twitter:image:alt" content="{{ opengraph.title }}">
     {%- if opengraph.video is defined ~%}
-    <meta name="twitter:card" content="player" />
-    <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'iframe'}) }}" />
-    <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}" />
-    <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}" />
+    <meta name="twitter:card" content="player">
+    <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'iframe'}) }}">
+    <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}">
+    <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}">
     {%- else ~%}
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary_large_image">
     {%- endif ~%}
 {%- else ~%}
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary">
 {%- endif -%}
 {%- if twitter.site ~%}
-    <meta name="twitter:site" content="@{{ twitter.site }}" />
+    <meta name="twitter:site" content="@{{ twitter.site }}">
 {%- endif -%}
 {%- if twitter.creator ~%}
-    <meta name="twitter:creator" content="@{{ twitter.creator }}" />
+    <meta name="twitter:creator" content="@{{ twitter.creator }}">
 {%- endif ~%}
 {#- template: Mastodon ~#}
 {%- if mastodon.creator ~%}
-    <meta name="fediverse:creator" content="{{ mastodon.creator }}" />
+    <meta name="fediverse:creator" content="{{ mastodon.creator }}">
 {%- endif ~%}
 {#- template: json-ld ~#}
 {{- include('partials/jsonld.js.twig', {author, favicon_asset: favicon_asset|default}) ~}}
