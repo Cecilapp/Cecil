@@ -93,6 +93,9 @@ class Builder implements LoggerAwareInterface
     /** @var string Application version. */
     protected static $version;
 
+    /** @var array Build metrics. */
+    protected $metrics = [];
+
     /**
      * @param Config|array|null    $config
      * @param LoggerInterface|null $logger
@@ -164,11 +167,21 @@ class Builder implements LoggerAwareInterface
             $stepStartTime = microtime(true);
             $stepStartMemory = memory_get_usage();
             $step->process();
-            $this->getLogger()->info(\sprintf('%s done in %s (%s)', $step->getName(), Util::convertMicrotime((float) $stepStartTime), Util::convertMemory(memory_get_usage() - $stepStartMemory)));
+            // step duration and memory usage
+            $this->metrics['steps'][$stepNumber]['name'] = $step->getName();
+            $this->metrics['steps'][$stepNumber]['duration'] = Util::convertMicrotime((float) $stepStartTime);
+            $this->metrics['steps'][$stepNumber]['memory']   = Util::convertMemory(memory_get_usage() - $stepStartMemory);
+            $this->getLogger()->info(\sprintf(
+                '%s done in %s (%s)',
+                $this->metrics['steps'][$stepNumber]['name'],
+                $this->metrics['steps'][$stepNumber]['duration'],
+                $this->metrics['steps'][$stepNumber]['memory']
+            ));
         }
-
-        // process duration
-        $this->getLogger()->notice(\sprintf('Built in %s (%s)', Util::convertMicrotime($startTime), Util::convertMemory(memory_get_usage() - $startMemory)));
+        // build duration and memory usage
+        $this->metrics['total']['duration'] = Util::convertMicrotime($startTime);
+        $this->metrics['total']['memory']   = Util::convertMemory(memory_get_usage() - $startMemory);
+        $this->getLogger()->notice(\sprintf('Built in %s (%s)', $this->metrics['total']['duration'], $this->metrics['total']['memory']));
 
         return $this;
     }
@@ -369,6 +382,14 @@ class Builder implements LoggerAwareInterface
     public function getRenderer(): Renderer\RendererInterface
     {
         return $this->renderer;
+    }
+
+    /**
+     * Returns metrics array.
+     */
+    public function getMetrics(): array
+    {
+        return $this->metrics;
     }
 
     /**

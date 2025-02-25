@@ -44,6 +44,7 @@ class Build extends AbstractCommand
                 new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
                 new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show built pages as table'),
+                new InputOption('metrics', null, InputOption::VALUE_NONE, 'Show build steps metrics'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -96,6 +97,10 @@ To clear the cache before building the website with a specific cache key regular
 To show built pages as table, run:
 
   <info>%command.full_name% --show-pages</>
+
+To show build steps metrics, run:
+
+  <info>%command.full_name% --metrics</>
 EOF
             );
     }
@@ -154,8 +159,20 @@ EOF
             $output->writeln(\sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
 
+        // build
         $builder->build($options);
         $output->writeln('Done 🎉');
+
+        // show build steps metrics
+        if ($input->getOption('metrics')) {
+            $table = new Table($output);
+            $table
+                ->setHeaderTitle(\sprintf("Build steps metrics"))
+                ->setHeaders(['Step', 'Duration', 'Memory'])
+                ->setRows($builder->getMetrics()['steps'])
+            ;
+            $table->setStyle('box')->render();
+        }
 
         // show built pages as table
         if ($input->getOption('show-pages')) {
