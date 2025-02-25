@@ -6552,9 +6552,15 @@ All notable changes to this project will be documented in this file. Dates are d
 - 4.1.0 [`#192`](https://github.com/Cecilapp/Cecil/pull/192)
 - Add console demo (gif). [`81f81ae`](https://github.com/Cecilapp/Cecil/commit/81f81ae454453e844f954e51d7faf8a51c772166)
 
-### [4.0.0](https://github.com/Cecilapp/Cecil/compare/3.31.2...4.0.0)
+### [4.0.0](https://github.com/Cecilapp/Cecil/compare/3.32.0...4.0.0)
 
 > 2 December 2018
+
+#### [3.32.0](https://github.com/Cecilapp/Cecil/compare/3.31.2...3.32.0)
+
+> 25 February 2025
+
+- feat: cmd options to display build steps metrics [`#2125`](https://github.com/Cecilapp/Cecil/pull/2125)
 
 #### [3.31.2](https://github.com/Cecilapp/Cecil/compare/3.31.1...3.31.2)
 
