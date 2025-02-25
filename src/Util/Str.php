@@ -38,6 +38,18 @@ class Str
     }
 
     /**
+     * Returns a string representation of an array.
+     */
+    public static function arrayToList(array $array): string
+    {
+        array_walk($array, function (&$value) {
+            $value = \sprintf(" - %s", $value);
+        });
+
+        return implode("\n", $array);
+    }
+
+    /**
      * Converts 'true', 'false', 'on', 'off', 'yes', 'no' to a boolean.
      *
      * @param mixed $value Value to convert

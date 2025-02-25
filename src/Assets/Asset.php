@@ -172,6 +172,7 @@ class Asset implements \ArrayAccess
                 $this->data['files'][] = $file[$i]['filepath'];
             }
             $cache->set($cacheKey, $this->data);
+            $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
 
@@ -308,7 +309,7 @@ class Asset implements \ArrayAccess
             // debug
             if ($this->builder->isDebug()) {
                 $scssPhp->setQuietDeps(false);
-                $this->builder->getLogger()->debug(\sprintf("SCSS compiler imported paths:\n%s", (string) implode("\n", array_unique($importDir))));
+                $this->builder->getLogger()->debug(\sprintf("SCSS compiler imported paths:\n%s", Util\Str::arrayToList(array_unique($importDir))));
             }
             // update data
             $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
@@ -319,6 +320,7 @@ class Asset implements \ArrayAccess
             $this->data['size'] = \strlen($this->data['content']);
             $this->compiled = true;
             $cache->set($cacheKey, $this->data);
+            $this->builder->getLogger()->debug(\sprintf('Asset compiled: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
 
@@ -377,6 +379,7 @@ class Asset implements \ArrayAccess
             $this->data['size'] = \strlen($this->data['content']);
             $this->minified = true;
             $cache->set($cacheKey, $this->data);
+            $this->builder->getLogger()->debug(\sprintf('Asset minified: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
 
@@ -400,14 +403,14 @@ class Asset implements \ArrayAccess
         }
         $cacheKey = $cache->createKeyFromAsset($this, $tags);
         if (!$cache->has($cacheKey)) {
-            $message = $filepath;
+            $message = \sprintf('Asset processed: "%s"', $this->data['path']);
             $sizeBefore = filesize($filepath);
             Optimizer::create($quality)->optimize($filepath);
             $sizeAfter = filesize($filepath);
             if ($sizeAfter < $sizeBefore) {
                 $message = \sprintf(
-                    '%s (%s Ko -> %s Ko)',
-                    $message,
+                    'Asset optimized: "%s" (%s Ko -> %s Ko)',
+                    $this->data['path'],
                     ceil($sizeBefore / 1000),
                     ceil($sizeAfter / 1000)
                 );
@@ -415,7 +418,7 @@ class Asset implements \ArrayAccess
             $this->data['content'] = Util\File::fileGetContents($filepath);
             $this->data['size'] = $sizeAfter;
             $cache->set($cacheKey, $this->data);
-            $this->builder->getLogger()->debug(\sprintf('Asset "%s" optimized', $message));
+            $this->builder->getLogger()->debug($message);
         }
         $this->data = $cache->get($cacheKey, $this->data);
 
@@ -461,6 +464,7 @@ class Asset implements \ArrayAccess
             $assetResized->data['size'] = \strlen($assetResized->data['content']);
 
             $cache->set($cacheKey, $assetResized->data);
+            $this->builder->getLogger()->debug(\sprintf('Asset resized: "%s" (%sx)', $assetResized->data['path'], $width));
         }
         $assetResized->data = $cache->get($cacheKey);
 
@@ -500,8 +504,8 @@ class Asset implements \ArrayAccess
             $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
             $asset->data['subtype'] = "image/$format";
             $asset->data['size'] = \strlen($asset->data['content']);
-
             $cache->set($cacheKey, $asset->data);
+            $this->builder->getLogger()->debug(\sprintf('Asset converted: "%s" (%s -> %s)', $asset->data['path'], $this->data['ext'], $format));
         }
         $asset->data = $cache->get($cacheKey);
 
