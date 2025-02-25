@@ -160,17 +160,8 @@ class Render extends AbstractStep
                         ],
                     ];
                     $page->addRendered($rendered);
-                    // profiler
-                    if ($this->builder->isDebug()) {
-                        $dumper = new \Twig\Profiler\Dumper\HtmlDumper();
-                        file_put_contents(
-                            Util::joinFile($this->config->getOutputPath(), '_debug_twig_profile.html'),
-                            $dumper->dump($this->builder->getRenderer()->getDebugProfile())
-                        );
-                    }
                 } catch (\Twig\Error\Error $e) {
                     $template = !empty($e->getSourceContext()->getPath()) ? $e->getSourceContext()->getPath() : $e->getSourceContext()->getName();
-
                     throw new RuntimeException(\sprintf(
                         'Template "%s%s" (page: %s): %s',
                         $template,
@@ -178,6 +169,8 @@ class Render extends AbstractStep
                         $page->getId(),
                         $e->getMessage()
                     ));
+                } catch (\Exception $e) {
+                    throw new RuntimeException($e->getMessage());
                 }
             }
             $this->builder->getPages()->replace($page->getId(), $page);
@@ -189,6 +182,23 @@ class Render extends AbstractStep
                 Util\Str::combineArrayToString($templates, 'scope', 'file')
             );
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+        }
+        // profiler
+        if ($this->builder->isDebug()) {
+            try {
+                // HTML
+                $htmlDumper = new \Twig\Profiler\Dumper\HtmlDumper();
+                $profileHtmlFile = Util::joinFile($this->config->getDestinationDir(), '.debug/twig_profile.html');
+                Util\File::getFS()->dumpFile($profileHtmlFile, $htmlDumper->dump($this->builder->getRenderer()->getDebugProfile()));
+                // TXT
+                $textDumper = new \Twig\Profiler\Dumper\TextDumper();
+                $profileTextFile = Util::joinFile($this->config->getDestinationDir(), '.debug/twig_profile.txt');
+                Util\File::getFS()->dumpFile($profileTextFile, $textDumper->dump($this->builder->getRenderer()->getDebugProfile()));
+                // log
+                $this->builder->getLogger()->debug(\sprintf('Twig profile dumped in "%s"', Util::joinFile($this->config->getDestinationDir(), '.debug/')));
+            } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
+                throw new RuntimeException($e->getMessage());
+            }
         }
     }
 
