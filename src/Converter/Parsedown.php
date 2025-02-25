@@ -335,7 +335,7 @@ class Parsedown extends \ParsedownToc
                     $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
                     break;
                 case 'lqip':
-                    // abord if animated GIF for performance reasons
+                    // aborts if animated GIF for performance reasons
                     if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
                         break;
                     }
