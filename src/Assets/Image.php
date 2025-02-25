@@ -42,10 +42,6 @@ class Image
     public static function resize(Asset $asset, int $width, int $quality): string
     {
         try {
-            // is image?
-            if (!self::isImage($asset)) {
-                throw new RuntimeException(\sprintf('Not an image.'));
-            }
             // creates image object from source
             $image = self::manager()->read($asset['content_source']);
             // resizes to $width with constraint the aspect-ratio and unwanted upsizing
@@ -53,7 +49,7 @@ class Image
             // return image data
             return (string) $image->encodeByMediaType($asset['subtype'], /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Not able to resize "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -65,9 +61,6 @@ class Image
     public static function convert(Asset $asset, string $format, int $quality): string
     {
         try {
-            if ($asset['type'] !== 'image') {
-                throw new RuntimeException(\sprintf('Not an image.'));
-            }
             $image = self::manager()->read($asset['content']);
 
             if (!\function_exists("image$format")) {
@@ -88,10 +81,6 @@ class Image
     public static function getDataUrl(Asset $asset, int $quality): string
     {
         try {
-            // is image?
-            if (!self::isImage($asset)) {
-                throw new RuntimeException(\sprintf('Not an image.'));
-            }
             $image = self::manager()->read($asset['content']);
 
             return (string) $image->encode(new AutoEncoder(quality: $quality))->toDataUri();
@@ -108,10 +97,6 @@ class Image
     public static function getDominantColor(Asset $asset): string
     {
         try {
-            // is image?
-            if (!self::isImage($asset)) {
-                throw new RuntimeException(\sprintf('Not an image.'));
-            }
             $assetColor = clone $asset;
             $assetColor = $assetColor->resize(100);
             $image = self::manager()->read($assetColor['content']);
@@ -130,9 +115,6 @@ class Image
     public static function getLqip(Asset $asset): string
     {
         try {
-            if ($asset['type'] !== 'image') {
-                throw new RuntimeException(\sprintf('Not an image.'));
-            }
             $assetLqip = clone $asset;
             $assetLqip = $assetLqip->resize(100);
             $image = self::manager()->read($assetLqip['content']);

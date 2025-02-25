@@ -335,6 +335,10 @@ class Parsedown extends \ParsedownToc
                     $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
                     break;
                 case 'lqip':
+                    // aborts if animated GIF for performance reasons
+                    if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
+                        break;
+                    }
                     $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($InlineImage['element']['attributes']['src']));
                     break;
             }
@@ -399,7 +403,8 @@ class Parsedown extends \ParsedownToc
                 }
                 // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-                    throw new RuntimeException(\sprintf('Asset "%s" is an animated GIF.', $InlineImage['element']['attributes']['src']));
+                    $filepath = Util::joinFile($this->config->getOutputPath(), $InlineImage['element']['attributes']['src']['path']);
+                    throw new RuntimeException(\sprintf('Asset "%s" is not converted (animated GIF).', $filepath));
                 }
                 $sources = [];
                 foreach ($formats as $format) {
