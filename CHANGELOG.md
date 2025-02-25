@@ -6552,9 +6552,24 @@ All notable changes to this project will be documented in this file. Dates are d
 - 4.1.0 [`#192`](https://github.com/Cecilapp/Cecil/pull/192)
 - Add console demo (gif). [`81f81ae`](https://github.com/Cecilapp/Cecil/commit/81f81ae454453e844f954e51d7faf8a51c772166)
 
-### [4.0.0](https://github.com/Cecilapp/Cecil/compare/3.31.0...4.0.0)
+### [4.0.0](https://github.com/Cecilapp/Cecil/compare/3.31.2...4.0.0)
 
 > 2 December 2018
+
+#### [3.31.2](https://github.com/Cecilapp/Cecil/compare/3.31.1...3.31.2)
+
+> 25 February 2025
+
+- perf: enhance assets processing [`#2124`](https://github.com/Cecilapp/Cecil/pull/2124)
+- chore: update deps [`e931a54`](https://github.com/Cecilapp/Cecil/commit/e931a545bdfdcf2980b90f228ce71f4db3ebca6e)
+
+#### [3.31.1](https://github.com/Cecilapp/Cecil/compare/3.31.0...3.31.1)
+
+> 25 February 2025
+
+- chore: cleaning code [`7a33d42`](https://github.com/Cecilapp/Cecil/commit/7a33d429dc3189ddd5c9f38f6a636ef37f51e000)
+- doc: more details about assets [`18755fe`](https://github.com/Cecilapp/Cecil/commit/18755fecced46a9f80d9386fd9bd4256a1cd751a)
+- chore: cleaning code [`3a0c736`](https://github.com/Cecilapp/Cecil/commit/3a0c736bd2f98e27257f27d965aa758d6feec981)
 
 #### [3.31.0](https://github.com/Cecilapp/Cecil/compare/3.30.2...3.31.0)
 
