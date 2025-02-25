@@ -118,9 +118,11 @@ jobs:
               dist/cecil.phar
 
       - name: Generate build provenance attestation
+        id: attestation
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: dist/cecil.phar
+          show-summary: false
 
       - name: Verify the `cecil.phar` binary
         env:
@@ -134,6 +136,11 @@ jobs:
           path: |
             dist/cecil.*
           if-no-files-found: error
+
+      - name: Summary
+        run: |
+          echo "- Built with PHP ${{ env.PHP_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Provenance attestation: ${{ steps.attestation.outputs.attestation-url }}" >> $GITHUB_STEP_SUMMARY
 
   deploy_to_github: # GitHub release
     name: Deploy to GitHub
