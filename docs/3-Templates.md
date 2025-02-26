@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-02-24
+updated: 2025-02-26
 alias: documentation/layouts
 -->
 # Templates
@@ -263,11 +263,11 @@ Example:
 
 Loop on `site.menus.<menu>` to get each entry of the `<menu>` collection (e.g.: `main`).
 
-| Variable         | Description                                      |
-| ---------------- | ------------------------------------------------ |
-| `<entry>.name`   | Menu entry name.                                 |
-| `<entry>.url`    | Menu entry URL.                                  |
-| `<entry>.weight` | Menu entry weight (useful to sort menu entries). |
+| Variable         | Description                                 |
+| ---------------- | ------------------------------------------- |
+| `<entry>.name`   | Entry name.                                 |
+| `<entry>.url`    | Entry URL.                                  |
+| `<entry>.weight` | Entry weight (useful to sort menu entries). |
 
 _Example:_
 

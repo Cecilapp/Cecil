@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2024-11-13
+updated: 2025-02-26
 -->
 # Content
 
@@ -582,11 +582,11 @@ All the predefined variables can be overridden except `section`.
 
 ### menu
 
-A page can be added to a menu.
+A page can be added to a [menu](4-Configuration.md#menus).
+
+The entry name is the page `title` and the URL is the page `path`.
 
 A same page could be added to severals menus, and the position of each entry can be defined with the `weight` key (the lightest first).
-
-See [_Menus configuration_](4-Configuration.md#menus) for details.
 
 _Examples:_
 
@@ -598,7 +598,7 @@ menu: main
 
 ```yaml
 ---
-menu: [main, navigation]
+menu: [main, navigation] # same page in multiple menus
 ---
 ```
 

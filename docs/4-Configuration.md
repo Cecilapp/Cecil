@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-01-29
+updated: 2025-02-26
 -->
 # Configuration
 
@@ -195,13 +195,15 @@ pagination:
 
 ### menus
 
-A menu is made up of a unique name and entry’s properties.
+Menus are used to create [navigation links in templates](3-Templates.md#site-menus).
+
+A menu is made up of a unique name and entry’s properties (name, URL, weight).
 
 ```yaml
 menus:
   <name>:
     - id: <unique id>   # unique identifier (required)
-      name: "<name>"    # name usable in templates
+      name: "<name>"    # name displayed in templates
       url: <url>        # relative or absolute URL
       weight: <integer> # integer value used to sort entries (lighter first)
 ```
@@ -210,15 +212,24 @@ _Example:_
 
 ```yaml
 menus:
+  main:
+    - id: about
+      name: "About"
+      url: /about/
+      weight: 1
   footer:
     - id: author
-      name: "The author"
+      name: The author
       url: https://arnaudligny.fr
       weight: 99
 ```
 
 :::info
-A `main` menu is automatically created with a home page entry and all [sections](2-Content.md) entries.
+A `main` menu is automatically created with the home page entry and all sections entries ([See content management](2-Content.md))
+:::
+
+:::tip
+A page can be added to a menu by setting the [`menu` variable](2-Content.md#menu) in its front matter.
 :::
 
 #### Override entry properties
