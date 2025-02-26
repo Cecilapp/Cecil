@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.32.3](https://github.com/Cecilapp/Cecil/compare/8.32.2...8.32.3)
+
+> 26 February 2025
+
+- ci: enhance Scoop manifest [`13e9678`](https://github.com/Cecilapp/Cecil/commit/13e9678cca0e9fd1b04c81add34a4fb59cc69d8b)
+
 #### [8.32.2](https://github.com/Cecilapp/Cecil/compare/8.32.1...8.32.2)
 
 > 26 February 2025
