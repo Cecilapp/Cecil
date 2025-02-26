@@ -72,9 +72,9 @@ cat <<EOT >> $SCOOP_FILE_JSON
   },
   "pre_install": [
     "@(",
-    "  'if ($args.length -eq 1 -and ($args -eq \"self-update\")) { & scoop update $SCOOP_CMD }'",
-    "  'else { & php (Join-Path $PSScriptRoot \"$DIST_FILE\") @args }'",
-    ")"
+    "  'if (\$args.length -eq 1 -and \$args -eq \"self-update\") { & scoop update $SCOOP_CMD }'",
+    "  'else { & php (Join-Path \$PSScriptRoot \"$DIST_FILE\") @args }'",
+    ") | Add-Content -Path \"\$dir\\$DIST_FILE\""
   ]
 }
 EOT
