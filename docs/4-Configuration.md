@@ -121,7 +121,7 @@ The language code is used to define the path to pages in a different language of
 A list of [locales code is available](configuration/locale-codes.md).
 :::
 
-#### Localize configuration options
+#### Localize options
 
 To localize configuration options you must store them under the `config` key of the language.
 
@@ -232,7 +232,7 @@ A `main` menu is automatically created with the home page entry and all sections
 A page can be added to a menu by setting the [`menu` variable](2-Content.md#menu) in its front matter.
 :::
 
-#### Override entry properties
+#### Override an entry
 
 A page menu entry can be overridden: use the page ID as `id`.
 
@@ -259,18 +259,18 @@ menus:
       enabled: false
 ```
 
-### sections' pages path
+### paths
 
-Defines a custom [`path`](2-Content.md#variables) for all pages of a _Section_.
+Defines a custom [`path`](2-Content.md#variables) for all pages of a **_Section_**.
 
 ```yaml
 paths:
-  - section: <section’s name>
-    language: <language> # optional
-    path: <path of pages, with palceholders>
+  - section: <section’s ID>
+    language: <language code> # optional
+    path: <path of pages> # with optional placeholders
 ```
 
-#### Placeholders
+#### Path placeholders
 
 - `:year`
 - `:month`
@@ -443,7 +443,7 @@ languages:
 There is a [locales code list](configuration/locale-codes.md) if needed.
 :::
 
-#### Localize configuration options
+#### Localize options
 
 To localize configuration options you must store them under the `config` key of the language.
 
