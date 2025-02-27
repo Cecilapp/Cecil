@@ -849,7 +849,7 @@ exclude: true
 
 If your pages are available in multiple [languages](4-Configuration.md#languages) there is 2 differents ways to define it:
 
-### Language in the file name
+### Through file name
 
 This is the common way to translate a page from the main [language](4-Configuration.md#language) to another language.
 
@@ -875,7 +875,7 @@ slug: a-propos
 
 :::
 
-### Language in the front matter
+### Through front matter
 
 If you want to create a page in a language other than the main language, without it being a translation of an existing page, you can use the `language` variable in its front matter.
 
@@ -887,7 +887,7 @@ language: fr
 ---
 ```
 
-### Link translations of a page
+### Link translated pages
 
 Each translated page reference the pages in others languages.
 
