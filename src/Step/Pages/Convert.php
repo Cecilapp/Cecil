@@ -45,7 +45,7 @@ class Convert extends AbstractStep
     {
         parent::init($options);
 
-        if (!is_iterable($this->builder->getPages()) || \count($this->builder->getPages()) == 0) {
+        if (\is_null($this->builder->getPages())) {
             $this->canProcess = false;
         }
     }
@@ -55,6 +55,10 @@ class Convert extends AbstractStep
      */
     public function process(): void
     {
+        if (!is_iterable($this->builder->getPages()) || \count($this->builder->getPages()) == 0) {
+            return;
+        }
+
         $total = \count($this->builder->getPages());
         $count = 0;
         /** @var Page $page */
