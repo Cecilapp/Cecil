@@ -534,6 +534,43 @@ class Config
     }
 
     /*
+     * Taxonomy helpers.
+     */
+
+    /**
+     * Returns vocabularies for a specific language if language is specified.
+     *
+     * Returns:
+     * [
+     *   language1 => [
+     *     index0 => vocabulary1
+     *     index1 => vocabulary2
+     *   ],
+     *   language2 => [
+     *     index0 => vocabulary1
+     *     index1 => vocabulary2
+     *   ]
+     * ]
+     */
+    public function getVocabularies(?string $language = ''): array
+    {
+        $vocabularies = [];
+        foreach ($this->getLanguages() as $language) {
+            foreach (array_keys((array) $this->get('taxonomies', $language['code'], true)) as $vocabulary) {
+                if ($this->get("taxonomies.$vocabulary", $language['code'], false) == 'disabled') {
+                    continue;
+                }
+                $vocabularies[$language['code']][] = $vocabulary;
+            }
+        }
+        if ($language && in_array($language, array_column($this->getLanguages(), 'code'))) {
+            return $vocabularies[$language];
+        }
+
+        return $vocabularies;
+    }
+
+    /*
      * Cache helpers.
      */
 
