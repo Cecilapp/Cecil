@@ -137,8 +137,9 @@ class Twig implements RendererInterface
             ->setup();
         // cache
         $this->twig->addExtension(new CacheExtension());
-        $this->twig->addRuntimeLoader(new class implements RuntimeLoaderInterface {
-            public function load($class) {
+        $this->twig->addRuntimeLoader(new class () implements RuntimeLoaderInterface {
+            public function load($class)
+            {
                 if (CacheRuntime::class === $class) {
                     return new CacheRuntime(new TagAwareAdapter(new FilesystemAdapter()));
                 }
