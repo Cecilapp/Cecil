@@ -696,7 +696,7 @@ class Asset implements \ArrayAccess
                 (string) $this->config->get('assets.target'),
                 Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath())
             );
-            // remote_fallback in assets/ ont in cache/assets/remote/
+            // remote_fallback is in assets/, not in cache/assets/remote/
             if (substr(Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath()), 0, 2) == '..') {
                 $path = Util::joinPath(
                     (string) $this->config->get('assets.target'),

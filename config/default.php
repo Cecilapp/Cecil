@@ -92,9 +92,9 @@ return [
                     'enabled' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title
                 ],
                 'remote' => [
-                    'enabled'  => true, // turns remote images to Asset to handling them
+                    'enabled'  => true, // turns remote images into Assets to process them
                     'fallback' => [
-                        'enabled' => false, // enables a fallback if image is not found
+                        'enabled' => false, // use a fallback generic image if remote image is not found
                         'path'    => '', // path to the fallback image, stored in assets dir
                     ],
                 ],
@@ -139,7 +139,7 @@ return [
     ],
     'assets' => [ // assets: CSS, JS, images, etc.
         'dir'    => 'assets', // assets files directory
-        'target' => 'assets', // where remote and resized assets are saved
+        'target' => 'assets', // where processed and remote assets are saved
         'fingerprint' => [
             'enabled' => true, // enables fingerprinting
         ],
@@ -244,7 +244,7 @@ return [
         'assets' => [
             'dir'    => 'assets', // assets files cache directory
             'remote' => [
-                'dir' => 'remote', // remote files cache directory
+                'dir' => 'remote', // sub directory where remote files are saved
             ],
         ],
         'translations' => [
