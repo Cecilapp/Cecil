@@ -24,6 +24,12 @@ use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Translator;
 use Twig\Extra\Intl\IntlExtension;
 
+use Twig\Extra\Cache\CacheExtension;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
+use Twig\Extra\Cache\CacheRuntime;
+use Twig\RuntimeLoader\RuntimeLoaderInterface;
+
 /**
  * Class Twig.
  */
@@ -129,6 +135,15 @@ class Twig implements RendererInterface
             ->setTemplatesExtension($this->builder->getConfig()->get('layouts.components.ext') ?? 'twig')
             ->useCustomTags()
             ->setup();
+        // cache
+        $this->twig->addExtension(new CacheExtension());
+        $this->twig->addRuntimeLoader(new class implements RuntimeLoaderInterface {
+            public function load($class) {
+                if (CacheRuntime::class === $class) {
+                    return new CacheRuntime(new TagAwareAdapter(new FilesystemAdapter()));
+                }
+            }
+        });
         // debug
         if ($this->builder->isDebug()) {
             // dump()
