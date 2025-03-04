@@ -15,7 +15,6 @@ namespace Cecil\Assets;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
-use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Psr\SimpleCache\CacheInterface;
@@ -24,12 +23,6 @@ class Cache implements CacheInterface
 {
     /** @var Builder */
     protected $builder;
-
-    /** @var Config */
-    protected $config;
-
-    /** @var string */
-    protected $pool;
 
     /** @var string */
     protected $cacheDir;
@@ -40,9 +33,7 @@ class Cache implements CacheInterface
     public function __construct(Builder $builder, string $pool = '')
     {
         $this->builder = $builder;
-        $this->config = $builder->getConfig();
-        $this->pool = $pool;
-        $this->cacheDir = Util::joinFile($this->config->getCachePath(), $pool);
+        $this->cacheDir = Util::joinFile($builder->getConfig()->getCachePath(), $pool);
         $this->duration = 31536000; // 1 year
     }
 
@@ -189,7 +180,7 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key from an Asset source: "$filename_$ext_$tag__VERSION__MD5".
+     * Creates key from an Asset: "$filename_$ext_$tags__VERSION__MD5".
      */
     public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
     {
@@ -212,7 +203,7 @@ class Cache implements CacheInterface
     {
         try {
             if (!Util\File::getFS()->exists($this->cacheDir)) {
-                throw new RuntimeException(\sprintf('Can\'t remove cache directory "%s".', $this->cacheDir));
+                throw new RuntimeException(\sprintf('The cache directory "%s" does not exists.', $this->cacheDir));
             }
             $fileCount = 0;
             $iterator = new \RecursiveIteratorIterator(
@@ -224,7 +215,7 @@ class Cache implements CacheInterface
                     if (preg_match('/' . $pattern . '/i', $file->getPathname())) {
                         Util\File::getFS()->remove($file->getPathname());
                         $fileCount++;
-                        $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', $file->getPathname()));
+                        $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', Util\File::getFS()->makePathRelative($file->getPathname(), $this->builder->getConfig()->getCachePath())));
                     }
                 }
             }
@@ -251,7 +242,7 @@ class Cache implements CacheInterface
     private function prune(string $key): bool
     {
         try {
-            $keyAsArray = explode('__', $this->prepareKey($key), -1);
+            $keyAsArray = explode('__', $this->prepareKey($key));
             if (!empty($keyAsArray)) {
                 $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
                 foreach (glob($pattern) ?: [] as $filename) {
