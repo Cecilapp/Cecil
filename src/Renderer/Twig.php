@@ -23,7 +23,6 @@ use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Translator;
 use Twig\Extra\Intl\IntlExtension;
-
 use Twig\Extra\Cache\CacheExtension;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
@@ -140,7 +139,7 @@ class Twig implements RendererInterface
         $this->twig->addRuntimeLoader(new class () implements RuntimeLoaderInterface {
             public function load($class)
             {
-                if (CacheRuntime::class === $class) {
+                if (CacheRuntime::class === $class) { // @phpstan-ignore-line
                     return new CacheRuntime(new TagAwareAdapter(new FilesystemAdapter()));
                 }
             }
