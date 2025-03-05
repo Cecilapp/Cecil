@@ -784,7 +784,6 @@ class Asset implements \ArrayAccess
                     if ($remote_fallback) {
                         $filePath = Util::joinFile($this->config->getAssetsPath(), $remote_fallback);
                         if (Util\File::getFS()->exists($filePath)) {
-
                             return $filePath;
                         }
 
