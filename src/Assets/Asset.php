@@ -665,7 +665,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Load file data.
+     * Load file data and store theme in $file array.
      *
      * @throws RuntimeException
      *
@@ -674,9 +674,18 @@ class Asset implements \ArrayAccess
     private function loadFile(string $path, bool $ignore_missing = false, ?string $remote_fallback = null, bool $force_slash = true): array
     {
         $file = [
-            'url' => null,
+            'url'      => null,
+            'filepath' => null,
+            'path'     => null,
+            'ext'      => null,
+            'type'     => null,
+            'subtype'  => null,
+            'size'     => null,
+            'content'  => null,
+            'missing'  => false,
         ];
 
+        // try to find file locally and returns the file path
         try {
             $filePath = $this->findFile($path, $remote_fallback);
         } catch (RuntimeException $e) {
@@ -690,13 +699,14 @@ class Asset implements \ArrayAccess
             throw new RuntimeException(\sprintf('Can\'t load asset file "%s" (%s).', $path, $e->getMessage()));
         }
 
+        // in case of an URL, the file is already stored in cache
         if (Util\Url::isUrl($path)) {
             $file['url'] = $path;
             $path = Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsFilesPath())
             );
-            // remote_fallback file is in assets/, not in cache/assets/files/
+            // trick: remote_fallback file is in assets/, not in cache/assets/files/
             if (substr(Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsFilesPath()), 0, 2) == '..') {
                 $path = Util::joinPath(
                     (string) $this->config->get('assets.target'),
@@ -705,10 +715,13 @@ class Asset implements \ArrayAccess
             }
             $force_slash = true;
         }
+
+        // force leading slash?
         if ($force_slash) {
             $path = '/' . ltrim($path, '/');
         }
 
+        // get content and content type
         $content = Util\File::fileGetContents($filePath);
         list($type, $subtype) = Util\File::getMediaType($filePath);
 
@@ -726,16 +739,16 @@ class Asset implements \ArrayAccess
 
     /**
      * Try to find the file:
-     *   1. remote (if $path is a valid URL)
-     *   2. in static/
-     *   3. in themes/<theme>/static/
+     *   1. remotely (if $path is a valid URL)
+     *   2. in static|assets/
+     *   3. in themes/<theme>/static|assets/
      * Returns local file path or throw an exception.
      *
      * @throws RuntimeException
      */
     private function findFile(string $path, ?string $remote_fallback = null): string
     {
-        // in case of remote file: save it and returns cached file path
+        // in case of a remote file: save it locally and returns its path
         if (Util\Url::isUrl($path)) {
             $url = $path;
             $urlHost = parse_url($path, PHP_URL_HOST);
@@ -754,7 +767,7 @@ class Asset implements \ArrayAccess
                 $urlQuery && $extension ? ".$extension" : ''
             ));
             $filePath = Util::joinFile($this->config->getCacheAssetsFilesPath(), $relativePath);
-            // not already in cache
+            // save file in cache
             if (!file_exists($filePath)) {
                 try {
                     if (!Util\Url::isRemoteFileExists($url)) {
@@ -767,24 +780,20 @@ class Asset implements \ArrayAccess
                         throw new RuntimeException(\sprintf('File "%s" is empty.', $url));
                     }
                 } catch (RuntimeException $e) {
-                    // is there a fallback in assets/
+                    // if there is a fallback in assets/ returns it
                     if ($remote_fallback) {
                         $filePath = Util::joinFile($this->config->getAssetsPath(), $remote_fallback);
                         if (Util\File::getFS()->exists($filePath)) {
+
                             return $filePath;
                         }
+
                         throw new RuntimeException(\sprintf('Fallback file "%s" doesn\'t exists.', $filePath));
                     }
 
                     throw new RuntimeException($e->getMessage());
                 }
-                if (false === $content = Util\File::fileGetContents($url, true)) {
-                    throw new RuntimeException(\sprintf('Can\'t get content of "%s"', $url));
-                }
-                if (\strlen($content) <= 1) {
-                    throw new RuntimeException(\sprintf('Asset at "%s" is empty', $url));
-                }
-                // put file in cache
+                // store file in cache
                 Util\File::getFS()->dumpFile($filePath, $content);
             }
 
