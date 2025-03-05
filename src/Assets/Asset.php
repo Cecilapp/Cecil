@@ -709,8 +709,8 @@ class Asset implements \ArrayAccess
             $path = '/' . ltrim($path, '/');
         }
 
-        list($type, $subtype) = Util\File::getMimeType($filePath);
         $content = Util\File::fileGetContents($filePath);
+        list($type, $subtype) = Util\File::getMediaType($filePath);
 
         $file['filepath'] = $filePath;
         $file['path'] = $path;

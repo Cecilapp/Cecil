@@ -70,7 +70,7 @@ class Load extends AbstractStep
         $count = 0;
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
-            list($type, $subtype) = Util\File::getMimeType($file->getRealPath());
+            list($type, $subtype) = Util\File::getMediaType($file->getRealPath());
             $staticFiles[$count]['file'] = $file->getRelativePathname();
             $staticFiles[$count]['path'] = Util::joinPath($file->getRelativePathname());
             $staticFiles[$count]['date'] = (new \DateTime())->setTimestamp($file->getCTime());
