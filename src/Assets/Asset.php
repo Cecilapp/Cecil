@@ -694,10 +694,10 @@ class Asset implements \ArrayAccess
             $file['url'] = $path;
             $path = Util::joinPath(
                 (string) $this->config->get('assets.target'),
-                Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath())
+                Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsFilesPath())
             );
-            // remote_fallback is in assets/, not in cache/assets/remote/
-            if (substr(Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsRemotePath()), 0, 2) == '..') {
+            // remote_fallback file is in assets/, not in cache/assets/files/
+            if (substr(Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsFilesPath()), 0, 2) == '..') {
                 $path = Util::joinPath(
                     (string) $this->config->get('assets.target'),
                     Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsPath())
@@ -753,7 +753,7 @@ class Asset implements \ArrayAccess
                 $urlQuery ? "-$urlQuery" : '',
                 $urlQuery && $extension ? ".$extension" : ''
             ));
-            $filePath = Util::joinFile($this->config->getCacheAssetsRemotePath(), $relativePath);
+            $filePath = Util::joinFile($this->config->getCacheAssetsFilesPath(), $relativePath);
             // not already in cache
             if (!file_exists($filePath)) {
                 try {

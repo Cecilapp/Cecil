@@ -243,8 +243,8 @@ return [
         ],
         'assets' => [
             'dir'    => 'assets', // assets files cache directory
-            'remote' => [
-                'dir' => 'remote', // sub directory where remote files are saved
+            'files' => [
+                'dir' => 'files', // sub directory where files are saved
             ],
         ],
         'translations' => [
