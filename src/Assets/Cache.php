@@ -160,9 +160,9 @@ class Cache implements CacheInterface
     /**
      * Creates key with the MD5 hash of a string.
      */
-    public function createKeyFromString(string $value): string
+    public function createKeyFromString(string $value, ?string $suffix = null): string
     {
-        return hash('md5', $value);
+        return \sprintf('%s%s__%s', hash('md5', $value), ($suffix ? '_' . $suffix : ''), $this->builder->getVersion());
     }
 
     /**
@@ -187,11 +187,10 @@ class Cache implements CacheInterface
         $tags = implode('_', $tags ?? []);
 
         return $this->prepareKey(\sprintf(
-            '%s%s%s__%s__%s',
+            '%s%s%s__%s',
             $asset['filename'],
             "_{$asset['ext']}",
             $tags ? "_$tags" : '',
-            $this->builder->getVersion(),
             $this->createKeyFromString($asset['content_source'] ?? '')
         ));
     }
