@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of Cecil.
+ *
+ * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Cecil\Renderer;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -20,7 +29,7 @@ class TwigRuntimeLoader implements RuntimeLoaderInterface
 
     public function load(string $class)
     {
-        if (CacheRuntime::class === $class) { // @phpstan-ignore-line
+        if (CacheRuntime::class === $class) {
             return new CacheRuntime(new TagAwareAdapter(new FilesystemAdapter(namespace: '_fragments', directory: $this->cacheDir)));
         }
 
