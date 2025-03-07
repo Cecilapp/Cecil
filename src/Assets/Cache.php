@@ -62,7 +62,7 @@ class Cache implements CacheInterface
             return $default;
         }
         // get content from dedicated file
-        if (is_array($data['value']) && isset($data['value']['path'])) {
+        if (\is_array($data['value']) && isset($data['value']['path'])) {
             $data['value']['content'] = Util\File::fileGetContents(Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $data['value']['path']));
         }
 
@@ -78,7 +78,7 @@ class Cache implements CacheInterface
             $key = $this->prepareKey($key);
             $this->prune($key);
             // put file content in a dedicated file
-            if (is_array($value) && isset($value['content']) && isset($value['path'])) {
+            if (\is_array($value) && isset($value['content']) && isset($value['path'])) {
                 Util\File::getFS()->dumpFile(Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $value['path']), $value['content']);
                 unset($value['content']);
             }
