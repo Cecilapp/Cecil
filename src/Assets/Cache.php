@@ -56,14 +56,16 @@ class Cache implements CacheInterface
 
                 return $default;
             }
+            // get content from dedicated file
+            if (\is_array($data['value']) && isset($data['value']['path'])) {
+                if (false !== $content = Util\File::fileGetContents(Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $data['value']['path']))) {
+                    $data['value']['content'] = $content;
+                }
+            }
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
             return $default;
-        }
-        // get content from dedicated file
-        if (\is_array($data['value']) && isset($data['value']['path'])) {
-            $data['value']['content'] = Util\File::fileGetContents(Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $data['value']['path']));
         }
 
         return $data['value'];
