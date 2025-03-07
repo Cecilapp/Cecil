@@ -139,6 +139,8 @@ class Image
 
         $srcset = '';
         $widthMax = 0;
+        sort($widths, SORT_NUMERIC);
+        $widths = array_reverse($widths);
         foreach ($widths as $width) {
             if ($asset['width'] < $width) {
                 break;
