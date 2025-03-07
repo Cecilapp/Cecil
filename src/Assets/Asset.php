@@ -82,7 +82,7 @@ class Asset implements \ArrayAccess
             'filename'       => '',    // filename (for bundle)
             'path'           => '',    // public path to the file
             'url'            => null,  // URL of a remote image
-            'missing'        => false, // if file not found, but missing ollowed 'missing' is true
+            'missing'        => false, // if file not found, but missing allowed 'missing' is true
             'ext'            => '',    // file extension
             'type'           => '',    // file type (e.g.: image, audio, video, etc.)
             'subtype'        => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
@@ -383,7 +383,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Optimizing an image.
+     * Optimizing an image file.
      */
     public function optimize(string $filepath): self
     {
