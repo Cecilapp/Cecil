@@ -191,7 +191,7 @@ class Cache implements CacheInterface
             $asset['filename'],
             "_{$asset['ext']}",
             $tags ? "_$tags" : '',
-            $this->createKeyFromString($asset['content_source'] ?? '')
+            $this->createKeyFromString($asset['content'] ?? '')
         ));
     }
 

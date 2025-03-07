@@ -79,17 +79,15 @@ class Asset implements \ArrayAccess
         $this->data = [
             'file'           => '',    // absolute file path
             'files'          => [],    // array of files path (if bundle)
-            'filename'       => '',    // filename
-            'path_source'    => '',    // public path to the file, before transformations
-            'path'           => '',    // public path to the file, after transformations
+            'filename'       => '',    // filename (for bundle)
+            'path'           => '',    // public path to the file
             'url'            => null,  // URL of a remote image
             'missing'        => false, // if file not found, but missing ollowed 'missing' is true
             'ext'            => '',    // file extension
             'type'           => '',    // file type (e.g.: image, audio, video, etc.)
             'subtype'        => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
             'size'           => 0,     // file size (in bytes)
-            'content_source' => '',    // file content, before transformations
-            'content'        => '',    // file content, after transformations
+            'content'        => '',    // file content
             'width'          => 0,     // width (in pixels) in case of an image
             'height'         => 0,     // height (in pixels) in case of an image
             'exif'           => [],    // exif data
@@ -130,12 +128,10 @@ class Asset implements \ArrayAccess
                 }
                 // set data
                 $this->data['size'] += $file[$i]['size'];
-                $this->data['content_source'] .= $file[$i]['content'];
                 $this->data['content'] .= $file[$i]['content'];
                 if ($i == 0) {
                     $this->data['file'] = $file[$i]['filepath'];
                     $this->data['filename'] = $file[$i]['path'];
-                    $this->data['path_source'] = $file[$i]['path'];
                     $this->data['path'] = $file[$i]['path'];
                     $this->data['url'] = $file[$i]['url'];
                     $this->data['ext'] = $file[$i]['ext'];
@@ -227,7 +223,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $fingerprint = hash('md5', $this->data['content_source']);
+        $fingerprint = hash('md5', $this->data['content']);
         $this->data['path'] = preg_replace(
             '/\.' . $this->data['ext'] . '$/m',
             ".$fingerprint." . $this->data['ext'],
@@ -888,7 +884,7 @@ class Asset implements \ArrayAccess
                 return false;
             }
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Handling asset "%s" failed: "%s"', $this->data['path_source'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Handling asset "%s" failed: "%s"', $this->data['path'], $e->getMessage()));
         }
 
         return $size;
