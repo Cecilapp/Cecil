@@ -44,11 +44,12 @@ class Cache implements CacheInterface
     {
         try {
             $key = $this->prepareKey($key);
+            // return default value if file doesn't exists
             if (false === $content = Util\File::fileGetContents($this->getFilePathname($key))) {
                 return $default;
             }
+            // unserialize data
             $data = unserialize($content);
-
             // check expiration
             if ($data['expiration'] <= time()) {
                 $this->delete($key);
@@ -59,6 +60,10 @@ class Cache implements CacheInterface
             $this->builder->getLogger()->error($e->getMessage());
 
             return $default;
+        }
+        // get content from dedicated file
+        if (is_array($data['value']) && isset($data['value']['path'])) {
+            $data['value']['content'] = Util\File::fileGetContents(Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $data['value']['path']));
         }
 
         return $data['value'];
@@ -71,11 +76,17 @@ class Cache implements CacheInterface
     {
         try {
             $key = $this->prepareKey($key);
+            $this->prune($key);
+            // put file content in a dedicated file
+            if (is_array($value) && isset($value['content']) && isset($value['path'])) {
+                Util\File::getFS()->dumpFile(Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $value['path']), $value['content']);
+                unset($value['content']);
+            }
+            // serialize data
             $data = serialize([
                 'value'      => $value,
                 'expiration' => time() + $this->duration($ttl),
             ]);
-            $this->prune($key);
             Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
@@ -246,6 +257,7 @@ class Cache implements CacheInterface
                 $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
                 foreach (glob($pattern) ?: [] as $filename) {
                     Util\File::getFS()->remove($filename);
+                    $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', Util\File::getFS()->makePathRelative($filename, $this->builder->getConfig()->getCachePath())));
                 }
             }
         } catch (\Exception $e) {
