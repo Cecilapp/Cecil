@@ -18,7 +18,7 @@ use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Twig\Extra\Cache\CacheRuntime;
 use Twig\RuntimeLoader\RuntimeLoaderInterface;
 
-class TwigRuntimeLoader implements RuntimeLoaderInterface
+class TwigCacheRuntimeLoader implements RuntimeLoaderInterface
 {
     protected string $cacheDir;
 

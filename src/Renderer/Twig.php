@@ -132,7 +132,7 @@ class Twig implements RendererInterface
             ->setup();
         // cache
         $this->twig->addExtension(new CacheExtension());
-        $this->twig->addRuntimeLoader(new TwigRuntimeLoader($this->builder->getConfig()->getCacheTemplatesPath()));
+        $this->twig->addRuntimeLoader(new TwigCacheRuntimeLoader($this->builder->getConfig()->getCacheTemplatesPath()));
         // debug
         if ($this->builder->isDebug()) {
             // dump()
