@@ -1,5 +1,4 @@
 {#- title -#}
-{% cache 'metatags;v1;' ~ page.id ~ ';' ~ page.updated|date('U') ~ ';' ~ cecil.version %}
 {% set title_html = title|default %}
 {% if title is not defined or title is empty %}
   {%- set title_divider = page.metatags.title.divider|default(site.metatags.title.divider|default(' &middot; ')) %}
@@ -139,7 +138,7 @@
 {%- endif ~%}
     <meta name="robots" content="{{ robots }}">
 {#- template: favicon ~#}
-{%- cache 'metatags_favicon;v1;' ~ cecil.version ~%}
+{%- cache 'metatags_favicon' ~ '__' ~ cecil.version ~%}
 {%- if site.metatags.favicon.enabled ?? true ~%}
   {#- favicon.ico ~#}
   {%- set favicon_ico = asset('favicon.ico', {'ignore_missing': true}) -%}
@@ -191,9 +190,11 @@
     <link rel="preload" href="{{ url(video_asset) }}" as="video" type="{{ video_asset.subtype }}">
 {%- endif ~%}
 {#- template: rel me ~#}
+{%- cache 'metatags_me' ~ '__' ~ cecil.version ~%}
 {%- for social in page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) ~%}
     <link rel="me" href="{{ social.url }}">
 {%- endfor ~%}
+{%- endcache ~%}
 {#- template: Open Graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}">
     <meta property="og:site_name" content="{{ opengraph.site_name }}">
@@ -259,4 +260,3 @@
 {#- template: json-ld ~#}
 {{- include('partials/jsonld.js.twig', {author, favicon_asset: favicon_asset|default}) -}}
 {%- endblock content -%}
-{%- endcache ~%}
