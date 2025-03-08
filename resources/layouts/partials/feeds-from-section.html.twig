@@ -2,6 +2,8 @@
 {%- if page.section|default and page.type == 'page' -%}
   {%- set section_page = site.page(page.section)|default -%}
   {%- if section_page and section_page.alternates is defined -%}
+    {%- cache 'feeds-from-section_' ~ section_page.id ~ '_' ~ section_page.updated|date('U') ~ '__' ~ cecil.version -%}
     {{- include('partials/alternates.html.twig', {title: section_page.title|e ~ ' - ' ~ site.title|e , page: section_page, alternates: section_page.alternates|filter(a => a.format in feed_formats)}, with_context = false) ~}}
+    {%- endcache -%}
   {%- endif -%}
 {%- endif -%}
