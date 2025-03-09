@@ -58,7 +58,7 @@ class Cache implements CacheInterface
             }
             // get content from dedicated file
             if (\is_array($data['value']) && isset($data['value']['path'])) {
-                if (false !== $content = Util\File::fileGetContents(Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $data['value']['path']))) {
+                if (false !== $content = Util\File::fileGetContents($this->getContentFilePathname($data['value']['path']))) {
                     $data['value']['content'] = $content;
                 }
             }
@@ -81,7 +81,7 @@ class Cache implements CacheInterface
             $this->prune($key);
             // put file content in a dedicated file
             if (\is_array($value) && isset($value['content']) && isset($value['path'])) {
-                Util\File::getFS()->dumpFile(Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $value['path']), $value['content']);
+                Util\File::getFS()->dumpFile($this->getContentFilePathname($value['path']), $value['content']);
                 unset($value['content']);
             }
             // serialize data
@@ -238,6 +238,14 @@ class Cache implements CacheInterface
         }
 
         return $fileCount;
+    }
+
+    /**
+     * Returns cache content file pathname from path.
+     */
+    public function getContentFilePathname(string $path): string
+    {
+        return Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $path);
     }
 
     /**
