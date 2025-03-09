@@ -46,9 +46,6 @@ class Asset implements \ArrayAccess
     protected $minified = false;
 
     /** @var bool */
-    protected $optimize = false;
-
-    /** @var bool */
     protected $ignore_missing = false;
 
     /**
@@ -170,6 +167,10 @@ class Asset implements \ArrayAccess
             }
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
+            // optimizing images files
+            if ($optimize && $this->data['type'] == 'image') {
+                $this->optimize($cache->getContentFilePathname($this->data['path']), $this->data['path']);
+            }
         }
         $this->data = $cache->get($cacheKey);
 
@@ -184,10 +185,6 @@ class Asset implements \ArrayAccess
         // minifying (CSS and JavScript files)
         if ($minify) {
             $this->minify();
-        }
-        // optimizing (images files)
-        if ($optimize) {
-            $this->optimize = true;
         }
     }
 
@@ -384,42 +381,27 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Optimizing an image file.
+     * Optimizing $filepath image.
+     * Returns the new file size.
      */
-    public function optimize(string $filepath): self
+    public function optimize(string $filepath, string $path): int
     {
-        if ($this->data['type'] != 'image') {
-            return $this;
-        }
-
         $quality = $this->config->get('assets.images.quality');
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $tags = ["q$quality", 'optimized'];
-        if ($this->data['width']) {
-            array_unshift($tags, "{$this->data['width']}x");
+        $message = \sprintf('Asset processed: "%s"', $path);
+        $sizeBefore = filesize($filepath);
+        Optimizer::create($quality)->optimize($filepath);
+        $sizeAfter = filesize($filepath);
+        if ($sizeAfter < $sizeBefore) {
+            $message = \sprintf(
+                'Asset optimized: "%s" (%s Ko -> %s Ko)',
+                $path,
+                ceil($sizeBefore / 1000),
+                ceil($sizeAfter / 1000)
+            );
         }
-        $cacheKey = $cache->createKeyFromAsset($this, $tags);
-        if (!$cache->has($cacheKey)) {
-            $message = \sprintf('Asset processed: "%s"', $this->data['path']);
-            $sizeBefore = filesize($filepath);
-            Optimizer::create($quality)->optimize($filepath);
-            $sizeAfter = filesize($filepath);
-            if ($sizeAfter < $sizeBefore) {
-                $message = \sprintf(
-                    'Asset optimized: "%s" (%s Ko -> %s Ko)',
-                    $this->data['path'],
-                    ceil($sizeBefore / 1000),
-                    ceil($sizeAfter / 1000)
-                );
-            }
-            $this->data['content'] = Util\File::fileGetContents($filepath);
-            $this->data['size'] = $sizeAfter;
-            $cache->set($cacheKey, $this->data);
-            $this->builder->getLogger()->debug($message);
-        }
-        $this->data = $cache->get($cacheKey, $this->data);
+        $this->builder->getLogger()->debug($message);
 
-        return $this;
+        return $sizeAfter;
     }
 
     /**
@@ -632,9 +614,6 @@ class Asset implements \ArrayAccess
         if (!$this->builder->getBuildOptions()['dry-run'] && !Util\File::getFS()->exists($filepath)) {
             try {
                 Util\File::getFS()->dumpFile($filepath, $this->data['content']);
-                if ($this->optimize) {
-                    $this->optimize($filepath);
-                }
             } catch (\Symfony\Component\Filesystem\Exception\IOException) {
                 if (!$this->ignore_missing) {
                     throw new RuntimeException(\sprintf('Can\'t save asset "%s" to output.', $filepath));
