@@ -78,19 +78,19 @@ class Asset implements \ArrayAccess
         });
         $this->data = [
             'file'           => '',    // absolute file path
-            'files'          => [],    // array of files path (if bundle)
-            'filename'       => '',    // filename (for bundle)
+            'files'          => [],    // bundle: array of files path
+            'filename'       => '',    // bundle: filename
             'path'           => '',    // public path to the file
-            'url'            => null,  // URL of a remote image
-            'missing'        => false, // if file not found, but missing allowed 'missing' is true
+            'url'            => null,  // URL if it's a remote file
+            'missing'        => false, // if file not found but missing allowed: 'missing' is true
             'ext'            => '',    // file extension
             'type'           => '',    // file type (e.g.: image, audio, video, etc.)
             'subtype'        => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
             'size'           => 0,     // file size (in bytes)
-            'content'        => '',    // file content
-            'width'          => 0,     // width (in pixels) in case of an image
-            'height'         => 0,     // height (in pixels) in case of an image
+            'width'          => 0,     // image width (in pixels)
+            'height'         => 0,     // image height (in pixels)
             'exif'           => [],    // exif data
+            'content'        => '',    // file content
         ];
 
         // handles options
@@ -127,8 +127,8 @@ class Asset implements \ArrayAccess
                     continue;
                 }
                 // set data
-                $this->data['size'] += $file[$i]['size'];
                 $this->data['content'] .= $file[$i]['content'];
+                $this->data['size'] += $file[$i]['size'];
                 if ($i == 0) {
                     $this->data['file'] = $file[$i]['filepath'];
                     $this->data['filename'] = $file[$i]['path'];
@@ -137,6 +137,7 @@ class Asset implements \ArrayAccess
                     $this->data['ext'] = $file[$i]['ext'];
                     $this->data['type'] = $file[$i]['type'];
                     $this->data['subtype'] = $file[$i]['subtype'];
+                    // image: width, height and exif
                     if ($this->data['type'] == 'image') {
                         $this->data['width'] = $this->getWidth();
                         $this->data['height'] = $this->getHeight();
@@ -144,7 +145,7 @@ class Asset implements \ArrayAccess
                             $this->data['exif'] = Util\File::readExif($file[$i]['filepath']);
                         }
                     }
-                    // bundle: default filename
+                    // bundle default filename
                     if ($pathsCount > 1 && empty($filename)) {
                         switch ($this->data['ext']) {
                             case 'scss':
@@ -158,13 +159,13 @@ class Asset implements \ArrayAccess
                                 throw new RuntimeException(\sprintf('Asset bundle supports %s files only.', '.scss, .css and .js'));
                         }
                     }
-                    // bundle: filename and path
+                    // bundle filename and path
                     if (!empty($filename)) {
                         $this->data['filename'] = $filename;
                         $this->data['path'] = '/' . ltrim($filename, '/');
                     }
                 }
-                // bundle: files path
+                // bundle files path
                 $this->data['files'][] = $file[$i]['filepath'];
             }
             $cache->set($cacheKey, $this->data);
@@ -348,7 +349,7 @@ class Asset implements \ArrayAccess
         }
 
         if (substr($this->data['path'], -8) == '.min.css' || substr($this->data['path'], -7) == '.min.js') {
-            $this->minified;
+            $this->minified = true;
 
             return $this;
         }
