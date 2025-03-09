@@ -684,7 +684,7 @@ class Asset implements \ArrayAccess
 
         // try to find file locally and returns the file path
         try {
-            $filePath = $this->findFile($path, $remote_fallback);
+            $filePath = $this->locateFile($path, $remote_fallback);
         } catch (RuntimeException $e) {
             if ($ignore_missing) {
                 $file['path'] = $path;
@@ -735,15 +735,17 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Try to find the file:
+     * Try to locate the file:
      *   1. remotely (if $path is a valid URL)
      *   2. in static|assets/
      *   3. in themes/<theme>/static|assets/
      * Returns local file path or throw an exception.
      *
+     * @return string local file path
+     *
      * @throws RuntimeException
      */
-    private function findFile(string $path, ?string $remote_fallback = null): string
+    private function locateFile(string $path, ?string $remote_fallback = null): string
     {
         // in case of a remote file: save it locally and returns its path
         if (Util\Url::isUrl($path)) {
