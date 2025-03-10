@@ -48,9 +48,6 @@ class Asset implements \ArrayAccess
     /** @var bool */
     protected $ignore_missing = false;
 
-    /** @var array */
-    protected $toSave = [];
-
     /**
      * Creates an Asset from a file path, an array of files path or an URL.
      *
@@ -605,27 +602,18 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Prepare list of (cached) assets to save in the output directory.
-     * Note: a file from `static/` with the same name will NOT be overridden.
+     * Adds asset path to the list of assets to save.
      *
      * @throws RuntimeException
      */
     public function save(): void
     {
-        $this->toSave[] = $this->data['path'];
-
-        /*
-        $filepath = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
-        if (!$this->builder->getBuildOptions()['dry-run'] && !Util\File::getFS()->exists($filepath)) {
-            try {
-                Util\File::getFS()->dumpFile($filepath, $this->data['content']);
-            } catch (\Symfony\Component\Filesystem\Exception\IOException) {
-                if (!$this->ignore_missing) {
-                    throw new RuntimeException(\sprintf('Can\'t save asset "%s" to output.', $filepath));
-                }
-            }
+        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
+        if (!Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path'])) && !$this->ignore_missing) {
+            throw new RuntimeException(\sprintf('Can\'t save asset "%s".', $this->data['path']));
         }
-        */
+
+        $this->builder->addAsset($this->data['path']);
     }
 
     /**

@@ -48,6 +48,7 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\StaticFiles\Copy',
         'Cecil\Step\Pages\Render',
         'Cecil\Step\Pages\Save',
+        'Cecil\Step\Assets\Save',
         'Cecil\Step\Optimize\Html',
         'Cecil\Step\Optimize\Css',
         'Cecil\Step\Optimize\Js',
@@ -77,6 +78,9 @@ class Builder implements LoggerAwareInterface
 
     /** @var PagesCollection Pages collection. */
     protected $pages;
+
+    /** @var array Assets path collection */
+    protected $assets = [];
 
     /** @var array Menus collection. */
     protected $menus;
@@ -334,6 +338,31 @@ class Builder implements LoggerAwareInterface
     public function getPages(): ?PagesCollection
     {
         return $this->pages;
+    }
+
+    /**
+     * Set assets path collection.
+     */
+    public function setAssets(array $assets): void
+    {
+        $this->assets = $assets;
+    }
+
+    /**
+     * Add an asset path to assets collection.
+     */
+    public function addAsset(string $path): void
+    {
+        $this->assets[] = $path;
+        $this->assets = array_unique($this->assets, SORT_STRING);
+    }
+
+    /**
+     * Returns list of assets path.
+     */
+    public function getAssets(): ?array
+    {
+        return $this->assets;
     }
 
     /**

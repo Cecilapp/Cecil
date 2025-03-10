@@ -37,9 +37,6 @@ class Save extends AbstractStep
      */
     public function init(array $options): void
     {
-        // should clear cache?
-        $this->clearCache();
-
         if ($options['dry-run']) {
             return;
         }
@@ -96,19 +93,5 @@ class Save extends AbstractStep
         }
 
         return preg_replace('#/+#', '/', $pathname);
-    }
-
-    /**
-     * Deletes cache directory.
-     */
-    private function clearCache(): void
-    {
-        if ($this->config->get('cache.enabled') === false) {
-            try {
-                Util\File::getFS()->remove($this->config->getCachePath());
-            } catch (\Exception) {
-                throw new RuntimeException(\sprintf('Can\'t remove cache directory "%s".', $this->config->getCachePath()));
-            }
-        }
     }
 }
