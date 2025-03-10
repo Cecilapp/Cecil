@@ -1327,6 +1327,64 @@ Cecil provides a components logic to help you build your templates with the _Twi
 
 See official _Twig components extension_ documentation: <https://github.com/giorgiopogliani/twig-components#readme>.
 
+## Cache
+
+Cecil uses a cache system to speed up the generation process, it can be disabled or cleared.
+
+### Clear cache
+
+You can clear the cache with the following command:
+
+```bash
+php cecil.phar cache:clear               # clear all caches
+php cecil.phar cache:clear:assets        # clear assets cache
+php cecil.phar cache:clear:templates     # clear templates cache
+php cecil.phar cache:clear:translations  # clear translations cache
+```
+
+### Fragments cache
+
+Cecil caches fragments of the pages to avoid re-rendering the same content multiple times.
+
+To use fragments cache, you must wrap the content you want to cache with the `cache` tag.
+
+```twig
+{% cache 'unique-key' %}
+    {# content #}
+{% endcache %}
+```
+
+:::info
+More details on the official _Twig cache extension_ documentation: <https://twig.symfony.com/doc/tags/cache.html>.
+:::
+
+You can clear fragments cache only with the following command:
+
+```bash
+php cecil.phar cache:clear:templates --fragments
+```
+
+### Disable cache
+
+You can disable templates cache with the [configuration](4-Configuration.md#cache).
+
+```yaml
+cache:
+  templates:
+    enabled: false
+```
+
+:::warning
+Disabling cache can slow down the generation process, so it's not recommended for production.
+
+During local development, if you need to clear templates cache between each generation, you can use the following option:
+
+```bash
+php cecil.phar serve --clear-cache
+```
+
+:::
+
 ## Extend
 
 ### Functions and filters
