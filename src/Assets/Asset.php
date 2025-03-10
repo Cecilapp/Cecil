@@ -48,6 +48,9 @@ class Asset implements \ArrayAccess
     /** @var bool */
     protected $ignore_missing = false;
 
+    /** @var array */
+    protected $toSave = [];
+
     /**
      * Creates an Asset from a file path, an array of files path or an URL.
      *
@@ -603,13 +606,16 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Saves file.
+     * Prepare list of (cached) assets to save in the output directory.
      * Note: a file from `static/` with the same name will NOT be overridden.
      *
      * @throws RuntimeException
      */
     public function save(): void
     {
+        $this->toSave[] = $this->data['path'];
+
+        /*
         $filepath = Util::joinFile($this->config->getOutputPath(), $this->data['path']);
         if (!$this->builder->getBuildOptions()['dry-run'] && !Util\File::getFS()->exists($filepath)) {
             try {
@@ -620,6 +626,7 @@ class Asset implements \ArrayAccess
                 }
             }
         }
+        */
     }
 
     /**
