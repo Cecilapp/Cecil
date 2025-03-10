@@ -309,6 +309,16 @@ class Config
     }
 
     /**
+     * Returns the path of remote assets files directory (in cache).
+     *
+     * @return string
+     */
+    public function getAssetsRemotePath(): string
+    {
+        return Util::joinFile($this->getCacheAssetsPath(), (string) $this->get('assets.remote.dir'));
+    }
+
+    /**
      * Returns cache path.
      *
      * @throws ConfigException

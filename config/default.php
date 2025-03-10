@@ -139,7 +139,10 @@ return [
     ],
     'assets' => [ // assets: CSS, JS, images, etc.
         'dir'    => 'assets', // assets files directory
-        'target' => 'assets', // where processed and remote assets are saved
+        'target' => 'assets', // where processed assets are saved (in output directory)
+        'remote' => [
+            'dir' => 'remote', // where remote assets are saved (in cache directory)
+        ],
         'fingerprint' => [
             'enabled' => true, // enables fingerprinting
         ],
@@ -244,7 +247,7 @@ return [
         'assets' => [
             'dir'    => 'assets', // assets files cache directory
             'files' => [
-                'dir' => 'files', // sub directory where files are saved
+                'dir' => 'files', // sub directory where (content) files are saved
             ],
         ],
         'translations' => [

@@ -666,15 +666,15 @@ class Asset implements \ArrayAccess
             throw new RuntimeException(\sprintf('Can\'t load asset file "%s" (%s).', $path, $e->getMessage()));
         }
 
-        // in case of an URL, the file is already stored in cache
+        // in case of an URL, update $path
         if (Util\Url::isUrl($path)) {
             $file['url'] = $path;
             $path = Util::joinPath(
                 (string) $this->config->get('assets.target'),
-                Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsFilesPath())
+                Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsRemotePath())
             );
-            // trick: remote_fallback file is in assets/, not in cache/assets/files/
-            if (substr(Util\File::getFS()->makePathRelative($filePath, $this->config->getCacheAssetsFilesPath()), 0, 2) == '..') {
+            // trick: the `remote_fallback` file is in assets/ dir (not in cache/assets/remote/
+            if (substr(Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsRemotePath()), 0, 2) == '..') {
                 $path = Util::joinPath(
                     (string) $this->config->get('assets.target'),
                     Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsPath())
@@ -720,6 +720,7 @@ class Asset implements \ArrayAccess
         // in case of a remote file: save it locally and returns its path
         if (Util\Url::isUrl($path)) {
             $url = $path;
+            // create relative path
             $urlHost = parse_url($path, PHP_URL_HOST);
             $urlPath = parse_url($path, PHP_URL_PATH);
             $urlQuery = parse_url($path, PHP_URL_QUERY);
@@ -735,10 +736,11 @@ class Asset implements \ArrayAccess
                 $urlQuery ? "-$urlQuery" : '',
                 $urlQuery && $extension ? ".$extension" : ''
             ));
-            $filePath = Util::joinFile($this->config->getCacheAssetsFilesPath(), $relativePath);
-            // save file in cache
+            $filePath = Util::joinFile($this->config->getAssetsRemotePath(), $relativePath);
+            // save file
             if (!file_exists($filePath)) {
                 try {
+                    // get content
                     if (!Util\Url::isRemoteFileExists($url)) {
                         throw new RuntimeException(\sprintf('File "%s" doesn\'t exists', $url));
                     }
@@ -761,7 +763,6 @@ class Asset implements \ArrayAccess
 
                     throw new RuntimeException($e->getMessage());
                 }
-                // store file in cache
                 Util\File::getFS()->dumpFile($filePath, $content);
             }
 
