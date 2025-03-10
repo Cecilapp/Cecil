@@ -99,7 +99,6 @@ class Asset implements \ArrayAccess
         $remote_fallback = null;
         $force_slash = true;
         extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
-        $this->ignore_missing = $ignore_missing;
 
         // fill data array with file(s) informations
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
@@ -609,11 +608,9 @@ class Asset implements \ArrayAccess
     public function save(): void
     {
         $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        if (!Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path'])) && !$this->ignore_missing) {
-            throw new RuntimeException(\sprintf('Can\'t save asset "%s".', $this->data['path']));
+        if (Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
+            $this->builder->addAsset($this->data['path']);
         }
-
-        $this->builder->addAsset($this->data['path']);
     }
 
     /**
