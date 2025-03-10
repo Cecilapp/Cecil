@@ -93,7 +93,7 @@ class Cache implements CacheInterface
             $key = $this->sanitizeKey($key);
             $this->prune($key);
             // put file content in a dedicated file
-            if (\is_array($value) && isset($value['content']) && isset($value['path'])) {
+            if (\is_array($value) && !empty($value['content']) && !empty($value['path'])) {
                 Util\File::getFS()->dumpFile($this->getContentFilePathname($value['path']), $value['content']);
                 unset($value['content']);
             }
