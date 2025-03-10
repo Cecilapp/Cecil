@@ -265,7 +265,7 @@ class Cache implements CacheInterface
             $keyAsArray = explode('__', $this->prepareKey($key));
             // if 3 parts (with hash), remove all files with the same first part
             // pattern: `path_tag__hash__version`
-            if (!empty($keyAsArray[0]) && count($keyAsArray) == 3) {
+            if (!empty($keyAsArray[0]) && \count($keyAsArray) == 3) {
                 $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
                 foreach (glob($pattern) ?: [] as $filename) {
                     Util\File::getFS()->remove($filename);
