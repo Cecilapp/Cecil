@@ -90,11 +90,6 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('d', [$this, 'varDump'], ['needs_context' => true, 'needs_environment' => true]),
             // deprecated
             new \Twig\TwigFunction(
-                'hash',
-                [$this, 'integrity'],
-                ['deprecation_info' => new DeprecatedCallableInfo('', '', 'integrity')]
-            ),
-            new \Twig\TwigFunction(
                 'minify',
                 [$this, 'minify'],
                 ['deprecation_info' => new DeprecatedCallableInfo('', '', 'minify filter')]
