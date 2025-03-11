@@ -1331,9 +1331,11 @@ See official _Twig components extension_ documentation: <https://github.com/gior
 
 Cecil uses a cache system to speed up the generation process, it can be disabled or cleared.
 
+There is three types of cache in the case of templates rendering: templates themselves, [assets](#asset) and [translations](#translation-files).
+
 ### Clear cache
 
-You can clear the cache with the following command:
+You can clear the cache with the following commands:
 
 ```bash
 php cecil.phar cache:clear               # clear all caches
@@ -1341,6 +1343,8 @@ php cecil.phar cache:clear:assets        # clear assets cache
 php cecil.phar cache:clear:templates     # clear templates cache
 php cecil.phar cache:clear:translations  # clear translations cache
 ```
+
+In practice you don't need to clear the cache manually, Cecil does it for you when needed.
 
 ### Fragments cache
 
@@ -1358,7 +1362,7 @@ To use fragments cache, you must wrap the content you want to cache with the `ca
 More details on the official _Twig cache extension_ documentation: <https://twig.symfony.com/doc/tags/cache.html>.
 :::
 
-You can clear fragments cache only with the following command:
+Fragments cache is aggressive, so in development you may need to clear it between each generation, with the following command:
 
 ```bash
 php cecil.phar cache:clear:templates --fragments
@@ -1367,12 +1371,6 @@ php cecil.phar cache:clear:templates --fragments
 ### Disable cache
 
 You can disable templates cache with the [configuration](4-Configuration.md#cache).
-
-```yaml
-cache:
-  templates:
-    enabled: false
-```
 
 :::warning
 Disabling cache can slow down the generation process, so it's not recommended for production.
