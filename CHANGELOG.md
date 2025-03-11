@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.33.1](https://github.com/Cecilapp/Cecil/compare/8.33.0...8.33.1)
+
+> 11 March 2025
+
+- doc: fix typo [`319372e`](https://github.com/Cecilapp/Cecil/commit/319372e864c3e187ff320eca555d8b900001a252)
+- refactor: debug data moved in .cecil dir [`ec55022`](https://github.com/Cecilapp/Cecil/commit/ec550225198b0adf7aff469f34397fc45f76c526)
+- doc: update about cache [`83eb9be`](https://github.com/Cecilapp/Cecil/commit/83eb9be61d3d9f3a752ba296e9349a0059df9357)
+- Revert "Update deploy-dist.sh" [`dece2df`](https://github.com/Cecilapp/Cecil/commit/dece2dfee66796eb9a31d3f0ada8c31fa1b220f2)
+
 #### [8.33.0](https://github.com/Cecilapp/Cecil/compare/8.32.3...8.33.0)
 
 > 11 March 2025
