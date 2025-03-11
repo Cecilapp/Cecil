@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.33.0](https://github.com/Cecilapp/Cecil/compare/8.32.3...8.33.0)
+
+> 11 March 2025
+
+- feat: better cache and Twig cache fragments [`#2133`](https://github.com/Cecilapp/Cecil/pull/2133)
+- Apply fixes from StyleCI [`#2135`](https://github.com/Cecilapp/Cecil/pull/2135)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.70.1 to 3.70.2 [`#2134`](https://github.com/Cecilapp/Cecil/pull/2134)
+- Apply fixes from StyleCI [`#2132`](https://github.com/Cecilapp/Cecil/pull/2132)
+- chore(deps): bump intervention/image from 3.11.1 to 3.11.2 [`#2131`](https://github.com/Cecilapp/Cecil/pull/2131)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.70.0 to 3.70.1 [`#2130`](https://github.com/Cecilapp/Cecil/pull/2130)
+- feat: better cache [`5eba412`](https://github.com/Cecilapp/Cecil/commit/5eba412d80549c29d53431c084f62bccc1aff828)
+- refactor: save assets in a dedicated step [`9a2fbae`](https://github.com/Cecilapp/Cecil/commit/9a2fbae5d40ff16bf1ff22e303f27029f021d8b8)
+- doc: update commands page [`0a5909a`](https://github.com/Cecilapp/Cecil/commit/0a5909ad505b9dffb8556adf3103c0388bec7a17)
+- chore: update deps [`e045c81`](https://github.com/Cecilapp/Cecil/commit/e045c817b634db41adfdbe04da3b6f5b81dbd252)
+- chore: update deps [`a9fd56a`](https://github.com/Cecilapp/Cecil/commit/a9fd56ab785ae23b16a8dc88d67c3d69311a2865)
+- refactor: prepareKey -&gt; sanitizeKey [`d6653d3`](https://github.com/Cecilapp/Cecil/commit/d6653d3b5da3b4c0aaa81e1c5606c67ea99b2e73)
+- refactor: rebuild optimize asset [`dd49def`](https://github.com/Cecilapp/Cecil/commit/dd49defb4e6f87f395e87076b12427498a252f93)
+- doc: clarify menus management [`a1b13c8`](https://github.com/Cecilapp/Cecil/commit/a1b13c84a97e5c9a18ce5c4ed781ee3b83e23699)
+- local cache instead of temp dir [`c1ece62`](https://github.com/Cecilapp/Cecil/commit/c1ece62ce9013079c715d07a136ff7e0b2e1727e)
+- refactor: cleaning code [`dda6721`](https://github.com/Cecilapp/Cecil/commit/dda672128757f4a872f54e494f256b259caffd70)
+- fix remote assets dir [`9d02463`](https://github.com/Cecilapp/Cecil/commit/9d0246386c3fd42e90bb09a7da62f691abd43d75)
+- refactor: minor changes [`6bc5baf`](https://github.com/Cecilapp/Cecil/commit/6bc5baf850411adc76bb3ba30f807c359c4de3fb)
+- refactor: remove asset "source" [`c9a97d8`](https://github.com/Cecilapp/Cecil/commit/c9a97d8dce03bc442cfff83d29ed2dffa82b6c16)
+- refactor: better orphelan cache management [`7052a74`](https://github.com/Cecilapp/Cecil/commit/7052a743ff6728003d72c81c7b39d94b533e9416)
+- chore: cleaning code and log [`83062de`](https://github.com/Cecilapp/Cecil/commit/83062de7e6f52f079dd65b0df75f8730a7642dc8)
+- refactor: move remote assets in files dir [`022c8c9`](https://github.com/Cecilapp/Cecil/commit/022c8c900c802d04357019d395b384034f160216)
+- doc: enhance Configuration [`c02d85e`](https://github.com/Cecilapp/Cecil/commit/c02d85e97d243f1d1c5335e64be57cc40ba45923)
+- refactor: move cache content in a dedicated file [`9fab097`](https://github.com/Cecilapp/Cecil/commit/9fab0971f135d5a0d5a2cc1fb1fc920dce5bd854)
+- refactor: cache getContentFilePathname [`7097ac6`](https://github.com/Cecilapp/Cecil/commit/7097ac6dca76d1040c6e378d487f343e7af26071)
+- refactor: mime type -&gt; media type [`cc8ce5c`](https://github.com/Cecilapp/Cecil/commit/cc8ce5c8f5c7b9c337e1679a7d82037706ab9fa4)
+- chore: cleaning code comments [`a2a0dae`](https://github.com/Cecilapp/Cecil/commit/a2a0dae6871d1cef525161ed98118b1d2c02f4d9)
+- refactor: fingerprint before set cache [`e8e383b`](https://github.com/Cecilapp/Cecil/commit/e8e383bde7edf9d8884fb4549c22929b114948a6)
+- refactor: findFile -&gt; locateFile [`b27941f`](https://github.com/Cecilapp/Cecil/commit/b27941f50d8bf816428e0bb2c3054a397578764e)
+- Revert "fix: pages convert step" [`19b7c7c`](https://github.com/Cecilapp/Cecil/commit/19b7c7c4bc9eb7e8816bec7d3691468c65c7570a)
+- fix: pages convert step [`6d15201`](https://github.com/Cecilapp/Cecil/commit/6d15201136112f8fa6d1f7780a36d3718da3c642)
+- ci: fix scoop.json [`8432f1c`](https://github.com/Cecilapp/Cecil/commit/8432f1c343088f62f59a1605ecdd3598158641d1)
+- chore: cleaning code [`b3ff417`](https://github.com/Cecilapp/Cecil/commit/b3ff4179a1833f5f6496496b152d003a78b5e77d)
+- TwigRuntimeLoader -&gt; TwigCacheRuntimeLoader [`19442fa`](https://github.com/Cecilapp/Cecil/commit/19442fa4c2fdc1f3c938758383e0fc23eb0e1649)
+- fix: file content cache [`bcd7122`](https://github.com/Cecilapp/Cecil/commit/bcd7122603194ec6142e8fe393b00d4d54be4532)
+- refactor: sort images resize process [`8676f02`](https://github.com/Cecilapp/Cecil/commit/8676f02535fb7345756b4c7f3440d792798dc2b5)
+
 #### [8.32.3](https://github.com/Cecilapp/Cecil/compare/8.32.2...8.32.3)
 
 > 26 February 2025
