@@ -847,7 +847,7 @@ exclude: true
 
 ## Multilingual
 
-If your pages are available in multiple [languages](4-Configuration.md#languages) there is 2 differents ways to define it:
+If your pages are available in multiple [languages](4-Configuration.md#languages) there is 2 different ways to define it:
 
 ### Through file name
 

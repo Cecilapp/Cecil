@@ -547,7 +547,7 @@ Assets created with the `asset()` function expose some useful attributes:
 - `filename`: file name
 - `path_source`: relative path before processing
 - `path`: relative path
-- `missing`: `true` if file not found, but missing is ollowed
+- `missing`: `true` if file not found, but missing is allowed
 - `ext`: extension
 - `type`: media type (e.g.: `image`)
 - `subtype`: media sub type (e.g.: `image/jpeg`)
@@ -1264,7 +1264,7 @@ _Example:_
 ```
 
 :::info
-You can easyly extract translations from your templates with the following command:
+You can easily extract translations from your templates with the following command:
 
 ```bash
 php cecil.phar util:translations:extract

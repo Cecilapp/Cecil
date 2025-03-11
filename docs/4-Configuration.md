@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-02-26
+updated: 2025-03-11
 -->
 # Configuration
 
@@ -93,57 +93,6 @@ date:
   format: 'j F Y'
   timezone: 'Europe/Paris'
 ```
-
-### language
-
-The main language, defined by its code.
-
-```yaml
-language: <language code> # unique code (`en` by default)
-```
-
-### languages
-
-List of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
-
-```yaml
-languages:
-  - code: <code>     # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
-    name: <name>     # human readable name (e.g.: `Français`)
-    locale: <locale> # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
-```
-
-:::info
-The language code is used to define the path to pages in a different language of the default one (e.g.: `/fr/a-propos/`).
-:::
-
-:::info
-A list of [locales code is available](configuration/locale-codes.md).
-:::
-
-#### Localize options
-
-To localize configuration options you must store them under the `config` key of the language.
-
-_Example:_
-
-```yaml
-title: "Cecil in english"
-languages:
-  - code: en
-    name: English
-    locale: en_US
-  - code: fr
-    name: Français
-    locale: fr_FR
-    config:
-      title: "Cecil en français"
-```
-
-:::info
-In [templates](3-Templates.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.
-If an option is not available in the current language (e.g.: `fr`) it fallback to the global one.
-:::
 
 ### taxonomies
 
@@ -435,7 +384,7 @@ languages:
     name: English
     locale: en_EN
   - code: fr
-    name: Fançais
+    name: Français
     locale: fr_FR
 ```
 
