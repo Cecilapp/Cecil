@@ -1344,13 +1344,15 @@ php cecil.phar cache:clear:templates     # clear templates cache
 php cecil.phar cache:clear:translations  # clear translations cache
 ```
 
+:::important
 In practice you don't need to clear the cache manually, Cecil does it for you when needed.
+:::
 
 ### Fragments cache
 
-Cecil caches fragments of the pages to avoid re-rendering the same content multiple times.
+Cecil can cache templates _fragments_ to avoid re-rendering the same partial content multiple times.
 
-To use fragments cache, you must wrap the content you want to cache with the `cache` tag.
+To use _fragments_ cache, you must wrap the content you want to cache with the `cache` tag.
 
 ```twig
 {% cache 'unique-key' %}
@@ -1362,7 +1364,7 @@ To use fragments cache, you must wrap the content you want to cache with the `ca
 More details on the official _Twig cache extension_ documentation: <https://twig.symfony.com/doc/tags/cache.html>.
 :::
 
-Fragments cache is aggressive, so in development you may need to clear it between each generation, with the following command:
+Fragments cache is aggressive, so during development you may need to clear it, with the following command:
 
 ```bash
 php cecil.phar cache:clear:templates --fragments
