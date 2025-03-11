@@ -85,6 +85,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
+            new \Twig\TwigFunction('hash', [$this, 'hash']),
             // others
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
             new \Twig\TwigFunction('d', [$this, 'varDump'], ['needs_context' => true, 'needs_environment' => true]),
@@ -927,6 +928,21 @@ class Core extends SlugifyExtension
         $variable = $variable ?? '';
 
         return preg_split("/.{0,{$max}}\K(\s+|$)/", $variable, 0, PREG_SPLIT_NO_EMPTY);
+    }
+
+    /**
+     * Hashing an object, an array or a string (with algo, md5 by default).
+     */
+    public function hash(object|array|string $data, $algo = 'md5'): string
+    {
+        switch (gettype($data)) {
+            case 'object':
+                return spl_object_hash($data);
+            case 'array':
+                return hash($algo, serialize($data));
+        }
+
+        return hash($algo, $data);
     }
 
     /**
