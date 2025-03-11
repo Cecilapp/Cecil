@@ -50,6 +50,7 @@
     "symfony/validator": "^6.4",
     "symfony/var-dumper": "^6.4",
     "symfony/yaml": "^6.4",
+    "twig/cache-extra": "^3.20",
     "twig/intl-extra": "^3.20",
     "twig/twig": "^3.20",
     "voku/html-min": "^4.5",

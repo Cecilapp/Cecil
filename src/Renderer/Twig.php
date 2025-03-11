@@ -23,6 +23,7 @@ use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Translator;
 use Twig\Extra\Intl\IntlExtension;
+use Twig\Extra\Cache\CacheExtension;
 
 /**
  * Class Twig.
@@ -129,6 +130,9 @@ class Twig implements RendererInterface
             ->setTemplatesExtension($this->builder->getConfig()->get('layouts.components.ext') ?? 'twig')
             ->useCustomTags()
             ->setup();
+        // cache
+        $this->twig->addExtension(new CacheExtension());
+        $this->twig->addRuntimeLoader(new TwigCacheRuntimeLoader($this->builder->getConfig()->getCacheTemplatesPath()));
         // debug
         if ($this->builder->isDebug()) {
             // dump()

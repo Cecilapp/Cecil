@@ -72,14 +72,14 @@ class File
     }
 
     /**
-     * Returns MIME content type and subtype of a file.
+     * Returns the content type and subtype of a file.
      *
      * ie: ['text', 'text/plain']
      */
-    public static function getMimeType(string $filename): array
+    public static function getMediaType(string $filename): array
     {
         if (false === $subtype = mime_content_type($filename)) {
-            throw new RuntimeException(\sprintf('Can\'t get MIME content type of "%s".', $filename));
+            throw new RuntimeException(\sprintf('Can\'t get content type of "%s".', $filename));
         }
         $type = explode('/', $subtype)[0];
 

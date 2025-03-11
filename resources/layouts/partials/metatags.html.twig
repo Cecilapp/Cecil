@@ -138,6 +138,7 @@
 {%- endif ~%}
     <meta name="robots" content="{{ robots }}">
 {#- template: favicon ~#}
+{%- cache 'metatags_favicon' ~ '__' ~ cecil.version ~%}
 {%- if site.metatags.favicon.enabled ?? true ~%}
   {#- favicon.ico ~#}
   {%- set favicon_ico = asset('favicon.ico', {'ignore_missing': true}) -%}
@@ -160,6 +161,7 @@
     {%- endfor -%}
   {%- endif -%}
 {%- endif ~%}
+{%- endcache ~%}
 {#- template: prev/next ~#}
 {%- if page.prev.path is defined ~%}
     <link rel="prev" href="{{ url(page.prev, {'canonical': true}) }}">
@@ -254,5 +256,5 @@
     <meta name="fediverse:creator" content="{{ mastodon.creator }}">
 {%- endif ~%}
 {#- template: json-ld ~#}
-{{- include('partials/jsonld.js.twig', {author, favicon_asset: favicon_asset|default}) ~}}
-{%- endblock ~%}
+{{- include('partials/jsonld.js.twig', {author, favicon_asset: favicon_asset|default}) -}}
+{%- endblock content -%}

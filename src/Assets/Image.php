@@ -43,7 +43,7 @@ class Image
     {
         try {
             // creates image object from source
-            $image = self::manager()->read($asset['content_source']);
+            $image = self::manager()->read($asset['content']);
             // resizes to $width with constraint the aspect-ratio and unwanted upsizing
             $image->scaleDown(width: $width);
             // return image data
@@ -139,6 +139,8 @@ class Image
 
         $srcset = '';
         $widthMax = 0;
+        sort($widths, SORT_NUMERIC);
+        $widths = array_reverse($widths);
         foreach ($widths as $width) {
             if ($asset['width'] < $width) {
                 break;
@@ -183,7 +185,7 @@ class Image
         // 1. a static 4-byte sequence (\x00\x21\xF9\x04)
         // 2. 4 variable bytes
         // 3. a static 2-byte sequence (\x00\x2C)
-        $count = preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', (string) $asset['content_source']);
+        $count = preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', (string) $asset['content']);
 
         return $count > 1;
     }
@@ -219,7 +221,7 @@ class Image
             return false;
         }
 
-        if (false === $xml = simplexml_load_string($asset['content_source'] ?? '')) {
+        if (false === $xml = simplexml_load_string($asset['content'] ?? '')) {
             return false;
         }
 

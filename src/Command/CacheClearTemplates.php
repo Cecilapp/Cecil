@@ -16,6 +16,7 @@ namespace Cecil\Command;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -33,10 +34,19 @@ class CacheClearTemplates extends AbstractCommand
             ->setDescription('Removes templates cache')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
+                new InputOption('fragments', null, InputOption::VALUE_NONE, 'Remove fragments cache only'),
             ])
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</> command removes cached templates files.
+
+To remove all templates cache, run:
+
+  <info>%command.full_name%</>
+
+To remove templates fragments cache only, run:
+
+  <info>%command.full_name% --fragments</>
 EOF
             );
     }
@@ -46,17 +56,24 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCacheTemplatesPath())) {
+        $cacheTemplatesPath = $this->getBuilder()->getConfig()->getCacheTemplatesPath();
+        if (!Util\File::getFS()->exists($cacheTemplatesPath)) {
             $output->writeln('<info>No templates cache.</info>');
 
             return 0;
         }
+        if ($input->getOption('fragments')) {
+            $output->writeln('Removing templates fragments cache directory...');
+            $cacheFragmentsPath = Util::joinFile($cacheTemplatesPath, '_fragments');
+            $output->writeln(\sprintf('<comment>Path: %s</comment>', $cacheFragmentsPath), OutputInterface::VERBOSITY_VERBOSE);
+            Util\File::getFS()->remove($cacheFragmentsPath);
+            $output->writeln('<info>Templates fragments cache is clear.</info>');
+
+            return 0;
+        }
         $output->writeln('Removing templates cache directory...');
-        $output->writeln(
-            \sprintf('<comment>Path: %s</comment>', $this->getBuilder()->getConfig()->getCacheTemplatesPath()),
-            OutputInterface::VERBOSITY_VERBOSE
-        );
-        Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheTemplatesPath());
+        $output->writeln(\sprintf('<comment>Path: %s</comment>', $cacheTemplatesPath), OutputInterface::VERBOSITY_VERBOSE);
+        Util\File::getFS()->remove($cacheTemplatesPath);
         $output->writeln('<info>Templates cache is clear.</info>');
 
         return 0;
