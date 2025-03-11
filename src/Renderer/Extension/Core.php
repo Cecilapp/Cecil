@@ -935,7 +935,7 @@ class Core extends SlugifyExtension
      */
     public function hash(object|array|string $data, $algo = 'md5'): string
     {
-        switch (gettype($data)) {
+        switch (\gettype($data)) {
             case 'object':
                 return spl_object_hash($data);
             case 'array':
