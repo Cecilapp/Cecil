@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-02-26
+updated: 2025-03-11
 alias: documentation/layouts
 -->
 # Templates
@@ -513,11 +513,11 @@ Local files must be stored in the `assets/` (or `static/`)  directory.
 | remote_fallback | Load a local asset if the remote one don't exists.  | string  | `null`  |
 
 :::tip
-Uses [filters](#filters) to manipulate assets.
+You can use [filters](#filters) to manipulate assets.
 :::
 
 :::important
-Be carreful about the cache ([enabled by default](4-Configuration.md#cache)): if an asset is modified but keeps the same name, then the cached version will be used. Cache can be cleared with the [command](5-Commands.md) `php cecil.phar cache:clear:assets`.
+Be careful about the [cache](#cache): if an asset is modified but keeps the same name, then the cached version will be used. Cache can be cleared with the [command](5-Commands.md) `php cecil.phar cache:clear:assets`.
 :::
 
 _Examples:_
@@ -1277,7 +1277,7 @@ php cecil.phar util:translations:extract
 :::
 
 :::important
-Be carreful about the cache ([enabled by default](4-Configuration.md#cache)) when you update translations files.
+Be careful about the [cache](#cache) when you update translations files.
 
 Cache can be cleared with with the following command:
 
