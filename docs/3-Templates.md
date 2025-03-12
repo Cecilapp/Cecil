@@ -56,7 +56,7 @@ layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 `<format>`
 :  The [output format](4-Configuration.md#formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
 
-".twig"
+`.twig`
 :  The mandatory Twig file extension.
 
 _Examples:_
