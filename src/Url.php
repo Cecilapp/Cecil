@@ -11,8 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Cecil\Assets;
+namespace Cecil;
 
+use Cecil\Assets\Asset;
 use Cecil\Builder;
 use Cecil\Collection\Menu\Entry as MenuEntry;
 use Cecil\Collection\Page\Page;
@@ -29,27 +30,18 @@ class Url
     /** @var Config */
     protected $config;
 
-    /** @var Page|Asset|string|null */
-    protected $value;
-
-    /** @var array */
-    protected $options;
-
-    /** @var string */
-    protected $baseurl;
-
     /** @var string */
     protected $url;
 
-    /** @var Slugify */
+    /** @var Page Slugifier */
     private static $slugifier;
 
     /**
-     * Creates an URL from a Page, an Asset or a string.
+     * Creates an URL from a Page, a Menu Entry, an Asset or a string.
      *
-     * @param Builder                $builder
-     * @param Page|Asset|string|null $value
-     * @param array|null             $options Rendering options, e.g.: ['canonical' => true, 'format' => 'html', 'language' => 'fr']
+     * @param Builder                          $builder
+     * @param Page|MenuEntry|Asset|string|null $value
+     * @param array|null                       $options Rendering options, e.g.: ['canonical' => true, 'format' => 'html', 'language' => 'fr']
      */
     public function __construct(Builder $builder, $value, ?array $options = null)
     {
@@ -58,24 +50,23 @@ class Url
         if (!self::$slugifier instanceof Slugify) {
             self::$slugifier = Slugify::create(['regexp' => Page::SLUGIFY_PATTERN]);
         }
-        $this->baseurl = (string) $this->config->get('baseurl');
 
         // handles options
-        $canonical = null; // if true, add prefix URL with baseurl
-        $format = null;    // set output format
+        $canonical = null; // if true prefix url with baseurl config
+        $format = null;    // output format
         $language = null;  // force language
         extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // canonical URL?
         $base = '';
         if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
-            $base = rtrim($this->baseurl, '/');
+            $base = rtrim((string) $this->config->get('baseurl'), '/');
         }
         if ($canonical === false) {
             $base = '';
         }
 
-        // value is empty (i.e.: `url()`)
+        // if value is empty (i.e.: `url()`) returns home URL
         if (\is_null($value) || empty($value) || $value == '/') {
             $this->url = $base . '/';
 
@@ -83,7 +74,7 @@ class Url
         }
 
         switch (true) {
-            case $value instanceof Page:
+            case $value instanceof Page: // $value is a Page
                 /** @var Page $value */
                 if (!$format) {
                     $format = $value->getVariable('output');
@@ -100,37 +91,33 @@ class Url
                     $this->url = $value->getVariable('canonical')['url'];
                 }
                 break;
-            case $value instanceof MenuEntry:
+            case $value instanceof MenuEntry: // $value is a Menu Entry
                 /** @var MenuEntry $value */
                 $this->url = $base . '/' . ltrim($value['url'], '/');
                 break;
-            case $value instanceof Asset:
+            case $value instanceof Asset: // $value is an Asset
                 /** @var Asset $value */
                 $this->url = $base . '/' . ltrim($value['path'], '/');
                 if ($value->isImageInCdn()) {
                     $this->url = (string) $value;
                 }
                 break;
-            case \is_string($value):
+            case \is_string($value): // others cases
                 /** @var string $value */
-                // potential Page ID
+                // $value is a potential Page ID
                 $pageId = self::$slugifier->slugify($value);
-                // force language?
+                // should force language?
                 $lang = '';
                 if ($language !== null && $language != $this->config->getLanguageDefault()) {
                     $pageId = "$language/$pageId";
                     $lang = "$language/";
                 }
                 switch (true) {
-                    case Util\Url::isUrl($value):
+                    case Util\Url::isUrl($value): // $value is an external URL
                         $this->url = $value;
                         break;
-                    case $this->builder->getPages()->has($pageId):
-                        $this->url = (string) new self(
-                            $this->builder,
-                            $this->builder->getPages()->get($pageId),
-                            $options
-                        );
+                    case $this->builder->getPages()->has($pageId): // $pageId exists in pages collection
+                        $this->url = (string) new self($this->builder, $this->builder->getPages()->get($pageId), $options);
                         break;
                     default:
                         // remove double language prefix
@@ -143,18 +130,18 @@ class Url
     }
 
     /**
-     * Returns URL.
+     * If called like a string returns built URL.
      */
     public function __toString(): string
     {
-        return (string) $this->url;
+        return $this->getUrl();
     }
 
     /**
-     * Returns URL.
+     * Returns built URL.
      */
     public function getUrl(): string
     {
-        return $this->__toString();
+        return (string) $this->url;
     }
 }

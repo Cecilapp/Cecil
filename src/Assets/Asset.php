@@ -19,6 +19,7 @@ use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
+use Cecil\Url;
 use Cecil\Util;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;

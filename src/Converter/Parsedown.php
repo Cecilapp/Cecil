@@ -17,6 +17,7 @@ use Cecil\Assets\Asset;
 use Cecil\Assets\Image;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
+use Cecil\Url;
 use Cecil\Util;
 use Highlight\Highlighter;
 
@@ -104,7 +105,7 @@ class Parsedown extends \ParsedownToc
 
         // Link to a page with "page:page_id" as URL
         if (Util\Str::startsWith($link['element']['attributes']['href'], 'page:')) {
-            $link['element']['attributes']['href'] = new \Cecil\Assets\Url($this->builder, substr($link['element']['attributes']['href'], 5, \strlen($link['element']['attributes']['href'])));
+            $link['element']['attributes']['href'] = new Url($this->builder, substr($link['element']['attributes']['href'], 5, \strlen($link['element']['attributes']['href'])));
 
             return $link;
         }
