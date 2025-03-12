@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-03-11
+updated: 2025-03-12
 alias: documentation/layouts
 -->
 # Templates
@@ -1372,15 +1372,22 @@ php cecil.phar cache:clear:templates --fragments
 
 ### Disable cache
 
-You can disable templates cache with the [configuration](4-Configuration.md#cache).
+You can disable cache with the [configuration](4-Configuration.md#cache).
 
 :::warning
-Disabling cache can slow down the generation process, so it's not recommended for production.
+Disabling cache can slow down the generation process, so it's not recommended.
 
-During local development, if you need to clear templates cache between each generation, you can use the following option:
+During local development, if you need to clear templates cache before each generation, you can use the following option:
 
 ```bash
-php cecil.phar serve --clear-cache
+php cecil.phar serve --clear-cache          # clear all caches
+php cecil.phar serve --clear-cache=<regex>  # clear cache for cache key matches with the regular expression <regex>
+```
+
+Example:
+
+```bash
+php cecil.phar serve --clear-cache=css  # clear cache for all CSS files
 ```
 
 :::
@@ -1389,13 +1396,11 @@ php cecil.phar serve --clear-cache
 
 ### Functions and filters
 
-:::tip
-You can add custom [functions](3-Templates.md#functions) and [filters](3-Templates.md#filters) with a [_Twig extension_](7-Extend.md#twig-extension).
-:::
+You can add custom [functions](3-Templates.md#functions) and custom [filters](3-Templates.md#filters) with a [**_Twig extension_**](7-Extend.md#twig-extension).
 
 ### Theme
 
-It’s easy to build a theme: you just have to create a folder `<theme>` with the following structure:
+It’s easy to build a theme, you just have to create a folder `<theme>` with the following structure (like a website but without pages):
 
 ```plaintext
 <mywebsite>
