@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.33.3](https://github.com/Cecilapp/Cecil/compare/8.33.2...8.33.3)
+
+> 11 March 2025
+
+- feat: new hash function [`f6ce3ac`](https://github.com/Cecilapp/Cecil/commit/f6ce3ac7eb9608a4acd40e3bb415fa3734371ee4)
+- refactor: better json-ld cache [`d54ff9f`](https://github.com/Cecilapp/Cecil/commit/d54ff9fbc4b711e7c378c6064cd8cc2916b1582b)
+
+#### [8.33.2](https://github.com/Cecilapp/Cecil/compare/8.33.1...8.33.2)
+
+> 11 March 2025
+
+- doc: minor update [`133180d`](https://github.com/Cecilapp/Cecil/commit/133180da343ee905510e609b5d0c90b4025e028d)
+- refactor: remove deprecated hash function [`da900a0`](https://github.com/Cecilapp/Cecil/commit/da900a0f8e1f9a9be5b94d587339bb2933b74a15)
+
 #### [8.33.1](https://github.com/Cecilapp/Cecil/compare/8.33.0...8.33.1)
 
 > 11 March 2025
