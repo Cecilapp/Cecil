@@ -1304,28 +1304,41 @@ If you want to use the `format_date` filter **with other locales than "en"**, yo
 
 ## Components
 
-Cecil provides a components logic to help you build your templates with the _Twig components extension_.
+Cecil provides a components logic to give you the power making reusable template "units".
 
-### Twig components extension
+### Components syntax
+
+Components are just Twig templates stored in the `components/` subdirectory and can be used anywhere in your templates:
 
 ```twig
 {# /components/button.twig #}
 <button {{ attributes.merge({class: 'rounded px-4'}) }}>
     {{ slot }}
 </button>
+```
 
+> The slot variable is any content you will add between the opening and the close tag.
+
+To reach a component you need to use the dedicated tag `x` followed by `:` and the filename of your component without extension:
+
+```twig
 {# /index.twig #}
 {% x:button with {class: 'text-white'} %}
     <strong>Click me</strong>
 {% endx %}
+```
 
-{# Rendered #}
+It will render:
+
+```twig
 <button class="text-white rounded px-4">
     <strong>Click me</strong>
 </button>
 ```
 
-See official _Twig components extension_ documentation: <https://github.com/giorgiopogliani/twig-components#readme>.
+:::info
+The components feature is provided by the [_Twig components extension_](https://github.com/giorgiopogliani/twig-components) created by Giorgio Pogliani, inspired by the [Laravel Blade components](https://laravel.com/docs/blade#components).
+:::
 
 ## Cache
 
