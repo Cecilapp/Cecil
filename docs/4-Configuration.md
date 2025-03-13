@@ -482,7 +482,7 @@ List of output formats, in which of them pages’ content is rendered (e.g. HTML
 output:
   formats:
     - name: <name>            # name of the format, e.g.: `html` (required)
-      mediatype: <media type> # media type (MIME), ie: 'text/html' (optional)
+      mediatype: <media type> # media type (MIME type), ie: 'text/html' (optional)
       subpath: <sub path>     # sub path, e.g.: `amp` in `path/amp/index.html` (optional)
       filename: <file name>   # file name, e.g.: `index` in `path/index.html` (optional)
       extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
@@ -492,7 +492,7 @@ output:
 Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).
 
 :::info
-To render a page, [Cecil searches a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
+To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
 :::
 
 #### pagetypeformats
