@@ -112,7 +112,7 @@
     "code:analyse:gh": ["@putenv PHP_CS_FIXER_IGNORE_ENV=1", "phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=github"],
     "code:md": "phpmd ./src text codesize,unusedcode,naming",
     "code:md:gh": "phpmd ./src github codesize,unusedcode,naming",
-    "code:style": "phpcs ./src/ --standard=PSR12 -n",
+    "code:style": "phpcs",
     "code:fix": "php-cs-fixer fix --allow-risky=yes --show-progress=none",
     "test": "@test:integration",
     "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
