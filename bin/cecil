@@ -10,11 +10,24 @@
  * file that was distributed with this source code.
  */
 
+if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg') {
+    printf('Warning: Cecil should be invoked via the CLI version of PHP, not the %s SAPI.%S', PHP_SAPI, PHP_EOL);
+}
+
+setlocale(LC_ALL, 'C');
+if (!date_default_timezone_get()) {
+    date_default_timezone_set('UTC');
+}
+
+require __DIR__ . '/../src/bootstrap.php';
+
+use Cecil\Application;
+use Cecil\Builder;
+
 error_reporting(E_ERROR);
 if (getenv('CECIL_DEBUG') == 'true') {
     error_reporting(E_ALL ^ E_NOTICE);
 }
-date_default_timezone_set('UTC');
 
 $name                  = 'Cecil';
 $version               = '@git_version@';
@@ -24,39 +37,18 @@ $phpRequiredExtensions = ['fileinfo', 'gd', 'mbstring'];
 // checks PHP minimal version
 if (version_compare(PHP_VERSION, $phpMinimumVersion, '<')) {
     printf('PHP %s is required (current version: %s).%s', $phpMinimumVersion, PHP_VERSION, PHP_EOL);
-    exit(2);
+    exit(1);
 }
 
 // checks if required PHP extensions are loaded
 foreach ($phpRequiredExtensions as $extension) {
     if (!extension_loaded($extension)) {
         printf('Unable to proceed because %s requires PHP extension `%s` to be installed and loaded.%s', $name, $extension, PHP_EOL);
-        exit(2);
+        exit(1);
     }
 }
 
-// autoload
-switch (true) {
-    // Installed standalone
-    case (file_exists(__DIR__.'/../vendor/autoload.php')):
-        require __DIR__.'/../vendor/autoload.php';
-        break;
-    // Installed as a Composer dependency
-    case (file_exists(__DIR__.'/../../../autoload.php')):
-        require __DIR__.'/../../../autoload.php';
-        break;
-    // Installed as a Composer dependency, relative to CWD
-    case (file_exists('vendor/autoload.php')):
-        require 'vendor/autoload.php';
-        break;
-    default:
-        printf('Unable to locate Composer autoloader. Please run "composer install".%s', PHP_EOL);
-        exit(2);
-}
-
-use Cecil\Application;
-use Cecil\Builder;
-
+// set memory limit to 1536M
 if (function_exists('ini_set')) {
     @ini_set('display_errors', '1');
 
