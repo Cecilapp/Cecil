@@ -74,7 +74,7 @@ if (function_exists('ini_set')) {
     unset($memoryInBytes, $memoryLimit);
 }
 
-$version = ($version === '@'.'git_version'.'@')
+$version = ($version === '@' . 'git_version' . '@')
     ? Builder::getVersion()
     : $version;
 
