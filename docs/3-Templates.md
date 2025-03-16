@@ -450,7 +450,7 @@ Variables available in _vocabulary_ and _term_ templates.
 
 ### url
 
-Creates a valid URL for a page, an asset, a page ID or a path.
+Creates a valid URL for a page, a menu entry, an asset, a page ID or a path.
 
 ```twig
 {{ url(value, {options}) }}
@@ -458,7 +458,7 @@ Creates a valid URL for a page, an asset, a page ID or a path.
 
 | Option    | Description                                                                | Type    | Default |
 | --------- | -------------------------------------------------------------------------- | ------- | ------- |
-| canonical | Prefixes path with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options-and-front-matter). | boolean | `false` |
+| canonical | Prefixes URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options-and-front-matter). | boolean | `false` |
 | format    | Defines page [output format](4-Configuration.md#formats) (e.g.: `json`).   | string  | `html`  |
 | language  | Trying to force page [language](4-Configuration.md#language) (e.g.: `fr`). | string  | null    |
 
@@ -470,12 +470,14 @@ _Examples:_
 {{ url(page, {canonical: true}) }}
 {{ url(page, {format: json}) }}
 {{ url(page, {language: fr}) }}
+# menu entry
+{{ url(site.menus.main.about) }}
 # asset
 {{ url(asset('styles.css')) }}
 # page ID
 {{ url('page-id') }}
 # path
-{{ url(menu.url) }}
+{{ url('about-me/') }}
 {{ url('tags/' ~ tag) }}
 ```
 
