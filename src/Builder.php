@@ -353,7 +353,7 @@ class Builder implements LoggerAwareInterface
      */
     public function addAsset(string $path): void
     {
-        if (!in_array($path, $this->assets, true)) {
+        if (!\in_array($path, $this->assets, true)) {
             $this->assets[] = $path;
         }
     }

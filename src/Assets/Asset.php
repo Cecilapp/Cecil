@@ -617,7 +617,8 @@ class Asset implements \ArrayAccess
      */
     public function isImageInCdn()
     {
-        if ($this->data['type'] != 'image'
+        if (
+            $this->data['type'] != 'image'
             || (bool) $this->config->get('assets.images.cdn.enabled') !== true
             || $this->data['ext'] == 'ico'
             || (Image::isSVG($this) && (bool) $this->config->get('assets.images.cdn.svg') !== true)
