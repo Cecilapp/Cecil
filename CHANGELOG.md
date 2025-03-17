@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.34.1](https://github.com/Cecilapp/Cecil/compare/8.34.0...8.34.1)
+
+> 17 March 2025
+
+- refactor: better code :-) [`5e68ca0`](https://github.com/Cecilapp/Cecil/commit/5e68ca02ecc4a5499e9f346b0ad9924e77f06941)
+- fix: image placeholder resize [`71e118a`](https://github.com/Cecilapp/Cecil/commit/71e118a2b43222d6fa611ef791f60c12ac3004e7)
+- doc: minor change [`4a60f84`](https://github.com/Cecilapp/Cecil/commit/4a60f84465fa7447b6ff7ebfc852826a59c31caf)
+- fix: ico can't be handled by CDN [`e198656`](https://github.com/Cecilapp/Cecil/commit/e198656c8fcad19ee988ae6fb08d6d2311463a16)
+- refactor: better code [`2de46f0`](https://github.com/Cecilapp/Cecil/commit/2de46f03512cb3901983e079d3525fc95e5917f0)
+- fix: mediatype of converted asset [`9c25776`](https://github.com/Cecilapp/Cecil/commit/9c25776a3c4c2394ae2c1b19ce72998c8493d640)
+- refactor: code comment [`a55d917`](https://github.com/Cecilapp/Cecil/commit/a55d917535d0b5956f29d21704ac0925bfd643fc)
+- refactor: better code [`e9db126`](https://github.com/Cecilapp/Cecil/commit/e9db12651a2f7e9e136c8f418f6784baa15c3086)
+
+#### [8.34.0](https://github.com/Cecilapp/Cecil/compare/8.33.3...8.34.0)
+
+> 17 March 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.71.0 to 3.72.0 [`#2136`](https://github.com/Cecilapp/Cecil/pull/2136)
+- refactor: move autoloader in a dedicated file [`cecf3c7`](https://github.com/Cecilapp/Cecil/commit/cecf3c7f5f740da25688b5419a87dc5b03c49f08)
+- refactor: Url() [`e7c304e`](https://github.com/Cecilapp/Cecil/commit/e7c304e70bb64476aade5701eeb29268f404ae57)
+- doc: update cache section [`9ee3675`](https://github.com/Cecilapp/Cecil/commit/9ee3675e1a7b581348f27d254732b4523625ed0a)
+- doc: clarify components [`dbd83d6`](https://github.com/Cecilapp/Cecil/commit/dbd83d6adf86c73557377463ca6f0f044a165e1a)
+- test: create a PHPCS dedicated config file [`11b03a1`](https://github.com/Cecilapp/Cecil/commit/11b03a17d66da4d4007e6bcd2350cc732c89a2bf)
+- doc: minor fix [`a0c1ba6`](https://github.com/Cecilapp/Cecil/commit/a0c1ba64048049d61be01c8e0f72ba3304837ce2)
+- doc: minor fix [`045baae`](https://github.com/Cecilapp/Cecil/commit/045baaeaa942e50bdcf7009b34a8e18bdd2b3aec)
+- doc: minor fix [`fa061b2`](https://github.com/Cecilapp/Cecil/commit/fa061b24f808833e31e99a1a9cfe3a9e92396a1e)
+- refactor: better code [`6e23f4f`](https://github.com/Cecilapp/Cecil/commit/6e23f4f43125521011dc37a3a84912e8cba6a6e6)
+
 #### [8.33.3](https://github.com/Cecilapp/Cecil/compare/8.33.2...8.33.3)
 
 > 11 March 2025
