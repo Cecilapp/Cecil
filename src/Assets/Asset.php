@@ -420,7 +420,9 @@ class Asset implements \ArrayAccess
         $assetResized->data['width'] = $width;
 
         if ($this->isImageInCdn()) {
-            return $assetResized; // returns asset with the new width only: CDN do the rest of the job
+            $assetResized->data['height'] = round($this->data['height'] / ($this->data['width'] / $width));
+
+            return $assetResized; // returns asset with the new dimensions only: CDN do the rest of the job
         }
 
         $quality = $this->config->get('assets.images.quality');
