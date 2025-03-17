@@ -462,6 +462,7 @@ class Asset implements \ArrayAccess
 
         $asset = clone $this;
         $asset['ext'] = $format;
+        $asset->data['subtype'] = "image/$format";
 
         if ($this->isImageInCdn()) {
             return $asset; // returns the asset with the new extension only: CDN do the rest of the job
@@ -476,7 +477,6 @@ class Asset implements \ArrayAccess
         if (!$cache->has($cacheKey)) {
             $asset->data['content'] = Image::convert($asset, $format, $quality);
             $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
-            $asset->data['subtype'] = "image/$format";
             $asset->data['size'] = \strlen($asset->data['content']);
             $cache->set($cacheKey, $asset->data);
             $this->builder->getLogger()->debug(\sprintf('Asset converted: "%s" (%s -> %s)', $asset->data['path'], $this->data['ext'], $format));
