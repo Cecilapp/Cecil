@@ -194,11 +194,7 @@ class Asset implements \ArrayAccess
      */
     public function __toString(): string
     {
-        try {
-            $this->save();
-        } catch (RuntimeException $e) {
-            $this->builder->getLogger()->error($e->getMessage());
-        }
+        $this->save();
 
         if ($this->isImageInCdn()) {
             return $this->buildImageCdnUrl();
