@@ -61,3 +61,39 @@ assets:
 ```
 
 `Base URL`: Your website `baseurl`.
+
+## [Netlify Image CDN](https://docs.netlify.com/image-cdn/overview/)
+
+```yaml
+assets:
+  images:
+    cdn:
+      enabled: true
+      canonical: false
+      url: '/.netlify/images?url=%image_url%&w=%width%&fm=%format%'
+```
+
+### Run locally
+
+#### Setup Netlify CLI
+
+```bash
+npm install netlify-cli -g
+netlify link
+```
+
+`netlify.toml`:
+
+```yaml
+[dev]
+  targetPort = 8000
+```
+
+#### Run local server
+
+```bash
+php cecil.phar serve
+netlify dev
+```
+
+Open <http://localhost:8888>
