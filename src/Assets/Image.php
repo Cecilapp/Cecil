@@ -97,9 +97,7 @@ class Image
     public static function getDominantColor(Asset $asset): string
     {
         try {
-            $assetColor = clone $asset;
-            $assetColor = $assetColor->resize(100);
-            $image = self::manager()->read($assetColor['content']);
+            $image = self::manager()->read(self::resize($asset, 100, 50));
 
             return $image->reduceColors(1)->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
@@ -115,9 +113,7 @@ class Image
     public static function getLqip(Asset $asset): string
     {
         try {
-            $assetLqip = clone $asset;
-            $assetLqip = $assetLqip->resize(100);
-            $image = self::manager()->read($assetLqip['content']);
+            $image = self::manager()->read(self::resize($asset, 100, 50));
 
             return (string) $image->blur(50)->encode()->toDataUri();
         } catch (\Exception $e) {
