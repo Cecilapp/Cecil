@@ -172,7 +172,7 @@ class Asset implements \ArrayAccess
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
             // optimizing images files
-            if ($optimize && $this->data['type'] == 'image') {
+            if ($optimize && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
                 $this->optimize($cache->getContentFilePathname($this->data['path']), $this->data['path']);
             }
         }
