@@ -28,7 +28,7 @@ class Image
     {
         $driver = null;
 
-        // ImageMagick is available?
+        // ImageMagick is available? (for a future quality option)
         if (\extension_loaded('imagick') && class_exists('Imagick')) {
             $driver = ImagickDriver::class;
         }
