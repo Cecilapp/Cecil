@@ -14,21 +14,30 @@ declare(strict_types=1);
 namespace Cecil\Assets;
 
 use Cecil\Exception\RuntimeException;
+use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\ImageManager;
 
 class Image
 {
     /**
-     * Create new manager instance with desired driver.
+     * Create new manager instance with available driver, faster first.
      */
     private static function manager(): ImageManager
     {
-        if (\extension_loaded('gd') && \function_exists('gd_info')) {
-            return ImageManager::gd();
-        }
-        if (\extension_loaded('imagick') && class_exists('Imagick')) {
-            return ImageManager::imagick();
+        try {
+            // Vips is the fastest driver
+            return ImageManager::withDriver(VipsDriver::class);
+        } catch (\Exception) {
+            // fallback to GD or Imagick
+            if (\extension_loaded('gd') && \function_exists('gd_info')) {
+                return ImageManager::withDriver(GdDriver::class);
+            }
+            if (\extension_loaded('imagick') && class_exists('Imagick')) {
+                return ImageManager::withDriver(ImagickDriver::class);
+            }
         }
 
         throw new RuntimeException('PHP GD or Imagick extension is required.');
@@ -100,8 +109,15 @@ class Image
             $image = self::manager()->read(self::resize($asset, 100, 50));
 
             return $image->reduceColors(1)->pickColor(0, 0)->toString();
-        } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
+        } catch (\Exception) {
+            // fallback to GD driver
+            try {
+                $image = ImageManager::withDriver(GdDriver::class)->read(self::resize($asset, 100, 50));
+
+                return $image->reduceColors(1)->pickColor(0, 0)->toString();
+            } catch (\Exception $e) {
+                throw new RuntimeException(\sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
+            }
         }
     }
 
