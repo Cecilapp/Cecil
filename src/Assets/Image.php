@@ -28,13 +28,13 @@ class Image
     {
         $driver = null;
 
-        // GD first because it's the faster driver
-        if (\extension_loaded('gd') && \function_exists('gd_info')) {
-            $driver = GdDriver::class;
-        }
-        // fallback to ImageMagick
+        // ImageMagick is available?
         if (\extension_loaded('imagick') && class_exists('Imagick')) {
             $driver = ImagickDriver::class;
+        }
+        // Use GD, because it's the faster driver
+        if (\extension_loaded('gd') && \function_exists('gd_info')) {
+            $driver = GdDriver::class;
         }
 
         if ($driver) {
@@ -49,7 +49,7 @@ class Image
             );
         }
 
-        throw new RuntimeException('PHP GD or Imagick extension is required.');
+        throw new RuntimeException('PHP GD (or Imagick) extension is required.');
     }
 
     /**
