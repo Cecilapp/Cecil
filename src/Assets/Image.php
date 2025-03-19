@@ -40,10 +40,12 @@ class Image
         if ($driver) {
             return ImageManager::withDriver(
                 $driver,
-                autoOrientation: true,
-                decodeAnimation: true,
-                blendingColor: 'ffffff',
-                strip: true // remove metadata
+                [
+                    'autoOrientation' => true,
+                    'decodeAnimation' => true,
+                    'blendingColor' => 'ffffff',
+                    'strip' => true, // remove metadata
+                ]
             );
         }
 
