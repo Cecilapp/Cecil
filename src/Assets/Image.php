@@ -14,21 +14,37 @@ declare(strict_types=1);
 namespace Cecil\Assets;
 
 use Cecil\Exception\RuntimeException;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\ImageManager;
 
 class Image
 {
     /**
-     * Create new manager instance with desired driver.
+     * Create new manager instance with available driver.
      */
     private static function manager(): ImageManager
     {
+        $driver = null;
+
+        // GD first because it's the faster driver
         if (\extension_loaded('gd') && \function_exists('gd_info')) {
-            return ImageManager::gd();
+            $driver = GdDriver::class;
         }
+        // fallback to ImageMagick
         if (\extension_loaded('imagick') && class_exists('Imagick')) {
-            return ImageManager::imagick();
+            $driver = ImagickDriver::class;
+        }
+
+        if ($driver) {
+            return ImageManager::withDriver(
+                $driver,
+                autoOrientation: true,
+                decodeAnimation: true,
+                blendingColor: 'ffffff',
+                strip: true // remove metadata
+            );
         }
 
         throw new RuntimeException('PHP GD or Imagick extension is required.');
