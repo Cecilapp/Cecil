@@ -612,19 +612,17 @@ class Config
             }
         }
 
-        // version 8.x breaking changes detection
-        $toV8 = [
-            'frontmatter'  => 'pages:frontmatter',
-            'body'         => 'pages:body',
-            'defaultpages' => 'pages:default',
-            'virtualpages' => 'pages:virtual',
-            'generators'   => 'pages:generators',
-            'translations' => 'layouts:translations',
-            'extensions'   => 'layouts:extensions',
-            'postprocess'  => 'optimize',
-        ];
-        array_walk($toV8, function ($to, $from) {
+        // check for deprecated options
+        $deprecatedConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/deprecated.php'));
+        if (Platform::isPhar()) {
+            $deprecatedConfigFile = Util::joinPath(Platform::getPharPath(), 'config/deprecated.php');
+        }
+        $deprecatedConfig = require $deprecatedConfigFile;
+        array_walk($deprecatedConfig, function ($to, $from) {
             if ($this->has($from)) {
+                if (empty($to)) {
+                    throw new ConfigException("Option `$from` is deprecated and must be removed.");
+                }
                 $path = explode(':', $to);
                 $step = 0;
                 $formatedPath = '';
@@ -632,7 +630,7 @@ class Config
                     $step = $step + 2;
                     $formatedPath .= "$fragment:\n" . str_pad(' ', $step);
                 }
-                throw new ConfigException("Option `$from:` must be moved to:\n```\n$formatedPath\n```");
+                throw new ConfigException("Option `$from` must be moved to:\n```\n$formatedPath\n```");
             }
         });
     }

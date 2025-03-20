@@ -46,14 +46,13 @@ return [
             'locale' => 'en_US',
         ],
     ],
+    'metatags' => [
+        'robots' => 'index,follow', // SEO robots default directive
+    ],
     'theme' => [], // no theme(s) by default
     //'taxonomies'   => [ // can be disabled with the special "disabled" value
     //    '<plural>' => '<vocabulary>',
     //],
-    'pagination' => [
-        'max'  => 5, // number of pages by each paginated pages
-        'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
-    ],
     'pages' => [ // Markdown content management
         'dir'     => 'pages', // pages files directory
         'ext'     => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // supported files formats, by extension
@@ -121,6 +120,10 @@ return [
                 'separator' => 'excerpt|break', // string to use as separator
                 'capture'   => 'before', // part to capture, `before` or `after` the separator
             ],
+        ],
+        'pagination' => [
+            'max'  => 5, // number of pages by each paginated pages
+            'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
         ],
         //'generators' => [ // list of pages generators class, ordered by weight
         //    <position> => 'Cecil\Generator\<class>',
@@ -211,9 +214,6 @@ return [
     ],
     'themes' => [
         'dir' => 'themes', // where themes are stored
-    ],
-    'metatags' => [
-        'robots' => 'index,follow', // SEO robots default directive
     ],
     'output' => [ // output formats and post process
         'dir'      => '_site', // output directory
