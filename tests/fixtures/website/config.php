@@ -27,9 +27,6 @@ return [
             ],
         ],
     ],
-    'pagination' => [
-        'enabled' => true,
-    ],
     'paths' => [
         [
             'section' => 'Blog',
@@ -96,6 +93,9 @@ return [
         ],
     ],
     'pages' => [
+        'pagination' => [
+            'enabled' => true,
+        ],
         'generators' => [
             99  => 'Cecil\Generator\TestError',
             100 => 'Cecil\Generator\TitleReplace',
