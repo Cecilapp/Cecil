@@ -27,12 +27,6 @@ return [
             ],
         ],
     ],
-    'paths' => [
-        [
-            'section' => 'Blog',
-            'path'    => ':section/:year/:month/:day/:slug',
-        ],
-    ],
     'language'  => 'en',
     'languages' => [
         [
@@ -95,6 +89,12 @@ return [
     'pages' => [
         'pagination' => [
             'enabled' => true,
+        ],
+        'paths' => [
+            [
+                'section' => 'Blog',
+                'path'    => ':section/:year/:month/:day/:slug',
+            ],
         ],
         'generators' => [
             99  => 'Cecil\Generator\TestError',
