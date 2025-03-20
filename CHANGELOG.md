@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.34.3](https://github.com/Cecilapp/Cecil/compare/8.34.2...8.34.3)
+
+> 18 March 2025
+
+- doc: update Image CDN [`743a528`](https://github.com/Cecilapp/Cecil/commit/743a5280a1b09d8d437c043d1de66d54ee22be36)
+- doc: update Netlify CDN [`69f32c0`](https://github.com/Cecilapp/Cecil/commit/69f32c0e9acc0c7aef9acac8829ca05101e68e17)
+- fix: do not optimize images if CDN [`0bb5267`](https://github.com/Cecilapp/Cecil/commit/0bb52672e8ce9eef5b41bdf474c65680dbd9d472)
+
 #### [8.34.2](https://github.com/Cecilapp/Cecil/compare/8.34.1...8.34.2)
 
 > 17 March 2025
