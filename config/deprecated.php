@@ -25,4 +25,5 @@ return [
     'postprocess'  => 'optimize',
     // changes from version 8.35
     'pagination'   => 'pages:pagination',
+    'paths'        => 'pages:paths',
 ];
