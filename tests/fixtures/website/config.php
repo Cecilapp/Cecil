@@ -3,7 +3,9 @@
 return [
     'title'      => 'Cecil test',
     'taxonomies' => [
-        'tests' => 'disabled',
+        'tags'       => 'tag',
+        'categories' => 'category',
+        'tests'      => 'disabled',
     ],
     'menus' => [
         'main' => [
@@ -25,15 +27,6 @@ return [
             [
                 'id'     => '404'
             ],
-        ],
-    ],
-    'pagination' => [
-        'enabled' => true,
-    ],
-    'paths' => [
-        [
-            'section' => 'Blog',
-            'path'    => ':section/:year/:month/:day/:slug',
         ],
     ],
     'language'  => 'en',
@@ -96,6 +89,15 @@ return [
         ],
     ],
     'pages' => [
+        'pagination' => [
+            'enabled' => true,
+        ],
+        'paths' => [
+            [
+                'section' => 'Blog',
+                'path'    => ':section/:year/:month/:day/:slug',
+            ],
+        ],
         'generators' => [
             99  => 'Cecil\Generator\TestError',
             100 => 'Cecil\Generator\TitleReplace',
