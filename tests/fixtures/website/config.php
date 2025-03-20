@@ -3,7 +3,9 @@
 return [
     'title'      => 'Cecil test',
     'taxonomies' => [
-        'tests' => 'disabled',
+        'tags'       => 'tag',
+        'categories' => 'category',
+        'tests'      => 'disabled',
     ],
     'menus' => [
         'main' => [

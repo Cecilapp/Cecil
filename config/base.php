@@ -13,10 +13,6 @@ declare(strict_types=1);
 
 // Base configuration
 return [
-    'taxonomies'   => [
-        'tags'       => 'tag',
-        'categories' => 'category',
-    ],
     'pages' => [
         'generators' => [
             10 => 'Cecil\Generator\DefaultPages',
