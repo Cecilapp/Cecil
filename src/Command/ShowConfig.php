@@ -64,7 +64,7 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $output->writeln($this->arrayToYaml($this->getBuilder()->getConfig()->getAsArray()));
+            $output->writeln($this->arrayToYaml($this->getBuilder()->getConfig()->export()));
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
