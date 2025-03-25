@@ -114,7 +114,7 @@ class Builder implements LoggerAwareInterface
         // set config
         $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
         // debug mode?
-        if (getenv('CECIL_DEBUG') == 'true' || (bool) $this->getConfig()->get('debug')) {
+        if (getenv('CECIL_DEBUG') == 'true' || $this->getConfig()->isEnabled('debug')) {
             $this->debug = true;
         }
         // autoloads local extensions

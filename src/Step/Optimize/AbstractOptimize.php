@@ -38,10 +38,10 @@ abstract class AbstractOptimize extends AbstractStep
         if ($options['dry-run']) {
             return;
         }
-        if (false === $this->config->get(\sprintf('optimize.%s.enabled', $this->type))) {
+        if (!$this->config->isEnabled(\sprintf('optimize.%s', $this->type))) {
             return;
         }
-        if (true === $this->config->get('optimize.enabled')) {
+        if ($this->config->isEnabled('optimize')) {
             $this->canProcess = true;
         }
     }

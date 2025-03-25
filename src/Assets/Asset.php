@@ -92,9 +92,9 @@ class Asset implements \ArrayAccess
         ];
 
         // handles options
-        $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
-        $minify = (bool) $this->config->get('assets.minify.enabled');
-        $optimize = (bool) $this->config->get('assets.images.optimize.enabled');
+        $fingerprint = $this->config->isEnabled('assets.fingerprint');
+        $minify = $this->config->isEnabled('assets.minify');
+        $optimize = $this->config->isEnabled('assets.images.optimize');
         $filename = '';
         $ignore_missing = false;
         $remote_fallback = null;
@@ -102,7 +102,7 @@ class Asset implements \ArrayAccess
         extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // fill data array with file(s) informations
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
+        $cache = new Cache($this->builder, 'assets');
         $cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $this->builder->getVersion());
         if (!$cache->has($cacheKey)) {
             $pathsCount = \count($paths);
@@ -178,7 +178,7 @@ class Asset implements \ArrayAccess
         }
         $this->data = $cache->get($cacheKey);
         // compiling (Sass files)
-        if ((bool) $this->config->get('assets.compile.enabled')) {
+        if ($this->config->isEnabled('assets.compile')) {
             $this->compile();
         }
         // minifying (CSS and JavScript files)
@@ -200,7 +200,7 @@ class Asset implements \ArrayAccess
             return $this->buildImageCdnUrl();
         }
 
-        if ($this->builder->getConfig()->get('canonicalurl')) {
+        if ($this->builder->getConfig()->isEnabled('canonicalurl')) {
             return (string) new Url($this->builder, $this->data['path'], ['canonical' => true]);
         }
 
@@ -243,7 +243,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
+        $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($this, ['compiled']);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
@@ -265,7 +265,7 @@ class Asset implements \ArrayAccess
             $scssPhp->setQuietDeps(true);
             $scssPhp->setImportPaths(array_unique($importDir));
             // source map
-            if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+            if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
                 $importDir = [];
                 $assetDir = (string) $this->config->get('assets.dir');
                 $assetDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR . $assetDir . DIRECTORY_SEPARATOR);
@@ -324,7 +324,7 @@ class Asset implements \ArrayAccess
     public function minify(): self
     {
         // disable minify to preserve inline source map
-        if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+        if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
             return $this;
         }
 
@@ -346,7 +346,7 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
+        $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($this, ['minified']);
         if (!$cache->has($cacheKey)) {
             switch ($this->data['ext']) {
@@ -381,7 +381,7 @@ class Asset implements \ArrayAccess
      */
     public function optimize(string $filepath, string $path): int
     {
-        $quality = $this->config->get('assets.images.quality');
+        $quality = (int) $this->config->get('assets.images.quality');
         $message = \sprintf('Asset processed: "%s"', $path);
         $sizeBefore = filesize($filepath);
         Optimizer::create($quality)->optimize($filepath);
@@ -425,14 +425,14 @@ class Asset implements \ArrayAccess
             return $assetResized; // returns asset with the new dimensions only: CDN do the rest of the job
         }
 
-        $quality = $this->config->get('assets.images.quality');
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
+        $quality = (int) $this->config->get('assets.images.quality');
+        $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x", "q$quality"]);
         if (!$cache->has($cacheKey)) {
             $assetResized->data['content'] = Image::resize($assetResized, $width, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
-                (string) $this->config->get('assets.images.resize.dir'),
+                'thumbnails',
                 (string) $width,
                 $assetResized->data['path']
             );
@@ -470,7 +470,7 @@ class Asset implements \ArrayAccess
             return $asset; // returns the asset with the new extension only: CDN do the rest of the job
         }
 
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
+        $cache = new Cache($this->builder, 'assets');
         $tags = ["q$quality"];
         if ($this->data['width']) {
             array_unshift($tags, "{$this->data['width']}x");
@@ -593,7 +593,7 @@ class Asset implements \ArrayAccess
     public function dataurl(): string
     {
         if ($this->data['type'] == 'image' && !Image::isSVG($this)) {
-            return Image::getDataUrl($this, $this->config->get('assets.images.quality'));
+            return Image::getDataUrl($this, (int) $this->config->get('assets.images.quality'));
         }
 
         return \sprintf('data:%s;base64,%s', $this->data['subtype'], base64_encode($this->data['content']));
@@ -606,7 +606,7 @@ class Asset implements \ArrayAccess
      */
     public function save(): void
     {
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
+        $cache = new Cache($this->builder, 'assets');
         if (Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
             $this->builder->addAsset($this->data['path']);
         }
@@ -621,14 +621,14 @@ class Asset implements \ArrayAccess
     {
         if (
             $this->data['type'] != 'image'
-            || (bool) $this->config->get('assets.images.cdn.enabled') !== true
+            || !$this->config->isEnabled('assets.images.cdn')
             || $this->data['ext'] == 'ico'
-            || (Image::isSVG($this) && (bool) $this->config->get('assets.images.cdn.svg') !== true)
+            || (Image::isSVG($this) && $this->config->isEnabled('assets.images.cdn.svg') !== true)
         ) {
             return false;
         }
-        // remote image?
-        if ($this->data['url'] !== null && (bool) $this->config->get('assets.images.cdn.remote') !== true) {
+        // handle remote image?
+        if ($this->data['url'] !== null && (bool) $this->config->get('assets.images.cdn.remote') ?? true !== true) {
             return false;
         }
 
@@ -890,10 +890,10 @@ class Asset implements \ArrayAccess
                 '%format%',
             ],
             [
-                $this->config->get('assets.images.cdn.account'),
-                ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical')]), '/'),
+                (string) $this->config->get('assets.images.cdn.account') ?? '',
+                ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical') ?? true]), '/'),
                 $this->data['width'],
-                $this->config->get('assets.images.quality'),
+                (int) $this->config->get('assets.images.quality'),
                 $this->data['ext'],
             ],
             (string) $this->config->get('assets.images.cdn.url')

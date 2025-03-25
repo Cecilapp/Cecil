@@ -59,7 +59,7 @@ class Url
 
         // canonical URL?
         $base = '';
-        if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
+        if ($this->config->isEnabled('canonicalurl') || $canonical === true) {
             $base = rtrim((string) $this->config->get('baseurl'), '/');
         }
         if ($canonical === false) {

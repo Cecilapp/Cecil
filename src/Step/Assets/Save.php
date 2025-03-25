@@ -40,13 +40,13 @@ class Save extends AbstractStep
     public function init(array $options): void
     {
         // should clear cache?
-        $this->clearCache();
+        $this->clearCacheIfDisabled();
 
         if ($options['dry-run']) {
             return;
         }
 
-        $this->cache = new \Cecil\Assets\Cache($this->builder, (string) $this->config->get('cache.assets.dir'));
+        $this->cache = new \Cecil\Assets\Cache($this->builder, 'assets');
         $this->cacheKey = \sprintf('_list__%s', $this->builder->getVersion());
         if (empty($this->assets) && $this->cache->has($this->cacheKey)) {
             $this->builder->setAssets($this->cache->get($this->cacheKey));
@@ -75,11 +75,11 @@ class Save extends AbstractStep
     }
 
     /**
-     * Deletes cache directory.
+     * Deletes cache directory, if cache is disabled.
      */
-    private function clearCache(): void
+    private function clearCacheIfDisabled(): void
     {
-        if ($this->config->get('cache.enabled') === false) {
+        if (!$this->config->isEnabled('cache')) {
             try {
                 Util\File::getFS()->remove($this->config->getCachePath());
             } catch (\Exception) {

@@ -74,13 +74,13 @@ EOF
                 ->files()
                 ->in($this->getBuilder()->getConfig()->getLayoutsInternalPath());
             foreach ($templates as $template) {
-                $templatesList[] = Util::joinPath((string) $this->getBuilder()->getConfig()->get('layouts.internal.dir'), Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getLayoutsInternalPath()));
+                $templatesList[] = Util::joinPath((string) $this->getBuilder()->getConfig()->getLayoutsInternalPath(), Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getLayoutsInternalPath()));
             }
 
             $force = ($force !== false) ?: $this->io->confirm('Do you want to override existing files?', false);
 
             $phar->extractTo($this->getBuilder()->getConfig()->getLayoutsPath(), $templatesList, $force);
-            Util\File::getFS()->mirror(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), (string) $this->getBuilder()->getConfig()->get('layouts.internal.dir')), $this->getBuilder()->getConfig()->getLayoutsPath());
+            Util\File::getFS()->mirror(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), (string) $this->getBuilder()->getConfig()->getLayoutsInternalPath()), $this->getBuilder()->getConfig()->getLayoutsPath());
             Util\File::getFS()->remove(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), 'resources'));
             $output->writeln(\sprintf('<info>Built-in templates extracted to "%s".</info>', (string) $this->getBuilder()->getConfig()->get('layouts.dir')));
         } catch (\Exception $e) {

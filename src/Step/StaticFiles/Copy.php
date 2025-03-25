@@ -54,11 +54,11 @@ class Copy extends AbstractStep
      */
     public function process(): void
     {
-        $target = $this->config->get('static.target');
-        $exclude = $this->config->get('static.exclude');
+        $target = (string) $this->config->get('static.target');
+        $exclude = (array) $this->config->get('static.exclude');
 
         // copying assets in debug mode (for source maps)
-        if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+        if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
             // copying content of '<theme>/assets/' dir if exists
             if ($this->config->hasTheme()) {
                 $themes = array_reverse($this->config->getTheme());

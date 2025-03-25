@@ -120,4 +120,20 @@ class File
             restore_error_handler();
         }
     }
+
+    /**
+     * Returns the real path of a relative file path.
+     */
+    public static function getRealPath(string $path): string
+    {
+        $filePath = realpath(\Cecil\Util::joinFile(__DIR__, '../', $path));
+        if ($filePath === false) {
+            throw new RuntimeException(\sprintf('Can\'t get the real path of file "%s".', $path));
+        }
+        if (Platform::isPhar()) {
+            $filePath = \Cecil\Util::joinPath(Platform::getPharPath(), $path);
+        }
+
+        return $filePath;
+    }
 }

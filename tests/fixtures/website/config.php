@@ -89,9 +89,7 @@ return [
         ],
     ],
     'pages' => [
-        'pagination' => [
-            'enabled' => true,
-        ],
+        'pagination' => true,
         'paths' => [
             [
                 'section' => 'Blog',
@@ -120,34 +118,19 @@ return [
         ],
         'body' => [
             'images' => [
-                'lazy' => [
-                    'enabled' => true,
-                ],
-                'resize' => [
-                    'enabled' => true,
-                ],
-                'responsive' => [
-                    'enabled' => true,
-                ],
+                'lazy' => true,
+                'resize' => true,
+                'responsive' => true,
                 'formats' => ['avif', 'webp'],
-                'caption' => [
-                    'enabled' => true,
-                ],
+                'caption' => true,
                 'remote' => [
                     'enabled' => true,
-                    'fallback' => [
-                        'enabled' => true,
-                        'path' => 'images/cecil-logo.png',
-                    ],
+                    'fallback' => 'images/cecil-logo.png',
                 ],
                 'class' => 'img',
             ],
-            'notes' => [
-                'enabled' => true,
-            ],
-            'highlight' => [
-                'enabled' => true,
-            ],
+            'notes' => true,
+            'highlight' => true,
         ],
     ],
     'output' => [
@@ -189,16 +172,10 @@ return [
             'style'     => 'expanded',
             'variables' => ['test' => '#FFF'],
         ],
-        'minify' => [
-            'enabled' => false,
-        ],
-        'fingerprint' => [
-            'enabled' => false,
-        ],
+        'minify' => false,
+        'fingerprint' => false,
         'images' => [
-            'optimize' => [
-                'enabled' => true,
-            ],
+            'optimize' => true,
             'responsive' => [
                 'enabled' => true,
                 'sizes'   => [
@@ -206,9 +183,7 @@ return [
                 ],
             ],
             'formats' => ['avif', 'webp'],
-            'caption' => [
-                'enabled' => true,
-            ],
+            'caption' => true,
             'remote' => [
                 'enabled'  => true,
                 'fallback' => [
@@ -218,12 +193,8 @@ return [
             ],
             'class' => 'img',
         ],
-        'notes' => [
-            'enabled' => true,
-        ],
-        'highlight' => [
-            'enabled' => true,
-        ],
+        'notes' => true,
+        'highlight' => true,
     ],
     'layouts' => [
         'extensions' => [
@@ -231,10 +202,6 @@ return [
             'Test error' => 'Cecil\Renderer\Extension\TestError',
         ],
     ],
-    'cache' => [
-        'enabled' => true,
-    ],
-    'optimize' => [
-        'enabled' => true,
-    ],
+    'cache' => true,
+    'optimize' => true,
 ];

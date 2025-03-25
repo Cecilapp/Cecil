@@ -15,15 +15,24 @@ declare(strict_types=1);
 
 return [
     // changes between version 7.x and 8.x
-    'frontmatter'  => 'pages:frontmatter',
-    'body'         => 'pages:body',
+    'frontmatter' => 'pages:frontmatter',
+    'body' => 'pages:body',
     'defaultpages' => 'pages:default',
     'virtualpages' => 'pages:virtual',
-    'generators'   => 'pages:generators',
+    'generators' => 'pages:generators',
     'translations' => 'layouts:translations',
-    'extensions'   => 'layouts:extensions',
-    'postprocess'  => 'optimize',
+    'extensions' => 'layouts:extensions',
+    'postprocess' => 'optimize',
     // changes from version 8.35
-    'pagination'   => 'pages:pagination',
-    'paths'        => 'pages:paths',
+    'pagination' => 'pages:pagination',
+    'paths' => 'pages:paths',
+    'pages.frontmatter.format' => 'pages.frontmatter',
+    'pages.body.format' => '',
+    'pages.body.images.remote.fallback.path' => 'pages.body.images.remote.fallback',
+    'pages.body.links.embed.video.ext' => 'pages.body.links.embed.video',
+    'pages.body.links.embed.audio.ext' => 'pages.body.links.embed.audio',
+    'assets.remote' => '',
+    'assets.remote.dir' => 'assets',
+    'assets.images.resize.dir' => '',
+    'cache.templates.dir' => 'cache.templates',
 ];

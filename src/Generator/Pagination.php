@@ -27,7 +27,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        if ($this->config->get('pagination.enabled') === false) {
+        if (!$this->config->isEnabled('pages.pagination')) {
             return;
         }
 

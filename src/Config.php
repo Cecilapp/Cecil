@@ -49,17 +49,11 @@ class Config
     public function __construct(?array $config = null)
     {
         // default configuration
-        $defaultConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/default.php'));
-        if (Platform::isPhar()) {
-            $defaultConfigFile = Util::joinPath(Platform::getPharPath(), 'config/default.php');
-        }
+        $defaultConfigFile = Util\File::getRealPath('../config/default.php');
         $this->default = new Data(include $defaultConfigFile);
 
         // base configuration
-        $baseConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/base.php'));
-        if (Platform::isPhar()) {
-            $baseConfigFile = Util::joinPath(Platform::getPharPath(), 'config/base.php');
-        }
+        $baseConfigFile = Util\File::getRealPath('../config/base.php');
         $this->data = new Data(include $baseConfigFile);
 
         // import config
@@ -68,12 +62,13 @@ class Config
 
     /**
      * Imports (and validate) configuration.
+     * The mode can be: Config::PRESERVE, Config::REPLACE or Config::MERGE.
      */
     public function import(array $config, $mode = self::MERGE): void
     {
         $this->data->import($config, $mode);
-        $this->setFromEnv();
-        $this->validate();
+        $this->setFromEnv(); // override configuration with environment variables
+        $this->validate();   // validate configuration
     }
 
     /**
@@ -140,6 +135,22 @@ class Config
         }
 
         return $default;
+    }
+
+    /**
+     * Is an option is enabled?
+     * Checks if the key is set to `false` or if subkey `enabled` is set to `false`.
+     */
+    public function isEnabled(string $key, ?string $language = null, bool $fallback = true): bool
+    {
+        if ($this->has("$key.enabled", $language, $fallback) && $this->get("$key.enabled", $language, $fallback) === false) {
+            return false;
+        }
+        if ($this->has($key, $language, $fallback) && $this->get($key, $language, $fallback) !== false) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -235,7 +246,7 @@ class Config
      */
     public function getLayoutsInternalPath(): string
     {
-        return Util::joinPath(__DIR__, '..', (string) $this->get('layouts.internal.dir'));
+        return Util\File::getRealPath('../resources/layouts');
     }
 
     /**
@@ -264,10 +275,10 @@ class Config
     public function getTranslationsInternalPath(): string
     {
         if (Util\Platform::isPhar()) {
-            return Util::joinPath(Platform::getPharPath(), (string) $this->get('layouts.translations.internal.dir'));
+            return Util::joinPath(Platform::getPharPath(), (string) $this->get('resources/translations'));
         }
 
-        return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('layouts.translations.internal.dir')));
+        return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('resources/translations')));
     }
 
     /**
@@ -315,7 +326,7 @@ class Config
      */
     public function getAssetsRemotePath(): string
     {
-        return Util::joinFile($this->getCacheAssetsPath(), (string) $this->get('assets.remote.dir'));
+        return Util::joinFile($this->getCacheAssetsPath(), 'remote');
     }
 
     /**
@@ -326,7 +337,7 @@ class Config
     public function getCachePath(): string
     {
         if (empty((string) $this->get('cache.dir'))) {
-            throw new ConfigException(\sprintf('The cache directory ("%s") is not defined.', 'cache.dir'));
+            throw new ConfigException(\sprintf('The cache directory (`%s`) is not defined.', 'cache.dir'));
         }
 
         if ($this->isCacheDirIsAbsolute()) {
@@ -344,7 +355,7 @@ class Config
      */
     public function getCacheTemplatesPath(): string
     {
-        return Util::joinFile($this->getCachePath(), (string) $this->get('cache.templates.dir'));
+        return Util::joinFile($this->getCachePath(), 'templates');
     }
 
     /**
@@ -352,7 +363,7 @@ class Config
      */
     public function getCacheTranslationsPath(): string
     {
-        return Util::joinFile($this->getCachePath(), (string) $this->get('cache.translations.dir'));
+        return Util::joinFile($this->getCachePath(), 'translations');
     }
 
     /**
@@ -360,7 +371,7 @@ class Config
      */
     public function getCacheAssetsPath(): string
     {
-        return Util::joinFile($this->getCachePath(), (string) $this->get('cache.assets.dir'));
+        return Util::joinFile($this->getCachePath(), 'assets');
     }
 
     /**
@@ -368,7 +379,7 @@ class Config
      */
     public function getCacheAssetsFilesPath(): string
     {
-        return Util::joinFile($this->getCacheAssetsPath(), (string) $this->get('cache.assets.files.dir'));
+        return Util::joinFile($this->getCacheAssetsPath(), 'files');
     }
 
     /*
@@ -397,18 +408,20 @@ class Config
 
     /**
      * Returns asset image widths.
+     * Default: [480, 640, 768, 1024, 1366, 1600, 1920].
      */
     public function getAssetsImagesWidths(): array
     {
-        return $this->get('assets.images.responsive.widths');
+        return (array) $this->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920];
     }
 
     /**
      * Returns asset image sizes.
+     * Default: ['default' => '100vw'].
      */
     public function getAssetsImagesSizes(): array
     {
-        return $this->get('assets.images.responsive.sizes');
+        return (array) $this->get('assets.images.responsive.sizes') ?? ['default' => '100vw'];
     }
 
     /*
@@ -562,7 +575,7 @@ class Config
     }
 
     /**
-     * Set configuration from environment variables.
+     * Set configuration from environment variables starting with "CECIL_".
      */
     private function setFromEnv(): void
     {
