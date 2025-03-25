@@ -128,7 +128,7 @@ class File
     {
         // if file exists
         $filePath = realpath(\Cecil\Util::joinFile(__DIR__, '/../', $path));
-        if ($filePath !== false ) {
+        if ($filePath !== false) {
             return $filePath;
         }
         // if Phar
