@@ -143,6 +143,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
+            new \Twig\TwigFilter('iterable', [$this, 'iterable']),
             // date
             new \Twig\TwigFilter('duration_to_iso8601', ['\Cecil\Util\Date', 'durationToIso8601']),
         ];
@@ -943,6 +944,32 @@ class Core extends SlugifyExtension
         }
 
         return hash($algo, $data);
+    }
+
+    /**
+     * Converts a variable to an iterable (array).
+     */
+    public function iterable($value): array
+    {
+        if (\is_array($value)) {
+            return $value;
+        }
+        if (\is_string($value)) {
+            return [$value];
+        }
+        if ($value instanceof \Traversable) {
+            return iterator_to_array($value);
+        }
+        if ($value instanceof \stdClass) {
+            return (array) $value;
+        }
+        if (\is_object($value)) {
+            return [$value];
+        }
+        if (\is_int($value) || \is_float($value)) {
+            return [$value];
+        }
+        return [$value];
     }
 
     /**

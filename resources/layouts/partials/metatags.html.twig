@@ -31,7 +31,7 @@
 {# description #}
 {% set description = page.description|default(site.description)|e %}
 {# keywords / tags #}
-{% set keywords = page.tags|default([])|merge(site.keywords|default([]))|e %}
+{% set keywords = page.tags|default([])|iterable|merge(site.keywords|default([])|iterable)|e %}
 {# author #}
 {% if author is not defined or author is empty %}
 {% set author = page.author|default(site.author|default(''))|e %}
@@ -130,7 +130,7 @@
     {#~ template ~#}
     <title>{% block title %}{{ title_html }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}">
-{%- if keywords ~%}
+{%- if keywords is iterable ~%}
     <meta name="keywords" content="{{ keywords|join(', ') }}">
 {%- endif ~%}
 {%- if author ~%}
