@@ -103,7 +103,7 @@ taxonomies:
   <plural>: <singular>
 ```
 
-_Default taxonomies:_
+_Example:_
 
 ```yaml
 taxonomies:
@@ -111,36 +111,13 @@ taxonomies:
   tags: tag
 ```
 
+:::warning
+Since ++version 8.35.0++, default vocabularies `category` and `tag` have been removed.
+:::
+
 :::tip
 A vocabulary can be disabled with the special value `disabled`. Example: `tags: disabled`.
 :::
-
-### pagination
-
-Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
-
-```yaml
-pagination:
-  max: <int>   # maximum number of entries per page (`5` by default)
-  path: <path> # path to the paginated page (`page` by default)
-```
-
-_Example:_
-
-```yaml
-pagination:
-  max: 10
-  path: page
-```
-
-#### Disable pagination
-
-Pagination can be disabled:
-
-```yaml
-pagination:
-  enabled: false
-```
 
 ### menus
 
@@ -446,21 +423,6 @@ theme:
 See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or on website [themes section](https://cecil.app/themes/).
 :::
 
-### virtual pages
-
-Virtual pages is the best way to create pages without content (**front matter only**).
-
-It consists of a list of pages with a `path` and some front matter variables.
-
-_Example:_
-
-```yaml
-pages:
-  virtual:
-    - path: code
-      redirect: https://github.com/ArnaudLigny
-```
-
 ### output
 
 Defines where and in what format(s) content is rendered.
@@ -601,66 +563,154 @@ headers:
         value: "bar"
 ```
 
-## Default configuration
+## Pages options
 
-Your site configuration (`config.yml`) overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
+### pages.dir
 
-### pages
+**Type:** `string`
+**Default:** `pages`
 
-Where pages’ files (Markdown or plain text) are stored.
+Directory where pages files are stored.
+
+### pages.ext
+
+**Type:** `array`
+**Default:** `['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt']`
+
+Supported files formats, by extension.
+
+### pages.exclude
+
+**Type:** `array`
+**Default:** `['vendor', 'node_modules']`
+
+Directories, paths and files name to exclude (accepts globs, strings and regexes).
+
+### pages.sortby
+
+**Type:** `string` | `array`
+**Default:** `date`
+
+Default collections sort method.
+
+#### pages.sortby.variable
+
+**Type:** `string`
+**Default:** `date`
+
+Sort method: `date`, `updated`, `title` or `weight`.
+
+#### pages.sortby.desc_title
+
+**Type:** `boolean`
+**Default:** `false`
+
+Sort by title in descending order.
+
+#### pages.sortby.reverse
+
+**Type:** `boolean`
+**Default:** `false`
+
+Reverse the sort order.
+
+### pages.pagination
+
+Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
+
+#### pages.pagination.max
+
+**Type:** `integer`
+**Default:** `5`
+
+Maximum number of entries per page.
+
+#### pages.pagination.path
+
+**Type:** `string`
+**Default:** `page`
+
+Path to the paginated page.
+
+_Example:_
+
+```yaml
+pagination:
+  max: 10
+  path: page
+```
+
+#### Disable pagination
+
+Pagination can be disabled:
+
+```yaml
+pagination:
+  enabled: false
+```
+
+### pages.virtual
+
+**Type:** `array`
+**Default:** `[]`
+
+Virtual pages is the best way to create pages without content (**front matter only**).
+
+It consists of a list of pages with a `path` and some front matter variables.
+
+_Example:_
 
 ```yaml
 pages:
-  dir: pages                                       # pages files directory (`pages` by default, previously `content`)
-  ext: [md, markdown, mdown, mkdn, mkd, text, txt] # supported files formats, by extension
-  exclude: [vendor, node_modules]                  # directories, paths and files name to exclude (accepts globs, strings and regexes)
-  sortby: date                                     # default collections sort method ("date" by default)
-  #sortby:
-  #  variable: date    # date|updated|title|weight
-  #  desc_title: false # false|true
-  #  reverse: false    # false|true
+  virtual:
+    - path: code
+      redirect: https://github.com/ArnaudLigny
 ```
 
-#### frontmatter
+### pages.frontmatter
 
-Pages’ variables format (YAML by default).
+**Type:** `string`
+**Default:** `yaml`
 
-```yaml
-pages:
-  frontmatter:
-    format: yaml # front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
-```
+Front matter format: `yaml`, `ini`, `toml` or `json`. `yaml` is the default format.
 
-#### body
+### pages.body
 
-Pages’ content format and converter’s options.
+Pages’ body options.
+
+#### pages.body.toc
+
+**Type:** `array`
+**Default:** `['h2', 'h3']`
+
+Headers used to build the table of contents.
+
+#### pages.body.highlight
+
+**Type:** `boolean`
+**Default:** `false`
+
+Enables code syntax highlighting.
+
+
 
 ```yaml
 pages:
   body:
-    format: md         # page body format (only `md`, Markdown, is supported)
-    toc: [h2, h3]      # headers used to build the table of contents
-    highlight:
-      enabled: false   # enables code syntax highlighting (`false` by default)
-    images:            # how to handle images
-      lazy:
-        enabled: true  # adds `loading="lazy"` attribute (`true` by default)
-      decoding:
-        enabled: true  # adds `decoding="async"` attribute (`true` by default)
-      resize:
-        enabled: false # enables image resizing by using the `width` extra attribute (`false` by default)
-      formats: []      # creates and adds formats images as `source` (empty by default)
-      responsive:
-        enabled: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
-      class: ''        # put default class to each image (empty by default)
-      caption:
-        enabled: false # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
-      remote:
-        enabled: true  # enables remote image handling (`true` by default)
-        fallback:
-          enabled: false # enables a fallback if image is not found (`false` by default)
-          path: ''       # path to the fallback image, stored in assets dir (empty by default)
-      placeholder: ''  # fill <img> background before loading ('color' or 'lqip', empty by default)
+    toc: [h2, h3]       # headers used to build the table of contents
+    highlight: false    # enables code syntax highlighting (`false` by default)
+    images:             # how to handle images
+      formats: []         # creates and adds formats images as `source` (e.g. `webp`, empty by default)
+      resize: false       # enables image resizing by using the `width` extra attribute (`false` by default)
+      responsive: false   # creates responsive images and add them to the `srcset` attribute (`false` by default)
+      lazy: true          # adds `loading="lazy"` attribute (`true` by default)
+      decoding: true      # adds `decoding="async"` attribute (`true` by default)
+      caption: false      # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+      placeholder: ''     # fill <img> background before loading ('color' or 'lqip', empty by default)
+      class: ''           # put default class to each image (empty by default)
+      remote:             # remote image handling (set to `false` to disable)
+        fallback:           # path to the fallback image, stored in assets dir (empty by default)
+      
     links:
       embed:
         enabled: false # turns links in embedded content if possible (`false` by default)
