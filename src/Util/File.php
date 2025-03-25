@@ -126,14 +126,16 @@ class File
      */
     public static function getRealPath(string $path): string
     {
-        $filePath = realpath(\Cecil\Util::joinFile(__DIR__, '../', $path));
-        if ($filePath === false) {
-            throw new RuntimeException(\sprintf('Can\'t get the real path of file "%s".', $path));
+        // if file exists
+        $filePath = realpath(\Cecil\Util::joinFile(__DIR__, '/../', $path));
+        if ($filePath !== false ) {
+            return $filePath;
         }
+        // if Phar
         if (Platform::isPhar()) {
-            $filePath = \Cecil\Util::joinPath(Platform::getPharPath(), $path);
+            return \Cecil\Util::joinPath(Platform::getPharPath(), str_replace('../', '/', $path));
         }
 
-        return $filePath;
+        throw new RuntimeException(\sprintf('Can\'t get the real path of file "%s".', $path));
     }
 }
