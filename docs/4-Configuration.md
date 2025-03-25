@@ -1,11 +1,11 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-03-11
+updated: 2025-03-20
 -->
 # Configuration
 
-The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `config.yml` by default and stored at the root:
+The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `cecil.yml` by default and stored at the root:
 
 ```plaintext
 <mywebsite>
@@ -20,6 +20,12 @@ baseline: "Your content driven static site generator."
 baseurl: https://cecil.local/
 language: en
 ```
+
+:::info
+Your site configuration (`config.yml`) overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
+:::
+
+The following documentation covers all supported configuration options in Cecil.
 
 ## Options
 

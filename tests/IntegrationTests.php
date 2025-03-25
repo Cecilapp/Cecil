@@ -34,8 +34,9 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
     {
         $fs = new Filesystem();
         if (!self::DEBUG) {
-            $fs->remove(Util::joinFile($this->wsDestinationDir, '_site'));
+            $fs->remove(Util::joinFile($this->wsDestinationDir, '.cecil'));
             $fs->remove(Util::joinFile($this->wsDestinationDir, '.cache'));
+            $fs->remove(Util::joinFile($this->wsDestinationDir, '_site'));
         }
     }
 
