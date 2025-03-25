@@ -74,7 +74,7 @@ class Config
     /**
      * Get configuration as an array.
      */
-    public function getAsArray(): array
+    public function export(): array
     {
         return $this->data->export();
     }
