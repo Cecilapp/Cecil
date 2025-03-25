@@ -1,5 +1,5 @@
 {#- param: vocabulary ~#}
-{%- set vocabs = site.taxonomies|filter(v => v.id == vocabulary|default or vocabulary|default is empty) ~%}
+{%- set vocabs = site.taxonomies|default({})|filter(v => v.id == vocabulary|default or vocabulary|default is empty) ~%}
         {%- if vocabs|length > 0 ~%}
           <nav class="terms">
             <ul>
