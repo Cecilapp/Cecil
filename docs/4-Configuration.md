@@ -431,52 +431,69 @@ When `debug` is enabled, you can easily [dump a variable in your templates](3-Te
 
 ### pages.dir
 
-**Type:** `string`
-**Default:** `pages`
-
 Directory where pages files are stored.
+
+```yaml
+pages:
+  dir: pages
+```
 
 ### pages.ext
 
-**Type:** `array`
-**Default:** `['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt']`
+Extensions of pages files.
 
-Supported files formats, by extension.
+```yaml
+pages:
+  ext: [md, markdown, mdown, mkdn, mkd, text, txt]
+```
 
 ### pages.exclude
 
-**Type:** `array`
-**Default:** `['vendor', 'node_modules']`
-
 Directories, paths and files name to exclude (accepts globs, strings and regexes).
+
+```yaml
+pages:
+  exclude: ['vendor', 'node_modules', '*.scss', '/\.bck$/']
+```
 
 ### pages.sortby
 
-**Type:** `string` | `array`
-**Default:** `date`
-
 Default collections sort method.
+
+```yaml
+pages:
+  sortby: date # `date`, `updated`, `title` or `weight`
+```
 
 #### pages.sortby.variable
 
-**Type:** `string`
-**Default:** `date`
-
 Sort method: `date`, `updated`, `title` or `weight`.
+
+```yaml
+pages:
+  sortby:
+    variable: date
+```
 
 #### pages.sortby.desc_title
 
-**Type:** `boolean`
-**Default:** `false`
-
 Sort by title in descending order.
+
+```yaml
+pages:
+  sortby:
+    desc_title: false
+```
 
 #### pages.sortby.reverse
 
-**Type:** `boolean`
-**Default:** `false`
-
 Reverse the sort order.
+
+```yaml
+pages:
+  sortby:
+    reverse: false
+```
 
 ### pages.pagination
 
@@ -484,24 +501,22 @@ Pagination is available for list pages (_type_ is `homepage`, `section` or `term
 
 #### pages.pagination.max
 
-**Type:** `integer`
-**Default:** `5`
-
 Maximum number of entries per page.
+
+```yaml
+pages:
+  pagination:
+    max: 5
+```
 
 #### pages.pagination.path
 
-**Type:** `string`
-**Default:** `page`
-
 Path to the paginated page.
 
-_Example:_
-
 ```yaml
-pagination:
-  max: 10
-  path: page
+pages:
+  pagination:
+    path: page
 ```
 
 #### Disable pagination
@@ -509,8 +524,9 @@ pagination:
 Pagination can be disabled:
 
 ```yaml
-pagination:
-  enabled: false
+pages:
+  pagination:
+    enabled: false
 ```
 
 ### pages.paths
@@ -518,9 +534,10 @@ pagination:
 Defines a custom [`path`](2-Content.md#variables) for all pages of a **_Section_**.
 
 ```yaml
-paths:
-  - section: <section’s ID>
-    language: <language code> # optional
+pages:
+  paths:
+    - section: <section’s ID>
+      language: <language code> # optional
     path: <path of pages> # with optional placeholders
 ```
 
@@ -545,35 +562,49 @@ paths:
 
 ### pages.frontmatter
 
-**Type:** `string`
-**Default:** `yaml`
+Front matter format.
 
-Front matter format: `yaml`, `ini`, `toml` or `json`. `yaml` is the default format.
+```yaml
+pages:
+  frontmatter: yaml # `yaml` by default, also accepts `ini`, `toml` and `json`
+```
 
 ### pages.body
 
 Pages’ body options.
 
-#### pages.body.toc
+:::info
+To know how those options impacts your content see _[Content > Markdown](2-Content.md#markdown)_ documentation.
+:::
 
-**Type:** `array`
-**Default:** `['h2', 'h3']`
+#### pages.body.toc
 
 Headers used to build the table of contents.
 
-#### pages.body.highlight
+```yaml
+pages:
+  body:
+    toc: [h2, h3]
+```
 
-**Type:** `boolean`
-**Default:** `false`
+#### pages.body.highlight
 
 Enables code syntax highlighting.
 
 ```yaml
 pages:
   body:
-    toc: [h2, h3]       # headers used to build the table of contents
-    highlight: false    # enables code syntax highlighting (`false` by default)
-    images:             # how to handle images
+    highlight: false
+```
+
+#### pages.body.images
+
+Images handling options.
+
+```yaml
+pages:
+  body:
+    images:
       formats: []         # creates and adds formats images as `source` (e.g. `webp`, empty by default)
       resize: false       # enables image resizing by using the `width` extra attribute (`false` by default)
       responsive: false   # creates responsive images and add them to the `srcset` attribute (`false` by default)
@@ -584,7 +615,17 @@ pages:
       class: ''           # put default class to each image (empty by default)
       remote:             # remote image handling (set to `false` to disable)
         fallback:           # path to the fallback image, stored in assets dir (empty by default)
-      
+```
+
+:::info
+Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
+:::
+
+#### pages.body.links
+
+```yaml
+pages:
+  body:
     links:
       embed:
         enabled: false # turns links in embedded content if possible (`false` by default)
@@ -597,21 +638,19 @@ pages:
         noopener: true   # add "noopener" to `rel`  attribute
         noreferrer: true # add "noreferrer" to `rel`  attribute
         nofollow: true   # add "nofollow" to `rel`  attribute
+```
+
+#### pages.body.excerpt
+
+```yaml
+pages:
+  body:
     excerpt:
       separator: excerpt|break # string to use as separator (`excerpt|break` by default)
       capture: before          # part to capture, `before` or `after` the separator (`before` by default)
 ```
 
-To know how those options impacts your content see _[Content > Markdown](2-Content.md#markdown)_ documentation.
-
-:::info
-Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
-:::
-
 ### pages.virtual
-
-**Type:** `array`
-**Default:** `[]`
 
 Virtual pages is the best way to create pages without content (**front matter only**).
 
