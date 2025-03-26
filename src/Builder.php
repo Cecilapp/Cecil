@@ -430,18 +430,11 @@ class Builder implements LoggerAwareInterface
     public static function getVersion(): string
     {
         if (!isset(self::$version)) {
-            $filePath = __DIR__ . '/../VERSION';
-            if (Platform::isPhar()) {
-                $filePath = Platform::getPharPath() . '/VERSION';
-            }
-
             try {
-                if (!file_exists($filePath)) {
-                    throw new RuntimeException(\sprintf('File "%s" doesn\'t exist.', $filePath));
-                }
+                $filePath = Util\File::getRealPath('VERSION');
                 $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
-                    throw new RuntimeException(\sprintf('Can\'t get file "%s".', $filePath));
+                    throw new RuntimeException(\sprintf('Can\'t read content of "%s".', $filePath));
                 }
                 self::$version = trim($version);
             } catch (\Exception) {
