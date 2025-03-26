@@ -213,7 +213,6 @@ class Builder implements LoggerAwareInterface
     {
         if ($this->config === null) {
             $this->config = new Config();
-
         }
 
         return $this->config;
