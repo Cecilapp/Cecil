@@ -274,11 +274,7 @@ class Config
      */
     public function getTranslationsInternalPath(): string
     {
-        if (Util\Platform::isPhar()) {
-            return Util::joinPath(Platform::getPharPath(), (string) $this->get('resources/translations'));
-        }
-
-        return realpath(Util::joinPath(__DIR__, '..', (string) $this->get('resources/translations')));
+        return Util\File::getRealPath('../resources/translations');
     }
 
     /**
@@ -626,10 +622,7 @@ class Config
         }
 
         // check for deprecated options
-        $deprecatedConfigFile = realpath(Util::joinFile(__DIR__, '..', 'config/deprecated.php'));
-        if (Platform::isPhar()) {
-            $deprecatedConfigFile = Util::joinPath(Platform::getPharPath(), 'config/deprecated.php');
-        }
+        $deprecatedConfigFile = Util\File::getRealPath('../config/deprecated.php');
         $deprecatedConfig = require $deprecatedConfigFile;
         array_walk($deprecatedConfig, function ($to, $from) {
             if ($this->has($from)) {
