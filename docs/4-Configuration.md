@@ -962,6 +962,10 @@ When `debug` is enabled, you can easily [dump a variable in your templates](3-Te
 
 You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
 
+:::warning
+Should be move to `server.headers` in the future.
+:::
+
 ```yaml
 headers:
   - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
