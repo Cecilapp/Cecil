@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-03-25
+updated: 2025-03-26
 -->
 
 # Configuration
@@ -173,9 +173,11 @@ A vocabulary can be disabled with the special value `disabled`. Example: `tags: 
 
 ### theme
 
-The theme to use, or an array of themes.
+The theme to use, or a list of themes.
 
 ```yaml
+theme: <theme> # theme name
+# or
 theme:
   - <theme1> # theme name
   - <theme2>
@@ -296,36 +298,6 @@ In [templates](3-Templates.md) you can access to an option with `{{ site.<option
 If an option is not available in the current language (e.g.: `fr`) it fallback to the global one (e.g.: `en`).
 :::
 
-### paths
-
-Defines a custom [`path`](2-Content.md#variables) for all pages of a **_Section_**.
-
-```yaml
-paths:
-  - section: <section’s ID>
-    language: <language code> # optional
-    path: <path of pages> # with optional placeholders
-```
-
-#### Path placeholders
-
-- `:year`
-- `:month`
-- `:day`
-- `:section`
-- `:slug`
-
-_Example:_
-
-```yaml
-paths:
-  - section: Blog
-    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
-  - section: Blog
-    language: fr
-    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
-```
-
 ### metatags
 
 _metatags_ are SEO and social helpers that can be automatically  injected in the `<head>`, with the _partial_ template [`metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
@@ -338,21 +310,20 @@ _Example:_
 <html lang="{{ site.language }}">
   <head>
     <meta charset="utf-8">
-    [...]
-    {{- include('partials/metatags.html.twig') ~}}
+    {{ include('partials/metatags.html.twig') }}
   </head>
   <body>
-    [...]
+    ...
   </body>
 </html>
 ```
 
 This template adds the following meta tags:
 
-- Page title + site title, or site title + site baseline
-- Page/site description
-- Page/site keywords
-- Page/site author
+- Page title + Site title, or Site title + Site baseline
+- Page/Site description
+- Page/Site keywords
+- Page/Site author
 - Search engine crawler directives
 - Favicon links
 - Previous and next page links
@@ -362,7 +333,7 @@ This template adds the following meta tags:
 - `rel=me` links
 - Open Graph
 - Facebook meta
-- Twitter Card
+- Twitter/X Card
 - Mastodon meta
 - Structured data (JSON-LD)
 
@@ -371,14 +342,14 @@ This template adds the following meta tags:
 Cecil uses page’s front matter to feed meta tags, and fallbacks to site options if needed.
 
 ```yaml
-title: "Page/site title"
-description: "Page/site description"
+title: "Page/Site title"
+description: "Page/Site description"
 tags: [tag1, tag2]                   # feeds keywords meta
 keywords: [keyword1, keyword2]       # obsolete
 author:
-	name: <name>
-	url: <url>
-	email: <email>
+  name: <name>
+  url: <url>
+  email: <email>
 image: image.jpg                     # for OpenGraph and social networks cards
 canonical:                           # to override the generated canonical URL
   url: <URL>
@@ -408,7 +379,7 @@ If needed, `title` and `image` can be overridden:
 
 :::
 
-#### metatags configuration
+#### metatags options
 
 ```yaml
 metatags:
@@ -431,146 +402,6 @@ metatags:
       - "icon": [32, 57, 76, 96, 128, 192, 228] # web browsers
       - "shortcut icon": [196]                  # Android
       - "apple-touch-icon": [120, 152, 180]     # iOS
-```
-
-### output
-
-Defines where and in what format(s) content is rendered.
-
-#### dir
-
-Directory where rendered pages’ files are saved.
-
-```yaml
-output:
-  dir: <directory> # `_site` by default
-```
-
-#### formats
-
-List of output formats, in which of them pages’ content is rendered (e.g. HTML, JSON, XML, RSS, Atom, etc.).
-
-```yaml
-output:
-  formats:
-    - name: <name>            # name of the format, e.g.: `html` (required)
-      mediatype: <media type> # media type (MIME type), ie: 'text/html' (optional)
-      subpath: <sub path>     # sub path, e.g.: `amp` in `path/amp/index.html` (optional)
-      filename: <file name>   # file name, e.g.: `index` in `path/index.html` (optional)
-      extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
-      exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
-```
-
-Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).
-
-:::info
-To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
-:::
-
-#### pagetypeformats
-
-Array of output formats by each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
-
-```yaml
-output:
-  pagetypeformats:
-    page: [<format>]
-    homepage: [<format>]
-    section: [<format>]
-    vocabulary: [<format>]
-    term: [<format>]
-```
-
-Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendred in HTML and Atom.
-
-_Example:_
-
-```yaml
-output:
-  dir: _site
-  formats:
-    - name: html
-      mediatype: text/html
-      filename: index
-      extension: html
-    - name: atom
-      mediatype: application/xml
-      filename: atom
-      extension: xml
-      exclude: [redirect, paginated]
-  pagetypeformats:
-    page: [html]
-    homepage: [html, atom]
-    section: [html, atom]
-    vocabulary: [html]
-    term: [html, atom]
-```
-
-:::tip
-You can extend Cecil with [Output post processor](7-Extend.md#output-post-processor).
-:::
-
-### debug
-
-Enables the _debug mode_, used to display debug information like Twig dump, Twig profiler, SCSS sourcemap, etc.
-
-```yaml
-debug: <true|false>
-```
-
-There is 2 others way to enable the _debug mode_:
-
-1. Run a command with the `-vvv` option
-2. Set the `CECIL_DEBUG` environment variable to `true`
-
-When `debug` is enabled, you can easily [dump a variable in your templates](3-Templates.md#dump) using:
-
-```twig
-{{ dump(variable) }}
-# or
-{{ d(variable) }} # HTML dump
-```
-
-### headers
-
-You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
-
-```yaml
-headers:
-  - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
-    headers:
-      - key: <key>
-        value: "<value>"
-```
-
-:::tips
-It's useful to test custom [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) or [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
-:::
-
-_Example:_
-
-```yaml
-headers:
-  - path: /*
-    headers:
-      - key: X-Frame-Options
-        value: "SAMEORIGIN"
-      - key: X-XSS-Protection
-        value: "1; mode=block"
-      - key: X-Content-Type-Options
-        value: "nosniff"
-      - key: Content-Security-Policy
-        value: "default-src 'self'; object-src 'self'; img-src 'self'"
-      - key: Strict-Transport-Security
-        value: "max-age=31536000; includeSubDomains; preload"
-  - path: /assets/*
-    headers:
-      - key: Cache-Control
-        value: "public, max-age=31536000"
-  - path: /foo.html
-    headers:
-      - key: Foo
-        value: "bar"
 ```
 
 ## Pages options
@@ -659,22 +490,34 @@ pagination:
   enabled: false
 ```
 
-### pages.virtual
+### pages.paths
 
-**Type:** `array`
-**Default:** `[]`
+Defines a custom [`path`](2-Content.md#variables) for all pages of a **_Section_**.
 
-Virtual pages is the best way to create pages without content (**front matter only**).
+```yaml
+paths:
+  - section: <section’s ID>
+    language: <language code> # optional
+    path: <path of pages> # with optional placeholders
+```
 
-It consists of a list of pages with a `path` and some front matter variables.
+#### Path placeholders
+
+- `:year`
+- `:month`
+- `:day`
+- `:section`
+- `:slug`
 
 _Example:_
 
 ```yaml
-pages:
-  virtual:
-    - path: code
-      redirect: https://github.com/ArnaudLigny
+paths:
+  - section: Blog
+    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
+  - section: Blog
+    language: fr
+    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
 ```
 
 ### pages.frontmatter
@@ -701,8 +544,6 @@ Headers used to build the table of contents.
 **Default:** `false`
 
 Enables code syntax highlighting.
-
-
 
 ```yaml
 pages:
@@ -744,31 +585,25 @@ To know how those options impacts your content see _[Content > Markdown](2-Conte
 Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
 :::
 
-#### generators
+### pages.virtual
 
-Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
+**Type:** `array`
+**Default:** `[]`
 
-Below the list of Generators provided by Cecil, in a defined order:
+Virtual pages is the best way to create pages without content (**front matter only**).
+
+It consists of a list of pages with a `path` and some front matter variables.
+
+_Example:_
 
 ```yaml
 pages:
-  generators:
-    10: 'Cecil\Generator\DefaultPages'
-    20: 'Cecil\Generator\VirtualPages'
-    30: 'Cecil\Generator\ExternalBody'
-    40: 'Cecil\Generator\Section'
-    50: 'Cecil\Generator\Taxonomy'
-    60: 'Cecil\Generator\Homepage'
-    70: 'Cecil\Generator\Pagination'
-    80: 'Cecil\Generator\Alias'
-    90: 'Cecil\Generator\Redirect'
+  virtual:
+    - path: code
+      redirect: https://github.com/ArnaudLigny
 ```
 
-:::tip
-You can extend Cecil with [Pages generator](7-Extend.md#pages-generator).
-:::
-
-#### default pages
+### pages.default
 
 Default pages are pages created automatically by Cecil (from built-in templates):
 
@@ -821,7 +656,7 @@ pages:
 ```
 
 :::info
-The structure is almost identical of [`virtual pages`](#virtual-pages), except the named key.
+The structure is almost identical of [`pages.virtual`](#pages-virtual), except the named key.
 :::
 
 Each one can be:
@@ -830,7 +665,33 @@ Each one can be:
 2. excluded from list pages: `exclude: true`
 3. excluded from localization: `multilingual: false`
 
-### data
+### pages.generators
+
+Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
+
+Below the list of Generators provided by Cecil, in a defined order:
+
+```yaml
+pages:
+  generators:
+    10: 'Cecil\Generator\DefaultPages'
+    20: 'Cecil\Generator\VirtualPages'
+    30: 'Cecil\Generator\ExternalBody'
+    40: 'Cecil\Generator\Section'
+    50: 'Cecil\Generator\Taxonomy'
+    60: 'Cecil\Generator\Homepage'
+    70: 'Cecil\Generator\Pagination'
+    80: 'Cecil\Generator\Alias'
+    90: 'Cecil\Generator\Redirect'
+```
+
+:::tip
+You can extend Cecil with [Pages generator](7-Extend.md#pages-generator).
+:::
+
+---
+
+## Data options
 
 Where data files are stored and what extensions are handled.
 
@@ -843,7 +704,9 @@ data:
 
 Supported formats: YAML, JSON, XML and CSV.
 
-### static
+---
+
+## Static options
 
 Where static files are stored (PDF, fonts, etc.).
 
@@ -882,7 +745,7 @@ static:
     - node_modules/bootstrap-icons/font/fonts: fonts
 ```
 
-### assets
+## Assets options
 
 Assets handling options.
 
@@ -923,7 +786,7 @@ assets:
 - Generated `responsive` images default widths are: 480, 640, 768, 1024, 1366, 1600 and 1920
 :::
 
-#### Image CDN
+### assets.images.cdn
 
 URL of image assets can be easily replaced by a provided CDN `url`.
 
@@ -948,7 +811,7 @@ assets:
 
 See [**CDN providers**](configuration/cdn-providers.md).
 
-### layouts
+## Layouts options
 
 Where templates and translations files are stored.
 
@@ -960,7 +823,7 @@ layouts:
     formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
-### themes
+## Themes options
 
 Where themes are stored.
 
@@ -969,7 +832,88 @@ themes:
   dir: themes # themes directory
 ```
 
-### cache
+---
+
+## Output options
+
+Defines where and in what format(s) content is rendered.
+
+### output.dir
+
+Directory where rendered pages’ files are saved.
+
+```yaml
+output:
+  dir: <directory> # `_site` by default
+```
+
+### output.formats
+
+List of output formats, in which of them pages’ content is rendered (e.g. HTML, JSON, XML, RSS, Atom, etc.).
+
+```yaml
+output:
+  formats:
+    - name: <name>            # name of the format, e.g.: `html` (required)
+      mediatype: <media type> # media type (MIME type), ie: 'text/html' (optional)
+      subpath: <sub path>     # sub path, e.g.: `amp` in `path/amp/index.html` (optional)
+      filename: <file name>   # file name, e.g.: `index` in `path/index.html` (optional)
+      extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
+      exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
+```
+
+Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).
+
+:::info
+To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
+:::
+
+### output.pagetypeformats
+
+Array of output formats by each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
+
+```yaml
+output:
+  pagetypeformats:
+    page: [<format>]
+    homepage: [<format>]
+    section: [<format>]
+    vocabulary: [<format>]
+    term: [<format>]
+```
+
+Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendred in HTML and Atom.
+
+_Example:_
+
+```yaml
+output:
+  dir: _site
+  formats:
+    - name: html
+      mediatype: text/html
+      filename: index
+      extension: html
+    - name: atom
+      mediatype: application/xml
+      filename: atom
+      extension: xml
+      exclude: [redirect, paginated]
+  pagetypeformats:
+    page: [html]
+    homepage: [html, atom]
+    section: [html, atom]
+    vocabulary: [html]
+    term: [html, atom]
+```
+
+:::tip
+You can extend Cecil with [Output post processor](7-Extend.md#output-post-processor).
+:::
+
+---
+
+## Cache options
 
 Cache options.
 
@@ -989,7 +933,76 @@ cache:
     dir: 'translations' # translations files cache directory (`assets` by default)
 ```
 
-### optimize
+---
+
+## Debug option
+
+Enables the _debug mode_, used to display debug information like Twig dump, Twig profiler, SCSS sourcemap, etc.
+
+```yaml
+debug: <true|false>
+```
+
+There is 2 others way to enable the _debug mode_:
+
+1. Run a command with the `-vvv` option
+2. Set the `CECIL_DEBUG` environment variable to `true`
+
+When `debug` is enabled, you can easily [dump a variable in your templates](3-Templates.md#dump) using:
+
+```twig
+{{ dump(variable) }}
+# or
+{{ d(variable) }} # HTML dump
+```
+
+---
+
+## Headers options
+
+You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
+
+```yaml
+headers:
+  - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
+    headers:
+      - key: <key>
+        value: "<value>"
+```
+
+:::tips
+It's useful to test custom [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) or [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
+:::
+
+_Example:_
+
+```yaml
+headers:
+  - path: /*
+    headers:
+      - key: X-Frame-Options
+        value: "SAMEORIGIN"
+      - key: X-XSS-Protection
+        value: "1; mode=block"
+      - key: X-Content-Type-Options
+        value: "nosniff"
+      - key: Content-Security-Policy
+        value: "default-src 'self'; object-src 'self'; img-src 'self'"
+      - key: Strict-Transport-Security
+        value: "max-age=31536000; includeSubDomains; preload"
+  - path: /assets/*
+    headers:
+      - key: Cache-Control
+        value: "public, max-age=31536000"
+  - path: /foo.html
+    headers:
+      - key: Foo
+        value: "bar"
+```
+
+---
+
+## Optimize options
 
 The optimization options allow to enable compression of output files: HTML, CSS, JavaScript and image.
 
@@ -1027,6 +1040,8 @@ It is also possible to enable this option through CLI when using the "build" and
 :::important
 **Images** compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/), [cwebp](https://developers.google.com/speed/webp/docs/cwebp) and [avifenc](https://github.com/AOMediaCodec/libavif).
 :::
+
+---
 
 ## Override configuration
 
