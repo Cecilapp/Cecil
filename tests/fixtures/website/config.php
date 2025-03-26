@@ -128,9 +128,19 @@ return [
                     'fallback' => 'images/cecil-logo.png',
                 ],
                 'class' => 'img',
+                'placeholder' => 'color',
             ],
             'notes' => true,
             'highlight' => true,
+            'links' => [
+                'embed' => true,
+                'external' => [
+                    'blank' => true,
+                    'nofollow' => true,
+                    'noopener' => true,
+                    'noreferrer' => true,
+                ]
+            ],
         ],
     ],
     'output' => [
