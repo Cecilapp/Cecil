@@ -111,8 +111,11 @@ class Parsedown extends \ParsedownToc
         }
 
         // External link
-        if (str_starts_with($link['element']['attributes']['href'], 'http') && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl'))) {
-            if ($this->config->get('pages.body.links.external.blank')) {
+        if (
+            str_starts_with($link['element']['attributes']['href'], 'http')
+            && (!empty($this->config->get('baseurl')) && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl')))
+        ) {
+            if ($this->config->isEnabled('pages.body.links.external.blank')) {
                 $link['element']['attributes']['target'] = '_blank';
             }
             if (!\array_key_exists('rel', $link['element']['attributes'])) {
@@ -142,9 +145,9 @@ class Parsedown extends \ParsedownToc
             }
             unset($link['element']['attributes']['embed']);
         }
-        // video or audio?
         $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
-        if (\in_array($extension, (array) $this->config->get('pages.body.links.embed.video.ext'))) {
+        // video?
+        if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? ['mp4', 'webm'])) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
@@ -157,7 +160,8 @@ class Parsedown extends \ParsedownToc
 
             return $video;
         }
-        if (\in_array($extension, (array) $this->config->get('pages.body.links.embed.audio.ext'))) {
+        // audio?
+        if (\in_array($extension, $this->config->get('pages.body.links.embed.audio') ?? ['mp3', 'ogg', 'wav'])) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
