@@ -45,7 +45,7 @@ class Config
     /**
      * Build the Config object with the default config + the optional given array.
      */
-    public function __construct(array $config)
+    public function __construct(?array $config = null)
     {
         // default configuration
         $defaultConfigFile = Util\File::getRealPath('../config/default.php');
@@ -55,8 +55,10 @@ class Config
         $baseConfigFile = Util\File::getRealPath('../config/base.php');
         $this->data = new Data(include $baseConfigFile);
 
-        // import config
-        $this->import($config);
+        // import config array if provided
+        if ($config !== null) {
+            $this->import($config);
+        }
     }
 
     /**
