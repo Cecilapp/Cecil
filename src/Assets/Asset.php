@@ -628,7 +628,7 @@ class Asset implements \ArrayAccess
             return false;
         }
         // handle remote image?
-        if ($this->data['url'] !== null && (bool) $this->config->get('assets.images.cdn.remote') ?? true !== true) {
+        if ($this->data['url'] !== null && $this->config->get('assets.images.cdn.remote') ?? true !== true) {
             return false;
         }
 
@@ -890,7 +890,7 @@ class Asset implements \ArrayAccess
                 '%format%',
             ],
             [
-                (string) $this->config->get('assets.images.cdn.account') ?? '',
+                $this->config->get('assets.images.cdn.account') ?? '',
                 ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical') ?? true]), '/'),
                 $this->data['width'],
                 (int) $this->config->get('assets.images.quality'),

@@ -51,7 +51,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             $path = $page->getPath();
             // site pagination configuration
             $paginationPerPage = \intval($this->config->get('pages.pagination.max') ?? 5);
-            $paginationPath = (string) $this->config->get('pages.pagination.path') ?? 'page';
+            $paginationPath = $this->config->get('pages.pagination.path') ?? 'page';
             // page pagination configuration
             $pagePagination = $page->getVariable('pagination');
             if ($pagePagination) {

@@ -70,7 +70,7 @@ class Twig implements RendererInterface
         // set timezone
         if ($this->builder->getConfig()->has('date.timezone')) {
             $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
-                ->setTimezone((string) $this->builder->getConfig()->get('date.timezone') ?? date_default_timezone_get());
+                ->setTimezone($this->builder->getConfig()->get('date.timezone') ?? date_default_timezone_get());
         }
         /*
          * adds extensions
