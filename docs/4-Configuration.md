@@ -274,7 +274,7 @@ languages:
 There is a [locales code list](configuration/locale-codes.md) if needed.
 :::
 
-#### Localize options
+#### Localize
 
 To localize configuration options you must store them under the `config` key of the language.
 
@@ -379,7 +379,7 @@ If needed, `title` and `image` can be overridden:
 
 :::
 
-#### metatags options
+#### metatags
 
 ```yaml
 metatags:
@@ -404,7 +404,7 @@ metatags:
       - "apple-touch-icon": [120, 152, 180]     # iOS
 ```
 
-## Pages options
+## Pages
 
 ### pages.dir
 
@@ -691,7 +691,7 @@ You can extend Cecil with [Pages generator](7-Extend.md#pages-generator).
 
 ---
 
-## Data options
+## Data
 
 Where data files are stored and what extensions are handled.
 
@@ -706,7 +706,7 @@ Supported formats: YAML, JSON, XML and CSV.
 
 ---
 
-## Static options
+## Static
 
 Where static files are stored (PDF, fonts, etc.).
 
@@ -745,7 +745,7 @@ static:
     - node_modules/bootstrap-icons/font/fonts: fonts
 ```
 
-## Assets options
+## Assets
 
 Assets handling options.
 
@@ -811,7 +811,7 @@ assets:
 
 See [**CDN providers**](configuration/cdn-providers.md).
 
-## Layouts options
+## Layouts
 
 Where templates and translations files are stored.
 
@@ -823,7 +823,7 @@ layouts:
     formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
-## Themes options
+## Themes
 
 Where themes are stored.
 
@@ -834,7 +834,7 @@ themes:
 
 ---
 
-## Output options
+## Output
 
 Defines where and in what format(s) content is rendered.
 
@@ -913,7 +913,7 @@ You can extend Cecil with [Output post processor](7-Extend.md#output-post-proces
 
 ---
 
-## Cache options
+## Cache
 
 Cache options.
 
@@ -958,7 +958,7 @@ When `debug` is enabled, you can easily [dump a variable in your templates](3-Te
 
 ---
 
-## Headers options
+## Headers
 
 You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
 
@@ -1002,7 +1002,7 @@ headers:
 
 ---
 
-## Optimize options
+## Optimize
 
 The optimization options allow to enable compression of output files: HTML, CSS, JavaScript and image.
 
