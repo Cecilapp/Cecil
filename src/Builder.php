@@ -17,7 +17,6 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
-use Cecil\Util\Platform;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
@@ -106,17 +105,19 @@ class Builder implements LoggerAwareInterface
      */
     public function __construct($config = null, ?LoggerInterface $logger = null)
     {
+        // set config?
+        if ($config !== null) {
+            $this->setConfig($config);
+        }
+        // debug mode?
+        if (getenv('CECIL_DEBUG') == 'true' || $this->getConfig()->isEnabled('debug')) {
+            $this->debug = true;
+        }
         // set logger
         if ($logger === null) {
             $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
         }
         $this->setLogger($logger);
-        // set config
-        $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
-        // debug mode?
-        if (getenv('CECIL_DEBUG') == 'true' || $this->getConfig()->isEnabled('debug')) {
-            $this->debug = true;
-        }
         // autoloads local extensions
         Util::autoload($this, 'extensions');
     }
@@ -192,10 +193,8 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set configuration.
-     *
-     * @param Config|array|null $config
      */
-    public function setConfig($config): self
+    public function setConfig(array|Config $config): self
     {
         if (!$config instanceof Config) {
             $config = new Config($config);
@@ -212,13 +211,18 @@ class Builder implements LoggerAwareInterface
      */
     public function getConfig(): Config
     {
+        if ($this->config === null) {
+            $this->config = new Config();
+
+        }
+
         return $this->config;
     }
 
     /**
      * Config::setSourceDir() alias.
      */
-    public function setSourceDir(?string $sourceDir = null): self
+    public function setSourceDir(string $sourceDir): self
     {
         $this->config->setSourceDir($sourceDir);
 
@@ -228,7 +232,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Config::setDestinationDir() alias.
      */
-    public function setDestinationDir(?string $destinationDir = null): self
+    public function setDestinationDir(string $destinationDir): self
     {
         $this->config->setDestinationDir($destinationDir);
 
