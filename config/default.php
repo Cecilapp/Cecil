@@ -58,7 +58,8 @@ return [
         [
             'code' => 'en',
             'name' => 'English',
-            'locale' => 'en_US',
+            'locale' => 'en_EN',
+            'enabled' => true,
         ],
     ],
     'metatags' => [
@@ -74,6 +75,17 @@ return [
         //    'desc_title' => false,  // false|true
         //    'reverse' => false,  // false|true
         //],
+        'pagination' => [
+            'max' => 5, // number of pages by each paginated pages
+            'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
+        ],
+        'paths' => [
+            [
+                'section' => '<section’s ID>',
+                'language' => '<language code>', // optional
+                'path' => '<path_with_palceholders>',
+            ]
+        ],
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
         'body' => [
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
@@ -109,10 +121,6 @@ return [
                 'capture' => 'before', // part to capture, `before` or `after` the separator
             ],
         ],
-        'pagination' => [
-            'max' => 5, // number of pages by each paginated pages
-            'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
-        ],
         //'generators' => [ // list of pages generators class, ordered by weight
         //    <position> => 'Cecil\Generator\<class>',
         //],
@@ -121,12 +129,6 @@ return [
         'dir' => 'data', // data files directory
         'ext' => ['yaml', 'yml', 'json', 'xml', 'csv'], // loaded files by extension
         'load' => true, // enables `site.data` collection
-    ],
-    'static' => [ // static files
-        'dir' => 'static', // static files directory
-        'target' => '', // subdirectory where files are copied
-        'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'], // excluded files by extension or pattern
-        'load' => false, // enables `site.static` collection
     ],
     'assets' => [ // assets: CSS, JS, images, etc.
         'dir' => 'assets', // assets files directory
@@ -158,6 +160,12 @@ return [
             //]
         ],
     ],
+    'static' => [ // static files
+        'dir' => 'static', // static files directory
+        'target' => '', // subdirectory where files are copied
+        'exclude' => ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'], // excluded files by extension or pattern
+        'load' => false, // enables `site.static` collection
+    ],
     'layouts' => [ // layouts and templates
         'dir' => 'layouts', // Twig templates directory
         'translations' => [ // i18n
@@ -174,9 +182,6 @@ return [
         //'sections' => [ // override layout name of sections (optional)
         //    '<section>' => '<layout>',
         //]
-    ],
-    'themes' => [
-        'dir' => 'themes', // where themes are stored
     ],
     'output' => [ // output formats and post process
         'dir' => '_site', // output directory
