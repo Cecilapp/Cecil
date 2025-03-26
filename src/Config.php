@@ -143,11 +143,11 @@ class Config
      */
     public function isEnabled(string $key, ?string $language = null, bool $fallback = true): bool
     {
-        if ($this->has("$key.enabled", $language, $fallback) && $this->get("$key.enabled", $language, $fallback) === false) {
-            return false;
-        }
         if ($this->has($key, $language, $fallback) && $this->get($key, $language, $fallback) !== false) {
             return true;
+        }
+        if ($this->has("$key.enabled", $language, $fallback) && $this->get("$key.enabled", $language, $fallback) === false) {
+            return false;
         }
 
         return false;
