@@ -1,15 +1,16 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-03-20
+updated: 2025-03-25
 -->
+
 # Configuration
 
 The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `cecil.yml` by default and stored at the root:
 
 ```plaintext
 <mywebsite>
-└─ config.yml
+└─ cecil.yml
 ```
 
 _Example:_
@@ -22,7 +23,7 @@ language: en
 ```
 
 :::info
-Your site configuration (`config.yml`) overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
+Your site configuration overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
 :::
 
 The following documentation covers all supported configuration options in Cecil.
@@ -79,62 +80,16 @@ Site description (~ 250 characters).
 description: "<description>"
 ```
 
-### date
-
-Date format and timezone.
-
-```yaml
-date:
-  format: <format>     # date format (`F j, Y` by default)
-  timezone: <timezone> # date timezone (local time zone by default)
-```
-
-- `format`: [PHP date](https://php.net/date) format specifier
-- `timezone`: see [timezones](https://php.net/timezones)
-
-_Example:_
-
-```yaml
-date:
-  format: 'j F Y'
-  timezone: 'Europe/Paris'
-```
-
-### taxonomies
-
-List of vocabularies, paired by plural and singular value.
-
-```yaml
-taxonomies:
-  <plural>: <singular>
-```
-
-_Example:_
-
-```yaml
-taxonomies:
-  categories: category
-  tags: tag
-```
-
-:::warning
-Since ++version 8.35.0++, default vocabularies `category` and `tag` have been removed.
-:::
-
-:::tip
-A vocabulary can be disabled with the special value `disabled`. Example: `tags: disabled`.
-:::
-
 ### menus
 
 Menus are used to create [navigation links in templates](3-Templates.md#site-menus).
 
-A menu is made up of a unique name and entry’s properties (name, URL, weight).
+A menu is made up of a unique ID and entry’s properties (name, URL, weight).
 
 ```yaml
 menus:
   <name>:
-    - id: <unique id>   # unique identifier (required)
+    - id: <unique-id>   # unique identifier (required)
       name: "<name>"    # name displayed in templates
       url: <url>        # relative or absolute URL
       weight: <integer> # integer value used to sort entries (lighter first)
@@ -190,6 +145,156 @@ menus:
     - id: about
       enabled: false
 ```
+
+### taxonomies
+
+List of vocabularies, paired by plural and singular value.
+
+```yaml
+taxonomies:
+  <plural>: <singular>
+```
+
+_Example:_
+
+```yaml
+taxonomies:
+  categories: category
+  tags: tag
+```
+
+:::warning
+Since ++version 8.35.0++, default vocabularies `category` and `tag` have been removed.
+:::
+
+:::tip
+A vocabulary can be disabled with the special value `disabled`. Example: `tags: disabled`.
+:::
+
+### theme
+
+The theme to use, or an array of themes.
+
+```yaml
+theme:
+  - <theme1> # theme name
+  - <theme2>
+```
+
+:::info
+The first theme overrides the others, and so on.
+:::
+
+_Examples:_
+
+```yaml
+theme: hyde
+```
+
+```yaml
+theme:
+  - serviceworker
+  - hyde
+```
+
+:::info
+See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or on website [themes section](https://cecil.app/themes/).
+:::
+
+### date
+
+Date format and timezone.
+
+```yaml
+date:
+  format: <format>     # date format (optional, `F j, Y` by default)
+  timezone: <timezone> # date timezone (optional, local time zone by default)
+```
+
+- `format`: [PHP date](https://php.net/date) format specifier
+- `timezone`: see [timezones](https://php.net/timezones)
+
+_Example:_
+
+```yaml
+date:
+  format: 'j F, Y'
+  timezone: 'Europe/Paris'
+```
+
+### language
+
+The main language, defined by its code.
+
+```yaml
+language: <code> # unique code (`en` by default)
+```
+
+By default only others [languages](#languages) pages path are prefixed with its language code, but you can prefix the path of the main language pages with the following option:
+
+```yaml
+#language: <code>
+language:
+  code: <code>
+  prefix: true
+```
+
+:::info
+When `prefix` is set to `true`, an alias is automatically created for the home page that redirect from`/` to `/<code>/`.
+:::
+
+### languages
+
+Options of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
+
+```yaml
+languages:
+  - code: <code>          # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
+    name: <name>          # human readable name (e.g.: `Français`)
+    locale: <locale>      # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
+    enabled: <true|false> # enabled or not (`true` by default)
+```
+
+_Example:_
+
+```yaml
+language: en
+languages:
+  - code: en
+    name: English
+    locale: en_EN
+  - code: fr
+    name: Français
+    locale: fr_FR
+```
+
+:::info
+There is a [locales code list](configuration/locale-codes.md) if needed.
+:::
+
+#### Localize options
+
+To localize configuration options you must store them under the `config` key of the language.
+
+_Example:_
+
+```yaml
+title: "Cecil in english"
+languages:
+  - code: en
+    name: English
+    locale: en_US
+  - code: fr
+    name: Français
+    locale: fr_FR
+    config:
+      title: "Cecil en français"
+```
+
+:::info
+In [templates](3-Templates.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.  
+If an option is not available in the current language (e.g.: `fr`) it fallback to the global one (e.g.: `en`).
+:::
 
 ### paths
 
@@ -270,8 +375,11 @@ title: "Page/site title"
 description: "Page/site description"
 tags: [tag1, tag2]                   # feeds keywords meta
 keywords: [keyword1, keyword2]       # obsolete
-author: "Author name"
-image: image.jpg                     # for OpenGraph and Twitter Card
+author:
+	name: <name>
+	url: <url>
+	email: <email>
+image: image.jpg                     # for OpenGraph and social networks cards
 canonical:                           # to override the generated canonical URL
   url: <URL>
   title: "<URL title>"               # optional
@@ -324,110 +432,6 @@ metatags:
       - "shortcut icon": [196]                  # Android
       - "apple-touch-icon": [120, 152, 180]     # iOS
 ```
-
-### language
-
-The main language, defined by its code.
-
-```yaml
-language: <code> # unique code (`en` by default)
-```
-
-By default only others [languages](#languages) pages path are prefixed with its language code, but you can prefix the path of the main language pages with the following option:
-
-```yaml
-#language: <code>
-language:
-  code: <code>
-  prefix: true
-```
-
-:::info
-When `prefix` is set to `true`, an alias is automatically created for the home page that redirect from`/` to `/<code>/`.
-:::
-
-### languages
-
-Options of available languages, used for [pages](2-Content.md#multilingual) and [templates](3-Templates.md#localization) localization.
-
-```yaml
-languages:
-  - code: <code>          # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
-    name: <name>          # human readable name (e.g.: `Français`)
-    locale: <locale>      # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
-    enabled: <true|false> # enabled or not (`true` by default)
-```
-
-_Example:_
-
-```yaml
-language: en
-languages:
-  - code: en
-    name: English
-    locale: en_EN
-  - code: fr
-    name: Français
-    locale: fr_FR
-```
-
-:::info
-There is a [locales code list](configuration/locale-codes.md) if needed.
-:::
-
-#### Localize options
-
-To localize configuration options you must store them under the `config` key of the language.
-
-_Example:_
-
-```yaml
-title: "Cecil in english"
-languages:
-  - code: en
-    name: English
-    locale: en_US
-  - code: fr
-    name: Français
-    locale: fr_FR
-    config:
-      title: "Cecil en français"
-```
-
-:::info
-In [templates](3-Templates.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.  
-If an option is not available in the current language (e.g.: `fr`) it fallback to the global one (e.g.: `en`).
-:::
-
-### theme
-
-The theme name or an array of themes name.
-
-```yaml
-theme:
-  - <theme1> # theme name
-  - <theme2>
-```
-
-:::info
-The first theme overrides the others, and so on.
-:::
-
-_Examples:_
-
-```yaml
-theme: hyde
-```
-
-```yaml
-theme:
-  - serviceworker
-  - hyde
-```
-
-:::info
-See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or on website [themes section](https://cecil.app/themes/).
-:::
 
 ### output
 
