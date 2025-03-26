@@ -296,10 +296,8 @@ EOF
     private function setUpServer(string $host, string $port): void
     {
         try {
-            $root = Util::joinFile(__DIR__, '../../');
-            if (Util\Platform::isPhar()) {
-                $root = Util\Platform::getPharPath() . '/';
-            }
+            // define root path
+            $root = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // copying router
             Util\File::getFS()->copy(
                 $root . '/resources/server/router.php',
