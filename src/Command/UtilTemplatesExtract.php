@@ -74,17 +74,21 @@ EOF
                 ->files()
                 ->in($this->getBuilder()->getConfig()->getLayoutsInternalPath());
             foreach ($templates as $template) {
-                $templatesList[] = Util::joinPath((string) $this->getBuilder()->getConfig()->getLayoutsInternalPath(), Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getLayoutsInternalPath()));
+                $relativePath = rtrim(Util\File::getFS()->makePathRelative($template->getPathname(), $this->getBuilder()->getConfig()->getLayoutsInternalPath()), '/');
+                if (!isset($phar["resources/layouts/$relativePath"])) {
+                    throw new RuntimeException(\sprintf('Internal template `%s` doesn\'t exist.', $relativePath));
+                }
+                $templatesList[] = "resources/layouts/$relativePath";
             }
 
             $force = ($force !== false) ?: $this->io->confirm('Do you want to override existing files?', false);
 
             $phar->extractTo($this->getBuilder()->getConfig()->getLayoutsPath(), $templatesList, $force);
-            Util\File::getFS()->mirror(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), (string) $this->getBuilder()->getConfig()->getLayoutsInternalPath()), $this->getBuilder()->getConfig()->getLayoutsPath());
+            Util\File::getFS()->mirror(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), 'resources/layouts/'), $this->getBuilder()->getConfig()->getLayoutsPath());
             Util\File::getFS()->remove(Util::joinPath($this->getBuilder()->getConfig()->getLayoutsPath(), 'resources'));
             $output->writeln(\sprintf('<info>Built-in templates extracted to "%s".</info>', (string) $this->getBuilder()->getConfig()->get('layouts.dir')));
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf($e->getMessage()));
+            throw new RuntimeException($e->getMessage());
         }
 
         return 0;
