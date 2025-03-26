@@ -30,6 +30,21 @@ return [
     //        'url' => '',
     //    ]
     //],
+    //'menus' => [ // site menus
+    //    '<main>' => [
+    //        [
+    //            'id' => '<unique-id>',
+    //            'name' => '<name>',
+    //            'url' => '<url>',
+    //            'weight' => 1,
+    //        ],
+    //    ],
+    //],
+    //'taxonomies' => [ // available vocabularies
+    //    '<plural>' => '<vocabulary>',
+    //    '<plural>' => 'disabled', // can be disabled with the special "disabled" value
+    //],
+    'theme' => [], // no theme(s) by default
     'date' => [
         'format' => 'F j, Y', // @see https://www.php.net/manual/fr/datetime.format.php#refsect1-datetime.format-parameters
         //'timezone' => 'Europe/Paris',
@@ -49,11 +64,6 @@ return [
     'metatags' => [
         'robots' => 'index,follow', // SEO robots default directive
     ],
-    'theme' => [], // no theme(s) by default
-    //'taxonomies' => [ // available vocabularies
-    //    '<plural>' => '<vocabulary>',
-    //    '<plural>' => 'disabled', // can be disabled with the special "disabled" value
-    //],
     'pages' => [ // Markdown content management
         'dir' => 'pages', // pages files directory
         'ext' => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // supported files formats, by extension
