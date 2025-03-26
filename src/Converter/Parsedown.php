@@ -115,7 +115,7 @@ class Parsedown extends \ParsedownToc
             str_starts_with($link['element']['attributes']['href'], 'http')
             && (!empty($this->config->get('baseurl')) && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl')))
         ) {
-            if ($this->config->isEnabled('pages.body.links.external.blank')) {
+            if ($this->config->get('pages.body.links.external.blank')) {
                 $link['element']['attributes']['target'] = '_blank';
             }
             if (!\array_key_exists('rel', $link['element']['attributes'])) {
