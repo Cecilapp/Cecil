@@ -2,6 +2,7 @@
 
 return [
     'title'      => 'Cecil test',
+    'baseurl'      => 'https://cecil.app/',
     'taxonomies' => [
         'tests' => 'disabled',
     ],
@@ -23,7 +24,8 @@ return [
                 'weight' => 777,
             ],
             [
-                'id'     => '404'
+                'id'     => '404',
+                'weight' => 999,
             ],
         ],
     ],
@@ -63,7 +65,8 @@ return [
                             'weight' => 777,
                         ],
                         [
-                            'id'     => '404 (FR)'
+                            'id'     => '404 (FR)',
+                            'weight' => 999,
                         ],
                     ],
                 ],
