@@ -133,7 +133,6 @@ class Parsedown extends \ParsedownToc
         /*
          * Embed link?
          */
-        $embed = false;
         $embed = $this->config->isEnabled('pages.body.links.embed');
         if (isset($link['element']['attributes']['embed'])) {
             $embed = true;
