@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil;
 
 use Cecil\Exception\ConfigException;
-use Cecil\Util\Platform;
 use Dflydev\DotAccessData\Data;
 
 /**
@@ -46,7 +45,7 @@ class Config
     /**
      * Build the Config object with the default config + the optional given array.
      */
-    public function __construct(?array $config = null)
+    public function __construct(array $config)
     {
         // default configuration
         $defaultConfigFile = Util\File::getRealPath('../config/default.php');
@@ -57,7 +56,7 @@ class Config
         $this->data = new Data(include $baseConfigFile);
 
         // import config
-        $this->import($config ?? []);
+        $this->import($config);
     }
 
     /**
@@ -158,11 +157,8 @@ class Config
      *
      * @throws \InvalidArgumentException
      */
-    public function setSourceDir(?string $sourceDir = null): self
+    public function setSourceDir(string $sourceDir): self
     {
-        if ($sourceDir === null) {
-            $sourceDir = getcwd();
-        }
         if (!is_dir($sourceDir)) {
             throw new \InvalidArgumentException(\sprintf('The directory "%s" is not a valid source.', $sourceDir));
         }
@@ -176,6 +172,10 @@ class Config
      */
     public function getSourceDir(): string
     {
+        if ($this->sourceDir === null) {
+            return getcwd();
+        }
+
         return $this->sourceDir;
     }
 
@@ -184,11 +184,8 @@ class Config
      *
      * @throws \InvalidArgumentException
      */
-    public function setDestinationDir(?string $destinationDir = null): self
+    public function setDestinationDir(string $destinationDir): self
     {
-        if ($destinationDir === null) {
-            $destinationDir = $this->sourceDir;
-        }
         if (!is_dir($destinationDir)) {
             throw new \InvalidArgumentException(\sprintf('The directory "%s" is not a valid destination.', $destinationDir));
         }
@@ -202,6 +199,10 @@ class Config
      */
     public function getDestinationDir(): string
     {
+        if ($this->destinationDir === null) {
+            return $this->getSourceDir();
+        }
+
         return $this->destinationDir;
     }
 
@@ -282,7 +283,7 @@ class Config
      */
     public function getThemesPath(): string
     {
-        return Util::joinFile($this->getSourceDir(), (string) $this->get('themes.dir'));
+        return Util::joinFile($this->getSourceDir(), 'themes');
     }
 
     /**
