@@ -404,12 +404,12 @@ metatags:
       - "apple-touch-icon": [120, 152, 180]     # iOS
 ```
 
-### Debug
+### debug
 
 Enables the _debug mode_, used to display debug information like Twig dump, Twig profiler, SCSS sourcemap, etc.
 
 ```yaml
-debug: <true|false>
+debug: true
 ```
 
 There is 2 others way to enable the _debug mode_:
