@@ -246,7 +246,7 @@ class Config
      */
     public function getLayoutsInternalPath(): string
     {
-        return Util\File::getRealPath('../resources/layouts');
+        return __DIR__ . '/../resources/layouts';
     }
 
     /**
