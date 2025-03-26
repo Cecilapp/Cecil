@@ -379,7 +379,7 @@ If needed, `title` and `image` can be overridden:
 
 :::
 
-#### metatags
+#### metatags options
 
 ```yaml
 metatags:
@@ -403,6 +403,29 @@ metatags:
       - "shortcut icon": [196]                  # Android
       - "apple-touch-icon": [120, 152, 180]     # iOS
 ```
+
+### Debug
+
+Enables the _debug mode_, used to display debug information like Twig dump, Twig profiler, SCSS sourcemap, etc.
+
+```yaml
+debug: <true|false>
+```
+
+There is 2 others way to enable the _debug mode_:
+
+1. Run a command with the `-vvv` option
+2. Set the `CECIL_DEBUG` environment variable to `true`
+
+When `debug` is enabled, you can easily [dump a variable in your templates](3-Templates.md#dump) using:
+
+```twig
+{{ dump(variable) }}
+# or
+{{ d(variable) }} # HTML dump
+```
+
+---
 
 ## Pages
 
@@ -931,29 +954,6 @@ cache:
   translations:
     enabled: true       # enables cache for translations dictionary
     dir: 'translations' # translations files cache directory (`assets` by default)
-```
-
----
-
-## Debug option
-
-Enables the _debug mode_, used to display debug information like Twig dump, Twig profiler, SCSS sourcemap, etc.
-
-```yaml
-debug: <true|false>
-```
-
-There is 2 others way to enable the _debug mode_:
-
-1. Run a command with the `-vvv` option
-2. Set the `CECIL_DEBUG` environment variable to `true`
-
-When `debug` is enabled, you can easily [dump a variable in your templates](3-Templates.md#dump) using:
-
-```twig
-{{ dump(variable) }}
-# or
-{{ d(variable) }} # HTML dump
 ```
 
 ---
