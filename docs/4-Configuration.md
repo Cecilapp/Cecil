@@ -6,25 +6,22 @@ updated: 2025-03-27
 
 # Configuration
 
-The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `cecil.yml` by default and stored at the root:
+## Overview
+
+The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `cecil.yml` or `config.yml` stored at the root:
 
 ```plaintext
 <mywebsite>
 └─ cecil.yml
 ```
 
-_Example:_
+Cecil offers many configuration options, but its [defaults](https://github.com/Cecilapp/Cecil/blob/master/config/default.php) are often sufficient. A new site requires only these settings:
 
 ```yaml
-title: "Cecil"
-baseline: "Your content driven static site generator."
-baseurl: https://cecil.local/
-language: en
+title: "My new Cecil site"
+baseurl: https://mywebsite.com/
+description: "Site description"
 ```
-
-:::info
-Your site configuration overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
-:::
 
 The following documentation covers all supported configuration options in Cecil.
 
@@ -1043,4 +1040,12 @@ For example, the following command set the website’s `baseurl`:
 
 ```bash
 export CECIL_BASEURL="https://example.com/"
+```
+
+### CLI option
+
+You can combine multiple configuration files, with the `--config` option (left-to-right precedence):
+
+```bash
+php cecil.phar --config config-1.yml,config-2.yml
 ```
