@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2025-02-26
+updated: 2025-03-27
 -->
 # Content
 
@@ -323,7 +323,7 @@ This feature requires [GD extension](https://www.php.net/manual/book.image.php) 
 
 #### Formats
 
-If the [`formats` option](4-Configuration.md#body) is defined, alternatives images are created and added.
+If the [`formats` option](4-Configuration.md#pages-body) is defined, alternatives images are created and added.
 
 _Example:_
 
@@ -347,7 +347,7 @@ Please note that **not all image formats** are always included in the PHP image 
 
 #### Responsive
 
-If the [`responsive` option](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically "responsived".
+If the [`responsive` option](4-Configuration.md#pages-body) is enabled, then all images in the _body_ will be automatically "responsived".
 
 _Example:_
 
@@ -393,11 +393,11 @@ You can combine `formats` and `responsive` options.
 
 #### CSS class
 
-You can set a default value to the `class` attribute of each image with the [`class` option](4-Configuration.md#body).
+You can set a default value to the `class` attribute of each image with the [`class` option](4-Configuration.md#pages-body).
 
 #### Caption
 
-The optional title can be used to create a caption (`figcaption`) automatically by enabling the [`caption` option](4-Configuration.md#body).
+The optional title can be used to create a caption (`figcaption`) automatically by enabling the [`caption` option](4-Configuration.md#pages-body).
 
 _Example:_
 
@@ -683,7 +683,7 @@ In the previous example `contact/` redirects to `about/`.
 
 ### output
 
-Defines the output (rendered) format(s). See [`formats` configuration](4-Configuration.md#formats) for more details.
+Defines the output (rendered) format(s). See [`formats` configuration](4-Configuration.md#output-formats) for more details.
 
 _Example:_
 
