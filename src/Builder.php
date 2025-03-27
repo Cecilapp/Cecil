@@ -196,7 +196,7 @@ class Builder implements LoggerAwareInterface
      */
     public function setConfig(array|Config $config): self
     {
-        if (!$config instanceof Config) {
+        if (is_array($config)) {
             $config = new Config($config);
         }
         if ($this->config !== $config) {
