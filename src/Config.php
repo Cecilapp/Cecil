@@ -50,11 +50,9 @@ class Config
         // default configuration
         $defaultConfigFile = Util\File::getRealPath('../config/default.php');
         $this->default = new Data(include $defaultConfigFile);
-
         // base configuration
         $baseConfigFile = Util\File::getRealPath('../config/base.php');
         $this->data = new Data(include $baseConfigFile);
-
         // import config array if provided
         if ($config !== null) {
             $this->import($config);
@@ -120,7 +118,6 @@ class Config
     public function get(string $key, ?string $language = null, bool $fallback = true)
     {
         $default = $this->default->has($key) ? $this->default->get($key) : null;
-
         if ($language !== null) {
             $langIndex = $this->getLanguageIndex($language);
             $keyLang = "languages.$langIndex.config.$key";
@@ -302,7 +299,6 @@ class Config
     public function getStaticTargetPath(): string
     {
         $path = $this->getStaticPath();
-
         if (!empty($this->get('static.target'))) {
             $path = substr($path, 0, -\strlen((string) $this->get('static.target')));
         }
@@ -338,7 +334,6 @@ class Config
         if (empty((string) $this->get('cache.dir'))) {
             throw new ConfigException(\sprintf('The cache directory (`%s`) is not defined.', 'cache.dir'));
         }
-
         if ($this->isCacheDirIsAbsolute()) {
             $cacheDir = Util::joinFile((string) $this->get('cache.dir'), 'cecil');
             Util\File::getFS()->mkdir($cacheDir);
@@ -393,7 +388,6 @@ class Config
     public function getOutputFormatProperty(string $name, string $property): string|array|null
     {
         $properties = array_column((array) $this->get('output.formats'), $property, 'name');
-
         if (empty($properties)) {
             throw new ConfigException(\sprintf('Property "%s" is not defined for format "%s".', $property, $name));
         }
@@ -486,15 +480,12 @@ class Config
         if ($this->languages !== null) {
             return $this->languages;
         }
-
         $languages = array_filter((array) $this->get('languages'), function ($language) {
             return !(isset($language['enabled']) && $language['enabled'] === false);
         });
-
         if (!\is_int(array_search($this->getLanguageDefault(), array_column($languages, 'code')))) {
             throw new ConfigException(\sprintf('The default language "%s" is not listed in "languages".', $this->getLanguageDefault()));
         }
-
         $this->languages = $languages;
 
         return $this->languages;
@@ -529,7 +520,6 @@ class Config
     public function getLanguageIndex(string $code): int
     {
         $array = array_column($this->getLanguages(), 'code');
-
         if (false === $index = array_search($code, $array)) {
             throw new ConfigException(\sprintf('The language code "%s" is not defined.', $code));
         }
@@ -545,9 +535,7 @@ class Config
     public function getLanguageProperty(string $property, ?string $code = null): string
     {
         $code = $code ?? $this->getLanguageDefault();
-
         $properties = array_column($this->getLanguages(), $property, 'code');
-
         if (empty($properties)) {
             throw new ConfigException(\sprintf('Property "%s" is not defined for language "%s".', $property, $code));
         }
@@ -572,6 +560,10 @@ class Config
 
         return false;
     }
+
+    /*
+     * Private functions.
+     */
 
     /**
      * Set configuration from environment variables starting with "CECIL_".
