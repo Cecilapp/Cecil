@@ -406,7 +406,7 @@ metatags:
 
 ### debug
 
-Enables the _debug mode_, used to display debug information like Twig dump, Twig profiler, SCSS sourcemap, etc.
+Enables the _debug mode_, used to display debug information like very verbose logs, Twig dump, Twig profiler, SCSS sourcemap, etc.
 
 ```yaml
 debug: true
@@ -416,14 +416,6 @@ There is 2 others way to enable the _debug mode_:
 
 1. Run a command with the `-vvv` option
 2. Set the `CECIL_DEBUG` environment variable to `true`
-
-When `debug` is enabled, you can easily [dump a variable in your templates](3-Templates.md#dump) using:
-
-```twig
-{{ dump(variable) }}
-# or
-{{ d(variable) }} # HTML dump
-```
 
 ---
 
@@ -463,60 +455,22 @@ Default collections sort method.
 ```yaml
 pages:
   sortby: date # `date`, `updated`, `title` or `weight`
-```
-
-#### pages.sortby.variable
-
-Sort method: `date`, `updated`, `title` or `weight`.
-
-```yaml
-pages:
+  # or
   sortby:
-    variable: date
-```
-
-#### pages.sortby.desc_title
-
-Sort by title in descending order.
-
-```yaml
-pages:
-  sortby:
-    desc_title: false
-```
-
-#### pages.sortby.reverse
-
-Reverse the sort order.
-
-```yaml
-pages:
-  sortby:
-    reverse: false
+    variable: date    # `date`, `updated`, `title` or `weight`
+    desc_title: false # sort by title in descending order
+    reverse: false    # reverse the sort order
 ```
 
 ### pages.pagination
 
 Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
 
-#### pages.pagination.max
-
-Maximum number of entries per page.
-
 ```yaml
 pages:
   pagination:
-    max: 5
-```
-
-#### pages.pagination.path
-
-Path to the paginated page.
-
-```yaml
-pages:
-  pagination:
-    path: page
+    max: 5     # maximum number of entries per page
+    path: page # path to the paginated page
 ```
 
 #### Disable pagination
@@ -538,7 +492,7 @@ pages:
   paths:
     - section: <section’s ID>
       language: <language code> # optional
-    path: <path of pages> # with optional placeholders
+      path: <path of pages> # with optional placeholders
 ```
 
 #### Path placeholders
@@ -605,16 +559,16 @@ Images handling options.
 pages:
   body:
     images:
-      formats: []         # creates and adds formats images as `source` (e.g. `webp`, empty by default)
-      resize: false       # enables image resizing by using the `width` extra attribute (`false` by default)
-      responsive: false   # creates responsive images and add them to the `srcset` attribute (`false` by default)
-      lazy: true          # adds `loading="lazy"` attribute (`true` by default)
-      decoding: true      # adds `decoding="async"` attribute (`true` by default)
-      caption: false      # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
-      placeholder: ''     # fill <img> background before loading ('color' or 'lqip', empty by default)
-      class: ''           # put default class to each image (empty by default)
-      remote:             # remote image handling (set to `false` to disable)
-        fallback:           # path to the fallback image, stored in assets dir (empty by default)
+      formats: []       # creates and adds formats images as `source` (e.g. `webp`, empty by default)
+      resize: false     # enables image resizing by using the `width` extra attribute (`false` by default)
+      responsive: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
+      lazy: true        # adds `loading="lazy"` attribute (`true` by default)
+      decoding: true    # adds `decoding="async"` attribute (`true` by default)
+      caption: false    # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+      placeholder: ''   # fill <img> background before loading ('color' or 'lqip', empty by default)
+      class: ''         # put default class to each image (empty by default)
+      remote:           # remote image handling (set to `false` to disable)
+        fallback:         # path to the fallback image, stored in assets dir (empty by default)
 ```
 
 :::info
@@ -1002,7 +956,7 @@ cache:
 You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
 
 :::warning
-Should be move to `server.headers` in the future.
+The root option `headers` will be moved to `server.headers` in the future.
 :::
 
 ```yaml
