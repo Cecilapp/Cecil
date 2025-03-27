@@ -839,15 +839,6 @@ layouts:
     formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
-## Themes
-
-Where themes are stored.
-
-```yaml
-themes:
-  dir: themes # themes directory
-```
-
 ---
 
 ## Output
