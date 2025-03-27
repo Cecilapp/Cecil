@@ -198,7 +198,7 @@ _Example:_
 <a href="<url>" rel="noopener noreferrer nofollow">Link to another website</a>
 ```
 
-You can change this behavior with [`pages.body.links.external` options](4-Configuration.md#body).
+You can change this behavior with [`pages.body.links.external` options](4-Configuration.md#pages-body).
 
 #### Embedded links
 
@@ -274,7 +274,7 @@ Is converted to:
 ```
 
 :::info
-You can disable this behavior with the attribute `{loading=eager}` or with the [`lazy` option](4-Configuration.md#body).
+You can disable this behavior with the attribute `{loading=eager}` or with the [`lazy` option](4-Configuration.md#pages-body).
 :::
 
 #### Decoding
@@ -294,7 +294,7 @@ Is converted to:
 ```
 
 :::info
-You can disable this behavior with the attribute `{decoding=auto}` or with the [`decoding` option](4-Configuration.md#body).
+You can disable this behavior with the attribute `{decoding=auto}` or with the [`decoding` option](4-Configuration.md#pages-body).
 :::
 
 #### Resize
@@ -435,7 +435,7 @@ _Examples:_
 ```
 
 :::tips
-You can set a value to the `placeholder` attribute for each image with the [`placeholder` option](4-Configuration.md#body).
+You can set a value to the `placeholder` attribute for each image with the [`placeholder` option](4-Configuration.md#pages-body).
 :::
 
 :::warning
@@ -451,7 +451,7 @@ You can add a table of contents with the following Markdown syntax:
 ```
 
 :::info
-By default the ToC extract H2 et H3 headers. You can change this behavior with [body options](4-Configuration.md#body).
+By default the ToC extract H2 et H3 headers. You can change this behavior with [body options](4-Configuration.md#pages-body).
 :::
 
 ### Excerpt
@@ -522,7 +522,7 @@ caution
 
 ### Syntax highlight
 
-Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#body) option to `true`.
+Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#pages-body) option to `true`.
 
 _Example:_
 
@@ -772,7 +772,7 @@ sortby:
 
 #### pagination
 
-Global [pagination configuration](4-Configuration.md#pagination) can be overridden in each _Section_.
+Global [pagination configuration](4-Configuration.md#pages-pagination) can be overridden in each _Section_.
 
 _Example:_
 
