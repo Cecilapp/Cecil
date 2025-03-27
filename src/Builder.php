@@ -141,8 +141,8 @@ class Builder implements LoggerAwareInterface
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
 
-        // log configuration errors
-        $this->logConfigError();
+        // log warnings
+        $this->logBuildWarnings();
 
         // prepare options
         $this->options = array_merge([
@@ -223,7 +223,7 @@ class Builder implements LoggerAwareInterface
      */
     public function setSourceDir(string $sourceDir): self
     {
-        $this->config->setSourceDir($sourceDir);
+        $this->getConfig()->setSourceDir($sourceDir);
 
         return $this;
     }
@@ -233,7 +233,7 @@ class Builder implements LoggerAwareInterface
      */
     public function setDestinationDir(string $destinationDir): self
     {
-        $this->config->setDestinationDir($destinationDir);
+        $this->getConfig()->setDestinationDir($destinationDir);
 
         return $this;
     }
@@ -449,11 +449,11 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Log configuration errors.
+     * Log build warnings.
      */
-    protected function logConfigError(): void
+    protected function logBuildWarnings(): void
     {
-        // warning about baseurl
+        // baseurl
         if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
             $this->getLogger()->warning('`baseurl` configuration key is required in production.');
         }
