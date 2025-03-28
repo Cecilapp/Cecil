@@ -193,10 +193,10 @@ class AbstractCommand extends Command
                 foreach ($themes as $theme) {
                     $themeConfigFile = Util::joinFile($this->builder->getConfig()->getThemesPath(), $theme, self::THEME_CONFIG_FILE);
                     if (Util\File::getFS()->exists($themeConfigFile)) {
-                        if (false === $themeConfigFile = Util\File::fileGetContents($themeConfigFile)) {
+                        if (false === $themeFileContent = Util\File::fileGetContents($themeConfigFile)) {
                             throw new ConfigException(\sprintf('Can\'t read file "themes/%s/%s".', $theme, self::THEME_CONFIG_FILE));
                         }
-                        $themeConfig = Yaml::parse($themeConfigFile, Yaml::PARSE_DATETIME);
+                        $themeConfig = Yaml::parse($themeFileContent, Yaml::PARSE_DATETIME);
                         $this->builder->getConfig()->import($themeConfig ?? [], Config::PRESERVE);
                     }
                 }
