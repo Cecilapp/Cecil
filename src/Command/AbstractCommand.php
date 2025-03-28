@@ -76,6 +76,7 @@ class AbstractCommand extends Command
                 $this->configFiles += $this->locateAdditionalConfigFiles($this->getPath(), (string) $input->getOption('config'));
             }
             // checks file(s)
+            $this->configFiles = array_unique($this->configFiles);
             foreach ($this->configFiles as $fileName => $filePath) {
                 if ($filePath === false) {
                     unset($this->configFiles[$fileName]);
