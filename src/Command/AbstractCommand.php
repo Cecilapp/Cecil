@@ -234,12 +234,12 @@ class AbstractCommand extends Command
      */
     protected function locateAdditionalConfigFiles(string $path, string $configFilesList): array
     {
-        foreach (explode(',', $configFilesList) as $configFile) {
+        foreach (explode(',', $configFilesList) as $filename) {
             // absolute path
-            $config[$configFile] = realpath($configFile);
+            $config[$filename] = realpath($filename);
             // relative path
-            if (!Util\File::getFS()->isAbsolutePath($configFile)) {
-                $config[$configFile] = realpath(Util::joinFile($path, $configFile));
+            if (!Util\File::getFS()->isAbsolutePath($filename)) {
+                $config[$filename] = realpath(Util::joinFile($path, $filename));
             }
         }
 
