@@ -14,7 +14,10 @@ declare(strict_types=1);
 namespace Cecil;
 
 use Cecil\Exception\ConfigException;
+use Cecil\Exception\RuntimeException;
 use Dflydev\DotAccessData\Data;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Config.
@@ -76,6 +79,24 @@ class Config
     public function export(): array
     {
         return $this->data->export();
+    }
+
+    /**
+     * Load and parse a YAML file.
+     */
+    public function loadFile(string $file): array
+    {
+        if (!Util\File::getFS()->exists($file)) {
+            throw new ConfigException(\sprintf('File "%s" does not exist.', $file));
+        }
+        if (false === $fileContent = Util\File::fileGetContents($file)) {
+            throw new ConfigException(\sprintf('Can\'t read file "%s".', $file));
+        }
+        try {
+            return Yaml::parse($fileContent, Yaml::PARSE_DATETIME);
+        } catch (ParseException $e) {
+            throw new ConfigException(\sprintf('"%s" parsing error: %s', $file, $e->getMessage()));
+        }
     }
 
     /**
