@@ -115,19 +115,19 @@ class Parsedown extends \ParsedownToc
             str_starts_with($link['element']['attributes']['href'], 'http')
             && (!empty($this->config->get('baseurl')) && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl')))
         ) {
-            if ($this->config->get('pages.body.links.external.blank')) {
+            if ($this->config->isEnabled('pages.body.links.external.blank')) {
                 $link['element']['attributes']['target'] = '_blank';
             }
             if (!\array_key_exists('rel', $link['element']['attributes'])) {
                 $link['element']['attributes']['rel'] = '';
             }
-            if ($this->config->get('pages.body.links.external.noopener')) {
+            if ($this->config->isEnabled('pages.body.links.external.noopener')) {
                 $link['element']['attributes']['rel'] .= ' noopener';
             }
-            if ($this->config->get('pages.body.links.external.noreferrer')) {
+            if ($this->config->isEnabled('pages.body.links.external.noreferrer')) {
                 $link['element']['attributes']['rel'] .= ' noreferrer';
             }
-            if ($this->config->get('pages.body.links.external.nofollow')) {
+            if ($this->config->isEnabled('pages.body.links.external.nofollow')) {
                 $link['element']['attributes']['rel'] .= ' nofollow';
             }
             $link['element']['attributes']['rel'] = trim($link['element']['attributes']['rel']);
@@ -136,8 +136,7 @@ class Parsedown extends \ParsedownToc
         /*
          * Embed link?
          */
-        $embed = false;
-        $embed = (bool) $this->config->get('pages.body.links.embed.enabled');
+        $embed = $this->config->isEnabled('pages.body.links.embed');
         if (isset($link['element']['attributes']['embed'])) {
             $embed = true;
             if ($link['element']['attributes']['embed'] == 'false') {
@@ -154,7 +153,7 @@ class Parsedown extends \ParsedownToc
                 return $link;
             }
             $video = $this->createMediaFromLink($link, 'video');
-            if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
+            if ($this->config->isEnabled('pages.body.images.caption')) {
                 return $this->createFigure($video);
             }
 
@@ -168,7 +167,7 @@ class Parsedown extends \ParsedownToc
                 return $link;
             }
             $audio = $this->createMediaFromLink($link, 'audio');
-            if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
+            if ($this->config->isEnabled('pages.body.images.caption')) {
                 return $this->createFigure($audio);
             }
 
@@ -192,7 +191,7 @@ class Parsedown extends \ParsedownToc
                     ],
                 ],
             ];
-            if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
+            if ($this->config->isEnabled('pages.body.images.caption')) {
                 return $this->createFigure($gist);
             }
 
@@ -232,7 +231,7 @@ class Parsedown extends \ParsedownToc
                     ],
                 ],
             ];
-            if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
+            if ($this->config->isEnabled('pages.body.images.caption')) {
                 return $this->createFigure($youtube);
             }
 
@@ -256,11 +255,11 @@ class Parsedown extends \ParsedownToc
         $InlineImage['element']['attributes']['src'] = $this->normalizePath($InlineImage['element']['attributes']['src']);
 
         // should be lazy loaded?
-        if ((bool) $this->config->get('pages.body.images.lazy.enabled') && !isset($InlineImage['element']['attributes']['loading'])) {
+        if ($this->config->isEnabled('pages.body.images.lazy') && !isset($InlineImage['element']['attributes']['loading'])) {
             $InlineImage['element']['attributes']['loading'] = 'lazy';
         }
         // should be decoding async?
-        if ((bool) $this->config->get('pages.body.images.decoding.enabled') && !isset($InlineImage['element']['attributes']['decoding'])) {
+        if ($this->config->isEnabled('pages.body.images.decoding') && !isset($InlineImage['element']['attributes']['decoding'])) {
             $InlineImage['element']['attributes']['decoding'] = 'async';
         }
         // add default class?
@@ -273,13 +272,13 @@ class Parsedown extends \ParsedownToc
         }
 
         // disable remote image handling?
-        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !(bool) $this->config->get('pages.body.images.remote.enabled')) {
+        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !$this->config->isEnabled('pages.body.images.remote')) {
             return $InlineImage;
         }
 
         // create asset
         $assetOptions = ['force_slash' => false];
-        if ((bool) $this->config->get('pages.body.images.remote.fallback.enabled')) {
+        if ($this->config->isEnabled('pages.body.images.remote.fallback')) {
             $assetOptions += ['remote_fallback' => (string) $this->config->get('pages.body.images.remote.fallback.path')];
         }
         $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
@@ -292,7 +291,7 @@ class Parsedown extends \ParsedownToc
         $shouldResize = false;
         $assetResized = null;
         if (
-            (bool) $this->config->get('pages.body.images.resize.enabled')
+            $this->config->isEnabled('pages.body.images.resize')
             && isset($InlineImage['element']['attributes']['width'])
             && $width > (int) $InlineImage['element']['attributes']['width']
         ) {
@@ -300,7 +299,7 @@ class Parsedown extends \ParsedownToc
             $width = (int) $InlineImage['element']['attributes']['width'];
         }
         if (
-            (bool) $this->config->get('pages.body.images.responsive.enabled')
+            $this->config->isEnabled('pages.body.images.responsive')
             && !empty($this->config->getAssetsImagesWidths())
             && $width > max($this->config->getAssetsImagesWidths())
         ) {
@@ -355,7 +354,7 @@ class Parsedown extends \ParsedownToc
          * Should be responsive?
          */
         $sizes = '';
-        if ((bool) $this->config->get('pages.body.images.responsive.enabled')) {
+        if ($this->config->isEnabled('pages.body.images.responsive')) {
             try {
                 if (
                     $srcset = Image::buildSrcset(
@@ -416,7 +415,7 @@ class Parsedown extends \ParsedownToc
                     $assetConverted = $InlineImage['element']['attributes']['src']->$format();
                     $srcset = '';
                     // build responsive images?
-                    if ((bool) $this->config->get('pages.body.images.responsive.enabled')) {
+                    if ($this->config->isEnabled('pages.body.images.responsive')) {
                         try {
                             $srcset = Image::buildSrcset($assetConverted, $this->config->getAssetsImagesWidths());
                         } catch (\Exception $e) {
@@ -460,7 +459,7 @@ class Parsedown extends \ParsedownToc
         }
 
         // if title: put the <img> (or <picture>) in a <figure> and create a <figcaption>
-        if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
+        if ($this->config->isEnabled('pages.body.images.caption')) {
             return $this->createFigure($image);
         }
 
@@ -542,7 +541,7 @@ class Parsedown extends \ParsedownToc
      */
     protected function blockFencedCodeComplete($block)
     {
-        if (!(bool) $this->config->get('pages.body.highlight.enabled')) {
+        if (!$this->config->isEnabled('pages.body.highlight')) {
             return $block;
         }
         if (!isset($block['element']['text']['attributes'])) {

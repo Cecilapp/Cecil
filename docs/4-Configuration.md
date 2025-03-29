@@ -1,29 +1,27 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-03-20
+updated: 2025-03-27
 -->
+
 # Configuration
 
-The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `cecil.yml` by default and stored at the root:
+## Overview
+
+The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/YAML) file named `cecil.yml` or `config.yml` stored at the root:
 
 ```plaintext
 <mywebsite>
-└─ config.yml
+└─ cecil.yml
 ```
 
-_Example:_
+Cecil offers many configuration options, but its [defaults](https://github.com/Cecilapp/Cecil/blob/master/config/default.php) are often sufficient. A new site requires only these settings:
 
 ```yaml
-title: "Cecil"
-baseline: "Your content driven static site generator."
-baseurl: https://cecil.local/
-language: en
+title: "My new Cecil site"
+baseurl: https://mywebsite.com/
+description: "Site description"
 ```
-
-:::info
-Your site configuration (`config.yml`) overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
-:::
 
 The following documentation covers all supported configuration options in Cecil.
 
@@ -79,85 +77,16 @@ Site description (~ 250 characters).
 description: "<description>"
 ```
 
-### date
-
-Date format and timezone.
-
-```yaml
-date:
-  format: <format>     # date format (`F j, Y` by default)
-  timezone: <timezone> # date timezone (local time zone by default)
-```
-
-- `format`: [PHP date](https://php.net/date) format specifier
-- `timezone`: see [timezones](https://php.net/timezones)
-
-_Example:_
-
-```yaml
-date:
-  format: 'j F Y'
-  timezone: 'Europe/Paris'
-```
-
-### taxonomies
-
-List of vocabularies, paired by plural and singular value.
-
-```yaml
-taxonomies:
-  <plural>: <singular>
-```
-
-_Default taxonomies:_
-
-```yaml
-taxonomies:
-  categories: category
-  tags: tag
-```
-
-:::tip
-A vocabulary can be disabled with the special value `disabled`. Example: `tags: disabled`.
-:::
-
-### pagination
-
-Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
-
-```yaml
-pagination:
-  max: <int>   # maximum number of entries per page (`5` by default)
-  path: <path> # path to the paginated page (`page` by default)
-```
-
-_Example:_
-
-```yaml
-pagination:
-  max: 10
-  path: page
-```
-
-#### Disable pagination
-
-Pagination can be disabled:
-
-```yaml
-pagination:
-  enabled: false
-```
-
 ### menus
 
 Menus are used to create [navigation links in templates](3-Templates.md#site-menus).
 
-A menu is made up of a unique name and entry’s properties (name, URL, weight).
+A menu is made up of a unique ID and entry’s properties (name, URL, weight).
 
 ```yaml
 menus:
   <name>:
-    - id: <unique id>   # unique identifier (required)
+    - id: <unique-id>   # unique identifier (required)
       name: "<name>"    # name displayed in templates
       url: <url>        # relative or absolute URL
       weight: <integer> # integer value used to sort entries (lighter first)
@@ -214,138 +143,82 @@ menus:
       enabled: false
 ```
 
-### paths
+### taxonomies
 
-Defines a custom [`path`](2-Content.md#variables) for all pages of a **_Section_**.
+List of vocabularies, paired by plural and singular value.
 
 ```yaml
-paths:
-  - section: <section’s ID>
-    language: <language code> # optional
-    path: <path of pages> # with optional placeholders
+taxonomies:
+  <plural>: <singular>
 ```
-
-#### Path placeholders
-
-- `:year`
-- `:month`
-- `:day`
-- `:section`
-- `:slug`
 
 _Example:_
 
 ```yaml
-paths:
-  - section: Blog
-    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
-  - section: Blog
-    language: fr
-    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
+taxonomies:
+  categories: category
+  tags: tag
 ```
 
-### metatags
-
-_metatags_ are SEO and social helpers that can be automatically  injected in the `<head>`, with the _partial_ template [`metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
-
-*[SEO]: Search Engine Optimization
-
-_Example:_
-
-```twig
-<html lang="{{ site.language }}">
-  <head>
-    <meta charset="utf-8">
-    [...]
-    {{- include('partials/metatags.html.twig') ~}}
-  </head>
-  <body>
-    [...]
-  </body>
-</html>
-```
-
-This template adds the following meta tags:
-
-- Page title + site title, or site title + site baseline
-- Page/site description
-- Page/site keywords
-- Page/site author
-- Search engine crawler directives
-- Favicon links
-- Previous and next page links
-- Pagination links (first, previous, next, last)
-- Canonical URL
-- Links to alternate versions (i.e.: RSS feed, others languages)
-- `rel=me` links
-- Open Graph
-- Facebook meta
-- Twitter Card
-- Mastodon meta
-- Structured data (JSON-LD)
-
-#### metatags options and front matter
-
-Cecil uses page’s front matter to feed meta tags, and fallbacks to site options if needed.
-
-```yaml
-title: "Page/site title"
-description: "Page/site description"
-tags: [tag1, tag2]                   # feeds keywords meta
-keywords: [keyword1, keyword2]       # obsolete
-author: "Author name"
-image: image.jpg                     # for OpenGraph and Twitter Card
-canonical:                           # to override the generated canonical URL
-  url: <URL>
-  title: "<URL title>"               # optional
-social:
-  twitter:
-    url: <URL>                       # used for `rel=me` link
-    site: username                   # main account
-    creator: username                # content author account
-  mastodon:
-    url: <URL>
-    creator: handle
-  facebook:
-    url: <URL>
-    id: 123456789
-    firstname: Firstname
-    lastname: Lastname
-    username: username
-```
-
-:::tip
-If needed, `title` and `image` can be overridden:
-
-```twig
-{{ include('partials/metatags.html.twig', {title: 'Custom title', image: og_image}) }}
-```
-
+:::warning
+Since ++version 8.35.0++, default vocabularies `category` and `tag` have been removed.
 :::
 
-#### metatags configuration
+:::tip
+A vocabulary can be disabled with the special value `disabled`. Example: `tags: disabled`.
+:::
+
+### theme
+
+The theme to use, or a list of themes.
 
 ```yaml
-metatags:
-  title:                 # title options
-    divider: " &middot; "  # string between page title and site title
-    only: false            # displays page title only (`false` by default)
-    pagination:
-      shownumber: true     # displays page number in title (`true` by default)
-      label: "Page %s"     # how to display page number (`Page %s` by default)
-  image:
-    enabled: true        # injects image (`true` by default)
-  robots: "index,follow" # web crawlers directives (`index,follow` by default)
-  articles: "blog"       # articles' section (`blog` by default)
-  jsonld:
-    enabled: false       # injects JSON-LD structured data (`false` by default)
-  favicon:
-    enabled: true        # injects favicon (`true` by default)
-    image: favicon.png     # path to favicon image
-    sizes:
-      - "icon": [32, 57, 76, 96, 128, 192, 228] # web browsers
-      - "shortcut icon": [196]                  # Android
-      - "apple-touch-icon": [120, 152, 180]     # iOS
+theme: <theme> # theme name
+# or
+theme:
+  - <theme1> # theme name
+  - <theme2>
+```
+
+:::info
+The first theme overrides the others, and so on.
+:::
+
+_Examples:_
+
+```yaml
+theme: hyde
+```
+
+```yaml
+theme:
+  - serviceworker
+  - hyde
+```
+
+:::info
+See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or on website [themes section](https://cecil.app/themes/).
+:::
+
+### date
+
+Date format and timezone.
+
+```yaml
+date:
+  format: <format>     # date format (optional, `F j, Y` by default)
+  timezone: <timezone> # date timezone (optional, local time zone by default)
+```
+
+- `format`: [PHP date](https://php.net/date) format specifier
+- `timezone`: see [timezones](https://php.net/timezones)
+
+_Example:_
+
+```yaml
+date:
+  format: 'j F, Y'
+  timezone: 'Europe/Paris'
 ```
 
 ### language
@@ -398,7 +271,7 @@ languages:
 There is a [locales code list](configuration/locale-codes.md) if needed.
 :::
 
-#### Localize options
+#### Localize
 
 To localize configuration options you must store them under the `config` key of the language.
 
@@ -422,37 +295,313 @@ In [templates](3-Templates.md) you can access to an option with `{{ site.<option
 If an option is not available in the current language (e.g.: `fr`) it fallback to the global one (e.g.: `en`).
 :::
 
-### theme
+### metatags
 
-The theme name or an array of themes name.
+_metatags_ are SEO and social helpers that can be automatically  injected in the `<head>`, with the _partial_ template [`metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
+
+*[SEO]: Search Engine Optimization
+
+_Example:_
+
+```twig
+<html lang="{{ site.language }}">
+  <head>
+    <meta charset="utf-8">
+    {{ include('partials/metatags.html.twig') }}
+  </head>
+  <body>
+    ...
+  </body>
+</html>
+```
+
+This template adds the following meta tags:
+
+- Page title + Site title, or Site title + Site baseline
+- Page/Site description
+- Page/Site keywords
+- Page/Site author
+- Search engine crawler directives
+- Favicon links
+- Previous and next page links
+- Pagination links (first, previous, next, last)
+- Canonical URL
+- Links to alternate versions (i.e.: RSS feed, others languages)
+- `rel=me` links
+- Open Graph
+- Facebook meta
+- Twitter/X Card
+- Mastodon meta
+- Structured data (JSON-LD)
+
+#### metatags options and front matter
+
+Cecil uses page’s front matter to feed meta tags, and fallbacks to site options if needed.
 
 ```yaml
-theme:
-  - <theme1> # theme name
-  - <theme2>
+title: "Page/Site title"
+description: "Page/Site description"
+tags: [tag1, tag2]                   # feeds keywords meta
+keywords: [keyword1, keyword2]       # obsolete
+author:
+  name: <name>
+  url: <url>
+  email: <email>
+image: image.jpg                     # for OpenGraph and social networks cards
+canonical:                           # to override the generated canonical URL
+  url: <URL>
+  title: "<URL title>"               # optional
+social:
+  twitter:
+    url: <URL>                       # used for `rel=me` link
+    site: username                   # main account
+    creator: username                # content author account
+  mastodon:
+    url: <URL>
+    creator: handle
+  facebook:
+    url: <URL>
+    id: 123456789
+    firstname: Firstname
+    lastname: Lastname
+    username: username
+```
+
+:::tip
+If needed, `title` and `image` can be overridden:
+
+```twig
+{{ include('partials/metatags.html.twig', {title: 'Custom title', image: og_image}) }}
+```
+
+:::
+
+#### metatags options
+
+```yaml
+metatags:
+  title:                 # title options
+    divider: " &middot; "  # string between page title and site title
+    only: false            # displays page title only (`false` by default)
+    pagination:
+      shownumber: true     # displays page number in title (`true` by default)
+      label: "Page %s"     # how to display page number (`Page %s` by default)
+  image:
+    enabled: true        # injects image (`true` by default)
+  robots: "index,follow" # web crawlers directives (`index,follow` by default)
+  articles: "blog"       # articles' section (`blog` by default)
+  jsonld:
+    enabled: false       # injects JSON-LD structured data (`false` by default)
+  favicon:
+    enabled: true        # injects favicon (`true` by default)
+    image: favicon.png     # path to favicon image
+    sizes:
+      - "icon": [32, 57, 76, 96, 128, 192, 228] # web browsers
+      - "shortcut icon": [196]                  # Android
+      - "apple-touch-icon": [120, 152, 180]     # iOS
+```
+
+### debug
+
+Enables the _debug mode_, used to display debug information like very verbose logs, Twig dump, Twig profiler, SCSS sourcemap, etc.
+
+```yaml
+debug: true
+```
+
+There is 2 others way to enable the _debug mode_:
+
+1. Run a command with the `-vvv` option
+2. Set the `CECIL_DEBUG` environment variable to `true`
+
+---
+
+## Pages
+
+### pages.dir
+
+Directory where pages files are stored.
+
+```yaml
+pages:
+  dir: pages
+```
+
+### pages.ext
+
+Extensions of pages files.
+
+```yaml
+pages:
+  ext: [md, markdown, mdown, mkdn, mkd, text, txt]
+```
+
+### pages.exclude
+
+Directories, paths and files name to exclude (accepts globs, strings and regexes).
+
+```yaml
+pages:
+  exclude: ['vendor', 'node_modules', '*.scss', '/\.bck$/']
+```
+
+### pages.sortby
+
+Default collections sort method.
+
+```yaml
+pages:
+  sortby: date # `date`, `updated`, `title` or `weight`
+  # or
+  sortby:
+    variable: date    # `date`, `updated`, `title` or `weight`
+    desc_title: false # sort by title in descending order
+    reverse: false    # reverse the sort order
+```
+
+### pages.pagination
+
+Pagination is available for list pages (_type_ is `homepage`, `section` or `term`).
+
+```yaml
+pages:
+  pagination:
+    max: 5     # maximum number of entries per page
+    path: page # path to the paginated page
+```
+
+#### Disable pagination
+
+Pagination can be disabled:
+
+```yaml
+pages:
+  pagination:
+    enabled: false
+```
+
+### pages.paths
+
+Defines a custom [`path`](2-Content.md#variables) for all pages of a **_Section_**.
+
+```yaml
+pages:
+  paths:
+    - section: <section’s ID>
+      language: <language code> # optional
+      path: <path of pages> # with optional placeholders
+```
+
+#### Path placeholders
+
+- `:year`
+- `:month`
+- `:day`
+- `:section`
+- `:slug`
+
+_Example:_
+
+```yaml
+paths:
+  - section: Blog
+    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
+  - section: Blog
+    language: fr
+    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
+```
+
+### pages.frontmatter
+
+Front matter format.
+
+```yaml
+pages:
+  frontmatter: yaml # `yaml` by default, also accepts `ini`, `toml` and `json`
+```
+
+### pages.body
+
+Pages’ body options.
+
+:::info
+To know how those options impacts your content see _[Content > Markdown](2-Content.md#markdown)_ documentation.
+:::
+
+#### pages.body.toc
+
+Headers used to build the table of contents.
+
+```yaml
+pages:
+  body:
+    toc: [h2, h3]
+```
+
+#### pages.body.highlight
+
+Enables code syntax highlighting.
+
+```yaml
+pages:
+  body:
+    highlight: false
+```
+
+#### pages.body.images
+
+Images handling options.
+
+```yaml
+pages:
+  body:
+    images:
+      formats: []       # creates and adds formats images as `source` (e.g. `webp`, empty by default)
+      resize: false     # enables image resizing by using the `width` extra attribute (`false` by default)
+      responsive: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
+      lazy: true        # adds `loading="lazy"` attribute (`true` by default)
+      decoding: true    # adds `decoding="async"` attribute (`true` by default)
+      caption: false    # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+      placeholder: ''   # fill <img> background before loading ('color' or 'lqip', empty by default)
+      class: ''         # put default class to each image (empty by default)
+      remote:           # remote image handling (set to `false` to disable)
+        fallback:         # path to the fallback image, stored in assets dir (empty by default)
 ```
 
 :::info
-The first theme overrides the others, and so on.
+Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
 :::
 
-_Examples:_
+#### pages.body.links
 
 ```yaml
-theme: hyde
+pages:
+  body:
+    links:
+      embed:
+        enabled: false # turns links in embedded content if possible (`false` by default)
+        video:
+          ext: [mp4, 'webm'] # video files extensions
+        audio:
+          ext: [mp3]         # audio files extensions
+      external:
+        blank: false     # if true open external link in new tab
+        noopener: true   # add "noopener" to `rel`  attribute
+        noreferrer: true # add "noreferrer" to `rel`  attribute
+        nofollow: true   # add "nofollow" to `rel`  attribute
 ```
+
+#### pages.body.excerpt
 
 ```yaml
-theme:
-  - serviceworker
-  - hyde
+pages:
+  body:
+    excerpt:
+      separator: excerpt|break # string to use as separator (`excerpt|break` by default)
+      capture: before          # part to capture, `before` or `after` the separator (`before` by default)
 ```
 
-:::info
-See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or on website [themes section](https://cecil.app/themes/).
-:::
-
-### virtual pages
+### pages.virtual
 
 Virtual pages is the best way to create pages without content (**front matter only**).
 
@@ -467,254 +616,7 @@ pages:
       redirect: https://github.com/ArnaudLigny
 ```
 
-### output
-
-Defines where and in what format(s) content is rendered.
-
-#### dir
-
-Directory where rendered pages’ files are saved.
-
-```yaml
-output:
-  dir: <directory> # `_site` by default
-```
-
-#### formats
-
-List of output formats, in which of them pages’ content is rendered (e.g. HTML, JSON, XML, RSS, Atom, etc.).
-
-```yaml
-output:
-  formats:
-    - name: <name>            # name of the format, e.g.: `html` (required)
-      mediatype: <media type> # media type (MIME type), ie: 'text/html' (optional)
-      subpath: <sub path>     # sub path, e.g.: `amp` in `path/amp/index.html` (optional)
-      filename: <file name>   # file name, e.g.: `index` in `path/index.html` (optional)
-      extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
-      exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
-```
-
-Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).
-
-:::info
-To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
-:::
-
-#### pagetypeformats
-
-Array of output formats by each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
-
-```yaml
-output:
-  pagetypeformats:
-    page: [<format>]
-    homepage: [<format>]
-    section: [<format>]
-    vocabulary: [<format>]
-    term: [<format>]
-```
-
-Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendred in HTML and Atom.
-
-_Example:_
-
-```yaml
-output:
-  dir: _site
-  formats:
-    - name: html
-      mediatype: text/html
-      filename: index
-      extension: html
-    - name: atom
-      mediatype: application/xml
-      filename: atom
-      extension: xml
-      exclude: [redirect, paginated]
-  pagetypeformats:
-    page: [html]
-    homepage: [html, atom]
-    section: [html, atom]
-    vocabulary: [html]
-    term: [html, atom]
-```
-
-:::tip
-You can extend Cecil with [Output post processor](7-Extend.md#output-post-processor).
-:::
-
-### debug
-
-Enables the _debug mode_, used to display debug information like Twig dump, Twig profiler, SCSS sourcemap, etc.
-
-```yaml
-debug: <true|false>
-```
-
-There is 2 others way to enable the _debug mode_:
-
-1. Run a command with the `-vvv` option
-2. Set the `CECIL_DEBUG` environment variable to `true`
-
-When `debug` is enabled, you can easily [dump a variable in your templates](3-Templates.md#dump) using:
-
-```twig
-{{ dump(variable) }}
-# or
-{{ d(variable) }} # HTML dump
-```
-
-### headers
-
-You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
-
-```yaml
-headers:
-  - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
-    headers:
-      - key: <key>
-        value: "<value>"
-```
-
-:::tips
-It's useful to test custom [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) or [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
-:::
-
-_Example:_
-
-```yaml
-headers:
-  - path: /*
-    headers:
-      - key: X-Frame-Options
-        value: "SAMEORIGIN"
-      - key: X-XSS-Protection
-        value: "1; mode=block"
-      - key: X-Content-Type-Options
-        value: "nosniff"
-      - key: Content-Security-Policy
-        value: "default-src 'self'; object-src 'self'; img-src 'self'"
-      - key: Strict-Transport-Security
-        value: "max-age=31536000; includeSubDomains; preload"
-  - path: /assets/*
-    headers:
-      - key: Cache-Control
-        value: "public, max-age=31536000"
-  - path: /foo.html
-    headers:
-      - key: Foo
-        value: "bar"
-```
-
-## Default configuration
-
-Your site configuration (`config.yml`) overrides the following [default configuration](https://github.com/Cecilapp/Cecil/blob/master/config/default.php).
-
-### pages
-
-Where pages’ files (Markdown or plain text) are stored.
-
-```yaml
-pages:
-  dir: pages                                       # pages files directory (`pages` by default, previously `content`)
-  ext: [md, markdown, mdown, mkdn, mkd, text, txt] # supported files formats, by extension
-  exclude: [vendor, node_modules]                  # directories, paths and files name to exclude (accepts globs, strings and regexes)
-  sortby: date                                     # default collections sort method ("date" by default)
-  #sortby:
-  #  variable: date    # date|updated|title|weight
-  #  desc_title: false # false|true
-  #  reverse: false    # false|true
-```
-
-#### frontmatter
-
-Pages’ variables format (YAML by default).
-
-```yaml
-pages:
-  frontmatter:
-    format: yaml # front matter format: `yaml`, `ini`, `toml` or `json` (`yaml` by default)
-```
-
-#### body
-
-Pages’ content format and converter’s options.
-
-```yaml
-pages:
-  body:
-    format: md         # page body format (only `md`, Markdown, is supported)
-    toc: [h2, h3]      # headers used to build the table of contents
-    highlight:
-      enabled: false   # enables code syntax highlighting (`false` by default)
-    images:            # how to handle images
-      lazy:
-        enabled: true  # adds `loading="lazy"` attribute (`true` by default)
-      decoding:
-        enabled: true  # adds `decoding="async"` attribute (`true` by default)
-      resize:
-        enabled: false # enables image resizing by using the `width` extra attribute (`false` by default)
-      formats: []      # creates and adds formats images as `source` (empty by default)
-      responsive:
-        enabled: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
-      class: ''        # put default class to each image (empty by default)
-      caption:
-        enabled: false # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
-      remote:
-        enabled: true  # enables remote image handling (`true` by default)
-        fallback:
-          enabled: false # enables a fallback if image is not found (`false` by default)
-          path: ''       # path to the fallback image, stored in assets dir (empty by default)
-      placeholder: ''  # fill <img> background before loading ('color' or 'lqip', empty by default)
-    links:
-      embed:
-        enabled: false # turns links in embedded content if possible (`false` by default)
-        video:
-          ext: [mp4, 'webm'] # video files extensions
-        audio:
-          ext: [mp3]         # audio files extensions
-      external:
-        blank: false     # if true open external link in new tab
-        noopener: true   # add "noopener" to `rel`  attribute
-        noreferrer: true # add "noreferrer" to `rel`  attribute
-        nofollow: true   # add "nofollow" to `rel`  attribute
-    excerpt:
-      separator: excerpt|break # string to use as separator (`excerpt|break` by default)
-      capture: before          # part to capture, `before` or `after` the separator (`before` by default)
-```
-
-To know how those options impacts your content see _[Content > Markdown](2-Content.md#markdown)_ documentation.
-
-:::info
-Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
-:::
-
-#### generators
-
-Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
-
-Below the list of Generators provided by Cecil, in a defined order:
-
-```yaml
-pages:
-  generators:
-    10: 'Cecil\Generator\DefaultPages'
-    20: 'Cecil\Generator\VirtualPages'
-    30: 'Cecil\Generator\ExternalBody'
-    40: 'Cecil\Generator\Section'
-    50: 'Cecil\Generator\Taxonomy'
-    60: 'Cecil\Generator\Homepage'
-    70: 'Cecil\Generator\Pagination'
-    80: 'Cecil\Generator\Alias'
-    90: 'Cecil\Generator\Redirect'
-```
-
-:::tip
-You can extend Cecil with [Pages generator](7-Extend.md#pages-generator).
-:::
-
-#### default pages
+### pages.default
 
 Default pages are pages created automatically by Cecil (from built-in templates):
 
@@ -767,7 +669,7 @@ pages:
 ```
 
 :::info
-The structure is almost identical of [`virtual pages`](#virtual-pages), except the named key.
+The structure is almost identical of [`pages.virtual`](#pages-virtual), except the named key.
 :::
 
 Each one can be:
@@ -776,7 +678,33 @@ Each one can be:
 2. excluded from list pages: `exclude: true`
 3. excluded from localization: `multilingual: false`
 
-### data
+### pages.generators
+
+Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
+
+Below the list of Generators provided by Cecil, in a defined order:
+
+```yaml
+pages:
+  generators:
+    10: 'Cecil\Generator\DefaultPages'
+    20: 'Cecil\Generator\VirtualPages'
+    30: 'Cecil\Generator\ExternalBody'
+    40: 'Cecil\Generator\Section'
+    50: 'Cecil\Generator\Taxonomy'
+    60: 'Cecil\Generator\Homepage'
+    70: 'Cecil\Generator\Pagination'
+    80: 'Cecil\Generator\Alias'
+    90: 'Cecil\Generator\Redirect'
+```
+
+:::tip
+You can extend Cecil with [Pages generator](7-Extend.md#pages-generator).
+:::
+
+---
+
+## Data
 
 Where data files are stored and what extensions are handled.
 
@@ -789,7 +717,9 @@ data:
 
 Supported formats: YAML, JSON, XML and CSV.
 
-### static
+---
+
+## Static
 
 Where static files are stored (PDF, fonts, etc.).
 
@@ -828,7 +758,7 @@ static:
     - node_modules/bootstrap-icons/font/fonts: fonts
 ```
 
-### assets
+## Assets
 
 Assets handling options.
 
@@ -869,7 +799,7 @@ assets:
 - Generated `responsive` images default widths are: 480, 640, 768, 1024, 1366, 1600 and 1920
 :::
 
-#### Image CDN
+### assets.images.cdn
 
 URL of image assets can be easily replaced by a provided CDN `url`.
 
@@ -894,7 +824,7 @@ assets:
 
 See [**CDN providers**](configuration/cdn-providers.md).
 
-### layouts
+## Layouts
 
 Where templates and translations files are stored.
 
@@ -906,16 +836,88 @@ layouts:
     formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
-### themes
+---
 
-Where themes are stored.
+## Output
+
+Defines where and in what format(s) content is rendered.
+
+### output.dir
+
+Directory where rendered pages’ files are saved.
 
 ```yaml
-themes:
-  dir: themes # themes directory
+output:
+  dir: <directory> # `_site` by default
 ```
 
-### cache
+### output.formats
+
+List of output formats, in which of them pages’ content is rendered (e.g. HTML, JSON, XML, RSS, Atom, etc.).
+
+```yaml
+output:
+  formats:
+    - name: <name>            # name of the format, e.g.: `html` (required)
+      mediatype: <media type> # media type (MIME type), ie: 'text/html' (optional)
+      subpath: <sub path>     # sub path, e.g.: `amp` in `path/amp/index.html` (optional)
+      filename: <file name>   # file name, e.g.: `index` in `path/index.html` (optional)
+      extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
+      exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
+```
+
+Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).
+
+:::info
+To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
+:::
+
+### output.pagetypeformats
+
+Array of output formats by each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
+
+```yaml
+output:
+  pagetypeformats:
+    page: [<format>]
+    homepage: [<format>]
+    section: [<format>]
+    vocabulary: [<format>]
+    term: [<format>]
+```
+
+Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendred in HTML and Atom.
+
+_Example:_
+
+```yaml
+output:
+  dir: _site
+  formats:
+    - name: html
+      mediatype: text/html
+      filename: index
+      extension: html
+    - name: atom
+      mediatype: application/xml
+      filename: atom
+      extension: xml
+      exclude: [redirect, paginated]
+  pagetypeformats:
+    page: [html]
+    homepage: [html, atom]
+    section: [html, atom]
+    vocabulary: [html]
+    term: [html, atom]
+```
+
+:::tip
+You can extend Cecil with [Output post processor](7-Extend.md#output-post-processor).
+:::
+
+---
+
+## Cache
 
 Cache options.
 
@@ -935,7 +937,57 @@ cache:
     dir: 'translations' # translations files cache directory (`assets` by default)
 ```
 
-### optimize
+---
+
+## Headers
+
+You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
+
+:::warning
+The root option `headers` will be moved to `server.headers` in the future.
+:::
+
+```yaml
+headers:
+  - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
+    headers:
+      - key: <key>
+        value: "<value>"
+```
+
+:::tips
+It's useful to test custom [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) or [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
+:::
+
+_Example:_
+
+```yaml
+headers:
+  - path: /*
+    headers:
+      - key: X-Frame-Options
+        value: "SAMEORIGIN"
+      - key: X-XSS-Protection
+        value: "1; mode=block"
+      - key: X-Content-Type-Options
+        value: "nosniff"
+      - key: Content-Security-Policy
+        value: "default-src 'self'; object-src 'self'; img-src 'self'"
+      - key: Strict-Transport-Security
+        value: "max-age=31536000; includeSubDomains; preload"
+  - path: /assets/*
+    headers:
+      - key: Cache-Control
+        value: "public, max-age=31536000"
+  - path: /foo.html
+    headers:
+      - key: Foo
+        value: "bar"
+```
+
+---
+
+## Optimize
 
 The optimization options allow to enable compression of output files: HTML, CSS, JavaScript and image.
 
@@ -974,6 +1026,8 @@ It is also possible to enable this option through CLI when using the "build" and
 **Images** compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/), [cwebp](https://developers.google.com/speed/webp/docs/cwebp) and [avifenc](https://github.com/AOMediaCodec/libavif).
 :::
 
+---
+
 ## Override configuration
 
 ### Environment variables
@@ -986,4 +1040,12 @@ For example, the following command set the website’s `baseurl`:
 
 ```bash
 export CECIL_BASEURL="https://example.com/"
+```
+
+### CLI option
+
+You can combine multiple configuration files, with the `--config` option (left-to-right precedence):
+
+```bash
+php cecil.phar --config config-1.yml,config-2.yml
 ```
