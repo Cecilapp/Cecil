@@ -613,26 +613,24 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Is Asset is an image in CDN.
-     *
-     * @return bool
+     * Is the asset an image and is it in CDN?
      */
-    public function isImageInCdn()
+    public function isImageInCdn(): bool
     {
         if (
-            $this->data['type'] != 'image'
-            || !$this->config->isEnabled('assets.images.cdn')
-            || $this->data['ext'] == 'ico'
-            || (Image::isSVG($this) && $this->config->isEnabled('assets.images.cdn.svg') !== true)
+            $this->data['type'] == 'image'
+            && $this->config->isEnabled('assets.images.cdn')
+            && $this->data['ext'] != 'ico'
+            && (Image::isSVG($this) && $this->config->isEnabled('assets.images.cdn.svg'))
         ) {
-            return false;
+            return true;
         }
         // handle remote image?
-        if ($this->data['url'] !== null && $this->config->get('assets.images.cdn.remote') ?? true !== true) {
-            return false;
+        if ($this->data['url'] !== null && $this->config->isEnabled('assets.images.cdn.remote')) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
