@@ -52,7 +52,7 @@ class AbstractCommand extends Command
     /** @var array */
     private $configFiles = [];
 
-    /** @var array */
+    /** @var Config */
     private $config;
 
     /** @var Builder */
@@ -168,20 +168,13 @@ class AbstractCommand extends Command
         try {
             // loads configuration files if not already done
             if ($this->config === null) {
+                $this->config = new Config();
                 // loads and merges configuration files
-                $configFromFiles = [];
-                foreach ($this->getConfigFiles() as $fileName => $filePath) {
-                    if (false === $fileContent = Util\File::fileGetContents($filePath)) {
-                        throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
-                    }
-                    try {
-                        $configFromFiles = array_replace_recursive($configFromFiles, (array) Yaml::parse($fileContent, Yaml::PARSE_DATETIME));
-                    } catch (ParseException $e) {
-                        throw new RuntimeException(\sprintf('"%s" parsing error: %s', $filePath, $e->getMessage()));
-                    }
+                foreach ($this->getConfigFiles() as $filePath) {
+                    $this->config->import($this->config->loadFile($filePath), Config::MERGE);
                 }
                 // merges configuration from $config parameter
-                $this->config = array_replace_recursive($configFromFiles, $config);
+                $this->config->import($config, Config::MERGE);
             }
             // creates builder instance if not already done
             if ($this->builder === null) {
