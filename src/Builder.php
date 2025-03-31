@@ -105,7 +105,8 @@ class Builder implements LoggerAwareInterface
      */
     public function __construct($config = null, ?LoggerInterface $logger = null)
     {
-        // set config?
+        // init and set config
+        $this->config = new Config();
         if ($config !== null) {
             $this->setConfig($config);
         }
