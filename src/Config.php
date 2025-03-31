@@ -82,11 +82,14 @@ class Config
     }
 
     /**
-     * Load and parse a YAML file.
+     * Loads and parse a YAML file.
      */
-    public function loadFile(string $file): array
+    public static function loadFile(string $file, bool $ignore = false): array
     {
         if (!Util\File::getFS()->exists($file)) {
+            if ($ignore) {
+                return [];
+            }
             throw new ConfigException(\sprintf('File "%s" does not exist.', $file));
         }
         if (false === $fileContent = Util\File::fileGetContents($file)) {
