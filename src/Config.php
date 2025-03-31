@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil;
 
 use Cecil\Exception\ConfigException;
-use Cecil\Exception\RuntimeException;
 use Dflydev\DotAccessData\Data;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
