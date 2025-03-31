@@ -30,10 +30,10 @@ class Config
     protected Data $default;
 
     /** Source directory. */
-    protected string $sourceDir;
+    protected ?string $sourceDir = null;
 
     /** Destination directory. */
-    protected string $destinationDir;
+    protected ?string $destinationDir = null;
 
     /** Languages list as array. */
     protected ?array $languages = null;
