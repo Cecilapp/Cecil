@@ -87,7 +87,7 @@ class Image
 
             return (string) $image->encodeByExtension($format, /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Not able to convert "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Not able to convert "%s" to %s: %s', $asset['path'], $format, $e->getMessage()));
         }
     }
 
