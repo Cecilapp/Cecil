@@ -119,8 +119,6 @@ class Builder implements LoggerAwareInterface
             $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
         }
         $this->setLogger($logger);
-        // autoloads local extensions
-        Util::autoload($this, 'extensions');
     }
 
     /**
@@ -204,6 +202,11 @@ class Builder implements LoggerAwareInterface
             $this->config = $config;
         }
 
+        // import themes configuration
+        $this->importThemesConfig();
+        // autoloads local extensions
+        Util::autoload($this, 'extensions');
+
         return $this;
     }
 
@@ -225,6 +228,8 @@ class Builder implements LoggerAwareInterface
     public function setSourceDir(string $sourceDir): self
     {
         $this->getConfig()->setSourceDir($sourceDir);
+        // import themes configuration
+        $this->importThemesConfig();
 
         return $this;
     }
@@ -237,6 +242,16 @@ class Builder implements LoggerAwareInterface
         $this->getConfig()->setDestinationDir($destinationDir);
 
         return $this;
+    }
+
+    /**
+     * Import themes configuration.
+     */
+    public function importThemesConfig(): void
+    {
+        foreach ($this->config->get('theme') as $theme) {
+            $this->config->import(Config::loadFile(Util::joinFile($this->config->getThemesPath(), $theme, 'config.yml'), true), Config::PRESERVE);
+        }
     }
 
     /**
