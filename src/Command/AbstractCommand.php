@@ -181,19 +181,6 @@ class AbstractCommand extends Command
                 $this->builder = (new Builder($this->config, new ConsoleLogger($this->output)))
                     ->setSourceDir($this->getPath())
                     ->setDestinationDir($this->getPath());
-                // import themes config
-                // @todo Move this to Config class
-                $themes = (array) $this->builder->getConfig()->getTheme();
-                foreach ($themes as $theme) {
-                    $themeConfigFile = Util::joinFile($this->builder->getConfig()->getThemesPath(), $theme, self::THEME_CONFIG_FILE);
-                    if (Util\File::getFS()->exists($themeConfigFile)) {
-                        if (false === $themeFileContent = Util\File::fileGetContents($themeConfigFile)) {
-                            throw new ConfigException(\sprintf('Can\'t read file "themes/%s/%s".', $theme, self::THEME_CONFIG_FILE));
-                        }
-                        $themeConfig = Yaml::parse($themeFileContent, Yaml::PARSE_DATETIME);
-                        $this->builder->getConfig()->import($themeConfig ?? [], Config::PRESERVE);
-                    }
-                }
             }
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
