@@ -675,7 +675,7 @@ class Parsedown extends \ParsedownToc
                 if (isset($block['element']['attributes']['poster'])) {
                     $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
                 }
-                $block['element']['attributes']['style'] = 'background-color: #d8d8d8;'; // background color if offline
+                $block['element']['attributes']['style'] .= ';max-width:100%%;height:auto;background-color: #d8d8d8;'; // background color if offline
 
                 return $block;
             case 'audio':
