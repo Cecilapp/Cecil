@@ -145,11 +145,11 @@ return [
             'optimize' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc
             'quality' => 75, // image quality after optimization or resize
             'formats' => [], // creates and adds formats images as `source` (e.g.: ['webp', 'avif'])
-            'responsive' => false, // enables responsive images
-            //[
-            //    'widths' => [480, 640, 768, 1024, 1366, 1600, 1920], // `srcset` widths
-            //    'sizes' => ['default' => '100vw'] // default `sizes` attribute
-            //],
+            'responsive' => [ // enables responsive images
+                'enabled' => false,
+                'widths' => [480, 640, 768, 1024, 1366, 1600, 1920], // `srcset` widths
+                'sizes' => ['default' => '100vw'] // default `sizes` attribute
+            ],
             'cdn' => false, // enables Image CDN
             //[
             //    'url' => '', // provider URL, support placeholders: `%account%`, `%width%`, `%quality%`, `%format%`, `%image_url%`
