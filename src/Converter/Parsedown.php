@@ -146,7 +146,7 @@ class Parsedown extends \ParsedownToc
         }
         $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
         // video?
-        if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? ['mp4', 'webm'])) {
+        if (\in_array($extension, $this->config->get('pages.body.links.embed.video'))) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
@@ -160,7 +160,7 @@ class Parsedown extends \ParsedownToc
             return $video;
         }
         // audio?
-        if (\in_array($extension, $this->config->get('pages.body.links.embed.audio') ?? ['mp3', 'ogg', 'wav'])) {
+        if (\in_array($extension, $this->config->get('pages.body.links.embed.audio'))) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
 
