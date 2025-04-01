@@ -157,7 +157,7 @@ class Image
         $widths = array_reverse($widths);
         foreach ($widths as $width) {
             if ($asset['width'] < $width) {
-                break;
+                continue;
             }
             $img = $asset->resize($width);
             $srcset .= \sprintf('%s %sw, ', (string) $img, $width);
