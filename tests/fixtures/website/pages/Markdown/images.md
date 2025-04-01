@@ -59,13 +59,13 @@ typora-root-url: ../../static
 
 ## Placeholder
 
-### Without (or default)
+### Without
 
 ```markdown
 ![Alt text](/images/japon_sample.jpg)
 ```
 
-![Alt text](/images/japon_sample.jpg)
+![Alt text](/images/japon_sample.jpg){placeholder=}
 
 ### Color
 
