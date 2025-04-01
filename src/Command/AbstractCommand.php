@@ -15,7 +15,6 @@ namespace Cecil\Command;
 
 use Cecil\Builder;
 use Cecil\Config;
-use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
@@ -27,14 +26,11 @@ use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Validation;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Symfony\Component\Yaml\Yaml;
 
 class AbstractCommand extends Command
 {
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
     public const TMP_DIR = '.cecil';
-    public const THEME_CONFIG_FILE = 'config.yml';
     public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
 
     /** @var InputInterface */
