@@ -79,13 +79,13 @@ return [
             'max' => 5, // number of pages by each paginated pages
             'path' => 'page', // path to paginated pages (e.g.: `/blog/page/2/`)
         ],
-        'paths' => [
-            [
-                'section' => '<section’s ID>',
-                'language' => '<language code>', // optional
-                'path' => '<path_with_palceholders>',
-            ]
-        ],
+        //'paths' => [
+        //    [
+        //        'section' => '<section’s ID>',
+        //        'language' => '<language code>', // optional
+        //        'path' => '<path_with_palceholders>',
+        //    ]
+        //],
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
         'body' => [
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
