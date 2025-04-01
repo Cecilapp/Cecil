@@ -59,7 +59,7 @@ typora-root-url: ../../static
 
 ## Placeholder
 
-### Without
+### Without (or default)
 
 ```markdown
 ![Alt text](/images/japon_sample.jpg)
