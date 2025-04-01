@@ -430,20 +430,18 @@ class Config
 
     /**
      * Returns asset image widths.
-     * Default: [480, 640, 768, 1024, 1366, 1600, 1920].
      */
     public function getAssetsImagesWidths(): array
     {
-        return $this->get('assets.images.responsive.widths') ?? [480, 640, 768, 1024, 1366, 1600, 1920];
+        return $this->get('assets.images.responsive.widths');
     }
 
     /**
      * Returns asset image sizes.
-     * Default: ['default' => '100vw'].
      */
     public function getAssetsImagesSizes(): array
     {
-        return $this->get('assets.images.responsive.sizes') ?? ['default' => '100vw'];
+        return $this->get('assets.images.responsive.sizes');
     }
 
     /*
