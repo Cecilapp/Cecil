@@ -104,11 +104,11 @@ return [
                 ],
             ],
             'links' => [
-                'embed' => false, // turns links in embedded content if possible
-                //[
-                //    'video' => ['mp4', 'webm'], // supported video file types, by extension
-                //    'audio' => ['mp3', 'ogg', 'wav'], // supported audio file types, by extension
-                //],
+                'embed' => [ // turns links in embedded content if possible
+                    'enabled' => false,
+                    'video' => ['mp4', 'webm'], // supported video file types, by extension
+                    'audio' => ['mp3', 'ogg', 'wav'], // supported audio file types, by extension
+                ],
                 'external' => [
                     'blank' => false, // if `true` open external link in new tab
                     'noopener' => true, // add "noopener" to `rel` attribute
