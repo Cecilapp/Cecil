@@ -211,6 +211,7 @@ class AbstractCommand extends Command
      */
     protected function locateAdditionalConfigFiles(string $path, string $configFilesList): array
     {
+        $config = [];
         foreach (explode(',', $configFilesList) as $filename) {
             // absolute path
             $config[$filename] = realpath($filename);
