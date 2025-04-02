@@ -183,8 +183,8 @@ return [
             'style' => 'expanded',
             'variables' => ['test' => '#FFF'],
         ],
-        'minify' => true,
-        'fingerprint' => true,
+        'minify' => false,
+        'fingerprint' => false,
         'notes' => true,
         'highlight' => true,
         'images' => [
