@@ -479,8 +479,8 @@ class Core extends SlugifyExtension
     {
         $htmlAttributes = '';
         $preload = false;
-        $responsive = $this->config->isEnabled('assets.images.responsive');
-        $formats = (array) $this->config->get('assets.images.formats');
+        $responsive = $this->config->isEnabled('layouts.images.responsive');
+        $formats = (array) $this->config->get('layouts.images.formats');
         extract($options, EXTR_IF_EXISTS);
 
         // builds HTML attributes
