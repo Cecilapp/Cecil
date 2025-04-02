@@ -1,9 +1,8 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-03-27
+updated: 2025-04-02
 -->
-
 # Configuration
 
 ## Overview
@@ -556,7 +555,7 @@ Images handling options.
 pages:
   body:
     images:
-      formats: []       # creates and adds formats images as `source` (e.g. `webp`, empty by default)
+      formats: []       # creates and adds formats images as `source` (e.g. `[webp, avif]`, empty by default)
       resize: false     # enables image resizing by using the `width` extra attribute (`false` by default)
       responsive: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
       lazy: true        # adds `loading="lazy"` attribute (`true` by default)
@@ -579,11 +578,9 @@ pages:
   body:
     links:
       embed:
-        enabled: false # turns links in embedded content if possible (`false` by default)
-        video:
-          ext: [mp4, 'webm'] # video files extensions
-        audio:
-          ext: [mp3]         # audio files extensions
+        enabled: false     # turns links in embedded content if possible (`false` by default)
+        video: [mp4, webm] # video files extensions
+        audio: [mp3]       # audio files extensions
       external:
         blank: false     # if true open external link in new tab
         noopener: true   # add "noopener" to `rel`  attribute
