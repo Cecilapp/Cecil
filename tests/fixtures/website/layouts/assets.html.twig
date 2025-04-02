@@ -303,7 +303,7 @@
   </p>
   <p>
     <pre>{% verbatim %}{{ asset('asssset.css', {ignore_missing: true}).missing) }}{% endverbatim %}</pre>
-    <blockquote>{{ asset('asssset.css', {ignore_missing: true}).missing }}</blockquote>
+    <blockquote>{{ dump(asset('asssset.css', {ignore_missing: true}).missing) }}</blockquote>
   </p>
 
   <h2>Access to wrong properties</h2>
