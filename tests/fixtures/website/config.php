@@ -191,7 +191,7 @@ return [
             'optimize' => true,
             'responsive' => [
                 'sizes' => [
-                    'class_img' => '100vw',
+                    'class_img' => '(max-width: 480px) 480px, 100vw',
                 ],
             ],
             'formats' => ['avif', 'webp'],
@@ -203,7 +203,7 @@ return [
                     'path' => 'images/cecil-logo.png',
                 ],
             ],
-            'class_img' => 'img',
+            'class' => 'class_img',
         ],
     ],
     'layouts' => [
