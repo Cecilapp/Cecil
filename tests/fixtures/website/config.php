@@ -194,7 +194,6 @@ return [
                     'class_img' => '(max-width: 480px) 480px, 100vw',
                 ],
             ],
-            'formats' => ['avif', 'webp'],
             'caption' => true,
             'remote' => [
                 'enabled' => true,
