@@ -206,6 +206,10 @@ return [
         ],
     ],
     'layouts' => [
+        'images' => [
+            'formats' => ['avif', 'webp'],
+            'responsive' => true,
+        ],
         'extensions' => [
             'Test' => 'Cecil\Renderer\Extension\Test',
             'Test error' => 'Cecil\Renderer\Extension\TestError',
