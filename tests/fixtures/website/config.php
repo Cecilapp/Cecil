@@ -121,10 +121,10 @@ return [
         ],
         'body' => [
             'images' => [
-                'lazy' => true,
+                'formats' => ['avif', 'webp'],
                 'resize' => true,
                 'responsive' => true,
-                'formats' => ['avif', 'webp'],
+                'lazy' => true,
                 'caption' => true,
                 'remote' => [
                     'fallback' => 'images/cecil-logo.png',
