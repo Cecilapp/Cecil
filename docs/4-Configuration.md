@@ -705,33 +705,71 @@ You can extend Cecil with [Pages generator](7-Extend.md#pages-generator).
 
 Where data files are stored and what extensions are handled.
 
+Supported formats: YAML, JSON, XML and CSV.
+
+### data.dir
+
+Data directory.
+
 ```yaml
 data:
-  dir: data                        # data directory
-  ext: [yaml, yml, json, xml, csv] # array of files extensions.
-  load: true                       # enables `site.data` collection
+  dir: data
 ```
 
-Supported formats: YAML, JSON, XML and CSV.
+### data.ext
+
+Array of files extensions.
+
+```yaml
+data:
+  ext: [yaml, yml, json, xml, csv]
+```
+
+### data.load
+
+Enables `site.data` collection (`true` by default).
+
+```yaml
+data:
+  load: true
+```
 
 ---
 
 ## Static
 
-Where static files are stored (PDF, fonts, etc.).
-
-```yaml
-static:
-  dir: static # files directory
-  target: ''  # target directory
-  exclude: ['sass', 'scss', '*.scss', 'package*.json', 'node_modules'] # list of excluded files (accepts globs, strings and regexes)
-  load: false # enables `site.static` collection (`false` by default)
-  mounts: [] # allows to copy specific files or directories to a specific destination
-```
+Management of static files are copied (PDF, fonts, etc.).
 
 :::important
 You should put your assets files, used by [`asset()`](3-Templates.md#asset), in the [`assets` directory](4-Configuration.md#assets) to avoid unnecessary files copy.
 :::
+
+### static.dir
+
+Files directory.
+
+```yaml
+static:
+  dir: static
+```
+
+### static.target
+
+Directory where static files are copied.
+
+```yaml
+static:
+  target: ''
+```
+
+### static.exclude
+
+List of excluded files. Accepts globs, strings and regexes.
+
+```yaml
+static:
+  exclude: ['sass', 'scss', '*.scss', 'package*.json', 'node_modules']
+```
 
 :::tip
 If you use [Bootstrap Icons](https://icons.getbootstrap.com) you can exclude the `node_modules` except `node_modules/bootstrap-icons` with a regular expression:
@@ -742,7 +780,25 @@ exclude: ['sass', 'scss', '*.scss', 'package*.json', '#node_modules/(?!bootstrap
 
 :::
 
-_Example:_
+### static.load
+
+Enables `site.static` collection (`false` by default).
+
+```yaml
+static:
+  load: false
+```
+
+### static.mounts
+
+Allows to copy specific files or directories to a specific destination.
+
+```yaml
+static:
+  mounts: []
+```
+
+### Example
 
 ```yaml
 static:
