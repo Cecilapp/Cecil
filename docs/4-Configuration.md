@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-04-02
+updated: 2025-04-04
 -->
 # Configuration
 
@@ -798,7 +798,7 @@ static:
   mounts: []
 ```
 
-### Example
+### static example
 
 ```yaml
 static:
@@ -813,44 +813,75 @@ static:
 
 ## Assets
 
-Assets handling options.
+Assets management (images, CSS and JS files).
 
-```yml
+### assets.dir
+
+Assets source directory (`assets` by default).
+
+```yaml
 assets:
-  dir: assets            # assets files directory (`assets` by default)
-  target: assets         # where remote and resized assets are saved
-  fingerprint:
-    enabled: true        # enables fingerprinting (`true` by default)
-  compile:
-    enabled: true        # enables Sass files compilation (`true` by default)
-    style: expanded        # compilation style (`expanded` or `compressed`. `expanded` by default)
-    import: [sass, scss]   # list of imported paths (`[sass, scss, node_modules]` by default)
-    sourcemap: false       # enables sourcemap in debug mode (`false` by default)
-    variables: []          # list of preset variables (empty by default)
-  minify:
-    enabled: true        # enables CSS et JS minification (`true` by default)
-  images:
-    resize:
-      dir: thumbnails      # where resized images are stored (`thumbnails` by default)
-    optimize:
-      enabled: false       # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc (`false` by default)
-    quality: 75            # image quality after optimization or resize (`75` by default)
-    responsive:
-      widths: []           # `srcset` widths (`[480, 640, 768, 1024, 1366, 1600, 1920]` by default)
-      sizes:
-        default: '100vw'   # default `sizes` attribute (`100vw` by default)
-      enabled: false       # used by `html` filter: creates responsive images by default (`false` by default)
-    formats: []            # used by `html` filter: creates and adds formats images as `source` (empty by default)
+  dir: assets
 ```
 
-:::
-**Notes:**
+### assets.target
 
-- `compile` is used for [SCSS](https://sass-lang.com) compilation. See the [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting) for options details
-- `sourcemap` is used to debug SCSS compilation ([debug mode](#debug) must be enabled
-- `minify` is available for file with a `text/css` or `text/javascript` [MIME Type](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types)
-- Generated `responsive` images default widths are: 480, 640, 768, 1024, 1366, 1600 and 1920
+Directory where remote and resized assets files are saved (`assets` by default).
+
+```yaml
+assets:
+  target: assets
+```
+
+### assets.fingerprint
+
+Enables fingerprinting (cache busting) for assets files (`true` by default).
+
+```yaml
+assets:
+  fingerprint: true
+```
+
+### assets.compile
+
+Enables [Sass](https://sass-lang.com) files compilation (`true` by default). See the [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting) for options details.
+
+```yaml
+assets:
+  compile:
+    style: expanded      # compilation style (`expanded` or `compressed`. `expanded` by default)
+    import: [sass, scss] # list of imported paths (`[sass, scss, node_modules]` by default)
+    sourcemap: false     # enables sourcemap in debug mode (`false` by default)
+    variables: []        # list of preset variables (empty by default)
+```
+
+:::info
+`sourcemap` is used to debug SCSS compilation ([debug mode](#debug) must be enabled).
 :::
+
+### assets.minify
+
+Enables CSS and JS minification (`true` by default).
+
+```yaml
+assets:
+  minify: true
+```
+
+### assets.images
+
+Images management.
+
+```yaml
+assets:
+  images:
+    optimize: false # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc (`false` by default)
+    quality: 75     # image quality after optimization or resize (`75` by default)
+    responsive:
+      widths: [480, 640, 768, 1024, 1366, 1600, 1920] # `srcset` attribute images widths
+      sizes:
+        default: '100vw' # default `sizes` attribute
+```
 
 ### assets.images.cdn
 
@@ -879,7 +910,31 @@ See [**CDN providers**](configuration/cdn-providers.md).
 
 ## Layouts
 
-Where templates and translations files are stored.
+Templates options.
+
+### layouts.dir
+
+Layouts directory.
+
+```yaml
+layouts:
+  dir: layouts
+```
+
+### layouts.images
+
+Images handling options.
+
+```yaml
+layouts:
+  images:
+    formats: []       # used by `html` filter: creates and adds formats images as `source` (empty by default)
+    responsive: false # used by `html` filter: creates responsive images by default (`false` by default)
+```
+
+### layouts.translations
+
+Translations handling options.
 
 ```yaml
 layouts:
@@ -941,7 +996,7 @@ output:
 
 Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendred in HTML and Atom.
 
-_Example:_
+### output example
 
 ```yaml
 output:
