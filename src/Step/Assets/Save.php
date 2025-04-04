@@ -48,7 +48,7 @@ class Save extends AbstractStep
 
         $this->cache = new \Cecil\Assets\Cache($this->builder, 'assets');
         $this->cacheKey = \sprintf('_list__%s', $this->builder->getVersion());
-        if (empty($this->assets) && $this->cache->has($this->cacheKey)) {
+        if (empty($this->builder->getAssets()) && $this->cache->has($this->cacheKey)) {
             $this->builder->setAssets($this->cache->get($this->cacheKey));
         }
 
