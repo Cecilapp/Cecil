@@ -165,6 +165,10 @@ class Asset implements \ArrayAccess
                 // bundle files path
                 $this->data['files'][] = $file[$i]['filepath'];
             }
+            // fingerprinting
+            if ($fingerprint) {
+                $this->fingerprint();
+            }
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
             // optimizing images files
@@ -173,10 +177,6 @@ class Asset implements \ArrayAccess
             }
         }
         $this->data = $cache->get($cacheKey);
-        // fingerprinting
-        if ($fingerprint) {
-            $this->fingerprint();
-        }
         // compiling (Sass files)
         if ($this->config->isEnabled('assets.compile')) {
             $this->compile();
