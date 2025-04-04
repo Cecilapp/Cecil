@@ -54,7 +54,7 @@ layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 :  The language of the page (e.g.: `fr`).
 
 `<format>`
-:  The [output format](4-Configuration.md#formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
+:  The [output format](4-Configuration.md#output-formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
 
 `.twig`
 :  The mandatory Twig file extension.
@@ -459,7 +459,7 @@ Creates a valid URL for a page, a menu entry, an asset, a page ID or a path.
 | Option    | Description                                                                | Type    | Default |
 | --------- | -------------------------------------------------------------------------- | ------- | ------- |
 | canonical | Prefixes URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options-and-front-matter). | boolean | `false` |
-| format    | Defines page [output format](4-Configuration.md#formats) (e.g.: `json`).   | string  | `html`  |
+| format    | Defines page [output format](4-Configuration.md#output-formats) (e.g.: `json`).   | string  | `html`  |
 | language  | Trying to force page [language](4-Configuration.md#language) (e.g.: `fr`). | string  | null    |
 
 _Examples:_
