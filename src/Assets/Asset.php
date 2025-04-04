@@ -607,9 +607,11 @@ class Asset implements \ArrayAccess
     public function save(): void
     {
         $cache = new Cache($this->builder, 'assets');
-        if (Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
-            $this->builder->addAsset($this->data['path']);
+        if (!Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
+            throw new RuntimeException(\sprintf('Can\'t add asset "%s" to assets list: file not found.', $this->data['path']));
         }
+
+        $this->builder->addAsset($this->data['path']);
     }
 
     /**
