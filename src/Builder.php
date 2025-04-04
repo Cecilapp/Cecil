@@ -360,7 +360,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Set assets path collection.
+     * Set assets path list.
      */
     public function setAssets(array $assets): void
     {
@@ -368,7 +368,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Add an asset path to assets collection.
+     * Add an asset path to assets list.
      */
     public function addAsset(string $path): void
     {
