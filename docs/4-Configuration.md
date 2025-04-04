@@ -419,7 +419,7 @@ There is 2 others way to enable the _debug mode_:
 
 ### pages.dir
 
-Directory where pages files are stored.
+Directory source of pages (`pages` by default).
 
 ```yaml
 pages:
@@ -475,8 +475,7 @@ Pagination can be disabled:
 
 ```yaml
 pages:
-  pagination:
-    enabled: false
+  pagination: false
 ```
 
 ### pages.paths
@@ -488,7 +487,7 @@ pages:
   paths:
     - section: <section’s ID>
       language: <language code> # optional
-      path: <path of pages> # with optional placeholders
+      path: <path of pages>     # with optional placeholders
 ```
 
 #### Path placeholders
@@ -512,11 +511,11 @@ paths:
 
 ### pages.frontmatter
 
-Front matter format.
+Pages’ front matter format (`yaml` by default, also accepts `ini`, `toml` and `json`).
 
 ```yaml
 pages:
-  frontmatter: yaml # `yaml` by default, also accepts `ini`, `toml` and `json`
+  frontmatter: yaml
 ```
 
 ### pages.body
@@ -529,7 +528,7 @@ To know how those options impacts your content see _[Content > Markdown](2-Conte
 
 #### pages.body.toc
 
-Headers used to build the table of contents.
+Headers used to build the table of contents (`[h2, h3]` by default).
 
 ```yaml
 pages:
@@ -539,7 +538,7 @@ pages:
 
 #### pages.body.highlight
 
-Enables code syntax highlighting.
+Enables code syntax highlighting (`false` by default).
 
 ```yaml
 pages:
@@ -568,10 +567,12 @@ pages:
 ```
 
 :::info
-Remote images are downloaded (and converted into _Assets_ to be manipulated). You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
+Remote images are downloaded and converted into _Assets_ to be manipulated. You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
 :::
 
 #### pages.body.links
+
+Links handling options.
 
 ```yaml
 pages:
@@ -589,6 +590,8 @@ pages:
 ```
 
 #### pages.body.excerpt
+
+Excerpt handling options.
 
 ```yaml
 pages:
@@ -709,7 +712,7 @@ Supported formats: YAML, JSON, XML and CSV.
 
 ### data.dir
 
-Data directory.
+Data source directory (`data` by default).
 
 ```yaml
 data:
@@ -746,7 +749,7 @@ You should put your assets files, used by [`asset()`](3-Templates.md#asset), in 
 
 ### static.dir
 
-Files directory.
+Static files source directory (`static` by default).
 
 ```yaml
 static:
@@ -755,7 +758,7 @@ static:
 
 ### static.target
 
-Directory where static files are copied.
+Directory where static files are copied (empty by default).
 
 ```yaml
 static:
@@ -914,7 +917,7 @@ Templates options.
 
 ### layouts.dir
 
-Layouts directory.
+Templates directory source (`layouts` by default).
 
 ```yaml
 layouts:
@@ -938,9 +941,8 @@ Translations handling options.
 
 ```yaml
 layouts:
-  dir: layouts # layouts directory
   translations:
-    dir: translations       # translations directory
+    dir: translations       # translations source directory (`translations` by default)
     formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
@@ -952,11 +954,11 @@ Defines where and in what format(s) content is rendered.
 
 ### output.dir
 
-Directory where rendered pages’ files are saved.
+Directory where rendered pages’ files are saved (`_site` by default).
 
 ```yaml
 output:
-  dir: <directory> # `_site` by default
+  dir: _site
 ```
 
 ### output.formats
@@ -974,7 +976,7 @@ output:
       exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
 ```
 
-Those formats are used by `pagetypeformats` (see below) and by the [`output` page’s variable](2-Content.md#output).
+Those formats are used by [`pagetypeformats`](output.pagetypeformats) and by the [`output` page’s variable](2-Content.md#output).
 
 :::info
 To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
@@ -994,7 +996,7 @@ output:
     term: [<format>]
 ```
 
-Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendred in HTML and Atom.
+Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendered in HTML and Atom.
 
 ### output example
 
@@ -1034,16 +1036,12 @@ cache:
   enabled: true         # enables cache support (`true` by default)
   dir: '.cache'         # cache files directory (`.cache` by default)
   templates:
-    enabled: true       # enables cache for Twig templates
-    dir: templates      # templates files cache directory (`templates` by default)
-  assets:
-    dir: 'assets'       # assets files cache directory (`assets` by default)
-    remote:
-      dir: remote       # remote files cache directory (`remote` by default)
-  translations:
-    enabled: true       # enables cache for translations dictionary
-    dir: 'translations' # translations files cache directory (`assets` by default)
+    enabled: true       # enables cache for templates and translations
 ```
+
+:::info
+See [Templates cache documentation](3-Templates.md#cache) for more details.
+:::
 
 ---
 
@@ -1119,8 +1117,7 @@ optimize:
 This option is disabled by default and can be enabled via:
 
 ```yaml
-optimize:
-  enabled: true
+optimize: true
 ```
 
 Once the global option is enabled, the 4 file types will be processed.  
