@@ -34,5 +34,6 @@ return [
     'assets.remote' => '',
     'assets.remote.dir' => '',
     'assets.images.resize.dir' => '',
-    'cache.templates.dir' => 'cache.templates',
+    'cache.templates.dir' => '',
+    'cache.assets.dir' => '',
 ];
