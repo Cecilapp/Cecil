@@ -51,7 +51,18 @@ class Asset implements \ArrayAccess
      *
      * @param Builder      $builder
      * @param string|array $paths
-     * @param array|null   $options e.g.: ['fingerprint' => true, 'minify' => true, 'filename' => '', 'ignore_missing' => false]
+     * @param array|null   $options
+     *
+     * options:
+     * [
+     *     'fingerprint' => <bool>,
+     *     'minify' => <bool>,
+     *     'optimize' => <bool>,
+     *     'filename' => <string>,
+     *     'ignore_missing' => <bool>,
+     *     'remote_fallback' => <string>,
+     *     'force_slash' => <bool>
+     * ]
      *
      * @throws RuntimeException
      */
