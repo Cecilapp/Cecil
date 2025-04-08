@@ -741,18 +741,18 @@ class Asset implements \ArrayAccess
             // cache file
             if (!file_exists($filePath)) {
                 try {
-                    // get content
-                    if (!Util\Url::isRemoteFileExists($url)) {
-                        throw new RuntimeException(\sprintf('File "%s" doesn\'t exists', $url));
+                    // get file content
+                    if (!Util\Url::isRemoteFileExists($path)) {
+                        throw new RuntimeException(\sprintf('Remote file "%s" doesn\'t exists', $path));
                     }
-                    if (false === $content = Util\File::fileGetContents($url, true)) {
-                        throw new RuntimeException(\sprintf('Can\'t get content of file "%s".', $url));
+                    if (false === $content = Util\File::fileGetContents($path, true)) {
+                        throw new RuntimeException(\sprintf('Can\'t get content of remote file "%s".', $path));
                     }
                     if (\strlen($content) <= 1) {
-                        throw new RuntimeException(\sprintf('File "%s" is empty.', $url));
+                        throw new RuntimeException(\sprintf('Remote file "%s" is empty.', $path));
                     }
                 } catch (RuntimeException $e) {
-                    // if there is a fallback in assets/ returns it
+                    // if there is a fallback in assets, returns it
                     if ($remote_fallback) {
                         $filePath = Util::joinFile($this->config->getAssetsPath(), $remote_fallback);
                         if (Util\File::getFS()->exists($filePath)) {
