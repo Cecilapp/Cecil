@@ -758,10 +758,8 @@ class Asset implements \ArrayAccess
                         if (Util\File::getFS()->exists($filePath)) {
                             return $filePath;
                         }
-
                         throw new RuntimeException(\sprintf('Fallback file "%s" doesn\'t exists.', $filePath));
                     }
-
                     throw new RuntimeException($e->getMessage());
                 }
                 Util\File::getFS()->dumpFile($filePath, $content);
