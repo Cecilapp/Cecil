@@ -657,15 +657,15 @@ class Asset implements \ArrayAccess
     private function loadFile(string $path, bool $ignore_missing = false, ?string $remote_fallback = null, bool $force_slash = true): array
     {
         $file = [
-            'url'      => null,
-            'filepath' => null,
-            'path'     => null,
-            'ext'      => null,
-            'type'     => null,
-            'subtype'  => null,
-            'size'     => null,
-            'content'  => null,
-            'missing'  => false,
+            'url'      => null,  // URM for remote file
+            'filepath' => null,  // absolute file path
+            'path'     => null,  // public path to the file
+            'ext'      => null,  // file extension
+            'type'     => null,  // file type (e.g.: image, audio, video, etc.)
+            'subtype'  => null,  // file media type (e.g.: image/png, audio/mp3, etc.)
+            'size'     => null,  // file size (in bytes)
+            'content'  => null,  // file content
+            'missing'  => false, // if file not found but missing allowed: 'missing' is true
         ];
 
         // try to find file locally and returns the file path
