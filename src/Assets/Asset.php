@@ -737,25 +737,8 @@ class Asset implements \ArrayAccess
     {
         // in case of a remote file: save it locally and returns its path
         if (Util\Url::isUrl($path)) {
-            $url = $path;
-            // create relative path
-            $urlHost = parse_url($path, PHP_URL_HOST);
-            $urlPath = parse_url($path, PHP_URL_PATH);
-            $urlQuery = parse_url($path, PHP_URL_QUERY);
-            $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-            // Google Fonts hack
-            if (Util\Str::endsWith($urlPath, '/css') || Util\Str::endsWith($urlPath, '/css2')) {
-                $extension = 'css';
-            }
-            $relativePath = Page::slugify(\sprintf(
-                '%s%s%s%s',
-                $urlHost,
-                $this->sanitize($urlPath),
-                $urlQuery ? "-$urlQuery" : '',
-                $urlQuery && $extension ? ".$extension" : ''
-            ));
-            $filePath = Util::joinFile($this->config->getAssetsRemotePath(), $relativePath);
-            // save file
+            $filePath = Util::joinFile($this->config->getAssetsRemotePath(), $this->buildPathFromUrl($path));
+            // cache file
             if (!file_exists($filePath)) {
                 try {
                     // get content
@@ -880,6 +863,31 @@ class Asset implements \ArrayAccess
         }
 
         return $size;
+    }
+
+    /**
+     * Builds a relative path from a URL.
+     * Used for remote files.
+     */
+    private function buildPathFromUrl(string $url): string
+    {
+        // create a relative path from the URL
+        $urlHost = parse_url($url, PHP_URL_HOST);
+        $urlPath = parse_url($url, PHP_URL_PATH);
+        $urlQuery = parse_url($url, PHP_URL_QUERY);
+        $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+        // Google Fonts hack
+        if (Util\Str::endsWith($urlPath, '/css') || Util\Str::endsWith($urlPath, '/css2')) {
+            $extension = 'css';
+        }
+        $path = Page::slugify(\sprintf(
+            '%s%s%s%s',
+            $urlHost,
+            $this->sanitize($urlPath),
+            $urlQuery ? "-$urlQuery" : '',
+            $urlQuery && $extension ? ".$extension" : ''
+        ));
+        return $path;
     }
 
     /**
