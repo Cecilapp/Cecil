@@ -648,7 +648,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Load file data and store theme in $file array.
+     * Load a file and store extracted data in an array.
      *
      * @throws RuntimeException
      *
