@@ -46,9 +46,6 @@ class Asset implements \ArrayAccess
     /** @var bool */
     protected $minified = false;
 
-    /** @var bool */
-    protected $ignore_missing = false;
-
     /**
      * Creates an Asset from a file path, an array of files path or an URL.
      *
