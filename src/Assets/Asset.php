@@ -723,8 +723,10 @@ class Asset implements \ArrayAccess
     /**
      * Try to locate the file:
      *   1. remotely (if $path is a valid URL)
-     *   2. in static|assets/
-     *   3. in themes/<theme>/static|assets/
+     *   2. in assets
+     *   3. in themes/<theme>/assets
+     *   4. in static
+     *   5. in themes/<theme>/static
      * Returns local file path or throw an exception.
      *
      * @return string local file path
