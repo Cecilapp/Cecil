@@ -172,6 +172,7 @@ class Cache implements CacheInterface
 
     /**
      * Creates key with the MD5 hash of a string.
+     * $suffix is optional and can be used to create a unique key for the same string.
      */
     public function createKeyFromString(string $value, ?string $suffix = null): string
     {

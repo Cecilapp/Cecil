@@ -59,7 +59,7 @@ class Twig implements RendererInterface
             'cache'            => false,
         ];
         // use Twig cache?
-        if ((bool) $this->builder->getConfig()->get('cache.templates.enabled')) {
+        if ($this->builder->getConfig()->isEnabled('cache.templates')) {
             $loaderOptions = array_replace($loaderOptions, ['cache' => $this->builder->getConfig()->getCacheTemplatesPath()]);
         }
         // create the Twig instance
@@ -70,7 +70,7 @@ class Twig implements RendererInterface
         // set timezone
         if ($this->builder->getConfig()->has('date.timezone')) {
             $this->twig->getExtension(\Twig\Extension\CoreExtension::class)
-                ->setTimezone((string) $this->builder->getConfig()->get('date.timezone') ?? date_default_timezone_get());
+                ->setTimezone($this->builder->getConfig()->get('date.timezone') ?? date_default_timezone_get());
         }
         /*
          * adds extensions
@@ -83,7 +83,7 @@ class Twig implements RendererInterface
         $this->translator = new Translator(
             $this->builder->getConfig()->getLanguageProperty('locale'),
             new MessageFormatter(new IdentityTranslator()),
-            (bool) $this->builder->getConfig()->get('cache.templates.enabled') ? $this->builder->getConfig()->getCacheTranslationsPath() : null,
+            $this->builder->getConfig()->isEnabled('cache.templates') ? $this->builder->getConfig()->getCacheTranslationsPath() : null,
             $this->builder->isDebug()
         );
         if (\count($this->builder->getConfig()->getLanguages()) > 0) {

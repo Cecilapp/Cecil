@@ -34,15 +34,15 @@
 
 #### Video
 
-[Video example](/video/test.mp4 "/video/test.mp4"){embed=true controls poster=/images/cecil-logo.png style="width:100%;"}
+[Video example](/video/test.mp4 "/video/test.mp4"){embed=true controls poster=/images/cecil-logo.png}
 
 #### Video (without controls = autoplay + loop)
 
-[Video example](/video/test.mp4 "/video/test.mp4"){embed=true poster=/images/cecil-logo.png style="width:100%;"}
+[Video example](/video/test.mp4 "/video/test.mp4"){embed=true poster=/images/cecil-logo.png}
 
 #### Video (embed = false)
 
-[Video example](/video/test.mp4 "/video/test.mp4"){embed=false controls poster=/images/cecil-logo.png style="width:100%;"}
+[Video example](/video/test.mp4 "/video/test.mp4"){embed=false controls poster=/images/cecil-logo.png}
 
 #### Audio
 

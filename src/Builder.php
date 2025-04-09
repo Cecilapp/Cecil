@@ -17,7 +17,6 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
-use Cecil\Util\Platform;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
@@ -106,19 +105,20 @@ class Builder implements LoggerAwareInterface
      */
     public function __construct($config = null, ?LoggerInterface $logger = null)
     {
+        // init and set config
+        $this->config = new Config();
+        if ($config !== null) {
+            $this->setConfig($config);
+        }
+        // debug mode?
+        if (getenv('CECIL_DEBUG') == 'true' || $this->getConfig()->isEnabled('debug')) {
+            $this->debug = true;
+        }
         // set logger
         if ($logger === null) {
             $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
         }
         $this->setLogger($logger);
-        // set config
-        $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
-        // debug mode?
-        if (getenv('CECIL_DEBUG') == 'true' || (bool) $this->getConfig()->get('debug')) {
-            $this->debug = true;
-        }
-        // autoloads local extensions
-        Util::autoload($this, 'extensions');
     }
 
     /**
@@ -140,8 +140,8 @@ class Builder implements LoggerAwareInterface
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
 
-        // log configuration errors
-        $this->logConfigError();
+        // log warnings
+        $this->logBuildWarnings();
 
         // prepare options
         $this->options = array_merge([
@@ -192,17 +192,20 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Set configuration.
-     *
-     * @param Config|array|null $config
      */
-    public function setConfig($config): self
+    public function setConfig(array|Config $config): self
     {
-        if (!$config instanceof Config) {
+        if (\is_array($config)) {
             $config = new Config($config);
         }
         if ($this->config !== $config) {
             $this->config = $config;
         }
+
+        // import themes configuration
+        $this->importThemesConfig();
+        // autoloads local extensions
+        Util::autoload($this, 'extensions');
 
         return $this;
     }
@@ -212,15 +215,21 @@ class Builder implements LoggerAwareInterface
      */
     public function getConfig(): Config
     {
+        if ($this->config === null) {
+            $this->config = new Config();
+        }
+
         return $this->config;
     }
 
     /**
      * Config::setSourceDir() alias.
      */
-    public function setSourceDir(?string $sourceDir = null): self
+    public function setSourceDir(string $sourceDir): self
     {
-        $this->config->setSourceDir($sourceDir);
+        $this->getConfig()->setSourceDir($sourceDir);
+        // import themes configuration
+        $this->importThemesConfig();
 
         return $this;
     }
@@ -228,11 +237,21 @@ class Builder implements LoggerAwareInterface
     /**
      * Config::setDestinationDir() alias.
      */
-    public function setDestinationDir(?string $destinationDir = null): self
+    public function setDestinationDir(string $destinationDir): self
     {
-        $this->config->setDestinationDir($destinationDir);
+        $this->getConfig()->setDestinationDir($destinationDir);
 
         return $this;
+    }
+
+    /**
+     * Import themes configuration.
+     */
+    public function importThemesConfig(): void
+    {
+        foreach ($this->config->get('theme') as $theme) {
+            $this->config->import(Config::loadFile(Util::joinFile($this->config->getThemesPath(), $theme, 'config.yml'), true), Config::PRESERVE);
+        }
     }
 
     /**
@@ -341,7 +360,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Set assets path collection.
+     * Set assets path list.
      */
     public function setAssets(array $assets): void
     {
@@ -349,7 +368,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Add an asset path to assets collection.
+     * Add an asset path to assets list.
      */
     public function addAsset(string $path): void
     {
@@ -446,11 +465,11 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Log configuration errors.
+     * Log build warnings.
      */
-    protected function logConfigError(): void
+    protected function logBuildWarnings(): void
     {
-        // warning about baseurl
+        // baseurl
         if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
             $this->getLogger()->warning('`baseurl` configuration key is required in production.');
         }
