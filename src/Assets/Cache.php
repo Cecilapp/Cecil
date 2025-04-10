@@ -42,7 +42,7 @@ class Cache implements CacheInterface
      */
     public function has($key): bool
     {
-        $key = $this->sanitizeKey($key);
+        $key = self::sanitizeKey($key);
         if (!Util\File::getFS()->exists($this->getFilePathname($key))) {
             return false;
         }
@@ -56,7 +56,7 @@ class Cache implements CacheInterface
     public function get($key, $default = null): mixed
     {
         try {
-            $key = $this->sanitizeKey($key);
+            $key = self::sanitizeKey($key);
             // return default value if file doesn't exists
             if (false === $content = Util\File::fileGetContents($this->getFilePathname($key))) {
                 return $default;
@@ -90,7 +90,7 @@ class Cache implements CacheInterface
     public function set($key, $value, $ttl = null): bool
     {
         try {
-            $key = $this->sanitizeKey($key);
+            $key = self::sanitizeKey($key);
             $this->prune($key);
             // put file content in a dedicated file
             if (\is_array($value) && !empty($value['content']) && !empty($value['path'])) {
@@ -118,7 +118,7 @@ class Cache implements CacheInterface
     public function delete($key): bool
     {
         try {
-            $key = $this->sanitizeKey($key);
+            $key = self::sanitizeKey($key);
             Util\File::getFS()->remove($this->getFilePathname($key));
             $this->prune($key);
         } catch (\Exception $e) {
@@ -190,7 +190,7 @@ class Cache implements CacheInterface
             throw new RuntimeException(\sprintf('Can\'t create cache key for "%s".', $path));
         }
 
-        return $this->sanitizeKey(\sprintf('%s__%s', $relativePath, $this->createKeyFromString($content)));
+        return self::sanitizeKey(\sprintf('%s__%s', $relativePath, $this->createKeyFromString($content)));
     }
 
     /**
@@ -200,7 +200,7 @@ class Cache implements CacheInterface
     {
         $tags = implode('_', $tags ?? []);
 
-        return $this->sanitizeKey(\sprintf(
+        return self::sanitizeKey(\sprintf(
             '%s%s%s__%s',
             $asset['filename'],
             "_{$asset['ext']}",
@@ -228,7 +228,7 @@ class Cache implements CacheInterface
                     if (preg_match('/' . $pattern . '/i', $file->getPathname())) {
                         Util\File::getFS()->remove($file->getPathname());
                         $fileCount++;
-                        $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', Util\File::getFS()->makePathRelative($file->getPathname(), $this->builder->getConfig()->getCachePath())));
+                        $this->builder->getLogger()->debug(\sprintf('Cache removed: "%s"', Util\File::getFS()->makePathRelative($file->getPathname(), $this->builder->getConfig()->getCachePath())));
                     }
                 }
             }
@@ -239,20 +239,6 @@ class Cache implements CacheInterface
         }
 
         return $fileCount;
-    }
-
-    /**
-     * Prepares and validate $key.
-     */
-    public function sanitizeKey(string $key): string
-    {
-        $key = str_replace(['https://', 'http://'], '', $key); // remove protocol (if URL)
-        $key = Page::slugify($key);                            // slugify
-        $key = trim($key, '/');                                // remove leading/trailing slashes
-        $key = str_replace(['\\', '/'], ['-', '-'], $key);     // replace slashes by hyphens
-        $key = substr($key, 0, 200);                           // truncate to 200 characters (NTFS filename length limit is 255 characters)
-
-        return $key;
     }
 
     /**
@@ -272,19 +258,33 @@ class Cache implements CacheInterface
     }
 
     /**
+     * Prepares and validate $key.
+     */
+    public static function sanitizeKey(string $key): string
+    {
+        $key = str_replace(['https://', 'http://'], '', $key); // remove protocol (if URL)
+        $key = Page::slugify($key);                            // slugify
+        $key = trim($key, '/');                                // remove leading/trailing slashes
+        $key = str_replace(['\\', '/'], ['-', '-'], $key);     // replace slashes by hyphens
+        $key = substr($key, 0, 200);                           // truncate to 200 characters (NTFS filename length limit is 255 characters)
+
+        return $key;
+    }
+
+    /**
      * Removes previous cache files.
      */
     private function prune(string $key): bool
     {
         try {
-            $keyAsArray = explode('__', $this->sanitizeKey($key));
+            $keyAsArray = explode('__', self::sanitizeKey($key));
             // if 3 parts (with hash), remove all files with the same first part
             // pattern: `path_tag__hash__version`
             if (!empty($keyAsArray[0]) && \count($keyAsArray) == 3) {
                 $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
                 foreach (glob($pattern) ?: [] as $filename) {
                     Util\File::getFS()->remove($filename);
-                    $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', Util\File::getFS()->makePathRelative($filename, $this->builder->getConfig()->getCachePath())));
+                    $this->builder->getLogger()->debug(\sprintf('Cache removed: "%s"', Util\File::getFS()->makePathRelative($filename, $this->builder->getConfig()->getCachePath())));
                 }
             }
         } catch (\Exception $e) {
