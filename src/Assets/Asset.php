@@ -122,9 +122,6 @@ class Asset implements \ArrayAccess
                     if ($type != $this->data['type']) {
                         throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $type, $this->data['type']));
                     }
-                    $this->data['size'] += filesize($filePath);
-                    $this->data['content'] .= Util\File::fileGetContents($filePath);
-                    break;
                 }
                 $this->data['file'] = $filePath;
                 $this->data['files'][] = $filePath;
@@ -133,14 +130,12 @@ class Asset implements \ArrayAccess
                 $this->data['url'] = $paths[$i];
                 $this->data['ext'] = Util\File::getExtension($filePath);
                 $this->data['type'] = $type;
-                $this->data['subtype'] = Util\File::getMediaType($filePath)[0] . '/' . Util\File::getMediaType($filePath)[1];
-                // image: width, height and exif
-                if ($this->data['type'] == 'image') {
-                    $this->data['width'] = $this->getWidth();
-                    $this->data['height'] = $this->getHeight();
-                    if ($this->data['subtype'] == 'image/jpeg') {
-                        $this->data['exif'] = Util\File::readExif($file[$i]['filepath']);
-                    }
+                $this->data['subtype'] = Util\File::getMediaType($filePath)[1];
+                $this->data['size'] += filesize($filePath);
+                $this->data['content'] .= Util\File::fileGetContents($filePath);
+                // fingerprinting
+                if ($fingerprint && !$this->fingerprinted) {
+                    $this->fingerprint();
                 }
                 // bundle default filename
                 if ($pathsCount > 1 && empty($filename)) {
@@ -178,6 +173,14 @@ class Asset implements \ArrayAccess
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $cache->createKeyFromString($this->data['content']));
         if (!$cache->has($cacheKey)) {
+            // image: width, height and exif
+            if ($this->data['type'] == 'image') {
+                $this->data['width'] = $this->getWidth();
+                $this->data['height'] = $this->getHeight();
+                if ($this->data['subtype'] == 'image/jpeg') {
+                    $this->data['exif'] = Util\File::readExif($this->data['file']);
+                }
+            }
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
             // optimizing images files
@@ -187,10 +190,6 @@ class Asset implements \ArrayAccess
         }
         $this->data = $cache->get($cacheKey);
 
-        // fingerprinting
-        if ($fingerprint && !$this->fingerprinted) {
-            $this->fingerprint();
-        }
         // compiling (Sass files)
         if ($this->config->isEnabled('assets.compile')) {
             $this->compile();
