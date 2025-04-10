@@ -99,6 +99,11 @@ class File
     public static function getExtension(string $filename): string
     {
         try {
+            $ext = pathinfo($filename)['extension'];
+            if (!empty($ext)) {
+                return $ext;
+            }
+            // guess the extension
             $mimeTypes = new MimeTypes();
             $mimeType = $mimeTypes->guessMimeType($filename);
             $exts = $mimeTypes->getExtensions($mimeType);
