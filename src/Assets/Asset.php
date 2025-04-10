@@ -156,9 +156,9 @@ class Asset implements \ArrayAccess
                     $this->data['filename'] = $filename;
                     $this->data['path'] = '/' . ltrim($filename, '/');
                 }
-                // force leading slash
+                // force root slash
                 if ($force_slash) {
-                    $this->data['path'] = '/' . ltrim($paths[$i], '/');
+                    $this->data['path'] = '/' . ltrim($this->data['path'], '/');
                 }
             } catch (RuntimeException $e) {
                 if ($ignore_missing) {
