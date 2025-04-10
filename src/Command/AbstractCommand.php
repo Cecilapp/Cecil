@@ -103,7 +103,7 @@ class AbstractCommand extends Command
 
             return parent::run($input, $output);
         }
-        // run with simplified error message
+        // run with human error message
         try {
             return parent::run($input, $output);
         } catch (\Exception $e) {
