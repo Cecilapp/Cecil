@@ -15,6 +15,7 @@ namespace Cecil\Util;
 
 use Cecil\Exception\RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Mime\MimeTypes;
 
 class File
 {
@@ -72,21 +73,42 @@ class File
     }
 
     /**
-     * Returns the content type and subtype of a file.
+     * Returns the media type and subtype of a file.
      *
      * ie: ['text', 'text/plain']
      */
     public static function getMediaType(string $filename): array
     {
-        if (false === $subtype = mime_content_type($filename)) {
-            throw new RuntimeException(\sprintf('Can\'t get content type of "%s".', $filename));
+
+
+        try {
+            $mimeTypes = new MimeTypes();
+            $mimeType = $mimeTypes->guessMimeType($filename);
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Can\'t get media type of "%s" (%s).', $filename, $e->getMessage()));
         }
-        $type = explode('/', $subtype)[0];
+        $type = explode('/', $mimeType)[0];
 
         return [
-            $type,
-            $subtype,
+            $type,     // type
+            $mimeType, // subtype
         ];
+    }
+
+    /**
+     * Returns the extension of a file.
+     */
+    public static function getExtension(string $filename): string
+    {
+        try {
+            $mimeTypes = new MimeTypes();
+            $mimeType = $mimeTypes->guessMimeType($filename);
+            $exts = $mimeTypes->getExtensions($mimeType);
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Can\'t get extension of "%s" (%s).', $filename, $e->getMessage()));
+        }
+
+        return $exts[0];
     }
 
     /**
@@ -137,5 +159,28 @@ class File
         }
 
         throw new RuntimeException(\sprintf('Can\'t get the real path of file "%s".', $path));
+    }
+
+    /**
+     * Tests if a file path is remote.
+     */
+    public static function isRemote(string $path): bool
+    {
+        return (bool) preg_match('~^(?:f|ht)tps?://~i', $path);
+    }
+
+    /**
+     * Tests if a remote file exists.
+     */
+    public static function isRemoteExists(string $path): bool
+    {
+        if (self::isRemote($path)) {
+            $handle = @fopen($path, 'r');
+            if (\is_resource($handle)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
