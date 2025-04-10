@@ -215,7 +215,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Fingerprints a file.
+     * Add hash to the file name.
      */
     public function fingerprint(): self
     {
