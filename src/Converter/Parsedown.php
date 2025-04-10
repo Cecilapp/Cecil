@@ -272,7 +272,7 @@ class Parsedown extends \ParsedownToc
         }
 
         // disable remote image handling?
-        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !$this->config->isEnabled('pages.body.images.remote')) {
+        if (Util\File::isRemote($InlineImage['element']['attributes']['src']) && !$this->config->isEnabled('pages.body.images.remote')) {
             return $InlineImage;
         }
 
