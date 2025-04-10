@@ -113,7 +113,7 @@ class Url
                     $lang = "$language/";
                 }
                 switch (true) {
-                    case Util\Url::isUrl($value): // $value is an external URL
+                    case Util\File::isRemote($value): // $value is an external URL
                         $this->url = $value;
                         break;
                     case $this->builder->getPages()->has($pageId): // $pageId exists in pages collection
