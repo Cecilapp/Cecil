@@ -246,6 +246,8 @@ class Cache implements CacheInterface
      */
     public function getContentFilePathname(string $path): string
     {
+        $path = str_replace(['https://', 'http://'], '', $path); // remove protocol (if URL)
+
         return Util::joinFile($this->cacheDir, 'files', $path);
     }
 
