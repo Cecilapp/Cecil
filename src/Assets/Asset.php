@@ -732,37 +732,17 @@ class Asset implements \ArrayAccess
      */
     private function locateFile(string $path, ?string $remote_fallback = null): string
     {
-        // in case of a remote file: save it locally and returns its path
-        if (Util\Url::isUrl($path)) {
-            $filePath = Util::joinFile($this->config->getAssetsRemotePath(), $this->buildPathFromUrl($path));
-            // cache file
-            if (!file_exists($filePath)) {
-                try {
-                    // get file content
-                    if (!Util\Url::isRemoteFileExists($path)) {
-                        throw new RuntimeException(\sprintf('Remote file "%s" doesn\'t exists', $path));
-                    }
-                    if (false === $content = Util\File::fileGetContents($path, true)) {
-                        throw new RuntimeException(\sprintf('Can\'t get content of remote file "%s".', $path));
-                    }
-                    if (\strlen($content) <= 1) {
-                        throw new RuntimeException(\sprintf('Remote file "%s" is empty.', $path));
-                    }
-                } catch (RuntimeException $e) {
-                    // if there is a fallback in assets, returns it
-                    if ($remote_fallback) {
-                        $filePath = Util::joinFile($this->config->getAssetsPath(), $remote_fallback);
-                        if (Util\File::getFS()->exists($filePath)) {
-                            return $filePath;
-                        }
-                        throw new RuntimeException(\sprintf('Fallback file "%s" doesn\'t exists.', $filePath));
-                    }
-                    throw new RuntimeException($e->getMessage());
-                }
-                Util\File::getFS()->dumpFile($filePath, $content);
+        // remote file
+        if (Util\File::isRemote($path)) {
+            $cacheKey = self::buildPathFromUrl($path);
+            $cache = new Cache($this->builder, 'assets/remote');
+            if (!$cache->has($cacheKey)) {
+                $cache->set($cacheKey, [
+                    'content' => $this->getRemoteFileContent($path),
+                    'path'    => $path,
+                ]);
             }
-
-            return $filePath;
+            return $cache->getContentFilePathname($path);
         }
 
         // checks in assets/
