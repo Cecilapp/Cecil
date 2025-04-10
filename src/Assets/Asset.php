@@ -867,39 +867,6 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Builds a relative path from a URL.
-     * Used for remote files.
-     */
-    private function buildPathFromUrl(string $url): string
-    {
-        // create a relative path from the URL
-        $urlHost = parse_url($url, PHP_URL_HOST);
-        $urlPath = parse_url($url, PHP_URL_PATH);
-        $urlQuery = parse_url($url, PHP_URL_QUERY);
-        $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-        // Google Fonts hack
-        if (Util\Str::endsWith($urlPath, '/css') || Util\Str::endsWith($urlPath, '/css2')) {
-            $extension = 'css';
-        }
-        $path = Page::slugify(\sprintf(
-            '%s%s%s%s',
-            $urlHost,
-            $this->sanitize($urlPath),
-            $urlQuery ? "-$urlQuery" : '',
-            $urlQuery && $extension ? ".$extension" : ''
-        ));
-        return $path;
-    }
-
-    /**
-     * Replaces some characters by '_'.
-     */
-    private function sanitize(string $string): string
-    {
-        return str_replace(['<', '>', ':', '"', '\\', '|', '?', '*'], '_', $string);
-    }
-
-    /**
      * Builds CDN image URL.
      */
     private function buildImageCdnUrl(): string
