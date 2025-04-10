@@ -70,15 +70,19 @@ class Asset implements \ArrayAccess
         $this->builder = $builder;
         $this->config = $builder->getConfig();
         $paths = \is_array($paths) ? $paths : [$paths];
+        // checks path(s)
         array_walk($paths, function ($path) {
+            // must be a string
             if (!\is_string($path)) {
                 throw new RuntimeException(\sprintf('The path of an asset must be a string ("%s" given).', \gettype($path)));
             }
+            //can't be empty
             if (empty($path)) {
                 throw new RuntimeException('The path of an asset can\'t be empty.');
             }
+            // can't be relative
             if (substr($path, 0, 2) == '..') {
-                throw new RuntimeException(\sprintf('The path of asset "%s" is wrong: it must be directly relative to "assets" or "static" directory, or a remote URL.', $path));
+                throw new RuntimeException(\sprintf('The path of asset "%s" is wrong: it must be directly relative to `assets` or `static` directory, or a remote URL.', $path));
             }
         });
         $this->data = [
@@ -170,12 +174,10 @@ class Asset implements \ArrayAccess
             }
         }
 
-        /*
         // cache
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $cache->createKeyFromString($this->data['content']));
         if (!$cache->has($cacheKey)) {
-            //
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
             // optimizing images files
@@ -184,7 +186,6 @@ class Asset implements \ArrayAccess
             }
         }
         $this->data = $cache->get($cacheKey);
-        */
 
         // fingerprinting
         if ($fingerprint && !$this->fingerprinted) {
@@ -623,7 +624,9 @@ class Asset implements \ArrayAccess
 
         $cache = new Cache($this->builder, 'assets');
         if (!Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
-            throw new RuntimeException(\sprintf('Can\'t add "%s" to assets list: file not found.', $this->data['path']));
+            throw new RuntimeException(
+                \sprintf('Can\'t add "%s" to assets list: file not found.', $this->data['path'])
+            );
         }
 
         $this->builder->addAsset($this->data['path']);
