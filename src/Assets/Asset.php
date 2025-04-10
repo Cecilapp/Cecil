@@ -777,6 +777,32 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Try to get remote file content.
+     * Returns file content or throw an exception.
+     *
+     * @throws RuntimeException
+     */
+    private function getRemoteFileContent(string $path): string
+    {
+        $content = '';
+        try {
+            if (!Util\File::isRemoteExists($path)) {
+                throw new RuntimeException(\sprintf('Remote file "%s" doesn\'t exists', $path));
+            }
+            if (false === $content = Util\File::fileGetContents($path, true)) {
+                throw new RuntimeException(\sprintf('Can\'t get content of remote file "%s".', $path));
+            }
+            if (\strlen($content) <= 1) {
+                throw new RuntimeException(\sprintf('Remote file "%s" is empty.', $path));
+            }
+        } catch (RuntimeException $e) {
+            throw new RuntimeException($e->getMessage());
+        }
+
+        return $content;
+    }
+
+    /**
      * Returns the width of an image/SVG.
      *
      * @throws RuntimeException
