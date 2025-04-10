@@ -260,7 +260,7 @@ class Cache implements CacheInterface
      */
     public function getContentFilePathname(string $path): string
     {
-        return Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $path);
+        return Util::joinFile($this->cacheDir, 'files', $path);
     }
 
     /**
