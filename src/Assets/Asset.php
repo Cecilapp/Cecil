@@ -716,7 +716,12 @@ class Asset implements \ArrayAccess
         $file['content'] = $content;
         $file['missing'] = false;
 
-        return $file;
+    /**
+     * Replaces some characters by '_'.
+     */
+    public static function sanitize(string $string): string
+    {
+        return str_replace(['<', '>', ':', '"', '\\', '|', '?', '*'], '_', $string);
     }
 
     /**
