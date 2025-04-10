@@ -720,15 +720,13 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Try to locate the file:
-     *   1. remotely (if $path is a valid URL)
-     *   2. in assets
-     *   3. in themes/<theme>/assets
-     *   4. in static
-     *   5. in themes/<theme>/static
      * Returns local file path or throw an exception.
-     *
-     * @return string local file path
+     * Try to locate the file in:
+     *   (1. remote file)
+     *   1. assets
+     *   2. themes/<theme>/assets
+     *   3. static
+     *   4. themes/<theme>/static
      *
      * @throws RuntimeException
      */
