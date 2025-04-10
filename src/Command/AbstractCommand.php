@@ -113,7 +113,7 @@ class AbstractCommand extends Command
             $i = 0;
             $message = '';
             do {
-                if ($e instanceof \Twig\Error\RuntimeError ) {
+                if ($e instanceof \Twig\Error\RuntimeError) {
                     continue;
                 }
                 $i++;
@@ -121,7 +121,7 @@ class AbstractCommand extends Command
                 if ($e->getFile()) {
                     $message .= \sprintf("   File: %s%s\n", $e->getFile(), $e->getLine() ? ":{$e->getLine()}" : '');
                 }
-            } while($e = $e->getPrevious());
+            } while ($e = $e->getPrevious());
             $this->io->error($message);
 
             exit(1);
