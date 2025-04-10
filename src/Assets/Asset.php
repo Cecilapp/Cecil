@@ -184,6 +184,12 @@ class Asset implements \ArrayAccess
             }
         }
         $this->data = $cache->get($cacheKey);
+        */
+
+        // fingerprinting
+        if ($fingerprint && !$this->fingerprinted) {
+            $this->fingerprint();
+        }
         // compiling (Sass files)
         if ($this->config->isEnabled('assets.compile')) {
             $this->compile();
