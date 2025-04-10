@@ -196,8 +196,6 @@ class Asset implements \ArrayAccess
 
     /**
      * Returns path.
-     *
-     * @throws RuntimeException
      */
     public function __toString(): string
     {
