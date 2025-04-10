@@ -79,8 +79,6 @@ class File
      */
     public static function getMediaType(string $filename): array
     {
-
-
         try {
             $mimeTypes = new MimeTypes();
             $mimeType = $mimeTypes->guessMimeType($filename);
