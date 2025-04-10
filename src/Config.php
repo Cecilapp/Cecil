@@ -397,14 +397,6 @@ class Config
         return Util::joinFile($this->getCachePath(), 'assets');
     }
 
-    /**
-     * Returns cache path of assets files.
-     */
-    public function getCacheAssetsFilesPath(): string
-    {
-        return Util::joinFile($this->getCacheAssetsPath(), 'files');
-    }
-
     /*
      * Output helpers.
      */
