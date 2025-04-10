@@ -80,17 +80,16 @@ class File
     public static function getMediaType(string $filename): array
     {
         try {
+            if (false !== $subtype = mime_content_type($filename)) {
+                return [explode('/', $subtype)[0], $subtype];
+            }
             $mimeTypes = new MimeTypes();
-            $mimeType = $mimeTypes->guessMimeType($filename);
+            $subtype = $mimeTypes->guessMimeType($filename);
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Can\'t get media type of "%s" (%s).', $filename, $e->getMessage()));
         }
-        $type = explode('/', $mimeType)[0];
 
-        return [
-            $type,     // type
-            $mimeType, // subtype
-        ];
+        return [explode('/', $subtype)[0], $subtype];
     }
 
     /**
