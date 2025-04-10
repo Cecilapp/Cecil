@@ -85,11 +85,14 @@ class File
             }
             $mimeTypes = new MimeTypes();
             $subtype = $mimeTypes->guessMimeType($filename);
+            if ($subtype === null) {
+                throw new RuntimeException('Can\'t guess the media type.');
+            }
+
+            return [explode('/', $subtype)[0], $subtype];
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Can\'t get media type of "%s" (%s).', $filename, $e->getMessage()));
         }
-
-        return [explode('/', $subtype)[0], $subtype];
     }
 
     /**
@@ -106,11 +109,11 @@ class File
             $mimeTypes = new MimeTypes();
             $mimeType = $mimeTypes->guessMimeType($filename);
             $exts = $mimeTypes->getExtensions($mimeType);
+
+            return $exts[0];
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Can\'t get extension of "%s" (%s).', $filename, $e->getMessage()));
         }
-
-        return $exts[0];
     }
 
     /**
