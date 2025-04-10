@@ -76,7 +76,7 @@ class Asset implements \ArrayAccess
             if (!\is_string($path)) {
                 throw new RuntimeException(\sprintf('The path of an asset must be a string ("%s" given).', \gettype($path)));
             }
-            //can't be empty
+            // can't be empty
             if (empty($path)) {
                 throw new RuntimeException('The path of an asset can\'t be empty.');
             }
