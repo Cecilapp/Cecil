@@ -73,7 +73,7 @@ class Convert extends AbstractStep
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
                 } catch (RuntimeException $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
+                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s:%s": %s', $e->getFile(), $e->getLine(), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
@@ -113,7 +113,7 @@ class Convert extends AbstractStep
             try {
                 $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
             } catch (RuntimeException $e) {
-                throw new RuntimeException($e->getMessage(), $page->getFilePath(), $e->getPageLine());
+                throw new RuntimeException($e->getMessage(), file: $page->getFilePath(), line: $e->getLine());
             }
             $page->setFmVariables($variables);
             $page->setVariables($variables);
