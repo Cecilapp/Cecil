@@ -268,7 +268,7 @@ class Cache implements CacheInterface
      */
     private function getFilePathname(string $key): string
     {
-        return Util::joinFile($this->cacheDir, \sprintf('%s.ser', $key));
+        return Util::joinFile($this->cacheDir, "$key.ser");
     }
 
     /**
