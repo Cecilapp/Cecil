@@ -48,12 +48,7 @@ class Asset implements \ArrayAccess
 
     /**
      * Creates an Asset from a file path, an array of files path or an URL.
-     *
-     * @param Builder      $builder
-     * @param string|array $paths
-     * @param array|null   $options
-     *
-     * options:
+     * Options:
      * [
      *     'fingerprint' => <bool>,
      *     'minify' => <bool>,
@@ -63,6 +58,10 @@ class Asset implements \ArrayAccess
      *     'remote_fallback' => <string>,
      *     'force_slash' => <bool>
      * ]
+     *
+     * @param Builder      $builder
+     * @param string|array $paths
+     * @param array|null   $options
      *
      * @throws RuntimeException
      */
@@ -83,20 +82,20 @@ class Asset implements \ArrayAccess
             }
         });
         $this->data = [
-            'file'           => '',    // absolute file path
-            'files'          => [],    // bundle: array of files path
-            'filename'       => '',    // bundle: filename
-            'path'           => '',    // public path to the file
-            'url'            => null,  // URL if it's a remote file
-            'missing'        => false, // if file not found but missing allowed: 'missing' is true
-            'ext'            => '',    // file extension
-            'type'           => '',    // file type (e.g.: image, audio, video, etc.)
-            'subtype'        => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
-            'size'           => 0,     // file size (in bytes)
-            'width'          => 0,     // image width (in pixels)
-            'height'         => 0,     // image height (in pixels)
-            'exif'           => [],    // exif data
-            'content'        => '',    // file content
+            'file'     => '',    // absolute file path
+            'files'    => [],    // array of files path
+            'filename' => '',    // file name
+            'path'     => '',    // path to the file
+            'url'      => null,  // URL if it's a remote file
+            'missing'  => false, // if file not found but missing allowed: 'missing' is true
+            'ext'      => '',    // file extension
+            'type'     => '',    // file type (e.g.: image, audio, video, etc.)
+            'subtype'  => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
+            'size'     => 0,     // file size (in bytes)
+            'width'    => 0,     // image width (in pixels)
+            'height'   => 0,     // image height (in pixels)
+            'exif'     => [],    // image exif data
+            'content'  => '',    // file content
         ];
 
         // handles options
