@@ -108,74 +108,74 @@ class Asset implements \ArrayAccess
         $force_slash = true;
         extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
-        // fill data array with file(s) informations
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $this->builder->getVersion());
-        if (!$cache->has($cacheKey)) {
-            $pathsCount = \count($paths);
-            $file = [];
-            for ($i = 0; $i < $pathsCount; $i++) {
-                // loads file(s)
-                $file[$i] = $this->loadFile($paths[$i], $ignore_missing, $remote_fallback, $force_slash);
-                // bundle: same type only
-                if ($i > 0) {
-                    if ($file[$i]['type'] != $file[$i - 1]['type']) {
-                        throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $file[$i]['type'], $file[$i - 1]['type']));
+        // locate file(s) and get content
+        $pathsCount = \count($paths);
+        for ($i = 0; $i < $pathsCount; $i++) {
+            try {
+                $filePath = $this->locateFile($paths[$i], $remote_fallback);
+                $type = Util\File::getMediaType($filePath)[0];
+                if ($i > 0) { // bundle
+                    if ($type != $this->data['type']) {
+                        throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $type, $this->data['type']));
+                    }
+                    $this->data['size'] += filesize($filePath);
+                    $this->data['content'] .= Util\File::fileGetContents($filePath);
+                    break;
+                }
+                $this->data['file'] = $filePath;
+                $this->data['files'][] = $filePath;
+                $this->data['filename'] = $paths[$i];
+                $this->data['path'] = $paths[$i];
+                $this->data['url'] = $paths[$i];
+                $this->data['ext'] = Util\File::getExtension($filePath);
+                $this->data['type'] = $type;
+                $this->data['subtype'] = Util\File::getMediaType($filePath)[0] . '/' . Util\File::getMediaType($filePath)[1];
+                // image: width, height and exif
+                if ($this->data['type'] == 'image') {
+                    $this->data['width'] = $this->getWidth();
+                    $this->data['height'] = $this->getHeight();
+                    if ($this->data['subtype'] == 'image/jpeg') {
+                        $this->data['exif'] = Util\File::readExif($file[$i]['filepath']);
                     }
                 }
-                // missing allowed = empty path
-                if ($file[$i]['missing']) {
+                // bundle default filename
+                if ($pathsCount > 1 && empty($filename)) {
+                    switch ($this->data['ext']) {
+                        case 'scss':
+                        case 'css':
+                            $filename = '/styles.css';
+                            break;
+                        case 'js':
+                            $filename = '/scripts.js';
+                            break;
+                        default:
+                            throw new RuntimeException(\sprintf('Asset bundle supports %s files only.', '.scss, .css and .js'));
+                    }
+                }
+                // bundle filename and path
+                if (!empty($filename)) {
+                    $this->data['filename'] = $filename;
+                    $this->data['path'] = '/' . ltrim($filename, '/');
+                }
+                // force leading slash
+                if ($force_slash) {
+                    $this->data['path'] = '/' . ltrim($paths[$i], '/');
+                }
+            } catch (RuntimeException $e) {
+                if ($ignore_missing) {
                     $this->data['missing'] = true;
-                    $this->data['path'] = $file[$i]['path'];
-
                     continue;
                 }
-                // set data
-                $this->data['content'] .= $file[$i]['content'];
-                $this->data['size'] += $file[$i]['size'];
-                if ($i == 0) {
-                    $this->data['file'] = $file[$i]['filepath'];
-                    $this->data['filename'] = $file[$i]['path'];
-                    $this->data['path'] = $file[$i]['path'];
-                    $this->data['url'] = $file[$i]['url'];
-                    $this->data['ext'] = $file[$i]['ext'];
-                    $this->data['type'] = $file[$i]['type'];
-                    $this->data['subtype'] = $file[$i]['subtype'];
-                    // image: width, height and exif
-                    if ($this->data['type'] == 'image') {
-                        $this->data['width'] = $this->getWidth();
-                        $this->data['height'] = $this->getHeight();
-                        if ($this->data['subtype'] == 'image/jpeg') {
-                            $this->data['exif'] = Util\File::readExif($file[$i]['filepath']);
-                        }
-                    }
-                    // bundle default filename
-                    if ($pathsCount > 1 && empty($filename)) {
-                        switch ($this->data['ext']) {
-                            case 'scss':
-                            case 'css':
-                                $filename = '/styles.css';
-                                break;
-                            case 'js':
-                                $filename = '/scripts.js';
-                                break;
-                            default:
-                                throw new RuntimeException(\sprintf('Asset bundle supports %s files only.', '.scss, .css and .js'));
-                        }
-                    }
-                    // bundle filename and path
-                    if (!empty($filename)) {
-                        $this->data['filename'] = $filename;
-                        $this->data['path'] = '/' . ltrim($filename, '/');
-                    }
-                }
-                // bundle files path
-                $this->data['files'][] = $file[$i]['filepath'];
+                throw new RuntimeException(\sprintf('Can\'t get asset file "%s" (%s).', $paths[$i], $e->getMessage()));
             }
-            // fingerprinting
-            if ($fingerprint) {
-                $this->fingerprint();
-            }
+        }
+
+        /*
+        // cache
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $cache->createKeyFromString($this->data['content']));
+        if (!$cache->has($cacheKey)) {
+            //
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
             // optimizing images files
@@ -651,74 +651,23 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Load a file and store extracted data in an array.
-     *
-     * @throws RuntimeException
-     *
-     * @return string[]
+     * Builds a relative path from a URL.
+     * Used for remote files.
      */
-    private function loadFile(string $path, bool $ignore_missing = false, ?string $remote_fallback = null, bool $force_slash = true): array
+    public static function buildPathFromUrl(string $url): string
     {
-        $file = [
-            'url'      => null,  // URM for remote file
-            'filepath' => null,  // absolute file path
-            'path'     => null,  // public path to the file
-            'ext'      => null,  // file extension
-            'type'     => null,  // file type (e.g.: image, audio, video, etc.)
-            'subtype'  => null,  // file media type (e.g.: image/png, audio/mp3, etc.)
-            'size'     => null,  // file size (in bytes)
-            'content'  => null,  // file content
-            'missing'  => false, // if file not found but missing allowed: 'missing' is true
-        ];
+        $host = parse_url($url, PHP_URL_HOST);
+        $path = parse_url($url, PHP_URL_PATH);
+        $query = parse_url($url, PHP_URL_QUERY);
+        $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
 
-        // try to find file locally and returns the file path
-        try {
-            $filePath = $this->locateFile($path, $remote_fallback);
-        } catch (RuntimeException $e) {
-            if ($ignore_missing) {
-                $file['path'] = $path;
-                $file['missing'] = true;
-
-                return $file;
-            }
-
-            throw new RuntimeException(\sprintf('Can\'t load asset file "%s" (%s).', $path, $e->getMessage()));
+        // Google Fonts hack
+        if (Util\Str::endsWith($path, '/css') || Util\Str::endsWith($path, '/css2')) {
+            $ext = 'css';
         }
 
-        // in case of an URL, update $path
-        if (Util\Url::isUrl($path)) {
-            $file['url'] = $path;
-            $path = Util::joinPath(
-                (string) $this->config->get('assets.target'),
-                Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsRemotePath())
-            );
-            // trick: the `remote_fallback` file is in assets/ dir (not in cache/assets/remote/
-            if (substr(Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsRemotePath()), 0, 2) == '..') {
-                $path = Util::joinPath(
-                    (string) $this->config->get('assets.target'),
-                    Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsPath())
-                );
-            }
-            $force_slash = true;
-        }
-
-        // force leading slash?
-        if ($force_slash) {
-            $path = '/' . ltrim($path, '/');
-        }
-
-        // get content and content type
-        $content = Util\File::fileGetContents($filePath);
-        list($type, $subtype) = Util\File::getMediaType($filePath);
-
-        $file['filepath'] = $filePath;
-        $file['path'] = $path;
-        $file['ext'] = pathinfo($path)['extension'] ?? '';
-        $file['type'] = $type;
-        $file['subtype'] = $subtype;
-        $file['size'] = filesize($filePath);
-        $file['content'] = $content;
-        $file['missing'] = false;
+        return Page::slugify(\sprintf('%s%s%s%s', $host, self::sanitize($path), $query ? "-$query" : '', $query && $ext ? ".$ext" : ''));
+    }
 
     /**
      * Replaces some characters by '_'.
