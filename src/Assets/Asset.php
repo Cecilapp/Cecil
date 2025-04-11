@@ -116,23 +116,25 @@ class Asset implements \ArrayAccess
         $pathsCount = \count($paths);
         for ($i = 0; $i < $pathsCount; $i++) {
             try {
-                $filePath = $this->locateFile($paths[$i], $remote_fallback);
-                $type = Util\File::getMediaType($filePath)[0];
+                $locate = $this->locateFile($paths[$i], $remote_fallback);
+                $file = $locate['file'];
+                $path = $locate['path'];
+                $type = Util\File::getMediaType($file)[0];
                 if ($i > 0) { // bundle
                     if ($type != $this->data['type']) {
                         throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $type, $this->data['type']));
                     }
                 }
-                $this->data['file'] = $filePath;
-                $this->data['files'][] = $filePath;
-                $this->data['filename'] = $paths[$i];
-                $this->data['path'] = $paths[$i];
+                $this->data['file'] = $file;
+                $this->data['files'][] = $file;
+                $this->data['filename'] = $path;
+                $this->data['path'] = $path;
                 $this->data['url'] = $paths[$i];
-                $this->data['ext'] = Util\File::getExtension($filePath);
+                $this->data['ext'] = Util\File::getExtension($file);
                 $this->data['type'] = $type;
-                $this->data['subtype'] = Util\File::getMediaType($filePath)[1];
-                $this->data['size'] += filesize($filePath);
-                $this->data['content'] .= Util\File::fileGetContents($filePath);
+                $this->data['subtype'] = Util\File::getMediaType($file)[1];
+                $this->data['size'] += filesize($file);
+                $this->data['content'] .= Util\File::fileGetContents($file);
                 // fingerprinting
                 if ($fingerprint && !$this->fingerprinted) {
                     $this->fingerprint();
@@ -680,7 +682,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns local file path or throw an exception.
+     * Returns local file path and updated path, or throw an exception.
      * Try to locate the file in:
      *   (1. remote file)
      *   1. assets
@@ -688,48 +690,68 @@ class Asset implements \ArrayAccess
      *   3. static
      *   4. themes/<theme>/static
      *
+     * @return array
+     *
      * @throws RuntimeException
+     *
+     * @todo manage remote fallback
      */
-    private function locateFile(string $path, ?string $remote_fallback = null): string
+    private function locateFile(string $path, ?string $remote_fallback = null): array
     {
         // remote file
         if (Util\File::isRemote($path)) {
-            $cacheKey = self::buildPathFromUrl($path);
+            $url = $path;
+            $path = self::buildPathFromUrl($path);
             $cache = new Cache($this->builder, 'assets/remote');
-            if (!$cache->has($cacheKey)) {
-                $cache->set($cacheKey, [
-                    'content' => $this->getRemoteFileContent($path),
+            if (!$cache->has($path)) {
+                $cache->set($path, [
+                    'content' => $this->getRemoteFileContent($url),
                     'path'    => $path,
                 ]);
             }
-            return $cache->getContentFilePathname($path);
+            return [
+                'file' => $cache->getContentFilePathname($path),
+                'path' => $path,
+            ];
         }
 
         // checks in assets/
         $filePath = Util::joinFile($this->config->getAssetsPath(), $path);
         if (Util\File::getFS()->exists($filePath)) {
-            return $filePath;
+            return [
+                'file' => $filePath,
+                'path' => $path,
+            ];
         }
 
         // checks in each themes/<theme>/assets/
         foreach ($this->config->getTheme() ?? [] as $theme) {
             $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $path);
             if (Util\File::getFS()->exists($filePath)) {
-                return $filePath;
+                return [
+                    'file' => $filePath,
+                    'path' => $path,
+                ];
             }
         }
 
         // checks in static/
         $filePath = Util::joinFile($this->config->getStaticTargetPath(), $path);
         if (Util\File::getFS()->exists($filePath)) {
-            return $filePath;
+            return [
+                'file' => $filePath,
+                'path' => $path,
+            ];
         }
 
         // checks in each themes/<theme>/static/
         foreach ($this->config->getTheme() ?? [] as $theme) {
             $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
             if (Util\File::getFS()->exists($filePath)) {
-                return $filePath;
+                return [
+                    'file' => $filePath,
+                    'path' => $path,
+                ];
             }
         }
 
