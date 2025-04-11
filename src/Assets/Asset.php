@@ -165,7 +165,7 @@ class Asset implements \ArrayAccess
                     $this->data['missing'] = true;
                     continue;
                 }
-                throw new RuntimeException(\sprintf('Can\'t get asset file "%s" (%s).', $paths[$i], $e->getMessage()));
+                throw new RuntimeException(\sprintf('Can\'t handle asset "%s" (%s).', $paths[$i], $e->getMessage()));
             }
         }
 
@@ -733,7 +733,7 @@ class Asset implements \ArrayAccess
             }
         }
 
-        throw new RuntimeException(\sprintf('Can\'t find file "%s".', $path));
+        throw new RuntimeException(\sprintf('Can\'t locate file "%s".', $path));
     }
 
     /**
