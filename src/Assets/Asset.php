@@ -165,10 +165,6 @@ class Asset implements \ArrayAccess
                 // bundle files path
                 $this->data['files'][] = $file[$i]['filepath'];
             }
-            // fingerprinting
-            if ($fingerprint) {
-                $this->fingerprint();
-            }
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
             // optimizing images files
@@ -177,6 +173,10 @@ class Asset implements \ArrayAccess
             }
         }
         $this->data = $cache->get($cacheKey);
+        // fingerprinting
+        if ($fingerprint) {
+            $this->fingerprint();
+        }
         // compiling (Sass files)
         if ((bool) $this->config->get('assets.compile.enabled')) {
             $this->compile();
@@ -208,7 +208,7 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Fingerprints a file.
+     * Add hash to the file name.
      */
     public function fingerprint(): self
     {
@@ -216,12 +216,19 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $fingerprint = hash('md5', $this->data['content']);
-        $this->data['path'] = preg_replace(
-            '/\.' . $this->data['ext'] . '$/m',
-            ".$fingerprint." . $this->data['ext'],
-            $this->data['path']
-        );
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this, ['fingerprint']);
+        if (!$cache->has($cacheKey)) {
+            $fingerprint = hash('md5', $this->data['content']);
+            $this->data['path'] = preg_replace(
+                '/\.' . $this->data['ext'] . '$/m',
+                ".$fingerprint." . $this->data['ext'],
+                $this->data['path']
+            );
+            $cache->set($cacheKey, $this->data);
+            $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
+        }
+        $this->data = $cache->get($cacheKey);
 
         $this->fingerprinted = true;
 
