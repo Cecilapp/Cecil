@@ -110,15 +110,13 @@ class AbstractCommand extends Command
             if ($this->io === null) {
                 $this->io = new SymfonyStyle($input, $output);
             }
-            $i = 0;
             $message = '';
             do {
                 if ($e instanceof \Twig\Error\RuntimeError) {
                     continue;
                 }
-                $i++;
-                $message .= "$i. {$e->getMessage()}\n";
-                if ($e->getFile()) {
+                $message .= "{$e->getMessage()}\n";
+                if ($e->getFile() && $e instanceof RuntimeException) {
                     $message .= \sprintf("   File: %s%s\n", $e->getFile(), $e->getLine() ? ":{$e->getLine()}" : '');
                 }
             } while ($e = $e->getPrevious());
