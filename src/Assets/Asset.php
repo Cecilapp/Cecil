@@ -88,7 +88,6 @@ class Asset implements \ArrayAccess
         $this->data = [
             'file'     => '',    // absolute file path
             'files'    => [],    // array of files path
-            'filename' => '',    // file name
             'path'     => '',    // path to the file
             'url'      => null,  // URL if it's a remote file
             'missing'  => false, // if file not found but missing allowed: 'missing' is true
@@ -116,6 +115,7 @@ class Asset implements \ArrayAccess
         $pathsCount = \count($paths);
         for ($i = 0; $i < $pathsCount; $i++) {
             try {
+                $this->data['missing'] = false;
                 $locate = $this->locateFile($paths[$i], $remote_fallback);
                 $file = $locate['file'];
                 $path = $locate['path'];
@@ -127,18 +127,13 @@ class Asset implements \ArrayAccess
                 }
                 $this->data['file'] = $file;
                 $this->data['files'][] = $file;
-                $this->data['filename'] = $path;
                 $this->data['path'] = $path;
-                $this->data['url'] = $paths[$i];
+                $this->data['url'] = Util\File::isRemote($paths[$i]) ? $paths[$i] : null;
                 $this->data['ext'] = Util\File::getExtension($file);
                 $this->data['type'] = $type;
                 $this->data['subtype'] = Util\File::getMediaType($file)[1];
                 $this->data['size'] += filesize($file);
                 $this->data['content'] .= Util\File::fileGetContents($file);
-                // fingerprinting
-                if ($fingerprint && !$this->fingerprinted) {
-                    $this->fingerprint();
-                }
                 // bundle default filename
                 if ($pathsCount > 1 && empty($filename)) {
                     switch ($this->data['ext']) {
@@ -155,7 +150,6 @@ class Asset implements \ArrayAccess
                 }
                 // bundle filename and path
                 if (!empty($filename)) {
-                    $this->data['filename'] = $filename;
                     $this->data['path'] = '/' . ltrim($filename, '/');
                 }
                 // force root slash
@@ -171,9 +165,14 @@ class Asset implements \ArrayAccess
             }
         }
 
+        // missing
+        if ($this->data['missing']) {
+            return;
+        }
+
         // cache
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $cache->createKeyFromString($this->data['content']));
+        $cacheKey = $cache->createKeyFromAsset($this);
         if (!$cache->has($cacheKey)) {
             // image: width, height and exif
             if ($this->data['type'] == 'image') {
@@ -192,6 +191,10 @@ class Asset implements \ArrayAccess
         }
         $this->data = $cache->get($cacheKey);
 
+        // fingerprinting
+        if ($fingerprint) {
+            $this->fingerprint();
+        }
         // compiling (Sass files)
         if ($this->config->isEnabled('assets.compile')) {
             $this->compile();
@@ -229,12 +232,19 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $fingerprint = hash('md5', $this->data['content']);
-        $this->data['path'] = preg_replace(
-            '/\.' . $this->data['ext'] . '$/m',
-            ".$fingerprint." . $this->data['ext'],
-            $this->data['path']
-        );
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this, ['fingerprint']);
+        if (!$cache->has($cacheKey)) {
+            $fingerprint = hash('md5', $this->data['content']);
+            $this->data['path'] = preg_replace(
+                '/\.' . $this->data['ext'] . '$/m',
+                ".$fingerprint." . $this->data['ext'],
+                $this->data['path']
+            );
+            $cache->set($cacheKey, $this->data);
+            $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
+        }
+        $this->data = $cache->get($cacheKey);
 
         $this->fingerprinted = true;
 
