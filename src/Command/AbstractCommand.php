@@ -117,7 +117,7 @@ class AbstractCommand extends Command
                 }
                 $message .= "{$e->getMessage()}\n";
                 if ($e->getFile() && $e instanceof RuntimeException) {
-                    $message .= \sprintf("   File: %s%s\n", $e->getFile(), $e->getLine() ? ":{$e->getLine()}" : '');
+                    $message .= \sprintf("→ %s%s\n", $e->getFile(), $e->getLine() ? ":{$e->getLine()}" : '');
                 }
             } while ($e = $e->getPrevious());
             $this->io->error($message);
