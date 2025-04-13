@@ -172,7 +172,7 @@ class Cache implements CacheInterface
 
     /**
      * Creates key with the MD5 hash of a string.
-     * $suffix is optional and can be used to create a unique key for the same string.
+     * $suffix is optional to add a human readable suffix to the key (e.g. "css", "js").
      */
     public function createKeyFromString(string $value, ?string $suffix = null): string
     {
@@ -194,7 +194,7 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key from an Asset: "$filename_$ext_$tags__VERSION__MD5".
+     * Creates key from an Asset: "$path_$ext_$tags__VERSION__MD5".
      */
     public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
     {
@@ -202,7 +202,7 @@ class Cache implements CacheInterface
 
         return self::sanitizeKey(\sprintf(
             '%s%s%s__%s',
-            $asset['filename'],
+            $asset['path'],
             "_{$asset['ext']}",
             $tags ? "_$tags" : '',
             $this->createKeyFromString($asset['content'] ?? '')
