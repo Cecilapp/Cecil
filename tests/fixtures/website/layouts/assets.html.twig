@@ -212,6 +212,12 @@
     </blockquote>
   </p>
   <p>
+    <pre>{% verbatim %}{{ asset('japon_sample.jpg').exif.IFD0 }}{% endverbatim %}</pre>
+    <blockquote>
+      {{- d(asset('images/japon_sample.jpg').exif.IFD0) -}}
+    </blockquote>
+  </p>
+  <p>
     <pre>{% verbatim %}{{ asset('japon_sample.jpg').exif.GPS }}{% endverbatim %}</pre>
     <blockquote>
       {{- d(asset('images/japon_sample.jpg').exif.GPS) -}}
