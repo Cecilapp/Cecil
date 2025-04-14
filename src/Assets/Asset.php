@@ -191,15 +191,15 @@ class Asset implements \ArrayAccess
         }
         $this->data = $cache->get($cacheKey);
 
-        // fingerprinting
-        if ($fingerprint) {
-            $this->fingerprint();
-        }
         // compiling Sass files
         $this->compile();
         // minifying (CSS and JavScript files)
         if ($minify) {
             $this->minify();
+        }
+        // fingerprinting
+        if ($fingerprint) {
+            $this->fingerprint();
         }
     }
 
@@ -219,34 +219,6 @@ class Asset implements \ArrayAccess
         }
 
         return $this->data['path'];
-    }
-
-    /**
-     * Add hash to the file name.
-     */
-    public function fingerprint(): self
-    {
-        if ($this->fingerprinted) {
-            return $this;
-        }
-
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, ['fingerprint']);
-        if (!$cache->has($cacheKey)) {
-            $fingerprint = hash('md5', $this->data['content']);
-            $this->data['path'] = preg_replace(
-                '/\.' . $this->data['ext'] . '$/m',
-                ".$fingerprint." . $this->data['ext'],
-                $this->data['path']
-            );
-            $cache->set($cacheKey, $this->data);
-            $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
-        }
-        $this->data = $cache->get($cacheKey);
-
-        $this->fingerprinted = true;
-
-        return $this;
     }
 
     /**
@@ -328,8 +300,8 @@ class Asset implements \ArrayAccess
             $this->data['subtype'] = 'text/css';
             $this->data['content'] = $scssPhp->compileString($this->data['content'])->getCss();
             $this->data['size'] = \strlen($this->data['content']);
-            $this->compiled = true;
             $cache->set($cacheKey, $this->data);
+            $this->compiled = true;
             $this->builder->getLogger()->debug(\sprintf('Asset compiled: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
@@ -378,18 +350,34 @@ class Asset implements \ArrayAccess
                 default:
                     throw new RuntimeException(\sprintf('Not able to minify "%s".', $this->data['path']));
             }
-            $this->data['path'] = preg_replace(
-                '/\.' . $this->data['ext'] . '$/m',
-                '.min.' . $this->data['ext'],
-                $this->data['path']
-            );
             $this->data['content'] = $minifier->minify();
             $this->data['size'] = \strlen($this->data['content']);
-            $this->minified = true;
             $cache->set($cacheKey, $this->data);
+            $this->minified = true;
             $this->builder->getLogger()->debug(\sprintf('Asset minified: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
+
+        return $this;
+    }
+
+    /**
+     * Add hash to the file name.
+     */
+    public function fingerprint(): self
+    {
+        if ($this->fingerprinted) {
+            return $this;
+        }
+
+        $fingerprint = hash('md5', $this->data['content']);
+        $this->data['path'] = preg_replace(
+            '/\.' . $this->data['ext'] . '$/m',
+            ".$fingerprint." . $this->data['ext'],
+            $this->data['path']
+        );
+        $this->fingerprinted = true;
+        $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
 
         return $this;
     }
