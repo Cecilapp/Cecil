@@ -344,7 +344,7 @@ class Asset implements \ArrayAccess
      */
     public function minify(): self
     {
-        // disable minify to preserve inline source map
+        // in debug mode, disable minify to preserve inline source map
         if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
             return $this;
         }
