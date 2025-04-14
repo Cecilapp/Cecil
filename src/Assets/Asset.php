@@ -349,22 +349,20 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        if ($this->minified) {
-            return $this;
-        }
-
-        if ($this->data['ext'] == 'scss') {
-            $this->compile();
-        }
-
         if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
             return $this;
         }
 
         if (substr($this->data['path'], -8) == '.min.css' || substr($this->data['path'], -7) == '.min.js') {
             $this->minified = true;
+        }
 
+        if ($this->minified) {
             return $this;
+        }
+
+        if ($this->data['ext'] == 'scss') {
+            $this->compile();
         }
 
         $cache = new Cache($this->builder, 'assets');
