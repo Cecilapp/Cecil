@@ -134,7 +134,7 @@ return [
         'dir' => 'assets', // assets files directory
         'target' => 'assets', // where processed assets are saved (in output directory)
         'fingerprint' => true, // enables fingerprinting
-        'compile' => [ // disable Sass files compilation with `false`
+        'compile' => [ // Sass files compilation
             'style' => 'expanded', // compilation style (`expanded` or `compressed`)
             'import' => ['sass', 'scss', 'node_modules'], // list of imported directories
             'sourcemap' => false, // enables sourcemap in debug mode
