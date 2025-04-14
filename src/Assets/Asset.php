@@ -195,10 +195,8 @@ class Asset implements \ArrayAccess
         if ($fingerprint) {
             $this->fingerprint();
         }
-        // compiling (Sass files)
-        if ($this->config->isEnabled('assets.compile')) {
-            $this->compile();
-        }
+        // compiling Sass files
+        $this->compile();
         // minifying (CSS and JavScript files)
         if ($minify) {
             $this->minify();
