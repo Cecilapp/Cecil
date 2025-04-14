@@ -724,40 +724,40 @@ class Asset implements \ArrayAccess
         }
 
         // checks in assets/
-        $filePath = Util::joinFile($this->config->getAssetsPath(), $path);
-        if (Util\File::getFS()->exists($filePath)) {
+        $file = Util::joinFile($this->config->getAssetsPath(), $path);
+        if (Util\File::getFS()->exists($file)) {
             return [
-                'file' => $filePath,
+                'file' => $file,
                 'path' => $path,
             ];
         }
 
         // checks in each themes/<theme>/assets/
         foreach ($this->config->getTheme() ?? [] as $theme) {
-            $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $path);
-            if (Util\File::getFS()->exists($filePath)) {
+            $file = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $path);
+            if (Util\File::getFS()->exists($file)) {
                 return [
-                    'file' => $filePath,
+                    'file' => $file,
                     'path' => $path,
                 ];
             }
         }
 
         // checks in static/
-        $filePath = Util::joinFile($this->config->getStaticTargetPath(), $path);
-        if (Util\File::getFS()->exists($filePath)) {
+        $file = Util::joinFile($this->config->getStaticTargetPath(), $path);
+        if (Util\File::getFS()->exists($file)) {
             return [
-                'file' => $filePath,
+                'file' => $file,
                 'path' => $path,
             ];
         }
 
         // checks in each themes/<theme>/static/
         foreach ($this->config->getTheme() ?? [] as $theme) {
-            $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
-            if (Util\File::getFS()->exists($filePath)) {
+            $file = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
+            if (Util\File::getFS()->exists($file)) {
                 return [
-                    'file' => $filePath,
+                    'file' => $file,
                     'path' => $path,
                 ];
             }
