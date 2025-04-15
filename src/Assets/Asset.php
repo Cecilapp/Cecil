@@ -222,6 +222,34 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Add hash to the file name.
+     */
+    public function fingerprint(): self
+    {
+        if ($this->fingerprinted) {
+            return $this;
+        }
+
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this, ['fingerprint']);
+        if (!$cache->has($cacheKey)) {
+            $fingerprint = hash('md5', $this->data['content']);
+            $this->data['path'] = preg_replace(
+                '/\.' . $this->data['ext'] . '$/m',
+                ".$fingerprint." . $this->data['ext'],
+                $this->data['path']
+            );
+            $cache->set($cacheKey, $this->data);
+            $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
+        }
+        $this->data = $cache->get($cacheKey);
+
+        $this->fingerprinted = true;
+
+        return $this;
+    }
+
+    /**
      * Compiles a SCSS.
      *
      * @throws RuntimeException
