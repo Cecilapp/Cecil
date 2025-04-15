@@ -4,10 +4,12 @@ date: 2020/06/08
 updated: 2025/04/02
 typora-root-url: ../../static
 ---
-<!-- break -->
-[toc]
+# Images in Markdown
 
-# Original image
+[toc]
+<!-- break -->
+
+## Local image
 
 ```markdown
 ![Alt text](/images/cecil-logo.png)
@@ -15,6 +17,13 @@ typora-root-url: ../../static
 
 ![Alt text](/images/cecil-logo.png)
 
+## External image
+
+```markdown
+![Jamstatic](https://jamstatic.fr/assets/images/twitter-card.png)
+```
+
+![Jamstatic](https://jamstatic.fr/assets/images/twitter-card.png)
 
 ### With fallback
 
@@ -53,18 +62,18 @@ typora-root-url: ../../static
 ## Responsive image
 
 ```markdown
-![Alt text](/cecil-logo-1000.png)
+![Alt text](/images/cecil-logo-1000.png)
 ```
 
-![Alt text](/cecil-logo-1000.png)
+![Alt text](/images/cecil-logo-1000.png)
 
 ## Animated GIF
 
 ```markdown
-![Alt text](/nyan-cat.gif)
+![Alt text](/images/nyan-cat.gif)
 ```
 
-![Alt text](/nyan-cat.gif)
+![Alt text](/images/nyan-cat.gif)
 
 ## Placeholder
 
