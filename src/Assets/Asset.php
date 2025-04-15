@@ -766,7 +766,6 @@ class Asset implements \ArrayAccess
      */
     private function getRemoteFileContent(string $path): string
     {
-        $content = '';
         try {
             if (!Util\File::isRemoteExists($path)) {
                 throw new RuntimeException(\sprintf('Remote file "%s" doesn\'t exists', $path));
