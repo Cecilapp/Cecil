@@ -40,6 +40,34 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
+    public function set($key, $value, $ttl = null): bool
+    {
+        try {
+            $key = self::sanitizeKey($key);
+            $this->prune($key);
+            // put file content in a dedicated file
+            if (\is_array($value) && !empty($value['content']) && !empty($value['path'])) {
+                Util\File::getFS()->dumpFile($this->getContentFilePathname($value['path']), $value['content']);
+                unset($value['content']);
+            }
+            // serialize data
+            $data = serialize([
+                'value'      => $value,
+                'expiration' => time() + $this->duration($ttl),
+            ]);
+            Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->error($e->getMessage());
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function has($key): bool
     {
         $key = self::sanitizeKey($key);
@@ -82,34 +110,6 @@ class Cache implements CacheInterface
         }
 
         return $data['value'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function set($key, $value, $ttl = null): bool
-    {
-        try {
-            $key = self::sanitizeKey($key);
-            $this->prune($key);
-            // put file content in a dedicated file
-            if (\is_array($value) && !empty($value['content']) && !empty($value['path'])) {
-                Util\File::getFS()->dumpFile($this->getContentFilePathname($value['path']), $value['content']);
-                unset($value['content']);
-            }
-            // serialize data
-            $data = serialize([
-                'value'      => $value,
-                'expiration' => time() + $this->duration($ttl),
-            ]);
-            Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
-        } catch (\Exception $e) {
-            $this->builder->getLogger()->error($e->getMessage());
-
-            return false;
-        }
-
-        return true;
     }
 
     /**
