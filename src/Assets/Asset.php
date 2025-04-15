@@ -370,14 +370,20 @@ class Asset implements \ArrayAccess
             return $this;
         }
 
-        $fingerprint = hash('md5', $this->data['content']);
-        $this->data['path'] = preg_replace(
-            '/\.' . $this->data['ext'] . '$/m',
-            ".$fingerprint." . $this->data['ext'],
-            $this->data['path']
-        );
-        $this->fingerprinted = true;
-        $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this, ['fingerprinted']);
+        if (!$cache->has($cacheKey)) {
+            $hash = hash('md5', $this->data['content']);
+            $this->data['path'] = preg_replace(
+                '/\.' . $this->data['ext'] . '$/m',
+                ".$hash." . $this->data['ext'],
+                $this->data['path']
+            );
+            $cache->set($cacheKey, $this->data);
+            $this->fingerprinted = true;
+            $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
+        }
+        $this->data = $cache->get($cacheKey);
 
         return $this;
     }
