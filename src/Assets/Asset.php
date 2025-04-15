@@ -148,7 +148,7 @@ class Asset implements \ArrayAccess
                             throw new RuntimeException(\sprintf('Asset bundle supports %s files only.', '.scss, .css and .js'));
                     }
                 }
-                // bundle filename and path
+                // apply bundle filename to path
                 if (!empty($filename)) {
                     $this->data['path'] = '/' . ltrim($filename, '/');
                 }
