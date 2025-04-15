@@ -310,7 +310,7 @@ class Cache implements CacheInterface
             return $ttl;
         }
         if ($ttl instanceof \DateInterval) {
-            return (int)$ttl->format('%s');
+            return (int) $ttl->d * 86400 + $ttl->h * 3600 + $ttl->i * 60 + $ttl->s;
         }
 
         throw new \InvalidArgumentException('TTL values must be one of null, int, \DateInterval');
