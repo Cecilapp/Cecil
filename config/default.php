@@ -132,7 +132,7 @@ return [
     ],
     'assets' => [ // assets: CSS, JS, images, etc.
         'dir' => 'assets', // assets files directory
-        'target' => 'assets', // where processed assets are saved (in output directory)
+        'target' => '', // where processed assets are saved (in output directory)
         'fingerprint' => true, // enables fingerprinting
         'compile' => [ // Sass files compilation
             'style' => 'expanded', // compilation style (`expanded` or `compressed`)
