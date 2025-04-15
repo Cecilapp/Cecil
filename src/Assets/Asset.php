@@ -55,7 +55,7 @@ class Asset implements \ArrayAccess
      *     'optimize' => <bool>,
      *     'filename' => <string>,
      *     'ignore_missing' => <bool>,
-     *     'remote_fallback' => <string>,
+     *     'fallback' => <string>,
      *     'force_slash' => <bool>
      * ]
      *
@@ -108,7 +108,7 @@ class Asset implements \ArrayAccess
         $optimize = $this->config->isEnabled('assets.images.optimize');
         $filename = '';
         $ignore_missing = false;
-        $remote_fallback = null;
+        $fallback = null;
         $force_slash = true;
         extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
@@ -117,7 +117,7 @@ class Asset implements \ArrayAccess
         for ($i = 0; $i < $pathsCount; $i++) {
             try {
                 $this->data['missing'] = false;
-                $locate = $this->locateFile($paths[$i], $remote_fallback);
+                $locate = $this->locateFile($paths[$i], $fallback);
                 $file = $locate['file'];
                 $path = $locate['path'];
                 $type = Util\File::getMediaType($file)[0];
@@ -685,6 +685,7 @@ class Asset implements \ArrayAccess
 
     /**
      * Returns local file path and updated path, or throw an exception.
+     *
      * Try to locate the file in:
      *   (1. remote file)
      *   1. assets
@@ -692,29 +693,34 @@ class Asset implements \ArrayAccess
      *   3. static
      *   4. themes/<theme>/static
      *
-     * @return array
+     * If $fallback is set, it will be used if the file is not found.
      *
      * @throws RuntimeException
-     *
-     * @todo manage remote fallback
      */
-    private function locateFile(string $path, ?string $remote_fallback = null): array
+    private function locateFile(string $path, ?string $fallback = null): array
     {
         // remote file
         if (Util\File::isRemote($path)) {
-            $url = $path;
-            $path = self::buildPathFromUrl($path);
-            $cache = new Cache($this->builder, 'assets/remote');
-            if (!$cache->has($path)) {
-                $cache->set($path, [
-                    'content' => $this->getRemoteFileContent($url),
-                    'path'    => $path,
-                ], \DateInterval::createFromDateString('7 days'));
+            try {
+                $content = $this->getRemoteFileContent($path);
+                $path = self::buildPathFromUrl($path);
+                $cache = new Cache($this->builder, 'assets/remote');
+                if (!$cache->has($path)) {
+                    $cache->set($path, [
+                        'content' => $content,
+                        'path'    => $path,
+                    ], \DateInterval::createFromDateString('7 days'));
+                }
+                return [
+                    'file' => $cache->getContentFilePathname($path),
+                    'path' => $path,
+                ];
+            } catch (RuntimeException $e) {
+                if ($fallback === null) {
+                    throw new RuntimeException($e->getMessage(), previous: $e);
+                }
+                $path = $fallback;
             }
-            return [
-                'file' => $cache->getContentFilePathname($path),
-                'path' => $path,
-            ];
         }
 
         // checks in assets/

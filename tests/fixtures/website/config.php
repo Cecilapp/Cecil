@@ -127,7 +127,7 @@ return [
                 'lazy' => true,
                 'caption' => true,
                 'remote' => [
-                    'fallback' => 'images/cecil-logo.png',
+                    'fallback' => 'images/640x480.png',
                 ],
                 'class' => 'class_img',
                 'placeholder' => 'color',

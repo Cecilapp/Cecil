@@ -15,6 +15,15 @@ typora-root-url: ../../static
 
 ![Alt text](/images/cecil-logo.png)
 
+
+### With fallback
+
+```markdown
+![Not found](https://example.com/images/not-found.png)
+```
+
+![Not found](https://example.com/images/not-found.png)
+
 ## Resize
 
 ### Image resized to 100px
