@@ -108,6 +108,9 @@ class File
             // guess the extension
             $mimeTypes = new MimeTypes();
             $mimeType = $mimeTypes->guessMimeType($filename);
+            if ($mimeType === null) {
+                throw new RuntimeException('Can\'t guess the media type.');
+            }
             $exts = $mimeTypes->getExtensions($mimeType);
 
             return $exts[0];
