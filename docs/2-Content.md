@@ -198,7 +198,7 @@ _Example:_
 <a href="<url>" rel="noopener noreferrer nofollow">Link to another website</a>
 ```
 
-You can change this behavior with [`pages.body.links.external` options](4-Configuration.md#pages-body).
+You can change this behavior with [`pages.body.links.external` options](4-Configuration.md#pages-body-links).
 
 #### Embedded links
 
@@ -274,7 +274,7 @@ Is converted to:
 ```
 
 :::info
-You can disable this behavior with the attribute `{loading=eager}` or with the [`lazy` option](4-Configuration.md#pages-body).
+You can disable this behavior with the attribute `{loading=eager}` or with the [`lazy` option](4-Configuration.md#pages-body-images).
 :::
 
 #### Decoding
@@ -294,12 +294,12 @@ Is converted to:
 ```
 
 :::info
-You can disable this behavior with the attribute `{decoding=auto}` or with the [`decoding` option](4-Configuration.md#pages-body).
+You can disable this behavior with the attribute `{decoding=auto}` or with the [`decoding` option](4-Configuration.md#pages-body-images).
 :::
 
 #### Resize
 
-Each image in the _body_ can be resized automatically by setting a smaller width than the original one, with the extra attribute `{width=X}` (the [`resize` option](4-Configuration.md#body) must be enabled).
+Each image in the _body_ can be resized automatically by setting a smaller width than the original one, with the extra attribute `{width=X}` (the [`resize` option](4-Configuration.md#body-images) must be enabled).
 
 _Example:_
 
@@ -323,7 +323,7 @@ This feature requires [GD extension](https://www.php.net/manual/book.image.php) 
 
 #### Formats
 
-If the [`formats` option](4-Configuration.md#pages-body) is defined, alternatives images are created and added.
+If the [`formats` option](4-Configuration.md#pages-body-images) is defined, alternatives images are created and added.
 
 _Example:_
 
@@ -347,7 +347,7 @@ Please note that **not all image formats** are always included in the PHP image 
 
 #### Responsive
 
-If the [`responsive` option](4-Configuration.md#pages-body) is enabled, then all images in the _body_ will be automatically "responsived".
+If the [`responsive` option](4-Configuration.md#pages-body-images) is enabled, then all images in the _body_ will be automatically "responsived".
 
 _Example:_
 
@@ -393,11 +393,11 @@ You can combine `formats` and `responsive` options.
 
 #### CSS class
 
-You can set a default value to the `class` attribute of each image with the [`class` option](4-Configuration.md#pages-body).
+You can set a default value to the `class` attribute of each image with the [`class` option](4-Configuration.md#pages-body-images).
 
 #### Caption
 
-The optional title can be used to create a caption (`figcaption`) automatically by enabling the [`caption` option](4-Configuration.md#pages-body).
+The optional title can be used to create a caption (`figcaption`) automatically by enabling the [`caption` option](4-Configuration.md#pages-body-images).
 
 _Example:_
 
@@ -435,7 +435,7 @@ _Examples:_
 ```
 
 :::tips
-You can set a value to the `placeholder` attribute for each image with the [`placeholder` option](4-Configuration.md#pages-body).
+You can set a value to the `placeholder` attribute for each image with the [`placeholder` option](4-Configuration.md#pages-body-images).
 :::
 
 :::warning
@@ -522,7 +522,7 @@ caution
 
 ### Syntax highlight
 
-Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#pages-body) option to `true`.
+Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#pages-body-highlight) option to `true`.
 
 _Example:_
 
@@ -662,7 +662,7 @@ redirect: "https://arnaudligny.fr"
 ```
 
 :::info
-Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig) template.
+Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig) template.
 :::
 
 ### alias
@@ -842,7 +842,7 @@ exclude: true
 ```
 
 :::info
-`exclude` is different from [`published`](#predefined): an excluded page is published but hidden from list pages.
+`exclude` is different from [`published`](#predefined-variables): an excluded page is published but hidden from list pages.
 :::
 
 ## Multilingual
