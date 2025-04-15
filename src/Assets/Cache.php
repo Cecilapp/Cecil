@@ -180,7 +180,7 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key from an Asset: "$path_$ext_$tags__VERSION__MD5".
+     * Creates key from an Asset: "$path_$ext_$tags__HASH__VERSION".
      */
     public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
     {
@@ -188,7 +188,7 @@ class Cache implements CacheInterface
 
         return self::sanitizeKey(\sprintf(
             '%s%s%s__%s',
-            $asset['path'],
+            $asset['_path'],
             "_{$asset['ext']}",
             $tags ? "_$tags" : '',
             $this->createKeyFromString($asset['content'] ?? '')
