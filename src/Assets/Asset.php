@@ -709,7 +709,7 @@ class Asset implements \ArrayAccess
                 $cache->set($path, [
                     'content' => $this->getRemoteFileContent($url),
                     'path'    => $path,
-                ]/*, \DateInterval::createFromDateString('7 days')*/);
+                ], \DateInterval::createFromDateString('7 days'));
             }
             return [
                 'file' => $cache->getContentFilePathname($path),
