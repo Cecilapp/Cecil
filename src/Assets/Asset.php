@@ -89,6 +89,7 @@ class Asset implements \ArrayAccess
             'file'     => '',    // absolute file path
             'files'    => [],    // array of absolute files path
             'path'     => '',    // public path
+            '_path'    => '',    // public path before any modification
             'url'      => null,  // URL if it's a remote file
             'missing'  => false, // if file not found but missing allowed: 'missing' is true
             'ext'      => '',    // file extension
@@ -156,6 +157,7 @@ class Asset implements \ArrayAccess
                 if ($force_slash) {
                     $this->data['path'] = '/' . ltrim($this->data['path'], '/');
                 }
+                $this->data['_path'] = $this->data['path'];
             } catch (RuntimeException $e) {
                 if ($ignore_missing) {
                     $this->data['missing'] = true;
