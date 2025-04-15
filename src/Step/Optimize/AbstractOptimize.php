@@ -84,7 +84,7 @@ abstract class AbstractOptimize extends AbstractStep
             $sizeBefore = $file->getSize();
             $message = \sprintf('File "%s" processed', $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname());
 
-            $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
+            $cacheKey = $cache->createKeyFromFile($file);
             if (!$cache->has($cacheKey)) {
                 $processed = $this->processFile($file);
                 $sizeAfter = \strlen($processed);

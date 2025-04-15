@@ -139,10 +139,10 @@ class Asset implements \ArrayAccess
                     switch ($this->data['ext']) {
                         case 'scss':
                         case 'css':
-                            $filename = '/styles.css';
+                            $filename = 'styles.css';
                             break;
                         case 'js':
-                            $filename = '/scripts.js';
+                            $filename = 'scripts.js';
                             break;
                         default:
                             throw new RuntimeException(\sprintf('Asset bundle supports %s files only.', '.scss, .css and .js'));
@@ -184,7 +184,7 @@ class Asset implements \ArrayAccess
             }
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
-            // optimizing images files
+            // optimizing images files (in cache)
             if ($optimize && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
                 $this->optimize($cache->getContentFilePathname($this->data['path']), $this->data['path']);
             }
@@ -701,7 +701,7 @@ class Asset implements \ArrayAccess
                 $cache->set($path, [
                     'content' => $this->getRemoteFileContent($url),
                     'path'    => $path,
-                ]);
+                ]/*, \DateInterval::createFromDateString('7 days')*/);
             }
             return [
                 'file' => $cache->getContentFilePathname($path),

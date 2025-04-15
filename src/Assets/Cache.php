@@ -180,20 +180,6 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key from a file: "$relativePath__MD5".
-     *
-     * @throws RuntimeException
-     */
-    public function createKeyFromPath(string $path, string $relativePath): string
-    {
-        if (false === $content = Util\File::fileGetContents($path)) {
-            throw new RuntimeException(\sprintf('Can\'t create cache key for "%s".', $path));
-        }
-
-        return self::sanitizeKey(\sprintf('%s__%s', $relativePath, $this->createKeyFromString($content)));
-    }
-
-    /**
      * Creates key from an Asset: "$path_$ext_$tags__VERSION__MD5".
      */
     public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
@@ -207,6 +193,20 @@ class Cache implements CacheInterface
             $tags ? "_$tags" : '',
             $this->createKeyFromString($asset['content'] ?? '')
         ));
+    }
+
+    /**
+     * Creates key from a file: "RelativePathname__MD5".
+     *
+     * @throws RuntimeException
+     */
+    public function createKeyFromFile(\Symfony\Component\Finder\SplFileInfo $file): string
+    {
+        if (false === $content = Util\File::fileGetContents($file->getRealPath())) {
+            throw new RuntimeException(\sprintf('Can\'t create cache key for "%s".', $file));
+        }
+
+        return self::sanitizeKey(\sprintf('%s__%s', $file->getRelativePathname(), $this->createKeyFromString($content)));
     }
 
     /**
