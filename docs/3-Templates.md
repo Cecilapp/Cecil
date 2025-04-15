@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-03-12
+updated: 2025-04-15
 alias: documentation/layouts
 -->
 # Templates
@@ -512,7 +512,7 @@ Local files must be stored in the `assets/` (or `static/`)  directory.
 | minify          | Compress file content (CSS or JavaScript).          | boolean | `true`  |
 | filename        | File where to save content.                         | string  | `styles.css` or `scripts.js` |
 | ignore_missing  | Do not stop build if file don't exists.             | boolean | `false` |
-| remote_fallback | Load a local asset if the remote one don't exists.  | string  | `null`  |
+| fallback        | Load a local asset if $path file don't exists.      | string  | `null`  |
 
 :::tip
 You can use [filters](#filters) to manipulate assets.
