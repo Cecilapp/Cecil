@@ -87,8 +87,8 @@ class Asset implements \ArrayAccess
         });
         $this->data = [
             'file'     => '',    // absolute file path
-            'files'    => [],    // array of files path
-            'path'     => '',    // path to the file
+            'files'    => [],    // array of absolute files path
+            'path'     => '',    // public path
             'url'      => null,  // URL if it's a remote file
             'missing'  => false, // if file not found but missing allowed: 'missing' is true
             'ext'      => '',    // file extension
