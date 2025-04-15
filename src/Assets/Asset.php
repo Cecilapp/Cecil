@@ -172,7 +172,7 @@ class Asset implements \ArrayAccess
 
         // cache
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this);
+        $cacheKey = $cache->createKeyFromAsset($this, $fingerprint ? ['fingerprinted'] : []);
         if (!$cache->has($cacheKey)) {
             // image: width, height and exif
             if ($this->data['type'] == 'image') {
@@ -181,6 +181,10 @@ class Asset implements \ArrayAccess
                 if ($this->data['subtype'] == 'image/jpeg') {
                     $this->data['exif'] = Util\File::readExif($this->data['file']);
                 }
+            }
+            // fingerprinting
+            if ($fingerprint) {
+                $this->fingerprint();
             }
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
@@ -196,10 +200,6 @@ class Asset implements \ArrayAccess
         // minifying (CSS and JavScript files)
         if ($minify) {
             $this->minify();
-        }
-        // fingerprinting
-        if ($fingerprint) {
-            $this->fingerprint();
         }
     }
 
