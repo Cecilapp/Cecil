@@ -112,6 +112,34 @@ class Asset implements \ArrayAccess
         $force_slash = true;
         extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
+        /*
+        $options = array_merge(
+            [
+                'fingerprint'    => $this->config->isEnabled('assets.fingerprint'),
+                'minify'         => $this->config->isEnabled('assets.minify'),
+                'optimize'       => $this->config->isEnabled('assets.images.optimize'),
+                'filename'       => '',
+                'ignore_missing' => false,
+                'fallback'       => null,
+                'force_slash'    => true,
+            ],
+            \is_array($options) ? $options : []
+        );
+        $tags = [];
+        foreach ($options as $key => $value) {
+            if (\is_bool($value) && $value === true) {
+                $tags[] = $key;
+            }
+            if (\is_string($value) && !empty($value)) {
+                $tags[] = $value;
+            }
+        }
+        // DEBUG
+        echo implode('_', $tags) . "\n";
+        echo hash('crc32', implode('_', $tags)) . "\n";
+        die('debug');
+        */
+
         // locate file(s) and get content
         $pathsCount = \count($paths);
         for ($i = 0; $i < $pathsCount; $i++) {
