@@ -140,6 +140,12 @@ class Asset implements \ArrayAccess
         die('debug');
         */
 
+        // cache
+        //$cache = new Cache($this->builder, 'assets');
+        //$cacheKey = $cache->createKeyFromAsset($this, $fingerprint ? ['fingerprinted'] : []);
+
+        //$cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $this->builder->getVersion());
+
         // locate file(s) and get content
         $pathsCount = \count($paths);
         for ($i = 0; $i < $pathsCount; $i++) {
