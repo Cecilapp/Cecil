@@ -73,7 +73,7 @@ class Converter implements ConverterInterface
 
             return $result;
         } catch (ParseException $e) {
-            throw new RuntimeException($e->getMessage(), null, $e->getParsedLine());
+            throw new RuntimeException($e->getMessage(), line: $e->getParsedLine());
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -109,7 +109,7 @@ class Converter implements ConverterInterface
 
             return $result;
         } catch (TomlParseException $e) {
-            throw new RuntimeException($e->getMessage(), $e->getParsedFile(), $e->getParsedLine());
+            throw new RuntimeException($e->getMessage(), file: $e->getParsedFile(), line: $e->getParsedLine());
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }

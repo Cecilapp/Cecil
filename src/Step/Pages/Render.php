@@ -163,16 +163,18 @@ class Render extends AbstractStep
                     ];
                     $page->addRendered($rendered);
                 } catch (\Twig\Error\Error $e) {
-                    $template = !empty($e->getSourceContext()->getPath()) ? $e->getSourceContext()->getPath() : $e->getSourceContext()->getName();
-                    throw new RuntimeException(\sprintf(
-                        'Template "%s%s" (page: %s): %s',
-                        $template,
-                        $e->getTemplateLine() >= 0 ? \sprintf(':%s', $e->getTemplateLine()) : '',
-                        $page->getId(),
-                        $e->getMessage()
-                    ));
+                    throw new RuntimeException(
+                        \sprintf(
+                            'Can\'t render template "%s" for page "%s".',
+                            $e->getSourceContext()->getName(),
+                            $page->getFileName()
+                        ),
+                        previous: $e,
+                        file: $e->getSourceContext()->getPath(),
+                        line: $e->getTemplateLine(),
+                    );
                 } catch (\Exception $e) {
-                    throw new RuntimeException($e->getMessage());
+                    throw new RuntimeException($e->getMessage(), previous: $e);
                 }
             }
             $this->builder->getPages()->replace($page->getId(), $page);

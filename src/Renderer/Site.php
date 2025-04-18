@@ -50,6 +50,7 @@ class Site implements \ArrayAccess
         // special cases
         switch ($offset) {
             case 'menus':
+            case 'taxonomies':
             case 'home':
             case 'debug':
                 return true;

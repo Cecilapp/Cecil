@@ -18,25 +18,25 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class IntegrationTests extends \PHPUnit\Framework\TestCase
 {
-    protected $wsSourceDir;
+    protected $source;
     protected $config;
-    protected $wsDestinationDir;
+    protected $destination;
     public const DEBUG = false;
 
     public function setUp(): void
     {
-        $this->wsSourceDir = Util::joinFile(__DIR__, 'fixtures/website');
-        $this->config = Util::joinFile($this->wsSourceDir, 'config.php');
-        $this->wsDestinationDir = $this->wsSourceDir;
+        $this->source = Util::joinFile(__DIR__, 'fixtures/website');
+        $this->config = Util::joinFile($this->source, 'config.php');
+        $this->destination = $this->source;
     }
 
     public function tearDown(): void
     {
         $fs = new Filesystem();
         if (!self::DEBUG) {
-            $fs->remove(Util::joinFile($this->wsDestinationDir, '.cecil'));
-            $fs->remove(Util::joinFile($this->wsDestinationDir, '.cache'));
-            $fs->remove(Util::joinFile($this->wsDestinationDir, '_site'));
+            $fs->remove(Util::joinFile($this->destination, '.cecil'));
+            $fs->remove(Util::joinFile($this->destination, '.cache'));
+            $fs->remove(Util::joinFile($this->destination, '_site'));
         }
     }
 
@@ -46,15 +46,13 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         putenv('CECIL_TITLE=Cecil (env)');
         putenv('CECIL_DESCRIPTION=Description (env)');
         echo "\n";
-        Builder::create(
-            require($this->config),
-            new PrintLogger()
-        )->setSourceDir($this->wsSourceDir)
-        ->setDestinationDir($this->wsDestinationDir)
-        ->build([
-            'drafts'  => true,
-            'dry-run' => false,
-        ]);
+        Builder::create(require($this->config), new PrintLogger())
+            ->setSourceDir($this->source)
+            ->setDestinationDir($this->destination)
+            ->build([
+                'drafts'  => true,
+                'dry-run' => false,
+            ]);
 
         self::assertTrue(true);
     }

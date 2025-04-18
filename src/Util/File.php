@@ -15,6 +15,7 @@ namespace Cecil\Util;
 
 use Cecil\Exception\RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Mime\MimeTypes;
 
 class File
 {
@@ -72,21 +73,50 @@ class File
     }
 
     /**
-     * Returns the content type and subtype of a file.
+     * Returns the media type and subtype of a file.
      *
      * ie: ['text', 'text/plain']
      */
     public static function getMediaType(string $filename): array
     {
-        if (false === $subtype = mime_content_type($filename)) {
-            throw new RuntimeException(\sprintf('Can\'t get content type of "%s".', $filename));
-        }
-        $type = explode('/', $subtype)[0];
+        try {
+            if (false !== $subtype = mime_content_type($filename)) {
+                return [explode('/', $subtype)[0], $subtype];
+            }
+            $mimeTypes = new MimeTypes();
+            $subtype = $mimeTypes->guessMimeType($filename);
+            if ($subtype === null) {
+                throw new RuntimeException('Can\'t guess the media type.');
+            }
 
-        return [
-            $type,
-            $subtype,
-        ];
+            return [explode('/', $subtype)[0], $subtype];
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Can\'t get media type of "%s" (%s).', $filename, $e->getMessage()));
+        }
+    }
+
+    /**
+     * Returns the extension of a file.
+     */
+    public static function getExtension(string $filename): string
+    {
+        try {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+            if (!empty($ext)) {
+                return $ext;
+            }
+            // guess the extension
+            $mimeTypes = new MimeTypes();
+            $mimeType = $mimeTypes->guessMimeType($filename);
+            if ($mimeType === null) {
+                throw new RuntimeException('Can\'t guess the media type.');
+            }
+            $exts = $mimeTypes->getExtensions($mimeType);
+
+            return $exts[0];
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Can\'t get extension of "%s" (%s).', $filename, $e->getMessage()));
+        }
     }
 
     /**
@@ -137,5 +167,28 @@ class File
         }
 
         throw new RuntimeException(\sprintf('Can\'t get the real path of file "%s".', $path));
+    }
+
+    /**
+     * Tests if a file path is remote.
+     */
+    public static function isRemote(string $path): bool
+    {
+        return (bool) preg_match('~^(?:f|ht)tps?://~i', $path);
+    }
+
+    /**
+     * Tests if a remote file exists.
+     */
+    public static function isRemoteExists(string $path): bool
+    {
+        if (self::isRemote($path)) {
+            $handle = @fopen($path, 'r');
+            if (\is_resource($handle)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

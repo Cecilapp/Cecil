@@ -155,7 +155,7 @@ EOF
         if (!empty($this->getConfigFiles())) {
             $output->writeln(\sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
-        if ((bool) $builder->getConfig()->get('cache.enabled')) {
+        if ($builder->getConfig()->isEnabled('cache') !== false) {
             $output->writeln(\sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
 

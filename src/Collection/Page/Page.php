@@ -211,6 +211,14 @@ class Page extends Item
     }
 
     /**
+     * Returns file name, with extension.
+     */
+    public function getFileName(): string
+    {
+        return $this->file->getBasename();
+    }
+
+    /**
      * Returns file real path.
      */
     public function getFilePath(): ?string

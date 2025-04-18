@@ -15,7 +15,6 @@ namespace Cecil\Command;
 
 use Cecil\Builder;
 use Cecil\Config;
-use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
@@ -27,14 +26,11 @@ use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Validation;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Symfony\Component\Yaml\Yaml;
 
 class AbstractCommand extends Command
 {
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
     public const TMP_DIR = '.cecil';
-    public const THEME_CONFIG_FILE = 'config.yml';
     public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
 
     /** @var InputInterface */
@@ -52,10 +48,7 @@ class AbstractCommand extends Command
     /** @var array */
     private $configFiles = [];
 
-    /** @var array */
-    private $configFilesNotFound = [];
-
-    /** @var array */
+    /** @var Config */
     private $config;
 
     /** @var Builder */
@@ -70,25 +63,20 @@ class AbstractCommand extends Command
         $this->output = $output;
         $this->io = new SymfonyStyle($input, $output);
 
-        // set up configuration
+        // prepare configuration files list
         if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {
-            // default configuration file
-            $this->configFiles[$this->findConfigFile('name')] = $this->findConfigFile('path');
-            // from --config=<file>
+            // site config file
+            $this->configFiles[$this->locateConfigFile($this->getPath())['name']] = $this->locateConfigFile($this->getPath())['path'];
+            // additional config file(s) from --config=<file>
             if ($input->hasOption('config') && $input->getOption('config') !== null) {
-                foreach (explode(',', (string) $input->getOption('config')) as $configFile) {
-                    $this->configFiles[$configFile] = realpath($configFile);
-                    if (!Util\File::getFS()->isAbsolutePath($configFile)) {
-                        $this->configFiles[$configFile] = realpath(Util::joinFile($this->getPath(), $configFile));
-                    }
-                }
-                $this->configFiles = array_unique($this->configFiles);
+                $this->configFiles += $this->locateAdditionalConfigFiles($this->getPath(), (string) $input->getOption('config'));
             }
             // checks file(s)
+            $this->configFiles = array_unique($this->configFiles);
             foreach ($this->configFiles as $fileName => $filePath) {
-                if ($filePath === false || !file_exists($filePath)) {
+                if ($filePath === false) {
                     unset($this->configFiles[$fileName]);
-                    $this->configFilesNotFound[] = $fileName;
+                    $this->io->warning(\sprintf('Could not find configuration file "%s".', $fileName));
                 }
             }
         }
@@ -115,14 +103,24 @@ class AbstractCommand extends Command
 
             return parent::run($input, $output);
         }
-        // simplified error message
+        // run with human error message
         try {
             return parent::run($input, $output);
         } catch (\Exception $e) {
             if ($this->io === null) {
                 $this->io = new SymfonyStyle($input, $output);
             }
-            $this->io->error($e->getMessage());
+            $message = '';
+            do {
+                if ($e instanceof \Twig\Error\RuntimeError) {
+                    continue;
+                }
+                $message .= "{$e->getMessage()}\n";
+                if ($e->getFile() && $e instanceof RuntimeException) {
+                    $message .= \sprintf("→ %s%s\n", $e->getFile(), $e->getLine() ? ":{$e->getLine()}" : '');
+                }
+            } while ($e = $e->getPrevious());
+            $this->io->error($message);
 
             exit(1);
         }
@@ -159,27 +157,6 @@ class AbstractCommand extends Command
     }
 
     /**
-     * Returns the configuration file name or path, if file exists, otherwise default name or false.
-     */
-    protected function findConfigFile(string $nameOrPath): string|false
-    {
-        $config = [
-            'name' => self::CONFIG_FILE[0],
-            'path' => false,
-        ];
-        foreach (self::CONFIG_FILE as $configFileName) {
-            if (($configFilePath = realpath(Util::joinFile($this->getPath(), $configFileName))) !== false) {
-                $config = [
-                    'name' => $configFileName,
-                    'path' => $configFilePath,
-                ];
-            }
-        }
-
-        return $config[$nameOrPath];
-    }
-
-    /**
      * Returns config file(s) path.
      */
     protected function getConfigFiles(): array
@@ -195,48 +172,66 @@ class AbstractCommand extends Command
     protected function getBuilder(array $config = []): Builder
     {
         try {
-            // config
+            // loads configuration files if not already done
             if ($this->config === null) {
-                $filesConfig = [];
-                foreach ($this->getConfigFiles() as $fileName => $filePath) {
-                    if ($filePath === false || false === $configContent = Util\File::fileGetContents($filePath)) {
-                        throw new RuntimeException(\sprintf('Can\'t read configuration file "%s".', $fileName));
-                    }
-                    try {
-                        $filesConfig = array_replace_recursive($filesConfig, (array) Yaml::parse($configContent, Yaml::PARSE_DATETIME));
-                    } catch (ParseException $e) {
-                        throw new RuntimeException(\sprintf('"%s" parsing error: %s', $filePath, $e->getMessage()));
-                    }
+                $this->config = new Config();
+                // loads and merges configuration files
+                foreach ($this->getConfigFiles() as $filePath) {
+                    $this->config->import($this->config::loadFile($filePath), Config::MERGE);
                 }
-                $this->config = array_replace_recursive($filesConfig, $config);
+                // merges configuration from $config parameter
+                $this->config->import($config, Config::MERGE);
             }
-            // builder
+            // creates builder instance if not already done
             if ($this->builder === null) {
                 $this->builder = (new Builder($this->config, new ConsoleLogger($this->output)))
                     ->setSourceDir($this->getPath())
                     ->setDestinationDir($this->getPath());
-                // config files not found
-                foreach ($this->configFilesNotFound as $fileName) {
-                    $this->io->warning(\sprintf('Could not find configuration file "%s".', $fileName));
-                }
-                // import themes config
-                $themes = (array) $this->builder->getConfig()->getTheme();
-                foreach ($themes as $theme) {
-                    $themeConfigFile = Util::joinFile($this->builder->getConfig()->getThemesPath(), $theme, self::THEME_CONFIG_FILE);
-                    if (Util\File::getFS()->exists($themeConfigFile)) {
-                        if (false === $themeConfigFile = Util\File::fileGetContents($themeConfigFile)) {
-                            throw new ConfigException(\sprintf('Can\'t read file "%s/%s/%s".', (string) $this->builder->getConfig()->get('themes.dir'), $theme, self::THEME_CONFIG_FILE));
-                        }
-                        $themeConfig = Yaml::parse($themeConfigFile, Yaml::PARSE_DATETIME);
-                        $this->builder->getConfig()->import($themeConfig ?? [], Config::PRESERVE);
-                    }
-                }
             }
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
 
         return $this->builder;
+    }
+
+    /**
+     * Locates the configuration in the given path, as an array of the file name and path, if file exists, otherwise default name and false.
+     */
+    protected function locateConfigFile(string $path): array
+    {
+        $config = [
+            'name' => self::CONFIG_FILE[0],
+            'path' => false,
+        ];
+        foreach (self::CONFIG_FILE as $configFileName) {
+            if (($configFilePath = realpath(Util::joinFile($path, $configFileName))) !== false) {
+                $config = [
+                    'name' => $configFileName,
+                    'path' => $configFilePath,
+                ];
+            }
+        }
+
+        return $config;
+    }
+
+    /**
+     * Locates additional configuration file(s) from the given list of files, relative to the given path or absolute.
+     */
+    protected function locateAdditionalConfigFiles(string $path, string $configFilesList): array
+    {
+        $config = [];
+        foreach (explode(',', $configFilesList) as $filename) {
+            // absolute path
+            $config[$filename] = realpath($filename);
+            // relative path
+            if (!Util\File::getFS()->isAbsolutePath($filename)) {
+                $config[$filename] = realpath(Util::joinFile($path, $filename));
+            }
+        }
+
+        return $config;
     }
 
     /**
