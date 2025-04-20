@@ -148,7 +148,7 @@ class Parsedown extends \ParsedownToc
         // video?
         if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['leading_slash' => false]);
 
                 return $link;
             }
@@ -162,7 +162,7 @@ class Parsedown extends \ParsedownToc
         // audio?
         if (\in_array($extension, $this->config->get('pages.body.links.embed.audio') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['leading_slash' => false]);
 
                 return $link;
             }
@@ -277,9 +277,9 @@ class Parsedown extends \ParsedownToc
         }
 
         // create asset
-        $assetOptions = ['force_slash' => false];
+        $assetOptions = ['leading_slash' => false];
         if ($this->config->isEnabled('pages.body.images.remote.fallback')) {
-            $assetOptions = ['force_slash' => true];
+            $assetOptions = ['leading_slash' => true];
             $assetOptions += ['fallback' => (string) $this->config->get('pages.body.images.remote.fallback')];
         }
         $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
@@ -665,7 +665,7 @@ class Parsedown extends \ParsedownToc
         ];
         $block['element']['attributes'] = $link['element']['attributes'];
         unset($block['element']['attributes']['href']);
-        $block['element']['attributes']['src'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+        $block['element']['attributes']['src'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['leading_slash' => false]);
         switch ($type) {
             case 'video':
                 $block['element']['name'] = 'video';
@@ -674,7 +674,7 @@ class Parsedown extends \ParsedownToc
                     $block['element']['attributes']['loop'] = '';
                 }
                 if (isset($block['element']['attributes']['poster'])) {
-                    $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
+                    $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $block['element']['attributes']['poster'], ['leading_slash' => false]);
                 }
                 if (!\array_key_exists('style', $block['element']['attributes'])) {
                     $block['element']['attributes']['style'] = '';

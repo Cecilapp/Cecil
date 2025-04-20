@@ -56,7 +56,7 @@ class Asset implements \ArrayAccess
      *     'filename' => <string>,
      *     'ignore_missing' => <bool>,
      *     'fallback' => <string>,
-     *     'force_slash' => <bool>
+     *     'leading_slash' => <bool>
      * ]
      *
      * @param Builder      $builder
@@ -103,16 +103,6 @@ class Asset implements \ArrayAccess
         ];
 
         // handles options
-        $fingerprint = $this->config->isEnabled('assets.fingerprint');
-        $minify = $this->config->isEnabled('assets.minify');
-        $optimize = $this->config->isEnabled('assets.images.optimize');
-        $filename = '';
-        $ignore_missing = false;
-        $fallback = null;
-        $force_slash = true;
-        extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
-
-        /*
         $options = array_merge(
             [
                 'fingerprint'    => $this->config->isEnabled('assets.fingerprint'),
@@ -121,10 +111,11 @@ class Asset implements \ArrayAccess
                 'filename'       => '',
                 'ignore_missing' => false,
                 'fallback'       => null,
-                'force_slash'    => true,
+                'leading_slash'    => true,
             ],
             \is_array($options) ? $options : []
         );
+        // cache tags
         $tags = [];
         foreach ($options as $key => $value) {
             if (\is_bool($value) && $value === true) {
@@ -138,7 +129,6 @@ class Asset implements \ArrayAccess
         echo implode('_', $tags) . "\n";
         echo hash('crc32', implode('_', $tags)) . "\n";
         die('debug');
-        */
 
         // cache
         //$cache = new Cache($this->builder, 'assets');
@@ -151,7 +141,7 @@ class Asset implements \ArrayAccess
         for ($i = 0; $i < $pathsCount; $i++) {
             try {
                 $this->data['missing'] = false;
-                $locate = $this->locateFile($paths[$i], $fallback);
+                $locate = $this->locateFile($paths[$i], $options['fallback']);
                 $file = $locate['file'];
                 $path = $locate['path'];
                 $type = Util\File::getMediaType($file)[0];
@@ -170,6 +160,7 @@ class Asset implements \ArrayAccess
                 $this->data['size'] += filesize($file);
                 $this->data['content'] .= Util\File::fileGetContents($file);
                 // bundle default filename
+                $filename = $options['filename'];
                 if ($pathsCount > 1 && empty($filename)) {
                     switch ($this->data['ext']) {
                         case 'scss':
@@ -188,12 +179,12 @@ class Asset implements \ArrayAccess
                     $this->data['path'] = '/' . ltrim($filename, '/');
                 }
                 // force root slash
-                if ($force_slash) {
+                if ($options['leading_slash']) {
                     $this->data['path'] = '/' . ltrim($this->data['path'], '/');
                 }
                 $this->data['_path'] = $this->data['path'];
             } catch (RuntimeException $e) {
-                if ($ignore_missing) {
+                if ($options['ignore_missing']) {
                     $this->data['missing'] = true;
                     continue;
                 }
@@ -219,13 +210,13 @@ class Asset implements \ArrayAccess
                 }
             }
             // fingerprinting
-            if ($fingerprint) {
+            if ($options['fingerprint']) {
                 $this->fingerprint();
             }
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
             // optimizing images files (in cache)
-            if ($optimize && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
+            if ($options['optimize'] && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
                 $this->optimize($cache->getContentFilePathname($this->data['path']), $this->data['path']);
             }
         }
@@ -234,7 +225,7 @@ class Asset implements \ArrayAccess
         // compiling Sass files
         $this->compile();
         // minifying (CSS and JavScript files)
-        if ($minify) {
+        if ($options['minify']) {
             $this->minify();
         }
     }
