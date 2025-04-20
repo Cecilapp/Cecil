@@ -99,6 +99,9 @@ class Builder implements LoggerAwareInterface
     /** @var array Build metrics. */
     protected $metrics = [];
 
+    /** @var string curent build ID */
+    protected $buildId;
+
     /**
      * @param Config|array|null    $config
      * @param LoggerInterface|null $logger
@@ -150,6 +153,9 @@ class Builder implements LoggerAwareInterface
             'page'    => '',    // specific page to build
         ], $options);
 
+        // set build ID
+        $this->buildId = \date('YmdHis');
+
         // process each step
         $steps = [];
         // init...
@@ -188,6 +194,14 @@ class Builder implements LoggerAwareInterface
         $this->getLogger()->notice(\sprintf('Built in %s (%s)', $this->metrics['total']['duration'], $this->metrics['total']['memory']));
 
         return $this;
+    }
+
+    /**
+     * Returns current build ID.
+     */
+    public function getBuilId(): string
+    {
+        return $this->buildId;
     }
 
     /**
