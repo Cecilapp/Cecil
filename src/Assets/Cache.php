@@ -177,7 +177,7 @@ class Cache implements CacheInterface
     public function createKey(?string $name, string $value): string
     {
         $hash = hash('md5', $value);
-        $name = $name ? self::sanitizeKey($name) :$hash;
+        $name = $name ? self::sanitizeKey($name) : $hash;
 
         return \sprintf('%s__%s__%s', $name, $hash, $this->builder->getVersion());
     }
