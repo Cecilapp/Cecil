@@ -89,7 +89,6 @@ class Asset implements \ArrayAccess
             'file'     => '',    // absolute file path
             'files'    => [],    // array of absolute files path
             'path'     => '',    // public path
-            '_path'    => '',    // public path before any modification
             'url'      => null,  // URL if it's a remote file
             'missing'  => false, // if file not found but missing allowed: 'missing' is true
             'ext'      => '',    // file extension
@@ -111,7 +110,7 @@ class Asset implements \ArrayAccess
                 'filename'       => '',
                 'ignore_missing' => false,
                 'fallback'       => null,
-                'leading_slash'    => true,
+                'leading_slash'  => true,
             ],
             \is_array($options) ? $options : []
         );
@@ -126,9 +125,9 @@ class Asset implements \ArrayAccess
             }
         }
         // DEBUG
-        echo implode('_', $tags) . "\n";
-        echo hash('crc32', implode('_', $tags)) . "\n";
-        die('debug');
+        //echo implode('_', $tags) . "\n";
+        //echo hash('crc32', implode('_', $tags)) . "\n";
+        //die('debug');
 
         // cache
         //$cache = new Cache($this->builder, 'assets');
@@ -182,7 +181,6 @@ class Asset implements \ArrayAccess
                 if ($options['leading_slash']) {
                     $this->data['path'] = '/' . ltrim($this->data['path'], '/');
                 }
-                $this->data['_path'] = $this->data['path'];
             } catch (RuntimeException $e) {
                 if ($options['ignore_missing']) {
                     $this->data['missing'] = true;
@@ -199,7 +197,7 @@ class Asset implements \ArrayAccess
 
         // cache
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, $fingerprint ? ['fingerprinted'] : []);
+        $cacheKey = $cache->createKeyFromAsset($this, $tags);
         if (!$cache->has($cacheKey)) {
             // image: width, height and exif
             if ($this->data['type'] == 'image') {

@@ -171,12 +171,15 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key with the MD5 hash of a string.
-     * $suffix is optional to add a human readable suffix to the key (e.g. "css", "js").
+     * Creates key from a string: "$name|uniqid__HASH__VERSION".
+     * $name is optional to add a human readable name to the key.
      */
-    public function createKeyFromString(string $value, ?string $suffix = null): string
+    public function createKey(?string $name, string $value): string
     {
-        return \sprintf('%s%s__%s', hash('md5', $value), ($suffix ? '_' . $suffix : ''), $this->builder->getVersion());
+        $hash = hash('md5', $value);
+        $name = $name ? self::sanitizeKey($name) :$hash;
+
+        return \sprintf('%s__%s__%s', $name, $hash, $this->builder->getVersion());
     }
 
     /**
@@ -185,14 +188,9 @@ class Cache implements CacheInterface
     public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
     {
         $tags = implode('_', $tags ?? []);
+        $name = "{$asset['path']}_{$asset['ext']}" . ($tags ? "_$tags" : '');
 
-        return self::sanitizeKey(\sprintf(
-            '%s%s%s__%s',
-            $asset['_path'],
-            "_{$asset['ext']}",
-            $tags ? "_$tags" : '',
-            $this->createKeyFromString($asset['content'] ?? '')
-        ));
+        return $this->createKey($name, $asset['content']);
     }
 
     /**
@@ -206,7 +204,7 @@ class Cache implements CacheInterface
             throw new RuntimeException(\sprintf('Can\'t create cache key for "%s".', $file));
         }
 
-        return self::sanitizeKey(\sprintf('%s__%s', $file->getRelativePathname(), $this->createKeyFromString($content)));
+        return $this->createKey($file->getRelativePathname(), $content);
     }
 
     /**
