@@ -187,24 +187,29 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
     {
-        ksort($tags);
-        $t = [];
-        foreach ($tags as $key => $value) {
-            switch (\gettype($value)) {
-                case 'boolean':
-                    if ($value === true) {
-                        $t[] = $key;
-                    }
-                    break;
-                case 'string':
-                case 'integer':
-                    if (!empty($value)) {
-                        $t[] = substr($key, 0, 1) . $value;
-                    }
-                    break;
+        $t = $tags;
+        $tags = [];
+
+        if ($t !== null) {
+            ksort($t);
+            foreach ($t as $key => $value) {
+                switch (\gettype($value)) {
+                    case 'boolean':
+                        if ($value === true) {
+                            $tags[] = $key;
+                        }
+                        break;
+                    case 'string':
+                    case 'integer':
+                        if (!empty($value)) {
+                            $tags[] = substr($key, 0, 1) . $value;
+                        }
+                        break;
+                }
             }
         }
-        $tagsInline = implode('_', $t);
+
+        $tagsInline = implode('_', $tags);
         $name = "{$asset['_path']}_{$asset['ext']}_$tagsInline";
 
         return $this->createKey($name, $asset['content'] ?? []);
