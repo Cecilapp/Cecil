@@ -37,14 +37,8 @@ class Asset implements \ArrayAccess
     /** @var array */
     protected $data = [];
 
-    /** @var bool */
-    protected $fingerprinted = false;
-
-    /** @var bool */
-    protected $compiled = false;
-
-    /** @var bool */
-    protected $minified = false;
+    /** @var array Cache tags */
+    protected $tags = [];
 
     /**
      * Creates an Asset from a file path, an array of files path or an URL.
@@ -115,23 +109,22 @@ class Asset implements \ArrayAccess
             \is_array($options) ? $options : []
         );
         // cache tags
-        $tags = [];
         foreach ($options as $key => $value) {
             if (\is_bool($value) && $value === true) {
-                $tags[] = $key;
+                $this->tags[] = $key;
             }
             if (\is_string($value) && !empty($value)) {
-                $tags[] = $value;
+                $this->tags[] = $value;
             }
         }
         // DEBUG
-        //echo implode('_', $tags) . "\n";
-        //echo hash('crc32', implode('_', $tags)) . "\n";
+        //echo implode('_', $this->tags) . "\n";
+        //echo hash('crc32', implode('_', $this->tags)) . "\n";
         //die('debug');
 
         // cache
         //$cache = new Cache($this->builder, 'assets');
-        //$cacheKey = $cache->createKeyFromAsset($this, $fingerprint ? ['fingerprinted'] : []);
+        //$cacheKey = $cache->createKeyFromAsset($this, $fingerprint ? ['fingerprint'] : []);
 
         //$cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $this->builder->getVersion());
 
@@ -197,7 +190,7 @@ class Asset implements \ArrayAccess
 
         // cache
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, $tags);
+        $cacheKey = $cache->createKeyFromAsset($this, $this->tags);
         if (!$cache->has($cacheKey)) {
             // image: width, height and exif
             if ($this->data['type'] == 'image') {
@@ -253,16 +246,16 @@ class Asset implements \ArrayAccess
      */
     public function compile(): self
     {
-        if ($this->compiled) {
-            return $this;
-        }
-
         if ($this->data['ext'] != 'scss') {
             return $this;
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, ['compiled']);
+
+        $this->tags[] = 'compile';
+        $this->tags = array_unique($this->tags);
+
+        $cacheKey = $cache->createKeyFromAsset($this, $this->tags);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             // import paths
@@ -326,7 +319,6 @@ class Asset implements \ArrayAccess
             $this->data['content'] = $scssPhp->compileString($this->data['content'])->getCss();
             $this->data['size'] = \strlen($this->data['content']);
             $cache->set($cacheKey, $this->data);
-            $this->compiled = true;
             $this->builder->getLogger()->debug(\sprintf('Asset compiled: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
@@ -351,10 +343,6 @@ class Asset implements \ArrayAccess
         }
 
         if (substr($this->data['path'], -8) == '.min.css' || substr($this->data['path'], -7) == '.min.js') {
-            $this->minified = true;
-        }
-
-        if ($this->minified) {
             return $this;
         }
 
@@ -363,7 +351,11 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, ['minified']);
+
+        $this->tags[] = 'minify';
+        $this->tags = array_unique($this->tags);
+
+        $cacheKey = $cache->createKeyFromAsset($this, $this->tags);
         if (!$cache->has($cacheKey)) {
             switch ($this->data['ext']) {
                 case 'css':
@@ -378,7 +370,6 @@ class Asset implements \ArrayAccess
             $this->data['content'] = $minifier->minify();
             $this->data['size'] = \strlen($this->data['content']);
             $cache->set($cacheKey, $this->data);
-            $this->minified = true;
             $this->builder->getLogger()->debug(\sprintf('Asset minified: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
@@ -391,12 +382,12 @@ class Asset implements \ArrayAccess
      */
     public function fingerprint(): self
     {
-        if ($this->fingerprinted) {
-            return $this;
-        }
-
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, ['fingerprinted']);
+
+        $this->tags[] = 'fingerprint';
+        $this->tags = array_unique($this->tags);
+
+        $cacheKey = $cache->createKeyFromAsset($this, $this->tags);
         if (!$cache->has($cacheKey)) {
             $hash = hash('md5', $this->data['content']);
             $this->data['path'] = preg_replace(
@@ -405,7 +396,6 @@ class Asset implements \ArrayAccess
                 $this->data['path']
             );
             $cache->set($cacheKey, $this->data);
-            $this->fingerprinted = true;
             $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
@@ -465,7 +455,12 @@ class Asset implements \ArrayAccess
 
         $quality = (int) $this->config->get('assets.images.quality');
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x", "q$quality"]);
+
+        $this->tags[] = "{$width}x";
+        $this->tags[] = "q$quality";
+        $this->tags = array_unique($this->tags);
+
+        $cacheKey = $cache->createKeyFromAsset($assetResized, $this->tags);
         if (!$cache->has($cacheKey)) {
             $assetResized->data['content'] = Image::resize($assetResized, $width, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
@@ -509,11 +504,15 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $tags = ["q$quality"];
+
+        $this->tags[] = "q$quality";
+        $this->tags = array_unique($this->tags);
+
         if ($this->data['width']) {
-            array_unshift($tags, "{$this->data['width']}x");
+            $this->tags[] = "{$this->data['width']}x";
+            $this->tags = array_unique($this->tags);
         }
-        $cacheKey = $cache->createKeyFromAsset($asset, $tags);
+        $cacheKey = $cache->createKeyFromAsset($asset, $this->tags);
         if (!$cache->has($cacheKey)) {
             $asset->data['content'] = Image::convert($asset, $format, $quality);
             $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
