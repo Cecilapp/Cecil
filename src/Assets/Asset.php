@@ -38,7 +38,7 @@ class Asset implements \ArrayAccess
     protected $data = [];
 
     /** @var array Cache tags */
-    protected $tags = [];
+    protected $cacheTags = [];
 
     /**
      * Creates an Asset from a file path, an array of files path or an URL.
@@ -83,6 +83,7 @@ class Asset implements \ArrayAccess
             'file'     => '',    // absolute file path
             'files'    => [],    // array of absolute files path
             'path'     => '',    // public path
+            '_path'    => '',    // original path
             'url'      => null,  // URL if it's a remote file
             'missing'  => false, // if file not found but missing allowed: 'missing' is true
             'ext'      => '',    // file extension
@@ -103,85 +104,76 @@ class Asset implements \ArrayAccess
                 'optimize'       => $this->config->isEnabled('assets.images.optimize'),
                 'filename'       => '',
                 'ignore_missing' => false,
-                'fallback'       => null,
+                'fallback'       => '',
                 'leading_slash'  => true,
             ],
             \is_array($options) ? $options : []
         );
-        // cache tags
-        foreach ($options as $key => $value) {
-            if (\is_bool($value) && $value === true) {
-                $this->tags[] = $key;
-            }
-            if (\is_string($value) && !empty($value)) {
-                $this->tags[] = $value;
-            }
-        }
-        // DEBUG
-        //echo implode('_', $this->tags) . "\n";
-        //echo hash('crc32', implode('_', $this->tags)) . "\n";
-        //die('debug');
 
         // cache
-        //$cache = new Cache($this->builder, 'assets');
-        //$cacheKey = $cache->createKeyFromAsset($this, $fingerprint ? ['fingerprint'] : []);
-
-        //$cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $this->builder->getVersion());
+        $cache = new Cache($this->builder, 'assets');
+        $this->cacheTags = $options;
+        $locateCacheKey = \sprintf('%s_locate__%s__%s', $options['filename'] ?: implode('_', $paths), $this->builder->getBuilId(), $this->builder->getVersion());
 
         // locate file(s) and get content
-        $pathsCount = \count($paths);
-        for ($i = 0; $i < $pathsCount; $i++) {
-            try {
-                $this->data['missing'] = false;
-                $locate = $this->locateFile($paths[$i], $options['fallback']);
-                $file = $locate['file'];
-                $path = $locate['path'];
-                $type = Util\File::getMediaType($file)[0];
-                if ($i > 0) { // bundle
-                    if ($type != $this->data['type']) {
-                        throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $type, $this->data['type']));
+        if (!$cache->has($locateCacheKey)) {
+            $pathsCount = \count($paths);
+            for ($i = 0; $i < $pathsCount; $i++) {
+                try {
+                    $this->data['missing'] = false;
+                    $locate = $this->locateFile($paths[$i], $options['fallback']);
+                    $file = $locate['file'];
+                    $path = $locate['path'];
+                    $type = Util\File::getMediaType($file)[0];
+                    if ($i > 0) { // bundle
+                        if ($type != $this->data['type']) {
+                            throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $type, $this->data['type']));
+                        }
                     }
-                }
-                $this->data['file'] = $file;
-                $this->data['files'][] = $file;
-                $this->data['path'] = $path;
-                $this->data['url'] = Util\File::isRemote($paths[$i]) ? $paths[$i] : null;
-                $this->data['ext'] = Util\File::getExtension($file);
-                $this->data['type'] = $type;
-                $this->data['subtype'] = Util\File::getMediaType($file)[1];
-                $this->data['size'] += filesize($file);
-                $this->data['content'] .= Util\File::fileGetContents($file);
-                // bundle default filename
-                $filename = $options['filename'];
-                if ($pathsCount > 1 && empty($filename)) {
-                    switch ($this->data['ext']) {
-                        case 'scss':
-                        case 'css':
-                            $filename = 'styles.css';
-                            break;
-                        case 'js':
-                            $filename = 'scripts.js';
-                            break;
-                        default:
-                            throw new RuntimeException(\sprintf('Asset bundle supports %s files only.', '.scss, .css and .js'));
+                    $this->data['file'] = $file;
+                    $this->data['files'][] = $file;
+                    $this->data['path'] = $path;
+                    $this->data['url'] = Util\File::isRemote($paths[$i]) ? $paths[$i] : null;
+                    $this->data['ext'] = Util\File::getExtension($file);
+                    $this->data['type'] = $type;
+                    $this->data['subtype'] = Util\File::getMediaType($file)[1];
+                    $this->data['size'] += filesize($file);
+                    $this->data['content'] .= Util\File::fileGetContents($file);
+                    // bundle default filename
+                    $filename = $options['filename'];
+                    if ($pathsCount > 1 && empty($filename)) {
+                        switch ($this->data['ext']) {
+                            case 'scss':
+                            case 'css':
+                                $filename = 'styles.css';
+                                break;
+                            case 'js':
+                                $filename = 'scripts.js';
+                                break;
+                            default:
+                                throw new RuntimeException(\sprintf('Asset bundle supports %s files only.', '.scss, .css and .js'));
+                        }
                     }
+                    // apply bundle filename to path
+                    if (!empty($filename)) {
+                        $this->data['path'] = '/' . ltrim($filename, '/');
+                    }
+                    // force root slash
+                    if ($options['leading_slash']) {
+                        $this->data['path'] = '/' . ltrim($this->data['path'], '/');
+                    }
+                    $this->data['_path'] = $this->data['path'];
+                } catch (RuntimeException $e) {
+                    if ($options['ignore_missing']) {
+                        $this->data['missing'] = true;
+                        continue;
+                    }
+                    throw new RuntimeException(\sprintf('Can\'t handle asset "%s" (%s).', $paths[$i], $e->getMessage()));
                 }
-                // apply bundle filename to path
-                if (!empty($filename)) {
-                    $this->data['path'] = '/' . ltrim($filename, '/');
-                }
-                // force root slash
-                if ($options['leading_slash']) {
-                    $this->data['path'] = '/' . ltrim($this->data['path'], '/');
-                }
-            } catch (RuntimeException $e) {
-                if ($options['ignore_missing']) {
-                    $this->data['missing'] = true;
-                    continue;
-                }
-                throw new RuntimeException(\sprintf('Can\'t handle asset "%s" (%s).', $paths[$i], $e->getMessage()));
             }
+            $cache->set($locateCacheKey, $this->data);
         }
+        $this->data = $cache->get($locateCacheKey);
 
         // missing
         if ($this->data['missing']) {
@@ -190,7 +182,7 @@ class Asset implements \ArrayAccess
 
         // cache
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, $this->tags);
+        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             // image: width, height and exif
             if ($this->data['type'] == 'image') {
@@ -204,6 +196,12 @@ class Asset implements \ArrayAccess
             if ($options['fingerprint']) {
                 $this->fingerprint();
             }
+            // compiling Sass files
+            $this->compile();
+            // minifying (CSS and JavScript files)
+            if ($options['minify']) {
+                $this->minify();
+            }
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
             // optimizing images files (in cache)
@@ -212,13 +210,6 @@ class Asset implements \ArrayAccess
             }
         }
         $this->data = $cache->get($cacheKey);
-
-        // compiling Sass files
-        $this->compile();
-        // minifying (CSS and JavScript files)
-        if ($options['minify']) {
-            $this->minify();
-        }
     }
 
     /**
@@ -252,10 +243,9 @@ class Asset implements \ArrayAccess
 
         $cache = new Cache($this->builder, 'assets');
 
-        $this->tags[] = 'compile';
-        $this->tags = array_unique($this->tags);
+        $this->cacheTags['compile'] = true;
 
-        $cacheKey = $cache->createKeyFromAsset($this, $this->tags);
+        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             // import paths
@@ -352,10 +342,9 @@ class Asset implements \ArrayAccess
 
         $cache = new Cache($this->builder, 'assets');
 
-        $this->tags[] = 'minify';
-        $this->tags = array_unique($this->tags);
+        $this->cacheTags['minify'] = true;
 
-        $cacheKey = $cache->createKeyFromAsset($this, $this->tags);
+        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             switch ($this->data['ext']) {
                 case 'css':
@@ -384,10 +373,9 @@ class Asset implements \ArrayAccess
     {
         $cache = new Cache($this->builder, 'assets');
 
-        $this->tags[] = 'fingerprint';
-        $this->tags = array_unique($this->tags);
+        $this->cacheTags['fingerprint'] = true;
 
-        $cacheKey = $cache->createKeyFromAsset($this, $this->tags);
+        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $hash = hash('md5', $this->data['content']);
             $this->data['path'] = preg_replace(
@@ -454,13 +442,11 @@ class Asset implements \ArrayAccess
         }
 
         $quality = (int) $this->config->get('assets.images.quality');
+
         $cache = new Cache($this->builder, 'assets');
-
-        $this->tags[] = "{$width}x";
-        $this->tags[] = "q$quality";
-        $this->tags = array_unique($this->tags);
-
-        $cacheKey = $cache->createKeyFromAsset($assetResized, $this->tags);
+        $this->cacheTags['quality'] = $quality;
+        $this->cacheTags['width'] = $width;
+        $cacheKey = $cache->createKeyFromAsset($assetResized, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $assetResized->data['content'] = Image::resize($assetResized, $width, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
@@ -504,15 +490,11 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, 'assets');
-
-        $this->tags[] = "q$quality";
-        $this->tags = array_unique($this->tags);
-
+        $this->cacheTags['quality'] = $quality;
         if ($this->data['width']) {
-            $this->tags[] = "{$this->data['width']}x";
-            $this->tags = array_unique($this->tags);
+            $this->cacheTags['width'] = $this->data['width'];
         }
-        $cacheKey = $cache->createKeyFromAsset($asset, $this->tags);
+        $cacheKey = $cache->createKeyFromAsset($asset, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $asset->data['content'] = Image::convert($asset, $format, $quality);
             $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
