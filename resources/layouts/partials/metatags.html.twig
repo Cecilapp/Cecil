@@ -155,7 +155,7 @@
   {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
   {%- if not favicon_asset.missing -%}
     {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
-      {%- for size in favicon_sizes|filter(size => favicon_asset.width >= size) ~%}
+      {%- for size in favicon_sizes|sort|reverse|filter(size => favicon_asset.width >= size) ~%}
     <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ url(favicon_asset|resize(size), {'canonical': true}) }}" type="{{ favicon_asset.subtype }}">
       {%- endfor -%}
     {%- endfor -%}
