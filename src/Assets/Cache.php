@@ -187,10 +187,26 @@ class Cache implements CacheInterface
      */
     public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
     {
-        $tags = implode('_', $tags ?? []);
-        $name = "{$asset['path']}_{$asset['ext']}" . ($tags ? "_$tags" : '');
+        ksort($tags);
+        foreach ($tags as $key => $value) {
+            switch (gettype($value)) {
+                case 'boolean':
+                    if ($value === true) {
+                        $t[] = $key;
+                    }
+                    break;
+                case 'string':
+                case 'integer':
+                    if (!empty($value)) {
+                        $t[] = substr($key, 0, 1) . $value;
+                    }
+                    break;
+            }
+        }
+        $tagsInline = implode('_', $t);
+        $name = "{$asset['_path']}_{$asset['ext']}_$tagsInline";
 
-        return $this->createKey($name, $asset['content']);
+        return $this->createKey($name, $asset['content'] ?? []);
     }
 
     /**
@@ -278,9 +294,9 @@ class Cache implements CacheInterface
     {
         try {
             $keyAsArray = explode('__', self::sanitizeKey($key));
-            // if 3 parts (with hash), remove all files with the same first part
-            // pattern: `path_tag__hash__version`
-            if (!empty($keyAsArray[0]) && \count($keyAsArray) == 3) {
+            // if 2 or more parts (with hash), remove all files with the same first part
+            // pattern: `name__hash__version`
+            if (!empty($keyAsArray[0]) && \count($keyAsArray) >= 2) {
                 $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
                 foreach (glob($pattern) ?: [] as $filename) {
                     Util\File::getFS()->remove($filename);
