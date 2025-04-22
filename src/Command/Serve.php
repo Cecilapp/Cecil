@@ -52,6 +52,7 @@ class Serve extends AbstractCommand
                 new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
                 new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
+                new InputOption('timeout', null, InputOption::VALUE_OPTIONAL, 'Sets the process timeout (max. runtime) in seconds', 3600 * 2),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -75,15 +76,19 @@ To start the server and open web browser automatically, run:
 
 To start the server with a specific host, run:
 
-  <info>%command.full_name% --host=127.0.0.1
+  <info>%command.full_name% --host=127.0.0.1</>
 
 To start the server with a specific port, run:
 
-  <info>%command.full_name% --port=8080
+  <info>%command.full_name% --port=8080</>
 
 To start the server with changes watcher not ignoring VCS directories, run:
 
   <info>%command.full_name% --no-ignore-vcs</>
+
+To define the process timeout (in seconds), run:
+
+  <info>%command.full_name% --timeout=3600</>
 EOF
             );
     }
@@ -104,6 +109,7 @@ EOF
         $verbose = $input->getOption('verbose');
         $page = $input->getOption('page');
         $noignorevcs = $input->getOption('no-ignore-vcs');
+        $timeout = $input->getOption('timeout');
 
         $this->setUpServer($host, $port);
 
@@ -166,7 +172,7 @@ EOF
 
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
-        $buildProcess->setTimeout(3600 * 2); // timeout = 2 minutes
+        $buildProcess->setTimeout($timeout);
 
         $processOutputCallback = function ($type, $buffer) use ($output) {
             $output->write($buffer, false, OutputInterface::OUTPUT_RAW);
