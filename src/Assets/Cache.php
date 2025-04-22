@@ -188,8 +188,9 @@ class Cache implements CacheInterface
     public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
     {
         ksort($tags);
+        $t = [];
         foreach ($tags as $key => $value) {
-            switch (gettype($value)) {
+            switch (\gettype($value)) {
                 case 'boolean':
                     if ($value === true) {
                         $t[] = $key;
