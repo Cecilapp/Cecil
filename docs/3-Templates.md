@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-04-18
+updated: 2025-04-22
 alias: documentation/layouts
 -->
 # Templates
@@ -513,15 +513,15 @@ Local files must be stored in the `assets/` (or `static/`)  directory.
 | optimize        | Compress image file.                                | boolean | `false` |
 | filename        | File where to save content.                         | string  | `styles.css` or `scripts.js` |
 | ignore_missing  | Do not stop build if file don't exists.             | boolean | `false` |
-| fallback        | Load a local asset if $path file don't exists.      | string  | `null`  |
-| leading_slash   | Add leading slash (`/`) to the $path.               | string  | `true`  |
+| fallback        | Load a local asset if $path file don't exists.      | string  | ``      |
+| leading_slash   | Add a leading slash to the $path.                   | string  | `true`  |
 
 :::tip
 You can use [filters](#filters) to manipulate assets.
 :::
 
-:::important
-Be careful about the [cache](#cache): if an asset is modified but keeps the same name, then the cached version will be used. Cache can be cleared with the [command](5-Commands.md) `php cecil.phar cache:clear:assets`.
+:::info
+You don't need to clear the [cache](#cache) after modifying an asset: the cache is automatically cleared when the file is modified or when the file name is changed.
 :::
 
 _Examples:_
