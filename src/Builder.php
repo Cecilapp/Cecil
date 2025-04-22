@@ -154,7 +154,7 @@ class Builder implements LoggerAwareInterface
         ], $options);
 
         // set build ID
-        $this->buildId = \date('YmdHis');
+        $this->buildId = date('YmdHis');
 
         // process each step
         $steps = [];
