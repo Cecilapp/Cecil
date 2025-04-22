@@ -212,7 +212,7 @@ class Cache implements CacheInterface
         $tagsInline = implode('_', $tags);
         $name = "{$asset['_path']}_{$asset['ext']}_$tagsInline";
 
-        return $this->createKey($name, $asset['content'] ?? []);
+        return $this->createKey($name, $asset['content'] ?? '');
     }
 
     /**
