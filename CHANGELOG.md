@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.36.0](https://github.com/Cecilapp/Cecil/compare/8.35.1...8.36.0)
+
+> 22 April 2025
+
+- Serve Command : Define the timeout [`#2163`](https://github.com/Cecilapp/Cecil/pull/2163)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.46.0 to 2.47.0 [`#2159`](https://github.com/Cecilapp/Cecil/pull/2159)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.12.1 to 3.12.2 [`#2158`](https://github.com/Cecilapp/Cecil/pull/2158)
+
+#### [8.35.1](https://github.com/Cecilapp/Cecil/compare/8.35.0...8.35.1)
+
+> 22 April 2025
+
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.45.0 to 2.46.0 [`#2157`](https://github.com/Cecilapp/Cecil/pull/2157)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.12.0 to 3.12.1 [`#2151`](https://github.com/Cecilapp/Cecil/pull/2151)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.74.0 to 3.75.0 [`#2150`](https://github.com/Cecilapp/Cecil/pull/2150)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.73.1 to 3.74.0 [`#2149`](https://github.com/Cecilapp/Cecil/pull/2149)
+- fix: trying to fix fingerprint vs cache [`f598404`](https://github.com/Cecilapp/Cecil/commit/f59840436de408598278ab12cb92cdc34a0c6c1b)
+- refactor: testing getRealPath [`eed5221`](https://github.com/Cecilapp/Cecil/commit/eed52217407e28055d9cb93ec91567c46c7116de)
+- refactor: code enhancement [`b4ec068`](https://github.com/Cecilapp/Cecil/commit/b4ec068aa8c97e5beb845cf6fd0910546615be51)
+- chore: update deps [`6b59435`](https://github.com/Cecilapp/Cecil/commit/6b59435449b8ed73dcf3e6a54394b4213ffa25a7)
+- fix: parsedown external links [`fdfb786`](https://github.com/Cecilapp/Cecil/commit/fdfb786e22195b3942c510572825fdd4e80803d6)
+- test: better fixtures [`0e4cf8d`](https://github.com/Cecilapp/Cecil/commit/0e4cf8d25a1b4564c25283fb74ef76ebf4d0b9f0)
+- refactor: minor change on taxo [`8929308`](https://github.com/Cecilapp/Cecil/commit/892930802b3fc161c1eede8a98149d14994801ee)
+- test: add data to EXIF fixture [`430ad1a`](https://github.com/Cecilapp/Cecil/commit/430ad1ad223e1c448885029c965341a59130b7d7)
+- fix: regression introduce in previous commit [`a7f3b39`](https://github.com/Cecilapp/Cecil/commit/a7f3b39d477ebbd9cb6b6d1122ec8b84ee42cf99)
+
+#### [8.35.0](https://github.com/Cecilapp/Cecil/compare/8.34.4...8.35.0)
+
+> 22 April 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.72.0 to 3.73.1 [`#2145`](https://github.com/Cecilapp/Cecil/pull/2145)
+- feat: Twig filter to convert "a value" to iterable [`980c600`](https://github.com/Cecilapp/Cecil/commit/980c6005b42d174042337690d29bf061a9271717)
+- doc: minor changes [`3da3d7e`](https://github.com/Cecilapp/Cecil/commit/3da3d7e706eaea189453301f19f3d7b208bf43f3)
+
+#### [8.34.4](https://github.com/Cecilapp/Cecil/compare/8.34.3...8.34.4)
+
+> 22 April 2025
+
+- perf: remove metadata of processed images [`#2143`](https://github.com/Cecilapp/Cecil/pull/2143)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.11.3 to 3.12.0 [`#2137`](https://github.com/Cecilapp/Cecil/pull/2137)
+
 #### [8.34.3](https://github.com/Cecilapp/Cecil/compare/8.34.2...8.34.3)
 
 > 18 March 2025
