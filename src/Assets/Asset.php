@@ -37,24 +37,25 @@ class Asset implements \ArrayAccess
     /** @var array */
     protected $data = [];
 
-    /** @var bool */
-    protected $fingerprinted = false;
-
-    /** @var bool */
-    protected $compiled = false;
-
-    /** @var bool */
-    protected $minified = false;
-
-    /** @var bool */
-    protected $ignore_missing = false;
+    /** @var array Cache tags */
+    protected $cacheTags = [];
 
     /**
      * Creates an Asset from a file path, an array of files path or an URL.
+     * Options:
+     * [
+     *     'fingerprint' => <bool>,
+     *     'minify' => <bool>,
+     *     'optimize' => <bool>,
+     *     'filename' => <string>,
+     *     'ignore_missing' => <bool>,
+     *     'fallback' => <string>,
+     *     'leading_slash' => <bool>
+     * ]
      *
      * @param Builder      $builder
      * @param string|array $paths
-     * @param array|null   $options e.g.: ['fingerprint' => true, 'minify' => true, 'filename' => '', 'ignore_missing' => false]
+     * @param array|null   $options
      *
      * @throws RuntimeException
      */
@@ -63,134 +64,156 @@ class Asset implements \ArrayAccess
         $this->builder = $builder;
         $this->config = $builder->getConfig();
         $paths = \is_array($paths) ? $paths : [$paths];
+        // checks path(s)
         array_walk($paths, function ($path) {
+            // must be a string
             if (!\is_string($path)) {
                 throw new RuntimeException(\sprintf('The path of an asset must be a string ("%s" given).', \gettype($path)));
             }
+            // can't be empty
             if (empty($path)) {
                 throw new RuntimeException('The path of an asset can\'t be empty.');
             }
+            // can't be relative
             if (substr($path, 0, 2) == '..') {
-                throw new RuntimeException(\sprintf('The path of asset "%s" is wrong: it must be directly relative to "assets" or "static" directory, or a remote URL.', $path));
+                throw new RuntimeException(\sprintf('The path of asset "%s" is wrong: it must be directly relative to `assets` or `static` directory, or a remote URL.', $path));
             }
         });
         $this->data = [
-            'file'           => '',    // absolute file path
-            'files'          => [],    // bundle: array of files path
-            'filename'       => '',    // bundle: filename
-            'path'           => '',    // public path to the file
-            'url'            => null,  // URL if it's a remote file
-            'missing'        => false, // if file not found but missing allowed: 'missing' is true
-            'ext'            => '',    // file extension
-            'type'           => '',    // file type (e.g.: image, audio, video, etc.)
-            'subtype'        => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
-            'size'           => 0,     // file size (in bytes)
-            'width'          => 0,     // image width (in pixels)
-            'height'         => 0,     // image height (in pixels)
-            'exif'           => [],    // exif data
-            'content'        => '',    // file content
+            'file'     => '',    // absolute file path
+            'files'    => [],    // array of absolute files path
+            'path'     => '',    // public path
+            '_path'    => '',    // original path
+            'url'      => null,  // URL if it's a remote file
+            'missing'  => false, // if file not found but missing allowed: 'missing' is true
+            'ext'      => '',    // file extension
+            'type'     => '',    // file type (e.g.: image, audio, video, etc.)
+            'subtype'  => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
+            'size'     => 0,     // file size (in bytes)
+            'width'    => 0,     // image width (in pixels)
+            'height'   => 0,     // image height (in pixels)
+            'exif'     => [],    // image exif data
+            'content'  => '',    // file content
         ];
 
         // handles options
-        $fingerprint = (bool) $this->config->get('assets.fingerprint.enabled');
-        $minify = (bool) $this->config->get('assets.minify.enabled');
-        $optimize = (bool) $this->config->get('assets.images.optimize.enabled');
-        $filename = '';
-        $ignore_missing = false;
-        $remote_fallback = null;
-        $force_slash = true;
-        extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
+        $options = array_merge(
+            [
+                'fingerprint'    => $this->config->isEnabled('assets.fingerprint'),
+                'minify'         => $this->config->isEnabled('assets.minify'),
+                'optimize'       => $this->config->isEnabled('assets.images.optimize'),
+                'filename'       => '',
+                'ignore_missing' => false,
+                'fallback'       => '',
+                'leading_slash'  => true,
+            ],
+            \is_array($options) ? $options : []
+        );
 
-        // fill data array with file(s) informations
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $cacheKey = \sprintf('%s__%s', $filename ?: implode('_', $paths), $this->builder->getVersion());
-        if (!$cache->has($cacheKey)) {
+        // cache
+        $cache = new Cache($this->builder, 'assets');
+        $this->cacheTags = $options;
+        $locateCacheKey = \sprintf('%s_locate__%s__%s', $options['filename'] ?: implode('_', $paths), $this->builder->getBuilId(), $this->builder->getVersion());
+
+        // locate file(s) and get content
+        if (!$cache->has($locateCacheKey)) {
             $pathsCount = \count($paths);
-            $file = [];
             for ($i = 0; $i < $pathsCount; $i++) {
-                // loads file(s)
-                $file[$i] = $this->loadFile($paths[$i], $ignore_missing, $remote_fallback, $force_slash);
-                // bundle: same type only
-                if ($i > 0) {
-                    if ($file[$i]['type'] != $file[$i - 1]['type']) {
-                        throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $file[$i]['type'], $file[$i - 1]['type']));
-                    }
-                }
-                // missing allowed = empty path
-                if ($file[$i]['missing']) {
-                    $this->data['missing'] = true;
-                    $this->data['path'] = $file[$i]['path'];
-
-                    continue;
-                }
-                // set data
-                $this->data['content'] .= $file[$i]['content'];
-                $this->data['size'] += $file[$i]['size'];
-                if ($i == 0) {
-                    $this->data['file'] = $file[$i]['filepath'];
-                    $this->data['filename'] = $file[$i]['path'];
-                    $this->data['path'] = $file[$i]['path'];
-                    $this->data['url'] = $file[$i]['url'];
-                    $this->data['ext'] = $file[$i]['ext'];
-                    $this->data['type'] = $file[$i]['type'];
-                    $this->data['subtype'] = $file[$i]['subtype'];
-                    // image: width, height and exif
-                    if ($this->data['type'] == 'image') {
-                        $this->data['width'] = $this->getWidth();
-                        $this->data['height'] = $this->getHeight();
-                        if ($this->data['subtype'] == 'image/jpeg') {
-                            $this->data['exif'] = Util\File::readExif($file[$i]['filepath']);
+                try {
+                    $this->data['missing'] = false;
+                    $locate = $this->locateFile($paths[$i], $options['fallback']);
+                    $file = $locate['file'];
+                    $path = $locate['path'];
+                    $type = Util\File::getMediaType($file)[0];
+                    if ($i > 0) { // bundle
+                        if ($type != $this->data['type']) {
+                            throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $type, $this->data['type']));
                         }
                     }
+                    $this->data['file'] = $file;
+                    $this->data['files'][] = $file;
+                    $this->data['path'] = $path;
+                    $this->data['url'] = Util\File::isRemote($paths[$i]) ? $paths[$i] : null;
+                    $this->data['ext'] = Util\File::getExtension($file);
+                    $this->data['type'] = $type;
+                    $this->data['subtype'] = Util\File::getMediaType($file)[1];
+                    $this->data['size'] += filesize($file);
+                    $this->data['content'] .= Util\File::fileGetContents($file);
                     // bundle default filename
+                    $filename = $options['filename'];
                     if ($pathsCount > 1 && empty($filename)) {
                         switch ($this->data['ext']) {
                             case 'scss':
                             case 'css':
-                                $filename = '/styles.css';
+                                $filename = 'styles.css';
                                 break;
                             case 'js':
-                                $filename = '/scripts.js';
+                                $filename = 'scripts.js';
                                 break;
                             default:
                                 throw new RuntimeException(\sprintf('Asset bundle supports %s files only.', '.scss, .css and .js'));
                         }
                     }
-                    // bundle filename and path
+                    // apply bundle filename to path
                     if (!empty($filename)) {
-                        $this->data['filename'] = $filename;
                         $this->data['path'] = '/' . ltrim($filename, '/');
                     }
+                    // force root slash
+                    if ($options['leading_slash']) {
+                        $this->data['path'] = '/' . ltrim($this->data['path'], '/');
+                    }
+                    $this->data['_path'] = $this->data['path'];
+                } catch (RuntimeException $e) {
+                    if ($options['ignore_missing']) {
+                        $this->data['missing'] = true;
+                        continue;
+                    }
+                    throw new RuntimeException(\sprintf('Can\'t handle asset "%s" (%s).', $paths[$i], $e->getMessage()));
                 }
-                // bundle files path
-                $this->data['files'][] = $file[$i]['filepath'];
+            }
+            $cache->set($locateCacheKey, $this->data);
+        }
+        $this->data = $cache->get($locateCacheKey);
+
+        // missing
+        if ($this->data['missing']) {
+            return;
+        }
+
+        // cache
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
+        if (!$cache->has($cacheKey)) {
+            // image: width, height and exif
+            if ($this->data['type'] == 'image') {
+                $this->data['width'] = $this->getWidth();
+                $this->data['height'] = $this->getHeight();
+                if ($this->data['subtype'] == 'image/jpeg') {
+                    $this->data['exif'] = Util\File::readExif($this->data['file']);
+                }
+            }
+            // fingerprinting
+            if ($options['fingerprint']) {
+                $this->fingerprint();
+            }
+            // compiling Sass files
+            $this->compile();
+            // minifying (CSS and JavScript files)
+            if ($options['minify']) {
+                $this->minify();
             }
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
-            // optimizing images files
-            if ($optimize && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
+            // optimizing images files (in cache)
+            if ($options['optimize'] && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
                 $this->optimize($cache->getContentFilePathname($this->data['path']), $this->data['path']);
             }
         }
         $this->data = $cache->get($cacheKey);
-        // fingerprinting
-        if ($fingerprint) {
-            $this->fingerprint();
-        }
-        // compiling (Sass files)
-        if ((bool) $this->config->get('assets.compile.enabled')) {
-            $this->compile();
-        }
-        // minifying (CSS and JavScript files)
-        if ($minify) {
-            $this->minify();
-        }
     }
 
     /**
      * Returns path.
-     *
-     * @throws RuntimeException
      */
     public function __toString(): string
     {
@@ -200,39 +223,11 @@ class Asset implements \ArrayAccess
             return $this->buildImageCdnUrl();
         }
 
-        if ($this->builder->getConfig()->get('canonicalurl')) {
+        if ($this->builder->getConfig()->isEnabled('canonicalurl')) {
             return (string) new Url($this->builder, $this->data['path'], ['canonical' => true]);
         }
 
         return $this->data['path'];
-    }
-
-    /**
-     * Add hash to the file name.
-     */
-    public function fingerprint(): self
-    {
-        if ($this->fingerprinted) {
-            return $this;
-        }
-
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, ['fingerprint']);
-        if (!$cache->has($cacheKey)) {
-            $fingerprint = hash('md5', $this->data['content']);
-            $this->data['path'] = preg_replace(
-                '/\.' . $this->data['ext'] . '$/m',
-                ".$fingerprint." . $this->data['ext'],
-                $this->data['path']
-            );
-            $cache->set($cacheKey, $this->data);
-            $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
-        }
-        $this->data = $cache->get($cacheKey);
-
-        $this->fingerprinted = true;
-
-        return $this;
     }
 
     /**
@@ -242,16 +237,15 @@ class Asset implements \ArrayAccess
      */
     public function compile(): self
     {
-        if ($this->compiled) {
-            return $this;
-        }
-
         if ($this->data['ext'] != 'scss') {
             return $this;
         }
 
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $cacheKey = $cache->createKeyFromAsset($this, ['compiled']);
+        $cache = new Cache($this->builder, 'assets');
+
+        $this->cacheTags['compile'] = true;
+
+        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             // import paths
@@ -272,7 +266,7 @@ class Asset implements \ArrayAccess
             $scssPhp->setQuietDeps(true);
             $scssPhp->setImportPaths(array_unique($importDir));
             // source map
-            if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+            if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
                 $importDir = [];
                 $assetDir = (string) $this->config->get('assets.dir');
                 $assetDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR . $assetDir . DIRECTORY_SEPARATOR);
@@ -314,7 +308,6 @@ class Asset implements \ArrayAccess
             $this->data['subtype'] = 'text/css';
             $this->data['content'] = $scssPhp->compileString($this->data['content'])->getCss();
             $this->data['size'] = \strlen($this->data['content']);
-            $this->compiled = true;
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset compiled: "%s"', $this->data['path']));
         }
@@ -330,17 +323,9 @@ class Asset implements \ArrayAccess
      */
     public function minify(): self
     {
-        // disable minify to preserve inline source map
-        if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+        // in debug mode, disable minify to preserve inline source map
+        if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
             return $this;
-        }
-
-        if ($this->minified) {
-            return $this;
-        }
-
-        if ($this->data['ext'] == 'scss') {
-            $this->compile();
         }
 
         if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
@@ -348,13 +333,18 @@ class Asset implements \ArrayAccess
         }
 
         if (substr($this->data['path'], -8) == '.min.css' || substr($this->data['path'], -7) == '.min.js') {
-            $this->minified = true;
-
             return $this;
         }
 
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $cacheKey = $cache->createKeyFromAsset($this, ['minified']);
+        if ($this->data['ext'] == 'scss') {
+            $this->compile();
+        }
+
+        $cache = new Cache($this->builder, 'assets');
+
+        $this->cacheTags['minify'] = true;
+
+        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             switch ($this->data['ext']) {
                 case 'css':
@@ -366,16 +356,35 @@ class Asset implements \ArrayAccess
                 default:
                     throw new RuntimeException(\sprintf('Not able to minify "%s".', $this->data['path']));
             }
-            $this->data['path'] = preg_replace(
-                '/\.' . $this->data['ext'] . '$/m',
-                '.min.' . $this->data['ext'],
-                $this->data['path']
-            );
             $this->data['content'] = $minifier->minify();
             $this->data['size'] = \strlen($this->data['content']);
-            $this->minified = true;
             $cache->set($cacheKey, $this->data);
             $this->builder->getLogger()->debug(\sprintf('Asset minified: "%s"', $this->data['path']));
+        }
+        $this->data = $cache->get($cacheKey);
+
+        return $this;
+    }
+
+    /**
+     * Add hash to the file name.
+     */
+    public function fingerprint(): self
+    {
+        $cache = new Cache($this->builder, 'assets');
+
+        $this->cacheTags['fingerprint'] = true;
+
+        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
+        if (!$cache->has($cacheKey)) {
+            $hash = hash('md5', $this->data['content']);
+            $this->data['path'] = preg_replace(
+                '/\.' . $this->data['ext'] . '$/m',
+                ".$hash." . $this->data['ext'],
+                $this->data['path']
+            );
+            $cache->set($cacheKey, $this->data);
+            $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
 
@@ -388,7 +397,7 @@ class Asset implements \ArrayAccess
      */
     public function optimize(string $filepath, string $path): int
     {
-        $quality = $this->config->get('assets.images.quality');
+        $quality = (int) $this->config->get('assets.images.quality');
         $message = \sprintf('Asset processed: "%s"', $path);
         $sizeBefore = filesize($filepath);
         Optimizer::create($quality)->optimize($filepath);
@@ -432,14 +441,17 @@ class Asset implements \ArrayAccess
             return $assetResized; // returns asset with the new dimensions only: CDN do the rest of the job
         }
 
-        $quality = $this->config->get('assets.images.quality');
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $cacheKey = $cache->createKeyFromAsset($assetResized, ["{$width}x", "q$quality"]);
+        $quality = (int) $this->config->get('assets.images.quality');
+
+        $cache = new Cache($this->builder, 'assets');
+        $this->cacheTags['quality'] = $quality;
+        $this->cacheTags['width'] = $width;
+        $cacheKey = $cache->createKeyFromAsset($assetResized, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $assetResized->data['content'] = Image::resize($assetResized, $width, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
-                (string) $this->config->get('assets.images.resize.dir'),
+                'thumbnails',
                 (string) $width,
                 $assetResized->data['path']
             );
@@ -477,12 +489,12 @@ class Asset implements \ArrayAccess
             return $asset; // returns the asset with the new extension only: CDN do the rest of the job
         }
 
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        $tags = ["q$quality"];
+        $cache = new Cache($this->builder, 'assets');
+        $this->cacheTags['quality'] = $quality;
         if ($this->data['width']) {
-            array_unshift($tags, "{$this->data['width']}x");
+            $this->cacheTags['width'] = $this->data['width'];
         }
-        $cacheKey = $cache->createKeyFromAsset($asset, $tags);
+        $cacheKey = $cache->createKeyFromAsset($asset, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $asset->data['content'] = Image::convert($asset, $format, $quality);
             $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
@@ -600,7 +612,7 @@ class Asset implements \ArrayAccess
     public function dataurl(): string
     {
         if ($this->data['type'] == 'image' && !Image::isSVG($this)) {
-            return Image::getDataUrl($this, $this->config->get('assets.images.quality'));
+            return Image::getDataUrl($this, (int) $this->config->get('assets.images.quality'));
         }
 
         return \sprintf('data:%s;base64,%s', $this->data['subtype'], base64_encode($this->data['content']));
@@ -613,202 +625,174 @@ class Asset implements \ArrayAccess
      */
     public function save(): void
     {
-        $cache = new Cache($this->builder, (string) $this->builder->getConfig()->get('cache.assets.dir'));
-        if (Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
-            $this->builder->addAsset($this->data['path']);
+        if ($this->data['missing']) {
+            return;
         }
+
+        $cache = new Cache($this->builder, 'assets');
+        if (!Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
+            throw new RuntimeException(
+                \sprintf('Can\'t add "%s" to assets list. Please clear cache and retry.', $this->data['path'])
+            );
+        }
+
+        $this->builder->addAsset($this->data['path']);
     }
 
     /**
-     * Is Asset is an image in CDN.
-     *
-     * @return bool
+     * Is the asset an image and is it in CDN?
      */
-    public function isImageInCdn()
+    public function isImageInCdn(): bool
     {
         if (
-            $this->data['type'] != 'image'
-            || (bool) $this->config->get('assets.images.cdn.enabled') !== true
-            || $this->data['ext'] == 'ico'
-            || (Image::isSVG($this) && (bool) $this->config->get('assets.images.cdn.svg') !== true)
+            $this->data['type'] == 'image'
+            && $this->config->isEnabled('assets.images.cdn')
+            && $this->data['ext'] != 'ico'
+            && (Image::isSVG($this) && $this->config->isEnabled('assets.images.cdn.svg'))
         ) {
-            return false;
+            return true;
         }
-        // remote image?
-        if ($this->data['url'] !== null && (bool) $this->config->get('assets.images.cdn.remote') !== true) {
-            return false;
+        // handle remote image?
+        if ($this->data['url'] !== null && $this->config->isEnabled('assets.images.cdn.remote')) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
-     * Load file data and store theme in $file array.
-     *
-     * @throws RuntimeException
-     *
-     * @return string[]
+     * Builds a relative path from a URL.
+     * Used for remote files.
      */
-    private function loadFile(string $path, bool $ignore_missing = false, ?string $remote_fallback = null, bool $force_slash = true): array
+    public static function buildPathFromUrl(string $url): string
     {
-        $file = [
-            'url'      => null,
-            'filepath' => null,
-            'path'     => null,
-            'ext'      => null,
-            'type'     => null,
-            'subtype'  => null,
-            'size'     => null,
-            'content'  => null,
-            'missing'  => false,
-        ];
+        $host = parse_url($url, PHP_URL_HOST);
+        $path = parse_url($url, PHP_URL_PATH);
+        $query = parse_url($url, PHP_URL_QUERY);
+        $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
 
-        // try to find file locally and returns the file path
-        try {
-            $filePath = $this->locateFile($path, $remote_fallback);
-        } catch (RuntimeException $e) {
-            if ($ignore_missing) {
-                $file['path'] = $path;
-                $file['missing'] = true;
-
-                return $file;
-            }
-
-            throw new RuntimeException(\sprintf('Can\'t load asset file "%s" (%s).', $path, $e->getMessage()));
+        // Google Fonts hack
+        if (Util\Str::endsWith($path, '/css') || Util\Str::endsWith($path, '/css2')) {
+            $ext = 'css';
         }
 
-        // in case of an URL, update $path
-        if (Util\Url::isUrl($path)) {
-            $file['url'] = $path;
-            $path = Util::joinPath(
-                (string) $this->config->get('assets.target'),
-                Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsRemotePath())
-            );
-            // trick: the `remote_fallback` file is in assets/ dir (not in cache/assets/remote/
-            if (substr(Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsRemotePath()), 0, 2) == '..') {
-                $path = Util::joinPath(
-                    (string) $this->config->get('assets.target'),
-                    Util\File::getFS()->makePathRelative($filePath, $this->config->getAssetsPath())
-                );
-            }
-            $force_slash = true;
-        }
-
-        // force leading slash?
-        if ($force_slash) {
-            $path = '/' . ltrim($path, '/');
-        }
-
-        // get content and content type
-        $content = Util\File::fileGetContents($filePath);
-        list($type, $subtype) = Util\File::getMediaType($filePath);
-
-        $file['filepath'] = $filePath;
-        $file['path'] = $path;
-        $file['ext'] = pathinfo($path)['extension'] ?? '';
-        $file['type'] = $type;
-        $file['subtype'] = $subtype;
-        $file['size'] = filesize($filePath);
-        $file['content'] = $content;
-        $file['missing'] = false;
-
-        return $file;
+        return Page::slugify(\sprintf('%s%s%s%s', $host, self::sanitize($path), $query ? "-$query" : '', $query && $ext ? ".$ext" : ''));
     }
 
     /**
-     * Try to locate the file:
-     *   1. remotely (if $path is a valid URL)
-     *   2. in static|assets/
-     *   3. in themes/<theme>/static|assets/
-     * Returns local file path or throw an exception.
+     * Replaces some characters by '_'.
+     */
+    public static function sanitize(string $string): string
+    {
+        return str_replace(['<', '>', ':', '"', '\\', '|', '?', '*'], '_', $string);
+    }
+
+    /**
+     * Returns local file path and updated path, or throw an exception.
      *
-     * @return string local file path
+     * Try to locate the file in:
+     *   (1. remote file)
+     *   1. assets
+     *   2. themes/<theme>/assets
+     *   3. static
+     *   4. themes/<theme>/static
+     *
+     * If $fallback is set, it will be used if the file is not found.
      *
      * @throws RuntimeException
      */
-    private function locateFile(string $path, ?string $remote_fallback = null): string
+    private function locateFile(string $path, ?string $fallback = null): array
     {
-        // in case of a remote file: save it locally and returns its path
-        if (Util\Url::isUrl($path)) {
-            $url = $path;
-            // create relative path
-            $urlHost = parse_url($path, PHP_URL_HOST);
-            $urlPath = parse_url($path, PHP_URL_PATH);
-            $urlQuery = parse_url($path, PHP_URL_QUERY);
-            $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-            // Google Fonts hack
-            if (Util\Str::endsWith($urlPath, '/css') || Util\Str::endsWith($urlPath, '/css2')) {
-                $extension = 'css';
-            }
-            $relativePath = Page::slugify(\sprintf(
-                '%s%s%s%s',
-                $urlHost,
-                $this->sanitize($urlPath),
-                $urlQuery ? "-$urlQuery" : '',
-                $urlQuery && $extension ? ".$extension" : ''
-            ));
-            $filePath = Util::joinFile($this->config->getAssetsRemotePath(), $relativePath);
-            // save file
-            if (!file_exists($filePath)) {
-                try {
-                    // get content
-                    if (!Util\Url::isRemoteFileExists($url)) {
-                        throw new RuntimeException(\sprintf('File "%s" doesn\'t exists', $url));
-                    }
-                    if (false === $content = Util\File::fileGetContents($url, true)) {
-                        throw new RuntimeException(\sprintf('Can\'t get content of file "%s".', $url));
-                    }
-                    if (\strlen($content) <= 1) {
-                        throw new RuntimeException(\sprintf('File "%s" is empty.', $url));
-                    }
-                } catch (RuntimeException $e) {
-                    // if there is a fallback in assets/ returns it
-                    if ($remote_fallback) {
-                        $filePath = Util::joinFile($this->config->getAssetsPath(), $remote_fallback);
-                        if (Util\File::getFS()->exists($filePath)) {
-                            return $filePath;
-                        }
-
-                        throw new RuntimeException(\sprintf('Fallback file "%s" doesn\'t exists.', $filePath));
-                    }
-
-                    throw new RuntimeException($e->getMessage());
+        // remote file
+        if (Util\File::isRemote($path)) {
+            try {
+                $content = $this->getRemoteFileContent($path);
+                $path = self::buildPathFromUrl($path);
+                $cache = new Cache($this->builder, 'assets/remote');
+                if (!$cache->has($path)) {
+                    $cache->set($path, [
+                        'content' => $content,
+                        'path'    => $path,
+                    ], \DateInterval::createFromDateString('7 days'));
                 }
-                Util\File::getFS()->dumpFile($filePath, $content);
+                return [
+                    'file' => $cache->getContentFilePathname($path),
+                    'path' => $path,
+                ];
+            } catch (RuntimeException $e) {
+                if ($fallback === null) {
+                    throw new RuntimeException($e->getMessage(), previous: $e);
+                }
+                $path = $fallback;
             }
-
-            return $filePath;
         }
 
         // checks in assets/
-        $filePath = Util::joinFile($this->config->getAssetsPath(), $path);
-        if (Util\File::getFS()->exists($filePath)) {
-            return $filePath;
+        $file = Util::joinFile($this->config->getAssetsPath(), $path);
+        if (Util\File::getFS()->exists($file)) {
+            return [
+                'file' => $file,
+                'path' => $path,
+            ];
         }
 
         // checks in each themes/<theme>/assets/
         foreach ($this->config->getTheme() ?? [] as $theme) {
-            $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $path);
-            if (Util\File::getFS()->exists($filePath)) {
-                return $filePath;
+            $file = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $path);
+            if (Util\File::getFS()->exists($file)) {
+                return [
+                    'file' => $file,
+                    'path' => $path,
+                ];
             }
         }
 
         // checks in static/
-        $filePath = Util::joinFile($this->config->getStaticTargetPath(), $path);
-        if (Util\File::getFS()->exists($filePath)) {
-            return $filePath;
+        $file = Util::joinFile($this->config->getStaticTargetPath(), $path);
+        if (Util\File::getFS()->exists($file)) {
+            return [
+                'file' => $file,
+                'path' => $path,
+            ];
         }
 
         // checks in each themes/<theme>/static/
         foreach ($this->config->getTheme() ?? [] as $theme) {
-            $filePath = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
-            if (Util\File::getFS()->exists($filePath)) {
-                return $filePath;
+            $file = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
+            if (Util\File::getFS()->exists($file)) {
+                return [
+                    'file' => $file,
+                    'path' => $path,
+                ];
             }
         }
 
-        throw new RuntimeException(\sprintf('Can\'t find file "%s".', $path));
+        throw new RuntimeException(\sprintf('Can\'t locate file "%s".', $path));
+    }
+
+    /**
+     * Try to get remote file content.
+     * Returns file content or throw an exception.
+     *
+     * @throws RuntimeException
+     */
+    private function getRemoteFileContent(string $path): string
+    {
+        try {
+            if (!Util\File::isRemoteExists($path)) {
+                throw new RuntimeException(\sprintf('Remote file "%s" doesn\'t exists', $path));
+            }
+            if (false === $content = Util\File::fileGetContents($path, true)) {
+                throw new RuntimeException(\sprintf('Can\'t get content of remote file "%s".', $path));
+            }
+            if (\strlen($content) <= 1) {
+                throw new RuntimeException(\sprintf('Remote file "%s" is empty.', $path));
+            }
+        } catch (RuntimeException $e) {
+            throw new RuntimeException($e->getMessage());
+        }
+
+        return $content;
     }
 
     /**
@@ -876,14 +860,6 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Replaces some characters by '_'.
-     */
-    private function sanitize(string $string): string
-    {
-        return str_replace(['<', '>', ':', '"', '\\', '|', '?', '*'], '_', $string);
-    }
-
-    /**
      * Builds CDN image URL.
      */
     private function buildImageCdnUrl(): string
@@ -897,10 +873,10 @@ class Asset implements \ArrayAccess
                 '%format%',
             ],
             [
-                $this->config->get('assets.images.cdn.account'),
-                ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical')]), '/'),
+                $this->config->get('assets.images.cdn.account') ?? '',
+                ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical') ?? true]), '/'),
                 $this->data['width'],
-                $this->config->get('assets.images.quality'),
+                (int) $this->config->get('assets.images.quality'),
                 $this->data['ext'],
             ],
             (string) $this->config->get('assets.images.cdn.url')

@@ -74,7 +74,7 @@ EOF
 
         try {
             // ask to override existing site?
-            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(false), $this->findConfigFile('name') ?: self::CONFIG_FILE[0])) && !$force) {
+            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(false), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0])) && !$force) {
                 $output->writeln('<comment>Website already exists.</comment>');
                 if (!$this->io->confirm('Do you want to override it?', false)) {
                     return 0;
@@ -103,7 +103,7 @@ EOF
                 ],
             ]);
             $configYaml = Yaml::dump($config, 2, 2);
-            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->findConfigFile('name') ?: self::CONFIG_FILE[0]), $configYaml);
+            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0]), $configYaml);
             // create path dir
             Util\File::getFS()->mkdir($this->getPath(false));
             // creates sub dir

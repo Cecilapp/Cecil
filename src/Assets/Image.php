@@ -87,7 +87,7 @@ class Image
 
             return (string) $image->encodeByExtension($format, /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Not able to convert "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Not able to convert "%s" to %s: %s', $asset['path'], $format, $e->getMessage()));
         }
     }
 
@@ -147,7 +147,7 @@ class Image
      */
     public static function buildSrcset(Asset $asset, array $widths): string
     {
-        if ($asset['type'] !== 'image') {
+        if (!self::isImage($asset)) {
             throw new RuntimeException(\sprintf('can\'t build "srcset" of "%s": it\'s not an image file.', $asset['path']));
         }
 
@@ -157,7 +157,7 @@ class Image
         $widths = array_reverse($widths);
         foreach ($widths as $width) {
             if ($asset['width'] < $width) {
-                break;
+                continue;
             }
             $img = $asset->resize($width);
             $srcset .= \sprintf('%s %sw, ', (string) $img, $width);
@@ -213,11 +213,19 @@ class Image
     }
 
     /**
+     * Returns true if asset is an ICO.
+     */
+    public static function isIco(Asset $asset): bool
+    {
+        return \in_array($asset['subtype'], ['image/x-icon', 'image/vnd.microsoft.icon']) || $asset['ext'] == 'ico';
+    }
+
+    /**
      * Asset is a valid image?
      */
     public static function isImage(Asset $asset): bool
     {
-        if ($asset['type'] !== 'image' || self::isSVG($asset)) {
+        if ($asset['type'] !== 'image' || self::isSVG($asset) || self::isIco($asset)) {
             return false;
         }
 

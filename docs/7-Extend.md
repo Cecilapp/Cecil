@@ -1,7 +1,7 @@
 <!--
 description: "Extend Cecil."
 date: 2023-04-17
-updated: 2024-12-30
+updated: 2025-03-27
 -->
 # Extend
 
@@ -13,7 +13,7 @@ Because Cecil is powered by PHP it's easy to extend its capabilities.
 
 A Generator help you to create pages without Markdown files (with data from an API or a database for example) or alter existing pages.
 
-Just create a new PHP class in the `Cecil\Generator` namespace and add the class name to the [`pages.generators`](4-Configuration.md#generators) list.
+Just create a new PHP class in the `Cecil\Generator` namespace and add the class name to the [`pages.generators`](4-Configuration.md#pages-generators) list.
 
 **Example:**
 

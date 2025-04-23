@@ -15,31 +15,11 @@ namespace Cecil\Exception;
 
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
-    private $pageFile;
-    private $pageLine;
-    private $pageCol;
-
-    public function __construct(string $message, ?string $pageFile = null, ?int $pageLine = null, ?int $pageCol = null, ?\Throwable $previous = null)
+    public function __construct(string $message, int $code = 0, ?\Throwable $previous = null, string $file = '', int $line = 0)
     {
-        $this->pageFile = $pageFile;
-        $this->pageLine = $pageLine;
-        $this->pageCol = $pageCol;
+        $this->file = $file;
+        $this->line = $line;
 
-        parent::__construct($message, 0, $previous);
-    }
-
-    public function getPageFile(): ?string
-    {
-        return $this->pageFile;
-    }
-
-    public function getPageLine(): ?int
-    {
-        return $this->pageLine;
-    }
-
-    public function getPageCol(): ?int
-    {
-        return $this->pageCol;
+        parent::__construct($message, $code, $previous);
     }
 }

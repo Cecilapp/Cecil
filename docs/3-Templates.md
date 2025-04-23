@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-03-12
+updated: 2025-04-22
 alias: documentation/layouts
 -->
 # Templates
@@ -54,7 +54,7 @@ layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 :  The language of the page (e.g.: `fr`).
 
 `<format>`
-:  The [output format](4-Configuration.md#formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
+:  The [output format](4-Configuration.md#output-formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
 
 `.twig`
 :  The mandatory Twig file extension.
@@ -459,7 +459,7 @@ Creates a valid URL for a page, a menu entry, an asset, a page ID or a path.
 | Option    | Description                                                                | Type    | Default |
 | --------- | -------------------------------------------------------------------------- | ------- | ------- |
 | canonical | Prefixes URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options-and-front-matter). | boolean | `false` |
-| format    | Defines page [output format](4-Configuration.md#formats) (e.g.: `json`).   | string  | `html`  |
+| format    | Defines page [output format](4-Configuration.md#output-formats) (e.g.: `json`).   | string  | `html`  |
 | language  | Trying to force page [language](4-Configuration.md#language) (e.g.: `fr`). | string  | null    |
 
 _Examples:_
@@ -510,16 +510,18 @@ Local files must be stored in the `assets/` (or `static/`)  directory.
 | --------------- | --------------------------------------------------- | ------- | ------- |
 | fingerprint     | Add the file content finger print to the file name. | boolean | `true`  |
 | minify          | Compress file content (CSS or JavaScript).          | boolean | `true`  |
+| optimize        | Compress image file.                                | boolean | `false` |
 | filename        | File where to save content.                         | string  | `styles.css` or `scripts.js` |
 | ignore_missing  | Do not stop build if file don't exists.             | boolean | `false` |
-| remote_fallback | Load a local asset if the remote one don't exists.  | string  | `null`  |
+| fallback        | Load a local asset if $path file don't exists.      | string  | ``      |
+| leading_slash   | Add a leading slash to the $path.                   | string  | `true`  |
 
 :::tip
 You can use [filters](#filters) to manipulate assets.
 :::
 
-:::important
-Be careful about the [cache](#cache): if an asset is modified but keeps the same name, then the cached version will be used. Cache can be cleared with the [command](5-Commands.md) `php cecil.phar cache:clear:assets`.
+:::info
+You don't need to clear the [cache](#cache) after modifying an asset: the cache is automatically cleared when the file is modified or when the file name is changed.
 :::
 
 _Examples:_
@@ -1360,7 +1362,7 @@ php cecil.phar cache:clear:translations  # clear translations cache
 ```
 
 :::important
-In practice you don't need to clear the cache manually, Cecil does it for you when needed.
+In practice you don't need to clear the cache manually, Cecil does it for you when needed (e.g. when files change).
 :::
 
 ### Fragments cache
@@ -1379,7 +1381,7 @@ To use _fragments_ cache, you must wrap the content you want to cache with the `
 More details on the official _Twig cache extension_ documentation: <https://twig.symfony.com/doc/tags/cache.html>.
 :::
 
-Fragments cache is aggressive, so during development you may need to clear it, with the following command:
+Fragments cache is persistent, so during development you may need to clear it, with the following command:
 
 ```bash
 php cecil.phar cache:clear:templates --fragments
@@ -1392,7 +1394,7 @@ You can disable cache with the [configuration](4-Configuration.md#cache).
 :::warning
 Disabling cache can slow down the generation process, so it's not recommended.
 
-During local development, if you need to clear templates cache before each generation, you can use the following option:
+During local development, if you need to clear cache before each generation, you can use the following option:
 
 ```bash
 php cecil.phar serve --clear-cache          # clear all caches

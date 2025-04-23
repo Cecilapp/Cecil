@@ -3,7 +3,7 @@
 {% block head %}
 {{ parent() }}
     {% set style %}
-    $primary-color: #181818;
+    $primary-color:rgb(202, 201, 242);
     $bg-color: white;
     body {
       color: $primary-color;
@@ -14,7 +14,7 @@
       color: $primary-color;
     }
     pre {
-      background-color: #DCDCDC;
+      background-color:rgb(14, 39, 81);
     }
     {% endset %}
     <style>
@@ -309,7 +309,7 @@
   </p>
   <p>
     <pre>{% verbatim %}{{ asset('asssset.css', {ignore_missing: true}).missing) }}{% endverbatim %}</pre>
-    <blockquote>{{ asset('asssset.css', {ignore_missing: true}).missing }}</blockquote>
+    <blockquote>{{ dump(asset('asssset.css', {ignore_missing: true}).missing) }}</blockquote>
   </p>
 
   <h2>Access to wrong properties</h2>

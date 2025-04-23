@@ -6,3 +6,5 @@ author:
   name: Cecil
   url: https://cecil.app
 image: cecil-card.png
+taxonomies:
+  tags: tag

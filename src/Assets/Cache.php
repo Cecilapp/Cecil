@@ -40,9 +40,38 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
+    public function set($key, $value, $ttl = null): bool
+    {
+        try {
+            $key = self::sanitizeKey($key);
+            $this->prune($key);
+            // put file content in a dedicated file
+            if (\is_array($value) && !empty($value['content']) && !empty($value['path'])) {
+                Util\File::getFS()->dumpFile($this->getContentFilePathname($value['path']), $value['content']);
+                unset($value['content']);
+            }
+            // serialize data
+            $data = serialize([
+                'value'      => $value,
+                'expiration' => time() + $this->duration($ttl),
+            ]);
+            Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
+            $this->builder->getLogger()->debug(\sprintf('Cache created: "%s"', Util\File::getFS()->makePathRelative($this->getFilePathname($key), $this->builder->getConfig()->getCachePath())));
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->error($e->getMessage());
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function has($key): bool
     {
-        $key = $this->sanitizeKey($key);
+        $key = self::sanitizeKey($key);
         if (!Util\File::getFS()->exists($this->getFilePathname($key))) {
             return false;
         }
@@ -56,7 +85,7 @@ class Cache implements CacheInterface
     public function get($key, $default = null): mixed
     {
         try {
-            $key = $this->sanitizeKey($key);
+            $key = self::sanitizeKey($key);
             // return default value if file doesn't exists
             if (false === $content = Util\File::fileGetContents($this->getFilePathname($key))) {
                 return $default;
@@ -87,38 +116,10 @@ class Cache implements CacheInterface
     /**
      * {@inheritdoc}
      */
-    public function set($key, $value, $ttl = null): bool
-    {
-        try {
-            $key = $this->sanitizeKey($key);
-            $this->prune($key);
-            // put file content in a dedicated file
-            if (\is_array($value) && !empty($value['content']) && !empty($value['path'])) {
-                Util\File::getFS()->dumpFile($this->getContentFilePathname($value['path']), $value['content']);
-                unset($value['content']);
-            }
-            // serialize data
-            $data = serialize([
-                'value'      => $value,
-                'expiration' => time() + $this->duration($ttl),
-            ]);
-            Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
-        } catch (\Exception $e) {
-            $this->builder->getLogger()->error($e->getMessage());
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function delete($key): bool
     {
         try {
-            $key = $this->sanitizeKey($key);
+            $key = self::sanitizeKey($key);
             Util\File::getFS()->remove($this->getFilePathname($key));
             $this->prune($key);
         } catch (\Exception $e) {
@@ -171,41 +172,62 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key with the MD5 hash of a string.
+     * Creates key from a string: "$name|uniqid__HASH__VERSION".
+     * $name is optional to add a human readable name to the key.
      */
-    public function createKeyFromString(string $value, ?string $suffix = null): string
+    public function createKey(?string $name, string $value): string
     {
-        return \sprintf('%s%s__%s', hash('md5', $value), ($suffix ? '_' . $suffix : ''), $this->builder->getVersion());
+        $hash = hash('md5', $value);
+        $name = $name ? self::sanitizeKey($name) : $hash;
+
+        return \sprintf('%s__%s__%s', $name, $hash, $this->builder->getVersion());
     }
 
     /**
-     * Creates key from a file: "$relativePath__MD5".
-     *
-     * @throws RuntimeException
-     */
-    public function createKeyFromPath(string $path, string $relativePath): string
-    {
-        if (false === $content = Util\File::fileGetContents($path)) {
-            throw new RuntimeException(\sprintf('Can\'t create cache key for "%s".', $path));
-        }
-
-        return $this->sanitizeKey(\sprintf('%s__%s', $relativePath, $this->createKeyFromString($content)));
-    }
-
-    /**
-     * Creates key from an Asset: "$path_$ext_$tags__VERSION__MD5".
+     * Creates key from an Asset: "$path_$ext_$tags__HASH__VERSION".
      */
     public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
     {
-        $tags = implode('_', $tags ?? []);
+        $t = $tags;
+        $tags = [];
 
-        return $this->sanitizeKey(\sprintf(
-            '%s%s%s__%s',
-            $asset['path'],
-            "_{$asset['ext']}",
-            $tags ? "_$tags" : '',
-            $this->createKeyFromString($asset['content'] ?? '')
-        ));
+        if ($t !== null) {
+            ksort($t);
+            foreach ($t as $key => $value) {
+                switch (\gettype($value)) {
+                    case 'boolean':
+                        if ($value === true) {
+                            $tags[] = $key;
+                        }
+                        break;
+                    case 'string':
+                    case 'integer':
+                        if (!empty($value)) {
+                            $tags[] = substr($key, 0, 1) . $value;
+                        }
+                        break;
+                }
+            }
+        }
+
+        $tagsInline = implode('_', $tags);
+        $name = "{$asset['_path']}_{$asset['ext']}_$tagsInline";
+
+        return $this->createKey($name, $asset['content'] ?? '');
+    }
+
+    /**
+     * Creates key from a file: "RelativePathname__MD5".
+     *
+     * @throws RuntimeException
+     */
+    public function createKeyFromFile(\Symfony\Component\Finder\SplFileInfo $file): string
+    {
+        if (false === $content = Util\File::fileGetContents($file->getRealPath())) {
+            throw new RuntimeException(\sprintf('Can\'t create cache key for "%s".', $file));
+        }
+
+        return $this->createKey($file->getRelativePathname(), $content);
     }
 
     /**
@@ -227,7 +249,7 @@ class Cache implements CacheInterface
                     if (preg_match('/' . $pattern . '/i', $file->getPathname())) {
                         Util\File::getFS()->remove($file->getPathname());
                         $fileCount++;
-                        $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', Util\File::getFS()->makePathRelative($file->getPathname(), $this->builder->getConfig()->getCachePath())));
+                        $this->builder->getLogger()->debug(\sprintf('Cache removed: "%s"', Util\File::getFS()->makePathRelative($file->getPathname(), $this->builder->getConfig()->getCachePath())));
                     }
                 }
             }
@@ -241,9 +263,27 @@ class Cache implements CacheInterface
     }
 
     /**
+     * Returns cache content file pathname from path.
+     */
+    public function getContentFilePathname(string $path): string
+    {
+        $path = str_replace(['https://', 'http://'], '', $path); // remove protocol (if URL)
+
+        return Util::joinFile($this->cacheDir, 'files', $path);
+    }
+
+    /**
+     * Returns cache file pathname from key.
+     */
+    private function getFilePathname(string $key): string
+    {
+        return Util::joinFile($this->cacheDir, "$key.ser");
+    }
+
+    /**
      * Prepares and validate $key.
      */
-    public function sanitizeKey(string $key): string
+    public static function sanitizeKey(string $key): string
     {
         $key = str_replace(['https://', 'http://'], '', $key); // remove protocol (if URL)
         $key = Page::slugify($key);                            // slugify
@@ -255,35 +295,19 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Returns cache content file pathname from path.
-     */
-    public function getContentFilePathname(string $path): string
-    {
-        return Util::joinFile($this->builder->getConfig()->getCacheAssetsFilesPath(), $path);
-    }
-
-    /**
-     * Returns cache file pathname from key.
-     */
-    private function getFilePathname(string $key): string
-    {
-        return Util::joinFile($this->cacheDir, \sprintf('%s.ser', $key));
-    }
-
-    /**
      * Removes previous cache files.
      */
     private function prune(string $key): bool
     {
         try {
-            $keyAsArray = explode('__', $this->sanitizeKey($key));
-            // if 3 parts (with hash), remove all files with the same first part
-            // pattern: `path_tag__hash__version`
-            if (!empty($keyAsArray[0]) && \count($keyAsArray) == 3) {
+            $keyAsArray = explode('__', self::sanitizeKey($key));
+            // if 2 or more parts (with hash), remove all files with the same first part
+            // pattern: `name__hash__version`
+            if (!empty($keyAsArray[0]) && \count($keyAsArray) >= 2) {
                 $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
                 foreach (glob($pattern) ?: [] as $filename) {
                     Util\File::getFS()->remove($filename);
-                    $this->builder->getLogger()->debug(\sprintf('Cache file "%s" removed', Util\File::getFS()->makePathRelative($filename, $this->builder->getConfig()->getCachePath())));
+                    $this->builder->getLogger()->debug(\sprintf('Cache removed: "%s"', Util\File::getFS()->makePathRelative($filename, $this->builder->getConfig()->getCachePath())));
                 }
             }
         } catch (\Exception $e) {
@@ -307,7 +331,7 @@ class Cache implements CacheInterface
             return $ttl;
         }
         if ($ttl instanceof \DateInterval) {
-            return (int)$ttl->format('%s');
+            return (int) $ttl->d * 86400 + $ttl->h * 3600 + $ttl->i * 60 + $ttl->s;
         }
 
         throw new \InvalidArgumentException('TTL values must be one of null, int, \DateInterval');
