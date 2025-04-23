@@ -650,6 +650,7 @@ class Config
                     $step = $step + 2;
                     $formatedPath .= "$fragment:\n" . str_pad(' ', $step);
                 }
+                $formatedPath = trim($formatedPath);
                 throw new ConfigException("Option `$from` must be moved to:\n```\n$formatedPath\n```");
             }
         });
