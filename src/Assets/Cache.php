@@ -56,6 +56,7 @@ class Cache implements CacheInterface
                 'expiration' => time() + $this->duration($ttl),
             ]);
             Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
+            $this->builder->getLogger()->debug(\sprintf('Cache created: "%s"', Util\File::getFS()->makePathRelative($this->getFilePathname($key), $this->builder->getConfig()->getCachePath())));
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
