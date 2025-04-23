@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.37.0](https://github.com/Cecilapp/Cecil/compare/8.36.0...8.37.0)
+
+> 23 April 2025
+
+- refactor: configuration and cache [`#2148`](https://github.com/Cecilapp/Cecil/pull/2148)
+- doc: fix pages default configuration [`6d7ba8f`](https://github.com/Cecilapp/Cecil/commit/6d7ba8f0a0c6ebee06d20f32e53cd11e31dd3fc9)
+
 #### [8.36.0](https://github.com/Cecilapp/Cecil/compare/8.35.1...8.36.0)
 
 > 22 April 2025
