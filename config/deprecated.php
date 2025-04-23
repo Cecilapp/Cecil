@@ -23,7 +23,7 @@ return [
     'translations' => 'layouts:translations',
     'extensions' => 'layouts:extensions',
     'postprocess' => 'optimize',
-    // changes from version 8.35
+    // changes since version 8.37.0
     'pagination' => 'pages:pagination',
     'paths' => 'pages:paths',
     'pages.frontmatter.format' => 'pages.frontmatter',
