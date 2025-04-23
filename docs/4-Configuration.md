@@ -160,7 +160,7 @@ taxonomies:
 ```
 
 :::warning
-Since ++version 8.35.0++, default vocabularies `category` and `tag` have been removed.
+Since ++version 8.37.0++, default vocabularies `category` and `tag` have been removed.
 :::
 
 :::tip
