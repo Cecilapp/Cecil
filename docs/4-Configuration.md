@@ -829,11 +829,11 @@ assets:
 
 ### assets.target
 
-Directory where remote and resized assets files are saved (`assets` by default).
+Directory where remote and resized assets files are saved (root by default).
 
 ```yaml
 assets:
-  target: assets
+  target: ''
 ```
 
 ### assets.fingerprint
@@ -879,11 +879,11 @@ Images management.
 assets:
   images:
     optimize: false # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc (`false` by default)
-    quality: 75     # image quality after optimization or resize (`75` by default)
+    quality: 75     # image quality of `optimize` and `resize` (`75` by default)
     responsive:
       widths: [480, 640, 768, 1024, 1366, 1600, 1920] # `srcset` attribute images widths
       sizes:
-        default: '100vw' # default `sizes` attribute
+        default: '100vw' # default `sizes` attribute (`100vw` by default)
 ```
 
 ### assets.images.cdn
