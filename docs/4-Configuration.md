@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-04-15
+updated: 2025-04-23
 -->
 # Configuration
 
@@ -652,19 +652,19 @@ pages:
       published: true
       exclude: true
       multilingual: false
-    atom:
-      path: atom
+    xsl/atom:
+      path: xsl/atom
       layout: feed
       output: xsl
       uglyurl: true
       published: true
       exclude: true
-    rss:
-      path: rss
+    xsl/rss:
+      path: xsl/rss
       layout: feed
       output: xsl
       uglyurl: true
-      published: true
+      published: false
       exclude: true
 ```
 

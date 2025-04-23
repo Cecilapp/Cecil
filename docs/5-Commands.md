@@ -263,6 +263,7 @@ Options:
       --optimize[=OPTIMIZE]        Optimize files (disable with "no") [default: false]
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
       --no-ignore-vcs              Changes watcher must not ignore VCS directories
+      --timeout[=TIMEOUT]          Sets the process timeout (max. runtime) in seconds
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version
@@ -300,4 +301,8 @@ Help:
   To start the server with changes watcher not ignoring VCS directories, run:
 
     cecil.phar serve --no-ignore-vcs
+
+  To define the process timeout (in seconds), run:
+
+    cecil.phar serve --timeout=3600
 ```
