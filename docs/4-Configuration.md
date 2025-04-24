@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-04-23
+updated: 2025-04-24
 -->
 # Configuration
 
@@ -744,7 +744,7 @@ data:
 Management of static files are copied (PDF, fonts, etc.).
 
 :::important
-You should put your assets files, used by [`asset()`](3-Templates.md#asset), in the [`assets` directory](4-Configuration.md#assets) to avoid unnecessary files copy.
+You should put your assets files, used by [`asset()`](3-Templates.md#asset), in the [`assets` directory](4-Configuration.md#assets-dir) to avoid unnecessary files copy.
 :::
 
 ### static.dir
@@ -758,7 +758,7 @@ static:
 
 ### static.target
 
-Directory where static files are copied (empty by default).
+Directory where static files are copied (root by default).
 
 ```yaml
 static:
@@ -976,7 +976,7 @@ output:
       exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
 ```
 
-Those formats are used by [`pagetypeformats`](output.pagetypeformats) and by the [`output` page’s variable](2-Content.md#output).
+Those formats are used by [`pagetypeformats`](#output-pagetypeformats) and by the [`output` page’s variable](2-Content.md#output).
 
 :::info
 To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
