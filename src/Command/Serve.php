@@ -53,6 +53,7 @@ class Serve extends AbstractCommand
                 new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
                 new InputOption('timeout', null, InputOption::VALUE_OPTIONAL, 'Sets the process timeout (max. runtime) in seconds', 3600 * 2),
+                new InputOption('metrics', null, InputOption::VALUE_NONE, 'Show build steps metrics'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -89,6 +90,10 @@ To start the server with changes watcher not ignoring VCS directories, run:
 To define the process timeout (in seconds), run:
 
   <info>%command.full_name% --timeout=3600</>
+
+To show build steps metrics, run:
+
+  <info>%command.full_name% --metrics</>
 EOF
             );
     }
@@ -109,7 +114,8 @@ EOF
         $verbose = $input->getOption('verbose');
         $page = $input->getOption('page');
         $noignorevcs = $input->getOption('no-ignore-vcs');
-        $timeout = $input->getOption('timeout');
+        $timeout = (int) $input->getOption('timeout');
+        $metrics = $input->getOption('metrics');
 
         $this->setUpServer($host, $port);
 
@@ -162,6 +168,9 @@ EOF
         if (!empty($page)) {
             $buildProcessArguments[] = '--page';
             $buildProcessArguments[] = $page;
+        }
+        if (!empty($metrics)) {
+            $buildProcessArguments[] = '--metrics';
         }
 
         $buildProcess = new Process(
