@@ -480,14 +480,13 @@ pages:
 
 ### pages.paths
 
-Defines a custom [`path`](2-Content.md#variables) for all pages of a **_Section_**.
+Apply a custom [`path`](2-Content.md#predefined-variables) for all pages of a **_Section_**.
 
 ```yaml
 pages:
   paths:
     - section: <section’s ID>
-      language: <language code> # optional
-      path: <path of pages>     # with optional placeholders
+      path: <path of pages>
 ```
 
 #### Path placeholders
@@ -501,12 +500,20 @@ pages:
 _Example:_
 
 ```yaml
-paths:
-  - section: Blog
-    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
-  - section: Blog
-    language: fr
-    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
+pages:
+  paths:
+    - section: Blog
+      path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
+# localized
+languages:
+  - code: fr
+    name: Français
+    locale: fr_FR
+    config:
+      pages:
+        paths:
+          - section: Blog
+            path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
 ```
 
 ### pages.frontmatter
