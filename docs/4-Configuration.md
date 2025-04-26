@@ -1038,12 +1038,32 @@ You can extend Cecil with [Output post processor](7-Extend.md#output-post-proces
 
 Cache options.
 
+### cache.enabled
+
+Enables cache support (`true` by default).
+
 ```yaml
 cache:
-  enabled: true         # enables cache support (`true` by default)
-  dir: '.cache'         # cache files directory (`.cache` by default)
+  enabled: true
+```
+
+### cache.dir
+
+Directory where cache files are stored (`.cache` by default).
+
+```yaml
+cache:
+  dir: '.cache'
+```
+
+### cache.templates.enabled
+
+Enables cache for templates and translations (`true` by default).
+
+```yaml
+cache:
   templates:
-    enabled: true       # enables cache for templates and translations
+    enabled: true
 ```
 
 :::info
