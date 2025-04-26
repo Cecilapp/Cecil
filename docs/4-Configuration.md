@@ -1072,20 +1072,23 @@ See [Templates cache documentation](3-Templates.md#cache) for more details.
 
 ---
 
-## Headers
+## Server
+
+### server.headers
 
 You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
 
 :::warning
-The root option `headers` will be moved to `server.headers` in the future.
+Since version ++8.38.0++, the `headers` option has been moved to the `server.headers` section.
 :::
 
 ```yaml
-headers:
-  - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
-    headers:
-      - key: <key>
-        value: "<value>"
+server:
+  headers:
+    - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
+      headers:
+        - key: <key>
+          value: "<value>"
 ```
 
 :::tips
@@ -1095,27 +1098,28 @@ It's useful to test custom [Content Security Policy](https://developer.mozilla.o
 _Example:_
 
 ```yaml
-headers:
-  - path: /*
-    headers:
-      - key: X-Frame-Options
-        value: "SAMEORIGIN"
-      - key: X-XSS-Protection
-        value: "1; mode=block"
-      - key: X-Content-Type-Options
-        value: "nosniff"
-      - key: Content-Security-Policy
-        value: "default-src 'self'; object-src 'self'; img-src 'self'"
-      - key: Strict-Transport-Security
-        value: "max-age=31536000; includeSubDomains; preload"
-  - path: /assets/*
-    headers:
-      - key: Cache-Control
-        value: "public, max-age=31536000"
-  - path: /foo.html
-    headers:
-      - key: Foo
-        value: "bar"
+server:
+  headers:
+    - path: /*
+      headers:
+        - key: X-Frame-Options
+          value: "SAMEORIGIN"
+        - key: X-XSS-Protection
+          value: "1; mode=block"
+        - key: X-Content-Type-Options
+          value: "nosniff"
+        - key: Content-Security-Policy
+          value: "default-src 'self'; object-src 'self'; img-src 'self'"
+        - key: Strict-Transport-Security
+          value: "max-age=31536000; includeSubDomains; preload"
+    - path: /assets/*
+      headers:
+        - key: Cache-Control
+          value: "public, max-age=31536000"
+    - path: /foo.html
+      headers:
+        - key: Foo
+          value: "bar"
 ```
 
 ---
