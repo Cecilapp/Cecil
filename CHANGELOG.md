@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.37.3](https://github.com/Cecilapp/Cecil/compare/8.37.2...8.37.3)
+
+> 26 April 2025
+
+- doc: cache details [`09a2462`](https://github.com/Cecilapp/Cecil/commit/09a2462132a172a9c8f29a3eee6e9b812df81ec8)
+- fix: Page getFileName if file is null [`7020b28`](https://github.com/Cecilapp/Cecil/commit/7020b28840d89783aca27c1a0a28ddfa4bd20b24)
+
 #### [8.37.2](https://github.com/Cecilapp/Cecil/compare/8.37.1...8.37.2)
 
 > 26 April 2025
