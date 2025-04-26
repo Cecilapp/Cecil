@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.37.2](https://github.com/Cecilapp/Cecil/compare/8.37.1...8.37.2)
+
+> 26 April 2025
+
+- fix: pages.paths localization [`fbe27d2`](https://github.com/Cecilapp/Cecil/commit/fbe27d2394048fccce025fd55a5ac36b5f5c8499)
+- doc: minor fix [`4a8d435`](https://github.com/Cecilapp/Cecil/commit/4a8d435a15499c7f018f9d9d375b29cd0a3be26f)
+- doc: minor fix [`dadcb45`](https://github.com/Cecilapp/Cecil/commit/dadcb45df9d03acd38bdc98f4e8b8e5bfa34790d)
+
 #### [8.37.1](https://github.com/Cecilapp/Cecil/compare/8.37.0...8.37.1)
 
 > 23 April 2025
