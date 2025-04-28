@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.38.0](https://github.com/Cecilapp/Cecil/compare/8.37.3...8.38.0)
+
+> 26 April 2025
+
+- refactor: move `headers` config to `server.headers` [`2e4f4de`](https://github.com/Cecilapp/Cecil/commit/2e4f4de0ebc052daa6fd96963ef890d14a47303d)
+
 #### [8.37.3](https://github.com/Cecilapp/Cecil/compare/8.37.2...8.37.3)
 
 > 26 April 2025
