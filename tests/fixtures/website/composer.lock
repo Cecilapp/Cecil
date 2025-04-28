@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cecil/theme-hyde",
-            "version": "2.5.1",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/theme-hyde.git",
-                "reference": "493ccb92aeb5cea87434170a6979beaad8aca8fc"
+                "reference": "71ac71d7b2bb00f512c1f5f05e0c97b53db34d62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/493ccb92aeb5cea87434170a6979beaad8aca8fc",
-                "reference": "493ccb92aeb5cea87434170a6979beaad8aca8fc",
+                "url": "https://api.github.com/repos/Cecilapp/theme-hyde/zipball/71ac71d7b2bb00f512c1f5f05e0c97b53db34d62",
+                "reference": "71ac71d7b2bb00f512c1f5f05e0c97b53db34d62",
                 "shasum": ""
             },
             "require": {
@@ -42,7 +42,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Cecilapp/theme-hyde/issues",
-                "source": "https://github.com/Cecilapp/theme-hyde/tree/2.5.1"
+                "source": "https://github.com/Cecilapp/theme-hyde/tree/2.6.0"
             },
             "funding": [
                 {
@@ -54,7 +54,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-08-30T12:46:29+00:00"
+            "time": "2025-04-24T22:58:36+00:00"
         },
         {
             "name": "cecil/theme-installer",
