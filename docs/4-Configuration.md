@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-04-24
+updated: 2025-04-28
 -->
 # Configuration
 
@@ -1040,12 +1040,16 @@ Cache options.
 
 ### cache.enabled
 
-Enables cache support (`true` by default).
+Cache is enabled by default (`true`), but you can disable it with:
 
 ```yaml
 cache:
-  enabled: true
+  enabled: false
 ```
+
+:::warning
+It’s not recommended to disable the cache for performance reasons.
+:::
 
 ### cache.dir
 
@@ -1056,19 +1060,56 @@ cache:
   dir: '.cache'
 ```
 
-### cache.templates.enabled
+:::info
+The cache directory is relative to the site directory, but you can use an absolute path: it can be useful to store the cache in a shared directory.
+:::
 
-Enables cache for templates and translations (`true` by default).
+### cache.assets
+
+Assets cache options.
+
+### cache.assets.ttl
+
+Time to live of assets cache in seconds (`null` by default = no expiration).
 
 ```yaml
 cache:
-  templates:
-    enabled: true
+  assets:
+    ttl: ~
+```
+
+### cache.assets.remotes.ttl
+
+Time to live of remote assets cache in seconds (`7 days` by default).
+
+```yaml
+cache:
+  assets:
+    remotes:
+      ttl: 7 days
+```
+
+### cache.templates
+
+Disables templates cache with `false` (`true` by default).
+
+```yaml
+cache:
+  templates: true
 ```
 
 :::info
-See [Templates cache documentation](3-Templates.md#cache) for more details.
+See [templates cache documentation](3-Templates.md#cache) for more details.
 :::
+
+### cache.translations
+
+Disables translations cache  with `false` (`true` by default).
+
+```yaml
+cache:
+  translations: true
+```
 
 ---
 

@@ -202,7 +202,7 @@ class Asset implements \ArrayAccess
             if ($options['minify']) {
                 $this->minify();
             }
-            $cache->set($cacheKey, $this->data);
+            $cache->set($cacheKey, $this->data, \is_string($this->config->get('cache.assets.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.ttl')) : $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
             // optimizing images files (in cache)
             if ($options['optimize'] && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
@@ -308,7 +308,7 @@ class Asset implements \ArrayAccess
             $this->data['subtype'] = 'text/css';
             $this->data['content'] = $scssPhp->compileString($this->data['content'])->getCss();
             $this->data['size'] = \strlen($this->data['content']);
-            $cache->set($cacheKey, $this->data);
+            $cache->set($cacheKey, $this->data, \is_string($this->config->get('cache.assets.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.ttl')) : $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset compiled: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
@@ -358,7 +358,7 @@ class Asset implements \ArrayAccess
             }
             $this->data['content'] = $minifier->minify();
             $this->data['size'] = \strlen($this->data['content']);
-            $cache->set($cacheKey, $this->data);
+            $cache->set($cacheKey, $this->data, \is_string($this->config->get('cache.assets.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.ttl')) : $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset minified: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
@@ -383,7 +383,7 @@ class Asset implements \ArrayAccess
                 ".$hash." . $this->data['ext'],
                 $this->data['path']
             );
-            $cache->set($cacheKey, $this->data);
+            $cache->set($cacheKey, $this->data, \is_string($this->config->get('cache.assets.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.ttl')) : $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
@@ -458,7 +458,7 @@ class Asset implements \ArrayAccess
             $assetResized->data['height'] = $assetResized->getHeight();
             $assetResized->data['size'] = \strlen($assetResized->data['content']);
 
-            $cache->set($cacheKey, $assetResized->data);
+            $cache->set($cacheKey, $assetResized->data, \is_string($this->config->get('cache.assets.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.ttl')) : $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset resized: "%s" (%sx)', $assetResized->data['path'], $width));
         }
         $assetResized->data = $cache->get($cacheKey);
@@ -499,7 +499,7 @@ class Asset implements \ArrayAccess
             $asset->data['content'] = Image::convert($asset, $format, $quality);
             $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
             $asset->data['size'] = \strlen($asset->data['content']);
-            $cache->set($cacheKey, $asset->data);
+            $cache->set($cacheKey, $asset->data, \is_string($this->config->get('cache.assets.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.ttl')) : $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset converted: "%s" (%s -> %s)', $asset->data['path'], $this->data['ext'], $format));
         }
         $asset->data = $cache->get($cacheKey);
@@ -713,7 +713,7 @@ class Asset implements \ArrayAccess
                     $cache->set($path, [
                         'content' => $content,
                         'path'    => $path,
-                    ], \DateInterval::createFromDateString('7 days'));
+                    ], \is_string($this->config->get('cache.assets.remotes.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.remotes.ttl')) : $this->config->get('cache.assets.remotes.ttl'));
                 }
                 return [
                     'file' => $cache->getContentFilePathname($path),

@@ -405,7 +405,7 @@ class Core extends SlugifyExtension
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\CSS($value);
             $value = $minifier->minify();
-            $cache->set($cacheKey, $value);
+            $cache->set($cacheKey, $value, \is_string($this->config->get('cache.assets.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.ttl')) : $this->config->get('cache.assets.ttl'));
         }
 
         return $cache->get($cacheKey, $value);
@@ -427,7 +427,7 @@ class Core extends SlugifyExtension
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\JS($value);
             $value = $minifier->minify();
-            $cache->set($cacheKey, $value);
+            $cache->set($cacheKey, $value, \is_string($this->config->get('cache.assets.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.ttl')) : $this->config->get('cache.assets.ttl'));
         }
 
         return $cache->get($cacheKey, $value);
@@ -458,7 +458,7 @@ class Core extends SlugifyExtension
                 $scssPhp->replaceVariables($variables);
             }
             $value = $scssPhp->compileString($value)->getCss();
-            $cache->set($cacheKey, $value);
+            $cache->set($cacheKey, $value, \is_string($this->config->get('cache.assets.ttl')) ? \DateInterval::createFromDateString($this->config->get('cache.assets.ttl')) : $this->config->get('cache.assets.ttl'));
         }
 
         return $cache->get($cacheKey, $value);

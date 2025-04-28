@@ -208,8 +208,15 @@ return [
         //    '<name>' => 'Cecil\Renderer\PostProcessor\<class>',
         //],
     ],
-    'cache' => [ // cache management, disable with `false`
-        'dir' => '.cache', // cache files directory
+    'cache' => [ // cache management
+        'enabled' => true, // disable with `false`
+        'dir' => '.cache', // cache files root directory
+        'assets' => [ // assets cache
+            'ttl' => null, // assets cache TTL
+            'remote' => [
+                'ttl' => '7 days', // remote assets cache TTL
+            ]
+        ],
         'templates' => true, // disable Twig templates cache with `false`
         'translations' => true, // disable translations dictionary cache with `false`
     ],
