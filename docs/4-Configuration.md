@@ -1080,13 +1080,13 @@ cache:
 
 ### cache.assets.remotes.ttl
 
-Time to live of remote assets cache in seconds (`7 days` by default).
+Time to live of remote assets cache in seconds (7 days by default).
 
 ```yaml
 cache:
   assets:
     remotes:
-      ttl: 7 days
+      ttl: 604800 # 7 days
 ```
 
 ### cache.templates
