@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.1](https://github.com/Cecilapp/Cecil/compare/8.39.0...8.39.1)
+
+> 29 April 2025
+
+- refactor: cache date [`7de8fcb`](https://github.com/Cecilapp/Cecil/commit/7de8fcb692702bc003e66fd1d1f99d7571b1be39)
+- chore: update deps [`45b0e7a`](https://github.com/Cecilapp/Cecil/commit/45b0e7a00e0b1c5e3cabf95079073446503cc0bf)
+
+#### [8.39.0](https://github.com/Cecilapp/Cecil/compare/8.38.0...8.39.0)
+
+> 29 April 2025
+
+- feature: assets cache TTL option [`707cdba`](https://github.com/Cecilapp/Cecil/commit/707cdbaa8b10bbb7ef3f650cbce8e93ff5259516)
+
 #### [8.38.0](https://github.com/Cecilapp/Cecil/compare/8.37.3...8.38.0)
 
 > 26 April 2025
