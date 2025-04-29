@@ -633,7 +633,7 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, 'assets');
-        if (!Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
+        if (empty($this->data['path']) || !Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
             throw new RuntimeException(
                 \sprintf('Can\'t add "%s" to assets list. Please clear cache and retry.', $this->data['path'])
             );
