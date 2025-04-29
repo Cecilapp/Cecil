@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.3](https://github.com/Cecilapp/Cecil/compare/8.39.2...8.39.3)
+
+> 29 April 2025
+
+- refactor: better error management [`e559444`](https://github.com/Cecilapp/Cecil/commit/e5594449a007cfc12a6c459177fab3632918f206)
+
 #### [8.39.2](https://github.com/Cecilapp/Cecil/compare/8.39.1...8.39.2)
 
 > 29 April 2025
