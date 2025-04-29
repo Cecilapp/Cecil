@@ -168,7 +168,10 @@ class Asset implements \ArrayAccess
                         $this->data['missing'] = true;
                         continue;
                     }
-                    throw new RuntimeException(\sprintf('Can\'t handle asset "%s" (%s).', $paths[$i], $e->getMessage()));
+                    throw new RuntimeException(
+                        \sprintf('Can\'t handle asset "%s".', $paths[$i]),
+                        previous: $e
+                    );
                 }
             }
             $cache->set($locateCacheKey, $this->data);
@@ -720,8 +723,8 @@ class Asset implements \ArrayAccess
                     'path' => $path,
                 ];
             } catch (RuntimeException $e) {
-                if ($fallback === null) {
-                    throw new RuntimeException($e->getMessage(), previous: $e);
+                if (empty($fallback)) {
+                    throw new RuntimeException($e->getMessage());
                 }
                 $path = $fallback;
             }
@@ -778,18 +781,14 @@ class Asset implements \ArrayAccess
      */
     private function getRemoteFileContent(string $path): string
     {
-        try {
-            if (!Util\File::isRemoteExists($path)) {
-                throw new RuntimeException(\sprintf('Remote file "%s" doesn\'t exists', $path));
-            }
-            if (false === $content = Util\File::fileGetContents($path, true)) {
-                throw new RuntimeException(\sprintf('Can\'t get content of remote file "%s".', $path));
-            }
-            if (\strlen($content) <= 1) {
-                throw new RuntimeException(\sprintf('Remote file "%s" is empty.', $path));
-            }
-        } catch (RuntimeException $e) {
-            throw new RuntimeException($e->getMessage());
+        if (!Util\File::isRemoteExists($path)) {
+            throw new RuntimeException(\sprintf('Can\'t get remote file "%s".', $path));
+        }
+        if (false === $content = Util\File::fileGetContents($path, true)) {
+            throw new RuntimeException(\sprintf('Can\'t get content of remote file "%s".', $path));
+        }
+        if (\strlen($content) <= 1) {
+            throw new RuntimeException(\sprintf('Remote file "%s" is empty.', $path));
         }
 
         return $content;

@@ -115,7 +115,10 @@ class File
 
             return $exts[0];
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t get extension of "%s" (%s).', $filename, $e->getMessage()));
+            throw new RuntimeException(
+                \sprintf('Can\'t get extension of "%s".', $filename),
+                previous: $e,
+            );
         }
     }
 
@@ -184,6 +187,11 @@ class File
     {
         if (self::isRemote($path)) {
             $handle = @fopen($path, 'r');
+            if (!empty($http_response_header)) {
+                if (400 < (int) explode(' ', $http_response_header[0])[1]) {
+                    return false;
+                }
+            }
             if (\is_resource($handle)) {
                 return true;
             }

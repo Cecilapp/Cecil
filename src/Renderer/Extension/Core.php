@@ -690,8 +690,11 @@ class Core extends SlugifyExtension
         try {
             $parsedown = new Parsedown($this->builder);
             $html = $parsedown->text($markdown);
-        } catch (\Exception) {
-            throw new RuntimeException('"markdown_to_html" filter can not convert supplied Markdown.');
+        } catch (\Exception $e) {
+            throw new RuntimeException(
+                '"markdown_to_html" filter can not convert supplied Markdown.',
+                previous: $e
+            );
         }
 
         return $html;
