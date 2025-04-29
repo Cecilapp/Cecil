@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.1](https://github.com/Cecilapp/Cecil/compare/8.39.0...8.39.1)
+
+> 29 April 2025
+
+- refactor: cache date [`7de8fcb`](https://github.com/Cecilapp/Cecil/commit/7de8fcb692702bc003e66fd1d1f99d7571b1be39)
+- chore: update deps [`45b0e7a`](https://github.com/Cecilapp/Cecil/commit/45b0e7a00e0b1c5e3cabf95079073446503cc0bf)
+
+#### [8.39.0](https://github.com/Cecilapp/Cecil/compare/8.38.0...8.39.0)
+
+> 29 April 2025
+
+- feature: assets cache TTL option [`707cdba`](https://github.com/Cecilapp/Cecil/commit/707cdbaa8b10bbb7ef3f650cbce8e93ff5259516)
+
+#### [8.38.0](https://github.com/Cecilapp/Cecil/compare/8.37.3...8.38.0)
+
+> 26 April 2025
+
+- refactor: move `headers` config to `server.headers` [`2e4f4de`](https://github.com/Cecilapp/Cecil/commit/2e4f4de0ebc052daa6fd96963ef890d14a47303d)
+
+#### [8.37.3](https://github.com/Cecilapp/Cecil/compare/8.37.2...8.37.3)
+
+> 26 April 2025
+
+- doc: cache details [`09a2462`](https://github.com/Cecilapp/Cecil/commit/09a2462132a172a9c8f29a3eee6e9b812df81ec8)
+- fix: Page getFileName if file is null [`7020b28`](https://github.com/Cecilapp/Cecil/commit/7020b28840d89783aca27c1a0a28ddfa4bd20b24)
+
+#### [8.37.2](https://github.com/Cecilapp/Cecil/compare/8.37.1...8.37.2)
+
+> 26 April 2025
+
+- fix: pages.paths localization [`fbe27d2`](https://github.com/Cecilapp/Cecil/commit/fbe27d2394048fccce025fd55a5ac36b5f5c8499)
+- doc: minor fix [`4a8d435`](https://github.com/Cecilapp/Cecil/commit/4a8d435a15499c7f018f9d9d375b29cd0a3be26f)
+- doc: minor fix [`dadcb45`](https://github.com/Cecilapp/Cecil/commit/dadcb45df9d03acd38bdc98f4e8b8e5bfa34790d)
+
+#### [8.37.1](https://github.com/Cecilapp/Cecil/compare/8.37.0...8.37.1)
+
+> 23 April 2025
+
+- refactor: better error message [`2acdc54`](https://github.com/Cecilapp/Cecil/commit/2acdc54ca9656ad3f1653b0ce822f34e121fbf73)
+
 #### [8.37.0](https://github.com/Cecilapp/Cecil/compare/8.36.0...8.37.0)
 
 > 23 April 2025

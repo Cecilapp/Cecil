@@ -27,14 +27,10 @@ class Cache implements CacheInterface
     /** @var string */
     protected $cacheDir;
 
-    /** @var int */
-    protected $duration;
-
     public function __construct(Builder $builder, string $pool = '')
     {
         $this->builder = $builder;
         $this->cacheDir = Util::joinFile($builder->getConfig()->getCachePath(), $pool);
-        $this->duration = 31536000; // 1 year
     }
 
     /**
@@ -53,7 +49,7 @@ class Cache implements CacheInterface
             // serialize data
             $data = serialize([
                 'value'      => $value,
-                'expiration' => time() + $this->duration($ttl),
+                'expiration' => $ttl === null ? null : time() + $this->duration($ttl),
             ]);
             Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
             $this->builder->getLogger()->debug(\sprintf('Cache created: "%s"', Util\File::getFS()->makePathRelative($this->getFilePathname($key), $this->builder->getConfig()->getCachePath())));
@@ -93,8 +89,15 @@ class Cache implements CacheInterface
             // unserialize data
             $data = unserialize($content);
             // check expiration
-            if ($data['expiration'] <= time()) {
-                $this->delete($key);
+            if ($data['expiration'] !== null && $data['expiration'] <= time()) {
+                $this->builder->getLogger()->debug(\sprintf('Cache expired: "%s"', $key));
+                // remove expired cache
+                if ($this->delete($key)) {
+                    // remove content file if exists
+                    if (!empty($data['value']['path'])) {
+                        $this->deleteContentFile($data['value']['path']);
+                    }
+                }
 
                 return $default;
             }
@@ -322,11 +325,8 @@ class Cache implements CacheInterface
     /**
      * Convert the various expressions of a TTL value into duration in seconds.
      */
-    protected function duration(\DateInterval|int|null $ttl): int
+    protected function duration(int|\DateInterval $ttl): int
     {
-        if ($ttl === null) {
-            return $this->duration;
-        }
         if (\is_int($ttl)) {
             return $ttl;
         }
@@ -334,6 +334,22 @@ class Cache implements CacheInterface
             return (int) $ttl->d * 86400 + $ttl->h * 3600 + $ttl->i * 60 + $ttl->s;
         }
 
-        throw new \InvalidArgumentException('TTL values must be one of null, int, \DateInterval');
+        throw new \InvalidArgumentException('TTL values must be int or \DateInterval');
+    }
+
+    /**
+     * Removes the cache content file.
+     */
+    protected function deleteContentFile(string $path): bool
+    {
+        try {
+            Util\File::getFS()->remove($this->getContentFilePathname($path));
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->error($e->getMessage());
+
+            return false;
+        }
+
+        return true;
     }
 }

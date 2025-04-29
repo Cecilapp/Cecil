@@ -281,7 +281,7 @@ EOF
         // writes `changes.flag` file
         Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
         // writes `headers.ini` file
-        $headers = $this->getBuilder()->getConfig()->get('headers');
+        $headers = $this->getBuilder()->getConfig()->get('server.headers');
         if (is_iterable($headers)) {
             $output->writeln('Writing headers file...');
             Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'));

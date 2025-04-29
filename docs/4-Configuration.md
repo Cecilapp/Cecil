@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-04-24
+updated: 2025-04-28
 -->
 # Configuration
 
@@ -480,14 +480,13 @@ pages:
 
 ### pages.paths
 
-Defines a custom [`path`](2-Content.md#variables) for all pages of a **_Section_**.
+Apply a custom [`path`](2-Content.md#predefined-variables) for all pages of a **_Section_**.
 
 ```yaml
 pages:
   paths:
     - section: <section’s ID>
-      language: <language code> # optional
-      path: <path of pages>     # with optional placeholders
+      path: <path of pages>
 ```
 
 #### Path placeholders
@@ -501,12 +500,20 @@ pages:
 _Example:_
 
 ```yaml
-paths:
-  - section: Blog
-    path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
-  - section: Blog
-    language: fr
-    path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
+pages:
+  paths:
+    - section: Blog
+      path: :section/:year/:month/:day/:slug # e.g.: /blog/2020/12/01/my-post/
+# localized
+languages:
+  - code: fr
+    name: Français
+    locale: fr_FR
+    config:
+      pages:
+        paths:
+          - section: Blog
+            path: blogue/:year/:month/:day/:slug # e.g.: /blogue/2020/12/01/mon-billet/
 ```
 
 ### pages.frontmatter
@@ -1031,34 +1038,98 @@ You can extend Cecil with [Output post processor](7-Extend.md#output-post-proces
 
 Cache options.
 
+### cache.enabled
+
+Cache is enabled by default (`true`), but you can disable it with:
+
 ```yaml
 cache:
-  enabled: true         # enables cache support (`true` by default)
-  dir: '.cache'         # cache files directory (`.cache` by default)
-  templates:
-    enabled: true       # enables cache for templates and translations
+  enabled: false
+```
+
+:::warning
+It’s not recommended to disable the cache for performance reasons.
+:::
+
+### cache.dir
+
+Directory where cache files are stored (`.cache` by default).
+
+```yaml
+cache:
+  dir: '.cache'
 ```
 
 :::info
-See [Templates cache documentation](3-Templates.md#cache) for more details.
+The cache directory is relative to the site directory, but you can use an absolute path: it can be useful to store the cache in a shared directory.
 :::
+
+### cache.assets
+
+Assets cache options.
+
+### cache.assets.ttl
+
+Time to live of assets cache in seconds (`null` by default = no expiration).
+
+```yaml
+cache:
+  assets:
+    ttl: ~
+```
+
+### cache.assets.remote.ttl
+
+Time to live of remote assets cache in seconds (7 days by default).
+
+```yaml
+cache:
+  assets:
+    remotes:
+      ttl: 604800 # 7 days
+```
+
+### cache.templates
+
+Disables templates cache with `false` (`true` by default).
+
+```yaml
+cache:
+  templates: true
+```
+
+:::info
+See [templates cache documentation](3-Templates.md#cache) for more details.
+:::
+
+### cache.translations
+
+Disables translations cache  with `false` (`true` by default).
+
+```yaml
+cache:
+  translations: true
+```
 
 ---
 
-## Headers
+## Server
+
+### server.headers
 
 You can define custom [HTTP headers](https://developer.mozilla.org/docs/Glossary/Response_header), used by the local preview server.
 
 :::warning
-The root option `headers` will be moved to `server.headers` in the future.
+Since version ++8.38.0++, the `headers` option has been moved to the `server.headers` section.
 :::
 
 ```yaml
-headers:
-  - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
-    headers:
-      - key: <key>
-        value: "<value>"
+server:
+  headers:
+    - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
+      headers:
+        - key: <key>
+          value: "<value>"
 ```
 
 :::tips
@@ -1068,27 +1139,28 @@ It's useful to test custom [Content Security Policy](https://developer.mozilla.o
 _Example:_
 
 ```yaml
-headers:
-  - path: /*
-    headers:
-      - key: X-Frame-Options
-        value: "SAMEORIGIN"
-      - key: X-XSS-Protection
-        value: "1; mode=block"
-      - key: X-Content-Type-Options
-        value: "nosniff"
-      - key: Content-Security-Policy
-        value: "default-src 'self'; object-src 'self'; img-src 'self'"
-      - key: Strict-Transport-Security
-        value: "max-age=31536000; includeSubDomains; preload"
-  - path: /assets/*
-    headers:
-      - key: Cache-Control
-        value: "public, max-age=31536000"
-  - path: /foo.html
-    headers:
-      - key: Foo
-        value: "bar"
+server:
+  headers:
+    - path: /*
+      headers:
+        - key: X-Frame-Options
+          value: "SAMEORIGIN"
+        - key: X-XSS-Protection
+          value: "1; mode=block"
+        - key: X-Content-Type-Options
+          value: "nosniff"
+        - key: Content-Security-Policy
+          value: "default-src 'self'; object-src 'self'; img-src 'self'"
+        - key: Strict-Transport-Security
+          value: "max-age=31536000; includeSubDomains; preload"
+    - path: /assets/*
+      headers:
+        - key: Cache-Control
+          value: "public, max-age=31536000"
+    - path: /foo.html
+      headers:
+        - key: Foo
+          value: "bar"
 ```
 
 ---

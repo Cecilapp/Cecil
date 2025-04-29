@@ -63,23 +63,19 @@ class Create extends AbstractStep
             $page->parse();
 
             /*
-             * Apply an - optional - custom path to pages of a section.
+             * Apply a custom path to pages of a section.
              *
              * ```yaml
              * paths:
              *   - section: Blog
-             *     language: fr # optional
              *     path: :section/:year/:month/:day/:slug
              * ```
              */
-            if (\is_array($this->config->get('pages.paths'))) {
-                foreach ($this->config->get('pages.paths') as $entry) {
+            if (\is_array($this->config->get('pages.paths', $page->getVariable('language')))) {
+                foreach ($this->config->get('pages.paths', $page->getVariable('language')) as $entry) {
                     if (isset($entry['section'])) {
                         /** @var Page $page */
                         if ($page->getSection() == Page::slugify($entry['section'])) {
-                            if (isset($entry['language']) && $entry['language'] != $page->getVariable('language')) {
-                                break;
-                            }
                             if (isset($entry['path'])) {
                                 $path = str_replace(
                                     [

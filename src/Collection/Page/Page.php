@@ -213,8 +213,12 @@ class Page extends Item
     /**
      * Returns file name, with extension.
      */
-    public function getFileName(): string
+    public function getFileName(): ?string
     {
+        if ($this->file === null) {
+            return null;
+        }
+
         return $this->file->getBasename();
     }
 
