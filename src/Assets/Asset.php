@@ -713,7 +713,7 @@ class Asset implements \ArrayAccess
                     $cache->set($path, [
                         'content' => $content,
                         'path'    => $path,
-                    ], $this->config->get('cache.assets.remotes.ttl'));
+                    ], $this->config->get('cache.assets.remote.ttl'));
                 }
                 return [
                     'file' => $cache->getContentFilePathname($path),

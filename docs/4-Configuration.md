@@ -1078,7 +1078,7 @@ cache:
     ttl: ~
 ```
 
-### cache.assets.remotes.ttl
+### cache.assets.remote.ttl
 
 Time to live of remote assets cache in seconds (7 days by default).
 

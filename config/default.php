@@ -212,9 +212,9 @@ return [
         'enabled' => true, // disable with `false`
         'dir' => '.cache', // cache files root directory
         'assets' => [ // assets cache
-            'ttl' => null, // assets cache TTL
+            'ttl' => null, // assets cache TTL (no expiration by default)
             'remote' => [
-                'ttl' => '7 days', // remote assets cache TTL
+                'ttl' => 604800, // remote assets cache TTL (7 days by default)
             ]
         ],
         'templates' => true, // disable Twig templates cache with `false`
