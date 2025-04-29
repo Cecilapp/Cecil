@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.2](https://github.com/Cecilapp/Cecil/compare/8.39.1...8.39.2)
+
+> 29 April 2025
+
+- fix: remote cache TTL [`3115dd0`](https://github.com/Cecilapp/Cecil/commit/3115dd02fcad8504a4561b7b9fc4195a809d3ef6)
+
 #### [8.39.1](https://github.com/Cecilapp/Cecil/compare/8.39.0...8.39.1)
 
 > 29 April 2025
