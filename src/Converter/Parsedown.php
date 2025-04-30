@@ -669,9 +669,12 @@ class Parsedown extends \ParsedownToc
         switch ($type) {
             case 'video':
                 $block['element']['name'] = 'video';
+                // no controls = autoplay, loop, muted, playsinline
                 if (!isset($block['element']['attributes']['controls'])) {
                     $block['element']['attributes']['autoplay'] = '';
                     $block['element']['attributes']['loop'] = '';
+                    $block['element']['attributes']['muted'] = '';
+                    $block['element']['attributes']['playsinline'] = '';
                 }
                 if (isset($block['element']['attributes']['poster'])) {
                     $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $block['element']['attributes']['poster'], ['leading_slash' => false]);
