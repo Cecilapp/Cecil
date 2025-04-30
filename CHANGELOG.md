@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.4](https://github.com/Cecilapp/Cecil/compare/8.39.3...8.39.4)
+
+> 29 April 2025
+
+- feature: assets cache TTL option [`707cdba`](https://github.com/Cecilapp/Cecil/commit/707cdbaa8b10bbb7ef3f650cbce8e93ff5259516)
+- refactor: move `headers` config to `server.headers` [`2e4f4de`](https://github.com/Cecilapp/Cecil/commit/2e4f4de0ebc052daa6fd96963ef890d14a47303d)
+- fix: pages.paths localization [`fbe27d2`](https://github.com/Cecilapp/Cecil/commit/fbe27d2394048fccce025fd55a5ac36b5f5c8499)
+- doc: cache details [`09a2462`](https://github.com/Cecilapp/Cecil/commit/09a2462132a172a9c8f29a3eee6e9b812df81ec8)
+- refactor: cache date [`7de8fcb`](https://github.com/Cecilapp/Cecil/commit/7de8fcb692702bc003e66fd1d1f99d7571b1be39)
+- chore: update deps [`45b0e7a`](https://github.com/Cecilapp/Cecil/commit/45b0e7a00e0b1c5e3cabf95079073446503cc0bf)
+- fix: remote cache TTL [`3115dd0`](https://github.com/Cecilapp/Cecil/commit/3115dd02fcad8504a4561b7b9fc4195a809d3ef6)
+- fix: Page getFileName if file is null [`7020b28`](https://github.com/Cecilapp/Cecil/commit/7020b28840d89783aca27c1a0a28ddfa4bd20b24)
+- fix: asset cache with empty path [`3b2ffc6`](https://github.com/Cecilapp/Cecil/commit/3b2ffc6da2751dd8f74a5b03ba3de690da0f24b3)
+
 #### [8.39.3](https://github.com/Cecilapp/Cecil/compare/8.39.2...8.39.3)
 
 > 29 April 2025
