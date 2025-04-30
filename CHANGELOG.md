@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.5](https://github.com/Cecilapp/Cecil/compare/8.39.4...8.39.5)
+
+> 30 April 2025
+
+- fix: inline video player options [`646c711`](https://github.com/Cecilapp/Cecil/commit/646c7118fc5700055737cfae7c491cc524943468)
+
 #### [8.39.4](https://github.com/Cecilapp/Cecil/compare/8.39.3...8.39.4)
 
 > 29 April 2025
