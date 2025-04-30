@@ -33,7 +33,7 @@ Create and deploy a blog site:
 - Powered by [Twig](https://cecil.app/documentation/templates/), a flexible template engine, with [themes](https://cecil.app/themes) support
 - Pagination, sitemap, redirections, robots.txt, taxonomies, RSS are generated automatically
 - Handles and optimizes assets for you
-- [Download]([https://cecil.app/download/](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar)) one file and run it
+- [Download one file](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar) and run it
 - Easy to deploy
 
 ## Installation
