@@ -15,7 +15,7 @@ Cecil, a simple and powerful content-driven static site generator.
 
 Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
-📄 [Documentation](https://cecil.app/documentation) | 💻 [Demo](https://demo.cecil.app) | 🐛 [Issue tracker](https://github.com/Cecilapp/Cecil/issues) | 💬 [Discussion](https://github.com/Cecilapp/Cecil/discussions)
+📄 [Documentation](https://cecil.app/documentation) | 💻 [Demo](https://demo.cecil.app) | 🐛 [Issues tracker](https://github.com/Cecilapp/Cecil/issues) | 💬 [Discussions](https://github.com/Cecilapp/Cecil/discussions)
 
 ![Cecil CLI animated demo](docs/cecil-cli-demo.gif "Cecil CLI demo")
 
@@ -33,7 +33,7 @@ Create and deploy a blog site:
 - Powered by [Twig](https://cecil.app/documentation/templates/), a flexible template engine, with [themes](https://cecil.app/themes) support
 - Pagination, sitemap, redirections, robots.txt, taxonomies, RSS are generated automatically
 - Handles and optimizes assets for you
-- [Download](https://cecil.app/download/) one file and run it
+- [Download]([https://cecil.app/download/](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar)) one file and run it
 - Easy to deploy
 
 ## Installation
@@ -41,14 +41,7 @@ Create and deploy a blog site:
 [Download `cecil.phar`](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar) from your browser or from your terminal:
 
 ```bash
-curl -LO https://cecil.app/cecil.phar
-```
-
-Then install the binary globally:
-
-```bash
-mv cecil.phar /usr/local/bin/cecil
-chmod +x /usr/local/bin/cecil
+curl -LO https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar
 ```
 
 > [!IMPORTANT]
@@ -56,9 +49,9 @@ chmod +x /usr/local/bin/cecil
 
 ## Usage
 
-- Get help: `cecil help`
-- Create a new website: `cecil new:site`
-- Preview your website: `cecil serve`
+- Get help: `php cecil.phar help`
+- Create a new website: `php cecil.phar new:site`
+- Preview your website: `php cecil.phar serve`
 
 ## Contributing
 
