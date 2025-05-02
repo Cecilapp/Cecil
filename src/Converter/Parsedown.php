@@ -111,27 +111,7 @@ class Parsedown extends \ParsedownToc
         }
 
         // External link
-        if (
-            str_starts_with($link['element']['attributes']['href'], 'http')
-            && (!empty($this->config->get('baseurl')) && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl')))
-        ) {
-            if ($this->config->isEnabled('pages.body.links.external.blank')) {
-                $link['element']['attributes']['target'] = '_blank';
-            }
-            if (!\array_key_exists('rel', $link['element']['attributes'])) {
-                $link['element']['attributes']['rel'] = '';
-            }
-            if ($this->config->isEnabled('pages.body.links.external.noopener')) {
-                $link['element']['attributes']['rel'] .= ' noopener';
-            }
-            if ($this->config->isEnabled('pages.body.links.external.noreferrer')) {
-                $link['element']['attributes']['rel'] .= ' noreferrer';
-            }
-            if ($this->config->isEnabled('pages.body.links.external.nofollow')) {
-                $link['element']['attributes']['rel'] .= ' nofollow';
-            }
-            $link['element']['attributes']['rel'] = trim($link['element']['attributes']['rel']);
-        }
+        $link = $this->handleExternalLink($link);
 
         /*
          * Embed link?
@@ -239,6 +219,36 @@ class Parsedown extends \ParsedownToc
         }
 
         return $link;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function inlineUrl($Excerpt)
+    {
+        $link = parent::inlineUrl($Excerpt); // @phpstan-ignore staticMethod.notFound
+
+        if (!isset($link)) {
+            return;
+        }
+
+        // External link
+        return $this->handleExternalLink($link);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function inlineUrlTag($Excerpt)
+    {
+        $link = parent::inlineUrlTag($Excerpt); // @phpstan-ignore staticMethod.notFound
+
+        if (!isset($link)) {
+            return;
+        }
+
+        // External link
+        return $this->handleExternalLink($link);
     }
 
     /**
@@ -726,5 +736,35 @@ class Parsedown extends \ParsedownToc
         ];
 
         return $figure;
+    }
+
+    /**
+     * Handle an external link.
+     */
+    private function handleExternalLink(array $link): array
+    {
+        if (
+            str_starts_with($link['element']['attributes']['href'], 'http')
+            && (!empty($this->config->get('baseurl')) && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl')))
+        ) {
+            if ($this->config->isEnabled('pages.body.links.external.blank')) {
+                $link['element']['attributes']['target'] = '_blank';
+            }
+            if (!\array_key_exists('rel', $link['element']['attributes'])) {
+                $link['element']['attributes']['rel'] = '';
+            }
+            if ($this->config->isEnabled('pages.body.links.external.noopener')) {
+                $link['element']['attributes']['rel'] .= ' noopener';
+            }
+            if ($this->config->isEnabled('pages.body.links.external.noreferrer')) {
+                $link['element']['attributes']['rel'] .= ' noreferrer';
+            }
+            if ($this->config->isEnabled('pages.body.links.external.nofollow')) {
+                $link['element']['attributes']['rel'] .= ' nofollow';
+            }
+            $link['element']['attributes']['rel'] = trim($link['element']['attributes']['rel']);
+        }
+
+        return $link;
     }
 }
