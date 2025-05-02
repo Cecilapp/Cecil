@@ -64,14 +64,16 @@ class Save extends AbstractStep
     public function process(): void
     {
         $total = \count($this->builder->getAssets());
-        $count = 0;
-        foreach ($this->builder->getAssets() as $path) {
-            $count++;
-            Util\File::getFS()->copy($this->cache->getContentFilePathname($path), Util::joinFile($this->config->getOutputPath(), $path), false);
-            $message = \sprintf('Asset "%s" saved', $path);
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+        if ($total > 0) {
+            $count = 0;
+            foreach ($this->builder->getAssets() as $path) {
+                $count++;
+                Util\File::getFS()->copy($this->cache->getContentFilePathname($path), Util::joinFile($this->config->getOutputPath(), $path), false);
+                $message = \sprintf('Asset "%s" saved', $path);
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+            }
+            $this->cache->set($this->cacheKey, $this->builder->getAssets());
         }
-        $this->cache->set($this->cacheKey, $this->builder->getAssets());
     }
 
     /**

@@ -88,7 +88,7 @@ class Render extends AbstractStep
         // renders each page
         $count = 0;
         $postprocessors = [];
-        foreach ($this->config->get('output.postprocessors') ?? [] as $name => $postprocessor) {
+        foreach ((array) $this->config->get('output.postprocessors') as $name => $postprocessor) {
             try {
                 if (!class_exists($postprocessor)) {
                     throw new RuntimeException(\sprintf('Class "%s" not found', $postprocessor));

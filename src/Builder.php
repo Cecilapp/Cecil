@@ -64,7 +64,7 @@ class Builder implements LoggerAwareInterface
     protected $debug = false;
 
     /** @var array Build options. */
-    protected $options;
+    protected $options = [];
 
     /** @var Finder Content iterator. */
     protected $content;
@@ -263,7 +263,7 @@ class Builder implements LoggerAwareInterface
      */
     public function importThemesConfig(): void
     {
-        foreach ($this->config->get('theme') as $theme) {
+        foreach ((array) $this->config->get('theme') as $theme) {
             $this->config->import(Config::loadFile(Util::joinFile($this->config->getThemesPath(), $theme, 'config.yml'), true), Config::PRESERVE);
         }
     }
@@ -327,7 +327,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns data collection.
      */
-    public function getData(?string $language = null): ?array
+    public function getData(?string $language = null): array
     {
         if ($language) {
             if (empty($this->data[$language])) {
@@ -394,7 +394,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns list of assets path.
      */
-    public function getAssets(): ?array
+    public function getAssets(): array
     {
         return $this->assets;
     }
