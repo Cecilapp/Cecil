@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.6](https://github.com/Cecilapp/Cecil/compare/8.39.5...8.39.6)
+
+> 2 May 2025
+
+- fix: handle external inline links [`1c3f973`](https://github.com/Cecilapp/Cecil/commit/1c3f973a4b0d00fa7d7b9b62d632e10df417116d)
+- chore: better code quality [`752f2d4`](https://github.com/Cecilapp/Cecil/commit/752f2d4fd087a2801cae02855219d92b73b2aeba)
+
 #### [8.39.5](https://github.com/Cecilapp/Cecil/compare/8.39.4...8.39.5)
 
 > 30 April 2025
