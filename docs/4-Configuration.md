@@ -591,9 +591,9 @@ pages:
         audio: [mp3]       # audio files extensions
       external:
         blank: false     # if true open external link in new tab
-        noopener: true   # add "noopener" to `rel`  attribute
-        noreferrer: true # add "noreferrer" to `rel`  attribute
-        nofollow: true   # add "nofollow" to `rel`  attribute
+        noopener: true   # if true add "noopener" to `rel` attribute
+        noreferrer: true # if true add "noreferrer" to `rel` attribute
+        nofollow: false  # if true add "nofollow" to `rel` attribute
 ```
 
 #### pages.body.excerpt

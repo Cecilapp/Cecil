@@ -190,12 +190,12 @@ _Example:_
 
 #### External
 
-By default external links have the following value for `rel` attribute: "noopener noreferrer nofollow".
+By default external links have the following value for `rel` attribute: `noopener noreferrer`.
 
 _Example:_
 
 ```html
-<a href="<url>" rel="noopener noreferrer nofollow">Link to another website</a>
+<a href="<url>" rel="noopener noreferrer">Link to another website</a>
 ```
 
 You can change this behavior with [`pages.body.links.external` options](4-Configuration.md#pages-body-links).
