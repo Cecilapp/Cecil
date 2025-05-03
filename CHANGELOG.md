@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.7](https://github.com/Cecilapp/Cecil/compare/8.39.6...8.39.7)
+
+> 3 May 2025
+
+- fix: disable `nofollow` to external links [`1a1acc0`](https://github.com/Cecilapp/Cecil/commit/1a1acc0281024e2f6bc443a6517b2de8422f7959)
+
 #### [8.39.6](https://github.com/Cecilapp/Cecil/compare/8.39.5...8.39.6)
 
 > 2 May 2025
