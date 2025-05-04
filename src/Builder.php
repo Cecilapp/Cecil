@@ -143,8 +143,8 @@ class Builder implements LoggerAwareInterface
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
 
-        // log warnings
-        $this->logBuildWarnings();
+        // checks soft errors
+        $this->checkErrors();
 
         // prepare options
         $this->options = array_merge([
@@ -479,13 +479,13 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Log build warnings.
+     * Log soft errors.
      */
-    protected function logBuildWarnings(): void
+    protected function checkErrors(): void
     {
-        // baseurl
+        // baseurl is required in production
         if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
-            $this->getLogger()->warning('`baseurl` configuration key is required in production.');
+            $this->getLogger()->error('`baseurl` configuration key is required in production.');
         }
     }
 }
