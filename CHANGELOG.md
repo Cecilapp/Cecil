@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.9](https://github.com/Cecilapp/Cecil/compare/8.39.8...8.39.9)
+
+> 6 May 2025
+
+- chore(deps): bump twig/twig from 3.20.0 to 3.21.1 [`#2167`](https://github.com/Cecilapp/Cecil/pull/2167)
+- chore(deps): bump twig/cache-extra from 3.20.0 to 3.21.0 [`#2166`](https://github.com/Cecilapp/Cecil/pull/2166)
+- chore(deps): bump twig/intl-extra from 3.20.0 to 3.21.0 [`#2165`](https://github.com/Cecilapp/Cecil/pull/2165)
+- fix: new site command default url [`7f6ac8c`](https://github.com/Cecilapp/Cecil/commit/7f6ac8c886112952b8d1f60ae57fc62c1052c00c)
+
 #### [8.39.8](https://github.com/Cecilapp/Cecil/compare/8.39.7...8.39.8)
 
 > 4 May 2025
