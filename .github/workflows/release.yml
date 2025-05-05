@@ -69,6 +69,7 @@ jobs:
         id: get_version
         run: |
           echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          echo "${GITHUB_REF#refs/tags/}" >> $COMPOSER_ROOT_VERSION
           echo "${GITHUB_REF#refs/tags/}" > VERSION
           echo "VERSION: ${GITHUB_REF#refs/tags/}"
 
