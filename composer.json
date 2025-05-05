@@ -42,7 +42,7 @@
     "symfony/filesystem": "^6.4",
     "symfony/finder": "^6.4",
     "symfony/mime": "^6.4",
-    "symfony/polyfill-intl-icu": "^1.31",
+    "symfony/polyfill-intl-icu": "^1.32",
     "symfony/process": "^6.4",
     "symfony/property-access": "^6.4",
     "symfony/serializer": "^6.4",
@@ -51,21 +51,21 @@
     "symfony/validator": "^6.4",
     "symfony/var-dumper": "^6.4",
     "symfony/yaml": "^6.4",
-    "twig/cache-extra": "^3.20",
-    "twig/intl-extra": "^3.20",
-    "twig/twig": "^3.20",
+    "twig/cache-extra": "^3.21",
+    "twig/intl-extra": "^3.21",
+    "twig/twig": "^3.21",
     "voku/html-min": "^4.5",
     "wapmorgan/mp3info": "^0.1",
     "yosymfony/toml": "^1.0"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.45",
-    "friendsofphp/php-cs-fixer": "^3.70",
+    "ergebnis/composer-normalize": "^2.47",
+    "friendsofphp/php-cs-fixer": "^3.75",
     "humbug/box": "^4.5",
     "phpmd/phpmd": "^2.15",
     "phpstan/phpstan": "^1.12",
     "phpunit/phpunit": "^9.6",
-    "squizlabs/php_codesniffer": "^3.11"
+    "squizlabs/php_codesniffer": "^3.12"
   },
   "provide": {
     "psr/log-implementation": "3.0",
@@ -80,7 +80,7 @@
       "ergebnis/composer-normalize": true
     },
     "platform": {
-      "php": "8.1.31"
+      "php": "8.1.32"
     },
     "sort-packages": true
   },

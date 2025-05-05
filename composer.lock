@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a59fa809e5fddf0f822a4ba743ebd311",
+    "content-hash": "e3898fb5088f2a9287c94c6ccba4b83c",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -10325,7 +10325,7 @@
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.1.31"
+        "php": "8.1.32"
     },
     "plugin-api-version": "2.6.0"
 }
