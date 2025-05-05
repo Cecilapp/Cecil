@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.39.8](https://github.com/Cecilapp/Cecil/compare/8.39.7...8.39.8)
+
+> 4 May 2025
+
+- fix: baseurl log should be an error message [`6e1933f`](https://github.com/Cecilapp/Cecil/commit/6e1933f82a018cfb0c0f4a543369e7b710016708)
+- ci: update changelog generator [`93acbbd`](https://github.com/Cecilapp/Cecil/commit/93acbbdb259b3c1201b8920df2f9147264099f49)
+- refactor: simplify cache file [`120e12f`](https://github.com/Cecilapp/Cecil/commit/120e12f8fbeba7a0e00bba082ebe8d1135018a34)
+
 #### [8.39.7](https://github.com/Cecilapp/Cecil/compare/8.39.6...8.39.7)
 
 > 3 May 2025
