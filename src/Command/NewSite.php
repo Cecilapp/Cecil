@@ -84,8 +84,8 @@ EOF
             $root = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // setup questions
             $title = $this->io->ask('Give a title to your website', 'New website');
-            $baseline = $this->io->ask('Describe your website in few words', '');
-            $baseurl = $this->io->ask('Base URL?', 'https://domain.tld/', [$this, 'validateUrl']);
+            $baseline = $this->io->ask('Give a baseline to your website', '');
+            $baseurl = $this->io->ask('Base URL?', '/', [$this, 'validateUrl']);
             $description = $this->io->ask('Write a full description of your site', 'Website created with Cecil.');
             $authorName = $this->io->ask('What is the author name?', 'Cecil');
             $authorUrl = $this->io->ask('What is the author URL?', 'https://cecil.app', [$this, 'validateUrl']);
