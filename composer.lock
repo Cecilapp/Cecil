@@ -2509,16 +2509,16 @@
         },
         {
             "name": "symfony/polyfill-intl-icu",
-            "version": "v1.31.0",
+            "version": "v1.32.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-icu.git",
-                "reference": "d80a05e9904d2c2b9b95929f3e4b5d3a8f418d78"
+                "reference": "763d2a91fea5681509ca01acbc1c5e450d127811"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-icu/zipball/d80a05e9904d2c2b9b95929f3e4b5d3a8f418d78",
-                "reference": "d80a05e9904d2c2b9b95929f3e4b5d3a8f418d78",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-icu/zipball/763d2a91fea5681509ca01acbc1c5e450d127811",
+                "reference": "763d2a91fea5681509ca01acbc1c5e450d127811",
                 "shasum": ""
             },
             "require": {
@@ -2573,7 +2573,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-icu/tree/v1.31.0"
+                "source": "https://github.com/symfony/polyfill-intl-icu/tree/v1.32.0"
             },
             "funding": [
                 {
@@ -2589,7 +2589,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-09T11:45:10+00:00"
+            "time": "2024-12-21T18:38:29+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
@@ -10305,7 +10305,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -10314,9 +10314,9 @@
         "ext-gd": "*",
         "ext-mbstring": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1.31"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
