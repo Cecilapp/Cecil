@@ -183,6 +183,6 @@ jobs:
           composer run-script test:coverage:upload
 
       - name: Build a skeleton site from `cecil.phar` binary
-        if: ${{ matrix.os == 'ubuntu-latest' && contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.php >= 8.2 && contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
         run: |
           composer run-script test:phar
