@@ -102,6 +102,21 @@ npx all-contributors add
 npx all-contributors generate
 ```
 
+## Development
+
+Build the `cecil.phar` with [Box](https://github.com/box-project/box/):
+
+```bash
+# Install Box globally
+composer global require humbug/box
+# Add Box to your PATH
+export PATH=~/.composer/vendor/bin:$PATH
+# Build the phar file
+composer build
+# check the phar file
+php dist/cecil.phar about
+```
+
 ## Sponsors
 
 <!--[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
