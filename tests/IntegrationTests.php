@@ -40,7 +40,7 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testBuid()
+    public function testBuild()
     {
         putenv('CECIL_DEBUG=true');
         putenv('CECIL_TITLE=Cecil (env)');

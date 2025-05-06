@@ -264,6 +264,7 @@ Options:
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
       --no-ignore-vcs              Changes watcher must not ignore VCS directories
       --timeout[=TIMEOUT]          Sets the process timeout (max. runtime) in seconds
+      --metrics                    Show build steps metrics
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version
@@ -305,4 +306,8 @@ Help:
   To define the process timeout (in seconds), run:
 
     cecil.phar serve --timeout=3600
+
+  To show build steps metrics, run:
+
+    cecil.phar serve --metrics
 ```

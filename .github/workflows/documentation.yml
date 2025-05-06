@@ -28,6 +28,7 @@ jobs:
         continue-on-error: true
 
       - name: Push files
+        if: env.GITHUB_TOKEN != null
         run: bash ./scripts/deploy-docs.sh
         env:
           TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
