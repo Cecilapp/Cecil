@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. Dates are d
 
 > 6 May 2025
 
+- refactor: move Box as global dependency instead of local [`#2170`](https://github.com/Cecilapp/Cecil/pull/2170)
 - chore(deps): bump twig/twig from 3.20.0 to 3.21.1 [`#2167`](https://github.com/Cecilapp/Cecil/pull/2167)
 - chore(deps): bump twig/cache-extra from 3.20.0 to 3.21.0 [`#2166`](https://github.com/Cecilapp/Cecil/pull/2166)
 - chore(deps): bump twig/intl-extra from 3.20.0 to 3.21.0 [`#2165`](https://github.com/Cecilapp/Cecil/pull/2165)
