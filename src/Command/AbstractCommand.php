@@ -273,6 +273,9 @@ class AbstractCommand extends Command
      */
     public static function validateUrl(string $url): string
     {
+        if ($url == '/') { // tolerate root URL
+            return $url;
+        }
         $validator = Validation::createValidator();
         $violations = $validator->validate($url, new Url());
         if (\count($violations) > 0) {
