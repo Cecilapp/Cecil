@@ -1,7 +1,7 @@
 name: Release
 
 env:
-  PHP_VERSION: '8.1'
+  PHP_VERSION: '8.2'
   GPG_SIGNATURE: 'false'
   GPG_EMAIL: 'arnaud@ligny.fr'
 

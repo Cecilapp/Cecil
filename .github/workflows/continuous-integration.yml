@@ -34,24 +34,16 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         type: ['']
         exclude:
-          # excluded for code coverage
-          - php: '8.1'
-            os: 'ubuntu-latest'
-            type: ''
-          # excluded for code profiling
           - php: '8.2'
             os: 'ubuntu-latest'
             type: ''
         include:
-          # included for code coverage
-          - php: '8.1'
+          - php: '8.2'
             os: 'ubuntu-latest'
             type: 'coverage'
-          # included for code profiling
           - php: '8.2'
             os: 'ubuntu-latest'
             type: 'profiling'
-          # experimental
           - php: '8.4'
             os: 'ubuntu-latest'
             type: 'experimental'
@@ -101,7 +93,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
           coverage: none
-          tools: composer:${{ env.COMPOSER_VERSION }}
+          tools: composer:${{ env.COMPOSER_VERSION }}, box
 
       - name: Install PHP for code coverage
         if: ${{ join(matrix.type) == 'coverage' }}
@@ -110,7 +102,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
           coverage: xdebug
-          tools: composer:${{ env.COMPOSER_VERSION }}
+          tools: composer:${{ env.COMPOSER_VERSION }}, box
 
       - name: Install PHP for code profiling
         if: ${{ join(matrix.type) == 'profiling' }}
@@ -119,7 +111,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}, blackfire, :xdebug
           coverage: none
-          tools: blackfire, composer:${{ env.COMPOSER_VERSION }}
+          tools: blackfire, composer:${{ env.COMPOSER_VERSION }}, box
         env:
           BLACKFIRE_SERVER_ID: ${{ secrets.BLACKFIRE_SERVER_ID }}
           BLACKFIRE_SERVER_TOKEN: ${{ secrets.BLACKFIRE_SERVER_TOKEN }}
@@ -134,7 +126,7 @@ jobs:
           extensions: ${{ env.extensions }}
           ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
           coverage: none
-          tools: composer:${{ env.COMPOSER_VERSION }}
+          tools: composer:${{ env.COMPOSER_VERSION }}, box
 
       - name: Cache Composer packages
         id: composer-cache
@@ -191,6 +183,6 @@ jobs:
           composer run-script test:coverage:upload
 
       - name: Build a skeleton site from `cecil.phar` binary
-        if: ${{ matrix.os == 'ubuntu-latest' && contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.php >= 8.2 && contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
         run: |
           composer run-script test:phar
