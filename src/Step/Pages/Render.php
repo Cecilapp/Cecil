@@ -167,7 +167,7 @@ class Render extends AbstractStep
                         \sprintf(
                             'Can\'t render template "%s" for page "%s".',
                             $e->getSourceContext()->getName(),
-                            $page->getFileName()
+                            $page->getFileName() ?? $page->getId()
                         ),
                         previous: $e,
                         file: $e->getSourceContext()->getPath(),
