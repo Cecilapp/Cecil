@@ -10,7 +10,10 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore(deps): bump twig/cache-extra from 3.20.0 to 3.21.0 [`#2166`](https://github.com/Cecilapp/Cecil/pull/2166)
 - chore(deps): bump twig/intl-extra from 3.20.0 to 3.21.0 [`#2165`](https://github.com/Cecilapp/Cecil/pull/2165)
 - chore: update deps [`cf0cd20`](https://github.com/Cecilapp/Cecil/commit/cf0cd20f58253e74d66af61c762ddc9a0fe6d343)
+- chore: update deps [`9e3a78f`](https://github.com/Cecilapp/Cecil/commit/9e3a78f0d881d3b3eadbb2f2368dd9a944dbf977)
 - fix: new site command default url [`7f6ac8c`](https://github.com/Cecilapp/Cecil/commit/7f6ac8c886112952b8d1f60ae57fc62c1052c00c)
+- ci: COMPOSER_ROOT_VERSION [`5d1f547`](https://github.com/Cecilapp/Cecil/commit/5d1f547a91c56aafea68aa3bbfbcbbf067e34d72)
+- ci: fix version? [`a2c1afb`](https://github.com/Cecilapp/Cecil/commit/a2c1afb9d4782d54ad3192a536725f694295c13b)
 
 #### [8.39.8](https://github.com/Cecilapp/Cecil/compare/8.39.7...8.39.8)
 
