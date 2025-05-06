@@ -113,9 +113,9 @@ class AbstractCommand extends Command
             $message = '';
             $i = 0;
             do {
-                if ($e instanceof \Twig\Error\RuntimeError) {
-                    continue;
-                }
+                //if ($e instanceof \Twig\Error\RuntimeError) {
+                //    continue;
+                //}
 
                 if ($i > 0) {
                     $message .= '└ ';
