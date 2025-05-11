@@ -945,12 +945,12 @@
             "version": "0.6.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/giorgiopogliani/twig-components.git",
+                "url": "https://github.com/performingdigital/twig-components.git",
                 "reference": "66d0409032b354b37dbcca66f83bc30c16a9433a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giorgiopogliani/twig-components/zipball/66d0409032b354b37dbcca66f83bc30c16a9433a",
+                "url": "https://api.github.com/repos/performingdigital/twig-components/zipball/66d0409032b354b37dbcca66f83bc30c16a9433a",
                 "reference": "66d0409032b354b37dbcca66f83bc30c16a9433a",
                 "shasum": ""
             },
@@ -990,8 +990,8 @@
                 "twig-components"
             ],
             "support": {
-                "issues": "https://github.com/giorgiopogliani/twig-components/issues",
-                "source": "https://github.com/giorgiopogliani/twig-components/tree/0.6.1"
+                "issues": "https://github.com/performingdigital/twig-components/issues",
+                "source": "https://github.com/performingdigital/twig-components/tree/0.6.1"
             },
             "time": "2024-10-01T12:57:59+00:00"
         },
@@ -8164,16 +8164,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.12.2",
+            "version": "3.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "6d4cf6032d4b718f168c90a96e36c7d0eaacb2aa"
+                "reference": "65ff2489553b83b4597e89c3b8b721487011d186"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/6d4cf6032d4b718f168c90a96e36c7d0eaacb2aa",
-                "reference": "6d4cf6032d4b718f168c90a96e36c7d0eaacb2aa",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/65ff2489553b83b4597e89c3b8b721487011d186",
+                "reference": "65ff2489553b83b4597e89c3b8b721487011d186",
                 "shasum": ""
             },
             "require": {
@@ -8244,7 +8244,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-04-13T04:10:18+00:00"
+            "time": "2025-05-11T03:36:00+00:00"
         },
         {
             "name": "symfony/dependency-injection",

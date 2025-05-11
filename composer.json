@@ -64,7 +64,7 @@
     "phpmd/phpmd": "^2.15",
     "phpstan/phpstan": "^1.12",
     "phpunit/phpunit": "^9.6",
-    "squizlabs/php_codesniffer": "^3.12"
+    "squizlabs/php_codesniffer": "^3.13"
   },
   "provide": {
     "psr/log-implementation": "3.0",
