@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.40.0](https://github.com/Cecilapp/Cecil/compare/8.39.10...8.40.0)
+
+> 6 May 2025
+
+- Serve Command : Added metrics option [`#2164`](https://github.com/Cecilapp/Cecil/pull/2164)
+
+#### [8.39.10](https://github.com/Cecilapp/Cecil/compare/8.39.9...8.39.10)
+
+> 6 May 2025
+
+- refactor: more verbose error message [`a61350b`](https://github.com/Cecilapp/Cecil/commit/a61350b535e3f9e06f6fbbcadfce0423eb1d580a)
+- fix: page name in error message in case of virtual [`55e5349`](https://github.com/Cecilapp/Cecil/commit/55e53497571823aae7a3d4aa0d80ef002667e178)
+
 #### [8.39.9](https://github.com/Cecilapp/Cecil/compare/8.39.8...8.39.9)
 
 > 6 May 2025
