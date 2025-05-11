@@ -1,7 +1,7 @@
 <!--
 description: "Create a new website and preview it locally."
 date: 2020-12-19
-updated: 2024-11-11
+updated: 2025-05-11
 menu: home
 -->
 # Quick Start
@@ -10,7 +10,7 @@ Cecil is a CLI application, powered by [PHP](https://www.php.net), that merge pl
 
 ## Create a blog
 
-If you want to create a no-hassle blog, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you.
+If you want to create a no-hassle blog, quickly, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you.
 
 [![New blog example](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
 
@@ -28,7 +28,7 @@ The easiest way to deploy and manage your blog is certainly with [Netlify](https
 
 ## Create a website
 
-How to create create a website in a few steps.
+Create create a website in a few steps.
 
 [![New website example](/docs/cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
 
@@ -42,7 +42,7 @@ Demo of the expected result: <https://cecilapp.github.io/skeleton/>.
 - Terminal (a basic understanding of [terminal](https://wikipedia.org/wiki/Terminal_emulator))
 - Text editor, like [VS Code](https://code.visualstudio.com) and/or [Typora](https://typora.io)
 
-### Download Cecil
+### 1. Download Cecil
 
 Download `cecil.phar` from your terminal:
 
@@ -56,7 +56,7 @@ You can also [download Cecil](https://cecil.app/download/) manually, or use:
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/cecil.json`
 - [PHIVE](https://phar.io): `phive install cecil`
 
-### Create a site
+### 2. Create a new site
 
 Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it, then run the `new:site` command:
 
@@ -64,7 +64,7 @@ Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it
 php cecil.phar new:site
 ```
 
-### Add a page
+### 3. Add a page
 
 Run the `new:page` command:
 
@@ -78,7 +78,7 @@ Now you can edit the newly created page with your Markdown editor: `<mywebsite>/
 We recommend you to use [Typora](https://www.typora.io) to edit your Markdown files.
 :::
 
-### Check the preview
+### 4. Check the preview
 
 Run the following command to create a preview of the website:
 
@@ -92,7 +92,7 @@ Then navigate to `http://localhost:8000`.
 The `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is automatically reloaded.
 :::
 
-### Build and deploy
+### 5. Build and deploy
 
 When you are satisfied with the result, you can generate the website in order to deploy it on the Web.
 
