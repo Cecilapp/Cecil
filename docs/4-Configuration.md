@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-04-28
+updated: 2025-05-11
 -->
 # Configuration
 
@@ -562,7 +562,7 @@ pages:
   body:
     images:
       formats: []       # creates and adds formats images as `source` (e.g. `[webp, avif]`, empty by default)
-      resize: false     # enables image resizing by using the `width` extra attribute (`false` by default)
+      resize: 0         # apply a global width to images (in pixels, `0` to disable)
       responsive: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
       lazy: true        # adds `loading="lazy"` attribute (`true` by default)
       decoding: true    # adds `decoding="async"` attribute (`true` by default)

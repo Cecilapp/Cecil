@@ -92,7 +92,7 @@ return [
             'highlight' => false, // enables code syntax highlighting
             'images' => [
                 'formats' => [], // creates and adds formats images as `source` (e.g.: ['webp', 'avif'])
-                'resize' => false, // enables image resizing by using the `width` extra attribute
+                'resize' => 0, // apply a global width to images (in pixels, `0` to disable)
                 'responsive' => false, // creates responsive images and adds them to the `srcset` attribute
                 'lazy' => true, // adds `loading="lazy"` attribute
                 'decoding' => true, // adds `decoding="async"` attribute

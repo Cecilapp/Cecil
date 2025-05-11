@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-04-22
+updated: 2025-05-11
 alias: documentation/layouts
 -->
 # Templates
@@ -1050,7 +1050,7 @@ Resizes an image to a specified with.
 ```
 
 :::info
-Aspect ratio is preserved, the original file is not altered and the resized version is stored in `/assets/thumbnails/<integer>/images/image.jpg`.
+Aspect ratio is preserved, the original file is not altered and the resized version is stored in `/thumbnails/<integer>/images/image.jpg`.
 :::
 
 _Example:_

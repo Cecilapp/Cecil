@@ -301,14 +301,24 @@ class Parsedown extends \ParsedownToc
          */
         $shouldResize = false;
         $assetResized = null;
+        // pages.body.images.resize
         if (
-            $this->config->isEnabled('pages.body.images.resize')
-            && isset($InlineImage['element']['attributes']['width'])
+            is_int($this->config->get('pages.body.images.resize'))
+            && $this->config->get('pages.body.images.resize') > 0
+            && $width > $this->config->get('pages.body.images.resize')
+        ) {
+            $shouldResize = true;
+            $width = $this->config->get('pages.body.images.resize');
+        }
+        // width attribute
+        if (
+            isset($InlineImage['element']['attributes']['width'])
             && $width > (int) $InlineImage['element']['attributes']['width']
         ) {
             $shouldResize = true;
             $width = (int) $InlineImage['element']['attributes']['width'];
         }
+        // responsive images
         if (
             $this->config->isEnabled('pages.body.images.responsive')
             && !empty($this->config->getAssetsImagesWidths())

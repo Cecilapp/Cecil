@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2025-04-15
+updated: 2025-05-11
 -->
 # Content
 
@@ -299,7 +299,7 @@ You can disable this behavior with the attribute `{decoding=auto}` or with the [
 
 #### Resize
 
-Each image in the _body_ can be resized automatically by setting a smaller width than the original one, with the extra attribute `{width=X}` (the [`resize` option](4-Configuration.md#body-images) must be enabled).
+Each image in the _body_ can be resized automatically by setting a smaller width than the original one, with the extra attribute `{width=X}`.
 
 _Example:_
 
@@ -310,11 +310,11 @@ _Example:_
 Is converted to:
 
 ```html
-<img src="/assets/thumbnails/800/image.jpg" width="800" height="600">
+<img src="/thumbnails/800/image.jpg" width="800" height="600">
 ```
 
 :::info
-Ratio is preserved (`height` attribute is calculated automatically), the original file is not altered and the resized version is stored in `/assets/thumbnails/<width>/`.
+Ratio is preserved (`height` attribute is calculated automatically), the original file is not altered and the resized version is stored in `/thumbnails/<width>/`.
 :::
 
 :::important
@@ -355,13 +355,13 @@ _Example:_
 ![](/image.jpg){width=800}
 ```
 
-If `resize` and `responsive` options are enabled, then this Markdown line will be converted to:
+If `responsive` option is enabled, then this Markdown line will be converted to:
 
 ```html
-<img src="/assets/thumbnails/800/image.jpg" width="800" height="600"
-  srcset="/assets/thumbnails/320/image.jpg 320w,
-          /assets/thumbnails/640/image.jpg 640w,
-          /assets/thumbnails/800/image.jpg 800w"
+<img src="/thumbnails/800/image.jpg" width="800" height="600"
+  srcset="/thumbnails/320/image.jpg 320w,
+          /thumbnails/640/image.jpg 640w,
+          /thumbnails/800/image.jpg 800w"
   sizes="100vw"
 >
 ```
