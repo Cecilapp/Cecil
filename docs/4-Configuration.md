@@ -561,9 +561,9 @@ Images handling options.
 pages:
   body:
     images:
-      formats: []       # creates and adds formats images as `source` (e.g. `[webp, avif]`, empty by default)
-      resize: 0         # apply a global width to images (in pixels, `0` to disable)
-      responsive: false # creates responsive images and add them to the `srcset` attribute (`false` by default)
+      formats: []       # adds alternative image formats as `source` (e.g. `[webp, avif]`, empty array by default)
+      resize: 0         # resizes all images to <width> (in pixels, `0` to disable)
+      responsive: false # adds responsives images them to the `srcset` attribute (`false` by default)
       lazy: true        # adds `loading="lazy"` attribute (`true` by default)
       decoding: true    # adds `decoding="async"` attribute (`true` by default)
       caption: false    # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
@@ -572,6 +572,14 @@ pages:
       remote:           # remote image handling (set to `false` to disable)
         fallback:         # path to the fallback image, stored in assets dir (empty by default)
 ```
+
+:::warning
+Since version 8.41.0, the `pages.body.images.resize` option is used to resize images to a specific width, no more to enable the resize feature (enabled systematically).
+:::
+
+:::important
+Global options, like responsives images widths and sizes, are configurable in the [`assets.images`](#assets-images) section.
+:::
 
 :::info
 Remote images are downloaded and converted into _Assets_ to be manipulated. You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
