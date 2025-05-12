@@ -574,7 +574,7 @@ pages:
 ```
 
 :::warning
-Since version 8.41.0, the `pages.body.images.resize` option is used to resize images to a specific width, no more to enable the resize feature (enabled systematically).
+Since version ++8.41.0++, the `pages.body.images.resize` option is used to resize images to a specific width, no more to enable the resize feature (enabled systematically).
 :::
 
 :::important

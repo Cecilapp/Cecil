@@ -591,6 +591,10 @@ Creates an HTML element from an asset.
 | attributes | Adds `name="value"` couple to the HTML element. | array |
 | options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: boolean}`: adds responsives images.<br>`{formats: array}`: adds alternatives formats. | array |
 
+:::warning
+Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
+:::
+
 :::tip
 You can define a global default behavior of images options (`responsive` and `formats`) through the [layouts configuration](4-Configuration.md#layouts-images).
 :::
