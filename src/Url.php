@@ -93,6 +93,10 @@ class Url
                 break;
             case $value instanceof MenuEntry: // $value is a Menu Entry
                 /** @var MenuEntry $value */
+                if (Util\File::isRemote($value['url'])) {
+                    $this->url = $value['url'];
+                    break;
+                }
                 $this->url = $base . '/' . ltrim($value['url'], '/');
                 break;
             case $value instanceof Asset: // $value is an Asset
