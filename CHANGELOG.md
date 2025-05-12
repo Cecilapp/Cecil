@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.42.0](https://github.com/Cecilapp/Cecil/compare/8.41.0...8.42.0)
+
+> 12 May 2025
+
+- feat: Twig html filter is now a function [`3948d06`](https://github.com/Cecilapp/Cecil/commit/3948d06a5443c950a6c3e9241638f387ea5def95)
+- doc: change to `body.images.resize` explained [`feda5c3`](https://github.com/Cecilapp/Cecil/commit/feda5c351c92b16d208f84b9d828b9495ebb81ca)
+
 #### [8.41.0](https://github.com/Cecilapp/Cecil/compare/8.40.0...8.41.0)
 
 > 11 May 2025
