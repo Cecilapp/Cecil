@@ -120,7 +120,7 @@ class Create extends AbstractStep
                             $updated = true;
                         }
                         // abord if entry is not enabled
-                        if ($properties['enabled'] === false) {
+                        if (isset($properties['enabled']) && $properties['enabled'] === false) {
                             continue;
                         }
                         // adds/replaces entry
