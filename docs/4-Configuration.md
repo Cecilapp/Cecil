@@ -961,6 +961,17 @@ layouts:
     formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
 ```
 
+### layouts.components
+
+[Templates Components](3-Templates.md#components) options.
+
+```yaml
+layouts:
+  components:
+    dir: components # components source directory (`components` by default)
+    ext: twig       # components files extension (`twig` by default)
+```
+
 ---
 
 ## Output
