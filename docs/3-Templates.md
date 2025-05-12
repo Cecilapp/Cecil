@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-05-11
+updated: 2025-05-12
 alias: documentation/layouts
 -->
 # Templates
@@ -589,7 +589,11 @@ Creates an HTML element from an asset.
 | Option     | Description                                     | Type  |
 | ---------- | ----------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | `{preload: boolean}`: preloads CSS.<br>`{responsive: boolean}`: creates responsives images.<br>`{formats: array}`: creates image alternative formats. | array |
+| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: boolean}`: adds responsives images.<br>`{formats: array}`: adds alternatives formats. | array |
+
+:::tip
+You can define a global default behavior of images options (`responsive` and `formats`) through the [layouts configuration](4-Configuration.md#layouts-images).
+:::
 
 _Examples:_
 
