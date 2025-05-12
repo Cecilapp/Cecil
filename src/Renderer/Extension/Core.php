@@ -80,6 +80,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('url', [$this, 'url'], ['needs_context' => true]),
             // assets
             new \Twig\TwigFunction('asset', [$this, 'asset']),
+            new \Twig\TwigFunction('html', [$this, 'html'], ['needs_context' => true]),
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
@@ -116,7 +117,6 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
             new \Twig\TwigFilter('filter_by', [$this, 'filterBy']),
             // assets
-            new \Twig\TwigFilter('html', [$this, 'html'], ['needs_context' => true]),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('fingerprint', [$this, 'fingerprint']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
@@ -146,6 +146,15 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('iterable', [$this, 'iterable']),
             // date
             new \Twig\TwigFilter('duration_to_iso8601', ['\Cecil\Util\Date', 'durationToIso8601']),
+            // deprecated
+            new \Twig\TwigFilter(
+                'html',
+                [$this, 'html'],
+                [
+                    'needs_context' => true,
+                    'deprecation_info' => new DeprecatedCallableInfo('', '', 'html function')
+                ]
+            ),
         ];
     }
 

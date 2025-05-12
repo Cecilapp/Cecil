@@ -578,6 +578,61 @@ _Examples:_
 {% set integrity = asset('styles.scss').integrity %}
 ```
 
+### html
+
+Creates an HTML element from an asset.
+
+```twig
+{{ html(asset, {attributes}, {options}) }}
+```
+
+| Option     | Description                                     | Type  |
+| ---------- | ----------------------------------------------- | ----- |
+| attributes | Adds `name="value"` couple to the HTML element. | array |
+| options    | `{preload: boolean}`: preloads CSS.<br>`{responsive: boolean}`: creates responsives images.<br>`{formats: array}`: creates image alternative formats. | array |
+
+_Examples:_
+
+```twig
+{# image without specific attributes nor options #}
+{{ html(asset('image.png')) }}
+```
+
+```twig
+{# image with specific attributes and options #}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif','webp']}) }}
+```
+
+```twig
+{# image with named argument `options` #}
+{{ html(asset('image.jpg'), options={responsive: true}) }}
+```
+
+```twig
+{# CSS with an attribute #}
+{{ html(asset('styles.css'), {media: 'print'}) }}
+```
+
+```twig
+{# CSS with an attribute and an option #}
+{{ html(asset('styles.css'), {title: 'Main theme'}, {preload: true}) }}
+```
+
+```twig
+{# JavaScript #}
+{{ html(asset('script.js')) }}
+```
+
+:::info
+For convenience the `html` function stay available as a filter (but is considered as deprecated):
+
+```twig
+# asset
+{{ asset|html({attributes}, {options}) }}
+```
+
+:::
+
 ### image_srcset
 
 Builds the HTML img `srcset` (responsive) attribute of an image Asset.
@@ -1123,48 +1178,6 @@ _Example:_
 
 ```twig
 {{ asset('styles.css')|inline }}
-```
-
-### html
-
-Converts an asset into an HTML element.
-
-```twig
-{{ asset(path)|html({attributes, options}) }}
-```
-
-| Option     | Description                                     | Type  |
-| ---------- | ----------------------------------------------- | ----- |
-| attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | `{preload: boolean}`: preloads CSS.<br>`{responsive: boolean}`: creates responsives images.<br>`{formats: array}`: creates image alternative formats. | array |
-
-_Examples:_
-
-```twig
-{# image without specific attributes nor options #}
-{{ asset('image.png')|html }}
-```
-
-```twig
-{# image with specific attributes and options #}
-{{ asset('image.jpg')|html({alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif','webp']}) }}
-```
-
-```twig
-{# with named argument `options` #}
-{{ asset('image.jpg')|html(options={responsive: true}) }}
-```
-
-```twig
-{{ asset('styles.css')|html({media: 'print'}) }}
-```
-
-```twig
-{{ asset('styles.css')|html({title: 'Main theme'}, {preload: true}) }}
-```
-
-```twig
-{{ asset('script.js')|html }}
 ```
 
 ### preg_split

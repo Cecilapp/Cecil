@@ -946,8 +946,8 @@ Images handling options.
 ```yaml
 layouts:
   images:
-    formats: []       # used by `html` filter: creates and adds formats images as `source` (empty by default)
-    responsive: false # used by `html` filter: creates responsive images by default (`false` by default)
+    formats: []       # used by `html` function: adds alternatives image formats as `source` (empty array by default)
+    responsive: false # used by `html` function: adds responsive images (`false` by default)
 ```
 
 ### layouts.translations
