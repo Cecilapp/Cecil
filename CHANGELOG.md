@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.41.0](https://github.com/Cecilapp/Cecil/compare/8.40.0...8.41.0)
+
+> 11 May 2025
+
+- feat: change behavior of pages.body.images.resize [`d980aff`](https://github.com/Cecilapp/Cecil/commit/d980afffdd9a9ea676080a8eaf70c000f0dd01ab)
+- doc: minor changes [`32da2ea`](https://github.com/Cecilapp/Cecil/commit/32da2ea1a58e08e87ebb23e186bf6d59f5372cf0)
+- chore: update dev deps [`5156e8c`](https://github.com/Cecilapp/Cecil/commit/5156e8cdedf6098cc12549f1dc43e64e3560ed8f)
+- chore: fix composer.lock [`caf1522`](https://github.com/Cecilapp/Cecil/commit/caf1522c8180120dd34ce2b8dce8e31cca9eef0b)
+
 #### [8.40.0](https://github.com/Cecilapp/Cecil/compare/8.39.10...8.40.0)
 
 > 6 May 2025
