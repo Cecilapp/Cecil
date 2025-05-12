@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.42.1](https://github.com/Cecilapp/Cecil/compare/8.42.0...8.42.1)
+
+> 12 May 2025
+
+- chore(deps): bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 [`#2171`](https://github.com/Cecilapp/Cecil/pull/2171)
+- doc: add components options [`841d9e5`](https://github.com/Cecilapp/Cecil/commit/841d9e56698f2929cf3b7f6a7073e2a811bfb9f4)
+- doc: minor change [`35d2ff2`](https://github.com/Cecilapp/Cecil/commit/35d2ff2ac5d26d3efdbef51229e3d5a078a0e7e2)
+- doc: minor fixes [`d837a51`](https://github.com/Cecilapp/Cecil/commit/d837a519ac28bc5c16835f59738b5accc82dffb7)
+- fix: menu url if remote [`289df56`](https://github.com/Cecilapp/Cecil/commit/289df5615e4789f42812e6ce0a97f39f49e08deb)
+
 #### [8.42.0](https://github.com/Cecilapp/Cecil/compare/8.41.0...8.42.0)
 
 > 12 May 2025
