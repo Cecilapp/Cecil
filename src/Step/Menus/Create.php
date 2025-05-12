@@ -119,6 +119,10 @@ class Create extends AbstractStep
                                 ->setWeight($properties['weight']);
                             $updated = true;
                         }
+                        // abord if entry is not enabled
+                        if ($properties['enabled'] === false) {
+                            continue;
+                        }
                         // adds/replaces entry
                         $menu->add($item);
 
