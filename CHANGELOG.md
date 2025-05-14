@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.42.2](https://github.com/Cecilapp/Cecil/compare/8.42.1...8.42.2)
+
+> 13 May 2025
+
+- fix: case disable not existent menu entry [`bee48fc`](https://github.com/Cecilapp/Cecil/commit/bee48fc1c4bfc32b5aa2597e1cac14a48a8ab118)
+- fix: case disable not existent menu entry [`9e99e18`](https://github.com/Cecilapp/Cecil/commit/9e99e18f8d42f9f0921fa667cf958695c5597edb)
+
 #### [8.42.1](https://github.com/Cecilapp/Cecil/compare/8.42.0...8.42.1)
 
 > 12 May 2025
