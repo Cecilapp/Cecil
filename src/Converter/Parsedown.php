@@ -303,7 +303,7 @@ class Parsedown extends \ParsedownToc
         $assetResized = null;
         // pages.body.images.resize
         if (
-            is_int($this->config->get('pages.body.images.resize'))
+            \is_int($this->config->get('pages.body.images.resize'))
             && $this->config->get('pages.body.images.resize') > 0
             && $width > $this->config->get('pages.body.images.resize')
         ) {
