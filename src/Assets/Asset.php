@@ -197,13 +197,13 @@ class Asset implements \ArrayAccess
             }
             // fingerprinting
             if ($options['fingerprint']) {
-                $this->fingerprint();
+                $this->doFingerprint();
             }
             // compiling Sass files
-            $this->compile();
+            $this->doCompile();
             // minifying (CSS and JavScript files)
             if ($options['minify']) {
-                $this->minify();
+                $this->doMinify();
             }
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
@@ -234,85 +234,18 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Compiles a SCSS.
+     * Compiles a SCSS + cache.
      *
      * @throws RuntimeException
      */
     public function compile(): self
     {
-        if ($this->data['ext'] != 'scss') {
-            return $this;
-        }
-
-        $cache = new Cache($this->builder, 'assets');
-
         $this->cacheTags['compile'] = true;
-
+        $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
-            $scssPhp = new Compiler();
-            // import paths
-            $importDir = [];
-            $importDir[] = Util::joinPath($this->config->getStaticPath());
-            $importDir[] = Util::joinPath($this->config->getAssetsPath());
-            $scssDir = (array) $this->config->get('assets.compile.import');
-            $themes = $this->config->getTheme() ?? [];
-            foreach ($scssDir as $dir) {
-                $importDir[] = Util::joinPath($this->config->getStaticPath(), $dir);
-                $importDir[] = Util::joinPath($this->config->getAssetsPath(), $dir);
-                $importDir[] = Util::joinPath(\dirname($this->data['file']), $dir);
-                foreach ($themes as $theme) {
-                    $importDir[] = Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir"));
-                    $importDir[] = Util::joinPath($this->config->getThemeDirPath($theme, "assets/$dir"));
-                }
-            }
-            $scssPhp->setQuietDeps(true);
-            $scssPhp->setImportPaths(array_unique($importDir));
-            // source map
-            if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
-                $importDir = [];
-                $assetDir = (string) $this->config->get('assets.dir');
-                $assetDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR . $assetDir . DIRECTORY_SEPARATOR);
-                $fileRelPath = substr($this->data['file'], $assetDirPos + 8);
-                $filePath = Util::joinFile($this->config->getOutputPath(), $fileRelPath);
-                $importDir[] = \dirname($filePath);
-                foreach ($scssDir as $dir) {
-                    $importDir[] = Util::joinFile($this->config->getOutputPath(), $dir);
-                }
-                $scssPhp->setImportPaths(array_unique($importDir));
-                $scssPhp->setSourceMap(Compiler::SOURCE_MAP_INLINE);
-                $scssPhp->setSourceMapOptions([
-                    'sourceMapBasepath' => Util::joinPath($this->config->getOutputPath()),
-                    'sourceRoot'        => '/',
-                ]);
-            }
-            // output style
-            $outputStyles = ['expanded', 'compressed'];
-            $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
-            if (!\in_array($outputStyle, $outputStyles)) {
-                throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
-            }
-            $scssPhp->setOutputStyle($outputStyle == 'compressed' ? OutputStyle::COMPRESSED : OutputStyle::EXPANDED);
-            // variables
-            $variables = $this->config->get('assets.compile.variables');
-            if (!empty($variables)) {
-                $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
-                $scssPhp->replaceVariables($variables);
-            }
-            // debug
-            if ($this->builder->isDebug()) {
-                $scssPhp->setQuietDeps(false);
-                $this->builder->getLogger()->debug(\sprintf("SCSS compiler imported paths:\n%s", Util\Str::arrayToList(array_unique($importDir))));
-            }
-            // update data
-            $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
-            $this->data['ext'] = 'css';
-            $this->data['type'] = 'text';
-            $this->data['subtype'] = 'text/css';
-            $this->data['content'] = $scssPhp->compileString($this->data['content'])->getCss();
-            $this->data['size'] = \strlen($this->data['content']);
+            $this->doCompile();
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
-            $this->builder->getLogger()->debug(\sprintf('Asset compiled: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
 
@@ -321,48 +254,15 @@ class Asset implements \ArrayAccess
 
     /**
      * Minifying a CSS or a JS.
-     *
-     * @throws RuntimeException
      */
     public function minify(): self
     {
-        // in debug mode, disable minify to preserve inline source map
-        if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
-            return $this;
-        }
-
-        if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
-            return $this;
-        }
-
-        if (substr($this->data['path'], -8) == '.min.css' || substr($this->data['path'], -7) == '.min.js') {
-            return $this;
-        }
-
-        if ($this->data['ext'] == 'scss') {
-            $this->compile();
-        }
-
-        $cache = new Cache($this->builder, 'assets');
-
         $this->cacheTags['minify'] = true;
-
+        $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
-            switch ($this->data['ext']) {
-                case 'css':
-                    $minifier = new Minify\CSS($this->data['content']);
-                    break;
-                case 'js':
-                    $minifier = new Minify\JS($this->data['content']);
-                    break;
-                default:
-                    throw new RuntimeException(\sprintf('Not able to minify "%s".', $this->data['path']));
-            }
-            $this->data['content'] = $minifier->minify();
-            $this->data['size'] = \strlen($this->data['content']);
+            $this->doMinify();
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
-            $this->builder->getLogger()->debug(\sprintf('Asset minified: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
 
@@ -370,52 +270,20 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Add hash to the file name.
+     * Add hash to the file name + cache.
      */
     public function fingerprint(): self
     {
-        $cache = new Cache($this->builder, 'assets');
-
         $this->cacheTags['fingerprint'] = true;
-
+        $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
-            $hash = hash('md5', $this->data['content']);
-            $this->data['path'] = preg_replace(
-                '/\.' . $this->data['ext'] . '$/m',
-                ".$hash." . $this->data['ext'],
-                $this->data['path']
-            );
+            $this->doFingerprint();
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
-            $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
         }
         $this->data = $cache->get($cacheKey);
 
         return $this;
-    }
-
-    /**
-     * Optimizing $filepath image.
-     * Returns the new file size.
-     */
-    public function optimize(string $filepath, string $path): int
-    {
-        $quality = (int) $this->config->get('assets.images.quality');
-        $message = \sprintf('Asset processed: "%s"', $path);
-        $sizeBefore = filesize($filepath);
-        Optimizer::create($quality)->optimize($filepath);
-        $sizeAfter = filesize($filepath);
-        if ($sizeAfter < $sizeBefore) {
-            $message = \sprintf(
-                'Asset optimized: "%s" (%s Ko -> %s Ko)',
-                $path,
-                ceil($sizeBefore / 1000),
-                ceil($sizeAfter / 1000)
-            );
-        }
-        $this->builder->getLogger()->debug($message);
-
-        return $sizeAfter;
     }
 
     /**
@@ -691,6 +559,141 @@ class Asset implements \ArrayAccess
     }
 
     /**
+     * Compiles a SCSS.
+     *
+     * @throws RuntimeException
+     */
+    protected function doCompile(): self
+    {
+        // abort if not a SCSS file
+        if ($this->data['ext'] != 'scss') {
+            return $this;
+        }
+        $scssPhp = new Compiler();
+        // import paths
+        $importDir = [];
+        $importDir[] = Util::joinPath($this->config->getStaticPath());
+        $importDir[] = Util::joinPath($this->config->getAssetsPath());
+        $scssDir = (array) $this->config->get('assets.compile.import');
+        $themes = $this->config->getTheme() ?? [];
+        foreach ($scssDir as $dir) {
+            $importDir[] = Util::joinPath($this->config->getStaticPath(), $dir);
+            $importDir[] = Util::joinPath($this->config->getAssetsPath(), $dir);
+            $importDir[] = Util::joinPath(\dirname($this->data['file']), $dir);
+            foreach ($themes as $theme) {
+                $importDir[] = Util::joinPath($this->config->getThemeDirPath($theme, "static/$dir"));
+                $importDir[] = Util::joinPath($this->config->getThemeDirPath($theme, "assets/$dir"));
+            }
+        }
+        $scssPhp->setQuietDeps(true);
+        $scssPhp->setImportPaths(array_unique($importDir));
+        // adds source map
+        if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
+            $importDir = [];
+            $assetDir = (string) $this->config->get('assets.dir');
+            $assetDirPos = strrpos($this->data['file'], DIRECTORY_SEPARATOR . $assetDir . DIRECTORY_SEPARATOR);
+            $fileRelPath = substr($this->data['file'], $assetDirPos + 8);
+            $filePath = Util::joinFile($this->config->getOutputPath(), $fileRelPath);
+            $importDir[] = \dirname($filePath);
+            foreach ($scssDir as $dir) {
+                $importDir[] = Util::joinFile($this->config->getOutputPath(), $dir);
+            }
+            $scssPhp->setImportPaths(array_unique($importDir));
+            $scssPhp->setSourceMap(Compiler::SOURCE_MAP_INLINE);
+            $scssPhp->setSourceMapOptions([
+                'sourceMapBasepath' => Util::joinPath($this->config->getOutputPath()),
+                'sourceRoot'        => '/',
+            ]);
+        }
+        // defines output style
+        $outputStyles = ['expanded', 'compressed'];
+        $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
+        if (!\in_array($outputStyle, $outputStyles)) {
+            throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
+        }
+        $scssPhp->setOutputStyle($outputStyle == 'compressed' ? OutputStyle::COMPRESSED : OutputStyle::EXPANDED);
+        // set variables
+        $variables = $this->config->get('assets.compile.variables');
+        if (!empty($variables)) {
+            $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
+            $scssPhp->replaceVariables($variables);
+        }
+        // debug
+        if ($this->builder->isDebug()) {
+            $scssPhp->setQuietDeps(false);
+            $this->builder->getLogger()->debug(\sprintf("SCSS compiler imported paths:\n%s", Util\Str::arrayToList(array_unique($importDir))));
+        }
+        // update data
+        $this->data['path'] = preg_replace('/sass|scss/m', 'css', $this->data['path']);
+        $this->data['ext'] = 'css';
+        $this->data['type'] = 'text';
+        $this->data['subtype'] = 'text/css';
+        $this->data['content'] = $scssPhp->compileString($this->data['content'])->getCss();
+        $this->data['size'] = \strlen($this->data['content']);
+
+        $this->builder->getLogger()->debug(\sprintf('Asset compiled: "%s"', $this->data['path']));
+
+        return $this;
+    }
+
+    /**
+     * Minifying a CSS or a JS + cache.
+     *
+     * @throws RuntimeException
+     */
+    protected function doMinify(): self
+    {
+        // in debug mode: disable minify to preserve inline source map
+        if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
+            return $this;
+        }
+        // abord if not a CSS or JS file
+        if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
+            return $this;
+        }
+        // abort if already minified
+        if (substr($this->data['path'], -8) == '.min.css' || substr($this->data['path'], -7) == '.min.js') {
+            return $this;
+        }
+        // compile SCSS files
+        if ($this->data['ext'] == 'scss') {
+            $this->compile();
+        }
+        switch ($this->data['ext']) {
+            case 'css':
+                $minifier = new Minify\CSS($this->data['content']);
+                break;
+            case 'js':
+                $minifier = new Minify\JS($this->data['content']);
+                break;
+            default:
+                throw new RuntimeException(\sprintf('Not able to minify "%s".', $this->data['path']));
+        }
+        $this->data['content'] = $minifier->minify();
+        $this->data['size'] = \strlen($this->data['content']);
+
+        $this->builder->getLogger()->debug(\sprintf('Asset minified: "%s"', $this->data['path']));
+
+        return $this;
+    }
+
+    /**
+     * Add hash to the file name.
+     */
+    protected function doFingerprint(): self
+    {
+        $hash = hash('md5', $this->data['content']);
+        $this->data['path'] = preg_replace(
+            '/\.' . $this->data['ext'] . '$/m',
+            ".$hash." . $this->data['ext'],
+            $this->data['path']
+        );
+        $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
+
+        return $this;
+    }
+
+    /**
      * Returns local file path and updated path, or throw an exception.
      *
      * Try to locate the file in:
@@ -792,6 +795,30 @@ class Asset implements \ArrayAccess
         }
 
         return $content;
+    }
+
+    /**
+     * Optimizing $filepath image.
+     * Returns the new file size.
+     */
+    private function optimize(string $filepath, string $path): int
+    {
+        $quality = (int) $this->config->get('assets.images.quality');
+        $message = \sprintf('Asset processed: "%s"', $path);
+        $sizeBefore = filesize($filepath);
+        Optimizer::create($quality)->optimize($filepath);
+        $sizeAfter = filesize($filepath);
+        if ($sizeAfter < $sizeBefore) {
+            $message = \sprintf(
+                'Asset optimized: "%s" (%s Ko -> %s Ko)',
+                $path,
+                ceil($sizeBefore / 1000),
+                ceil($sizeAfter / 1000)
+            );
+        }
+        $this->builder->getLogger()->debug($message);
+
+        return $sizeAfter;
     }
 
     /**
