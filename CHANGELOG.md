@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.42.3](https://github.com/Cecilapp/Cecil/compare/8.42.2...8.42.3)
+
+> 14 May 2025
+
+- refactor: better assets cache management [`ab2ade8`](https://github.com/Cecilapp/Cecil/commit/ab2ade85991f9ce5b431d36e70c36a526aeca140)
+- refactor: better code [`c3675b2`](https://github.com/Cecilapp/Cecil/commit/c3675b27af5000bd90cc22c355ea64057c7d78fd)
+
 #### [8.42.2](https://github.com/Cecilapp/Cecil/compare/8.42.1...8.42.2)
 
 > 13 May 2025
