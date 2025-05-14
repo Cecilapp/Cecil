@@ -95,7 +95,7 @@ class Config
             throw new ConfigException(\sprintf('Can\'t read file "%s".', $file));
         }
         try {
-            return Yaml::parse($fileContent, Yaml::PARSE_DATETIME);
+            return Yaml::parse($fileContent, Yaml::PARSE_DATETIME) ?? [];
         } catch (ParseException $e) {
             throw new ConfigException(\sprintf('"%s" parsing error: %s', $file, $e->getMessage()));
         }
