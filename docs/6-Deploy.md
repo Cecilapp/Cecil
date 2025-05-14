@@ -1,7 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2025-01-29
+updated: 2025-05-14
 alias: documentation/publish
 -->
 # Deploy
@@ -122,9 +122,6 @@ on:
     branches: [master, main]
   workflow_dispatch:
 
-permissions:
-  pages: write
-  id-token: write
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -139,13 +136,28 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
-          extensions: mbstring, gd, imagick, intl, gettext
+          extensions: mbstring, fileinfo, gd, imagick, intl, gettext
+      - name: Restore Cecil cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./.cache
+          key: cecil-cache-
+          restore-keys: |
+            cecil-cache-
       - name: Build with Cecil
         uses: Cecilapp/Cecil-Action@v3
+      - name: Save Cecil cache
+        uses: actions/cache/save@v4
+        with:
+          path: ./.cache
+          key: cecil-cache-${{ hashFiles('./.cache/**/*') }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
   deploy:
     needs: build
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
