@@ -39,6 +39,7 @@ class Build extends AbstractCommand
                 new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                 new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                 new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
+                new InputOption('render-subset', null, InputOption::VALUE_OPTIONAL, 'Render subset of pages based on filters'),
                 new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                 new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
                 new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Optimize files (or disable --no-optimize)'),
@@ -147,6 +148,9 @@ EOF
         }
         if ($input->getOption('page')) {
             $options['page'] = $input->getOption('page');
+        }
+        if ($input->getOption('render-subset')) {
+            $options['render-subset'] = (string) $input->getOption('render-subset');
         }
         if ($input->getOption('clear-cache')) {
             if (0 < $removedFiles = (new \Cecil\Assets\Cache($this->getBuilder()))->clearByPattern((string) $input->getOption('clear-cache'))) {
