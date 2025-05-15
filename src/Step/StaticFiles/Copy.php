@@ -25,6 +25,8 @@ class Copy extends AbstractStep
 {
     protected $count = 0;
 
+    protected $path = '';
+
     /**
      * {@inheritdoc}
      */
@@ -42,9 +44,15 @@ class Copy extends AbstractStep
             return;
         }
 
+        if (!empty($options['renderPath'])) {
+            $this->path = $options['renderPath'];
+        }
+
         // reset output directory
-        Util\File::getFS()->remove($this->config->getOutputPath());
-        Util\File::getFS()->mkdir($this->config->getOutputPath());
+        if (empty($this->path)) {
+            Util\File::getFS()->remove($this->config->getOutputPath());
+            Util\File::getFS()->mkdir($this->config->getOutputPath());
+        }
 
         $this->canProcess = true;
     }
