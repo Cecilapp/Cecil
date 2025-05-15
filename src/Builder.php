@@ -148,9 +148,10 @@ class Builder implements LoggerAwareInterface
 
         // prepare options
         $this->options = array_merge([
-            'drafts'  => false, // build drafts or not
-            'dry-run' => false, // if dry-run is true, generated files are not saved
-            'page'    => '',    // specific page to build
+            'drafts'           => false, // build drafts or not
+            'dry-run'          => false, // if dry-run is true, generated files are not saved
+            'page'             => '',    // specific page to build
+            'render-only-path' => ''     //
         ], $options);
 
         // set build ID
