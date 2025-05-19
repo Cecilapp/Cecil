@@ -41,7 +41,7 @@ class Build extends AbstractCommand
                 new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
                 new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                 new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
-                new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
+                new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Optimize files (or disable --no-optimize)'),
                 new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show built pages as table'),
                 new InputOption('metrics', null, InputOption::VALUE_NONE, 'Show build steps metrics'),
@@ -86,6 +86,10 @@ To build the website with optimization, run:
 
   <info>%command.full_name% --optimize</>
 
+To build the website without optimization, run:
+
+  <info>%command.full_name% --no-optimize</>
+
 To clear the cache before building the website, run:
 
   <info>%command.full_name% --clear-cache</>
@@ -121,10 +125,10 @@ EOF
             $config['output']['dir'] = $input->getOption('output');
             Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'), (string) $input->getOption('output'));
         }
-        if ($input->getOption('optimize') === null) {
+        if ($input->getOption('optimize') === true) {
             $config['optimize']['enabled'] = true;
         }
-        if ($input->getOption('optimize') == 'no') {
+        if ($input->getOption('optimize') === false) {
             $config['optimize']['enabled'] = false;
         }
         if ($input->getOption('clear-cache') === null) {

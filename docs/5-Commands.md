@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2025-02-26
+updated: 2025-05-20
 -->
 # Commands
 
@@ -168,7 +168,7 @@ Options:
       --dry-run                    Build without saving
       --baseurl=BASEURL            Set the base URL
       --output=OUTPUT              Set the output directory
-      --optimize[=OPTIMIZE]        Optimize files (disable with "no") [default: false]
+      --optimize|--no-optimize     Optimize files (or disable --no-optimize)
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
       --show-pages                 Show built pages as table
       --metrics                    Show build steps metrics
@@ -216,7 +216,11 @@ Help:
 
   To build the website with optimization, run:
 
-    cecil.phar build --optimize
+    cecil build --optimize
+
+  To build the website without optimization, run:
+
+    cecil build --no-optimize
 
   To clear the cache before building the website, run:
 
@@ -260,7 +264,7 @@ Options:
   -o, --open                       Open web browser automatically
       --host=HOST                  Server host
       --port=PORT                  Server port
-      --optimize[=OPTIMIZE]        Optimize files (disable with "no") [default: false]
+      --optimize|--no-optimize     Optimize files (or disable --no-optimize)
       --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
       --no-ignore-vcs              Changes watcher must not ignore VCS directories
       --timeout[=TIMEOUT]          Sets the process timeout (max. runtime) in seconds
@@ -298,6 +302,22 @@ Help:
   To start the server with a specific port, run:
 
     cecil.phar serve --port=8080
+
+  To build the website with optimization, run:
+
+    cecil serve --optimize
+
+  To build the website without optimization, run:
+
+    cecil serve --no-optimize
+
+  To clear the cache before building the website, run:
+
+    cecil serve --clear-cache
+
+  To clear the cache before building the website with a specific cache key regular expression, run:
+
+    cecil serve --clear-cache=cache-key
 
   To start the server with changes watcher not ignoring VCS directories, run:
 

@@ -49,7 +49,7 @@ class Serve extends AbstractCommand
                 new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
                 new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
-                new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
+                new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Optimize files (or disable --no-optimize)'),
                 new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
                 new InputOption('timeout', null, InputOption::VALUE_OPTIONAL, 'Sets the process timeout (max. runtime) in seconds', 3600 * 2),
@@ -82,6 +82,22 @@ To start the server with a specific host, run:
 To start the server with a specific port, run:
 
   <info>%command.full_name% --port=8080</>
+
+To build the website with optimization, run:
+
+  <info>%command.full_name% --optimize</>
+
+To build the website without optimization, run:
+
+  <info>%command.full_name% --no-optimize</>
+
+To clear the cache before building the website, run:
+
+  <info>%command.full_name% --clear-cache</>
+
+To clear the cache before building the website with a specific cache key regular expression, run:
+
+  <info>%command.full_name% --clear-cache=cache-key</>
 
 To start the server with changes watcher not ignoring VCS directories, run:
 
