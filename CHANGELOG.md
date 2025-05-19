@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.43.0](https://github.com/Cecilapp/Cecil/compare/8.42.4...8.43.0)
+
+> 20 May 2025
+
+- feat: disable optimize with "no-optimize" option [`#2174`](https://github.com/Cecilapp/Cecil/pull/2174)
+
 #### [8.42.4](https://github.com/Cecilapp/Cecil/compare/8.42.3...8.42.4)
 
 > 14 May 2025
