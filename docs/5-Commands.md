@@ -92,6 +92,7 @@ Arguments:
 
 Options:
       --name=NAME       Page path name
+      --slugify|--no-slugify  Slugify file name (or disable --no-slugify)
   -p, --prefix          Prefix the file name with the current date (`YYYY-MM-DD`)
   -f, --force           Override the file if already exist
   -o, --open            Open editor automatically
@@ -112,7 +113,11 @@ Help:
 
   To create a new page with a specific name, run:
 
-    cecil.phar new:page --name=path/to/page.md
+    cecil.phar new:page --name=path/to/a-page.md
+
+  To slugify the file name, run:
+
+    cecil.phar new:page --name=path/to/A Page.md --slugify
 
   To create a new page with a date prefix (i.e: YYYY-MM-DD), run:
 

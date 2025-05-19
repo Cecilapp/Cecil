@@ -36,6 +36,7 @@ class NewPage extends AbstractCommand
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 new InputOption('name', null, InputOption::VALUE_REQUIRED, 'Page path name'),
+                new InputOption('slugify', null, InputOption::VALUE_NEGATABLE, 'Slugify file name (or disable --no-slugify)'),
                 new InputOption('prefix', 'p', InputOption::VALUE_NONE, 'Prefix the file name with the current date (`YYYY-MM-DD`)'),
                 new InputOption('force', 'f', InputOption::VALUE_NONE, 'Override the file if already exist'),
                 new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open editor automatically'),
@@ -51,9 +52,13 @@ To create a new page, run:
 
 To create a new page with a specific name, run:
 
-  <info>%command.full_name% --name=path/to/page.md</>
+  <info>%command.full_name% --name=path/to/a-page.md</>
 
-To create a new page with a date prefix (i.e: YYYY-MM-DD), run:
+To slugify the file name, run:
+
+  <info>%command.full_name% --name=path/to/A Page.md --slugify</>
+
+To create a new page with a date prefix (i.e: `YYYY-MM-DD`), run:
 
   <info>%command.full_name% --prefix</>
 
@@ -80,15 +85,17 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $name = (string) $input->getOption('name');
-        $prefix = $input->getOption('prefix');
-        $force = $input->getOption('force');
-        $open = $input->getOption('open');
+        $slugify = $input->getOption('slugify');
+        $prefix = (bool) $input->getOption('prefix');
+        $force = (bool) $input->getOption('force');
+        $open = (bool) $input->getOption('open');
         $editor = $input->getOption('editor');
 
         try {
             // ask
             if (empty($name)) {
                 $name = $this->io->ask('What is the name of the page file?', 'new-page.md');
+                $slugify = ($slugify !== null) ? $slugify : $this->io->confirm('Slugify the file name?', true);
                 $prefix = ($prefix !== false) ?: $this->io->confirm('Add date prefix to the filename?', false);
                 $open = ($open !== false) ?: $this->io->confirm('Do you want open the created file with your editor?', false);
                 if ($open && !$this->getBuilder()->getConfig()->has('editor')) {
@@ -104,9 +111,9 @@ EOF
             $filename = $basename;
             if (!\in_array($extension, (array) $this->getBuilder()->getConfig()->get('pages.ext'))) {
                 $title = $filename;
-                $filename = "$basename.md"; // force a valid extension
+                $filename = trim("$basename.md"); // force a valid extension
             }
-            $title = ucfirst(str_replace('-', ' ', $title));
+            $title = trim(ucfirst(str_replace('-', ' ', $title)));
             $date = date('Y-m-d');
             // date prefix?
             $datePrefix = $prefix ? \sprintf('%s-', $date) : '';
@@ -117,7 +124,7 @@ EOF
                 DIRECTORY_SEPARATOR,
                 empty($dirname) ? '' : $dirname . DIRECTORY_SEPARATOR,
                 $datePrefix,
-                $filename
+                $slugify ? \Cecil\Collection\Page\Page::slugify($filename) : $filename
             );
             $filePath = Util::joinFile($this->getPath(), $fileRelativePath);
             // ask to override existing file?
