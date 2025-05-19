@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.42.4](https://github.com/Cecilapp/Cecil/compare/8.42.3...8.42.4)
+
+> 14 May 2025
+
+- doc: add cache to GHA deploy [`3a1e80c`](https://github.com/Cecilapp/Cecil/commit/3a1e80cce88c475080ea30e676ce7e16120aed29)
+- fix: silent error in case of empty config file [`47dafe3`](https://github.com/Cecilapp/Cecil/commit/47dafe3f1f1675189a6ab0159ef288d200f152c8)
+
 #### [8.42.3](https://github.com/Cecilapp/Cecil/compare/8.42.2...8.42.3)
 
 > 14 May 2025
