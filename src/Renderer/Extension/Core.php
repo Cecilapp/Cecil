@@ -565,11 +565,13 @@ class Core extends SlugifyExtension
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
                         } catch (\Exception $e) {
                             $this->builder->getLogger()->error($e->getMessage());
+                            continue;
                         }
                     }
                 }
-
-                return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
+                if (!empty($source)) {
+                    return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
+                }
             }
 
             return $img;
