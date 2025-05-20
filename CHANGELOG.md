@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.45.1](https://github.com/Cecilapp/Cecil/compare/8.45.0...8.45.1)
+
+> 20 May 2025
+
+- ci: Vercel: switching to dnf [`89d727d`](https://github.com/Cecilapp/Cecil/commit/89d727d5610630f8f35a4b9c4989250fc3a38427)
+- fix: do not block image conversion in Markdown [`5131964`](https://github.com/Cecilapp/Cecil/commit/51319644288c020c4a1b38784ee073f23d8cd368)
+- ci: minor fix [`525a044`](https://github.com/Cecilapp/Cecil/commit/525a044f6a85eedc1e3e86997a557913521a6acd)
+
 #### [8.45.0](https://github.com/Cecilapp/Cecil/compare/8.44.1...8.45.0)
 
 > 20 May 2025
