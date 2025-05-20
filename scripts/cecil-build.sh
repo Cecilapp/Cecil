@@ -50,13 +50,17 @@ case $RUNNING_ON in
     echo "Installing Gettext..."
     dnf install -y gettext
     echo "Installing AVIF lib..."
-    dnf install -y libavif
+    dnf install -y libavif-devel
     if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
+      dnf install -y epel-release
       dnf install -y jpegoptim
+      dnf install -y optipng
       dnf install -y pngquant
+      npm install -y -g svgo
       dnf install -y gifsicle
       dnf install -y libwebp-tools
+      dnf install -y libavif-tools
     fi
     if [ "$VERCEL_ENV" = "production" ]; then
       CONTEXT="production"
