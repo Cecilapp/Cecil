@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.44.1](https://github.com/Cecilapp/Cecil/compare/8.44.0...8.44.1)
+
+> 20 May 2025
+
+- refactor: cleaning Asset code [`985564a`](https://github.com/Cecilapp/Cecil/commit/985564aecf31021a0da7916f37a8380c682490f0)
+- doc: minor fix [`e00ccf0`](https://github.com/Cecilapp/Cecil/commit/e00ccf09c20820898f1b7ecf4990b5f53ad10da8)
+- chore: add post install message to Scoop manifest [`849e4e6`](https://github.com/Cecilapp/Cecil/commit/849e4e663269820020beb627100b3e72560fcf89)
+
 #### [8.44.0](https://github.com/Cecilapp/Cecil/compare/8.43.0...8.44.0)
 
 > 20 May 2025
