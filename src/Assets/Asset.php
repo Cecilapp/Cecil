@@ -51,6 +51,7 @@ class Asset implements \ArrayAccess
      *     'minify' => <bool>,
      *     'optimize' => <bool>,
      *     'fallback' => <string>,
+     *     'useragent' => <string>,
      * ]
      *
      * @param Builder      $builder
@@ -106,6 +107,7 @@ class Asset implements \ArrayAccess
                 'minify'         => $this->config->isEnabled('assets.minify'),
                 'optimize'       => $this->config->isEnabled('assets.images.optimize'),
                 'fallback'       => '',
+                'useragent'      => (string) $this->config->get('assets.remote.useragent.default'),
             ],
             \is_array($options) ? $options : []
         );
@@ -113,6 +115,7 @@ class Asset implements \ArrayAccess
         // cache
         $cache = new Cache($this->builder, 'assets');
         $this->cacheTags = $options;
+        unset($this->cacheTags['ignore_missing'], $this->cacheTags['fallback'], $this->cacheTags['useragent']);
         $locateCacheKey = \sprintf('%s_locate__%s__%s', $options['filename'] ?: implode('_', $paths), $this->builder->getBuilId(), $this->builder->getVersion());
 
         // locate file(s) and get content
@@ -121,7 +124,7 @@ class Asset implements \ArrayAccess
             for ($i = 0; $i < $pathsCount; $i++) {
                 try {
                     $this->data['missing'] = false;
-                    $locate = $this->locateFile($paths[$i], $options['fallback']);
+                    $locate = $this->locateFile($paths[$i], $options['fallback'], $options['useragent']);
                     $file = $locate['file'];
                     $path = $locate['path'];
                     $type = Util\File::getMediaType($file)[0];
@@ -706,12 +709,12 @@ class Asset implements \ArrayAccess
      *
      * @throws RuntimeException
      */
-    private function locateFile(string $path, ?string $fallback = null): array
+    private function locateFile(string $path, ?string $fallback = null, ?string $userAgent = null): array
     {
         // remote file
         if (Util\File::isRemote($path)) {
             try {
-                $content = $this->getRemoteFileContent($path);
+                $content = $this->getRemoteFileContent($path, $userAgent);
                 $path = self::buildPathFromUrl($path);
                 $cache = new Cache($this->builder, 'assets/remote');
                 if (!$cache->has($path)) {
@@ -781,12 +784,12 @@ class Asset implements \ArrayAccess
      *
      * @throws RuntimeException
      */
-    private function getRemoteFileContent(string $path): string
+    private function getRemoteFileContent(string $path, ?string $userAgent = null): string
     {
         if (!Util\File::isRemoteExists($path)) {
             throw new RuntimeException(\sprintf('Can\'t get remote file "%s".', $path));
         }
-        if (false === $content = Util\File::fileGetContents($path, true)) {
+        if (false === $content = Util\File::fileGetContents($path, $userAgent)) {
             throw new RuntimeException(\sprintf('Can\'t get content of remote file "%s".', $path));
         }
         if (\strlen($content) <= 1) {

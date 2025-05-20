@@ -31,7 +31,6 @@ return [
     'pages.body.images.remote.fallback.path' => 'pages.body.images.remote.fallback',
     'pages.body.links.embed.video.ext' => 'pages.body.links.embed.video',
     'pages.body.links.embed.audio.ext' => 'pages.body.links.embed.audio',
-    'assets.remote' => '',
     'assets.remote.dir' => '',
     'assets.images.resize.dir' => '',
     'cache.templates.dir' => '',

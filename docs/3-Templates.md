@@ -515,6 +515,7 @@ Resource files must be stored in the `assets/` (or `static/`)  directory.
 | minify         | Compress CSS or JavaScript.                     | boolean | `true`   |
 | optimize       | Compress image.                                 | boolean | `false`  |
 | fallback       | Load a local asset if remote file is not found. | string  | ``       |
+| useragent      | User agent key (from [Assets configuration](4-Configuration.md#assets-remote-useragent)). | string | `default`|
 
 :::tip
 You can use [filters](#filters) to manipulate assets.

@@ -926,6 +926,19 @@ assets:
 
 See [**CDN providers**](configuration/cdn-providers.md).
 
+### assets.remote.useragent
+
+User agent used to download remote assets.
+
+```yaml
+assets:
+  remote:
+    useragent:
+      default: <string> # default user agent
+      useragent1: <string>
+      useragent2: <string>
+```
+
 ## Layouts
 
 Templates options.

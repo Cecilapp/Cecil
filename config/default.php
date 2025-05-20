@@ -141,6 +141,13 @@ return [
             //'variables' => ['<name>' => '<value>'], // list of preset variables
         ],
         'minify' => true, // enables CSS et JS minification
+        'remote' => [
+            'useragent' => [
+                'default' => '',
+                'googlefonts' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.47 Safari/537.36',
+                'modern' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15',
+            ],
+        ],
         'images' => [
             'optimize' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc
             'quality' => 75, // image quality after optimization or resize

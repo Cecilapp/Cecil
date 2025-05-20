@@ -39,7 +39,7 @@ class File
      *
      * @return string|false
      */
-    public static function fileGetContents(string $filename, bool $userAgent = false)
+    public static function fileGetContents(string $filename, ?string $userAgent = null)
     {
         if (empty($filename)) {
             return false;
@@ -52,19 +52,17 @@ class File
         );
 
         try {
-            if ($userAgent) {
-                $options = [
-                    'http' => [
-                        'method'          => 'GET',
-                        'header'          => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.47 Safari/537.36',
-                        'follow_location' => true,
-                    ],
-                ];
-
-                return file_get_contents($filename, false, stream_context_create($options));
+            $options = [
+                'http' => [
+                    'method'          => 'GET',
+                    'follow_location' => true,
+                ],
+            ];
+            if (!empty($userAgent)) {
+                $options['http']['header'] = "User-Agent: $userAgent";
             }
 
-            return file_get_contents($filename);
+            return file_get_contents($filename, false, stream_context_create($options));
         } catch (\ErrorException) {
             return false;
         } finally {
