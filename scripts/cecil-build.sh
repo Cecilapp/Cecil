@@ -50,7 +50,7 @@ case $RUNNING_ON in
     echo "Installing Gettext..."
     dnf install -y gettext
     echo "Installing AVIF lib..."
-    dnf install -y libavif-devel
+    dnf install -y libavif
     if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
       dnf install -y epel-release
