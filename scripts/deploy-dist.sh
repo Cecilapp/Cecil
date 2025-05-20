@@ -75,6 +75,9 @@ cat <<EOT >> $SCOOP_FILE_JSON
     "  'if (\$args.length -eq 1 -and \$args -eq \"self-update\") { & scoop update $SCOOP_CMD }'",
     "  'else { & php (Join-Path \$PSScriptRoot \"$DIST_FILE\") @args }'",
     ")"
+  ],
+  "post_install": [
+    "Write-Host \"Run `cecil` to get started\""
   ]
 }
 EOT
