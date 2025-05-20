@@ -54,6 +54,8 @@ case $RUNNING_ON in
     yum install libsodium # required by Box
     echo "Installing PHP extensions..."
     yum install php php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick,sodium}
+    echo "Installing AVIF lib..."
+    yum install libavif
     if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
       yum install jpegoptim
