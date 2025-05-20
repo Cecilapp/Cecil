@@ -44,13 +44,13 @@ class Asset implements \ArrayAccess
      * Creates an Asset from a file path, an array of files path or an URL.
      * Options:
      * [
+     *     'filename' => <string>,
+     *     'leading_slash' => <bool>
+     *     'ignore_missing' => <bool>,
      *     'fingerprint' => <bool>,
      *     'minify' => <bool>,
      *     'optimize' => <bool>,
-     *     'filename' => <string>,
-     *     'ignore_missing' => <bool>,
      *     'fallback' => <string>,
-     *     'leading_slash' => <bool>
      * ]
      *
      * @param Builder      $builder
@@ -82,10 +82,10 @@ class Asset implements \ArrayAccess
         $this->data = [
             'file'     => '',    // absolute file path
             'files'    => [],    // array of absolute files path
-            'path'     => '',    // public path
-            '_path'    => '',    // original path
-            'url'      => null,  // URL if it's a remote file
             'missing'  => false, // if file not found but missing allowed: 'missing' is true
+            '_path'    => '',    // original path
+            'path'     => '',    // public path
+            'url'      => null,  // URL if it's a remote file
             'ext'      => '',    // file extension
             'type'     => '',    // file type (e.g.: image, audio, video, etc.)
             'subtype'  => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
@@ -99,13 +99,13 @@ class Asset implements \ArrayAccess
         // handles options
         $options = array_merge(
             [
+                'filename'       => '',
+                'leading_slash'  => true,
+                'ignore_missing' => false,
                 'fingerprint'    => $this->config->isEnabled('assets.fingerprint'),
                 'minify'         => $this->config->isEnabled('assets.minify'),
                 'optimize'       => $this->config->isEnabled('assets.images.optimize'),
-                'filename'       => '',
-                'ignore_missing' => false,
                 'fallback'       => '',
-                'leading_slash'  => true,
             ],
             \is_array($options) ? $options : []
         );
@@ -156,9 +156,9 @@ class Asset implements \ArrayAccess
                     }
                     // apply bundle filename to path
                     if (!empty($filename)) {
-                        $this->data['path'] = '/' . ltrim($filename, '/');
+                        $this->data['path'] = $filename;
                     }
-                    // force root slash
+                    // add leading slash
                     if ($options['leading_slash']) {
                         $this->data['path'] = '/' . ltrim($this->data['path'], '/');
                     }
@@ -695,6 +695,7 @@ class Asset implements \ArrayAccess
 
     /**
      * Returns local file path and updated path, or throw an exception.
+     * If $fallback path is set, it will be used if the remote file is not found.
      *
      * Try to locate the file in:
      *   (1. remote file)
@@ -702,8 +703,6 @@ class Asset implements \ArrayAccess
      *   2. themes/<theme>/assets
      *   3. static
      *   4. themes/<theme>/static
-     *
-     * If $fallback is set, it will be used if the file is not found.
      *
      * @throws RuntimeException
      */

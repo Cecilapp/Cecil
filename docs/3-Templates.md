@@ -496,25 +496,25 @@ For convenience the `url` function is also available as a filter:
 
 ### asset
 
-An asset is a resource useable in templates, i.e.: CSS, JavaScript, image, audio, etc.
+An asset is a resource useable in templates, like CSS, JavaScript, image, audio, etc.
 
 The `asset()` function creates an _asset_ object from a file path, an array of files path (bundle) or an URL (remote file), and are processed (minified, fingerprinted, etc.) according to the [configuration](4-Configuration.md#assets).
 
-Local files must be stored in the `assets/` (or `static/`)  directory.
+Resource files must be stored in the `assets/` (or `static/`)  directory.
 
 ```twig
 {{ asset(path, {options}) }}
 ```
 
-| Option          | Description                                         | Type    | Default |
-| --------------- | --------------------------------------------------- | ------- | ------- |
-| fingerprint     | Add the file content finger print to the file name. | boolean | `true`  |
-| minify          | Compress file content (CSS or JavaScript).          | boolean | `true`  |
-| optimize        | Compress image file.                                | boolean | `false` |
-| filename        | File where to save content.                         | string  | `styles.css` or `scripts.js` |
-| ignore_missing  | Do not stop build if file don't exists.             | boolean | `false` |
-| fallback        | Load a local asset if $path file don't exists.      | string  | ``      |
-| leading_slash   | Add a leading slash to the $path.                   | string  | `true`  |
+| Option         | Description                                     | Type    | Default  |
+| -------------- | ----------------------------------------------- | ------- | -------- |
+| filename       | Save bundle to a custom file name.              | string  | `styles.css` or `scripts.js` |
+| leading_slash  | Add a leading slash to the $path.               | string  | `true`   |
+| ignore_missing | Do not stop build if file is not found.         | boolean | `false`  |
+| fingerprint    | Add content hash to the file name.              | boolean | `true`   |
+| minify         | Compress CSS or JavaScript.                     | boolean | `true`   |
+| optimize       | Compress image.                                 | boolean | `false`  |
+| fallback       | Load a local asset if remote file is not found. | string  | ``       |
 
 :::tip
 You can use [filters](#filters) to manipulate assets.
@@ -544,24 +544,33 @@ _Examples:_
 
 #### Asset attributes
 
-Assets created with the `asset()` function expose some useful attributes:
+Assets created with the `asset()` function expose some useful attributes.
+
+Common:
 
 - `file`: filesystem path
-- `files`: array of filesystem path in case of bundle
-- `filename`: file name
-- `path_source`: relative path before processing
-- `path`: relative path
-- `missing`: `true` if file not found, but missing is allowed
-- `ext`: extension
+- `path`: public path
+- `missing`: `true` if file is not found but missing is allowed
+- `ext`: file extension
 - `type`: media type (e.g.: `image`)
 - `subtype`: media sub type (e.g.: `image/jpeg`)
 - `size`: size in octets
-- `content_source`: content before processing
 - `content`: file content
 - `integrity`: integrity hash
+
+Bundle:
+
+- `files`: array of filesystem path in case of a bundle
+- `filename`: custom file name
+
+Image:
+
 - `width`: image width
 - `height`: image height
 - `exif`: image EXIF data as array
+
+Media:
+
 - `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) object
 - `video`: array of video dimensions (width and height)
 
