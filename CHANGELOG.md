@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.45.0](https://github.com/Cecilapp/Cecil/compare/8.44.1...8.45.0)
+
+> 20 May 2025
+
+- feat: custom useragent to download assets [`adf0d13`](https://github.com/Cecilapp/Cecil/commit/adf0d13155971a0d804a9311df04e8499cce1a0a)
+
 #### [8.44.1](https://github.com/Cecilapp/Cecil/compare/8.44.0...8.44.1)
 
 > 20 May 2025
