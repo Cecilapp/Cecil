@@ -433,8 +433,13 @@ class Parsedown extends \ParsedownToc
                 }
                 $sources = [];
                 foreach ($formats as $format) {
-                    $assetConverted = $InlineImage['element']['attributes']['src']->$format();
                     $srcset = '';
+                    try {
+                        $assetConverted = $InlineImage['element']['attributes']['src']->$format();
+                    } catch (\Exception $e) {
+                        $this->builder->getLogger()->debug($e->getMessage());
+                        continue;
+                    }
                     // build responsive images?
                     if ($this->config->isEnabled('pages.body.images.responsive')) {
                         try {
@@ -447,6 +452,7 @@ class Parsedown extends \ParsedownToc
                     if (empty($srcset)) {
                         $srcset = (string) $assetConverted;
                     }
+                    // add format to <sources>
                     $sources[] = [
                         'name'       => 'source',
                         'attributes' => [
