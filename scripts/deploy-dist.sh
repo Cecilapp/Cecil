@@ -77,7 +77,7 @@ cat <<EOT >> $SCOOP_FILE_JSON
     ")"
   ],
   "post_install": [
-    "Write-Host \"Run `cecil` to get started\""
+    "Write-Host \"Run 'cecil' to get started\""
   ]
 }
 EOT
