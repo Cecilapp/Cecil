@@ -435,7 +435,7 @@ class Parsedown extends \ParsedownToc
                 foreach ($formats as $format) {
                     $srcset = '';
                     try {
-                        $assetConverted = $InlineImage['element']['attributes']['src']->$format();
+                        $assetConverted = $InlineImage['element']['attributes']['src']->convert($format);
                     } catch (\Exception $e) {
                         $this->builder->getLogger()->debug($e->getMessage());
                         continue;
