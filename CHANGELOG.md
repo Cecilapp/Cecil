@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.45.2](https://github.com/Cecilapp/Cecil/compare/8.45.1...8.45.2)
+
+> 21 May 2025
+
+- fix: trying to fix avif convert [`9000cdb`](https://github.com/Cecilapp/Cecil/commit/9000cdb8a6451b91ccd6172a562728410fda856b)
+- fix: image formats in html function [`da69448`](https://github.com/Cecilapp/Cecil/commit/da694480454fe2b06812eaf6fac6607e03478ede)
+
 #### [8.45.1](https://github.com/Cecilapp/Cecil/compare/8.45.0...8.45.1)
 
 > 20 May 2025
