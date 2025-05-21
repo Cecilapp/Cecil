@@ -164,12 +164,11 @@ EOF
         if ($drafts) {
             $buildProcessArguments[] = '--drafts';
         }
-        if ($optimize === null) {
+        if ($optimize === true) {
             $buildProcessArguments[] = '--optimize';
         }
-        if (!empty($optimize)) {
-            $buildProcessArguments[] = '--optimize';
-            $buildProcessArguments[] = $optimize;
+        if ($optimize === false) {
+            $buildProcessArguments[] = '--no-optimize';
         }
         if ($clearcache === null) {
             $buildProcessArguments[] = '--clear-cache';
