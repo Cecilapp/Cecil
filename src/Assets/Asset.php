@@ -370,12 +370,7 @@ class Asset implements \ArrayAccess
         }
         $cacheKey = $cache->createKeyFromAsset($asset, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
-            try {
-                $asset->data['content'] = Image::convert($asset, $format, $quality);
-            } catch (\Exception $e) {
-                $this->builder->getLogger()->error(\sprintf('Error while converting "%s" to %s: %s', $this->data['path'], $format, $e->getMessage()));
-                return $this;
-            }
+            $asset->data['content'] = Image::convert($asset, $format, $quality);
             $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
             $asset->data['size'] = \strlen($asset->data['content']);
             $cache->set($cacheKey, $asset->data, $this->config->get('cache.assets.ttl'));
