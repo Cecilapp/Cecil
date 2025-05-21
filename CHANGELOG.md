@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.45.3](https://github.com/Cecilapp/Cecil/compare/8.45.2...8.45.3)
+
+> 21 May 2025
+
+- fix: CLI optimize option [`fb8861a`](https://github.com/Cecilapp/Cecil/commit/fb8861a3847104b74c0da577794f74bee949e195)
+- Revert "fix: trying to fix avif convert" [`c6d1205`](https://github.com/Cecilapp/Cecil/commit/c6d1205279e1f71fcff4d776928c54cd5c61e6c0)
+- refactor: minor change on image convert [`5d79a83`](https://github.com/Cecilapp/Cecil/commit/5d79a835407709c401ba47648d1d0590ee9a4119)
+
 #### [8.45.2](https://github.com/Cecilapp/Cecil/compare/8.45.1...8.45.2)
 
 > 21 May 2025
