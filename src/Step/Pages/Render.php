@@ -31,6 +31,8 @@ class Render extends AbstractStep
 {
     public const TMP_DIR = '.cecil';
 
+    protected $regexPath = '';
+
     /**
      * {@inheritdoc}
      */
@@ -49,6 +51,10 @@ class Render extends AbstractStep
             $this->builder->getLogger()->debug($message);
         }
 
+        if (!empty($options['renderPath'])) {
+            $this->regexPath = $options['renderPath'];
+        }
+
         $this->canProcess = true;
     }
 
@@ -65,11 +71,19 @@ class Render extends AbstractStep
         // adds global variables
         $this->addGlobals();
 
+        $regexPath = $this->regexPath;
+
         /** @var Collection $pages */
         $pages = $this->builder->getPages()
             // published only
             ->filter(function (Page $page) {
                 return (bool) $page->getVariable('published');
+            })
+            ->filter(function (Page $page) use ($regexPath) {
+                if (empty($regexPath)) {
+                    return true;
+                }
+                return (bool) preg_match('/' . $regexPath . '/', $page->getPath());
             })
             // enrichs some variables
             ->map(function (Page $page) {
