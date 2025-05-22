@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.45.4](https://github.com/Cecilapp/Cecil/compare/8.45.3...8.45.4)
+
+> 22 May 2025
+
+- refactor: add command aliases [`ca6e023`](https://github.com/Cecilapp/Cecil/commit/ca6e023d431aaca75344401172125bb089678196)
+- chore: update deps [`2df374b`](https://github.com/Cecilapp/Cecil/commit/2df374b3cef3dda75f87933350e7336094496067)
+
 #### [8.45.3](https://github.com/Cecilapp/Cecil/compare/8.45.2...8.45.3)
 
 > 21 May 2025
