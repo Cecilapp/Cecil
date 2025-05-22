@@ -55,7 +55,7 @@ cat <<EOT > $SCOOP_FILE_JSON
   "bin": "$DIST_FILE",
   "notes": [
     "Run 'cecil' to get started",
-    "Command 'cecil self-update' is aliased to 'scoop update cecil'"
+    "Run 'scoop update cecil' instead of 'cecil self-update' to update"
   ],
   "suggest": {
     "PHP": ["php"]
@@ -72,13 +72,7 @@ cat <<EOT > $SCOOP_FILE_JSON
     "hash": {
       "url": "\$url.sha1"
     }
-  },
-  "pre_install": [
-    "@(",
-    "  'if (\$args.length -eq 1 -and \$args -eq \"self-update\") { & scoop update $SCOOP_CMD }'",
-    "  'else { & php (Join-Path \$PSScriptRoot \"$DIST_FILE\") @args }'",
-    ")"
-  ]
+  }
 }
 EOT
 
