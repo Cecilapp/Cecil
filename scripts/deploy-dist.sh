@@ -47,7 +47,7 @@ echo $VERSION > VERSION
 
 # create Scoop manifest
 rm -f $SCOOP_FILE_JSON
-cat <<EOT >> $SCOOP_FILE_JSON
+cat <<EOT > $SCOOP_FILE_JSON
 {
   "description": "A simple and powerful content-driven static site generator.",
   "homepage": "https://cecil.app",
