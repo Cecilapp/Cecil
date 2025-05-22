@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.45.7](https://github.com/Cecilapp/Cecil/compare/8.45.6...8.45.7)
+
+> 22 May 2025
+
+- fix: scoop file [`48da773`](https://github.com/Cecilapp/Cecil/commit/48da7730157ed380e3d1d20794b8d49fe68bd42a)
+- Revert "ci: fix scoop file" [`3b3cd8b`](https://github.com/Cecilapp/Cecil/commit/3b3cd8be60d42c0c725cf7abbc56c981e7a6ac09)
+- ci: fix scoop file [`dc38dd6`](https://github.com/Cecilapp/Cecil/commit/dc38dd619c1edc96714f953fa5f6ebead5b565d8)
+
 #### [8.45.6](https://github.com/Cecilapp/Cecil/compare/8.45.5...8.45.6)
 
 > 22 May 2025
