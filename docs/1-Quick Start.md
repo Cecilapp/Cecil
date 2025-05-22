@@ -53,7 +53,7 @@ curl -LO https://cecil.app/cecil.phar
 You can also [download Cecil](https://cecil.app/download/) manually, or use:
 
 - [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
-- [Scoop](https://scoop.sh): `scoop install https://cecil.app/cecil.json`
+- [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
 - [PHIVE](https://phar.io): `phive install cecil`
 
 ### 2. Create a new site
