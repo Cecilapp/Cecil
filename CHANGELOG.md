@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.45.6](https://github.com/Cecilapp/Cecil/compare/8.45.5...8.45.6)
+
+> 22 May 2025
+
+- ci: move scoop JSON file to "scoop/" dir [`13fd957`](https://github.com/Cecilapp/Cecil/commit/13fd95722d866cd230262e545f5ab808791a12aa)
+
 #### [8.45.5](https://github.com/Cecilapp/Cecil/compare/8.45.4...8.45.5)
 
 > 22 May 2025
