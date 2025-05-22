@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file. Dates are d
 > 22 May 2025
 
 - ci: move scoop JSON file to "scoop/" dir [`13fd957`](https://github.com/Cecilapp/Cecil/commit/13fd95722d866cd230262e545f5ab808791a12aa)
+- chore: update dev deps [`c158dbc`](https://github.com/Cecilapp/Cecil/commit/c158dbc513b69f53d16ae1b98a451b7a63c9e023)
+- fix: scoop file [`041dd43`](https://github.com/Cecilapp/Cecil/commit/041dd43cb59efe9543a6c0bfe42a40577c2818d7)
 
 #### [8.45.5](https://github.com/Cecilapp/Cecil/compare/8.45.4...8.45.5)
 
