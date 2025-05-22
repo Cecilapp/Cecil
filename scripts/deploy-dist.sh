@@ -55,8 +55,8 @@ cat <<EOT > $SCOOP_FILE_JSON
   "bin": "$DIST_FILE",
   "notes": [
     "Run 'cecil' to get started",
-    "Command 'cecil self-update' is aliased to 'scoop update cecil'",
-  ]
+    "Command 'cecil self-update' is aliased to 'scoop update cecil'"
+  ],
   "suggest": {
     "PHP": ["php"]
   },
