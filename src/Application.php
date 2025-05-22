@@ -46,7 +46,7 @@ class Application extends BaseApplication
             new Command\About(),
             new Command\NewSite(),
             new Command\NewPage(),
-            new Command\OpenWith(),
+            new Command\Edit(),
             new Command\Build(),
             new Command\Serve(),
             new Command\Clear(),

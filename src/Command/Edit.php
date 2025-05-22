@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Open pages with an editor.
  */
-class OpenWith extends AbstractCommand
+class Edit extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -31,7 +31,8 @@ class OpenWith extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('open')
+            ->setName('edit')
+            ->setAliases(['open'])
             ->setDescription('Open pages directory with the editor')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
