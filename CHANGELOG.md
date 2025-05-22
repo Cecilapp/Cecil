@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.45.5](https://github.com/Cecilapp/Cecil/compare/8.45.4...8.45.5)
+
+> 22 May 2025
+
+- refactor: `clear` command wording [`80b97fd`](https://github.com/Cecilapp/Cecil/commit/80b97fd2e5c35c301e6fd370a0db44d5e5635473)
+
 #### [8.45.4](https://github.com/Cecilapp/Cecil/compare/8.45.3...8.45.4)
 
 > 22 May 2025
