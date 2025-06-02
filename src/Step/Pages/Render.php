@@ -86,10 +86,9 @@ class Render extends AbstractStep
                 if (empty($renderSubset)) {
                     return true;
                 }
-                if (!empty($renderSubset['path'])
-                    && !(
-                        (bool) preg_match('/' . (string) $renderSubset['path'] . '/', $page->getPath())
-                    )
+                if (
+                    !empty($renderSubset['path'])
+                    && !((bool) preg_match('/' . (string) $renderSubset['path'] . '/', $page->getPath()))
                 ) {
                     return false;
                 }
