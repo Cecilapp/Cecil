@@ -43,7 +43,7 @@ class Copy extends AbstractStep
         }
 
         // reset output directory only if it's not partial rendering
-        if (empty($options['render-only-path'])) {
+        if (empty($options['render-subset'])) {
             Util\File::getFS()->remove($this->config->getOutputPath());
             Util\File::getFS()->mkdir($this->config->getOutputPath());
         }

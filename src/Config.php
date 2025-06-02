@@ -323,19 +323,6 @@ class Config
     }
 
     /**
-     * Returns the path of static files directory, with a target.
-     */
-    public function getStaticTargetPath(): string
-    {
-        $path = $this->getStaticPath();
-        if (!empty($this->get('static.target'))) {
-            $path = substr($path, 0, -\strlen((string) $this->get('static.target')));
-        }
-
-        return $path;
-    }
-
-    /**
      * Returns the path of assets files directory.
      */
     public function getAssetsPath(): string

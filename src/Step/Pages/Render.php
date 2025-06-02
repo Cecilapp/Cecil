@@ -31,7 +31,7 @@ class Render extends AbstractStep
 {
     public const TMP_DIR = '.cecil';
 
-    protected $renderOnlyPathRegex = '';
+    protected $renderSubset = [];
 
     /**
      * {@inheritdoc}
@@ -51,8 +51,11 @@ class Render extends AbstractStep
             $this->builder->getLogger()->debug($message);
         }
 
-        if (!empty($options['render-only-path'])) {
-            $this->renderOnlyPathRegex = $options['render-only-path'];
+        if (!empty($options['render-subset'])) {
+            $subset = 'pages.subsets.' . (string) $options['render-subset'];
+            if ($this->config->has($subset)) {
+                $this->renderSubset = (array) $this->config->get($subset);
+            }
         }
 
         $this->canProcess = true;
@@ -71,7 +74,7 @@ class Render extends AbstractStep
         // adds global variables
         $this->addGlobals();
 
-        $renderOnlyPathRegex = $this->renderOnlyPathRegex;
+        $renderSubset = $this->renderSubset;
 
         /** @var Collection $pages */
         $pages = $this->builder->getPages()
@@ -79,11 +82,24 @@ class Render extends AbstractStep
             ->filter(function (Page $page) {
                 return (bool) $page->getVariable('published');
             })
-            ->filter(function (Page $page) use ($renderOnlyPathRegex) {
-                if (empty($renderOnlyPathRegex)) {
+            ->filter(function (Page $page) use ($renderSubset) {
+                if (empty($renderSubset)) {
                     return true;
                 }
-                return (bool) preg_match('/' . $renderOnlyPathRegex . '/', $page->getPath());
+                if (!empty($renderSubset['path'])
+                    && !(
+                        (bool) preg_match('/' . (string) $renderSubset['path'] . '/', $page->getPath())
+                    )
+                ) {
+                    return false;
+                }
+                if (!empty($renderSubset['language'])) {
+                    $language = $page->getVariable('language', $this->config->getLanguageDefault());
+                    if ($language !== (string) $renderSubset['language']) {
+                        return false;
+                    }
+                }
+                return true;
             })
             // enrichs some variables
             ->map(function (Page $page) {
@@ -113,6 +129,9 @@ class Render extends AbstractStep
                 $this->builder->getLogger()->error(\sprintf('Unable to load output post processor "%s": %s', $name, $e->getMessage()));
             }
         }
+
+        $cacheLocale = $cacheSite = $cacheConfig = [];
+
         /** @var Page $page */
         foreach ($pages as $page) {
             $count++;
@@ -120,14 +139,22 @@ class Render extends AbstractStep
 
             // l10n
             $language = $page->getVariable('language', $this->config->getLanguageDefault());
-            $locale = $this->config->getLanguageProperty('locale', $language);
-            $this->builder->getRenderer()->setLocale($locale);
+            if (!isset($cacheLocale[$language])) {
+                $cacheLocale[$language] = $this->config->getLanguageProperty('locale', $language);
+            }
+            $this->builder->getRenderer()->setLocale($cacheLocale[$language]);
 
             // global site variables
-            $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $language));
+            if (!isset($cacheSite[$language])) {
+                $cacheSite[$language] = new Site($this->builder, $language);
+            }
+            $this->builder->getRenderer()->addGlobal('site', $cacheSite[$language]);
 
             // global config raw variables
-            $this->builder->getRenderer()->addGlobal('config', new Config($this->builder, $language));
+            if (!isset($cacheConfig[$language])) {
+                $cacheConfig[$language] = new Config($this->builder, $language);
+            }
+            $this->builder->getRenderer()->addGlobal('config', $cacheConfig[$language]);
 
             // excluded format(s)?
             $formats = (array) $page->getVariable('output');
@@ -291,6 +318,11 @@ class Render extends AbstractStep
             $formats = [$formats];
         }
 
+        // Render specific output formats from subset
+        if (!empty($this->renderSubset['output']) && \in_array((string) $this->renderSubset['output'], $formats)) {
+            return [(string) $this->renderSubset['output']];
+        }
+
         return array_unique($formats);
     }
 
@@ -319,7 +351,7 @@ class Render extends AbstractStep
     /**
      * Returns the collection of translated pages for a given page.
      */
-    protected function getTranslations(Page $refPage): \Cecil\Collection\Page\Collection
+    protected function getTranslations(Page $refPage): Collection
     {
         $pages = $this->builder->getPages()->filter(function (Page $page) use ($refPage) {
             return $page->getId() !== $refPage->getId()

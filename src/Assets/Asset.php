@@ -756,7 +756,7 @@ class Asset implements \ArrayAccess
         }
 
         // checks in static/
-        $file = Util::joinFile($this->config->getStaticTargetPath(), $path);
+        $file = Util::joinFile($this->config->getStaticPath(), $path);
         if (Util\File::getFS()->exists($file)) {
             return [
                 'file' => $file,
