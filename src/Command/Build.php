@@ -39,7 +39,7 @@ class Build extends AbstractCommand
                 new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                 new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                 new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
-                new InputOption('render-subset', null, InputOption::VALUE_OPTIONAL, 'Render subset of pages based on filters'),
+                new InputOption('render-subset', null, InputOption::VALUE_REQUIRED, 'Render a subset of pages'),
                 new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
                 new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
                 new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Optimize files (or disable --no-optimize)'),
