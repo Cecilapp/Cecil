@@ -53,7 +53,7 @@ class Image
     }
 
     /**
-     * Resize an image Asset.
+     * Scales down an image Asset to the given width, keeping the aspect ratio.
      *
      * @throws RuntimeException
      */
@@ -68,6 +68,25 @@ class Image
             return (string) $image->encodeByMediaType($asset['subtype'], /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s', $asset['path'], $e->getMessage()));
+        }
+    }
+
+    /**
+     * Crops an image Asset to the given width and height, keeping the aspect ratio.
+     *
+     * @throws RuntimeException
+     */
+    public static function cover(Asset $asset, int $width, int $height, string $position, int $quality): string
+    {
+        try {
+            // creates image object from source
+            $image = self::manager()->read($asset['content']);
+            // crops the image
+            $image->cover(width: $width, height: $height, position: $position);
+            // return image data
+            return (string) $image->encodeByMediaType($asset['subtype'], /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Asset "%s" can\'t be cropped: %s', $asset['path'], $e->getMessage()));
         }
     }
 
