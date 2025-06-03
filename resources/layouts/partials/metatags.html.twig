@@ -80,7 +80,7 @@
   {%- else %}
     {%- set image_asset = image %}
   {%- endif %}
-  {%- set opengraph = opengraph|merge({'image': image_asset|resize(1200)}) %}
+  {%- set opengraph = opengraph|merge({'image': image_asset|cover(width: 1200, height: 630)}) %}
 {% endif %}
 {% if page.section == site.metatags.articles|default('blog') %}
   {%- set opengraph = opengraph|merge({'type': 'article'}) %}

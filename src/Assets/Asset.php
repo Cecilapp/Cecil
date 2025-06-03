@@ -292,18 +292,15 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Resizes an image with a new $width.
+     * Scales down an image to a new $width.
      *
      * @throws RuntimeException
      */
     public function resize(int $width): self
     {
-        if ($this->data['missing']) {
-            throw new RuntimeException(\sprintf('Not able to resize "%s": file not found.', $this->data['path']));
-        }
-        if ($this->data['type'] != 'image') {
-            throw new RuntimeException(\sprintf('Not able to resize "%s": not an image.', $this->data['path']));
-        }
+        $this->checkImage();
+
+        // if the image is already smaller than the requested width, return it
         if ($width >= $this->data['width']) {
             return $this;
         }
@@ -336,6 +333,44 @@ class Asset implements \ArrayAccess
 
             $cache->set($cacheKey, $assetResized->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset resized: "%s" (%sx)', $assetResized->data['path'], $width));
+        }
+        $assetResized->data = $cache->get($cacheKey);
+
+        return $assetResized;
+    }
+
+    /**
+     * Crops the image to the specified width and height, keeping the specified position.
+     *
+     * @throws RuntimeException
+     */
+    public function cover(int $width, int $height, string $position = 'center'): self
+    {
+        $this->checkImage();
+
+        $assetResized = clone $this;
+        $assetResized->data['width'] = $width;
+        $assetResized->data['height'] = $height;
+
+        $quality = (int) $this->config->get('assets.images.quality');
+
+        $cache = new Cache($this->builder, 'assets');
+        $this->cacheTags['quality'] = $quality;
+        $this->cacheTags['width'] = $width;
+        $this->cacheTags['height'] = $height;
+        $cacheKey = $cache->createKeyFromAsset($assetResized, $this->cacheTags);
+        if (!$cache->has($cacheKey)) {
+            $assetResized->data['content'] = Image::cover($assetResized, $width, $height, $position, $quality);
+            $assetResized->data['path'] = '/' . Util::joinPath(
+                (string) $this->config->get('assets.target'),
+                self::IMAGE_THUMB,
+                (string) $width . 'x' . (string) $height,
+                $this->deduplicateThumbPath($assetResized->data['path'])
+            );
+            $assetResized->data['size'] = \strlen($assetResized->data['content']);
+
+            $cache->set($cacheKey, $assetResized->data, $this->config->get('cache.assets.ttl'));
+            $this->builder->getLogger()->debug(\sprintf('Asset resized: "%s" (%sx%s)', $assetResized->data['path'], $width, $height));
         }
         $assetResized->data = $cache->get($cacheKey);
 
@@ -911,6 +946,21 @@ class Asset implements \ArrayAccess
             ],
             (string) $this->config->get('assets.images.cdn.url')
         );
+    }
+
+    /**
+     * Checks if the asset is not missing and is typed as an image.
+     *
+     * @throws RuntimeException
+     */
+    private function checkImage(): void
+    {
+        if ($this->data['missing']) {
+            throw new RuntimeException(\sprintf('Not able to resize "%s": file not found.', $this->data['path']));
+        }
+        if ($this->data['type'] != 'image') {
+            throw new RuntimeException(\sprintf('Not able to resize "%s": not an image.', $this->data['path']));
+        }
     }
 
     /**

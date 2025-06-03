@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-05-12
+updated: 2025-06-03
 alias: documentation/layouts
 -->
 # Templates
@@ -1130,6 +1130,20 @@ _Example:_
 
 ```twig
 {{ asset(page.image)|resize(300) }}
+```
+
+### cover
+
+Resizes an image to a specified width and height, cropping it if necessary.
+
+```twig
+{{ asset(image_path)|cover(width, height) }}
+```
+
+_Example:_
+
+```twig
+{{ asset(page.image)|cover(1200, 630) }}
 ```
 
 ### webp
