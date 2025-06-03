@@ -28,6 +28,8 @@ use wapmorgan\Mp3Info\Mp3Info;
 
 class Asset implements \ArrayAccess
 {
+    public const IMAGE_THUMB = 'thumbnails';
+
     /** @var Builder */
     protected $builder;
 
@@ -325,9 +327,9 @@ class Asset implements \ArrayAccess
             $assetResized->data['content'] = Image::resize($assetResized, $width, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
-                'thumbnails',
+                self::IMAGE_THUMB,
                 (string) $width,
-                $assetResized->data['path']
+                $this->deduplicateThumbPath($assetResized->data['path'])
             );
             $assetResized->data['height'] = $assetResized->getHeight();
             $assetResized->data['size'] = \strlen($assetResized->data['content']);
@@ -909,5 +911,15 @@ class Asset implements \ArrayAccess
             ],
             (string) $this->config->get('assets.images.cdn.url')
         );
+    }
+
+    /**
+     * Remove the '/thumbnails/<width>/' part of the path if already exists.
+     */
+    private function deduplicateThumbPath(string $path): string
+    {
+        $pattern = '/(' . self::IMAGE_THUMB . ')\/(\d+)\/(.*)/i';
+        $replacement = '$3';
+        return preg_replace($pattern, $replacement, $path);
     }
 }
