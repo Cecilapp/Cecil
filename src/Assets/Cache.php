@@ -195,7 +195,6 @@ class Cache implements CacheInterface
         $tags = [];
 
         if ($t !== null) {
-            ksort($t);
             foreach ($t as $key => $value) {
                 switch (\gettype($value)) {
                     case 'boolean':
