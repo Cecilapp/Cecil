@@ -177,6 +177,15 @@ class Render extends AbstractStep
                 }
             }
 
+            // specific output format from subset
+            if (!empty($this->subset['output'])) {
+                if (\in_array((string) $this->subset['output'], $formats)) {
+                    $formats = [(string) $this->subset['output']];
+                } else {
+                    $formats = [];
+                }
+            }
+
             // renders each output format
             foreach ($formats as $format) {
                 // search for the template
@@ -317,11 +326,6 @@ class Render extends AbstractStep
         }
         if (!\is_array($formats)) {
             $formats = [$formats];
-        }
-
-        // Render specific output formats from subset
-        if (!empty($this->renderSubset['output']) && \in_array((string) $this->renderSubset['output'], $formats)) {
-            return [(string) $this->renderSubset['output']];
         }
 
         return array_unique($formats);
