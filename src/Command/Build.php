@@ -61,19 +61,23 @@ To build the website from a specific directory, run:
 
 To build the website with a specific configuration file, run:
 
-  <info>%command.full_name% --config=config.yml</>
+  <info>%command.full_name% --config=dev.yml</>
 
 To build the website with drafts, run:
 
   <info>%command.full_name% --drafts</>
 
+To build the website with a specific page, run:
+
+  <info>%command.full_name% --page=page-id</>
+
 To build the website without saving, run:
 
   <info>%command.full_name% --dry-run</>
 
-To build the website with a specific page, run:
+To build the website with a specific subset of rendered pages, run:
 
-  <info>%command.full_name% --page=page-id</>
+  <info>%command.full_name% --render-subset=subset</>
 
 To build the website with a specific base URL, run:
 
