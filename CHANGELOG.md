@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.46.0](https://github.com/Cecilapp/Cecil/compare/8.45.9...8.46.0)
+
+> 3 June 2025
+
+- feat: image cover (resize and crop) [`#2179`](https://github.com/Cecilapp/Cecil/pull/2179)
+
 #### [8.45.9](https://github.com/Cecilapp/Cecil/compare/8.45.8...8.45.9)
 
 > 3 June 2025
