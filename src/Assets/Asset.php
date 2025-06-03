@@ -116,8 +116,6 @@ class Asset implements \ArrayAccess
 
         // cache
         $cache = new Cache($this->builder, 'assets');
-        $this->cacheTags = $options;
-        unset($this->cacheTags['ignore_missing'], $this->cacheTags['fallback'], $this->cacheTags['useragent']);
         $locateCacheKey = \sprintf('%s_locate__%s__%s', $options['filename'] ?: implode('_', $paths), $this->builder->getBuilId(), $this->builder->getVersion());
 
         // locate file(s) and get content
@@ -190,6 +188,17 @@ class Asset implements \ArrayAccess
 
         // cache
         $cache = new Cache($this->builder, 'assets');
+        // create cache tags from options
+        $this->cacheTags = $options;
+        // remove some cache tags
+        unset($this->cacheTags['optimize'], $this->cacheTags['ignore_missing'], $this->cacheTags['fallback'], $this->cacheTags['useragent']);
+        // optimize images?
+        $optimize = false;
+        if ($options['optimize'] && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
+            $optimize = true;
+            $quality = (int) $this->config->get('assets.images.quality');
+            $this->cacheTags['quality'] = $quality;
+        }
         $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             // image: width, height and exif
@@ -212,9 +221,9 @@ class Asset implements \ArrayAccess
             }
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
-            // optimizing images files (in cache)
-            if ($options['optimize'] && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
-                $this->optimize($cache->getContentFilePathname($this->data['path']), $this->data['path']);
+            // optimizing images files (in cache directory)
+            if ($optimize) {
+                $this->optimize($cache->getContentFilePathname($this->data['path']), $this->data['path'], $quality);
             }
         }
         $this->data = $cache->get($cacheKey);
@@ -840,9 +849,8 @@ class Asset implements \ArrayAccess
      * Optimizing $filepath image.
      * Returns the new file size.
      */
-    private function optimize(string $filepath, string $path): int
+    private function optimize(string $filepath, string $path, int $quality): int
     {
-        $quality = (int) $this->config->get('assets.images.quality');
         $message = \sprintf('Asset processed: "%s"', $path);
         $sizeBefore = filesize($filepath);
         Optimizer::create($quality)->optimize($filepath);
