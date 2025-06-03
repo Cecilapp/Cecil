@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.45.9](https://github.com/Cecilapp/Cecil/compare/8.45.8...8.45.9)
+
+> 3 June 2025
+
+- refactor: fix thumb path [`#2178`](https://github.com/Cecilapp/Cecil/pull/2178)
+
+#### [8.45.8](https://github.com/Cecilapp/Cecil/compare/8.45.7...8.45.8)
+
+> 3 June 2025
+
+- chore(deps): bump intervention/image from 3.11.2 to 3.11.3 [`#2177`](https://github.com/Cecilapp/Cecil/pull/2177)
+- refactor: remove getStaticTargetPath [`efdff31`](https://github.com/Cecilapp/Cecil/commit/efdff310593233b0dc31b28e3c16bbb3a0c499ec)
+- ci: fix scoop manifest [`6aa4bd4`](https://github.com/Cecilapp/Cecil/commit/6aa4bd4728047bd7e454eed58ca9ec7f8def0d32)
+
 #### [8.45.7](https://github.com/Cecilapp/Cecil/compare/8.45.6...8.45.7)
 
 > 22 May 2025
