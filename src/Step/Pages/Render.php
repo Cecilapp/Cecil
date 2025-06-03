@@ -31,7 +31,7 @@ class Render extends AbstractStep
 {
     public const TMP_DIR = '.cecil';
 
-    protected $renderSubset = [];
+    protected $subset = [];
 
     /**
      * {@inheritdoc}
@@ -51,11 +51,13 @@ class Render extends AbstractStep
             $this->builder->getLogger()->debug($message);
         }
 
+        // render a subset of pages?
         if (!empty($options['render-subset'])) {
-            $subset = 'pages.subsets.' . (string) $options['render-subset'];
-            if ($this->config->has($subset)) {
-                $this->renderSubset = (array) $this->config->get($subset);
+            $subset = \sprintf('pages.subsets.%s', (string) $options['render-subset']);
+            if (!$this->config->has($subset)) {
+                throw new RuntimeException(\sprintf('Subset "%s" not found in configuration', $subset));
             }
+            $this->subset = (array) $this->config->get($subset);
         }
 
         $this->canProcess = true;
@@ -74,7 +76,7 @@ class Render extends AbstractStep
         // adds global variables
         $this->addGlobals();
 
-        $renderSubset = $this->renderSubset;
+        $subset = $this->subset;
 
         /** @var Collection $pages */
         $pages = $this->builder->getPages()
@@ -82,19 +84,19 @@ class Render extends AbstractStep
             ->filter(function (Page $page) {
                 return (bool) $page->getVariable('published');
             })
-            ->filter(function (Page $page) use ($renderSubset) {
-                if (empty($renderSubset)) {
+            ->filter(function (Page $page) use ($subset) {
+                if (empty($subset)) {
                     return true;
                 }
                 if (
-                    !empty($renderSubset['path'])
-                    && !((bool) preg_match('/' . (string) $renderSubset['path'] . '/', $page->getPath()))
+                    !empty($subset['path'])
+                    && !((bool) preg_match('/' . (string) $subset['path'] . '/i', $page->getPath()))
                 ) {
                     return false;
                 }
-                if (!empty($renderSubset['language'])) {
+                if (!empty($subset['language'])) {
                     $language = $page->getVariable('language', $this->config->getLanguageDefault());
-                    if ($language !== (string) $renderSubset['language']) {
+                    if ($language !== (string) $subset['language']) {
                         return false;
                     }
                 }
