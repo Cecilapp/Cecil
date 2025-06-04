@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.47.5](https://github.com/Cecilapp/Cecil/compare/8.47.4...8.47.5)
+
+> 5 June 2025
+
+- refactor: better serve command [`3f38231`](https://github.com/Cecilapp/Cecil/commit/3f382314347b9b28ee20cde81a3a1c72911e3c31)
+
+#### [8.47.4](https://github.com/Cecilapp/Cecil/compare/8.47.3...8.47.4)
+
+> 5 June 2025
+
+- fix: server timeout option [`9116f9e`](https://github.com/Cecilapp/Cecil/commit/9116f9e8708b443985bd074decbcfdce8c184409)
+
+#### [8.47.3](https://github.com/Cecilapp/Cecil/compare/8.47.2...8.47.3)
+
+> 5 June 2025
+
+- fix: cover filter in case of an animated GIF [`10fa87f`](https://github.com/Cecilapp/Cecil/commit/10fa87fd3ae8de9f52a09beb2df60e433a5159e2)
+
 #### [8.47.2](https://github.com/Cecilapp/Cecil/compare/8.47.1...8.47.2)
 
 > 4 June 2025
