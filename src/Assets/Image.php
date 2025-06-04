@@ -81,6 +81,10 @@ class Image
         try {
             // creates image object from source
             $image = self::manager()->read($asset['content']);
+            // turns an animated image (i.e GIF) into a static image
+            if ($image->isAnimated()) {
+                $image = $image->removeAnimation();
+            }
             // crops the image
             $image->cover(width: $width, height: $height, position: $position);
             // return image data
