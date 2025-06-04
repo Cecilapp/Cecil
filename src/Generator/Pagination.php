@@ -82,13 +82,11 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 );
                 $alteredPage = clone $page;
                 // first page (ie: blog/page/1 -> blog)
-                if ($i == 0) {
-                    $pageId = $page->getId();
-                    $alteredPage
-                        ->setVariable('alias', [
-                            \sprintf('%s/%s/%s', $path, $paginationPath, 1),
-                        ]);
-                }
+                $pageId = $page->getId();
+                $alteredPage
+                    ->setVariable('alias', [
+                        \sprintf('%s/%s/%s', $path, $paginationPath, 1),
+                    ]);
                 // others pages (ie: blog/page/X)
                 if ($i > 0) {
                     $pageId = Page::slugify(\sprintf('%s/%s/%s', $page->getId(), $paginationPath, $i + 1));
