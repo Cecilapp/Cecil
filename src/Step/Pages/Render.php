@@ -132,6 +132,7 @@ class Render extends AbstractStep
             }
         }
 
+        // some caches to avoid multiple calls
         $cacheLocale = $cacheSite = $cacheConfig = [];
 
         /** @var Page $page */
