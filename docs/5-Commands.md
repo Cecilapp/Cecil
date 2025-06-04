@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2025-05-20
+updated: 2025-06-04
 -->
 # Commands
 
@@ -167,22 +167,23 @@ Arguments:
   path                             Use the given path as working directory
 
 Options:
-  -c, --config=CONFIG              Set the path to extra config files (comma-separated)
-  -d, --drafts                     Include drafts
-  -p, --page=PAGE                  Build a specific page
-      --dry-run                    Build without saving
-      --baseurl=BASEURL            Set the base URL
-      --output=OUTPUT              Set the output directory
-      --optimize|--no-optimize     Optimize files (or disable --no-optimize)
-      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
-      --show-pages                 Show built pages as table
-      --metrics                    Show build steps metrics
-  -h, --help                       Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                      Do not output any message
-  -V, --version                    Display this application version
-      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction             Do not ask any interactive question
-  -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  -c, --config=CONFIG                Set the path to extra config files (comma-separated)
+  -d, --drafts                       Include drafts
+  -p, --page=PAGE                    Build a specific page
+      --dry-run                      Build without saving
+      --render-subset=RENDER-SUBSET  Render a subset of pages
+      --baseurl=BASEURL              Set the base URL
+      --output=OUTPUT                Set the output directory
+      --optimize|--no-optimize       Optimize files (or disable --no-optimize)
+      --clear-cache[=CLEAR-CACHE]    Clear cache before build (optional cache key regular expression) [default: false]
+      --show-pages                   Show built pages as table
+      --metrics                      Show build steps metrics
+  -h, --help                         Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                        Do not output any message
+  -V, --version                      Display this application version
+      --ansi|--no-ansi               Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction               Do not ask any interactive question
+  -v|vv|vvv, --verbose               Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
   The build command generates the website in the output directory.
@@ -242,6 +243,10 @@ Help:
   To show build steps metrics, run:
 
     cecil.phar build --metrics
+  
+  To build the website with a specific subset of rendered pages, run:
+
+    cecil build --render-subset=subset
 ```
 
 ## serve
