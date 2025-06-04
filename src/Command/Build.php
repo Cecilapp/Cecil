@@ -68,15 +68,14 @@ This is useful to check what would be built without actually writing files:
 
   <info>%command.full_name% --dry-run</>
 
-To build the website with an extra configuration file, you can use the <info>--config</info> option.
-This is useful during local development to <comment>override some settings</comment> without modifying the main configuration:
-
-  <info>%command.full_name% --config=config/dev.yml</>
-
 To build the website with a specific subset of rendered pages, you can use the <info>--render-subset</info> option.
 This is useful to <comment>build only a part of the website</comment>, for example, only "hot" pages or a specific section:
 
   <info>%command.full_name% --render-subset=subset</>
+
+To show build steps <comment>metrics</comment>, run:
+
+  <info>%command.full_name% --metrics</>
 EOF
             );
     }

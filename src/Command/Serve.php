@@ -67,13 +67,14 @@ You can use a custom host and port by using the <info>--host</info> and <info>--
 
   <info>%command.full_name% --host=127.0.0.1 --port=8080</>
 
+To build the website with an extra configuration file, you can use the <info>--config</info> option.
+This is useful during local development to <comment>override some settings</comment> without modifying the main configuration:
+
+  <info>%command.full_name% --config=config/dev.yml</>
+
 To start the server with changes watcher <comment>not ignoring VCS</comment> directories, run:
 
   <info>%command.full_name% --no-ignore-vcs</>
-
-To show build steps <comment>metrics</comment>, run:
-
-  <info>%command.full_name% --metrics</>
 
 To define the process <comment>timeout</comment> (in seconds), run:
 

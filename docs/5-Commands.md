@@ -172,33 +172,32 @@ Options:
 
 Help:
   The build command generates the website in the output directory.
-  
+
     cecil.phar build
     cecil.phar build path/to/the/working/directory
     cecil.phar build --drafts
     cecil.phar build --baseurl=https://example.com/
     cecil.phar build --output=_site
-  
+
   To build the website with optimization of generated files, you can use the --optimize option.
   This is useful to reduce the size of the generated files and improve performance:
-  
+
     cecil.phar build --optimize
     cecil.phar build --no-optimize
-  
+
   To build the website without overwriting files in the output directory, you can use the --dry-run option.
   This is useful to check what would be built without actually writing files:
-  
+
     cecil.phar build --dry-run
-  
-  To build the website with an extra configuration file, you can use the --config option.
-  This is useful during local development to override some settings without modifying the main configuration:
-  
-    cecil.phar build --config=config/dev.yml
-  
+
   To build the website with a specific subset of rendered pages, you can use the --render-subset option.
   This is useful to build only a part of the website, for example, only "hot" pages or a specific section:
-  
+
     cecil.phar build --render-subset=subset
+
+  To show build steps metrics, run:
+
+    cecil.phar build --metrics
 ```
 
 ## serve
@@ -221,8 +220,8 @@ Arguments:
 
 Options:
   -o, --open                       Open web browser automatically
-      --host=HOST                  Server host (default: localhost)
-      --port=PORT                  Server port (default: 8000)
+      --host=HOST                  Server host [default: "localhost"]
+      --port=PORT                  Server port [default: "8000"]
   -d, --drafts                     Include drafts
       --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
   -c, --config=CONFIG              Set the path to extra config files (comma-separated)
@@ -230,7 +229,7 @@ Options:
   -p, --page=PAGE                  Build a specific page
       --no-ignore-vcs              Changes watcher must not ignore VCS directories
   -m, --metrics                    Show build metrics (duration and memory) of each step
-      --timeout[=TIMEOUT]          Sets the process timeout (max. runtime) in seconds [default: 7200]
+      --timeout=TIMEOUT            Sets the process timeout (max. runtime) in seconds [default: 7200]
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version
@@ -240,24 +239,25 @@ Options:
 
 Help:
   The serve command starts the live-reloading-built-in web server.
-  
+
     cecil.phar serve
     cecil.phar serve path/to/the/working/directory
     cecil.phar serve --open
-  
+
   You can use a custom host and port by using the --host and --port options:
-  
+
     cecil.phar serve --host=127.0.0.1 --port=8080
-  
+
+  To build the website with an extra configuration file, you can use the --config option.
+  This is useful during local development to override some settings without modifying the main configuration:
+
+    cecil.phar serve --config=config/dev.yml
+
   To start the server with changes watcher not ignoring VCS directories, run:
-  
+
     cecil.phar serve --no-ignore-vcs
-  
-  To show build steps metrics, run:
-  
-    cecil.phar serve --metrics
-  
+
   To define the process timeout (in seconds), run:
-  
-    cecil.phar serve --timeout=3600
+
+    cecil.phar serve --timeout=7200
 ```
