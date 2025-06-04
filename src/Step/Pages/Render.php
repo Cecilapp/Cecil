@@ -180,10 +180,10 @@ class Render extends AbstractStep
 
             // specific output format from subset
             if (!empty($this->subset['output'])) {
-                if (\in_array((string) $this->subset['output'], $formats)) {
+                $currentFormats = $formats;
+                $formats = [];
+                if (\in_array((string) $this->subset['output'], $currentFormats)) {
                     $formats = [(string) $this->subset['output']];
-                } else {
-                    $formats = [];
                 }
             }
 
