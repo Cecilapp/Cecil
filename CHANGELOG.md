@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.47.0](https://github.com/Cecilapp/Cecil/compare/8.46.1...8.47.0)
+
+> 4 June 2025
+
+- feat: new option for build command to allow render a subset of pages [`#2172`](https://github.com/Cecilapp/Cecil/pull/2172)
+- doc: minor changes [`33dbed8`](https://github.com/Cecilapp/Cecil/commit/33dbed85a11489c81fbed22d517d3d285cc8bf6a)
+
 #### [8.46.1](https://github.com/Cecilapp/Cecil/compare/8.46.0...8.46.1)
 
 > 4 June 2025
