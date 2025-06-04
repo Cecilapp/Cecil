@@ -16,6 +16,7 @@ namespace Cecil\Step\Pages;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
+use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Config;
 use Cecil\Renderer\Layout;
@@ -55,7 +56,7 @@ class Render extends AbstractStep
         if (!empty($options['render-subset'])) {
             $subset = \sprintf('pages.subsets.%s', (string) $options['render-subset']);
             if (!$this->config->has($subset)) {
-                throw new RuntimeException(\sprintf('Subset "%s" not found in configuration', $subset));
+                throw new ConfigException(\sprintf('Subset "%s" not found.', $subset));
             }
             $this->subset = (array) $this->config->get($subset);
         }
