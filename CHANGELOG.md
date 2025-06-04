@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.47.7](https://github.com/Cecilapp/Cecil/compare/8.47.6...8.47.7)
+
+> 5 June 2025
+
+- doc: better commands description [`b307b49`](https://github.com/Cecilapp/Cecil/commit/b307b497985b71549945c80792010f3bc21553f7)
+
 #### [8.47.6](https://github.com/Cecilapp/Cecil/compare/8.47.5...8.47.6)
 
 > 5 June 2025
