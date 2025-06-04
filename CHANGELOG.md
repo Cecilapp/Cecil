@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.47.1](https://github.com/Cecilapp/Cecil/compare/8.47.0...8.47.1)
+
+> 4 June 2025
+
+- refactor: commands options description [`#2181`](https://github.com/Cecilapp/Cecil/pull/2181)
+- refactor: code quality [`c070659`](https://github.com/Cecilapp/Cecil/commit/c0706597921c2f68026d57b08ccc7e689076eaf0)
+- refactor: code quality [`42d4a7a`](https://github.com/Cecilapp/Cecil/commit/42d4a7ab88254e35f280252c6dd51ccc605a02f9)
+- chore: code cleaning [`2c96da8`](https://github.com/Cecilapp/Cecil/commit/2c96da8d45e5d5d5652cef13e005d41805f6b9da)
+- chore: code cleaning [`7fc85b9`](https://github.com/Cecilapp/Cecil/commit/7fc85b9b3add27b3a708646eeb54a32702f27221)
+- chore: add comment in code [`6a751ca`](https://github.com/Cecilapp/Cecil/commit/6a751ca6c06aa975d5902cae365a64469986fffe)
+
 #### [8.47.0](https://github.com/Cecilapp/Cecil/compare/8.46.1...8.47.0)
 
 > 4 June 2025
