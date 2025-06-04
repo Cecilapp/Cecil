@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.47.2](https://github.com/Cecilapp/Cecil/compare/8.47.1...8.47.2)
+
+> 4 June 2025
+
+- fix: cover filter with GIF image [`d819f8d`](https://github.com/Cecilapp/Cecil/commit/d819f8de2440f676e0c183333c84b237ca5e1b4d)
+
 #### [8.47.1](https://github.com/Cecilapp/Cecil/compare/8.47.0...8.47.1)
 
 > 4 June 2025
