@@ -175,7 +175,6 @@ Help:
 
     cecil.phar build
     cecil.phar build path/to/the/working/directory
-    cecil.phar build --drafts
     cecil.phar build --baseurl=https://example.com/
     cecil.phar build --output=_site
 
@@ -242,6 +241,7 @@ Help:
 
     cecil.phar serve
     cecil.phar serve path/to/the/working/directory
+    cecil.phar serve --drafts
     cecil.phar serve --open
 
   You can use a custom host and port by using the --host and --port options:

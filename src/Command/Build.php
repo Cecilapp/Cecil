@@ -53,7 +53,6 @@ The <info>%command.name%</> command generates the website in the <comment>output
 
   <info>%command.full_name%</>
   <info>%command.full_name% path/to/the/working/directory</>
-  <info>%command.full_name% --drafts</>
   <info>%command.full_name% --baseurl=https://example.com/</>
   <info>%command.full_name% --output=_site</>
 
