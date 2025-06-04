@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.46.1](https://github.com/Cecilapp/Cecil/compare/8.46.0...8.46.1)
+
+> 4 June 2025
+
+- refactor: better cache for images [`#2180`](https://github.com/Cecilapp/Cecil/pull/2180)
+
 #### [8.46.0](https://github.com/Cecilapp/Cecil/compare/8.45.9...8.46.0)
 
 > 3 June 2025
