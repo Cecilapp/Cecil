@@ -44,8 +44,8 @@ class Serve extends AbstractCommand
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
-                new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host (default: localhost)'),
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port (default: 8000)'),
+                new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host', 'localhost'),
+                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port', '8000'),
                 new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                 new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-optimize) optimization of generated files'),
                 new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
@@ -60,8 +60,8 @@ class Serve extends AbstractCommand
 The <info>%command.name%</> command starts the live-reloading-built-in web server.
 
   <info>%command.full_name%</>
-  <info>%command.full_name% --open</>
   <info>%command.full_name% path/to/the/working/directory</>
+  <info>%command.full_name% --open</>
 
 You can use a custom host and port by using the <info>--host</info> and <info>--port</info> options:
 
@@ -91,8 +91,8 @@ EOF
     {
         $drafts = $input->getOption('drafts');
         $open = $input->getOption('open');
-        $host = $input->getOption('host') ?? 'localhost';
-        $port = $input->getOption('port') ?? '8000';
+        $host = $input->getOption('host');
+        $port = $input->getOption('port');
         $optimize = $input->getOption('optimize');
         $clearcache = $input->getOption('clear-cache');
         $verbose = $input->getOption('verbose');
@@ -101,13 +101,14 @@ EOF
         $timeout = $input->getOption('timeout');
         $metrics = $input->getOption('metrics');
 
-        $this->setUpServer($host, $port);
-
+        // checks if PHP executable is available
         $phpFinder = new PhpExecutableFinder();
         $php = $phpFinder->find();
         if ($php === false) {
             throw new RuntimeException('Can\'t find a local PHP executable.');
         }
+
+        $this->setUpServer($host, $port);
 
         $command = \sprintf(
             '"%s" -S %s:%d -t "%s" "%s"',
