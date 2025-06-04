@@ -179,7 +179,7 @@ EOF
         if ($input->getOption('metrics')) {
             $table = new Table($output);
             $table
-                ->setHeaderTitle(\sprintf("Build steps metrics"))
+                ->setHeaderTitle('Build steps metrics')
                 ->setHeaders(['Step', 'Duration', 'Memory'])
                 ->setRows($builder->getMetrics()['steps'])
             ;
