@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.47.6](https://github.com/Cecilapp/Cecil/compare/8.47.5...8.47.6)
+
+> 5 June 2025
+
+- refactor: debug less verbose about cache [`e556bd8`](https://github.com/Cecilapp/Cecil/commit/e556bd8583cfa49ea91fda58f1c85eb28f500bc4)
+
 #### [8.47.5](https://github.com/Cecilapp/Cecil/compare/8.47.4...8.47.5)
 
 > 5 June 2025
