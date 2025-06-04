@@ -52,7 +52,6 @@ class Cache implements CacheInterface
                 'expiration' => $ttl === null ? null : time() + $this->duration($ttl),
             ]);
             Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
-            $this->builder->getLogger()->debug(\sprintf('Cache created: "%s"', Util\File::getFS()->makePathRelative($this->getFilePathname($key), $this->builder->getConfig()->getCachePath())));
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -309,7 +308,6 @@ class Cache implements CacheInterface
                 $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
                 foreach (glob($pattern) ?: [] as $filename) {
                     Util\File::getFS()->remove($filename);
-                    $this->builder->getLogger()->debug(\sprintf('Cache removed: "%s"', Util\File::getFS()->makePathRelative($filename, $this->builder->getConfig()->getCachePath())));
                 }
             }
         } catch (\Exception $e) {
