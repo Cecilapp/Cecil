@@ -83,7 +83,7 @@ class Image
             $image = self::manager()->read($asset['content']);
             // turns an animated image (i.e GIF) into a static image
             if ($image->isAnimated()) {
-                $image = $image->removeAnimation();
+                $image = $image->removeAnimation('25%'); // use 25% to avoid an "empty" frame
             }
             // crops the image
             $image->cover(width: $width, height: $height, position: $position);
