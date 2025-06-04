@@ -11,13 +11,13 @@ List of available commands.
 Available commands:
   about                      Shows a short description about Cecil
   build                      Builds the website
-  clear                      Removes generated files
+  clear                      Removes all generated files
+  edit                       [open] Open pages directory with the editor
   help                       Display help for a command
-  open                       Open pages directory with the editor
-  self-update                Updates Cecil to the latest version
+  self-update                [selfupdate] Updates Cecil to the latest version
   serve                      Starts the built-in server
  cache
-  cache:clear                Removes all caches
+  cache:clear                Removes all cache files
   cache:clear:assets         Removes assets cache
   cache:clear:templates      Removes templates cache
   cache:clear:translations   Removes translations cache
@@ -58,21 +58,17 @@ Options:
 
 Help:
   The new:site command creates a new website in the current directory, or in <path> if provided.
-
-  To create a new website, run:
-
+  If you run this command without any options, it will ask you for the website title, baseline, base URL, description, etc.
+  
     cecil.phar new:site
-
-  To create a new website in a specific directory, run:
-
-    cecil.phar new:site path/to/directory
-
+    cecil.phar new:site path/to/the/working/directory
+  
   To create a new website with demo content, run:
-
+  
     cecil.phar new:site --demo
-
+  
   To override an existing website, run:
-
+  
     cecil.phar new:site --force
 ```
 
@@ -88,7 +84,7 @@ Usage:
   new:page [options] [--] [<path>]
 
 Arguments:
-  path                  Use the given path as working directory
+  path                        Use the given path as working directory
 
 Options:
       --name=NAME             Page path name
@@ -106,33 +102,22 @@ Options:
 
 Help:
   The new:page command creates a new page file.
-
-  To create a new page, run:
-
+  If your run this command without any options, it will ask you for the page name and others options.
+  
     cecil.phar new:page
-
-  To create a new page with a specific name, run:
-
     cecil.phar new:page --name=path/to/a-page.md
-
-  To slugify the file name, run:
-
     cecil.phar new:page --name=path/to/A Page.md --slugify
-
-  To create a new page with a date prefix (i.e: YYYY-MM-DD), run:
-
+  
+  To create a new page with a date prefix (i.e: `YYYY-MM-DD`), run:
+  
     cecil.phar new:page --prefix
-
+  
   To create a new page and open it with an editor, run:
-
-    cecil.phar new:page --open
-
-  To create a new page and open it with a specific editor, run:
-
+  
     cecil.phar new:page --open --editor=editor
-
+  
   To override an existing page, run:
-
+  
     cecil.phar new:page --force
 ```
 
@@ -164,20 +149,20 @@ Usage:
   build [options] [--] [<path>]
 
 Arguments:
-  path                             Use the given path as working directory
+  path                               Use the given path as working directory
 
 Options:
-  -c, --config=CONFIG                Set the path to extra config files (comma-separated)
   -d, --drafts                       Include drafts
-  -p, --page=PAGE                    Build a specific page
+  -u, --baseurl=BASEURL              Set the base URL
+  -o, --output=OUTPUT                Set the output directory
+      --optimize|--no-optimize       Enable (or disable --no-optimize) optimization of generated files
       --dry-run                      Build without saving
+  -c, --config=CONFIG                Set the path to extra config files (comma-separated)
+      --clear-cache[=CLEAR-CACHE]    Clear cache before build (optional cache key as regular expression) [default: false]
+  -p, --page=PAGE                    Build a specific page
       --render-subset=RENDER-SUBSET  Render a subset of pages
-      --baseurl=BASEURL              Set the base URL
-      --output=OUTPUT                Set the output directory
-      --optimize|--no-optimize       Optimize files (or disable --no-optimize)
-      --clear-cache[=CLEAR-CACHE]    Clear cache before build (optional cache key regular expression) [default: false]
-      --show-pages                   Show built pages as table
-      --metrics                      Show build steps metrics
+      --show-pages                   Show list of built pages in a table
+  -m, --metrics                      Show build metrics (duration and memory) of each step
   -h, --help                         Display help for the given command. When no command is given display help for the list command
   -q, --quiet                        Do not output any message
   -V, --version                      Display this application version
@@ -187,66 +172,33 @@ Options:
 
 Help:
   The build command generates the website in the output directory.
-
-  To build the website, run:
-
-    cecil.phar build
-
-  To build the website from a specific directory, run:
-
-    cecil.phar build path/to/directory
-
-  To build the website with a specific configuration file, run:
-
-    cecil.phar build --config=config.yml
-
-  To build the website with drafts, run:
-
-    cecil.phar build --drafts
-
-  To build the website without saving, run:
-
-    cecil.phar build --dry-run
-
-  To build the website with a specific page, run:
-
-    cecil.phar build --page=page-id
-
-  To build the website with a specific base URL, run:
-
-    cecil.phar build --baseurl=https://example.com/
-
-  To build the website with a specific output directory, run:
-
-    cecil.phar build --output=_site
-
-  To build the website with optimization, run:
-
-    cecil build --optimize
-
-  To build the website without optimization, run:
-
-    cecil build --no-optimize
-
-  To clear the cache before building the website, run:
-
-    cecil.phar build --clear-cache
-
-  To clear the cache before building the website with a specific cache key regular expression, run:
-
-    cecil.phar build --clear-cache=cache-key
-
-  To show built pages as table, run:
-
-    cecil.phar build --show-pages
-
-  To show build steps metrics, run:
-
-    cecil.phar build --metrics
   
-  To build the website with a specific subset of rendered pages, run:
-
-    cecil build --render-subset=subset
+    cecil.phar build
+    cecil.phar build path/to/the/working/directory
+    cecil.phar build --drafts
+    cecil.phar build --baseurl=https://example.com/
+    cecil.phar build --output=_site
+  
+  To build the website with optimization of generated files, you can use the --optimize option.
+  This is useful to reduce the size of the generated files and improve performance:
+  
+    cecil.phar build --optimize
+    cecil.phar build --no-optimize
+  
+  To build the website without overwriting files in the output directory, you can use the --dry-run option.
+  This is useful to check what would be built without actually writing files:
+  
+    cecil.phar build --dry-run
+  
+  To build the website with an extra configuration file, you can use the --config option.
+  This is useful during local development to override some settings without modifying the main configuration:
+  
+    cecil.phar build --config=config/dev.yml
+  
+  To build the website with a specific subset of rendered pages, you can use the --render-subset option.
+  This is useful to build only a part of the website, for example, only "hot" pages or a specific section:
+  
+    cecil.phar build --render-subset=subset
 ```
 
 ## serve
@@ -268,17 +220,17 @@ Arguments:
   path                             Use the given path as working directory
 
 Options:
-  -c, --config=CONFIG              Set the path to extra config files (comma-separated)
-  -d, --drafts                     Include drafts
-  -p, --page=PAGE                  Build a specific page
   -o, --open                       Open web browser automatically
-      --host=HOST                  Server host
-      --port=PORT                  Server port
-      --optimize|--no-optimize     Optimize files (or disable --no-optimize)
-      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key regular expression) [default: false]
+      --host=HOST                  Server host (default: localhost)
+      --port=PORT                  Server port (default: 8000)
+  -d, --drafts                     Include drafts
+      --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
+  -c, --config=CONFIG              Set the path to extra config files (comma-separated)
+      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key as regular expression) [default: false]
+  -p, --page=PAGE                  Build a specific page
       --no-ignore-vcs              Changes watcher must not ignore VCS directories
-      --timeout[=TIMEOUT]          Sets the process timeout (max. runtime) in seconds
-      --metrics                    Show build steps metrics
+  -m, --metrics                    Show build metrics (duration and memory) of each step
+      --timeout[=TIMEOUT]          Sets the process timeout (max. runtime) in seconds [default: 7200]
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version
@@ -288,56 +240,24 @@ Options:
 
 Help:
   The serve command starts the live-reloading-built-in web server.
-
-  To start the server, run:
-
+  
     cecil.phar serve
-
-  To start the server from a specific directory, run:
-
-    cecil.phar serve path/to/directory
-
-  To start the server with a specific configuration file, run:
-
-    cecil.phar serve --config=config.yml
-
-  To start the server and open web browser automatically, run:
-
     cecil.phar serve --open
-
-  To start the server with a specific host, run:
-
-    cecil.phar serve --host=127.0.0.1
-
-  To start the server with a specific port, run:
-
-    cecil.phar serve --port=8080
-
-  To build the website with optimization, run:
-
-    cecil serve --optimize
-
-  To build the website without optimization, run:
-
-    cecil serve --no-optimize
-
-  To clear the cache before building the website, run:
-
-    cecil serve --clear-cache
-
-  To clear the cache before building the website with a specific cache key regular expression, run:
-
-    cecil serve --clear-cache=cache-key
-
+    cecil.phar serve path/to/the/working/directory
+  
+  You can use a custom host and port by using the --host and --port options:
+  
+    cecil.phar serve --host=127.0.0.1 --port=8080
+  
   To start the server with changes watcher not ignoring VCS directories, run:
-
+  
     cecil.phar serve --no-ignore-vcs
-
-  To define the process timeout (in seconds), run:
-
-    cecil.phar serve --timeout=3600
-
+  
   To show build steps metrics, run:
-
+  
     cecil.phar serve --metrics
+  
+  To define the process timeout (in seconds), run:
+  
+    cecil.phar serve --timeout=3600
 ```

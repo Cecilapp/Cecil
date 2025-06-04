@@ -40,11 +40,9 @@ class CacheClearTemplates extends AbstractCommand
                 <<<'EOF'
 The <info>%command.name%</> command removes cached templates files.
 
-To remove all templates cache, run:
-
   <info>%command.full_name%</>
 
-To remove templates fragments cache only, run:
+To remove templates <comment>fragments</comment> cache only, run:
 
   <info>%command.full_name% --fragments</>
 EOF

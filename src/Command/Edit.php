@@ -40,17 +40,12 @@ class Edit extends AbstractCommand
             ])
             ->setHelp(
                 <<<'EOF'
-The <info>%command.name%</> command open pages directory with the editor defined in the configuration file.
-
-To open pages directory with the editor, run:
+The <info>%command.name%</> command open pages directory with the <comment>editor defined</comment> in the configuration file.
 
   <info>%command.full_name%</>
+  <info>%command.full_name% path/to/the/working/directory</>
 
-To open pages directory with the editor from a specific directory, run:
-
-  <info>%command.full_name% path/to/directory</>
-
-To open pages directory with a specific editor, run:
+To open pages directory with a <comment>specific editor</comment>, run:
 
   <info>%command.full_name% --editor=editor</>
 EOF

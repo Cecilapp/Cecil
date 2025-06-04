@@ -35,21 +35,16 @@ class ShowConfig extends AbstractCommand
             ->setDescription('Shows the configuration')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
+                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to an extra configuration file'),
             ])
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</> command shows the website\'s configuration in YAML format.
 
-To show the configuration, run:
-
   <info>%command.full_name%</>
+  <info>%command.full_name% path/to/the/working/directory</>
 
-To show the configuration from a specific directory, run:
-
-  <info>%command.full_name% path/to/directory</>
-
-To show the configuration from a specific configuration file, run:
+To show the configuration with an extra configuration file, run:
 
   <info>%command.full_name% --config=config.yml</>
 EOF

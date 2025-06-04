@@ -42,15 +42,10 @@ class UtilTemplatesExtract extends AbstractCommand
                 <<<'EOF'
 The <info>%command.name%</> command extracts built-in templates in the "layouts" directory.
 
-To extract built-in templates, run:
-
   <info>%command.full_name%</>
+  <info>%command.full_name% path/to/the/working/directory</>
 
-To extract built-in templates in a specific directory, run:
-
-  <info>%command.full_name% path/to/directory</>
-
-To override existing files, run:
+To <comment>override</comment> existing files, run:
 
   <info>%command.full_name% --force</>
 EOF
