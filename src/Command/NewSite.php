@@ -42,20 +42,16 @@ class NewSite extends AbstractCommand
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</> command creates a new website in the current directory, or in <comment><path></> if provided.
-
-To create a new website, run:
+If you run this command without any options, it will ask you for the website title, baseline, base URL, description, etc.
 
   <info>%command.full_name%</>
+  <info>%command.full_name% path/to/the/working/directory</>
 
-To create a new website in a specific directory, run:
-
-  <info>%command.full_name% path/to/directory</>
-
-To create a new website with demo content, run:
+To create a new website with <comment>demo content</comment>, run:
 
   <info>%command.full_name% --demo</>
 
-To override an existing website, run:
+To <comment>override</comment> an existing website, run:
 
   <info>%command.full_name% --force</>
 EOF

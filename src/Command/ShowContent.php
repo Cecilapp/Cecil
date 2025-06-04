@@ -39,21 +39,16 @@ class ShowContent extends AbstractCommand
             ->setDescription('Shows content as tree')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to the config file'),
+                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to an extra configuration file'),
             ])
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</> command shows the website\'s content as a tree.
 
-To show the content, run:
-
   <info>%command.full_name%</>
+  <info>%command.full_name% path/to/the/working/directory</>
 
-To show the content from a specific directory, run:
-
-  <info>%command.full_name% path/to/directory</>
-
-To show the content from a specific configuration file, run:
+To show the content with an extra configuration file, run:
 
   <info>%command.full_name% --config=config.yml</>
 EOF

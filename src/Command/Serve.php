@@ -43,73 +43,41 @@ class Serve extends AbstractCommand
             ->setDescription('Starts the built-in server')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
-                new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
-                new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                 new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
-                new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
-                new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Optimize files (or disable --no-optimize)'),
-                new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
+                new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host (default: localhost)'),
+                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port (default: 8000)'),
+                new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
+                new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-optimize) optimization of generated files'),
+                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
+                new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key as regular expression)', false),
+                new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
+                new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
                 new InputOption('timeout', null, InputOption::VALUE_OPTIONAL, 'Sets the process timeout (max. runtime) in seconds', 3600 * 2),
-                new InputOption('metrics', null, InputOption::VALUE_NONE, 'Show build steps metrics'),
             ])
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</> command starts the live-reloading-built-in web server.
 
-To start the server, run:
-
   <info>%command.full_name%</>
-
-To start the server from a specific directory, run:
-
-  <info>%command.full_name% path/to/directory</>
-
-To start the server with a specific configuration file, run:
-
-  <info>%command.full_name% --config=config.yml</>
-
-To start the server and open web browser automatically, run:
-
   <info>%command.full_name% --open</>
+  <info>%command.full_name% path/to/the/working/directory</>
 
-To start the server with a specific host, run:
+You can use a custom host and port by using the <info>--host</info> and <info>--port</info> options:
 
-  <info>%command.full_name% --host=127.0.0.1</>
+  <info>%command.full_name% --host=127.0.0.1 --port=8080</>
 
-To start the server with a specific port, run:
-
-  <info>%command.full_name% --port=8080</>
-
-To build the website with optimization, run:
-
-  <info>%command.full_name% --optimize</>
-
-To build the website without optimization, run:
-
-  <info>%command.full_name% --no-optimize</>
-
-To clear the cache before building the website, run:
-
-  <info>%command.full_name% --clear-cache</>
-
-To clear the cache before building the website with a specific cache key regular expression, run:
-
-  <info>%command.full_name% --clear-cache=cache-key</>
-
-To start the server with changes watcher not ignoring VCS directories, run:
+To start the server with changes watcher <comment>not ignoring VCS</comment> directories, run:
 
   <info>%command.full_name% --no-ignore-vcs</>
 
-To define the process timeout (in seconds), run:
-
-  <info>%command.full_name% --timeout=3600</>
-
-To show build steps metrics, run:
+To show build steps <comment>metrics</comment>, run:
 
   <info>%command.full_name% --metrics</>
+
+To define the process <comment>timeout</comment> (in seconds), run:
+
+  <info>%command.full_name% --timeout=3600</>
 EOF
             );
     }
