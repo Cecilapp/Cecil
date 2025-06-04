@@ -53,7 +53,7 @@ class Serve extends AbstractCommand
                 new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
-                new InputOption('timeout', null, InputOption::VALUE_OPTIONAL, 'Sets the process timeout (max. runtime) in seconds', 3600 * 2),
+                new InputOption('timeout', null, InputOption::VALUE_REQUIRED, 'Sets the process timeout (max. runtime) in seconds', 7200), // default is 2 hours
             ])
             ->setHelp(
                 <<<'EOF'
@@ -77,7 +77,7 @@ To show build steps <comment>metrics</comment>, run:
 
 To define the process <comment>timeout</comment> (in seconds), run:
 
-  <info>%command.full_name% --timeout=3600</>
+  <info>%command.full_name% --timeout=7200</>
 EOF
             );
     }
@@ -98,7 +98,7 @@ EOF
         $verbose = $input->getOption('verbose');
         $page = $input->getOption('page');
         $noignorevcs = $input->getOption('no-ignore-vcs');
-        $timeout = (int) $input->getOption('timeout');
+        $timeout = $input->getOption('timeout');
         $metrics = $input->getOption('metrics');
 
         $this->setUpServer($host, $port);
@@ -164,7 +164,7 @@ EOF
 
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
-        $buildProcess->setTimeout($timeout);
+        $buildProcess->setTimeout((float) $timeout);
 
         $processOutputCallback = function ($type, $buffer) use ($output) {
             $output->write($buffer, false, OutputInterface::OUTPUT_RAW);
