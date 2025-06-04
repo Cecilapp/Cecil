@@ -191,12 +191,13 @@ class Page extends Item
         if (PrefixSuffix::hasPrefix($fileName)) {
             $prefix = PrefixSuffix::getPrefix($fileName);
             if ($prefix !== null) {
+                // prefix is an integer: used for sorting
+                if (is_numeric($prefix)) {
+                    $this->setVariable('weight', (int) $prefix);
+                }
                 // prefix is a valid date?
                 if (Util\Date::isValid($prefix)) {
                     $this->setVariable('date', (string) $prefix);
-                } else {
-                    // prefix is an integer: used for sorting
-                    $this->setVariable('weight', (int) $prefix);
                 }
             }
         }

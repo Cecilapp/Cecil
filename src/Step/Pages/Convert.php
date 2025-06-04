@@ -82,16 +82,17 @@ class Convert extends AbstractStep
                     continue;
                 }
                 $message = \sprintf('Page "%s" converted', $page->getId());
+                $statusMessage = ' (not published)';
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
                     $page->setVariable('published', true);
                 }
+                // replaces page in collection
                 if ($page->getVariable('published')) {
                     $this->builder->getPages()->replace($page->getId(), $convertedPage);
-                } else {
-                    $message .= ' (not published)';
+                    $statusMessage = '';
                 }
-                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+                $this->builder->getLogger()->info($message . $statusMessage, ['progress' => [$count, $total]]);
             }
         }
     }
