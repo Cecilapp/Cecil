@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-06-03
+updated: 2025-06-04
 alias: documentation/layouts
 -->
 # Templates
@@ -703,7 +703,7 @@ _Example:_
 Determines read time of a text, in minutes.
 
 ```twig
-{{ readtime(text) }}
+{{ readtime(value) }}
 ```
 
 _Example:_
@@ -936,7 +936,7 @@ Converts a string to a slug.
 Truncates a string and appends suffix.
 
 ```twig
-{{ string|excerpt(integer, suffix) }}
+{{ string|excerpt(length, suffix) }}
 ```
 
 | Option | Description                                | Type    | Default |
@@ -1116,14 +1116,14 @@ _Examples:_
 
 ### resize
 
-Resizes an image to a specified with.
+Resizes an image to a specified with (in pixels).
 
 ```twig
-{{ asset(image_path)|resize(integer) }}
+{{ asset(image_path)|resize(with) }}
 ```
 
 :::info
-Aspect ratio is preserved, the original file is not altered and the resized version is stored in `/thumbnails/<integer>/images/image.jpg`.
+Aspect ratio is preserved, the original file is not altered and the resized version is saved at `/thumbnails/<with>/image.jpg`.
 :::
 
 _Example:_
@@ -1134,7 +1134,7 @@ _Example:_
 
 ### cover
 
-Resizes an image to a specified width and height, cropping it if necessary.
+Resizes an image to a specified width **and height**, cropping it if necessary.
 
 ```twig
 {{ asset(image_path)|cover(width, height) }}
@@ -1191,11 +1191,10 @@ Returns a [Low Quality Image Placeholder](https://www.guypo.com/introducing-lqip
 
 ### dominant_color
 
-Returns the dominant hexadecimal color of an image.
+Returns the dominant [hexadecimal color](https://developer.mozilla.org/en-US/docs/Web/CSS/hex-color) of an image.
 
 ```twig
 {{ asset(image_path)|dominant_color }}
-# #F2D07F
 ```
 
 ### inline
