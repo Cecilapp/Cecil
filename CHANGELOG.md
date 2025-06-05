@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.47.8](https://github.com/Cecilapp/Cecil/compare/8.47.7...8.47.8)
+
+> 5 June 2025
+
+- doc: add pages.subsets [`d953e51`](https://github.com/Cecilapp/Cecil/commit/d953e51b32c4ce1748093b1f5b94149a95b3c731)
+- fix: resized asset path [`e187783`](https://github.com/Cecilapp/Cecil/commit/e1877839ae938b805642bd8871ea6b0d9eb1b625)
+- doc: minor changes on commands [`329afff`](https://github.com/Cecilapp/Cecil/commit/329afffa6e49aed5aa2566a7523485e18fe7173e)
+
 #### [8.47.7](https://github.com/Cecilapp/Cecil/compare/8.47.6...8.47.7)
 
 > 5 June 2025
