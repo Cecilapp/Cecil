@@ -117,7 +117,7 @@ EOF
             $php,
             $host,
             $port,
-            Util::joinFile($this->getPath(), (string) $this->getBuilder()->getConfig()->get('output.dir')),
+            $this->getBuilder()->getConfig()->getOutputPath(),
             Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);

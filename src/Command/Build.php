@@ -128,12 +128,13 @@ EOF
         }
 
         $output->writeln(\sprintf('Building website%s...', $messageOpt));
-        $output->writeln(\sprintf('<comment>Path: %s</comment>', $this->getPath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
+        $output->writeln(\sprintf('<comment>Path:   %s</comment>', $this->getPath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         if (!empty($this->getConfigFiles())) {
             $output->writeln(\sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
+        $output->writeln(\sprintf('<comment>Output: %s</comment>', $this->getBuilder()->getConfig()->getOutputPath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         if ($builder->getConfig()->isEnabled('cache') !== false) {
-            $output->writeln(\sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
+            $output->writeln(\sprintf('<comment>Cache:  %s</comment>', $builder->getConfig()->getCachePath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
 
         // build

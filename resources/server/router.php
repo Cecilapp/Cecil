@@ -19,7 +19,6 @@ if (!date_default_timezone_get()) {
 }
 mb_internal_encoding('UTF-8');
 
-\define('SERVER_TMP_DIR', '.cecil');
 \define('DIRECTORY_INDEX', '/index.html');
 \define('ERROR_404', '/404.html');
 $mediaSubtypeText = ['javascript', 'xml', 'json', 'ld+json', 'csv'];
@@ -31,7 +30,7 @@ if ($path == '/watcher') {
     header("Content-Type: text/event-stream\n\n");
     header('Cache-Control: no-cache');
     header('Access-Control-Allow-Origin: *');
-    $flagFile = $_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/changes.flag';
+    $flagFile = __DIR__ . '/changes.flag';
     if (file_exists($flagFile)) {
         echo "event: reload\n";
         printf("data: %s\n\n", file_get_contents($flagFile));
@@ -110,7 +109,7 @@ $pathInfo = getPathInfo($path);
 // text content
 if ($pathInfo['media_maintype'] == 'text' || \in_array($pathInfo['media_subtype'], $mediaSubtypeText)) {
     // replaces the "live" baseurl by the "local" baseurl
-    $baseurl = explode(';', trim(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/baseurl')));
+    $baseurl = explode(';', trim(file_get_contents(__DIR__ . '/baseurl')));
     if (strstr($baseurl[0], 'http') !== false || $baseurl[0] != '/') {
         $content = str_replace($baseurl[0], $baseurl[1], $content);
     }
@@ -141,7 +140,7 @@ foreach ($pathInfo['headers'] as $header) {
     header($header);
 }
 // custom headers based on path
-$headersFile = $_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/headers.ini';
+$headersFile = __DIR__ . '/headers.ini';
 if (file_exists($headersFile)) {
     $headersArray = parse_ini_file($headersFile, true);
     // path with wildcard
@@ -175,7 +174,7 @@ function logger(bool $return): bool
     error_log(
         \sprintf("%s:%d [%d]: %s\n", $_SERVER['REMOTE_ADDR'], $_SERVER['REMOTE_PORT'], http_response_code(), $_SERVER['REQUEST_URI']),
         3,
-        $_SERVER['DOCUMENT_ROOT'] . '/../' . SERVER_TMP_DIR . '/server.log'
+        __DIR__ . '/server.log'
     );
 
     return $return;
