@@ -83,8 +83,7 @@ class Util
             }
         });
 
-        //return implode(DIRECTORY_SEPARATOR, $path);
-        return Path::canonicalize(implode(DIRECTORY_SEPARATOR, $path));
+        return implode(DIRECTORY_SEPARATOR, $path);
     }
 
     /**
