@@ -2,11 +2,11 @@
 
 ## Supported versions
 
-| Version | Supported          | Support Status              |
-| ------- | :----------------: | --------------------------- |
-| 8.*     | :white_check_mark: | Actively supported          |
-| 7.55    | :white_check_mark: | Security support until 2024 |
-| < 7.55  | :x:                | Not supported (end of life) |
+| Version | Supported                | Support Status              |
+| ------- | :----------------------: | --------------------------- |
+| 8.*     | :white_check_mark:       | Actively supported          |
+| 7.55    | :heavy_exclamation_mark: | Security support until 2024 |
+| < 7.55  | :x:                      | Not supported (end of life) |
 
 ## Reporting a vulnerability
 
