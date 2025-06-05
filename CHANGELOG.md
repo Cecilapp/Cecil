@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.47.10](https://github.com/Cecilapp/Cecil/compare/8.47.9...8.47.10)
+
+> 6 June 2025
+
+- fix: server router [`#2184`](https://github.com/Cecilapp/Cecil/pull/2184)
+
 #### [8.47.9](https://github.com/Cecilapp/Cecil/compare/8.47.8...8.47.9)
 
 > 6 June 2025
