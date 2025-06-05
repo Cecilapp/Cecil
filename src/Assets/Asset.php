@@ -978,8 +978,9 @@ class Asset implements \ArrayAccess
      */
     private function deduplicateThumbPath(string $path): string
     {
-        $pattern = '/(' . self::IMAGE_THUMB . '\/\d+)\/' . self::IMAGE_THUMB . '\/\d+\/(.*)/i';
+        // https://regex101.com/r/rDRWnL/1
+        $pattern = '/(' . self::IMAGE_THUMB . '\/\d+(x\d+){0,1})\/' . self::IMAGE_THUMB . '\/\d+\/(.*)/i';
 
-        return preg_replace($pattern, '$1/$2', $path);
+        return preg_replace($pattern, '$1/$3', $path);
     }
 }
