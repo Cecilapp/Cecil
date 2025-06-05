@@ -717,6 +717,37 @@ pages:
 You can extend Cecil with [Pages generator](7-Extend.md#pages-generator).
 :::
 
+### pages.subsets
+
+Subsets are used to render a part of the pages collection, based on a specific path, language or output format, with the command:
+
+```bash
+cecil build --render-subset=<name>
+```
+
+```yaml
+pages:
+  subsets:
+    <name>:
+      path: <path> # glob or string path (e.g.: `blog/*`, `blog`, etc.)
+      language: <language> # language code (e.g.: `en`, `fr`, etc.)
+      output: <output> # output format (e.g.: `html`, `atom`, etc.)
+```
+
+_Example:_
+
+```yaml
+pages:
+  subsets:
+    blog:
+      path: blog
+      language: en
+      output: html
+    index:
+      path: '*'
+      output: json
+```
+
 ---
 
 ## Data
