@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.47.9](https://github.com/Cecilapp/Cecil/compare/8.47.8...8.47.9)
+
+> 6 June 2025
+
+- fix: deduplicateThumbPath for cover [`62b2f60`](https://github.com/Cecilapp/Cecil/commit/62b2f6032959a9c3ea87a7af8c7a7aac49469ea4)
+
 #### [8.47.8](https://github.com/Cecilapp/Cecil/compare/8.47.7...8.47.8)
 
 > 5 June 2025
