@@ -335,8 +335,9 @@ class Asset implements \ArrayAccess
                 (string) $this->config->get('assets.target'),
                 self::IMAGE_THUMB,
                 (string) $width,
-                $this->deduplicateThumbPath($assetResized->data['path'])
+                $assetResized->data['path']
             );
+            $assetResized->data['path'] = $this->deduplicateThumbPath($assetResized->data['path']);
             $assetResized->data['height'] = $assetResized->getHeight();
             $assetResized->data['size'] = \strlen($assetResized->data['content']);
 
@@ -374,8 +375,9 @@ class Asset implements \ArrayAccess
                 (string) $this->config->get('assets.target'),
                 self::IMAGE_THUMB,
                 (string) $width . 'x' . (string) $height,
-                $this->deduplicateThumbPath($assetResized->data['path'])
+                $assetResized->data['path']
             );
+            $assetResized->data['path'] = $this->deduplicateThumbPath($assetResized->data['path']);
             $assetResized->data['size'] = \strlen($assetResized->data['content']);
 
             $cache->set($cacheKey, $assetResized->data, $this->config->get('cache.assets.ttl'));
@@ -972,12 +974,12 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Remove the '/thumbnails/<width>/' part of the path if already exists.
+     * Remove redondant '/thumbnails/<width>/' in the path.
      */
     private function deduplicateThumbPath(string $path): string
     {
-        $pattern = '/(' . self::IMAGE_THUMB . ')\/(\d+)\/(.*)/i';
-        $replacement = '$3';
-        return preg_replace($pattern, $replacement, $path);
+        $pattern = '/(' . self::IMAGE_THUMB . '\/\d+)\/' . self::IMAGE_THUMB . '\/\d+\/(.*)/i';
+
+        return preg_replace($pattern, '$1/$2', $path);
     }
 }
