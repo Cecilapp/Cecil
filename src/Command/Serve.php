@@ -66,8 +66,8 @@ The <info>%command.name%</> command starts the live-reloading-built-in web serve
   <info>%command.full_name%</>
   <info>%command.full_name% path/to/the/working/directory</>
   <info>%command.full_name% --open</>
-  <info>%command.full_name% --no-watch</>
   <info>%command.full_name% --drafts</>
+  <info>%command.full_name% --no-watch</>
 
 You can use a custom host and port by using the <info>--host</info> and <info>--port</info> options:
 
