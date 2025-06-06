@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2025-06-04
+updated: 2025-06-06
 -->
 # Commands
 
@@ -221,6 +221,7 @@ Options:
   -o, --open                       Open web browser automatically
       --host=HOST                  Server host [default: "localhost"]
       --port=PORT                  Server port [default: "8000"]
+  -w, --watch|--no-watch           Enable (or disable --no-watch) changes watcher (enabled by default)
   -d, --drafts                     Include drafts
       --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
   -c, --config=CONFIG              Set the path to extra config files (comma-separated)
@@ -241,8 +242,9 @@ Help:
 
     cecil.phar serve
     cecil.phar serve path/to/the/working/directory
-    cecil.phar serve --drafts
     cecil.phar serve --open
+    cecil.phar serve --drafts
+    cecil.phar serve --no-watch
 
   You can use a custom host and port by using the --host and --port options:
 
