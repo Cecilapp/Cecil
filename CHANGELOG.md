@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.48.0](https://github.com/Cecilapp/Cecil/compare/8.47.10...8.48.0)
+
+> 6 June 2025
+
+- feat: option to disable server watcher [`#2185`](https://github.com/Cecilapp/Cecil/pull/2185)
+- Delete .github/ISSUE_TEMPLATE/bug_report.md [`e741fe8`](https://github.com/Cecilapp/Cecil/commit/e741fe8e7cd11e986339eaf45f6e1ae5d653de58)
+- Delete .github/ISSUE_TEMPLATE/feature_request.md [`da9bbf9`](https://github.com/Cecilapp/Cecil/commit/da9bbf967eb16350f9a2ea6175016edd4337514e)
+
 #### [8.47.10](https://github.com/Cecilapp/Cecil/compare/8.47.9...8.47.10)
 
 > 6 June 2025
