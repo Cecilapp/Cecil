@@ -11,6 +11,9 @@
 
 namespace Cecil\Test;
 
+use Cecil\Util;
+use Symfony\Component\Filesystem\Filesystem;
+
 class IntegrationCliTests extends IntegrationTests
 {
     /**
@@ -19,15 +22,21 @@ class IntegrationCliTests extends IntegrationTests
      */
     public const DEBUG = false;
 
+    public function tearDown(): void
+    {
+        $fs = new Filesystem();
+        if (!self::DEBUG) {
+            $fs->remove(Util::joinFile(__DIR__, 'demo'));
+        }
+    }
+
     public function testBuild()
     {
-        putenv('CECIL_DEBUG=true');
-        putenv('CECIL_TITLE=Cecil (env)');
-        putenv('CECIL_DESCRIPTION=Description (env)');
         echo "\n";
-        exec('php ./bin/cecil build tests/fixtures/website -d -vvv', $output, $retval);
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        exec('php ./bin/cecil build tests/demo -v', $output, $retval);
         echo implode("\n", $output);
-
         self::assertTrue($retval < 1);
     }
 }
