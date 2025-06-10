@@ -53,14 +53,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install image files optimizers (Ubuntu)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.os == 'ubuntu-latest' && join(matrix.type) != 'profiling' }}
         run: |
           sudo apt-get update -y
           sudo apt-get install -y jpegoptim pngquant gifsicle optipng libjpeg-progs webp libavif-bin
           sudo npm install -g svgo
 
       - name: Install image files optimizers (macOS)
-        if: ${{ matrix.os == 'macos-latest' }}
+        if: ${{ matrix.os == 'macos-latest' && join(matrix.type) != 'profiling' }}
         run: |
           brew update || brew update
           brew install jpegoptim
