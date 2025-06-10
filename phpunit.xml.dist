@@ -27,5 +27,8 @@
     <testsuite name="IntegrationTests">
       <file>./tests/IntegrationTests.php</file>
     </testsuite>
+    <testsuite name="IntegrationCliTests">
+      <file>./tests/IntegrationCliTests.php</file>
+    </testsuite>
   </testsuites>
 </phpunit>

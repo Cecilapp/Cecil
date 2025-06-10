@@ -160,6 +160,11 @@ jobs:
         run: |
           composer run-script test
 
+      - name: Run CLI test build
+        if: ${{ contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
+        run: |
+          composer run-script test:cli
+
       - name: Run test build for code coverage
         if: ${{ contains(matrix.type, 'coverage') }}
         run: |
