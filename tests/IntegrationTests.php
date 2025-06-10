@@ -60,7 +60,6 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
                 'drafts'  => true,
                 'dry-run' => false,
             ]);
-
         self::assertTrue(true);
     }
 }
