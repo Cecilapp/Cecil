@@ -12,6 +12,7 @@
 namespace Cecil\Test;
 
 use Cecil\Builder;
+use Cecil\Config;
 use Cecil\Logger\PrintLogger;
 use Cecil\Util;
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,12 +22,17 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
     protected $source;
     protected $config;
     protected $destination;
+    /**
+     * Set to true to keep the generated files after the test.
+     * This is useful for debugging purposes, but should not be used in CI.
+     */
     public const DEBUG = false;
 
     public function setUp(): void
     {
         $this->source = Util::joinFile(__DIR__, 'fixtures/website');
-        $this->config = Util::joinFile($this->source, 'config.php');
+        //$this->config = Util::joinFile($this->source, 'config.php');
+        $this->config = Util::joinFile($this->source, 'config.yml');
         $this->destination = $this->source;
     }
 
@@ -46,14 +52,14 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         putenv('CECIL_TITLE=Cecil (env)');
         putenv('CECIL_DESCRIPTION=Description (env)');
         echo "\n";
-        Builder::create(require($this->config), new PrintLogger())
+        //Builder::create(require($this->config), new PrintLogger())
+        Builder::create(Config::loadFile($this->config), new PrintLogger())
             ->setSourceDir($this->source)
             ->setDestinationDir($this->destination)
             ->build([
                 'drafts'  => true,
                 'dry-run' => false,
             ]);
-
         self::assertTrue(true);
     }
 }
