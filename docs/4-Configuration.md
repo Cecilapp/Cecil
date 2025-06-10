@@ -648,14 +648,14 @@ pages:
       layout: 404
       uglyurl: true
       published: true
-      exclude: true
+      excluded: true
     robots:
       path: robots
       title: Robots.txt
       layout: robots
       output: txt
       published: true
-      exclude: true
+      excluded: true
       multilingual: false
     sitemap:
       path: sitemap
@@ -665,7 +665,7 @@ pages:
       changefreq: monthly
       priority: 0.5
       published: true
-      exclude: true
+      excluded: true
       multilingual: false
     xsl/atom:
       path: xsl/atom
@@ -673,14 +673,14 @@ pages:
       output: xsl
       uglyurl: true
       published: true
-      exclude: true
+      excluded: true
     xsl/rss:
       path: xsl/rss
       layout: feed
       output: xsl
       uglyurl: true
       published: false
-      exclude: true
+      excluded: true
 ```
 
 :::info
@@ -690,7 +690,7 @@ The structure is almost identical of [`pages.virtual`](#pages-virtual), except t
 Each one can be:
 
 1. disabled: `published: false`
-2. excluded from list pages: `exclude: true`
+2. excluded from list pages: `excluded: true`
 3. excluded from localization: `multilingual: false`
 
 ### pages.generators

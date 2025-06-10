@@ -36,7 +36,10 @@ class Section extends AbstractGenerator implements GeneratorInterface
             // top level (root) sections
             if ($page->getSection()) {
                 // do not add "not published" and "not excluded" pages to its section
-                if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
+                if (
+                    $page->getVariable('published') !== true
+                    || ($page->getVariable('excluded') || $page->getVariable('exclude'))
+                ) {
                     continue;
                 }
                 $sections[$page->getSection()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;

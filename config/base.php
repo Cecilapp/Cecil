@@ -37,7 +37,7 @@ return [
                 'layout'    => '404',
                 'uglyurl'   => true,
                 'published' => true,
-                'exclude'   => true,
+                'excluded'  => true,
             ],
             'robots' => [
                 'path'         => 'robots',
@@ -45,7 +45,7 @@ return [
                 'layout'       => 'robots',
                 'output'       => 'txt',
                 'published'    => true,
-                'exclude'      => true,
+                'excluded'     => true,
                 'multilingual' => false,
             ],
             'sitemap' => [
@@ -56,7 +56,7 @@ return [
                 'changefreq'   => 'monthly',
                 'priority'     => '0.5',
                 'published'    => true,
-                'exclude'      => true,
+                'excluded'     => true,
                 'multilingual' => false,
             ],
             'xsl/atom' => [
@@ -65,7 +65,7 @@ return [
                 'output'    => 'xsl',
                 'uglyurl'   => true,
                 'published' => true,
-                'exclude'   => true,
+                'excluded'  => true,
             ],
             'xsl/rss' => [
                 'path'      => 'xsl/rss',
@@ -73,7 +73,7 @@ return [
                 'output'    => 'xsl',
                 'uglyurl'   => true,
                 'published' => false,
-                'exclude'   => true,
+                'excluded'  => true,
             ],
         ],
     ],
