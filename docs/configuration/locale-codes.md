@@ -4,7 +4,7 @@ description: List of availables locale codes (`language_COUNTRY`).
 date: 2020-12-19
 updated: 2025-03-27
 weight: 4
-exclude: true
+excluded: true
 -->
 # Locale codes
 

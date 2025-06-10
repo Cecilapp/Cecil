@@ -45,8 +45,11 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             $subPages = $this->builder->getPages()->filter(function (Page $page) use ($language) {
                 return $page->getType() == Type::PAGE->value
                     && $page->getVariable('published') === true
+                    && (
+                        $page->getVariable('excluded') !== true
+                        && $page->getVariable('exclude') !== true
+                    )
                     && $page->isVirtual() === false
-                    && $page->getVariable('exclude') !== true
                     && $page->getVariable('language') == $language;
             });
             // collects pages of a section

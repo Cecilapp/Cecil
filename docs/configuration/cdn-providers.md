@@ -4,7 +4,7 @@ description: Examples of CDN providers configuration.
 date: 2023-10-23
 updated: 2025-03-27
 weight: 4
-exclude: true
+excluded: true
 -->
 # CDN providers
 

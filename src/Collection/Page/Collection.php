@@ -28,10 +28,13 @@ class Collection extends CecilCollection
     {
         return $this->filter(function (Page $page) {
             if (
-                $page->getVariable('published') === true   // is published
-                && $page->isVirtual() === false            // is created from a file
-                && $page->getVariable('redirect') === null // is not a redirection
-                && $page->getVariable('exclude') !== true  // is not excluded from lists
+                $page->getVariable('published') === true      // page is published
+                && (
+                    $page->getVariable('excluded') !== true   // page is listed
+                    && $page->getVariable('exclude') !== true // backward compatibility
+                )
+                && $page->isVirtual() === false               // page is created from a file
+                && $page->getVariable('redirect') === null    // page is not a redirection
             ) {
                 return true;
             }

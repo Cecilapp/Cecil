@@ -829,20 +829,24 @@ pagesfrom: blog
 ---
 ```
 
-### exclude
+### excluded
 
-Set `exclude` to `true` to hide a page from list pages (i.e.: _Home page_, _Section_, _Sitemap_, etc.).
+Set `excluded` to `true` to hide a page from list pages (i.e.: _Home page_, _Section_, _Sitemap_, etc.).
 
 _Example:_
 
 ```yaml
 ---
-exclude: true
+excluded: true
 ---
 ```
 
 :::info
-`exclude` is different from [`published`](#predefined-variables): an excluded page is published but hidden from list pages.
+`excluded` is different from [`published`](#predefined-variables): an excluded page is published but hidden from list pages.
+:::
+
+:::warning
+Since version 8.49.0, the previous `exclude` variable have been changed to `excluded`.
 :::
 
 ## Multilingual
