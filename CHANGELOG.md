@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.49.0](https://github.com/Cecilapp/Cecil/compare/8.48.0...8.49.0)
+
+> 10 June 2025
+
+- refactor: page variable "exclude" -&gt; "excluded" [`#2186`](https://github.com/Cecilapp/Cecil/pull/2186)
+- feat: add deprecated message for OG image [`fe76a82`](https://github.com/Cecilapp/Cecil/commit/fe76a82b13c366377a45f3e7abc26d126fabe0ef)
+
 #### [8.48.0](https://github.com/Cecilapp/Cecil/compare/8.47.10...8.48.0)
 
 > 6 June 2025
