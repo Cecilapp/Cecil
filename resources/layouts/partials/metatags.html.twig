@@ -199,10 +199,18 @@
 {#- template: Open Graph ~#}
     <meta property="og:locale" content="{{ opengraph.locale }}">
     <meta property="og:site_name" content="{{ opengraph.site_name }}">
-    <meta property="og:type" content="{{ opengraph.type }}">
     <meta property="og:title" content="{{ opengraph.title }}">
     <meta property="og:description" content="{{ opengraph.description }}">
     <meta property="og:url" content="{{ opengraph.url }}">
+    <meta property="og:type" content="{{ opengraph.type }}">
+{%- if opengraph.type == 'article' ~%}
+    <meta property="article:published_time" content="{{ page.date|date('c') }}">
+    <meta property="article:modified_time" content="{{ page.updated|date('c') }}">
+    <meta property="article:author" content="{{ author.name|e }}">
+    {%- for tag in page.tags|default([]) ~%}
+    <meta property="article:tag" content="{{ tag|e }}">
+    {%- endfor ~%}
+{%- endif ~%}
 {%- if opengraph.image is defined ~%}
     <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}">
     <meta property="og:image:type" content="{{ opengraph.image.subtype }}">
