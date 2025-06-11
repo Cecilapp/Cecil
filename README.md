@@ -1,9 +1,16 @@
 [![Cecil's logo, created by Cécile Ricordeau](https://cecil.app/images/logo-cecil.png)](https://cecil.app)
 
-Cecil, a simple and powerful content-driven static site generator.
+A simple and powerful content-driven static site generator.
 
 [![Latest stable version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
+
+Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
+
+📄[Documentation](https://cecil.app/documentation) &middot; 💻[Demo](https://the-butler-demo.cecil.app) &middot; 🐛[Issues tracker](https://github.com/Cecilapp/Cecil/issues) &middot; 💬[Discussions](https://github.com/Cecilapp/Cecil/discussions)
+
+![Cecil CLI animated demo](docs/cecil-cli-demo.gif "Cecil CLI demo")
+
 [![Continuous Integration status](https://github.com/Cecilapp/Cecil/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/continuous-integration.yml)
 [![Release status](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml)
 [![Documentation status](https://github.com/Cecilapp/Cecil/actions/workflows/documentation.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/documentation.yml)  
@@ -12,12 +19,6 @@ Cecil, a simple and powerful content-driven static site generator.
 [![Coverage score](https://coveralls.io/repos/github/Cecilapp/Cecil/badge.svg?branch=master)](https://coveralls.io/github/Cecilapp/Cecil?branch=master)
 [![StyleCI status](https://github.styleci.io/repos/7548986/shield?style=plastic)](https://styleci.io/repos/12738012)
 [![SymfonyInsight badge](https://insight.symfony.com/projects/ada27715-6342-43f8-a1e7-4d5a8fe78e62/mini.svg)](https://insight.symfony.com/projects/ada27715-6342-43f8-a1e7-4d5a8fe78e62)
-
-Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
-
-📄 [Documentation](https://cecil.app/documentation) | 💻 [Demo](https://demo.cecil.app) | 🐛 [Issues tracker](https://github.com/Cecilapp/Cecil/issues) | 💬 [Discussions](https://github.com/Cecilapp/Cecil/discussions)
-
-![Cecil CLI animated demo](docs/cecil-cli-demo.gif "Cecil CLI demo")
 
 ## Quick Start
 
@@ -104,7 +105,7 @@ npx all-contributors generate
 
 ## Development
 
-Build the `cecil.phar` with [Box](https://github.com/box-project/box/):
+Build the `cecil.phar` binary with [Box](https://github.com/box-project/box/):
 
 ```bash
 # Install Box globally
