@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.50.0](https://github.com/Cecilapp/Cecil/compare/8.49.0...8.50.0)
+
+> 11 June 2025
+
+- ci: CLI build test [`#2187`](https://github.com/Cecilapp/Cecil/pull/2187)
+- feat: add article:* meta properties [`a9f9332`](https://github.com/Cecilapp/Cecil/commit/a9f9332ca2086ce7f7b317593fd3c3cc96ee2fd3)
+- ci: disable optimizers for profiling [`33a03ce`](https://github.com/Cecilapp/Cecil/commit/33a03ceb5237c72c0075c27ed13dbd0202506b00)
+- Revert "Update continuous-integration.yml" [`755e509`](https://github.com/Cecilapp/Cecil/commit/755e509316dcc468e8d6ba13497185588435a7bd)
+- doc: update "updated" date [`323b5f8`](https://github.com/Cecilapp/Cecil/commit/323b5f8eee48356acffecce6d36a465fc037afcf)
+
 #### [8.49.0](https://github.com/Cecilapp/Cecil/compare/8.48.0...8.49.0)
 
 > 10 June 2025
