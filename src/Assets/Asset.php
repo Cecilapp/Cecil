@@ -97,6 +97,7 @@ class Asset implements \ArrayAccess
             'height'   => 0,     // image height (in pixels)
             'exif'     => [],    // image exif data
             'content'  => '',    // file content
+            'hash'     => '',    // file content hash (md5)
         ];
 
         // handles options
@@ -142,6 +143,7 @@ class Asset implements \ArrayAccess
                     $this->data['subtype'] = Util\File::getMediaType($file)[1];
                     $this->data['size'] += filesize($file);
                     $this->data['content'] .= Util\File::fileGetContents($file);
+                    $this->data['hash'] = hash('md5', $this->data['content']);
                     // bundle default filename
                     $filename = $options['filename'];
                     if ($pathsCount > 1 && empty($filename)) {
@@ -853,6 +855,7 @@ class Asset implements \ArrayAccess
      */
     private function optimize(string $filepath, string $path, int $quality): int
     {
+        $message = \sprintf('Asset not optimized: "%s"', $path);
         $sizeBefore = filesize($filepath);
         Optimizer::create($quality)->optimize($filepath);
         $sizeAfter = filesize($filepath);

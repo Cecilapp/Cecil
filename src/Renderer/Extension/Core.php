@@ -430,7 +430,7 @@ class Core extends SlugifyExtension
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKey(null, $value);
+        $cacheKey = $cache->createKeyFromValue(null, $value);
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\CSS($value);
             $value = $minifier->minify();
@@ -452,7 +452,7 @@ class Core extends SlugifyExtension
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKey(null, $value);
+        $cacheKey = $cache->createKeyFromValue(null, $value);
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\JS($value);
             $value = $minifier->minify();
@@ -472,7 +472,7 @@ class Core extends SlugifyExtension
         $value = $value ?? '';
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKey(null, $value);
+        $cacheKey = $cache->createKeyFromValue(null, $value);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             $outputStyles = ['expanded', 'compressed'];
