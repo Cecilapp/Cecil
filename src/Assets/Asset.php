@@ -220,7 +220,7 @@ class Asset implements \ArrayAccess
                 $this->doMinify();
             }
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
-            $this->builder->getLogger()->debug(\sprintf('Asset created: "%s"', $this->data['path']));
+            $this->builder->getLogger()->debug(\sprintf('Asset cached: "%s"', $this->data['path']));
             // optimizing images files (in cache directory)
             if ($optimize) {
                 $this->optimize($cache->getContentFilePathname($this->data['path']), $this->data['path'], $quality);
@@ -853,7 +853,6 @@ class Asset implements \ArrayAccess
      */
     private function optimize(string $filepath, string $path, int $quality): int
     {
-        $message = \sprintf('Asset processed: "%s"', $path);
         $sizeBefore = filesize($filepath);
         Optimizer::create($quality)->optimize($filepath);
         $sizeAfter = filesize($filepath);
