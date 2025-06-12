@@ -174,15 +174,25 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key from a string: "$name|uniqid__HASH__VERSION".
-     * $name is optional to add a human readable name to the key.
+     * Creates key from a name and a hash: "$name__HASH__VERSION".
      */
-    public function createKey(?string $name, string $value): string
+    public function createKey(string $name, string $hash): string
     {
-        $hash = hash('md5', $value);
-        $name = $name ? self::sanitizeKey($name) : $hash;
+        $name = self::sanitizeKey($name);
 
         return \sprintf('%s__%s__%s', $name, $hash, $this->builder->getVersion());
+    }
+
+    /**
+     * Creates key from a string: "$name__HASH__VERSION".
+     * $name is optional to add a human readable name to the key.
+     */
+    public function createKeyFromValue(?string $name, string $value): string
+    {
+        $hash = hash('md5', $value);
+        $name = $name ?? $hash;
+
+        return $this->createKey($name, $hash);
     }
 
     /**
@@ -214,7 +224,7 @@ class Cache implements CacheInterface
         $tagsInline = implode('_', str_replace('_', '', $tags));
         $name = "{$asset['_path']}_{$asset['ext']}_$tagsInline";
 
-        return $this->createKey($name, $asset['content'] ?? '');
+        return $this->createKey($name, $asset['hash']);
     }
 
     /**
@@ -228,7 +238,7 @@ class Cache implements CacheInterface
             throw new RuntimeException(\sprintf('Can\'t create cache key for "%s".', $file));
         }
 
-        return $this->createKey($file->getRelativePathname(), $content);
+        return $this->createKeyFromValue($file->getRelativePathname(), $content);
     }
 
     /**
