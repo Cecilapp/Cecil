@@ -224,6 +224,11 @@ class Cache implements CacheInterface
         $tagsInline = implode('_', str_replace('_', '', $tags));
         $name = "{$asset['_path']}_{$asset['ext']}_$tagsInline";
 
+        // backward compatibility
+        if (empty($asset['hash'])) {
+            throw new RuntimeException(\sprintf('Asset "%s" has no hash. Please clear cache and retry.', $name));
+        }
+
         return $this->createKey($name, $asset['hash']);
     }
 
