@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.50.1](https://github.com/Cecilapp/Cecil/compare/8.50.0...8.50.1)
+
+> 12 June 2025
+
+- fix: asset cache key with content hash [`#2189`](https://github.com/Cecilapp/Cecil/pull/2189)
+- chore(deps): bump matthiasmullie/minify from 1.3.73 to 1.3.74 [`#2188`](https://github.com/Cecilapp/Cecil/pull/2188)
+- refactor: better asset log messages [`dfd7ada`](https://github.com/Cecilapp/Cecil/commit/dfd7ada862a52777975e5b15738089b6adc57833)
+
 #### [8.50.0](https://github.com/Cecilapp/Cecil/compare/8.49.0...8.50.0)
 
 > 11 June 2025
