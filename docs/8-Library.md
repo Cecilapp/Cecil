@@ -1,6 +1,7 @@
 <!--
 description: "Use Cecil as a PHP library."
 date: 2023-12-13
+updated: 2025-06-17
 -->
 # Library
 
@@ -38,7 +39,7 @@ Builder::create($config)->build();
 > The main parameter of the `create` method should be an array or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
 
 :::info
-Full code of _Builder_ available on [GitHub](https://github.com/Cecilapp/Cecil/blob/master/src/Builder.php).
+The full code of _Builder_ is available on [GitHub](https://github.com/Cecilapp/Cecil/blob/master/src/Builder.php) and the API documentation in [`api`](/api/) subdirectory.
 :::
 
 ### Example
