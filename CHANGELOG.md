@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.50.2](https://github.com/Cecilapp/Cecil/compare/8.50.1...8.50.2)
+
+> 16 June 2025
+
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.13.0 to 3.13.1 [`#2190`](https://github.com/Cecilapp/Cecil/pull/2190)
+- fix: asset hash backward compatibility [`a6a0124`](https://github.com/Cecilapp/Cecil/commit/a6a0124cb5b51420f89170a0d5e65e5db729107d)
+
 #### [8.50.1](https://github.com/Cecilapp/Cecil/compare/8.50.0...8.50.1)
 
 > 12 June 2025
