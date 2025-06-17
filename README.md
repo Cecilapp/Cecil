@@ -120,6 +120,17 @@ composer build
 php dist/cecil.phar about
 ```
 
+### Build API documentation
+
+Build the API documentation with [phpDocumentor](https://www.phpdoc.org):
+
+```bash
+# Install phpDocumentor globally
+curl -Lo phpdoc https://phpdoc.org/phpDocumentor.phar
+# Build the API documentation
+php phpdoc
+```
+
 ## Sponsors
 
 <!--[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->

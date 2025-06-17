@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+        configVersion="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://www.phpdoc.org"
+        xsi:noNamespaceSchemaLocation="data/xsd/phpdoc.xsd"
+>
+    <title>Cecil</title>
+    <paths>
+        <output>./docs/api</output>
+    </paths>
+    <version number="8.0.0">
+        <folder>latest</folder>
+        <api ignore-packages="true">
+            <source dsn=".">
+                <path>src</path>
+            </source>
+            <output>api</output>
+            <ignore hidden="true" symlinks="true">
+                <path>dist/**/*</path>
+                <path>tests/**/*</path>
+                <path>vendor/**/*</path>
+            </ignore>
+            <extensions>
+                <extension>php</extension>
+            </extensions>
+            <default-package-name>Cecil</default-package-name>
+        </api>
+    </version>
+</phpdocumentor>

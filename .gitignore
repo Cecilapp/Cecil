@@ -2,6 +2,8 @@ vendor/
 .vscode/
 .phpunit.result.cache
 .php-cs-fixer.cache
+phpdoc
+.phpdoc
 
 # if you run Cecil here
 _site/
