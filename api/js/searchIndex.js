@@ -2913,7 +2913,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Config",
             "name": "Config",
-            "summary": "Config\u0020class.",
+            "summary": "Config\u0020renderer\u0020class.",
             "url": "classes/Cecil-Renderer-Config.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Config\u003A\u003A__construct\u0028\u0029",
@@ -3218,7 +3218,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language",
             "name": "Language",
-            "summary": "Language\u0020class.",
+            "summary": "Language\u0020renderer\u0020class.",
             "url": "classes/Cecil-Renderer-Language.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language\u003A\u003A__construct\u0028\u0029",
@@ -3408,7 +3408,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Site",
             "name": "Site",
-            "summary": "Site\u0020class.",
+            "summary": "Site\u0020renderer\u0020class.",
             "url": "classes/Cecil-Renderer-Site.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Site\u003A\u003A__construct\u0028\u0029",
