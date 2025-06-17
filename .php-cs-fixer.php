@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of Cecil.
  *
@@ -32,7 +33,6 @@ return (new PhpCsFixer\Config())
             EOF,
             'comment_type' => 'PHPDoc',
             'location' => 'after_open',
-            'separate' => 'bottom',
         ],
     ])
     ->setFinder($finder)
