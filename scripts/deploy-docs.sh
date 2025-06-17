@@ -47,7 +47,7 @@ cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
 #find $HOME/$SOURCE_DOCS_DIR/ -type f -name '*.md' | xargs cp -t $TARGET_DOCS_DIR
 # copy API dir
 mkdir -p $TARGET_API_DIR
-cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
+cp -Rf $HOME/$SOURCE_API_DIR/* $TARGET_API_DIR
 
 # commit and push
 if [[ -n $(git status -s) ]]; then
