@@ -17,7 +17,9 @@ use Cecil\Collection\Collection as CecilCollection;
 use Cecil\Exception\RuntimeException;
 
 /**
- * Class Collection.
+ * Pages collection class.
+ *
+ * Represents a collection of pages, providing methods to filter and sort them.
  */
 class Collection extends CecilCollection
 {

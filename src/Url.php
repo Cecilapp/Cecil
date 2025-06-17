@@ -22,6 +22,11 @@ use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Util;
 use Cocur\Slugify\Slugify;
 
+/**
+ * URL class.
+ *
+ * Builds an URL from a Page, a Menu Entry, an Asset or a string.
+ */
 class Url
 {
     /** @var Builder */

@@ -15,6 +15,8 @@ namespace Cecil\Collection;
 
 /**
  * Base interface.
+ *
+ * Defines the basic structure for collections that require a unique identifier.
  */
 interface BaseInterface
 {

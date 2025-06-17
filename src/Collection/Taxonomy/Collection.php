@@ -16,7 +16,9 @@ namespace Cecil\Collection\Taxonomy;
 use Cecil\Collection\Collection as CecilCollection;
 
 /**
- * Class Collection.
+ * Taxonomy collection class.
+ *
+ * Represents a collection of vocabularies, providing methods to retrieve vocabularies by their ID.
  */
 class Collection extends CecilCollection
 {

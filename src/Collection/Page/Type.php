@@ -14,8 +14,9 @@ declare(strict_types=1);
 namespace Cecil\Collection\Page;
 
 /**
- * Type enum.
+ * Enum Type.
  *
+ * Defines the different types of pages in a collection.
  */
 enum Type: string
 {

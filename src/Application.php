@@ -17,6 +17,8 @@ use Symfony\Component\Console\Application as BaseApplication;
 
 /**
  * The console application that handles the commands.
+ *
+ * This class extends the Symfony Console Application.
  */
 class Application extends BaseApplication
 {

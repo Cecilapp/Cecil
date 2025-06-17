@@ -18,7 +18,9 @@ use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\ItemInterface;
 
 /**
- * Class Vocabulary.
+ * Vocabulary class.
+ *
+ * Represents a collection of terms, allowing for the addition and retrieval of terms by their ID.
  */
 class Vocabulary extends CecilCollection implements ItemInterface
 {

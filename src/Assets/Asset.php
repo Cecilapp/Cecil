@@ -26,6 +26,13 @@ use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
 use wapmorgan\Mp3Info\Mp3Info;
 
+/**
+ * Asset class.
+ *
+ * Represents an asset (file) in the Cecil project.
+ * Handles file locating, content reading, compiling, minifying, fingerprinting,
+ * resizing images, and more.
+ */
 class Asset implements \ArrayAccess
 {
     public const IMAGE_THUMB = 'thumbnails';

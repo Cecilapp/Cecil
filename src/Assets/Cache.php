@@ -19,6 +19,11 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Psr\SimpleCache\CacheInterface;
 
+/**
+ * Cache class.
+ *
+ * Provides methods to manage cache files for assets, pages, and other data.
+ */
 class Cache implements CacheInterface
 {
     /** @var Builder */

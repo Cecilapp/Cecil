@@ -17,7 +17,9 @@ use Cecil\Collection\Collection as CecilCollection;
 use Cecil\Collection\ItemInterface;
 
 /**
- * Class Collection.
+ * Collection class.
+ *
+ * Represents a collection of menus, providing methods to retrieve and check for existence of menus.
  */
 class Collection extends CecilCollection
 {

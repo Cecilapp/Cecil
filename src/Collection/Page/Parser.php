@@ -17,7 +17,9 @@ use Cecil\Exception\RuntimeException;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class Parser.
+ * Parser class.
+ *
+ * Parses the front matter and body of a file, extracting metadata and content.
  */
 class Parser
 {

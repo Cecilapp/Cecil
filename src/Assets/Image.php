@@ -19,6 +19,12 @@ use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\ImageManager;
 
+/**
+ * Image class.
+ *
+ * Provides methods to manipulate images, such as resizing, cropping, converting,
+ * and generating data URLs.
+ */
 class Image
 {
     /**

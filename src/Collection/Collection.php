@@ -15,6 +15,8 @@ namespace Cecil\Collection;
 
 /**
  * Class Collection.
+ *
+ * Represents a collection of items, providing methods to manage them.
  */
 class Collection implements CollectionInterface
 {

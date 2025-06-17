@@ -17,7 +17,10 @@ use Cecil\Collection\ItemInterface;
 use Cecil\Collection\Page\Collection as CecilCollection;
 
 /**
- * Class Term.
+ * Term class.
+ *
+ * Represents a term in a taxonomy, extending the base collection class to include a name property.
+ * Provides methods to set and get the term's name.
  */
 class Term extends CecilCollection implements ItemInterface
 {

@@ -22,7 +22,12 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Class Builder.
+ * The main Cecil builder class.
+ *
+ * This class is responsible for building the website by processing various steps,
+ * managing configuration, and handling content, data, static files, pages, assets,
+ * menus, taxonomies, and rendering.
+ * It also provides methods for logging, debugging, and managing build metrics.
  */
 class Builder implements LoggerAwareInterface
 {

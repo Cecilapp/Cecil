@@ -15,6 +15,12 @@ namespace Cecil;
 
 use Symfony\Component\Filesystem\Path;
 
+/**
+ * Utility class.
+ *
+ * Provides various utility methods for formatting class names, method names,
+ * joining paths, converting memory sizes, and more.
+ */
 class Util
 {
     /**

@@ -20,7 +20,10 @@ use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class Page.
+ * Page class.
+ *
+ * Represents a page in the collection, which can be created from a file or be virtual.
+ * Provides methods to manage page properties, variables, and rendering.
  */
 class Page extends Item
 {

@@ -14,7 +14,10 @@ declare(strict_types=1);
 namespace Cecil\Collection;
 
 /**
- * Class Item.
+ * Item class.
+ *
+ * Represents an item in a collection, implementing the ArrayAccess interface
+ * to allow array-like access to its properties.
  */
 class Item implements ItemInterface
 {

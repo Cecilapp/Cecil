@@ -16,7 +16,10 @@ namespace Cecil\Collection\Page;
 use Cecil\Config;
 
 /**
- * Class PrefixSuffix.
+ * PrefixSuffix class.
+ *
+ * Handles prefixes and suffixes in page filenames.
+ * Prefixes can be dates or numbers, and suffixes are typically language codes.
  */
 class PrefixSuffix
 {
