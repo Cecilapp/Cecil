@@ -105,6 +105,8 @@ npx all-contributors generate
 
 ## Development
 
+### Build binary
+
 Build the `cecil.phar` binary with [Box](https://github.com/box-project/box/):
 
 ```bash
@@ -114,7 +116,7 @@ composer global require humbug/box
 export PATH=~/.composer/vendor/bin:$PATH
 # Build the phar file
 composer build
-# check the phar file
+# Check the phar file
 php dist/cecil.phar about
 ```
 
