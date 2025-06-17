@@ -23,7 +23,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Assets\\Asset",
             "name": "Asset",
-            "summary": "",
+            "summary": "Asset\u0020class.",
             "url": "classes/Cecil-Assets-Asset.html"
         },                {
             "fqsen": "\\Cecil\\Assets\\Asset\u003A\u003A__construct\u0028\u0029",
@@ -223,7 +223,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Assets\\Cache",
             "name": "Cache",
-            "summary": "",
+            "summary": "Cache\u0020class.",
             "url": "classes/Cecil-Assets-Cache.html"
         },                {
             "fqsen": "\\Cecil\\Assets\\Cache\u003A\u003A__construct\u0028\u0029",
@@ -338,7 +338,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Assets\\Image\\Optimizer",
             "name": "Optimizer",
-            "summary": "",
+            "summary": "Image\u0020Optimizer\u0020class.",
             "url": "classes/Cecil-Assets-Image-Optimizer.html"
         },                {
             "fqsen": "\\Cecil\\Assets\\Image\\Optimizer\u003A\u003Acreate\u0028\u0029",
@@ -348,7 +348,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Assets\\Image",
             "name": "Image",
-            "summary": "",
+            "summary": "Image\u0020class.",
             "url": "classes/Cecil-Assets-Image.html"
         },                {
             "fqsen": "\\Cecil\\Assets\\Image\u003A\u003Amanager\u0028\u0029",
@@ -421,14 +421,9 @@ Search.appendIndex(
             "summary": "Returns\u0020SVG\u0020attributes.",
             "url": "classes/Cecil-Assets-Image.html#method_getSvgAttributes"
         },                {
-            "fqsen": "\\includeIfExists\u0028\u0029",
-            "name": "includeIfExists",
-            "summary": "",
-            "url": "namespaces/default.html#function_includeIfExists"
-        },                {
             "fqsen": "\\Cecil\\Builder",
             "name": "Builder",
-            "summary": "Class\u0020Builder.",
+            "summary": "The\u0020main\u0020Cecil\u0020builder\u0020class.",
             "url": "classes/Cecil-Builder.html"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A__construct\u0028\u0029",
@@ -868,7 +863,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\CollectionInterface",
             "name": "CollectionInterface",
-            "summary": "Interface\u0020CollectionInterface.",
+            "summary": "Collection\u0020interface.",
             "url": "classes/Cecil-Collection-CollectionInterface.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\CollectionInterface\u003A\u003AsetId\u0028\u0029",
@@ -963,7 +958,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Item",
             "name": "Item",
-            "summary": "Class\u0020Item.",
+            "summary": "Item\u0020class.",
             "url": "classes/Cecil-Collection-Item.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Item\u003A\u003A__construct\u0028\u0029",
@@ -1018,7 +1013,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\ItemInterface",
             "name": "ItemInterface",
-            "summary": "Interface\u0020ItemInterface.",
+            "summary": "Item\u0020interface.",
             "url": "classes/Cecil-Collection-ItemInterface.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\ItemInterface\u003A\u003AsetId\u0028\u0029",
@@ -1038,7 +1033,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Menu\\Collection",
             "name": "Collection",
-            "summary": "Class\u0020Collection.",
+            "summary": "Menu\u0020collection\u0020class.",
             "url": "classes/Cecil-Collection-Menu-Collection.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Menu\\Collection\u003A\u003Aget\u0028\u0029",
@@ -1053,7 +1048,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Menu\\Entry",
             "name": "Entry",
-            "summary": "Class\u0020Entry.",
+            "summary": "Menu\u0020entry\u0020class.",
             "url": "classes/Cecil-Collection-Menu-Entry.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Menu\\Entry\u003A\u003AsetName\u0028\u0029",
@@ -1088,7 +1083,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Menu\\Menu",
             "name": "Menu",
-            "summary": "Class\u0020Menu.",
+            "summary": "Menu\u0020item\u0020class.",
             "url": "classes/Cecil-Collection-Menu-Menu.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Menu\\Menu\u003A\u003Aadd\u0028\u0029",
@@ -1098,7 +1093,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Collection",
             "name": "Collection",
-            "summary": "Class\u0020Collection.",
+            "summary": "Pages\u0020collection\u0020class.",
             "url": "classes/Cecil-Collection-Page-Collection.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Collection\u003A\u003Ashowable\u0028\u0029",
@@ -1158,7 +1153,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page",
             "name": "Page",
-            "summary": "Class\u0020Page.",
+            "summary": "Page\u0020class.",
             "url": "classes/Cecil-Collection-Page-Page.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A__construct\u0028\u0029",
@@ -1483,7 +1478,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Parser",
             "name": "Parser",
-            "summary": "Class\u0020Parser.",
+            "summary": "Parser\u0020class.",
             "url": "classes/Cecil-Collection-Page-Parser.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Parser\u003A\u003A__construct\u0028\u0029",
@@ -1528,7 +1523,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix",
             "name": "PrefixSuffix",
-            "summary": "Class\u0020PrefixSuffix.",
+            "summary": "PrefixSuffix\u0020class.",
             "url": "classes/Cecil-Collection-Page-PrefixSuffix.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003Ahas\u0028\u0029",
@@ -1588,7 +1583,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Type",
             "name": "Type",
-            "summary": "Type\u0020enum.",
+            "summary": "Enum\u0020Type.",
             "url": "classes/Cecil-Collection-Page-Type.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Type\u003A\u003APAGE",
@@ -1618,7 +1613,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Taxonomy\\Collection",
             "name": "Collection",
-            "summary": "Class\u0020Collection.",
+            "summary": "Taxonomy\u0020collection\u0020class.",
             "url": "classes/Cecil-Collection-Taxonomy-Collection.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Taxonomy\\Collection\u003A\u003Aget\u0028\u0029",
@@ -1628,7 +1623,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Taxonomy\\Term",
             "name": "Term",
-            "summary": "Class\u0020Term.",
+            "summary": "Term\u0020class.",
             "url": "classes/Cecil-Collection-Taxonomy-Term.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Taxonomy\\Term\u003A\u003AsetName\u0028\u0029",
@@ -1648,7 +1643,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Taxonomy\\Vocabulary",
             "name": "Vocabulary",
-            "summary": "Class\u0020Vocabulary.",
+            "summary": "Vocabulary\u0020class.",
             "url": "classes/Cecil-Collection-Taxonomy-Vocabulary.html"
         },                {
             "fqsen": "\\Cecil\\Collection\\Taxonomy\\Vocabulary\u003A\u003Aadd\u0028\u0029",
@@ -1663,7 +1658,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\About",
             "name": "About",
-            "summary": "About\u0020Cecil.",
+            "summary": "About\u0020command.",
             "url": "classes/Cecil-Command-About.html"
         },                {
             "fqsen": "\\Cecil\\Command\\About\u003A\u003Aconfigure\u0028\u0029",
@@ -1678,7 +1673,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\AbstractCommand",
             "name": "AbstractCommand",
-            "summary": "",
+            "summary": "Abstract\u0020command\u0020class.",
             "url": "classes/Cecil-Command-AbstractCommand.html"
         },                {
             "fqsen": "\\Cecil\\Command\\AbstractCommand\u003A\u003Ainitialize\u0028\u0029",
@@ -1788,7 +1783,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\Build",
             "name": "Build",
-            "summary": "Builds\u0020the\u0020website.",
+            "summary": "Build\u0020command.",
             "url": "classes/Cecil-Command-Build.html"
         },                {
             "fqsen": "\\Cecil\\Command\\Build\u003A\u003Aconfigure\u0028\u0029",
@@ -1803,7 +1798,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\CacheClear",
             "name": "CacheClear",
-            "summary": "Removes\u0020cache\u0020files.",
+            "summary": "CacheClear\u0020command.",
             "url": "classes/Cecil-Command-CacheClear.html"
         },                {
             "fqsen": "\\Cecil\\Command\\CacheClear\u003A\u003Aconfigure\u0028\u0029",
@@ -1818,7 +1813,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\CacheClearAssets",
             "name": "CacheClearAssets",
-            "summary": "Removes\u0020assets\u0020cache\u0020files.",
+            "summary": "CacheClearAssets\u0020command.",
             "url": "classes/Cecil-Command-CacheClearAssets.html"
         },                {
             "fqsen": "\\Cecil\\Command\\CacheClearAssets\u003A\u003Aconfigure\u0028\u0029",
@@ -1833,7 +1828,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\CacheClearTemplates",
             "name": "CacheClearTemplates",
-            "summary": "Removes\u0020templates\u0020cache\u0020files.",
+            "summary": "CacheClearTemplates\u0020command.",
             "url": "classes/Cecil-Command-CacheClearTemplates.html"
         },                {
             "fqsen": "\\Cecil\\Command\\CacheClearTemplates\u003A\u003Aconfigure\u0028\u0029",
@@ -1848,7 +1843,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\CacheClearTranslations",
             "name": "CacheClearTranslations",
-            "summary": "Removes\u0020translations\u0020cache\u0020files.",
+            "summary": "CacheClearTranslations\u0020command.",
             "url": "classes/Cecil-Command-CacheClearTranslations.html"
         },                {
             "fqsen": "\\Cecil\\Command\\CacheClearTranslations\u003A\u003Aconfigure\u0028\u0029",
@@ -1863,7 +1858,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\Clear",
             "name": "Clear",
-            "summary": "Removes\u0020output\u0020directory,\u0020temporary\u0020directory\u0020and\u0020cache\u0020files.",
+            "summary": "Clear\u0020command.",
             "url": "classes/Cecil-Command-Clear.html"
         },                {
             "fqsen": "\\Cecil\\Command\\Clear\u003A\u003Aconfigure\u0028\u0029",
@@ -1888,7 +1883,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\Edit",
             "name": "Edit",
-            "summary": "Open\u0020pages\u0020with\u0020an\u0020editor.",
+            "summary": "Edit\u0020command.",
             "url": "classes/Cecil-Command-Edit.html"
         },                {
             "fqsen": "\\Cecil\\Command\\Edit\u003A\u003Aconfigure\u0028\u0029",
@@ -1903,7 +1898,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\ListCommand",
             "name": "ListCommand",
-            "summary": "",
+            "summary": "ListCommand\u0020class.",
             "url": "classes/Cecil-Command-ListCommand.html"
         },                {
             "fqsen": "\\Cecil\\Command\\ListCommand\u003A\u003Aconfigure\u0028\u0029",
@@ -1913,7 +1908,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\NewPage",
             "name": "NewPage",
-            "summary": "Creates\u0020a\u0020new\u0020page.",
+            "summary": "NewPage\u0020command.",
             "url": "classes/Cecil-Command-NewPage.html"
         },                {
             "fqsen": "\\Cecil\\Command\\NewPage\u003A\u003Aconfigure\u0028\u0029",
@@ -1933,7 +1928,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\NewSite",
             "name": "NewSite",
-            "summary": "Creates\u0020a\u0020new\u0020website.",
+            "summary": "NewSite\u0020command.",
             "url": "classes/Cecil-Command-NewSite.html"
         },                {
             "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003Aconfigure\u0028\u0029",
@@ -1948,7 +1943,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\SelfUpdate",
             "name": "SelfUpdate",
-            "summary": "Updates\u0020Cecil\u0020to\u0020the\u0020latest\u0020version.",
+            "summary": "SelfUpdate\u0020command.",
             "url": "classes/Cecil-Command-SelfUpdate.html"
         },                {
             "fqsen": "\\Cecil\\Command\\SelfUpdate\u003A\u003Aconfigure\u0028\u0029",
@@ -1963,7 +1958,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\Serve",
             "name": "Serve",
-            "summary": "Starts\u0020the\u0020built\u002Din\u0020server.",
+            "summary": "Serve\u0020command.",
             "url": "classes/Cecil-Command-Serve.html"
         },                {
             "fqsen": "\\Cecil\\Command\\Serve\u003A\u003Aconfigure\u0028\u0029",
@@ -2003,7 +1998,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\ShowConfig",
             "name": "ShowConfig",
-            "summary": "Shows\u0020the\u0020configuration.",
+            "summary": "ShowConfig\u0020command.",
             "url": "classes/Cecil-Command-ShowConfig.html"
         },                {
             "fqsen": "\\Cecil\\Command\\ShowConfig\u003A\u003Aconfigure\u0028\u0029",
@@ -2023,7 +2018,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\ShowContent\\FileExtensionFilter",
             "name": "FileExtensionFilter",
-            "summary": "Filters\u0020files\u0020by\u0020extension\u0020type.",
+            "summary": "FileExtensionFilter\u0020class.",
             "url": "classes/Cecil-Command-ShowContent-FileExtensionFilter.html"
         },                {
             "fqsen": "\\Cecil\\Command\\ShowContent\\FileExtensionFilter\u003A\u003A__construct\u0028\u0029",
@@ -2053,7 +2048,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\ShowContent\\FilenameRecursiveTreeIterator",
             "name": "FilenameRecursiveTreeIterator",
-            "summary": "Replace\u0020Filepath\u0020by\u0020Filename.",
+            "summary": "FilenameRecursiveTreeIterator\u0020class.",
             "url": "classes/Cecil-Command-ShowContent-FilenameRecursiveTreeIterator.html"
         },                {
             "fqsen": "\\Cecil\\Command\\ShowContent\\FilenameRecursiveTreeIterator\u003A\u003Acurrent\u0028\u0029",
@@ -2063,7 +2058,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\ShowContent",
             "name": "ShowContent",
-            "summary": "Shows\u0020content.",
+            "summary": "ShowContent\u0020command.",
             "url": "classes/Cecil-Command-ShowContent.html"
         },                {
             "fqsen": "\\Cecil\\Command\\ShowContent\u003A\u003Aconfigure\u0028\u0029",
@@ -2083,7 +2078,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\UtilTemplatesExtract",
             "name": "UtilTemplatesExtract",
-            "summary": "Extracts\u0020built\u002Din\u0020templates.",
+            "summary": "UtilTemplatesExtract\u0020command.",
             "url": "classes/Cecil-Command-UtilTemplatesExtract.html"
         },                {
             "fqsen": "\\Cecil\\Command\\UtilTemplatesExtract\u003A\u003Aconfigure\u0028\u0029",
@@ -2098,7 +2093,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\UtilTranslationsExtract",
             "name": "UtilTranslationsExtract",
-            "summary": "",
+            "summary": "UtilTranslationsExtract\u0020command.",
             "url": "classes/Cecil-Command-UtilTranslationsExtract.html"
         },                {
             "fqsen": "\\Cecil\\Command\\UtilTranslationsExtract\u003A\u003Aconfigure\u0028\u0029",
@@ -2163,7 +2158,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Config",
             "name": "Config",
-            "summary": "Class\u0020Config.",
+            "summary": "Configuration\u0020class.",
             "url": "classes/Cecil-Config.html"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003A__construct\u0028\u0029",
@@ -2423,7 +2418,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Converter\\Converter",
             "name": "Converter",
-            "summary": "Class\u0020Converter.",
+            "summary": "Converter\u0020class.",
             "url": "classes/Cecil-Converter-Converter.html"
         },                {
             "fqsen": "\\Cecil\\Converter\\Converter\u003A\u003A__construct\u0028\u0029",
@@ -2468,7 +2463,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Converter\\ConverterInterface",
             "name": "ConverterInterface",
-            "summary": "Interface\u0020ConverterInterface.",
+            "summary": "Converter\u0020interface.",
             "url": "classes/Cecil-Converter-ConverterInterface.html"
         },                {
             "fqsen": "\\Cecil\\Converter\\ConverterInterface\u003A\u003AconvertFrontmatter\u0028\u0029",
@@ -2483,7 +2478,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown",
             "name": "Parsedown",
-            "summary": "",
+            "summary": "Parsedown\u0020class.",
             "url": "classes/Cecil-Converter-Parsedown.html"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A__construct\u0028\u0029",
@@ -2603,7 +2598,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Exception\\ConfigException",
             "name": "ConfigException",
-            "summary": "",
+            "summary": "ConfigException\u0020class.",
             "url": "classes/Cecil-Exception-ConfigException.html"
         },                {
             "fqsen": "\\Cecil\\Exception\\ConfigException\u003A\u003A__construct\u0028\u0029",
@@ -2613,12 +2608,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Exception\\ExceptionInterface",
             "name": "ExceptionInterface",
-            "summary": "",
+            "summary": "Exception\u0020interface.",
             "url": "classes/Cecil-Exception-ExceptionInterface.html"
         },                {
             "fqsen": "\\Cecil\\Exception\\RuntimeException",
             "name": "RuntimeException",
-            "summary": "",
+            "summary": "RuntimeException\u0020class.",
             "url": "classes/Cecil-Exception-RuntimeException.html"
         },                {
             "fqsen": "\\Cecil\\Exception\\RuntimeException\u003A\u003A__construct\u0028\u0029",
@@ -2628,7 +2623,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\AbstractGenerator",
             "name": "AbstractGenerator",
-            "summary": "Abstract\u0020class\u0020AbstractGenerator.",
+            "summary": "Generator\u0020abstract\u0020class.",
             "url": "classes/Cecil-Generator-AbstractGenerator.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\AbstractGenerator\u003A\u003A__construct\u0028\u0029",
@@ -2658,7 +2653,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\Alias",
             "name": "Alias",
-            "summary": "Class\u0020Generator\\Alias.",
+            "summary": "Alias\u0020generator.",
             "url": "classes/Cecil-Generator-Alias.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\Alias\u003A\u003Agenerate\u0028\u0029",
@@ -2673,7 +2668,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\DefaultPages",
             "name": "DefaultPages",
-            "summary": "Class\u0020Generator\\DefaultPages.",
+            "summary": "DefaultPages\u0020generator\u0020class.",
             "url": "classes/Cecil-Generator-DefaultPages.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\DefaultPages\u003A\u003Agenerate\u0028\u0029",
@@ -2688,7 +2683,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\ExternalBody",
             "name": "ExternalBody",
-            "summary": "Class\u0020Generator\\ExternalBody.",
+            "summary": "ExternalBody\u0020generator\u0020class.",
             "url": "classes/Cecil-Generator-ExternalBody.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\ExternalBody\u003A\u003Agenerate\u0028\u0029",
@@ -2698,7 +2693,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\GeneratorInterface",
             "name": "GeneratorInterface",
-            "summary": "Interface\u0020GeneratorInterface.",
+            "summary": "Generator\u0020interface.",
             "url": "classes/Cecil-Generator-GeneratorInterface.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\GeneratorInterface\u003A\u003A__construct\u0028\u0029",
@@ -2713,7 +2708,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\GeneratorManager",
             "name": "GeneratorManager",
-            "summary": "",
+            "summary": "GeneratorManager\u0020class.",
             "url": "classes/Cecil-Generator-GeneratorManager.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\GeneratorManager\u003A\u003A__construct\u0028\u0029",
@@ -2743,7 +2738,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\Homepage",
             "name": "Homepage",
-            "summary": "Class\u0020Generator\\Homepage.",
+            "summary": "Homepage\u0020generator\u0020class.",
             "url": "classes/Cecil-Generator-Homepage.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\Homepage\u003A\u003Agenerate\u0028\u0029",
@@ -2753,7 +2748,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\Pagination",
             "name": "Pagination",
-            "summary": "Class\u0020Generator\\Pagination.",
+            "summary": "Pagination\u0020generator.",
             "url": "classes/Cecil-Generator-Pagination.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\Pagination\u003A\u003Agenerate\u0028\u0029",
@@ -2763,7 +2758,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\Redirect",
             "name": "Redirect",
-            "summary": "Class\u0020Generator\\Redirect.",
+            "summary": "Redirect\u0020generator\u0020class.",
             "url": "classes/Cecil-Generator-Redirect.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\Redirect\u003A\u003Agenerate\u0028\u0029",
@@ -2773,7 +2768,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\Section",
             "name": "Section",
-            "summary": "Class\u0020Generator\\Section.",
+            "summary": "Section\u0020generator\u0020class.",
             "url": "classes/Cecil-Generator-Section.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\Section\u003A\u003Agenerate\u0028\u0029",
@@ -2793,7 +2788,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\Taxonomy",
             "name": "Taxonomy",
-            "summary": "Class\u0020Generator\\Taxonomy.",
+            "summary": "Taxonomy\u0020generator\u0020class.",
             "url": "classes/Cecil-Generator-Taxonomy.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\Taxonomy\u003A\u003Agenerate\u0028\u0029",
@@ -2803,7 +2798,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Generator\\VirtualPages",
             "name": "VirtualPages",
-            "summary": "Class\u0020Generator\\VirtualPages.",
+            "summary": "VirtualPages\u0020class.",
             "url": "classes/Cecil-Generator-VirtualPages.html"
         },                {
             "fqsen": "\\Cecil\\Generator\\VirtualPages\u003A\u003Agenerate\u0028\u0029",
@@ -2823,7 +2818,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Logger\\ConsoleLogger",
             "name": "ConsoleLogger",
-            "summary": "",
+            "summary": "Console\u0020logger\u0020class.",
             "url": "classes/Cecil-Logger-ConsoleLogger.html"
         },                {
             "fqsen": "\\Cecil\\Logger\\ConsoleLogger\u003A\u003A__construct\u0028\u0029",
@@ -2883,7 +2878,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Logger\\PrintLogger",
             "name": "PrintLogger",
-            "summary": "",
+            "summary": "PrintLogger\u0020class.",
             "url": "classes/Cecil-Logger-PrintLogger.html"
         },                {
             "fqsen": "\\Cecil\\Logger\\PrintLogger\u003A\u003A__construct\u0028\u0029",
@@ -2918,7 +2913,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Config",
             "name": "Config",
-            "summary": "Class\u0020Config.",
+            "summary": "Config\u0020renderer\u0020class.",
             "url": "classes/Cecil-Renderer-Config.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Config\u003A\u003A__construct\u0028\u0029",
@@ -2963,7 +2958,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core",
             "name": "Core",
-            "summary": "Class\u0020Renderer\\Extension\\Core.",
+            "summary": "Core\u0020Twig\u0020extension.",
             "url": "classes/Cecil-Renderer-Extension-Core.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003A__construct\u0028\u0029",
@@ -3223,7 +3218,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language",
             "name": "Language",
-            "summary": "Class\u0020Language.",
+            "summary": "Language\u0020renderer\u0020class.",
             "url": "classes/Cecil-Renderer-Language.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language\u003A\u003A__construct\u0028\u0029",
@@ -3268,7 +3263,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Layout",
             "name": "Layout",
-            "summary": "Class\u0020Layout.",
+            "summary": "Layout\u0020renderer\u0020class.",
             "url": "classes/Cecil-Renderer-Layout.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Layout\u003A\u003Afinder\u0028\u0029",
@@ -3288,7 +3283,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Page",
             "name": "Page",
-            "summary": "Class\u0020Renderer\\Page.",
+            "summary": "Page\u0020renderer\u0020class.",
             "url": "classes/Cecil-Renderer-Page.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003A__construct\u0028\u0029",
@@ -3313,7 +3308,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\PostProcessor\\AbstractPostProcessor",
             "name": "AbstractPostProcessor",
-            "summary": "Abstract\u0020class\u0020PostProcessor.",
+            "summary": "PostProcessor\u0020Abstract\u0020class.",
             "url": "classes/Cecil-Renderer-PostProcessor-AbstractPostProcessor.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\PostProcessor\\AbstractPostProcessor\u003A\u003A__construct\u0028\u0029",
@@ -3363,7 +3358,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\PostProcessor\\PostProcessorInterface",
             "name": "PostProcessorInterface",
-            "summary": "Interface\u0020PostProcessorInterface.",
+            "summary": "PostProcessor\u0020interface.",
             "url": "classes/Cecil-Renderer-PostProcessor-PostProcessorInterface.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\PostProcessor\\PostProcessorInterface\u003A\u003A__construct\u0028\u0029",
@@ -3378,7 +3373,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\RendererInterface",
             "name": "RendererInterface",
-            "summary": "Interface\u0020RendererInterface.",
+            "summary": "Renderer\u0020interface.",
             "url": "classes/Cecil-Renderer-RendererInterface.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\RendererInterface\u003A\u003A__construct\u0028\u0029",
@@ -3413,7 +3408,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Site",
             "name": "Site",
-            "summary": "Class\u0020Site.",
+            "summary": "Site\u0020renderer\u0020class.",
             "url": "classes/Cecil-Renderer-Site.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Site\u003A\u003A__construct\u0028\u0029",
@@ -3488,7 +3483,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Twig",
             "name": "Twig",
-            "summary": "Class\u0020Twig.",
+            "summary": "Twig\u0020renderer.",
             "url": "classes/Cecil-Renderer-Twig.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003A__construct\u0028\u0029",
@@ -3548,7 +3543,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\TwigCacheRuntimeLoader",
             "name": "TwigCacheRuntimeLoader",
-            "summary": "",
+            "summary": "TwigCacheRuntimeLoader\u0020class.",
             "url": "classes/Cecil-Renderer-TwigCacheRuntimeLoader.html"
         },                {
             "fqsen": "\\Cecil\\Renderer\\TwigCacheRuntimeLoader\u003A\u003A__construct\u0028\u0029",
@@ -3568,7 +3563,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\AbstractStep",
             "name": "AbstractStep",
-            "summary": "",
+            "summary": "Abstract\u0020step\u0020class.",
             "url": "classes/Cecil-Step-AbstractStep.html"
         },                {
             "fqsen": "\\Cecil\\Step\\AbstractStep\u003A\u003A__construct\u0028\u0029",
@@ -3608,7 +3603,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Assets\\Save",
             "name": "Save",
-            "summary": "Assets\u0020saving.",
+            "summary": "Save\u0020assets\u0020step.",
             "url": "classes/Cecil-Step-Assets-Save.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Assets\\Save\u003A\u003AgetName\u0028\u0029",
@@ -3643,7 +3638,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Data\\Load",
             "name": "Load",
-            "summary": "Loads\u0020data\u0020files.",
+            "summary": "Load\u0020step\u0020class.",
             "url": "classes/Cecil-Step-Data-Load.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Data\\Load\u003A\u003AgetName\u0028\u0029",
@@ -3668,7 +3663,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Menus\\Create",
             "name": "Create",
-            "summary": "Creates\u0020menus\u0020collection.",
+            "summary": "Create\u0020menus\u0020step.",
             "url": "classes/Cecil-Step-Menus-Create.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Menus\\Create\u003A\u003AgetName\u0028\u0029",
@@ -3693,7 +3688,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\AbstractOptimize",
             "name": "AbstractOptimize",
-            "summary": "Post\u0020Processing.",
+            "summary": "Abstract\u0020class\u0020for\u0020optimization\u0020steps.",
             "url": "classes/Cecil-Step-Optimize-AbstractOptimize.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\AbstractOptimize\u003A\u003Ainit\u0028\u0029",
@@ -3738,7 +3733,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Css",
             "name": "Css",
-            "summary": "Optimize\u0020CSS\u0020files.",
+            "summary": "CSS\u0020optimization\u0020step.",
             "url": "classes/Cecil-Step-Optimize-Css.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Css\u003A\u003AgetName\u0028\u0029",
@@ -3763,7 +3758,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Html",
             "name": "Html",
-            "summary": "Optimize\u0020HTML\u0020files.",
+            "summary": "Html\u0020optimization\u0020step.",
             "url": "classes/Cecil-Step-Optimize-Html.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Html\u003A\u003AgetName\u0028\u0029",
@@ -3798,7 +3793,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Images",
             "name": "Images",
-            "summary": "Optimize\u0020image\u0020files.",
+            "summary": "Optimize\u0020images\u0020step.",
             "url": "classes/Cecil-Step-Optimize-Images.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Images\u003A\u003AgetName\u0028\u0029",
@@ -3833,7 +3828,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Js",
             "name": "Js",
-            "summary": "Optimize\u0020JS\u0020files.",
+            "summary": "JavaScript\u0020optimization\u0020step.",
             "url": "classes/Cecil-Step-Optimize-Js.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Js\u003A\u003AgetName\u0028\u0029",
@@ -3858,7 +3853,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Convert",
             "name": "Convert",
-            "summary": "Converts\u0020content\u0020of\u0020all\u0020pages.",
+            "summary": "Convert\u0020step.",
             "url": "classes/Cecil-Step-Pages-Convert.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Convert\u003A\u003AgetName\u0028\u0029",
@@ -3883,7 +3878,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Create",
             "name": "Create",
-            "summary": "Creates\u0020Pages\u0020collection\u0020from\u0020content\u0020iterator.",
+            "summary": "Create\u0020pages\u0020step.",
             "url": "classes/Cecil-Step-Pages-Create.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Create\u003A\u003AgetName\u0028\u0029",
@@ -3903,7 +3898,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Generate",
             "name": "Generate",
-            "summary": "Generates\u0020virtual\u0020pages.",
+            "summary": "Generate\u0020pages\u0020step.",
             "url": "classes/Cecil-Step-Pages-Generate.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Generate\u003A\u003AgetName\u0028\u0029",
@@ -3923,7 +3918,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Load",
             "name": "Load",
-            "summary": "Loads\u0020pages.",
+            "summary": "Load\u0020pages\u0020step.",
             "url": "classes/Cecil-Step-Pages-Load.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Load\u003A\u003AgetName\u0028\u0029",
@@ -3948,7 +3943,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Render",
             "name": "Render",
-            "summary": "Pages\u0020rendering.",
+            "summary": "Render\u0020step.",
             "url": "classes/Cecil-Step-Pages-Render.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Render\u003A\u003AgetName\u0028\u0029",
@@ -4003,7 +3998,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Save",
             "name": "Save",
-            "summary": "Pages\u0020saving.",
+            "summary": "Save\u0020step.",
             "url": "classes/Cecil-Step-Pages-Save.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Save\u003A\u003AgetName\u0028\u0029",
@@ -4028,7 +4023,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\StaticFiles\\Copy",
             "name": "Copy",
-            "summary": "Copying\u0020static\u0020files\u0020to\u0020site\u0020root.",
+            "summary": "Copy\u0020static\u0020files\u0020step.",
             "url": "classes/Cecil-Step-StaticFiles-Copy.html"
         },                {
             "fqsen": "\\Cecil\\Step\\StaticFiles\\Copy\u003A\u003AgetName\u0028\u0029",
@@ -4058,7 +4053,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\StaticFiles\\Load",
             "name": "Load",
-            "summary": "Loads\u0020static\u0020files.",
+            "summary": "Load\u0020static\u0020files\u0020step.",
             "url": "classes/Cecil-Step-StaticFiles-Load.html"
         },                {
             "fqsen": "\\Cecil\\Step\\StaticFiles\\Load\u003A\u003AgetName\u0028\u0029",
@@ -4078,7 +4073,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\StepInterface",
             "name": "StepInterface",
-            "summary": "",
+            "summary": "Step\u0020interface.",
             "url": "classes/Cecil-Step-StepInterface.html"
         },                {
             "fqsen": "\\Cecil\\Step\\StepInterface\u003A\u003A__construct\u0028\u0029",
@@ -4108,7 +4103,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Taxonomies\\Create",
             "name": "Create",
-            "summary": "Creates\u0020taxonomies\u0020collection.",
+            "summary": "Create\u0020taxonomies\u0020step.",
             "url": "classes/Cecil-Step-Taxonomies-Create.html"
         },                {
             "fqsen": "\\Cecil\\Step\\Taxonomies\\Create\u003A\u003AgetName\u0028\u0029",
@@ -4148,7 +4143,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Url",
             "name": "Url",
-            "summary": "",
+            "summary": "URL\u0020class.",
             "url": "classes/Cecil-Url.html"
         },                {
             "fqsen": "\\Cecil\\Url\u003A\u003A__construct\u0028\u0029",
@@ -4188,7 +4183,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Util\\Date",
             "name": "Date",
-            "summary": "",
+            "summary": "Date\u0020utility\u0020class.",
             "url": "classes/Cecil-Util-Date.html"
         },                {
             "fqsen": "\\Cecil\\Util\\Date\u003A\u003AisValid\u0028\u0029",
@@ -4208,7 +4203,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Util\\File",
             "name": "File",
-            "summary": "",
+            "summary": "File\u0020utility\u0020class.",
             "url": "classes/Cecil-Util-File.html"
         },                {
             "fqsen": "\\Cecil\\Util\\File\u003A\u003AgetFS\u0028\u0029",
@@ -4258,7 +4253,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Util\\Platform",
             "name": "Platform",
-            "summary": "",
+            "summary": "Platform\u0020utility\u0020class.",
             "url": "classes/Cecil-Util-Platform.html"
         },                {
             "fqsen": "\\Cecil\\Util\\Platform\u003A\u003AisPhar\u0028\u0029",
@@ -4313,7 +4308,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Util\\Str",
             "name": "Str",
-            "summary": "",
+            "summary": "String\u0020utility\u0020class.",
             "url": "classes/Cecil-Util-Str.html"
         },                {
             "fqsen": "\\Cecil\\Util\\Str\u003A\u003AcombineArrayToString\u0028\u0029",
@@ -4343,7 +4338,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Util",
             "name": "Util",
-            "summary": "",
+            "summary": "Utility\u0020class.",
             "url": "classes/Cecil-Util.html"
         },                {
             "fqsen": "\\Cecil\\Util\u003A\u003AformatClassName\u0028\u0029",

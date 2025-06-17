@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Generator;
 
@@ -18,7 +18,17 @@ use Cecil\Collection\Page\Type;
 use Cecil\Exception\RuntimeException;
 
 /**
- * Class Generator\VirtualPages.
+ * VirtualPages class.
+ *
+ * This class is responsible for generating virtual pages based on the configuration provided.
+ * It extends the AbstractGenerator and implements the GeneratorInterface.
+ * It collects pages from the configuration under the 'pages.virtual' key and creates Page objects
+ * for each virtual page defined in the configuration.
+ * Each page can have its own frontmatter, and the generator ensures that the pages are created
+ * with the correct path and language settings.
+ * If a page is marked as unpublished or does not have a path defined, it will be skipped.
+ * If a page already exists with the same ID, it will also be skipped.
+ * The generated pages are added to the collection of generated pages for further processing.
  */
 class VirtualPages extends AbstractGenerator implements GeneratorInterface
 {

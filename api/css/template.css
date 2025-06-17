@@ -157,7 +157,7 @@
     width: 1.25rem;
     height: 1.25rem;
     line-height: 1.25rem;
-    background: transparent url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="hsl(    96, 57%, 60%)"/></svg>') no-repeat center center;
+    background: transparent url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="hsl(    207, 57%, 60%)"/></svg>') no-repeat center center;
     content: '';
     position: absolute;
     left: 0;
@@ -172,13 +172,13 @@
 .phpdocumentor-table-of-contents .phpdocumentor-table-of-contents__entry.-method:before {
     content: 'M';
     color: '';
-    background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="hsl(    96, 57%, 60%)"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="hsl(    207, 57%, 60%)"/></svg>');
 }
 
 .phpdocumentor-table-of-contents .phpdocumentor-table-of-contents__entry.-function:before {
     content: 'M';
-    color: '    96';
-    background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="hsl(    96, 57%, 60%)"/></svg>');
+    color: '    207';
+    background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="hsl(    207, 57%, 60%)"/></svg>');
 }
 
 .phpdocumentor-table-of-contents .phpdocumentor-table-of-contents__entry.-property:before {
@@ -188,7 +188,7 @@
 .phpdocumentor-table-of-contents .phpdocumentor-table-of-contents__entry.-constant:before {
     content: 'C';
     background-color: transparent;
-    background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="-3.05176e-05" y="9.99998" width="14.1422" height="14.1422" transform="rotate(-45 -3.05176e-05 9.99998)" fill="hsl(    96, 57%, 60%)"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="-3.05176e-05" y="9.99998" width="14.1422" height="14.1422" transform="rotate(-45 -3.05176e-05 9.99998)" fill="hsl(    207, 57%, 60%)"/></svg>');
 }
 
 .phpdocumentor-table-of-contents .phpdocumentor-table-of-contents__entry.-class:before {

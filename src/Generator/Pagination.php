@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Generator;
 
@@ -18,7 +18,11 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 
 /**
- * Class Generator\Pagination.
+ * Pagination generator.
+ *
+ * This generator creates paginated pages for sections, terms, and the homepage.
+ * It filters the pages based on their type, checks for pagination settings,
+ * and generates paginated pages accordingly.
  */
 class Pagination extends AbstractGenerator implements GeneratorInterface
 {

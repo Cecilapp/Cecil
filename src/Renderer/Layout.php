@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
@@ -19,7 +19,12 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
 /**
- * Class Layout.
+ * Layout renderer class.
+ *
+ * This class is responsible for finding and returning the appropriate layout file
+ * for a given page based on its type, section, and other variables.
+ * It looks for layout files in various directories such as the site's layouts directory,
+ * the theme's layouts directory, and the internal resources/layouts directory.
  */
 class Layout
 {

@@ -1,22 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
 use Cecil\Exception\RuntimeException;
 
 /**
- * Class Language.
+ * Language renderer class.
+ *
+ * This class is responsible for managing language properties such as name, locale, and weight.
+ * It retrieves these properties from the configuration object and provides methods to access them.
+ * It also ensures that the properties exist and are not empty, throwing an exception if they are.
  */
 class Language
 {

@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
@@ -22,7 +22,12 @@ use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Converts content of all pages.
+ * Convert step.
+ *
+ * This step is responsible for converting pages from their source format
+ * (i.e. Markdown) to HTML, applying front matter processing,
+ * and ensuring that the pages are ready for rendering. It handles both
+ * published and draft pages, depending on the build options.
  */
 class Convert extends AbstractStep
 {

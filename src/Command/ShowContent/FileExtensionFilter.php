@@ -1,22 +1,27 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command\ShowContent;
 
 use RecursiveFilterIterator;
 
 /**
- * Filters files by extension type.
+ * FileExtensionFilter class.
+ *
+ * This class extends RecursiveFilterIterator to filter files based on their extensions.
+ * It allows only files with specified extensions (default: 'md' and 'yml') to be accepted,
+ * while excluding certain directories (like '.git', '.cecil', '.cache', '_site', 'vendor', 'node_modules').
+ * It can be used to traverse a directory structure and filter out unwanted files and directories.
  */
 class FileExtensionFilter extends RecursiveFilterIterator
 {

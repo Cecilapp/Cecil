@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Renderer\PostProcessor;
 
@@ -18,7 +18,9 @@ use Cecil\Collection\Page\Page;
 /**
  * HtmlExcerpt class.
  *
- * Replaces excerpt or break tag by HTML anchor.
+ * This class processes HTML output to insert an excerpt marker
+ * at the first occurrence of an HTML comment indicating an excerpt or break.
+ * The marker is inserted as a `<span id="more"></span>` element.
  */
 class HtmlExcerpt extends AbstractPostProcessor
 {

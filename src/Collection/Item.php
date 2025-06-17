@@ -1,20 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Collection;
 
 /**
- * Class Item.
+ * Item class.
+ *
+ * Represents an item in a collection, implementing the ArrayAccess interface
+ * to allow array-like access to its properties.
  */
 class Item implements ItemInterface
 {

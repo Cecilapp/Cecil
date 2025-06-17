@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Collection\Page;
 
@@ -20,7 +20,10 @@ use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class Page.
+ * Page class.
+ *
+ * Represents a page in the collection, which can be created from a file or be virtual.
+ * Provides methods to manage page properties, variables, and rendering.
  */
 class Page extends Item
 {

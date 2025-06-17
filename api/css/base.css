@@ -41,7 +41,7 @@
     --color-hue-brown:     16;
 
     /* Colors */
-    --primary-color-hue: var(--color-hue-phpdocumentor-green, --color-hue-phpdocumentor-green);
+    --primary-color-hue: var(--color-hue-blue, --color-hue-phpdocumentor-green);
     --primary-color-saturation: 57%;
     --primary-color: hsl(var(--primary-color-hue), var(--primary-color-saturation), 60%);
     --primary-color-darken: hsl(var(--primary-color-hue), var(--primary-color-saturation), 40%);

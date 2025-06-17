@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
@@ -20,7 +20,13 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Loads pages.
+ * Load pages step.
+ *
+ * This step is responsible for loading pages from the configured pages directory.
+ * It initializes the pages finder, applies sorting, and filters based on the
+ * specified page or the default configuration. It also handles exclusions and
+ * respects the `.gitignore` file if present. The loaded pages are then set in
+ * the builder for further processing.
  */
 class Load extends AbstractStep
 {

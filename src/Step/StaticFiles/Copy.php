@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\StaticFiles;
 
@@ -19,7 +19,14 @@ use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Copying static files to site root.
+ * Copy static files step.
+ *
+ * This step is responsible for copying static files from the source directories
+ * (like `static/` and `assets/`) to the output directory. It handles both files
+ * and directories, allowing for exclusions based on the configuration. It also
+ * supports copying files from theme-specific directories if themes are configured.
+ * The step can be run in a dry-run mode where no actual file operations are performed,
+ * but the intended actions are still logged.
  */
 class Copy extends AbstractStep
 {

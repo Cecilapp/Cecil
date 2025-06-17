@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -22,7 +22,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Extracts built-in templates.
+ * UtilTemplatesExtract command.
+ *
+ * This command extracts built-in templates from the Phar archive to the specified layouts directory.
+ * It can override existing files if the --force option is provided.
+ * If no path is provided, it uses the default layouts directory defined in the configuration.
  */
 class UtilTemplatesExtract extends AbstractCommand
 {

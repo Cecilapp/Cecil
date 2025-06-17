@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -27,6 +27,11 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Validation;
 
+/**
+ * Abstract command class.
+ *
+ * This class provides common functionality for all commands, such as configuration loading, path handling, and error management.
+ */
 class AbstractCommand extends Command
 {
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];

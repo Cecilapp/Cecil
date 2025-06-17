@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Converter;
 
@@ -22,6 +22,12 @@ use Cecil\Util;
 use Highlight\Highlighter;
 
 /**
+ * Parsedown class.
+ *
+ * This class extends ParsedownExtra (and ParsedownToc) and provides methods to parse Markdown content
+ * with additional features such as inline insertions, image handling, note blocks,
+ * and code highlighting.
+ *
  * @property array $InlineTypes
  * @property string $inlineMarkerList
  * @property array $specialCharacters

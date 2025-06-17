@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Assets;
 
@@ -19,7 +19,12 @@ use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Assets saving.
+ * Save assets step.
+ *
+ * This step is responsible for saving assets to the output directory.
+ * It copies files from the cache to the output directory, ensuring that
+ * assets are available for the final build. If the cache is disabled, it
+ * clears the cache directory before processing assets.
  */
 class Save extends AbstractStep
 {

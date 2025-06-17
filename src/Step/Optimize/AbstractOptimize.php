@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Optimize;
 
@@ -20,7 +20,11 @@ use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Post Processing.
+ * Abstract class for optimization steps.
+ *
+ * This class provides a base implementation for steps that optimize files
+ * of a specific type (e.g., CSS, JS). It handles the initialization of the
+ * optimization process, file processing, and caching of optimized files.
  */
 abstract class AbstractOptimize extends AbstractStep
 {

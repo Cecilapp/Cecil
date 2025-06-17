@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil;
 
@@ -19,7 +19,11 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class Config.
+ * Configuration class.
+ *
+ * This class is used to manage the configuration of the application.
+ * It allows to import, export, validate and access configuration data.
+ * It also provides methods to handle paths, languages, themes, and cache.
  */
 class Config
 {

@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Renderer\PostProcessor;
 
@@ -18,6 +18,10 @@ use Cecil\Collection\Page\PrefixSuffix;
 
 /**
  * MarkdownLink class.
+ *
+ * This class processes Markdown links in the output HTML,
+ * replacing internal links to `.md` files with the correct URLs.
+ * It handles links that may include a section anchor and adjusts the href attribute accordingly.
  */
 class MarkdownLink extends AbstractPostProcessor
 {

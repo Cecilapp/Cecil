@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
@@ -26,7 +26,12 @@ use Twig\Extra\Intl\IntlExtension;
 use Twig\Extra\Cache\CacheExtension;
 
 /**
- * Class Twig.
+ * Twig renderer.
+ *
+ * This class is responsible for rendering templates using the Twig templating engine.
+ * It initializes Twig with the necessary configurations, loads extensions, and provides methods
+ * to render templates, add global variables, and manage translations.
+ * It also supports debugging and profiling when in debug mode.
  */
 class Twig implements RendererInterface
 {

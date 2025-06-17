@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -21,7 +21,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Builds the website.
+ * Build command.
+ *
+ * This command generates the website in the output directory.
+ * It can include drafts, optimize generated files, and perform a dry run.
+ * It also allows building a specific page or a subset of pages, clearing the cache, and showing build metrics.
  */
 class Build extends AbstractCommand
 {

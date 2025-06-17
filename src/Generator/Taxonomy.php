@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Generator;
 
@@ -18,7 +18,13 @@ use Cecil\Collection\Page\Type;
 use Cecil\Collection\Taxonomy\Vocabulary;
 
 /**
- * Class Generator\Taxonomy.
+ * Taxonomy generator class.
+ *
+ * This class generates pages for taxonomies (vocabularies and terms) based on the configuration
+ * and the taxonomies defined in the builder. It creates pages for each term in a vocabulary,
+ * as well as a page for the vocabulary itself. The generated pages are added to the collection
+ * of generated pages, and they include variables such as title, date, language, plural, and singular
+ * forms of the vocabulary.
  */
 class Taxonomy extends AbstractGenerator implements GeneratorInterface
 {

@@ -147,13 +147,23 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/VirtualPages.php"><a href="files/src-generator-virtualpages.html"><abbr title="src/Generator/VirtualPages.php">VirtualPages.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Class Generator\VirtualPages.</p>
+            <p class="phpdocumentor-summary">VirtualPages class.</p>
 
 
+    <section class="phpdocumentor-description"><p>This class is responsible for generating virtual pages based on the configuration provided.
+It extends the AbstractGenerator and implements the GeneratorInterface.
+It collects pages from the configuration under the 'pages.virtual' key and creates Page objects
+for each virtual page defined in the configuration.
+Each page can have its own frontmatter, and the generator ensures that the pages are created
+with the correct path and language settings.
+If a page is marked as unpublished or does not have a path defined, it will be skipped.
+If a page already exists with the same ID, it will also be skipped.
+The generated pages are added to the collection of generated pages for further processing.</p>
+</section>
 
 
 
@@ -175,7 +185,7 @@
 
     </h4>
     <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Cecil-Generator-GeneratorInterface.html"><abbr title="\Cecil\Generator\GeneratorInterface">GeneratorInterface</abbr></a></dt><dd>Interface GeneratorInterface.</dd>    </dl>
+                    <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Cecil-Generator-GeneratorInterface.html"><abbr title="\Cecil\Generator\GeneratorInterface">GeneratorInterface</abbr></a></dt><dd>Generator interface.</dd>    </dl>
 
 
 
@@ -354,7 +364,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/VirtualPages.php"><a href="files/src-generator-virtualpages.html"><abbr title="src/Generator/VirtualPages.php">VirtualPages.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -480,7 +490,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/VirtualPages.php"><a href="files/src-generator-virtualpages.html"><abbr title="src/Generator/VirtualPages.php">VirtualPages.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
@@ -554,7 +564,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/VirtualPages.php"><a href="files/src-generator-virtualpages.html"><abbr title="src/Generator/VirtualPages.php">VirtualPages.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">73</span>
+    <span class="phpdocumentor-element-found-in__line">83</span>
 
     </aside>
 

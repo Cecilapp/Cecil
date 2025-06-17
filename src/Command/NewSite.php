@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -22,7 +22,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Creates a new website.
+ * NewSite command.
+ *
+ * This command creates a new website in the specified directory or the current directory if no path is provided.
+ * It prompts the user for various details about the website, such as title, baseline, base URL, description, and author information.
+ * It can also add demo content if the `--demo` option is provided.
+ * If the `--force` option is used, it will override an existing website in the specified directory.
  */
 class NewSite extends AbstractCommand
 {

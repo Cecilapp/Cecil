@@ -1,22 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
 
 /**
- * Class Generator\Alias.
+ * Alias generator.
+ *
+ * This generator creates alias pages for existing pages based on the 'alias' or 'aliases' variable.
+ * Each alias will redirect to the original page.
  */
 class Alias extends AbstractGenerator implements GeneratorInterface
 {

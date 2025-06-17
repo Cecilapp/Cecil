@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Generator;
 
@@ -17,6 +17,14 @@ use Cecil\Builder;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
 
+/**
+ * GeneratorManager class.
+ *
+ * This class manages the generators used in the Cecil build process.
+ * It extends \SplPriorityQueue to allow generators to be processed in order of priority.
+ * Generators can be added with a specific priority, and the process method will run each generator
+ * in order, collecting the pages they generate.
+ */
 class GeneratorManager extends \SplPriorityQueue
 {
     /** @var Builder */

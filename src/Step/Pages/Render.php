@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
@@ -26,7 +26,13 @@ use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Pages rendering.
+ * Render step.
+ *
+ * This step is responsible for rendering pages using Twig templates.
+ * It processes each page, applies the appropriate templates, and generates
+ * the final output formats. It also handles subsets of pages if specified,
+ * and adds global variables to the renderer. The rendered pages are then
+ * stored in the builder's pages collection for further processing or output.
  */
 class Render extends AbstractStep
 {
