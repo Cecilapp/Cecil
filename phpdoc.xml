@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpdocumentor
-        configVersion="3"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="https://www.phpdoc.org"
-        xsi:noNamespaceSchemaLocation="data/xsd/phpdoc.xsd"
+  configVersion="3"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://www.phpdoc.org"
+  xsi:noNamespaceSchemaLocation="data/xsd/phpdoc.xsd"
 >
-    <title>Cecil</title>
-    <paths>
-        <output>./api</output>
-    </paths>
-    <version number="8.0.0">
-        <api ignore-packages="true">
-            <source dsn=".">
-                <path>src</path>
-            </source>
-            <output>api</output>
-            <extensions>
-                <extension>php</extension>
-            </extensions>
-            <default-package-name>Cecil</default-package-name>
-        </api>
-    </version>
+  <title>Cecil</title>
+  <paths>
+    <output>api</output>
+  </paths>
+  <version number="latest">
+    <folder>latest</folder>
+    <api ignore-packages="true">
+      <source dsn=".">
+        <path>src</path>
+      </source>
+      <output>api</output>
+      <ignore>
+        <path>src/bootstrap.php</path>
+      </ignore>
+      <extensions>
+        <extension>php</extension>
+      </extensions>
+    </api>
+  </version>
+  <setting name="template.color" value="blue"/>
 </phpdocumentor>
