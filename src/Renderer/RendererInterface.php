@@ -16,7 +16,7 @@ namespace Cecil\Renderer;
 use Cecil\Builder;
 
 /**
- * Interface RendererInterface.
+ * Renderer interface.
  */
 interface RendererInterface
 {

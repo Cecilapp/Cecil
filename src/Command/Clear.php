@@ -19,7 +19,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Removes output directory, temporary directory and cache files.
+ * Clear command.
+ *
+ * This command removes all generated files, including the output directory, temporary directory, and cache files.
+ * It is useful for cleaning up the build environment before starting a new build or to free up space.
  */
 class Clear extends AbstractCommand
 {

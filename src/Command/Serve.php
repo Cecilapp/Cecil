@@ -29,7 +29,11 @@ use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
 
 /**
- * Starts the built-in server.
+ * Serve command.
+ *
+ * This command starts the built-in web server with live reloading capabilities.
+ * It allows users to serve their website locally and automatically rebuild it when changes are detected.
+ * It also supports opening the web browser automatically and includes options for drafts, optimization, and more.
  */
 class Serve extends AbstractCommand
 {

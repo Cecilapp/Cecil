@@ -16,7 +16,11 @@ namespace Cecil\Renderer;
 use Cecil\Exception\RuntimeException;
 
 /**
- * Class Language.
+ * Language class.
+ *
+ * This class is responsible for managing language properties such as name, locale, and weight.
+ * It retrieves these properties from the configuration object and provides methods to access them.
+ * It also ensures that the properties exist and are not empty, throwing an exception if they are.
  */
 class Language
 {

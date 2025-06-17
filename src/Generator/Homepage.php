@@ -15,10 +15,16 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Exception\RuntimeException;
 
 /**
- * Class Generator\Homepage.
+ * Homepage generator class.
+ *
+ * This class generates the homepage for each language defined in the configuration.
+ * It creates a new index page for each language, collects all pages of that language,
+ * sorts them, and sets the necessary variables for the homepage.
+ * It also handles the case where the homepage already exists by cloning it.
+ * Additionally, it sets the default "main" menu and adds an alias redirection
+ * from the root directory if the language prefix is enabled for the default language.
  */
 class Homepage extends AbstractGenerator implements GeneratorInterface
 {

@@ -21,7 +21,11 @@ use Yosymfony\Toml\Exception\ParseException as TomlParseException;
 use Yosymfony\Toml\Toml;
 
 /**
- * Class Converter.
+ * Converter class.
+ *
+ * This class implements the ConverterInterface and provides methods to convert
+ * front matter from various formats (YAML, INI, TOML, JSON) to an associative array,
+ * and to convert the body of content from Markdown to HTML.
  */
 class Converter implements ConverterInterface
 {

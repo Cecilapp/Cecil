@@ -19,7 +19,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Updates Cecil to the latest version.
+ * SelfUpdate command.
+ *
+ * This command checks for a newer version of Cecil and, if found, downloads and installs the latest version.
+ * It can also revert to a previous version or force an update to the last stable or unstable version.
  */
 class SelfUpdate extends AbstractCommand
 {

@@ -13,6 +13,12 @@ declare(strict_types=1);
 
 namespace Cecil\Util;
 
+/**
+ * Date utility class.
+ *
+ * This class provides utility methods for handling dates,
+ * including validation, conversion to DateTime, and formatting durations.
+ */
 class Date
 {
     /**

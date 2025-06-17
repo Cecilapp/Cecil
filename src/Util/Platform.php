@@ -13,6 +13,12 @@ declare(strict_types=1);
 
 namespace Cecil\Util;
 
+/**
+ * Platform utility class.
+ *
+ * This class provides methods to detect the platform (OS) on which the application is running,
+ * check if it is running from a Phar archive, and open URLs in the system's default browser.
+ */
 class Platform
 {
     public const OS_UNKNOWN = 1;

@@ -18,7 +18,7 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
 
 /**
- * Abstract class AbstractGenerator.
+ * Generator abstract class.
  */
 abstract class AbstractGenerator implements GeneratorInterface
 {

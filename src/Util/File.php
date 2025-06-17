@@ -17,6 +17,13 @@ use Cecil\Exception\RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mime\MimeTypes;
 
+/**
+ * File utility class.
+ *
+ * This class provides various utility methods for file handling,
+ * including reading file contents, getting media types and extensions,
+ * reading EXIF data, and checking if files are remote.
+ */
 class File
 {
     /** @var Filesystem */

@@ -16,7 +16,12 @@ namespace Cecil\Step\Optimize;
 use MatthiasMullie\Minify;
 
 /**
- * Optimize JS files.
+ * JavaScript optimization step.
+ *
+ * This class extends the AbstractOptimize class and provides functionality
+ * to optimize JavaScript files. It uses the MatthiasMullie\Minify library to
+ * minify JavaScript files, reducing their size and improving load times.
+ * It initializes with the type 'js' and processes files by minifying them.
  */
 class Js extends AbstractOptimize
 {

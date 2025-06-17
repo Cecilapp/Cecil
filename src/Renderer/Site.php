@@ -17,7 +17,13 @@ use Cecil\Builder;
 use Cecil\Collection\Page\Page as CollectionPage;
 
 /**
- * Class Site.
+ * Site class.
+ *
+ * This class implements the \ArrayAccess interface to allow access to site
+ * properties using array syntax. It provides access to various site-related
+ * properties such as pages, menus, taxonomies, and language settings.
+ * It also provides methods to retrieve specific pages and collections of pages
+ * based on the current language or all pages regardless of their translation.
  */
 class Site implements \ArrayAccess
 {

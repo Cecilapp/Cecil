@@ -21,7 +21,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Open pages with an editor.
+ * Edit command.
+ *
+ * This command opens the pages directory with the configured editor.
+ * It allows users to quickly access and edit their content files directly from the command line.
  */
 class Edit extends AbstractCommand
 {

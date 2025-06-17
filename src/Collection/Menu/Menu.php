@@ -18,7 +18,7 @@ use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\ItemInterface;
 
 /**
- * Menu class.
+ * Menu item class.
  *
  * Represents a menu in a collection, allowing for the addition and replacement of menu entries.
  */

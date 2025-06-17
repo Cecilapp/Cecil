@@ -16,7 +16,7 @@ namespace Cecil\Collection\Menu;
 use Cecil\Collection\Item;
 
 /**
- * Entry class.
+ * Menu entry class.
  *
  * Represents a menu entry in a collection, providing methods to set and get the entry's name, URL, and weight.
  */

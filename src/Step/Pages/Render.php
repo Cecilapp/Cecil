@@ -26,7 +26,13 @@ use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Pages rendering.
+ * Render step.
+ *
+ * This step is responsible for rendering pages using Twig templates.
+ * It processes each page, applies the appropriate templates, and generates
+ * the final output formats. It also handles subsets of pages if specified,
+ * and adds global variables to the renderer. The rendered pages are then
+ * stored in the builder's pages collection for further processing or output.
  */
 class Render extends AbstractStep
 {

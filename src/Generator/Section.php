@@ -19,7 +19,13 @@ use Cecil\Collection\Page\Type;
 use Cecil\Exception\RuntimeException;
 
 /**
- * Class Generator\Section.
+ * Section generator class.
+ *
+ * This class is responsible for generating sections from the pages in the builder.
+ * It identifies sections based on the 'section' variable in each page, and
+ * creates a new page for each section. The generated pages are added to the
+ * collection of generated pages. It also handles sorting of subpages and
+ * adding navigation links (next and previous) to the section pages.
  */
 class Section extends AbstractGenerator implements GeneratorInterface
 {

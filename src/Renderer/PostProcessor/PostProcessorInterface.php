@@ -16,7 +16,7 @@ namespace Cecil\Renderer\PostProcessor;
 use Cecil\Collection\Page\Page;
 
 /**
- * Interface PostProcessorInterface.
+ * PostProcessor interface.
  */
 interface PostProcessorInterface
 {

@@ -13,6 +13,12 @@ declare(strict_types=1);
 
 namespace Cecil\Exception;
 
+/**
+ * ConfigException class.
+ *
+ * This class extends the built-in RuntimeException and implements the ExceptionInterface.
+ * It is used to handle configuration-related exceptions in the Cecil application.
+ */
 class ConfigException extends \RuntimeException implements ExceptionInterface
 {
     public function __construct(string $message, int $code = 0, ?\Throwable $previous = null)

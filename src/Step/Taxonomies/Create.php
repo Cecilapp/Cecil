@@ -21,7 +21,12 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 
 /**
- * Creates taxonomies collection.
+ * Create taxonomies step.
+ *
+ * This step is responsible for creating taxonomies based on the configuration.
+ * It initializes a collection of vocabularies for each language defined in the
+ * configuration and collects terms from the pages' front matter.
+ * The created vocabularies and terms are then set in the builder for further processing.
  */
 class Create extends AbstractStep
 {

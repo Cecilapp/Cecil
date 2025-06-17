@@ -18,7 +18,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * About Cecil.
+ * About command.
+ *
+ * This command displays a short description about Cecil, including its version and a link to the official website.
  */
 class About extends AbstractCommand
 {

@@ -25,7 +25,13 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * Loads data files.
+ * Load step class.
+ *
+ * This class is responsible for loading data files from a specified directory,
+ * decoding their contents based on the file extension, and merging the data
+ * into the builder's data collection. It supports various file formats such as
+ * YAML, JSON, CSV, and XML. The loaded data is organized into a nested array
+ * structure based on the file paths and language suffixes.
  */
 class Load extends AbstractStep
 {

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Converter;
 
 /**
- * Interface ConverterInterface.
+ * Converter interface.
  */
 interface ConverterInterface
 {

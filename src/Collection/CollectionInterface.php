@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Collection;
 
 /**
- * Interface CollectionInterface.
+ * Collection interface.
  */
 interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggregate, \ArrayAccess
 {

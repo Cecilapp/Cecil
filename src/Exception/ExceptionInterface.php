@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Cecil\Exception;
 
+/**
+ * Exception interface.
+ */
 interface ExceptionInterface extends \Throwable
 {
 }

@@ -13,6 +13,11 @@ declare(strict_types=1);
 
 namespace Cecil\Util;
 
+/**
+ * String utility class.
+ *
+ * This class provides utility methods for string manipulation.
+ */
 class Str
 {
     /**

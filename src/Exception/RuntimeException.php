@@ -13,6 +13,12 @@ declare(strict_types=1);
 
 namespace Cecil\Exception;
 
+/**
+ * RuntimeException class.
+ *
+ * This class extends the built-in RuntimeException and implements the ExceptionInterface.
+ * It is used to handle runtime exceptions in the Cecil application.
+ */
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
     public function __construct(string $message, int $code = 0, ?\Throwable $previous = null, string $file = '', int $line = 0)

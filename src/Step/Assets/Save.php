@@ -19,7 +19,12 @@ use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Assets saving.
+ * Save assets step.
+ *
+ * This step is responsible for saving assets to the output directory.
+ * It copies files from the cache to the output directory, ensuring that
+ * assets are available for the final build. If the cache is disabled, it
+ * clears the cache directory before processing assets.
  */
 class Save extends AbstractStep
 {

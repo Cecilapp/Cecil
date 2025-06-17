@@ -18,6 +18,10 @@ use Cecil\Collection\Page\PrefixSuffix;
 
 /**
  * MarkdownLink class.
+ *
+ * This class processes Markdown links in the output HTML,
+ * replacing internal links to `.md` files with the correct URLs.
+ * It handles links that may include a section anchor and adjusts the href attribute accordingly.
  */
 class MarkdownLink extends AbstractPostProcessor
 {

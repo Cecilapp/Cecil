@@ -38,7 +38,10 @@ use Symfony\Component\Yaml\Yaml;
 use Twig\DeprecatedCallableInfo;
 
 /**
- * Class Renderer\Extension\Core.
+ * Core Twig extension.
+ *
+ * This extension provides various utility functions and filters for use in Twig templates,
+ * including URL generation, asset management, content processing, and more.
  */
 class Core extends SlugifyExtension
 {

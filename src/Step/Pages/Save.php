@@ -20,7 +20,14 @@ use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Pages saving.
+ * Save step.
+ *
+ * This step is responsible for saving the rendered pages to the output directory.
+ * It iterates through the pages, checks if they have been rendered, and saves
+ * the output in the specified format. The saved files are logged, and the
+ * output directory is created if it does not exist. If the `dry-run` option is
+ * enabled, the step will not perform any file operations but will still log
+ * the intended actions.
  */
 class Save extends AbstractStep
 {

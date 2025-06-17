@@ -20,7 +20,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Removes templates cache files.
+ * CacheClearTemplates command.
+ *
+ * This command removes cached templates files from the templates cache directory.
+ * It can clear the entire templates cache or just the fragments cache, depending on the options provided.
  */
 class CacheClearTemplates extends AbstractCommand
 {

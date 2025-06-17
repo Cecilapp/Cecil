@@ -23,7 +23,14 @@ use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Step\AbstractStep;
 
 /**
- * Creates menus collection.
+ * Create menus step.
+ *
+ * This step is responsible for creating menus based on the configuration
+ * and the pages defined in the site. It initializes a collection of menus
+ * for each language, adds a default "main" menu, and processes the configuration
+ * to add, remove, or replace menu entries. It also creates menus from pages
+ * that have a `menu` variable defined, allowing for dynamic menu generation
+ * based on the content of the site.
  */
 class Create extends AbstractStep
 {

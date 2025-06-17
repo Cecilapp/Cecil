@@ -19,7 +19,12 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
 /**
- * Class Layout.
+ * Layout renderer class.
+ *
+ * This class is responsible for finding and returning the appropriate layout file
+ * for a given page based on its type, section, and other variables.
+ * It looks for layout files in various directories such as the site's layouts directory,
+ * the theme's layouts directory, and the internal resources/layouts directory.
  */
 class Layout
 {

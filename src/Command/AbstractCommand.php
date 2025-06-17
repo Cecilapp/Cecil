@@ -27,6 +27,11 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Validation;
 
+/**
+ * Abstract command class.
+ *
+ * This class provides common functionality for all commands, such as configuration loading, path handling, and error management.
+ */
 class AbstractCommand extends Command
 {
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];

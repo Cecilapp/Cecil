@@ -13,6 +13,13 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
+/**
+ * ListCommand class.
+ *
+ * This command is a hidden version of the Symfony Console ListCommand.
+ * It is used to provide a list of commands without displaying it in the help output.
+ * This can be useful for internal purposes or when you want to keep the command list hidden from the user.
+ */
 class ListCommand extends \Symfony\Component\Console\Command\ListCommand
 {
     /**

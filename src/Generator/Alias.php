@@ -16,7 +16,10 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Page;
 
 /**
- * Class Generator\Alias.
+ * Alias generator.
+ *
+ * This generator creates alias pages for existing pages based on the 'alias' or 'aliases' variable.
+ * Each alias will redirect to the original page.
  */
 class Alias extends AbstractGenerator implements GeneratorInterface
 {

@@ -20,7 +20,11 @@ use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Post Processing.
+ * Abstract class for optimization steps.
+ *
+ * This class provides a base implementation for steps that optimize files
+ * of a specific type (e.g., CSS, JS). It handles the initialization of the
+ * optimization process, file processing, and caching of optimized files.
  */
 abstract class AbstractOptimize extends AbstractStep
 {

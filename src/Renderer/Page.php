@@ -16,7 +16,11 @@ namespace Cecil\Renderer;
 use Cecil\Collection\Page\Page as PageItem;
 
 /**
- * Class Renderer\Page.
+ * Page renderer class.
+ *
+ * This class is responsible for generating the output file path and URL for a page
+ * based on the output format properties defined in the configuration.
+ * It handles various scenarios such as ugly URLs, multilingual support, and subpaths.
  */
 class Page
 {

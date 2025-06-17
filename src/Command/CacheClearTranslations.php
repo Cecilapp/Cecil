@@ -19,7 +19,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Removes translations cache files.
+ * CacheClearTranslations command.
+ *
+ * This command removes cached translations files from the translations cache directory.
+ * It is useful for clearing outdated or unnecessary translations that may have been cached during previous builds.
  */
 class CacheClearTranslations extends AbstractCommand
 {

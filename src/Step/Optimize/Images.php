@@ -16,7 +16,12 @@ namespace Cecil\Step\Optimize;
 use Cecil\Assets\Image\Optimizer;
 
 /**
- * Optimize image files.
+ * Optimize images step.
+ *
+ * This step optimizes images in the build process by using the
+ * `Optimizer` class to process image files.
+ * It extends the `AbstractOptimize` class and implements the necessary
+ * methods to handle image optimization.
  */
 class Images extends AbstractOptimize
 {

@@ -31,6 +31,12 @@ use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\Loader\PoFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
+/**
+ * UtilTranslationsExtract command.
+ *
+ * This command extracts translation strings from templates and allows saving them into a translation file.
+ * It can also display the extracted messages in the console.
+ */
 class UtilTranslationsExtract extends AbstractCommand
 {
     private TranslationWriter $writer;

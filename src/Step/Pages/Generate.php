@@ -18,7 +18,11 @@ use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Generates virtual pages.
+ * Generate pages step.
+ *
+ * This step is responsible for generating pages based on the configured generators.
+ * It initializes the generator manager with the generators defined in the configuration
+ * and processes them to create the pages. The generated pages are then set in the builder.
  */
 class Generate extends AbstractStep
 {

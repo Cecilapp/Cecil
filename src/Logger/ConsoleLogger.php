@@ -18,6 +18,13 @@ use Psr\Log\LogLevel;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Console logger class.
+ *
+ * This logger prints messages to the console output.
+ * It supports different log levels and can be configured to print messages
+ * up to a certain verbosity level.
+ */
 class ConsoleLogger extends PrintLogger
 {
     public const ERROR = 'error';

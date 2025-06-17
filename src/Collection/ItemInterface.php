@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Collection;
 
 /**
- * Interface ItemInterface.
+ * Item interface.
  */
 interface ItemInterface extends BaseInterface, \ArrayAccess
 {

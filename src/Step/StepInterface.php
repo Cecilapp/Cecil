@@ -15,6 +15,13 @@ namespace Cecil\Step;
 
 use Cecil\Builder;
 
+/**
+ * Step interface.
+ *
+ * This interface defines the methods that any step in the build process must implement.
+ * Steps are used to perform specific actions during the build process, such as generating
+ * pages, processing data, or applying transformations.
+ */
 interface StepInterface
 {
     /**

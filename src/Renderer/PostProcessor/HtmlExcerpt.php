@@ -18,7 +18,9 @@ use Cecil\Collection\Page\Page;
 /**
  * HtmlExcerpt class.
  *
- * Replaces excerpt or break tag by HTML anchor.
+ * This class processes HTML output to insert an excerpt marker
+ * at the first occurrence of an HTML comment indicating an excerpt or break.
+ * The marker is inserted as a `<span id="more"></span>` element.
  */
 class HtmlExcerpt extends AbstractPostProcessor
 {

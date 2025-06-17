@@ -22,6 +22,12 @@ use Cecil\Util;
 use Highlight\Highlighter;
 
 /**
+ * Parsedown class.
+ *
+ * This class extends ParsedownToc and provides methods to parse Markdown content
+ * with additional features such as inline insertions, image handling, note blocks,
+ * and code highlighting.
+ *
  * @property array $InlineTypes
  * @property string $inlineMarkerList
  * @property array $specialCharacters

@@ -16,7 +16,7 @@ namespace Cecil\Renderer\PostProcessor;
 use Cecil\Builder;
 
 /**
- * Abstract class PostProcessor.
+ * PostProcessor Abstract class.
  */
 abstract class AbstractPostProcessor implements PostProcessorInterface
 {

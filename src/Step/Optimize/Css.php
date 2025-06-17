@@ -16,7 +16,12 @@ namespace Cecil\Step\Optimize;
 use MatthiasMullie\Minify;
 
 /**
- * Optimize CSS files.
+ * CSS optimization step.
+ *
+ * This class extends the AbstractOptimize class and provides functionality
+ * to optimize CSS files. It uses the MatthiasMullie\Minify library to
+ * minify CSS files, reducing their size and improving load times.
+ * It initializes with the type 'css' and processes files by minifying them.
  */
 class Css extends AbstractOptimize
 {

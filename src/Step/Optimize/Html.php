@@ -17,7 +17,13 @@ use Cecil\Util;
 use voku\helper\HtmlMin;
 
 /**
- * Optimize HTML files.
+ * Html optimization step.
+ *
+ * This class extends the AbstractOptimize class and provides functionality
+ * to optimize HTML files. It uses the voku\helper\HtmlMin library to
+ * minify HTML files, reducing their size and improving load times.
+ * It initializes with the type 'html' and processes files by minifying them.
+ * It also provides methods to encode and decode content for caching purposes.
  */
 class Html extends AbstractOptimize
 {

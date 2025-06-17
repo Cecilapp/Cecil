@@ -18,6 +18,13 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 
+/**
+ * PrintLogger class.
+ *
+ * This logger prints messages to the standard output.
+ * It supports different log levels and can be configured to print only messages
+ * up to a certain verbosity level.
+ */
 class PrintLogger extends AbstractLogger
 {
     /** @var int */

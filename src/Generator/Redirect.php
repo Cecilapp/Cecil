@@ -16,7 +16,13 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Page;
 
 /**
- * Class Generator\Redirect.
+ * Redirect generator class.
+ *
+ * This class is responsible for generating redirect pages based on the
+ * 'redirect' variable set in the pages. It filters the pages to find those
+ * that have a 'redirect' variable defined and creates a new page with the
+ * 'layout' set to 'redirect'. The generated pages are then added to the
+ * collection of generated pages.
  */
 class Redirect extends AbstractGenerator implements GeneratorInterface
 {

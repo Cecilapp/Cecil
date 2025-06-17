@@ -19,7 +19,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Removes cache files.
+ * CacheClear command.
+ *
+ * This command removes all cached files from the cache directory.
+ * It can be used to clear the cache before a new build or to free up space.
  */
 class CacheClear extends AbstractCommand
 {

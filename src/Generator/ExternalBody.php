@@ -19,7 +19,13 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
 /**
- * Class Generator\ExternalBody.
+ * ExternalBody generator class.
+ *
+ * This class is responsible for generating the body of pages
+ * by fetching content from external sources specified in the 'external' variable of each page.
+ * It reads the content from the specified URL, converts it to HTML using the Converter,
+ * and sets the resulting HTML as the body of the page.
+ * If an error occurs while fetching the content, it logs the error message.
  */
 class ExternalBody extends AbstractGenerator implements GeneratorInterface
 {

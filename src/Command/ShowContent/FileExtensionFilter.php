@@ -16,7 +16,12 @@ namespace Cecil\Command\ShowContent;
 use RecursiveFilterIterator;
 
 /**
- * Filters files by extension type.
+ * FileExtensionFilter class.
+ *
+ * This class extends RecursiveFilterIterator to filter files based on their extensions.
+ * It allows only files with specified extensions (default: 'md' and 'yml') to be accepted,
+ * while excluding certain directories (like '.git', '.cecil', '.cache', '_site', 'vendor', 'node_modules').
+ * It can be used to traverse a directory structure and filter out unwanted files and directories.
  */
 class FileExtensionFilter extends RecursiveFilterIterator
 {

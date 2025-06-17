@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Generator;
 
 /**
- * Interface GeneratorInterface.
+ * Generator interface.
  */
 interface GeneratorInterface
 {

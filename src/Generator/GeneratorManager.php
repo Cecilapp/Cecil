@@ -17,6 +17,14 @@ use Cecil\Builder;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
 
+/**
+ * GeneratorManager class.
+ *
+ * This class manages the generators used in the Cecil build process.
+ * It extends \SplPriorityQueue to allow generators to be processed in order of priority.
+ * Generators can be added with a specific priority, and the process method will run each generator
+ * in order, collecting the pages they generate.
+ */
 class GeneratorManager extends \SplPriorityQueue
 {
     /** @var Builder */

@@ -21,7 +21,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Shows the configuration.
+ * ShowConfig command.
+ *
+ * This command displays the website's configuration in YAML format.
+ * It can be used to quickly review the current configuration settings.
  */
 class ShowConfig extends AbstractCommand
 {

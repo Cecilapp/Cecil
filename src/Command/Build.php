@@ -21,7 +21,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Builds the website.
+ * Build command.
+ *
+ * This command generates the website in the output directory.
+ * It can include drafts, optimize generated files, and perform a dry run.
+ * It also allows building a specific page or a subset of pages, clearing the cache, and showing build metrics.
  */
 class Build extends AbstractCommand
 {

@@ -21,7 +21,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Creates a new page.
+ * NewPage command.
+ *
+ * This command creates a new page file in the specified directory.
+ * It allows users to define the page name, whether to slugify the file name, add a date prefix,
+ * and whether to open the file in an editor after creation.
  */
 class NewPage extends AbstractCommand
 {

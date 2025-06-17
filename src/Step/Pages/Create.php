@@ -18,7 +18,14 @@ use Cecil\Collection\Page\Page;
 use Cecil\Step\AbstractStep;
 
 /**
- * Creates Pages collection from content iterator.
+ * Create pages step.
+ *
+ * This step is responsible for creating pages from Markdown files
+ * located in the configured pages directory. It initializes a collection
+ * of pages, processes each Markdown file to create a `Page` object,
+ * and applies any custom path configurations defined in the site configuration.
+ * The created pages are then added to the pages collection, which can be
+ * used later in the build process.
  */
 class Create extends AbstractStep
 {

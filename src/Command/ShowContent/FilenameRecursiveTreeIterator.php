@@ -16,7 +16,11 @@ namespace Cecil\Command\ShowContent;
 use RecursiveTreeIterator;
 
 /**
- * Replace Filepath by Filename.
+ * FilenameRecursiveTreeIterator class.
+ *
+ * This class extends RecursiveTreeIterator to modify the current method
+ * so that it returns only the filename of the current item, instead of the full path.
+ * It is useful for displaying a tree structure of files with just their names.
  */
 class FilenameRecursiveTreeIterator extends RecursiveTreeIterator
 {

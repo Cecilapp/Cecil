@@ -19,7 +19,13 @@ use Symfony\Component\Finder\Finder;
 use wapmorgan\Mp3Info\Mp3Info;
 
 /**
- * Loads static files.
+ * Load static files step.
+ *
+ * This step is responsible for loading static files from the configured static path.
+ * It scans the directory for files, excluding any specified in the configuration.
+ * The loaded files are processed to extract metadata such as file type, subtype,
+ * modification date, and EXIF data for images. The processed files are then stored
+ * in the builder's static collection for further use in the build process.
  */
 class Load extends AbstractStep
 {

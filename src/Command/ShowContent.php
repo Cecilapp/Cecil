@@ -25,7 +25,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Shows content.
+ * ShowContent command.
+ *
+ * This command displays the website's content as a tree structure.
+ * It can be used to quickly review the content files organized by type (pages, data).
+ * It supports displaying content from specified directories and can filter files by their extensions.
  */
 class ShowContent extends AbstractCommand
 {

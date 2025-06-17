@@ -19,7 +19,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Removes assets cache files.
+ * CacheClearAssets command.
+ *
+ * This command removes cached assets files from the assets cache directory.
+ * It is useful for clearing outdated or unnecessary assets that may have been cached during previous builds.
  */
 class CacheClearAssets extends AbstractCommand
 {

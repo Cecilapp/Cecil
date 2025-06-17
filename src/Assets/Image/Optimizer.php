@@ -22,6 +22,11 @@ use Spatie\ImageOptimizer\Optimizers\Optipng;
 use Spatie\ImageOptimizer\Optimizers\Pngquant;
 use Spatie\ImageOptimizer\Optimizers\Svgo;
 
+/**
+ * Image Optimizer class.
+ *
+ * This class provides a method to create an image optimizer chain with various optimizers.
+ */
 class Optimizer
 {
     /**

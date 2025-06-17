@@ -16,6 +16,14 @@ namespace Cecil\Step;
 use Cecil\Builder;
 use Cecil\Config;
 
+/**
+ * Abstract step class.
+ *
+ * This class provides a base implementation for steps in the build process.
+ * It implements the StepInterface and provides common functionality such as
+ * initialization, checking if the step can be processed, and a constructor
+ * that accepts a Builder instance.
+ */
 abstract class AbstractStep implements StepInterface
 {
     /** @var Builder */
