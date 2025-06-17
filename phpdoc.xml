@@ -7,20 +7,14 @@
 >
     <title>Cecil</title>
     <paths>
-        <output>./docs/api</output>
+        <output>./api</output>
     </paths>
     <version number="8.0.0">
-        <folder>latest</folder>
         <api ignore-packages="true">
             <source dsn=".">
                 <path>src</path>
             </source>
             <output>api</output>
-            <ignore hidden="true" symlinks="true">
-                <path>dist/**/*</path>
-                <path>tests/**/*</path>
-                <path>vendor/**/*</path>
-            </ignore>
             <extensions>
                 <extension>php</extension>
             </extensions>
