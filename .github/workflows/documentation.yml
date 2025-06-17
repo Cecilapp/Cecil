@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - 'docs/**.md'
+      - 'api/**'
   pull_request:
     paths:
       - 'docs/**.md'
