@@ -17,7 +17,7 @@ use Cecil\Builder;
 use Cecil\Collection\Page\Page as CollectionPage;
 
 /**
- * Site class.
+ * Site renderer class.
  *
  * This class implements the \ArrayAccess interface to allow access to site
  * properties using array syntax. It provides access to various site-related

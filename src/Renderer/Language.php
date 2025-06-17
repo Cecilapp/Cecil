@@ -16,7 +16,7 @@ namespace Cecil\Renderer;
 use Cecil\Exception\RuntimeException;
 
 /**
- * Language class.
+ * Language renderer class.
  *
  * This class is responsible for managing language properties such as name, locale, and weight.
  * It retrieves these properties from the configuration object and provides methods to access them.

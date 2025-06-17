@@ -16,7 +16,7 @@ namespace Cecil\Renderer;
 use Cecil\Builder;
 
 /**
- * Config class.
+ * Config renderer class.
  *
  * This class implements the \ArrayAccess interface to allow access to configuration
  * values using array syntax. It retrieves configuration values from the Builder's
