@@ -360,8 +360,11 @@ class Builder implements LoggerAwareInterface
      */
     public function importThemesConfig(): void
     {
-        foreach ((array) $this->config->get('theme') as $theme) {
-            $this->config->import(Config::loadFile(Util::joinFile($this->config->getThemesPath(), $theme, 'config.yml'), true), Config::PRESERVE);
+        foreach ((array) $this->getConfig()->get('theme') as $theme) {
+            $this->getConfig()->import(
+                Config::loadFile(Util::joinFile($this->getConfig()->getThemesPath(), $theme, 'config.yml'), true),
+                Config::PRESERVE
+            );
         }
     }
 
@@ -429,7 +432,7 @@ class Builder implements LoggerAwareInterface
         if ($language) {
             if (empty($this->data[$language])) {
                 // fallback to default language
-                return $this->data[$this->config->getLanguageDefault()];
+                return $this->data[$this->getConfig()->getLanguageDefault()];
             }
 
             return $this->data[$language];
@@ -581,7 +584,7 @@ class Builder implements LoggerAwareInterface
     protected function checkErrors(): void
     {
         // baseurl is required in production
-        if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
+        if (empty(trim((string) $this->getConfig()->get('baseurl'), '/'))) {
             $this->getLogger()->error('`baseurl` configuration key is required in production.');
         }
     }
