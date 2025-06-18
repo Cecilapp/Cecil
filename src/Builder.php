@@ -36,9 +36,29 @@ class Builder implements LoggerAwareInterface
     public const VERBOSITY_NORMAL = 0;
     public const VERBOSITY_VERBOSE = 1;
     public const VERBOSITY_DEBUG = 2;
+    /**
+     * Default options for the build process.
+     * These options can be overridden when calling the build() method.
+     * - 'drafts': if true, builds drafts too (default: false)
+     * - 'dry-run': if true, generated files are not saved (default: false)
+     * - 'page': if specified, only this page is processed (default: '')
+     * - 'render-subset': limits the render step to a specific subset (default: '')
+     * @var array<string, mixed>
+     * @see \Cecil\Builder::build()
+     */
+    public const OPTIONS = [
+        'drafts'  => false,
+        'dry-run' => false,
+        'page'    => '',
+        'render-subset' => '',
+    ];
 
     /**
-     * @var array Steps processed by build().
+     * Steps processed by build(), in order.
+     * These steps are executed sequentially to build the website.
+     * Each step is a class that implements the StepInterface.
+     * @var array<string>
+     * @see \Cecil\Step\StepInterface
      */
     protected $steps = [
         'Cecil\Step\Pages\Load',
@@ -58,53 +78,124 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\Optimize\Js',
         'Cecil\Step\Optimize\Images',
     ];
-
-    /** @var Config Configuration. */
+    /**
+     * Configuration object.
+     * This object holds all the configuration settings for the build process.
+     * It can be set to an array or a Config instance.
+     * @var Config|array|null
+     * @see \Cecil\Config
+     */
     protected $config;
-
-    /** @var LoggerInterface Logger. */
+    /**
+     * Logger instance.
+     * This logger is used to log messages during the build process.
+     * It can be set to any PSR-3 compliant logger.
+     * @var LoggerInterface
+     * @see \Psr\Log\LoggerInterface
+     * */
     protected $logger;
-
-    /** @var bool Debug mode. */
+    /**
+     * Debug mode state.
+     * If true, debug messages are logged.
+     * @var bool
+     */
     protected $debug = false;
-
-    /** @var array Build options. */
+    /**
+     * Build options.
+     * These options can be passed to the build() method to customize the build process.
+     * @var array
+     * @see \Cecil\Builder::OPTIONS
+     * @see \Cecil\Builder::build()
+     */
     protected $options = [];
-
-    /** @var Finder Content iterator. */
+    /**
+     * Content files collection.
+     * This is a Finder instance that collects all the content files (pages, posts, etc.) from the source directory.
+     * @var Finder
+     */
     protected $content;
-
-    /** @var array Data collection. */
+    /**
+     * Data collection.
+     * This is an associative array that holds data loaded from YAML files in the data directory.
+     * @var array
+     */
     protected $data = [];
-
-    /** @var array Static files collection. */
+    /**
+     * Static files collection.
+     * This is an associative array that holds static files (like images, CSS, JS) that are copied to the destination directory.
+     * @var array
+     */
     protected $static = [];
-
-    /** @var PagesCollection Pages collection. */
+    /**
+     * Pages collection.
+     * This is a collection of pages that have been processed and are ready for rendering.
+     * It is an instance of PagesCollection, which is a custom collection class for managing pages.
+     * @var PagesCollection
+     */
     protected $pages;
-
-    /** @var array Assets path collection */
+    /**
+     * Assets path collection.
+     * This is an array that holds paths to assets (like CSS, JS, images) that are used in the build process.
+     * It is used to keep track of assets that need to be processed or copied.
+     * It can be set to an array of paths or updated with new asset paths.
+     * @var array
+     */
     protected $assets = [];
-
-    /** @var array Menus collection. */
+    /**
+     * Menus collection.
+     * This is an associative array that holds menus for different languages.
+     * Each key is a language code, and the value is a Collection\Menu\Collection instance
+     * that contains the menu items for that language.
+     * It is used to manage navigation menus across different languages in the website.
+     * @var array
+     * @see \Cecil\Collection\Menu\Collection
+     */
     protected $menus;
-
-    /** @var array Taxonomies collection. */
+    /**
+     * Taxonomies collection.
+     * This is an associative array that holds taxonomies for different languages.
+     * Each key is a language code, and the value is a Collection\Taxonomy\Collection instance
+     * that contains the taxonomy terms for that language.
+     * It is used to manage taxonomies (like categories, tags) across different languages in the website.
+     * @var array
+     * @see \Cecil\Collection\Taxonomy\Collection
+     */
     protected $taxonomies;
-
-    /** @var Renderer\RendererInterface Renderer. */
+    /**
+     * Renderer.
+     * This is an instance of Renderer\RendererInterface that is responsible for rendering pages.
+     * It handles the rendering of templates and the application of data to those templates.
+     * @var Renderer\RendererInterface
+     */
     protected $renderer;
-
-    /** @var GeneratorManager Generators manager. */
+    /**
+     * Generators manager.
+     * This is an instance of GeneratorManager that manages all the generators used in the build process.
+     * Generators are used to create dynamic content or perform specific tasks during the build.
+     * It allows for the registration and execution of various generators that can extend the functionality of the build process.
+     * @var GeneratorManager
+     */
     protected $generatorManager;
-
-    /** @var string Application version. */
+    /**
+     * Application version.
+     * @var string
+     */
     protected static $version;
-
-    /** @var array Build metrics. */
+    /**
+     * Build metrics.
+     * This array holds metrics about the build process, such as duration and memory usage for each step.
+     * It is used to track the performance of the build and can be useful for debugging and optimization.
+     * @var array
+     */
     protected $metrics = [];
-
-    /** @var string curent build ID */
+    /**
+     * Current build ID.
+     * This is a unique identifier for the current build process.
+     * It is generated based on the current date and time when the build starts.
+     * It can be used to track builds, especially in environments where multiple builds may occur.
+     * @var string
+     * @see \Cecil\Builder::build()
+     */
     protected $buildId;
 
     /**
@@ -141,6 +232,11 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Builds a new website.
+     * This method processes the build steps in order, collects content, data, static files,
+     * generates pages, renders them, and saves the output to the destination directory.
+     * It also collects metrics about the build process, such as duration and memory usage.
+     * @param array<string, self::OPTIONS> $options
+     * @see \Cecil\Builder::OPTIONS
      */
     public function build(array $options): self
     {
@@ -151,12 +247,8 @@ class Builder implements LoggerAwareInterface
         // checks soft errors
         $this->checkErrors();
 
-        // prepare options
-        $this->options = array_merge([
-            'drafts'  => false, // if true, build drafts too
-            'dry-run' => false, // if true, generated files are not saved
-            'page'    => '',    // if specified, only this page is processed
-        ], $options);
+        // merge options with defaults
+        $this->options = array_merge(self::OPTIONS, $options);
 
         // set build ID
         $this->buildId = date('YmdHis');
@@ -172,7 +264,7 @@ class Builder implements LoggerAwareInterface
                 $steps[] = $stepObject;
             }
         }
-        // ...and process!
+        // ...and process
         $stepNumber = 0;
         $stepsTotal = \count($steps);
         foreach ($steps as $step) {

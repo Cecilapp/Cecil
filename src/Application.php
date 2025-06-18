@@ -22,6 +22,10 @@ use Symfony\Component\Console\Application as BaseApplication;
  */
 class Application extends BaseApplication
 {
+    /**
+     * Banner of the application.
+     * @var string
+     */
     private static $banner = '  ____          _ _
  / ___|___  ___(_) |
 | |   / _ \/ __| | | A simple and powerful content-driven static site generator.
