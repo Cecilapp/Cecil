@@ -1,0 +1,8 @@
+---
+languages:
+  php:
+    enabled: true
+exclude_paths:
+  - "vendor/**/*"
+  - "tests/**/*
+  - "api/**/*"
