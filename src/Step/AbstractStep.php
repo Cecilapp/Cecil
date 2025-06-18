@@ -32,7 +32,10 @@ abstract class AbstractStep implements StepInterface
     /** @var Config */
     protected $config;
 
-    /** @var array Build options. */
+    /**
+     * Configuration options for the step.
+     * @var array
+     */
     protected $options;
 
     /** @var bool */
@@ -58,6 +61,8 @@ abstract class AbstractStep implements StepInterface
 
     /**
      * {@inheritdoc}
+     *
+     * If init() is used, true by default.
      */
     public function canProcess(): bool
     {

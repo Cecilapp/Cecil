@@ -29,7 +29,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function getId(): string;
 
     /**
-     * Does the item exists?
+     * Does the item $id exists?
      */
     public function has(string $id): bool;
 
@@ -96,7 +96,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function usort(?\Closure $callback = null): self;
 
     /**
-     * Reverse items.
+     * Reverse items order.
      */
     public function reverse(): self;
 

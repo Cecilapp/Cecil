@@ -35,12 +35,14 @@ interface StepInterface
     public function getName(): string;
 
     /**
-     * Checks if the step can be processed.
+     * This method is called before the step is processed to initialize
+     * the step with necessary options and to determine if it can be executed.
+     * @param array<Builder::OPTIONS> $options
      */
     public function init(array $options): void;
 
     /**
-     * Can step be processed?
+     * Method to know if the step can be processed.
      */
     public function canProcess(): bool;
 

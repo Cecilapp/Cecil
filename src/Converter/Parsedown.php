@@ -41,10 +41,16 @@ class Parsedown extends \ParsedownToc
     /** @var \Cecil\Config */
     protected $config;
 
-    /** {@inheritdoc} */
+    /**
+     * Regex for attributes.
+     * @var string
+     */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
-    /** Regex who's looking for images */
+    /**
+     * Regex for image block.
+     * @var string
+     */
     protected $regexImage = "~^!\[.*?\]\(.*?\)~";
 
     /** @var Highlighter */

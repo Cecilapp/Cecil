@@ -21,10 +21,15 @@ namespace Cecil\Collection;
  */
 class Item implements ItemInterface
 {
-    /** @var string Item's identifier. */
+    /**
+     * Item's identifier.
+     * @var string
+     */
     protected $id;
-
-    /** @var array Item's properties. */
+    /**
+     * Item's properties.
+     * @var array
+     */
     protected $properties = [];
 
     public function __construct(string $id)

@@ -29,7 +29,7 @@ interface ItemInterface extends BaseInterface, \ArrayAccess
     public function getId(): string;
 
     /**
-     * Returns collection as array.
+     * Returns properties as array.
      */
     public function toArray(): array;
 }

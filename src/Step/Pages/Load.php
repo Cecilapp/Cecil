@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
-use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;

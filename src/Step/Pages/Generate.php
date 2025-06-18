@@ -15,7 +15,6 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Generator\GeneratorManager;
 use Cecil\Step\AbstractStep;
-use Cecil\Util;
 
 /**
  * Generate pages step.

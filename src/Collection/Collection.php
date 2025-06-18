@@ -20,10 +20,15 @@ namespace Cecil\Collection;
  */
 class Collection implements CollectionInterface
 {
-    /** @var string Collection's identifier. */
+    /**
+     * Collection's identifier.
+     * @var string
+     */
     protected $id;
-
-    /** @var array Collection's items. */
+    /**
+     * Collection's items.
+     * @var array
+     */
     protected $items = [];
 
     public function __construct(string $id, array $items = [])

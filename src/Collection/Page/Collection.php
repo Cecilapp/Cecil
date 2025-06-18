@@ -54,13 +54,16 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by.
      *
-     * $options: date|updated|title|weight
      * $options:
-     *   variable: date|updated|title|weight
-     *   desc_title: false|true
-     *   reverse: false|true
+     * [date|updated|title|weight]
+     * or
+     * [
+     *   variable   => date|updated|title|weight
+     *   desc_title => false|true
+     *   reverse    => false|true
+     * ]
      */
-    public function sortBy(array|string|null $options): self
+    public function sortBy(string|array|null $options): self
     {
         $sortBy = \is_string($options) ? $options : $options['variable'] ?? 'date';
         $sortMethod = \sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortBy)));
@@ -74,7 +77,7 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by date (or 'updated'): the most recent first.
      */
-    public function sortByDate(array|string|null $options = null): self
+    public function sortByDate(string|array|null $options = null): self
     {
         $opt = [];
         // backward compatibility (i.e. $options = 'updated')
@@ -108,7 +111,7 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by title (natural sort).
      */
-    public function sortByTitle(array|string|null $options = null): self
+    public function sortByTitle(string|array|null $options = null): self
     {
         $opt = [];
         // options
@@ -122,7 +125,7 @@ class Collection extends CecilCollection
     /**
      * Sorts by weight (the heaviest first).
      */
-    public function sortByWeight(array|string|null $options = null): self
+    public function sortByWeight(string|array|null $options = null): self
     {
         $opt = [];
         // options
