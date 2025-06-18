@@ -235,7 +235,7 @@ class Builder implements LoggerAwareInterface
      * This method processes the build steps in order, collects content, data, static files,
      * generates pages, renders them, and saves the output to the destination directory.
      * It also collects metrics about the build process, such as duration and memory usage.
-     * @param array<string, self::OPTIONS> $options
+     * @param array<self::OPTIONS> $options
      * @see \Cecil\Builder::OPTIONS
      */
     public function build(array $options): self

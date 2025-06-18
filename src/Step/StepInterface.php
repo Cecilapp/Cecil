@@ -37,7 +37,7 @@ interface StepInterface
     /**
      * This method is called before the step is processed to initialize
      * the step with necessary options and to determine if it can be executed.
-     * @param array<Builder::OPTIONS> $options
+     * @param Builder::OPTIONS $options
      */
     public function init(array $options): void;
 

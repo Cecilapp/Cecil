@@ -34,7 +34,7 @@ abstract class AbstractStep implements StepInterface
 
     /**
      * Configuration options for the step.
-     * @var array
+     * @var Builder::OPTIONS
      */
     protected $options;
 

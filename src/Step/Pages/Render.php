@@ -60,7 +60,7 @@ class Render extends AbstractStep
 
         // render a subset of pages?
         if (!empty($options['render-subset'])) {
-            $subset = \sprintf('pages.subsets.%s', $options['render-subset']);
+            $subset = \sprintf('pages.subsets.%s', (string) $options['render-subset']);
             if (!$this->config->has($subset)) {
                 throw new ConfigException(\sprintf('Subset "%s" not found.', $subset));
             }
