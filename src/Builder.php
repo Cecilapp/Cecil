@@ -43,7 +43,7 @@ class Builder implements LoggerAwareInterface
      * - 'dry-run': if true, generated files are not saved (default: false)
      * - 'page': if specified, only this page is processed (default: '')
      * - 'render-subset': limits the render step to a specific subset (default: '')
-     * @var array<string, mixed>
+     * @var array<string, bool|string>
      * @see \Cecil\Builder::build()
      */
     public const OPTIONS = [
