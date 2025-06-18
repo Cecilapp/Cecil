@@ -296,7 +296,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns current build ID.
      */
-    public function getBuilId(): string
+    public function getBuildId(): string
     {
         return $this->buildId;
     }
