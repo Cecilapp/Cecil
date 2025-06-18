@@ -18,7 +18,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Application\u003A\u003A\u0024banner",
             "name": "banner",
-            "summary": "",
+            "summary": "Banner\u0020of\u0020the\u0020application.",
             "url": "classes/Cecil-Application.html#property_banner"
         },                {
             "fqsen": "\\Cecil\\Assets\\Asset",
@@ -441,10 +441,10 @@ Search.appendIndex(
             "summary": "Builds\u0020a\u0020new\u0020website.",
             "url": "classes/Cecil-Builder.html#method_build"
         },                {
-            "fqsen": "\\Cecil\\Builder\u003A\u003AgetBuilId\u0028\u0029",
-            "name": "getBuilId",
+            "fqsen": "\\Cecil\\Builder\u003A\u003AgetBuildId\u0028\u0029",
+            "name": "getBuildId",
             "summary": "Returns\u0020current\u0020build\u0020ID.",
-            "url": "classes/Cecil-Builder.html#method_getBuilId"
+            "url": "classes/Cecil-Builder.html#method_getBuildId"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AsetConfig\u0028\u0029",
             "name": "setConfig",
@@ -616,89 +616,94 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Builder.html#constant_VERBOSITY_DEBUG"
         },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003AOPTIONS",
+            "name": "OPTIONS",
+            "summary": "Default\u0020options\u0020for\u0020the\u0020build\u0020process.",
+            "url": "classes/Cecil-Builder.html#constant_OPTIONS"
+        },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024steps",
             "name": "steps",
-            "summary": "",
+            "summary": "Steps\u0020processed\u0020by\u0020build\u0028\u0029,\u0020in\u0020order.",
             "url": "classes/Cecil-Builder.html#property_steps"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024config",
             "name": "config",
-            "summary": "",
+            "summary": "Configuration\u0020object.",
             "url": "classes/Cecil-Builder.html#property_config"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024logger",
             "name": "logger",
-            "summary": "",
+            "summary": "Logger\u0020instance.",
             "url": "classes/Cecil-Builder.html#property_logger"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024debug",
             "name": "debug",
-            "summary": "",
+            "summary": "Debug\u0020mode\u0020state.",
             "url": "classes/Cecil-Builder.html#property_debug"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024options",
             "name": "options",
-            "summary": "",
+            "summary": "Build\u0020options.",
             "url": "classes/Cecil-Builder.html#property_options"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024content",
             "name": "content",
-            "summary": "",
+            "summary": "Content\u0020files\u0020collection.",
             "url": "classes/Cecil-Builder.html#property_content"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024data",
             "name": "data",
-            "summary": "",
+            "summary": "Data\u0020collection.",
             "url": "classes/Cecil-Builder.html#property_data"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024static",
             "name": "static",
-            "summary": "",
+            "summary": "Static\u0020files\u0020collection.",
             "url": "classes/Cecil-Builder.html#property_static"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024pages",
             "name": "pages",
-            "summary": "",
+            "summary": "Pages\u0020collection.",
             "url": "classes/Cecil-Builder.html#property_pages"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024assets",
             "name": "assets",
-            "summary": "",
+            "summary": "Assets\u0020path\u0020collection.",
             "url": "classes/Cecil-Builder.html#property_assets"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024menus",
             "name": "menus",
-            "summary": "",
+            "summary": "Menus\u0020collection.",
             "url": "classes/Cecil-Builder.html#property_menus"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024taxonomies",
             "name": "taxonomies",
-            "summary": "",
+            "summary": "Taxonomies\u0020collection.",
             "url": "classes/Cecil-Builder.html#property_taxonomies"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024renderer",
             "name": "renderer",
-            "summary": "",
+            "summary": "Renderer.",
             "url": "classes/Cecil-Builder.html#property_renderer"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024generatorManager",
             "name": "generatorManager",
-            "summary": "",
+            "summary": "Generators\u0020manager.",
             "url": "classes/Cecil-Builder.html#property_generatorManager"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024version",
             "name": "version",
-            "summary": "",
+            "summary": "Application\u0020version.",
             "url": "classes/Cecil-Builder.html#property_version"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024metrics",
             "name": "metrics",
-            "summary": "",
+            "summary": "Build\u0020metrics.",
             "url": "classes/Cecil-Builder.html#property_metrics"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024buildId",
             "name": "buildId",
-            "summary": "",
+            "summary": "Current\u0020build\u0020ID.",
             "url": "classes/Cecil-Builder.html#property_buildId"
         },                {
             "fqsen": "\\Cecil\\Collection\\BaseInterface",
@@ -748,7 +753,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Collection\u003A\u003Ahas\u0028\u0029",
             "name": "has",
-            "summary": "Does\u0020the\u0020item\u0020exists\u003F",
+            "summary": "Does\u0020the\u0020item\u0020\u0024id\u0020exists\u003F",
             "url": "classes/Cecil-Collection-Collection.html#method_has"
         },                {
             "fqsen": "\\Cecil\\Collection\\Collection\u003A\u003Aadd\u0028\u0029",
@@ -813,7 +818,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Collection\u003A\u003Areverse\u0028\u0029",
             "name": "reverse",
-            "summary": "Reverse\u0020items.",
+            "summary": "Reverse\u0020items\u0020order.",
             "url": "classes/Cecil-Collection-Collection.html#method_reverse"
         },                {
             "fqsen": "\\Cecil\\Collection\\Collection\u003A\u003Afilter\u0028\u0029",
@@ -853,12 +858,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Collection\u003A\u003A\u0024id",
             "name": "id",
-            "summary": "",
+            "summary": "Collection\u0027s\u0020identifier.",
             "url": "classes/Cecil-Collection-Collection.html#property_id"
         },                {
             "fqsen": "\\Cecil\\Collection\\Collection\u003A\u003A\u0024items",
             "name": "items",
-            "summary": "",
+            "summary": "Collection\u0027s\u0020items.",
             "url": "classes/Cecil-Collection-Collection.html#property_items"
         },                {
             "fqsen": "\\Cecil\\Collection\\CollectionInterface",
@@ -878,7 +883,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\CollectionInterface\u003A\u003Ahas\u0028\u0029",
             "name": "has",
-            "summary": "Does\u0020the\u0020item\u0020exists\u003F",
+            "summary": "Does\u0020the\u0020item\u0020\u0024id\u0020exists\u003F",
             "url": "classes/Cecil-Collection-CollectionInterface.html#method_has"
         },                {
             "fqsen": "\\Cecil\\Collection\\CollectionInterface\u003A\u003Aadd\u0028\u0029",
@@ -943,7 +948,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\CollectionInterface\u003A\u003Areverse\u0028\u0029",
             "name": "reverse",
-            "summary": "Reverse\u0020items.",
+            "summary": "Reverse\u0020items\u0020order.",
             "url": "classes/Cecil-Collection-CollectionInterface.html#method_reverse"
         },                {
             "fqsen": "\\Cecil\\Collection\\CollectionInterface\u003A\u003Afilter\u0028\u0029",
@@ -998,17 +1003,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Item\u003A\u003AtoArray\u0028\u0029",
             "name": "toArray",
-            "summary": "Returns\u0020collection\u0020as\u0020array.",
+            "summary": "Returns\u0020properties\u0020as\u0020array.",
             "url": "classes/Cecil-Collection-Item.html#method_toArray"
         },                {
             "fqsen": "\\Cecil\\Collection\\Item\u003A\u003A\u0024id",
             "name": "id",
-            "summary": "",
+            "summary": "Item\u0027s\u0020identifier.",
             "url": "classes/Cecil-Collection-Item.html#property_id"
         },                {
             "fqsen": "\\Cecil\\Collection\\Item\u003A\u003A\u0024properties",
             "name": "properties",
-            "summary": "",
+            "summary": "Item\u0027s\u0020properties.",
             "url": "classes/Cecil-Collection-Item.html#property_properties"
         },                {
             "fqsen": "\\Cecil\\Collection\\ItemInterface",
@@ -1028,7 +1033,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\ItemInterface\u003A\u003AtoArray\u0028\u0029",
             "name": "toArray",
-            "summary": "Returns\u0020collection\u0020as\u0020array.",
+            "summary": "Returns\u0020properties\u0020as\u0020array.",
             "url": "classes/Cecil-Collection-ItemInterface.html#method_toArray"
         },                {
             "fqsen": "\\Cecil\\Collection\\Menu\\Collection",
@@ -1148,7 +1153,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Collection\u003A\u003Areverse\u0028\u0029",
             "name": "reverse",
-            "summary": "Reverse\u0020items.",
+            "summary": "Reverse\u0020items\u0020order.",
             "url": "classes/Cecil-Collection-Page-Collection.html#method_reverse"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page",
@@ -2583,12 +2588,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024regexAttribute",
             "name": "regexAttribute",
-            "summary": "\u007B\u0040inheritdoc\u007D",
+            "summary": "Regex\u0020for\u0020attributes.",
             "url": "classes/Cecil-Converter-Parsedown.html#property_regexAttribute"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024regexImage",
             "name": "regexImage",
-            "summary": "Regex\u0020who\u0027s\u0020looking\u0020for\u0020images",
+            "summary": "Regex\u0020for\u0020image\u0020block.",
             "url": "classes/Cecil-Converter-Parsedown.html#property_regexImage"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024highlighter",
@@ -3573,7 +3578,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\AbstractStep\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-AbstractStep.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\AbstractStep\u003A\u003A\u0024canProcess",
@@ -3598,7 +3603,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\AbstractStep\u003A\u003A\u0024options",
             "name": "options",
-            "summary": "",
+            "summary": "Configuration\u0020options\u0020for\u0020the\u0020step.",
             "url": "classes/Cecil-Step-AbstractStep.html#property_options"
         },                {
             "fqsen": "\\Cecil\\Step\\Assets\\Save",
@@ -3613,7 +3618,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Assets\\Save\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Assets-Save.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Assets\\Save\u003A\u003Aprocess\u0028\u0029",
@@ -3648,7 +3653,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Data\\Load\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Data-Load.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Data\\Load\u003A\u003Aprocess\u0028\u0029",
@@ -3693,7 +3698,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\AbstractOptimize\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Optimize-AbstractOptimize.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\AbstractOptimize\u003A\u003Aprocess\u0028\u0029",
@@ -3743,7 +3748,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Css\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Optimize-Css.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Css\u003A\u003AsetProcessor\u0028\u0029",
@@ -3768,7 +3773,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Html\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Optimize-Html.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Html\u003A\u003AsetProcessor\u0028\u0029",
@@ -3803,7 +3808,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Images\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Optimize-Images.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Images\u003A\u003AsetProcessor\u0028\u0029",
@@ -3838,7 +3843,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Js\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Optimize-Js.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Optimize\\Js\u003A\u003AsetProcessor\u0028\u0029",
@@ -3863,7 +3868,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Convert\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Pages-Convert.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Convert\u003A\u003Aprocess\u0028\u0029",
@@ -3888,7 +3893,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Create\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Pages-Create.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Create\u003A\u003Aprocess\u0028\u0029",
@@ -3908,7 +3913,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Generate\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Pages-Generate.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Generate\u003A\u003Aprocess\u0028\u0029",
@@ -3928,7 +3933,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Load\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Pages-Load.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Load\u003A\u003Aprocess\u0028\u0029",
@@ -3953,7 +3958,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Render\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Pages-Render.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Render\u003A\u003Aprocess\u0028\u0029",
@@ -4008,7 +4013,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Save\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Pages-Save.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Save\u003A\u003Aprocess\u0028\u0029",
@@ -4033,7 +4038,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\StaticFiles\\Copy\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-StaticFiles-Copy.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\StaticFiles\\Copy\u003A\u003Aprocess\u0028\u0029",
@@ -4063,7 +4068,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\StaticFiles\\Load\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-StaticFiles-Load.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\StaticFiles\\Load\u003A\u003Aprocess\u0028\u0029",
@@ -4088,12 +4093,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\StepInterface\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-StepInterface.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\StepInterface\u003A\u003AcanProcess\u0028\u0029",
             "name": "canProcess",
-            "summary": "Can\u0020step\u0020be\u0020processed\u003F",
+            "summary": "Method\u0020to\u0020know\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
             "url": "classes/Cecil-Step-StepInterface.html#method_canProcess"
         },                {
             "fqsen": "\\Cecil\\Step\\StepInterface\u003A\u003Aprocess\u0028\u0029",
@@ -4113,7 +4118,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\Taxonomies\\Create\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Checks\u0020if\u0020the\u0020step\u0020can\u0020be\u0020processed.",
+            "summary": "This\u0020method\u0020is\u0020called\u0020before\u0020the\u0020step\u0020is\u0020processed\u0020to\u0020initialize\nthe\u0020step\u0020with\u0020necessary\u0020options\u0020and\u0020to\u0020determine\u0020if\u0020it\u0020can\u0020be\u0020executed.",
             "url": "classes/Cecil-Step-Taxonomies-Create.html#method_init"
         },                {
             "fqsen": "\\Cecil\\Step\\Taxonomies\\Create\u003A\u003Aprocess\u0028\u0029",

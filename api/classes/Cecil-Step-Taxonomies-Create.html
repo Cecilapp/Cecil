@@ -207,6 +207,7 @@ The created vocabularies and terms are then set in the builder for further proce
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
+<dd>Configuration options for the step.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Step-Taxonomies-Create.html#property_vocabCollection">$vocabCollection</a>
@@ -234,7 +235,7 @@ The created vocabularies and terms are then set in the builder for further proce
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Can step be processed?</dd>
+<dd>Method to know if the step can be processed.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Step-Taxonomies-Create.html#method_getName">getName()</a>
@@ -248,7 +249,8 @@ The created vocabularies and terms are then set in the builder for further proce
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Checks if the step can be processed.</dd>
+<dd>This method is called before the step is processed to initialize
+the step with necessary options and to determine if it can be executed.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Step-Taxonomies-Create.html#method_process">process()</a>
@@ -346,7 +348,7 @@ The created vocabularies and terms are then set in the builder for further proce
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/AbstractStep.php"><a href="files/src-step-abstractstep.html"><abbr title="src/Step/AbstractStep.php">AbstractStep.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -422,11 +424,12 @@ The created vocabularies and terms are then set in the builder for further proce
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/AbstractStep.php"><a href="files/src-step-abstractstep.html"><abbr title="src/Step/AbstractStep.php">AbstractStep.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Configuration options for the step.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -435,9 +438,7 @@ The created vocabularies and terms are then set in the builder for further proce
     </code>
 
     
-        <section class="phpdocumentor-description"><p>Build options.</p>
-</section>
-
+    
     
 
     
@@ -505,7 +506,7 @@ The created vocabularies and terms are then set in the builder for further proce
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/AbstractStep.php"><a href="files/src-step-abstractstep.html"><abbr title="src/Step/AbstractStep.php">AbstractStep.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -550,11 +551,11 @@ The created vocabularies and terms are then set in the builder for further proce
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/AbstractStep.php"><a href="files/src-step-abstractstep.html"><abbr title="src/Step/AbstractStep.php">AbstractStep.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">62</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Can step be processed?</p>
+        <p class="phpdocumentor-summary">Method to know if the step can be processed.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -563,7 +564,9 @@ The created vocabularies and terms are then set in the builder for further proce
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>If init() is used, true by default.</p>
+</section>
+
     
     
 
@@ -632,7 +635,8 @@ The created vocabularies and terms are then set in the builder for further proce
 
     </aside>
 
-        <p class="phpdocumentor-summary">Checks if the step can be processed.</p>
+        <p class="phpdocumentor-summary">This method is called before the step is processed to initialize
+the step with necessary options and to determine if it can be executed.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>

@@ -183,7 +183,7 @@ pages, processing data, or applying transformations.</p>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Can step be processed?</dd>
+<dd>Method to know if the step can be processed.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Step-StepInterface.html#method_getName">getName()</a>
@@ -197,7 +197,8 @@ pages, processing data, or applying transformations.</p>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Checks if the step can be processed.</dd>
+<dd>This method is called before the step is processed to initialize
+the step with necessary options and to determine if it can be executed.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Step-StepInterface.html#method_process">process()</a>
@@ -278,11 +279,11 @@ pages, processing data, or applying transformations.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/StepInterface.php"><a href="files/src-step-stepinterface.html"><abbr title="src/Step/StepInterface.php">StepInterface.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Can step be processed?</p>
+        <p class="phpdocumentor-summary">Method to know if the step can be processed.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -356,15 +357,16 @@ pages, processing data, or applying transformations.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/StepInterface.php"><a href="files/src-step-stepinterface.html"><abbr title="src/Step/StepInterface.php">StepInterface.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Checks if the step can be processed.</p>
+        <p class="phpdocumentor-summary">This method is called before the step is processed to initialize
+the step with necessary options and to determine if it can be executed.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">init</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">init</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, <abbr title="\Cecil\Builder::OPTIONS">Builder::OPTIONS</abbr>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -374,7 +376,7 @@ pages, processing data, or applying transformations.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$options</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, <abbr title="\Cecil\Builder::OPTIONS">Builder::OPTIONS</abbr>&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -401,7 +403,7 @@ pages, processing data, or applying transformations.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/StepInterface.php"><a href="files/src-step-stepinterface.html"><abbr title="src/Step/StepInterface.php">StepInterface.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 

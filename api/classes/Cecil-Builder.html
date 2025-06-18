@@ -188,6 +188,13 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Cecil-Builder.html#constant_OPTIONS">OPTIONS</a>
+    <span>
+        &nbsp;= [&#039;drafts&#039; =&gt; false, &#039;dry-run&#039; =&gt; false, &#039;page&#039; =&gt; &#039;&#039;, &#039;render-subset&#039; =&gt; &#039;&#039;]                            </span>
+</dt>
+<dd>Default options for the build process.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERBOSITY_DEBUG">VERBOSITY_DEBUG</a>
     <span>
         &nbsp;= 2                            </span>
@@ -231,102 +238,119 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
+<dd>Assets path collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_buildId">$buildId</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
+<dd>Current build ID.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_config">$config</a>
     <span>
-                        &nbsp;: <a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>            </span>
+                        &nbsp;: <a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string|int, mixed&gt;|null            </span>
 </dt>
+<dd>Configuration object.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_content">$content</a>
     <span>
                         &nbsp;: <abbr title="\Symfony\Component\Finder\Finder">Finder</abbr>            </span>
 </dt>
+<dd>Content files collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_data">$data</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
+<dd>Data collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_debug">$debug</a>
     <span>
                         &nbsp;: bool            </span>
 </dt>
+<dd>Debug mode state.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_generatorManager">$generatorManager</a>
     <span>
                         &nbsp;: <a href="classes/Cecil-Generator-GeneratorManager.html"><abbr title="\Cecil\Generator\GeneratorManager">GeneratorManager</abbr></a>            </span>
 </dt>
+<dd>Generators manager.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_logger">$logger</a>
     <span>
                         &nbsp;: <abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr>            </span>
 </dt>
+<dd>Logger instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_menus">$menus</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
+<dd>Menus collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_metrics">$metrics</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
+<dd>Build metrics.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_options">$options</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
+<dd>Build options.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_pages">$pages</a>
     <span>
                         &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>            </span>
 </dt>
+<dd>Pages collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_renderer">$renderer</a>
     <span>
                         &nbsp;: <a href="classes/Cecil-Renderer-RendererInterface.html"><abbr title="\Cecil\Renderer\RendererInterface">RendererInterface</abbr></a>            </span>
 </dt>
+<dd>Renderer.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_static">$static</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
+<dd>Static files collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_steps">$steps</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string|int, string&gt;            </span>
 </dt>
+<dd>Steps processed by build(), in order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_taxonomies">$taxonomies</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
+<dd>Taxonomies collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_version">$version</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
+<dd>Application version.</dd>
 
     </dl>
 
@@ -371,18 +395,18 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
 <dd>Returns list of assets path.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Builder.html#method_getBuildId">getBuildId()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns current build ID.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getBuildOptions">getBuildOptions()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Returns build options.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Cecil-Builder.html#method_getBuilId">getBuilId()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Returns current build ID.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getConfig">getConfig()</a>
@@ -578,6 +602,61 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
 
         </h3>
                     <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_OPTIONS">
+        OPTIONS
+        <a href="classes/Cecil-Builder.html#constant_OPTIONS" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">49</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Default options for the build process.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">OPTIONS</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;drafts&#039; =&gt; false, &#039;dry-run&#039; =&gt; false, &#039;page&#039; =&gt; &#039;&#039;, &#039;render-subset&#039; =&gt; &#039;&#039;]</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>These options can be overridden when calling the build() method.</p>
+<ul>
+<li>'drafts': if true, builds drafts too (default: false)</li>
+<li>'dry-run': if true, generated files are not saved (default: false)</li>
+<li>'page': if specified, only this page is processed (default: '')</li>
+<li>'render-subset': limits the render step to a specific subset (default: '')</li>
+</ul>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Builder.html#constant_OPTIONS#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#method_build"><abbr title="\Cecil\Builder::build()">Builder::build()</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_VERBOSITY_DEBUG">
         VERBOSITY_DEBUG
         <a href="classes/Cecil-Builder.html#constant_VERBOSITY_DEBUG" class="headerlink"><i class="fas fa-link"></i></a>
@@ -758,11 +837,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">87</span>
+    <span class="phpdocumentor-element-found-in__line">143</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Assets path collection.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -770,10 +850,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$assets</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
-    
-        <section class="phpdocumentor-description"><p>Assets path collection</p>
+        <section class="phpdocumentor-description"><p>This is an array that holds paths to assets (like CSS, JS, images) that are used in the build process.
+It is used to keep track of assets that need to be processed or copied.
+It can be set to an array of paths or updated with new asset paths.</p>
 </section>
 
+    
     
 
     
@@ -798,11 +880,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">199</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Current build ID.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -810,11 +893,28 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$buildId</span>
     </code>
 
-    
-        <section class="phpdocumentor-description"><p>curent build ID</p>
+        <section class="phpdocumentor-description"><p>This is a unique identifier for the current build process.
+It is generated based on the current date and time when the build starts.
+It can be used to track builds, especially in environments where multiple builds may occur.</p>
 </section>
 
     
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Builder.html#property_buildId#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#method_build"><abbr title="\Cecil\Builder::build()">Builder::build()</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
     
 
@@ -838,23 +938,40 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">63</span>
+    <span class="phpdocumentor-element-found-in__line">88</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Configuration object.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string|int, mixed&gt;|null</span>
     <span class="phpdocumentor-signature__name">$config</span>
     </code>
 
-    
-        <section class="phpdocumentor-description"><p>Configuration.</p>
+        <section class="phpdocumentor-description"><p>This object holds all the configuration settings for the build process.
+It can be set to an array or a Config instance.</p>
 </section>
 
     
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Builder.html#property_config#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
     
 
@@ -878,11 +995,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">116</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Content files collection.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -890,10 +1008,10 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$content</span>
     </code>
 
-    
-        <section class="phpdocumentor-description"><p>Content iterator.</p>
+        <section class="phpdocumentor-description"><p>This is a Finder instance that collects all the content files (pages, posts, etc.) from the source directory.</p>
 </section>
 
+    
     
 
     
@@ -918,11 +1036,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">122</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Data collection.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -930,10 +1049,10 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$data</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
-    
-        <section class="phpdocumentor-description"><p>Data collection.</p>
+        <section class="phpdocumentor-description"><p>This is an associative array that holds data loaded from YAML files in the data directory.</p>
 </section>
 
+    
     
 
     
@@ -958,11 +1077,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">69</span>
+    <span class="phpdocumentor-element-found-in__line">102</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Debug mode state.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -970,10 +1090,10 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$debug</span>
      = <span class="phpdocumentor-signature__default-value">false</span></code>
 
-    
-        <section class="phpdocumentor-description"><p>Debug mode.</p>
+        <section class="phpdocumentor-description"><p>If true, debug messages are logged.</p>
 </section>
 
+    
     
 
     
@@ -998,11 +1118,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">99</span>
+    <span class="phpdocumentor-element-found-in__line">178</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Generators manager.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1010,10 +1131,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$generatorManager</span>
     </code>
 
-    
-        <section class="phpdocumentor-description"><p>Generators manager.</p>
+        <section class="phpdocumentor-description"><p>This is an instance of GeneratorManager that manages all the generators used in the build process.
+Generators are used to create dynamic content or perform specific tasks during the build.
+It allows for the registration and execution of various generators that can extend the functionality of the build process.</p>
 </section>
 
+    
     
 
     
@@ -1038,11 +1161,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">96</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Logger instance.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1050,11 +1174,27 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$logger</span>
     </code>
 
-    
-        <section class="phpdocumentor-description"><p>Logger.</p>
+        <section class="phpdocumentor-description"><p>This logger is used to log messages during the build process.
+It can be set to any PSR-3 compliant logger.</p>
 </section>
 
     
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Builder.html#property_logger#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1078,11 +1218,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">90</span>
+    <span class="phpdocumentor-element-found-in__line">153</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Menus collection.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1090,11 +1231,29 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$menus</span>
     </code>
 
-    
-        <section class="phpdocumentor-description"><p>Menus collection.</p>
+        <section class="phpdocumentor-description"><p>This is an associative array that holds menus for different languages.
+Each key is a language code, and the value is a Collection\Menu\Collection instance
+that contains the menu items for that language.
+It is used to manage navigation menus across different languages in the website.</p>
 </section>
 
     
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Builder.html#property_menus#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1118,11 +1277,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">105</span>
+    <span class="phpdocumentor-element-found-in__line">190</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Build metrics.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1130,10 +1290,11 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$metrics</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
-    
-        <section class="phpdocumentor-description"><p>Build metrics.</p>
+        <section class="phpdocumentor-description"><p>This array holds metrics about the build process, such as duration and memory usage for each step.
+It is used to track the performance of the build and can be useful for debugging and optimization.</p>
 </section>
 
+    
     
 
     
@@ -1158,11 +1319,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">110</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Build options.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1170,11 +1332,34 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$options</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
-    
-        <section class="phpdocumentor-description"><p>Build options.</p>
+        <section class="phpdocumentor-description"><p>These options can be passed to the build() method to customize the build process.</p>
 </section>
 
     
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Builder.html#property_options#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#constant_OPTIONS"><abbr title="\Cecil\Builder::OPTIONS">Builder::OPTIONS</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#method_build"><abbr title="\Cecil\Builder::build()">Builder::build()</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1198,11 +1383,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">84</span>
+    <span class="phpdocumentor-element-found-in__line">135</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Pages collection.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1210,10 +1396,11 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$pages</span>
     </code>
 
-    
-        <section class="phpdocumentor-description"><p>Pages collection.</p>
+        <section class="phpdocumentor-description"><p>This is a collection of pages that have been processed and are ready for rendering.
+It is an instance of PagesCollection, which is a custom collection class for managing pages.</p>
 </section>
 
+    
     
 
     
@@ -1238,11 +1425,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">96</span>
+    <span class="phpdocumentor-element-found-in__line">170</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Renderer.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1250,10 +1438,11 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$renderer</span>
     </code>
 
-    
-        <section class="phpdocumentor-description"><p>Renderer.</p>
+        <section class="phpdocumentor-description"><p>This is an instance of Renderer\RendererInterface that is responsible for rendering pages.
+It handles the rendering of templates and the application of data to those templates.</p>
 </section>
 
+    
     
 
     
@@ -1278,11 +1467,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">128</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Static files collection.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1290,10 +1480,10 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$static</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
-    
-        <section class="phpdocumentor-description"><p>Static files collection.</p>
+        <section class="phpdocumentor-description"><p>This is an associative array that holds static files (like images, CSS, JS) that are copied to the destination directory.</p>
 </section>
 
+    
     
 
     
@@ -1318,23 +1508,40 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Steps processed by build(), in order.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+            <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
     <span class="phpdocumentor-signature__name">$steps</span>
      = <span class="phpdocumentor-signature__default-value">[&#039;Cecil\Step\Pages\Load&#039;, &#039;Cecil\Step\Data\Load&#039;, &#039;Cecil\Step\StaticFiles\Load&#039;, &#039;Cecil\Step\Pages\Create&#039;, &#039;Cecil\Step\Pages\Convert&#039;, &#039;Cecil\Step\Taxonomies\Create&#039;, &#039;Cecil\Step\Pages\Generate&#039;, &#039;Cecil\Step\Menus\Create&#039;, &#039;Cecil\Step\StaticFiles\Copy&#039;, &#039;Cecil\Step\Pages\Render&#039;, &#039;Cecil\Step\Pages\Save&#039;, &#039;Cecil\Step\Assets\Save&#039;, &#039;Cecil\Step\Optimize\Html&#039;, &#039;Cecil\Step\Optimize\Css&#039;, &#039;Cecil\Step\Optimize\Js&#039;, &#039;Cecil\Step\Optimize\Images&#039;]</span></code>
 
-    
-        <section class="phpdocumentor-description"><p>Steps processed by build().</p>
+        <section class="phpdocumentor-description"><p>These steps are executed sequentially to build the website.
+Each step is a class that implements the StepInterface.</p>
 </section>
 
     
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Builder.html#property_steps#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Step-StepInterface.html"><abbr title="\Cecil\Step\StepInterface">StepInterface</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1358,11 +1565,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">93</span>
+    <span class="phpdocumentor-element-found-in__line">163</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Taxonomies collection.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1370,11 +1578,29 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <span class="phpdocumentor-signature__name">$taxonomies</span>
     </code>
 
-    
-        <section class="phpdocumentor-description"><p>Taxonomies collection.</p>
+        <section class="phpdocumentor-description"><p>This is an associative array that holds taxonomies for different languages.
+Each key is a language code, and the value is a Collection\Taxonomy\Collection instance
+that contains the taxonomy terms for that language.
+It is used to manage taxonomies (like categories, tags) across different languages in the website.</p>
 </section>
 
     
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Builder.html#property_taxonomies#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1398,11 +1624,12 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">102</span>
+    <span class="phpdocumentor-element-found-in__line">183</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Application version.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1411,9 +1638,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     </code>
 
     
-        <section class="phpdocumentor-description"><p>Application version.</p>
-</section>
-
+    
     
 
     
@@ -1443,7 +1668,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">114</span>
+    <span class="phpdocumentor-element-found-in__line">205</span>
 
     </aside>
 
@@ -1494,7 +1719,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">392</span>
+    <span class="phpdocumentor-element-found-in__line">484</span>
 
     </aside>
 
@@ -1539,7 +1764,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">145</span>
+    <span class="phpdocumentor-element-found-in__line">241</span>
 
     </aside>
 
@@ -1547,17 +1772,21 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">build</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">build</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, self::OPTIONS&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>This method processes the build steps in order, collects content, data, static files,
+generates pages, renders them, and saves the output to the destination directory.
+It also collects metrics about the build process, such as duration and memory usage.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$options</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, self::OPTIONS&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1565,6 +1794,21 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Builder.html#method_build#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#constant_OPTIONS"><abbr title="\Cecil\Builder::OPTIONS">Builder::OPTIONS</abbr></a></span>
+                                        
+                                             
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1588,7 +1832,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">135</span>
+    <span class="phpdocumentor-element-found-in__line">226</span>
 
     </aside>
 
@@ -1627,7 +1871,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">402</span>
+    <span class="phpdocumentor-element-found-in__line">494</span>
 
     </aside>
 
@@ -1658,6 +1902,45 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getBuildId">
+        getBuildId()
+        <a href="classes/Cecil-Builder.html#method_getBuildId" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">299</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns current build ID.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getBuildId</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getBuildOptions">
         getBuildOptions()
         <a href="classes/Cecil-Builder.html#method_getBuildOptions" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1666,7 +1949,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">303</span>
+    <span class="phpdocumentor-element-found-in__line">395</span>
 
     </aside>
 
@@ -1697,45 +1980,6 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getBuilId">
-        getBuilId()
-        <a href="classes/Cecil-Builder.html#method_getBuilId" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">207</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Returns current build ID.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getBuilId</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_getConfig">
         getConfig()
         <a href="classes/Cecil-Builder.html#method_getConfig" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1744,7 +1988,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">235</span>
+    <span class="phpdocumentor-element-found-in__line">327</span>
 
     </aside>
 
@@ -1783,7 +2027,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">335</span>
+    <span class="phpdocumentor-element-found-in__line">427</span>
 
     </aside>
 
@@ -1832,7 +2076,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">287</span>
+    <span class="phpdocumentor-element-found-in__line">379</span>
 
     </aside>
 
@@ -1871,7 +2115,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">418</span>
+    <span class="phpdocumentor-element-found-in__line">510</span>
 
     </aside>
 
@@ -1920,7 +2164,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">458</span>
+    <span class="phpdocumentor-element-found-in__line">550</span>
 
     </aside>
 
@@ -1959,7 +2203,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">376</span>
+    <span class="phpdocumentor-element-found-in__line">468</span>
 
     </aside>
 
@@ -1998,7 +2242,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">319</span>
+    <span class="phpdocumentor-element-found-in__line">411</span>
 
     </aside>
 
@@ -2037,7 +2281,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">450</span>
+    <span class="phpdocumentor-element-found-in__line">542</span>
 
     </aside>
 
@@ -2076,7 +2320,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">360</span>
+    <span class="phpdocumentor-element-found-in__line">452</span>
 
     </aside>
 
@@ -2115,7 +2359,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">434</span>
+    <span class="phpdocumentor-element-found-in__line">526</span>
 
     </aside>
 
@@ -2164,7 +2408,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">468</span>
+    <span class="phpdocumentor-element-found-in__line">560</span>
 
     </aside>
 
@@ -2218,7 +2462,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">269</span>
+    <span class="phpdocumentor-element-found-in__line">361</span>
 
     </aside>
 
@@ -2253,7 +2497,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">295</span>
+    <span class="phpdocumentor-element-found-in__line">387</span>
 
     </aside>
 
@@ -2292,7 +2536,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">384</span>
+    <span class="phpdocumentor-element-found-in__line">476</span>
 
     </aside>
 
@@ -2337,7 +2581,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">215</span>
+    <span class="phpdocumentor-element-found-in__line">307</span>
 
     </aside>
 
@@ -2386,7 +2630,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">327</span>
+    <span class="phpdocumentor-element-found-in__line">419</span>
 
     </aside>
 
@@ -2431,7 +2675,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">259</span>
+    <span class="phpdocumentor-element-found-in__line">351</span>
 
     </aside>
 
@@ -2480,7 +2724,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">279</span>
+    <span class="phpdocumentor-element-found-in__line">371</span>
 
     </aside>
 
@@ -2525,7 +2769,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">410</span>
+    <span class="phpdocumentor-element-found-in__line">502</span>
 
     </aside>
 
@@ -2570,7 +2814,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">368</span>
+    <span class="phpdocumentor-element-found-in__line">460</span>
 
     </aside>
 
@@ -2615,7 +2859,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">311</span>
+    <span class="phpdocumentor-element-found-in__line">403</span>
 
     </aside>
 
@@ -2660,7 +2904,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">442</span>
+    <span class="phpdocumentor-element-found-in__line">534</span>
 
     </aside>
 
@@ -2705,7 +2949,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">247</span>
+    <span class="phpdocumentor-element-found-in__line">339</span>
 
     </aside>
 
@@ -2754,7 +2998,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">352</span>
+    <span class="phpdocumentor-element-found-in__line">444</span>
 
     </aside>
 
@@ -2799,7 +3043,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">426</span>
+    <span class="phpdocumentor-element-found-in__line">518</span>
 
     </aside>
 
@@ -2844,7 +3088,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">489</span>
+    <span class="phpdocumentor-element-found-in__line">581</span>
 
     </aside>
 
@@ -2978,6 +3222,7 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Constants</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Cecil-Builder.html#constant_OPTIONS">OPTIONS</a></li>
                                                     <li class=""><a href="classes/Cecil-Builder.html#constant_VERBOSITY_DEBUG">VERBOSITY_DEBUG</a></li>
                                                     <li class=""><a href="classes/Cecil-Builder.html#constant_VERBOSITY_NORMAL">VERBOSITY_NORMAL</a></li>
                                                     <li class=""><a href="classes/Cecil-Builder.html#constant_VERBOSITY_QUIET">VERBOSITY_QUIET</a></li>
@@ -3017,8 +3262,8 @@ It also provides methods for logging, debugging, and managing build metrics.</p>
                                             <li class=""><a href="classes/Cecil-Builder.html#method_build">build()</a></li>
                                             <li class=""><a href="classes/Cecil-Builder.html#method_create">create()</a></li>
                                             <li class=""><a href="classes/Cecil-Builder.html#method_getAssets">getAssets()</a></li>
+                                            <li class=""><a href="classes/Cecil-Builder.html#method_getBuildId">getBuildId()</a></li>
                                             <li class=""><a href="classes/Cecil-Builder.html#method_getBuildOptions">getBuildOptions()</a></li>
-                                            <li class=""><a href="classes/Cecil-Builder.html#method_getBuilId">getBuilId()</a></li>
                                             <li class=""><a href="classes/Cecil-Builder.html#method_getConfig">getConfig()</a></li>
                                             <li class=""><a href="classes/Cecil-Builder.html#method_getData">getData()</a></li>
                                             <li class=""><a href="classes/Cecil-Builder.html#method_getLogger">getLogger()</a></li>
