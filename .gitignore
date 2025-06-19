@@ -3,7 +3,7 @@ vendor/
 .phpunit.result.cache
 .php-cs-fixer.cache
 phpdoc
-.phpdoc
+.phpdoc/cache/
 
 # if you run Cecil here
 _site/
