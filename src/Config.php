@@ -27,8 +27,11 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Config
 {
-    /** Configuration is a Data object. */
-    protected Data $data;
+    public const IMPORT_PRESERVE = 0;
+    public const IMPORT_REPLACE = 1;
+    public const IMPORT_MERGE = 2;
+    public const LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
+    public const LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
 
     /**
      * Configuration is a Data object.
@@ -67,12 +70,6 @@ class Config
      */
     protected ?array $languages = null;
 
-    public const PRESERVE = 0;
-    public const REPLACE = 1;
-    public const MERGE = 2;
-    public const LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
-    public const LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
-
     /**
      * Build the Config object with the default config + the optional given array.
      */
@@ -92,9 +89,14 @@ class Config
 
     /**
      * Imports (and validate) configuration.
-     * The mode can be: Config::PRESERVE, Config::REPLACE or Config::MERGE.
+     * The mode can be:
+     * - Config::IMPORT_PRESERVE: preserves existing configuration and adds new keys.
+     * - Config::IMPORT_REPLACE: replaces existing configuration with new keys.
+     * - Config::IMPORT_MERGE: merges existing configuration with new keys, overriding existing keys.
+     * @param array $config Configuration array to import
+     * @param int   $mode   Import mode (default: Config::IMPORT_MERGE)
      */
-    public function import(array $config, $mode = self::MERGE): void
+    public function import(array $config, int $mode = self::IMPORT_MERGE): void
     {
         $this->data->import($config, $mode);
         $this->setFromEnv(); // override configuration with environment variables
