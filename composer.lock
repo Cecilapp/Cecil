@@ -4373,16 +4373,16 @@
         },
         {
             "name": "wapmorgan/mp3info",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wapmorgan/Mp3Info.git",
-                "reference": "f4e3b0d606732f667729c116e1baa4f845a65f9d"
+                "reference": "e532c2e1997874f9c672c7810ce90ef15004ef94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wapmorgan/Mp3Info/zipball/f4e3b0d606732f667729c116e1baa4f845a65f9d",
-                "reference": "f4e3b0d606732f667729c116e1baa4f845a65f9d",
+                "url": "https://api.github.com/repos/wapmorgan/Mp3Info/zipball/e532c2e1997874f9c672c7810ce90ef15004ef94",
+                "reference": "e532c2e1997874f9c672c7810ce90ef15004ef94",
                 "shasum": ""
             },
             "require": {
@@ -4413,9 +4413,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wapmorgan/Mp3Info/issues",
-                "source": "https://github.com/wapmorgan/Mp3Info/tree/0.1.0"
+                "source": "https://github.com/wapmorgan/Mp3Info/tree/0.1.1"
             },
-            "time": "2023-05-28T18:37:15+00:00"
+            "time": "2025-04-01T20:51:11+00:00"
         },
         {
             "name": "yosymfony/parser-utils",
