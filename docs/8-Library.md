@@ -23,29 +23,23 @@ You can read the [API documentation](https://cecil.app/documentation/library/api
 
 ### Build
 
-Build with the default configuration.
+Build a new website with a custom configuration:
 
 ```php
 use Cecil\Builder;
 
-Builder::create()->build();
-```
-
-Build with custom configuration:
-
-```php
+// Create a configuration array
 $config = [
     'title'   => "My website",
-    'baseurl' => 'http://localhost:8000/',
+    'baseurl' => 'https://domain.tld/',
 ];
 
+// Build with the custom configuration
 Builder::create($config)->build();
 ```
 
-> The main parameter of the `create` method should be an array or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
-
 :::info
-The full code of _Builder_ is available on [GitHub](https://github.com/Cecilapp/Cecil/blob/master/src/Builder.php).
+The main parameter of the `create` method should be a PHP `array` or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
 :::
 
 ### Example
@@ -58,6 +52,6 @@ use Cecil\Builder;
 // Build with the website with the `config.php` configuration file
 Cecil::create(require('config.php'))->build();
 
-// Run a local server
+// Preview locally
 exec('php -S localhost:8000 -t _site');
 ```

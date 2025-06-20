@@ -2948,17 +2948,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Config\u003A\u003A\u0024builder",
             "name": "builder",
-            "summary": "",
+            "summary": "Builder\u0020object.",
             "url": "classes/Cecil-Renderer-Config.html#property_builder"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Config\u003A\u003A\u0024config",
             "name": "config",
-            "summary": "",
+            "summary": "Configuration\u0020object.",
             "url": "classes/Cecil-Renderer-Config.html#property_config"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Config\u003A\u003A\u0024language",
             "name": "language",
-            "summary": "",
+            "summary": "Current\u0020language\u0020code.",
             "url": "classes/Cecil-Renderer-Config.html#property_language"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core",
@@ -3258,12 +3258,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language\u003A\u003A\u0024config",
             "name": "config",
-            "summary": "",
+            "summary": "Configuration\u0020object.",
             "url": "classes/Cecil-Renderer-Language.html#property_config"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language\u003A\u003A\u0024language",
             "name": "language",
-            "summary": "",
+            "summary": "Current\u0020language\u0020code.",
             "url": "classes/Cecil-Renderer-Language.html#property_language"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Layout",
@@ -3283,7 +3283,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Layout\u003A\u003AEXT",
             "name": "EXT",
-            "summary": "",
+            "summary": "Twig\u0020template\u0020extension.",
             "url": "classes/Cecil-Renderer-Layout.html#constant_EXT"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Page",
@@ -3308,7 +3308,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003A\u0024config",
             "name": "config",
-            "summary": "",
+            "summary": "Configuration\u0020object.",
             "url": "classes/Cecil-Renderer-Page.html#property_config"
         },                {
             "fqsen": "\\Cecil\\Renderer\\PostProcessor\\AbstractPostProcessor",
@@ -3473,17 +3473,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Site\u003A\u003A\u0024builder",
             "name": "builder",
-            "summary": "",
+            "summary": "Builder\u0020object.",
             "url": "classes/Cecil-Renderer-Site.html#property_builder"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Site\u003A\u003A\u0024config",
             "name": "config",
-            "summary": "",
+            "summary": "Configuration\u0020object.",
             "url": "classes/Cecil-Renderer-Site.html#property_config"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Site\u003A\u003A\u0024language",
             "name": "language",
-            "summary": "",
+            "summary": "Current\u0020language\u0020code.",
             "url": "classes/Cecil-Renderer-Site.html#property_language"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Twig",
