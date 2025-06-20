@@ -52,7 +52,6 @@ class Builder implements LoggerAwareInterface
         'page'    => '',
         'render-subset' => '',
     ];
-
     /**
      * Steps processed by build(), in order.
      * These steps are executed sequentially to build the website.
@@ -60,7 +59,7 @@ class Builder implements LoggerAwareInterface
      * @var array<string>
      * @see \Cecil\Step\StepInterface
      */
-    protected $steps = [
+    public const STEPS = [
         'Cecil\Step\Pages\Load',
         'Cecil\Step\Data\Load',
         'Cecil\Step\StaticFiles\Load',
@@ -78,6 +77,7 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\Optimize\Js',
         'Cecil\Step\Optimize\Images',
     ];
+
     /**
      * Configuration object.
      * This object holds all the configuration settings for the build process.
@@ -256,7 +256,7 @@ class Builder implements LoggerAwareInterface
         // process each step
         $steps = [];
         // init...
-        foreach ($this->steps as $step) {
+        foreach (self::STEPS as $step) {
             /** @var Step\StepInterface $stepObject */
             $stepObject = new $step($this);
             $stepObject->init($this->options);
