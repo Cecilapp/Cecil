@@ -35,16 +35,25 @@ use Twig\Extra\Cache\CacheExtension;
  */
 class Twig implements RendererInterface
 {
-    /** @var Builder */
-    private $builder;
-
-    /** @var \Twig\Environment */
+    /**
+     * Builder object.
+     * @var Builder
+     */
+    protected $builder;
+    /**
+     * Twig environment instance.
+     * @var \Twig\Environment
+     */
     private $twig;
-
-    /** @var Translator */
+    /**
+     * Translator instance for translations.
+     * @var Translator
+     */
     private $translator = null;
-
-    /** @var \Twig\Profiler\Profile */
+    /**
+     * Profile for debugging and profiling.
+     * @var \Twig\Profiler\Profile
+     */
     private $profile = null;
 
     /**

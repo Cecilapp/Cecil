@@ -24,7 +24,10 @@ use Cecil\Collection\Page\Page as PageItem;
  */
 class Page
 {
-    /** @var \Cecil\Config */
+    /**
+     * Configuration object.
+     * @var \Cecil\Config
+     */
     protected $config;
 
     public function __construct(\Cecil\Config $config)
@@ -34,7 +37,6 @@ class Page
 
     /**
      * Returns the path of the rendered file, based on the output format properties.
-     *
      * Use cases:
      *   - default: path + filename + extension (e.g.: 'blog/post-1/index.html')
      *   - with subpath: path + subpath + filename + extension (e.g.: 'blog/post-1/amp/index.html')

@@ -28,6 +28,14 @@ use Symfony\Component\Finder\Finder;
  * managing configuration, and handling content, data, static files, pages, assets,
  * menus, taxonomies, and rendering.
  * It also provides methods for logging, debugging, and managing build metrics.
+ *
+ * ```php
+ * $config = [
+ *   'title'   => "My website",
+ *   'baseurl' => 'https://domain.tld/',
+ * ];
+ * Builder::create($config)->build();
+ * ```
  */
 class Builder implements LoggerAwareInterface
 {

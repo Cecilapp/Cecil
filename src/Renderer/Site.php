@@ -27,13 +27,20 @@ use Cecil\Collection\Page\Page as CollectionPage;
  */
 class Site implements \ArrayAccess
 {
-    /** @var Builder Builder object. */
+    /**
+     * Builder object.
+     * @var Builder
+     */
     protected $builder;
-
-    /** @var \Cecil\Config */
+    /**
+     * Configuration object.
+     * @var \Cecil\Config
+     */
     protected $config;
-
-    /** @var string Current language. */
+    /**
+     * Current language code.
+     * @var string
+     */
     protected $language;
 
     public function __construct(Builder $builder, string $language)
@@ -75,7 +82,7 @@ class Site implements \ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        // If it's a built-in variable: dot not fetchs data from config raw
+        // If it's a built-in variable: dot not fetch data from config raw
         switch ($offset) {
             case 'pages':
                 return $this->getPages();

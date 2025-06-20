@@ -28,6 +28,10 @@ use Cecil\Util;
  */
 class Layout
 {
+    /**
+     * Twig template extension.
+     * @var string
+     */
     public const EXT = 'twig';
 
     /**

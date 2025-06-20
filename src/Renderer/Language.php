@@ -24,10 +24,15 @@ use Cecil\Exception\RuntimeException;
  */
 class Language
 {
-    /** @var \Cecil\Config */
+    /**
+     * Configuration object.
+     * @var \Cecil\Config
+     */
     protected $config;
-
-    /** @var string Current language. */
+    /**
+     * Current language code.
+     * @var string
+     */
     protected $language;
 
     public function __construct(\Cecil\Config $config, ?string $language = null)

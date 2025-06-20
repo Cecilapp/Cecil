@@ -21,9 +21,10 @@ use Cecil\Builder;
 interface RendererInterface
 {
     /**
+     * @param Builder      $builder
      * @param string|array $templatesPath
      */
-    public function __construct(Builder $buider, $templatesPath);
+    public function __construct(Builder $builder, $templatesPath);
 
     /**
      * Adds a global variable.

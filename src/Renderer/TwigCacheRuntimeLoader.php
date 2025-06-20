@@ -26,6 +26,10 @@ use Twig\RuntimeLoader\RuntimeLoaderInterface;
  */
 class TwigCacheRuntimeLoader implements RuntimeLoaderInterface
 {
+    /**
+     * Directory where cache files are stored.
+     * @var string
+     */
     protected string $cacheDir;
 
     public function __construct(string $cacheDir)

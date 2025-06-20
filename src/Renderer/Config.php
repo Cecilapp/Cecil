@@ -25,13 +25,20 @@ use Cecil\Builder;
  */
 class Config implements \ArrayAccess
 {
-    /** @var Builder Builder object. */
+    /**
+     * Builder object.
+     * @var Builder
+     */
     protected $builder;
-
-    /** @var \Cecil\Config */
+    /**
+     * Configuration object.
+     * @var \Cecil\Config
+     */
     protected $config;
-
-    /** @var string Current language. */
+    /**
+     * Current language code.
+     * @var string
+     */
     protected $language;
 
     public function __construct(Builder $builder, string $language)
