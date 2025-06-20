@@ -4,13 +4,11 @@ set -e
 # Deploy documentation files to website
 
 SOURCE_DOCS_DIR="docs"
-SOURCE_API_DIR="api"
 TARGET_REPO="Cecilapp/website"
 if [ -z "${TARGET_BRANCH}" ]; then
   export TARGET_BRANCH="master"
 fi
 TARGET_DOCS_DIR="pages/documentation"
-TARGET_API_DIR="static/api"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
@@ -19,7 +17,6 @@ BUILD_NUMBER=$GITHUB_RUN_NUMBER
 echo "Starting to update documentation to ${TARGET_REPO}..."
 mkdir $HOME
 cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR
-cp -R $SOURCE_API_DIR $HOME/$SOURCE_API_DIR
 
 # clone or create target repo
 cd $HOME
@@ -41,13 +38,10 @@ else
 fi
 
 cd $TARGET_BRANCH
-# copy documentation dir
+# copy docs dir
 mkdir -p $TARGET_DOCS_DIR
 cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
 #find $HOME/$SOURCE_DOCS_DIR/ -type f -name '*.md' | xargs cp -t $TARGET_DOCS_DIR
-# copy API dir
-mkdir -p $TARGET_API_DIR
-cp -Rf $HOME/$SOURCE_API_DIR/* $TARGET_API_DIR
 
 # commit and push
 if [[ -n $(git status -s) ]]; then

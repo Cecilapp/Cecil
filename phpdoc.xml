@@ -7,7 +7,7 @@
 >
   <title>Cecil</title>
   <paths>
-    <output>api</output>
+    <output>docs/api</output>
   </paths>
   <version number="latest">
     <folder>latest</folder>
@@ -15,7 +15,7 @@
       <source dsn=".">
         <path>src</path>
       </source>
-      <output>api</output>
+      <output>docs/api</output>
       <ignore>
         <path>src/bootstrap.php</path>
       </ignore>

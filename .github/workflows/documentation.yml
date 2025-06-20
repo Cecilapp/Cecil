@@ -6,8 +6,7 @@ on:
     branches:
       - master
     paths:
-      - 'docs/**.md'
-      - 'api/**'
+      - 'docs/**'
   pull_request:
     paths:
       - 'docs/**.md'
