@@ -621,10 +621,10 @@ Search.appendIndex(
             "summary": "Default\u0020options\u0020for\u0020the\u0020build\u0020process.",
             "url": "classes/Cecil-Builder.html#constant_OPTIONS"
         },                {
-            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024steps",
-            "name": "steps",
+            "fqsen": "\\Cecil\\Builder\u003A\u003ASTEPS",
+            "name": "STEPS",
             "summary": "Steps\u0020processed\u0020by\u0020build\u0028\u0029,\u0020in\u0020order.",
-            "url": "classes/Cecil-Builder.html#property_steps"
+            "url": "classes/Cecil-Builder.html#constant_STEPS"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024config",
             "name": "config",
@@ -2371,20 +2371,20 @@ Search.appendIndex(
             "summary": "Validate\u0020the\u0020configuration.",
             "url": "classes/Cecil-Config.html#method_validate"
         },                {
-            "fqsen": "\\Cecil\\Config\u003A\u003APRESERVE",
-            "name": "PRESERVE",
+            "fqsen": "\\Cecil\\Config\u003A\u003AIMPORT_PRESERVE",
+            "name": "IMPORT_PRESERVE",
             "summary": "",
-            "url": "classes/Cecil-Config.html#constant_PRESERVE"
+            "url": "classes/Cecil-Config.html#constant_IMPORT_PRESERVE"
         },                {
-            "fqsen": "\\Cecil\\Config\u003A\u003AREPLACE",
-            "name": "REPLACE",
+            "fqsen": "\\Cecil\\Config\u003A\u003AIMPORT_REPLACE",
+            "name": "IMPORT_REPLACE",
             "summary": "",
-            "url": "classes/Cecil-Config.html#constant_REPLACE"
+            "url": "classes/Cecil-Config.html#constant_IMPORT_REPLACE"
         },                {
-            "fqsen": "\\Cecil\\Config\u003A\u003AMERGE",
-            "name": "MERGE",
+            "fqsen": "\\Cecil\\Config\u003A\u003AIMPORT_MERGE",
+            "name": "IMPORT_MERGE",
             "summary": "",
-            "url": "classes/Cecil-Config.html#constant_MERGE"
+            "url": "classes/Cecil-Config.html#constant_IMPORT_MERGE"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003ALANG_CODE_PATTERN",
             "name": "LANG_CODE_PATTERN",
@@ -2403,7 +2403,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003A\u0024default",
             "name": "default",
-            "summary": "Default\u0020configuration\u0020is\u0020a\u0020Data\u0020object.",
+            "summary": "Default\u0020configuration.",
             "url": "classes/Cecil-Config.html#property_default"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003A\u0024sourceDir",
