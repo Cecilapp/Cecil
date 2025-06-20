@@ -39,7 +39,8 @@ Builder::create($config)->build();
 > The main parameter of the `create` method should be an array or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
 
 :::info
-The full code of _Builder_ is available on [GitHub](https://github.com/Cecilapp/Cecil/blob/master/src/Builder.php) and the API documentation at [_api_](api/).
+The full code of _Builder_ is available on [GitHub](https://github.com/Cecilapp/Cecil/blob/master/src/Builder.php).  
+The API documentation is available at [cecil.app/documentation/library/api/](https://cecil.app/documentation/library/api/).
 :::
 
 ### Example
