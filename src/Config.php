@@ -30,16 +30,41 @@ class Config
     /** Configuration is a Data object. */
     protected Data $data;
 
-    /** Default configuration is a Data object. */
+    /**
+     * Configuration is a Data object.
+     * This allows to use dot notation to access configuration keys.
+     * For example: $config->get('key.subkey') or $config->has('key.subkey').
+     * @var Data
+     */
+    protected Data $data;
+    /**
+     * Default configuration.
+     */
     protected Data $default;
-
-    /** Source directory. */
+    /**
+     * Source directory.
+     * This is the directory where the source files are located.
+     * It is used to resolve relative paths in the configuration.
+     * If not set, it defaults to the current working directory.
+     * @var string|null
+     */
     protected ?string $sourceDir = null;
-
-    /** Destination directory. */
+    /**
+     * Destination directory.
+     * This is the directory where the output files will be generated.
+     * It is used to resolve relative paths in the configuration.
+     * If not set, it defaults to the source directory.
+     * @var string|null
+     */
     protected ?string $destinationDir = null;
-
-    /** Languages list as array. */
+    /**
+     * Languages list as array.
+     * This is used to store the languages defined in the configuration.
+     * It is initialized to null and will be populated when the languages are requested.
+     * @var array|null
+     * @see Config::getLanguages()
+     * @see Config::getLanguageDefault()
+     */
     protected ?array $languages = null;
 
     public const PRESERVE = 0;
