@@ -13,6 +13,12 @@ You can use the Cecil as a [PHP](https://www.php.net) library.
 composer require cecil/cecil
 ```
 
+## API
+
+Cecil provides a simple PHP API to build your website.
+
+You can read the [API documentation](https://cecil.app/documentation/library/api/namespaces/cecil.html) for more details.
+
 ## Usage
 
 ### Build
@@ -39,21 +45,17 @@ Builder::create($config)->build();
 > The main parameter of the `create` method should be an array or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
 
 :::info
-The full code of _Builder_ is available on [GitHub](https://github.com/Cecilapp/Cecil/blob/master/src/Builder.php).  
-The API documentation is available at [cecil.app/documentation/library/api/](https://cecil.app/documentation/library/api/).
+The full code of _Builder_ is available on [GitHub](https://github.com/Cecilapp/Cecil/blob/master/src/Builder.php).
 :::
 
 ### Example
 
 ```php
-<?php
-
-date_default_timezone_set('Europe/Paris');
 require_once 'vendor/autoload.php';
 
 use Cecil\Builder;
 
-// Run the builder
+// Build with the website with the `config.php` configuration file
 Cecil::create(require('config.php'))->build();
 
 // Run a local server
