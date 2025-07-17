@@ -8,7 +8,7 @@ export PHP_MIN_VERSION="8.1"
 
 # Specify the PHP version with `PHP_VERSION`
 if [ -z "${PHP_VERSION}" ]; then
-  export PHP_VERSION="8.1"
+  export PHP_VERSION="8.2"
 fi
 # Specify Cecil CLI options with `CECIL_CMD_OPTIONS` (e.g.: `--optimize`)
 if [ -z "${CECIL_CMD_OPTIONS}" ]; then
