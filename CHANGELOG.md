@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.51.2](https://github.com/Cecilapp/Cecil/compare/8.51.1...8.51.2)
+
+> 21 July 2025
+
+- fix: maskable asset padding [`776edc3`](https://github.com/Cecilapp/Cecil/commit/776edc3c2aec30eb8f988832c0eadef826109209)
+
 #### [8.51.1](https://github.com/Cecilapp/Cecil/compare/8.51.0...8.51.1)
 
 > 21 July 2025
