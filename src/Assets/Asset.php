@@ -398,13 +398,17 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Creates a maskable icon from an image asset.
+     * Creates a maskable image (with a padding = 20%).
      *
      * @throws RuntimeException
      */
-    public function maskable(): self
+    public function maskable(?int $padding = null): self
     {
         $this->checkImage();
+
+        if ($padding === null) {
+            $padding = 20; // default padding
+        }
 
         $assetMaskable = clone $this;
 
@@ -414,7 +418,7 @@ class Asset implements \ArrayAccess
         $assetMaskable->cacheTags['maskable'] = true;
         $cacheKey = $cache->createKeyFromAsset($assetMaskable, $assetMaskable->cacheTags);
         if (!$cache->has($cacheKey)) {
-            $assetMaskable->data['content'] = Image::maskable($assetMaskable, quality: $quality);
+            $assetMaskable->data['content'] = Image::maskable($assetMaskable, $quality, $padding);
             $assetMaskable->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 'maskable',

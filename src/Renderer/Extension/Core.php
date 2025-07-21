@@ -394,13 +394,13 @@ class Core extends SlugifyExtension
      *
      * @return Asset
      */
-    public function maskable($asset): Asset
+    public function maskable($asset, ?int $padding = null): Asset
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->maskable();
+        return $asset->maskable($padding);
     }
 
     /**

@@ -1146,6 +1146,20 @@ _Example:_
 {{ asset(page.image)|cover(1200, 630) }}
 ```
 
+### maskable
+
+Adds padding, in pourcentages, to an image to make it maskable.
+
+```twig
+{{ asset(image_path)|maskable(padding) }}
+```
+
+_Example:_
+
+```twig
+{{ asset('icon.png')|maskable }}
+```
+
 ### webp
 
 Converts an image to [WebP](https://developers.google.com/speed/webp) format.

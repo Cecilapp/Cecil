@@ -99,7 +99,20 @@ class Image
                 $image = $image->removeAnimation('25%'); // use 25% to avoid an "empty" frame
             }
             // crops the image
+            $image->cover(
+                width: $width,
+                height: $height,
+                position: 'center'
+            );
             // return image data
+            return (string) $image->encodeByMediaType(
+                $asset['subtype'],
+                /** @scrutinizer ignore-type */
+                progressive: true,
+                /** @scrutinizer ignore-type */
+                interlaced: false,
+                quality: $quality
+            );
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Asset "%s" can\'t be cropped: %s', $asset['path'], $e->getMessage()));
         }
@@ -110,7 +123,7 @@ class Image
      *
      * @throws RuntimeException
      */
-    public static function maskable(Asset $asset, int $quality, int $padding = 20): string
+    public static function maskable(Asset $asset, int $quality, int $padding): string
     {
         try {
             // creates image object from source
@@ -122,11 +135,21 @@ class Image
                 height: (int) round($asset['height'] * (1 + $padding / 100), 0)
             )->fill(self::getDominantColor($asset));
             // inserts the original image in the center
-            $image->place($source, position: 'center');
+            $image->place(
+                $source,
+                position: 'center'
+            );
             // scales down the new image to the original image size
             $image->scaleDown(width: $asset['width']);
             // return image data
-            return (string) $image->encodeByMediaType($asset['subtype'], /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
+            return (string) $image->encodeByMediaType(
+                $asset['subtype'],
+                /** @scrutinizer ignore-type */
+                progressive: true,
+                /** @scrutinizer ignore-type */
+                interlaced: false,
+                quality: $quality
+            );
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Can\'t make Asset "%s" maskable: %s', $asset['path'], $e->getMessage()));
         }
