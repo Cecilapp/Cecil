@@ -112,8 +112,8 @@ class Image
             $source = self::manager()->read($asset['content']);
             // creates a new image with the dominant color and adds a 15% margin
             $image = self::manager()->create(
-                width: (int) round($asset['width'] * (1 + 15/100), 0),
-                height: (int) round($asset['height'] * (1 + 15/100), 0)
+                width: (int) round($asset['width'] * (1 + 15 / 100), 0),
+                height: (int) round($asset['height'] * (1 + 15 / 100), 0)
             )->fill(self::getDominantColor($asset));
             // inserts the original image in the center
             $image->place($source, position: 'center');
