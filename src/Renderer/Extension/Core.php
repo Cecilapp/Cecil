@@ -130,6 +130,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('sass_to_css', [$this, 'scssToCss']),
             new \Twig\TwigFilter('resize', [$this, 'resize']),
             new \Twig\TwigFilter('cover', [$this, 'cover']),
+            new \Twig\TwigFilter('maskable', [$this, 'maskable']),
             new \Twig\TwigFilter('dataurl', [$this, 'dataurl']),
             new \Twig\TwigFilter('dominant_color', [$this, 'dominantColor']),
             new \Twig\TwigFilter('lqip', [$this, 'lqip']),
@@ -386,6 +387,23 @@ class Core extends SlugifyExtension
         }
 
         return $asset->cover($width, $height, $position);
+    }
+
+    /**
+     * Creates a maskable icon from an image asset.
+     * The maskable icon is used for Progressive Web Apps (PWAs).
+     *
+     * @param string|Asset $asset
+     *
+     * @return Asset
+     */
+    public function maskable($asset): Asset
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return $asset->maskable();
     }
 
     /**
