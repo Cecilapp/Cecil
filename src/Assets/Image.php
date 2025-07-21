@@ -71,7 +71,14 @@ class Image
             // resizes to $width with constraint the aspect-ratio and unwanted upsizing
             $image->scaleDown(width: $width);
             // return image data
-            return (string) $image->encodeByMediaType($asset['subtype'], /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
+            return (string) $image->encodeByMediaType(
+                $asset['subtype'],
+                /** @scrutinizer ignore-type */
+                progressive: true,
+                /** @scrutinizer ignore-type */
+                interlaced: false,
+                quality: $quality
+            );
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s', $asset['path'], $e->getMessage()));
         }
@@ -82,7 +89,7 @@ class Image
      *
      * @throws RuntimeException
      */
-    public static function cover(Asset $asset, int $width, int $height, string $position, int $quality): string
+    public static function cover(Asset $asset, int $width, int $height, int $quality): string
     {
         try {
             // creates image object from source
@@ -92,9 +99,7 @@ class Image
                 $image = $image->removeAnimation('25%'); // use 25% to avoid an "empty" frame
             }
             // crops the image
-            $image->cover(width: $width, height: $height, position: $position);
             // return image data
-            return (string) $image->encodeByMediaType($asset['subtype'], /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Asset "%s" can\'t be cropped: %s', $asset['path'], $e->getMessage()));
         }
@@ -141,7 +146,14 @@ class Image
                 throw new RuntimeException(\sprintf('Function "image%s" is not available.', $format));
             }
 
-            return (string) $image->encodeByExtension($format, /** @scrutinizer ignore-type */ progressive: true, /** @scrutinizer ignore-type */ interlaced: false, quality: $quality);
+            return (string) $image->encodeByExtension(
+                $format,
+                /** @scrutinizer ignore-type */
+                progressive: true,
+                /** @scrutinizer ignore-type */
+                interlaced: false,
+                quality: $quality
+            );
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Not able to convert "%s" to %s: %s', $asset['path'], $format, $e->getMessage()));
         }

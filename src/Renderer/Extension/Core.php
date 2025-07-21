@@ -374,19 +374,16 @@ class Core extends SlugifyExtension
      * Crops an image Asset to the given width and height, keeping the aspect ratio.
      *
      * @param string|Asset $asset
-     * @param int          $width
-     * @param int          $height
-     * @param string       $position
      *
      * @return Asset
      */
-    public function cover($asset, int $width, int $height, string $position = 'center'): Asset
+    public function cover($asset, int $width, int $height): Asset
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->cover($width, $height, $position);
+        return $asset->cover($width, $height);
     }
 
     /**

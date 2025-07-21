@@ -363,7 +363,7 @@ class Asset implements \ArrayAccess
      *
      * @throws RuntimeException
      */
-    public function cover(int $width, int $height, string $position = 'center'): self
+    public function cover(int $width, int $height): self
     {
         $this->checkImage();
 
@@ -379,7 +379,7 @@ class Asset implements \ArrayAccess
         $assetResized->cacheTags['height'] = $height;
         $cacheKey = $cache->createKeyFromAsset($assetResized, $assetResized->cacheTags);
         if (!$cache->has($cacheKey)) {
-            $assetResized->data['content'] = Image::cover($assetResized, $width, $height, $position, $quality);
+            $assetResized->data['content'] = Image::cover($assetResized, $width, $height, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 self::IMAGE_THUMB,
