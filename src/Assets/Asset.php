@@ -424,7 +424,7 @@ class Asset implements \ArrayAccess
             $assetMaskable->data['size'] = \strlen($assetMaskable->data['content']);
 
             $cache->set($cacheKey, $assetMaskable->data, $this->config->get('cache.assets.ttl'));
-            $this->builder->getLogger()->error(\sprintf('Asset maskabled: "%s"', $assetMaskable->data['path']));
+            $this->builder->getLogger()->debug(\sprintf('Asset maskabled: "%s"', $assetMaskable->data['path']));
         }
         $assetMaskable->data = $cache->get($cacheKey);
 
