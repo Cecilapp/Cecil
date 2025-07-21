@@ -335,9 +335,9 @@ class Asset implements \ArrayAccess
         $quality = (int) $this->config->get('assets.images.quality');
 
         $cache = new Cache($this->builder, 'assets');
-        $this->cacheTags['quality'] = $quality;
-        $this->cacheTags['width'] = $width;
-        $cacheKey = $cache->createKeyFromAsset($assetResized, $this->cacheTags);
+        $assetResized->cacheTags['quality'] = $quality;
+        $assetResized->cacheTags['width'] = $width;
+        $cacheKey = $cache->createKeyFromAsset($assetResized, $assetResized->cacheTags);
         if (!$cache->has($cacheKey)) {
             $assetResized->data['content'] = Image::resize($assetResized, $width, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
@@ -374,10 +374,10 @@ class Asset implements \ArrayAccess
         $quality = (int) $this->config->get('assets.images.quality');
 
         $cache = new Cache($this->builder, 'assets');
-        $this->cacheTags['quality'] = $quality;
-        $this->cacheTags['width'] = $width;
-        $this->cacheTags['height'] = $height;
-        $cacheKey = $cache->createKeyFromAsset($assetResized, $this->cacheTags);
+        $assetResized->cacheTags['quality'] = $quality;
+        $assetResized->cacheTags['width'] = $width;
+        $assetResized->cacheTags['height'] = $height;
+        $cacheKey = $cache->createKeyFromAsset($assetResized, $assetResized->cacheTags);
         if (!$cache->has($cacheKey)) {
             $assetResized->data['content'] = Image::cover($assetResized, $width, $height, $position, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
