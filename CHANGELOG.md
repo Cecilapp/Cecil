@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.51.0](https://github.com/Cecilapp/Cecil/compare/8.50.3...8.51.0)
+
+> 21 July 2025
+
+- feat: new asset maskable filter [`60eb2aa`](https://github.com/Cecilapp/Cecil/commit/60eb2aabd2f9800ef6729ff6acd080ca7469c4e0)
+
+#### [8.50.3](https://github.com/Cecilapp/Cecil/compare/8.50.2...8.50.3)
+
+> 21 July 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.83.0 to 3.84.0 [`#2201`](https://github.com/Cecilapp/Cecil/pull/2201)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.82.2 to 3.83.0 [`#2200`](https://github.com/Cecilapp/Cecil/pull/2200)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.82.1 to 3.82.2 [`#2199`](https://github.com/Cecilapp/Cecil/pull/2199)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.80.0 to 3.82.1 [`#2198`](https://github.com/Cecilapp/Cecil/pull/2198)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.76.0 to 3.80.0 [`#2197`](https://github.com/Cecilapp/Cecil/pull/2197)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.75.0 to 3.76.0 [`#2196`](https://github.com/Cecilapp/Cecil/pull/2196)
+- chore(deps): bump matthiasmullie/minify from 1.3.74 to 1.3.75 [`#2195`](https://github.com/Cecilapp/Cecil/pull/2195)
+- chore(deps): bump wapmorgan/mp3info from 0.1.0 to 0.1.1 [`#2194`](https://github.com/Cecilapp/Cecil/pull/2194)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.13.1 to 3.13.2 [`#2193`](https://github.com/Cecilapp/Cecil/pull/2193)
+- chore: cleaning phpdoc [`#2191`](https://github.com/Cecilapp/Cecil/pull/2191)
+- doc: add API doc [`8d5f6d0`](https://github.com/Cecilapp/Cecil/commit/8d5f6d049bbdcc72cb95355e8550fc48f9cd1b8f)
+- doc: update phpdoc [`9bbc6f2`](https://github.com/Cecilapp/Cecil/commit/9bbc6f20f3d31bc65f648cd5add82634f02a438d)
+- doc: update api doc [`d0399fc`](https://github.com/Cecilapp/Cecil/commit/d0399fca0a973353f84e04015589a31d7375f591)
+- doc: update API doc [`af7b7b7`](https://github.com/Cecilapp/Cecil/commit/af7b7b796efc75b4f3b5b41f6d81403ac04348c7)
+- doc: better API doc [`3cc6251`](https://github.com/Cecilapp/Cecil/commit/3cc6251c67cfed6a4ab9eeed17a762f742a1736f)
+- chore: update deps [`e7d468f`](https://github.com/Cecilapp/Cecil/commit/e7d468fbdc129663177576007c00f20d0f4ad61b)
+- doc: better code comments / phpdoc [`d6fb906`](https://github.com/Cecilapp/Cecil/commit/d6fb906e9a12ff7a8772b216b6f63d2a8fe8d3de)
+- refactor: better doc [`204991f`](https://github.com/Cecilapp/Cecil/commit/204991f5df77307d9b06e96f9e570d9923b2c38f)
+- doc: better code comments / phpdoc [`29d7195`](https://github.com/Cecilapp/Cecil/commit/29d71955346fc8b60acc371f093e168af8ac03eb)
+- Add phpdocumentor support [`ea59564`](https://github.com/Cecilapp/Cecil/commit/ea595643816e8fd8df410349d4b4b4fe077fdce4)
+- doc: code comments [`48e20a9`](https://github.com/Cecilapp/Cecil/commit/48e20a9f8e1967573c5b9c43256b15c2b31d64f4)
+- refactor: rename Config constansts [`a35442a`](https://github.com/Cecilapp/Cecil/commit/a35442a00af665bbef670e4e46f9ea091198e24e)
+- ci: fix deploy docs script [`621085c`](https://github.com/Cecilapp/Cecil/commit/621085c829fb471c82866439926e24b7e7400e24)
+- chore: move API doc to docs/api [`26283d5`](https://github.com/Cecilapp/Cecil/commit/26283d5d19ab89dc01da5a189e71c67d6861b69d)
+- fix: asset resize cache tags [`c77e9d2`](https://github.com/Cecilapp/Cecil/commit/c77e9d2d6b5dca05056f70c6b9f8c23d9d1403af)
+- doc: update library page [`5c3dc46`](https://github.com/Cecilapp/Cecil/commit/5c3dc4685204c9beeed2993a720d5c07716eada6)
+- refactor: better code [`5d5ac8d`](https://github.com/Cecilapp/Cecil/commit/5d5ac8da31180ff789faf1802a2c25db3c8ad4cb)
+- Create .codacy.yml [`22d29a6`](https://github.com/Cecilapp/Cecil/commit/22d29a6995bb392f79c0ba4533e9b1b77944310a)
+- refactor: better code [`419a202`](https://github.com/Cecilapp/Cecil/commit/419a202bebf8c6e0ab068601c346500f5314355e)
+- refactor: Build steps list as constant [`2e1e04b`](https://github.com/Cecilapp/Cecil/commit/2e1e04be2c10fb0306bd0b8bb23abdb4fb1133bc)
+- refactor: code quality [`44febc8`](https://github.com/Cecilapp/Cecil/commit/44febc8a92922f3759832b6a2035ea162e2cc3f0)
+- fix: getBuilId -&gt; getBuildId [`7f1af23`](https://github.com/Cecilapp/Cecil/commit/7f1af237482140cd111a463d8ceb238f951e1447)
+- doc: update library [`77fce9c`](https://github.com/Cecilapp/Cecil/commit/77fce9cbc745bb3602ff116c42dd306639a6d179)
+
 #### [8.50.2](https://github.com/Cecilapp/Cecil/compare/8.50.1...8.50.2)
 
 > 16 June 2025
