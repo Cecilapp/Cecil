@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.51.1](https://github.com/Cecilapp/Cecil/compare/8.51.0...8.51.1)
+
+> 21 July 2025
+
+- Apply fixes from StyleCI [`#2203`](https://github.com/Cecilapp/Cecil/pull/2203)
+- fix: maskable icons log [`fd59852`](https://github.com/Cecilapp/Cecil/commit/fd5985286bbe84a7fa81126d79bddcce5f833ade)
+
 #### [8.51.0](https://github.com/Cecilapp/Cecil/compare/8.50.3...8.51.0)
 
 > 21 July 2025
