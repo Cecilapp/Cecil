@@ -399,7 +399,6 @@ class Asset implements \ArrayAccess
 
     /**
      * Creates a maskable icon from an image asset.
-     * The maskable icon is used for Progressive Web Apps (PWAs).
      *
      * @throws RuntimeException
      */
@@ -415,7 +414,7 @@ class Asset implements \ArrayAccess
         $assetMaskable->cacheTags['maskable'] = true;
         $cacheKey = $cache->createKeyFromAsset($assetMaskable, $assetMaskable->cacheTags);
         if (!$cache->has($cacheKey)) {
-            $assetMaskable->data['content'] = Image::maskable($assetMaskable, $quality);
+            $assetMaskable->data['content'] = Image::maskable($assetMaskable, quality: $quality);
             $assetMaskable->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 'maskable',

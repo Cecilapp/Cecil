@@ -101,19 +101,20 @@ class Image
     }
 
     /**
-     * Makes an image Asset maskable, meaning it can be used as a web app icon.
+     * Makes an image Asset maskable, meaning it can be used as a PWA icon.
      *
      * @throws RuntimeException
      */
-    public static function maskable(Asset $asset, int $quality): string
+    public static function maskable(Asset $asset, int $quality, int $padding = 20): string
     {
         try {
             // creates image object from source
             $source = self::manager()->read($asset['content']);
-            // creates a new image with the dominant color and adds a 15% margin
+            // creates a new image with the dominant color as background
+            // and the size of the original image plus the padding
             $image = self::manager()->create(
-                width: (int) round($asset['width'] * (1 + 15 / 100), 0),
-                height: (int) round($asset['height'] * (1 + 15 / 100), 0)
+                width: (int) round($asset['width'] * (1 + $padding / 100), 0),
+                height: (int) round($asset['height'] * (1 + $padding / 100), 0)
             )->fill(self::getDominantColor($asset));
             // inserts the original image in the center
             $image->place($source, position: 'center');
