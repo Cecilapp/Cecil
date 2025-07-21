@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-06-04
+updated: 2025-07-22
 alias: documentation/layouts
 -->
 # Templates
@@ -1116,14 +1116,14 @@ _Examples:_
 
 ### resize
 
-Resizes an image to a specified with (in pixels).
+Resizes an image to a specified width (in pixels).
 
 ```twig
-{{ asset(image_path)|resize(with) }}
+{{ asset(image_path)|resize(width) }}
 ```
 
 :::info
-Aspect ratio is preserved, the original file is not altered and the resized version is saved at `/thumbnails/<with>/image.jpg`.
+Aspect ratio is preserved, the original file is not altered and the resized version is saved at `/thumbnails/<width>/image.jpg`.
 :::
 
 _Example:_
