@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.51.3](https://github.com/Cecilapp/Cecil/compare/8.51.2...8.51.3)
+
+> 22 July 2025
+
+- refactor: better maskable filter [`da01135`](https://github.com/Cecilapp/Cecil/commit/da011356f9cabee87afe985ad78ab553952f04df)
+- refactor: some code cleaning [`c721774`](https://github.com/Cecilapp/Cecil/commit/c7217742a9142f8e04ac8acaf7444b4d948f75ff)
+- docs: fix typos [`5728c9b`](https://github.com/Cecilapp/Cecil/commit/5728c9bc097be06b42ec81f58680d014f7ac48b1)
+
 #### [8.51.2](https://github.com/Cecilapp/Cecil/compare/8.51.1...8.51.2)
 
 > 21 July 2025
