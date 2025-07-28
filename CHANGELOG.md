@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.52.0](https://github.com/Cecilapp/Cecil/compare/8.51.4...8.52.0)
+
+> 28 July 2025
+
+- refactor: clarify code [`84e806b`](https://github.com/Cecilapp/Cecil/commit/84e806bba4e7d639d4c25a408d6cf9123709b4f1)
+- chore: update deps [`8622f83`](https://github.com/Cecilapp/Cecil/commit/8622f831d032ea6363113494899cef9a9b085f5a)
+- feat: use base path if exists [`3647e7b`](https://github.com/Cecilapp/Cecil/commit/3647e7b5df03fe04b5b217963e184d451cc050cd)
+
 #### [8.51.4](https://github.com/Cecilapp/Cecil/compare/8.51.3...8.51.4)
 
 > 28 July 2025
