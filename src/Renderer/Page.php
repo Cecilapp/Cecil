@@ -80,20 +80,20 @@ class Page
     }
 
     /**
-     * Returns the public URL.
+     * Returns the public file path.
      *
      * @param PageItem $page
      * @param string   $format Output format (ie: 'html', 'amp', 'json', etc.), 'html' by default
      */
-    public function getUrl(PageItem $page, string $format = 'html'): string
+    public function getPublicFilePath(PageItem $page, string $format = 'html'): string
     {
         $output = $this->getOutputFilePath($page, $format);
 
-        // remove "index.html" if not uglyurl
-        if (!($page->getVariable('uglyurl') ?? false)) {
-            $output = str_replace('index.html', '', $output);
+        // if `uglyurl` is true do not remove "index.html" from the output path
+        if ($page->getVariable('uglyurl')) {
+            return $output;
         }
 
-        return $output;
+        return str_replace('index.html', '', $output);
     }
 }

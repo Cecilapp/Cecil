@@ -91,7 +91,7 @@ class Url
                         $format = 'html';
                     }
                 }
-                $this->url = $base . '/' . ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
+                $this->url = $base . '/' . ltrim((new PageRenderer($this->config))->getPublicFilePath($value, $format), '/');
                 if ($canonical && $value->hasVariable('canonical') && $value->getVariable('canonical')['url']) { // canonical URL
                     $this->url = $value->getVariable('canonical')['url'];
                 }
