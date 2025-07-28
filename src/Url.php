@@ -62,13 +62,19 @@ class Url
         $language = null;  // force language
         extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
-        // canonical URL?
+        // base URL
         $base = '';
+        // enable canonical URL
         if ($this->config->isEnabled('canonicalurl') || $canonical === true) {
             $base = rtrim((string) $this->config->get('baseurl'), '/');
         }
+        // disable canonical URL by option
         if ($canonical === false) {
             $base = '';
+        }
+        // use base path if exists
+        if ($base == '' && $basepath = trim(parse_url((string) $this->config->get('baseurl'), PHP_URL_PATH), '/')) {
+            $base = $basepath;
         }
 
         // if value is empty (i.e.: `url()`) returns home URL
