@@ -72,9 +72,11 @@ class Url
         if ($canonical === false) {
             $base = '';
         }
-        // use base path if exists
-        if ($base == '' && $basepath = trim(parse_url((string) $this->config->get('baseurl'), PHP_URL_PATH), '/')) {
-            $base = $basepath;
+        // use URL path as base if exists
+        if ($base == '' && $basepath = parse_url((string) $this->config->get('baseurl'), PHP_URL_PATH)) {
+            if (\is_string($basepath)) {
+                $base = trim($basepath, '/');
+            }
         }
 
         // if value is empty (i.e.: `url()`) returns home URL
