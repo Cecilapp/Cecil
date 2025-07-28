@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.51.4](https://github.com/Cecilapp/Cecil/compare/8.51.3...8.51.4)
+
+> 28 July 2025
+
+- chore: update deps [`a69fb3e`](https://github.com/Cecilapp/Cecil/commit/a69fb3e090d727beeae3facac59b70ef74432aec)
+- fix: empty keywords [`e09c6a3`](https://github.com/Cecilapp/Cecil/commit/e09c6a3ae2f9e38ef655cf003c16556fbb0f8808)
+
 #### [8.51.3](https://github.com/Cecilapp/Cecil/compare/8.51.2...8.51.3)
 
 > 22 July 2025
