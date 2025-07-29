@@ -99,7 +99,7 @@ class Url
                         $format = 'html';
                     }
                 }
-                $this->url = $base . '/' . ltrim((new PageRenderer($this->config))->getPublicFilePath($value, $format), '/');
+                Util::joinPath($base, (new PageRenderer($this->config))->getPublicFilePath($value, $format));
                 if ($canonical && $value->hasVariable('canonical') && $value->getVariable('canonical')['url']) { // canonical URL
                     $this->url = $value->getVariable('canonical')['url'];
                 }
@@ -110,11 +110,11 @@ class Url
                     $this->url = $value['url'];
                     break;
                 }
-                $this->url = $base . '/' . ltrim($value['url'], '/');
+                $this->url = Util::joinPath($base, $value['url']);
                 break;
             case $value instanceof Asset: // $value is an Asset
                 /** @var Asset $value */
-                $this->url = $base . '/' . ltrim($value['path'], '/');
+                $this->url = Util::joinPath($base, $value['path']);
                 if ($value->isImageInCdn()) {
                     $this->url = (string) $value;
                 }
@@ -141,7 +141,7 @@ class Url
                         if ($lang && Util\Str::startsWith($value, $lang)) {
                             $value = substr($value, \strlen($lang));
                         }
-                        $this->url = $base . '/' . $lang . ltrim($value, '/');
+                        $this->url = Util::joinPath($base, $lang, $value);
                 }
         }
     }
