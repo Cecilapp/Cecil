@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.52.2](https://github.com/Cecilapp/Cecil/compare/8.52.1...8.52.2)
+
+> 29 July 2025
+
+- fix: base url [`716ff8e`](https://github.com/Cecilapp/Cecil/commit/716ff8e182e17acb8c0fcaea8e4a0edeaf6eacaa)
+
 #### [8.52.1](https://github.com/Cecilapp/Cecil/compare/8.52.0...8.52.1)
 
 > 28 July 2025
