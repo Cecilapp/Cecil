@@ -75,7 +75,7 @@ class Url
         // use URL path as base if exists
         if ($base == '' && '/' != $basepath = parse_url((string) $this->config->get('baseurl'), PHP_URL_PATH)) {
             if (\is_string($basepath)) {
-                $base = trim($basepath, '/');
+                $base = '/' . trim($basepath, '/');
             }
         }
 
