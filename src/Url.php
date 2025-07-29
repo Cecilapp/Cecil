@@ -159,6 +159,6 @@ class Url
      */
     public function getUrl(): string
     {
-        return (string) $this->url;
+        return (string) $this->url ?: '/';
     }
 }
