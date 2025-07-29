@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.52.4](https://github.com/Cecilapp/Cecil/compare/8.52.3...8.52.4)
+
+> 29 July 2025
+
+- fix: Return root path if URL is empty in getUrl() [`656783c`](https://github.com/Cecilapp/Cecil/commit/656783c9cf7e393897c2acb344d5adda108944b1)
+
 #### [8.52.3](https://github.com/Cecilapp/Cecil/compare/8.52.2...8.52.3)
 
 > 29 July 2025
