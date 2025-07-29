@@ -63,25 +63,25 @@ class Url
         extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
         // base URL
-        $base = '';
+        $base = '/';
         // enable canonical URL
         if ($this->config->isEnabled('canonicalurl') || $canonical === true) {
             $base = rtrim((string) $this->config->get('baseurl'), '/');
         }
         // disable canonical URL by option
         if ($canonical === false) {
-            $base = '';
+            $base = '/';
         }
         // use URL path as base if exists
-        if ($base == '' && $basepath = parse_url((string) $this->config->get('baseurl'), PHP_URL_PATH)) {
+        if ($base == '/' && $basepath = parse_url((string) $this->config->get('baseurl'), PHP_URL_PATH)) {
             if (\is_string($basepath)) {
-                $base = trim($basepath, '/');
+                $base = rtrim($basepath, '/');
             }
         }
 
         // if value is empty (i.e.: `url()`) returns home URL
         if (\is_null($value) || empty($value) || $value == '/') {
-            $this->url = $base . '/';
+            $this->url = $base;
 
             return;
         }
