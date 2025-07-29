@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.52.5](https://github.com/Cecilapp/Cecil/compare/8.52.4...8.52.5)
+
+> 29 July 2025
+
+- fix: Replace Util::joinPath with manual URL concatenation [`16de6af`](https://github.com/Cecilapp/Cecil/commit/16de6afa857beb860befe4a3852b99e43b5d1865)
+
 #### [8.52.4](https://github.com/Cecilapp/Cecil/compare/8.52.3...8.52.4)
 
 > 29 July 2025
