@@ -125,7 +125,7 @@ EOF
         }
 
         // setup server
-        $this->setUpServer($host, $port);
+        $this->setUpServer();
         $command = \sprintf(
             '"%s" -S %s:%d -t "%s" "%s"',
             $php,
