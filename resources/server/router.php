@@ -108,11 +108,6 @@ $content = file_get_contents($filename);
 $pathInfo = getPathInfo($path);
 // text content
 if ($pathInfo['media_maintype'] == 'text' || \in_array($pathInfo['media_subtype'], $mediaSubtypeText)) {
-    // replaces the "live" baseurl by the "local" baseurl
-    $baseurl = explode(';', trim(file_get_contents(__DIR__ . '/baseurl')));
-    if (strstr($baseurl[0], 'http') !== false || $baseurl[0] != '/') {
-        $content = str_replace($baseurl[0], $baseurl[1], $content);
-    }
     // HTML content: injects live reload script
     if ($pathInfo['media_subtype'] == 'html') {
         if (file_exists(__DIR__ . '/livereload.js')) {

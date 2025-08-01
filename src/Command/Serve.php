@@ -123,13 +123,13 @@ EOF
         }
 
         // setup server
-        $this->setUpServer($host, $port);
+        $this->setUpServer();
         $command = \sprintf(
             '"%s" -S %s:%d -t "%s" "%s"',
             $php,
             $host,
             $port,
-            $this->getBuilder()->getConfig()->getOutputPath(),
+            Util::joinFile($this->getPath(), self::SERVE_OUTPUT),
             Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);
@@ -171,6 +171,10 @@ EOF
         if (!empty($metrics)) {
             $buildProcessArguments[] = '--metrics';
         }
+        $buildProcessArguments[] = '--baseurl';
+        $buildProcessArguments[] = "http://$host:$port/";
+        $buildProcessArguments[] = '--output';
+        $buildProcessArguments[] = self::SERVE_OUTPUT;
         $buildProcess = new Process(
             $buildProcessArguments,
             null,
@@ -316,7 +320,7 @@ EOF
      *
      * @throws RuntimeException
      */
-    private function setUpServer(string $host, string $port): void
+    private function setUpServer(): void
     {
         try {
             // define root path
@@ -339,15 +343,6 @@ EOF
                     true
                 );
             }
-            // copying baseurl text file
-            Util\File::getFS()->dumpFile(
-                Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
-                \sprintf(
-                    '%s;%s',
-                    (string) $this->getBuilder()->getConfig()->get('baseurl'),
-                    \sprintf('http://%s:%s/', $host, $port)
-                )
-            );
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException(\sprintf('An error occurred while copying server\'s files to "%s".', $e->getPath()));
         }

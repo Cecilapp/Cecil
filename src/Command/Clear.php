@@ -63,6 +63,11 @@ EOF
      */
     private function removeOutputDir(OutputInterface $output): void
     {
+        // serve directory
+        if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), self::SERVE_OUTPUT))) {
+            $output->writeln('Removing serve directory...');
+            Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::SERVE_OUTPUT));
+        }
         $outputDir = (string) $this->getBuilder()->getConfig()->get('output.dir');
         // if custom output directory
         if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'))) {
