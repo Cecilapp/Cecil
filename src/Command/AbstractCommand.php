@@ -37,6 +37,7 @@ class AbstractCommand extends Command
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
     public const TMP_DIR = '.cecil';
     public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
+    public const SERVE_OUTPUT = '_preview';
 
     /** @var InputInterface */
     protected $input;
