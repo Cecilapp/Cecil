@@ -37,8 +37,6 @@ use Yosymfony\ResourceWatcher\ResourceWatcher;
  */
 class Serve extends AbstractCommand
 {
-    public const SERVE_OUTPUT = '_preview';
-
     /** @var boolean */
     protected $watcherEnabled;
 
