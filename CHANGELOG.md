@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.53.0](https://github.com/Cecilapp/Cecil/compare/8.52.7...8.53.0)
+
+> 1 August 2025
+
+- refactor: serve command and router baseurl handling [`#2205`](https://github.com/Cecilapp/Cecil/pull/2205)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.84.0 to 3.85.1 [`#2204`](https://github.com/Cecilapp/Cecil/pull/2204)
+
 #### [8.52.7](https://github.com/Cecilapp/Cecil/compare/8.52.6...8.52.7)
 
 > 30 July 2025
