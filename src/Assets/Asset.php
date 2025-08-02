@@ -201,6 +201,9 @@ class Asset implements \ArrayAccess
         $this->cacheTags = $options;
         // remove some cache tags
         unset($this->cacheTags['optimize'], $this->cacheTags['ignore_missing'], $this->cacheTags['fallback'], $this->cacheTags['useragent']);
+        if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
+            unset($this->cacheTags['minify']);
+        }
         // optimize images?
         $optimize = false;
         if ($options['optimize'] && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
