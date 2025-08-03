@@ -41,6 +41,19 @@
         }
         {%- endcache ~%}
         {%- endif -%}
+        {#- WebPage ~#}
+        {%- if page.id != '404' -%}
+        ,{
+          "@context": "http://schema.org",
+          "@type": "WebPage",
+          "name": "{{ title|default(page.title)|e }}",
+          "description": "{{ page.description|default(site.description)|e }}",
+          "publisher": {
+            "@type": "Organization",
+            "name": "{{ site.title|e }}"
+          }
+        }
+        {%- endif ~%}
         {%- if page.section -%}
           {#- BreadcrumbList -#}
         ,{
