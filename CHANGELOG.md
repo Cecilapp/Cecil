@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.53.2](https://github.com/Cecilapp/Cecil/compare/8.53.1...8.53.2)
+
+> 3 August 2025
+
+- chore: update deps [`bb8c19c`](https://github.com/Cecilapp/Cecil/commit/bb8c19ce67b2a5e57c840edcc4d176fbc32349c9)
+- docs: add statichost to deploy page [`34003c7`](https://github.com/Cecilapp/Cecil/commit/34003c7887fe66dd72b5039cf9406f6813d95704)
+- fix: metatags schema [`69f2f23`](https://github.com/Cecilapp/Cecil/commit/69f2f23a72671e0d850f467dc700f2a3cc90ce4a)
+- feat: add WebPage to JSON-LD [`ed95679`](https://github.com/Cecilapp/Cecil/commit/ed95679baeb6bb432fe44dd4334bbfc8fdae9658)
+- fix: json-ld article image [`ebbac20`](https://github.com/Cecilapp/Cecil/commit/ebbac20523fa70fbc561b67c93ab6e7edd9ea374)
+
 #### [8.53.1](https://github.com/Cecilapp/Cecil/compare/8.53.0...8.53.1)
 
 > 2 August 2025
