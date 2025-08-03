@@ -83,11 +83,11 @@
             "@id": "{{ url(page, {canonical: true}) }}"
           },
           "headline": "{{ title|default(page.title)|e }}",
-          {%- if image is defined and image is not empty ~%}
+          {%- if image_asset is defined and image_asset is asset ~%}
           "image": [
-            "{{ url(asset(image), {canonical: true}) }}"
+            "{{ url(image_asset, {canonical: true}) }}"
           ],
-          {%- elseif page.image is defined ~%}
+          {%- elseif page.image is defined and image is not empty ~%}
           "image": [
             "{{ url(asset(page.image), {canonical: true}) }}"
           ],
