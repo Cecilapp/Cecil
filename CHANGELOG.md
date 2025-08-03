@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.53.3](https://github.com/Cecilapp/Cecil/compare/8.53.2...8.53.3)
+
+> 3 August 2025
+
+- fix: json-ld image [`6cd1fb8`](https://github.com/Cecilapp/Cecil/commit/6cd1fb82d7643368ca3b9318c5f2183147b3b45f)
+
 #### [8.53.2](https://github.com/Cecilapp/Cecil/compare/8.53.1...8.53.2)
 
 > 3 August 2025
