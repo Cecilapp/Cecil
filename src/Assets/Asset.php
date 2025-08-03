@@ -201,7 +201,7 @@ class Asset implements \ArrayAccess
         $this->cacheTags = $options;
         // remove some cache tags
         unset($this->cacheTags['optimize'], $this->cacheTags['ignore_missing'], $this->cacheTags['fallback'], $this->cacheTags['useragent']);
-        if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
+        if (!\in_array($this->data['ext'], ['css', 'js', 'scss'])) {
             unset($this->cacheTags['minify']);
         }
         // optimize images?
