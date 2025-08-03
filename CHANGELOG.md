@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.53.1](https://github.com/Cecilapp/Cecil/compare/8.53.0...8.53.1)
+
+> 2 August 2025
+
+- fix: Remove minify cache tag for non-CSS/JS assets [`ef37c39`](https://github.com/Cecilapp/Cecil/commit/ef37c3983a90a681b1fa38e78ab25a5827c95e18)
+
 #### [8.53.0](https://github.com/Cecilapp/Cecil/compare/8.52.7...8.53.0)
 
 > 1 August 2025
