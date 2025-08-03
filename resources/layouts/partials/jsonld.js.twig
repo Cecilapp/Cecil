@@ -8,7 +8,7 @@
           "@type": "WebSite",
           "name": "{{ site.title|e }}",
           "description": "{{ site.description|e }}",
-          "url": "{{ url('/', {canonical: true}) }}"
+          "url": "{{ url(site.home, {canonical: true}) }}"
           {%- if site.image is defined ~%},
           "image": ["{{ url(asset(site.image), {canonical: true}) }}"]
           {%- endif ~%}
@@ -25,9 +25,9 @@
         {%- if site.menus.main is defined -%}
         {%- cache 'jsonld_navigation_' ~ hash(site.menus.main) ~ '__' ~ cecil.version -%}
         ,{
-          "@context":"http://schema.org",
-          "@type":"ItemList",
-          "itemListElement":[
+          "@context": "http://schema.org",
+          "@type": "ItemList",
+          "itemListElement": [
             {%- for item in site.menus.main|filter(i => i.id != site.home)|sort_by_weight ~%}
             {
               "@type": "SiteNavigationElement",
@@ -72,15 +72,17 @@
           "headline": "{{ title|default(page.title)|e }}",
           {%- if image is defined ~%}
           "image": [
-            "{{ url(image, {canonical: true}) }}"
+            "{{ url(asset(image), {canonical: true}) }}"
           ],
           {%- elseif page.image is defined ~%}
           "image": [
-            "{{ url(page.image, {canonical: true}) }}"
+            "{{ url(asset(page.image), {canonical: true}) }}"
           ],
           {%- endif ~%}
           "datePublished": "{{ page.date|date('Y-m-dTH:i:sP') }}",
-          "dateModified": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          {%- if page.updated is defined ~%}
+          "dateModified": "{{ page.updated|date('Y-m-dTH:i:sP') }}",
+          {%- endif ~%}
           {%- if author.name|default('') is not empty ~%}
           "author": {
             "@type": "Person",
@@ -115,7 +117,6 @@
         }
           {%- endif ~%}
         {%- endif ~%}
-
         {#- VideoObject ~#}
         {%- if opengraph.video is defined -%}
         ,{
