@@ -199,12 +199,12 @@ class Asset implements \ArrayAccess
         $cache = new Cache($this->builder, 'assets');
         // create cache tags from options
         $this->cacheTags = $options;
-        // remove some cache tags
+        // remove unnecessary cache tags
         unset($this->cacheTags['optimize'], $this->cacheTags['ignore_missing'], $this->cacheTags['fallback'], $this->cacheTags['useragent']);
         if (!\in_array($this->data['ext'], ['css', 'js', 'scss'])) {
             unset($this->cacheTags['minify']);
         }
-        // optimize images?
+        // optimize image?
         $optimize = false;
         if ($options['optimize'] && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
             $optimize = true;
@@ -213,23 +213,23 @@ class Asset implements \ArrayAccess
         }
         $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
-            // image: width, height and exif
-            if ($this->data['type'] == 'image') {
-                $this->data['width'] = $this->getWidth();
-                $this->data['height'] = $this->getHeight();
-                if ($this->data['subtype'] == 'image/jpeg') {
-                    $this->data['exif'] = Util\File::readExif($this->data['file']);
-                }
-            }
             // fingerprinting
             if ($options['fingerprint']) {
                 $this->doFingerprint();
             }
             // compiling Sass files
             $this->doCompile();
-            // minifying (CSS and JavScript files)
+            // minifying (CSS and JavaScript files)
             if ($options['minify']) {
                 $this->doMinify();
+            }
+            // get image width, height and exif
+            if ($this->data['type'] == 'image') {
+                $this->data['width'] = $this->getWidth();
+                $this->data['height'] = $this->getHeight();
+                if ($this->data['subtype'] == 'image/jpeg') {
+                    $this->data['exif'] = Util\File::readExif($this->data['file']);
+                }
             }
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset cached: "%s"', $this->data['path']));
@@ -743,21 +743,21 @@ class Asset implements \ArrayAccess
      */
     protected function doMinify(): self
     {
-        // in debug mode: disable minify to preserve inline source map
-        if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
-            return $this;
-        }
-        // abord if not a CSS or JS file
-        if ($this->data['ext'] != 'css' && $this->data['ext'] != 'js') {
-            return $this;
+        // compile SCSS files
+        if ($this->data['ext'] == 'scss') {
+            $this->doCompile();
         }
         // abort if already minified
         if (substr($this->data['path'], -8) == '.min.css' || substr($this->data['path'], -7) == '.min.js') {
             return $this;
         }
-        // compile SCSS files
-        if ($this->data['ext'] == 'scss') {
-            $this->compile();
+        // abord if not a CSS or JS file
+        if (!\in_array($this->data['ext'], ['css', 'js'])) {
+            return $this;
+        }
+        // in debug mode: disable minify to preserve inline source map
+        if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
+            return $this;
         }
         switch ($this->data['ext']) {
             case 'css':

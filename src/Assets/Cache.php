@@ -270,7 +270,7 @@ class Cache implements CacheInterface
                     if (preg_match('/' . $pattern . '/i', $file->getPathname())) {
                         Util\File::getFS()->remove($file->getPathname());
                         $fileCount++;
-                        $this->builder->getLogger()->debug(\sprintf('Cache removed: "%s"', Util\File::getFS()->makePathRelative($file->getPathname(), $this->builder->getConfig()->getCachePath())));
+                        $this->builder->getLogger()->debug(\sprintf('Cache removed: "%s"', trim(Util\File::getFS()->makePathRelative($file->getPathname(), $this->builder->getConfig()->getCachePath()), '/')));
                     }
                 }
             }
