@@ -72,6 +72,11 @@ class Save extends AbstractStep
         if ($total > 0) {
             $count = 0;
             foreach ($this->builder->getAssets() as $path) {
+                // if file deleted from cache...
+                if (!Util\File::getFS()->exists($this->cache->getContentFilePathname($path))) {
+                    $this->builder->getLogger()->warning(\sprintf('Asset "%s" not found in cache, skipping. You should clear all cache.', $path));
+                    break;
+                }
                 $count++;
                 Util\File::getFS()->copy($this->cache->getContentFilePathname($path), Util::joinFile($this->config->getOutputPath(), $path), false);
                 $message = \sprintf('Asset "%s" saved', $path);
