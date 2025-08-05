@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.53.4](https://github.com/Cecilapp/Cecil/compare/8.53.3...8.53.4)
+
+> 3 August 2025
+
+- fix: asset minify tag [`994bcb4`](https://github.com/Cecilapp/Cecil/commit/994bcb43e0eeb70d2064e171dd1023371a1c0b1b)
+
 #### [8.53.3](https://github.com/Cecilapp/Cecil/compare/8.53.2...8.53.3)
 
 > 3 August 2025
