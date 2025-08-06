@@ -79,9 +79,9 @@ class Url
             }
         }
 
-        // if value is empty (i.e.: `url()`) returns home URL
+        // if value is empty returns base URL
         if (\is_null($value) || empty($value) || $value == '/') {
-            $this->url = '/';
+            $this->url = $base;
 
             return;
         }
