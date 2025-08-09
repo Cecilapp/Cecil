@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Cecil\Converter;
 
-use Cecil\Assets\Asset;
-use Cecil\Assets\Image;
+use Cecil\Asset;
+use Cecil\Asset\Image;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Url;
@@ -390,13 +390,13 @@ class Parsedown extends \ParsedownToc
         if ($this->config->isEnabled('pages.body.images.responsive')) {
             try {
                 if (
-                    $srcset = Image::buildSrcset(
+                    $srcset = Image::buildHtmlSrcset(
                         $assetResized ?? $asset,
                         $this->config->getAssetsImagesWidths()
                     )
                 ) {
                     $InlineImage['element']['attributes']['srcset'] = $srcset;
-                    $sizes = Image::getSizes($InlineImage['element']['attributes']['class'] ?? '', (array) $this->config->getAssetsImagesSizes());
+                    $sizes = Image::getHtmlSizes($InlineImage['element']['attributes']['class'] ?? '', (array) $this->config->getAssetsImagesSizes());
                     $InlineImage['element']['attributes']['sizes'] = $sizes;
                 }
             } catch (\Exception $e) {
@@ -455,7 +455,7 @@ class Parsedown extends \ParsedownToc
                     // build responsive images?
                     if ($this->config->isEnabled('pages.body.images.responsive')) {
                         try {
-                            $srcset = Image::buildSrcset($assetConverted, $this->config->getAssetsImagesWidths());
+                            $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths());
                         } catch (\Exception $e) {
                             $this->builder->getLogger()->debug($e->getMessage());
                         }

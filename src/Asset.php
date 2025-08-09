@@ -11,16 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Assets;
+namespace Cecil;
 
-use Cecil\Assets\Image\Optimizer;
+use Cecil\Asset\Image;
 use Cecil\Builder;
+use Cecil\Cache;
 use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Url;
 use Cecil\Util;
+use Cecil\Util\ImageOptimizer as Optimizer;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;

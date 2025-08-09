@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Assets\Image;
+namespace Cecil\Util;
 
 use Spatie\ImageOptimizer\OptimizerChain;
 use Spatie\ImageOptimizer\Optimizers\Avifenc;
@@ -27,7 +27,7 @@ use Spatie\ImageOptimizer\Optimizers\Svgo;
  *
  * This class provides a method to create an image optimizer chain with various optimizers.
  */
-class Optimizer
+class ImageOptimizer
 {
     /**
      * Image Optimizer Chain.
