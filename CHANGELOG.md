@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.54.1](https://github.com/Cecilapp/Cecil/compare/8.54.0...8.54.1)
+
+> 14 August 2025
+
+- chore: update deps [`5aab184`](https://github.com/Cecilapp/Cecil/commit/5aab184de87e6d3985fc5e97ab3cc5bff6e85dbe)
+- fix: Trim leading @ from social meta tags [`c87747a`](https://github.com/Cecilapp/Cecil/commit/c87747a3f6439caec33db4827c9e41065b44842f)
+- docs: update Configuration [`2a31592`](https://github.com/Cecilapp/Cecil/commit/2a31592b5b8c1cf3c209d0f4bd34bbe516da776e)
+
 #### [8.54.0](https://github.com/Cecilapp/Cecil/compare/8.53.6...8.54.0)
 
 > 14 August 2025
