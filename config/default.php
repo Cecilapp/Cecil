@@ -25,7 +25,7 @@ return [
     ],
     //'image' => '', // `og:image`
     //'social' => [
-    //    'social_network' => [
+    //    'network' => [
     //        'username' => '',
     //        'url' => '',
     //    ]

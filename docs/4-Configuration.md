@@ -328,7 +328,7 @@ This template adds the following meta tags:
 - Links to alternate versions (i.e.: RSS feed, others languages)
 - `rel=me` links
 - Open Graph
-- Facebook meta
+- Facebook profile ID
 - Twitter/X Card
 - Mastodon meta
 - Structured data (JSON-LD)
@@ -338,32 +338,30 @@ This template adds the following meta tags:
 Cecil uses page’s front matter to feed meta tags, and fallbacks to site options if needed.
 
 ```yaml
-title: "Page/Site title"
-description: "Page/Site description"
-tags: [tag1, tag2]                   # feeds keywords meta
-keywords: [keyword1, keyword2]       # obsolete
-author:
-  name: <name>
-  url: <url>
-  email: <email>
-image: image.jpg                     # for OpenGraph and social networks cards
-canonical:                           # to override the generated canonical URL
-  url: <URL>
-  title: "<URL title>"               # optional
-social:
-  twitter:
-    url: <URL>                       # used for `rel=me` link
-    site: username                   # main account
-    creator: username                # content author account
-  mastodon:
-    url: <URL>
-    creator: handle
-  facebook:
-    url: <URL>
-    id: 123456789
-    firstname: Firstname
-    lastname: Lastname
-    username: username
+title: "Page/Site title"              # used by title meta
+description: "Page/Site description"  # used by description meta
+tags: [tag1, tag2]                    # used by keywords meta
+keywords: [keyword1, keyword2]        # obsolete
+author:                               # used by author meta
+  name: <name>                          # author name
+  url: <url>                            # author URL
+  email: <email>                        # author email
+image: image.jpg                      # used by Open Graph and social networks cards
+canonical:                            # used to override the generated canonical URL
+  url: <URL>                            # absolute URL
+  title: "<URL title>"                  # optional canonical title
+social:                               # used by social networks meta
+  twitter:                              # used by Twitter/X Card
+    url: <URL>                            # used for `rel=me` link
+    site: username                        # site username
+    creator: username                     # page author username
+  mastodon:                             # used by Mastodon meta
+    url: <URL>                            # used for `rel=me` link
+    creator: handle                       # page author account
+  facebook:                             # used by Facebook meta
+    url: <URL>                            # used for `rel=me` link
+    id: 123456789                         # Facebook profile ID
+    username: username                    # page author username
 ```
 
 :::tip
