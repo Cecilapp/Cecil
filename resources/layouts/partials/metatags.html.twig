@@ -229,14 +229,14 @@
     <meta name="twitter:card" content="summary">
 {%- endif -%}
 {%- if twitter.site ~%}
-    <meta name="twitter:site" content="@{{ twitter.site }}">
+    <meta name="twitter:site" content="@{{ twitter.site|trim('@', side: 'left') }}">
 {%- endif -%}
 {%- if twitter.creator ~%}
-    <meta name="twitter:creator" content="@{{ twitter.creator }}">
+    <meta name="twitter:creator" content="@{{ twitter.creator|trim('@', side: 'left') }}">
 {%- endif ~%}
 {#- template: Mastodon ~#}
 {%- if mastodon.creator ~%}
-    <meta name="fediverse:creator" content="{{ mastodon.creator }}">
+    <meta name="fediverse:creator" content="@{{ mastodon.creator|trim('@', side: 'left') }}">
 {%- endif ~%}
 {#- template: json-ld ~#}
 {{- include('partials/jsonld.js.twig', {author, favicon_asset: favicon_asset|default}) -}}
