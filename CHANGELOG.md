@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.53.6](https://github.com/Cecilapp/Cecil/compare/8.53.5...8.53.6)
+
+> 13 August 2025
+
+- chore: update deps [`58ac0ff`](https://github.com/Cecilapp/Cecil/commit/58ac0ffb3c4d5a1345f9cff8c2731537a8fec864)
+- refactor: change preview directory [`73633b6`](https://github.com/Cecilapp/Cecil/commit/73633b6a20e75e941a55eebb1d4be2c945f3d067)
+
 #### [8.53.5](https://github.com/Cecilapp/Cecil/compare/8.53.4...8.53.5)
 
 > 6 August 2025
