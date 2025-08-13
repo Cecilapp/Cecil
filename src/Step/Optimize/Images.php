@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Optimize;
 
-use Cecil\Assets\Image\Optimizer;
+use Cecil\Util\ImageOptimizer as Optimizer;
 
 /**
  * Optimize images step.

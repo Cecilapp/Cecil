@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Assets;
 
-use Cecil\Assets\Cache;
+use Cecil\Cache;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
@@ -51,7 +51,7 @@ class Save extends AbstractStep
             return;
         }
 
-        $this->cache = new \Cecil\Assets\Cache($this->builder, 'assets');
+        $this->cache = new Cache($this->builder, 'assets');
         $this->cacheKey = \sprintf('_list__%s', $this->builder->getVersion());
         if (empty($this->builder->getAssets()) && $this->cache->has($this->cacheKey)) {
             $this->builder->setAssets($this->cache->get($this->cacheKey));

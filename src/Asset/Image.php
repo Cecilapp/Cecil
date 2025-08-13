@@ -11,8 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Assets;
+namespace Cecil\Asset;
 
+use Cecil\Asset;
 use Cecil\Exception\RuntimeException;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
@@ -20,10 +21,13 @@ use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\ImageManager;
 
 /**
- * Image class.
+ * Image Asset class.
  *
  * Provides methods to manipulate images, such as resizing, cropping, converting,
  * and generating data URLs.
+ *
+ * This class uses the Intervention Image library to handle image processing.
+ * It supports both GD and Imagick drivers, depending on the available PHP extensions.
  */
 class Image
 {
@@ -231,12 +235,12 @@ class Image
     }
 
     /**
-     * Build the `srcset` attribute for responsive images.
+     * Build the `srcset` HTML attribute for responsive images.
      * e.g.: `srcset="/img-480.jpg 480w, /img-800.jpg 800w"`.
      *
      * @throws RuntimeException
      */
-    public static function buildSrcset(Asset $asset, array $widths): string
+    public static function buildHtmlSrcset(Asset $asset, array $widths): string
     {
         if (!self::isImage($asset)) {
             throw new RuntimeException(\sprintf('can\'t build "srcset" of "%s": it\'s not an image file.', $asset['path']));
@@ -263,9 +267,9 @@ class Image
     }
 
     /**
-     * Returns the value of the "sizes" attribute corresponding to the configured class.
+     * Returns the value from the `$sizes` array if the class exists, otherwise returns the default size.
      */
-    public static function getSizes(string $class, array $sizes = []): string
+    public static function getHtmlSizes(string $class, array $sizes = []): string
     {
         $result = '';
         $classArray = explode(' ', $class);

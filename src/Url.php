@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil;
 
-use Cecil\Assets\Asset;
+use Cecil\Asset;
 use Cecil\Builder;
 use Cecil\Collection\Menu\Entry as MenuEntry;
 use Cecil\Collection\Page\Page;
