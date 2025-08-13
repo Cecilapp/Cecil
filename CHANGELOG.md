@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.54.0](https://github.com/Cecilapp/Cecil/compare/8.53.6...8.54.0)
+
+> 14 August 2025
+
+- refactor: simplify social meta tag configuration and docs [`9b1dfb8`](https://github.com/Cecilapp/Cecil/commit/9b1dfb8b59d445e904388a36bc0016f54a1520cb)
+- refactor: use getRealPath for layouts internal path [`8d75b6b`](https://github.com/Cecilapp/Cecil/commit/8d75b6b94865c3e0054fd80b0f034bd6df235aba)
+
 #### [8.53.6](https://github.com/Cecilapp/Cecil/compare/8.53.5...8.53.6)
 
 > 13 August 2025
