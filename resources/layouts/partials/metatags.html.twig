@@ -100,11 +100,11 @@
 {% set facebook = {'id': site.social.facebook.id|default('')} %}
 {# Twitter #}
 {% set twitter = {
-  'site': site.social.twitter|default(''),
-  'creator': page.social.twitter|default(''),
+  'site': site.social.twitter.site|default(''),
+  'creator': page.social.twitter ?? site.social.twitter.creator|default(''),
 } %}
 {# Mastodon #}
-{% set mastodon = page.social.mastodon ?? site.social.mastodon|default('') %}
+{% set mastodon = page.social.mastodon ?? site.social.mastodon.creator|default('') %}
 {% if mastodon is not iterable %}
   {%- set mastodon = {'creator': mastodon} %}
 {% else %}
