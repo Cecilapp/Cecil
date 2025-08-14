@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.54.2](https://github.com/Cecilapp/Cecil/compare/8.54.1...8.54.2)
+
+> 14 August 2025
+
+- fix: Fix social meta tag variable structure [`096aa99`](https://github.com/Cecilapp/Cecil/commit/096aa99600c263b91f53bd5ef67c6c1ce15f1b85)
+
 #### [8.54.1](https://github.com/Cecilapp/Cecil/compare/8.54.0...8.54.1)
 
 > 14 August 2025
