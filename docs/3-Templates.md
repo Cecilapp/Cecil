@@ -98,7 +98,7 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
 
 :::tips
-If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
+If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the `layouts` directory of your site.
 
 ```bash
 php cecil.phar util:templates:extract
@@ -123,14 +123,14 @@ php cecil.phar util:templates:extract
 [`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
 :   A simple list of all terms of a vocabulary.
 
-[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
-:   The `sitemap.xml` template: list all pages sorted by date.
-
-[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
-:   The `robots.txt` template: allow all pages except 404, with a reference to the XML sitemap.
-
 [`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
 :   A basic error 404 ("Page not found") template.
+
+[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
+:   The [`sitemap.xml`](https://www.sitemaps.org) template: list of all pages sorted by date.
+
+[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
+:   The [`robots.txt`](https://en.wikipedia.org/wiki/Robots.txt) template: allow all pages except 404, and add a reference to the sitemap.
 
 [`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
 :   The redirect template.
@@ -144,10 +144,10 @@ php cecil.phar util:templates:extract
 :   A simple paginated navigation for list templates with "Previous" and "Next" links.
 
 [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
+:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [_metatags_ configuration](4-Configuration.md#metatags).
 
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   A basic switcher between [languages](4-Configuration.md#languages).
+:   A basic [languages](4-Configuration.md#languages) switcher.
 
 ## Lookup rules
 
