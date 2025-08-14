@@ -373,7 +373,7 @@ class Render extends AbstractStep
                 && !empty($page->getVariable('published'))
                 && !$page->getVariable('paginated')
                 && !$page->isVirtual()
-                ;
+            ;
         });
 
         return $pages;
