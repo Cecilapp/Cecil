@@ -19,16 +19,17 @@
     </style>
   </head>
   <body>
-    {%- if page.videos is defined ~%}
-    <video id="player" playsinline controls preload="auto"{% if page.poster|default(page.image|default) %} poster="{{ asset(page.poster|default(page.image|default)) }}"{% endif %}>
+    {%- if page.photo is defined ~%}
+    <img src="{{ url(asset(page.photo), {canonical: true}) }}" alt="{{ page.title }}" style="width: 100%; height: auto;">
+    {%- elseif page.videos is defined ~%}
+    <video id="player" playsinline controls preload="auto"{% if page.poster|default(page.image|default) %} poster="{{ url(asset(page.poster|default(page.image|default)), {canonical: true}) }}"{% endif %}>
       {%- for video in page.videos ~%}
         {%- set asset_video = asset(video) ~%}
-      <source src="{{ url(asset_video) }}" type="{{ asset_video.subtype }}">
+      <source src="{{ url(asset_video, {canonical: true}) }}" type="{{ asset_video.subtype }}">
       {%- endfor ~%}
     </video>
     {%- else ~%}
-    {#- Only video type is supported ~#}
-    Nothing here.
+    <a href="{{ url(page, {canonical: true}) }}" target="_blank" rel="noopener noreferrer">{{ page.title }}</a>
     {%- endif ~%}
   </body>
 </html>
