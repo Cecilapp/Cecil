@@ -170,9 +170,11 @@
 {#- template: alternates languages ~#}
 {{- include('partials/alternates-languages.html.twig', {page}, with_context = false) ~}}
 {#- template: preload ~#}
+{#- `as="video"` is no more supported by browsers
 {%- if video_asset is defined ~%}
     <link rel="preload" href="{{ url(video_asset) }}" as="video" type="{{ video_asset.subtype }}">
 {%- endif ~%}
+-#}
 {#- template: rel me ~#}
 {%- for social in page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) ~%}
     <link rel="me" href="{{ social.url }}">
