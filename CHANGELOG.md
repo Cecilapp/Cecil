@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.2](https://github.com/Cecilapp/Cecil/compare/8.55.1...8.55.2)
+
+> 14 August 2025
+
+- Apply fixes from StyleCI [`#2209`](https://github.com/Cecilapp/Cecil/pull/2209)
+- fix: router response for video file (too big) [`21f9934`](https://github.com/Cecilapp/Cecil/commit/21f99343758692dd3969def2adbe31f98e9e254e)
+- feat: add "twitter:player:stream" in metatags [`ec67056`](https://github.com/Cecilapp/Cecil/commit/ec67056876a9ba18fb96d28406584442543b125c)
+- fix: remove preload video in metatags [`1a8ac18`](https://github.com/Cecilapp/Cecil/commit/1a8ac18df2a12ac04be890548515b4eaa4d2a1c2)
+- fix: re-add "og:author" in metatags [`e2e06af`](https://github.com/Cecilapp/Cecil/commit/e2e06afb44348899c8960724a0505ac3093bf181)
+
 #### [8.55.1](https://github.com/Cecilapp/Cecil/compare/8.55.0...8.55.1)
 
 > 14 August 2025
