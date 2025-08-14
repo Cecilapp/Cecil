@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-07-22
+updated: 2025-08-14
 alias: documentation/layouts
 -->
 # Templates
@@ -198,14 +198,16 @@ All rules are detailed below, for each page type, in the priority order.
 ### Type _vocabulary_
 
 1. `taxonomy/<plural>.<format>.twig`
-2. `_default/vocabulary.<format>.twig`
+2. `vocabulary.<format>.twig`
+3. `_default/vocabulary.<format>.twig`
 
 ### Type _term_
 
 1. `taxonomy/<term>.<format>.twig`
 2. `taxonomy/<singular>.<format>.twig`
-3. `_default/term.<format>.twig`
-4. `_default/list.<format>.twig`
+3. `term.<format>.twig`
+4. `_default/term.<format>.twig`
+5. `_default/list.<format>.twig`
 
 :::info
 Most of those layouts are available by default, see [built-in templates](#built-in-templates).
