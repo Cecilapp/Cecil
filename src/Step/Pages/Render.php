@@ -371,7 +371,9 @@ class Render extends AbstractStep
                 && $page->getVariable('langref') == $refPage->getVariable('langref')
                 && $page->getType() == $refPage->getType()
                 && !empty($page->getVariable('published'))
-                && !$page->getVariable('paginated');
+                && !$page->getVariable('paginated')
+                && !$page->isVirtual()
+                ;
         });
 
         return $pages;
