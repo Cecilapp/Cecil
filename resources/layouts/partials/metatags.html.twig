@@ -185,6 +185,7 @@
     <meta property="og:title" content="{{ opengraph.title }}">
     <meta property="og:description" content="{{ opengraph.description }}">
     <meta property="og:url" content="{{ opengraph.url }}">
+    <meta property="og:author" content="{{ author.name|e }}">
     <meta property="og:type" content="{{ opengraph.type }}">
 {%- if opengraph.type == 'article' ~%}
     <meta property="article:published_time" content="{{ page.date|date('c') }}">
