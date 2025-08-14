@@ -1018,7 +1018,7 @@ layouts:
 
 ## Output
 
-Defines where and in what format(s) content is rendered.
+Defines where and in what format pages are rendered.
 
 ### output.dir
 
@@ -1031,7 +1031,7 @@ output:
 
 ### output.formats
 
-List of output formats, in which of them pages’ content is rendered (e.g. HTML, JSON, XML, RSS, Atom, etc.).
+List of output formats definition, which are used to render pages (e.g. HTML, Atom, RSS, JSON, XML, etc.).
 
 ```yaml
 output:
@@ -1044,15 +1044,15 @@ output:
       exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
 ```
 
-Those formats are used by [`pagetypeformats`](#output-pagetypeformats) and by the [`output` page’s variable](2-Content.md#output).
+Those formats are used in the [`output.pagetypeformats`](#output-pagetypeformats) configuration and in the [`output` page’s variable](2-Content.md#output).
 
-:::info
-To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
-:::
+#### Default formats
+
+Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/master/config/base.php#L81-L162), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `iframe`, `oembed`.
 
 ### output.pagetypeformats
 
-Array of output formats by each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
+It’s not required to set `output` variable for each page, as Cecil automatically applies the formats defined for each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
 
 ```yaml
 output:
@@ -1064,7 +1064,17 @@ output:
     term: [<format>]
 ```
 
-Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendered in HTML and Atom.
+Several formats can be defined for the one type of page. For example the `section` page type can be automatically rendered in HTML and Atom:
+
+```yaml
+output:
+  pagetypeformats:
+    section: [html, atom]
+```
+
+:::info
+To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
+:::
 
 ### output example
 
@@ -1089,9 +1099,9 @@ output:
     term: [html, atom]
 ```
 
-:::tip
-You can extend Cecil with [Output post processor](7-Extend.md#output-post-processor).
-:::
+### Post process
+
+You can extend Cecil capabilities with an [Output post processor](7-Extend.md#output-post-processor) to modify the output files after they have been generated.
 
 ---
 

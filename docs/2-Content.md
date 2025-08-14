@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2025-06-10
+updated: 2025-08-14
 -->
 # Content
 
@@ -683,7 +683,12 @@ In the previous example `contact/` redirects to `about/`.
 
 ### output
 
-Defines the output (rendered) format(s). See [`formats` configuration](4-Configuration.md#output-formats) for more details.
+Defines the output format of the page.
+
+Available formats are: `html`, `atom`, `rss`, `json`, `xml`, etc.  
+You can define one or more formats in an array.
+
+I’s not required to define an output format, but if you do, it must be one of the available formats defined in the [_Configuration_](4-Configuration.md#output-formats).
 
 _Example:_
 
