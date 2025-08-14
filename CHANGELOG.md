@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.1](https://github.com/Cecilapp/Cecil/compare/8.55.0...8.55.1)
+
+> 14 August 2025
+
+- fix: exclude virtual pages from filtered results [`0dc0059`](https://github.com/Cecilapp/Cecil/commit/0dc00599abad2d4760a9e511146fb3e1337461c8)
+
+#### [8.55.0](https://github.com/Cecilapp/Cecil/compare/8.54.2...8.55.0)
+
+> 14 August 2025
+
+- chore: update deps [`d90d00c`](https://github.com/Cecilapp/Cecil/commit/d90d00cd6a3707ebc8c0a405d2f880f311b011d8)
+- feat: add vocabulary and term template fallbacks [`85d2f99`](https://github.com/Cecilapp/Cecil/commit/85d2f9996bcaa1010f4db83513980a864d801458)
+
 #### [8.54.2](https://github.com/Cecilapp/Cecil/compare/8.54.1...8.54.2)
 
 > 14 August 2025
