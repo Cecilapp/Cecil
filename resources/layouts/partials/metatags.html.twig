@@ -225,6 +225,8 @@
     <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'iframe'}) }}">
     <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}">
     <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}">
+    <meta name="twitter:player:stream" content="{{ url(opengraph.video, {'canonical': true}) }}">
+    <meta name="twitter:player:stream:content_type" content="{{ opengraph.video.subtype }}">
     {%- else ~%}
     <meta name="twitter:card" content="summary_large_image">
     {%- endif ~%}
