@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.5](https://github.com/Cecilapp/Cecil/compare/8.55.4...8.55.5)
+
+> 15 August 2025
+
+- fix: add 'langref' variable to taxonomy pages [`3bb0aae`](https://github.com/Cecilapp/Cecil/commit/3bb0aaee1a5f130390b7760e88ccce45210eb438)
+
 #### [8.55.4](https://github.com/Cecilapp/Cecil/compare/8.55.3...8.55.4)
 
 > 15 August 2025
