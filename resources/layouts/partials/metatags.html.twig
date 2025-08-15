@@ -80,10 +80,14 @@
   {%- else %}
     {%- set image_asset = image %}
   {%- endif %}
-  {%- if image_asset.width < 600 or image_asset.height < 315 %}
-    {%- deprecated 'The Open Graph image "' ~ image_asset.file ~ '" dimensions (' ~ image_asset.width ~ 'x' ~ image_asset.height ~ ' px) should be 600x315 px' %}
+  {%- if image_asset.width != image_asset.height or (image_asset.width < 600 or image_asset.height < 315) %}
+    {%- deprecated 'The Open Graph image "' ~ image_asset.file ~ '" (' ~ image_asset.width ~ 'x' ~ image_asset.height ~ ' px) should be square or 600x315 px' %}
   {%- endif %}
-  {%- set opengraph = opengraph|merge({'image': image_asset|cover(width: 1200, height: 630)}) %}
+  {%- if image_asset.width == image_asset.height %}
+    {%- set opengraph = opengraph|merge({'image': image_asset}) %}
+  {%- else %}
+    {%- set opengraph = opengraph|merge({'image': image_asset|cover(width: 1200, height: 630)}) %}
+  {%- endif %}
 {% endif %}
 {% if page.section == site.metatags.articles|default('blog') %}
   {%- set opengraph = opengraph|merge({'type': 'article'}) %}
@@ -217,21 +221,22 @@
 {#- template: Twitter ~#}
     <meta name="twitter:title" content="{{ opengraph.title }}">
     <meta name="twitter:description" content="{{ opengraph.description }}">
-{%- if opengraph.image is defined and opengraph.image.width > 500 ~%}
+{%- if opengraph.image is defined ~%}
     <meta name="twitter:image" content="{{ opengraph.image|url({'canonical': true}) }}">
     <meta name="twitter:image:alt" content="{{ opengraph.title }}">
-    {%- if opengraph.video is defined ~%}
+  {%- if opengraph.image.width != opengraph.image.height and opengraph.image.width > 500 ~%}
+    <meta name="twitter:card" content="summary_large_image">
+  {%- else ~%}
+    <meta name="twitter:card" content="summary">
+  {%- endif -%}
+{%- endif -%}
+{%- if opengraph.video is defined ~%}
     <meta name="twitter:card" content="player">
     <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'iframe'}) }}">
     <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}">
     <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}">
     <meta name="twitter:player:stream" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta name="twitter:player:stream:content_type" content="{{ opengraph.video.subtype }}">
-    {%- else ~%}
-    <meta name="twitter:card" content="summary_large_image">
-    {%- endif ~%}
-{%- else ~%}
-    <meta name="twitter:card" content="summary">
 {%- endif -%}
 {%- if twitter.site ~%}
     <meta name="twitter:site" content="@{{ twitter.site|trim('@', side: 'left') }}">
