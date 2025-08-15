@@ -367,12 +367,11 @@ class Render extends AbstractStep
     protected function getTranslations(Page $refPage): Collection
     {
         $pages = $this->builder->getPages()->filter(function (Page $page) use ($refPage) {
-            return $page->getId() !== $refPage->getId()
-                && $page->getVariable('langref') == $refPage->getVariable('langref')
+            return $page->getVariable('langref') == $refPage->getVariable('langref')
                 && $page->getType() == $refPage->getType()
+                && $page->getId() !== $refPage->getId()
                 && !empty($page->getVariable('published'))
                 && !$page->getVariable('paginated')
-                && !$page->isVirtual()
             ;
         });
 
