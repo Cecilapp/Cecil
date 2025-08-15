@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.3](https://github.com/Cecilapp/Cecil/compare/8.55.2...8.55.3)
+
+> 15 August 2025
+
+- feat: better oembed [`526e03d`](https://github.com/Cecilapp/Cecil/commit/526e03d83721ef432b5e4668b9d4419542cdfeb0)
+- doc: better `output` documentation [`162cfb6`](https://github.com/Cecilapp/Cecil/commit/162cfb6de8230a29718aec6a8b19ed75665cfab9)
+
 #### [8.55.2](https://github.com/Cecilapp/Cecil/compare/8.55.1...8.55.2)
 
 > 14 August 2025
