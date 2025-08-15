@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.4](https://github.com/Cecilapp/Cecil/compare/8.55.3...8.55.4)
+
+> 15 August 2025
+
+- refactor: add blocks to iframe template [`70919d4`](https://github.com/Cecilapp/Cecil/commit/70919d43de2f39fe10cbfdfd062d1018f5b50618)
+
 #### [8.55.3](https://github.com/Cecilapp/Cecil/compare/8.55.2...8.55.3)
 
 > 15 August 2025
