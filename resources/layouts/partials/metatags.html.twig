@@ -98,10 +98,6 @@
     {%- set opengraph = opengraph|merge({'image': image_asset}) %}
   {%- endif %}
 {% endif %}
-{# type: article #}
-{% if page.section == site.metatags.articles|default('blog') %}
-  {%- set opengraph = opengraph|merge({'type': 'article'}) %}
-{% endif %}
 {# merge page.opengraph #}
 {% if page.opengraph is defined or site.opengraph is defined %}
   {%- set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
@@ -117,6 +113,10 @@
   {%- set audio_asset = asset(audio) %}
   {%- set opengraph = opengraph|merge({'type': 'audio'}) %}
   {%- set opengraph = opengraph|merge({'audio': audio_asset}) %}
+{% endif %}
+{# type: article #}
+{% if page.section == site.metatags.articles|default('blog') %}
+  {%- set opengraph = opengraph|merge({'type': 'article'}) %}
 {% endif %}
 {# Facebook #}
 {% set facebook = {'id': site.social.facebook.id|default('')} %}
@@ -209,26 +209,26 @@
     <meta property="og:url" content="{{ opengraph.url }}">
     <meta property="og:author" content="{{ author.name|e }}">
     <meta property="og:type" content="{{ opengraph.type }}">
-{%- if opengraph.image is defined ~%}
-    <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}">
-    <meta property="og:image:type" content="{{ opengraph.image.subtype }}">
-    <meta property="og:image:width" content="{{ opengraph.image.width }}">
-    <meta property="og:image:height" content="{{ opengraph.image.height }}">
-    <meta property="og:image:alt" content="{{ opengraph.title }}">
-{%- endif ~%}
-{%- if opengraph.video is defined ~%}
+{%- if opengraph.type == 'video' ~%}
     <meta property="og:video" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta property="og:video:url" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta property="og:video:secure_url" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta property="og:video:type" content="{{ opengraph.video.subtype }}">
     <meta property="og:video:width" content="{{ opengraph.video.video.width }}">
     <meta property="og:video:height" content="{{ opengraph.video.video.height }}">
-{%- endif -%}
-{%- if opengraph.audio is defined ~%}
+{%- elseif opengraph.type == 'audio' ~%}
     <meta property="og:audio" content="{{ url(opengraph.audio, {'canonical': true}) }}">
     <meta property="og:audio:url" content="{{ url(opengraph.audio, {'canonical': true}) }}">
     <meta property="og:audio:secure_url" content="{{ url(opengraph.audio, {'canonical': true}) }}">
     <meta property="og:audio:type" content="{{ opengraph.audio.subtype }}">
+{%- else ~%}
+  {%- if opengraph.image is defined ~%}
+    <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}">
+    <meta property="og:image:type" content="{{ opengraph.image.subtype }}">
+    <meta property="og:image:width" content="{{ opengraph.image.width }}">
+    <meta property="og:image:height" content="{{ opengraph.image.height }}">
+    <meta property="og:image:alt" content="{{ opengraph.title }}">
+  {%- endif -%}
 {%- endif -%}
 {%- if opengraph.type == 'article' ~%}
     <meta property="article:published_time" content="{{ page.date|date('c') }}">
