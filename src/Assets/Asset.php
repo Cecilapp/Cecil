@@ -1023,13 +1023,17 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Remove redondant '/thumbnails/<width>/' in the path.
+     * Remove redondant '/thumbnails/<width(xheight)>/' in the path.
      */
     private function deduplicateThumbPath(string $path): string
     {
-        // https://regex101.com/r/rDRWnL/1
-        $pattern = '/(' . self::IMAGE_THUMB . '\/\d+(x\d+){0,1})\/' . self::IMAGE_THUMB . '\/\d+\/(.*)/i';
+        // https://regex101.com/r/1HXJmw/1
+        $pattern = '/(' . self::IMAGE_THUMB . '\/\d+(x\d+){0,1}\/)(' . self::IMAGE_THUMB . '\/\d+(x\d+){0,1}\/)(.*)/i';
 
-        return preg_replace($pattern, '$1/$3', $path);
+        if (null === $result = preg_replace($pattern, '$1$5', $path)) {
+            return $path;
+        }
+
+        return $result;
     }
 }
