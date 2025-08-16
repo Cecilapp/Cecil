@@ -14,20 +14,19 @@
   {%- endif %}
   {#- homepage title #}
   {%- if page.type == 'homepage' %}
-    {%- set title = site.title|e ~ title_divider ~ site.baseline|default('')|e %}
-    {%- set title_html = title %}
-    {%- if title_only or site.baseline|default('') is empty %}
-      {%- set title = site.title|e %}
+    {%- set title = site.title|e %}
+    {%- set title_html = title ~ title_divider ~ site.baseline|default|e %}
+    {%- if title_only or site.baseline|default is empty %}
       {%- set title_html = title %}
     {%- endif %}
   {%- endif %}
   {#- paginator title #}
   {%- if page.paginator.current|default(0) > 1 %}
     {%- if title_pagination_shownumber %}
-      {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) %}
-      {%- set title_html = title ~ title_divider ~ site.title|e %}
+      {%- set title = page.title|e ~ ' - ' ~ title_pagination_label|format(page.paginator.current) %}
+      {%- set title_html = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) ~ site.title|e %}
       {%- if title_only %}
-        {%- set title_html = title %}
+        {%- set title_html = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) %}
       {%- endif %}
     {%- endif %}
   {%- endif %}
@@ -119,15 +118,15 @@
   {%- set opengraph = opengraph|merge({'type': 'article'}) %}
 {% endif %}
 {# Facebook #}
-{% set facebook = {'id': site.social.facebook.id|default(page.social.facebook.id|default(''))} %}
+{% set facebook = {'id': site.social.facebook.id|default(page.social.facebook.id|default)} %}
 {# Twitter #}
 {% set twitter = {
-  'site': site.social.twitter.site|default(''),
-  'creator': page.social.twitter ?? site.social.twitter.creator|default(''),
+  'site': site.social.twitter.site|default,
+  'creator': page.social.twitter ?? site.social.twitter.creator|default,
 } %}
 {# Mastodon #}
 {% set mastodon = {
-  'creator': page.social.mastodon ?? site.social.mastodon.creator|default(''),
+  'creator': page.social.mastodon ?? site.social.mastodon.creator|default,
 } %}
 {%- block content %}
     {#~ template ~#}
