@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.12](https://github.com/Cecilapp/Cecil/compare/8.55.11...8.55.12)
+
+> 16 August 2025
+
+- Fix Open Graph image validation logic [`a9ea62f`](https://github.com/Cecilapp/Cecil/commit/a9ea62f5afecd208d9a978b593f14c385e7cb1b3)
+
 #### [8.55.11](https://github.com/Cecilapp/Cecil/compare/8.55.10...8.55.11)
 
 > 16 August 2025
