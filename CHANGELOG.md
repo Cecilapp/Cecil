@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.11](https://github.com/Cecilapp/Cecil/compare/8.55.10...8.55.11)
+
+> 16 August 2025
+
+- Fix author metatag rendering logic [`c572c88`](https://github.com/Cecilapp/Cecil/commit/c572c886ecb133f16b212dd30c9c813456db5233)
+
 #### [8.55.10](https://github.com/Cecilapp/Cecil/compare/8.55.9...8.55.10)
 
 > 16 August 2025
