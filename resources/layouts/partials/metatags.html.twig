@@ -119,19 +119,16 @@
   {%- set opengraph = opengraph|merge({'type': 'article'}) %}
 {% endif %}
 {# Facebook #}
-{% set facebook = {'id': site.social.facebook.id|default('')} %}
+{% set facebook = {'id': site.social.facebook.id|default(page.social.facebook.id|default(''))} %}
 {# Twitter #}
 {% set twitter = {
   'site': site.social.twitter.site|default(''),
   'creator': page.social.twitter ?? site.social.twitter.creator|default(''),
 } %}
 {# Mastodon #}
-{% set mastodon = page.social.mastodon ?? site.social.mastodon.creator|default('') %}
-{% if mastodon is not iterable %}
-  {%- set mastodon = {'creator': mastodon} %}
-{% else %}
-  {%- set mastodon = mastodon|merge(mastodon) %}
-{% endif %}
+{% set mastodon = {
+  'creator': page.social.mastodon ?? site.social.mastodon.creator|default(''),
+} %}
 {%- block content %}
     {#~ template ~#}
     <title>{% block title %}{{ title_html }}{% endblock %}</title>
