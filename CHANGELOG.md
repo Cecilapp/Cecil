@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.8](https://github.com/Cecilapp/Cecil/compare/8.55.7...8.55.8)
+
+> 16 August 2025
+
+- refactor: metatags audio and refactor logic [`650f30c`](https://github.com/Cecilapp/Cecil/commit/650f30c19ce1fd81560ae127dd39531bcb63eb7d)
+- fix: add aspect-ratio to video in iframe layout [`9d55c12`](https://github.com/Cecilapp/Cecil/commit/9d55c12fd22eb62dff3d571abc214bd9fbe2666b)
+
+#### [8.55.7](https://github.com/Cecilapp/Cecil/compare/8.55.6...8.55.7)
+
+> 16 August 2025
+
+- fix: thumbnail path deduplication regex [`0c50730`](https://github.com/Cecilapp/Cecil/commit/0c50730910e0c669ec8ae474ec3db10072e7d42f)
+
 #### [8.55.6](https://github.com/Cecilapp/Cecil/compare/8.55.5...8.55.6)
 
 > 15 August 2025
