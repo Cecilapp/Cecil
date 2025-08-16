@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.10](https://github.com/Cecilapp/Cecil/compare/8.55.9...8.55.10)
+
+> 16 August 2025
+
+- Fix social meta tag fallbacks in metatags partial [`fd3d39b`](https://github.com/Cecilapp/Cecil/commit/fd3d39b9757b885d31f936b1cab6dcce593c5495)
+
 #### [8.55.9](https://github.com/Cecilapp/Cecil/compare/8.55.8...8.55.9)
 
 > 16 August 2025
