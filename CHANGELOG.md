@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.9](https://github.com/Cecilapp/Cecil/compare/8.55.8...8.55.9)
+
+> 16 August 2025
+
+- refactor: Open Graph meta tag rendering logic [`f2289c6`](https://github.com/Cecilapp/Cecil/commit/f2289c6df3fe0e4f9c920a4502bfd2d603031f2d)
+
 #### [8.55.8](https://github.com/Cecilapp/Cecil/compare/8.55.7...8.55.8)
 
 > 16 August 2025
