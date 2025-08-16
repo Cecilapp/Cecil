@@ -88,7 +88,7 @@
   {%- else %}
     {%- set image_asset = image %}
   {%- endif %}
-  {%- if (image_asset.width != image_asset.height) or (image_asset.width < 600 or image_asset.height < 315) %}
+  {%- if (image_asset.width != image_asset.height) and (image_asset.width < 600 or image_asset.height < 315) %}
     {%- deprecated 'The Open Graph image "' ~ image_asset.file ~ '" (' ~ image_asset.width ~ 'x' ~ image_asset.height ~ ' px) should be square or 600x315 px' %}
   {%- endif %}
   {#- if image is large, turn it in cover image #}
