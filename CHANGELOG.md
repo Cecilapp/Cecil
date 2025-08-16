@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.6](https://github.com/Cecilapp/Cecil/compare/8.55.5...8.55.6)
+
+> 15 August 2025
+
+- refactor: improve OG and Twitter image handling [`b82d07b`](https://github.com/Cecilapp/Cecil/commit/b82d07b100edb78506417e2a40e85d23409cd44b)
+
 #### [8.55.5](https://github.com/Cecilapp/Cecil/compare/8.55.4...8.55.5)
 
 > 15 August 2025
