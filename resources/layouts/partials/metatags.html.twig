@@ -1,6 +1,8 @@
-{#- title -#}
+{#- Set default values for metatags #}
+{% set title, author, image, video, audio = title|default, author|default, image|default, video|default, audio|default %}
 {% set title_html = title|default %}
-{% if title is not defined or title is empty %}
+{# title #}
+{% if title is empty %}
   {%- set title_divider = page.metatags.title.divider|default(site.metatags.title.divider|default(' &middot; ')) %}
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
   {%- set title_pagination_shownumber = page.metatags.title.pagination.shownumber|default(site.metatags.title.pagination.shownumber ?? true) %}
@@ -10,6 +12,7 @@
   {%- if title_only %}
     {%- set title_html = title %}
   {%- endif %}
+  {#- homepage title #}
   {%- if page.type == 'homepage' %}
     {%- set title = site.title|e ~ title_divider ~ site.baseline|default('')|e %}
     {%- set title_html = title %}
@@ -18,6 +21,7 @@
       {%- set title_html = title %}
     {%- endif %}
   {%- endif %}
+  {#- paginator title #}
   {%- if page.paginator.current|default(0) > 1 %}
     {%- if title_pagination_shownumber %}
       {%- set title = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) %}
@@ -33,10 +37,10 @@
 {# keywords / tags #}
 {% set keywords = page.tags|default([])|iterable|merge(site.keywords|default([])|iterable)|e %}
 {# author #}
-{% if author is not defined or author is empty %}
-{% set author = page.author|default(site.author|default(''))|e %}
+{% if author is empty %}
+{% set author = page.author|default(site.author|default)|e %}
 {% endif %}
-{% if author is not empty %}
+{% if author is empty %}
   {%- if author is not iterable %}
     {%- set author = {'name': author} %}
   {%- endif %}
@@ -58,12 +62,16 @@
   } -%}
 {% endif %}
 {# image #}
-{% if (image is not defined or image is empty) and (page.metatags.image.enabled ?? site.metatags.image.enabled ?? true) %}
-  {%- set image = page.image|default(site.image|default()) %}
+{% if image is empty and (page.metatags.image.enabled ?? site.metatags.image.enabled ?? true) %}
+  {%- set image = page.image|default(site.image|default) %}
 {% endif %}
 {# video #}
 {% if page.videos is defined and page.videos[0] %}
   {%- set video = page.videos[0] %}
+{% endif %}
+{# audio #}
+{% if page.audios is defined and page.audio[0] %}
+  {%- set audio = page.audio[0] %}
 {% endif %}
 {# Open Graph #}
 {% set opengraph = {
@@ -74,31 +82,41 @@
   'description': block('description'),
   'url': url(page, {canonical: true}),
 } %}
-{% if image ?? false %}
+{% if image is not empty %}
   {%- if image is not asset %}
     {%- set image_asset = asset(image) %}
   {%- else %}
     {%- set image_asset = image %}
   {%- endif %}
-  {%- if image_asset.width != image_asset.height or (image_asset.width < 600 or image_asset.height < 315) %}
+  {%- if (image_asset.width != image_asset.height) or (image_asset.width < 600 or image_asset.height < 315) %}
     {%- deprecated 'The Open Graph image "' ~ image_asset.file ~ '" (' ~ image_asset.width ~ 'x' ~ image_asset.height ~ ' px) should be square or 600x315 px' %}
   {%- endif %}
-  {%- if image_asset.width == image_asset.height %}
-    {%- set opengraph = opengraph|merge({'image': image_asset}) %}
-  {%- else %}
+  {#- if image is large, turn it in cover image #}
+  {%- if image_asset.width > image_asset.height %}
     {%- set opengraph = opengraph|merge({'image': image_asset|cover(width: 1200, height: 630)}) %}
+  {%- else %}
+    {%- set opengraph = opengraph|merge({'image': image_asset}) %}
   {%- endif %}
 {% endif %}
+{# type: article #}
 {% if page.section == site.metatags.articles|default('blog') %}
   {%- set opengraph = opengraph|merge({'type': 'article'}) %}
 {% endif %}
+{# merge page.opengraph #}
 {% if page.opengraph is defined or site.opengraph is defined %}
   {%- set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
 {% endif %}
-{% if video ?? false %}
+{# type: video #}
+{% if video is not empty %}
   {%- set video_asset = asset(video) %}
   {%- set opengraph = opengraph|merge({'type': 'video'}) %}
   {%- set opengraph = opengraph|merge({'video': video_asset}) %}
+{% endif %}
+{# type: audio #}
+{% if audio is not empty %}
+  {%- set audio_asset = asset(audio) %}
+  {%- set opengraph = opengraph|merge({'type': 'audio'}) %}
+  {%- set opengraph = opengraph|merge({'audio': audio_asset}) %}
 {% endif %}
 {# Facebook #}
 {% set facebook = {'id': site.social.facebook.id|default('')} %}
@@ -191,14 +209,6 @@
     <meta property="og:url" content="{{ opengraph.url }}">
     <meta property="og:author" content="{{ author.name|e }}">
     <meta property="og:type" content="{{ opengraph.type }}">
-{%- if opengraph.type == 'article' ~%}
-    <meta property="article:published_time" content="{{ page.date|date('c') }}">
-    <meta property="article:modified_time" content="{{ page.updated|date('c') }}">
-    <meta property="article:author" content="{{ author.name|e }}">
-    {%- for tag in page.tags|default([]) ~%}
-    <meta property="article:tag" content="{{ tag|e }}">
-    {%- endfor ~%}
-{%- endif ~%}
 {%- if opengraph.image is defined ~%}
     <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}">
     <meta property="og:image:type" content="{{ opengraph.image.subtype }}">
@@ -214,6 +224,20 @@
     <meta property="og:video:width" content="{{ opengraph.video.video.width }}">
     <meta property="og:video:height" content="{{ opengraph.video.video.height }}">
 {%- endif -%}
+{%- if opengraph.audio is defined ~%}
+    <meta property="og:audio" content="{{ url(opengraph.audio, {'canonical': true}) }}">
+    <meta property="og:audio:url" content="{{ url(opengraph.audio, {'canonical': true}) }}">
+    <meta property="og:audio:secure_url" content="{{ url(opengraph.audio, {'canonical': true}) }}">
+    <meta property="og:audio:type" content="{{ opengraph.audio.subtype }}">
+{%- endif -%}
+{%- if opengraph.type == 'article' ~%}
+    <meta property="article:published_time" content="{{ page.date|date('c') }}">
+    <meta property="article:modified_time" content="{{ page.updated|date('c') }}">
+    <meta property="article:author" content="{{ author.name|e }}">
+    {%- for tag in page.tags|default([]) ~%}
+    <meta property="article:tag" content="{{ tag|e }}">
+    {%- endfor ~%}
+{%- endif ~%}
 {#- template: Facebook ~#}
 {%- if facebook.id ~%}
     <meta property="fb:profile_id" content="{{ facebook.id }}">
