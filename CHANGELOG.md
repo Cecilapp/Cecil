@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.15](https://github.com/Cecilapp/Cecil/compare/8.55.14...8.55.15)
+
+> 18 August 2025
+
+- fix: getOutputPath instead of getDestinationDir [`a6c8956`](https://github.com/Cecilapp/Cecil/commit/a6c89566db2b27ab66925f89aa1223fcbd2a3332)
+
 #### [8.55.14](https://github.com/Cecilapp/Cecil/compare/8.55.13...8.55.14)
 
 > 17 August 2025
