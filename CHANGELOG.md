@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.13](https://github.com/Cecilapp/Cecil/compare/8.55.12...8.55.13)
+
+> 17 August 2025
+
+- fix metatags title for homepage [`0d271b8`](https://github.com/Cecilapp/Cecil/commit/0d271b8f45c6f2344203ca70864102e925be79af)
+- Fix metatags template [`d727fd8`](https://github.com/Cecilapp/Cecil/commit/d727fd897bef2dbb03e3789f2f117ad1b4dffad0)
+
 #### [8.55.12](https://github.com/Cecilapp/Cecil/compare/8.55.11...8.55.12)
 
 > 16 August 2025
