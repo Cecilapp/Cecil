@@ -9,12 +9,22 @@
     <style type="text/css">
       body {
         background-color: black;
+        display: block;
         margin: 0;
         padding: 0;
       }
+      img, video {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        max-height: 100%;
+        max-width: 100%;
+        margin: auto;
+        object-fit: contain;
+      }
       video {
-        width: 100%;
-        height: auto;
         aspect-ratio: 16 / 9;
       }
     </style>
@@ -26,7 +36,7 @@
     {%- endblock ~%}
     {%- elseif page.videos is defined ~%}
     {%- block video ~%}
-    <video id="player" playsinline controls preload="auto"{% if page.poster|default(page.image|default) %} poster="{{ url(asset(page.poster|default(page.image|default)), {canonical: true}) }}"{% endif %}>
+    <video playsinline controls preload="auto"{% if page.poster|default(page.image|default) %} poster="{{ url(asset(page.poster|default(page.image|default)), {canonical: true}) }}"{% endif %}>
       {%- for video in page.videos ~%}
         {%- set asset_video = asset(video) ~%}
       <source src="{{ url(asset_video, {canonical: true}) }}" type="{{ asset_video.subtype }}">
