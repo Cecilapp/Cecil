@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.14](https://github.com/Cecilapp/Cecil/compare/8.55.13...8.55.14)
+
+> 17 August 2025
+
+- refactor: Improve media display in iframe layout [`afaf7f5`](https://github.com/Cecilapp/Cecil/commit/afaf7f520f0dfd05f7b7543d64132c0819052ce4)
+
 #### [8.55.13](https://github.com/Cecilapp/Cecil/compare/8.55.12...8.55.13)
 
 > 17 August 2025
