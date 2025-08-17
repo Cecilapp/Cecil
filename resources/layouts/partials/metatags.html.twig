@@ -203,7 +203,9 @@
     <meta property="og:title" content="{{ opengraph.title }}">
     <meta property="og:description" content="{{ opengraph.description }}">
     <meta property="og:url" content="{{ opengraph.url }}">
+  {%- if author.name|default ~%}
     <meta property="og:author" content="{{ author.name|e }}">
+  {%- endif ~%}
     <meta property="og:type" content="{{ opengraph.type }}">
 {%- if opengraph.type == 'video' ~%}
     <meta property="og:video" content="{{ url(opengraph.video, {'canonical': true}) }}">
@@ -229,10 +231,12 @@
 {%- if opengraph.type == 'article' ~%}
     <meta property="article:published_time" content="{{ page.date|date('c') }}">
     <meta property="article:modified_time" content="{{ page.updated|date('c') }}">
+  {%- if author.name|default ~%}
     <meta property="article:author" content="{{ author.name|e }}">
-    {%- for tag in page.tags|default([]) ~%}
+  {%- endif ~%}
+  {%- for tag in page.tags|default([]) ~%}
     <meta property="article:tag" content="{{ tag|e }}">
-    {%- endfor ~%}
+  {%- endfor ~%}
 {%- endif ~%}
 {#- template: Facebook ~#}
 {%- if facebook.id ~%}
