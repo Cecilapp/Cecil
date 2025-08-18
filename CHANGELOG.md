@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.20](https://github.com/Cecilapp/Cecil/compare/8.55.19...8.55.20)
+
+> 18 August 2025
+
+- refactor: update default image of skeleton [`e53872d`](https://github.com/Cecilapp/Cecil/commit/e53872da3479a7baf751a817d5bcb38442573d45)
+
+#### [8.55.19](https://github.com/Cecilapp/Cecil/compare/8.55.18...8.55.19)
+
+> 18 August 2025
+
+- refactor: add Twig blocks for metatags and CSS [`39e1b26`](https://github.com/Cecilapp/Cecil/commit/39e1b2648bb6faabbe634384c617a0789a04f1c9)
+
 #### [8.55.18](https://github.com/Cecilapp/Cecil/compare/8.55.17...8.55.18)
 
 > 18 August 2025
