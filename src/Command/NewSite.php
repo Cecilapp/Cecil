@@ -116,8 +116,8 @@ EOF
             foreach (
                 [
                     'assets/favicon.png',
+                    'assets/icon.png',
                     'pages/index.md',
-                    'static/cecil-card.png',
                 ] as $value
             ) {
                 Util\File::getFS()->copy(
