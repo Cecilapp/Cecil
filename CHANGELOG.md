@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.17](https://github.com/Cecilapp/Cecil/compare/8.55.16...8.55.17)
+
+> 18 August 2025
+
+- refactor: remove `author` from new:site [`46dd8e9`](https://github.com/Cecilapp/Cecil/commit/46dd8e92e3d77956853da02b1797c335ca41ddf1)
+
 #### [8.55.16](https://github.com/Cecilapp/Cecil/compare/8.55.15...8.55.16)
 
 > 18 August 2025
