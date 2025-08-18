@@ -30,10 +30,12 @@
     </style>
   </head>
   <body>
+    {#- photo ~#}
     {%- if page.photo is defined ~%}
     {%- block photo ~%}
     <img src="{{ url(asset(page.photo), {canonical: true}) }}" alt="{{ page.title }}" style="width: 100%; height: auto;">
     {%- endblock ~%}
+    {#- videos ~#}
     {%- elseif page.videos is defined ~%}
     {%- block video ~%}
     <video playsinline controls preload="auto"{% if page.poster|default(page.image|default) %} poster="{{ url(asset(page.poster|default(page.image|default)), {canonical: true}) }}"{% endif %}>
@@ -43,6 +45,17 @@
       {%- endfor ~%}
     </video>
     {%- endblock ~%}
+    {#- audios ~#}
+    {%- elseif page.audios is defined ~%}
+    {%- block audios ~%}
+    <audio controls preload="auto">
+      {%- for audio in page.audios ~%}
+        {%- set asset_audio = asset(audio) ~%}
+      <source src="{{ url(asset_audio, {canonical: true}) }}" type="{{ asset_audio.subtype }}">
+      {%- endfor ~%}
+    </audio>
+    {%- endblock ~%}
+    {#- else: URL ~#}
     {%- else ~%}
     {%- block default ~%}
     <a href="{{ url(page, {canonical: true}) }}" target="_blank" rel="noopener noreferrer">{{ page.title }}</a>

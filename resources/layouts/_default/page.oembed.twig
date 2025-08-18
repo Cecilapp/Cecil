@@ -20,20 +20,23 @@
   {#- type: link ~#}
   "type": "link",
   {%- endif ~%}
-  {#- thumbnail (640px) ~#}
-  {%- if opengraph.image is defined ~%}
-  "thumbnail_url": "{{ url(opengraph.image|resize(640), {canonical: true}) }}",
-  "thumbnail_width": {{ opengraph.image|resize(640).width }},
-  "thumbnail_height": {{ opengraph.image|resize(640).height }},
+  {#- photo or image thumbnail (640px) ~#}
+  {%- if page.photo is defined or opengraph.image is defined ~%}
+  "thumbnail_url": "{{ url(page.photo|default(opengraph.image)|resize(640), {canonical: true}) }}",
+  "thumbnail_width": {{ page.photo|default(opengraph.image)|resize(640).width }},
+  "thumbnail_height": {{ page.photo|default(opengraph.image)|resize(640).height }},
   {%- endif ~%}
+  {#- provider ~#}
   "provider_name": "{{ site.title }}",
   "provider_url": "{{ url('/', {canonical: true}) }}",
+  {#- author ~#}
   {%- if author.name is defined ~%}
   "author_name": "{{ author.name }}",
   {%- endif ~%}
   {%- if author.url is defined ~%}
   "author_url": "{{ author.url }}",
   {%- endif ~%}
+  {#- cache age ~#}
   "cache_age": 3600,
   {#- extra attributes ~#}
   {%- if 'iframe' in page.output ~%}
