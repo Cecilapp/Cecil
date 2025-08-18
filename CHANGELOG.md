@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.22](https://github.com/Cecilapp/Cecil/compare/8.55.21...8.55.22)
+
+> 18 August 2025
+
+- refactor: add favicon to skeleton [`337a2fb`](https://github.com/Cecilapp/Cecil/commit/337a2fbfe6508a8325e055f1981756aadab57b87)
+
 #### [8.55.21](https://github.com/Cecilapp/Cecil/compare/8.55.20...8.55.21)
 
 > 18 August 2025
