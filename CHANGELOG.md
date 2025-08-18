@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.21](https://github.com/Cecilapp/Cecil/compare/8.55.20...8.55.21)
+
+> 18 August 2025
+
+- fix: new site command [`3764080`](https://github.com/Cecilapp/Cecil/commit/3764080492caf290a4ba1930aa1793474f5e7770)
+
 #### [8.55.20](https://github.com/Cecilapp/Cecil/compare/8.55.19...8.55.20)
 
 > 18 August 2025
