@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.18](https://github.com/Cecilapp/Cecil/compare/8.55.17...8.55.18)
+
+> 18 August 2025
+
+- fix: regex pattern for page front matter parsing [`aae1e6a`](https://github.com/Cecilapp/Cecil/commit/aae1e6acec23e5ae1b3bee570fbf77c6e3a2e644)
+
 #### [8.55.17](https://github.com/Cecilapp/Cecil/compare/8.55.16...8.55.17)
 
 > 18 August 2025
