@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.55.16](https://github.com/Cecilapp/Cecil/compare/8.55.15...8.55.16)
+
+> 18 August 2025
+
+- refactor: conditional rendering for author meta [`9df28a5`](https://github.com/Cecilapp/Cecil/commit/9df28a54dcde3ae535102547a22cedd8a431c188)
+
 #### [8.55.15](https://github.com/Cecilapp/Cecil/compare/8.55.14...8.55.15)
 
 > 18 August 2025
