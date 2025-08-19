@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.58.1](https://github.com/Cecilapp/Cecil/compare/8.58.0...8.58.1)
+
+> 19 August 2025
+
+- fix default page CSS [`7bdd88f`](https://github.com/Cecilapp/Cecil/commit/7bdd88f52f742826be6c9504a33f527a649449a3)
+
 #### [8.58.0](https://github.com/Cecilapp/Cecil/compare/8.57.2...8.58.0)
 
 > 19 August 2025
