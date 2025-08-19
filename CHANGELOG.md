@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.57.0](https://github.com/Cecilapp/Cecil/compare/8.56.0...8.57.0)
+
+> 19 August 2025
+
+- refactor: rename "iframe" format to "embed" [`8254b9a`](https://github.com/Cecilapp/Cecil/commit/8254b9afcded0233fc0ea10dd99eb1d98bf4a382)
+- feat: add 'photo' field in metatags image [`aa515a0`](https://github.com/Cecilapp/Cecil/commit/aa515a047bc0e6513a6f84d354dc907baf75cb29)
+- fix test fixtures [`c2cff71`](https://github.com/Cecilapp/Cecil/commit/c2cff71743a22fafd79ab8ffcecd6fa3d9b9b4d9)
+
 #### [8.56.0](https://github.com/Cecilapp/Cecil/compare/8.55.22...8.56.0)
 
 > 19 August 2025
