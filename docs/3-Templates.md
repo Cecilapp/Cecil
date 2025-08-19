@@ -975,6 +975,20 @@ _Examples:_
 {{ variable|excerpt_html({capture: 'after'}) }}
 ```
 
+### highlight
+
+Highlights a code string with [highlight.php](https://github.com/scrivo/highlight.php).
+
+```twig
+{{ code|highlight(language) }}
+```
+
+_Examples:_
+
+```twig
+{{ '<?php echo $highlighted->value; ?>'|highlight('php') }}
+```
+
 ### to_css
 
 Compiles a [Sass](https://sass-lang.com) file to CSS.
