@@ -13,7 +13,7 @@
   {#- type: video ~#}
   {%- elseif opengraph.video is defined ~%}
   "type": "video",
-  "html": "<iframe width=\"{{ opengraph.video.video.width }}\" height=\"{{ opengraph.video.video.height }}\" src=\"{{ url(page, {canonical: true, format:'iframe'}) }}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"{{ opengraph.title }}\"></iframe>",
+  "html": "<iframe width=\"{{ opengraph.video.video.width }}\" height=\"{{ opengraph.video.video.height }}\" src=\"{{ url(page, {canonical: true, format: 'embed'}) }}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"{{ opengraph.title }}\"></iframe>",
   "width": {{ opengraph.video.video.width }},
   "height": {{ opengraph.video.video.height }},
   {%- else ~%}
@@ -39,8 +39,8 @@
   {#- cache age ~#}
   "cache_age": 3600,
   {#- extra attributes ~#}
-  {%- if 'iframe' in page.output ~%}
-  "embed_url": "{{ url(page, {canonical: true, format: 'iframe'}) }}",
+  {%- if 'embed' in page.output ~%}
+  "embed_url": "{{ url(page, {canonical: true, format: 'embed'}) }}",
   {%- endif ~%}
   {%- if opengraph.description is defined ~%}
   "description": "{{ opengraph.description }}"
