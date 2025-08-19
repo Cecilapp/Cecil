@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.57.2](https://github.com/Cecilapp/Cecil/compare/8.57.1...8.57.2)
+
+> 19 August 2025
+
+- feat: add video autoplay to embed [`1756be2`](https://github.com/Cecilapp/Cecil/commit/1756be28a6e4719f9f2a505d391128a5825bcbe3)
+
 #### [8.57.1](https://github.com/Cecilapp/Cecil/compare/8.57.0...8.57.1)
 
 > 19 August 2025
