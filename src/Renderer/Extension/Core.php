@@ -28,6 +28,7 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Url;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
+use Highlight\Highlighter;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
@@ -149,6 +150,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
             new \Twig\TwigFilter('iterable', [$this, 'iterable']),
+            new \Twig\TwigFilter('highlight', [$this, 'highlight']),
             // date
             new \Twig\TwigFilter('duration_to_iso8601', ['\Cecil\Util\Date', 'durationToIso8601']),
             // deprecated
@@ -1022,6 +1024,14 @@ class Core extends SlugifyExtension
             return [$value];
         }
         return [$value];
+    }
+
+    /**
+     * Highlights a code snippet.
+     */
+    public function highlight(string $code, string $language): string
+    {
+        return (new Highlighter())->highlight($language, $code)->value;
     }
 
     /**
