@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.58.0](https://github.com/Cecilapp/Cecil/compare/8.57.2...8.58.0)
+
+> 19 August 2025
+
+- feat: more granular metatags configuration [`4a58b03`](https://github.com/Cecilapp/Cecil/commit/4a58b03fdae5c5308b368e943fd6fdc5068a116b)
+- chore: update deps [`0944eb7`](https://github.com/Cecilapp/Cecil/commit/0944eb78b326fd742b9af82270f11cb26840d41e)
+- refactor: cleaning some code [`37afe4c`](https://github.com/Cecilapp/Cecil/commit/37afe4ca8051f512a288682f2a29799857a68f53)
+- feat: new Twig filter `highlight` [`03fad7a`](https://github.com/Cecilapp/Cecil/commit/03fad7a4457b1039d25faca94e47b44fd01e5912)
+
 #### [8.57.2](https://github.com/Cecilapp/Cecil/compare/8.57.1...8.57.2)
 
 > 19 August 2025
