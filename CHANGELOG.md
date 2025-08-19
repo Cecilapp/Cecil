@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.57.1](https://github.com/Cecilapp/Cecil/compare/8.57.0...8.57.1)
+
+> 19 August 2025
+
+- fix local config [`954ab3d`](https://github.com/Cecilapp/Cecil/commit/954ab3d58855c9ca84dee5acd37c890bba0fb029)
+- fix: tear down server on build error [`54d2848`](https://github.com/Cecilapp/Cecil/commit/54d284831509999e1452388a6ab5ed27b63415db)
+
 #### [8.57.0](https://github.com/Cecilapp/Cecil/compare/8.56.0...8.57.0)
 
 > 19 August 2025
