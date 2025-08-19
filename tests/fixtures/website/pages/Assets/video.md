@@ -7,6 +7,6 @@ videos:
   - video/test.mp4
 poster: video/poster.png
 
-output: [html, iframe, oembed]
+output: [html, oembed, embed]
 layout: video
 ---
