@@ -140,7 +140,7 @@ class Parsedown extends \ParsedownToc
         // video?
         if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['leading_slash' => false]);
+                $link['element']['attributes']['href'] = new Url($this->builder, $link['element']['attributes']['href']);
 
                 return $link;
             }
@@ -154,7 +154,7 @@ class Parsedown extends \ParsedownToc
         // audio?
         if (\in_array($extension, $this->config->get('pages.body.links.embed.audio') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['leading_slash' => false]);
+                $link['element']['attributes']['href'] = new Url($this->builder, $link['element']['attributes']['href']);
 
                 return $link;
             }
@@ -305,7 +305,7 @@ class Parsedown extends \ParsedownToc
             $assetOptions += ['fallback' => (string) $this->config->get('pages.body.images.remote.fallback')];
         }
         $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
-        $InlineImage['element']['attributes']['src'] = $asset;
+        $InlineImage['element']['attributes']['src'] = new Url($this->builder, $asset);
         $width = $asset['width'];
 
         /*
@@ -342,7 +342,6 @@ class Parsedown extends \ParsedownToc
         if ($shouldResize) {
             try {
                 $assetResized = $asset->resize($width);
-                $InlineImage['element']['attributes']['src'] = $assetResized;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
@@ -358,7 +357,7 @@ class Parsedown extends \ParsedownToc
         // placeholder
         if (
             (!empty($this->config->get('pages.body.images.placeholder')) || isset($InlineImage['element']['attributes']['placeholder']))
-            && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
+            && \in_array($assetResized['subtype'] ?? $asset['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             if (!\array_key_exists('placeholder', $InlineImage['element']['attributes'])) {
                 $InlineImage['element']['attributes']['placeholder'] = (string) $this->config->get('pages.body.images.placeholder');
@@ -369,14 +368,14 @@ class Parsedown extends \ParsedownToc
             $InlineImage['element']['attributes']['style'] = trim($InlineImage['element']['attributes']['style'], ';');
             switch ($InlineImage['element']['attributes']['placeholder']) {
                 case 'color':
-                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
+                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($assetResized ?? $asset));
                     break;
                 case 'lqip':
                     // aborts if animated GIF for performance reasons
-                    if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
+                    if (Image::isAnimatedGif($assetResized ?? $asset)) {
                         break;
                     }
-                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($InlineImage['element']['attributes']['src']));
+                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($asset));
                     break;
             }
             unset($InlineImage['element']['attributes']['placeholder']);
@@ -431,23 +430,23 @@ class Parsedown extends \ParsedownToc
         // converts image to formats and put them in picture > source
         if (
             \count($formats = ((array) $this->config->get('pages.body.images.formats'))) > 0
-            && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
+            && \in_array($assetResized['subtype'] ?? $asset['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
                 // InlineImage src must be an Asset instance
-                if (!$InlineImage['element']['attributes']['src'] instanceof Asset) {
+                if (!($assetResized ?? $asset) instanceof Asset) {
                     throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted.', $InlineImage['element']['attributes']['src']));
                 }
                 // abord if InlineImage is an animated GIF
-                if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-                    $filepath = Util::joinFile($this->config->getOutputPath(), $InlineImage['element']['attributes']['src']['path']);
+                if (Image::isAnimatedGif($assetResized ?? $asset)) {
+                    $filepath = Util::joinFile($this->config->getOutputPath(), $assetResized['path'] ?? $asset['path']);
                     throw new RuntimeException(\sprintf('Asset "%s" is not converted (animated GIF).', $filepath));
                 }
                 $sources = [];
                 foreach ($formats as $format) {
                     $srcset = '';
                     try {
-                        $assetConverted = $InlineImage['element']['attributes']['src']->convert($format);
+                        $assetConverted = ($assetResized ?? $asset)->convert($format);
                     } catch (\Exception $e) {
                         $this->builder->getLogger()->debug($e->getMessage());
                         continue;
@@ -703,7 +702,7 @@ class Parsedown extends \ParsedownToc
         ];
         $block['element']['attributes'] = $link['element']['attributes'];
         unset($block['element']['attributes']['href']);
-        $block['element']['attributes']['src'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['leading_slash' => false]);
+        $block['element']['attributes']['src'] = new Url($this->builder, new Asset($this->builder, $link['element']['attributes']['href']));
         switch ($type) {
             case 'video':
                 $block['element']['name'] = 'video';
@@ -715,7 +714,7 @@ class Parsedown extends \ParsedownToc
                     $block['element']['attributes']['playsinline'] = '';
                 }
                 if (isset($block['element']['attributes']['poster'])) {
-                    $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $block['element']['attributes']['poster'], ['leading_slash' => false]);
+                    $block['element']['attributes']['poster'] = new Url($this->builder, new Asset($this->builder, $block['element']['attributes']['poster']));
                 }
                 if (!\array_key_exists('style', $block['element']['attributes'])) {
                     $block['element']['attributes']['style'] = '';
