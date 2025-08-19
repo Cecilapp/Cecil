@@ -53,7 +53,7 @@
   {%- set robots = 'noindex,follow' %}
 {% endif %}
 {# favicon #}
-{% if site.metatags.favicon.enabled ?? true %}
+{% if page.metatags.favicon ?? site.metatags.favicon ?? true %}
   {%- set favicon_defaults = {
     'icon': [32, 57, 76, 96, 128, 192, 228],
     'shortcut icon': [196],
@@ -61,7 +61,7 @@
   } -%}
 {% endif %}
 {# image #}
-{% if image is empty and (page.metatags.image.enabled ?? site.metatags.image.enabled ?? true) %}
+{% if image is empty and (page.metatags.image ?? site.metatags.image ?? true) %}
   {%- set image = page.image|default(site.image|default) %}
   {#- photo #}
   {%- if page.photo is defined %}
@@ -138,145 +138,163 @@
     {#~ template ~#}
     <title>{% block title %}{{ title_html }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}">
-{%- if keywords and keywords is iterable ~%}
+  {%- if keywords and keywords is iterable ~%}
     <meta name="keywords" content="{{ keywords|join(', ') }}">
-{%- endif ~%}
-{%- if author ~%}
+  {%- endif ~%}
+  {%- if author ~%}
     <meta name="author" content="{{ author.name|e }}">
-{%- endif ~%}
+  {%- endif ~%}
     <meta name="robots" content="{{ robots }}">
-{#- template: favicon ~#}
-{%- cache 'metatags_favicon' ~ '__' ~ cecil.version ~%}
-{%- if site.metatags.favicon.enabled ?? true ~%}
-  {#- favicon.ico ~#}
-  {%- set favicon_ico = asset('favicon.ico', {'ignore_missing': true}) -%}
-  {%- if not favicon_ico.missing ~%}
+  {#- template: favicon ~#}
+  {%- block metatags_favicon ~%}
+    {%- cache 'metatags_favicon' ~ '__' ~ cecil.version ~%}
+    {%- if page.metatags.favicon ?? site.metatags.favicon ?? true ~%}
+      {#- favicon.ico ~#}
+      {%- set favicon_ico = asset('favicon.ico', {'ignore_missing': true}) -%}
+      {%- if not favicon_ico.missing ~%}
     <link rel="icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon">
-  {%- endif -%}
-  {#- favicon.svg ~#}
-  {%- set favicon_svg = asset('favicon.svg', {'ignore_missing': true}) -%}
-  {%- if not favicon_svg.missing ~%}
+      {%- endif -%}
+    {#- favicon.svg ~#}
+      {%- set favicon_svg = asset('favicon.svg', {'ignore_missing': true}) -%}
+      {%- if not favicon_svg.missing ~%}
     <link rel="icon" sizes="any" href="{{ url(favicon_svg, {'canonical': true}) }}" type="image/svg+xml">
-  {%- endif -%}
-  {#- favicon.png ~#}
-  {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
-  {%- if not favicon_asset.missing -%}
-    {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
-      {%- for size in favicon_sizes|sort|reverse|filter(size => favicon_asset.width >= size) ~%}
+      {%- endif -%}
+      {#- favicon.png ~#}
+      {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
+      {%- if not favicon_asset.missing -%}
+        {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
+          {%- for size in favicon_sizes|sort|reverse|filter(size => favicon_asset.width >= size) ~%}
     <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ url(favicon_asset|resize(size), {'canonical': true}) }}" type="{{ favicon_asset.subtype }}">
-      {%- endfor -%}
-    {%- endfor -%}
-  {%- endif -%}
-{%- endif ~%}
-{%- endcache ~%}
-{#- template: prev/next ~#}
-{%- if page.prev.path is defined ~%}
+          {%- endfor -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endif ~%}
+    {%- endcache ~%}
+  {%- endblock metatags_favicon ~%}
+  {%- if page.metatags.navigation ?? site.metatags.navigation ?? true ~%}
+    {#- template: prev/next ~#}
+    {%- if page.prev.path is defined ~%}
     <link rel="prev" href="{{ url(page.prev, {'canonical': true}) }}">
-{%- endif -%}
-{%- if page.next.path is defined ~%}
+    {%- endif -%}
+    {%- if page.next.path is defined ~%}
     <link rel="next" href="{{ url(page.next, {'canonical': true}) }}">
-{%- endif -%}
-{#- template: paginator ~#}
-{%- if page.paginator.pages is defined ~%}
+    {%- endif -%}
+    {#- template: paginator ~#}
+    {%- if page.paginator.pages is defined ~%}
     <link rel="first" href="{{ url(page.paginator.links.first, {'canonical': true}) }}">
-    {%- if page.paginator.links.prev is defined ~%}
+      {%- if page.paginator.links.prev is defined ~%}
     <link rel="prev" href="{{ url(page.paginator.links.prev, {'canonical': true}) }}">
-    {%- endif ~%}
-    {%- if page.paginator.links.next is defined ~%}
+      {%- endif ~%}
+      {%- if page.paginator.links.next is defined ~%}
     <link rel="next" href="{{ url(page.paginator.links.next, {'canonical': true}) }}">
-    {%- endif ~%}
+      {%- endif ~%}
     <link rel="last" href="{{ url(page.paginator.links.last, {'canonical': true}) }}">
-{%- endif -%}
-{#- template: alternates ~#}
-{{- include('partials/alternates.html.twig', {title, page}, with_context = false) ~}}
-{{- include('partials/feeds-from-section.html.twig', {title, page}, with_context = false) ~}}
-{#- template: alternates languages ~#}
-{{- include('partials/alternates-languages.html.twig', {page}, with_context = false) ~}}
-{#- template: preload ~#}
-{#- `as="video"` is no more supported by browsers
-{%- if video_asset is defined ~%}
+    {%- endif -%}
+  {%- endif -%}
+  {#- template: alternates ~#}
+  {%- block metatags_alternates ~%}
+  {{- include('partials/alternates.html.twig', {title, page}, with_context = false) ~}}
+  {%- endblock metatags_alternates ~%}
+  {{- include('partials/feeds-from-section.html.twig', {title, page}, with_context = false) ~}}
+  {#- template: alternates languages ~#}
+  {{- include('partials/alternates-languages.html.twig', {page}, with_context = false) ~}}
+  {#- template: preload ~#}
+  {#- `as="video"` is no more supported by browsers
+  {%- if video_asset is defined ~%}
     <link rel="preload" href="{{ url(video_asset) }}" as="video" type="{{ video_asset.subtype }}">
-{%- endif ~%}
--#}
-{#- template: rel me ~#}
-{%- for social in page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) ~%}
+  {%- endif ~%}
+  -#}
+  {#- template: rel me ~#}
+  {%- for social in page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) ~%}
     <link rel="me" href="{{ social.url }}">
-{%- endfor ~%}
-{#- template: Open Graph ~#}
+  {%- endfor ~%}
+  {#- template: Open Graph ~#}
+  {%- block metatags_og ~%}
+  {%- if page.metatags.og ?? site.metatags.og ?? true ~%}
     <meta property="og:locale" content="{{ opengraph.locale }}">
     <meta property="og:site_name" content="{{ opengraph.site_name }}">
     <meta property="og:title" content="{{ opengraph.title }}">
     <meta property="og:description" content="{{ opengraph.description }}">
     <meta property="og:url" content="{{ opengraph.url }}">
-  {%- if author.name|default ~%}
+    {%- if author.name|default ~%}
     <meta property="og:author" content="{{ author.name|e }}">
-  {%- endif ~%}
+    {%- endif ~%}
     <meta property="og:type" content="{{ opengraph.type }}">
-{%- if opengraph.type == 'video' ~%}
+    {%- if opengraph.type == 'video' ~%}
     <meta property="og:video" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta property="og:video:url" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta property="og:video:secure_url" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta property="og:video:type" content="{{ opengraph.video.subtype }}">
     <meta property="og:video:width" content="{{ opengraph.video.video.width }}">
     <meta property="og:video:height" content="{{ opengraph.video.video.height }}">
-{%- elseif opengraph.type == 'audio' ~%}
+    {%- elseif opengraph.type == 'audio' ~%}
     <meta property="og:audio" content="{{ url(opengraph.audio, {'canonical': true}) }}">
     <meta property="og:audio:url" content="{{ url(opengraph.audio, {'canonical': true}) }}">
     <meta property="og:audio:secure_url" content="{{ url(opengraph.audio, {'canonical': true}) }}">
     <meta property="og:audio:type" content="{{ opengraph.audio.subtype }}">
-{%- endif -%}
-{%- if opengraph.image is defined ~%}
+    {%- endif -%}
+    {%- if opengraph.image is defined ~%}
     <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}">
     <meta property="og:image:type" content="{{ opengraph.image.subtype }}">
     <meta property="og:image:width" content="{{ opengraph.image.width }}">
     <meta property="og:image:height" content="{{ opengraph.image.height }}">
     <meta property="og:image:alt" content="{{ opengraph.title }}">
-{%- endif -%}
-{%- if opengraph.type == 'article' ~%}
+    {%- endif -%}
+    {%- if opengraph.type == 'article' ~%}
     <meta property="article:published_time" content="{{ page.date|date('c') }}">
     <meta property="article:modified_time" content="{{ page.updated|date('c') }}">
-  {%- if author.name|default ~%}
+      {%- if author.name|default ~%}
     <meta property="article:author" content="{{ author.name|e }}">
-  {%- endif ~%}
-  {%- for tag in page.tags|default([]) ~%}
+      {%- endif ~%}
+      {%- for tag in page.tags|default([]) ~%}
     <meta property="article:tag" content="{{ tag|e }}">
-  {%- endfor ~%}
-{%- endif ~%}
-{#- template: Facebook ~#}
-{%- if facebook.id ~%}
+      {%- endfor ~%}
+    {%- endif ~%}
+  {%- endif ~%}
+  {%- endblock metatags_og ~%}
+  {#- template: Facebook ~#}
+  {%- if facebook.id ~%}
     <meta property="fb:profile_id" content="{{ facebook.id }}">
-{%- endif -%}
-{#- template: Twitter ~#}
+  {%- endif -%}
+  {#- template: Twitter ~#}
+  {%- block metatags_twitter ~%}
+  {%- if page.metatags.twitter ?? site.metatags.twitter ?? true ~%}
     <meta name="twitter:title" content="{{ opengraph.title }}">
     <meta name="twitter:description" content="{{ opengraph.description }}">
-{%- if opengraph.image is defined ~%}
+    {%- if opengraph.image is defined ~%}
     <meta name="twitter:image" content="{{ opengraph.image|url({'canonical': true}) }}">
     <meta name="twitter:image:alt" content="{{ opengraph.title }}">
-  {%- if opengraph.image.width != opengraph.image.height and opengraph.image.width > 500 ~%}
+      {%- if opengraph.image.width != opengraph.image.height and opengraph.image.width > 500 ~%}
     <meta name="twitter:card" content="summary_large_image">
-  {%- else ~%}
+      {%- else ~%}
     <meta name="twitter:card" content="summary">
-  {%- endif -%}
-{%- endif -%}
-{%- if opengraph.video is defined ~%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- if opengraph.video is defined ~%}
     <meta name="twitter:card" content="player">
     <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'iframe'}) }}">
     <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}">
     <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}">
     <meta name="twitter:player:stream" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta name="twitter:player:stream:content_type" content="{{ opengraph.video.subtype }}">
-{%- endif -%}
-{%- if twitter.site ~%}
+    {%- endif -%}
+    {%- if twitter.site ~%}
     <meta name="twitter:site" content="@{{ twitter.site|trim('@', side: 'left') }}">
-{%- endif -%}
-{%- if twitter.creator ~%}
+    {%- endif -%}
+    {%- if twitter.creator ~%}
     <meta name="twitter:creator" content="@{{ twitter.creator|trim('@', side: 'left') }}">
-{%- endif ~%}
-{#- template: Mastodon ~#}
-{%- if mastodon.creator ~%}
+    {%- endif ~%}
+  {%- endif ~%}
+  {%- endblock metatags_twitter ~%}
+  {#- template: Mastodon ~#}
+  {%- if mastodon.creator and (page.metatags.mastodon ?? site.metatags.mastodon ?? true) ~%}
     <meta name="fediverse:creator" content="@{{ mastodon.creator|trim('@', side: 'left') }}">
-{%- endif ~%}
-{#- template: json-ld ~#}
-{{- include('partials/jsonld.js.twig', {author, favicon_asset: favicon_asset|default}) -}}
+  {%- endif ~%}
+  {#- template: structured data ~#}
+  {%- block metatags_structured_data ~%}
+  {%- if page.metatags.data ?? config.metatags.data ?? false ~%}
+  {{- include('partials/jsonld.js.twig', {author, favicon_asset: favicon_asset|default}) -}}
+  {%- endif ~%}
+  {%- endblock metatags_structured_data ~%}
 {%- endblock content -%}

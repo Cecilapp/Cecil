@@ -391,6 +391,13 @@ metatags:
       - "icon": [32, 57, 76, 96, 128, 192, 228] # web browsers
       - "shortcut icon": [196]                  # Android
       - "apple-touch-icon": [120, 152, 180]     # iOS
+  navigation: true       # includes previous and next links (`true` by default)
+  image: true            # includes image (`true` by default)
+  og: true               # includes Open Graph meta tags (`true` by default)
+  articles: "blog"       # articles' section (`blog` by default)
+  twitter: true          # includes Twitter/X Card meta tags (`true` by default)
+  mastodon: true         # includes Mastodon meta tags (`true` by default)
+  data: false            # includes JSON-LD structured data (`false` by default)
 ```
 
 ### debug
