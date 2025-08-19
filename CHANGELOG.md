@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.58.2](https://github.com/Cecilapp/Cecil/compare/8.58.1...8.58.2)
+
+> 19 August 2025
+
+- refactor: improve Twitter card meta tag logic [`a34ee7a`](https://github.com/Cecilapp/Cecil/commit/a34ee7a616f3ab18c56bc2aa384ad45217c65803)
+- docs: add `highlight` filter to documentation [`1daf30a`](https://github.com/Cecilapp/Cecil/commit/1daf30a15b781e460fc69abc7d6ef2c8fb67f085)
+
 #### [8.58.1](https://github.com/Cecilapp/Cecil/compare/8.58.0...8.58.1)
 
 > 19 August 2025
