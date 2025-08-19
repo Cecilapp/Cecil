@@ -11,7 +11,7 @@
     {%- endblock head_metatags ~%}
     {%- block head_css ~%}
     <style>{% apply minify_css %}
-      {{- include('partials/new.css.twig') ~}}
+      {{- include('partials/new.css.twig') }}
       /* new.css enhancements */
       :root body > header {
         --nc-lk-1: #006be9;

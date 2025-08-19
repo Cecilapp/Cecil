@@ -1,4 +1,3 @@
-{%- if page.metatags.jsonld|default(config.metatags.jsonld|default(false)) ~%}
     <script type="application/ld+json">{%- apply minify_js ~%}
       [
         {%- cache 'jsonld_website' ~ '__' ~ cecil.version ~%}
@@ -152,4 +151,3 @@
         {%- endif ~%}
       ]
     {% endapply %}</script>
-{%- endif ~%}

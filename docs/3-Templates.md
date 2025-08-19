@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-08-14
+updated: 2025-08-19
 alias: documentation/layouts
 -->
 # Templates
@@ -460,7 +460,7 @@ Creates a valid URL for a page, a menu entry, an asset, a page ID or a path.
 
 | Option    | Description                                                                | Type    | Default |
 | --------- | -------------------------------------------------------------------------- | ------- | ------- |
-| canonical | Prefixes URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options-and-front-matter). | boolean | `false` |
+| canonical | Prefixes URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options). | boolean | `false` |
 | format    | Defines page [output format](4-Configuration.md#output-formats) (e.g.: `json`).   | string  | `html`  |
 | language  | Trying to force page [language](4-Configuration.md#language) (e.g.: `fr`). | string  | null    |
 

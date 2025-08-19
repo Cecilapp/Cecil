@@ -333,7 +333,7 @@ This template adds the following meta tags:
 - Mastodon meta
 - Structured data (JSON-LD)
 
-#### metatags options and front matter
+#### metatags options
 
 Cecil uses page’s front matter to feed meta tags, and fallbacks to site options if needed.
 
@@ -373,7 +373,7 @@ If needed, `title` and `image` can be overridden:
 
 :::
 
-#### metatags options
+#### metatags configuration
 
 ```yaml
 metatags:
@@ -383,14 +383,9 @@ metatags:
     pagination:
       shownumber: true     # displays page number in title (`true` by default)
       label: "Page %s"     # how to display page number (`Page %s` by default)
-  image:
-    enabled: true        # injects image (`true` by default)
   robots: "index,follow" # web crawlers directives (`index,follow` by default)
-  articles: "blog"       # articles' section (`blog` by default)
-  jsonld:
-    enabled: false       # injects JSON-LD structured data (`false` by default)
   favicon:
-    enabled: true        # injects favicon (`true` by default)
+    enabled: true        # includes favicon (`true` by default)
     image: favicon.png     # path to favicon image
     sizes:
       - "icon": [32, 57, 76, 96, 128, 192, 228] # web browsers
