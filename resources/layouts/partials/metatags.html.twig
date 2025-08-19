@@ -63,6 +63,10 @@
 {# image #}
 {% if image is empty and (page.metatags.image.enabled ?? site.metatags.image.enabled ?? true) %}
   {%- set image = page.image|default(site.image|default) %}
+  {#- photo #}
+  {%- if page.photo is defined %}
+    {%- set image = page.photo %}
+  {%- endif %}
 {% endif %}
 {# video #}
 {% if page.videos is defined and page.videos[0] %}
