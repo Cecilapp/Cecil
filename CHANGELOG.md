@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.56.0](https://github.com/Cecilapp/Cecil/compare/8.55.22...8.56.0)
+
+> 19 August 2025
+
+- feat: add audio support and improve oEmbed thumbnails [`44eeb0e`](https://github.com/Cecilapp/Cecil/commit/44eeb0e95a7ad9d00c5957f08fc37adaf101b78a)
+- Fix Open Graph audio/image meta tag logic [`bce5915`](https://github.com/Cecilapp/Cecil/commit/bce591564d1352ce6d06778cc566efe23ef01ac7)
+
 #### [8.55.22](https://github.com/Cecilapp/Cecil/compare/8.55.21...8.55.22)
 
 > 18 August 2025
