@@ -262,22 +262,27 @@
   {%- if page.metatags.twitter ?? site.metatags.twitter ?? true ~%}
     <meta name="twitter:title" content="{{ opengraph.title }}">
     <meta name="twitter:description" content="{{ opengraph.description }}">
-    {%- if opengraph.image is defined ~%}
-    <meta name="twitter:image" content="{{ opengraph.image|url({'canonical': true}) }}">
-    <meta name="twitter:image:alt" content="{{ opengraph.title }}">
-      {%- if opengraph.image.width != opengraph.image.height and opengraph.image.width > 500 ~%}
-    <meta name="twitter:card" content="summary_large_image">
-      {%- else ~%}
-    <meta name="twitter:card" content="summary">
-      {%- endif -%}
-    {%- endif -%}
     {%- if opengraph.video is defined ~%}
     <meta name="twitter:card" content="player">
-    <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'iframe'}) }}">
+    <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'embed'}) }}">
     <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}">
     <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}">
     <meta name="twitter:player:stream" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta name="twitter:player:stream:content_type" content="{{ opengraph.video.subtype }}">
+    {%- elseif opengraph.audio is defined ~%}
+    <meta name="twitter:card" content="player">
+    <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'embed'}) }}">
+    {%- endif -%}
+    {%- if opengraph.image is defined ~%}
+    <meta name="twitter:image" content="{{ opengraph.image|url({'canonical': true}) }}">
+    <meta name="twitter:image:alt" content="{{ opengraph.title }}">
+      {%- if opengraph.video is not defined and opengraph.audio is not defined ~%}
+        {%- if opengraph.image.width != opengraph.image.height and opengraph.image.width > 500 ~%}
+    <meta name="twitter:card" content="summary_large_image">
+        {%- else ~%}
+    <meta name="twitter:card" content="summary">
+        {%- endif -%}
+      {%- endif ~%}
     {%- endif -%}
     {%- if twitter.site ~%}
     <meta name="twitter:site" content="@{{ twitter.site|trim('@', side: 'left') }}">
