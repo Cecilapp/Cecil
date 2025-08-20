@@ -151,6 +151,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
             new \Twig\TwigFilter('iterable', [$this, 'iterable']),
             new \Twig\TwigFilter('highlight', [$this, 'highlight']),
+            new \Twig\TwigFilter('unique', [$this, 'unique']),
             // date
             new \Twig\TwigFilter('duration_to_iso8601', ['\Cecil\Util\Date', 'durationToIso8601']),
             // deprecated
@@ -1032,6 +1033,14 @@ class Core extends SlugifyExtension
     public function highlight(string $code, string $language): string
     {
         return (new Highlighter())->highlight($language, $code)->value;
+    }
+
+    /**
+     * Returns an array with unique values.
+     */
+    public function unique(array $array): array
+    {
+        return array_intersect_key($array, array_unique(array_map('strtolower', $array), SORT_STRING));
     }
 
     /**
