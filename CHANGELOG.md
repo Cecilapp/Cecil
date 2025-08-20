@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.59.0](https://github.com/Cecilapp/Cecil/compare/8.58.2...8.59.0)
+
+> 20 August 2025
+
+- refactor: trying to fix asset URL in Markdown [`f3ab05e`](https://github.com/Cecilapp/Cecil/commit/f3ab05ec8bf0cf6660dd0e06844aa25236ddf4b2)
+- fix fixtures [`b29327b`](https://github.com/Cecilapp/Cecil/commit/b29327b389f46595fb9a325827f6ca1671348750)
+
 #### [8.58.2](https://github.com/Cecilapp/Cecil/compare/8.58.1...8.58.2)
 
 > 19 August 2025
