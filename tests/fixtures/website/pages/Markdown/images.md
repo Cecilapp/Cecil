@@ -62,10 +62,10 @@ typora-root-url: ../../static
 ## Responsive image
 
 ```markdown
-![Alt text](/images/cecil-logo-1000.png)
+![Alt text](/images/cecil-logo-big.png)
 ```
 
-![Alt text](/images/cecil-logo-1000.png)
+![Alt text](/images/cecil-logo-big.png)
 
 ## Animated GIF
 

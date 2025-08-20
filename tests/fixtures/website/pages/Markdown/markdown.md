@@ -1,8 +1,11 @@
 ---
+title: Markdown
 ---
 <!-- break -->
 
 [toc]
+
+---
 
 ## Attributes
 
@@ -20,51 +23,51 @@
 - [Link to `/markdown.md`](/markdown.md)
 - [Link to page:about](page:about)
 
-### Emebedded links
+### Embedded links
 
-#### Youtube
+#### YouTube links
 
 [An example YouTube video](https://www.youtube.com/watch?v=FTpBS7g7YnI){embed=true}
 
-#### Youtube (embed = false)
+#### YouTube links (embed = false)
 
 [An example YouTube video](https://www.youtube.com/watch?v=FTpBS7g7YnI){embed=false}
 
-#### GitHub Gist
+#### GitHub Gist links
 
 [Cecil build script](<https://gist.github.com/ArnaudLigny/6b2aa9e6b25581c96435e9296efe0c0e){embed=true>}
 
-#### Video
+#### Video links
 
-[Video example](/video/test.mp4 "/video/test.mp4"){embed=true controls poster=/images/cecil-logo.png}
+[Video example](/video/test.mp4 "/video/test.mp4"){embed=true controls poster=/video/test.png}
 
-#### Video (without controls = autoplay + loop)
+#### Video links (without controls = autoplay + loop)
 
 [Video example](/video/test.mp4 "/video/test.mp4"){embed=true poster=/images/cecil-logo.png}
 
-#### Video (embed = false)
+#### Video links (embed = false)
 
 [Video example](/video/test.mp4 "/video/test.mp4"){embed=false controls poster=/images/cecil-logo.png}
 
-#### Audio
+#### Audio links
 
 [Audio example](/audio/test.mp3 "/audio/test.mp3"){embed=true controls}
 
-#### Audio (embed = false)
+#### Audio links (embed = false)
 
 [Audio example](/audio/test.mp3 "/audio/test.mp3"){embed=false controls}
 
 ## Image
 
-![alt](/cecil-logo-1000.png "/cecil-logo-1000.png")
+![alt](/cecil-logo-big.png "/cecil-logo-big.png")
 
-### Relative path to the parent asset dir
+### Image with a relative path to the parent asset dir
 
-![alt](../../assets/cecil-logo-1000.png "../../assets/cecil-logo-1000.png")
+![alt](../../assets/cecil-logo-big.png "../../assets/cecil-logo-big.png")
 
-### Resize
+### Image resized
 
-![alt](/cecil-logo-1000.png "/cecil-logo-1000.png"){width=200}
+![alt](/cecil-logo-big.png "/cecil-logo-big.png"){width=200}
 
 ## Notes
 

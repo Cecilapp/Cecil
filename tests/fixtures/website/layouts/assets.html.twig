@@ -151,12 +151,12 @@
 
   <h2>Image as HTML element</h2>
   <p>
-    <pre>asset('cecil-logo-1000.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
+    <pre>asset('cecil-logo-big.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
     <blockquote>
-      {{- asset('cecil-logo-1000.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'}) }}
+      {{- asset('cecil-logo-big.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'}) }}
     </blockquote>
     <pre>
-      {{~ asset('cecil-logo-1000.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})|e -}}
+      {{~ asset('cecil-logo-big.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})|e -}}
     </pre>
   </p>
 
@@ -196,12 +196,12 @@
   </p>
   <h3>Low Quality Image Placeholder as data URL</h3>
   <p>
-    <pre>{% verbatim %}{{ asset('cecil-logo-1000.png')|lqip }}{% endverbatim %}</pre>
+    <pre>{% verbatim %}{{ asset('cecil-logo-big.png')|lqip }}{% endverbatim %}</pre>
     <blockquote>
-      {{- asset('cecil-logo-1000.png')|lqip -}}
+      {{- asset('cecil-logo-big.png')|lqip -}}
     </blockquote>
     <blockquote>
-      <img src="{{ asset('cecil-logo-1000.png')|lqip }}">
+      <img src="{{ asset('cecil-logo-big.png')|lqip }}">
     </blockquote>
   </p>
   <h3>Read EXIF data</h3>
@@ -225,9 +225,9 @@
   </p>
   <h3>Image `srcset`</h3>
   <p>
-    <pre>{% verbatim %}{{ image_srcset(asset('cecil-logo-1000.png')) }}{% endverbatim %}</pre>
+    <pre>{% verbatim %}{{ image_srcset(asset('cecil-logo-big.png')) }}{% endverbatim %}</pre>
     <blockquote>
-      {{- image_srcset(asset('cecil-logo-1000.png')) -}}
+      {{- image_srcset(asset('cecil-logo-big.png')) -}}
     </blockquote>
   </p>
   <h3>Image `sizes`</h3>
