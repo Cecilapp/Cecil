@@ -298,8 +298,8 @@
   {%- endif ~%}
   {#- template: structured data ~#}
   {%- block metatags_structured_data ~%}
-  {%- if page.metatags.data ?? config.metatags.data ?? false ~%}
-  {{- include('partials/jsonld.js.twig', {author, favicon_asset: favicon_asset|default}) -}}
+  {%- if page.metatags.data ?? config.metatags.data ?? config.metatags.jsonld ?? false ~%}
+  {{- include('partials/jsonld.js.twig', {author}) ~}}
   {%- endif ~%}
   {%- endblock metatags_structured_data ~%}
 {%- endblock content -%}
