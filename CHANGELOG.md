@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.60.1](https://github.com/Cecilapp/Cecil/compare/8.60.0...8.60.1)
+
+> 20 August 2025
+
+- chore(deps): bump symfony/polyfill-intl-icu from 1.32.0 to 1.33.0 [`#2211`](https://github.com/Cecilapp/Cecil/pull/2211)
+- fix oembed template [`bbee82b`](https://github.com/Cecilapp/Cecil/commit/bbee82bea269e63b402b37dcd8cedf0848d50e3d)
+
 #### [8.60.0](https://github.com/Cecilapp/Cecil/compare/8.59.0...8.60.0)
 
 > 20 August 2025
