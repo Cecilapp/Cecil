@@ -3,16 +3,26 @@
 {
   "version": "1.0",
   "title": "{{ opengraph.title }}",
+  {%- if opengraph.description is defined ~%}
+  "description": "{{ opengraph.description }}",
+  {%- endif ~%}
   {#- type: photo ~#}
   {%- if page.photo is defined ~%}
   {%- set photo_asset = asset(page.photo) ~%}
   "type": "photo",
+  {%- if 'embed' not in page.output ~%}
+  {%- deprecated 'The "embed" output format is required by "photo" type.' ~%}
+  {%- endif ~%}
   "url": "{{ url(photo_asset, {canonical: true}) }}",
+  "embed_url": "{{ url(page, {canonical: true, format: 'embed'}) }}",
   "width": {{ photo_asset.width }},
   "height": {{ photo_asset.height }},
   {#- type: video ~#}
   {%- elseif opengraph.video is defined ~%}
   "type": "video",
+  {%- if 'embed' not in page.output ~%}
+  {%- deprecated 'The "embed" output format is required by "video" type.' ~%}
+  {%- endif ~%}
   "html": "<iframe width=\"{{ opengraph.video.video.width }}\" height=\"{{ opengraph.video.video.height }}\" src=\"{{ url(page, {canonical: true, format: 'embed'}) }}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"{{ opengraph.title }}\"></iframe>",
   "width": {{ opengraph.video.video.width }},
   "height": {{ opengraph.video.video.height }},
@@ -37,13 +47,6 @@
   "author_url": "{{ author.url }}",
   {%- endif ~%}
   {#- cache age ~#}
-  "cache_age": 3600,
-  {#- extra attributes ~#}
-  {%- if 'embed' in page.output ~%}
-  "embed_url": "{{ url(page, {canonical: true, format: 'embed'}) }}",
-  {%- endif ~%}
-  {%- if opengraph.description is defined ~%}
-  "description": "{{ opengraph.description }}"
-  {%- endif ~%}
+  "cache_age": 3600
 }
 {% endblock %}
