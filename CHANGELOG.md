@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.60.0](https://github.com/Cecilapp/Cecil/compare/8.59.0...8.60.0)
+
+> 20 August 2025
+
+- chore: cleaning fixtures [`5225291`](https://github.com/Cecilapp/Cecil/commit/52252917552da205080979185b6ba3508297d4d9)
+- feat: add unique Twig filter and update keywords metatag [`9a9615e`](https://github.com/Cecilapp/Cecil/commit/9a9615e22841ac37c14e80f6ffd7a37d994d41f6)
+- chore: cleaning code [`3e5678e`](https://github.com/Cecilapp/Cecil/commit/3e5678e4f78d35a0ae8b14f081a30539802043b0)
+
 #### [8.59.0](https://github.com/Cecilapp/Cecil/compare/8.58.2...8.59.0)
 
 > 20 August 2025
