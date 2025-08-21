@@ -262,8 +262,8 @@
     <meta name="twitter:card" content="player">
     {%- if 'embed' not in page.output ~%}
     {%- deprecated 'The "embed" output format is required by "twitter:card:player" for page "%s"'|format(page.filepath) ~%}
-    {%- endif ~%}
     <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'embed'}) }}">
+    {%- endif ~%}
     <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}">
     <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}">
     <meta name="twitter:player:stream" content="{{ url(opengraph.video, {'canonical': true}) }}">
