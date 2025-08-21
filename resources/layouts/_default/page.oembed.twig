@@ -28,13 +28,9 @@
   {#- type: photo ~#}
   {%- elseif opengraph.image is defined and opengraph.image is image_large ~%}
   "type": "photo",
-  {%- if 'embed' not in page.output ~%}
-  {%- deprecated 'The "embed" output format is required by "photo" type for page "%s"'|format(page.filepath) ~%}
-  {%- endif ~%}
   "url": "{{ url(opengraph.image, {canonical: true}) }}",
   "width": {{ opengraph.image.width }},
   "height": {{ opengraph.image.height }},
-  "embed_url": "{{ url(page, {canonical: true, format: 'embed'}) }}",
   {%- else ~%}
   {#- type: link ~#}
   "type": "link",
