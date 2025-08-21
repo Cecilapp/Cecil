@@ -30,13 +30,8 @@
     </style>
   </head>
   <body>
-    {#- photo ~#}
-    {%- if page.photo is defined ~%}
-    {%- block photo ~%}
-    <img src="{{ url(asset(page.photo), {canonical: true}) }}" alt="{{ page.title }}" style="width: 100%; height: auto;">
-    {%- endblock ~%}
-    {#- videos ~#}
-    {%- elseif page.videos is defined ~%}
+    {#- video ~#}
+    {%- if page.videos is defined ~%}
     {%- block video ~%}
     <video playsinline controls preload="auto"{% if page.poster|default(page.image|default) %} poster="{{ url(asset(page.poster|default(page.image|default)), {canonical: true}) }}"{% endif %}>
       {%- for video in page.videos ~%}
@@ -45,7 +40,7 @@
       {%- endfor ~%}
     </video>
     {%- endblock ~%}
-    {#- audios ~#}
+    {#- audio ~#}
     {%- elseif page.audios is defined ~%}
     {%- block audios ~%}
     <audio controls preload="auto">
@@ -55,7 +50,12 @@
       {%- endfor ~%}
     </audio>
     {%- endblock ~%}
-    {#- else: URL ~#}
+    {#- photo ~#}
+    {%- elseif page.image is defined and asset(page.image) is image_large ~%}
+    {%- block photo ~%}
+    <img src="{{ url(asset(page.image), {canonical: true}) }}" alt="{{ page.title }}" style="width: 100%; height: auto;">
+    {%- endblock ~%}
+    {#- URL ~#}
     {%- else ~%}
     {%- block default ~%}
     <a href="{{ url(page, {canonical: true}) }}" target="_blank" rel="noopener noreferrer">{{ page.title }}</a>

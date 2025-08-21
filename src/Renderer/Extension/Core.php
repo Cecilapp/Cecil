@@ -173,6 +173,8 @@ class Core extends SlugifyExtension
     {
         return [
             new \Twig\TwigTest('asset', [$this, 'isAsset']),
+            new \Twig\TwigTest('image_large', [$this, 'isImageLarge']),
+            new \Twig\TwigTest('image_square', [$this, 'isImageSquare']),
         ];
     }
 
@@ -917,6 +919,24 @@ class Core extends SlugifyExtension
     public function isAsset($variable): bool
     {
         return $variable instanceof Asset;
+    }
+
+    /**
+     * Tests if an image Asset is large enough to be used as a cover image.
+     * A large image is defined as having a width >= 600px and height >= 315px.
+     */
+    public function isImageLarge(Asset $asset): bool
+    {
+        return $asset['type'] == 'image' && $asset['width'] > $asset['height'] && $asset['width'] >= 600 && $asset['height'] >= 315;
+    }
+
+    /**
+     * Tests if an image Asset is square.
+     * A square image is defined as having the same width and height.
+     */
+    public function isImageSquare(Asset $asset): bool
+    {
+        return $asset['type'] == 'image' && $asset['width'] == $asset['height'];
     }
 
     /**

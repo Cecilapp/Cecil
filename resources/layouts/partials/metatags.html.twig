@@ -63,10 +63,6 @@
 {# image #}
 {% if image is empty and (page.metatags.image ?? site.metatags.image ?? true) %}
   {%- set image = page.image|default(site.image|default) %}
-  {#- photo #}
-  {%- if page.photo is defined %}
-    {%- set image = page.photo %}
-  {%- endif %}
 {% endif %}
 {# video #}
 {% if page.videos is defined and page.videos[0] %}
@@ -93,11 +89,11 @@
   {%- else %}
     {%- set image_asset = image %}
   {%- endif %}
-  {%- if (image_asset.width != image_asset.height) and (image_asset.width < 600 or image_asset.height < 315) %}
-    {%- deprecated 'The Open Graph image "' ~ image_asset.file ~ '" (' ~ image_asset.width ~ 'x' ~ image_asset.height ~ ' px) should be square or 600x315 px' %}
+  {%- if image_asset is not image_square and image_asset is not image_large %}
+    {%- deprecated 'The Open Graph image "' ~ image_asset.file ~ '" (' ~ image_asset.width ~ 'x' ~ image_asset.height ~ ' px) should be square or larger' %}
   {%- endif %}
   {#- if image is large, turn it in cover image #}
-  {%- if image_asset.width > image_asset.height %}
+  {%- if image_asset is image_large %}
     {%- set opengraph = opengraph|merge({'image': image_asset|cover(width: 1200, height: 630)}) %}
   {%- else %}
     {%- set opengraph = opengraph|merge({'image': image_asset}) %}
@@ -221,6 +217,16 @@
     <meta property="og:author" content="{{ author.name|e }}">
     {%- endif ~%}
     <meta property="og:type" content="{{ opengraph.type }}">
+    {%- if opengraph.type == 'article' ~%}
+    <meta property="article:published_time" content="{{ page.date|date('c') }}">
+    <meta property="article:modified_time" content="{{ page.updated|date('c') }}">
+      {%- if author.name|default ~%}
+    <meta property="article:author" content="{{ author.name|e }}">
+      {%- endif ~%}
+      {%- for tag in page.tags|default([]) ~%}
+    <meta property="article:tag" content="{{ tag|e }}">
+      {%- endfor ~%}
+    {%- endif ~%}
     {%- if opengraph.type == 'video' ~%}
     <meta property="og:video" content="{{ url(opengraph.video, {'canonical': true}) }}">
     <meta property="og:video:url" content="{{ url(opengraph.video, {'canonical': true}) }}">
@@ -241,16 +247,6 @@
     <meta property="og:image:height" content="{{ opengraph.image.height }}">
     <meta property="og:image:alt" content="{{ opengraph.title }}">
     {%- endif -%}
-    {%- if opengraph.type == 'article' ~%}
-    <meta property="article:published_time" content="{{ page.date|date('c') }}">
-    <meta property="article:modified_time" content="{{ page.updated|date('c') }}">
-      {%- if author.name|default ~%}
-    <meta property="article:author" content="{{ author.name|e }}">
-      {%- endif ~%}
-      {%- for tag in page.tags|default([]) ~%}
-    <meta property="article:tag" content="{{ tag|e }}">
-      {%- endfor ~%}
-    {%- endif ~%}
   {%- endif ~%}
   {%- endblock metatags_og ~%}
   {#- template: Facebook ~#}
@@ -264,6 +260,9 @@
     <meta name="twitter:description" content="{{ opengraph.description }}">
     {%- if opengraph.video is defined ~%}
     <meta name="twitter:card" content="player">
+    {%- if 'embed' not in page.output ~%}
+    {%- deprecated 'The "embed" output format is required by "twitter:card:player" for page "%s"'|format(page.filepath) ~%}
+    {%- endif ~%}
     <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'embed'}) }}">
     <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}">
     <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}">
@@ -277,7 +276,7 @@
     <meta name="twitter:image" content="{{ opengraph.image|url({'canonical': true}) }}">
     <meta name="twitter:image:alt" content="{{ opengraph.title }}">
       {%- if opengraph.video is not defined and opengraph.audio is not defined ~%}
-        {%- if opengraph.image.width != opengraph.image.height and opengraph.image.width > 500 ~%}
+        {%- if opengraph.image is image_large ~%}
     <meta name="twitter:card" content="summary_large_image">
         {%- else ~%}
     <meta name="twitter:card" content="summary">
