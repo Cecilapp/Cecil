@@ -33,10 +33,9 @@
     {#- video ~#}
     {%- if page.videos is defined ~%}
     {%- block video ~%}
-    <video playsinline controls preload="auto"{% if page.poster|default(page.image|default) %} poster="{{ url(asset(page.poster|default(page.image|default)), {canonical: true}) }}"{% endif %}>
+    <video playsinline controls preload="auto"{% if page.image|default %} poster="{{ url(asset(page.image), {canonical: true}) }}"{% endif %}>
       {%- for video in page.videos ~%}
-        {%- set asset_video = asset(video) ~%}
-      <source src="{{ url(asset_video, {canonical: true}) }}" type="{{ asset_video.subtype }}">
+      <source src="{{ url(asset(video), {canonical: true}) }}" type="{{ asset(video).subtype }}">
       {%- endfor ~%}
     </video>
     {%- endblock ~%}
@@ -45,8 +44,7 @@
     {%- block audios ~%}
     <audio controls preload="auto">
       {%- for audio in page.audios ~%}
-        {%- set asset_audio = asset(audio) ~%}
-      <source src="{{ url(asset_audio, {canonical: true}) }}" type="{{ asset_audio.subtype }}">
+      <source src="{{ url(asset(audio), {canonical: true}) }}" type="{{ asset(audio).subtype }}">
       {%- endfor ~%}
     </audio>
     {%- endblock ~%}
