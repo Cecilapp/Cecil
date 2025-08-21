@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.61.0](https://github.com/Cecilapp/Cecil/compare/8.60.2...8.61.0)
+
+> 21 August 2025
+
+- refactor: Improve image handling in metatags [`8fafaa4`](https://github.com/Cecilapp/Cecil/commit/8fafaa494d5b21e1af70377f855b1b29434d5a56)
+- chore: update deps [`1bc6204`](https://github.com/Cecilapp/Cecil/commit/1bc62046fb9eed2a83be2e31c50b982bc79a6a3f)
+
 #### [8.60.2](https://github.com/Cecilapp/Cecil/compare/8.60.1...8.60.2)
 
 > 21 August 2025
