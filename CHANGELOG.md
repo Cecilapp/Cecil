@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.60.2](https://github.com/Cecilapp/Cecil/compare/8.60.1...8.60.2)
+
+> 21 August 2025
+
+- fix and clean structured data template [`de0a3ff`](https://github.com/Cecilapp/Cecil/commit/de0a3ffc176655f8aa3ea0011debc7ee0ca253f4)
+
 #### [8.60.1](https://github.com/Cecilapp/Cecil/compare/8.60.0...8.60.1)
 
 > 20 August 2025
