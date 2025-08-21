@@ -26,20 +26,20 @@
   "width": {{ opengraph.video.video.width }},
   "height": {{ opengraph.video.video.height }},
   {#- type: photo ~#}
-  {%- elseif opengraph.image is defined and opengraph.image is image_large ~%}
+  {%- elseif page.image is defined and asset(page.image) is image_large ~%}
   "type": "photo",
-  "url": "{{ url(opengraph.image, {canonical: true}) }}",
-  "width": {{ opengraph.image.width }},
-  "height": {{ opengraph.image.height }},
+  "url": "{{ url(asset(page.image), {canonical: true}) }}",
+  "width": {{ asset(page.image).width }},
+  "height": {{ asset(page.image).height }},
   {%- else ~%}
   {#- type: link ~#}
   "type": "link",
   {%- endif ~%}
   {#- image thumbnail (640px) ~#}
-  {%- if opengraph.image is defined ~%}
-  "thumbnail_url": "{{ url(opengraph.image|resize(640), {canonical: true}) }}",
-  "thumbnail_width": {{ opengraph.image|resize(640).width }},
-  "thumbnail_height": {{ opengraph.image|resize(640).height }},
+  {%- if page.image is defined ~%}
+  "thumbnail_url": "{{ url(asset(page.image)|resize(640), {canonical: true}) }}",
+  "thumbnail_width": {{ asset(page.image)|resize(640).width }},
+  "thumbnail_height": {{ asset(page.image)|resize(640).height }},
   {%- endif ~%}
   {#- cache age ~#}
   "cache_age": 3600
