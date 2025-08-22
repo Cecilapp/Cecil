@@ -19,9 +19,10 @@
   {#- type: video ~#}
   {%- if opengraph.video is defined ~%}
   "type": "video",
-  {%- if 'embed' not in page.output ~%}
-  {%- deprecated 'The "embed" output format is required by "video" type for page "%s"'|format(page.filepath) ~%}
+  {%- if 'embed' in page.output ~%}
   "html": "<iframe width=\"{{ opengraph.video.video.width }}\" height=\"{{ opengraph.video.video.height }}\" src=\"{{ url(page, {canonical: true, format: 'embed'}) }}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"{{ opengraph.title }}\"></iframe>",
+  {%- else ~%}
+  {%- deprecated 'The "embed" output format is required by "video" type for page "%s"'|format(page.filepath) ~%}
   {%- endif ~%}
   "width": {{ opengraph.video.video.width }},
   "height": {{ opengraph.video.video.height }},
