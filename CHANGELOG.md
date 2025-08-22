@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.61.3](https://github.com/Cecilapp/Cecil/compare/8.61.2...8.61.3)
+
+> 22 August 2025
+
+- fix embed (again) [`9fea7fb`](https://github.com/Cecilapp/Cecil/commit/9fea7fbcf52887fa3c3f4c64c98631f93482e3b9)
+
 #### [8.61.2](https://github.com/Cecilapp/Cecil/compare/8.61.1...8.61.2)
 
 > 22 August 2025
