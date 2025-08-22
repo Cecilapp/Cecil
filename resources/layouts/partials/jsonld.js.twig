@@ -1,8 +1,8 @@
 {#- Structured data ~#}
     <script type="application/ld+json">{%- apply minify_js ~%}
       [
+{#- WebSite ~#}
         {%- cache 'jsonld_website' ~ '__' ~ cecil.version ~%}
-        {#- WebSite ~#}
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
@@ -23,7 +23,7 @@
           {%- endif ~%}
         }
         {%- endcache ~%}
-        {#- SiteNavigationElement ~#}
+{#- SiteNavigationElement ~#}
         {%- if site.menus.main is defined -%}
         {%- cache 'jsonld_navigation_' ~ hash(site.menus.main) ~ '__' ~ cecil.version -%}
         ,{
@@ -43,7 +43,7 @@
         }
         {%- endcache ~%}
         {%- endif -%}
-        {#- WebPage ~#}
+{#- WebPage ~#}
         {%- if page.id != '404' -%}
         ,{
           "@context": "http://schema.org",
@@ -52,12 +52,17 @@
           "description": "{{ page.description|default(site.description)|e }}",
           "publisher": {
             "@type": "Organization",
-            "name": "{{ site.title|e }}"
+            "name": "{{ site.title|e }}",
+            {%- set icon_asset = asset('icon.png', {'ignore_missing': true}) ~%}
+            {%- if not icon_asset.missing ~%}
+            "logo": "{{ url(icon_asset, {canonical: true}) }}",
+            {%- endif ~%}
+            "url": "{{ url(site.home, {canonical: true}) }}"
           }
         }
         {%- endif ~%}
         {%- if page.section -%}
-          {#- BreadcrumbList -#}
+{#- BreadcrumbList -#}
         ,{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -75,7 +80,7 @@
           {%- endif ~%}
           }]
         }
-          {#- NewsArticle ~#}
+{#- NewsArticle ~#}
           {%- if page.section == config.metatags.articles|default('blog') and page.type != 'section' -%}
         ,{
           "@context": "https://schema.org",
@@ -117,12 +122,17 @@
           {%- endif ~%}
           "publisher": {
             "@type": "Organization",
-            "name": "{{ site.title|e }}"
+            "name": "{{ site.title|e }}",
+            {%- set icon_asset = asset('icon.png', {'ignore_missing': true}) ~%}
+            {%- if not icon_asset.missing ~%}
+            "logo": "{{ url(icon_asset, {canonical: true}) }}",
+            {%- endif ~%}
+            "url": "{{ url(site.home, {canonical: true}) }}"
           }
         }
           {%- endif ~%}
         {%- endif ~%}
-        {#- VideoObject ~#}
+{#- VideoObject ~#}
         {%- if page.videos[0] is defined -%}
         ,{
           "@context": "https://schema.org",
