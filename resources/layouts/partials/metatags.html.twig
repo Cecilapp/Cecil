@@ -83,6 +83,22 @@
   'description': block('description'),
   'url': url(page, {canonical: true}),
 } %}
+{#- OG: video #}
+{% if video is not empty %}
+  {%- set video_asset = asset(video) %}
+  {%- set opengraph = opengraph|merge({'type': 'video'}) %}
+  {%- set opengraph = opengraph|merge({'video': video_asset}) %}
+{#- OG: audio #}
+{% elseif audio is not empty %}
+  {%- set audio_asset = asset(audio) %}
+  {%- set opengraph = opengraph|merge({'type': 'audio'}) %}
+  {%- set opengraph = opengraph|merge({'audio': audio_asset}) %}
+{% endif %}
+{#- OG: article #}
+{% if page.section == site.metatags.articles|default('blog') %}
+  {%- set opengraph = opengraph|merge({'type': 'article'}) %}
+{% endif %}
+{#- OG: image #}
 {% if image is not empty %}
   {%- if image is not asset %}
     {%- set image_asset = asset(image) %}
@@ -101,23 +117,7 @@
 {% endif %}
 {# merge page.opengraph #}
 {% if page.opengraph is defined or site.opengraph is defined %}
-  {%- set opengraph = opengraph|merge(page.opengraph|default(site.opengraph)) %}
-{% endif %}
-{# type: video #}
-{% if video is not empty %}
-  {%- set video_asset = asset(video) %}
-  {%- set opengraph = opengraph|merge({'type': 'video'}) %}
-  {%- set opengraph = opengraph|merge({'video': video_asset}) %}
-{% endif %}
-{# type: audio #}
-{% if audio is not empty %}
-  {%- set audio_asset = asset(audio) %}
-  {%- set opengraph = opengraph|merge({'type': 'audio'}) %}
-  {%- set opengraph = opengraph|merge({'audio': audio_asset}) %}
-{% endif %}
-{# type: article #}
-{% if page.section == site.metatags.articles|default('blog') %}
-  {%- set opengraph = opengraph|merge({'type': 'article'}) %}
+  {%- set opengraph = opengraph|merge(page.opengraph ?? site.opengraph ?? []) %}
 {% endif %}
 {# Facebook #}
 {% set facebook = {'id': site.social.facebook.id|default(page.social.facebook.id|default)} %}
@@ -140,7 +140,9 @@
   {%- if author ~%}
     <meta name="author" content="{{ author.name|e }}">
   {%- endif ~%}
+  {%- if robots is not empty ~%}
     <meta name="robots" content="{{ robots }}">
+  {%- endif ~%}
   {#- template: favicon ~#}
   {%- block metatags_favicon ~%}
     {%- cache 'metatags_favicon' ~ '__' ~ cecil.version ~%}
@@ -260,11 +262,11 @@
     <meta name="twitter:description" content="{{ opengraph.description }}">
     {%- if opengraph.video is defined ~%}
     <meta name="twitter:card" content="player">
-    {%- if 'embed' in page.output ~%}
+      {%- if 'embed' in page.output ~%}
     <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'embed'}) }}">
-    {%- else ~%}
-    {%- deprecated 'The "embed" output format is required by "twitter:card:player" for page "%s"'|format(page.filepath) ~%}
-    {%- endif ~%}
+      {%- else ~%}
+        {%- deprecated 'The "embed" output format is required by "twitter:card:player" for page "%s"'|format(page.filepath) ~%}
+      {%- endif ~%}
     <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}">
     <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}">
     <meta name="twitter:player:stream" content="{{ url(opengraph.video, {'canonical': true}) }}">
