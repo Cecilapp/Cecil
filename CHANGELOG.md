@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.61.4](https://github.com/Cecilapp/Cecil/compare/8.61.3...8.61.4)
+
+> 22 August 2025
+
+- fix: reintroduce jslon-ld publisher logo and url [`09be718`](https://github.com/Cecilapp/Cecil/commit/09be71813c2d218cf8ff63e0385d2aea57039ead)
+
 #### [8.61.3](https://github.com/Cecilapp/Cecil/compare/8.61.2...8.61.3)
 
 > 22 August 2025
