@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.61.5](https://github.com/Cecilapp/Cecil/compare/8.61.4...8.61.5)
+
+> 24 August 2025
+
+- refactor: cleaning metatags [`325903f`](https://github.com/Cecilapp/Cecil/commit/325903fd0735eb1f2034b5a33eae67d11d7011f1)
+
 #### [8.61.4](https://github.com/Cecilapp/Cecil/compare/8.61.3...8.61.4)
 
 > 22 August 2025
