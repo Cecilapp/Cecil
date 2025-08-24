@@ -147,10 +147,8 @@
           ],
           {%- endif ~%}
           "uploadDate": "{{ page.date|date('Y-m-dTH:i:sP') }}",
-          {%- if page.duration is defined ~%}
-          "duration": "{{ page.duration|duration_to_iso8601 }}",
-          {%- endif ~%}
-          "contentUrl": "{{ url(page.videos[0], {canonical: true}) }}",
+          "duration": "{{ asset(page.videos[0]).video.duration|duration_to_iso8601 }}",
+          "contentUrl": "{{ url(asset(page.videos[0]), {canonical: true}) }}",
           "embedUrl": "{{ url(page, {canonical: true, format: 'embed'}) }}"
         }
         {%- endif ~%}

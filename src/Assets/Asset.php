@@ -562,9 +562,10 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns MP4 file infos.
-     *
-     * @see https://github.com/clwu88/php-read-mp4info
+     * Returns MP4 file infos:
+     * - duration (in seconds)
+     * - width (in pixels)
+     * - height (in pixels)
      */
     public function getVideo(): array
     {
@@ -572,7 +573,14 @@ class Asset implements \ArrayAccess
             throw new RuntimeException(\sprintf('Not able to get video infos of "%s".', $this->data['path']));
         }
 
-        return (array) \Clwu\Mp4::getInfo($this->data['file']);
+        $getID3 = new \getID3();
+        $videoInfos = $getID3->analyze($this->data['file']);
+
+        return [
+            'duration' => $videoInfos['playtime_seconds'] ?? 0,
+            'width'    => $videoInfos['video']['resolution_x'] ?? 0,
+            'height'   => $videoInfos['video']['resolution_y'] ?? 0,
+        ];
     }
 
     /**

@@ -302,6 +302,14 @@
     </blockquote>
   </p>
 
+  <h2>Video file</h2>
+  <p>
+    <pre>{% verbatim %}{{ asset('video/test.mp4').video.duration }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ (asset('video/test.mp4').video.duration)|round }} seconds
+    </blockquote>
+  </p>
+
   <h2>Asset with wrong path + ignore directive</h2>
   <p>
     <pre>{% verbatim %}{{ asset('asssset.css', {ignore_missing: true})) }}{% endverbatim %}</pre>

@@ -59,15 +59,12 @@ class Date
 
     /**
      * Duration in seconds to ISO 8601.
-     * e.g.: '00:00:46.70' -> 'T0M46S'
      */
-    public static function durationToIso8601(string $duration): string
+    public static function durationToIso8601(float $duration): string
     {
-        $time = new \DateTime($duration);
-        $midnight = new \DateTime();
-        $midnight->setTime(0, 0);
-        $period = $midnight->diff($time);
+        $duration = (int) round($duration);
+        $dateInterval = \DateInterval::createFromDateString("$duration seconds");
 
-        return $period->format('T%iM%SS');
+        return $dateInterval->format('PT%HH%IM%SS');
     }
 }

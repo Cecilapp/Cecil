@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1f58ec04dde9bdf60db661e45ea895a",
+    "content-hash": "426abc751976db888fb6c16e8581e5cd",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -136,56 +136,6 @@
                 }
             ],
             "time": "2024-01-04T09:44:14+00:00"
-        },
-        {
-            "name": "clwu/php-read-mp4info",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/clwu88/php-read-mp4info.git",
-                "reference": "286726a66ce6e743f1de118557ce1528645fe106"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/clwu88/php-read-mp4info/zipball/286726a66ce6e743f1de118557ce1528645fe106",
-                "reference": "286726a66ce6e743f1de118557ce1528645fe106",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Clwu\\": "src/Clwu"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "clwu",
-                    "email": "chaolong.wu@qq.com",
-                    "homepage": "https://github.com/clwu88"
-                }
-            ],
-            "description": "detect the rotate/width/height ... of MP4 video",
-            "homepage": "https://github.com/clwu88/php-read-mp4info",
-            "keywords": [
-                "height",
-                "mp4",
-                "rotate",
-                "rotation",
-                "video",
-                "width"
-            ],
-            "support": {
-                "issues": "https://github.com/clwu88/php-read-mp4info/issues",
-                "source": "https://github.com/clwu88/php-read-mp4info/tree/master"
-            },
-            "time": "2020-02-12T08:06:12+00:00"
         },
         {
             "name": "cocur/slugify",
@@ -580,6 +530,73 @@
                 }
             ],
             "time": "2025-07-30T13:13:19+00:00"
+        },
+        {
+            "name": "james-heinrich/getid3",
+            "version": "v1.9.23",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JamesHeinrich/getID3.git",
+                "reference": "06c7482532ff2b3f9111b011d880ca6699c8542b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/06c7482532ff2b3f9111b011d880ca6699c8542b",
+                "reference": "06c7482532ff2b3f9111b011d880ca6699c8542b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "^1.0"
+            },
+            "suggest": {
+                "ext-SimpleXML": "SimpleXML extension is required to analyze RIFF/WAV/BWF audio files (also requires `ext-libxml`).",
+                "ext-com_dotnet": "COM extension is required when loading files larger than 2GB on Windows.",
+                "ext-ctype": "ctype extension is required when loading files larger than 2GB on 32-bit PHP (also on 64-bit PHP on Windows) or executing `getid3_lib::CopyTagsToComments`.",
+                "ext-dba": "DBA extension is required to use the DBA database as a cache storage.",
+                "ext-exif": "EXIF extension is required for graphic modules.",
+                "ext-iconv": "iconv extension is required to work with different character sets (when `ext-mbstring` is not available).",
+                "ext-json": "JSON extension is required to analyze Apple Quicktime videos.",
+                "ext-libxml": "libxml extension is required to analyze RIFF/WAV/BWF audio files.",
+                "ext-mbstring": "mbstring extension is required to work with different character sets.",
+                "ext-mysql": "MySQL extension is required to use the MySQL database as a cache storage (deprecated in PHP 5.5, removed in PHP >= 7.0, use `ext-mysqli` instead).",
+                "ext-mysqli": "MySQLi extension is required to use the MySQL database as a cache storage.",
+                "ext-rar": "RAR extension is required for RAR archive module.",
+                "ext-sqlite3": "SQLite3 extension is required to use the SQLite3 database as a cache storage.",
+                "ext-xml": "XML extension is required for graphic modules to analyze the XML metadata.",
+                "ext-zlib": "Zlib extension is required for archive modules and compressed metadata."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "getid3/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-1.0-or-later",
+                "LGPL-3.0-only",
+                "MPL-2.0"
+            ],
+            "description": "PHP script that extracts useful information from popular multimedia file formats",
+            "homepage": "https://www.getid3.org/",
+            "keywords": [
+                "codecs",
+                "php",
+                "tags"
+            ],
+            "support": {
+                "issues": "https://github.com/JamesHeinrich/getID3/issues",
+                "source": "https://github.com/JamesHeinrich/getID3/tree/v1.9.23"
+            },
+            "time": "2023-10-19T13:18:49+00:00"
         },
         {
             "name": "laravel-zero/phar-updater",

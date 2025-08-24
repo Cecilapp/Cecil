@@ -568,24 +568,30 @@ Bundle:
 
 Image:
 
-- `width`: image width
-- `height`: image height
+- `width`: image width in pixels
+- `height`: image height in pixels
 - `exif`: image EXIF data as array
 
 Media:
 
 - `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) object
-- `video`: array of video dimensions (width and height)
+- `video`: array of basic video information (duration in seconds, width and height)
 
 _Examples:_
 
 ```twig
 # image width in pixels
 {{ asset('image.png').width }}px
+
 # photo's date in seconds
 {{ asset('photo.jpeg').exif.EXIF.DateTimeOriginal|date('U') }}
+
 # MP3 song duration in minutes
-{{ asset('title.mp3').audio.duration|round }} min
+{{ asset('song.mp3').audio.duration|round }} min
+
+# Video duration in seconds
+{{ asset('movie.mp4').video.duration|round }} s
+
 # file integrity hash
 {% set integrity = asset('styles.scss').integrity %}
 ```
