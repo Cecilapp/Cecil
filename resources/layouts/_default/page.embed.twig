@@ -6,7 +6,7 @@
     <meta name="googlebot" content="noindex,indexifembedded">
     <link rel="canonical" href="{{ url(page, {canonical: true, format: 'embed'}) }}">
     <title>{{ page.title }}</title>
-    <style type="text/css">
+    <style type="text/css">{% apply minify_css ~%}
       body {
         background-color: black;
         display: block;
@@ -27,7 +27,7 @@
       video {
         aspect-ratio: 16 / 9;
       }
-    </style>
+    {% endapply ~%}</style>
   </head>
   <body>
     {#- video ~#}
@@ -60,7 +60,7 @@
     {%- endblock ~%}
     {%- endif ~%}
     {#- scripts ~#}
-    <script>
+    <script>{% apply minify_js ~%}
       // autoplay videos if "autoplay=1" in URL
       document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -71,6 +71,6 @@
           video.autoplay = autoplay == '1' ? true : false;
         });
       });
-    </script>
+    {% endapply ~%}</script>
   </body>
 </html>
