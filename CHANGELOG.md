@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.62.0](https://github.com/Cecilapp/Cecil/compare/8.61.5...8.62.0)
+
+> 25 August 2025
+
+- feat: better video asset management [`4d0cadf`](https://github.com/Cecilapp/Cecil/commit/4d0cadf0c8f7a36ed864d46a81508d8e3bc16409)
+- feat: add video support to sitemap [`b9ddb6e`](https://github.com/Cecilapp/Cecil/commit/b9ddb6e40c2081fa4386c7a648b3fb6bf74a8822)
+
 #### [8.61.5](https://github.com/Cecilapp/Cecil/compare/8.61.4...8.61.5)
 
 > 24 August 2025
