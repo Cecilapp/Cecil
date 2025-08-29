@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.63.2](https://github.com/Cecilapp/Cecil/compare/8.63.1...8.63.2)
+
+> 29 August 2025
+
+- chore: update deps [`7919d5c`](https://github.com/Cecilapp/Cecil/commit/7919d5cba305adf3489af4344c9997127dbfc6c3)
+- refactor: better code for embedded media [`d210a85`](https://github.com/Cecilapp/Cecil/commit/d210a8573729f9a374718b249c79eeebc5fa7fb1)
+
 #### [8.63.1](https://github.com/Cecilapp/Cecil/compare/8.63.0...8.63.1)
 
 > 29 August 2025
