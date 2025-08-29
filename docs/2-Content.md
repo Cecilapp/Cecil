@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2025-08-14
+updated: 2025-08-29
 -->
 # Content
 
@@ -211,7 +211,7 @@ _Example:_
 ```
 
 :::important
-Only **YouTube** and **GitHub Gits** links are supported for the moment.
+Only **YouTube**, **Vimeo** and **GitHub Gits** links are supported.
 :::
 
 Cecil can also create a video or audio HTML elements, through the file extension.

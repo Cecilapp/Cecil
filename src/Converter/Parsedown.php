@@ -169,8 +169,8 @@ class Parsedown extends \ParsedownToc
             return $link;
         }
         // GitHub Gist link?
-        // https://regex101.com/r/QmCiAL/1
-        $pattern = 'https:\/\/gist\.github.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
+        // https://regex101.com/r/KWVMYI/1
+        $pattern = 'https:\/\/gist\.github\.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
         if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
             $gist = [
                 'extent'  => $link['extent'],
@@ -228,6 +228,46 @@ class Parsedown extends \ParsedownToc
             }
 
             return $youtube;
+        }
+        // Vimeo link?
+        // https://regex101.com/r/wCEFhd/1
+        $pattern = 'https:\/\/vimeo\.com\/([0-9]+)';
+        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
+            $iframe = [
+                'element' => [
+                    'name'       => 'iframe',
+                    'text'       => $link['element']['text'],
+                    'attributes' => [
+                        'width'           => '640',
+                        'height'          => '360',
+                        'title'           => $link['element']['text'],
+                        'src'             => 'https://player.vimeo.com/video/' . $matches[1],
+                        'frameborder'     => '0',
+                        'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+                        'allowfullscreen' => '',
+                        'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
+                    ],
+                ],
+            ];
+            $vimeo = [
+                'extent'  => $link['extent'],
+                'element' => [
+                    'name'    => 'div',
+                    'handler' => 'elements',
+                    'text'    => [
+                        $iframe['element'],
+                    ],
+                    'attributes' => [
+                        'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden',
+                        'title' => $link['element']['attributes']['title'],
+                    ],
+                ],
+            ];
+            if ($this->config->isEnabled('pages.body.images.caption')) {
+                return $this->createFigure($vimeo);
+            }
+
+            return $vimeo;
         }
 
         return $link;
