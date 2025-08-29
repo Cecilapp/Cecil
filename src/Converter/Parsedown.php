@@ -168,6 +168,18 @@ class Parsedown extends \ParsedownToc
         if (!$embed) {
             return $link;
         }
+        // Youtube link?
+        // https://regex101.com/r/gznM1j/1
+        $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
+        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
+            return $this->createEmbeddedVideoFromLink($link, 'https://www.youtube.com/embed/', $matches[1]);
+        }
+        // Vimeo link?
+        // https://regex101.com/r/wCEFhd/1
+        $pattern = 'https:\/\/vimeo\.com\/([0-9]+)';
+        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
+            return $this->createEmbeddedVideoFromLink($link, 'https://player.vimeo.com/video/', $matches[1]);
+        }
         // GitHub Gist link?
         // https://regex101.com/r/KWVMYI/1
         $pattern = 'https:\/\/gist\.github\.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
@@ -188,18 +200,6 @@ class Parsedown extends \ParsedownToc
             }
 
             return $gist;
-        }
-        // Youtube link?
-        // https://regex101.com/r/gznM1j/1
-        $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
-        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return $this->createEmbeddedVideoFromLink($link, 'https://www.youtube.com/embed/', $matches[1]);
-        }
-        // Vimeo link?
-        // https://regex101.com/r/wCEFhd/1
-        $pattern = 'https:\/\/vimeo\.com\/([0-9]+)';
-        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return $this->createEmbeddedVideoFromLink($link, 'https://player.vimeo.com/video/', $matches[1]);
         }
 
         return $link;
@@ -708,9 +708,6 @@ class Parsedown extends \ParsedownToc
      *
      * $baseSrc is the base URL to embed the video
      * $match is the video ID or the rest of the URL to append to $baseSrc
-     *
-     * e.g. for Youtube: https://www.youtube.com/embed/ + video ID
-     * e.g. for Vimeo: https://player.vimeo.com/video/ + video ID
      */
     private function createEmbeddedVideoFromLink(array $link, string $baseSrc, string $match): array
     {
@@ -724,9 +721,9 @@ class Parsedown extends \ParsedownToc
                     'title'           => $link['element']['text'],
                     'src'             => Util::joinPath($baseSrc, $match),
                     'frameborder'     => '0',
-                    'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+                    'allow'           => 'accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture;',
                     'allowfullscreen' => '',
-                    'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
+                    'style'           => 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;background-color:#d8d8d8;',
                 ],
             ],
         ];
@@ -739,7 +736,7 @@ class Parsedown extends \ParsedownToc
                     $iframe['element'],
                 ],
                 'attributes' => [
-                    'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin-top:1.5rem; margin-bottom:.5rem;',
+                    'style' => 'position:relative;padding-bottom:56.25%;height:0;overflow:hidden;',
                     'title' => $link['element']['attributes']['title'],
                 ],
             ],
