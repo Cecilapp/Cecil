@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.62.1](https://github.com/Cecilapp/Cecil/compare/8.62.0...8.62.1)
+
+> 27 August 2025
+
+- refactor: minify inline CSS and JS in embed tpl [`2c25f83`](https://github.com/Cecilapp/Cecil/commit/2c25f83ede36a8876e5fc437bdc0aae83e639df6)
+- fix: refine README to index renaming logic [`52d28af`](https://github.com/Cecilapp/Cecil/commit/52d28afee7d26c314a319f8aa8b94abc6b858cbc)
+
 #### [8.62.0](https://github.com/Cecilapp/Cecil/compare/8.61.5...8.62.0)
 
 > 25 August 2025
