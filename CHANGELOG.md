@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.63.0](https://github.com/Cecilapp/Cecil/compare/8.62.1...8.63.0)
+
+> 29 August 2025
+
+- feat: add Vimeo embed support to Parsedown [`5de407b`](https://github.com/Cecilapp/Cecil/commit/5de407bfcc4210e7d0437e1540ce76010d984c4e)
+
 #### [8.62.1](https://github.com/Cecilapp/Cecil/compare/8.62.0...8.62.1)
 
 > 27 August 2025
