@@ -120,7 +120,7 @@ jobs:
 
       - name: Generate build provenance attestation
         id: attestation
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v3
         with:
           subject-path: dist/cecil.phar
           show-summary: false
