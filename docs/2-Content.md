@@ -207,8 +207,10 @@ You can let Cecil tries to turns a link into an embedded content by using the `{
 _Example:_
 
 ```markdown
-[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed}
+[CECIL : LE générateur de SITES STATIQUES en PHP](https://www.youtube.com/watch?v=ur8koU0iYvc){embed}
 ```
+
+[CECIL : LE générateur de SITES STATIQUES en PHP](https://www.youtube.com/watch?v=ur8koU0iYvc){embed}
 
 :::important
 Only **YouTube**, **Vimeo** and **GitHub Gits** links are supported.
