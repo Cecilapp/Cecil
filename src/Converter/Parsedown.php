@@ -193,81 +193,13 @@ class Parsedown extends \ParsedownToc
         // https://regex101.com/r/gznM1j/1
         $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
         if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            $iframe = [
-                'element' => [
-                    'name'       => 'iframe',
-                    'text'       => $link['element']['text'],
-                    'attributes' => [
-                        'width'           => '560',
-                        'height'          => '315',
-                        'title'           => $link['element']['text'],
-                        'src'             => 'https://www.youtube.com/embed/' . $matches[1],
-                        'frameborder'     => '0',
-                        'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
-                        'allowfullscreen' => '',
-                        'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
-                    ],
-                ],
-            ];
-            $youtube = [
-                'extent'  => $link['extent'],
-                'element' => [
-                    'name'    => 'div',
-                    'handler' => 'elements',
-                    'text'    => [
-                        $iframe['element'],
-                    ],
-                    'attributes' => [
-                        'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden',
-                        'title' => $link['element']['attributes']['title'],
-                    ],
-                ],
-            ];
-            if ($this->config->isEnabled('pages.body.images.caption')) {
-                return $this->createFigure($youtube);
-            }
-
-            return $youtube;
+            return $this->createEmbeddedVideoFromLink($link, 'https://www.youtube.com/embed/', $matches[1]);
         }
         // Vimeo link?
         // https://regex101.com/r/wCEFhd/1
         $pattern = 'https:\/\/vimeo\.com\/([0-9]+)';
         if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            $iframe = [
-                'element' => [
-                    'name'       => 'iframe',
-                    'text'       => $link['element']['text'],
-                    'attributes' => [
-                        'width'           => '640',
-                        'height'          => '360',
-                        'title'           => $link['element']['text'],
-                        'src'             => 'https://player.vimeo.com/video/' . $matches[1],
-                        'frameborder'     => '0',
-                        'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
-                        'allowfullscreen' => '',
-                        'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
-                    ],
-                ],
-            ];
-            $vimeo = [
-                'extent'  => $link['extent'],
-                'element' => [
-                    'name'    => 'div',
-                    'handler' => 'elements',
-                    'text'    => [
-                        $iframe['element'],
-                    ],
-                    'attributes' => [
-                        'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden',
-                        'title' => $link['element']['attributes']['title'],
-                    ],
-                ],
-            ];
-            if ($this->config->isEnabled('pages.body.images.caption')) {
-                return $this->createFigure($vimeo);
-            }
-
-            return $vimeo;
+            return $this->createEmbeddedVideoFromLink($link, 'https://player.vimeo.com/video/', $matches[1]);
         }
 
         return $link;
@@ -769,6 +701,54 @@ class Parsedown extends \ParsedownToc
         }
 
         throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
+    }
+
+    /**
+     * Create an embedded video element from a link.
+     *
+     * $baseSrc is the base URL to embed the video
+     * $match is the video ID or the rest of the URL to append to $baseSrc
+     *
+     * e.g. for Youtube: https://www.youtube.com/embed/ + video ID
+     * e.g. for Vimeo: https://player.vimeo.com/video/ + video ID
+     */
+    private function createEmbeddedVideoFromLink(array $link, string $baseSrc, string $match): array
+    {
+        $iframe = [
+            'element' => [
+                'name'       => 'iframe',
+                'text'       => $link['element']['text'],
+                'attributes' => [
+                    'width'           => '640',
+                    'height'          => '360',
+                    'title'           => $link['element']['text'],
+                    'src'             => Util::joinPath($baseSrc, $match),
+                    'frameborder'     => '0',
+                    'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+                    'allowfullscreen' => '',
+                    'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
+                ],
+            ],
+        ];
+        $div = [
+            'extent'  => $link['extent'],
+            'element' => [
+                'name'    => 'div',
+                'handler' => 'elements',
+                'text'    => [
+                    $iframe['element'],
+                ],
+                'attributes' => [
+                    'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin-top:1.5rem; margin-bottom:.5rem;',
+                    'title' => $link['element']['attributes']['title'],
+                ],
+            ],
+        ];
+        if ($this->config->isEnabled('pages.body.images.caption')) {
+            return $this->createFigure($div);
+        }
+
+        return $div;
     }
 
     /**
