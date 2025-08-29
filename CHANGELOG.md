@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.63.1](https://github.com/Cecilapp/Cecil/compare/8.63.0...8.63.1)
+
+> 29 August 2025
+
+- refactor: better code [`a893617`](https://github.com/Cecilapp/Cecil/commit/a8936172e383bff0a40183874af2e92f58e21d6a)
+
 #### [8.63.0](https://github.com/Cecilapp/Cecil/compare/8.62.1...8.63.0)
 
 > 29 August 2025
