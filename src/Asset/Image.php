@@ -45,9 +45,7 @@ class Image
         }*/
         // libvips is the fastest driver (if FFI is available)
         if (\extension_loaded('ffi')) {
-            if (!ini_get('ffi.enable')) {
-                ini_set('ffi.enable', 'true');
-            }
+            ini_set('ffi.enable', 'true');
             $driver = new VipsDriver();
             try {
                 $driver->checkHealth();
