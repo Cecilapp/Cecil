@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7de39d97ec8b9c2db3be7aecdae027d",
+    "content-hash": "e89ecd37987479faf7b78f78a70d8577",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -532,6 +532,80 @@
             "time": "2025-07-30T13:13:19+00:00"
         },
         {
+            "name": "intervention/image-driver-vips",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/image-driver-vips.git",
+                "reference": "67f92c78cbe94a303f28d7ed84afd464eefac7aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/image-driver-vips/zipball/67f92c78cbe94a303f28d7ed84afd464eefac7aa",
+                "reference": "67f92c78cbe94a303f28d7ed84afd464eefac7aa",
+                "shasum": ""
+            },
+            "require": {
+                "intervention/image": "^3.11.0",
+                "jcupitt/vips": "^2.4",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "ext-fileinfo": "*",
+                "phpstan/phpstan": "^2",
+                "phpunit/phpunit": "^10.0 || ^11.0 || ^12.0",
+                "slevomat/coding-standard": "~8.0",
+                "squizlabs/php_codesniffer": "^3.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Image\\Drivers\\Vips\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@intervention.io",
+                    "homepage": "https://intervention.io/"
+                },
+                {
+                    "name": "Thomas Picquet",
+                    "email": "thomas@sctr.net"
+                }
+            ],
+            "description": "libvips driver for Intervention Image",
+            "homepage": "https://image.intervention.io/",
+            "keywords": [
+                "image",
+                "libvips",
+                "vips"
+            ],
+            "support": {
+                "issues": "https://github.com/Intervention/image-driver-vips/issues",
+                "source": "https://github.com/Intervention/image-driver-vips/tree/1.0.6"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/interventionio",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/Intervention",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/interventionphp",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2025-06-10T14:30:21+00:00"
+        },
+        {
             "name": "james-heinrich/getid3",
             "version": "v1.9.23",
             "source": {
@@ -599,91 +673,17 @@
             "time": "2023-10-19T13:18:49+00:00"
         },
         {
-            "name": "intervention/image-driver-vips",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Intervention/image-driver-vips.git",
-                "reference": "86bd626e7f91ad5546bb8c460b68c893a2f8581f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image-driver-vips/zipball/86bd626e7f91ad5546bb8c460b68c893a2f8581f",
-                "reference": "86bd626e7f91ad5546bb8c460b68c893a2f8581f",
-                "shasum": ""
-            },
-            "require": {
-                "intervention/image": "^3.11.0",
-                "jcupitt/vips": "^2.4",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "ext-fileinfo": "*",
-                "phpstan/phpstan": "^2",
-                "phpunit/phpunit": "^10.0 || ^11.0 || ^12.0",
-                "slevomat/coding-standard": "~8.0",
-                "squizlabs/php_codesniffer": "^3.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Intervention\\Image\\Drivers\\Vips\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Oliver Vogel",
-                    "email": "oliver@intervention.io",
-                    "homepage": "https://intervention.io/"
-                },
-                {
-                    "name": "Thomas Picquet",
-                    "email": "thomas@sctr.net"
-                }
-            ],
-            "description": "libvips driver for Intervention Image",
-            "homepage": "https://image.intervention.io/",
-            "keywords": [
-                "image",
-                "libvips",
-                "vips"
-            ],
-            "support": {
-                "issues": "https://github.com/Intervention/image-driver-vips/issues",
-                "source": "https://github.com/Intervention/image-driver-vips/tree/1.0.3"
-            },
-            "funding": [
-                {
-                    "url": "https://paypal.me/interventionio",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/Intervention",
-                    "type": "github"
-                },
-                {
-                    "url": "https://ko-fi.com/interventionphp",
-                    "type": "ko_fi"
-                }
-            ],
-            "time": "2025-02-20T14:22:00+00:00"
-        },
-        {
             "name": "jcupitt/vips",
-            "version": "v2.4.1",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/libvips/php-vips.git",
-                "reference": "256575d7c5247d4fb3e98bf10ab1e10a571684c7"
+                "reference": "a54c1cceea581b592a199edd61a7c06f44a24c08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/libvips/php-vips/zipball/256575d7c5247d4fb3e98bf10ab1e10a571684c7",
-                "reference": "256575d7c5247d4fb3e98bf10ab1e10a571684c7",
+                "url": "https://api.github.com/repos/libvips/php-vips/zipball/a54c1cceea581b592a199edd61a7c06f44a24c08",
+                "reference": "a54c1cceea581b592a199edd61a7c06f44a24c08",
                 "shasum": ""
             },
             "require": {
@@ -729,9 +729,9 @@
             ],
             "support": {
                 "issues": "https://github.com/libvips/php-vips/issues",
-                "source": "https://github.com/libvips/php-vips/tree/v2.4.1"
+                "source": "https://github.com/libvips/php-vips/tree/v2.5.0"
             },
-            "time": "2025-01-13T16:58:09+00:00"
+            "time": "2025-04-04T17:10:13+00:00"
         },
         {
             "name": "laravel-zero/phar-updater",
@@ -9154,11 +9154,13 @@
         "php": "^8.1||^8.2||^8.3||^8.4",
         "ext-fileinfo": "*",
         "ext-gd": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-ffi": "*"
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.1.32"
+        "php": "8.1.32",
+        "ext-ffi": "3.4.5"
     },
     "plugin-api-version": "2.6.0"
 }
